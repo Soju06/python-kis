@@ -7,29 +7,46 @@
 
 ### 1.1. 라이브러리 특징
 
-#### <b>🖋️ 모든 형식에 Typing</b>
-이 라이브러리는 모든 함수와 클래스에 Typing을 적용하여, 파이썬의 동적 타이핑을 보완합니다.
-IDE의 자동완성 기능을 통해, 공식 문서 없이 더욱 빠르고 정확한 개발이 가능합니다.
+<details>
+  <summary><h4><b>🖋️ 모든 형식에 Typing</b></h4></summary>
 
-#### <b>🔗 복구 가능한 실시간 클라이언트</b>
-이 라이브러리는 실시간 데이터를 받아오는 클라이언트를 네트워크 문제 등으로 인해 중단했을 때, 다시 시작할 수 있도록 만들어졌습니다.
-또한, 이전에 등록된 조회도 자동으로 재등록합니다.
+  이 라이브러리는 모든 함수와 클래스에 Typing을 적용하여, 파이썬의 동적 타이핑을 보완합니다.
+  IDE의 자동완성 기능을 통해, 공식 문서 없이 더욱 빠르고 정확한 개발이 가능합니다.
+</details>
 
-#### <b>🔍 시장 종목 자동 파싱</b>
-이 라이브러리는 텍스트 파일인 시장별 종목 정보를 자동으로 파싱하여, SQLite 데이터베이스에 저장합니다.
-빠른 조회와 검색을 사용할 수 있으며, 매일 자동으로 업데이트됩니다.
+
+<details>
+  <summary><h4><b>🔗 복구 가능한 실시간 클라이언트</b></h4></summary>
+
+  이 라이브러리는 실시간 데이터를 받아오는 클라이언트를 네트워크 문제 등으로 인해 중단했을 때, 다시 시작할 수 있도록 만들어졌습니다.
+  또한, 이전에 등록된 조회도 자동으로 재등록합니다.
+</details>
+
+<details>
+  <summary><h4><b>🔍 시장 종목 자동 파싱</b></h4></summary>
+
+  이 라이브러리는 텍스트 파일인 시장별 종목 정보를 자동으로 파싱하여, SQLite 데이터베이스에 저장합니다.
+  빠른 조회와 검색을 사용할 수 있으며, 매일 자동으로 업데이트됩니다.
+</details>
+
+<hr>
 
 ## ⚙️ 2. 사용 설명
 
-### 2.1. 서비스 신청
 
-1. KIS 트레이딩 서비스는 [KIS Developers 서비스](https://apiportal.koreainvestment.com/)를 통해 신청 할 수 있습니다.
-   한국투자증권 계좌와 아이디가 필요합니다.
-![image](https://user-images.githubusercontent.com/34199905/193738291-c9c663fd-8ab4-43da-acb6-6a2f7846a79d.png)
-1. 서비스를 신청이 완료되면, 아래와 같이 앱 키를 발급 받을 수 있습니다.
-![image](https://user-images.githubusercontent.com/34199905/193740291-53f282ee-c40c-40b9-874e-2df39543cb66.png)
+<details>
+  <summary><h3>2.1. 서비스 신청</h3></summary>
 
-### 2.2. 라이브러리 설치
+  1. 한국투자증권 계좌와 아이디가 필요합니다. KIS 트레이딩 서비스는 [KIS Developers 서비스](https://apiportal.koreainvestment.com/)를 통해 신청 할 수 있습니다.
+
+  ![image](https://user-images.githubusercontent.com/34199905/193738291-c9c663fd-8ab4-43da-acb6-6a2f7846a79d.png)
+
+  2. 서비스를 신청이 완료되면, 아래와 같이 앱 키를 발급 받을 수 있습니다.
+  
+  ![image](https://user-images.githubusercontent.com/34199905/193740291-53f282ee-c40c-40b9-874e-2df39543cb66.png)
+</details>
+
+### 2.2. 📦 라이브러리 설치
 
 라이브러리는 파이썬 3.10을 기준으로 작성되었습니다.
 
@@ -37,29 +54,25 @@ IDE의 자동완성 기능을 통해, 공식 문서 없이 더욱 빠르고 정�
 pip install python-kis
 ```
 
-사용 모듈은 다음과 같다.
+<details>
+  <summary>사용된 모듈 보기</summary>
 
-```
-requests>=2.28.1
-SQLAlchemy>=1.4.39
-websocket-client>=1.4.1
-pycryptodome>=3.15.0
-colorlog>=6.7.0
-```
+  ```
+  requests>=2.28.1
+  SQLAlchemy>=1.4.39
+  websocket-client>=1.4.1
+  pycryptodome>=3.15.0
+  colorlog>=6.7.0
+  ```
+</details>
+
+<hr>
 
 ### 2.3. 라이브러리 사용
 
-#### 2.3.1. 라이브러리 설치
+#### 2.3.1. 임포트
 
-라이브러리는 파이썬 3.10을 기준으로 작성되었다.
-
-```zsh
-pip install python-kis
-```
-
-#### 2.3.2. 임포트
-
-하도 클래스가 많아서 암 걸리기 싫으면 `from pykis import *`로 임포트 하자.
+하도 클래스가 많아 `from pykis import *`로 임포트 하자.
 
 클래스 네이밍 규칙은 Kis + 기능명 이니까 충돌 할 일 없다.
 
@@ -67,10 +80,15 @@ pip install python-kis
 from pykis import *
 ```
 
+<hr>
+
+
 #### 2.3.2. PyKis 객체 생성
 
 모든 KIS API는 PyKis 객체를 통해 사용할 수 있다.
+
 하나의 파이썬 프로세스에서 여러 PyKis 객체 생성을 권장하지 않는다.
+
 다 잘 되게 해놨다. 하나만 쓰자.
 
 ```py
@@ -83,8 +101,97 @@ kis = PyKis(
     virtual_account=True,
 )
 ```
+```log
+[10/04 15:53:30] INFO MARKET: sync kospi, download https://new.real.download.dws.co.kr/common/master/kospi_code.mst.zip
+[10/04 15:53:30] INFO RTC websocket connected
+[10/04 15:53:31] INFO MARKET: parseing kospi data... 1967 lines
+[10/04 15:53:32] INFO MARKET: sync kosdaq, download https://new.real.download.dws.co.kr/common/master/kosdaq_code.mst.zip
+[10/04 15:53:33] INFO MARKET: parseing kosdaq data... 1587 lines
+[10/04 15:53:34] INFO MARKET: sync sector, download https://new.real.download.dws.co.kr/common/master/idxcode.mst.zip
+[10/04 15:53:35] INFO MARKET: parseing sector data... 483 lines
+```
 
-#### 2.3.3. 라이브러리 사용
+초기 생성시 시장정보를 동기화 한다. 시장 정보는 `$temp/.pykis-cache_market.{version}.db` 에 저장된다.
+
+시장 정보는 마지막 동기화 시간을 기준으로 24시간마다 자동으로 갱신된다.
+
+#### 2.3.3. 간단한 예제
+
+시각화를 위해 PrettyTable를 사용했다.
+
+다음의 명령어로 PrettyTable을 설치할 수 있다.
+```sh
+pip install prettytable
+```
+
+잔고를 조회해보자.
+
+```py
+from pykis import *
+from prettytable import PrettyTable
+
+kis = PyKis(
+    # 앱 키  예) Pa0knAM6JLAjIa93Miajz7ykJIXXXXXXXXXX
+    appkey=APPKEY,
+    # 앱 시크릿  예) V9J3YGPE5q2ZRG5EgqnLHn7XqbJjzwXcNpvY . . .
+    appsecret=APPSECRET,
+    # 가상 계좌 여부
+    virtual_account=True,
+)
+
+# 먼저 계좌 스코프를 생성한다.
+account = kis.account('50071022-01') # 계좌번호 ex) 50071022-01 또는 5007102201
+# 이제 잔고를 조회한다.
+balance = account.balance_all()
+
+# 결과를 출력한다.
+print(f'예수금: {balance.dnca_tot_amt:,}원 평가금: {balance.tot_evlu_amt:,} 손익: {balance.evlu_pfls_smtl_amt:,}원')
+
+# 테이블을 시각화 하기 위해 PrettyTable을 사용한다.
+
+table = PrettyTable(field_names=[
+        '상품번호', '상품명', '보유수량', '매입금액',
+        '현재가', '평가손익율', '평가손익',
+    ], align='r',
+)
+
+# 잔고를 테이블에 추가한다.
+for stock in balance.stocks:
+    table.add_row([
+        stock.pdno,
+        stock.prdt_name,
+        f'{stock.hldg_qty:,}주',
+        f'{stock.pchs_amt:,}원',
+        f'{stock.prpr:,}원',
+        f'{stock.evlu_pfls_rt:.2f}%',
+        f'{stock.evlu_pfls_amt:,}원',
+    ])
+
+print(table)
+```
+
+결과는 다음과 같다.
+
+```log
+예수금: 7,799,675원 평가금: 10,071,255 손익: 70,165원
++----------+----------------+----------+-----------+-----------+------------+-----------+
+| 상품번호 |         상품명 | 보유수량 |  매입금액 |    현재가 | 평가손익율 |  평가손익 |
++----------+----------------+----------+-----------+-----------+------------+-----------+
+|   004370 |           농심 |      3주 | 910,500원 | 298,000원 |     -1.81% | -16,500원 |
+|   005305 |     롯데칠성우 |      4주 | 274,900원 |  68,200원 |     -0.76% |  -2,100원 |
+|   005935 |     삼성전자우 |      4주 | 190,000원 |  51,000원 |      7.37% |  14,000원 |
+|   034220 |   LG디스플레이 |     20주 | 241,000원 |  13,550원 |     12.45% |  30,000원 |
+|   053260 |       금강철강 |     20주 | 145,800원 |   7,550원 |      3.57% |   5,200원 |
+|   073240 |     금호타이어 |      3주 |  10,215원 |   3,260원 |     -4.26% |    -435원 |
+|   373220 | LG에너지솔루션 |      1주 | 429,000원 | 469,000원 |      9.32% |  40,000원 |
++----------+----------------+----------+-----------+-----------+------------+-----------+
+```
+
+~~투자 결과가 나쁘지 않은걸?~~
+
+<hr>
+
+#### 2.3.4. 라이브러리 사용
 
 - <b>[1. 라이브러리 설치](https://github.com/Soju06/python-kis/wiki/Tutorial#1-라이브러리-설치)</b>
 - <b>[2. 임포트](https://github.com/Soju06/python-kis/wiki/Tutorial#2-임포트)</b>
@@ -127,7 +234,7 @@ kis = PyKis(
 - [시장 오픈 여부](https://github.com/Soju06/python-kis/wiki/Examples#6-시장-오픈-여부)
 
 
-## 📦 지원하는 API
+## 3. 📦 지원하는 API
 
 국내 주식 시장에서 사용할 수 있는 API를 지원합니다.
 해외, 선물, 옵션 등과 신용은 지원하지 않습니다.
