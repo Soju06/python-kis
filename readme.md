@@ -38,8 +38,8 @@ IDE의 자동완성 기능을 통해, 공식 문서 없이 더욱 빠르고 정�
 1. KIS 트레이딩 서비스는 [KIS Developers 서비스](https://apiportal.koreainvestment.com/)를 통해 신청 할 수 있습니다.
    한국투자증권 계좌와 아이디가 필요합니다.
 ![image](https://user-images.githubusercontent.com/34199905/193738291-c9c663fd-8ab4-43da-acb6-6a2f7846a79d.png)
-2. 서비스를 신청이 완료되면, 아래와 같이 앱 키를 발급 받을 수 있습니다.
-   만약 앱 키가 유출되었을 경우, 즉각 홈페이지에서 해지해야 합니다.
+1. 서비스를 신청이 완료되면, 아래와 같이 앱 키를 발급 받을 수 있습니다.
+![image](https://user-images.githubusercontent.com/34199905/193740291-53f282ee-c40c-40b9-874e-2df39543cb66.png)
 
 ### 2.2. 라이브러리 설치
 
