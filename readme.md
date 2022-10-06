@@ -98,45 +98,45 @@ kis = PyKis(
 
 #### 2.3.3. 라이브러리 사용
 
-- <b>[1. 라이브러리 설치](./wiki/Tutorial#1-라이브러리-설치)</b>
-- <b>[2. 임포트](./wiki/Tutorial#2-임포트)</b>
-- <b>[3. 시장 조회](./wiki/Tutorial#3-시장-조회)</b>
-- [3.1. 시장 전종목 조회](./wiki/Tutorial#31-시장-전종목-조회)
-- [3.2. 시장 종목 조회](./wiki/Tutorial#32-시장-종목-조회)
-- [3.3. 시장 검색](./wiki/Tutorial#33-시장-검색)
-- <b>[4. 종목 상세](./wiki/Tutorial#4-종목-상세)</b>
-- [4.1. 현재가 조회](./wiki/Tutorial#41-현재가-조회)
-- [4.2. 호가 조회](./wiki/Tutorial#42-호가-조회)
-- [4.3. 기간봉 조회](./wiki/Tutorial#43-기간봉-조회)
-- [4.4. 이 외 기능](./wiki/Tutorial#44-이-외-기능)
-- <b>[5. 실시간 조회](./wiki/Tutorial#5-실시간-조회)</b>
-- [5.1. 실시간 체결가](./wiki/Tutorial#51-실시간-체결가)
-- [5.2. 실시간 호가](./wiki/Tutorial#52-실시간-호가)
-- [5.3. 실시간 체결](./wiki/Tutorial#53-실시간-체결)
-- [5.4. 리스너 해제](./wiki/Tutorial#54-리스너-해제)
-- [5.5. 실시간 해제](./wiki/Tutorial#55-실시간-해제)
-- [5.6. 모든 이벤트 수신](./wiki/Tutorial#56-모든-이벤트-수신)
-- <b>[6. 계좌](./wiki/Tutorial#6-계좌)</b>
-- [6.1. 잔고 조회](./wiki/Tutorial#61-잔고-조회)
-- [6.2. 주문가능 금액 조회](./wiki/Tutorial#62-주문가능-금액-조회)
-- [6.3. 매수 주문](./wiki/Tutorial#63-매수-주문)
-- [6.4. 매도 주문](./wiki/Tutorial#64-매도-주문)
-- [6.5. 주문 취소](./wiki/Tutorial#65-주문-취소)
-- [6.6. 주문 정정](./wiki/Tutorial#66-주문-정정)
-- [6.7. 이 외의 기능](./wiki/Tutorial#67-이-외의-기능)
-- <b>[7. 유틸리티](./wiki/Tutorial#7-유틸리티)</b>
-- [7.1. 상한가하한가 조회](./wiki/Tutorial#71-상한가하한가-조회)
-- [7.2. 등락율 순위 조회](./wiki/Tutorial#72-등락율-순위-조회)
-- [7.3. 시장오픈여부 조회](./wiki/Tutorial#73-시장오픈여부-조회)
+- <b>[1. 라이브러리 설치](https://github.com/Soju06/python-kis/wiki/Tutorial#1-라이브러리-설치)</b>
+- <b>[2. 임포트](https://github.com/Soju06/python-kis/wiki/Tutorial#2-임포트)</b>
+- <b>[3. 시장 조회](https://github.com/Soju06/python-kis/wiki/Tutorial#3-시장-조회)</b>
+- [3.1. 시장 전종목 조회](https://github.com/Soju06/python-kis/wiki/Tutorial#31-시장-전종목-조회)
+- [3.2. 시장 종목 조회](https://github.com/Soju06/python-kis/wiki/Tutorial#32-시장-종목-조회)
+- [3.3. 시장 검색](https://github.com/Soju06/python-kis/wiki/Tutorial#33-시장-검색)
+- <b>[4. 종목 상세](https://github.com/Soju06/python-kis/wiki/Tutorial#4-종목-상세)</b>
+- [4.1. 현재가 조회](https://github.com/Soju06/python-kis/wiki/Tutorial#41-현재가-조회)
+- [4.2. 호가 조회](https://github.com/Soju06/python-kis/wiki/Tutorial#42-호가-조회)
+- [4.3. 기간봉 조회](https://github.com/Soju06/python-kis/wiki/Tutorial#43-기간봉-조회)
+- [4.4. 이 외 기능](https://github.com/Soju06/python-kis/wiki/Tutorial#44-이-외-기능)
+- <b>[5. 실시간 조회](https://github.com/Soju06/python-kis/wiki/Tutorial#5-실시간-조회)</b>
+- [5.1. 실시간 체결가](https://github.com/Soju06/python-kis/wiki/Tutorial#51-실시간-체결가)
+- [5.2. 실시간 호가](https://github.com/Soju06/python-kis/wiki/Tutorial#52-실시간-호가)
+- [5.3. 실시간 체결](https://github.com/Soju06/python-kis/wiki/Tutorial#53-실시간-체결)
+- [5.4. 리스너 해제](https://github.com/Soju06/python-kis/wiki/Tutorial#54-리스너-해제)
+- [5.5. 실시간 해제](https://github.com/Soju06/python-kis/wiki/Tutorial#55-실시간-해제)
+- [5.6. 모든 이벤트 수신](https://github.com/Soju06/python-kis/wiki/Tutorial#56-모든-이벤트-수신)
+- <b>[6. 계좌](https://github.com/Soju06/python-kis/wiki/Tutorial#6-계좌)</b>
+- [6.1. 잔고 조회](https://github.com/Soju06/python-kis/wiki/Tutorial#61-잔고-조회)
+- [6.2. 주문가능 금액 조회](https://github.com/Soju06/python-kis/wiki/Tutorial#62-주문가능-금액-조회)
+- [6.3. 매수 주문](https://github.com/Soju06/python-kis/wiki/Tutorial#63-매수-주문)
+- [6.4. 매도 주문](https://github.com/Soju06/python-kis/wiki/Tutorial#64-매도-주문)
+- [6.5. 주문 취소](https://github.com/Soju06/python-kis/wiki/Tutorial#65-주문-취소)
+- [6.6. 주문 정정](https://github.com/Soju06/python-kis/wiki/Tutorial#66-주문-정정)
+- [6.7. 이 외의 기능](https://github.com/Soju06/python-kis/wiki/Tutorial#67-이-외의-기능)
+- <b>[7. 유틸리티](https://github.com/Soju06/python-kis/wiki/Tutorial#7-유틸리티)</b>
+- [7.1. 상한가하한가 조회](https://github.com/Soju06/python-kis/wiki/Tutorial#71-상한가하한가-조회)
+- [7.2. 등락율 순위 조회](https://github.com/Soju06/python-kis/wiki/Tutorial#72-등락율-순위-조회)
+- [7.3. 시장오픈여부 조회](https://github.com/Soju06/python-kis/wiki/Tutorial#73-시장오픈여부-조회)
 
 #### 📚 예제 목록
 
-- [계좌 조회](./wiki/Examples#1-계좌-조회)
-- [계좌 주문](./wiki/Examples#2-계좌-주문)
-- [종목 시세](./wiki/Examples#3-종목-시세)
-- [실시간 체결가체결 조회](./wiki/Examples#4-실시간-체결가체결-조회)
-- [상한가/하한가/상승/하락/거래상위 종목 조회](./wiki/Examples#5-상한가하한가상승하락거래상위-종목-조회)
-- [시장 오픈 여부](./wiki/Examples#6-시장-오픈-여부)
+- [계좌 조회](https://github.com/Soju06/python-kis/wiki/Examples#1-계좌-조회)
+- [계좌 주문](https://github.com/Soju06/python-kis/wiki/Examples#2-계좌-주문)
+- [종목 시세](https://github.com/Soju06/python-kis/wiki/Examples#3-종목-시세)
+- [실시간 체결가체결 조회](https://github.com/Soju06/python-kis/wiki/Examples#4-실시간-체결가체결-조회)
+- [상한가/하한가/상승/하락/거래상위 종목 조회](https://github.com/Soju06/python-kis/wiki/Examples#5-상한가하한가상승하락거래상위-종목-조회)
+- [시장 오픈 여부](https://github.com/Soju06/python-kis/wiki/Examples#6-시장-오픈-여부)
 
 
 ## 📦 지원하는 API
