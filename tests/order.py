@@ -22,8 +22,6 @@ kis = PyKis(
 # 잔고
 account = kis.account(ACCOUNT_NO) # 계좌번호 ex) 50071022-01 또는 5007102201
 
-
-account.
 # 주식 정보
 stock = kis.stock_search('하이닉스')
 
