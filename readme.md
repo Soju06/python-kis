@@ -189,4 +189,4 @@ kis = PyKis(
 
 ### License
 
-[MIT](./blob/main/LICENCE)
+[MIT](https://github.com/Soju06/python-kis/blob/main/LICENCE)
