@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='python-kis',
-    version='1.0.1',
+    version='1.0.2',
     description='파이썬 한국투자증권 API',
     author='soju06',
     author_email='qlskssk@gmail.com',

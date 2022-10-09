@@ -127,7 +127,7 @@ class KisStockPeriodPrices(KisDynamicAPIResponse):
     '''전일 대비 거래량'''
     vol_tnrt: float
     '''거래량 회전율'''
-    stck_fcam: int
+    stck_fcam: float
     '''주식 액면가'''
     lstn_stcn: int
     '''상장 주수'''

@@ -10,7 +10,7 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.orm import sessionmaker, Session
 from itertools import chain
 
-from ..g import VERSION
+from ..g import MARKET_VERSION
 from ..logging import KisLoggable
 from .db import Base, KisMarket
 from .base import KisMarketBase, KisMarketItemBase
@@ -32,7 +32,7 @@ class KisMarketClient(KisLoggable):
 
     def __init__(self, database_path: str | None = None, auto_sync: bool = True):
         if database_path is None:
-            database_path = path.join(tempfile.gettempdir(), f'.pykis-cache_market.{VERSION}.db')
+            database_path = path.join(tempfile.gettempdir(), f'.pykis-cache_market.{MARKET_VERSION}.db')
         self.database_path = database_path
         self.markets = {}
         self._sstd = None

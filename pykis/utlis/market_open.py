@@ -34,8 +34,19 @@ def get_holiday(year: int, month: int) -> dict[int, str]:
     if res.status_code != 200:
         raise ValueError(f'API 요청에 실패했습니다. ({res.status_code}) {res.text}')
 
-    data = res.json()['response']['body']['items']['item']
-    holidays = dict([(int(str(item['locdate'])[6:8]), item['dateName']) for item in data])
+    data = res.json()
+    count = data['response']['body']['totalCount']
+
+    if count < 1:
+        data = []
+    else:
+        data = data['response']['body']['items']['item']
+
+    if count == 1:
+        holidays = {int(str(data['locdate'])[6:8]): data['dateName']}  # type: ignore
+    else:
+        holidays = dict([(int(str(item['locdate'])[6:8]), item['dateName']) for item in data])
+
     CACHE[(year, month)] = (datetime.now(tz_kst), holidays)
 
     return holidays
@@ -69,7 +80,7 @@ class KRXMarketOpen:
         SERVICE_KEY = service_key
 
     @staticmethod
-    def is_holiday(date: datetime | None = None) -> tuple[bool, str]:
+    def is_holiday(date: datetime | date | None = None) -> tuple[bool, str]:
         '''휴일/공휴일 여부. 폐장일은 계산되지 않습니다.'''
         date = ensure_datetime(date)
         if date.weekday() in (5, 6):
@@ -83,7 +94,7 @@ class KRXMarketOpen:
         return True, hds[date.day]
     
     @staticmethod
-    def daily_open(date: datetime | None = None) -> tuple[bool, str]:
+    def daily_open(date: datetime | date | None = None) -> tuple[bool, str]:
         '''일간 시장 오픈 여부'''
         date = ensure_datetime(date)
         hd, re = KRXMarketOpen.is_holiday(date)
@@ -96,7 +107,7 @@ class KRXMarketOpen:
         return True, re
         
     @staticmethod
-    def next_open(date: datetime | None = None) -> date:
+    def next_open(date: datetime | date | None = None) -> date:
         '''다음 오픈일'''
         date = ensure_datetime(date)
         date += timedelta(days=1)
@@ -109,7 +120,7 @@ class KRXMarketOpen:
         return date.date()
 
     @staticmethod
-    def prev_open(date: datetime | None = None) -> date:
+    def prev_open(date: datetime | date | None = None) -> date:
         '''이전 오픈일'''
         date = ensure_datetime(date)
         date -= timedelta(days=1)

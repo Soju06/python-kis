@@ -17,7 +17,7 @@ from .responses import *
 
 REAL_DOMAIN = 'https://openapi.koreainvestment.com:9443'
 VIRTUAL_DOMAIN = 'https://openapivts.koreainvestment.com:29443'
-API_REQUEST_PER_SECOND = 20
+API_REQUEST_PER_SECOND = 20 // 2
 
 TRESPONSE = TypeVar('TRESPONSE', bound='KisResponse')
 
