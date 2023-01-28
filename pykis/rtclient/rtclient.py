@@ -8,13 +8,13 @@ from threading import Thread
 from time import sleep
 from websocket import WebSocketApp
 
-
 from .responses import RT_CODE_TYPE, RT_RESPONSES, _rtcd
 from .messaging import KisRTRequest, KisRTResponse, KisRTSysResponse
 from .event import KisRTEvent
 from .encrypt import KisRTEncrypt
 from ..logging import KisLoggable
 from ..client.appkey import KisKey
+from ..client.client import KisClient
 
 REAL_DOMAIN = 'ws://ops.koreainvestment.com:21000'
 VIRTUAL_DOMAIN = 'ws://ops.koreainvestment.com:31000'
@@ -23,6 +23,8 @@ MAX_SUBSCRIPTIONS = 40
 class KisRTClient(KisLoggable):
     '''한국투자증권 실시간 클라이언트'''
     key: KisKey
+    '''한국투자증권 API Key'''
+    client: KisClient
     '''한국투자증권 API Key'''
     ws: WebSocketApp
     '''웹소켓 연결'''
@@ -42,8 +44,9 @@ class KisRTClient(KisLoggable):
     _lock: LockType
     _isreconnect: bool = False
 
-    def __init__(self, key: KisKey, logger: logging.Logger):
-        self.key = key
+    def __init__(self, client: KisClient, logger: logging.Logger):
+        self.key = client.key
+        self.client = client
         self._response_handlers = {}
         self._encrypts = {}
         self.subscribed = set()
@@ -281,7 +284,9 @@ class KisRTClient(KisLoggable):
 
         self.wait_connected()
         if verbose: self.logger.info('RTC sending request: %s %s', 'REG' if tr_type else 'UNREG', id)
-        self.ws.send(json.dumps(KisRTRequest(self.key, tr_id=tr_id, tr_key=tr_key, tr_type=tr_type).dict()))
+        #  웹소켓 보안강화 대응.
+        # self.ws.send(json.dumps(KisRTRequest(self.key, tr_id=tr_id, tr_key=tr_key, tr_type=tr_type).dict()))
+        self.ws.send(json.dumps(KisRTRequest(self.client.ws_approvalkey(), tr_id=tr_id, tr_key=tr_key, tr_type=tr_type).dict()))
         return self._wait_response(id, timeout)  # type: ignore
 
 

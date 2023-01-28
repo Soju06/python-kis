@@ -207,3 +207,19 @@ class KisClient(KisLoggable):
             body=body,
             response=KisHashKeyResponse
         ).hash_key
+
+    
+    def ws_approvalkey(self: 'KisClient'):
+        '''실시간 (웹소켓) 접속키 발급.'''
+        return self.request(
+            'post',
+            '/oauth2/Approval',
+            body={
+                'grant_type': 'client_credentials',
+                # 다른데는 다 appsecret인데 여기만 secretkey로 되어있음. 검수좀 제대로 하자..
+                'appkey': self.key.appkey,
+                'secretkey': self.key.appsecret,
+            },
+            appkey_location='body',
+            response=KisWSApprovalKeyResponse
+        ).approval_key

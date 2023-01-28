@@ -30,3 +30,12 @@ class KisHashKeyResponse(KisResponse):
     def __init__(self, data: dict, response: requests.Response):
         super().__init__(data, response)
         self.hash_key = data['HASH']
+
+class KisWSApprovalKeyResponse(KisResponse):
+    '''한국투자증권 API 웹소켓 접속키 응답'''
+    approval_key: str
+    '''접속 키'''
+
+    def __init__(self, data: dict, response: requests.Response):
+        super().__init__(data, response)
+        self.approval_key = data['approval_key']

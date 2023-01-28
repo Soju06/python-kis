@@ -3,18 +3,17 @@ import types
 from typing import get_args
 
 from .encrypt import KisRTEncrypt
-from ..client.appkey import KisKey
 
 class KisRTRequest:
     '''한국투자증권 실시간 요청'''
-    key: KisKey
+    approval_key: str
     tr_id: str
     tr_key: str
     tr_type: bool
     '''등록 여부'''
 
-    def __init__(self, key: KisKey, tr_id: str, tr_key: str, tr_type: bool = True):
-        self.key = key
+    def __init__(self, approval_key: str, tr_id: str, tr_key: str, tr_type: bool = True):
+        self.approval_key = approval_key
         self.tr_id = tr_id
         self.tr_key = tr_key
         self.tr_type = tr_type
@@ -23,8 +22,10 @@ class KisRTRequest:
         return {
             'header': {
                 'authoriztion': '',
-                'appkey': self.key.appkey,
-                'appsecret': self.key.appsecret,
+                # 보안강화 대응.
+                # 'appkey': self.key.appkey,
+                # 'appsecret': self.key.appsecret,
+                'approval_key': self.approval_key,
                 'tr_type': '1' if self.tr_type else '2',
                 'custtype': 'P',
                 'content-type': 'utf-8',

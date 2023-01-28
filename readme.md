@@ -284,6 +284,10 @@ print(table)
 
 ## 4. ✨ Changelog
 
+### 1.0.3
+
+- `RTClient` [웹소켓 보안강화를 위한 개선 안내](https://apiportal.koreainvestment.com/community/10000000-0000-0011-0000-000000000001)의 내용에 따라, 앱키 대신 웹소켓 접속키를 발급하여 사용하도록 변경되었습니다.
+
 ### 1.0.2
 
 - API 초당 요청 제한을 넘어버리는 버그 수정

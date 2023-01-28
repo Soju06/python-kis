@@ -55,7 +55,7 @@ class PyKis(KisLoggable):
         self._emit_logger(logger)
 
         if realtime:
-            self._rtclient = KisRTClient(self.key, logger=self.logger)
+            self._rtclient = KisRTClient(self.client, logger=self.logger)
         else:
             self._rtclient = None
 

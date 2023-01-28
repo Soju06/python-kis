@@ -1,3 +1,4 @@
+from logging import DEBUG
 from pykis import PyKis, KisRTPrice, KisRTClient, KisRTConclude
 
 with open('B:\\vack.txt', 'r') as f:
@@ -12,6 +13,8 @@ kis = PyKis(
     # 가상 계좌 여부
     virtual_account=True
 )
+
+kis.logger.setLevel(DEBUG)
 
 stock = kis.market.stock_search_one('하이닉스')
 
