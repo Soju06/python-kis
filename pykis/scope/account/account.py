@@ -17,4 +17,4 @@ class KisAccountScope(KisScopeBase):
         revisable_orders, revisable_order_all, \
         daily_orders, daily_order_all, \
         balances as balance, balance_all, \
-        amount
+        amount, profit

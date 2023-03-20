@@ -1,11 +1,11 @@
 from prettytable import PrettyTable
 from pykis import PyKis
 
-with open('B:\\vack.txt', 'r') as f:
+with open('B:\\ack.txt', 'r') as f:
     APPKEY = f.readline().strip()
     APPSECRET = f.readline().strip()
 
-with open('B:\\vacco.txt', 'r') as f:
+with open('B:\\acco.txt', 'r') as f:
     ACCOUNT_NO = f.readline().strip()
 
 kis = PyKis(
@@ -14,7 +14,7 @@ kis = PyKis(
     # 앱 시크릿  예) V9J3YGPE5q2ZRG5EgqnLHn7XqbJjzwXcNpvY . . .
     appsecret=APPSECRET,
     # 가상 계좌 여부
-    virtual_account=True,
+    virtual_account=False,
     # 실시간 조회 비활성화
     realtime=False
 )
@@ -51,6 +51,7 @@ for stock in balance.stocks:
 
 print(table)
 
+profit = account.profit()
 
 # FM 대로 사용 다한 임시 토큰은 삭제함.
 if kis.client.token:
