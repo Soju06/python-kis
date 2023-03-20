@@ -276,11 +276,15 @@ class KisRTClient(KisLoggable):
     def _send_request(self, tr_id: str, tr_key: str, tr_type: bool, timeout: int = 10, verbose: bool = True) -> KisRTSysResponse | None:
         id = self._mkid(tr_id, tr_key)
 
-        if id in self.subscribed:
-            return None
+        if tr_type:
+            if id in self.subscribed:
+                return None
 
-        if len(self.subscribed) >= MAX_SUBSCRIPTIONS:
-            raise Exception(f'RTC max subscriptions reached: {MAX_SUBSCRIPTIONS}')
+            if len(self.subscribed) >= MAX_SUBSCRIPTIONS:
+                raise Exception(f'RTC max subscriptions reached: {MAX_SUBSCRIPTIONS}')
+        else:
+            if id not in self.subscribed:
+                return None
 
         self.wait_connected()
         if verbose: self.logger.info('RTC sending request: %s %s', 'REG' if tr_type else 'UNREG', id)
