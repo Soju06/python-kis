@@ -18,7 +18,7 @@ def order_us(
     dvsn: US_ORD_DVSN_TYPE = '지정가',
     market: US_OVRS_EXCG_CD = 'NASD'
 ) -> 'KisStockOrder':
-    '''주식 주문
+    '''미국주식 주문
 
     Args:
         code (str): 종목코드
@@ -45,7 +45,8 @@ def order_us(
             'ORD_DVSN': dvsn,
             'ORD_QTY': qty,
             'OVRS_ORD_UNPR': unpr,
-            'OVRS_EXCG_CD': market
+            'OVRS_EXCG_CD': market,
+            'ORD_SVR_DVSN_CD': '0'
         }),
         response=KisStockOrder
     )
