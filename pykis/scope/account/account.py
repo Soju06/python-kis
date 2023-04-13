@@ -13,7 +13,9 @@ class KisAccountScope(KisScopeBase):
     
     from .api import \
         order, buy, sell, \
+        order_us, buy_us, sell_us, \
         order_revise, cancel, revise, \
+        order_revise_us, cancel_us, revise_us, \
         revisable_orders, revisable_order_all, \
         daily_orders, daily_order_all, \
         balances as balance, balance_all, \
