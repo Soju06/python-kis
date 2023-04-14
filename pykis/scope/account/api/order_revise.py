@@ -1,5 +1,6 @@
 from ._import import *
 
+
 def order_revise(
     self: 'KisAccountScope',
     order: KisStockOrderBase,
@@ -20,13 +21,12 @@ def order_revise(
     Returns:
         KisStockOrder: 주식 주문 응답
     '''
-    # TODO: 전량 정정 테스트 필요
     if len(dvsn) != 2:
         dvsn = R_ORD_DVSNS[dvsn]  # type: ignore
 
     if type[0] != '0':
         type = '01' if type == '정정' else '02'
-    
+
     return self.client.request(
         'post',
         '/uapi/domestic-stock/v1/trading/order-rvsecncl',
@@ -38,7 +38,7 @@ def order_revise(
             'ORGN_ODNO': order.odno,
             'ORD_DVSN': dvsn,
             'RVSE_CNCL_DVSN_CD': type,
-            'ORD_QTY': '0' if qty is None else qty,
+            'ORD_QTY': qty or 0,
             'ORD_UNPR': unpr,
             'QTY_ALL_ORD_YN': 'Y' if qty is None else 'N',
         }),

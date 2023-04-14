@@ -1,10 +1,10 @@
 from pykis import *
 
-with open('/Users/park/python-kis/tests/vack.txt', 'r') as f:
+with open('B:\\vack.txt', 'r') as f:
     APPKEY = f.readline().strip()
     APPSECRET = f.readline().strip()
 
-with open('/Users/park/python-kis/tests/vacco.txt', 'r') as f:
+with open('B:\\vacco.txt', 'r') as f:
     ACCOUNT_NO = f.readline().strip()
 
 kis = PyKis(
@@ -23,7 +23,8 @@ account = kis.account(ACCOUNT_NO)  # 계좌번호 ex) 50071022-01 또는 5007102
 print(f'예수금총액: {account.balance_all().dnca_tot_amt}')
 
 # 미국주식 매수 주문
-order1 = account.buy_us(
+order1 = account.overseas_buy(
+    market='나스닥',
     # 종목 코드 ex) TSLA
     code='TSLA',
     # 주문 수량
@@ -35,7 +36,8 @@ order1 = account.buy_us(
 print(order1.message)
 
 # # 주문 정정
-order2 = account.revise_us(
+order2 = account.overseas_revise(
+    market='나스닥',
     # 티커(종목코드)
     code='TSLA',
     # 기존 주문
@@ -48,8 +50,13 @@ order2 = account.revise_us(
 
 print(order2.message)
 
-# # 주문 취소
-order3 = account.cancel_us(code='TSLA', order=order2, qty=1)
+# 전량 주문 취소
+order3 = account.overseas_cancel(
+    market='나스닥',
+    code='TSLA',
+    order=order2,
+)
+
 print(order3.message)
 
 # FM 대로 사용 다한 임시 토큰은 삭제함.
