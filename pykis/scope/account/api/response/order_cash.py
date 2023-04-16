@@ -68,16 +68,21 @@ ORD_DVSN_TYPE = Literal[
 # -ODNO	주문번호	String	Y	10	주문시 한국투자증권 시스템에서 채번된 주문번호
 # -ORD_TMD	주문시각	String	Y	6	주문시각(시분초HHMMSS)
 
+
 class KisStockOrderBase:
     '''주식 주문'''
     krx_fwdg_ord_orgno: str
     '''한국거래소전송주문조직번호'''
     odno: str
     '''주문번호'''
+    ord_tmd: time | None
+    '''주문시각'''
 
-    def __init__(self, krx_fwdg_ord_orgno: str, odno: str):
+    def __init__(self, krx_fwdg_ord_orgno: str, odno: str, ord_tmd: time | None = None):
         self.krx_fwdg_ord_orgno = krx_fwdg_ord_orgno
         self.odno = odno
+        self.ord_tmd = ord_tmd
+
 
 class KisStockOrder(KisDynamicAPIResponse, KisStockOrderBase):
     '''주식 주문'''

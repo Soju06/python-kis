@@ -4,6 +4,7 @@ from typing import Literal
 
 KisPageStatus = Literal['begin', 'end']
 
+
 def to_page_status(status: str) -> KisPageStatus:
     if status == 'F' or status == 'M':
         return 'begin'
@@ -12,30 +13,64 @@ def to_page_status(status: str) -> KisPageStatus:
     else:
         raise ValueError(f'Invalid page status: {status}')
 
+
 class KisPage:
     '''한국투자증권 페이징 정보'''
     search: str
-    '''CTX_AREA_FK100	연속조회검색조건100'''
+    '''CTX_AREA_FK{size}	연속조회검색조건'''
     key: str
-    '''CTX_AREA_NK100	연속조회키100'''
+    '''CTX_AREA_NK{size}	연속조회키'''
+    size: int
+    '''조회키 크기'''
 
-    def __init__(self, data: dict):
-        self.search = data['ctx_area_fk100']
-        self.key = data['ctx_area_nk100']
-    
+    def __init__(self, data: dict | tuple[str, str] | None = None, size: int = 100):
+        self.size = size
+        if data:
+            if isinstance(data, tuple):
+                self.search = data[0]
+                self.key = data[1]
+            if isinstance(data, dict):
+                self.search = data[f'ctx_area_fk{size}']
+                self.key = data[f'ctx_area_nk{size}']
+            else:
+                raise ValueError(f'Invalid data type: {type(data)}')
+        else:
+            self.search = ''
+            self.key = ''
+
     @property
     def empty(self) -> bool:
         '''페이징 정보가 비어있는지 확인합니다.'''
         return self.search == '' and self.key == ''
 
-    @staticmethod
-    def first() -> 'KisPage':
-        '''첫 페이지'''
-        return KisPage({'ctx_area_fk100': '', 'ctx_area_nk100': ''})
+    @property
+    def long(self) -> bool:
+        '''긴 페이징 정보인지 확인합니다.'''
+        return self.size == 200
+
+    def to_long(self) -> 'KisLongPage':
+        '''긴 페이징 정보로 변환합니다.'''
+        return KisLongPage((self.search, self.key))
 
     def build_body(self, body: dict) -> dict:
         '''페이징 정보를 추가합니다.'''
-        body['CTX_AREA_FK100'] = self.search
-        body['CTX_AREA_NK100'] = self.key
-
+        body[f'CTX_AREA_FK{self.size}'] = self.search
+        body[f'CTX_AREA_NK{self.size}'] = self.key
         return body
+
+    @staticmethod
+    def first(size: int = 100) -> 'KisPage':
+        '''첫 페이지'''
+        return KisPage(None, size)
+
+
+class KisLongPage(KisPage):
+    '''한국투자증권 페이징 정보'''
+
+    def __init__(self, data: dict | tuple[str, str] | None = None):
+        super().__init__(data, 200)
+
+    @staticmethod
+    def first() -> 'KisLongPage':
+        '''첫 페이지'''
+        return KisLongPage(None)

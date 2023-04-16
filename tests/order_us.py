@@ -35,7 +35,7 @@ order1 = account.overseas_buy(
 
 print(order1.message)
 
-# # 주문 정정
+# 주문 정정
 order2 = account.overseas_revise(
     market='나스닥',
     # 티커(종목코드)
@@ -49,6 +49,11 @@ order2 = account.overseas_revise(
 )
 
 print(order2.message)
+
+# 미체결 조회
+for stock in account.overseas_revisable_order_all('나스닥').orders:
+    print(f'주문일시: {stock.order_date:%Y-%m-%d %H:%M:%S} 종목코드: {stock.pdno} 종목명: {stock.prdt_name} {stock.sll_buy_dvsn_cd_name} 미체결수량: {stock.nccs_qty} 주문단가: {stock.ft_ord_unpr3}')
+
 
 # 전량 주문 취소
 order3 = account.overseas_cancel(

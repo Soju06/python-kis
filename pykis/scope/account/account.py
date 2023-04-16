@@ -17,7 +17,8 @@ class KisAccountScope(KisScopeBase):
         overseas_order, overseas_buy, overseas_sell, \
         order_revise, cancel, revise, \
         overseas_order_revise, overseas_cancel, overseas_revise, \
-        revisable_orders, revisable_order_all, \
+        revisable_order, revisable_orders, revisable_order_all, \
+        overseas_revisable_order, overseas_revisable_orders, overseas_revisable_order_all, \
         daily_orders, daily_order_all, \
         balances as balance, balance_all, \
         amount, profit

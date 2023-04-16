@@ -12,6 +12,7 @@ class KisResponse:
     def __init__(self, data: dict, response: requests.Response):
         pass
 
+
 class KisAPIResponse(KisResponse):
     '''KIS API 응답 결과'''
     id: str
@@ -27,7 +28,8 @@ class KisAPIResponse(KisResponse):
 
     def __init__(self, data: dict, response: requests.Response):
         super().__init__(data, response)
-        if self._sf_dbl: return
+        if self._sf_dbl:
+            return
         self._sf_dbl = True
         self.id = response.headers['tr_id']
         self.uid = response.headers['gt_uid']
@@ -36,10 +38,11 @@ class KisAPIResponse(KisResponse):
 
         rt_cd = int(data['rt_cd'])
         if rt_cd != 0:
-            raise ValueError(f'KIS API 요청에 실패했습니다. (RT_CD: {rt_cd}, {self.code}) {self.id} {self.message} REQ:{self.uid}')
+            raise ValueError(
+                f'KIS API 요청에 실패했습니다. (RT_CD: {rt_cd}, {self.code}) {self.id} {self.message} REQ:{self.uid}')
 
         del data['rt_cd'], data['msg1'], data['msg_cd']
-            
+
 
 class KisPagingAPIResponse(KisAPIResponse):
     '''KIS Paging API 응답 결과'''
@@ -53,10 +56,10 @@ class KisPagingAPIResponse(KisAPIResponse):
         '''마지막 페이지인지 확인합니다.'''
         return self.page_status == 'end'
 
-    def __init__(self, data: dict, response: requests.Response):
+    def __init__(self, data: dict, response: requests.Response, page_size: int = 100):
         super().__init__(data, response)
         self.page_status = to_page_status(response.headers['tr_cont'])
-        self.next_page = KisPage(data)
+        self.next_page = KisPage(data, page_size)
 
 
 class KisDynamicAPIResponse(KisAPIResponse, KisDynamic):
@@ -75,8 +78,8 @@ TFPR = TypeVar('TFPR', bound='KisDynamicPagingAPIResponse')
 
 
 class KisDynamicPagingAPIResponse(KisPagingAPIResponse, KisDynamicAPIResponse):
-    def __init__(self, data: dict, response: requests.Response):
-        super().__init__(data, response)
+    def __init__(self, data: dict, response: requests.Response, page_size: int = 100):
+        super().__init__(data, response, page_size)
         KisDynamicAPIResponse.__init__(self, data, response)  # type: ignore
 
     @abstractmethod
@@ -84,14 +87,21 @@ class KisDynamicPagingAPIResponse(KisPagingAPIResponse, KisDynamicAPIResponse):
         raise NotImplementedError
 
     @staticmethod
-    def iterable(fetch_func: Callable[..., TFPR | None], args: Iterable, kwargs: dict[str, Any], page: KisPage = KisPage.first(), count: int | None = None, detect_inf_repet: bool = True) -> Iterable[TFPR]:
+    def iterable(
+        fetch_func: Callable[..., TFPR | None],
+        args: Iterable,
+        kwargs: dict[str, Any],
+        page: KisPage = KisPage.first(),
+        count: int | None = None,
+        detect_inf_repet: bool = True
+    ) -> Iterable[TFPR]:
         '''페이징 API 응답을 순회할 수 있는 반복자를 반환합니다.'''
         i = 0
-        
+
         while not count or i < count:
             kwargs['page'] = page
             response = fetch_func(*args, **kwargs)
-            
+
             if response is None:
                 return
 
@@ -116,8 +126,13 @@ class KisDynamicPagingAPIResponse(KisPagingAPIResponse, KisDynamicAPIResponse):
                 item = i
             else:
                 item += i
-        
+
         if item is None:
             raise ValueError('조회된 주문이 없습니다.')
 
         return item
+
+
+class KisDynamicLongPagingAPIResponse(KisDynamicPagingAPIResponse):
+    def __init__(self, data: dict, response: requests.Response):
+        super().__init__(data, response, 200)

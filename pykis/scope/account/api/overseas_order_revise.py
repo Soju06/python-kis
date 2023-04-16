@@ -61,7 +61,7 @@ def overseas_order_revise(
         market = OVERSEAS_R_OVRS_EXCGS.get(market, None)  # type: ignore
         if market is None:
             raise ValueError(
-                f'해외 시장 구분은 ({", ".join(i if i else "None" for i in OVERSEAS_R_OVRS_EXCGS)}) 중 하나여야 합니다.')
+                f'해외 시장 구분은 ({", ".join(f"{k}, {v}" for k, v in OVERSEAS_R_OVRS_EXCGS.items())}) 중 하나여야 합니다.')
 
     if type[0] != '0':
         type = '01' if type == '정정' else '02'

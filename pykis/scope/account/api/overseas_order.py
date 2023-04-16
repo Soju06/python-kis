@@ -61,7 +61,7 @@ def overseas_order(
         market = OVERSEAS_R_OVRS_EXCGS.get(market, None)  # type: ignore
         if market is None:
             raise ValueError(
-                f'해외 시장 구분은 ({", ".join(i if i else "None" for i in OVERSEAS_R_OVRS_EXCGS)}) 중 하나여야 합니다.')
+                f'해외 시장 구분은 ({", ".join(f"{k}, {v}" for k, v in OVERSEAS_R_OVRS_EXCGS.items())}) 중 하나여야 합니다.')
 
     tr_id = TR_ID_CODE_MAP[1 if self.key.virtual_account else 0][market][0 if type == '매수' else 1]
     supported_dvsn = OVERSEAS_ORD_DVSN_MAP.get(
