@@ -239,6 +239,6 @@ class KisStockDailyOrders(KisDynamicPagingAPIResponse):
         super().__init__(data, response)
         self.orders = [KisStockDailyOrder(order) for order in data['output1']]
 
-    # def __add__(self, other: 'KisStockCorrectableOrders'):
-    #     self.orders += other.orders
-    #     return self
+    def __add__(self, other: 'KisStockDailyOrders'):
+        self.orders += other.orders
+        return self

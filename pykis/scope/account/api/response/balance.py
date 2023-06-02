@@ -165,3 +165,8 @@ class KisAccountBalance(KisDynamicPagingAPIResponse):
         super().__init__(data, response)
         self.stocks = [KisAccountBalanceStock(stock) for stock in data['output1']]
         self._parseDict(data['output2'][0])
+
+    def __add__(self, other: 'KisAccountBalance'):
+        self.stocks += other.stocks
+        return self
+    

@@ -1,6 +1,6 @@
 import requests
 from typing import TYPE_CHECKING, Iterable, Literal
-from datetime import datetime, time
+from datetime import datetime, date, time
 
 from ..account import KisAccount
 from ..client import KisPage, KisDynamicPagingAPIResponse, KisDynamic, KisDynamicAPIResponse

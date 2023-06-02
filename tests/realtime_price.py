@@ -46,10 +46,24 @@ kis.rtclient.event.oder.add(on_oder)
 
 stock.rt_add('체결가')
 
-kis.rtclient.add('체결', 'kth****') # 한국투자증권 로그인 ID (HTS ID)
+# kis.rtclient.add('체결', 'kth****') # 한국투자증권 로그인 ID (HTS ID)
 
 # 체결가: KisRTPrice
 # 호가: KisRTAskingPrice
 # 체결: KisRTConclude
 
+
+# import threading, time
+
+# def disconnect():
+#     time.sleep(10)
+#     kis.rtclient.ws.close()
+#     time.sleep(10)
+#     kis.rtclient.ws.sock.close()
+
+
+# threading.Thread(target=disconnect).start()
+
+
 input('[ENTER]를 누르면 종료합니다.\n')
+

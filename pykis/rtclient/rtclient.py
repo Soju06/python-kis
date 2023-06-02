@@ -77,7 +77,7 @@ class KisRTClient(KisLoggable):
         self._try_reconnect()
 
 
-    def _onclose(self, ws):
+    def _onclose(self, ws, close_status_code, close_msg):
         if self.ws != ws: return
         
         self._release_lock()
@@ -88,12 +88,16 @@ class KisRTClient(KisLoggable):
     def _onopen(self, ws):
         if self.ws != ws: return
         
-        self._release_lock()
+        subs = list(self.subscribed)
+        
         self._encrypts.clear()
+        self.subscribed.clear()
+        self._response_handlers.clear()
+        self._release_lock()
         self.logger.info('RTC websocket connected')
 
         if self._isreconnect:
-            self._restore_subscriptions()
+            self._restore_subscriptions(subs)
 
 
     def close(self):
@@ -143,10 +147,10 @@ class KisRTClient(KisLoggable):
             Thread(target=self._reconnect, daemon=True).start()
 
 
-    def _restore_subscriptions(self):
-        for sub in self.subscribed:
+    def _restore_subscriptions(self, subs: list[str]):
+        for sub in subs:
             tr_id, tr_key = self._dcid(sub)
-            self.logger.info('RTC restoring subscription: %s %s', tr_id, tr_key)
+            self.logger.info('RTC restoring subscription: %s.%s', tr_id, tr_key)
             Thread(target=self._send_request, args=(tr_id, tr_key, True), kwargs={'verbose': True}, daemon=True).start()
 
 
@@ -364,3 +368,4 @@ class KisRTClient(KisLoggable):
             if r: res.append(r)
 
         return res
+
