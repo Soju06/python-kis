@@ -34,6 +34,11 @@ class KisMarketHoliday(KisDynamic):
     '''결제일여부'''
 
     @property
+    def date(self) -> date:
+        '''기준일자'''
+        return self.bass_dt
+
+    @property
     def wday_dvsn_cd_name(self) -> str:
         '''요일구분코드 이름'''
         return WEEKDAY_DVSN_CD_CODES[self.wday_dvsn_cd]
@@ -74,12 +79,14 @@ class KisMarketHoliday(KisDynamic):
         return self.bass_dt == datetime.today() + timedelta(days=1)
     
 
-class KisMarketHolidays(KisDynamicPagingAPIResponse):
+class KisMarketHolidays(KisDynamicZeroPagingAPIResponse):
     holidays: dict[date, KisMarketHoliday]
     '''휴장일 목록'''
 
     def __init__(self, data: dict, response: requests.Response):
         super().__init__(data, response)
+
+        self.holidays = {}
 
         for holiday in data['output']:
             holiday = KisMarketHoliday(holiday)

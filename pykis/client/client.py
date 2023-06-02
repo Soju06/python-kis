@@ -62,9 +62,14 @@ class KisClient(KisLoggable):
             
             self._sf_count += 1
 
-    def build_url(self, path: str):
+    def build_url(self, path: str, domain_type: Literal['real', 'virtual'] | None = None) -> str:
         '''API 요청 URL을 생성합니다.'''
-        domain = VIRTUAL_DOMAIN if self.key.virtual_account else REAL_DOMAIN
+        if domain_type == 'real':
+            domain = REAL_DOMAIN
+        elif domain_type == 'virtual':
+            domain = VIRTUAL_DOMAIN
+        else:
+            domain = VIRTUAL_DOMAIN if self.key.virtual_account else REAL_DOMAIN
         return f'{domain}{path}'
 
 
@@ -99,6 +104,7 @@ class KisClient(KisLoggable):
         auth: bool = True,
         page: KisPage | None = None,
         appkey_location: Literal['header', 'body'] = 'header',
+        domain_type: Literal['real', 'virtual'] | None = None
     ):
         '''API 요청을 생성합니다.'''            
         if appkey_location == 'body' and method != 'post':
@@ -118,7 +124,7 @@ class KisClient(KisLoggable):
                 if not isinstance(v, str):
                     body[k] = str(v)
 
-        url = self.build_url(path)
+        url = self.build_url(path, domain_type)
 
         if headers and 'tr_id' in headers and (params or body):
             self.logger.debug('API: %s %s, TR_ID: %s, PARAMES: %s, BODY: %s', method.upper(), path, headers['tr_id'], params, body)
@@ -166,7 +172,8 @@ class KisClient(KisLoggable):
         auth: bool = True,
         page: KisPage | None = None,
         appkey_location: Literal['header', 'body'] = 'header',
-        response: type[TRESPONSE] | None = None
+        response: type[TRESPONSE] | None = None,
+        domain_type: Literal['real', 'virtual'] | None = None
     ) -> TRESPONSE:
         '''API 요청을 보냅니다.'''
         request = self.build_request(
@@ -177,7 +184,8 @@ class KisClient(KisLoggable):
             params,
             auth,
             page,
-            appkey_location
+            appkey_location,
+            domain_type
         )
         
         self._wait_limit()
