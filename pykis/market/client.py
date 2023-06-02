@@ -1,4 +1,5 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
+from http import client
 import logging
 import os.path as path
 import tempfile
@@ -10,11 +11,13 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.orm import sessionmaker, Session
 from itertools import chain
 
+from ..client import KisClient
 from ..g import MARKET_VERSION
 from ..logging import KisLoggable
 from .db import Base, KisMarket
-from .base import KisMarketBase, KisMarketItemBase
+from .base import KisMarketBase
 from .markets import *
+from ..scope.market.api import KisMarketHoliday, KisMarketHolidays
 
 class KisMarketClient(KisLoggable):
     '''한국투자증권 종목정보 클라이언트'''
@@ -24,16 +27,23 @@ class KisMarketClient(KisLoggable):
     '''데이터베이스 엔진'''
     markets: dict[str, KisMarketBase]
     '''시장'''
+    client: KisClient
+    '''한국투자증권 API 클라이언트'''
     
     _sessionmaker: sessionmaker
     _rth: int = 0
     _sstd: datetime | None
     _sl: Lock
 
-    def __init__(self, database_path: str | None = None, auto_sync: bool = True):
+    def __init__(self, 
+        client: KisClient,
+        database_path: str | None = None,
+        auto_sync: bool = True
+    ):
         if database_path is None:
             database_path = path.join(tempfile.gettempdir(), f'.pykis-cache_market.{MARKET_VERSION}.db')
         self.database_path = database_path
+        self.client = client
         self.markets = {}
         self._sstd = None
         self._sl = Lock()
@@ -197,3 +207,16 @@ class KisMarketClient(KisLoggable):
 
     def stock_search_one(self, keyword: str) -> KisKStockItem | None:
         return self.search_one(keyword, ['kospi', 'kosdaq'])  # type: ignore
+    
+    from ..scope.market.api import holiday, holidays, holiday_all
+
+    def today(self, date: date | datetime | str | None = None) -> KisMarketHoliday | None:
+        '''휴장일 정보를 가져옵니다.
+        
+        Args:
+            date: 날짜 (기본값: 오늘)
+        '''
+        if date is None:
+            date = datetime.today().date()
+        return self.holiday(date)[date]
+    

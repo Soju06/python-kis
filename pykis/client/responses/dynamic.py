@@ -1,5 +1,5 @@
 
-from datetime import datetime, time
+from datetime import date, datetime, time
 import types
 from typing import get_args
 
@@ -56,6 +56,8 @@ class KisDynamic:
                     return float(value)
                 elif type == datetime:
                     return datetime.strptime(value, '%Y%m%d')
+                elif type == date:
+                    return datetime.strptime(value, '%Y%m%d').date()
                 elif type == time:
                     return datetime.strptime(value, '%H%M%S').time()
                 elif type.__name__ == 'list' and len(get_args(type)) == 1:

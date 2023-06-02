@@ -51,7 +51,11 @@ class PyKis(KisLoggable):
             self.key = KisKey(appkey, appsecret, virtual_account)
         
         self.client = KisClient(self.key)
-        self.market = KisMarketClient(database_path=market_database_path, auto_sync=market_auto_sync)
+        self.market = KisMarketClient(
+            client=self.client,
+            database_path=market_database_path,
+            auto_sync=market_auto_sync
+        )
         self._emit_logger(logger)
 
         if realtime:

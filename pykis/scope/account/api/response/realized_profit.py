@@ -156,5 +156,5 @@ class KisRealizedProfit(KisDynamicAPIResponse):
 
     def __init__(self, data: dict, response: requests.Response):
         super().__init__(data, response)
-        self.stocks = [KisRealizedProfit(stock) for stock in data['output1']]
+        self.stocks = [KisRealizedProfitStock(stock) for stock in data['output1']]
         self._parseDict(data['output2'][0])

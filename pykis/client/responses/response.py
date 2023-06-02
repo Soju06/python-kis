@@ -14,57 +14,60 @@ class KisResponse:
 
 
 class KisAPIResponse(KisResponse):
-    '''KIS API 응답 결과'''
+    """KIS API 응답 결과"""
+
     id: str
-    '''거래 ID'''
+    """거래 ID"""
     uid: str
-    '''거래고유번호'''
+    """거래고유번호"""
     message: str
-    '''응답 메시지'''
+    """응답 메시지"""
     code: str
-    '''응답 코드'''
+    """응답 코드"""
     _sf_dbl: bool = False
-    '''중복 생성 방지'''
+    """중복 생성 방지"""
 
     def __init__(self, data: dict, response: requests.Response):
         super().__init__(data, response)
         if self._sf_dbl:
             return
         self._sf_dbl = True
-        self.id = response.headers['tr_id']
-        self.uid = response.headers['gt_uid']
-        self.message = data['msg1'].strip()
-        self.code = data['msg_cd']
+        self.id = response.headers["tr_id"]
+        self.uid = response.headers["gt_uid"]
+        self.message = data["msg1"].strip()
+        self.code = data["msg_cd"]
 
-        rt_cd = int(data['rt_cd'])
+        rt_cd = int(data["rt_cd"])
         if rt_cd != 0:
             raise ValueError(
-                f'KIS API 요청에 실패했습니다. (RT_CD: {rt_cd}, {self.code}) {self.id} {self.message} REQ:{self.uid}')
+                f"KIS API 요청에 실패했습니다. (RT_CD: {rt_cd}, {self.code}) {self.id} {self.message} REQ:{self.uid}"
+            )
 
-        del data['rt_cd'], data['msg1'], data['msg_cd']
+        del data["rt_cd"], data["msg1"], data["msg_cd"]
 
 
 class KisPagingAPIResponse(KisAPIResponse):
-    '''KIS Paging API 응답 결과'''
+    """KIS Paging API 응답 결과"""
+
     page_status: KisPageStatus
-    '''페이징 상태'''
+    """페이징 상태"""
     next_page: KisPage
-    '''페이징 정보'''
+    """페이징 정보"""
 
     @property
     def is_last(self) -> bool:
-        '''마지막 페이지인지 확인합니다.'''
-        return self.page_status == 'end'
+        """마지막 페이지인지 확인합니다."""
+        return self.page_status == "end"
 
     def __init__(self, data: dict, response: requests.Response, page_size: int = 100):
         super().__init__(data, response)
-        self.page_status = to_page_status(response.headers['tr_cont'])
+        self.page_status = to_page_status(response.headers["tr_cont"])
         self.next_page = KisPage(data, page_size)
 
 
 class KisDynamicAPIResponse(KisAPIResponse, KisDynamic):
     header: dict[str, str] | None = None
-    '''원본 응답 헤더'''
+    """원본 응답 헤더"""
 
     def __init__(self, data: dict, response: requests.Response):
         super().__init__(data, response)
@@ -74,7 +77,7 @@ class KisDynamicAPIResponse(KisAPIResponse, KisDynamic):
             self.header = dict(response.headers)
 
 
-TFPR = TypeVar('TFPR', bound='KisDynamicPagingAPIResponse')
+TFPR = TypeVar("TFPR", bound="KisDynamicPagingAPIResponse")
 
 
 class KisDynamicPagingAPIResponse(KisPagingAPIResponse, KisDynamicAPIResponse):
@@ -93,13 +96,13 @@ class KisDynamicPagingAPIResponse(KisPagingAPIResponse, KisDynamicAPIResponse):
         kwargs: dict[str, Any],
         page: KisPage = KisPage.first(),
         count: int | None = None,
-        detect_inf_repet: bool = True
+        detect_inf_repet: bool = True,
     ) -> Iterable[TFPR]:
-        '''페이징 API 응답을 순회할 수 있는 반복자를 반환합니다.'''
+        """페이징 API 응답을 순회할 수 있는 반복자를 반환합니다."""
         i = 0
 
         while not count or i < count:
-            kwargs['page'] = page
+            kwargs["page"] = page
             response = fetch_func(*args, **kwargs)
 
             if response is None:
@@ -114,11 +117,11 @@ class KisDynamicPagingAPIResponse(KisPagingAPIResponse, KisDynamicAPIResponse):
             i += 1
 
             if detect_inf_repet and page.empty:
-                raise ValueError('무한 순회가 감지되었습니다.')
+                raise ValueError("무한 순회가 감지되었습니다.")
 
     @staticmethod
     def join(items: Iterable[TFPR]) -> TFPR:
-        '''페이징 API 응답을 하나의 응답으로 합칩니다.'''
+        """페이징 API 응답을 하나의 응답으로 합칩니다."""
         item = None
 
         for i in items:
@@ -128,7 +131,7 @@ class KisDynamicPagingAPIResponse(KisPagingAPIResponse, KisDynamicAPIResponse):
                 item += i
 
         if item is None:
-            raise ValueError('조회된 주문이 없습니다.')
+            raise ValueError("조회된 주문이 없습니다.")
 
         return item
 
@@ -136,3 +139,8 @@ class KisDynamicPagingAPIResponse(KisPagingAPIResponse, KisDynamicAPIResponse):
 class KisDynamicLongPagingAPIResponse(KisDynamicPagingAPIResponse):
     def __init__(self, data: dict, response: requests.Response):
         super().__init__(data, response, 200)
+
+
+class KisDynamicZeroPagingAPIResponse(KisDynamicPagingAPIResponse):
+    def __init__(self, data: dict, response: requests.Response):
+        super().__init__(data, response, 0)

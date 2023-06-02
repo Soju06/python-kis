@@ -7,9 +7,9 @@ CCLD_CODES = {
     # 00 : 전체
     # 01 : 체결
     # 02 : 미체결
-    '전체': '00',
-    '체결': '01',
-    '미체결': '02'
+    "전체": "00",
+    "체결": "01",
+    "미체결": "02",
 }
 
 INQR_DVSN_3_CODES = {
@@ -18,26 +18,27 @@ INQR_DVSN_3_CODES = {
     # 02 : 융자
     # 03 : 대출
     # 04 : 대주
-    '전체': '00',
-    '현금': '01',
-    '융자': '02',
-    '대출': '03',
-    '대주': '04'
+    "전체": "00",
+    "현금": "01",
+    "융자": "02",
+    "대출": "03",
+    "대주": "04",
 }
 
 INQR_DVSN_1_CODES = {
     # 공란 : 전체
     # 1 : ELW
     # 2 : 프리보드
-    '전체': '',
-    'ELW': '1',
-    '프리보드': '2'
+    "전체": "",
+    "ELW": "1",
+    "프리보드": "2",
 }
 
-CCLD_TYPE = Literal['전체', '체결', '미체결', '00', '01', '02']
-INQR_DVSN_3_CODES_TYPE = Literal['전체', '현금',
-                                 '융자', '대출', '대주', '00', '01', '02', '03', '04']
-INQR_DVSN_1_CODES_TYPE = Literal['전체', 'ELW', '프리보드', '', '1', '2']
+CCLD_TYPE = Literal["전체", "체결", "미체결", "00", "01", "02"]
+INQR_DVSN_3_CODES_TYPE = Literal[
+    "전체", "현금", "융자", "대출", "대주", "00", "01", "02", "03", "04"
+]
+INQR_DVSN_1_CODES_TYPE = Literal["전체", "ELW", "프리보드", "", "1", "2"]
 
 # -ORD_DT	주문일자	String	Y	8	주문일자
 # -ORD_GNO_BRNO	주문채번지점번호	String	Y	5	주문시 한국투자증권 시스템에서 지정된 영업점코드
@@ -107,95 +108,133 @@ INQR_DVSN_1_CODES_TYPE = Literal['전체', 'ELW', '프리보드', '', '1', '2']
 # 81 : 시간외단일가시장
 
 SLL_BUY_DVSN_CD_CODES = {
-    '01': '매도',
-    '02': '매수',
+    "01": "매도",
+    "02": "매수",
 }
 
 PRDT_TYPE_CD_CODES = {
-    '300': '주식',
-    '301': '선물옵션',
-    '302': '채권',
-    '306': 'ELS',
+    "300": "주식",
+    "301": "선물옵션",
+    "302": "채권",
+    "306": "ELS",
 }
 
 EXCG_DVSN_CD_CODES = {
-    '01': '한국증권',
-    '02': '증권거래소',
-    '03': '코스닥',
-    '04': 'K-OTC',
-    '05': '선물거래소',
-    '06': 'CME',
-    '07': 'EUREX',
-    '21': '금현물',
-    '51': '홍콩',
-    '52': '상해B',
-    '53': '심천',
-    '54': '홍콩거래소',
-    '55': '미국',
-    '56': '일본',
-    '57': '상해A',
-    '58': '심천A',
-    '59': '베트남',
-    '61': '장전시간외시장',
-    '64': '경쟁대량매매',
-    '65': '경매매시장',
-    '81': '시간외단일가시장',
+    "01": "한국증권",
+    "02": "증권거래소",
+    "03": "코스닥",
+    "04": "K-OTC",
+    "05": "선물거래소",
+    "06": "CME",
+    "07": "EUREX",
+    "21": "금현물",
+    "51": "홍콩",
+    "52": "상해B",
+    "53": "심천",
+    "54": "홍콩거래소",
+    "55": "미국",
+    "56": "일본",
+    "57": "상해A",
+    "58": "심천A",
+    "59": "베트남",
+    "61": "장전시간외시장",
+    "64": "경쟁대량매매",
+    "65": "경매매시장",
+    "81": "시간외단일가시장",
 }
 
 
 class KisStockDailyOrder(KisDynamic):
     ord_dt: datetime
-    '''주문일자'''
+    """주문일자"""
     ord_gno_brno: str
-    '''주문채번지점번호'''
+    """주문채번지점번호"""
     odno: str
-    '''주문번호'''
+    """주문번호"""
     orgn_odno: str
-    '''원주문번호'''
+    """원주문번호"""
     ord_dvsn_name: str
-    '''주문구분명'''
-    sll_buy_dvsn_cd: Literal['01', '02']
-    '''매도매수구분코드'''
+    """주문구분명"""
+    sll_buy_dvsn_cd: Literal["01", "02"]
+    """매도매수구분코드"""
     sll_buy_dvsn_cd_name: str
-    '''매도매수구분코드명'''
+    """매도매수구분코드명"""
     pdno: str
-    '''상품번호'''
+    """상품번호"""
     prdt_name: str
-    '''상품명'''
+    """상품명"""
     ord_qty: int
-    '''주문수량'''
+    """주문수량"""
     ord_unpr: int
-    '''주문단가'''
+    """주문단가"""
     ord_tmd: time
-    '''주문시각'''
+    """주문시각"""
     tot_ccdl_qty: int
-    '''총체결수량'''
+    """총체결수량"""
     avg_prvs: int
-    '''평균가'''
+    """평균가"""
     cncl_yn: bool
-    '''취소여부'''
+    """취소여부"""
     tot_ccdl_amt: int
-    '''총체결금액'''
+    """총체결금액"""
     loan_dt: datetime | None
-    '''대출일자'''
-    ord_dvsn_cd: Literal['00', '01', '02', '03', '04', '05', '06',
-                         '07', '08', '09', '10', '11', '12', '13', '14', '15', '16']
-    '''주문구분코드'''
+    """대출일자"""
+    ord_dvsn_cd: Literal[
+        "00",
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+    ]
+    """주문구분코드"""
     cncl_cfrm_qty: int
-    '''취소확인수량'''
+    """취소확인수량"""
     rmn_qty: int
-    '''잔여수량'''
+    """잔여수량"""
     rjct_qty: int
-    '''거부수량'''
+    """거부수량"""
     cctd_cndt_name: str
-    '''체결조건명'''
+    """체결조건명"""
     infm_tmd: time
-    '''통보시각'''
+    """통보시각"""
     ctac_tlno: str
-    '''연락전화번호'''
-    prdt_type_cd: Literal['300', '301', '302', '306']
-    excg_dvsn_cd: Literal['01', '02', '03', '04', '05', '06', '07', '21', '51',
-                          '52', '53', '54', '55', '56', '57', '58', '59', '61', '64', '65', '81']
+    """연락전화번호"""
+    prdt_type_cd: Literal["300", "301", "302", "306"]
+    excg_dvsn_cd: Literal[
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "21",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "61",
+        "64",
+        "65",
+        "81",
+    ]
 
     @property
     def sll_buy_dvsn_name(self) -> str | None:
@@ -215,12 +254,12 @@ class KisStockDailyOrder(KisDynamic):
 
     @property
     def order(self) -> KisStockOrderBase:
-        '''주문'''
+        """주문"""
         return KisStockOrderBase(self.ord_gno_brno, self.odno, self.ord_tmd)
 
     @property
     def order_date(self) -> datetime:
-        '''주문일시'''
+        """주문일시"""
         return datetime.combine(self.ord_dt, self.ord_tmd)
 
 
@@ -231,23 +270,23 @@ class KisStockDailyOrders(KisDynamicPagingAPIResponse):
     # -TOT_CCLD_AMT	총체결금액	String	Y	19
     # -PRSM_TLEX_SMTL	추정제비용합계	String	Y	19	제세 + 주문수수료
     tot_ord_qty: int
-    '''총주문수량'''
+    """총주문수량"""
     tot_ccld_qty: int
-    '''총체결수량'''
+    """총체결수량"""
     pchs_avg_pric: float
-    '''매입평균가격'''
+    """매입평균가격"""
     tot_ccld_amt: int
-    '''총체결금액'''
+    """총체결금액"""
     prsm_tlex_smtl: int
-    '''추정제비용합계'''
+    """추정제비용합계"""
 
     orders: list[KisStockDailyOrder]
-    '''주문'''
+    """주문"""
 
     def __init__(self, data: dict, response: requests.Response):
         super().__init__(data, response)
-        self.orders = [KisStockDailyOrder(order) for order in data['output1']]
+        self.orders = [KisStockDailyOrder(order) for order in data["output1"]]
 
-    # def __add__(self, other: 'KisStockCorrectableOrders'):
-    #     self.orders += other.orders
-    #     return self
+    def __add__(self, other: "KisStockDailyOrders"):
+        self.orders += other.orders
+        return self
