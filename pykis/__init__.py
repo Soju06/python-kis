@@ -1,4 +1,4 @@
-from .__version__ import VERSION as __pykis_version__
+from .__env__ import VERSION as __pykis_version__
 from .account import KisAccount
 from .client import (
     KisAccessToken,

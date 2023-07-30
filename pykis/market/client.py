@@ -11,7 +11,7 @@ from sqlalchemy.orm import sessionmaker, Session
 from itertools import chain
 
 from ..client import KisClient
-from ..__version__ import MARKET_VERSION
+from ..__env__ import MARKET_VERSION
 from ..logging import KisLoggable
 from .db import Base, KisMarket
 from .base import KisMarketBase
