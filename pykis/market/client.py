@@ -44,9 +44,7 @@ class KisMarketClient(KisLoggable):
         auto_sync: bool = True,
     ):
         if database_path is None:
-            database_path = path.join(
-                tempfile.gettempdir(), f".pykis-cache_market.{MARKET_VERSION}.db"
-            )
+            database_path = path.join(tempfile.gettempdir(), f".pykis-cache_market.{MARKET_VERSION}.db")
         self.database_path = database_path
         self.client = client
         self.markets = {}
@@ -77,11 +75,7 @@ class KisMarketClient(KisLoggable):
 
     def sync_at(self, code: str) -> datetime | None:
         """종목 정보를 마지막으로 업데이트한 시간"""
-        return (
-            self.session.query(KisMarket.sync_at)
-            .filter(KisMarket.code == code)
-            .scalar()
-        )
+        return self.session.query(KisMarket.sync_at).filter(KisMarket.code == code).scalar()
 
     def sync_all(self):
         """모든 시장을 동기화합니다."""
@@ -201,9 +195,7 @@ class KisMarketClient(KisLoggable):
         """코스피/코스닥 종목 검색을 수행합니다."""
         return chain(*self.stock_search(keyword).values())
 
-    def search_one(
-        self, keyword: str, origin: list[str] | None = None
-    ) -> MARKET_ITEM_TYPE | None:
+    def search_one(self, keyword: str, origin: list[str] | None = None) -> MARKET_ITEM_TYPE | None:
         """종목 검색을 수행합니다.
 
         Args:
@@ -222,11 +214,9 @@ class KisMarketClient(KisLoggable):
     def stock_search_one(self, keyword: str) -> KisKStockItem | None:
         return self.search_one(keyword, ["kospi", "kosdaq"])  # type: ignore
 
-    from ..scope.market.api import holiday
+    from ..scope.market.api import holiday, info
 
-    def today(
-        self, date: date | datetime | str | None = None
-    ) -> KisMarketHoliday | None:
+    def today(self, date: date | datetime | str | None = None) -> KisMarketHoliday | None:
         """휴장일 정보를 가져옵니다.
 
         Args:
