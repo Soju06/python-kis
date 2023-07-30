@@ -1,5 +1,4 @@
 from datetime import date, datetime, timedelta
-from http import client
 import logging
 import os.path as path
 import tempfile
@@ -12,7 +11,7 @@ from sqlalchemy.orm import sessionmaker, Session
 from itertools import chain
 
 from ..client import KisClient
-from ..g import MARKET_VERSION
+from ..__version__ import MARKET_VERSION
 from ..logging import KisLoggable
 from .db import Base, KisMarket
 from .base import KisMarketBase
