@@ -1,2 +1,0 @@
-VERSION = '1.0.5'
-MARKET_VERSION = '1.0.1'

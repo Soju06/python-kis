@@ -1,1 +1,1 @@
-from .api import KisMarketHoliday, KisMarketHolidays
+from .api import KisMarketHoliday, KisMarketHolidays, KisMarketSearchInfo

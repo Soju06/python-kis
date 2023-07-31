@@ -1,10 +1,12 @@
 from abc import abstractmethod
-from typing import Any, Callable, Iterable, TypeVar
-import requests
 from dataclasses import dataclass
+from typing import Any, Callable, Iterable, TypeVar
 
+import requests
+
+from ..exception import KisAPIError
+from ..page import KisPage, KisPageStatus, to_page_status
 from .dynamic import STORE_RESPONSE, KisDynamic
-from ..page import KisPageStatus, to_page_status, KisPage
 
 
 @dataclass
@@ -31,16 +33,17 @@ class KisAPIResponse(KisResponse):
         super().__init__(data, response)
         if self._sf_dbl:
             return
+
         self._sf_dbl = True
         self.id = response.headers["tr_id"]
         self.uid = response.headers["gt_uid"]
         self.message = data["msg1"].strip()
         self.code = data["msg_cd"]
 
-        rt_cd = int(data["rt_cd"])
-        if rt_cd != 0:
-            raise ValueError(
-                f"KIS API 요청에 실패했습니다. (RT_CD: {rt_cd}, {self.code}) {self.id} {self.message} REQ:{self.uid}"
+        if int(data["rt_cd"]) != 0:
+            raise KisAPIError(
+                data=data,
+                response=response,
             )
 
         del data["rt_cd"], data["msg1"], data["msg_cd"]
