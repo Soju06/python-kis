@@ -15,6 +15,9 @@ from .client import (
     KisPagingAPIResponse,
     KisResponse,
     KisZeroPage,
+    KisException,
+    KisHTTPError,
+    KisAPIError,
 )
 from .kis import PyKis
 from .logging import KisLoggable

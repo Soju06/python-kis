@@ -1,6 +1,6 @@
 import logging
 from typing import get_args
-from pykis import PyKis
+from pykis import PyKis, KisAPIError
 from pykis.scope.market.api.response import PRDT_TYPES, PRDT_TYPE_CD
 
 with open("B:\\vack.txt", "r") as f:
@@ -30,7 +30,15 @@ while True:
     if not pdno:
         break
 
-    info = kis.market.info(pdno=pdno, prdt_type_cd=prdt_type)
+    try:
+        info = kis.market.info(pdno=pdno, prdt_type_cd=prdt_type)
+    except KisAPIError as e:
+        if e.rt_cd == 7:
+            print("상품 정보가 없습니다.")
+        else:
+            print(e)
+        print()
+        continue
 
     print(f"\n--- {info.prdt_abrv_name} 상품 정보 ---")
     print(f"상품명: {info.prdt_name} / {info.prdt_eng_name}")

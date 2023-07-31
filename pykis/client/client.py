@@ -11,6 +11,7 @@ from pykis.__env__ import (
     VIRTUAL_API_REQUEST_PER_SECOND,
     TRACE_DETAIL_ERROR,
 )
+from pykis.client.exception import KisHTTPError
 
 from .page import KisPage
 from ..logging import KisLoggable
@@ -138,34 +139,21 @@ class KisClient(KisLoggable):
                 body,
             )
 
-        return requests.Request(method=method, url=url, headers=headers, json=body, params=params)
+        return requests.Request(
+            method=method,
+            url=url,
+            headers=headers,
+            json=body,
+            params=params,
+        )
 
     def load_response(self, response: requests.Response, tResponse: type[TRESPONSE]) -> TRESPONSE:
         """API 응답을 로드합니다."""
-        if response.status_code == 200:
-            data = response.json()
-            return tResponse(data, response)
+        if response.ok:
+            return tResponse(response.json(), response)
         else:
-            header = dict(response.request.headers)
-            if "appkey" in header:
-                header["appkey"] = "***"
-            if "appsecret" in header:
-                header["appsecret"] = "***"
-            if "authorization" in header:
-                header["authorization"] = f'{header["authorization"].split()[0]} ***'
-            if response.request.body:
-                if isinstance(response.request.body, bytes):
-                    body = response.request.body.decode("utf-8")
-                else:
-                    body = response.request.body
-
-                if not TRACE_DETAIL_ERROR and ("appkey" in body or "appsecret" in body):
-                    body = "[PROTECTED BODY]"
-            else:
-                body = "[EMPTY BODY]"
-
-            raise ValueError(
-                f"API 요청에 실패했습니다. ({response.status_code}) {response.text}\n[  Request  ]: {response.request.method} {response.request.url}\nHeaders: {header}\nBody: {body}"
+            raise KisHTTPError(
+                response=response,
             )
 
     def request(
@@ -206,7 +194,12 @@ class KisClient(KisLoggable):
         body: dict[str, str],
     ):
         """해쉬키를 생성합니다. Body 암호화에 사용됩니다."""
-        return self.request("post", "/uapi/hashkey", body=body, response=KisHashKeyResponse).hash_key
+        return self.request(
+            "post",
+            "/uapi/hashkey",
+            body=body,
+            response=KisHashKeyResponse,
+        ).hash_key
 
     def ws_approvalkey(self: "KisClient"):
         """실시간 (웹소켓) 접속키 발급."""
