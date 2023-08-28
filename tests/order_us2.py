@@ -30,7 +30,7 @@ order1 = account.overseas_buy(
     # 주문 수량
     qty=1,
     # 주문 단가
-    unpr=0,
+    unpr=240,
 )
 
 print(order1.message)
@@ -56,7 +56,7 @@ order2 = account.overseas_sell(
     # 주문 수량
     qty=1,
     # 주문 단가
-    unpr=0,
+    unpr=230,
 )
 
 print(order2.message)

@@ -41,7 +41,7 @@ def overseas_order(
     market: OVERSEAS_OVRS_EXCG_CD,
     code: str,
     qty: int,
-    unpr: int,
+    unpr: float,
     type: Literal["매도", "매수"],
     dvsn: OVERSEAS_ORD_DVSN_TYPE = "지정가",
 ) -> "KisStockOrder":
@@ -51,7 +51,7 @@ def overseas_order(
         market (US_OVRS_EXCG_CD): 해외 시장 구분
         code (str): 종목코드
         qty (int): 주문 수량
-        unpr (int): 주문 단가 (시장가 주문 시 0)
+        unpr (int): 주문 단가
         type (Literal['매도', '매수']): 주문 타입
         dvsn (US_ORD_DVSN_TYPE, optional): 주문 구분. Defaults to '지정가'.
             미국 홍콩 외 일부 시장에서는 주문 구분을 None으로 설정해야 합니다.
@@ -85,7 +85,7 @@ def overseas_order(
                 "PDNO": code,
                 "ORD_QTY": qty,
                 "ORD_DVSN": dvsn,
-                "OVRS_ORD_UNPR": unpr,
+                "OVRS_ORD_UNPR": str(unpr),
                 "ORD_SVR_DVSN_CD": "0",
             }
         ),
@@ -98,7 +98,7 @@ def overseas_buy(
     market: OVERSEAS_OVRS_EXCG_CD,
     code: str,
     qty: int,
-    unpr: int,
+    unpr: float,
     dvsn: OVERSEAS_ORD_DVSN_TYPE = "지정가",
 ) -> "KisStockOrder":
     """해외주식 매수
@@ -107,7 +107,7 @@ def overseas_buy(
         market (US_OVRS_EXCG_CD): 해외 시장 구분
         code (str): 종목코드
         qty (int): 주문 수량
-        unpr (int): 주문 단가 (시장가 주문 시 0)
+        unpr (float): 주문 단가
         dvsn (US_ORD_DVSN_TYPE, optional): 주문 구분. Defaults to '지정가'.
             미국 홍콩 외 일부 시장에서는 주문 구분을 None으로 설정해야 합니다.
     """
@@ -119,7 +119,7 @@ def overseas_sell(
     market: OVERSEAS_OVRS_EXCG_CD,
     code: str,
     qty: int,
-    unpr: int,
+    unpr: float,
     dvsn: OVERSEAS_ORD_DVSN_TYPE = "지정가",
 ) -> "KisStockOrder":
     """해외주식 매도
@@ -128,7 +128,7 @@ def overseas_sell(
         market (US_OVRS_EXCG_CD): 해외 시장 구분
         code (str): 종목코드
         qty (int): 주문 수량
-        unpr (int): 주문 단가 (시장가 주문 시 0)
+        unpr (float): 주문 단가
         dvsn (US_ORD_DVSN_TYPE, optional): 주문 구분. Defaults to '지정가'.
             미국 홍콩 외 일부 시장에서는 주문 구분을 None으로 설정해야 합니다.
     """

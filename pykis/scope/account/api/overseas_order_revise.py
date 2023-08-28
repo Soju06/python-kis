@@ -36,7 +36,7 @@ def overseas_order_revise(
     type: Literal["01", "02", "정정", "취소"],
     code: str,
     qty: int | None,
-    unpr: int,
+    unpr: float,
 ) -> "KisStockOrder":
     """주식 주문 정정/취소
 
@@ -46,7 +46,7 @@ def overseas_order_revise(
         type (Literal['01', '02', '취소', '정정']): 정정/취소 구분
         code (str): 종목코드
         qty (int | None): 주문 수량 (None일 경우 전량 정정)
-        unpr (int, optional): 주문 단가. 주문 취소시 0
+        unpr (float, optional): 주문 단가. 주문 취소시 0
 
     Returns:
         KisStockOrder: 주식 주문 응답
@@ -76,7 +76,7 @@ def overseas_order_revise(
                 "PDNO": code,
                 "RVSE_CNCL_DVSN_CD": type,
                 "ORD_QTY": qty or 0,
-                "OVRS_ORD_UNPR": unpr,
+                "OVRS_ORD_UNPR": str(unpr),
                 "OVRS_EXCG_CD": market,
                 "ORD_SVR_DVSN_CD": "0",
             }
@@ -117,7 +117,7 @@ def overseas_revise(
     code: str,
     order: KisStockOrderBase,
     qty: int | None,
-    unpr: int,
+    unpr: float,
 ) -> "KisStockOrder":
     """
     주식 주문 정정
@@ -127,7 +127,7 @@ def overseas_revise(
         code (str): 종목코드
         order (KisStockOrderBase): 주문
         qty (int): 정정 수량
-        unpr (int): 정정 단가
+        unpr (float): 정정 단가
     """
     return self.overseas_order_revise(
         market,

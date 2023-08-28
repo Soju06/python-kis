@@ -66,11 +66,11 @@ OVERSEAS_OVRS_EXCGS = {
     'NYSE': '뉴욕',
     'AMEX': '아멕스',
     'SEHK': '홍콩',
-    'SHAA': '중국상해',
-    'SZAA': '중국심천',
+    'SHAA': '상해',
+    'SZAA': '심천',
     'TKSE': '일본',
-    'HASE': '베트남 하노이',
-    'VNSE': '베트남 호치민',
+    'HASE': '하노이',
+    'VNSE': '호치민',
 }
 
 OVERSEAS_R_OVRS_EXCGS = {
@@ -78,11 +78,11 @@ OVERSEAS_R_OVRS_EXCGS = {
     '뉴욕': 'NYSE',
     '아멕스': 'AMEX',
     '홍콩': 'SEHK',
-    '중국상해': 'SHAA',
-    '중국심천': 'SZAA',
+    '상해': 'SHAA',
+    '심천': 'SZAA',
     '일본': 'TKSE',
-    '베트남 하노이': 'HASE',
-    '베트남 호치민': 'VNSE',
+    '하노이': 'HASE',
+    '호치민': 'VNSE',
 }
 
 OVERSEAS_OVRS_EXCG_CD = Literal[
@@ -90,9 +90,9 @@ OVERSEAS_OVRS_EXCG_CD = Literal[
     'NYSE', '뉴욕',
     'AMEX', '아멕스',
     'SEHK', '홍콩',
-    'SHAA', '중국상해',
-    'SZAA', '중국심천',
+    'SHAA', '상해',
+    'SZAA', '심천',
     'TKSE', '일본',
-    'HASE', '베트남 하노이',
-    'VNSE', '베트남 호치민',
+    'HASE', '하노이',
+    'VNSE', '호치민',
 ]
