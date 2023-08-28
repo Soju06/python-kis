@@ -61,12 +61,6 @@ order2 = account.overseas_sell(
 
 print(order2.message)
 
-orders = account.overseas_revisable_order_all("나스닥")
-
-for my_order in orders.orders:
-    print(
-        f"주문일시: {my_order.order_date:%Y-%m-%d %H:%M:%S} 종목코드: {my_order.pdno} 종목명: {my_order.prdt_name} {my_order.sll_buy_dvsn_cd_name} 미체결수량: {my_order.nccs_qty} 주문단가: {my_order.ft_ord_unpr3}"
-    )
 
 # FM 대로 사용 다한 임시 토큰은 삭제함.
 if kis.client.token:
