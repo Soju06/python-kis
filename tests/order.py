@@ -1,11 +1,11 @@
 from pykis import *
 
 
-with open('B:\\vack.txt', 'r') as f:
+with open("B:\\vack.txt", "r") as f:
     APPKEY = f.readline().strip()
     APPSECRET = f.readline().strip()
 
-with open('B:\\vacco.txt', 'r') as f:
+with open("B:\\vacco.txt", "r") as f:
     ACCOUNT_NO = f.readline().strip()
 
 kis = PyKis(
@@ -16,21 +16,21 @@ kis = PyKis(
     # 가상 계좌 여부
     virtual_account=True,
     # 실시간 조회 비활성화
-    realtime=False
+    realtime=False,
 )
 
 # 잔고
-account = kis.account(ACCOUNT_NO) # 계좌번호 ex) 50071022-01 또는 5007102201
+account = kis.account(ACCOUNT_NO)  # 계좌번호 ex) 50071022-01 또는 5007102201
 
 # 주식 정보
-stock = kis.stock_search('하이닉스')
+stock = kis.stock_search("하이닉스")
 
 if not stock:
-    print('주식 정보를 찾을 수 없습니다.')
+    print("주식 정보를 찾을 수 없습니다.")
     exit(1)
 
 # 현재가 조회
-unpr = stock.price().stck_prpr - 500 # 현재가 - 500원
+unpr = stock.price().stck_prpr - 500  # 현재가 - 500원
 
 # 매수가능 수량 조회
 amount = account.amount(stock.code, unpr)
@@ -38,9 +38,9 @@ amount = account.amount(stock.code, unpr)
 # 최대 매수 가능 수량
 qty = amount.max_buy_qty
 
-print(f'매수 수량: {qty:,}')
-print(f'매수 단가: {unpr:,}')
-print(f'매수 금액: {amount.max_buy_amt:,}')
+print(f"매수 수량: {qty:,}")
+print(f"매수 단가: {unpr:,}")
+print(f"매수 금액: {amount.max_buy_amt:,}")
 
 # 매수 주문
 order = account.buy(
@@ -60,13 +60,13 @@ order = account.revise(
     order,
     # 주문 수량 None이면 전량
     None,
-    unpr-100
+    unpr - 100,
 )
 
 print(order.message)
 
 # 주문 취소
-order = account.cancel(order) # qty=None이면 전량
+order = account.cancel(order)  # qty=None이면 전량
 
 print(order.message)
 

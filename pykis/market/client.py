@@ -1,5 +1,6 @@
 from datetime import date, datetime, timedelta
 import logging
+import os
 import os.path as path
 import tempfile
 from threading import Lock, Thread
@@ -18,6 +19,17 @@ from .base import KisMarketBase
 from .markets import *
 from ..scope.market.api import KisMarketHoliday, KisMarketHolidays
 
+allocs: dict[str, Lock] = {}
+
+
+def alloc_lock(path_: str, code: str) -> Lock:
+    id = f"{path.abspath(path_)}:{code}"
+
+    if id not in allocs:
+        allocs[id] = Lock()
+
+    return allocs[id]
+
 
 class KisMarketClient(KisLoggable):
     """한국투자증권 종목정보 클라이언트"""
@@ -30,29 +42,32 @@ class KisMarketClient(KisLoggable):
     """시장"""
     client: KisClient
     """한국투자증권 API 클라이언트"""
+    auto_sync_interval: timedelta
+    """자동 동기화 주기"""
 
     _sessionmaker: sessionmaker
-    _rth: int = 0
-    _sstd: datetime | None
-    _sl: Lock
+    _sync_lock: Lock
+    _closed: bool
 
     def __init__(
         self,
         client: KisClient,
         database_path: str | None = None,
+        auto_sync_interval: timedelta = timedelta(days=1),
         auto_sync: bool = True,
     ):
         if database_path is None:
             database_path = path.join(tempfile.gettempdir(), f".pykis-cache_market.{MARKET_VERSION}.db")
         self.database_path = database_path
+        self.auto_sync_interval = auto_sync_interval
         self.client = client
         self.markets = {}
-        self._sstd = None
-        self._sl = Lock()
+        self._sync_lock = Lock()
+        self._closed = False
         self._create_database()
 
         if auto_sync:
-            self._st_sync()
+            Thread(target=self._auto_sync, daemon=True).start()
 
     def _create_database(self):
         self.engine = create_engine(
@@ -65,7 +80,7 @@ class KisMarketClient(KisLoggable):
         logger.debug(f"database open: {self.database_path}")
 
     def _init(self):
-        self._sync_all(comp=False, verbose=False)
+        self.sync_all(verbose=False)
 
     @property
     def session(self) -> Session:
@@ -76,30 +91,20 @@ class KisMarketClient(KisLoggable):
         """종목 정보를 마지막으로 업데이트한 시간"""
         return self.session.query(KisMarket.sync_at).filter(KisMarket.code == code).scalar()
 
-    def sync_all(self):
+    def sync_all(self, verbose: bool = False) -> bool:
         """모든 시장을 동기화합니다."""
-        self._sync_all(comp=True, verbose=False)
+        if not self._sync_lock.acquire(blocking=False):
+            return False
 
-    def _sync_all(self, comp: bool = False, verbose: bool = False) -> bool:
-        with self._sl:
-            now = datetime.now()
+        try:
+            for code in MARKETS:
+                self._try_sync(code, verbose=verbose)
 
-            if comp:
-                self._sstd = now
-            else:
-                if self._sstd:
-                    if now - self._sstd < timedelta(seconds=30):
-                        if verbose:
-                            self.logger.info("MARKET: too early to sync")
-
-                        return False
-
-                self._sstd = now
-
-        for code in MARKETS:
-            self[code].sync()
-
-        return True
+            self._sync_lock.release()
+            return True
+        except:
+            self._sync_lock.release()
+            raise
 
     def _get_market(self, sess: Session, code: str) -> KisMarket:
         market = self[code]
@@ -112,33 +117,45 @@ class KisMarketClient(KisLoggable):
 
         return sess.query(KisMarket).filter(KisMarket.code == code).one()
 
-    def _update_sync_at(self, code: str):
-        """종목 정보를 업데이트한 시간을 업데이트합니다."""
-        with self.session as sess:
-            dm = self._get_market(sess, code)
-            dm.sync_at = datetime.now()  # type: ignore
-            sess.commit()
+    def _try_sync(self, code: str, verbose: bool = False):
+        """종목 정보를 동기화합니다."""
+        sync_at = self.sync_at(code)
 
-    def _st_sync(self):
-        """자동동기화 스레드"""
-        self._rth += 1
-        tid = self._rth
-        Thread(target=self._at_sync, args=(tid,), daemon=True).start()
+        if sync_at and datetime.now() - sync_at < self.auto_sync_interval:
+            if verbose:
+                self.client.logger.info(f"MARKET: up to date {code}")
 
-    def _at_sync(self, tid: int):
+            return
+
+        lock = alloc_lock(self.database_path, code)
+
+        if not lock.acquire(blocking=False):
+            if verbose:
+                self.client.logger.debug(f"MARKET: locked {code}")
+
+            return
+
+        try:
+            self[code].sync()
+
+            with self.session as sess:
+                self._get_market(sess, code).sync_at = datetime.now()
+                sess.commit()
+
+            lock.release()
+        except Exception as e:
+            lock.release()
+            raise e
+
+    def _auto_sync(self):
         """자동 동기화"""
-        n = False
-        time.sleep(31)
-        while self._rth == tid:
+        while not self._closed:
+            time.sleep(self.auto_sync_interval.total_seconds() + 1)
             try:
-                if self._sync_all(comp=False, verbose=n):
-                    self.logger.info("MARKET: auto-sync")
+                if self.sync_all():
+                    self.logger.debug("MARKET: auto-sync")
             except Exception as e:
                 self.logger.error(f"MARKET: auto-sync exception: {e}")
-            finally:
-                if not n:
-                    n = True
-                time.sleep((60 * 60 * 24) + 5)
 
     def __getitem__(self, code: str) -> MARKET_TYPE:
         """시장"""
