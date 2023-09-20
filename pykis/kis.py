@@ -1,133 +1,237 @@
 from datetime import timedelta
-import logging
+from os import PathLike
+from typing import Callable, Literal
+from urllib.parse import urljoin
 
-from .account import KisAccount
-from .client import KisKey, KisClient
-from .logging import KisLoggable
-from .market import KisMarketClient, KisKStockItem
-from .rtclient import KisRTClient
-from .scope import KisAccountScope, KisStockScope
+import requests
+from requests import Response
+
+from pykis import logging
+from pykis.__env__ import (
+    REAL_API_REQUEST_PER_SECOND,
+    REAL_DOMAIN,
+    VIRTUAL_API_REQUEST_PER_SECOND,
+    VIRTUAL_DOMAIN,
+)
+from pykis.api.auth.token import KisAccessToken
+from pykis.client.account import KisAccountNumber
+from pykis.client.appkey import KisKey
+from pykis.client.auth import KisAuth
+from pykis.client.exception import KisHTTPError
+from pykis.responses.dynamic import KisObject, TDynamic
+from pykis.responses.types import KisDynamicDict
+from pykis.scope.account import KisAccount
+from pykis.utils.rate_limit import RateLimiter
+from pykis.utils.thread_safe import thread_safe
 
 
-class PyKis(KisLoggable):
+class PyKis:
     """한국투자증권 API"""
 
-    key: KisKey
-    """한국투자증권 API Key"""
-    client: KisClient
-    """한국투자증권 API 클라이언트"""
-    market: KisMarketClient
-    """종목 정보 클라이언트"""
+    appkey: KisKey
+    """한국투자증권 API AppKey"""
+    primary_account: KisAccountNumber | None
+    """한국투자증권 기본 계좌 정보"""
+    virtual: bool
+    """모의투자 여부"""
 
-    _rtclient: KisRTClient | None
-    _init: bool = False
+    _rate_limiters: dict[str, RateLimiter]
+    _token: KisAccessToken | None
 
     def __init__(
         self,
-        appkey: str | KisKey,
+        auth: str | PathLike[str] | KisAuth | None = None,
+        *,
+        account: str | KisAccountNumber | None = None,
+        appkey: str | KisKey | None = None,
         appsecret: str | None = None,
-        virtual_account: bool = False,
-        market_database_path: str | None = None,
-        market_auto_sync_interval: timedelta = timedelta(days=1),
-        market_auto_sync: bool = True,
-        realtime: bool = True,
-        logger: logging.Logger | None = None,
-        late_init: bool = False,
+        virtual: bool = False,
     ):
         """한국투자증권 API를 생성합니다.
 
         Args:
-            appkey: 앱 키 또는 앱 키 객체
-            appsecret: 앱 시크릿. 앱 키 객체를 사용할 경우 생략 가능.
-            virtual_account: 가상계좌 여부. 앱 키 객체를 사용할 경우 생략 가능.
-            market_database_path: 종목 정보 데이터베이스 경로. 생략 시 임시 경로에 저장됩니다.
-            market_auto_sync_interval: 종목 정보 자동 동기화 주기. 기본값은 1일입니다.
-            market_auto_sync: 종목 정보 자동 동기화 여부. 기본값은 True입니다.
-            realtime: 실시간 API 사용 여부. 생략 시 사용됩니다.
-            logger: 로거. 생략 시 기본 로거가 사용됩니다.
-            late_init: 지연 초기화 여부. 기본값은 False입니다.
+            auth: 한국투자증권 계좌 및 인증 정보
+            appkey: 한국투자증권 API AppKey
+            appsecret: 한국투자증권 API AppSecret
+            account: 한국투자증권 기본 계좌 정보
+            virtual: 모의투자 여부
         """
-        if isinstance(appkey, KisKey):
-            self.key = appkey
-        else:
-            if not appsecret:
-                raise ValueError("AppSecret이 없습니다.")
+        if auth is not None:
+            if not isinstance(auth, KisAuth):
+                auth = KisAuth.load(auth)
 
-            self.key = KisKey(appkey, appsecret, virtual_account)
+            appkey = auth.key
+            account = auth.account_
+            virtual = auth.virtual
 
-        self.client = KisClient(self.key)
-        self.market = KisMarketClient(
-            client=self.client,
-            database_path=market_database_path,
-            auto_sync=market_auto_sync,
-            auto_sync_interval=market_auto_sync_interval,
+        if appkey is None:
+            raise ValueError("appkey를 입력해야 합니다.")
+
+        if isinstance(appkey, str):
+            if appsecret is None:
+                raise ValueError("appsecret을 입력해야 합니다.")
+
+            appkey = KisKey(appkey=appkey, appsecret=appsecret)
+
+        self.appkey = appkey
+
+        if isinstance(account, str):
+            account = KisAccountNumber(account)
+
+        self.primary_account = account
+        self.virtual = virtual
+        self._rate_limiters = {
+            "real": RateLimiter(REAL_API_REQUEST_PER_SECOND, 1),
+            "virtual": RateLimiter(VIRTUAL_API_REQUEST_PER_SECOND, 1),
+        }
+        self._token = None
+
+    def _rate_limit_exceeded(self):
+        logging.logger.warning("API 호출 횟수를 초과하여 호출 유량 획득까지 대기합니다.")
+
+    def request(
+        self,
+        path: str,
+        *,
+        method: Literal["GET", "POST"] = "GET",
+        params: dict[str, str] | None = None,
+        body: dict[str, str] | None = None,
+        headers: dict[str, str] | None = None,
+        domain: Literal["real", "virtual"] | None = None,
+        appkey_location: Literal["header", "body"] | None = "header",
+        auth: bool = True,
+    ) -> Response:
+        if method == "GET":
+            if body is not None:
+                raise ValueError("GET 요청에는 body를 입력할 수 없습니다.")
+
+            if appkey_location == "body":
+                raise ValueError("GET 요청에는 appkey_location을 header로 설정해야 합니다.")
+        elif body is None:
+            body = {}
+
+        if headers is None:
+            headers = {}
+
+        if domain is None:
+            domain = "virtual" if self.virtual else "real"
+
+        if appkey_location:
+            self.appkey.build(headers if appkey_location == "header" else body)
+
+        if auth:
+            self.token.build(headers)
+
+        rate_limit = self._rate_limiters[domain]
+
+        while True:
+            rate_limit.acquire(blocking_callback=self._rate_limit_exceeded)
+
+            resp = requests.request(
+                method=method,
+                url=urljoin(REAL_DOMAIN if domain == "real" else VIRTUAL_DOMAIN, path),
+                headers=headers,
+                params=params,
+                json=body,
+            )
+
+            if resp.ok:
+                return resp
+
+            try:
+                data = resp.json()
+            except:
+                data = None
+
+            # Rate limit exceeded
+            if resp.status_code != 500 or not data or data.get("msg_cd") != "EGW00201":
+                raise KisHTTPError(response=resp)
+
+            logging.logger.warning("API 호출 횟수를 초과하였습니다.")
+
+    def fetch(
+        self,
+        path: str,
+        *,
+        method: Literal["GET", "POST"] = "GET",
+        params: dict[str, str] | None = None,
+        body: dict[str, str] | None = None,
+        headers: dict[str, str] | None = None,
+        domain: Literal["real", "virtual"] | None = None,
+        appkey_location: Literal["header", "body"] | None = "header",
+        auth: bool = True,
+        api: str | None = None,
+        response_type: TDynamic | type[TDynamic] | Callable[[], TDynamic] = KisDynamicDict,
+    ):
+        if api is not None:
+            if headers is None:
+                headers = {}
+
+            headers["tr_id"] = api
+
+        resp = self.request(
+            path,
+            method=method,
+            params=params,
+            body=body,
+            headers=headers,
+            domain=domain,
+            appkey_location=appkey_location,
+            auth=auth,
         )
-        self._emit_logger(logger)
 
-        if realtime:
-            self._rtclient = KisRTClient(self.client, logger=self.logger)
-        else:
-            self._rtclient = None
+        data = resp.json()
+        data["__response__"] = resp
 
-        if not late_init:
-            self.init()
+        return KisObject.transform_(
+            data=data,
+            transform_type=response_type,
+            ignore_missing_fields={"__response__"},
+        )
+
+    from pykis.api.auth.token import token_issue as _token_issue
+    from pykis.api.auth.token import token_revoke as _token_revoke
 
     @property
-    def rtclient(self) -> KisRTClient:
-        """실시간 API 클라이언트"""
-        if self._rtclient is None:
-            raise ValueError("실시간 API 사용이 설정되지 않았습니다.")
-        return self._rtclient
+    @thread_safe
+    def token(self) -> KisAccessToken:
+        """API 접속 토큰을 반환합니다."""
+        if self._token is None or self._token.remaining < timedelta(minutes=10):
+            self._token = self._token_issue()
+            logging.logger.debug(f"API 접속 토큰을 발급했습니다.")
 
-    def init(self):
-        """API를 초기화합니다."""
-        if self._init:
-            return
+        return self._token
 
-        self.market._init()
+    def discard(self):
+        """API 접속 토큰을 폐기합니다."""
+        if self._token is not None:
+            self._token_revoke(self._token.token)
+            self._token = None
 
-        if self._rtclient:
-            self._rtclient.wait_connected()
+    @property
+    def _primary_account(self) -> KisAccountNumber:
+        if self.primary_account is None:
+            raise ValueError("기본 계좌 정보가 없습니다.")
 
-        self._init = True
+        return self.primary_account
 
-    def stock(self, stock: KisKStockItem | str) -> KisStockScope:
-        """코스피/코스닥 종목 스코프를 생성합니다.
-
-        Args:
-            code: 종목 코드
-        """
-        if isinstance(stock, str):
-            st = self.market.stock(stock)
-            if st is None:
-                raise ValueError(f"코스피/코스닥 종목 {stock}이 존재하지 않습니다.")
-            stock = st
-
-        scope = KisStockScope(self, stock)
-        scope._emit_logger(self.logger)
-
-        return scope
-
-    def stock_search(self, name: str) -> KisStockScope | None:
-        """코스피/코스닥 종목을 검색합니다.
+    def account(
+        self,
+        account: str | KisAccountNumber | None = None,
+        primary: bool = False,
+    ) -> KisAccount:
+        """계좌 정보를 반환합니다.
 
         Args:
-            name: 종목 이름
-        """
-        stock = self.market.stock_search_one(name)
-        if stock is None:
-            return None
-        return self.stock(stock)
-
-    def account(self, account: KisAccount | str) -> KisAccountScope:
-        """계좌 스코프를 생성합니다.
-
-        Args:
-            account: 계좌 또는 계좌 번호
+            account: 계좌 번호. None이면 기본 계좌 정보를 사용합니다.
+            primary: 기본 계좌로 설정할지 여부
         """
         if isinstance(account, str):
-            account = KisAccount(account)
+            account = KisAccountNumber(account)
 
-        scope = KisAccountScope(self, account)
-        scope._emit_logger(self.logger)
-        return scope
+        account = account or self._primary_account
+
+        if primary:
+            self.primary_account = account
+
+        return KisAccount(self, account)

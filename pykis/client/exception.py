@@ -1,11 +1,11 @@
 from collections import namedtuple
-from urllib.parse import parse_qs, urlparse
-import requests
+from urllib.parse import urlparse, parse_qs
+from requests import Response
 
-from ..__env__ import TRACE_DETAIL_ERROR
+from pykis.__env__ import TRACE_DETAIL_ERROR
 
 
-def safe_request_data(response: requests.Response):
+def safe_request_data(response: Response):
     header = dict(response.request.headers)
 
     if "appkey" in header:
@@ -20,7 +20,7 @@ def safe_request_data(response: requests.Response):
             try:
                 body = response.request.body.decode("utf-8")
             except UnicodeDecodeError:
-                body = response.request.body.reason.decode("iso-8859-1")
+                body = response.request.body.reason.decode("iso-8859-1")  # type: ignore
         else:
             body = response.request.body
 
@@ -30,7 +30,7 @@ def safe_request_data(response: requests.Response):
         body = "[EMPTY BODY]"
 
     url = urlparse(response.request.url)
-    params = str(parse_qs(url.query)) or "[EMPTY PARAMS]"
+    params = str(parse_qs(url.query)) or "[EMPTY PARAMS]"  # type: ignore
     url = url._replace(query="")
 
     return namedtuple("SafeRequestData", ["url", "header", "params", "body"])(
@@ -46,10 +46,10 @@ class KisException(Exception):
 
     status_code: int
     """HTTP 상태 코드"""
-    response: requests.Response
+    response: Response
     """응답 객체"""
 
-    def __init__(self, message: str, response: requests.Response):
+    def __init__(self, message: str, response: Response):
         super().__init__(message)
         self.status_code = response.status_code
         self.response = response
@@ -63,7 +63,7 @@ class KisHTTPError(KisException):
     text: str
     """응답 본문"""
 
-    def __init__(self, response: requests.Response):
+    def __init__(self, response: Response):
         req = safe_request_data(response)
         text = response.text
 
@@ -84,18 +84,18 @@ class KisHTTPError(KisException):
 class KisAPIError(KisException):
     """API 예외 베이스 클래스"""
 
-    rt_cd: int
+    rt_cd: int | None
     """응답 코드"""
-    tr_id: str
+    tr_id: str | None
     """거래 ID"""
-    gt_uid: str
+    gt_uid: str | None
     """거래고유번호"""
-    msg_cd: str
+    msg_cd: str | None
     """응답 메시지 코드"""
-    msg1: str
+    msg1: str | None
     """응답 메시지"""
 
-    def __init__(self, data: dict, response: requests.Response):
+    def __init__(self, data: dict, response: Response):
         rt_cd = data.get("rt_cd")
         rt_cd = int(rt_cd) if rt_cd else None
         tr_id = response.headers.get("tr_id")
