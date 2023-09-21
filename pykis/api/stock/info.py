@@ -156,9 +156,9 @@ class KisStockInfo(KisAPIResponse):
         return MARKET_CODE_MAP[self.market_code]  # type: ignore
 
     @property
-    def market_kor(self) -> MARKET_KOR_TYPE:
+    def market_name(self) -> str:
         """상품유형명"""
-        return R_MARKET_TYPE_MAP[self.market_code]  # type: ignore
+        return R_MARKET_TYPE_MAP[self.market_code]
 
     @property
     def overseas(self) -> bool:
@@ -166,13 +166,15 @@ class KisStockInfo(KisAPIResponse):
         return self.market_code not in ["300", "301", "302"]
 
 
+MARKET_INFO_TYPES = (
+    MARKET_KOR_TYPE | MARKET_TYPE | Literal["국내", "미국", "홍콩전체", "베트남", "중국", "전체"] | MARKET_CODE | None
+)
+
+
 def info(
     self: "PyKis",
     code: str,
-    market: MARKET_KOR_TYPE
-    | MARKET_TYPE
-    | Literal["국내", "미국", "홍콩전체", "베트남", "중국", "전체"]
-    | MARKET_CODE = "주식",
+    market: MARKET_INFO_TYPES = "주식",
 ):
     """
     상품기본정보 조회.
@@ -182,13 +184,16 @@ def info(
 
     Args:
         code (str): 종목코드
-        type (str, optional): 조회할 시장. Defaults to "주식".
+        market (str): 상품유형명
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
     """
     if not code:
         raise ValueError("종목 코드를 입력해주세요.")
+
+    if market == None:
+        market = "전체"
 
     err = None
 

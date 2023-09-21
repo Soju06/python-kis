@@ -33,6 +33,7 @@ MARKET_TYPE_SHORT_MAP = {
 }
 
 MARKET_TYPE_KOR_MAP = {
+    None: "전체",
     "KRX": "한국",
     "NASD": "나스닥",
     "NYSE": "뉴욕",
