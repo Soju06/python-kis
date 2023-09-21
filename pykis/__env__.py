@@ -1,3 +1,4 @@
+from typing import Any
 import pytz
 
 APPKEY_LENGTH = 36
@@ -25,3 +26,10 @@ TIMEZONE_NAME = "Asia/Seoul"
 TIMEZONE = pytz.timezone(TIMEZONE_NAME)
 
 VERSION = "2.0.0"
+
+
+class EMPTY_TYPE:
+    pass
+
+
+EMPTY = EMPTY_TYPE()

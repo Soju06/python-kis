@@ -20,7 +20,6 @@ from pykis.client.auth import KisAuth
 from pykis.client.exception import KisHTTPError
 from pykis.responses.dynamic import KisObject, TDynamic
 from pykis.responses.types import KisDynamicDict
-from pykis.scope.account import KisAccount
 from pykis.utils.rate_limit import RateLimiter
 from pykis.utils.thread_safe import thread_safe
 
@@ -210,28 +209,16 @@ class PyKis:
 
     @property
     def _primary_account(self) -> KisAccountNumber:
+        """
+        기본 계좌 정보를 반환합니다.
+
+        Raises:
+            ValueError: 기본 계좌 정보가 없을 경우
+        """
         if self.primary_account is None:
             raise ValueError("기본 계좌 정보가 없습니다.")
 
         return self.primary_account
 
-    def account(
-        self,
-        account: str | KisAccountNumber | None = None,
-        primary: bool = False,
-    ) -> KisAccount:
-        """계좌 정보를 반환합니다.
-
-        Args:
-            account: 계좌 번호. None이면 기본 계좌 정보를 사용합니다.
-            primary: 기본 계좌로 설정할지 여부
-        """
-        if isinstance(account, str):
-            account = KisAccountNumber(account)
-
-        account = account or self._primary_account
-
-        if primary:
-            self.primary_account = account
-
-        return KisAccount(self, account)
+    from pykis.scope.account.account import account
+    from pykis.scope.stock.info_stock import stock
