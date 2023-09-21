@@ -1,3 +1,4 @@
+from datetime import timedelta
 import logging
 
 from .account import KisAccount
@@ -27,6 +28,7 @@ class PyKis(KisLoggable):
         appsecret: str | None = None,
         virtual_account: bool = False,
         market_database_path: str | None = None,
+        market_auto_sync_interval: timedelta = timedelta(days=1),
         market_auto_sync: bool = True,
         realtime: bool = True,
         logger: logging.Logger | None = None,
@@ -39,6 +41,7 @@ class PyKis(KisLoggable):
             appsecret: 앱 시크릿. 앱 키 객체를 사용할 경우 생략 가능.
             virtual_account: 가상계좌 여부. 앱 키 객체를 사용할 경우 생략 가능.
             market_database_path: 종목 정보 데이터베이스 경로. 생략 시 임시 경로에 저장됩니다.
+            market_auto_sync_interval: 종목 정보 자동 동기화 주기. 기본값은 1일입니다.
             market_auto_sync: 종목 정보 자동 동기화 여부. 기본값은 True입니다.
             realtime: 실시간 API 사용 여부. 생략 시 사용됩니다.
             logger: 로거. 생략 시 기본 로거가 사용됩니다.
@@ -54,7 +57,10 @@ class PyKis(KisLoggable):
 
         self.client = KisClient(self.key)
         self.market = KisMarketClient(
-            client=self.client, database_path=market_database_path, auto_sync=market_auto_sync
+            client=self.client,
+            database_path=market_database_path,
+            auto_sync=market_auto_sync,
+            auto_sync_interval=market_auto_sync_interval,
         )
         self._emit_logger(logger)
 
