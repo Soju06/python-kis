@@ -18,6 +18,7 @@ from pykis.client.account import KisAccountNumber
 from pykis.client.appkey import KisKey
 from pykis.client.auth import KisAuth
 from pykis.client.exception import KisHTTPError
+from pykis.client.object import KisObjectBase
 from pykis.responses.dynamic import KisObject, TDynamic
 from pykis.responses.types import KisDynamicDict
 from pykis.utils.rate_limit import RateLimiter
@@ -161,7 +162,7 @@ class PyKis:
         auth: bool = True,
         api: str | None = None,
         response_type: TDynamic | type[TDynamic] | Callable[[], TDynamic] = KisDynamicDict,
-    ):
+    ) -> TDynamic:
         if api is not None:
             if headers is None:
                 headers = {}
@@ -182,11 +183,16 @@ class PyKis:
         data = resp.json()
         data["__response__"] = resp
 
-        return KisObject.transform_(
+        response_object = KisObject.transform_(
             data=data,
             transform_type=response_type,
             ignore_missing_fields={"__response__"},
         )
+
+        if isinstance(response_object, KisObjectBase):
+            response_object.__kis_init__(self)
+
+        return response_object
 
     from pykis.api.auth.token import token_issue as _token_issue
     from pykis.api.auth.token import token_revoke as _token_revoke

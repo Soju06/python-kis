@@ -9,3 +9,7 @@ def cached(fn):
         return getattr(self, cache_key)
 
     return wrapper
+
+
+def set_cache(obj: object, key: str, value: object):
+    setattr(obj, f"__{key}", value)
