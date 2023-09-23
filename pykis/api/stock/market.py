@@ -78,3 +78,8 @@ class KisTradingHours(KisDynamic):
     def timezone(self) -> tzinfo:
         """시간대"""
         return pytz.timezone(MARKET_TIMEZONE_MAP[self.market])
+
+    @property
+    def market_name(self) -> str:
+        """시장 종류"""
+        return MARKET_TYPE_KOR_MAP[self.market]

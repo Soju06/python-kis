@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING, Literal
+from pykis.api.stock.base.product import KisProductBase
 from pykis.api.stock.market import MARKET_TYPE
 
 from pykis.client.exception import KisAPIError
@@ -126,7 +127,7 @@ MARKET_CODE_MAP = {
 }
 
 
-class KisStockInfo(KisAPIResponse):
+class KisStockInfo(KisAPIResponse, KisProductBase):
     """상품기본정보"""
 
     code: str = KisString["shtn_pdno"]

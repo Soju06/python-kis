@@ -1,4 +1,5 @@
 from datetime import datetime, tzinfo
+from pykis.api.stock.base.product import KisProductBase
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.responses.dynamic import KisDynamic
 
@@ -24,13 +25,9 @@ class KisChartBar(KisDynamic):
     """거래대금"""
 
 
-class KisChart(KisDynamic):
+class KisChart(KisDynamic, KisProductBase):
     """한국투자증권 차트"""
 
-    code: str
-    """종목코드"""
-    market: MARKET_TYPE
-    """시장 종류"""
     timezone: tzinfo
     """시간대"""
     bars: list[KisChartBar]
