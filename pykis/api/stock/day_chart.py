@@ -119,7 +119,7 @@ class KisOverseasDayChart(KisResponse, KisChart):
     def __init__(self, code: str, market: MARKET_TYPE):
         self.code = code
         self.market = market
-        self.market_time = KisOverseasTradingHours(self.market)
+        self.trading_hours = KisOverseasTradingHours(self.market)
 
     def __pre_init__(self, data: dict[str, Any]):
         super().__pre_init__(data)
@@ -136,7 +136,7 @@ class KisOverseasDayChart(KisResponse, KisChart):
 
         self.timezone = KisObject.transform_(
             data["output1"],
-            self.market_time,
+            self.trading_hours,
             ignore_missing=True,
             pre_init=False,
         ).timezone

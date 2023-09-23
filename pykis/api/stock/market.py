@@ -4,7 +4,6 @@ from typing import Literal
 import pytz
 
 from pykis.responses.dynamic import KisDynamic
-from pykis.responses.types import KisTime
 
 
 MARKET_TYPE = Literal[

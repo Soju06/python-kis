@@ -5,6 +5,7 @@ from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.exception import KisAPIError
 from pykis.responses.response import KisAPIResponse
 from pykis.responses.types import KisString
+from pykis.utils.cache import set_cache
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -165,6 +166,9 @@ class KisStockInfo(KisAPIResponse, KisProductBase):
     def overseas(self) -> bool:
         """해외종목 여부"""
         return self.market_code not in ["300", "301", "302"]
+
+    def __post_init__(self):
+        set_cache(self, "info", self)
 
 
 MARKET_INFO_TYPES = (
