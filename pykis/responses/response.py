@@ -2,11 +2,12 @@ from typing import Any
 
 from requests import Response
 from pykis.client.exception import KisAPIError
-from pykis.responses.dynamic import KisDynamic, KisObject, TDynamic
+from pykis.client.object import KisObjectBase
+from pykis.responses.dynamic import KisDynamic, KisObject
 from pykis.responses.types import KisAny, KisString
 
 
-class KisResponse(KisDynamic):
+class KisResponse(KisDynamic, KisObjectBase):
     """KIS 응답 결과"""
 
     __response__: Response | None = KisAny(lambda r: r)["__response__"]

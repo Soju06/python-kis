@@ -46,7 +46,7 @@ class KisDomesticDayChartBar(KisChartBar):
 
 
 class KisDomesticDayChart(KisResponse, KisChart):
-    """한국투자증권 국내 차트"""
+    """한국투자증권 국내 당일 차트"""
 
     bars: list[KisDomesticDayChartBar] = KisList(KisDomesticDayChartBar)["output2"]
     """차트"""
