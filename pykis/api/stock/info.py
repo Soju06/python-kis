@@ -193,14 +193,13 @@ def info(
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
+        ValueError: 종목 코드가 올바르지 않은 경우
     """
     if not code:
         raise ValueError("종목 코드를 입력해주세요.")
 
     if market == None:
         market = "전체"
-
-    err = None
 
     for market_ in MARKET_TYPE_MAP.get(market, [market]):
         try:
@@ -219,9 +218,8 @@ def info(
         except KisAPIError as e:
             if e.rt_cd == 7:
                 # 조회된 데이터가 없는 경우
-                err = e
                 continue
 
             raise e
 
-    raise err or ValueError("종목 정보를 찾을 수 없습니다.")
+    raise ValueError(f"해당 종목의 정보를 조회할 수 없습니다. (종목코드: {code})")

@@ -57,6 +57,12 @@ class KisDomesticDayChart(KisResponse, KisChart):
         self.code = code
         self.market = market
 
+    def __pre_init__(self, data: dict[str, Any]):
+        super().__pre_init__(data)
+
+        if data["output1"]["stck_prpr"] == "0":
+            raise ValueError(f"해당 종목의 차트를 조회할 수 없습니다. (종목코드: {self.code})")
+
 
 class KisOverseasDayChartBar(KisChartBar):
     """한국투자증권 해외 당일 차트 봉"""
@@ -124,15 +130,8 @@ class KisOverseasDayChart(KisResponse, KisChart):
     def __pre_init__(self, data: dict[str, Any]):
         super().__pre_init__(data)
 
-        if not data["output1"]["stim"]:
-            raise KisAPIError(
-                data={
-                    "rt_cd": "7",
-                    "msg_cd": "KIER2620",
-                    "msg1": "조회할 자료가 없습니다. (이 예외는 한국투자증권 API 오류가 아닌 PyKis에서 처리한 오류입니다.)",
-                },
-                response=data["__response__"],
-            )
+        if not data["output1"]["nrec"]:
+            raise ValueError(f"해당 종목의 차트를 조회할 수 없습니다. (종목코드: {self.code})")
 
         self.timezone = KisObject.transform_(
             data["output1"],
@@ -186,6 +185,10 @@ def domestic_day_chart(
         start (time, optional): 조회 시작 시간. Defaults to None.
         end (time, optional): 조회 종료 시간. Defaults to None.
         step (int, optional): 조회 간격 (분). Defaults to 1.
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 조회 파라미터가 올바르지 않은 경우
     """
     if not code:
         raise ValueError("종목 코드를 입력해주세요.")
@@ -288,6 +291,10 @@ def overseas_day_chart(
         end (time, optional): 조회 종료 시간. Defaults to None.
         step (int, optional): 조회 간격 (분). Defaults to 1.
         once (bool, optional): 한 번만 조회할지 여부. Defaults to False.
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 조회 파라미터가 올바르지 않은 경우
     """
     if not code:
         raise ValueError("종목 코드를 입력해주세요.")
@@ -383,6 +390,10 @@ def day_chart(
         start (time, optional): 조회 시작 시간. Defaults to None.
         end (time, optional): 조회 종료 시간. Defaults to None.
         step (int, optional): 조회 간격 (분). Defaults to 1.
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 조회 파라미터가 올바르지 않은 경우
     """
     if market == "KRX":
         return domestic_day_chart(
