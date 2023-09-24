@@ -1,9 +1,14 @@
 from datetime import date, datetime
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 from pykis.__env__ import TIMEZONE
 from pykis.api.stock.base.product import KisProductBase
-from pykis.responses.dynamic import KisDynamic, KisObject, KisTransform
+from pykis.api.stock.market import MARKET_TYPE
+from pykis.responses.dynamic import KisDynamic, KisObject
+from pykis.responses.response import KisAPIResponse
 from pykis.responses.types import KisAny, KisBool, KisDate, KisFloat, KisString
+
+if TYPE_CHECKING:
+    from pykis.kis import PyKis
 
 STOCK_SIGN_TYPE = Literal["upper", "rise", "steady", "lower", "decline"]
 STOCK_SIGN_TYPE_MAP = {
@@ -60,6 +65,11 @@ class KisIndicator(KisDynamic):
 
 class KisQuote(KisDynamic, KisProductBase):
     """한국투자증권 상품 시세"""
+
+    def __init__(self, code: str, market: MARKET_TYPE):
+        super().__init__()
+        self.code = code
+        self.market = market
 
     name: str
     """종목명"""
@@ -120,7 +130,7 @@ class KisDomesticIndicator(KisIndicator):
     """52주 최저가 날짜"""
 
 
-class KisDomesticQuote(KisQuote):
+class KisDomesticQuote(KisAPIResponse, KisQuote):
     """한국투자증권 국내 상품 시세"""
 
     code: str = KisString["stck_shrn_iscd"]
@@ -147,8 +157,11 @@ class KisDomesticQuote(KisQuote):
     overbought: bool = KisBool["short_over_yn"]
     """단기과열구분"""
 
-    prev_price: float = KisFloat["stck_prdy_clpr"]
-    """전일종가"""
+    @property
+    def prev_price(self) -> float:
+        """전일종가"""
+        return self.price - self.change
+
     prev_volume_rate: float = KisFloat["prdy_vrss_vol_rate"]
     """전일대비거래량비율 (-100~100)"""
 
@@ -160,13 +173,13 @@ class KisDomesticQuote(KisQuote):
     change: float = KisFloat["prdy_vrss"]
     """전일대비"""
 
-    indicator: KisDomesticIndicator = KisTransform(
+    indicator: KisDomesticIndicator = KisAny(
         lambda x: KisObject.transform_(
             x,
             KisDomesticIndicator,
             ignore_missing=True,
         )
-    )["output1"]
+    )["output"]
     """종목 지표"""
 
     open: float = KisFloat["stck_oprc"]
@@ -187,3 +200,44 @@ class KisDomesticQuote(KisQuote):
     """하한가"""
     base_price: float = KisFloat["stck_sdpr"]
     """기준가"""
+
+    def __pre_init__(self, data: dict):
+        if data["output"]["stck_prpr"] == "0":
+            raise ValueError(f"해당 종목의 현재가를 조회할 수 없습니다. (종목코드: {self.code})")
+
+        super().__pre_init__(data)
+
+
+def domestic_quote(
+    self: "PyKis",
+    code: str,
+):
+    """
+    한국투자증권 국내 주식 현재가 조회
+
+    주식, ETF, ETN 조회가 가능합니다.
+
+    국내주식시세 -> 주식현재가 시세[v1_국내주식-008]
+    (업데이트 날짜: 2023/09/24)
+
+    Args:
+        code (str): 종목코드
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 종목 코드가 올바르지 않은 경우
+    """
+    if not code:
+        raise ValueError("종목코드를 입력해주세요.")
+
+    result = KisDomesticQuote(code, "KRX")
+    return self.fetch(
+        "/uapi/domestic-stock/v1/quotations/inquire-price",
+        api="FHKST01010100",
+        params={
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_INPUT_ISCD": code,
+        },
+        response_type=result,
+        domain="real",
+    )
