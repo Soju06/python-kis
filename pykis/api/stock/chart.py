@@ -1,4 +1,5 @@
 from datetime import datetime, tzinfo
+from decimal import Decimal
 from pykis.api.stock.base.product import KisProductBase
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.responses.dynamic import KisDynamic
@@ -11,17 +12,17 @@ class KisChartBar(KisDynamic):
     """시간 (현지시간)"""
     time_kst: datetime
     """시간 (한국시간)"""
-    open: float
+    open: Decimal
     """시가"""
-    close: float
+    close: Decimal
     """종가 (현재가)"""
-    high: float
+    high: Decimal
     """고가"""
-    low: float
+    low: Decimal
     """저가"""
-    volume: float
+    volume: Decimal
     """거래량"""
-    amount: float
+    amount: Decimal
     """거래대금"""
 
 
