@@ -244,6 +244,10 @@ class KisObject(Generic[TDynamic], KisType[TDynamic], metaclass=KisTypeMeta):
 
         object = transform_type if isinstance(transform_type, KisDynamic) else transform_type()
         object_type = type(object)
+
+        if pre_init and hasattr(object, "__pre_init__"):
+            object.__pre_init__(data)
+
         parsing_data = data
 
         if not ignore_path:
@@ -251,9 +255,6 @@ class KisObject(Generic[TDynamic], KisType[TDynamic], metaclass=KisTypeMeta):
 
             if scoped_path is not None:
                 parsing_data = scoped_path(data)
-
-        if pre_init and hasattr(object, "__pre_init__"):
-            object.__pre_init__(data)
 
         ignore_missing = ignore_missing or getattr(object_type, "__ignore_missing__", False)
         annotations = {
