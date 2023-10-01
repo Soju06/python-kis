@@ -1,13 +1,12 @@
-from io import StringIO
 from types import NoneType
 from typing import Any, Callable, Generic, TypeVar, get_args
 
 from pykis import logging
+from pykis.__env__ import EMPTY, EMPTY_TYPE
 
 T = TypeVar("T")
 
 empty = object()
-field_empty = object()
 
 
 class KisTypeMeta(type, Generic[T]):
@@ -27,26 +26,37 @@ class KisType(Generic[T]):
     """응답 범위"""
     default: T | None | object
     """기본값"""
+    absolute: bool
+    """
+    절대 경로 여부
+
+    절대 경로일 경우, 응답 데이터의 최상위를 기준으로 데이터를 가져옵니다.
+    """
 
     def __init__(self):
         self.field = None
         self.scope = None
         self.default = empty
+        self.absolute = False
 
     def __call__(
         self,
-        field: str | None | object = field_empty,
-        default: T | None | object = field_empty,
-        scope: str | None | object = None,
+        field: str | None | EMPTY_TYPE = EMPTY,
+        default: T | None | object | EMPTY_TYPE = EMPTY,
+        scope: str | None | EMPTY_TYPE = EMPTY,
+        absolute: bool | EMPTY_TYPE = EMPTY,
     ) -> T:
-        if field is not field_empty:
+        if field is not EMPTY:
             self.field = field  # type: ignore
 
-        if default is not field_empty:
+        if default is not EMPTY:
             self.default = default
 
-        if scope is not None:
+        if scope is not EMPTY:
             self.scope = scope  # type: ignore
+
+        if absolute is not EMPTY:
+            self.absolute = absolute  # type: ignore
 
         return self  # type: ignore
 
@@ -70,8 +80,44 @@ class KisType(Generic[T]):
 
         return cls.__default_type__
 
+    def __repr__(self) -> str:
+        return f"{type(self).__name__}(field={self.field!r}, scope={self.scope!r}, absolute={self.absolute!r})"
+
 
 TType = TypeVar("TType", bound=KisType[Any])
+
+
+class KisDynamicScopedPath:
+    """응답 데이터 위치 표현"""
+
+    path: list[str]
+    """응답 데이터 위치"""
+
+    def __init__(self, path: str | list[str]):
+        self.path = path.split(".") if isinstance(path, str) else path
+
+    def __call__(self, data: dict[str, Any]) -> dict[str, Any]:
+        for key in self.path:
+            data = data[key]
+
+        return data
+
+    def __repr__(self) -> str:
+        return f"KisDynamicScope({self.path})"
+
+    @classmethod
+    def get_scope(cls, object: "KisDynamic | type[KisDynamic]") -> "KisDynamicScopedPath | None":
+        """응답 데이터 위치 표현을 반환합니다."""
+        if (scope := getattr(object, "__path__", None)) is None:
+            return None
+
+        if isinstance(scope, str):
+            scope = KisDynamicScopedPath(scope)
+
+            if isinstance(object, type):
+                setattr(object, "__path__", scope)
+
+        return scope
 
 
 class KisDynamic:
@@ -81,6 +127,8 @@ class KisDynamic:
     """데이터에 정의된 필드가 없을 경우 예외 무시 여부"""
     __transform__: Callable[[type["KisDynamic"], dict[str, Any]], "KisDynamic"] | None = None
     """응답 데이터 변환 함수"""
+    __path__: KisDynamicScopedPath | str | None = None
+    """응답 데이터 위치 지정"""
 
     __data__: dict[str, Any]
     """원본 응답 데이터"""
@@ -176,6 +224,7 @@ class KisObject(Generic[TDynamic], KisType[TDynamic], metaclass=KisTypeMeta):
         transform_type: TDynamic | type[TDynamic] | Callable[[], TDynamic],
         ignore_missing: bool = False,
         ignore_missing_fields: set[str] | None = None,
+        ignore_path: bool = False,
         pre_init: bool = True,
         post_init: bool = True,
         scope: str | None = None,
@@ -195,23 +244,36 @@ class KisObject(Generic[TDynamic], KisType[TDynamic], metaclass=KisTypeMeta):
 
         object = transform_type if isinstance(transform_type, KisDynamic) else transform_type()
         object_type = type(object)
+        parsing_data = data
+
+        if not ignore_path:
+            scoped_path = KisDynamicScopedPath.get_scope(object_type)
+
+            if scoped_path is not None:
+                parsing_data = scoped_path(data)
 
         if pre_init and hasattr(object, "__pre_init__"):
             object.__pre_init__(data)
 
         ignore_missing = ignore_missing or getattr(object_type, "__ignore_missing__", False)
         annotations = {
-            key: value for annos in object_type.__mro__ for key, value in annos.__dict__.items()
+            key: value
+            for obj in object_type.__mro__
+            if (annotations := getattr(obj, "__annotations__", None)) is not None
+            for key, value in annotations.items()
         }
-        missing = set(data.keys())
+        missing = set(parsing_data.keys())
         missing.discard("__response__")
 
-        for key, type_ in object_type.__dict__.items():
-            if key.startswith("_") or not (
-                isinstance(type_, KisType) or (isinstance(type_, type) and issubclass(type_, KisType))
-            ):
-                continue
-
+        for key, type_, anno in (
+            (field, type_, annotations.get(field, None))
+            for field in dir(object_type)
+            if (not field.startswith("_") or field.endswith("_"))
+            and (
+                isinstance(type_ := getattr(object_type, field, None), KisType)
+                or (isinstance(type_, type) and issubclass(type_, KisType))
+            )
+        ):
             if isinstance(type_, type):
                 if (getattr(type_, "__default__", None)) is None:
                     raise ValueError(
@@ -224,24 +286,24 @@ class KisObject(Generic[TDynamic], KisType[TDynamic], metaclass=KisTypeMeta):
                 continue
 
             field = None if isinstance(type_, KisTransform) else type_.field or key
-            annotated_type = annotations.get(key, None)
-            nullable = NoneType in get_args(annotated_type) if annotated_type else None
+            nullable = NoneType in get_args(anno) if anno else None
+            target_data = data if type_.absolute else parsing_data
 
-            if field is not None:
+            if field is not None and target_data is parsing_data:
                 missing.discard(field)
 
             if field is None:
-                value = data
-            elif field not in data:
+                value = target_data
+            elif field not in target_data:
                 if type_.default is empty:
                     if ignore_missing:
                         continue
 
-                    raise KeyError(f"{object_type.__name__}의 {field} 필드가 존재하지 않습니다.")
+                    raise KeyError(f"{object_type.__name__}.{key} 필드의 {field}값이 존재하지 않습니다. ({type_!r})")
 
                 value = type_.default
             else:
-                value = data[field]
+                value = target_data[field]
 
             result = empty
 
@@ -252,14 +314,14 @@ class KisObject(Generic[TDynamic], KisType[TDynamic], metaclass=KisTypeMeta):
                     pass
                 except Exception as e:
                     raise ValueError(
-                        f"{object_type.__name__}의 {field} 필드를 변환하는 중 오류가 발생했습니다.\n→ {type(e).__name__}: {e}"
+                        f"{object_type.__name__}.{key} 필드를 변환하는 중 오류가 발생했습니다.\n→ {type(e).__name__}: {e}"
                     ) from e
 
             if result is empty:
                 if nullable:
                     result = None
                 else:
-                    raise ValueError(f"{object_type.__name__}의 {field} 필드가 빈 값입니다.")
+                    raise ValueError(f"{object_type.__name__}.{key} 필드의 값이 빈 값입니다.")
 
             setattr(object, key, result)
 
