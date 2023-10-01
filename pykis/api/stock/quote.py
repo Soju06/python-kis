@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Literal
 from pykis.__env__ import TIMEZONE
 from pykis.api.stock.base.product import KisProductBase
 from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE, MARKET_TYPE_SHORT_MAP
-from pykis.responses.dynamic import KisDynamic, KisObject
+from pykis.responses.dynamic import KisDynamic, KisObject, KisTransform
 from pykis.responses.response import KisAPIResponse
 from pykis.responses.types import KisAny, KisBool, KisDate, KisDecimal, KisInt, KisString
 from pykis.utils.cache import cached
@@ -129,8 +129,6 @@ class KisQuote(KisDynamic, KisProductBase):
     """통화코드"""
     exchange_rate: Decimal
     """당일환율"""
-    prev_exchange_rate: Decimal
-    """전일환율"""
 
     @property
     def rate(self) -> Decimal:
@@ -166,8 +164,11 @@ class KisDomesticQuote(KisAPIResponse, KisQuote):
     code: str = KisString["stck_shrn_iscd"]
     """종목코드"""
 
-    name: str = KisString["bstp_kor_isnm"]
-    """종목명"""
+    @property
+    def name(self) -> str:
+        """종목명"""
+        return self.info.name
+
     sector_name: str = KisString["bstp_kor_isnm"]
     """업종명"""
     price: Decimal = KisDecimal["stck_prpr"]
@@ -203,13 +204,13 @@ class KisDomesticQuote(KisAPIResponse, KisQuote):
     change: Decimal = KisDecimal["prdy_vrss"]
     """전일대비"""
 
-    indicator: KisDomesticIndicator = KisAny(
+    indicator: KisDomesticIndicator = KisTransform(
         lambda x: KisObject.transform_(
             x,
             KisDomesticIndicator,
             ignore_missing=True,
         )
-    )["output"]
+    )()
     """종목 지표"""
 
     open: Decimal = KisDecimal["stck_oprc"]
@@ -234,8 +235,6 @@ class KisDomesticQuote(KisAPIResponse, KisQuote):
     """통화코드"""
     exchange_rate: Decimal = Decimal(1)
     """당일환율"""
-    prev_exchange_rate: Decimal = Decimal(1)
-    """전일환율"""
 
     def __pre_init__(self, data: dict):
         if data["output"]["stck_prpr"] == "0":
@@ -310,13 +309,13 @@ class KisOverseasQuote(KisAPIResponse, KisQuote):
         """전일대비"""
         return self.price - self.prev_price
 
-    indicator: KisOverseasIndicator = KisAny(
+    indicator: KisOverseasIndicator = KisTransform(
         lambda x: KisObject.transform_(
             x,
             KisOverseasIndicator,
             ignore_missing=True,
         )
-    )["output"]
+    )()
     """종목 지표"""
 
     open: Decimal = KisDecimal["open"]
@@ -332,7 +331,7 @@ class KisOverseasQuote(KisAPIResponse, KisQuote):
     """하한가"""
     unit: Decimal = KisDecimal["vnit"]
     """거래단위"""
-    tick: Decimal = KisDecimal["aspr_unit"]
+    tick: Decimal = KisDecimal["e_hogau"]
     """호가단위"""
     decimal_places: int = KisInt["zdiv"]
     """소수점 자리수"""
@@ -341,8 +340,6 @@ class KisOverseasQuote(KisAPIResponse, KisQuote):
     """통화코드"""
     exchange_rate: Decimal = KisDecimal["t_rate"]
     """당일환율"""
-    prev_exchange_rate: Decimal = KisDecimal["p_rate"]
-    """전일환율"""
 
     def __pre_init__(self, data: dict):
         if not data["output"]["last"]:
@@ -354,7 +351,7 @@ class KisOverseasQuote(KisAPIResponse, KisQuote):
 def domestic_quote(
     self: "PyKis",
     code: str,
-):
+) -> KisDomesticQuote:
     """
     한국투자증권 국내 주식 현재가 조회
 
@@ -374,12 +371,50 @@ def domestic_quote(
         raise ValueError("종목코드를 입력해주세요.")
 
     result = KisDomesticQuote(code, "KRX")
+
     return self.fetch(
         "/uapi/domestic-stock/v1/quotations/inquire-price",
         api="FHKST01010100",
         params={
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": code,
+        },
+        response_type=result,
+        domain="real",
+    )
+
+
+def overseas_quote(
+    self: "PyKis",
+    code: str,
+    market: MARKET_TYPE,
+) -> KisOverseasQuote:
+    """
+    한국투자증권 해외 주식 현재가 조회
+
+    해외주식현재가 -> 해외주식 현재가상세[v1_해외주식-029]
+    (업데이트 날짜: 2023/10/01)
+
+    Args:
+        code (str): 종목코드
+        market (MARKET_TYPE): 시장구분
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 종목 코드가 올바르지 않은 경우
+    """
+    if not code:
+        raise ValueError("종목코드를 입력해주세요.")
+
+    result = KisOverseasQuote(code, market)
+
+    return self.fetch(
+        "/uapi/overseas-price/v1/quotations/price-detail",
+        api="HHDFS76200200",
+        params={
+            "AUTH": "",
+            "EXCD": MARKET_TYPE_SHORT_MAP[market],
+            "SYMB": code,
         },
         response_type=result,
         domain="real",

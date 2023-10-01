@@ -4,7 +4,7 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, Any
 
 from pykis.__env__ import TIMEZONE
-from pykis.api.stock.chart import KisChart, KisChartBar
+from pykis.api.stock.chart import KisChart, KisChartBar, TChart
 from pykis.api.stock.market import MARKET_TYPE, MARKET_TYPE_SHORT_MAP, KisTradingHours
 from pykis.responses.dynamic import KisList, KisObject, KisTransform
 from pykis.responses.response import KisResponse
@@ -142,11 +142,11 @@ class KisOverseasDayChart(KisResponse, KisChart):
 
 
 def drop_after(
-    chart: KisChart,
+    chart: TChart,
     start: time | None = None,
     end: time | None = None,
     step: int | None = None,
-):
+) -> TChart:
     bars = []
 
     for i, bar in enumerate(chart.bars):
@@ -173,7 +173,7 @@ def domestic_day_chart(
     start: time | None = None,
     end: time | None = None,
     step: int = 1,
-):
+) -> KisDomesticDayChart:
     """
     한국투자증권 국내 당일 봉 차트 조회
 
@@ -274,7 +274,7 @@ def overseas_day_chart(
     end: time | None = None,
     step: int = 1,
     once: bool = False,
-):
+) -> KisOverseasDayChart:
     """
     한국투자증권 해외 당일 봉 차트 조회
 

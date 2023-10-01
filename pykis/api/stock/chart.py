@@ -1,7 +1,7 @@
 from datetime import datetime, tzinfo
 from decimal import Decimal
+from typing import TypeVar
 from pykis.api.stock.base.product import KisProductBase
-from pykis.api.stock.market import MARKET_TYPE
 from pykis.responses.dynamic import KisDynamic
 
 
@@ -33,3 +33,6 @@ class KisChart(KisDynamic, KisProductBase):
     """시간대"""
     bars: list[KisChartBar]
     """차트"""
+
+
+TChart = TypeVar("TChart", bound=KisChart)
