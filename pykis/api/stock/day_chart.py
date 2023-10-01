@@ -1,14 +1,14 @@
 import math
 from datetime import datetime, time, timedelta, tzinfo
+from decimal import Decimal
 from typing import TYPE_CHECKING, Any
 
 from pykis.__env__ import TIMEZONE
 from pykis.api.stock.chart import KisChart, KisChartBar
 from pykis.api.stock.market import MARKET_TYPE, MARKET_TYPE_SHORT_MAP, KisTradingHours
-from pykis.client.exception import KisAPIError
 from pykis.responses.dynamic import KisList, KisObject, KisTransform
 from pykis.responses.response import KisResponse
-from pykis.responses.types import KisFloat, KisTime
+from pykis.responses.types import KisDecimal, KisTime
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -31,17 +31,17 @@ class KisDomesticDayChartBar(KisChartBar):
         ).replace(tzinfo=TIMEZONE)
     ]
     """시간 (한국시간)"""
-    open: float = KisFloat["stck_oprc"]
+    open: Decimal = KisDecimal["stck_oprc"]
     """시가"""
-    close: float = KisFloat["stck_prpr"]
+    close: Decimal = KisDecimal["stck_prpr"]
     """종가 (현재가)"""
-    high: float = KisFloat["stck_hgpr"]
+    high: Decimal = KisDecimal["stck_hgpr"]
     """고가"""
-    low: float = KisFloat["stck_lwpr"]
+    low: Decimal = KisDecimal["stck_lwpr"]
     """저가"""
-    volume: float = KisFloat["cntg_vol"]
+    volume: Decimal = KisDecimal["cntg_vol"]
     """거래량"""
-    amount: float = KisFloat["acml_tr_pbmn"]
+    amount: Decimal = KisDecimal["acml_tr_pbmn"]
     """거래대금"""
 
 
@@ -81,17 +81,17 @@ class KisOverseasDayChartBar(KisChartBar):
         ).replace(tzinfo=TIMEZONE)
     ]
     """시간 (한국시간)"""
-    open: float = KisFloat["open"]
+    open: Decimal = KisDecimal["open"]
     """시가"""
-    close: float = KisFloat["last"]
+    close: Decimal = KisDecimal["last"]
     """종가 (현재가)"""
-    high: float = KisFloat["high"]
+    high: Decimal = KisDecimal["high"]
     """고가"""
-    low: float = KisFloat["low"]
+    low: Decimal = KisDecimal["low"]
     """저가"""
-    volume: float = KisFloat["evol"]
+    volume: Decimal = KisDecimal["evol"]
     """거래량"""
-    amount: float = KisFloat["eamt"]
+    amount: Decimal = KisDecimal["eamt"]
     """거래대금"""
 
 

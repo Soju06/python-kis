@@ -1,4 +1,5 @@
 from datetime import date, datetime, time, tzinfo
+from decimal import Decimal
 from typing import Any, Callable
 
 from pykis.__env__ import TIMEZONE
@@ -56,6 +57,11 @@ class KisInt(KisType[int], metaclass=KisTypeMeta[int]):
 
 
 class KisFloat(KisType[float], metaclass=KisTypeMeta):
+    """
+    금액을 표현 할 경우 부동소수점인 float 타입을 사용하면 정확한 값을 표현할 수 없습니다.
+    따라서 금액을 표현할 때는 Decimal 타입을 사용하십시오.
+    """
+
     __default__ = []
 
     def transform(self, data: Any) -> float:
@@ -67,6 +73,18 @@ class KisFloat(KisType[float], metaclass=KisTypeMeta):
 
         return float(data)
 
+
+class KisDecimal(KisType[Decimal], metaclass=KisTypeMeta):
+    __default__ = []
+
+    def transform(self, data: Any) -> Decimal:
+        if isinstance(data, Decimal):
+            return data
+
+        if data == "":
+            raise KisNoneError
+
+        return Decimal(data)
 
 class KisBool(KisType[bool], metaclass=KisTypeMeta):
     __default__ = []

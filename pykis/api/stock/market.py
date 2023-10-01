@@ -45,6 +45,15 @@ MARKET_TYPE_KOR_MAP = {
     "SZAA": "심천",
 }
 
+CURRENCY_TYPE = Literal[
+    "KRW",
+    "USD",
+    "JPY",
+    "HKD",
+    "VND",
+    "CNY",
+]
+
 MARKET_TIMEZONE_MAP = {
     "KRX": "Asia/Seoul",
     "NASD": "America/New_York",
