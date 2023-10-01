@@ -419,3 +419,28 @@ def overseas_quote(
         response_type=result,
         domain="real",
     )
+
+
+def quote(
+    self: "PyKis",
+    code: str,
+    market: MARKET_TYPE,
+) -> KisQuote:
+    """
+    한국투자증권 주식 현재가 조회
+
+    국내주식시세 -> 주식현재가 시세[v1_국내주식-008]
+    해외주식현재가 -> 해외주식 현재가상세[v1_해외주식-029]
+
+    Args:
+        code (str): 종목코드
+        market (MARKET_TYPE): 시장구분
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 종목 코드가 올바르지 않은 경우
+    """
+    if market == "KRX":
+        return domestic_quote(self, code)
+    else:
+        return overseas_quote(self, code, market)

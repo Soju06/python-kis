@@ -25,9 +25,6 @@ class KisInfoStock(KisStock):
         )
         self._info = info
 
-    def __repr__(self) -> str:
-        return f"KisInfoStock({self._info.code}, {self._info.name})"
-
     @property
     def info(self) -> KisStockInfo:
         """종목정보 조회"""
