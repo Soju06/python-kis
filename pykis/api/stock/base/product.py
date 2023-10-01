@@ -21,9 +21,19 @@ class KisProductBase(KisObjectBase):
     def info(self):
         """종목정보 조회"""
         from pykis.api.stock.info import info as _info
-        
+
         return _info(
             self.kis,
             code=self.code,
             market=self.market,
+        )
+
+    @property
+    def stock(self):
+        """종목 Scope"""
+        from pykis.scope.stock.info_stock import KisInfoStock
+
+        return KisInfoStock(
+            kis=self.kis,
+            info=self.info,
         )
