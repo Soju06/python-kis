@@ -94,6 +94,23 @@ def domestic_daily_chart(
     period: Literal["day", "week", "month", "year"] = "day",
     adjust: bool = False,
 ):
+    """
+    한국투자증권 국내 기간 차트 조회
+
+    국내주식시세 -> 국내주식기간별시세(일/주/월/년)[v1_국내주식-016]
+    (업데이트 날짜: 2023-10-02)
+
+    Args:
+        code (str): 종목 코드
+        start (date, optional): 조회 시작 시간. Defaults to None.
+        end (date, optional): 조회 종료 시간. Defaults to None.
+        period (Literal["day", "week", "month", "year"], optional): 조회 기간. Defaults to "day".
+        adjust (bool, optional): 수정 주가 여부. Defaults to False.
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 조회 파라미터가 올바르지 않은 경우
+    """
     if not code:
         raise ValueError("종목 코드를 입력해주세요.")
 
