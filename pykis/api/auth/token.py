@@ -62,6 +62,7 @@ def token_issue(self: "PyKis"):
         response_type=KisAccessToken,
         method="POST",
         auth=False,
+        verbose=False,
     )
 
 

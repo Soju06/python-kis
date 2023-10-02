@@ -145,7 +145,7 @@ def drop_after(
     chart: TChart,
     start: time | None = None,
     end: time | None = None,
-    step: int | None = None,
+    period: int | None = None,
 ) -> TChart:
     bars = []
 
@@ -156,7 +156,7 @@ def drop_after(
         if end and bar.time.time() > end:
             continue
 
-        if step and i % step != 0:
+        if period and i % period != 0:
             continue
 
         bar.time.replace(tzinfo=chart.timezone)
@@ -172,7 +172,7 @@ def domestic_day_chart(
     code: str,
     start: time | None = None,
     end: time | None = None,
-    step: int = 1,
+    period: int = 1,
 ) -> KisDomesticDayChart:
     """
     한국투자증권 국내 당일 봉 차트 조회
@@ -184,7 +184,7 @@ def domestic_day_chart(
         code (str): 종목코드
         start (time, optional): 조회 시작 시간. Defaults to None.
         end (time, optional): 조회 종료 시간. Defaults to None.
-        step (int, optional): 조회 간격 (분). Defaults to 1.
+        period (int, optional): 조회 간격 (분). Defaults to 1.
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
@@ -193,7 +193,7 @@ def domestic_day_chart(
     if not code:
         raise ValueError("종목 코드를 입력해주세요.")
 
-    if step < 1:
+    if period < 1:
         raise ValueError("간격은 1분 이상이어야 합니다.")
 
     if start and end and start > end:
@@ -203,10 +203,6 @@ def domestic_day_chart(
     chart = None
 
     while True:
-        result = KisDomesticDayChart(
-            code=code,
-            market="KRX",
-        )
         result = self.fetch(
             "/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice",
             api="FHKST03010200",
@@ -217,7 +213,10 @@ def domestic_day_chart(
                 "FID_INPUT_HOUR_1": time.strftime(cursor or time(0, 0, 0), "%H%M%S"),
                 "FID_PW_DATA_INCU_YN": "N",
             },
-            response_type=result,
+            response_type=KisDomesticDayChart(
+                code=code,
+                market="KRX",
+            ),
             domain="real",
         )
 
@@ -235,7 +234,7 @@ def domestic_day_chart(
         if chart and result != chart:
             chart.bars.extend(result.bars)
 
-        if start and cursor and cursor <= start:
+        if start and last <= start:
             break
 
         cursor = (
@@ -250,12 +249,12 @@ def domestic_day_chart(
         chart,
         start=start,
         end=end,
-        step=step,
+        period=period,
     )
 
 
 OVERSEAS_MAX_RECORDS = 120
-OVERSEAS_MAX_STEPS = math.ceil(24 * 60 / OVERSEAS_MAX_RECORDS)
+OVERSEAS_MAX_PERIODS = math.ceil(24 * 60 / OVERSEAS_MAX_RECORDS)
 
 
 records = 120
@@ -272,7 +271,7 @@ def overseas_day_chart(
     market: MARKET_TYPE,
     start: time | None = None,
     end: time | None = None,
-    step: int = 1,
+    period: int = 1,
     once: bool = False,
 ) -> KisOverseasDayChart:
     """
@@ -289,7 +288,7 @@ def overseas_day_chart(
         market (MARKET_TYPE): 시장 종류
         start (time, optional): 조회 시작 시간. Defaults to None.
         end (time, optional): 조회 종료 시간. Defaults to None.
-        step (int, optional): 조회 간격 (분). Defaults to 1.
+        period (int, optional): 조회 간격 (분). Defaults to 1.
         once (bool, optional): 한 번만 조회할지 여부. Defaults to False.
 
     Raises:
@@ -299,7 +298,7 @@ def overseas_day_chart(
     if not code:
         raise ValueError("종목 코드를 입력해주세요.")
 
-    if step < 1:
+    if period < 1:
         raise ValueError("간격은 1분 이상이어야 합니다.")
 
     if market == "KRX":
@@ -309,11 +308,7 @@ def overseas_day_chart(
     chart = None
     bars = {}
 
-    for i in range(OVERSEAS_MAX_STEPS):
-        result = KisOverseasDayChart(
-            code=code,
-            market=market,
-        )
+    for i in range(OVERSEAS_MAX_PERIODS):
         result = self.fetch(
             "/uapi/overseas-price/v1/quotations/inquire-time-itemchartprice",
             api="HHDFS76950200",
@@ -328,7 +323,10 @@ def overseas_day_chart(
                 "FILL": "",
                 "KEYB": "",
             },
-            response_type=result,
+            response_type=KisOverseasDayChart(
+                code=code,
+                market=market,
+            ),
             domain="real",
         )
 
@@ -363,7 +361,7 @@ def overseas_day_chart(
         chart,  # type: ignore
         start=start,
         end=end,
-        step=step,
+        period=period,
     )
 
 
@@ -373,7 +371,7 @@ def day_chart(
     market: MARKET_TYPE,
     start: time | None = None,
     end: time | None = None,
-    step: int = 1,
+    period: int = 1,
 ) -> KisChart:
     """
     한국투자증권 당일 봉 차트 조회
@@ -389,7 +387,7 @@ def day_chart(
         market (MARKET_TYPE): 시장 종류
         start (time, optional): 조회 시작 시간. Defaults to None.
         end (time, optional): 조회 종료 시간. Defaults to None.
-        step (int, optional): 조회 간격 (분). Defaults to 1.
+        period (int, optional): 조회 간격 (분). Defaults to 1.
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
@@ -401,7 +399,7 @@ def day_chart(
             code,
             start=start,
             end=end,
-            step=step,
+            period=period,
         )
     else:
         return overseas_day_chart(
@@ -410,5 +408,5 @@ def day_chart(
             market,
             start=start,
             end=end,
-            step=step,
+            period=period,
         )
