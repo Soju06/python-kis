@@ -162,6 +162,7 @@ class PyKis:
         auth: bool = True,
         api: str | None = None,
         response_type: TDynamic | type[TDynamic] | Callable[[], TDynamic] = KisDynamicDict,
+        verbose: bool = True,
     ) -> TDynamic:
         if api is not None:
             if headers is None:
@@ -182,6 +183,17 @@ class PyKis:
 
         data = resp.json()
         data["__response__"] = resp
+
+        if verbose:
+            logging.logger.debug(
+                f"API [%s]: %s, %s -> %s:%s (%s)",
+                api or path,
+                params or ".",
+                body or ".",
+                data.get("rt_cd", "."),
+                data.get("msg_cd", "."),
+                data.get("msg1", ".").strip(),
+            )
 
         response_object = KisObject.transform_(
             data=data,
