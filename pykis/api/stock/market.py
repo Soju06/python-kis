@@ -1,4 +1,5 @@
 from datetime import time, tzinfo
+from enum import Flag, auto
 from typing import Literal
 
 import pytz
@@ -65,6 +66,59 @@ MARKET_TIMEZONE_MAP = {
     "VNSE": "Asia/Ho_Chi_Minh",
     "SHAA": "Asia/Shanghai",
     "SZAA": "Asia/Shanghai",
+}
+
+
+class ExDateType(Flag):
+    """락 구분"""
+
+    NONE = 0
+    """없음"""
+
+    INTERIM = 1
+    """중간 구분"""
+    QUARTERLY = 2
+    """분기 구분"""
+
+    EX_DIVIDEND = 4
+    """배당락"""
+    EX_RIGHTS = 8
+    """권리락"""
+    EX_DISTRIBUTION = 16
+    """분배락"""
+
+    def __str__(self) -> str:
+        """락 구분 한글로 변환"""
+        return EX_DATE_TYPE_KOR_MAP[self]
+
+    @classmethod
+    def from_code(cls, code: str) -> "ExDateType":
+        """락 구분 코드로 락 구분 생성"""
+        return cls(EX_DATE_TYPE_CODE_MAP[code])
+
+
+EX_DATE_TYPE_CODE_MAP = {
+    "00": ExDateType.NONE,
+    "01": ExDateType.EX_RIGHTS,
+    "02": ExDateType.EX_DIVIDEND,
+    "03": ExDateType.EX_DISTRIBUTION,
+    "04": ExDateType.EX_RIGHTS | ExDateType.EX_DIVIDEND,
+    "05": ExDateType.INTERIM | ExDateType.QUARTERLY | ExDateType.EX_DIVIDEND,
+    "06": ExDateType.INTERIM | ExDateType.EX_RIGHTS | ExDateType.EX_DIVIDEND,
+    "07": ExDateType.QUARTERLY | ExDateType.EX_RIGHTS | ExDateType.EX_DIVIDEND,
+}
+
+EX_DATE_TYPE_KOR_MAP = {
+    ExDateType.NONE: "없음",
+    ExDateType.INTERIM: "중간",
+    ExDateType.QUARTERLY: "분기",
+    ExDateType.EX_DIVIDEND: "배당락",
+    ExDateType.EX_RIGHTS: "권리락",
+    ExDateType.EX_DISTRIBUTION: "분배락",
+    ExDateType.EX_RIGHTS | ExDateType.EX_DIVIDEND: "권리락/배당락",
+    ExDateType.INTERIM | ExDateType.QUARTERLY | ExDateType.EX_DIVIDEND: "중간/분기/배당락",
+    ExDateType.INTERIM | ExDateType.EX_RIGHTS | ExDateType.EX_DIVIDEND: "중간/권리락/배당락",
+    ExDateType.QUARTERLY | ExDateType.EX_RIGHTS | ExDateType.EX_DIVIDEND: "분기/권리락/배당락",
 }
 
 
