@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING, Literal
+
 from pykis.api.stock.base.product import KisProductBase
 from pykis.api.stock.market import MARKET_TYPE
-
 from pykis.client.exception import KisAPIError
-from pykis.responses.response import KisAPIResponse
+from pykis.responses.response import KisAPIResponse, raise_not_found
 from pykis.responses.types import KisString
 from pykis.utils.cache import set_cache
 
@@ -180,7 +180,7 @@ def info(
     self: "PyKis",
     code: str,
     market: MARKET_INFO_TYPES = "주식",
-):
+) -> KisStockInfo:
     """
     상품기본정보 조회.
 
@@ -193,6 +193,7 @@ def info(
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     if not code:
@@ -200,6 +201,8 @@ def info(
 
     if market == None:
         market = "전체"
+
+    ex = None
 
     for market_ in MARKET_TYPE_MAP.get(market, [market]):
         try:
@@ -218,8 +221,14 @@ def info(
         except KisAPIError as e:
             if e.rt_cd == 7:
                 # 조회된 데이터가 없는 경우
+                ex = e
                 continue
 
             raise e
 
-    raise ValueError(f"해당 종목의 정보를 조회할 수 없습니다. (종목코드: {code})")
+    raise raise_not_found(
+        ex.data if ex else {},
+        "해당 종목의 정보를 조회할 수 없습니다.",
+        code=code,
+        market=market,
+    )

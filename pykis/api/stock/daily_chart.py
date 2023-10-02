@@ -5,10 +5,9 @@ from typing import TYPE_CHECKING, Any, Literal
 from pykis.__env__ import TIMEZONE
 from pykis.api.stock.chart import KisChart, KisChartBar, TChart
 from pykis.api.stock.market import EX_DATE_TYPE_CODE_MAP, MARKET_TYPE, ExDateType
-from pykis.api.stock.quote import KisQuote
-from pykis.responses.dynamic import KisList, KisObject
-from pykis.responses.response import KisResponse
-from pykis.responses.types import KisAny, KisDatetime, KisDecimal, KisString
+from pykis.responses.dynamic import KisList
+from pykis.responses.response import KisResponse, raise_not_found
+from pykis.responses.types import KisAny, KisDatetime, KisDecimal
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -56,7 +55,12 @@ class KisDomesticDailyChart(KisResponse, KisChart):
         super().__pre_init__(data)
 
         if data["output1"]["stck_prpr"] == "0":
-            raise ValueError(f"해당 종목의 차트를 조회할 수 없습니다. (종목코드: {self.code})")
+            raise_not_found(
+                data,
+                "해당 종목의 차트를 조회할 수 없습니다.",
+                code=self.code,
+                market=self.market,
+            )
 
         data["output2"] = [x for x in data["output2"] if x]
 
@@ -109,6 +113,7 @@ def domestic_daily_chart(
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 조회 파라미터가 올바르지 않은 경우
     """
     if not code:

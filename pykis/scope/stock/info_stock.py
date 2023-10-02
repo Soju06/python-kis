@@ -34,7 +34,7 @@ class KisInfoStock(KisStock):
 def stock(
     self: "PyKis",
     code: str,
-    market: MARKET_TYPE | None = "KRX",
+    market: MARKET_TYPE | None = None,
 ) -> KisInfoStock:
     """
     종목을 조회하고 종목 Scope를 반환합니다.
