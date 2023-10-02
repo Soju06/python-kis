@@ -1,13 +1,13 @@
 from datetime import date, datetime
 from decimal import Decimal
 from typing import TYPE_CHECKING, Literal
+
 from pykis.__env__ import TIMEZONE
 from pykis.api.stock.base.product import KisProductBase
 from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE, MARKET_TYPE_SHORT_MAP
 from pykis.responses.dynamic import KisDynamic, KisObject, KisTransform
-from pykis.responses.response import KisAPIResponse
+from pykis.responses.response import KisAPIResponse, raise_not_found
 from pykis.responses.types import KisAny, KisBool, KisDate, KisDecimal, KisInt, KisString
-from pykis.utils.cache import cached
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -238,7 +238,12 @@ class KisDomesticQuote(KisAPIResponse, KisQuote):
 
     def __pre_init__(self, data: dict):
         if data["output"]["stck_prpr"] == "0":
-            raise ValueError(f"해당 종목의 현재가를 조회할 수 없습니다. (종목코드: {self.code})")
+            raise_not_found(
+                data,
+                "해당 종목의 현재가를 조회할 수 없습니다.",
+                code=self.code,
+                market=self.market,
+            )
 
         super().__pre_init__(data)
 
@@ -343,7 +348,12 @@ class KisOverseasQuote(KisAPIResponse, KisQuote):
 
     def __pre_init__(self, data: dict):
         if not data["output"]["last"]:
-            raise ValueError(f"해당 종목의 현재가를 조회할 수 없습니다. (종목코드: {self.code})")
+            raise_not_found(
+                data,
+                "해당 종목의 현재가를 조회할 수 없습니다.",
+                code=self.code,
+                market=self.market,
+            )
 
         super().__pre_init__(data)
 
@@ -365,6 +375,7 @@ def domestic_quote(
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     if not code:
@@ -401,6 +412,7 @@ def overseas_quote(
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     if not code:
@@ -438,6 +450,7 @@ def quote(
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     if market == "KRX":

@@ -1,4 +1,5 @@
 from collections import namedtuple
+from typing import Any
 from urllib.parse import urlparse, parse_qs
 from requests import Response
 
@@ -84,6 +85,8 @@ class KisHTTPError(KisException):
 class KisAPIError(KisException):
     """API 예외 베이스 클래스"""
 
+    data: dict[str, Any]
+    """응답 데이터"""
     rt_cd: int | None
     """응답 코드"""
     tr_id: str | None
@@ -115,6 +118,7 @@ class KisAPIError(KisException):
             response=response,
         )
 
+        self.data = data
         self.rt_cd = rt_cd
         self.tr_id = tr_id
         self.gt_uid = gt_uid

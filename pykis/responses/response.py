@@ -4,7 +4,28 @@ from requests import Response
 from pykis.client.exception import KisAPIError
 from pykis.client.object import KisObjectBase
 from pykis.responses.dynamic import KisDynamic
+from pykis.responses.exception import KisNotFoundError
 from pykis.responses.types import KisAny, KisString
+
+
+def raise_not_found(data: dict[str, Any], message: str | None = None, **fields: Any) -> KisNotFoundError:
+    """
+    응답 데이터가 없음 예외를 발생시킵니다.
+
+    Args:
+        data (dict[str, Any]): 응답 데이터
+        message (str | None, optional): 예외 메시지. Defaults to None.
+        fields (dict[str, Any], optional): 요청 조건 필드. Defaults to {}.
+
+    Raises:
+        KisNotFoundError: 응답 데이터가 없는 경우
+    """
+    raise KisNotFoundError(
+        data=data,
+        response=data["__response__"],
+        message=message,
+        fields=fields,
+    )
 
 
 class KisResponse(KisDynamic, KisObjectBase):

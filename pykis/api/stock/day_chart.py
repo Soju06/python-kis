@@ -7,7 +7,7 @@ from pykis.__env__ import TIMEZONE
 from pykis.api.stock.chart import KisChart, KisChartBar, TChart
 from pykis.api.stock.market import MARKET_TYPE, MARKET_TYPE_SHORT_MAP, KisTradingHours
 from pykis.responses.dynamic import KisList, KisObject, KisTransform
-from pykis.responses.response import KisResponse
+from pykis.responses.response import KisResponse, raise_not_found
 from pykis.responses.types import KisDecimal, KisTime
 
 if TYPE_CHECKING:
@@ -61,7 +61,12 @@ class KisDomesticDayChart(KisResponse, KisChart):
         super().__pre_init__(data)
 
         if data["output1"]["stck_prpr"] == "0":
-            raise ValueError(f"해당 종목의 차트를 조회할 수 없습니다. (종목코드: {self.code})")
+            raise_not_found(
+                data,
+                "해당 종목의 차트를 조회할 수 없습니다.",
+                code=self.code,
+                market=self.market,
+            )
 
 
 class KisOverseasDayChartBar(KisChartBar):
@@ -131,7 +136,12 @@ class KisOverseasDayChart(KisResponse, KisChart):
         super().__pre_init__(data)
 
         if not data["output1"]["nrec"]:
-            raise ValueError(f"해당 종목의 차트를 조회할 수 없습니다. (종목코드: {self.code})")
+            raise_not_found(
+                data,
+                "해당 종목의 차트를 조회할 수 없습니다.",
+                code=self.code,
+                market=self.market,
+            )
 
         self.timezone = KisObject.transform_(
             data["output1"],
@@ -188,6 +198,7 @@ def domestic_day_chart(
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 조회 파라미터가 올바르지 않은 경우
     """
     if not code:
@@ -293,6 +304,7 @@ def overseas_day_chart(
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 조회 파라미터가 올바르지 않은 경우
     """
     if not code:
@@ -391,6 +403,7 @@ def day_chart(
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 조회 파라미터가 올바르지 않은 경우
     """
     if market == "KRX":
