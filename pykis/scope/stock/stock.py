@@ -1,12 +1,9 @@
 from typing import TYPE_CHECKING
 
-from pykis.api.stock.info import info as _info
 from pykis.api.stock.market import MARKET_TYPE
-from pykis.api.stock.quote import quote as _quote
 from pykis.client.account import KisAccountNumber
 from pykis.scope.account.account import KisAccountScope
 from pykis.scope.base.product import KisProductScopeBase
-from pykis.utils.cache import cached
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis

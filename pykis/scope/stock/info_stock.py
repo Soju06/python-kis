@@ -30,6 +30,11 @@ class KisInfoStock(KisStock):
         """종목정보 조회"""
         return self._info
 
+    @property
+    def stock(self) -> "KisInfoStock":
+        """종목 Scope"""
+        return self
+
 
 def stock(
     self: "PyKis",
