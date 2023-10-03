@@ -68,6 +68,8 @@ MARKET_TIMEZONE_MAP = {
     "SZAA": "Asia/Shanghai",
 }
 
+MARKET_TIMEZONE_OBJECT_MAP = {key: pytz.timezone(value) for key, value in MARKET_TIMEZONE_MAP.items()}
+
 
 class ExDateType(Flag):
     """락 구분"""
@@ -139,7 +141,7 @@ class KisTradingHours(KisDynamic):
     @property
     def timezone(self) -> tzinfo:
         """시간대"""
-        return pytz.timezone(MARKET_TIMEZONE_MAP[self.market])
+        return MARKET_TIMEZONE_OBJECT_MAP[self.market]
 
     @property
     def market_name(self) -> str:

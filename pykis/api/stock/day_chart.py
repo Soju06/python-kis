@@ -273,10 +273,13 @@ class KisOverseasDayChart(KisResponse, KisDayChart):
 
 def drop_after(
     chart: TChart,
-    start: time | None = None,
+    start: time | timedelta | None = None,
     end: time | None = None,
     period: int | None = None,
 ) -> TChart:
+    if isinstance(start, timedelta):
+        start = (chart.bars[0].time - start).time()
+
     bars = []
 
     for i, bar in enumerate(chart.bars):
@@ -300,7 +303,7 @@ def drop_after(
 def domestic_day_chart(
     self: "PyKis",
     code: str,
-    start: time | None = None,
+    start: time | timedelta | None = None,
     end: time | None = None,
     period: int = 1,
 ) -> KisDomesticDayChart:
@@ -312,7 +315,7 @@ def domestic_day_chart(
 
     Args:
         code (str): 종목코드
-        start (time, optional): 조회 시작 시간. Defaults to None.
+        start (time | timedelta, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
         end (time, optional): 조회 종료 시간. Defaults to None.
         period (int, optional): 조회 간격 (분). Defaults to 1.
 
@@ -327,7 +330,7 @@ def domestic_day_chart(
     if period < 1:
         raise ValueError("간격은 1분 이상이어야 합니다.")
 
-    if start and end and start > end:
+    if isinstance(start, time) and end and start > end:
         raise ValueError("시작 시간은 종료 시간보다 이전이어야 합니다.")
 
     cursor = end
@@ -365,6 +368,9 @@ def domestic_day_chart(
         if chart and result != chart:
             chart.bars.extend(result.bars)
 
+        if isinstance(start, timedelta):
+            start = (chart.bars[0].time - start).time()
+
         if start and last <= start:
             break
 
@@ -400,7 +406,7 @@ def overseas_day_chart(
     self: "PyKis",
     code: str,
     market: MARKET_TYPE,
-    start: time | None = None,
+    start: time | timedelta | None = None,
     end: time | None = None,
     period: int = 1,
     once: bool = False,
@@ -417,7 +423,7 @@ def overseas_day_chart(
     Args:
         code (str): 종목코드
         market (MARKET_TYPE): 시장 종류
-        start (time, optional): 조회 시작 시간. Defaults to None.
+        start (time | timedelta, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
         end (time, optional): 조회 종료 시간. Defaults to None.
         period (int, optional): 조회 간격 (분). Defaults to 1.
         once (bool, optional): 한 번만 조회할지 여부. Defaults to False.
@@ -473,6 +479,9 @@ def overseas_day_chart(
             if bar.time.time() not in bars:
                 bars[bar.time.time()] = bar
 
+        if isinstance(start, timedelta):
+            start = (chart.bars[0].time - start).time()
+
         if start and last <= start:
             break
 
@@ -495,7 +504,7 @@ def day_chart(
     self: "PyKis",
     code: str,
     market: MARKET_TYPE,
-    start: time | None = None,
+    start: time | timedelta | None = None,
     end: time | None = None,
     period: int = 1,
 ) -> KisDayChart:
@@ -511,7 +520,7 @@ def day_chart(
     Args:
         code (str): 종목코드
         market (MARKET_TYPE): 시장 종류
-        start (time, optional): 조회 시작 시간. Defaults to None.
+        start (time | timedelta, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
         end (time, optional): 조회 종료 시간. Defaults to None.
         period (int, optional): 조회 간격 (분). Defaults to 1.
 

@@ -2,13 +2,11 @@ from datetime import date, datetime, timedelta, tzinfo
 from decimal import Decimal
 from typing import TYPE_CHECKING, Any, Literal
 
-import pytz
-
 from pykis.__env__ import TIMEZONE
 from pykis.api.stock.chart import KisChart, KisChartBar, TChart
 from pykis.api.stock.market import (
     EX_DATE_TYPE_CODE_MAP,
-    MARKET_TIMEZONE_MAP,
+    MARKET_TIMEZONE_OBJECT_MAP,
     MARKET_TYPE,
     MARKET_TYPE_SHORT_MAP,
     ExDateType,
@@ -147,16 +145,19 @@ class KisOverseasDailyChart(KisResponse, KisDailyChart):
                 market=self.market,
             )
 
-        self.timezone = pytz.timezone(MARKET_TIMEZONE_MAP[self.market])
+        self.timezone = MARKET_TIMEZONE_OBJECT_MAP[self.market]
 
         data["output2"] = data["output2"][: int(record_size)]
 
 
 def drop_after(
     chart: TChart,
-    start: date | None = None,
+    start: date | timedelta | None = None,
     end: date | None = None,
 ) -> TChart:
+    if isinstance(start, timedelta):
+        start = (chart.bars[0].time - start).date()
+
     bars = []
 
     for i, bar in enumerate(chart.bars):
@@ -177,7 +178,7 @@ def drop_after(
 def domestic_daily_chart(
     self: "PyKis",
     code: str,
-    start: date | None = None,
+    start: date | timedelta | None = None,
     end: date | None = None,
     period: Literal["day", "week", "month", "year"] = "day",
     adjust: bool = False,
@@ -190,7 +191,7 @@ def domestic_daily_chart(
 
     Args:
         code (str): 종목 코드
-        start (date, optional): 조회 시작 시간. Defaults to None.
+        start (date, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
         end (date, optional): 조회 종료 시간. Defaults to None.
         period (Literal["day", "week", "month", "year"], optional): 조회 기간. Defaults to "day".
         adjust (bool, optional): 수정 주가 여부. Defaults to False.
@@ -203,7 +204,7 @@ def domestic_daily_chart(
     if not code:
         raise ValueError("종목 코드를 입력해주세요.")
 
-    if start and end and start > end:
+    if isinstance(start, date) and end and start > end:
         raise ValueError("시작 시간은 종료 시간보다 이전이어야 합니다.")
 
     if not end:
@@ -222,7 +223,7 @@ def domestic_daily_chart(
             params={
                 "FID_COND_MRKT_DIV_CODE": "J",
                 "FID_INPUT_ISCD": code,
-                "FID_INPUT_DATE_1": start.strftime("%Y%m%d") if start else "00000101",
+                "FID_INPUT_DATE_1": start.strftime("%Y%m%d") if isinstance(start, date) else "00000101",
                 "FID_INPUT_DATE_2": cursor.strftime("%Y%m%d"),
                 "FID_PERIOD_DIV_CODE": "D"
                 if period == "day"
@@ -254,6 +255,9 @@ def domestic_daily_chart(
         if chart and result != chart:
             chart.bars.extend(result.bars)
 
+        if isinstance(start, timedelta):
+            start = (chart.bars[0].time - start).date()
+
         if start and last <= start:
             break
 
@@ -270,7 +274,7 @@ def overseas_daily_chart(
     self: "PyKis",
     code: str,
     market: MARKET_TYPE,
-    start: date | None = None,
+    start: date | timedelta | None = None,
     end: date | None = None,
     period: Literal["day", "week", "month", "year"] = "day",
     adjust: bool = False,
@@ -284,7 +288,7 @@ def overseas_daily_chart(
     Args:
         code (str): 종목 코드
         market (MARKET_TYPE): 시장 구분
-        start (date, optional): 조회 시작 시간. Defaults to None.
+        start (date, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
         end (date, optional): 조회 종료 시간. Defaults to None.
         period (Literal["day", "week", "month", "year"], optional): 조회 기간. Defaults to "day".
         adjust (bool, optional): 수정 주가 여부. Defaults to False.
@@ -297,7 +301,7 @@ def overseas_daily_chart(
     if not code:
         raise ValueError("종목 코드를 입력해주세요.")
 
-    if start and end and start > end:
+    if isinstance(start, date) and end and start > end:
         raise ValueError("시작 시간은 종료 시간보다 이전이어야 합니다.")
 
     cursor = end
@@ -336,6 +340,9 @@ def overseas_daily_chart(
 
         if chart and result != chart:
             chart.bars.extend(result.bars)
+
+        if isinstance(start, timedelta):
+            start = (chart.bars[0].time - start).date()
 
         if start and last <= start:
             break
@@ -382,7 +389,7 @@ def daily_chart(
     self: "PyKis",
     code: str,
     market: MARKET_TYPE,
-    start: date | None = None,
+    start: date | timedelta | None = None,
     end: date | None = None,
     period: Literal["day", "week", "month", "year"] = "day",
     adjust: bool = False,
@@ -396,7 +403,7 @@ def daily_chart(
     Args:
         code (str): 종목 코드
         market (MARKET_TYPE): 시장 구분
-        start (date, optional): 조회 시작 시간. Defaults to None.
+        start (date, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
         end (date, optional): 조회 종료 시간. Defaults to None.
         period (Literal["day", "week", "month", "year"], optional): 조회 기간. Defaults to "day".
         adjust (bool, optional): 수정 주가 여부. Defaults to False.

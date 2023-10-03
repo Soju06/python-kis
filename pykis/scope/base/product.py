@@ -1,9 +1,10 @@
-from datetime import date, time
+from datetime import date, datetime, time, timedelta
 from typing import TYPE_CHECKING, Literal
 
-from pykis.api.stock.market import MARKET_TYPE, MARKET_TYPE_KOR_MAP
+from pykis.api.stock.market import MARKET_TIMEZONE_OBJECT_MAP, MARKET_TYPE, MARKET_TYPE_KOR_MAP
 from pykis.client.object import KisObjectBase
 from pykis.utils.cache import cached
+from pykis.utils.timex import TIMEX_TYPE, timex
 
 if TYPE_CHECKING:
     from pykis.api.stock.info import KisStockInfo
@@ -31,8 +32,8 @@ class KisProductScopeBase(KisObjectBase):
 
     @property
     def market_name(self) -> str:
-        """시장 종류"""
-        return MARKET_TYPE_KOR_MAP[self.market]
+        """실제 상품유형명"""
+        return MARKET_TYPE_KOR_MAP[self.primary_market]
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(code={self.code}, market={self.market})"
@@ -108,7 +109,7 @@ class KisProductScopeBase(KisObjectBase):
 
     def day_chart(
         self,
-        start: time | None = None,
+        start: time | timedelta | None = None,
         end: time | None = None,
         period: int = 1,
     ) -> "KisDayChart":
@@ -122,7 +123,7 @@ class KisProductScopeBase(KisObjectBase):
         해외주식현재가 -> 해외주식분봉조회[v1_해외주식-030]
 
         Args:
-            start (time, optional): 조회 시작 시간. Defaults to None.
+            start (time | timedelta, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
             end (time, optional): 조회 종료 시간. Defaults to None.
             period (int, optional): 조회 간격 (분). Defaults to 1.
 
@@ -144,7 +145,7 @@ class KisProductScopeBase(KisObjectBase):
 
     def daily_chart(
         self,
-        start: date | None = None,
+        start: date | timedelta | None = None,
         end: date | None = None,
         period: Literal["day", "week", "month", "year"] = "day",
         adjust: bool = False,
@@ -156,7 +157,7 @@ class KisProductScopeBase(KisObjectBase):
         해외주식현재가 -> 해외주식 기간별시세[v1_해외주식-010]
 
         Args:
-            start (date, optional): 조회 시작 시간. Defaults to None.
+            start (date, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
             end (date, optional): 조회 종료 시간. Defaults to None.
             period (Literal["day", "week", "month", "year"], optional): 조회 기간. Defaults to "day".
             adjust (bool, optional): 수정 주가 여부. Defaults to False.
@@ -180,16 +181,17 @@ class KisProductScopeBase(KisObjectBase):
 
     def chart(
         self,
-        start: time | date | None = None,
+        expression: TIMEX_TYPE | None = None,
+        *,
+        start: time | timedelta | date | None = None,
         end: time | date | None = None,
-        period: Literal["1", "5", "10", "30", "60", "day", "week", "month", "year"] = "day",
+        period: int | Literal["day", "week", "month", "year"] = "day",
         adjust: bool = False,
     ) -> "KisDayChart | KisDailyChart":
         """
         한국투자증권 기간 차트 조회
 
-        분봉조회의 경우 `start`, `end` 파라미터가 `time` 타입이어야 하며,
-        기간조회의 경우 `start`, `end` 파라미터가 `date` 타입이어야 합니다.
+        `start` 필드가 지정될 경우 `expression` 필드는 무시됩니다.
 
         분봉조회:
         국내주식시세 -> 주식당일분봉조회[v1_국내주식-022]
@@ -200,18 +202,36 @@ class KisProductScopeBase(KisObjectBase):
         해외주식현재가 -> 해외주식 기간별시세[v1_해외주식-010]
 
         Args:
-            start (date, optional): 조회 시작 시간. Defaults to None.
+            expression (TIMEX_TYPE, optional): 최근 조회 기간 표현식. Defaults to '7d'.
+            start (time | timedelta | date, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
             end (date, optional): 조회 종료 시간. Defaults to None.
-            period (Literal["day", "week", "month", "year"], optional): 조회 기간. Defaults to "day".
+            period (int | Literal["day", "week", "month", "year"], optional): 조회 기간. (타입이 `int`인 경우 분봉 차트의 분틱 값으로 조회합니다.) Defaults to "day".
             adjust (bool, optional): 수정 주가 여부. (분봉조회는 수정주가를 지원하지 않습니다.) Defaults to False.
+
+        Examples:
+            >>> stock.chart("7d") # 7일간의 일 차트 조회
+            >>> stock.chart(period=5) # 당일 5분봉 차트 조회
+            >>> stock.chart(period="week") # 전체 주봉 차트 조회
+            >>> stock.chart("30m", period=1) # 당일 최근 30분간 1분봉 차트 조회
+            >>> stock.chart("1y", period="month") # 1년간의 월봉 차트 조회
+            >>> stock.chart(start=date(2023, 1, 1), end=date(2023, 10, 1)) # 2023년 1월 1일부터 10월 1일까지의 일봉 차트 조회
+
+
 
         Raises:
             KisAPIError: API 호출에 실패한 경우
             KisNotFoundError: 조회 결과가 없는 경우
             ValueError: 조회 파라미터가 올바르지 않은 경우
         """
-        if period in ("1", "5", "10", "30", "60", "hour"):
-            if (start and not isinstance(start, time)) or (end and not isinstance(end, time)):
+        is_day = isinstance(period, int)
+
+        if not start and expression:
+            start = timex(expression)
+
+        if is_day:
+            if (start and not isinstance(start, (time, timedelta))) or (
+                end and not isinstance(end, time)
+            ):
                 raise ValueError("분봉 차트는 시간 타입만 지원합니다.")
 
             if adjust:
@@ -223,7 +243,9 @@ class KisProductScopeBase(KisObjectBase):
                 period=int(period),
             )
         else:
-            if (start and not isinstance(start, date)) or (end and not isinstance(end, date)):
+            if (start and not isinstance(start, (date, timedelta))) or (
+                end and not isinstance(end, date)
+            ):
                 raise ValueError("기간 차트는 날짜 타입만 지원합니다.")
 
             return self.daily_chart(
