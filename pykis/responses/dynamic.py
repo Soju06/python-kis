@@ -133,7 +133,7 @@ class KisDynamic:
     __data__: dict[str, Any]
     """원본 응답 데이터"""
 
-    def __pre_init__(self, data: dict[str, Any]) -> None:
+    def __pre_init__(self, data: dict[str, Any]):
         pass
 
     def __post_init__(self):

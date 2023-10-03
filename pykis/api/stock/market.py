@@ -1,5 +1,5 @@
 from datetime import time, tzinfo
-from enum import Flag, auto
+from enum import Flag
 from typing import Literal
 
 import pytz

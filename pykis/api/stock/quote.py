@@ -12,8 +12,9 @@ from pykis.responses.types import KisAny, KisBool, KisDate, KisDecimal, KisInt, 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
 
-STOCK_SIGN_TYPE = Literal["upper", "rise", "steady", "lower", "decline"]
+STOCK_SIGN_TYPE = Literal["upper", "rise", "steady", "decline", "lower"]
 STOCK_SIGN_TYPE_MAP = {
+    "0": "steady",
     "1": "upper",
     "2": "rise",
     "3": "steady",
@@ -24,8 +25,8 @@ STOCK_SIGN_TYPE_KOR_MAP = {
     "upper": "상한",
     "rise": "상승",
     "steady": "보합",
-    "lower": "하한",
     "decline": "하락",
+    "lower": "하한",
 }
 
 STOCK_RISK_TYPE = Literal["none", "caution", "warning", "risk"]
@@ -134,6 +135,11 @@ class KisQuote(KisDynamic, KisProductBase):
     def rate(self) -> Decimal:
         """등락율 (-100~100)"""
         return self.change / self.prev_price * 100
+
+    @property
+    def sign_name(self) -> str:
+        """대비부호명"""
+        return STOCK_SIGN_TYPE_KOR_MAP[self.sign]
 
 
 class KisDomesticIndicator(KisIndicator):
