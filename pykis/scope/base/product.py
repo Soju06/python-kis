@@ -1,8 +1,8 @@
-from datetime import date, datetime, time, timedelta
+from datetime import date, time, timedelta
 from typing import TYPE_CHECKING, Literal
 
-from pykis.api.stock.market import MARKET_TIMEZONE_OBJECT_MAP, MARKET_TYPE, MARKET_TYPE_KOR_MAP
-from pykis.client.object import KisObjectBase
+from pykis.api.stock.market import MARKET_TYPE
+from pykis.scope.base.market import KisMarketScope
 from pykis.utils.cache import cached
 from pykis.utils.timex import TIMEX_TYPE, timex
 
@@ -14,13 +14,11 @@ if TYPE_CHECKING:
     from pykis.api.stock.daily_chart import KisDailyChart
 
 
-class KisProductScopeBase(KisObjectBase):
+class KisProductScope(KisMarketScope):
     """한국투자증권 상품 기본정보"""
 
     code: str
     """종목코드"""
-    market: MARKET_TYPE | None
-    """상품유형타입"""
 
     @property
     def primary_market(self) -> MARKET_TYPE:
@@ -29,11 +27,6 @@ class KisProductScopeBase(KisObjectBase):
             return self.market
 
         return self.info.market
-
-    @property
-    def market_name(self) -> str:
-        """실제 상품유형명"""
-        return MARKET_TYPE_KOR_MAP[self.primary_market]
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(code={self.code}, market={self.market})"
@@ -88,24 +81,6 @@ class KisProductScopeBase(KisObjectBase):
             code=self.code,
             market=self.primary_market,
         )
-
-    @property
-    @cached
-    def cached_quote(self) -> "KisQuote":
-        """
-        한국투자증권 주식 현재가 조회
-
-        국내주식시세 -> 주식현재가 시세[v1_국내주식-008]
-        해외주식현재가 -> 해외주식 현재가상세[v1_해외주식-029]
-
-        (캐시됨)
-
-        Raises:
-            KisAPIError: API 호출에 실패한 경우
-            KisNotFoundError: 조회 결과가 없는 경우
-            ValueError: 종목 코드가 올바르지 않은 경우
-        """
-        return self.quote()
 
     def day_chart(
         self,
