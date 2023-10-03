@@ -6,10 +6,11 @@ from typing import TYPE_CHECKING, Any
 from pykis.__env__ import TIMEZONE
 from pykis.api.stock.chart import KisChart, KisChartBar, TChart
 from pykis.api.stock.market import MARKET_TYPE, MARKET_TYPE_SHORT_MAP, KisTradingHours
-from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_KOR_MAP, STOCK_SIGN_TYPE_MAP
+from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_KOR_MAP, STOCK_SIGN_TYPE_MAP, KisQuote
 from pykis.responses.dynamic import KisList, KisObject, KisTransform
 from pykis.responses.response import KisResponse, raise_not_found
 from pykis.responses.types import KisAny, KisDecimal, KisTime
+from pykis.utils.cache import cached
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -79,6 +80,30 @@ class KisDayChart(KisChart):
 
         for bar in self.bars:
             bar.chart = self
+
+    @property
+    @cached
+    def cached_quote(self) -> KisQuote:
+        """
+        한국투자증권 주식 현재가 조회
+
+        국내주식시세 -> 주식현재가 시세[v1_국내주식-008]
+        해외주식현재가 -> 해외주식 현재가상세[v1_해외주식-029]
+
+        (캐시됨)
+
+        Raises:
+            KisAPIError: API 호출에 실패한 경우
+            KisNotFoundError: 조회 결과가 없는 경우
+            ValueError: 종목 코드가 올바르지 않은 경우
+        """
+        from pykis.api.stock.quote import quote as _quote
+
+        return _quote(
+            self.kis,
+            code=self.code,
+            market=self.market,
+        )
 
 
 class KisDomesticDayChartBar(KisDayChartBar):
