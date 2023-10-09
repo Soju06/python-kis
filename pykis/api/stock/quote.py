@@ -21,7 +21,7 @@ STOCK_SIGN_TYPE_MAP = {
     "4": "lower",
     "5": "decline",
 }
-STOCK_SIGN_TYPE_KOR_MAP = {
+STOCK_SIGN_TYPE_KOR_MAP: dict[STOCK_SIGN_TYPE, str] = {
     "upper": "상한",
     "rise": "상승",
     "steady": "보합",
