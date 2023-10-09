@@ -11,36 +11,22 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 MARKET_TYPE_MAP = {
-    "주식": ["300"],
-    "선물옵션": ["301"],
-    "채권": ["302"],
-    "국내": ["300", "301", "302"],
+    "KR": ["300", "301", "302"],
     "KRX": ["300", "301", "302"],
-    "나스닥": ["512"],
     "NASD": ["512"],
-    "뉴욕": ["513"],
     "NYSE": ["513"],
-    "아멕스": ["529"],
     "AMEX": ["529"],
-    "미국": ["512", "513", "529"],
-    "일본": ["515"],
+    "US": ["512", "513", "529"],
     "TKSE": ["515"],
-    "홍콩": ["501"],
     "SEHK": ["501"],
-    "홍콩CNY": ["543"],
-    "홍콩USD": ["558"],
-    "홍콩전체": ["501", "543", "558"],
-    "하노이": ["507"],
+    "HK": ["501", "543", "558"],
     "HASE": ["507"],
-    "호치민": ["508"],
     "VNSE": ["508"],
-    "베트남": ["507", "508"],
-    "상해": ["551"],
+    "VN": ["507", "508"],
     "SHAA": ["551"],
-    "심천": ["552"],
     "SZAA": ["552"],
-    "중국": ["551", "552"],
-    "전체": [
+    "CN": ["551", "552"],
+    None: [
         "300",
         "301",
         "302",
@@ -91,23 +77,6 @@ MARKET_CODE = Literal[
     "508",
     "551",
     "552",
-]
-
-MARKET_KOR_TYPE = Literal[
-    "주식",
-    "선물옵션",
-    "채권",
-    "나스닥",
-    "뉴욕",
-    "아멕스",
-    "일본",
-    "홍콩",
-    "홍콩CNY",
-    "홍콩USD",
-    "하노이",
-    "호치민",
-    "상해",
-    "심천",
 ]
 
 MARKET_CODE_MAP = {
@@ -171,18 +140,17 @@ class KisStockInfo(KisAPIResponse, KisProductBase):
         set_cache(self, "info", self)
 
 
-MARKET_INFO_TYPES = (
-    MARKET_KOR_TYPE | MARKET_TYPE | Literal["국내", "미국", "홍콩전체", "베트남", "중국", "전체"] | MARKET_CODE | None
-)
+MARKET_INFO_TYPES = MARKET_TYPE | Literal["KR", "US", "HK", "VN", "CN"] | None
+"""상품유형명"""
 
 
 def info(
     self: "PyKis",
     code: str,
-    market: MARKET_INFO_TYPES = "주식",
+    market: MARKET_INFO_TYPES = "KR",
 ) -> KisStockInfo:
     """
-    상품기본정보 조회.
+    상품기본정보 조회
 
     국내주식시세 -> 상품기본조회[v1_국내주식-029]
     (업데이트 날짜: 2023/09/05)
@@ -199,12 +167,9 @@ def info(
     if not code:
         raise ValueError("종목 코드를 입력해주세요.")
 
-    if market == None:
-        market = "전체"
-
     ex = None
 
-    for market_ in MARKET_TYPE_MAP.get(market, [market]):
+    for market_ in MARKET_TYPE_MAP[market]:
         try:
             result = self.fetch(
                 "/uapi/domestic-stock/v1/quotations/search-info",

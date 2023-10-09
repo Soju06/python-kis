@@ -36,7 +36,7 @@ class KisInfoStock(KisStock):
         return self
 
 
-def stock(
+def info_stock(
     self: "PyKis",
     code: str,
     market: MARKET_TYPE | None = None,

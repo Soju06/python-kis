@@ -13,8 +13,8 @@ def safe_request_data(response: Response):
         header["appkey"] = "***"
     if "appsecret" in header:
         header["appsecret"] = "***"
-    if "authorization" in header:
-        header["authorization"] = f'{header["authorization"].split()[0]} ***'
+    if "Authorization" in header:
+        header["Authorization"] = f'{header["Authorization"].split()[0]} ***'
 
     if response.request.body:
         if isinstance(response.request.body, bytes):

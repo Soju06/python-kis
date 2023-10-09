@@ -86,6 +86,7 @@ class KisDecimal(KisType[Decimal], metaclass=KisTypeMeta):
 
         return Decimal(data)
 
+
 class KisBool(KisType[bool], metaclass=KisTypeMeta):
     __default__ = []
 
@@ -150,7 +151,7 @@ class KisTime(KisType[time], metaclass=KisTypeMeta):
         if data == "":
             raise KisNoneError
 
-        return datetime.strptime(data, "%H%M%S").replace(tzinfo=self.timezone).time()
+        return datetime.strptime(data, self.format).replace(tzinfo=self.timezone).time()
 
 
 class KisDatetime(KisType[datetime], metaclass=KisTypeMeta):

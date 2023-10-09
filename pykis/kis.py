@@ -1,6 +1,6 @@
 from datetime import timedelta
 from os import PathLike
-from typing import Callable, Literal
+from typing import Callable, Iterable, Literal
 from urllib.parse import urljoin
 
 import requests
@@ -10,6 +10,7 @@ from pykis import logging
 from pykis.__env__ import (
     REAL_API_REQUEST_PER_SECOND,
     REAL_DOMAIN,
+    USER_AGENT,
     VIRTUAL_API_REQUEST_PER_SECOND,
     VIRTUAL_DOMAIN,
 )
@@ -18,6 +19,7 @@ from pykis.client.account import KisAccountNumber
 from pykis.client.appkey import KisKey
 from pykis.client.auth import KisAuth
 from pykis.client.exception import KisHTTPError
+from pykis.client.form import KisForm
 from pykis.client.object import KisObjectBase
 from pykis.responses.dynamic import KisObject, TDynamic
 from pykis.responses.types import KisDynamicDict
@@ -96,9 +98,11 @@ class PyKis:
         method: Literal["GET", "POST"] = "GET",
         params: dict[str, str] | None = None,
         body: dict[str, str] | None = None,
+        form: Iterable[KisForm] | None = None,
         headers: dict[str, str] | None = None,
         domain: Literal["real", "virtual"] | None = None,
         appkey_location: Literal["header", "body"] | None = "header",
+        form_location: Literal["header", "params", "body"] | None = None,
         auth: bool = True,
     ) -> Response:
         if method == "GET":
@@ -121,6 +125,19 @@ class PyKis:
 
         if auth:
             self.token.build(headers)
+
+        if form is not None:
+            if form_location is None:
+                form_location = "params" if method == "GET" else "body"
+
+            dist = (
+                headers if form_location == "header" else params if form_location == "params" else body
+            )
+
+            for f in form:
+                f.build(dist)
+
+        headers["User-Agent"] = USER_AGENT
 
         rate_limit = self._rate_limiters[domain]
 
@@ -156,9 +173,11 @@ class PyKis:
         method: Literal["GET", "POST"] = "GET",
         params: dict[str, str] | None = None,
         body: dict[str, str] | None = None,
+        form: Iterable[KisForm] | None = None,
         headers: dict[str, str] | None = None,
         domain: Literal["real", "virtual"] | None = None,
         appkey_location: Literal["header", "body"] | None = "header",
+        form_location: Literal["header", "params", "body"] | None = None,
         auth: bool = True,
         api: str | None = None,
         response_type: TDynamic | type[TDynamic] | Callable[[], TDynamic] = KisDynamicDict,
@@ -175,9 +194,11 @@ class PyKis:
             method=method,
             params=params,
             body=body,
+            form=form,
             headers=headers,
             domain=domain,
             appkey_location=appkey_location,
+            form_location=form_location,
             auth=auth,
         )
 
@@ -239,4 +260,4 @@ class PyKis:
         return self.primary_account
 
     from pykis.scope.account.account import account
-    from pykis.scope.stock.info_stock import stock
+    from pykis.scope.stock.info_stock import info_stock as stock
