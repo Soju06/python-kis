@@ -1,6 +1,8 @@
-from datetime import datetime, tzinfo
+import bisect
+from datetime import date, datetime, time, tzinfo
 from decimal import Decimal
-from typing import TypeVar
+from typing import TypeVar, overload
+
 from pykis.api.stock.base.product import KisProductBase
 from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_KOR_MAP
 from pykis.responses.dynamic import KisDynamic
@@ -61,7 +63,77 @@ class KisChart(KisDynamic, KisProductBase):
     timezone: tzinfo
     """시간대"""
     bars: list[KisChartBar]
-    """차트"""
+    """차트 (오름차순)"""
+
+    def index(self, time: datetime | date | time, kst: bool = False) -> int:
+        """
+        이진탐색으로 시간에 해당하는 봉의 인덱스를 반환합니다.
+
+        Args:
+            time: 시간대
+            kst: 한국시간대 여부
+        """
+        index = bisect.bisect_left(
+            self.bars,
+            time,
+            key=(
+                (lambda bar: bar.time_kst)
+                if isinstance(time, datetime)
+                else (lambda bar: bar.time_kst.date())
+                if isinstance(time, date)
+                else (lambda bar: bar.time_kst.time())
+            )
+            if kst
+            else (
+                (lambda bar: bar.time)
+                if isinstance(time, datetime)
+                else (lambda bar: bar.time.date())
+                if isinstance(time, date)
+                else (lambda bar: bar.time.time())
+            ),
+        )
+
+        if index >= len(self.bars):
+            raise ValueError(f"차트에 {time} 시간의 봉이 없습니다.")
+
+        return index
+
+    @overload
+    def __getitem__(self, index: datetime | date | time | int) -> KisChartBar:
+        ...
+
+    @overload
+    def __getitem__(self, index: slice) -> list[KisChartBar]:
+        ...
+
+    def __getitem__(
+        self, index: datetime | date | time | int | slice
+    ) -> KisChartBar | list[KisChartBar]:
+        if isinstance(index, int):
+            return self.bars[index]
+        elif isinstance(index, (datetime, date, time)):
+            return self.bars[self.index(index)]
+        elif isinstance(index, slice):
+            if isinstance(index.start, int) and isinstance(index.stop, int):
+                return self.bars[index]
+
+            if isinstance(index.start, datetime) and isinstance(index.stop, datetime):
+                return [bar for bar in self.bars if index.start <= bar.time <= index.stop]
+            elif isinstance(index.start, date) and isinstance(index.stop, date):
+                return [bar for bar in self.bars if index.start <= bar.time.date() <= index.stop]
+            elif isinstance(index.start, time) and isinstance(index.stop, time):
+                return [bar for bar in self.bars if index.start <= bar.time.time() <= index.stop]
+
+        raise TypeError(f"인덱스 {index}는 지원하지 않습니다.")
+
+    def __iter__(self):
+        return iter(self.bars)
+
+    def __len__(self) -> int:
+        return len(self.bars)
+
+    def __reversed__(self):
+        return reversed(self.bars)
 
 
 TChart = TypeVar("TChart", bound=KisChart)
