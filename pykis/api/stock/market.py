@@ -19,6 +19,7 @@ MARKET_TYPE = Literal[
     "SHAA",
     "SZAA",
 ]
+"""시장 종류"""
 
 MARKET_TYPE_SHORT_MAP = {
     "NASD": "NAS",
@@ -54,6 +55,7 @@ CURRENCY_TYPE = Literal[
     "VND",
     "CNY",
 ]
+"""통화 종류"""
 
 MARKET_TIMEZONE_MAP = {
     "KRX": "Asia/Seoul",

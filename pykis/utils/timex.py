@@ -60,6 +60,25 @@ def parse_timex(expression: str | tuple[int, str]) -> timedelta:
 
 
 def timex(expression: str) -> timedelta:
+    """
+    Parse time expression
+
+    Args:
+        expression (str): time expression
+
+    Examples:
+        >>> timex("1h")
+        timedelta(hours=1)
+        >>> timex("1d")
+        timedelta(days=1)
+        >>> timex("1w2d")
+        timedelta(days=9)
+        >>> timex("1d4h")
+        timedelta(days=1, hours=4)
+
+    Raises:
+        ValueError: invalid time expression
+    """
     if not expression:
         raise ValueError("Empty timex expression")
 

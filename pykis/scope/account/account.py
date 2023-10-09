@@ -10,12 +10,13 @@ from pykis.scope.stock.info_stock import KisInfoStock
 if TYPE_CHECKING:
     from pykis.kis import PyKis
 
+
 class KisAccount(KisAccountScope):
     """한국투자증권 계좌 Scope"""
 
     def __repr__(self) -> str:
         return f"KisAccount({self.account})"
-    
+
     def stock(self, code: str, market: MARKET_TYPE | None | EMPTY_TYPE = EMPTY) -> KisInfoStock:
         """
         종목을 조회하고 종목 Scope를 반환합니다.
@@ -37,10 +38,11 @@ class KisAccount(KisAccountScope):
             account=self.account,
         )
 
+
 def account(
     self: "PyKis",
     account: str | KisAccountNumber | None = None,
-    market: MARKET_TYPE | None = "KRX",
+    market: MARKET_TYPE | None = None,
     primary: bool = False,
 ) -> KisAccount:
     """계좌 정보를 반환합니다.
