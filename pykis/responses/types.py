@@ -16,10 +16,24 @@ class KisDynamicDict(KisDynamic):
         return repr(self.__data__)
 
     def __getattr__(self, name: str) -> Any:
-        if name in self.__data__:
-            return self.__data__[name]
+        if (value := self.__data__.get(name)) is not None:
+            if isinstance(value, dict):
+                return KisDynamicDict.from_dict(value)
+            elif isinstance(value, list):
+                return [
+                    KisDynamicDict.from_dict(item) if isinstance(item, dict) else item for item in value
+                ]
+            else:
+                return value
 
         return super().__getattribute__(name)
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]):
+        instance = cls()
+        instance.__data__ = data
+
+        return instance
 
 
 class KisAny(KisType[Any], metaclass=KisTypeMeta[Any]):
