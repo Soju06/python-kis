@@ -7,7 +7,7 @@ from pykis.api.stock.base.product import KisProductBase
 from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE, MARKET_TYPE_SHORT_MAP
 from pykis.responses.dynamic import KisDynamic, KisObject, KisTransform
 from pykis.responses.response import KisAPIResponse, raise_not_found
-from pykis.responses.types import KisAny, KisBool, KisDate, KisDecimal, KisInt, KisString
+from pykis.responses.types import KisAny, KisBool, KisDate, KisDecimal, KisDynamicDict, KisInt, KisString
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -437,6 +437,49 @@ def overseas_quote(
         response_type=result,
         domain="real",
     )
+
+
+def _overseas_quote(
+    self: "PyKis",
+    code: str,
+    market: MARKET_TYPE,
+) -> KisDynamicDict:
+    """
+    한국투자증권 해외 주식 현재가 조회
+
+    해외주식현재가 -> 해외주식 현재가[v1_해외주식-009]
+    (업데이트 날짜: 2023/10/11)
+
+    Args:
+        code (str): 종목코드
+        market (MARKET_TYPE): 시장구분
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
+        ValueError: 종목 코드가 올바르지 않은 경우
+    """
+    result = self.fetch(
+        "/uapi/overseas-price/v1/quotations/price",
+        api="HHDFS00000300",
+        params={
+            "AUTH": "",
+            "EXCD": MARKET_TYPE_SHORT_MAP[market],
+            "SYMB": code,
+        },
+        response_type=KisDynamicDict,
+        domain="real",
+    )
+
+    if not result.output.last:
+        raise_not_found(
+            result.__data__,
+            "해당 종목의 현재가를 조회할 수 없습니다.",
+            code=code,
+            market=market,
+        )
+
+    return result
 
 
 def quote(
