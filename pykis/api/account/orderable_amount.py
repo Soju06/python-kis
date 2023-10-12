@@ -25,12 +25,15 @@ if TYPE_CHECKING:
 class KisOrderableAmount(KisDynamic, KisAccountProductBase):
     """한국투자증권 주문가능금액"""
 
-    price: Decimal
-    """주문가격"""
+    price: Decimal | None
+    """주문단가"""
     condition: ORDER_CONDITION | None
     """주문조건"""
     execution: ORDER_EXECUTION_CONDITION | None
     """채결조건"""
+
+    unit_price: Decimal
+    """계산단가"""
 
     amount: Decimal
     """주문가능금액 (통화)"""
@@ -75,6 +78,7 @@ class KisOrderableAmount(KisDynamic, KisAccountProductBase):
         account_number: KisAccountNumber,
         code: str,
         market: MARKET_TYPE,
+        price: Decimal | None,
         condition: ORDER_CONDITION | None,
         execution: ORDER_EXECUTION_CONDITION | None,
     ):
@@ -82,6 +86,7 @@ class KisOrderableAmount(KisDynamic, KisAccountProductBase):
         self.account_number = account_number
         self.code = code
         self.market = market
+        self.price = price
         self.condition = condition
         self.execution = execution
 
@@ -89,8 +94,8 @@ class KisOrderableAmount(KisDynamic, KisAccountProductBase):
 class KisDomesticOrderableAmount(KisAPIResponse, KisOrderableAmount):
     """한국투자증권 국내주식 주문가능금액"""
 
-    price: Decimal = KisDecimal["psbl_qty_calc_unpr"]
-
+    unit_price: Decimal = KisDecimal["psbl_qty_calc_unpr"]
+    """계산단가"""
     amount: Decimal = KisDecimal["ord_psbl_cash"]
     """주문가능금액 (통화)"""
     quantity: int = KisInt["nrcvb_buy_qty"]
@@ -203,20 +208,37 @@ class KisOverseasOrderableAmount(KisAPIResponse, KisOrderableAmount):
     exchange_rate: Decimal = KisDecimal["exrt"]
     """당일환율"""
 
-    condition_kor: str
-    """주문조건 (한글)"""
+    @property
+    def condition_kor(self) -> str:
+        """주문조건 (한글)"""
+        return _overseas_order_condition(
+            virtual=self.kis.virtual,
+            market=self.market,
+            order="buy",
+            price=self.price,
+            condition=self.condition,  # type: ignore
+            execution=self.execution,
+        )[-1]
 
     def __init__(
         self,
         account_number: KisAccountNumber,
         code: str,
         market: MARKET_TYPE,
-        price: Decimal,
+        price: Decimal | None,
+        unit_price: Decimal,
         condition: ORDER_CONDITION | None,
         execution: ORDER_EXECUTION_CONDITION | None,
     ):
-        super().__init__(account_number, code, market, condition, execution)
-        self.price = price
+        super().__init__(
+            account_number=account_number,
+            code=code,
+            market=market,
+            price=price,
+            condition=condition,
+            execution=execution,
+        )
+        self.unit_price = unit_price
 
     def __pre_init__(self, data: dict[str, Any]):
         # 에러 메시지의 통일성을 위해 직접 예외를 발생시킴
@@ -259,6 +281,7 @@ def _domestic_orderable_amount(
         account_number=account,
         code=code,
         market="KRX",
+        price=price,
         condition=condition,
         execution=execution,
     )
@@ -357,23 +380,26 @@ def overseas_orderable_amount(
         execution=execution,
     )
 
+    if not isinstance(account, KisAccountNumber):
+        account = KisAccountNumber(account)
+
     if not price:
-        price = Decimal(
+        unit_price = Decimal(
             _overseas_quote(
                 self,
                 market=market,
                 code=code,
             ).output.last
         )
-
-    if not isinstance(account, KisAccountNumber):
-        account = KisAccountNumber(account)
+    else:
+        unit_price = price
 
     result = KisOverseasOrderableAmount(
         account_number=account,
         code=code,
         market=market,
         price=price,
+        unit_price=unit_price,
         condition=condition,
         execution=execution,
     )
