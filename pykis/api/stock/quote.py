@@ -80,7 +80,7 @@ class KisQuote(KisDynamic, KisProductBase):
     """업종명"""
     price: Decimal
     """현재가"""
-    volume: Decimal
+    volume: int
     """거래량"""
     amount: Decimal
     """거래대금"""
@@ -181,7 +181,7 @@ class KisDomesticQuote(KisAPIResponse, KisQuote):
     """업종명"""
     price: Decimal = KisDecimal["stck_prpr"]
     """현재가"""
-    volume: Decimal = KisDecimal["acml_vol"]
+    volume: int = KisInt["acml_vol"]
     """거래량"""
     amount: Decimal = KisDecimal["acml_tr_pbmn"]
     """거래대금"""
@@ -292,7 +292,7 @@ class KisOverseasQuote(KisAPIResponse, KisQuote):
     """업종명"""
     price: Decimal = KisDecimal["last"]
     """현재가"""
-    volume: Decimal = KisDecimal["tvol"]
+    volume: int = KisInt["tvol"]
     """거래량"""
     amount: Decimal = KisDecimal["tamt"]
     """거래대금"""
