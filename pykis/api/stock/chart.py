@@ -26,7 +26,7 @@ class KisChartBar(KisDynamic):
     """고가"""
     low: Decimal
     """저가"""
-    volume: Decimal
+    volume: int
     """거래량"""
     amount: Decimal
     """거래대금"""

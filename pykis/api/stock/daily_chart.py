@@ -14,7 +14,7 @@ from pykis.api.stock.market import (
 from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_MAP
 from pykis.responses.dynamic import KisList
 from pykis.responses.response import KisResponse, raise_not_found
-from pykis.responses.types import KisAny, KisDatetime, KisDecimal
+from pykis.responses.types import KisAny, KisDatetime, KisDecimal, KisInt
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -59,7 +59,7 @@ class KisDomesticDailyChartBar(KisDailyChartBar):
     """고가"""
     low: Decimal = KisDecimal["stck_lwpr"]
     """저가"""
-    volume: Decimal = KisDecimal["acml_vol"]
+    volume: int = KisInt["acml_vol"]
     """거래량"""
     amount: Decimal = KisDecimal["acml_tr_pbmn"]
     """거래대금"""
@@ -115,7 +115,7 @@ class KisOverseasDailyChartBar(KisDailyChartBar):
     """고가"""
     low: Decimal = KisDecimal["low"]
     """저가"""
-    volume: Decimal = KisDecimal["tvol"]
+    volume: int = KisInt["tvol"]
     """거래량"""
     amount: Decimal = KisDecimal["tamt"]
     """거래대금"""

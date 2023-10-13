@@ -9,7 +9,7 @@ from pykis.api.stock.market import MARKET_TYPE, MARKET_TYPE_SHORT_MAP, KisTradin
 from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_KOR_MAP, STOCK_SIGN_TYPE_MAP, KisQuote
 from pykis.responses.dynamic import KisList, KisObject, KisTransform
 from pykis.responses.response import KisResponse, raise_not_found
-from pykis.responses.types import KisAny, KisDecimal, KisTime
+from pykis.responses.types import KisAny, KisDecimal, KisInt, KisTime
 from pykis.utils.cache import cached
 
 if TYPE_CHECKING:
@@ -46,7 +46,7 @@ class KisDayChart(KisChart):
 
     price: Decimal
     """현재가"""
-    volume: Decimal
+    volume: int
     """거래량"""
     amount: Decimal
     """거래대금"""
@@ -131,7 +131,7 @@ class KisDomesticDayChartBar(KisDayChartBar):
     """고가"""
     low: Decimal = KisDecimal["stck_lwpr"]
     """저가"""
-    volume: Decimal = KisDecimal["cntg_vol"]
+    volume: int = KisInt["cntg_vol"]
     """거래량"""
     amount: Decimal = KisDecimal["acml_tr_pbmn"]
     """거래대금"""
@@ -149,7 +149,7 @@ class KisDomesticDayChart(KisResponse, KisDayChart):
 
     price: Decimal = KisDecimal["stck_prpr"]
     """현재가"""
-    volume: Decimal = KisDecimal["acml_vol"]
+    volume: int = KisInt["acml_vol"]
     """거래량"""
     amount: Decimal = KisDecimal["acml_tr_pbmn"]
     """거래대금"""
@@ -205,7 +205,7 @@ class KisOverseasDayChartBar(KisDayChartBar):
     """고가"""
     low: Decimal = KisDecimal["low"]
     """저가"""
-    volume: Decimal = KisDecimal["evol"]
+    volume: int = KisInt["evol"]
     """거래량"""
     amount: Decimal = KisDecimal["eamt"]
     """거래대금"""
@@ -244,7 +244,7 @@ class KisOverseasDayChart(KisResponse, KisDayChart):
         return self.cached_quote.price
 
     @property
-    def volume(self) -> Decimal:
+    def volume(self) -> int:
         """거래량"""
         return self.cached_quote.volume
 
