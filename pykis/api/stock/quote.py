@@ -125,6 +125,8 @@ class KisQuote(KisDynamic, KisProductBase):
     """거래단위"""
     tick: Decimal
     """호가단위"""
+    decimal_places: int
+    """소수점 자리수"""
 
     currency: CURRENCY_TYPE
     """통화코드"""
@@ -236,6 +238,8 @@ class KisDomesticQuote(KisAPIResponse, KisQuote):
     """거래단위"""
     tick: Decimal = KisDecimal["aspr_unit"]
     """호가단위"""
+    decimal_places: int = 0
+    """소수점 자리수"""
 
     currency: CURRENCY_TYPE = "KRW"
     """통화코드"""

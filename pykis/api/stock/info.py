@@ -18,6 +18,7 @@ MARKET_TYPE_MAP = {
     "AMEX": ["529"],
     "US": ["512", "513", "529"],
     "TKSE": ["515"],
+    "JP": ["515"],
     "SEHK": ["501"],
     "HK": ["501", "543", "558"],
     "HASE": ["507"],
@@ -140,7 +141,7 @@ class KisStockInfo(KisAPIResponse, KisProductBase):
         set_cache(self, "info", self)
 
 
-MARKET_INFO_TYPES = MARKET_TYPE | Literal["KR", "US", "HK", "VN", "CN"] | None
+MARKET_INFO_TYPES = MARKET_TYPE | Literal["KR", "US", "HK", "JP", "VN", "CN"] | None
 """상품유형명"""
 
 
