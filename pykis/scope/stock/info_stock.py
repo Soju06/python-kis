@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
-from pykis.api.stock.info import KisStockInfo
+from pykis.api.stock.info import MARKET_INFO_TYPES, KisStockInfo
 from pykis.api.stock.info import info as _info
-from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.scope.stock.stock import KisStock
 
@@ -39,7 +38,7 @@ class KisInfoStock(KisStock):
 def info_stock(
     self: "PyKis",
     code: str,
-    market: MARKET_TYPE | None = None,
+    market: MARKET_INFO_TYPES | None = None,
 ) -> KisInfoStock:
     """
     종목을 조회하고 종목 Scope를 반환합니다.
