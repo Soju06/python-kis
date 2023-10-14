@@ -135,5 +135,27 @@ class KisChart(KisDynamic, KisProductBase):
     def __reversed__(self):
         return reversed(self.bars)
 
+    def df(self):
+        """
+        차트를 Pandas DataFrame으로 변환합니다.
+
+        해당 함수는 Pandas가 설치되어 있어야 합니다.
+        """
+        try:
+            import pandas as pd
+        except ImportError:
+            raise ImportError("Pandas가 설치되어 있지 않습니다.\n" "Pandas를 설치하려면 `pip install pandas`를 실행해주세요.")
+
+        return pd.DataFrame(
+            {
+                "time": [bar.time for bar in self.bars],
+                "open": [float(bar.open) for bar in self.bars],
+                "high": [float(bar.high) for bar in self.bars],
+                "low": [float(bar.low) for bar in self.bars],
+                "close": [float(bar.close) for bar in self.bars],
+                "volume": [bar.volume for bar in self.bars],
+            }
+        )
+
 
 TChart = TypeVar("TChart", bound=KisChart)
