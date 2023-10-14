@@ -1,4 +1,5 @@
-import pytz
+from zoneinfo import ZoneInfo
+
 
 APPKEY_LENGTH = 36
 APPSECRET_LENGTH = 180
@@ -22,7 +23,7 @@ TRACE_DETAIL_ERROR: bool = False
 """
 
 TIMEZONE_NAME = "Asia/Seoul"
-TIMEZONE = pytz.timezone(TIMEZONE_NAME)
+TIMEZONE = ZoneInfo(TIMEZONE_NAME)
 
 VERSION = "2.0.0"
 

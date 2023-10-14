@@ -1,8 +1,7 @@
 from datetime import time, tzinfo
 from enum import Flag
 from typing import Literal
-
-import pytz
+from zoneinfo import ZoneInfo
 
 from pykis.responses.dynamic import KisDynamic
 
@@ -70,7 +69,7 @@ MARKET_TIMEZONE_MAP = {
     "SZAA": "Asia/Shanghai",
 }
 
-MARKET_TIMEZONE_OBJECT_MAP = {key: pytz.timezone(value) for key, value in MARKET_TIMEZONE_MAP.items()}
+MARKET_TIMEZONE_OBJECT_MAP = {key: ZoneInfo(value) for key, value in MARKET_TIMEZONE_MAP.items()}
 
 
 class ExDateType(Flag):

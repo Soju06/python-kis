@@ -163,6 +163,13 @@ class KisDynamic:
         """응답 데이터 필드를 딕셔너리 형태로 반환합니다."""
         return self._asdict(self, {})
 
+    def raw(self) -> dict[str, Any]:
+        """원본 응답 데이터의 복사본을 반환합니다."""
+        data = self.__data__.copy()
+        data.pop("__response__", None)
+
+        return data
+
     def __str__(self) -> str:
         return str(self.asdict())
 
