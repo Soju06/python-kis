@@ -48,6 +48,7 @@ class PyKis:
         appkey: str | KisKey | None = None,
         appsecret: str | None = None,
         virtual: bool = False,
+        token: KisAccessToken | str | PathLike[str] | None = None,
     ):
         """한국투자증권 API를 생성합니다.
 
@@ -57,6 +58,8 @@ class PyKis:
             appsecret: 한국투자증권 API AppSecret
             account: 한국투자증권 기본 계좌 정보
             virtual: 모의투자 여부
+
+            token: 한국투자증권 API 접속 토큰
         """
         if auth is not None:
             if not isinstance(auth, KisAuth):
@@ -86,7 +89,9 @@ class PyKis:
             "real": RateLimiter(REAL_API_REQUEST_PER_SECOND, 1),
             "virtual": RateLimiter(VIRTUAL_API_REQUEST_PER_SECOND, 1),
         }
-        self._token = None
+        self._token = (
+            token if isinstance(token, KisAccessToken) else KisAccessToken.load(token) if token else None
+        )
 
     def _rate_limit_exceeded(self):
         logging.logger.warning("API 호출 횟수를 초과하여 호출 유량 획득까지 대기합니다.")
@@ -239,6 +244,12 @@ class PyKis:
             logging.logger.debug(f"API 접속 토큰을 발급했습니다.")
 
         return self._token
+
+    @token.setter
+    @thread_safe
+    def token(self, token: KisAccessToken):
+        """API 접속 토큰을 설정합니다."""
+        self._token = token
 
     def discard(self):
         """API 접속 토큰을 폐기합니다."""

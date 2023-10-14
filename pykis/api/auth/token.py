@@ -1,8 +1,11 @@
 from datetime import datetime, timedelta
+import json
+from os import PathLike
 from typing import TYPE_CHECKING, Any
 
 from pykis.__env__ import TIMEZONE
 from pykis.client.form import KisForm
+from pykis.responses.dynamic import KisObject
 from pykis.responses.types import KisDatetime, KisDynamic, KisInt, KisString
 
 if TYPE_CHECKING:
@@ -44,6 +47,20 @@ class KisAccessToken(KisDynamic, KisForm):
 
     def __repr__(self) -> str:
         return f"<KisAccessToken {self.type} expired_at={self.expired_at}>"
+
+    def save(self, path: str | PathLike[str]):
+        """접속 토큰을 파일로 저장합니다."""
+        with open(path, "w") as f:
+            json.dump(self.raw(), f)
+
+    @classmethod
+    def load(cls, path: str | PathLike[str]):
+        """파일에서 접속 토큰을 불러옵니다."""
+        with open(path) as f:
+            return KisObject.transform_(
+                json.load(f),
+                cls,
+            )
 
 
 def token_issue(self: "PyKis"):
