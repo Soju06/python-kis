@@ -1,3 +1,4 @@
+from datetime import timedelta
 from typing import TYPE_CHECKING, Literal
 
 from pykis.api.stock.base.product import KisProductBase
@@ -154,6 +155,7 @@ def info(
     self: "PyKis",
     code: str,
     market: MARKET_INFO_TYPES = "KR",
+    use_cache: bool = True,
 ) -> KisStockInfo:
     """
     상품기본정보 조회
@@ -164,6 +166,7 @@ def info(
     Args:
         code (str): 종목코드
         market (str): 상품유형명
+        use_cache (bool, optional): 캐시 사용 여부
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
@@ -172,6 +175,12 @@ def info(
     """
     if not code:
         raise ValueError("종목 코드를 입력해주세요.")
+
+    if use_cache:
+        cached = self.cache.get(f"info:{market}:{code}", KisStockInfo)
+
+        if cached:
+            return cached
 
     ex = None
 
@@ -188,6 +197,9 @@ def info(
                 response_type=KisStockInfo,
             )
 
+            if use_cache:
+                self.cache.set(f"info:{market}:{code}", result, expire=timedelta(days=1))
+
             return result
         except KisAPIError as e:
             if e.rt_cd == 7:
@@ -203,3 +215,25 @@ def info(
         code=code,
         market=market,
     )
+
+
+def resolve_market(
+    self: "PyKis",
+    code: str,
+    market: MARKET_INFO_TYPES = None,
+    use_cache: bool = True,
+) -> MARKET_TYPE:
+    """
+    상품유형명 해석
+
+    Args:
+        code (str): 종목코드
+        market (str): 상품유형명
+        use_cache (bool, optional): 캐시 사용 여부
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
+        ValueError: 종목 코드가 올바르지 않은 경우
+    """
+    return info(self, code, market, use_cache).market

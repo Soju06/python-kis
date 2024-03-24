@@ -271,6 +271,7 @@ def _domestic_orderable_amount(
         raise ValueError("종목코드를 입력해주세요.")
 
     condition_code, _ = _domestic_order_condition(
+        "buy",
         price=price,
         condition=condition,
         execution=execution,
@@ -516,7 +517,7 @@ def orderable_amount(
             account,
             code,
             price=price,
-            condition=to_domestic_order_condition(condition) if condition else None,
+            condition=condition,  # type: ignore
             execution=execution,
         )
     else:
@@ -526,6 +527,6 @@ def orderable_amount(
             market,
             code,
             price=price,
-            condition=to_overseas_order_condition(condition) if condition else None,
+            condition=condition,  # type: ignore
             execution=execution,
         )

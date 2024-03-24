@@ -1,17 +1,21 @@
 from datetime import date, time, timedelta
+from decimal import Decimal
 from typing import TYPE_CHECKING, Literal
 
+from pykis.api.account.order import ORDER_CONDITION, ORDER_EXECUTION_CONDITION
 from pykis.api.stock.market import MARKET_TYPE
+from pykis.client.account import KisAccountNumber
 from pykis.scope.base.market import KisMarketScope
 from pykis.utils.cache import cached
 from pykis.utils.timex import TIMEX_TYPE, timex
 
 if TYPE_CHECKING:
-    from pykis.api.stock.info import KisStockInfo
-    from pykis.scope.stock.info_stock import KisInfoStock
-    from pykis.api.stock.quote import KisQuote
-    from pykis.api.stock.day_chart import KisDayChart
     from pykis.api.stock.daily_chart import KisDailyChart
+    from pykis.api.stock.day_chart import KisDayChart
+    from pykis.api.stock.info import KisStockInfo
+    from pykis.api.stock.quote import KisQuote
+    from pykis.scope.account.account import KisAccountScope
+    from pykis.scope.stock.info_stock import KisInfoStock
 
 
 class KisProductScope(KisMarketScope):
@@ -44,9 +48,9 @@ class KisProductScope(KisMarketScope):
             KisNotFoundError: 조회 결과가 없는 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
-        from pykis.api.stock.info import info as _info
+        from pykis.api.stock.info import info
 
-        return _info(
+        return info(
             self.kis,
             code=self.code,
             market=self.market,
@@ -74,9 +78,9 @@ class KisProductScope(KisMarketScope):
             KisNotFoundError: 조회 결과가 없는 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
-        from pykis.api.stock.quote import quote as _quote
+        from pykis.api.stock.quote import quote
 
-        return _quote(
+        return quote(
             self.kis,
             code=self.code,
             market=self.primary_market,
@@ -107,9 +111,9 @@ class KisProductScope(KisMarketScope):
             KisNotFoundError: 조회 결과가 없는 경우
             ValueError: 조회 파라미터가 올바르지 않은 경우
         """
-        from pykis.api.stock.day_chart import day_chart as _day_chart
+        from pykis.api.stock.day_chart import day_chart
 
-        return _day_chart(
+        return day_chart(
             self.kis,
             code=self.code,
             market=self.primary_market,
@@ -142,9 +146,9 @@ class KisProductScope(KisMarketScope):
             KisNotFoundError: 조회 결과가 없는 경우
             ValueError: 조회 파라미터가 올바르지 않은 경우
         """
-        from pykis.api.stock.daily_chart import daily_chart as _daily_chart
+        from pykis.api.stock.daily_chart import daily_chart
 
-        return _daily_chart(
+        return daily_chart(
             self.kis,
             code=self.code,
             market=self.primary_market,
@@ -191,8 +195,6 @@ class KisProductScope(KisMarketScope):
             >>> stock.chart("1y", period="month") # 1년간의 월봉 차트 조회
             >>> stock.chart(start=date(2023, 1, 1), end=date(2023, 10, 1)) # 2023년 1월 1일부터 10월 1일까지의 일봉 차트 조회
 
-
-
         Raises:
             KisAPIError: API 호출에 실패한 경우
             KisNotFoundError: 조회 결과가 없는 경우
@@ -204,9 +206,7 @@ class KisProductScope(KisMarketScope):
             start = timex(expression)
 
         if is_day:
-            if (start and not isinstance(start, (time, timedelta))) or (
-                end and not isinstance(end, time)
-            ):
+            if (start and not isinstance(start, (time, timedelta))) or (end and not isinstance(end, time)):
                 raise ValueError("분봉 차트는 시간 타입만 지원합니다.")
 
             if adjust:
@@ -218,9 +218,7 @@ class KisProductScope(KisMarketScope):
                 period=int(period),
             )
         else:
-            if (start and not isinstance(start, (date, timedelta))) or (
-                end and not isinstance(end, date)
-            ):
+            if (start and not isinstance(start, (date, timedelta))) or (end and not isinstance(end, date)):
                 raise ValueError("기간 차트는 날짜 타입만 지원합니다.")
 
             return self.daily_chart(
@@ -229,3 +227,69 @@ class KisProductScope(KisMarketScope):
                 period=period,
                 adjust=adjust,
             )
+
+    def orderable_amount(
+        self,
+        price: Decimal | None = None,
+        condition: ORDER_CONDITION | None = None,
+        execution: ORDER_EXECUTION_CONDITION | None = None,
+        account: "str | KisAccountNumber | KisAccountScope | None" = None,
+    ):
+        """
+        한국투자증권 주문가능금액 조회
+
+        국내주식주문 -> 매수가능조회[v1_국내주식-007]
+        해외주식주문 -> 해외주식 매수가능금액조회[v1_해외주식-014]
+
+        Args:
+            price (int | None, optional): 주문가격. None인 경우 시장가 주문
+            condition (ORDER_CONDITION | None, optional): 주문조건
+            execution (ORDER_EXECUTION_CONDITION | None, optional): 채결조건
+            account (str | KisAccountNumber | KisAccountScope | None, optional): 계좌번호. None인 경우 기본 계좌 사용
+
+        Examples:
+            >>> stock.orderable_amount(price=100, condition=None, execution=None) # 전체 지정가 매수
+            >>> stock.orderable_amount(price=None, condition=None, execution=None) # 전체 시장가 매수
+            >>> stock.orderable_amount(price=100, condition='condition', execution=None) # 국내 조건부지정가 매수
+            >>> stock.orderable_amount(price=100, condition='best', execution=None) # 국내 최유리지정가 매수
+            >>> stock.orderable_amount(price=100, condition='priority', execution=None) # 국내 최우선지정가 매수
+            >>> stock.orderable_amount(price=100, condition='extended', execution=None) # 국내 시간외단일가 매수
+            >>> stock.orderable_amount(price=None, condition='before', execution=None) # 국내 장전시간외 매수
+            >>> stock.orderable_amount(price=None, condition='after', execution=None) # 국내 장후시간외 매수
+            >>> stock.orderable_amount(price=100, condition=None, execution='IOC') # 국내 IOC지정가 매수
+            >>> stock.orderable_amount(price=100, condition=None, execution='FOK') # 국내 FOK지정가 매수
+            >>> stock.orderable_amount(price=None, condition=None, execution='IOC') # 국내 IOC시장가 매수
+            >>> stock.orderable_amount(price=None, condition=None, execution='FOK') # 국내 FOK시장가 매수
+            >>> stock.orderable_amount(price=100, condition='best', execution='IOC') # 국내 IOC최유리 매수
+            >>> stock.orderable_amount(price=100, condition='best', execution='FOK') # 국내 FOK최유리 매수
+            >>> stock.orderable_amount(price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 지원안함)
+            >>> stock.orderable_amount(price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 지원안함)
+            >>> stock.orderable_amount(price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 지원안함)
+            >>> stock.orderable_amount(price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 지원안함)
+            >>> stock.orderable_amount(price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 지원안함)
+            >>> stock.orderable_amount(price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 지원안함)
+            >>> stock.orderable_amount(price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 지원안함)
+            >>> stock.orderable_amount(price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매수 (모의투자 지원안함)
+            >>> stock.orderable_amount(price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매수 (모의투자 지원안함)
+            >>> stock.orderable_amount(price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 지원안함)
+            >>> stock.orderable_amount(price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 지원안함)
+            >>> stock.orderable_amount(price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 지원안함)
+
+        Raises:
+            KisAPIError: API 호출에 실패한 경우
+            KisNotFoundError: 조회 결과가 없는 경우
+            ValueError: 주문조건이 잘못된 경우
+        """
+        from pykis.api.account.orderable_amount import orderable_amount
+
+        return orderable_amount(
+            self.kis,
+            account=(
+                account.account if isinstance(account, KisAccountScope) else (account or self.kis.primary)
+            ),
+            market=self.primary_market,
+            code=self.code,
+            price=price,
+            condition=condition,
+            execution=execution,
+        )
