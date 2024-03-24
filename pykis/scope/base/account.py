@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
-from pykis.api.stock.market import MARKET_TYPE
 
+from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.scope.base.market import KisMarketScope
 
@@ -32,6 +32,6 @@ class KisAccountScope(KisMarketScope):
             ValueError: 스코프에 계좌 정보가 없으며, 기본 계좌 정보가 없을 경우
         """
         if self.account is None:
-            return self.kis._primary_account
+            return self.kis.primary
 
         return self.account

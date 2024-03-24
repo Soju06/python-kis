@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+
 from pykis.api.stock.info import MARKET_INFO_TYPES, KisStockInfo
 from pykis.api.stock.info import info as _info
 from pykis.client.account import KisAccountNumber

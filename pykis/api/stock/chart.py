@@ -1,7 +1,7 @@
 import bisect
 from datetime import date, datetime, time, tzinfo
 from decimal import Decimal
-from typing import TypeVar, overload
+from typing import Literal, TypeVar, overload
 
 from pykis.api.stock.base.product import KisProductBase
 from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_KOR_MAP
@@ -77,19 +77,25 @@ class KisChart(KisDynamic, KisProductBase):
             self.bars,
             time,
             key=(
-                (lambda bar: bar.time_kst)
-                if isinstance(time, datetime)
-                else (lambda bar: bar.time_kst.date())
-                if isinstance(time, date)
-                else (lambda bar: bar.time_kst.time())
-            )
-            if kst
-            else (
-                (lambda bar: bar.time)
-                if isinstance(time, datetime)
-                else (lambda bar: bar.time.date())
-                if isinstance(time, date)
-                else (lambda bar: bar.time.time())
+                (
+                    (lambda bar: bar.time_kst)
+                    if isinstance(time, datetime)
+                    else (
+                        (lambda bar: bar.time_kst.date())
+                        if isinstance(time, date)
+                        else (lambda bar: bar.time_kst.time())
+                    )
+                )
+                if kst
+                else (
+                    (lambda bar: bar.time)
+                    if isinstance(time, datetime)
+                    else (
+                        (lambda bar: bar.time.date())
+                        if isinstance(time, date)
+                        else (lambda bar: bar.time.time())
+                    )
+                )
             ),
         )
 
@@ -98,17 +104,27 @@ class KisChart(KisDynamic, KisProductBase):
 
         return index
 
-    @overload
-    def __getitem__(self, index: datetime | date | time | int) -> KisChartBar:
-        ...
+    def order_by(
+        self,
+        key: Literal["time", "open", "high", "low", "close", "volume", "amount", "change"],
+        reverse: bool = False,
+    ) -> list[KisChartBar]:
+        """
+        차트를 주어진 키로 정렬합니다.
+
+        Args:
+            key: 정렬 키
+            reverse: 내림차순 여부
+        """
+        return sorted(self.bars, key=lambda bar: getattr(bar, key), reverse=reverse)
 
     @overload
-    def __getitem__(self, index: slice) -> list[KisChartBar]:
-        ...
+    def __getitem__(self, index: datetime | date | time | int) -> KisChartBar: ...
 
-    def __getitem__(
-        self, index: datetime | date | time | int | slice
-    ) -> KisChartBar | list[KisChartBar]:
+    @overload
+    def __getitem__(self, index: slice) -> list[KisChartBar]: ...
+
+    def __getitem__(self, index: datetime | date | time | int | slice) -> KisChartBar | list[KisChartBar]:
         if isinstance(index, int):
             return self.bars[index]
         elif isinstance(index, (datetime, date, time)):
@@ -144,7 +160,10 @@ class KisChart(KisDynamic, KisProductBase):
         try:
             import pandas as pd
         except ImportError:
-            raise ImportError("Pandas가 설치되어 있지 않습니다.\n" "Pandas를 설치하려면 `pip install pandas`를 실행해주세요.")
+            raise ImportError(
+                "Pandas가 설치되어 있지 않습니다.\n"
+                "Pandas를 설치하려면 `pip install pandas`를 실행해주세요."
+            )
 
         return pd.DataFrame(
             {

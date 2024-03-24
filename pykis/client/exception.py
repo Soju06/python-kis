@@ -1,6 +1,7 @@
 from collections import namedtuple
 from typing import Any
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import parse_qs, urlparse
+
 from requests import Response
 
 from pykis.__env__ import TRACE_DETAIL_ERROR
@@ -17,13 +18,16 @@ def safe_request_data(response: Response):
         header["Authorization"] = f'{header["Authorization"].split()[0]} ***'
 
     if response.request.body:
-        if isinstance(response.request.body, bytes):
+        body = response.request.body
+
+        if isinstance(body, memoryview):
+            body = body.tobytes()
+
+        if isinstance(body, (bytes, bytearray)):
             try:
-                body = response.request.body.decode("utf-8")
+                body = body.decode("utf-8")
             except UnicodeDecodeError:
-                body = response.request.body.reason.decode("iso-8859-1")  # type: ignore
-        else:
-            body = response.request.body
+                body = body.reason.decode("iso-8859-1")  # type: ignore
 
         if not TRACE_DETAIL_ERROR and ("appkey" in body or "appsecret" in body):
             body = "[PROTECTED BODY]"

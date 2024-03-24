@@ -135,9 +135,7 @@ class PyKis:
             if form_location is None:
                 form_location = "params" if method == "GET" else "body"
 
-            dist = (
-                headers if form_location == "header" else params if form_location == "params" else body
-            )
+            dist = headers if form_location == "header" else params if form_location == "params" else body
 
             for f in form:
                 f.build(dist)
@@ -258,7 +256,7 @@ class PyKis:
             self._token = None
 
     @property
-    def _primary_account(self) -> KisAccountNumber:
+    def primary(self) -> KisAccountNumber:
         """
         기본 계좌 정보를 반환합니다.
 

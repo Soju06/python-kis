@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, get_args
 
 from pykis.__env__ import TIMEZONE
 from pykis.api.stock.base.account_product import KisAccountProductBase
@@ -97,6 +97,21 @@ OVERSEAS_ORDER_CONDITION = Literal[
 ORDER_CONDITION = DOMESTIC_ORDER_CONDITION | OVERSEAS_ORDER_CONDITION
 """주문 조건"""
 
+
+def to_domestic_order_condition(condition: ORDER_CONDITION) -> DOMESTIC_ORDER_CONDITION:
+    if condition in get_args(DOMESTIC_ORDER_CONDITION):
+        return condition  # type: ignore
+
+    raise ValueError(f"주문 조건이 국내 주문 조건이 아닙니다. ({condition!r})")
+
+
+def to_overseas_order_condition(condition: ORDER_CONDITION) -> OVERSEAS_ORDER_CONDITION:
+    if condition in get_args(OVERSEAS_ORDER_CONDITION):
+        return condition  # type: ignore
+
+    raise ValueError(f"주문 조건이 해외 주문 조건이 아닙니다. ({condition!r})")
+
+
 DOMESTIC_ORDER_CONDITION_KOR_MAP: dict[DOMESTIC_ORDER_CONDITION, str] = {
     "condition": "조건부지정가",
     "best": "최유리지정가",
@@ -108,33 +123,48 @@ DOMESTIC_ORDER_CONDITION_KOR_MAP: dict[DOMESTIC_ORDER_CONDITION, str] = {
 """국내 주문 조건 한글 매핑"""
 
 DOMESTIC_ORDER_CONDITION_MAP: dict[
-    tuple[bool, DOMESTIC_ORDER_CONDITION | None, ORDER_EXECUTION_CONDITION | None], tuple[str, str]
+    tuple[bool, ORDER_TYPE, DOMESTIC_ORDER_CONDITION | None, ORDER_EXECUTION_CONDITION | None],
+    tuple[str, str],
 ] = {
-    # (단가, 주문조건, 체결조건): (주문구분코드, 주문구분한글명)
-    (True, None, None): ("00", "지정가"),
-    (False, None, None): ("01", "시장가"),
-    (True, "condition", None): ("02", "조건부지정가"),
-    (True, "best", None): ("03", "최유리지정가"),
-    (True, "priority", None): ("04", "최우선지정가"),
-    (True, "extended", None): ("07", "시간외단일가"),
-    (False, "before", None): ("05", "장전시간외"),
-    (False, "after", None): ("06", "장후시간외"),
-    (True, None, "IOC"): ("11", "IOC지정가"),
-    (True, None, "FOK"): ("12", "FOK지정가"),
-    (False, None, "IOC"): ("13", "IOC시장가"),
-    (False, None, "FOK"): ("14", "FOK시장가"),
-    (True, "best", "IOC"): ("15", "IOC최유리"),
-    (True, "best", "FOK"): ("16", "FOK최유리"),
+    # (단가, 주문종류, 주문조건, 체결조건): (주문구분코드, 주문구분한글명)
+    (True, "buy", None, None): ("00", "지정가"),
+    (False, "buy", None, None): ("01", "시장가"),
+    (True, "buy", "condition", None): ("02", "조건부지정가"),
+    (True, "buy", "best", None): ("03", "최유리지정가"),
+    (True, "buy", "priority", None): ("04", "최우선지정가"),
+    (True, "buy", "extended", None): ("07", "시간외단일가"),
+    (False, "buy", "before", None): ("05", "장전시간외"),
+    (False, "buy", "after", None): ("06", "장후시간외"),
+    (True, "buy", None, "IOC"): ("11", "IOC지정가"),
+    (True, "buy", None, "FOK"): ("12", "FOK지정가"),
+    (False, "buy", None, "IOC"): ("13", "IOC시장가"),
+    (False, "buy", None, "FOK"): ("14", "FOK시장가"),
+    (True, "buy", "best", "IOC"): ("15", "IOC최유리"),
+    (True, "buy", "best", "FOK"): ("16", "FOK최유리"),
+    (True, "sell", None, None): ("00", "지정가"),
+    (False, "sell", None, None): ("01", "시장가"),
+    (True, "sell", "condition", None): ("02", "조건부지정가"),
+    (True, "sell", "best", None): ("03", "최유리지정가"),
+    (True, "sell", "priority", None): ("04", "최우선지정가"),
+    (True, "sell", "extended", None): ("07", "시간외단일가"),
+    (False, "sell", "before", None): ("05", "장전시간외"),
+    (False, "sell", "after", None): ("06", "장후시간외"),
+    (True, "sell", None, "IOC"): ("11", "IOC지정가"),
+    (True, "sell", None, "FOK"): ("12", "FOK지정가"),
+    (False, "sell", None, "IOC"): ("13", "IOC시장가"),
+    (False, "sell", None, "FOK"): ("14", "FOK시장가"),
+    (True, "sell", "best", "IOC"): ("15", "IOC최유리"),
+    (True, "sell", "best", "FOK"): ("16", "FOK최유리"),
 }
 
 
 def _domestic_orderable_conditions_repr():
     return "\n".join(
         (
-            f"domestic_order(price={'100' if price else 'None'}, condition={condition!r}, execution={execution!r}) "
-            f"# {label}"
+            f"domestic_order(order={order!r}, price={'100' if price else 'None'}, condition={condition!r}, execution={execution!r}) "
+            f"# {label} {'매수' if order == 'buy' else '매도'}"
         )
-        for (price, condition, execution), (_, label) in DOMESTIC_ORDER_CONDITION_MAP.items()
+        for (price, order, condition, execution), (_, label) in DOMESTIC_ORDER_CONDITION_MAP.items()
     )
 
 
@@ -236,7 +266,7 @@ def _overseas_orderable_conditions_repr():
     return "\n".join(
         (
             f"overseas_order(market={repr(market) if market else '전체'}, order={order!r}, price={'100' if price else 'None'}, condition={condition!r}, execution={execution!r}) "
-            f"# {MARKET_TYPE_KOR_MAP[market]} {label}{' (모의투자 지원안함)' if ((False, market, order, price, condition, execution) in OVERSEAS_ORDER_CONDITION_MAP) else ''}"
+            f"# {MARKET_TYPE_KOR_MAP[market]} {label} {'매수' if order == 'buy' else '매도'}{'' if ((False, market, order, price, condition, execution) in OVERSEAS_ORDER_CONDITION_MAP) else ' (모의투자 지원안함)'}"
         )
         for (real, market, order, price, condition, execution), (
             _,
@@ -283,7 +313,11 @@ def _overseas_order_condition(
                 virtual_not_supported = True
 
         raise ValueError(
-            ("모의투자는 해당 주문조건을 지원하지 않습니다." if virtual_not_supported else "주문조건이 잘못되었습니다.")
+            (
+                "모의투자는 해당 주문조건을 지원하지 않습니다."
+                if virtual_not_supported
+                else "주문조건이 잘못되었습니다."
+            )
             + f" (market={market!r}, order={order!r}, price={price!r}, condition={condition!r}, execution={execution!r})\n"
             "아래 주문 가능 조건을 참고하세요.\n\n" + _overseas_orderable_conditions_repr()
         )
