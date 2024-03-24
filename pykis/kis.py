@@ -18,6 +18,7 @@ from pykis.api.auth.token import KisAccessToken
 from pykis.client.account import KisAccountNumber
 from pykis.client.appkey import KisKey
 from pykis.client.auth import KisAuth
+from pykis.client.cache import KisCacheStorage
 from pykis.client.exception import KisHTTPError
 from pykis.client.form import KisForm
 from pykis.client.object import KisObjectBase
@@ -36,6 +37,9 @@ class PyKis:
     """한국투자증권 기본 계좌 정보"""
     virtual: bool
     """모의투자 여부"""
+
+    cache: KisCacheStorage
+    """캐시 저장소"""
 
     _rate_limiters: dict[str, RateLimiter]
     _token: KisAccessToken | None
@@ -85,6 +89,9 @@ class PyKis:
 
         self.primary_account = account
         self.virtual = virtual
+
+        self.cache = KisCacheStorage()
+
         self._rate_limiters = {
             "real": RateLimiter(REAL_API_REQUEST_PER_SECOND, 1),
             "virtual": RateLimiter(VIRTUAL_API_REQUEST_PER_SECOND, 1),

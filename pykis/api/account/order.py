@@ -169,6 +169,7 @@ def _domestic_orderable_conditions_repr():
 
 
 def _domestic_order_condition(
+    order: ORDER_TYPE = "buy",
     price: Decimal | None = None,
     condition: DOMESTIC_ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION_CONDITION | None = None,
@@ -176,19 +177,19 @@ def _domestic_order_condition(
     if price and price <= 0:
         raise ValueError("가격은 0보다 커야합니다.")
 
-    order = (price is not None, condition, execution)
+    order_condition = (price is not None, order, condition, execution)
 
-    if order not in DOMESTIC_ORDER_CONDITION_MAP:
+    if order_condition not in DOMESTIC_ORDER_CONDITION_MAP:
         # 조건을 찾을 수 없을 경우, 시장가로 변환
-        order = (False, condition, execution)
+        order_condition = (False, order, condition, execution)
 
-    if order not in DOMESTIC_ORDER_CONDITION_MAP:
+    if order_condition not in DOMESTIC_ORDER_CONDITION_MAP:
         raise ValueError(
-            f"주문조건이 잘못되었습니다. (price={price!r}, condition={condition!r}, execution={execution!r})\n"
+            f"주문조건이 잘못되었습니다. (order={order!r} price={price!r}, condition={condition!r}, execution={execution!r})\n"
             "아래 주문 가능 조건을 참고하세요.\n\n" + _domestic_orderable_conditions_repr()
         )
 
-    return DOMESTIC_ORDER_CONDITION_MAP[order]
+    return DOMESTIC_ORDER_CONDITION_MAP[order_condition]
 
 
 def domestic_order(

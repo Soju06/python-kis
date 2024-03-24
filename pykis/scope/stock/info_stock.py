@@ -19,7 +19,6 @@ class KisInfoStock(KisStock):
         super().__init__(
             kis=kis,
             code=info.code,
-            name=info.name,
             market=info.market,
             account=account,
         )

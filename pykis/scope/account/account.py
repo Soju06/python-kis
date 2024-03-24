@@ -15,7 +15,7 @@ class KisAccount(KisAccountScope):
     """한국투자증권 계좌 Scope"""
 
     def __repr__(self) -> str:
-        return f"KisAccount({self.account})"
+        return f"KisAccount({self.account_number})"
 
     def stock(self, code: str, market: MARKET_TYPE | None | EMPTY_TYPE = EMPTY) -> "KisInfoStock":
         """
@@ -37,7 +37,7 @@ class KisAccount(KisAccountScope):
                 code=code,
                 market=market,  # type: ignore
             ),
-            account=self.account,
+            account=self.account_number,
         )
 
 
