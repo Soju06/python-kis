@@ -137,6 +137,11 @@ class KisStockInfo(KisAPIResponse, KisProductBase):
         """해외종목 여부"""
         return self.market_code not in ["300", "301", "302"]
 
+    @property
+    def domestic(self) -> bool:
+        """국내종목 여부"""
+        return not self.overseas
+
     def __post_init__(self):
         set_cache(self, "info", self)
 

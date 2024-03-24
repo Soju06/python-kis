@@ -57,7 +57,7 @@ def account(
     if isinstance(account, str):
         account = KisAccountNumber(account)
 
-    account = account or self._primary_account
+    account = account or self.primary
 
     if primary:
         self.primary_account = account
