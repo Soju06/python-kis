@@ -6,9 +6,9 @@ from pykis.__env__ import TIMEZONE
 from pykis.api.stock.chart import KisChart, KisChartBar, TChart
 from pykis.api.stock.market import (
     EX_DATE_TYPE_CODE_MAP,
+    MARKET_SHORT_TYPE_MAP,
     MARKET_TIMEZONE_OBJECT_MAP,
     MARKET_TYPE,
-    MARKET_TYPE_SHORT_MAP,
     ExDateType,
 )
 from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_MAP
@@ -225,13 +225,9 @@ def domestic_daily_chart(
                 "FID_INPUT_ISCD": code,
                 "FID_INPUT_DATE_1": start.strftime("%Y%m%d") if isinstance(start, date) else "00000101",
                 "FID_INPUT_DATE_2": cursor.strftime("%Y%m%d"),
-                "FID_PERIOD_DIV_CODE": "D"
-                if period == "day"
-                else "W"
-                if period == "week"
-                else "M"
-                if period == "month"
-                else "Y",
+                "FID_PERIOD_DIV_CODE": (
+                    "D" if period == "day" else "W" if period == "week" else "M" if period == "month" else "Y"
+                ),
                 "FID_ORG_ADJ_PRC": "0" if adjust else "1",
             },
             response_type=KisDomesticDailyChart(
@@ -314,7 +310,7 @@ def overseas_daily_chart(
             api="HHDFS76240000",
             params={
                 "AUTH": "",
-                "EXCD": MARKET_TYPE_SHORT_MAP[market],
+                "EXCD": MARKET_SHORT_TYPE_MAP[market],
                 "SYMB": code,
                 "GUBN": "0" if period == "day" else "1" if period == "week" else "2",
                 "BYMD": cursor.strftime("%Y%m%d") if cursor else "",
