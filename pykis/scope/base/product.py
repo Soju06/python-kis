@@ -2,7 +2,11 @@ from datetime import date, time, timedelta
 from decimal import Decimal
 from typing import TYPE_CHECKING, Literal
 
-from pykis.api.account.order import ORDER_CONDITION, ORDER_EXECUTION_CONDITION
+from pykis.api.account.order import (
+    ORDER_CONDITION,
+    ORDER_EXECUTION_CONDITION,
+    ORDER_PRICE,
+)
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.scope.base.market import KisMarketScope
@@ -66,12 +70,15 @@ class KisProductScope(KisMarketScope):
             info=self.info,
         )
 
-    def quote(self) -> "KisQuote":
+    def quote(self, extended: bool = False) -> "KisQuote":
         """
         한국투자증권 주식 현재가 조회
 
         국내주식시세 -> 주식현재가 시세[v1_국내주식-008]
         해외주식현재가 -> 해외주식 현재가상세[v1_해외주식-029]
+
+        Args:
+            extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
 
         Raises:
             KisAPIError: API 호출에 실패한 경우
@@ -84,6 +91,7 @@ class KisProductScope(KisMarketScope):
             self.kis,
             code=self.code,
             market=self.primary_market,
+            extended=extended,
         )
 
     def day_chart(
@@ -230,7 +238,7 @@ class KisProductScope(KisMarketScope):
 
     def orderable_amount(
         self,
-        price: Decimal | None = None,
+        price: ORDER_PRICE | None = None,
         condition: ORDER_CONDITION | None = None,
         execution: ORDER_EXECUTION_CONDITION | None = None,
         account: "str | KisAccountNumber | KisAccountScope | None" = None,
@@ -242,7 +250,7 @@ class KisProductScope(KisMarketScope):
         해외주식주문 -> 해외주식 매수가능금액조회[v1_해외주식-014]
 
         Args:
-            price (int | None, optional): 주문가격. None인 경우 시장가 주문
+            price (ORDER_PRICE | None, optional): 주문가격. None인 경우 시장가 주문
             condition (ORDER_CONDITION | None, optional): 주문조건
             execution (ORDER_EXECUTION_CONDITION | None, optional): 채결조건
             account (str | KisAccountNumber | KisAccountScope | None, optional): 계좌번호. None인 경우 기본 계좌 사용
@@ -254,26 +262,32 @@ class KisProductScope(KisMarketScope):
             >>> stock.orderable_amount(price=100, condition='best', execution=None) # 국내 최유리지정가 매수
             >>> stock.orderable_amount(price=100, condition='priority', execution=None) # 국내 최우선지정가 매수
             >>> stock.orderable_amount(price=100, condition='extended', execution=None) # 국내 시간외단일가 매수
-            >>> stock.orderable_amount(price=None, condition='before', execution=None) # 국내 장전시간외 매수
+            >>> stock.orderable_amount(price=None, condition='before', execution=None) # 국내 장전시간외 매수 (모의투자 미지원)
             >>> stock.orderable_amount(price=None, condition='after', execution=None) # 국내 장후시간외 매수
-            >>> stock.orderable_amount(price=100, condition=None, execution='IOC') # 국내 IOC지정가 매수
-            >>> stock.orderable_amount(price=100, condition=None, execution='FOK') # 국내 FOK지정가 매수
-            >>> stock.orderable_amount(price=None, condition=None, execution='IOC') # 국내 IOC시장가 매수
-            >>> stock.orderable_amount(price=None, condition=None, execution='FOK') # 국내 FOK시장가 매수
-            >>> stock.orderable_amount(price=100, condition='best', execution='IOC') # 국내 IOC최유리 매수
-            >>> stock.orderable_amount(price=100, condition='best', execution='FOK') # 국내 FOK최유리 매수
-            >>> stock.orderable_amount(price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 지원안함)
-            >>> stock.orderable_amount(price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 지원안함)
-            >>> stock.orderable_amount(price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 지원안함)
-            >>> stock.orderable_amount(price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 지원안함)
-            >>> stock.orderable_amount(price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 지원안함)
-            >>> stock.orderable_amount(price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 지원안함)
-            >>> stock.orderable_amount(price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 지원안함)
-            >>> stock.orderable_amount(price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매수 (모의투자 지원안함)
-            >>> stock.orderable_amount(price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매수 (모의투자 지원안함)
-            >>> stock.orderable_amount(price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 지원안함)
-            >>> stock.orderable_amount(price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 지원안함)
-            >>> stock.orderable_amount(price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 지원안함)
+            >>> stock.orderable_amount(price=100, condition=None, execution='IOC') # 국내 IOC지정가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=100, condition=None, execution='FOK') # 국내 FOK지정가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=None, condition=None, execution='IOC') # 국내 IOC시장가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=None, condition=None, execution='FOK') # 국내 FOK시장가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=100, condition='best', execution='IOC') # 국내 IOC최유리 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=100, condition='best', execution='FOK') # 국내 FOK최유리 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 미지원)
+            >>> stock.orderable_amount(price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매수
+            >>> stock.orderable_amount(price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매수
+            >>> stock.orderable_amount(price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매수
+            >>> stock.orderable_amount(price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매수
+            >>> stock.orderable_amount(price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매수
+            >>> stock.orderable_amount(price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매수
 
         Raises:
             KisAPIError: API 호출에 실패한 경우

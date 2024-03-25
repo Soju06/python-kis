@@ -2,7 +2,7 @@ from typing import Any
 
 from requests import Response
 
-from pykis.client.exception import KisException
+from pykis.client.exception import KisAPIError, KisException, KisHTTPError
 
 
 class KisNotFoundError(KisException):
@@ -24,3 +24,10 @@ class KisNotFoundError(KisException):
             response=response,
         )
         self.data = data
+
+
+class KisMarketNotOpenedError(KisAPIError):
+    """시장이 열리지 않은 경우"""
+
+    def __init__(self, data: dict, response: Response):
+        super().__init__(data, response)

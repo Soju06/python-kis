@@ -1,14 +1,19 @@
 from typing import Any
 
 from requests import Response
+
 from pykis.client.exception import KisAPIError
 from pykis.client.object import KisObjectBase
 from pykis.responses.dynamic import KisDynamic
-from pykis.responses.exception import KisNotFoundError
+from pykis.responses.exception import KisMarketNotOpenedError, KisNotFoundError
 from pykis.responses.types import KisAny, KisString
 
 
-def raise_not_found(data: dict[str, Any], message: str | None = None, **fields: Any) -> KisNotFoundError:
+def raise_not_found(
+    data: dict[str, Any],
+    message: str | None = None,
+    **fields: Any,
+) -> KisNotFoundError:
     """
     응답 데이터가 없음 예외를 발생시킵니다.
 

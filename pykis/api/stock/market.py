@@ -5,7 +5,6 @@ from zoneinfo import ZoneInfo
 
 from pykis.responses.dynamic import KisDynamic
 
-
 MARKET_TYPE = Literal[
     "KRX",
     "NASD",
@@ -20,7 +19,7 @@ MARKET_TYPE = Literal[
 ]
 """시장 종류"""
 
-MARKET_TYPE_SHORT_MAP = {
+MARKET_SHORT_TYPE_MAP = {
     "NASD": "NAS",
     "NYSE": "NYS",
     "AMEX": "AMS",
@@ -32,9 +31,15 @@ MARKET_TYPE_SHORT_MAP = {
     "SZAA": "SZS",
 }
 
+DAYTIME_MARKET_SHORT_TYPE_MAP = {
+    "NASD": "BAQ",
+    "NYSE": "BAY",
+    "AMEX": "BAA",
+}
+
 MARKET_TYPE_KOR_MAP = {
     None: "전체",
-    "KRX": "한국",
+    "KRX": "국내",
     "NASD": "나스닥",
     "NYSE": "뉴욕",
     "AMEX": "아멕스",

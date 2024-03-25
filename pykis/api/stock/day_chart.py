@@ -5,8 +5,13 @@ from typing import TYPE_CHECKING, Any
 
 from pykis.__env__ import TIMEZONE
 from pykis.api.stock.chart import KisChart, KisChartBar, TChart
-from pykis.api.stock.market import MARKET_TYPE, MARKET_TYPE_SHORT_MAP, KisTradingHours
-from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_KOR_MAP, STOCK_SIGN_TYPE_MAP, KisQuote
+from pykis.api.stock.market import MARKET_SHORT_TYPE_MAP, MARKET_TYPE, KisTradingHours
+from pykis.api.stock.quote import (
+    STOCK_SIGN_TYPE,
+    STOCK_SIGN_TYPE_KOR_MAP,
+    STOCK_SIGN_TYPE_MAP,
+    KisQuote,
+)
 from pykis.responses.dynamic import KisList, KisObject, KisTransform
 from pykis.responses.response import KisResponse, raise_not_found
 from pykis.responses.types import KisAny, KisDecimal, KisInt, KisTime
@@ -83,7 +88,7 @@ class KisDayChart(KisChart):
 
     @property
     @cached
-    def cached_quote(self) -> KisQuote:
+    def quote(self) -> KisQuote:
         """
         한국투자증권 주식 현재가 조회
 
@@ -97,9 +102,9 @@ class KisDayChart(KisChart):
             KisNotFoundError: 조회 결과가 없는 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
-        from pykis.api.stock.quote import quote as _quote
+        from pykis.api.stock.quote import quote
 
-        return _quote(
+        return quote(
             self.kis,
             code=self.code,
             market=self.market,
@@ -160,7 +165,7 @@ class KisDomesticDayChart(KisResponse, KisDayChart):
     @property
     def prev_volume(self):
         """전일거래량 (한국투자증권 주식 현재가 조회 -> 전일거래량)"""
-        return self.cached_quote.prev_volume
+        return self.quote.prev_volume
 
     change: Decimal = KisDecimal["prdy_vrss"]
     """전일대비"""
@@ -241,37 +246,37 @@ class KisOverseasDayChart(KisResponse, KisDayChart):
     @property
     def price(self) -> Decimal:
         """현재가"""
-        return self.cached_quote.price
+        return self.quote.price
 
     @property
     def volume(self) -> int:
         """거래량"""
-        return self.cached_quote.volume
+        return self.quote.volume
 
     @property
     def amount(self) -> Decimal:
         """거래대금"""
-        return self.cached_quote.amount
+        return self.quote.amount
 
     @property
     def prev_price(self) -> Decimal:
         """전일종가"""
-        return self.cached_quote.prev_price
+        return self.quote.prev_price
 
     @property
     def prev_volume(self) -> Decimal:
         """전일거래량"""
-        return self.cached_quote.prev_volume
+        return self.quote.prev_volume
 
     @property
     def change(self) -> Decimal:
         """전일대비"""
-        return self.cached_quote.change
+        return self.quote.change
 
     @property
     def sign(self) -> STOCK_SIGN_TYPE:
         """대비부호"""
-        return self.cached_quote.sign
+        return self.quote.sign
 
     def __init__(self, code: str, market: MARKET_TYPE):
         super().__init__(code, market)
@@ -476,7 +481,7 @@ def overseas_day_chart(
             api="HHDFS76950200",
             params={
                 "AUTH": "",
-                "EXCD": MARKET_TYPE_SHORT_MAP[market],
+                "EXCD": MARKET_SHORT_TYPE_MAP[market],
                 "SYMB": code,
                 "NMIN": str(i + 1),
                 "PINC": "1",
