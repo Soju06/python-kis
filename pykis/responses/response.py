@@ -4,8 +4,9 @@ from requests import Response
 
 from pykis.client.exception import KisAPIError
 from pykis.client.object import KisObjectBase
-from pykis.responses.dynamic import KisDynamic
-from pykis.responses.exception import KisMarketNotOpenedError, KisNotFoundError
+from pykis.client.page import KisPage, KisPageStatus, to_page_status
+from pykis.responses.dynamic import KisDynamic, KisObject
+from pykis.responses.exception import KisNotFoundError
 from pykis.responses.types import KisAny, KisString
 
 
@@ -43,7 +44,7 @@ class KisResponse(KisDynamic, KisObjectBase):
     __code__: str = KisString()("msg_cd", absolute=True)
     """응답 코드"""
 
-    def __pre_init__(self, data: dict[str, Any]):
+    def __pre_init__(self, data: dict[str, Any]) -> None:
         super().__pre_init__(data)
 
         if int(data["rt_cd"]) != 0:
@@ -57,3 +58,34 @@ class KisAPIResponse(KisResponse):
     """KIS API 응답 결과"""
 
     __path__ = "output"
+
+
+class KisPaginationAPIResponse(KisAPIResponse):
+    """KIS Pagination API 응답 결과"""
+
+    page_status: KisPageStatus
+    """페이징 상태"""
+    next_page: KisPage
+    """페이징 정보"""
+
+    @property
+    def is_last(self) -> bool:
+        """마지막 페이지인지 확인합니다."""
+        return self.page_status == "end"
+
+    @property
+    def has_next(self) -> bool:
+        """다음 페이지가 있는지 확인합니다."""
+        return self.page_status != "end" and not self.next_page.is_empty
+
+    def __pre_init__(self, data: dict[str, Any]):
+        super().__pre_init__(data)
+
+        response: Response = data["__response__"]
+
+        self.page_status = to_page_status(response.headers["tr_cont"])
+        self.next_page = KisObject.transform_(
+            data=data,
+            transform_type=KisPage,
+            ignore_missing=True,
+        )

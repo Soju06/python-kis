@@ -17,28 +17,7 @@ class KisAccount(KisAccountScope):
     def __repr__(self) -> str:
         return f"KisAccount({self.account_number})"
 
-    def stock(self, code: str, market: MARKET_TYPE | None | EMPTY_TYPE = EMPTY) -> "KisInfoStock":
-        """
-        종목을 조회하고 종목 Scope를 반환합니다.
-
-        Args:
-            code (str): 종목코드
-            market (str): 상품유형명 (기본값: 현재 스코프의 상품유형명)
-        """
-        from pykis.scope.stock.info_stock import KisInfoStock
-
-        if market is EMPTY:
-            market = self.market
-
-        return KisInfoStock(
-            kis=self.kis,
-            info=_info(
-                self.kis,
-                code=code,
-                market=market,  # type: ignore
-            ),
-            account=self.account_number,
-        )
+    # TODO: stock() 보유중인 주식 정보를 반환합니다.
 
 
 def account(

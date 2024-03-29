@@ -110,7 +110,7 @@ class PyKis:
         method: Literal["GET", "POST"] = "GET",
         params: dict[str, str] | None = None,
         body: dict[str, str] | None = None,
-        form: Iterable[KisForm] | None = None,
+        form: Iterable[KisForm | None] | None = None,
         headers: dict[str, str] | None = None,
         domain: Literal["real", "virtual"] | None = None,
         appkey_location: Literal["header", "body"] | None = "header",
@@ -145,7 +145,8 @@ class PyKis:
             dist = headers if form_location == "header" else params if form_location == "params" else body
 
             for f in form:
-                f.build(dist)
+                if f is not None:
+                    f.build(dist)
 
         headers["User-Agent"] = USER_AGENT
 
@@ -183,13 +184,14 @@ class PyKis:
         method: Literal["GET", "POST"] = "GET",
         params: dict[str, str] | None = None,
         body: dict[str, str] | None = None,
-        form: Iterable[KisForm] | None = None,
+        form: Iterable[KisForm | None] | None = None,
         headers: dict[str, str] | None = None,
         domain: Literal["real", "virtual"] | None = None,
         appkey_location: Literal["header", "body"] | None = "header",
         form_location: Literal["header", "params", "body"] | None = None,
         auth: bool = True,
         api: str | None = None,
+        continuous: bool = False,
         response_type: TDynamic | type[TDynamic] | Callable[[], TDynamic] = KisDynamicDict,
         verbose: bool = True,
     ) -> TDynamic:
@@ -198,6 +200,12 @@ class PyKis:
                 headers = {}
 
             headers["tr_id"] = api
+
+        if continuous:
+            if headers is None:
+                headers = {}
+
+            headers["tr_cont"] = "N"
 
         resp = self.request(
             path,

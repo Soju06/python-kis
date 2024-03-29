@@ -3,7 +3,7 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, Any, Literal, get_args
 
 from pykis.__env__ import TIMEZONE
-from pykis.api.stock.base.account_product import KisAccountProductBase
+from pykis.api.base.account_product import KisAccountProductBase
 from pykis.api.stock.market import (
     DAYTIME_MARKET_SHORT_TYPE_MAP,
     MARKET_TIMEZONE_OBJECT_MAP,
@@ -396,7 +396,7 @@ def domestic_order(
     code: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
-    qty: int | None = None,
+    qty: Decimal | None = None,
     condition: ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION_CONDITION | None = None,
     include_foreign: bool = False,
@@ -412,7 +412,7 @@ def domestic_order(
         code (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
-        qty (int, optional): 주문수량
+        qty (Decimal, optional): 주문수량
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -507,7 +507,7 @@ def domestic_order(
         body={
             "PDNO": code,
             "ORD_DVSN": condition_code,
-            "ORD_QTY": str(qty),
+            "ORD_QTY": str(int(qty)),
             "ORD_UNPR": str(price or 0),
         },
         form=[account],
@@ -568,7 +568,7 @@ def overseas_order(
     code: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
-    qty: int | None = None,
+    qty: Decimal | None = None,
     condition: OVERSEAS_ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION_CONDITION | None = None,
     include_foreign: bool = False,
@@ -585,7 +585,7 @@ def overseas_order(
         code (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
-        qty (int, optional): 주문수량
+        qty (Decimal, optional): 주문수량
         condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -683,7 +683,7 @@ def overseas_order(
         body={
             "OVRS_EXCG_CD": market,
             "PDNO": code,
-            "ORD_QTY": str(qty),
+            "ORD_QTY": str(int(qty)),
             "OVRS_ORD_UNPR": str(price or 0),
             "SLL_TYPE": "00" if order == "sell" else "",
             "ORD_SVR_DVSN_CD": "0",
@@ -706,7 +706,7 @@ def overseas_daytime_order(
     code: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
-    qty: int | None = None,
+    qty: Decimal | None = None,
     include_foreign: bool = False,
 ) -> KisOverseasDaytimeOrder:
     """
@@ -721,7 +721,7 @@ def overseas_daytime_order(
         code (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
-        qty (int, optional): 주문수량
+        qty (Decimal, optional): 주문수량
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
     """
     if self.virtual:
@@ -779,7 +779,7 @@ def overseas_daytime_order(
         body={
             "OVRS_EXCG_CD": market,
             "PDNO": code,
-            "ORD_QTY": str(qty),
+            "ORD_QTY": str(int(qty)),
             "OVRS_ORD_UNPR": str(price),
             "ORD_SVR_DVSN_CD": "0",
             "ORD_DVSN": "00",
@@ -800,15 +800,15 @@ def order(
     account: str | KisAccountNumber,
     market: MARKET_TYPE,
     code: str,
-    order: ORDER_TYPE = "buy",
+    order: ORDER_TYPE,
     price: ORDER_PRICE | None = None,
-    qty: int | None = None,
+    qty: Decimal | None = None,
     condition: ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION_CONDITION | None = None,
     include_foreign: bool = False,
 ) -> KisOrder:
     """
-    한국투자증권 국내 주식 주문
+    한국투자증권 통합주식 주문
 
     국내주식주문 -> 주식주문(현금)[v1_국내주식-001]
     해외주식주문 -> 해외주식 주문[v1_해외주식-001]
@@ -816,9 +816,9 @@ def order(
     Args:
         account (str | KisAccountNumber): 계좌번호
         code (str): 종목코드
-        order (ORDER_TYPE, optional): 주문종류
+        order (ORDER_TYPE): 주문종류
         price (ORDER_PRICE, optional): 주문가격
-        qty (int, optional): 주문수량
+        qty (Decimal, optional): 주문수량
         condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -939,3 +939,6 @@ def order(
             execution=execution,
             include_foreign=include_foreign,
         )
+
+
+# TODO: 전량 매도 구현

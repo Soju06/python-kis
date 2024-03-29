@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+
 from pykis.client.account import KisAccountNumber
 from pykis.client.object import KisObjectBase
 

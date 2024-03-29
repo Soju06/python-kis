@@ -3,7 +3,7 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, Literal
 
 from pykis.__env__ import TIMEZONE
-from pykis.api.stock.base.product import KisProductBase
+from pykis.api.base.product import KisProductBase
 from pykis.api.stock.market import (
     CURRENCY_TYPE,
     DAYTIME_MARKET_SHORT_TYPE_MAP,
@@ -17,7 +17,6 @@ from pykis.responses.types import (
     KisBool,
     KisDate,
     KisDecimal,
-    KisDynamicDict,
     KisInt,
     KisString,
 )

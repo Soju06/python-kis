@@ -3,7 +3,7 @@ from datetime import date, datetime, time, tzinfo
 from decimal import Decimal
 from typing import Literal, TypeVar, overload
 
-from pykis.api.stock.base.product import KisProductBase
+from pykis.api.base.product import KisProductBase
 from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_KOR_MAP
 from pykis.responses.dynamic import KisDynamic
 
@@ -12,7 +12,7 @@ class KisChartBar(KisDynamic):
     """한국투자증권 차트 봉"""
 
     chart: "KisChart"
-    """차트"""
+    """차트 (post initialization)"""
 
     time: datetime
     """시간 (현지시간)"""
