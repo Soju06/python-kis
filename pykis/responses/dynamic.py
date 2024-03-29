@@ -81,7 +81,9 @@ class KisType(Generic[T]):
         return cls.__default_type__
 
     def __repr__(self) -> str:
-        return f"{type(self).__name__}(field={self.field!r}, scope={self.scope!r}, absolute={self.absolute!r})"
+        return (
+            f"{type(self).__name__}(field={self.field!r}, scope={self.scope!r}, absolute={self.absolute!r})"
+        )
 
 
 TType = TypeVar("TType", bound=KisType[Any])
@@ -133,10 +135,10 @@ class KisDynamic:
     __data__: dict[str, Any]
     """원본 응답 데이터"""
 
-    def __pre_init__(self, data: dict[str, Any]):
+    def __pre_init__(self, data: dict[str, Any]) -> None:
         pass
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         pass
 
     @classmethod
@@ -152,9 +154,11 @@ class KisDynamic:
             data[key] = (
                 cls._asdict(value, {})
                 if isinstance(value, KisDynamic)
-                else [cls._asdict(item, {}) if isinstance(item, KisDynamic) else item for item in value]
-                if isinstance(value, list)
-                else value
+                else (
+                    [cls._asdict(item, {}) if isinstance(item, KisDynamic) else item for item in value]
+                    if isinstance(value, list)
+                    else value
+                )
             )
 
         return data
@@ -307,7 +311,9 @@ class KisObject(Generic[TDynamic], KisType[TDynamic], metaclass=KisTypeMeta):
                     if ignore_missing:
                         continue
 
-                    raise KeyError(f"{object_type.__name__}.{key} 필드의 {field}값이 존재하지 않습니다. ({type_!r})")
+                    raise KeyError(
+                        f"{object_type.__name__}.{key} 필드의 {field}값이 존재하지 않습니다. ({type_!r})"
+                    )
 
                 value = type_.default
             else:
@@ -338,7 +344,9 @@ class KisObject(Generic[TDynamic], KisType[TDynamic], metaclass=KisTypeMeta):
                 missing -= ignore_missing_fields
 
             if missing:
-                logging.logger.warning(f"{object_type.__name__}에 정의되지 않은 필드가 있습니다: {', '.join(missing)}")
+                logging.logger.warning(
+                    f"{object_type.__name__}에 정의되지 않은 필드가 있습니다: {', '.join(missing)}"
+                )
 
         setattr(object, "__data__", data)
 

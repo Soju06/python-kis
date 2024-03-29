@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import TYPE_CHECKING, Literal
 
-from pykis.api.stock.base.product import KisProductBase
+from pykis.api.base.product import KisProductBase
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.exception import KisAPIError
 from pykis.responses.response import KisAPIResponse, raise_not_found
@@ -136,7 +136,7 @@ class KisStockInfo(KisAPIResponse, KisProductBase):
     @property
     def overseas(self) -> bool:
         """해외종목 여부"""
-        return self.market_code not in ["300", "301", "302"]
+        return self.market_code not in MARKET_TYPE_MAP["KRX"]
 
     @property
     def domestic(self) -> bool:
@@ -147,7 +147,10 @@ class KisStockInfo(KisAPIResponse, KisProductBase):
         set_cache(self, "info", self)
 
 
-MARKET_INFO_TYPES = MARKET_TYPE | Literal["KR", "US", "HK", "JP", "VN", "CN"] | None
+COUNTRY_TYPE = Literal["KR", "US", "HK", "JP", "VN", "CN"]
+"""국가유형명"""
+
+MARKET_INFO_TYPES = MARKET_TYPE | COUNTRY_TYPE | None
 """상품유형명"""
 
 

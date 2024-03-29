@@ -1,6 +1,9 @@
 from typing import TYPE_CHECKING
-from pykis.api.stock.base.account import KisAccountBase
-from pykis.api.stock.base.product import KisProductBase
+
+from pykis.api.base.account import KisAccountBase
+from pykis.api.base.product import KisProductBase
+from pykis.api.stock.market import MARKET_TYPE
+from pykis.client.account import KisAccountNumber
 
 if TYPE_CHECKING:
     from pykis.scope.account.account import KisAccount
@@ -8,6 +11,13 @@ if TYPE_CHECKING:
 
 class KisAccountProductBase(KisAccountBase, KisProductBase):
     """한국투자증권 계좌 상품 기본정보"""
+
+    code: str
+    """종목코드"""
+    market: MARKET_TYPE
+    """상품유형타입"""
+    account_number: KisAccountNumber
+    """계좌번호"""
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(account_number={self.account_number!r}, code={self.code!r}, market={self.market!r})"
