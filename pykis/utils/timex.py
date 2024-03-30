@@ -1,5 +1,5 @@
-from datetime import timedelta
 import re
+from datetime import timedelta
 
 TIMEX_TYPE = str
 
@@ -26,11 +26,7 @@ def parse_timex(expression: str | tuple[int, str]) -> timedelta:
     Examples:
         >>> parse_timex("1h")
         timedelta(hours=1)
-        >>> parse_timex("1hour")
-        timedelta(days=1)
         >>> parse_timex("10d")
-        timedelta(days=10)
-        >>> parse_timex("10day")
         timedelta(days=10)
 
     Raises:

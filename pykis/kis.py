@@ -242,6 +242,7 @@ class PyKis:
 
         if isinstance(response_object, KisObjectBase):
             response_object.__kis_init__(self)
+            response_object.__kis_post_init__()
 
         return response_object
 

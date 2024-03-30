@@ -1,15 +1,20 @@
 from decimal import Decimal
-from typing import TYPE_CHECKING, Iterable
+from typing import TYPE_CHECKING
 
 from pykis.api.base.account import KisAccountBase
 from pykis.api.base.account_product import KisAccountProductBase
-from pykis.api.stock.info import COUNTRY_TYPE, MARKET_TYPE_MAP
+from pykis.api.stock.info import (
+    COUNTRY_TYPE,
+    MARKET_TYPE_MAP,
+    market_to_country,
+    resolve_market,
+)
 from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisObject, KisTransform
 from pykis.responses.response import KisAPIResponse, KisPaginationAPIResponse
-from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
+from pykis.responses.types import KisAny, KisDecimal, KisString
 from pykis.utils.cache import cached
 
 if TYPE_CHECKING:
@@ -167,6 +172,10 @@ class KisBalance(KisDynamic, KisAccountBase):
     deposits: dict[CURRENCY_TYPE, KisDeposit]
     """통화별 예수금"""
 
+    def __kis_post_init__(self):
+        self._kis_spread(self.stocks)
+        self._kis_spread(self.deposits)
+
     @property
     def amount(self) -> Decimal:
         """총자산금액 (원화, 보유종목 + 예수금)"""
@@ -248,6 +257,18 @@ class KisBalance(KisDynamic, KisAccountBase):
             raise KeyError(key)
         else:
             raise TypeError(key)
+
+    def stock(self, code: str) -> KisBalanceStock | None:
+        """보유종목을 종목코드로 조회합니다."""
+        for stock in self.stocks:
+            if stock.code == code:
+                return stock
+
+        return None
+
+    def deposit(self, currency: CURRENCY_TYPE) -> KisDeposit | None:
+        """통화별 예수금을 조회합니다."""
+        return self.deposits.get(currency)
 
     def __repr__(self) -> str:
         nl = "\n    "
@@ -785,3 +806,45 @@ def balance(
         return domestic_balance(self, account)
     else:
         return overseas_balance(self, account, country)
+
+
+def orderable_quantity(
+    self: "PyKis",
+    account: str | KisAccountNumber,
+    code: str,
+    country: COUNTRY_TYPE | None = None,
+) -> Decimal | None:
+    """
+    한국투자증권 매도가능수량 조회
+
+    국내주식시세 -> 상품기본조회[v1_국내주식-029]
+    국내주식주문 -> 주식잔고조회[v1_국내주식-006]
+    해외주식주문 -> 해외주식 체결기준현재잔고[v1_해외주식-008] (실전투자, 모의투자)
+    해외주식주문 -> 해외주식 잔고[v1_해외주식-006] (모의투자)
+    (업데이트 날짜: 2024/03/30)
+
+    Args:
+        account (str | KisAccountNumber): 계좌번호
+        code (str): 종목코드
+        country (COUNTRY_TYPE, optional): 국가코드
+
+    Returns:
+        Decimal: 매도가능수량
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 계좌번호가 잘못된 경우
+    """
+    if not country:
+        country = market_to_country(resolve_market(self, code=code))
+
+    stock = balance(
+        self,
+        account=account,
+        country=country,
+    ).stock(code)
+
+    if stock:
+        return stock.orderable
+
+    return None

@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any, Literal, get_args
 
 from pykis.__env__ import TIMEZONE
 from pykis.api.base.account_product import KisAccountProductBase
+from pykis.api.stock.info import market_to_country
 from pykis.api.stock.market import (
     DAYTIME_MARKET_SHORT_TYPE_MAP,
     MARKET_TIMEZONE_OBJECT_MAP,
@@ -390,6 +391,88 @@ DOMESTIC_ORDER_API_CODES: dict[tuple[bool, ORDER_TYPE], str] = {
 }
 
 
+def _orderable_quantity(
+    self: "PyKis",
+    account: str | KisAccountNumber,
+    market: MARKET_TYPE,
+    code: str,
+    order: ORDER_TYPE = "buy",
+    price: ORDER_PRICE | None = None,
+    qty: Decimal | None = None,
+    condition: ORDER_CONDITION | None = None,
+    execution: ORDER_EXECUTION_CONDITION | None = None,
+    include_foreign: bool = False,
+    throw_no_qty: bool = True,
+) -> tuple[Decimal, Decimal | None]:
+    """
+    주문 가능 수량 조회
+
+    국내주식주문 -> 매수가능조회[v1_국내주식-007]
+    해외주식주문 -> 해외주식 매수가능금액조회[v1_해외주식-014]
+
+    국내주식시세 -> 상품기본조회[v1_국내주식-029]
+    국내주식주문 -> 주식잔고조회[v1_국내주식-006]
+    해외주식주문 -> 해외주식 체결기준현재잔고[v1_해외주식-008] (실전투자, 모의투자)
+    해외주식주문 -> 해외주식 잔고[v1_해외주식-006] (모의투자)
+
+    Args:
+        account (str | KisAccountNumber): 계좌번호
+        market (MARKET_TYPE): 시장
+        code (str): 종목코드
+        order (ORDER_TYPE, optional): 주문종류
+        price (ORDER_PRICE, optional): 주문가격
+        qty (Decimal, optional): 주문수량
+        condition (ORDER_CONDITION, optional): 주문조건
+        execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
+        include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
+        throw_no_qty (bool, optional): 주문가능수량이 없을 경우 예외 발생 여부
+
+    Returns:
+        tuple[Decimal, Decimal | None]: 주문가능수량, 주문단가
+
+    Raises:
+        ValueError: 주문가능수량이 없는 경우
+        KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
+    """
+    if order == "buy":
+        from pykis.api.account.orderable_amount import orderable_amount
+
+        amount = orderable_amount(
+            self,
+            account=account,
+            market="KRX",
+            code=code,
+            price=price,
+            condition=condition,
+            execution=execution,
+        )
+
+        if include_foreign:
+            qty = amount.foreign_qty
+        else:
+            qty = amount.qty
+
+        if throw_no_qty and qty <= 0:
+            raise ValueError("주문가능수량이 없습니다.")
+
+        return qty, amount.unit_price
+    else:
+        from pykis.api.account.balance import orderable_quantity
+
+        qty = orderable_quantity(
+            self,
+            account=account,
+            code=code,
+            country=market_to_country(market),
+        )
+
+        if throw_no_qty and (not qty or qty <= 0):
+            raise ValueError("주문가능수량이 없습니다.")
+
+        return qty or Decimal(0), None
+
+
 def domestic_order(
     self: "PyKis",
     account: str | KisAccountNumber,
@@ -481,25 +564,17 @@ def domestic_order(
         price = quote_data.high_limit if price_setting == "upper" else quote_data.low_limit
 
     if qty is None:
-        from pykis.api.account.orderable_amount import orderable_amount
-
-        amount = orderable_amount(
+        qty, _ = _orderable_quantity(
             self,
             account=account,
             market="KRX",
             code=code,
+            order=order,
             price=None if price_setting else price,
             condition=condition,
             execution=execution,
+            include_foreign=include_foreign,
         )
-
-        if include_foreign:
-            qty = amount.foreign_qty
-        else:
-            qty = amount.qty
-
-        if qty <= 0:
-            raise ValueError("주문가능수량이 없습니다.")
 
     return self.fetch(
         "/uapi/domestic-stock/v1/trading/order-cash",
@@ -652,30 +727,22 @@ def overseas_order(
     if not isinstance(account, KisAccountNumber):
         account = KisAccountNumber(account)
 
-    if qty is None:
-        from pykis.api.account.orderable_amount import orderable_amount
+    if price_setting:
+        quote_data = quote(self, code=code, market=market)
+        price = quote_data.high_limit if price_setting == "upper" else quote_data.low_limit
 
-        amount = orderable_amount(
+    if qty is None:
+        qty, _ = _orderable_quantity(
             self,
             account=account,
             market=market,
             code=code,
-            price=price,
+            order=order,
+            price=None if price_setting else price,
             condition=condition,
             execution=execution,
+            include_foreign=include_foreign,
         )
-
-        if include_foreign:
-            qty = amount.foreign_qty
-        else:
-            qty = amount.qty
-
-        if qty <= 0:
-            raise ValueError("주문가능수량이 없습니다.")
-
-    if price_setting:
-        quote_data = quote(self, code=code, market="KRX")
-        price = quote_data.high_limit if price_setting == "upper" else quote_data.low_limit
 
     return self.fetch(
         "/uapi/overseas-stock/v1/trading/order",
@@ -748,26 +815,16 @@ def overseas_daytime_order(
         account = KisAccountNumber(account)
 
     if qty is None:
-        from pykis.api.account.orderable_amount import orderable_amount
-
-        amount = orderable_amount(
+        qty, price = _orderable_quantity(
             self,
             account=account,
             market=market,
             code=code,
+            order=order,
             price=price,
             condition="extended",
+            include_foreign=include_foreign,
         )
-
-        if include_foreign:
-            qty = amount.foreign_qty
-        else:
-            qty = amount.qty
-
-        price = amount.unit_price
-
-        if qty <= 0:
-            raise ValueError("주문가능수량이 없습니다.")
 
     if not price:
         quote_data = quote(self, code=code, market=market, extended=True)
@@ -939,6 +996,3 @@ def order(
             execution=execution,
             include_foreign=include_foreign,
         )
-
-
-# TODO: 전량 매도 구현
