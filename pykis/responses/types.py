@@ -3,7 +3,7 @@ from decimal import Decimal
 from typing import Any, Callable
 
 from pykis.__env__ import TIMEZONE
-from pykis.responses.dynamic import KisDynamic, KisType, KisTypeMeta, KisNoneError
+from pykis.responses.dynamic import KisDynamic, KisNoneError, KisType, KisTypeMeta
 
 
 class KisDynamicDict(KisDynamic):
@@ -20,13 +20,14 @@ class KisDynamicDict(KisDynamic):
             if isinstance(value, dict):
                 return KisDynamicDict.from_dict(value)
             elif isinstance(value, list):
-                return [
-                    KisDynamicDict.from_dict(item) if isinstance(item, dict) else item for item in value
-                ]
+                return [KisDynamicDict.from_dict(item) if isinstance(item, dict) else item for item in value]
             else:
                 return value
 
         return super().__getattribute__(name)
+
+    def __dict__(self) -> dict[str, Any]:
+        return self.__data__
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]):
