@@ -23,14 +23,12 @@ class KisAccount(KisAccountScope):
 def account(
     self: "PyKis",
     account: str | KisAccountNumber | None = None,
-    market: MARKET_TYPE | None = None,
     primary: bool = False,
 ) -> KisAccount:
     """계좌 정보를 반환합니다.
 
     Args:
         account: 계좌 번호. None이면 기본 계좌 정보를 사용합니다.
-        market: 상품유형. None이면 모든 상품유형을 사용합니다.
         primary: 기본 계좌로 설정할지 여부
     """
     if isinstance(account, str):
@@ -44,5 +42,4 @@ def account(
     return KisAccount(
         kis=self,
         account=account,
-        market=market,
     )

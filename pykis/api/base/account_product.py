@@ -29,7 +29,4 @@ class KisAccountProductBase(KisAccountBase, KisProductBase):
 
         해당 계좌 Scope는 해당 상품에 해당하는 시장에 대한 정보를 제공합니다.
         """
-        return self.kis.account(
-            account=self.account_number,
-            market=self.market,
-        )
+        return self.kis.account(account=self.account_number)

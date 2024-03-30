@@ -150,6 +150,25 @@ class KisStockInfo(KisAPIResponse, KisProductBase):
 COUNTRY_TYPE = Literal["KR", "US", "HK", "JP", "VN", "CN"]
 """국가유형명"""
 
+
+def market_to_country(market: MARKET_TYPE) -> COUNTRY_TYPE:
+    """상품유형명을 국가유형명으로 변환합니다."""
+    if market == "KRX":
+        return "KR"
+    elif market in ["NASD", "NYSE", "AMEX"]:
+        return "US"
+    elif market == "SEHK":
+        return "HK"
+    elif market == "TKSE":
+        return "JP"
+    elif market in ["HASE", "VNSE"]:
+        return "VN"
+    elif market in ["SHAA", "SZAA"]:
+        return "CN"
+    else:
+        raise ValueError(f"지원하지 않는 상품유형명입니다. {market}")
+
+
 MARKET_INFO_TYPES = MARKET_TYPE | COUNTRY_TYPE | None
 """상품유형명"""
 
@@ -228,6 +247,9 @@ def resolve_market(
 ) -> MARKET_TYPE:
     """
     상품유형명 해석
+
+    국내주식시세 -> 상품기본조회[v1_국내주식-029]
+    (업데이트 날짜: 2024/03/30)
 
     Args:
         code (str): 종목코드

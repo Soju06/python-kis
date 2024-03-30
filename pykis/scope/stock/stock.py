@@ -19,7 +19,7 @@ class KisStock(KisProductScope):
         self,
         kis: "PyKis",
         code: str,
-        market: MARKET_TYPE | None = None,
+        market: MARKET_TYPE,
         account: KisAccountNumber | None = None,
     ):
         super().__init__(kis=kis, market=market)
@@ -97,7 +97,7 @@ class KisStock(KisProductScope):
         return orderable_amount(
             self.kis,
             account=self.account,
-            market=self.primary_market,
+            market=self.market,
             code=self.code,
             price=price,
             condition=condition,
