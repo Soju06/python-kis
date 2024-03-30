@@ -1,4 +1,5 @@
 from typing import Any
+
 from pykis.client.form import KisForm
 
 
@@ -40,12 +41,15 @@ class KisAccountNumber(KisForm):
 
         dict.update({"CANO": self.number, "ACNT_PRDT_CD": self.code})
         return dict
-    
+
     def __eq__(self, o: object) -> bool:
         if isinstance(o, KisAccountNumber):
             return self.number == o.number and self.code == o.code
 
         return False
+
+    def __hash__(self) -> int:
+        return hash((self.number, self.code))
 
     def __str__(self) -> str:
         return f"{self.number}-{self.code}"

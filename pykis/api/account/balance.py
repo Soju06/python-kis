@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Iterable
 
 from pykis.api.base.account import KisAccountBase
 from pykis.api.base.account_product import KisAccountProductBase
@@ -7,9 +7,10 @@ from pykis.api.stock.info import COUNTRY_TYPE, MARKET_TYPE_MAP
 from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
-from pykis.responses.dynamic import KisDynamic, KisList, KisObject
+from pykis.responses.dynamic import KisDynamic, KisList, KisObject, KisTransform
 from pykis.responses.response import KisAPIResponse, KisPaginationAPIResponse
 from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
+from pykis.utils.cache import cached
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -121,7 +122,7 @@ class KisBalanceStock(KisDynamic, KisAccountProductBase):
     """환율"""
 
     def __str__(self) -> str:
-        return f"{self.__class__.__name__}(account_number={self.account_number!r}, code={self.code!r}, market={self.market!r}, quantity={self.quantity}, current_price={self.current_price}, purchase_amount={self.purchase_amount})"
+        return f"{self.__class__.__name__}(account_number={self.account_number!r}, code={self.code!r}, market={self.market!r}, quantity={self.quantity}, purchase_price={self.purchase_price}, current_price={self.current_price}, profit={self.profit}, profit_rate={self.profit_rate})"
 
     def __repr__(self) -> str:
         return str(self)
@@ -147,6 +148,12 @@ class KisDeposit(KisDynamic, KisAccountBase):
 
     exchange_rate: Decimal
     """환율"""
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(account_number={self.account_number!r}, currency={self.currency!r}, amount={self.amount}, withdrawable_amount={self.withdrawable_amount}, exchange_rate={self.exchange_rate})"
+
+    def __str__(self) -> str:
+        return str(self)
 
 
 class KisBalance(KisDynamic, KisAccountBase):
@@ -242,6 +249,11 @@ class KisBalance(KisDynamic, KisAccountBase):
         else:
             raise TypeError(key)
 
+    def __repr__(self) -> str:
+        nl = "\n    "
+        nll = "\n        "
+        return f"{self.__class__.__name__}({nl}account_number={self.account_number!r},{nl}deposits={{{nll}{(nll.join(f'{k}: {v!r}' for k, v in self.deposits.items()))}{nl}}}{nl}stocks=[{nll}{nll.join(repr(s) for s in self.stocks)}{nl}],{nl}withdrawable_amount={self.withdrawable_amount},{nl}purchase_amount={self.purchase_amount},{nl}current_amount={self.current_amount},{nl}profit={self.profit},{nl}profit_rate={self.profit_rate}\n)"
+
 
 class KisDomesticBalanceStock(KisBalanceStock):
     """한국투자증권 국내종목 잔고"""
@@ -328,7 +340,7 @@ class KisDomesticBalance(KisPaginationAPIResponse, KisBalance):
             deposit.account_number = self.account_number
 
 
-class KisOverseasBalanceStock(KisBalanceStock):
+class KisOverseasPresentBalanceStock(KisBalanceStock):
     """한국투자증권 해외종목 잔고"""
 
     code: str = KisString["pdno"]
@@ -360,7 +372,7 @@ class KisOverseasBalanceStock(KisBalanceStock):
     """환율"""
 
 
-class KisOverseasDeposit(KisDeposit):
+class KisOverseasPresentDeposit(KisDeposit):
     """한국투자증권 국내종목 예수금"""
 
     account_number: KisAccountNumber
@@ -377,7 +389,7 @@ class KisOverseasDeposit(KisDeposit):
     """환율"""
 
 
-class KisOverseasBalance(KisAPIResponse, KisBalance):
+class KisOverseasPresentBalance(KisAPIResponse, KisBalance):
     """한국투자증권 해외종목 잔고"""
 
     __path__ = None
@@ -385,13 +397,13 @@ class KisOverseasBalance(KisAPIResponse, KisBalance):
     country: COUNTRY_TYPE | None
     """국가코드 (스코프 지정시)"""
 
-    stocks: list[KisOverseasBalanceStock] = KisList(KisOverseasBalanceStock)["output1"]
+    stocks: list[KisBalanceStock] = KisList(KisOverseasPresentBalanceStock)["output1"]
     """보유종목"""
     deposits: dict[CURRENCY_TYPE, KisDeposit] = KisAny(
         lambda x: {
             i["crcy_cd"]: KisObject.transform_(
                 i,
-                KisOverseasDeposit,
+                KisOverseasPresentDeposit,
                 ignore_missing=True,
             )
             for i in x
@@ -413,6 +425,93 @@ class KisOverseasBalance(KisAPIResponse, KisBalance):
 
         for deposit in self.deposits.values():
             deposit.account_number = self.account_number
+
+
+class KisOverseasBalanceStock(KisBalanceStock):
+    """한국투자증권 해외종목 잔고"""
+
+    code: str = KisString["ovrs_pdno"]
+    """종목코드"""
+    market: MARKET_TYPE = KisString["ovrs_excg_cd"]
+    """상품유형타입"""
+    account_number: KisAccountNumber = KisTransform(
+        lambda x: KisAccountNumber(f"{x['cano']}-{x['acnt_prdt_cd']}")
+    )()
+    """계좌번호"""
+
+    name: str = KisString["ovrs_item_name"]
+    """종목명"""
+    name_kor: str = KisString["ovrs_item_name"]
+    """종목명"""
+
+    current_price: Decimal = KisDecimal["now_pric2"]
+    """현재가"""
+
+    quantity: Decimal = KisDecimal["ovrs_cblc_qty"]
+    """수량"""
+    orderable: Decimal = KisDecimal["ord_psbl_qty"]
+    """매도가능수량"""
+
+    purchase_amount: Decimal = KisDecimal["frcr_pchs_amt1"]
+    """매입금액"""
+
+    currency: CURRENCY_TYPE = KisString["tr_crcy_cd"]
+    """통화코드"""
+
+    @property
+    @cached
+    def exchange_rate(self) -> Decimal:
+        """환율 (캐시됨)"""
+        return self.balance.deposits[self.currency].exchange_rate
+
+
+class KisOverseasBalance(KisPaginationAPIResponse, KisBalance):
+    """한국투자증권 해외종목 잔고"""
+
+    __path__ = None
+
+    country: COUNTRY_TYPE | None
+    """국가코드 (스코프 지정시)"""
+
+    stocks: list[KisBalanceStock] = KisList(KisOverseasBalanceStock)["output1"]
+    """보유종목"""
+    deposits: dict[CURRENCY_TYPE, KisDeposit]
+    """통화별 예수금"""
+
+    def __init__(self, account_number: KisAccountNumber, country: COUNTRY_TYPE | None = None):
+        super().__init__()
+        self.account_number = account_number
+        self.country = country
+        self.deposits = {}
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+        for stock in self.stocks:
+            stock.balance = self
+
+
+class KisIntegrationBalance(KisBalance):
+    """한국투자증권 통합잔고"""
+
+    _balances: list[KisBalance]
+    """내부구현 잔고"""
+
+    def __init__(self, account_number: KisAccountNumber, *balances: KisBalance):
+        super().__init__()
+        self.account_number = account_number
+        self._balances = list(balances)
+        self.stocks = []
+        self.deposits = {}
+
+        for balance in self._balances:
+            self.stocks.extend(balance.stocks)
+
+            for stock in balance.stocks:
+                stock.balance = self
+
+            for currency, deposit in balance.deposits.items():
+                self.deposits[currency] = deposit
 
 
 def domestic_balance(
@@ -478,6 +577,117 @@ def domestic_balance(
     return first
 
 
+def _internal_overseas_balance(
+    self: "PyKis",
+    account: str | KisAccountNumber,
+    market: str | None = None,
+    page: KisPage | None = None,
+    continuous: bool = True,
+) -> KisOverseasBalance:
+    """
+    한국투자증권 해외 주식 잔고 조회
+
+    해외주식주문 -> 해외주식 잔고[v1_해외주식-006]
+    (업데이트 날짜: 2024/03/30)
+
+    Args:
+        account (str | KisAccountNumber): 계좌번호
+        market (str, optional): 시장코드
+        page (KisPage, optional): 페이지 정보
+        continuous (bool, optional): 연속조회 여부
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 계좌번호가 잘못된 경우
+    """
+    if not isinstance(account, KisAccountNumber):
+        account = KisAccountNumber(account)
+
+    page = (page or KisPage.first()).to(200)
+    first = None
+
+    while True:
+        result = self.fetch(
+            "/uapi/overseas-stock/v1/trading/inquire-balance",
+            api="VTTS3012R" if self.virtual else "TTTS3012R",
+            params={
+                "OVRS_EXCG_CD": market if market else "",
+                "TR_CRCY_CD": "",
+            },
+            form=[
+                account,
+                page,
+            ],
+            continuous=not page.is_first,
+            response_type=KisOverseasBalance(
+                account_number=account,
+            ),
+        )
+
+        if first is None:
+            first = result
+        else:
+            first.stocks.extend(result.stocks)
+
+        if not continuous or result.is_last:
+            break
+
+        page = result.next_page
+
+    return first
+
+
+OVERSEAS_COUNTRY_MARKET_MAP: dict[tuple[bool | None, COUNTRY_TYPE | None], list[str | None]] = {
+    # 실전투자여부, 국가코드 -> 조회시장코드
+    (None, None): [None],
+    (True, "US"): ["NASD"],
+    (False, "US"): ["NASD", "NYSE", "AMEX"],
+    (None, "HK"): ["SEHK"],
+    (None, "CN"): ["SHAA", "SZAA"],
+    (None, "JP"): ["TKSE"],
+    (None, "VN"): ["VNSE", "HASE"],
+}
+
+
+def _overseas_balance(
+    self: "PyKis",
+    account: str | KisAccountNumber,
+    country: COUNTRY_TYPE | None = None,
+) -> KisOverseasBalance:
+    """
+    한국투자증권 해외 주식 잔고 조회
+
+    해외주식주문 -> 해외주식 잔고[v1_해외주식-006]
+    (업데이트 날짜: 2024/03/30)
+
+    Args:
+        account (str | KisAccountNumber): 계좌번호
+        country (COUNTRY_TYPE, optional): 국가코드
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 계좌번호가 잘못된 경우
+    """
+    markets = OVERSEAS_COUNTRY_MARKET_MAP.get(
+        (not self.virtual, country), OVERSEAS_COUNTRY_MARKET_MAP[(None, country)]
+    )
+
+    first = None
+
+    for market in markets:
+        result = _internal_overseas_balance(self, account, market)
+
+        if first is None:
+            first = result
+        else:
+            first.stocks.extend(result.stocks)
+
+    if first is None:
+        raise ValueError("Invalid country code")
+
+    return first
+
+
 OVERSEAS_COUNTRY_MAP = {
     None: "000",
     "US": "840",
@@ -492,12 +702,13 @@ def overseas_balance(
     self: "PyKis",
     account: str | KisAccountNumber,
     country: COUNTRY_TYPE | None = None,
-) -> KisOverseasBalance:
+) -> KisOverseasPresentBalance:
     """
-    한국투자증권 해외 주식 잔고 조회 (모의투자 미지원)
+    한국투자증권 해외 주식 잔고 조회
 
-    해외주식주문 -> 해외주식 체결기준현재잔고[v1_해외주식-008]
-    (업데이트 날짜: 2024/03/29)
+    해외주식주문 -> 해외주식 체결기준현재잔고[v1_해외주식-008] (실전투자, 모의투자)
+    해외주식주문 -> 해외주식 잔고[v1_해외주식-006] (모의투자)
+    (업데이트 날짜: 2024/03/30)
 
     Args:
         account (str | KisAccountNumber): 계좌번호
@@ -507,15 +718,13 @@ def overseas_balance(
         KisAPIError: API 호출에 실패한 경우
         ValueError: 계좌번호가 잘못된 경우
     """
-    if self.virtual:
-        raise ValueError("모의투자에서는 해외 주식 잔고 조회를 지원하지 않습니다.")
 
     if not isinstance(account, KisAccountNumber):
         account = KisAccountNumber(account)
 
-    return self.fetch(
+    result = self.fetch(
         "/uapi/overseas-stock/v1/trading/inquire-present-balance",
-        api="CTRP6504R",
+        api="VTRP6504R" if self.virtual else "CTRP6504R",
         params={
             "WCRC_FRCR_DVSN_CD": "02",
             "NATN_CD": OVERSEAS_COUNTRY_MAP[country],
@@ -523,8 +732,56 @@ def overseas_balance(
             "INQR_DVSN_CD": "00",
         },
         form=[account],
-        response_type=KisOverseasBalance(
+        response_type=KisOverseasPresentBalance(
             account_number=account,
             country=country,
         ),
     )
+
+    if self.virtual:
+        result.stocks = _overseas_balance(
+            self,
+            account=account,
+            country=country,
+        ).stocks
+
+        for stock in result.stocks:
+            stock.balance = result
+
+    return result
+
+
+def balance(
+    self: "PyKis",
+    account: str | KisAccountNumber,
+    country: COUNTRY_TYPE | None = None,
+) -> KisBalance:
+    """
+    한국투자증권 통합주식 잔고 조회
+
+    국내주식주문 -> 주식잔고조회[v1_국내주식-006]
+    해외주식주문 -> 해외주식 체결기준현재잔고[v1_해외주식-008] (실전투자, 모의투자)
+    해외주식주문 -> 해외주식 잔고[v1_해외주식-006] (모의투자)
+    (업데이트 날짜: 2024/03/30)
+
+    Args:
+        account (str | KisAccountNumber): 계좌번호
+        country (COUNTRY_TYPE, optional): 국가코드
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 계좌번호가 잘못된 경우
+    """
+    if not isinstance(account, KisAccountNumber):
+        account = KisAccountNumber(account)
+
+    if country is None:
+        return KisIntegrationBalance(
+            account,
+            domestic_balance(self, account),
+            overseas_balance(self, account),
+        )
+    elif country == "KR":
+        return domestic_balance(self, account)
+    else:
+        return overseas_balance(self, account, country)

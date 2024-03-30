@@ -34,11 +34,11 @@ class KisPage(KisDynamic, KisForm):
     def __pre_init__(self, data: dict[str, Any]):
         super().__pre_init__(data)
 
-        if search := data.get("ctx_area_fk100"):
+        if (search := data.get("ctx_area_fk100")) is not None:
             self.search = search
             self.key = data["ctx_area_nk100"]
             self.size = 100
-        elif search := data.get("ctx_area_fk200"):
+        elif (search := data.get("ctx_area_fk200")) is not None:
             self.search = search
             self.key = data["ctx_area_nk200"]
             self.size = 200
