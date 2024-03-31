@@ -24,7 +24,7 @@ class KisType(Generic[T]):
     """응답 필드"""
     scope: str | None
     """응답 범위"""
-    default: T | None | object
+    default: T | Callable[[], T] | None | object
     """기본값"""
     absolute: bool
     """
@@ -42,7 +42,7 @@ class KisType(Generic[T]):
     def __call__(
         self,
         field: str | None | EMPTY_TYPE = EMPTY,
-        default: T | None | object | EMPTY_TYPE = EMPTY,
+        default: T | Callable[[], T] | None | object | EMPTY_TYPE = EMPTY,
         scope: str | None | EMPTY_TYPE = EMPTY,
         absolute: bool | EMPTY_TYPE = EMPTY,
     ) -> T:
@@ -60,7 +60,7 @@ class KisType(Generic[T]):
 
         return self  # type: ignore
 
-    def __getitem__(self, args: str | None | tuple[str | None, T | None | object]) -> T:
+    def __getitem__(self, args: str | None | tuple[str | None, T | Callable[[], T] | None | object]) -> T:
         if isinstance(args, tuple):
             return self(field=args[0] if args[0] else None, default=args[1])
 
@@ -315,7 +315,10 @@ class KisObject(Generic[TDynamic], KisType[TDynamic], metaclass=KisTypeMeta):
                         f"{object_type.__name__}.{key} 필드의 {field}값이 존재하지 않습니다. ({type_!r})"
                     )
 
-                value = type_.default
+                if callable(type_.default):
+                    value = type_.default()
+                else:
+                    value = type_.default
             else:
                 value = target_data[field]
 

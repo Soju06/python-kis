@@ -11,7 +11,7 @@ from pykis.utils.timex import TIMEX_TYPE, timex
 if TYPE_CHECKING:
     from pykis.api.account.order import (
         ORDER_CONDITION,
-        ORDER_EXECUTION_CONDITION,
+        ORDER_EXECUTION,
         ORDER_PRICE,
         ORDER_TYPE,
         KisOrder,
@@ -42,6 +42,18 @@ class KisProductBase(KisObjectBase):
     def market_name(self) -> str:
         """실제 상품유형명"""
         return MARKET_TYPE_KOR_MAP[self.market]
+
+    @property
+    def overseas(self) -> bool:
+        """해외종목 여부"""
+        from pykis.api.stock.info import MARKET_TYPE_MAP
+
+        return self.market not in MARKET_TYPE_MAP["KRX"]
+
+    @property
+    def domestic(self) -> bool:
+        """국내종목 여부"""
+        return not self.overseas
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}(code={self.symbol}, market={self.market})"
@@ -247,7 +259,7 @@ class KisProductBase(KisObjectBase):
         self,
         price: "ORDER_PRICE | None" = None,
         condition: "ORDER_CONDITION | None" = None,
-        execution: "ORDER_EXECUTION_CONDITION | None" = None,
+        execution: "ORDER_EXECUTION | None" = None,
         account: "str | KisAccountNumber | KisAccountScope | None" = None,
     ) -> "KisOrderableAmount":
         """
@@ -321,7 +333,7 @@ class KisProductBase(KisObjectBase):
         price: "ORDER_PRICE | None" = None,
         qty: Decimal | None = None,
         condition: "ORDER_CONDITION | None" = None,
-        execution: "ORDER_EXECUTION_CONDITION | None" = None,
+        execution: "ORDER_EXECUTION | None" = None,
         include_foreign: bool = False,
         account: str | KisAccountNumber | None = None,
     ) -> "KisOrder":
@@ -439,7 +451,7 @@ class KisProductBase(KisObjectBase):
         price: "ORDER_PRICE | None" = None,
         qty: Decimal | None = None,
         condition: "ORDER_CONDITION | None" = None,
-        execution: "ORDER_EXECUTION_CONDITION | None" = None,
+        execution: "ORDER_EXECUTION | None" = None,
         include_foreign: bool = False,
         account: str | KisAccountNumber | None = None,
     ) -> "KisOrder":
@@ -514,7 +526,7 @@ class KisProductBase(KisObjectBase):
         price: "ORDER_PRICE | None" = None,
         qty: Decimal | None = None,
         condition: "ORDER_CONDITION | None" = None,
-        execution: "ORDER_EXECUTION_CONDITION | None" = None,
+        execution: "ORDER_EXECUTION | None" = None,
         account: str | KisAccountNumber | None = None,
     ) -> "KisOrder":
         """

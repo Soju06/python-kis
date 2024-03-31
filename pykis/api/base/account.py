@@ -6,11 +6,7 @@ from pykis.client.object import KisObjectBase
 from pykis.scope.base.product import KisProductScope
 
 if TYPE_CHECKING:
-    from pykis.api.account.order import (
-        ORDER_CONDITION,
-        ORDER_EXECUTION_CONDITION,
-        ORDER_PRICE,
-    )
+    from pykis.api.account.order import ORDER_CONDITION, ORDER_EXECUTION, ORDER_PRICE
     from pykis.scope.account.account import KisAccount
 
 
@@ -36,7 +32,7 @@ class KisAccountBase(KisObjectBase):
         market: MARKET_TYPE | None = None,
         price: "ORDER_PRICE | None" = None,
         condition: "ORDER_CONDITION | None" = None,
-        execution: "ORDER_EXECUTION_CONDITION | None" = None,
+        execution: "ORDER_EXECUTION | None" = None,
     ):
         """
         한국투자증권 주문가능금액 조회

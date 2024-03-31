@@ -1,7 +1,7 @@
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
-from pykis.api.account.order import ORDER_CONDITION, ORDER_EXECUTION_CONDITION
+from pykis.api.account.order import ORDER_CONDITION, ORDER_EXECUTION
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.scope.base.product import KisProductScope
@@ -46,7 +46,7 @@ class KisStock(KisProductScope):
         self,
         price: Decimal | None = None,
         condition: ORDER_CONDITION | None = None,
-        execution: ORDER_EXECUTION_CONDITION | None = None,
+        execution: ORDER_EXECUTION | None = None,
     ):
         """
         한국투자증권 주문가능금액 조회

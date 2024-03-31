@@ -1,6 +1,6 @@
 from datetime import datetime, tzinfo
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any, Literal, get_args
+from typing import TYPE_CHECKING, Any, Literal, get_args, overload
 
 from pykis.__env__ import TIMEZONE
 from pykis.api.base.account_product import KisAccountProductBase
@@ -45,7 +45,7 @@ def ensure_price(price: ORDER_PRICE, digit: int | None = 4) -> Decimal:
     return price
 
 
-ORDER_EXECUTION_CONDITION = Literal["IOC", "FOK"]
+ORDER_EXECUTION = Literal["IOC", "FOK"]
 """체결 조건 (IOC, FOK)"""
 
 DOMESTIC_ORDER_CONDITION = Literal[
@@ -111,7 +111,7 @@ ORDER_CONDITION_MAP: dict[
         ORDER_TYPE,
         bool,
         ORDER_CONDITION | None,
-        ORDER_EXECUTION_CONDITION | None,
+        ORDER_EXECUTION | None,
     ],
     tuple[str, Literal["lower", "upper"] | None, str],
 ] = {
@@ -204,7 +204,7 @@ def order_condition(
     order: ORDER_TYPE,
     price: Decimal | None = None,
     condition: ORDER_CONDITION | None = None,
-    execution: ORDER_EXECUTION_CONDITION | None = None,
+    execution: ORDER_EXECUTION | None = None,
 ):
     if price and price <= 0:
         raise ValueError("가격은 0보다 커야합니다.")
@@ -246,13 +246,104 @@ def order_condition(
     return ORDER_CONDITION_MAP[tuple(order_condition)]  # type: ignore
 
 
+DOMESTIC_REVERSE_ORDER_CONDITION_MAP: dict[
+    str, tuple[bool, ORDER_CONDITION | None, ORDER_EXECUTION | None]
+] = {
+    # 주문구분코드: (지정가여부, 주문조건, 체결조건)
+    "00": (True, None, None),
+    "01": (False, None, None),
+    "02": (True, "condition", None),
+    "03": (True, "best", None),
+    "04": (True, "priority", None),
+    "05": (False, "before", None),
+    "06": (False, "after", None),
+    "07": (True, "extended", None),
+    "11": (True, None, "IOC"),
+    "12": (True, None, "FOK"),
+    "13": (False, None, "IOC"),
+    "14": (False, None, "FOK"),
+    "15": (True, "best", "IOC"),
+    "16": (True, "best", "FOK"),
+}
+
+
+def resolve_domestic_order_condition(
+    code: str,
+) -> tuple[bool, ORDER_CONDITION | None, ORDER_EXECUTION | None]:
+    if code not in DOMESTIC_REVERSE_ORDER_CONDITION_MAP:
+        return True, None, None
+
+    return DOMESTIC_REVERSE_ORDER_CONDITION_MAP[code]
+
+
 class KisOrderNumber(KisDynamic, KisAccountProductBase):
     """한국투자증권 주문번호"""
+
+    symbol: str
+    """종목코드"""
+    market: MARKET_TYPE
+    """상품유형타입"""
+    account_number: KisAccountNumber
+    """계좌번호"""
 
     branch: str
     """지점코드"""
     number: str
     """주문번호"""
+
+    @overload
+    def __init__(self): ...
+
+    @overload
+    def __init__(self, kis: "PyKis"): ...
+
+    @overload
+    def __init__(
+        self,
+        kis: "PyKis",
+        symbol: str,
+        market: MARKET_TYPE,
+        account_number: KisAccountNumber,
+        branch: str,
+        number: str,
+    ): ...
+
+    def __init__(
+        self,
+        kis: "PyKis | None" = None,
+        symbol: str | None = None,
+        market: MARKET_TYPE | None = None,
+        account_number: KisAccountNumber | None = None,
+        branch: str | None = None,
+        number: str | None = None,
+    ):
+        super().__init__()
+
+        if kis is not None:
+            self.kis = kis
+
+        if symbol is not None:
+            self.symbol = symbol
+
+            if market is None:
+                raise ValueError("market이 지정되지 않았습니다.")
+
+            self.market = market
+
+            if account_number is None:
+                raise ValueError("account_number가 지정되지 않았습니다.")
+
+            self.account_number = account_number
+
+            if branch is None:
+                raise ValueError("branch가 지정되지 않았습니다.")
+
+            self.branch = branch
+
+            if number is None:
+                raise ValueError("number가 지정되지 않았습니다.")
+
+            self.number = number
 
     def __repr__(self) -> str:
         return f"KisOrderNumber(account_number={self.account_number!r}, code={self.symbol!r}, market={self.market!r}, branch={self.branch!r}, number={self.number!r})"
@@ -400,7 +491,7 @@ def _orderable_quantity(
     price: ORDER_PRICE | None = None,
     qty: Decimal | None = None,
     condition: ORDER_CONDITION | None = None,
-    execution: ORDER_EXECUTION_CONDITION | None = None,
+    execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
     throw_no_qty: bool = True,
 ) -> tuple[Decimal, Decimal | None]:
@@ -481,7 +572,7 @@ def domestic_order(
     price: ORDER_PRICE | None = None,
     qty: Decimal | None = None,
     condition: ORDER_CONDITION | None = None,
-    execution: ORDER_EXECUTION_CONDITION | None = None,
+    execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
 ) -> KisDomesticOrder:
     """
@@ -645,7 +736,7 @@ def overseas_order(
     price: ORDER_PRICE | None = None,
     qty: Decimal | None = None,
     condition: OVERSEAS_ORDER_CONDITION | None = None,
-    execution: ORDER_EXECUTION_CONDITION | None = None,
+    execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
 ) -> KisOverseasOrder:
     """
@@ -861,7 +952,7 @@ def order(
     price: ORDER_PRICE | None = None,
     qty: Decimal | None = None,
     condition: ORDER_CONDITION | None = None,
-    execution: ORDER_EXECUTION_CONDITION | None = None,
+    execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
 ) -> KisOrder:
     """
