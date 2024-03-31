@@ -3,12 +3,7 @@ from typing import TYPE_CHECKING
 
 from pykis.api.base.account import KisAccountBase
 from pykis.api.base.account_product import KisAccountProductBase
-from pykis.api.stock.info import (
-    COUNTRY_TYPE,
-    MARKET_TYPE_MAP,
-    market_to_country,
-    resolve_market,
-)
+from pykis.api.stock.info import COUNTRY_TYPE, market_to_country, resolve_market
 from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
@@ -38,36 +33,6 @@ class KisBalanceStock(KisDynamic, KisAccountProductBase):
     def name(self) -> str:
         """종목명"""
         return self.info.name
-
-    @property
-    def name_kor(self) -> str:
-        """종목명"""
-        return self.info.name_kor
-
-    @property
-    def full_name_kor(self) -> str:
-        """종목전체명"""
-        return self.info.full_name_kor
-
-    @property
-    def name_eng(self) -> str:
-        """종목영문명"""
-        return self.info.name_eng
-
-    @property
-    def full_name_eng(self) -> str:
-        """종목영문전체명"""
-        return self.info.full_name_eng
-
-    @property
-    def overseas(self) -> bool:
-        """해외종목 여부"""
-        return self.market not in MARKET_TYPE_MAP["KRX"]
-
-    @property
-    def domestic(self) -> bool:
-        """국내종목 여부"""
-        return not self.overseas
 
     @property
     def purchase_price(self) -> Decimal:
@@ -273,7 +238,7 @@ class KisBalance(KisDynamic, KisAccountBase):
     def __repr__(self) -> str:
         nl = "\n    "
         nll = "\n        "
-        return f"{self.__class__.__name__}({nl}account_number={self.account_number!r},{nl}deposits={{{nll}{(nll.join(f'{k}: {v!r}' for k, v in self.deposits.items()))}{nl}}}{nl}stocks=[{nll}{nll.join(repr(s) for s in self.stocks)}{nl}],{nl}withdrawable_amount={self.withdrawable_amount},{nl}purchase_amount={self.purchase_amount},{nl}current_amount={self.current_amount},{nl}profit={self.profit},{nl}profit_rate={self.profit_rate}\n)"
+        return f"{self.__class__.__name__}({nl}account_number={self.account_number!r},{nl}deposits={{{nll}{(nll.join(f'{k}: {v!r}' for k, v in self.deposits.items()))}{nl}}}{nl}stocks=[{nll}{f',{nll}'.join(map(repr, self.stocks))}{nl}],{nl}withdrawable_amount={self.withdrawable_amount},{nl}purchase_amount={self.purchase_amount},{nl}current_amount={self.current_amount},{nl}profit={self.profit},{nl}profit_rate={self.profit_rate}\n)"
 
 
 class KisDomesticBalanceStock(KisBalanceStock):
@@ -287,8 +252,6 @@ class KisDomesticBalanceStock(KisBalanceStock):
     """계좌번호"""
 
     name: str = KisString["prdt_name"]
-    """종목명"""
-    name_kor: str = KisString["prdt_name"]
     """종목명"""
 
     current_price: Decimal = KisDecimal["prpr"]
@@ -372,8 +335,6 @@ class KisOverseasPresentBalanceStock(KisBalanceStock):
     """계좌번호"""
 
     name: str = KisString["prdt_name"]
-    """종목명"""
-    name_kor: str = KisString["prdt_name"]
     """종목명"""
 
     current_price: Decimal = KisDecimal["ovrs_now_pric1"]
@@ -461,8 +422,6 @@ class KisOverseasBalanceStock(KisBalanceStock):
     """계좌번호"""
 
     name: str = KisString["ovrs_item_name"]
-    """종목명"""
-    name_kor: str = KisString["ovrs_item_name"]
     """종목명"""
 
     current_price: Decimal = KisDecimal["now_pric2"]

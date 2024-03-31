@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any
 from pykis.api.account.order import (
     DOMESTIC_ORDER_CONDITION,
     ORDER_CONDITION,
-    ORDER_EXECUTION_CONDITION,
+    ORDER_EXECUTION,
     ORDER_PRICE,
     ensure_price,
     order_condition,
@@ -29,7 +29,7 @@ class KisOrderableAmount(KisDynamic, KisAccountProductBase):
     """주문단가"""
     condition: ORDER_CONDITION | None
     """주문조건"""
-    execution: ORDER_EXECUTION_CONDITION | None
+    execution: ORDER_EXECUTION | None
     """채결조건"""
 
     unit_price: Decimal
@@ -80,7 +80,7 @@ class KisOrderableAmount(KisDynamic, KisAccountProductBase):
         market: MARKET_TYPE,
         price: Decimal | None,
         condition: ORDER_CONDITION | None,
-        execution: ORDER_EXECUTION_CONDITION | None,
+        execution: ORDER_EXECUTION | None,
     ):
         super().__init__()
         self.account_number = account_number
@@ -228,7 +228,7 @@ class KisOverseasOrderableAmount(KisAPIResponse, KisOrderableAmount):
         price: Decimal | None,
         unit_price: Decimal,
         condition: ORDER_CONDITION | None,
-        execution: ORDER_EXECUTION_CONDITION | None,
+        execution: ORDER_EXECUTION | None,
     ):
         super().__init__(
             account_number=account_number,
@@ -259,7 +259,7 @@ def _domestic_orderable_amount(
     symbol: str,
     price: ORDER_PRICE | None = None,
     condition: DOMESTIC_ORDER_CONDITION | None = None,
-    execution: ORDER_EXECUTION_CONDITION | None = None,
+    execution: ORDER_EXECUTION | None = None,
     foreign: bool = False,
 ) -> KisDomesticOrderableAmount:
     if not account:
@@ -315,7 +315,7 @@ def domestic_orderable_amount(
     symbol: str,
     price: ORDER_PRICE | None = None,
     condition: DOMESTIC_ORDER_CONDITION | None = None,
-    execution: ORDER_EXECUTION_CONDITION | None = None,
+    execution: ORDER_EXECUTION | None = None,
 ) -> KisDomesticOrderableAmount:
     """
     한국투자증권 국내 주식 주문가능금액 조회
@@ -370,7 +370,7 @@ def overseas_orderable_amount(
     symbol: str,
     price: ORDER_PRICE | None = None,
     condition: ORDER_CONDITION | None = None,
-    execution: ORDER_EXECUTION_CONDITION | None = None,
+    execution: ORDER_EXECUTION | None = None,
 ) -> KisOverseasOrderableAmount:
     """
     한국투자증권 해외 주식 주문가능금액 조회
@@ -476,7 +476,7 @@ def orderable_amount(
     symbol: str,
     price: ORDER_PRICE | None = None,
     condition: ORDER_CONDITION | None = None,
-    execution: ORDER_EXECUTION_CONDITION | None = None,
+    execution: ORDER_EXECUTION | None = None,
 ) -> KisOrderableAmount:
     """
     한국투자증권 주문가능금액 조회

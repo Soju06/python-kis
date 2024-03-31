@@ -78,7 +78,7 @@ class KisPaginationAPIResponse(KisAPIResponse):
         """다음 페이지가 있는지 확인합니다."""
         return self.page_status != "end" and not self.next_page.is_empty
 
-    def __pre_init__(self, data: dict[str, Any]):
+    def __pre_init__(self, data: dict[str, Any]) -> None:
         super().__pre_init__(data)
 
         response: Response = data["__response__"]

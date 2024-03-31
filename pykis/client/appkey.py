@@ -1,7 +1,6 @@
-from dataclasses import dataclass
 from typing import Any
-from pykis.__env__ import APPKEY_LENGTH, APPSECRET_LENGTH
 
+from pykis.__env__ import APPKEY_LENGTH, APPSECRET_LENGTH
 from pykis.client.form import KisForm
 
 
