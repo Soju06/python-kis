@@ -96,7 +96,7 @@ class KisAccountBase(KisObjectBase):
 
         if isinstance(code, KisProductScope):
             market = code.market
-            code = code.code
+            code = code.symbol
 
         if not market:
             market = resolve_market(self.kis, code)
@@ -105,7 +105,7 @@ class KisAccountBase(KisObjectBase):
             self.kis,
             account=self.account_number,
             market=market,
-            code=code,
+            symbol=code,
             price=price,
             condition=condition,
             execution=execution,

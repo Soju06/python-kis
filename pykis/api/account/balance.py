@@ -27,7 +27,7 @@ class KisBalanceStock(KisDynamic, KisAccountProductBase):
     balance: "KisBalance"
     """계좌잔고 (post initialization)"""
 
-    code: str
+    symbol: str
     """종목코드"""
     market: MARKET_TYPE
     """상품유형타입"""
@@ -127,7 +127,7 @@ class KisBalanceStock(KisDynamic, KisAccountProductBase):
     """환율"""
 
     def __str__(self) -> str:
-        return f"{self.__class__.__name__}(account_number={self.account_number!r}, code={self.code!r}, market={self.market!r}, quantity={self.quantity}, purchase_price={self.purchase_price}, current_price={self.current_price}, profit={self.profit}, profit_rate={self.profit_rate})"
+        return f"{self.__class__.__name__}(account_number={self.account_number!r}, code={self.symbol!r}, market={self.market!r}, quantity={self.quantity}, purchase_price={self.purchase_price}, current_price={self.current_price}, profit={self.profit}, profit_rate={self.profit_rate})"
 
     def __repr__(self) -> str:
         return str(self)
@@ -252,16 +252,16 @@ class KisBalance(KisDynamic, KisAccountBase):
             return self.stocks[key]
         elif isinstance(key, str):
             for stock in self.stocks:
-                if stock.code == key:
+                if stock.symbol == key:
                     return stock
             raise KeyError(key)
         else:
             raise TypeError(key)
 
-    def stock(self, code: str) -> KisBalanceStock | None:
+    def stock(self, symbol: str) -> KisBalanceStock | None:
         """보유종목을 종목코드로 조회합니다."""
         for stock in self.stocks:
-            if stock.code == code:
+            if stock.symbol == symbol:
                 return stock
 
         return None
@@ -279,7 +279,7 @@ class KisBalance(KisDynamic, KisAccountBase):
 class KisDomesticBalanceStock(KisBalanceStock):
     """한국투자증권 국내종목 잔고"""
 
-    code: str = KisString["pdno"]
+    symbol: str = KisString["pdno"]
     """종목코드"""
     market: MARKET_TYPE = "KRX"
     """상품유형타입"""
@@ -364,7 +364,7 @@ class KisDomesticBalance(KisPaginationAPIResponse, KisBalance):
 class KisOverseasPresentBalanceStock(KisBalanceStock):
     """한국투자증권 해외종목 잔고"""
 
-    code: str = KisString["pdno"]
+    symbol: str = KisString["pdno"]
     """종목코드"""
     market: MARKET_TYPE = KisString["ovrs_excg_cd"]
     """상품유형타입"""
@@ -451,7 +451,7 @@ class KisOverseasPresentBalance(KisAPIResponse, KisBalance):
 class KisOverseasBalanceStock(KisBalanceStock):
     """한국투자증권 해외종목 잔고"""
 
-    code: str = KisString["ovrs_pdno"]
+    symbol: str = KisString["ovrs_pdno"]
     """종목코드"""
     market: MARKET_TYPE = KisString["ovrs_excg_cd"]
     """상품유형타입"""
@@ -811,7 +811,7 @@ def balance(
 def orderable_quantity(
     self: "PyKis",
     account: str | KisAccountNumber,
-    code: str,
+    symbol: str,
     country: COUNTRY_TYPE | None = None,
 ) -> Decimal | None:
     """
@@ -825,7 +825,7 @@ def orderable_quantity(
 
     Args:
         account (str | KisAccountNumber): 계좌번호
-        code (str): 종목코드
+        symbol (str): 종목코드
         country (COUNTRY_TYPE, optional): 국가코드
 
     Returns:
@@ -836,13 +836,13 @@ def orderable_quantity(
         ValueError: 계좌번호가 잘못된 경우
     """
     if not country:
-        country = market_to_country(resolve_market(self, code=code))
+        country = market_to_country(resolve_market(self, code=symbol))
 
     stock = balance(
         self,
         account=account,
         country=country,
-    ).stock(code)
+    ).stock(symbol)
 
     if stock:
         return stock.orderable

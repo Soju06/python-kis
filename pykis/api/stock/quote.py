@@ -81,9 +81,9 @@ class KisIndicator(KisDynamic):
 class KisQuote(KisDynamic, KisProductBase):
     """한국투자증권 상품 시세"""
 
-    def __init__(self, code: str, market: MARKET_TYPE):
+    def __init__(self, symbol: str, market: MARKET_TYPE):
         super().__init__()
-        self.code = code
+        self.symbol = symbol
         self.market = market
 
     name: str
@@ -181,7 +181,7 @@ class KisDomesticIndicator(KisIndicator):
 class KisDomesticQuote(KisAPIResponse, KisQuote):
     """한국투자증권 국내 상품 시세"""
 
-    code: str = KisString["stck_shrn_iscd"]
+    symbol: str = KisString["stck_shrn_iscd"]
     """종목코드"""
 
     @property
@@ -263,7 +263,7 @@ class KisDomesticQuote(KisAPIResponse, KisQuote):
             raise_not_found(
                 data,
                 "해당 종목의 현재가를 조회할 수 없습니다.",
-                code=self.code,
+                code=self.symbol,
                 market=self.market,
             )
 
@@ -373,7 +373,7 @@ class KisOverseasQuote(KisAPIResponse, KisQuote):
             raise_not_found(
                 data,
                 "해당 종목의 현재가를 조회할 수 없습니다.",
-                code=self.code,
+                code=self.symbol,
                 market=self.market,
             )
 
@@ -382,7 +382,7 @@ class KisOverseasQuote(KisAPIResponse, KisQuote):
 
 def domestic_quote(
     self: "PyKis",
-    code: str,
+    symbol: str,
 ) -> KisDomesticQuote:
     """
     한국투자증권 국내 주식 현재가 조회
@@ -393,24 +393,24 @@ def domestic_quote(
     (업데이트 날짜: 2023/09/24)
 
     Args:
-        code (str): 종목코드
+        symbol (str): 종목코드
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
         KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
-    if not code:
+    if not symbol:
         raise ValueError("종목코드를 입력해주세요.")
 
-    result = KisDomesticQuote(code, "KRX")
+    result = KisDomesticQuote(symbol, "KRX")
 
     return self.fetch(
         "/uapi/domestic-stock/v1/quotations/inquire-price",
         api="FHKST01010100",
         params={
             "FID_COND_MRKT_DIV_CODE": "J",
-            "FID_INPUT_ISCD": code,
+            "FID_INPUT_ISCD": symbol,
         },
         response_type=result,
         domain="real",
@@ -430,7 +430,7 @@ def overseas_quote(
     (업데이트 날짜: 2023/10/01)
 
     Args:
-        code (str): 종목코드
+        symbol (str): 종목코드
         market (MARKET_TYPE): 시장구분
         extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
 
@@ -478,7 +478,7 @@ def quote(
     해외주식현재가 -> 해외주식 현재가상세[v1_해외주식-029]
 
     Args:
-        code (str): 종목코드
+        symbol (str): 종목코드
         market (MARKET_TYPE): 시장구분
         extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
 

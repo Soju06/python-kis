@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 class KisAccountProductBase(KisAccountBase, KisProductBase):
     """한국투자증권 계좌 상품 기본정보"""
 
-    code: str
+    symbol: str
     """종목코드"""
     market: MARKET_TYPE
     """상품유형타입"""
@@ -20,7 +20,7 @@ class KisAccountProductBase(KisAccountBase, KisProductBase):
     """계좌번호"""
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(account_number={self.account_number!r}, code={self.code!r}, market={self.market!r})"
+        return f"{self.__class__.__name__}(account_number={self.account_number!r}, code={self.symbol!r}, market={self.market!r})"
 
     @property
     def account(self) -> "KisAccount":

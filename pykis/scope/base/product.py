@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 class KisProductScope(KisScope, KisProductBase):
     """한국투자증권 상품 기본정보"""
 
-    code: str
+    symbol: str
     """종목코드"""
     market: MARKET_TYPE
     """시장구분"""
@@ -24,7 +24,7 @@ class KisProductScope(KisScope, KisProductBase):
         self.market = market
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(code={self.code}, market={self.market})"
+        return f"{self.__class__.__name__}(code={self.symbol}, market={self.market})"
 
     @property
     @cached
@@ -43,7 +43,7 @@ class KisProductScope(KisScope, KisProductBase):
 
         return info(
             self.kis,
-            code=self.code,
+            symbol=self.symbol,
             market=self.market,
         )
 

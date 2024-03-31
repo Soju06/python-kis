@@ -18,12 +18,12 @@ class KisStock(KisProductScope):
     def __init__(
         self,
         kis: "PyKis",
-        code: str,
+        symbol: str,
         market: MARKET_TYPE,
         account: KisAccountNumber | None = None,
     ):
         super().__init__(kis=kis, market=market)
-        self.code = code
+        self.symbol = symbol
         self.account_number = account
 
     @property
@@ -40,7 +40,7 @@ class KisStock(KisProductScope):
         return self.account_number
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(code={self.code!r}, market={self.market!r}, account={self.account_number!r})"
+        return f"{self.__class__.__name__}(code={self.symbol!r}, market={self.market!r}, account={self.account_number!r})"
 
     def orderable_amount(
         self,
@@ -98,7 +98,7 @@ class KisStock(KisProductScope):
             self.kis,
             account=self.account,
             market=self.market,
-            code=self.code,
+            symbol=self.symbol,
             price=price,
             condition=condition,
             execution=execution,
