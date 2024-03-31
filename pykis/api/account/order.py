@@ -255,7 +255,7 @@ class KisOrderNumber(KisDynamic, KisAccountProductBase):
     """주문번호"""
 
     def __repr__(self) -> str:
-        return f"KisOrderNumber(account_number={self.account_number!r}, code={self.code!r}, market={self.market!r}, branch={self.branch!r}, number={self.number!r})"
+        return f"KisOrderNumber(account_number={self.account_number!r}, code={self.symbol!r}, market={self.market!r}, branch={self.branch!r}, number={self.number!r})"
 
 
 class KisOrder(KisOrderNumber):
@@ -268,9 +268,9 @@ class KisOrder(KisOrderNumber):
     timezone: tzinfo
     """시간대"""
 
-    def __init__(self, account_number: KisAccountNumber, code: str, market: MARKET_TYPE):
+    def __init__(self, account_number: KisAccountNumber, symbol: str, market: MARKET_TYPE):
         self.account_number = account_number
-        self.code = code
+        self.symbol = symbol
         self.market = market
         self.timezone = MARKET_TIMEZONE_OBJECT_MAP[self.market]
 
@@ -297,7 +297,7 @@ class KisDomesticOrder(KisAPIResponse, KisOrder):
         if data["msg_cd"] == "APBK0656":
             raise_not_found(
                 data,
-                code=self.code,
+                code=self.symbol,
                 market=self.market,
             )
 
@@ -332,7 +332,7 @@ class KisOverseasOrder(KisAPIResponse, KisOrder):
         if data["msg_cd"] == "APBK0656":
             raise_not_found(
                 data,
-                code=self.code,
+                code=self.symbol,
                 market=self.market,
             )
 
@@ -368,7 +368,7 @@ class KisOverseasDaytimeOrder(KisAPIResponse, KisOrder):
         if data["msg_cd"] == "APBK0656":
             raise_not_found(
                 data,
-                code=self.code,
+                code=self.symbol,
                 market=self.market,
             )
 
@@ -395,7 +395,7 @@ def _orderable_quantity(
     self: "PyKis",
     account: str | KisAccountNumber,
     market: MARKET_TYPE,
-    code: str,
+    symbol: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
     qty: Decimal | None = None,
@@ -418,7 +418,7 @@ def _orderable_quantity(
     Args:
         account (str | KisAccountNumber): 계좌번호
         market (MARKET_TYPE): 시장
-        code (str): 종목코드
+        symbol (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
         qty (Decimal, optional): 주문수량
@@ -442,7 +442,7 @@ def _orderable_quantity(
             self,
             account=account,
             market="KRX",
-            code=code,
+            symbol=symbol,
             price=price,
             condition=condition,
             execution=execution,
@@ -463,7 +463,7 @@ def _orderable_quantity(
         qty = orderable_quantity(
             self,
             account=account,
-            code=code,
+            symbol=symbol,
             country=market_to_country(market),
         )
 
@@ -476,7 +476,7 @@ def _orderable_quantity(
 def domestic_order(
     self: "PyKis",
     account: str | KisAccountNumber,
-    code: str,
+    symbol: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
     qty: Decimal | None = None,
@@ -492,7 +492,7 @@ def domestic_order(
 
     Args:
         account (str | KisAccountNumber): 계좌번호
-        code (str): 종목코드
+        symbol (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
         qty (Decimal, optional): 주문수량
@@ -539,7 +539,7 @@ def domestic_order(
     if not account:
         raise ValueError("계좌번호를 입력해주세요.")
 
-    if not code:
+    if not symbol:
         raise ValueError("종목코드를 입력해주세요.")
 
     if qty != None and qty <= 0:
@@ -560,7 +560,7 @@ def domestic_order(
         account = KisAccountNumber(account)
 
     if price_setting:
-        quote_data = quote(self, code=code, market="KRX")
+        quote_data = quote(self, code=symbol, market="KRX")
         price = quote_data.high_limit if price_setting == "upper" else quote_data.low_limit
 
     if qty is None:
@@ -568,7 +568,7 @@ def domestic_order(
             self,
             account=account,
             market="KRX",
-            code=code,
+            symbol=symbol,
             order=order,
             price=None if price_setting else price,
             condition=condition,
@@ -580,7 +580,7 @@ def domestic_order(
         "/uapi/domestic-stock/v1/trading/order-cash",
         api=DOMESTIC_ORDER_API_CODES[(not self.virtual, order)],
         body={
-            "PDNO": code,
+            "PDNO": symbol,
             "ORD_DVSN": condition_code,
             "ORD_QTY": str(int(qty)),
             "ORD_UNPR": str(price or 0),
@@ -588,7 +588,7 @@ def domestic_order(
         form=[account],
         response_type=KisDomesticOrder(
             account_number=account,
-            code=code,
+            symbol=symbol,
             market="KRX",
         ),
         method="POST",
@@ -640,7 +640,7 @@ def overseas_order(
     self: "PyKis",
     account: str | KisAccountNumber,
     market: MARKET_TYPE,
-    code: str,
+    symbol: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
     qty: Decimal | None = None,
@@ -657,7 +657,7 @@ def overseas_order(
     Args:
         account (str | KisAccountNumber): 계좌번호
         market (MARKET_TYPE): 시장
-        code (str): 종목코드
+        symbol (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
         qty (Decimal, optional): 주문수량
@@ -707,7 +707,7 @@ def overseas_order(
     if not market:
         raise ValueError("시장을 입력해주세요.")
 
-    if not code:
+    if not symbol:
         raise ValueError("종목코드를 입력해주세요.")
 
     if qty != None and qty <= 0:
@@ -728,7 +728,7 @@ def overseas_order(
         account = KisAccountNumber(account)
 
     if price_setting:
-        quote_data = quote(self, code=code, market=market)
+        quote_data = quote(self, code=symbol, market=market)
         price = quote_data.high_limit if price_setting == "upper" else quote_data.low_limit
 
     if qty is None:
@@ -736,7 +736,7 @@ def overseas_order(
             self,
             account=account,
             market=market,
-            code=code,
+            symbol=symbol,
             order=order,
             price=None if price_setting else price,
             condition=condition,
@@ -749,7 +749,7 @@ def overseas_order(
         api=OVERSEAS_ORDER_API_CODES[(not self.virtual, market, order)],
         body={
             "OVRS_EXCG_CD": market,
-            "PDNO": code,
+            "PDNO": symbol,
             "ORD_QTY": str(int(qty)),
             "OVRS_ORD_UNPR": str(price or 0),
             "SLL_TYPE": "00" if order == "sell" else "",
@@ -759,7 +759,7 @@ def overseas_order(
         form=[account],
         response_type=KisOverseasOrder(
             account_number=account,
-            code=code,
+            symbol=symbol,
             market=market,
         ),
         method="POST",
@@ -770,7 +770,7 @@ def overseas_daytime_order(
     self: "PyKis",
     account: str | KisAccountNumber,
     market: MARKET_TYPE,
-    code: str,
+    symbol: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
     qty: Decimal | None = None,
@@ -785,7 +785,7 @@ def overseas_daytime_order(
     Args:
         account (str | KisAccountNumber): 계좌번호
         market (MARKET_TYPE): 시장
-        code (str): 종목코드
+        symbol (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
         qty (Decimal, optional): 주문수량
@@ -803,7 +803,7 @@ def overseas_daytime_order(
     if not market:
         raise ValueError("시장을 입력해주세요.")
 
-    if not code:
+    if not symbol:
         raise ValueError("종목코드를 입력해주세요.")
 
     if qty != None and qty <= 0:
@@ -819,7 +819,7 @@ def overseas_daytime_order(
             self,
             account=account,
             market=market,
-            code=code,
+            symbol=symbol,
             order=order,
             price=price,
             condition="extended",
@@ -827,7 +827,7 @@ def overseas_daytime_order(
         )
 
     if not price:
-        quote_data = quote(self, code=code, market=market, extended=True)
+        quote_data = quote(self, code=symbol, market=market, extended=True)
         price = quote_data.high_limit if order == "buy" else quote_data.low_limit
 
     return self.fetch(
@@ -835,7 +835,7 @@ def overseas_daytime_order(
         api="TTTS6036U" if order == "buy" else "TTTS6037U",
         body={
             "OVRS_EXCG_CD": market,
-            "PDNO": code,
+            "PDNO": symbol,
             "ORD_QTY": str(int(qty)),
             "OVRS_ORD_UNPR": str(price),
             "ORD_SVR_DVSN_CD": "0",
@@ -844,7 +844,7 @@ def overseas_daytime_order(
         form=[account],
         response_type=KisOverseasDaytimeOrder(
             account_number=account,
-            code=code,
+            symbol=symbol,
             market=market,
         ),
         method="POST",
@@ -856,7 +856,7 @@ def order(
     self: "PyKis",
     account: str | KisAccountNumber,
     market: MARKET_TYPE,
-    code: str,
+    symbol: str,
     order: ORDER_TYPE,
     price: ORDER_PRICE | None = None,
     qty: Decimal | None = None,
@@ -872,7 +872,7 @@ def order(
 
     Args:
         account (str | KisAccountNumber): 계좌번호
-        code (str): 종목코드
+        symbol (str): 종목코드
         order (ORDER_TYPE): 주문종류
         price (ORDER_PRICE, optional): 주문가격
         qty (Decimal, optional): 주문수량
@@ -960,7 +960,7 @@ def order(
         return domestic_order(
             self,
             account=account,
-            code=code,
+            symbol=symbol,
             order=order,
             price=price,
             qty=qty,
@@ -977,7 +977,7 @@ def order(
                 self,
                 account=account,
                 market=market,
-                code=code,
+                symbol=symbol,
                 order=order,
                 price=price,
                 qty=qty,
@@ -988,7 +988,7 @@ def order(
             self,
             account=account,
             market=market,
-            code=code,
+            symbol=symbol,
             order=order,
             price=price,
             qty=qty,

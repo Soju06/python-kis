@@ -76,8 +76,8 @@ class KisDayChart(KisChart):
         """대비부호명"""
         return STOCK_SIGN_TYPE_KOR_MAP[self.sign]
 
-    def __init__(self, code: str, market: MARKET_TYPE):
-        self.code = code
+    def __init__(self, symbol: str, market: MARKET_TYPE):
+        self.symbol = symbol
         self.market = market
 
     def __post_init__(self):
@@ -106,7 +106,7 @@ class KisDayChart(KisChart):
 
         return quote(
             self.kis,
-            code=self.code,
+            code=self.symbol,
             market=self.market,
         )
 
@@ -180,7 +180,7 @@ class KisDomesticDayChart(KisResponse, KisDayChart):
             raise_not_found(
                 data,
                 "해당 종목의 차트를 조회할 수 없습니다.",
-                code=self.code,
+                code=self.symbol,
                 market=self.market,
             )
 
@@ -278,8 +278,8 @@ class KisOverseasDayChart(KisResponse, KisDayChart):
         """대비부호"""
         return self.quote.sign
 
-    def __init__(self, code: str, market: MARKET_TYPE):
-        super().__init__(code, market)
+    def __init__(self, symbol: str, market: MARKET_TYPE):
+        super().__init__(symbol, market)
         self.trading_hours = KisOverseasTradingHours(self.market)
 
     def __pre_init__(self, data: dict[str, Any]):
@@ -289,7 +289,7 @@ class KisOverseasDayChart(KisResponse, KisDayChart):
             raise_not_found(
                 data,
                 "해당 종목의 차트를 조회할 수 없습니다.",
-                code=self.code,
+                code=self.symbol,
                 market=self.market,
             )
 
@@ -332,7 +332,7 @@ def drop_after(
 
 def domestic_day_chart(
     self: "PyKis",
-    code: str,
+    symbol: str,
     start: time | timedelta | None = None,
     end: time | None = None,
     period: int = 1,
@@ -344,7 +344,7 @@ def domestic_day_chart(
     (업데이트 날짜: 2023/09/05)
 
     Args:
-        code (str): 종목코드
+        symbol (str): 종목코드
         start (time | timedelta, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
         end (time, optional): 조회 종료 시간. Defaults to None.
         period (int, optional): 조회 간격 (분). Defaults to 1.
@@ -354,7 +354,7 @@ def domestic_day_chart(
         KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 조회 파라미터가 올바르지 않은 경우
     """
-    if not code:
+    if not symbol:
         raise ValueError("종목 코드를 입력해주세요.")
 
     if period < 1:
@@ -373,12 +373,12 @@ def domestic_day_chart(
             params={
                 "FID_ETC_CLS_CODE": "",
                 "FID_COND_MRKT_DIV_CODE": "J",
-                "FID_INPUT_ISCD": code,
+                "FID_INPUT_ISCD": symbol,
                 "FID_INPUT_HOUR_1": time.strftime(cursor or time(0, 0, 0), "%H%M%S"),
                 "FID_PW_DATA_INCU_YN": "N",
             },
             response_type=KisDomesticDayChart(
-                code=code,
+                symbol=symbol,
                 market="KRX",
             ),
             domain="real",
@@ -434,7 +434,7 @@ OVERSEAS_MAX_PERIODS = math.ceil(24 * 60 / OVERSEAS_MAX_RECORDS)
 
 def overseas_day_chart(
     self: "PyKis",
-    code: str,
+    symbol: str,
     market: MARKET_TYPE,
     start: time | timedelta | None = None,
     end: time | None = None,
@@ -451,7 +451,7 @@ def overseas_day_chart(
     (업데이트 날짜: 2023/09/05)
 
     Args:
-        code (str): 종목코드
+        symbol (str): 종목코드
         market (MARKET_TYPE): 시장 종류
         start (time | timedelta, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
         end (time, optional): 조회 종료 시간. Defaults to None.
@@ -463,7 +463,7 @@ def overseas_day_chart(
         KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 조회 파라미터가 올바르지 않은 경우
     """
-    if not code:
+    if not symbol:
         raise ValueError("종목 코드를 입력해주세요.")
 
     if period < 1:
@@ -482,7 +482,7 @@ def overseas_day_chart(
             params={
                 "AUTH": "",
                 "EXCD": MARKET_SHORT_TYPE_MAP[market],
-                "SYMB": code,
+                "SYMB": symbol,
                 "NMIN": str(i + 1),
                 "PINC": "1",
                 "NEXT": "",
@@ -491,7 +491,7 @@ def overseas_day_chart(
                 "KEYB": "",
             },
             response_type=KisOverseasDayChart(
-                code=code,
+                symbol=symbol,
                 market=market,
             ),
             domain="real",
@@ -532,7 +532,7 @@ def overseas_day_chart(
 
 def day_chart(
     self: "PyKis",
-    code: str,
+    symbol: str,
     market: MARKET_TYPE,
     start: time | timedelta | None = None,
     end: time | None = None,
@@ -548,7 +548,7 @@ def day_chart(
     해외주식현재가 -> 해외주식분봉조회[v1_해외주식-030]
 
     Args:
-        code (str): 종목코드
+        symbol (str): 종목코드
         market (MARKET_TYPE): 시장 종류
         start (time | timedelta, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
         end (time, optional): 조회 종료 시간. Defaults to None.
@@ -562,7 +562,7 @@ def day_chart(
     if market == "KRX":
         return domestic_day_chart(
             self,
-            code,
+            symbol,
             start=start,
             end=end,
             period=period,
@@ -570,7 +570,7 @@ def day_chart(
     else:
         return overseas_day_chart(
             self,
-            code,
+            symbol,
             market,
             start=start,
             end=end,

@@ -28,7 +28,7 @@ if TYPE_CHECKING:
 class KisProductBase(KisObjectBase):
     """한국투자증권 상품 기본정보"""
 
-    code: str
+    symbol: str
     """종목코드"""
     market: MARKET_TYPE
     """상품유형타입"""
@@ -44,7 +44,7 @@ class KisProductBase(KisObjectBase):
         return MARKET_TYPE_KOR_MAP[self.market]
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(code={self.code}, market={self.market})"
+        return f"{self.__class__.__name__}(code={self.symbol}, market={self.market})"
 
     @property
     @cached
@@ -63,7 +63,7 @@ class KisProductBase(KisObjectBase):
 
         return _info(
             self.kis,
-            code=self.code,
+            symbol=self.symbol,
             market=self.market,
         )
 
@@ -96,7 +96,7 @@ class KisProductBase(KisObjectBase):
 
         return quote(
             self.kis,
-            code=self.code,
+            code=self.symbol,
             market=self.market,
             extended=extended,
         )
@@ -130,7 +130,7 @@ class KisProductBase(KisObjectBase):
 
         return day_chart(
             self.kis,
-            code=self.code,
+            symbol=self.symbol,
             market=self.market,
             start=start,
             end=end,
@@ -165,7 +165,7 @@ class KisProductBase(KisObjectBase):
 
         return daily_chart(
             self.kis,
-            code=self.code,
+            symbol=self.symbol,
             market=self.market,
             start=start,
             end=end,
@@ -309,7 +309,7 @@ class KisProductBase(KisObjectBase):
                 account.account if isinstance(account, KisAccountScope) else (account or self.kis.primary)
             ),
             market=self.market,
-            code=self.code,
+            symbol=self.symbol,
             price=price,
             condition=condition,
             execution=execution,
@@ -425,7 +425,7 @@ class KisProductBase(KisObjectBase):
                 account.account if isinstance(account, KisAccountScope) else (account or self.kis.primary)
             ),
             market=self.market,
-            code=self.code,
+            symbol=self.symbol,
             order=order,
             price=price,
             qty=qty,

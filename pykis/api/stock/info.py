@@ -102,7 +102,7 @@ MARKET_CODE_MAP = {
 class KisStockInfo(KisAPIResponse, KisProductBase):
     """상품기본정보"""
 
-    code: str = KisString["shtn_pdno"]
+    symbol: str = KisString["shtn_pdno"]
     """종목코드"""
     std_code: str = KisString["std_pdno"]
     """표준코드"""
@@ -175,7 +175,7 @@ MARKET_INFO_TYPES = MARKET_TYPE | COUNTRY_TYPE | None
 
 def info(
     self: "PyKis",
-    code: str,
+    symbol: str,
     market: MARKET_INFO_TYPES = "KR",
     use_cache: bool = True,
 ) -> KisStockInfo:
@@ -186,7 +186,7 @@ def info(
     (업데이트 날짜: 2023/09/05)
 
     Args:
-        code (str): 종목코드
+        symbol (str): 종목코드
         market (str): 상품유형명
         use_cache (bool, optional): 캐시 사용 여부
 
@@ -195,11 +195,11 @@ def info(
         KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
-    if not code:
+    if not symbol:
         raise ValueError("종목 코드를 입력해주세요.")
 
     if use_cache:
-        cached = self.cache.get(f"info:{market}:{code}", KisStockInfo)
+        cached = self.cache.get(f"info:{market}:{symbol}", KisStockInfo)
 
         if cached:
             return cached
@@ -212,7 +212,7 @@ def info(
                 "/uapi/domestic-stock/v1/quotations/search-info",
                 api="CTPF1604R",
                 params={
-                    "PDNO": code,
+                    "PDNO": symbol,
                     "PRDT_TYPE_CD": market_,
                 },
                 domain="real",
@@ -220,7 +220,7 @@ def info(
             )
 
             if use_cache:
-                self.cache.set(f"info:{market}:{code}", result, expire=timedelta(days=1))
+                self.cache.set(f"info:{market}:{symbol}", result, expire=timedelta(days=1))
 
             return result
         except KisAPIError as e:
@@ -234,7 +234,7 @@ def info(
     raise raise_not_found(
         ex.data if ex else {},
         "해당 종목의 정보를 조회할 수 없습니다.",
-        code=code,
+        code=symbol,
         market=market,
     )
 
@@ -252,7 +252,7 @@ def resolve_market(
     (업데이트 날짜: 2024/03/30)
 
     Args:
-        code (str): 종목코드
+        symbol (str): 종목코드
         market (str): 상품유형명
         use_cache (bool, optional): 캐시 사용 여부
 
