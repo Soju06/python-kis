@@ -10,12 +10,13 @@ from pykis.api.account.order import (
 )
 from pykis.api.base.account import KisAccountBase
 from pykis.api.base.account_product import KisAccountProductBase
+from pykis.api.stock.info import COUNTRY_TYPE
 from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList
 from pykis.responses.response import KisPaginationAPIResponse
-from pykis.responses.types import KisAny, KisBool, KisDecimal, KisString
+from pykis.responses.types import KisAny, KisDecimal, KisString
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -28,13 +29,11 @@ class KisPendingOrder(KisDynamic, KisAccountProductBase):
     """종목코드"""
     market: MARKET_TYPE
     """상품유형타입"""
+    account_number: KisAccountNumber
+    """계좌번호"""
+
     order_number: KisOrderNumber
     """주문번호"""
-
-    @property
-    def account_number(self) -> KisAccountNumber:
-        """계좌번호"""
-        return self.order_number.account_number
 
     @property
     def name(self) -> str:
@@ -84,14 +83,14 @@ class KisPendingOrder(KisDynamic, KisAccountProductBase):
         return self.orderable_quantity
 
     @property
-    def remaining_quantity(self) -> Decimal:
+    def pending_quantity(self) -> Decimal:
         """미체결수량"""
         return self.quantity - self.executed_quantity
 
     @property
-    def remaining_qty(self) -> Decimal:
+    def pending_qty(self) -> Decimal:
         """미체결수량"""
-        return self.remaining_quantity
+        return self.pending_quantity
 
     condition: ORDER_CONDITION | None
     """주문조건"""
@@ -122,35 +121,10 @@ class KisPendingOrders(KisDynamic, KisAccountBase):
     orders: list[KisPendingOrder]
     """미체결주문"""
 
-    @property
-    def quantity(self) -> Decimal:
-        """총주문수량 (취소된 주문 제외)"""
-        return Decimal(sum(order.quantity for order in self.orders if not order.cancelled))
-
-    @property
-    def qty(self) -> Decimal:
-        """총주문수량 (취소된 주문 제외)"""
-        return self.quantity
-
-    @property
-    def executed_quantity(self) -> Decimal:
-        """총체결수량"""
-        return Decimal(sum(order.executed_quantity for order in self.orders))
-
-    @property
-    def executed_qty(self) -> Decimal:
-        """총체결수량"""
-        return self.executed_quantity
-
-    @property
-    def executed_amount(self) -> Decimal:
-        """총체결금액"""
-        return Decimal(sum(order.executed_amount for order in self.orders))
-
     def __repr__(self) -> str:
         nl = "\n    "
         nll = "\n        "
-        return f"{self.__class__.__name__}({nl}account_number={self.account_number!r},{nl}quantity={self.quantity!r},{nl}executed_quantity={self.executed_quantity!r},{nl}orders=[{nll}{f',{nll}'.join(map(repr, self.orders))}{nl}]\n)"
+        return f"{self.__class__.__name__}({nl}account_number={self.account_number!r},{nl}orders=[{nll}{f',{nll}'.join(map(repr, self.orders))}{nl}]\n)"
 
 
 class KisDomesticPendingOrder(KisPendingOrder, KisAccountProductBase):
@@ -193,9 +167,6 @@ class KisDomesticPendingOrder(KisPendingOrder, KisAccountProductBase):
     rejected_reason: str | None = None
     """거부사유"""
 
-    cancelled: bool = KisBool["cncl_yn"]
-    """취소여부"""
-
     currency: CURRENCY_TYPE = "KRW"
     """통화"""
 
@@ -230,7 +201,7 @@ class KisDomesticPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    orders: list[KisDomesticPendingOrder] = KisList(KisDomesticPendingOrder)("output")
+    orders: list[KisDomesticPendingOrder] = KisList(KisDomesticPendingOrder)["output"]
     """미체결주문"""
 
     def __init__(self, account_number: KisAccountNumber):
@@ -246,6 +217,111 @@ class KisDomesticPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
     def __kis_post_init__(self):
         super().__kis_post_init__()
         self._kis_spread(self.orders)
+
+
+class KisOverseasPendingOrder(KisPendingOrder, KisAccountProductBase):
+    """한국투자증권 해외 미체결 주식"""
+
+    symbol: str = KisString["pdno"]
+    """종목코드"""
+    market: MARKET_TYPE = KisString["ovrs_excg_cd"]
+    """상품유형타입"""
+    account_number: KisAccountNumber
+    """계좌번호"""
+
+    order_number: KisOrderNumber
+    """주문번호"""
+
+    type: ORDER_TYPE = KisAny(lambda x: "buy" if x == "02" else "sell")["sll_buy_dvsn_cd"]
+    """주문유형"""
+
+    price: Decimal | None = KisDecimal["ft_ccld_unpr3"]
+    """체결단가"""
+    unit_price: Decimal | None = KisDecimal["ft_ord_unpr3"]
+    """주문단가"""
+
+    quantity: Decimal = KisDecimal["ft_ord_qty"]
+    """주문수량"""
+
+    executed_quantity: Decimal = KisDecimal["ft_ccld_qty"]
+    """체결수량"""
+
+    orderable_quantity: Decimal = KisDecimal["nccs_qty"]
+    """주문가능수량"""
+
+    condition: ORDER_CONDITION | None = None
+    """주문조건"""
+    execution: ORDER_EXECUTION | None = None
+    """체결조건"""
+
+    rejected: bool = KisAny(lambda x: x)["rjct_rson"]
+    """거부여부"""
+    rejected_reason: str | None = KisAny(lambda x: x if x else None)["rjct_rson_name"]
+    """거부사유"""
+
+    currency: CURRENCY_TYPE = KisString["tr_crcy_cd"]
+    """통화"""
+
+    def __post_init__(self):
+        super().__post_init__()
+
+        if not self.unit_price:
+            self.unit_price = None
+
+    def __kis_post_init__(self):
+        super().__kis_post_init__()
+
+        self.order_number = KisOrderNumber(
+            kis=self.kis,
+            symbol=self.symbol,
+            market=self.market,
+            account_number=self.account_number,
+            branch=self.__data__["ord_gno_brno"],
+            number=self.__data__["odno"],
+        )
+
+
+class KisOverseasPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
+    """한국투자증권 해외 미체결 주식"""
+
+    __path__ = None
+
+    account_number: KisAccountNumber
+    """계좌번호"""
+
+    orders: list[KisOverseasPendingOrder] = KisList(KisOverseasPendingOrder)["output"]
+    """미체결주문"""
+
+    def __init__(self, account_number: KisAccountNumber):
+        super().__init__()
+        self.account_number = account_number
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+
+        for order in self.orders:
+            order.account_number = self.account_number
+
+    def __kis_post_init__(self):
+        super().__kis_post_init__()
+        self._kis_spread(self.orders)
+
+
+class KisIntegrationPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
+    """한국투자증권 미체결 주식"""
+
+    account_number: KisAccountNumber
+    """계좌번호"""
+    orders: list[KisPendingOrder]
+    """미체결주문"""
+
+    def __init__(self, account_number: KisAccountNumber, *orders: KisPendingOrders):
+        super().__init__()
+        self.account_number = account_number
+        self.orders = []
+
+        for order in orders:
+            self.orders.extend(order.orders)
 
 
 def domestic_pending_orders(
@@ -307,3 +383,146 @@ def domestic_pending_orders(
         page = result.next_page
 
     return first
+
+
+def _overseas_pending_orders(
+    self: "PyKis",
+    account: str | KisAccountNumber,
+    market: MARKET_TYPE | None = None,
+    page: KisPage | None = None,
+    continuous: bool = True,
+) -> KisOverseasPendingOrders:
+    """
+    한국투자증권 해외 주식 미체결 조회
+
+    국내주식주문 -> 해외주식 미체결내역[v1_해외주식-005]
+    (업데이트 날짜: 2024/04/01)
+
+    Args:
+        account (str | KisAccountNumber): 계좌번호
+        market (MARKET_TYPE, optional): 시장코드
+        page (KisPage, optional): 페이지 정보
+        continuous (bool, optional): 연속조회 여부
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 계좌번호가 잘못된 경우
+    """
+    if not isinstance(account, KisAccountNumber):
+        account = KisAccountNumber(account)
+
+    page = (page or KisPage.first()).to(200)
+    first = None
+
+    while True:
+        result = self.fetch(
+            "/uapi/overseas-stock/v1/trading/inquire-nccs",
+            api="VTTS3018R" if self.virtual else "TTTS3018R",
+            params={
+                "OVRS_EXCG_CD": market or "",
+                "SORT_SQN": "DS" if self.virtual else "",
+            },
+            form=[
+                account,
+                page,
+            ],
+            continuous=not page.is_first,
+            response_type=KisOverseasPendingOrders(
+                account_number=account,
+            ),
+        )
+
+        if first is None:
+            first = result
+        else:
+            first.orders.extend(result.orders)
+
+        if not continuous or result.is_last:
+            break
+
+        page = result.next_page
+
+    return first
+
+
+OVERSEAS_COUNTRY_MARKET_MAP: dict[str | None, list[MARKET_TYPE | None]] = {
+    # 국가코드 -> 조회시장코드
+    None: [None],
+    "US": ["NASD"],
+    "HK": ["SEHK"],
+    "CN": ["SHAA", "SZAA"],
+    "JP": ["TKSE"],
+    "VN": ["VNSE", "HASE"],
+}
+
+
+def overseas_pending_orders(
+    self: "PyKis",
+    account: str | KisAccountNumber,
+    country: COUNTRY_TYPE | None = None,
+) -> KisOverseasPendingOrders:
+    """
+    한국투자증권 해외 주식 미체결 조회
+
+    국내주식주문 -> 해외주식 미체결내역[v1_해외주식-005]
+    (업데이트 날짜: 2024/04/01)
+
+    Args:
+        account (str | KisAccountNumber): 계좌번호
+        country (COUNTRY_TYPE, optional): 국가코드
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 계좌번호가 잘못된 경우
+    """
+    markets = OVERSEAS_COUNTRY_MARKET_MAP.get(country, OVERSEAS_COUNTRY_MARKET_MAP[None])
+
+    first = None
+
+    for market in markets:
+        result = _overseas_pending_orders(self, account, market)
+
+        if first is None:
+            first = result
+        else:
+            first.orders.extend(result.orders)
+
+    if first is None:
+        raise ValueError("Invalid country code")
+
+    return first
+
+
+def pending_orders(
+    self: "PyKis",
+    account: str | KisAccountNumber,
+    country: COUNTRY_TYPE | None = None,
+) -> KisPendingOrders:
+    """
+    한국투자증권 통합 미체결 조회
+
+    국내주식주문 -> 주식정정취소가능주문조회[v1_국내주식-004]
+    해외주식주문 -> 해외주식 미체결내역[v1_해외주식-005]
+    (업데이트 날짜: 2024/04/01)
+
+    Args:
+        account (str | KisAccountNumber): 계좌번호
+        country (COUNTRY_TYPE, optional): 국가코드
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 계좌번호가 잘못된 경우
+    """
+    if not isinstance(account, KisAccountNumber):
+        account = KisAccountNumber(account)
+
+    if country is None:
+        return KisIntegrationPendingOrders(
+            account,
+            domestic_pending_orders(self, account),
+            overseas_pending_orders(self, account),
+        )
+    elif country == "KR":
+        return domestic_pending_orders(self, account)
+    else:
+        return overseas_pending_orders(self, account, country)

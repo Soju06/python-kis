@@ -1,6 +1,5 @@
 from zoneinfo import ZoneInfo
 
-
 APPKEY_LENGTH = 36
 APPSECRET_LENGTH = 180
 
@@ -31,7 +30,8 @@ USER_AGENT = f"PyKis/{VERSION}"
 
 
 class EMPTY_TYPE:
-    pass
+    def __eq__(self, other):
+        return isinstance(other, EMPTY_TYPE)
 
 
 EMPTY = EMPTY_TYPE()
