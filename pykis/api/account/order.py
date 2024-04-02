@@ -345,8 +345,23 @@ class KisOrderNumber(KisDynamic, KisAccountProductBase):
 
             self.number = number
 
+    def __eq__(self, value: object) -> bool:
+        if not isinstance(value, KisOrderNumber):
+            return NotImplemented
+
+        return (
+            self.account_number == value.account_number
+            and self.symbol == value.symbol
+            and self.market == value.market
+            and self.branch == value.branch
+            and self.number == value.number
+        )
+
+    def __hash__(self) -> int:
+        return hash((self.account_number, self.symbol, self.market, self.branch, self.number))
+
     def __repr__(self) -> str:
-        return f"KisOrderNumber(account_number={self.account_number!r}, code={self.symbol!r}, market={self.market!r}, branch={self.branch!r}, number={self.number!r})"
+        return f"KisOrderNumber(kis=kis, account_number={self.account_number!r}, code={self.symbol!r}, market={self.market!r}, branch={self.branch!r}, number={self.number!r})"
 
 
 class KisOrder(KisOrderNumber):
@@ -359,11 +374,33 @@ class KisOrder(KisOrderNumber):
     timezone: tzinfo
     """시간대"""
 
-    def __init__(self, account_number: KisAccountNumber, symbol: str, market: MARKET_TYPE):
-        self.account_number = account_number
-        self.symbol = symbol
-        self.market = market
-        self.timezone = MARKET_TIMEZONE_OBJECT_MAP[self.market]
+    @overload
+    def __init__(self): ...
+
+    @overload
+    def __init__(self, account_number: KisAccountNumber, symbol: str, market: MARKET_TYPE): ...
+
+    def __init__(
+        self,
+        account_number: KisAccountNumber | None = None,
+        symbol: str | None = None,
+        market: MARKET_TYPE | None = None,
+    ):
+        super().__init__()
+
+        if account_number is not None:
+            self.account_number = account_number
+
+            if symbol is None:
+                raise ValueError("symbol이 지정되지 않았습니다.")
+
+            self.symbol = symbol
+
+            if market is None:
+                raise ValueError("market이 지정되지 않았습니다.")
+
+            self.market = market
+            self.timezone = MARKET_TIMEZONE_OBJECT_MAP[self.market]
 
 
 class KisDomesticOrder(KisAPIResponse, KisOrder):
