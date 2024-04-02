@@ -30,7 +30,7 @@ class KisOrderableAmount(KisDynamic, KisAccountProductBase):
     condition: ORDER_CONDITION | None
     """주문조건"""
     execution: ORDER_EXECUTION | None
-    """채결조건"""
+    """체결조건"""
 
     unit_price: Decimal
     """계산단가"""
@@ -328,7 +328,7 @@ def domestic_orderable_amount(
         symbol (str): 종목코드
         price (int | None, optional): 주문가격. None인 경우 시장가 주문
         condition (DOMESTIC_ORDER_CONDITION | None, optional): 주문조건
-        execution (ORDER_EXECUTION_CONDITION | None, optional): 채결조건
+        execution (ORDER_EXECUTION_CONDITION | None, optional): 체결조건
 
     Examples:
         >>> domestic_orderable_amount(account, code, price=100, condition=None, execution=None) # 지정가 매수
@@ -384,7 +384,7 @@ def overseas_orderable_amount(
         symbol (str): 종목코드
         price (int | None, optional): 주문가격. None인 경우 시장가 주문
         condition (ORDER_CONDITION | None, optional): 주문조건
-        execution (ORDER_EXECUTION_CONDITION | None, optional): 채결조건
+        execution (ORDER_EXECUTION_CONDITION | None, optional): 체결조건
 
     Examples:
         >>> overseas_orderable_amount(account, 전체, code, price=100, condition=None, execution=None) # 전체 지정가 매수
@@ -490,7 +490,7 @@ def orderable_amount(
         symbol (str): 종목코드
         price (int | None, optional): 주문가격. None인 경우 시장가 주문
         condition (ORDER_CONDITION | None, optional): 주문조건
-        execution (ORDER_EXECUTION_CONDITION | None, optional): 채결조건
+        execution (ORDER_EXECUTION_CONDITION | None, optional): 체결조건
 
     Examples:
         >>> orderable_amount(account, 전체, code, price=100, condition=None, execution=None) # 전체 지정가 매수

@@ -102,9 +102,6 @@ class KisPendingOrder(KisDynamic, KisAccountProductBase):
     rejected_reason: str | None
     """거부사유"""
 
-    cancelled: bool
-    """취소여부"""
-
     currency: CURRENCY_TYPE
     """통화"""
 

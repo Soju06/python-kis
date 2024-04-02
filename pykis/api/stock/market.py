@@ -67,6 +67,25 @@ CURRENCY_TYPE = Literal[
 ]
 """통화 종류"""
 
+MARKET_CURRENCY_MAP: dict[MARKET_TYPE, CURRENCY_TYPE] = {
+    "KRX": "KRW",
+    "NASD": "USD",
+    "NYSE": "USD",
+    "AMEX": "USD",
+    "TKSE": "JPY",
+    "SEHK": "HKD",
+    "HASE": "VND",
+    "VNSE": "VND",
+    "SHAA": "CNY",
+    "SZAA": "CNY",
+}
+
+
+def get_market_currency(market: MARKET_TYPE) -> CURRENCY_TYPE:
+    """시장 종류로 통화 종류 반환"""
+    return MARKET_CURRENCY_MAP[market]
+
+
 MARKET_TIMEZONE_MAP = {
     "KRX": "Asia/Seoul",
     "NASD": "America/New_York",
@@ -81,6 +100,11 @@ MARKET_TIMEZONE_MAP = {
 }
 
 MARKET_TIMEZONE_OBJECT_MAP = {key: ZoneInfo(value) for key, value in MARKET_TIMEZONE_MAP.items()}
+
+
+def get_market_timezone(market: MARKET_TYPE) -> ZoneInfo:
+    """시장 종류로 시간대 반환"""
+    return MARKET_TIMEZONE_OBJECT_MAP[market]
 
 
 class ExDateType(Flag):
@@ -153,7 +177,7 @@ class KisTradingHours(KisDynamic):
     @property
     def timezone(self) -> tzinfo:
         """시간대"""
-        return MARKET_TIMEZONE_OBJECT_MAP[self.market]
+        return get_market_timezone(self.market)
 
     @property
     def market_name(self) -> str:

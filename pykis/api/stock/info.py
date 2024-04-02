@@ -241,7 +241,7 @@ def info(
 
 def resolve_market(
     self: "PyKis",
-    code: str,
+    symbol: str,
     market: MARKET_INFO_TYPES = None,
     use_cache: bool = True,
 ) -> MARKET_TYPE:
@@ -261,4 +261,4 @@ def resolve_market(
         KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
-    return info(self, code, market, use_cache).market
+    return info(self, symbol, market, use_cache).market

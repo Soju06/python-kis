@@ -45,7 +45,7 @@ class KisAccountBase(KisObjectBase):
             market (MARKET_TYPE | None, optional): 시장구분. None인 경우 종목코드에서 추출
             price (ORDER_PRICE | None, optional): 주문가격. None인 경우 시장가 주문
             condition (ORDER_CONDITION | None, optional): 주문조건
-            execution (ORDER_EXECUTION_CONDITION | None, optional): 채결조건
+            execution (ORDER_EXECUTION_CONDITION | None, optional): 체결조건
             account (str | KisAccountNumber | None, optional): 계좌번호. None인 경우 기본 계좌 사용
 
         Examples:
