@@ -13,9 +13,10 @@ from pykis.api.account.order import (
     order_condition,
 )
 from pykis.api.stock.info import market_to_country
-from pykis.api.stock.market import MARKET_TYPE
+from pykis.api.stock.market import DAYTIME_MARKETS, MARKET_TYPE
 from pykis.api.stock.quote import quote
 from pykis.client.account import KisAccountNumber
+from pykis.client.exception import KisAPIError
 from pykis.responses.response import KisAPIResponse
 from pykis.responses.types import KisString
 
@@ -46,7 +47,30 @@ class KisDomesticModifyOrder(KisAPIResponse, KisOrder):
 
 
 class KisOverseasModifyOrder(KisAPIResponse, KisOrder):
-    """한국투자증권 국내주식 정정 주문"""
+    """한국투자증권 해외주식 정정 주문"""
+
+    branch: str = KisString["KRX_FWDG_ORD_ORGNO"]
+    """지점코드"""
+    number: str = KisString["ODNO"]
+    """주문번호"""
+    time: datetime
+    """주문시간 (현지시간)"""
+    time_kst: datetime
+    """주문시간 (한국시간)"""
+
+    def __pre_init__(self, data: dict[str, Any]):
+        super().__pre_init__(data)
+
+        self.time_kst = datetime.combine(
+            datetime.now(TIMEZONE).date(),
+            datetime.strptime(data["output"]["ORD_TMD"], "%H%M%S").time(),
+            tzinfo=TIMEZONE,
+        )
+        self.time = self.time_kst.astimezone(self.timezone)
+
+
+class KisOverseasDaytimeModifyOrder(KisAPIResponse, KisOrder):
+    """한국투자증권 해외주식 정정 주문 (주간)"""
 
     branch: str = KisString["KRX_FWDG_ORD_ORGNO"]
     """지점코드"""
@@ -375,6 +399,139 @@ def overseas_cancel_order(
     )
 
 
+def overseas_daytime_modify_order(
+    self: "PyKis",
+    account: str | KisAccountNumber,
+    order: KisOrderNumber,
+    price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
+    qty: Decimal | None = None,
+) -> KisOverseasDaytimeModifyOrder:
+    """
+    한국투자증권 해외 주간거래 주문정정
+
+    국내주식주문 -> 해외주식 미국주간정정취소[v1_해외주식-027] (모의투자 미지원)
+    (업데이트 날짜: 2024/04/02)
+
+    Args:
+        account (str | KisAccountNumber): 계좌번호
+        order (KisOrderNumber): 주문번호
+        price (ORDER_PRICE, optional): 주문가격
+        qty (Decimal, optional): 주문수량
+        condition (ORDER_CONDITION, optional): 주문조건
+        execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
+    """
+    if order.market not in DAYTIME_MARKETS:
+        raise ValueError("해당 시장은 주간거래를 지원하지 않습니다.")
+
+    if self.virtual:
+        raise NotImplementedError("모의투자에서는 주간거래 정정 주문을 지원하지 않습니다.")
+
+    if not account:
+        raise ValueError("계좌번호를 입력해주세요.")
+
+    if qty != None and qty <= 0:
+        raise ValueError("수량은 0보다 커야합니다.")
+
+    from pykis.api.account.pending_order import pending_orders
+
+    order_info = pending_orders(self, account=account, country=market_to_country(order.market)).order(order)
+
+    if not order_info:
+        raise ValueError("주문정보를 찾을 수 없습니다. 이미 체결되었거나 취소된 주문일 수 있습니다.")
+
+    if isinstance(price, EMPTY_TYPE):
+        price = order_info.price
+
+    if isinstance(qty, EMPTY_TYPE):
+        qty = order_info.qty
+
+    price = None if price is None else ensure_price(price)
+
+    if not isinstance(account, KisAccountNumber):
+        account = KisAccountNumber(account)
+
+    if qty is None:
+        qty = order_info.qty
+
+    if not price:
+        quote_data = quote(self, code=order.symbol, market=order.market, extended=True)
+        price = quote_data.high_limit if order == "buy" else quote_data.low_limit
+
+    return self.fetch(
+        "/uapi/overseas-stock/v1/trading/daytime-order-rvsecncl",
+        api="TTTS6038U",
+        body={
+            "OVRS_EXCG_CD": order.market,
+            "PDNO": order.symbol,
+            "ORGN_ODNO": order.number,
+            "RVSE_CNCL_DVSN_CD": "01",
+            "ORD_QTY": str(int(qty)),
+            "OVRS_ORD_UNPR": str(price),
+            "CTAC_TLNO": "",
+            "MGCO_APTM_ODNO": "",
+            "ORD_SVR_DVSN_CD": "0",
+        },
+        form=[account],
+        response_type=KisOverseasDaytimeModifyOrder(
+            account_number=account,
+            symbol=order.symbol,
+            market=order.market,
+        ),
+        method="POST",
+    )
+
+
+def overseas_daytime_cancel_order(
+    self: "PyKis",
+    account: str | KisAccountNumber,
+    order: KisOrderNumber,
+) -> KisOverseasModifyOrder:
+    """
+    한국투자증권 해외 주식 주문취소
+
+    국내주식주문 -> 해외주식 미국주간정정취소[v1_해외주식-027] (모의투자 미지원)
+    (업데이트 날짜: 2024/04/02)
+
+    Args:
+        account (str | KisAccountNumber): 계좌번호
+        order (KisOrderNumber): 주문번호
+    """
+    if order.market not in DAYTIME_MARKETS:
+        raise ValueError("해당 시장은 주간거래를 지원하지 않습니다.")
+
+    if self.virtual:
+        raise NotImplementedError("모의투자에서는 주간거래 정정 주문을 지원하지 않습니다.")
+
+    if not account:
+        raise ValueError("계좌번호를 입력해주세요.")
+
+    if not isinstance(account, KisAccountNumber):
+        account = KisAccountNumber(account)
+
+    return self.fetch(
+        "/uapi/overseas-stock/v1/trading/daytime-order-rvsecncl",
+        api="TTTS6038U",
+        body={
+            "OVRS_EXCG_CD": order.market,
+            "PDNO": order.symbol,
+            "ORGN_ODNO": order.number,
+            "RVSE_CNCL_DVSN_CD": "02",
+            "ORD_QTY": "0",
+            "OVRS_ORD_UNPR": "0",
+            "CTAC_TLNO": "",
+            "MGCO_APTM_ODNO": "",
+            "ORD_SVR_DVSN_CD": "0",
+        },
+        form=[account],
+        response_type=KisOverseasModifyOrder(
+            account_number=account,
+            symbol=order.symbol,
+            market=order.market,
+        ),
+        method="POST",
+    )
+
+
 def modify_order(
     self: "PyKis",
     account: str | KisAccountNumber,
@@ -385,11 +542,11 @@ def modify_order(
     execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
 ) -> KisOrder:
     """
-    한국투자증권 통합 주식 주문정정
+    한국투자증권 통합 주식 주문정정 (국내 모의투자 미지원, 해외 주간거래 모의투자 미지원)
 
     국내주식주문 -> 주식주문(정정취소)[v1_국내주식-003]
     국내주식주문 -> 해외주식 정정취소주문[v1_해외주식-003]
-    (업데이트 날짜: 2024/04/01)
+    (업데이트 날짜: 2024/04/02)
 
     Args:
         account (str | KisAccountNumber): 계좌번호
@@ -409,7 +566,8 @@ def modify_order(
             condition=condition,
             execution=execution,
         )
-    else:
+
+    try:
         return overseas_modify_order(
             self,
             account=account,
@@ -419,6 +577,42 @@ def modify_order(
             condition=condition,
             execution=execution,
         )
+    except KisAPIError as e:
+        if e.error_code != "APBK0918":
+            raise e
+
+        return overseas_daytime_modify_order(
+            self,
+            account=account,
+            order=order,
+            price=price,
+            qty=qty,
+        )
 
 
-# TODO: overseas_cancel_order NASD, NYSE, AMAX이며, APBK0918 시 주간거래 취소주문 시도
+def cancel_order(
+    self: "PyKis",
+    account: str | KisAccountNumber,
+    order: KisOrderNumber,
+) -> KisOrder:
+    """
+    한국투자증권 통합 주식 주문취소 (해외 주간거래 모의투자 미지원)
+
+    국내주식주문 -> 주식주문(정정취소)[v1_국내주식-003]
+    국내주식주문 -> 해외주식 정정취소주문[v1_해외주식-003]
+    (업데이트 날짜: 2024/04/02)
+
+    Args:
+        account (str | KisAccountNumber): 계좌번호
+        order (KisOrderNumber): 주문번호
+    """
+    if order.market == "KRX":
+        return domestic_cancel_order(self, account=account, order=order)
+
+    try:
+        return overseas_cancel_order(self, account=account, order=order)
+    except KisAPIError as e:
+        if e.error_code != "APBK0918":
+            raise e
+
+        return overseas_daytime_cancel_order(self, account=account, order=order)
