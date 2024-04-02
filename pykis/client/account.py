@@ -55,4 +55,4 @@ class KisAccountNumber(KisForm):
         return f"{self.number}-{self.code}"
 
     def __repr__(self) -> str:
-        return f"KisAccount('{self.number}-{self.code}')"
+        return f"{self.__class__.__name__}('{self.number}-{self.code}')"

@@ -121,6 +121,40 @@ class KisPendingOrders(KisDynamic, KisAccountBase):
     orders: list[KisPendingOrder]
     """미체결주문"""
 
+    def __getitem__(self, key: int | KisOrderNumber | str) -> KisPendingOrder:
+        """인덱스 또는 주문번호로 주문을 조회합니다."""
+        if isinstance(key, int):
+            return self.orders[key]
+        elif isinstance(key, str):
+            for order in self.orders:
+                if order.symbol == key:
+                    return order
+        elif isinstance(key, KisOrderNumber):
+            for order in self.orders:
+                if order.order_number == key:
+                    return order
+
+        raise KeyError(key)
+
+    def order(self, key: KisOrderNumber | str) -> KisPendingOrder | None:
+        """주문번호 또는 종목코드로 주문을 조회합니다."""
+        if isinstance(key, str):
+            for order in self.orders:
+                if order.symbol == key:
+                    return order
+        elif isinstance(key, KisOrderNumber):
+            for order in self.orders:
+                if order.order_number == key:
+                    return order
+
+        return None
+
+    def __len__(self) -> int:
+        return len(self.orders)
+
+    def __iter__(self):
+        return iter(self.orders)
+
     def __repr__(self) -> str:
         nl = "\n    "
         nll = "\n        "
@@ -501,7 +535,7 @@ def pending_orders(
     """
     한국투자증권 통합 미체결 조회
 
-    국내주식주문 -> 주식정정취소가능주문조회[v1_국내주식-004]
+    국내주식주문 -> 주식정정취소가능주문조회[v1_국내주식-004] (모의투자 미지원)
     해외주식주문 -> 해외주식 미체결내역[v1_해외주식-005]
     (업데이트 날짜: 2024/04/01)
 
