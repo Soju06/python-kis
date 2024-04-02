@@ -31,6 +31,12 @@ MARKET_SHORT_TYPE_MAP = {
     "SZAA": "SZS",
 }
 
+DAYTIME_MARKETS = {
+    "NASD",
+    "NYSE",
+    "AMEX",
+}
+
 DAYTIME_MARKET_SHORT_TYPE_MAP = {
     "NASD": "BAQ",
     "NYSE": "BAY",

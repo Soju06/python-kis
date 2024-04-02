@@ -102,6 +102,31 @@ class KisAPIError(KisException):
     msg1: str | None
     """응답 메시지"""
 
+    @property
+    def message(self) -> str:
+        """응답 메시지"""
+        return self.msg1 or self.response.reason
+
+    @property
+    def code(self) -> int:
+        """응답 코드"""
+        return self.rt_cd or 0
+
+    @property
+    def error_code(self) -> str:
+        """응답 메시지 코드"""
+        return self.msg_cd or "UNKNOWN"
+
+    @property
+    def transaction_id(self) -> str:
+        """거래 ID"""
+        return self.tr_id or "UNKNOWN"
+
+    @property
+    def transaction_unique_id(self) -> str:
+        """거래고유번호"""
+        return self.gt_uid or "UNKNOWN"
+
     def __init__(self, data: dict, response: Response):
         rt_cd = data.get("rt_cd")
         rt_cd = int(rt_cd) if rt_cd else None
