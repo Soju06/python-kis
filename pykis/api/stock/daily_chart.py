@@ -7,9 +7,9 @@ from pykis.api.stock.chart import KisChart, KisChartBar, TChart
 from pykis.api.stock.market import (
     EX_DATE_TYPE_CODE_MAP,
     MARKET_SHORT_TYPE_MAP,
-    MARKET_TIMEZONE_OBJECT_MAP,
     MARKET_TYPE,
     ExDateType,
+    get_market_timezone,
 )
 from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_MAP
 from pykis.responses.dynamic import KisList
@@ -145,7 +145,7 @@ class KisOverseasDailyChart(KisResponse, KisDailyChart):
                 market=self.market,
             )
 
-        self.timezone = MARKET_TIMEZONE_OBJECT_MAP[self.market]
+        self.timezone = get_market_timezone(self.market)
 
         data["output2"] = data["output2"][: int(record_size)]
 
@@ -204,11 +204,11 @@ def domestic_daily_chart(
     if not symbol:
         raise ValueError("종목 코드를 입력해주세요.")
 
-    if isinstance(start, date) and end and start > end:
-        raise ValueError("시작 시간은 종료 시간보다 이전이어야 합니다.")
-
     if not end:
         end = datetime.now(TIMEZONE).date()
+
+    if isinstance(start, date) and end and start > end:
+        start, end = end, start
 
     cursor = end
     chart = None
@@ -298,7 +298,7 @@ def overseas_daily_chart(
         raise ValueError("종목 코드를 입력해주세요.")
 
     if isinstance(start, date) and end and start > end:
-        raise ValueError("시작 시간은 종료 시간보다 이전이어야 합니다.")
+        start, end = end, start
 
     cursor = end
     chart = None

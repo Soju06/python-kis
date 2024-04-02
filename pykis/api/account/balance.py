@@ -795,7 +795,7 @@ def orderable_quantity(
         ValueError: 계좌번호가 잘못된 경우
     """
     if not country:
-        country = market_to_country(resolve_market(self, code=symbol))
+        country = market_to_country(resolve_market(self, symbol=symbol))
 
     stock = balance(
         self,

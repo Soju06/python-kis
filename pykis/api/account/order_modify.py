@@ -508,6 +508,13 @@ def overseas_daytime_cancel_order(
     if not isinstance(account, KisAccountNumber):
         account = KisAccountNumber(account)
 
+    from pykis.api.account.pending_order import pending_orders
+
+    order_info = pending_orders(self, account=account, country=market_to_country(order.market)).order(order)
+
+    if not order_info:
+        raise ValueError("주문정보를 찾을 수 없습니다. 이미 체결되었거나 취소된 주문일 수 있습니다.")
+
     return self.fetch(
         "/uapi/overseas-stock/v1/trading/daytime-order-rvsecncl",
         api="TTTS6038U",
@@ -516,7 +523,7 @@ def overseas_daytime_cancel_order(
             "PDNO": order.symbol,
             "ORGN_ODNO": order.number,
             "RVSE_CNCL_DVSN_CD": "02",
-            "ORD_QTY": "0",
+            "ORD_QTY": str(int(order_info.qty)),
             "OVRS_ORD_UNPR": "0",
             "CTAC_TLNO": "",
             "MGCO_APTM_ODNO": "",

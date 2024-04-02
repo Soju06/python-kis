@@ -7,9 +7,9 @@ from pykis.api.base.account_product import KisAccountProductBase
 from pykis.api.stock.info import market_to_country
 from pykis.api.stock.market import (
     DAYTIME_MARKET_SHORT_TYPE_MAP,
-    MARKET_TIMEZONE_OBJECT_MAP,
     MARKET_TYPE,
     MARKET_TYPE_KOR_MAP,
+    get_market_timezone,
 )
 from pykis.api.stock.quote import quote
 from pykis.client.account import KisAccountNumber
@@ -45,7 +45,12 @@ def ensure_price(price: ORDER_PRICE, digit: int | None = 4) -> Decimal:
     return price
 
 
-ORDER_EXECUTION = Literal["IOC", "FOK"]
+ORDER_EXECUTION = Literal[
+    # 즉시체결 또는 전량취소
+    "IOC",
+    # 전량체결 또는 전량취소
+    "FOK",
+]
 """체결 조건 (IOC, FOK)"""
 
 DOMESTIC_ORDER_CONDITION = Literal[
@@ -380,13 +385,32 @@ class KisOrder(KisOrderNumber):
     @overload
     def __init__(self, account_number: KisAccountNumber, symbol: str, market: MARKET_TYPE): ...
 
+    @overload
+    def __init__(
+        self,
+        account_number: KisAccountNumber,
+        symbol: str,
+        market: MARKET_TYPE,
+        branch: str,
+        number: str,
+        time_kst: datetime,
+        kis: "PyKis",
+    ): ...
+
     def __init__(
         self,
         account_number: KisAccountNumber | None = None,
         symbol: str | None = None,
         market: MARKET_TYPE | None = None,
+        branch: str | None = None,
+        number: str | None = None,
+        time_kst: datetime | None = None,
+        kis: "PyKis | None" = None,
     ):
         super().__init__()
+
+        if kis is not None:
+            self.kis = kis
 
         if account_number is not None:
             self.account_number = account_number
@@ -400,7 +424,30 @@ class KisOrder(KisOrderNumber):
                 raise ValueError("market이 지정되지 않았습니다.")
 
             self.market = market
-            self.timezone = MARKET_TIMEZONE_OBJECT_MAP[self.market]
+            self.timezone = get_market_timezone(self.market)
+
+        if branch is not None:
+            if account_number is None:
+                raise ValueError("account_number가 지정되지 않았습니다.")
+
+            self.branch = branch
+
+            if number is None:
+                raise ValueError("number가 지정되지 않았습니다.")
+
+            self.number = number
+
+            if time_kst is None:
+                raise ValueError("time_kst가 지정되지 않았습니다.")
+
+            self.time_kst = time_kst
+            self.time = self.time_kst.astimezone(self.timezone)
+
+    def __eq__(self, value: object) -> bool:
+        if not isinstance(value, KisOrder):
+            return False
+
+        return super().__eq__(value) and self.time_kst == value.time_kst
 
 
 class KisDomesticOrder(KisAPIResponse, KisOrder):

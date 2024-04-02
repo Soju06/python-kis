@@ -57,7 +57,7 @@ class KisStock(KisProductScope):
         Args:
             price (int | None, optional): 주문가격. None인 경우 시장가 주문
             condition (ORDER_CONDITION | None, optional): 주문조건
-            execution (ORDER_EXECUTION_CONDITION | None, optional): 채결조건
+            execution (ORDER_EXECUTION_CONDITION | None, optional): 체결조건
 
         Examples:
             >>> stock.orderable_amount(price=100, condition=None, execution=None) # 전체 지정가 매수
