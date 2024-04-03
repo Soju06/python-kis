@@ -12,7 +12,7 @@ from pykis.api.account.order import (
 )
 from pykis.api.base.account import KisAccountBase
 from pykis.api.base.account_product import KisAccountProductBase
-from pykis.api.stock.info import COUNTRY_TYPE, resolve_market
+from pykis.api.stock.info import COUNTRY_TYPE
 from pykis.api.stock.market import (
     CURRENCY_TYPE,
     MARKET_TYPE,
@@ -23,8 +23,8 @@ from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
 from pykis.responses.response import KisPaginationAPIResponse
-from pykis.responses.types import KisAny, KisBool, KisDecimal, KisString
-from pykis.utils.cache import cached, set_cache
+from pykis.responses.types import KisAny, KisDecimal, KisString
+from pykis.utils.cache import cached
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -189,7 +189,7 @@ DOMESTIC_EXCHANGE_CODE_MAP: dict[str, tuple[COUNTRY_TYPE, MARKET_TYPE | None, OR
 }
 
 
-class KisDomesticDailyOrder(KisDynamic, KisAccountProductBase):
+class KisDomesticDailyOrder(KisDailyOrder, KisAccountProductBase):
     """한국투자증권 국내 일별 체결내역"""
 
     time: datetime
@@ -314,7 +314,7 @@ class KisDomesticDailyOrders(KisPaginationAPIResponse, KisDailyOrders):
         self._kis_spread(self.orders)
 
 
-class KisOverseasDailyOrder(KisDynamic, KisAccountProductBase):
+class KisOverseasDailyOrder(KisDailyOrder, KisAccountProductBase):
     """한국투자증권 해외 일별 체결내역"""
 
     time: datetime
@@ -432,8 +432,9 @@ class KisIntegrationDailyOrders(KisDailyOrders):
     _orders: list[KisDailyOrders]
     """내부구현 체결내역"""
 
-    def __init__(self, account_number: KisAccountNumber, *orders: KisDailyOrders):
+    def __init__(self, kis: "PyKis", account_number: KisAccountNumber, *orders: KisDailyOrders):
         super().__init__()
+        self.kis = kis
         self.account_number = account_number
         self._orders = list(orders)
         self.orders = []
@@ -720,6 +721,7 @@ def daily_orders(
 
     if country is None:
         return KisIntegrationDailyOrders(
+            self,
             account,
             domestic_daily_orders(
                 self,

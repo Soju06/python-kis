@@ -396,8 +396,9 @@ class KisIntegrationPendingOrders(KisPendingOrders):
     _orders: list[KisPendingOrders]
     """내부구현 미체결주문"""
 
-    def __init__(self, account_number: KisAccountNumber, *orders: KisPendingOrders):
+    def __init__(self, kis: "PyKis", account_number: KisAccountNumber, *orders: KisPendingOrders):
         super().__init__()
+        self.kis = kis
         self.account_number = account_number
         self._orders = list(orders)
         self.orders = []
@@ -602,6 +603,7 @@ def pending_orders(
 
     if country is None:
         return KisIntegrationPendingOrders(
+            self,
             account,
             domestic_pending_orders(self, account),
             overseas_pending_orders(self, account),
