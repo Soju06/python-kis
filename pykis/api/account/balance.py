@@ -474,6 +474,14 @@ class KisOverseasBalance(KisPaginationAPIResponse, KisBalance):
 class KisIntegrationBalance(KisBalance):
     """한국투자증권 통합잔고"""
 
+    country: COUNTRY_TYPE | None = None
+    """국가코드 (스코프 지정시)"""
+
+    stocks: list[KisBalanceStock]
+    """보유종목"""
+    deposits: dict[CURRENCY_TYPE, KisDeposit]
+    """통화별 예수금"""
+
     _balances: list[KisBalance]
     """내부구현 잔고"""
 

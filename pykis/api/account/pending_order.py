@@ -1,17 +1,21 @@
+from datetime import datetime
 from decimal import Decimal
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
+from zoneinfo import ZoneInfo
 
+from pykis.__env__ import TIMEZONE
 from pykis.api.account.order import (
     ORDER_CONDITION,
     ORDER_EXECUTION,
     ORDER_TYPE,
+    KisOrder,
     KisOrderNumber,
     resolve_domestic_order_condition,
 )
 from pykis.api.base.account import KisAccountBase
 from pykis.api.base.account_product import KisAccountProductBase
 from pykis.api.stock.info import COUNTRY_TYPE
-from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
+from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE, get_market_timezone
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList
@@ -32,7 +36,14 @@ class KisPendingOrder(KisDynamic, KisAccountProductBase):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    order_number: KisOrderNumber
+    time: datetime
+    """주문시각"""
+    time_kst: datetime
+    """주문시각(KST)"""
+    timezone: ZoneInfo
+    """시간대"""
+
+    order_number: KisOrder
     """주문번호"""
 
     @property
@@ -168,7 +179,14 @@ class KisDomesticPendingOrder(KisPendingOrder, KisAccountProductBase):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    order_number: KisOrderNumber
+    time: datetime
+    """주문시각"""
+    time_kst: datetime
+    """주문시각(KST)"""
+    timezone: ZoneInfo = TIMEZONE
+    """시간대"""
+
+    order_number: KisOrder
     """주문번호"""
 
     type: ORDER_TYPE = KisAny(lambda x: "buy" if x == "02" else "sell")["sll_buy_dvsn_cd"]
@@ -201,6 +219,15 @@ class KisDomesticPendingOrder(KisPendingOrder, KisAccountProductBase):
     currency: CURRENCY_TYPE = "KRW"
     """통화"""
 
+    def __pre_init__(self, data: dict[str, Any]):
+        super().__pre_init__(data)
+
+        self.time_kst = self.time = datetime.combine(
+            datetime.now(TIMEZONE).date(),
+            datetime.strptime(data["ord_tmd"], "%H%M%S").time(),
+            tzinfo=TIMEZONE,
+        )
+
     def __post_init__(self):
         super().__post_init__()
 
@@ -214,13 +241,14 @@ class KisDomesticPendingOrder(KisPendingOrder, KisAccountProductBase):
     def __kis_post_init__(self):
         super().__kis_post_init__()
 
-        self.order_number = KisOrderNumber(
+        self.order_number = KisOrder(
             kis=self.kis,
             symbol=self.symbol,
             market=self.market,
             account_number=self.account_number,
             branch=self.__data__["ord_gno_brno"],
             number=self.__data__["odno"],
+            time_kst=self.time_kst,
         )
 
 
@@ -260,7 +288,14 @@ class KisOverseasPendingOrder(KisPendingOrder, KisAccountProductBase):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    order_number: KisOrderNumber
+    time: datetime
+    """주문시각"""
+    time_kst: datetime
+    """주문시각(KST)"""
+    timezone: ZoneInfo = KisAny(get_market_timezone)["ovrs_excg_cd"]
+    """시간대"""
+
+    order_number: KisOrder
     """주문번호"""
 
     type: ORDER_TYPE = KisAny(lambda x: "buy" if x == "02" else "sell")["sll_buy_dvsn_cd"]
@@ -285,7 +320,7 @@ class KisOverseasPendingOrder(KisPendingOrder, KisAccountProductBase):
     execution: ORDER_EXECUTION | None = None
     """체결조건"""
 
-    rejected: bool = KisAny(lambda x: x)["rjct_rson"]
+    rejected: bool = KisAny(lambda x: bool(x))["rjct_rson"]
     """거부여부"""
     rejected_reason: str | None = KisAny(lambda x: x if x else None)["rjct_rson_name"]
     """거부사유"""
@@ -293,8 +328,19 @@ class KisOverseasPendingOrder(KisPendingOrder, KisAccountProductBase):
     currency: CURRENCY_TYPE = KisString["tr_crcy_cd"]
     """통화"""
 
+    def __pre_init__(self, data: dict[str, Any]):
+        super().__pre_init__(data)
+
+        self.time_kst = datetime.combine(
+            datetime.now(TIMEZONE).date(),
+            datetime.strptime(data["ord_tmd"], "%H%M%S").time(),
+            tzinfo=TIMEZONE,
+        )
+
     def __post_init__(self):
         super().__post_init__()
+
+        self.time = self.time_kst.astimezone(self.timezone)
 
         if not self.unit_price:
             self.unit_price = None
@@ -302,13 +348,14 @@ class KisOverseasPendingOrder(KisPendingOrder, KisAccountProductBase):
     def __kis_post_init__(self):
         super().__kis_post_init__()
 
-        self.order_number = KisOrderNumber(
+        self.order_number = KisOrder(
             kis=self.kis,
             symbol=self.symbol,
             market=self.market,
             account_number=self.account_number,
             branch=self.__data__["ord_gno_brno"],
             number=self.__data__["odno"],
+            time_kst=self.time_kst,
         )
 
 
@@ -338,7 +385,7 @@ class KisOverseasPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
         self._kis_spread(self.orders)
 
 
-class KisIntegrationPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
+class KisIntegrationPendingOrders(KisPendingOrders):
     """한국투자증권 미체결 주식"""
 
     account_number: KisAccountNumber
@@ -346,13 +393,19 @@ class KisIntegrationPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
     orders: list[KisPendingOrder]
     """미체결주문"""
 
+    _orders: list[KisPendingOrders]
+    """내부구현 미체결주문"""
+
     def __init__(self, account_number: KisAccountNumber, *orders: KisPendingOrders):
         super().__init__()
         self.account_number = account_number
+        self._orders = list(orders)
         self.orders = []
 
         for order in orders:
             self.orders.extend(order.orders)
+
+        self.orders.sort(key=lambda x: x.time_kst, reverse=True)
 
 
 def domestic_pending_orders(

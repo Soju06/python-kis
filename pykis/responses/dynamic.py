@@ -132,7 +132,7 @@ class KisDynamic:
     __path__: KisDynamicScopedPath | str | None = None
     """응답 데이터 위치 지정"""
 
-    __data__: dict[str, Any]
+    __data__: dict[str, Any] = None  # type: ignore
     """원본 응답 데이터"""
 
     def __pre_init__(self, data: dict[str, Any]) -> None:
@@ -167,8 +167,11 @@ class KisDynamic:
         """응답 데이터 필드를 딕셔너리 형태로 반환합니다."""
         return self._asdict(self, {})
 
-    def raw(self) -> dict[str, Any]:
+    def raw(self) -> dict[str, Any] | None:
         """원본 응답 데이터의 복사본을 반환합니다."""
+        if self.__data__ is None:
+            return None
+
         data = self.__data__.copy()
         data.pop("__response__", None)
 
