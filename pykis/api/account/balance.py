@@ -485,8 +485,9 @@ class KisIntegrationBalance(KisBalance):
     _balances: list[KisBalance]
     """내부구현 잔고"""
 
-    def __init__(self, account_number: KisAccountNumber, *balances: KisBalance):
+    def __init__(self, kis: "PyKis", account_number: KisAccountNumber, *balances: KisBalance):
         super().__init__()
+        self.kis = kis
         self.account_number = account_number
         self._balances = list(balances)
         self.stocks = []
@@ -765,6 +766,7 @@ def balance(
 
     if country is None:
         return KisIntegrationBalance(
+            self,
             account,
             domestic_balance(self, account),
             overseas_balance(self, account),
