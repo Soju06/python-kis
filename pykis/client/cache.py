@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
-from threading import Lock
+from multiprocessing import Lock
+from multiprocessing.synchronize import Lock as LockType
 from typing import Any, TypeVar
 
 TObject = TypeVar("TObject")
@@ -10,7 +11,7 @@ class KisCacheStorage:
 
     _data: dict[str, Any]
     _expire: dict[str, datetime]
-    _lock: Lock
+    _lock: LockType
 
     def __init__(self):
         self._data = {}
