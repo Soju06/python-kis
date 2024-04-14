@@ -1,5 +1,6 @@
-from threading import Lock
 import time
+from multiprocessing import Lock
+from multiprocessing.synchronize import Lock as LockType
 from typing import Callable
 
 
@@ -13,7 +14,7 @@ class RateLimiter:
 
     _count: int
     _last: float
-    _lock: Lock
+    _lock: LockType
 
     def __init__(self, rate: int, period: float):
         """호출 유량을 제한하는 클래스를 생성합니다.
@@ -34,9 +35,7 @@ class RateLimiter:
         with self._lock:
             return 0 if time.time() - self._last > self.period else self._count
 
-    def acquire(
-        self, blocking: bool = True, blocking_callback: Callable[[], None] | None = None
-    ) -> bool:
+    def acquire(self, blocking: bool = True, blocking_callback: Callable[[], None] | None = None) -> bool:
         """
         호출 유량을 획득합니다.
 

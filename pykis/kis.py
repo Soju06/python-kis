@@ -246,15 +246,14 @@ class PyKis:
 
         return response_object
 
-    from pykis.api.auth.token import token_issue as _token_issue
-    from pykis.api.auth.token import token_revoke as _token_revoke
-
     @property
     @thread_safe
     def token(self) -> KisAccessToken:
         """API 접속 토큰을 반환합니다."""
         if self._token is None or self._token.remaining < timedelta(minutes=10):
-            self._token = self._token_issue()
+            from pykis.api.auth.token import token_issue
+
+            self._token = token_issue(self)
             logging.logger.debug(f"API 접속 토큰을 발급했습니다.")
 
         return self._token
@@ -268,7 +267,9 @@ class PyKis:
     def discard(self):
         """API 접속 토큰을 폐기합니다."""
         if self._token is not None:
-            self._token_revoke(self._token.token)
+            from pykis.api.auth.token import token_revoke
+
+            token_revoke(self, self._token.token)
             self._token = None
 
     @property

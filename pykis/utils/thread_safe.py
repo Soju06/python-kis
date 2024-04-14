@@ -1,4 +1,4 @@
-from threading import Lock
+from multiprocessing import Lock
 
 
 def thread_safe(fn):
