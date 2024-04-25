@@ -71,7 +71,7 @@ class KisInt(KisType[int], metaclass=KisTypeMeta[int]):
         return int(data)
 
 
-class KisFloat(KisType[float], metaclass=KisTypeMeta):
+class KisFloat(KisType[float], metaclass=KisTypeMeta[float]):
     """
     금액을 표현 할 경우 부동소수점인 float 타입을 사용하면 정확한 값을 표현할 수 없습니다.
     따라서 금액을 표현할 때는 Decimal 타입을 사용하십시오.
@@ -89,7 +89,7 @@ class KisFloat(KisType[float], metaclass=KisTypeMeta):
         return float(data)
 
 
-class KisDecimal(KisType[Decimal], metaclass=KisTypeMeta):
+class KisDecimal(KisType[Decimal], metaclass=KisTypeMeta[Decimal]):
     __default__ = []
 
     def transform(self, data: Any) -> Decimal:
@@ -102,7 +102,7 @@ class KisDecimal(KisType[Decimal], metaclass=KisTypeMeta):
         return Decimal(data)
 
 
-class KisBool(KisType[bool], metaclass=KisTypeMeta):
+class KisBool(KisType[bool], metaclass=KisTypeMeta[bool]):
     __default__ = []
 
     def transform(self, data: Any) -> bool:
@@ -123,7 +123,7 @@ class KisBool(KisType[bool], metaclass=KisTypeMeta):
         return data == "y" or data == "true"
 
 
-class KisDate(KisType[date], metaclass=KisTypeMeta):
+class KisDate(KisType[date], metaclass=KisTypeMeta[date]):
     __default__ = []
 
     format: str
@@ -146,7 +146,7 @@ class KisDate(KisType[date], metaclass=KisTypeMeta):
         return datetime.strptime(data, self.format).replace(tzinfo=self.timezone).date()
 
 
-class KisTime(KisType[time], metaclass=KisTypeMeta):
+class KisTime(KisType[time], metaclass=KisTypeMeta[time]):
     __default__ = []
 
     format: str
@@ -169,7 +169,7 @@ class KisTime(KisType[time], metaclass=KisTypeMeta):
         return datetime.strptime(data, self.format).replace(tzinfo=self.timezone).time()
 
 
-class KisDatetime(KisType[datetime], metaclass=KisTypeMeta):
+class KisDatetime(KisType[datetime], metaclass=KisTypeMeta[datetime]):
     __default__ = []
 
     format: str
@@ -192,7 +192,7 @@ class KisDatetime(KisType[datetime], metaclass=KisTypeMeta):
         return datetime.strptime(data, self.format).replace(tzinfo=self.timezone)
 
 
-class KisDict(KisType[dict[str, Any]], metaclass=KisTypeMeta):
+class KisDict(KisType[dict[str, Any]], metaclass=KisTypeMeta[dict[str, Any]]):
     __default__ = []
 
     def transform(self, data: Any) -> dict[str, Any]:
@@ -203,3 +203,30 @@ class KisDict(KisType[dict[str, Any]], metaclass=KisTypeMeta):
             raise KisNoneError
 
         return dict(data)
+
+
+class KisTimeToDatetime(KisType[datetime], metaclass=KisTypeMeta[datetime]):
+    __default__ = []
+
+    format: str
+    """시간 포맷"""
+    timezone: tzinfo | None
+    """타임존"""
+
+    def __init__(self, format: str = "%H%M%S", timezone: tzinfo | None = TIMEZONE):
+        super().__init__()
+        self.format = format
+        self.timezone = timezone
+
+    def transform(self, data: Any) -> datetime:
+        if isinstance(data, datetime):
+            return data
+
+        if data == "":
+            raise KisNoneError
+
+        return datetime.combine(
+            datetime.now(TIMEZONE).date(),
+            datetime.strptime(data, self.format).time(),
+            tzinfo=self.timezone,
+        )

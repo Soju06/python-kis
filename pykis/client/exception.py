@@ -29,7 +29,7 @@ def safe_request_data(response: Response):
             except UnicodeDecodeError:
                 body = body.reason.decode("iso-8859-1")  # type: ignore
 
-        if not TRACE_DETAIL_ERROR and ("appkey" in body or "appsecret" in body):
+        if not TRACE_DETAIL_ERROR and ("appkey" in body or "appsecret" in body or "secretkey" in body):
             body = "[PROTECTED BODY]"
     else:
         body = "[EMPTY BODY]"

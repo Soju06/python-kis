@@ -50,7 +50,7 @@ class PyKis:
         *,
         account: str | KisAccountNumber | None = None,
         appkey: str | KisKey | None = None,
-        appsecret: str | None = None,
+        secretkey: str | None = None,
         virtual: bool = False,
         token: KisAccessToken | str | PathLike[str] | None = None,
     ):
@@ -59,7 +59,7 @@ class PyKis:
         Args:
             auth: 한국투자증권 계좌 및 인증 정보
             appkey: 한국투자증권 API AppKey
-            appsecret: 한국투자증권 API AppSecret
+            secretkey: 한국투자증권 API AppSecret
             account: 한국투자증권 기본 계좌 정보
             virtual: 모의투자 여부
 
@@ -77,10 +77,10 @@ class PyKis:
             raise ValueError("appkey를 입력해야 합니다.")
 
         if isinstance(appkey, str):
-            if appsecret is None:
-                raise ValueError("appsecret을 입력해야 합니다.")
+            if secretkey is None:
+                raise ValueError("secretkey를 입력해야 합니다.")
 
-            appkey = KisKey(appkey=appkey, appsecret=appsecret)
+            appkey = KisKey(appkey=appkey, secretkey=secretkey)
 
         self.appkey = appkey
 
@@ -244,10 +244,10 @@ class PyKis:
             response_object.__kis_init__(self)
             response_object.__kis_post_init__()
 
-        return response_object
+        return response_object  # type: ignore
 
     @property
-    @thread_safe
+    @thread_safe("token")
     def token(self) -> KisAccessToken:
         """API 접속 토큰을 반환합니다."""
         if self._token is None or self._token.remaining < timedelta(minutes=10):
@@ -259,7 +259,7 @@ class PyKis:
         return self._token
 
     @token.setter
-    @thread_safe
+    @thread_safe("token")
     def token(self, token: KisAccessToken):
         """API 접속 토큰을 설정합니다."""
         self._token = token
