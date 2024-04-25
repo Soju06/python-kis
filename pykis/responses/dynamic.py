@@ -203,7 +203,7 @@ class KisTransform(Generic[T], KisType[T], metaclass=KisTransformMeta):
 TListItem = TypeVar("TListItem", bound=KisType[Any] | type[KisDynamic])
 
 
-class KisList(Generic[TListItem], KisType[list[Any]], metaclass=KisTypeMeta):
+class KisList(Generic[TListItem], KisType[list[Any]], metaclass=KisTypeMeta[list[Any]]):
     type: TListItem
     """리스트 타입"""
 

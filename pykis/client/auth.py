@@ -12,7 +12,7 @@ class KisAuth:
 
     appkey: str
     """앱 키"""
-    appsecret: str
+    secretkey: str
     """앱 시크릿"""
     account: str
     """계좌번호"""
@@ -22,7 +22,7 @@ class KisAuth:
     @property
     def key(self):
         """앱 키"""
-        return KisKey(appkey=self.appkey, appsecret=self.appsecret)
+        return KisKey(appkey=self.appkey, secretkey=self.secretkey)
 
     @property
     def account_(self):
@@ -37,8 +37,11 @@ class KisAuth:
     @classmethod
     def load(cls, path: str | PathLike[str]) -> "KisAuth":
         """JSON 파일에서 계좌 및 인증 정보를 불러옵니다."""
-        with open(path) as f:
-            return cls(**json.load(f))
+        try:
+            with open(path) as f:
+                return cls(**json.load(f))
+        except Exception as e:
+            raise ValueError("계좌 및 인증 정보를 불러오는데 실패했습니다.") from e
 
     def __repr__(self):
         return f"<KisAuth account={self.account} virtual={self.virtual}>"

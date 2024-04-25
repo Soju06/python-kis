@@ -13,3 +13,7 @@ def cached(fn):
 
 def set_cache(obj: object, key: str, value: object):
     setattr(obj, f"__{key}", value)
+
+
+def get_cache(obj: object, key: str, default: object = None):
+    return getattr(obj, f"__{key}", default)
