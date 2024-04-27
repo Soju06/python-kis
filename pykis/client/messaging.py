@@ -5,6 +5,7 @@ from Crypto.Util.Padding import unpad
 
 from pykis.client.form import KisForm
 from pykis.client.object import KisObjectBase
+from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -55,6 +56,11 @@ TR_SUBSCRIBE_TYPE = "1"
 TR_UNSUBSCRIBE_TYPE = "2"
 
 
+@kis_repr(
+    "id",
+    "key",
+    lines="single",
+)
 class KisWebsocketTR(KisWebsocketForm):
     """한국투자증권 실시간 TR 요청"""
 
@@ -82,9 +88,6 @@ class KisWebsocketTR(KisWebsocketForm):
             return f"{self.id}.{self.key}"
 
         return self.id
-
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}id=({self.id!r}, key={self.key!r})"
 
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, self.__class__) and self.id == other.id and self.key == other.key

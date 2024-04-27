@@ -4,11 +4,18 @@ from pykis.api.base.account import KisAccountBase
 from pykis.api.base.product import KisProductBase
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.account import KisAccountNumber
+from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.scope.account.account import KisAccount
 
 
+@kis_repr(
+    "account_number",
+    "market",
+    "symbol",
+    lines="single",
+)
 class KisAccountProductBase(KisAccountBase, KisProductBase):
     """한국투자증권 계좌 상품 기본정보"""
 
@@ -18,9 +25,6 @@ class KisAccountProductBase(KisAccountBase, KisProductBase):
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
-
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(account_number={self.account_number!r}, code={self.symbol!r}, market={self.market!r})"
 
     @property
     def account(self) -> "KisAccount":

@@ -21,11 +21,22 @@ from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList
 from pykis.responses.response import KisPaginationAPIResponse
 from pykis.responses.types import KisAny, KisDecimal, KisString
+from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+@kis_repr(
+    "order_number",
+    "type",
+    "price",
+    "qty",
+    "executed_qty",
+    "condition",
+    "execution",
+    lines="multiple",
+)
 class KisPendingOrder(KisDynamic, KisAccountProductBase):
     """한국투자증권 미체결 주식"""
 
@@ -116,10 +127,13 @@ class KisPendingOrder(KisDynamic, KisAccountProductBase):
     currency: CURRENCY_TYPE
     """통화"""
 
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(order_number={self.order_number!r}, type={self.type!r}, price={self.price!r}, quantity={self.quantity!r}, executed_quantity={self.executed_quantity!r}, condition={self.condition!r}, execution={self.execution!r})"
 
-
+@kis_repr(
+    "account_number",
+    "orders",
+    lines="multiple",
+    field_lines={"orders": "multiple"},
+)
 class KisPendingOrders(KisDynamic, KisAccountBase):
     """한국투자증권 미체결 주식"""
 
@@ -162,11 +176,6 @@ class KisPendingOrders(KisDynamic, KisAccountBase):
 
     def __iter__(self):
         return iter(self.orders)
-
-    def __repr__(self) -> str:
-        nl = "\n    "
-        nll = "\n        "
-        return f"{self.__class__.__name__}({nl}account_number={self.account_number!r},{nl}orders=[{nll}{f',{nll}'.join(map(repr, self.orders))}{nl}]\n)"
 
 
 class KisDomesticPendingOrder(KisPendingOrder, KisAccountProductBase):

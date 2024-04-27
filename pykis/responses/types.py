@@ -99,7 +99,7 @@ class KisDecimal(KisType[Decimal], metaclass=KisTypeMeta[Decimal]):
         if data == "":
             raise KisNoneError
 
-        return Decimal(data)
+        return Decimal(data).normalize()
 
 
 class KisBool(KisType[bool], metaclass=KisTypeMeta[bool]):

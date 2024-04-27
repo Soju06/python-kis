@@ -1,7 +1,7 @@
 from io import StringIO
-from typing import Iterable, Literal
+from typing import Any, Iterable, Literal, Protocol, TypeVar
 
-SINGLE_LINE_MAX_LENGTH = 120
+SINGLE_LINE_MAX_LENGTH = 100
 
 
 class UnboundedType:
@@ -16,6 +16,8 @@ UNBOUNDED = UnboundedType()
 
 REPR_LINE_MODE = Literal["single", "multiple"]
 
+TObject = TypeVar("TObject")
+
 
 def kis_repr(
     *fields: str,
@@ -24,7 +26,7 @@ def kis_repr(
     indent: str = "    ",
     max_depth: int = 7,
 ):
-    def decorator(cls):
+    def decorator(cls: type[TObject]) -> type[TObject]:
         def __repr__(self, _depth: int = 0) -> str:
             return object_repr(
                 self,
@@ -57,6 +59,21 @@ def _append_with_indent(sb: StringIO, value: str, indent: str):
 
         sb.write(indent)
         sb.write(lines[i])
+
+
+class ReprFunction(Protocol):
+    def __call__(self, obj: Any, max_depth: int = 7, depth: int = 0) -> str: ...
+
+
+custom_reprs: dict[type, ReprFunction] = {}
+
+
+def custom_repr(cls: type, fn: ReprFunction):
+    custom_reprs[cls] = fn
+
+
+def remove_custom_repr(cls: type):
+    custom_reprs.pop(cls, None)
 
 
 def _repr(
@@ -104,6 +121,14 @@ def _repr(
     elif (repr_fn := getattr(obj, "__repr__", None)) and getattr(repr_fn, "__is_kis_repr__", False):
         return repr_fn(_depth=_depth)
     else:
+        for cls, fn in custom_reprs.items():
+            if isinstance(obj, cls):
+                return fn(
+                    obj,
+                    depth=_depth,
+                    max_depth=max_depth,
+                )
+
         return repr(obj)
 
 
@@ -128,7 +153,7 @@ def dict_repr(
 
         values.append(
             (
-                repr(k),
+                k,
                 _repr(
                     v,
                     indent=indent,
@@ -152,7 +177,7 @@ def dict_repr(
 
     sb = StringIO()
 
-    if lines:
+    if lines == "single":
         sb.write("{")
         for i, (k, v) in enumerate(values):
             if i > 0:
@@ -401,3 +426,39 @@ def object_repr(
         sb.write("\n)")
 
     return sb.getvalue()
+
+
+#####################################
+## PyKis Custom Repr Functions
+#####################################
+
+from datetime import date, datetime, time
+from decimal import Decimal
+from zoneinfo import ZoneInfo
+
+
+def decimal_repr(obj: Decimal, max_depth: int = 7, depth: int = 0) -> str:
+    return format(obj.normalize(), "f")
+
+
+def datetime_repr(obj: datetime, max_depth: int = 7, depth: int = 0) -> str:
+    return f"{datetime.fromisoformat.__name__}({obj.isoformat()!r})"
+
+
+def date_repr(obj: date, max_depth: int = 7, depth: int = 0) -> str:
+    return f"{date.fromisoformat.__name__}({obj.isoformat()!r})"
+
+
+def time_repr(obj: time, max_depth: int = 7, depth: int = 0) -> str:
+    return f"{time.fromisoformat.__name__}({obj.isoformat()!r})"
+
+
+def zoneinfo_repr(obj: ZoneInfo, max_depth: int = 7, depth: int = 0) -> str:
+    return f"{ZoneInfo.__name__}({obj.key!r})"
+
+
+custom_repr(Decimal, decimal_repr)
+custom_repr(datetime, datetime_repr)
+custom_repr(date, date_repr)
+custom_repr(time, time_repr)
+custom_repr(ZoneInfo, zoneinfo_repr)

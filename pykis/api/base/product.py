@@ -6,6 +6,7 @@ from pykis.api.stock.market import MARKET_TYPE, MARKET_TYPE_KOR_MAP
 from pykis.client.account import KisAccountNumber
 from pykis.client.object import KisObjectBase
 from pykis.utils.cache import cached
+from pykis.utils.repr import kis_repr
 from pykis.utils.timex import TIMEX_TYPE, timex
 
 if TYPE_CHECKING:
@@ -25,6 +26,11 @@ if TYPE_CHECKING:
     from pykis.scope.stock.info_stock import KisInfoStock
 
 
+@kis_repr(
+    "market",
+    "symbol",
+    lines="single",
+)
 class KisProductBase(KisObjectBase):
     """한국투자증권 상품 기본정보"""
 
@@ -54,9 +60,6 @@ class KisProductBase(KisObjectBase):
     def domestic(self) -> bool:
         """국내종목 여부"""
         return not self.overseas
-
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(code={self.symbol}, market={self.market})"
 
     @property
     @cached

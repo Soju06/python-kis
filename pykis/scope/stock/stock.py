@@ -40,7 +40,7 @@ class KisStock(KisProductScope):
         return self.account_number
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(code={self.symbol!r}, market={self.market!r}, account={self.account_number!r})"
+        return f"{self.__class__.__name__}(kis=kis, symbol={self.symbol!r}, market={self.market!r}, account={self.account_number!r})"
 
     def orderable_amount(
         self,

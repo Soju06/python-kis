@@ -81,9 +81,7 @@ class KisType(Generic[T]):
         return cls.__default_type__
 
     def __repr__(self) -> str:
-        return (
-            f"{type(self).__name__}(field={self.field!r}, scope={self.scope!r}, absolute={self.absolute!r})"
-        )
+        return f"{self.__class__.__name__}(field={self.field!r}, scope={self.scope!r}, absolute={self.absolute!r})"
 
 
 TType = TypeVar("TType", bound=KisType[Any])
