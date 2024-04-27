@@ -11,11 +11,23 @@ from pykis.responses.dynamic import KisDynamic, KisList, KisObject, KisTransform
 from pykis.responses.response import KisAPIResponse, KisPaginationAPIResponse
 from pykis.responses.types import KisAny, KisDecimal, KisString
 from pykis.utils.cache import cached
+from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+@kis_repr(
+    "account_number",
+    "market",
+    "symbol",
+    "qty",
+    "price",
+    "amount",
+    "profit",
+    "profit_rate",
+    lines="single",
+)
 class KisBalanceStock(KisDynamic, KisAccountProductBase):
     """한국투자증권 보유종목"""
 
@@ -91,13 +103,14 @@ class KisBalanceStock(KisDynamic, KisAccountProductBase):
     exchange_rate: Decimal
     """환율"""
 
-    def __str__(self) -> str:
-        return f"{self.__class__.__name__}(account_number={self.account_number!r}, code={self.symbol!r}, market={self.market!r}, quantity={self.quantity}, purchase_price={self.purchase_price}, current_price={self.current_price}, profit={self.profit}, profit_rate={self.profit_rate})"
 
-    def __repr__(self) -> str:
-        return str(self)
-
-
+@kis_repr(
+    "account_number",
+    "currency",
+    "amount",
+    "exchange_rate",
+    lines="single",
+)
 class KisDeposit(KisDynamic, KisAccountBase):
     """한국투자증권 통화별 예수금"""
 
@@ -119,13 +132,21 @@ class KisDeposit(KisDynamic, KisAccountBase):
     exchange_rate: Decimal
     """환율"""
 
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(account_number={self.account_number!r}, currency={self.currency!r}, amount={self.amount}, withdrawable_amount={self.withdrawable_amount}, exchange_rate={self.exchange_rate})"
 
-    def __str__(self) -> str:
-        return str(self)
-
-
+@kis_repr(
+    "account_number",
+    "deposits",
+    "stocks",
+    "purchase_amount",
+    "current_amount",
+    "profit",
+    "profit_rate",
+    lines="multiple",
+    field_lines={
+        "deposits": "multiple",
+        "stocks": "multiple",
+    },
+)
 class KisBalance(KisDynamic, KisAccountBase):
     """한국투자증권 계좌 잔고"""
 
@@ -234,11 +255,6 @@ class KisBalance(KisDynamic, KisAccountBase):
     def deposit(self, currency: CURRENCY_TYPE) -> KisDeposit | None:
         """통화별 예수금을 조회합니다."""
         return self.deposits.get(currency)
-
-    def __repr__(self) -> str:
-        nl = "\n    "
-        nll = "\n        "
-        return f"{self.__class__.__name__}({nl}account_number={self.account_number!r},{nl}deposits={{{nll}{(nll.join(f'{k}: {v!r}' for k, v in self.deposits.items()))}{nl}}}{nl}stocks=[{nll}{f',{nll}'.join(map(repr, self.stocks))}{nl}],{nl}withdrawable_amount={self.withdrawable_amount},{nl}purchase_amount={self.purchase_amount},{nl}current_amount={self.current_amount},{nl}profit={self.profit},{nl}profit_rate={self.profit_rate}\n)"
 
 
 class KisDomesticBalanceStock(KisBalanceStock):

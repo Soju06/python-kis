@@ -4,6 +4,7 @@ from pykis.api.base.product import KisProductBase
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.scope.base.scope import KisScope
 from pykis.utils.cache import cached
+from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.api.stock.info import KisStockInfo
@@ -11,6 +12,11 @@ if TYPE_CHECKING:
     from pykis.scope.stock.info_stock import KisInfoStock
 
 
+@kis_repr(
+    "market",
+    "symbol",
+    lines="single",
+)
 class KisProductScope(KisScope, KisProductBase):
     """한국투자증권 상품 기본정보"""
 
@@ -22,9 +28,6 @@ class KisProductScope(KisScope, KisProductBase):
     def __init__(self, kis: "PyKis", market: MARKET_TYPE):
         super().__init__(kis)
         self.market = market
-
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(code={self.symbol}, market={self.market})"
 
     @property
     @cached

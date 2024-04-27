@@ -2,6 +2,7 @@ from typing import Any, Literal
 
 from pykis.client.form import KisForm
 from pykis.responses.dynamic import KisDynamic
+from pykis.utils.repr import kis_repr
 
 KisPageStatus = Literal["begin", "end"]
 
@@ -15,6 +16,12 @@ def to_page_status(status: str) -> KisPageStatus:
         raise ValueError(f"Invalid page status: {status}")
 
 
+@kis_repr(
+    "size",
+    "search",
+    "key",
+    lines="single",
+)
 class KisPage(KisDynamic, KisForm):
     """한국투자증권 페이지 커서"""
 
@@ -82,12 +89,6 @@ class KisPage(KisDynamic, KisForm):
         data[f"ctx_area_nk{self.size}"] = self.key
 
         return data
-
-    def __str__(self) -> str:
-        return f"{type(self).__name__}(size={self.size}, search={self.search}, key={self.key})"
-
-    def __repr__(self) -> str:
-        return str(self)
 
     @classmethod
     def first(cls, size: int | None = None) -> "KisPage":

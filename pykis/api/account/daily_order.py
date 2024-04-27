@@ -25,11 +25,20 @@ from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
 from pykis.responses.response import KisPaginationAPIResponse
 from pykis.responses.types import KisAny, KisDecimal, KisString
 from pykis.utils.cache import cached
+from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+@kis_repr(
+    "order_number",
+    "type",
+    "price",
+    "qty",
+    "executed_qty",
+    lines="multiple",
+)
 class KisDailyOrder(KisDynamic, KisAccountProductBase):
     """한국투자증권 일별 체결내역"""
 
@@ -111,10 +120,13 @@ class KisDailyOrder(KisDynamic, KisAccountProductBase):
     currency: CURRENCY_TYPE
     """통화"""
 
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(order_number={self.order_number!r}, type={self.type!r}, price={self.price!r}, quantity={self.quantity!r}, executed_quantity={self.executed_quantity!r})"
 
-
+@kis_repr(
+    "account_number",
+    "orders",
+    lines="multiple",
+    field_lines={"orders": "multiple"},
+)
 class KisDailyOrders(KisDynamic, KisAccountBase):
     """한국투자증권 일별 체결내역"""
 
@@ -157,11 +169,6 @@ class KisDailyOrders(KisDynamic, KisAccountBase):
 
     def __iter__(self):
         return iter(self.orders)
-
-    def __repr__(self) -> str:
-        nl = "\n    "
-        nll = "\n        "
-        return f"{self.__class__.__name__}({nl}account_number={self.account_number!r},{nl}orders=[{nll}{f',{nll}'.join(map(repr, self.orders))}{nl}]\n)"
 
 
 DOMESTIC_EXCHANGE_CODE_MAP: dict[str, tuple[COUNTRY_TYPE, MARKET_TYPE | None, ORDER_CONDITION | None]] = {

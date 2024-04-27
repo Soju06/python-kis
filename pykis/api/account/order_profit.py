@@ -25,11 +25,24 @@ from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
 from pykis.responses.response import KisPaginationAPIResponse
 from pykis.responses.types import KisAny, KisDecimal, KisString
 from pykis.utils.cache import cached
+from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+@kis_repr(
+    "time_kst",
+    "market",
+    "symbol",
+    "name",
+    "buy_price",
+    "sell_price",
+    "qty",
+    "profit",
+    "profit_rate",
+    lines="single",
+)
 class KisOrderProfit(KisDynamic, KisAccountProductBase):
     """한국투자증권 일별 매매손익"""
 
@@ -83,10 +96,16 @@ class KisOrderProfit(KisDynamic, KisAccountProductBase):
     exchange_rate: Decimal
     """당일환율"""
 
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(time_kst={self.time_kst!r}, symbol={self.symbol!r}, name={self.name!r}, buy_price={self.buy_price!r}, sell_price={self.sell_price!r}, qty={self.qty!r}, profit={self.profit!r}, profit_rate={self.profit_rate!r}, currency={self.currency!r})"
 
-
+@kis_repr(
+    "account_number",
+    "buy_amount",
+    "sell_amount",
+    "profit",
+    "orders",
+    lines="multiple",
+    field_lines={"orders": "multiple"},
+)
 class KisOrderProfits(KisDynamic, KisAccountBase):
     """한국투자증권 일별 매매손익"""
 
@@ -139,11 +158,6 @@ class KisOrderProfits(KisDynamic, KisAccountBase):
 
     def __iter__(self):
         return iter(self.orders)
-
-    def __repr__(self) -> str:
-        nl = "\n    "
-        nll = "\n        "
-        return f"{self.__class__.__name__}({nl}account_number={self.account_number!r},{nl}buy_amount={self.buy_amount!r},{nl}sell_amount={self.sell_amount!r},{nl}profit={self.profit!r},{nl}orders=[{nll}{f',{nll}'.join(map(repr, self.orders))}{nl}])"
 
 
 class KisDomesticOrderProfit(KisOrderProfit):

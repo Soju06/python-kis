@@ -17,6 +17,7 @@ from pykis.responses.dynamic import KisDynamic
 from pykis.responses.exception import KisMarketNotOpenedError
 from pykis.responses.response import KisAPIResponse, raise_not_found
 from pykis.responses.types import KisString
+from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -366,7 +367,14 @@ class KisOrderNumber(KisDynamic, KisAccountProductBase):
         return hash((self.account_number, self.symbol, self.market, self.branch, self.number))
 
     def __repr__(self) -> str:
-        return f"KisOrderNumber(kis=kis, account_number={self.account_number!r}, code={self.symbol!r}, market={self.market!r}, branch={self.branch!r}, number={self.number!r})"
+        return f"""KisOrderNumber(
+    kis=kis,
+    account_number={self.account_number!r},
+    code={self.symbol!r},
+    market={self.market!r},
+    branch={self.branch!r},
+    number={self.number!r}
+)"""
 
 
 class KisOrder(KisOrderNumber):
