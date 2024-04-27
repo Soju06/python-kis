@@ -101,6 +101,10 @@ class KisWebsocketClient:
         return KisWebsocketTR(id, key) in self._subscriptions
 
     @property
+    def subscriptions(self) -> set[KisWebsocketTR]:
+        return self._subscriptions
+
+    @property
     def connected(self) -> bool:
         return self.websocket is not None and self._connected_event.is_set()
 
