@@ -19,7 +19,7 @@ MARKET_TYPE = Literal[
 ]
 """시장 종류"""
 
-MARKET_SHORT_TYPE_MAP = {
+MARKET_SHORT_TYPE_MAP: dict[MARKET_TYPE, str] = {
     "NASD": "NAS",
     "NYSE": "NYS",
     "AMEX": "AMS",
@@ -31,16 +31,24 @@ MARKET_SHORT_TYPE_MAP = {
     "SZAA": "SZS",
 }
 
+REVERSE_MARKET_SHORT_TYPE_MAP: dict[str, MARKET_TYPE] = {
+    value: key for key, value in MARKET_SHORT_TYPE_MAP.items()
+}
+
 DAYTIME_MARKETS = {
     "NASD",
     "NYSE",
     "AMEX",
 }
 
-DAYTIME_MARKET_SHORT_TYPE_MAP = {
+DAYTIME_MARKET_SHORT_TYPE_MAP: dict[MARKET_TYPE, str] = {
     "NASD": "BAQ",
     "NYSE": "BAY",
     "AMEX": "BAA",
+}
+
+REVERSE_DAYTIME_MARKET_SHORT_TYPE_MAP: dict[str, MARKET_TYPE] = {
+    value: key for key, value in DAYTIME_MARKET_SHORT_TYPE_MAP.items()
 }
 
 MARKET_TYPE_KOR_MAP = {

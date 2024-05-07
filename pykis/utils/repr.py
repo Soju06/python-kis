@@ -442,15 +442,15 @@ def decimal_repr(obj: Decimal, max_depth: int = 7, depth: int = 0) -> str:
 
 
 def datetime_repr(obj: datetime, max_depth: int = 7, depth: int = 0) -> str:
-    return f"{datetime.fromisoformat.__name__}({obj.isoformat()!r})"
+    return repr(obj.isoformat())
 
 
 def date_repr(obj: date, max_depth: int = 7, depth: int = 0) -> str:
-    return f"{date.fromisoformat.__name__}({obj.isoformat()!r})"
+    return repr(obj.isoformat())
 
 
 def time_repr(obj: time, max_depth: int = 7, depth: int = 0) -> str:
-    return f"{time.fromisoformat.__name__}({obj.isoformat()!r})"
+    return repr(obj.isoformat())
 
 
 def zoneinfo_repr(obj: ZoneInfo, max_depth: int = 7, depth: int = 0) -> str:
