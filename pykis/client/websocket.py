@@ -258,7 +258,7 @@ class KisWebsocketClient:
                 try:
                     self._connected_event.clear()
                     self.websocket = WebSocketApp(
-                        f"{WEBSOCKET_VIRTUAL_DOMAIN if self.kis.virtual else WEBSOCKET_REAL_DOMAIN}/tryitout",
+                        f"{WEBSOCKET_REAL_DOMAIN}/tryitout",
                         on_open=self._on_open,
                         on_error=self._on_error,
                         on_close=self._on_close,

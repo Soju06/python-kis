@@ -7,6 +7,7 @@ from pykis.client.exception import KisAPIError
 from pykis.responses.response import KisAPIResponse, raise_not_found
 from pykis.responses.types import KisString
 from pykis.utils.cache import set_cache
+from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -99,6 +100,13 @@ MARKET_CODE_MAP = {
 }
 
 
+@kis_repr(
+    "market",
+    "symbol",
+    "name",
+    "eng_name",
+    lines="single",
+)
 class KisStockInfo(KisAPIResponse, KisProductBase):
     """상품기본정보"""
 
