@@ -2,7 +2,7 @@ from datetime import datetime, tzinfo
 from decimal import Decimal
 
 from pykis.__env__ import TIMEZONE
-from pykis.api.account.order import ORDER_CONDITION, ORDER_TYPE
+from pykis.api.account.order import ORDER_CONDITION
 from pykis.api.base.product import KisProductBase
 from pykis.api.stock.market import (
     CURRENCY_TYPE,
@@ -46,7 +46,7 @@ def parse_overseas_realtime_symbol(raw_symbol: str) -> tuple[MARKET_TYPE, ORDER_
     "amount",
     lines="single",
 )
-class KisRealtimePrice(KisWebsocketResponse, KisProductBase):
+class KisRealtimePrice(KisWebsocketResponse):
     """한국투자증권 실시간 체결가"""
 
     symbol: str
@@ -198,17 +198,8 @@ class KisRealtimePrice(KisWebsocketResponse, KisProductBase):
         """전일동일시간거래량비율 (-100~100)"""
         return Decimal(self.volume / self.prev_volume * 100) if self.prev_volume else None
 
-    type: ORDER_TYPE
-    """주문구분"""
-    quantity: Decimal
-    """거래량"""
     condition: ORDER_CONDITION | None
     """주문조건"""
-
-    @property
-    def qty(self) -> Decimal:
-        """거래량"""
-        return self.quantity
 
     decimal_places: int
     """소수점 자리수"""
@@ -241,7 +232,7 @@ class KisDomesticRealtimePrice(KisRealtimePrice):
         KisDecimal["low"],  # 9 STCK_LWPR 주식 저가
         KisDecimal["ask"],  # 10 ASKP1	매도호가1
         KisDecimal["bid"],  # 11 BIDP1	매수호가1
-        KisDecimal["quantity"],  # 12 CNTG_VOL 체결 거래량
+        None,  # 12 CNTG_VOL 체결 거래량
         KisInt["volume"],  # 13 ACML_VOL 누적 거래량
         KisDecimal["amount"],  # 14 ACML_TR_PBMN 누적 거래 대금
         KisInt["sell_count"],  # 15 SELN_CNTG_CSNU 매도 체결 건수
@@ -250,7 +241,7 @@ class KisDomesticRealtimePrice(KisRealtimePrice):
         None,  # 18 CTTR 체결강도
         KisInt["sell_quantity"],  # 19 SELN_CNTG_SMTN 총 매도 수량
         KisInt["buy_quantity"],  # 20 SHNU_CNTG_SMTN 총 매수 수량
-        KisAny(lambda x: "buy" if x == "1" else "sell")["type"],  # 21 CCLD_DVSN 체결구분
+        None,  # 21 CCLD_DVSN 체결구분
         None,  # 22 SHNU_RATE 매수비율
         None,  # 23 PRDY_VOL_VRSS_ACML_VOL_RATE 전일 거래량 대비 등락율
         None,  # 24 OPRC_HOUR 시가 시간
@@ -351,10 +342,6 @@ class KisDomesticRealtimePrice(KisRealtimePrice):
     sell_quantity: int  # SELN_CNTG_SMTN 총 매도 수량
     """매도체결량"""
 
-    type: ORDER_TYPE  # CCLD_DVSN 체결구분
-    """주문구분"""
-    quantity: int  # CNTG_VOL 체결 거래량
-    """거래량"""
     condition: ORDER_CONDITION | None  # NEW_MKOP_CLS_CODE 신 장운영 구분 코드
     """주문조건"""
 
@@ -407,7 +394,7 @@ class KisOverseasRealtimePrice(KisRealtimePrice):
         KisDecimal["ask"],  # 16 PASK 매도호가
         KisInt["bid_quantity"],  # 17 VBID 매수잔량
         KisInt["ask_quantity"],  # 18 VASK 매도잔량
-        KisInt["quantity"],  # 19 EVOL 체결량
+        None,  # 19 EVOL 체결량
         KisInt["volume"],  # 20 TVOL 거래량
         KisInt["amount"],  # 21 TAMT 거래대금
         KisInt["sell_quantity"],  # 22 BIVL 매도체결량
@@ -485,13 +472,6 @@ class KisOverseasRealtimePrice(KisRealtimePrice):
     sell_quantity: int  # BIVL 매도체결량
     """매도체결량"""
 
-    @property
-    def type(self) -> ORDER_TYPE:
-        """주문구분 (조회 불가. 더미 값)"""
-        return "buy" if self.buy_quantity > self.sell_quantity else "sell"
-
-    quantity: Decimal  # EVOL 체결량
-    """거래량"""
     condition: ORDER_CONDITION | None  # MTYP 시장구분 1:장중,2:장전,3:장후
     """주문조건"""
 

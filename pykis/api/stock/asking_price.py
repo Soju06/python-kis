@@ -53,7 +53,7 @@ class KisAskingPriceItem:
         "bid": "multiple",
     },
 )
-class KisAskingPrice(KisDynamic, KisProductBase):
+class KisAskingPrice:
     """한국투자증권 호가"""
 
     symbol: str
@@ -95,11 +95,11 @@ class KisAskingPrice(KisDynamic, KisProductBase):
         """매수 1호가 잔량"""
         return self.bid_price.volume
 
-    def __str__(self) -> str:
-        return f"{self.__class__.__name__}(symbol={self.symbol!r}, market={self.market!r})"
+
+class KisAPIAskingPrice(KisDynamic, KisAskingPrice): ...
 
 
-class KisDomesticAskingPrice(KisAPIResponse, KisAskingPrice):
+class KisDomesticAskingPrice(KisAPIResponse, KisAPIAskingPrice):
     """한국투자증권 국내 호가"""
 
     __path__ = "output1"
@@ -118,7 +118,7 @@ class KisDomesticAskingPrice(KisAPIResponse, KisAskingPrice):
         lambda x: [
             KisAskingPriceItem(
                 price=Decimal(x[f"askp{i + 1}"]),
-                volume=x[f"askp_rsqn{i + 1}"],
+                volume=int(x[f"askp_rsqn{i + 1}"]),
             )
             for i in range(10)
         ]
@@ -128,7 +128,7 @@ class KisDomesticAskingPrice(KisAPIResponse, KisAskingPrice):
         lambda x: [
             KisAskingPriceItem(
                 price=Decimal(x[f"bidp{i + 1}"]),
-                volume=x[f"bidp_rsqn{i + 1}"],
+                volume=int(x[f"bidp_rsqn{i + 1}"]),
             )
             for i in range(10)
         ]
