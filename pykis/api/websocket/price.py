@@ -1,30 +1,23 @@
-from datetime import date, datetime
-from datetime import time as time_type
-from datetime import tzinfo
+from datetime import datetime, tzinfo
 from decimal import Decimal
 
 from pykis.__env__ import TIMEZONE
-from pykis.api.account.order import ORDER_CONDITION, ORDER_CONDITION_MAP, ORDER_TYPE
+from pykis.api.account.order import ORDER_CONDITION, ORDER_TYPE
 from pykis.api.base.product import KisProductBase
 from pykis.api.stock.market import (
     CURRENCY_TYPE,
     MARKET_TYPE,
     REVERSE_DAYTIME_MARKET_SHORT_TYPE_MAP,
     REVERSE_MARKET_SHORT_TYPE_MAP,
+    get_market_currency,
+    get_market_timezone,
 )
 from pykis.api.stock.quote import (
     STOCK_SIGN_TYPE,
     STOCK_SIGN_TYPE_KOR_MAP,
     STOCK_SIGN_TYPE_MAP,
 )
-from pykis.responses.types import (
-    KisAny,
-    KisDate,
-    KisDecimal,
-    KisInt,
-    KisString,
-    KisTime,
-)
+from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
 from pykis.responses.websocket import KisWebsocketResponse
 from pykis.utils.repr import kis_repr
 
@@ -70,6 +63,12 @@ class KisRealtimePrice(KisWebsocketResponse, KisProductBase):
 
     price: Decimal
     """현재가"""
+
+    @property
+    def last(self) -> Decimal:
+        """현재가"""
+        return self.price
+
     prev_price: Decimal
     """전일가"""
     change: Decimal
@@ -91,9 +90,9 @@ class KisRealtimePrice(KisWebsocketResponse, KisProductBase):
     """매수호가"""
     ask: Decimal
     """매도호가"""
-    bid_quantity: Decimal
+    bid_quantity: int
     """매수호가잔량"""
-    ask_quantity: Decimal
+    ask_quantity: int
     """매도호가잔량"""
 
     @property
@@ -107,12 +106,12 @@ class KisRealtimePrice(KisWebsocketResponse, KisProductBase):
         return self.spread / self.price * 100
 
     @property
-    def bid_qty(self) -> Decimal:
+    def bid_qty(self) -> int:
         """매수호가잔량"""
         return self.bid_quantity
 
     @property
-    def ask_qty(self) -> Decimal:
+    def ask_qty(self) -> int:
         """매도호가잔량"""
         return self.ask_quantity
 
@@ -173,25 +172,24 @@ class KisRealtimePrice(KisWebsocketResponse, KisProductBase):
     """누적거래대금"""
     prev_volume: int | None
     """전일동일시간거래량"""
-    count: int
-    """체결건수"""
-    buy_quantity: Decimal
+
+    buy_quantity: int
     """매수체결량"""
-    sell_quantity: Decimal
+    sell_quantity: int
     """매도체결량"""
 
     @property
-    def intensity(self) -> Decimal:
+    def intensity(self) -> float:
         """체결강도 (0 ~ 100+)"""
-        return (self.buy_quantity / self.sell_quantity * 100) if self.sell_quantity else Decimal(100)
+        return (self.buy_quantity / self.sell_quantity * 100) if self.sell_quantity else 100
 
     @property
-    def buy_qty(self) -> Decimal:
+    def buy_qty(self) -> int:
         """매수체결량"""
         return self.buy_quantity
 
     @property
-    def sell_qty(self) -> Decimal:
+    def sell_qty(self) -> int:
         """매도체결량"""
         return self.sell_quantity
 
@@ -250,8 +248,8 @@ class KisDomesticRealtimePrice(KisRealtimePrice):
         KisInt["buy_count"],  # 16 SHNU_CNTG_CSNU 매수 체결 건수
         None,  # 17 NTBY_CNTG_CSNU 순매수 체결 건수
         None,  # 18 CTTR 체결강도
-        KisDecimal["sell_quantity"],  # 19 SELN_CNTG_SMTN 총 매도 수량
-        KisDecimal["buy_quantity"],  # 20 SHNU_CNTG_SMTN 총 매수 수량
+        KisInt["sell_quantity"],  # 19 SELN_CNTG_SMTN 총 매도 수량
+        KisInt["buy_quantity"],  # 20 SHNU_CNTG_SMTN 총 매수 수량
         KisAny(lambda x: "buy" if x == "1" else "sell")["type"],  # 21 CCLD_DVSN 체결구분
         None,  # 22 SHNU_RATE 매수비율
         None,  # 23 PRDY_VOL_VRSS_ACML_VOL_RATE 전일 거래량 대비 등락율
@@ -271,8 +269,8 @@ class KisDomesticRealtimePrice(KisRealtimePrice):
         None,  # 35 TRHT_YN 거래정지 여부
         None,  # 36 ASKP_RSQN1 매도호가 잔량1
         None,  # 37 BIDP_RSQN1 매수호가 잔량1
-        KisDecimal["ask_quantity"],  # 38 TOTAL_ASKP_RSQN 총 매도호가 잔량
-        KisDecimal["bid_quantity"],  # 39 TOTAL_BIDP_RSQN 총 매수호가 잔량
+        KisInt["ask_quantity"],  # 38 TOTAL_ASKP_RSQN 총 매도호가 잔량
+        KisInt["bid_quantity"],  # 39 TOTAL_BIDP_RSQN 총 매수호가 잔량
         None,  # 40 VOL_TNRT 거래량 회전율
         KisInt["prev_volume"],  # 41 PRDY_SMNS_HOUR_ACML_VOL 전일 동시간 누적 거래량
         None,  # 42 PRDY_SMNS_HOUR_ACML_VOL_RATE 전일 동시간 누적 거래량 비율
@@ -311,9 +309,9 @@ class KisDomesticRealtimePrice(KisRealtimePrice):
     """매수호가"""
     ask: Decimal  # ASKP1 매도호가1
     """매도호가"""
-    bid_quantity: Decimal  # BIDP_RSQN1 매수호가 잔량1
+    bid_quantity: int  # BIDP_RSQN1 매수호가 잔량1
     """매수호가잔량"""
-    ask_quantity: Decimal  # ASKP_RSQN1 매도호가 잔량1
+    ask_quantity: int  # ASKP_RSQN1 매도호가 잔량1
     """매도호가잔량"""
 
     open: Decimal  # STCK_OPRC 주식 시가
@@ -348,14 +346,9 @@ class KisDomesticRealtimePrice(KisRealtimePrice):
     sell_count: int  # SELN_CNTG_CSNU 매도 체결 건수
     """매도체결건수"""
 
-    @property
-    def count(self) -> int:
-        """체결건수"""
-        return self.buy_count + self.sell_count
-
-    buy_quantity: Decimal  # SHNU_CNTG_SMTN 총 매수 수량
+    buy_quantity: int  # SHNU_CNTG_SMTN 총 매수 수량
     """매수체결량"""
-    sell_quantity: Decimal  # SELN_CNTG_SMTN 총 매도 수량
+    sell_quantity: int  # SELN_CNTG_SMTN 총 매도 수량
     """매도체결량"""
 
     type: ORDER_TYPE  # CCLD_DVSN 체결구분
@@ -382,3 +375,142 @@ class KisDomesticRealtimePrice(KisRealtimePrice):
         self.high_time_kst = self.high_time.astimezone(TIMEZONE)
         self.low_time = datetime.strptime(data[33] + data[30], "%Y%m%d%H%M%S").replace(tzinfo=TIMEZONE)
         self.low_time_kst = self.low_time.astimezone(TIMEZONE)
+
+
+OVERSEAS_REALTIME_PRICE_ORDER_CONDITION_MAP: dict[str, ORDER_CONDITION | None] = {
+    "1": None,
+    "2": None,
+    "3": "extended",
+}
+
+
+class KisOverseasRealtimePrice(KisRealtimePrice):
+    """해외주식 실시간 체결가"""
+
+    __fields__ = [
+        None,  # 0 RSYM 실시간종목코드
+        KisString["symbol"],  # 1 SYMB 종목코드
+        KisInt["decimal_places"],  # 2 ZDIV 수수점자리수
+        None,  # 3 TYMD 현지영업일자
+        None,  # 4 XYMD 현지일자
+        None,  # 5 XHMS 현지시간
+        None,  # 6 KYMD 한국일자
+        None,  # 7 KHMS 한국시간
+        KisDecimal["open"],  # 8 OPEN 시가
+        KisDecimal["high"],  # 9 HIGH 고가
+        KisDecimal["low"],  # 10 LOW 저가
+        KisDecimal["price"],  # 11 LAST 현재가
+        KisAny(lambda x: STOCK_SIGN_TYPE_MAP[x])["sign"],  # 12 SIGN 대비구분
+        KisDecimal["change"],  # 13 DIFF 전일대비
+        None,  # 14 RATE 등락율
+        KisDecimal["bid"],  # 15 PBID 매수호가
+        KisDecimal["ask"],  # 16 PASK 매도호가
+        KisInt["bid_quantity"],  # 17 VBID 매수잔량
+        KisInt["ask_quantity"],  # 18 VASK 매도잔량
+        KisInt["quantity"],  # 19 EVOL 체결량
+        KisInt["volume"],  # 20 TVOL 거래량
+        KisInt["amount"],  # 21 TAMT 거래대금
+        KisInt["sell_quantity"],  # 22 BIVL 매도체결량
+        KisInt["buy_quantity"],  # 23 ASVL 매수체결량
+        None,  # 24 STRN 체결강도
+        KisAny(lambda x: OVERSEAS_REALTIME_PRICE_ORDER_CONDITION_MAP.get(x))[
+            "condition"
+        ],  # 25 MTYP 시장구분 1:장중,2:장전,3:장후
+    ]
+
+    symbol: str  # RSYM 실시간종목코드
+    """종목코드"""
+    market: MARKET_TYPE  # RSYM 실시간종목코드
+    """상품유형타입"""
+
+    time: datetime  # XYMD 현지일자 + XHMS 현지시간
+    """체결 시간"""
+    time_kst: datetime  # XYMD 현지일자 + XHMS 현지시간
+    """체결 시간(KST)"""
+    timezone: tzinfo  # RSYM 실시간종목코드
+    """시간대"""
+
+    price: Decimal  # LAST 현재가
+    """현재가"""
+
+    @property
+    def prev_price(self) -> Decimal:
+        """전일가"""
+        return self.price - self.change
+
+    change: Decimal  # DIFF 전일대비
+    """전일대비"""
+    sign: STOCK_SIGN_TYPE  # SIGN 대비구분
+    """대비부호"""
+
+    bid: Decimal  # PBID 매수호가
+    """매수호가"""
+    ask: Decimal  # PASK 매도호가
+    """매도호가"""
+    bid_quantity: int  # VBID 매수잔량
+    """매수호가잔량"""
+    ask_quantity: int  # VASK 매도잔량
+    """매도호가잔량"""
+
+    open: Decimal  # OPEN 시가
+    """당일시가"""
+    open_time: datetime | None = None
+    """시가시간"""
+    open_time_kst: datetime | None = None
+    """시가시간(KST)"""
+
+    high: Decimal  # HIGH 고가
+    """당일고가"""
+    high_time: datetime | None = None
+    """고가시간"""
+    high_time_kst: datetime | None = None
+    """고가시간(KST)"""
+
+    low: Decimal  # LOW 저가
+    """당일저가"""
+    low_time: datetime | None = None
+    """저가시간"""
+    low_time_kst: datetime | None = None
+    """저가시간(KST)"""
+
+    volume: int  # TVOL 거래량
+    """누적거래량"""
+    amount: Decimal  # TAMT 거래대금
+    """누적거래대금"""
+    prev_volume: int | None
+    """전일동일시간거래량"""
+
+    buy_quantity: int  # ASVL 매수체결량
+    """매수체결량"""
+    sell_quantity: int  # BIVL 매도체결량
+    """매도체결량"""
+
+    @property
+    def type(self) -> ORDER_TYPE:
+        """주문구분 (조회 불가. 더미 값)"""
+        return "buy" if self.buy_quantity > self.sell_quantity else "sell"
+
+    quantity: Decimal  # EVOL 체결량
+    """거래량"""
+    condition: ORDER_CONDITION | None  # MTYP 시장구분 1:장중,2:장전,3:장후
+    """주문조건"""
+
+    decimal_places: int  # ZDIV 수수점자리수
+    """소수점 자리수"""
+
+    currency: CURRENCY_TYPE  # RSYM 실시간종목코드
+    """통화코드"""
+
+    def __pre_init__(self, data: list[str]):
+        super().__pre_init__(data)
+
+        (
+            self.market,
+            _,
+            _,
+        ) = parse_overseas_realtime_symbol(data[0])
+        self.timezone = get_market_timezone(self.market)
+        self.currency = get_market_currency(self.market)
+
+        self.time = datetime.strptime(data[4] + data[5], "%Y%m%d%H%M%S").replace(tzinfo=self.timezone)
+        self.time_kst = self.time.astimezone(TIMEZONE)
