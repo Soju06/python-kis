@@ -4,8 +4,14 @@ from decimal import Decimal
 from pykis.__env__ import TIMEZONE
 from pykis.api.account.order import ORDER_CONDITION
 from pykis.api.stock.asking_price import KisAskingPrice, KisAskingPriceItem
-from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
-from pykis.responses.types import KisAny, KisString
+from pykis.api.stock.market import (
+    CURRENCY_TYPE,
+    MARKET_TYPE,
+    get_market_currency,
+    get_market_timezone,
+)
+from pykis.api.websocket.price import parse_overseas_realtime_symbol
+from pykis.responses.types import KisAny, KisInt, KisString
 from pykis.responses.websocket import KisWebsocketResponse
 
 
@@ -34,7 +40,7 @@ class KisRealtimeAskingPrice(KisWebsocketResponse, KisAskingPrice):
     bid: list[KisAskingPriceItem]
     """매수호가"""
 
-    condition: ORDER_CONDITION
+    condition: ORDER_CONDITION | None
     """주문 조건"""
 
 
@@ -136,11 +142,18 @@ class KisDomesticRealtimeAskingPrice(KisRealtimeAskingPrice):
     bid: list[KisAskingPriceItem]  # 매수호가
     """매수호가"""
 
-    condition: ORDER_CONDITION  # HOUR_CLS_CODE 시간 구분 코드
+    condition: ORDER_CONDITION | None  # HOUR_CLS_CODE 시간 구분 코드
     """주문 조건"""
 
     def __pre_init__(self, data: list[str]):
         super().__pre_init__(data)
+
+        self.time = datetime.combine(
+            datetime.now().date(),
+            datetime.strptime(data[1], "%H%M%S").time(),
+            tzinfo=TIMEZONE,
+        )
+        self.time_kst = self.time.astimezone(TIMEZONE)
 
         self.ask = [
             KisAskingPriceItem(
@@ -157,9 +170,78 @@ class KisDomesticRealtimeAskingPrice(KisRealtimeAskingPrice):
             for i in range(10)
         ]
 
-        self.time = datetime.combine(
-            datetime.now().date(),
-            datetime.strptime(data[1], "%H%M%S").time(),
-            tzinfo=TIMEZONE,
-        )
+
+class KisAsiaRealtimeAskingPrice(KisRealtimeAskingPrice):
+    """아시아 주식 실시간 호가"""
+
+    __fields__ = [
+        None,  # 0 RSYM	실시간종목코드
+        KisString["symbol"],  # 1 SYMB	종목코드
+        KisInt["decimal_places"],  # 2 ZDIV	소수점자리수
+        None,  # 3 XYMD	현지일자
+        None,  # 4 XHMS	현지시간
+        None,  # 5 KYMD	한국일자
+        None,  # 6 KHMS	한국시간
+        None,  # 7 BVOL	매수총잔량
+        None,  # 8 AVOL	매도총잔량
+        None,  # 9 BDVL	매수총잔량대비
+        None,  # 10 ADVL	매도총잔량대비
+        None,  # 11 PBID1	매수호가1
+        None,  # 12 PASK1	매도호가1
+        None,  # 13 VBID1	매수잔량1
+        None,  # 14 VASK1	매도잔량1
+        None,  # 15 DBID1	매수잔량대비1
+        None,  # 16 DASK1	매도잔량대비1
+    ]
+
+    symbol: str  # SYMB 종목코드
+    """종목코드"""
+    market: MARKET_TYPE  # RSYM 실시간종목코드
+    """상품유형타입"""
+
+    time: datetime  # XYMD 현지일자, XHMS 현지시간
+    """체결 시간"""
+    time_kst: datetime  # XYMD 현지일자, XHMS 현지시간
+    """체결 시간(KST)"""
+    timezone: tzinfo  # RSYM 실시간종목코드
+    """시간대"""
+
+    decimal_places: int  # ZDIV 소수점자리수
+    """소수점 자리수"""
+    currency: CURRENCY_TYPE  # RSYM 실시간종목코드
+    """통화코드"""
+
+    ask: list[KisAskingPriceItem]  # PASK1 매도호가1, VASK1 매도잔량1
+    """매도호가"""
+    bid: list[KisAskingPriceItem]  # PBID1 매수호가1, VBID1 매수잔량1
+    """매수호가"""
+
+    condition: ORDER_CONDITION | None  # RSYM 실시간종목코드
+    """주문 조건"""
+
+    def __pre_init__(self, data: list[str]):
+        super().__pre_init__(data)
+
+        (
+            self.market,
+            self.condition,
+            _,
+        ) = parse_overseas_realtime_symbol(data[0])
+        self.timezone = get_market_timezone(self.market)
+        self.currency = get_market_currency(self.market)
+
+        self.time = datetime.strptime(data[3] + data[4], "%Y%m%d%H%M%S").replace(tzinfo=self.timezone)
         self.time_kst = self.time.astimezone(TIMEZONE)
+
+        self.ask = [
+            KisAskingPriceItem(
+                price=Decimal(data[12]),
+                volume=int(data[14]),
+            )
+        ]
+        self.bid = [
+            KisAskingPriceItem(
+                price=Decimal(data[11]),
+                volume=int(data[13]),
+            )
+        ]
