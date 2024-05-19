@@ -259,10 +259,10 @@ class KisWebsocketClient:
                     self._connected_event.clear()
                     self.websocket = WebSocketApp(
                         f"{WEBSOCKET_REAL_DOMAIN}/tryitout",
-                        on_open=self._on_open,
-                        on_error=self._on_error,
-                        on_close=self._on_close,
-                        on_message=self._on_message,
+                        on_open=self._on_open,  # type: ignore
+                        on_error=self._on_error,  # type: ignore
+                        on_close=self._on_close,  # type: ignore
+                        on_message=self._on_message,  # type: ignore
                     )
                     self.websocket.run_forever()
                 except Exception as e:
