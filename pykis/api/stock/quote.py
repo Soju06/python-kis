@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date
 from decimal import Decimal
 from typing import TYPE_CHECKING, Literal, Protocol
 
@@ -20,6 +20,7 @@ from pykis.responses.types import (
     KisString,
 )
 from pykis.utils.cache import cached
+from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.api.base.product import KisProductProtocol
@@ -34,6 +35,7 @@ __all__ = [
     "KisDomesticQuote",
     "KisForeignIndicator",
     "KisForeignQuote",
+    "quote",
 ]
 
 STOCK_SIGN_TYPE = Literal["upper", "rise", "steady", "decline", "lower"]
@@ -102,12 +104,12 @@ class KisIndicator(Protocol):
         ...
 
     @property
-    def week52_high_date(self) -> datetime:
+    def week52_high_date(self) -> date:
         """52주 최고가 날짜"""
         ...
 
     @property
-    def week52_low_date(self) -> datetime:
+    def week52_low_date(self) -> date:
         """52주 최저가 날짜"""
         ...
 
@@ -261,7 +263,50 @@ class KisQuote(Protocol):
         return STOCK_SIGN_TYPE_KOR_MAP[self.sign]
 
 
-class KisDomesticIndicator(KisDynamic, KisIndicator):
+@kis_repr(
+    "eps",
+    "bps",
+    "per",
+    "pbr",
+    "week52_high",
+    "week52_low",
+    "week52_high_date",
+    "week52_low_date",
+    lines="multiple",
+)
+class KisIndicatorRepr:
+    """한국투자증권 종목 지표"""
+
+
+@kis_repr(
+    "symbol",
+    "market",
+    "name",
+    "sector_name",
+    "volume",
+    "amount",
+    "market_cap",
+    "indicator",
+    "open",
+    "high",
+    "low",
+    "close",
+    "change",
+    "unit",
+    "tick",
+    "risk",
+    "halt",
+    "overbought",
+    lines="multiple",
+    field_lines={
+        "indicator": "multiple",
+    },
+)
+class KisQuoteRepr:
+    """한국투자증권 상품 시세"""
+
+
+class KisDomesticIndicator(KisDynamic, KisIndicatorRepr):
     """한국투자증권 국내 종목 지표"""
 
     eps: Decimal = KisDecimal["eps"]
@@ -283,7 +328,7 @@ class KisDomesticIndicator(KisDynamic, KisIndicator):
     """52주 최저가 날짜"""
 
 
-class KisDomesticQuote(KisAPIResponse):
+class KisDomesticQuote(KisAPIResponse, KisQuoteRepr):
     """한국투자증권 국내 상품 시세"""
 
     kis: "PyKis"
@@ -413,7 +458,7 @@ class KisDomesticQuote(KisAPIResponse):
         super().__pre_init__(data)
 
 
-class KisForeignIndicator(KisDynamic, KisIndicator):
+class KisForeignIndicator(KisDynamic, KisIndicatorRepr):
     """한국투자증권 해외 종목 지표"""
 
     eps: Decimal = KisDecimal["epsx"]
@@ -435,7 +480,7 @@ class KisForeignIndicator(KisDynamic, KisIndicator):
     """52주 최저가 날짜"""
 
 
-class KisForeignQuote(KisAPIResponse):
+class KisForeignQuote(KisAPIResponse, KisQuoteRepr):
     """한국투자증권 해외 상품 시세"""
 
     kis: "PyKis"
