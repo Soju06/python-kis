@@ -22,7 +22,7 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
-class KisOrderableAmount(KisDynamic, KisAccountProductBase):
+class KisOrderableAmount(KisAccountProductBase):
     """한국투자증권 주문가능금액"""
 
     price: Decimal | None

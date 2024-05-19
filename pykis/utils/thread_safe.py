@@ -3,6 +3,10 @@ from typing import Any, Callable
 
 global_lock = Lock()
 
+__all__ = [
+    "thread_safe",
+]
+
 
 def thread_safe(name: str | None = None):
     def decorator(fn: Callable[..., Any]):

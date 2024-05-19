@@ -1,15 +1,9 @@
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 from zoneinfo import ZoneInfo
 
 from pykis.__env__ import TIMEZONE
-from pykis.api.account.order import (
-    ORDER_CONDITION,
-    ORDER_EXECUTION,
-    ORDER_TYPE,
-    KisOrder,
-)
 from pykis.api.base.account import KisAccountBase
 from pykis.api.base.account_product import KisAccountProductBase
 from pykis.api.stock.info import COUNTRY_TYPE
@@ -43,7 +37,7 @@ if TYPE_CHECKING:
     "profit_rate",
     lines="single",
 )
-class KisOrderProfit(KisDynamic, KisAccountProductBase):
+class KisOrderProfit(KisAccountProductBase):
     """한국투자증권 일별 매매손익"""
 
     time: datetime
@@ -106,7 +100,7 @@ class KisOrderProfit(KisDynamic, KisAccountProductBase):
     lines="multiple",
     field_lines={"orders": "multiple"},
 )
-class KisOrderProfits(KisDynamic, KisAccountBase):
+class KisOrderProfits(KisAccountBase):
     """한국투자증권 일별 매매손익"""
 
     account_number: KisAccountNumber
@@ -160,7 +154,7 @@ class KisOrderProfits(KisDynamic, KisAccountBase):
         return iter(self.orders)
 
 
-class KisDomesticOrderProfit(KisOrderProfit):
+class KisDomesticOrderProfit(KisDynamic, KisOrderProfit):
     """한국투자증권 국내 일별 매매손익"""
 
     time: datetime
@@ -241,7 +235,7 @@ class KisDomesticOrderProfits(KisPaginationAPIResponse, KisOrderProfits):
         self._kis_spread(self.orders)
 
 
-class KisOverseasOrderProfit(KisOrderProfit):
+class KisOverseasOrderProfit(KisDynamic, KisOrderProfit):
     """한국투자증권 해외 일별 매매손익"""
 
     time: datetime

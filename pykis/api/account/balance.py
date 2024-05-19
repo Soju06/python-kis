@@ -28,8 +28,17 @@ if TYPE_CHECKING:
     "profit_rate",
     lines="single",
 )
-class KisBalanceStock(KisDynamic, KisAccountProductBase):
+class KisBalanceStock(KisAccountProductBase):
     """한국투자증권 보유종목"""
+
+    kis: "PyKis"
+    """
+    한국투자증권 API.
+    
+    Note:
+        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
+        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
+    """
 
     balance: "KisBalance"
     """계좌잔고 (post initialization)"""
@@ -111,8 +120,17 @@ class KisBalanceStock(KisDynamic, KisAccountProductBase):
     "exchange_rate",
     lines="single",
 )
-class KisDeposit(KisDynamic, KisAccountBase):
+class KisDeposit(KisAccountBase):
     """한국투자증권 통화별 예수금"""
+
+    kis: "PyKis"
+    """
+    한국투자증권 API.
+    
+    Note:
+        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
+        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
+    """
 
     account_number: KisAccountNumber
     """계좌번호"""
@@ -147,8 +165,17 @@ class KisDeposit(KisDynamic, KisAccountBase):
         "stocks": "multiple",
     },
 )
-class KisBalance(KisDynamic, KisAccountBase):
+class KisBalance(KisAccountBase):
     """한국투자증권 계좌 잔고"""
+
+    kis: "PyKis"
+    """
+    한국투자증권 API.
+    
+    Note:
+        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
+        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
+    """
 
     country: COUNTRY_TYPE | None
     """국가코드 (스코프 지정시)"""
@@ -257,14 +284,23 @@ class KisBalance(KisDynamic, KisAccountBase):
         return self.deposits.get(currency)
 
 
-class KisDomesticBalanceStock(KisBalanceStock):
+class KisDomesticBalanceStock(KisDynamic, KisBalanceStock):
     """한국투자증권 국내종목 잔고"""
+
+    kis: "PyKis"
+    """
+    한국투자증권 API.
+    
+    Note:
+        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
+        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
+    """
 
     symbol: str = KisString["pdno"]
     """종목코드"""
     market: MARKET_TYPE = "KRX"
     """상품유형타입"""
-    account_number: KisAccountNumber
+    account_number: KisAccountNumber  # KisDomesticBalance의 __post_init__에서 값이 지정됨
     """계좌번호"""
 
     name: str = KisString["prdt_name"]
@@ -287,8 +323,17 @@ class KisDomesticBalanceStock(KisBalanceStock):
     """환율"""
 
 
-class KisDomesticDeposit(KisDeposit):
+class KisDomesticDeposit(KisDynamic, KisDeposit):
     """한국투자증권 국내종목 예수금"""
+
+    kis: "PyKis"
+    """
+    한국투자증권 API.
+    
+    Note:
+        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
+        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
+    """
 
     account_number: KisAccountNumber
     """계좌번호"""
@@ -308,6 +353,15 @@ class KisDomesticBalance(KisPaginationAPIResponse, KisBalance):
     """한국투자증권 국내종목 잔고"""
 
     __path__ = None
+
+    kis: "PyKis"
+    """
+    한국투자증권 API.
+    
+    Note:
+        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
+        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
+    """
 
     country: COUNTRY_TYPE | None = "KR"
     """국가코드 (스코프 지정시)"""
@@ -339,9 +393,21 @@ class KisDomesticBalance(KisPaginationAPIResponse, KisBalance):
         for deposit in self.deposits.values():
             deposit.account_number = self.account_number
 
+        self._kis_spread(self.stocks)
+        self._kis_spread(self.deposits)
 
-class KisOverseasPresentBalanceStock(KisBalanceStock):
+
+class KisOverseasPresentBalanceStock(KisDynamic, KisBalanceStock):
     """한국투자증권 해외종목 잔고"""
+
+    kis: "PyKis"
+    """
+    한국투자증권 API.
+    
+    Note:
+        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
+        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
+    """
 
     symbol: str = KisString["pdno"]
     """종목코드"""
@@ -370,8 +436,17 @@ class KisOverseasPresentBalanceStock(KisBalanceStock):
     """환율"""
 
 
-class KisOverseasPresentDeposit(KisDeposit):
+class KisOverseasPresentDeposit(KisDynamic, KisDeposit):
     """한국투자증권 국내종목 예수금"""
+
+    kis: "PyKis"
+    """
+    한국투자증권 API.
+    
+    Note:
+        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
+        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
+    """
 
     account_number: KisAccountNumber
     """계좌번호"""
@@ -391,6 +466,15 @@ class KisOverseasPresentBalance(KisAPIResponse, KisBalance):
     """한국투자증권 해외종목 잔고"""
 
     __path__ = None
+
+    kis: "PyKis"
+    """
+    한국투자증권 API.
+    
+    Note:
+        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
+        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
+    """
 
     country: COUNTRY_TYPE | None
     """국가코드 (스코프 지정시)"""
@@ -424,9 +508,21 @@ class KisOverseasPresentBalance(KisAPIResponse, KisBalance):
         for deposit in self.deposits.values():
             deposit.account_number = self.account_number
 
+        self._kis_spread(self.stocks)
+        self._kis_spread(self.deposits)
 
-class KisOverseasBalanceStock(KisBalanceStock):
+
+class KisOverseasBalanceStock(KisDynamic, KisBalanceStock):
     """한국투자증권 해외종목 잔고"""
+
+    kis: "PyKis"
+    """
+    한국투자증권 API.
+    
+    Note:
+        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
+        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
+    """
 
     symbol: str = KisString["ovrs_pdno"]
     """종목코드"""
@@ -466,6 +562,15 @@ class KisOverseasBalance(KisPaginationAPIResponse, KisBalance):
 
     __path__ = None
 
+    kis: "PyKis"
+    """
+    한국투자증권 API.
+    
+    Note:
+        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
+        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
+    """
+
     country: COUNTRY_TYPE | None
     """국가코드 (스코프 지정시)"""
 
@@ -485,6 +590,8 @@ class KisOverseasBalance(KisPaginationAPIResponse, KisBalance):
 
         for stock in self.stocks:
             stock.balance = self
+
+        self._kis_spread(self.stocks)
 
 
 class KisIntegrationBalance(KisBalance):

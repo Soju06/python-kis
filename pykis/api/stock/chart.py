@@ -4,15 +4,30 @@ from decimal import Decimal
 from typing import Literal, TypeVar, overload
 
 from pykis.api.base.product import KisProductBase
+from pykis.api.stock.market import MARKET_TYPE
 from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_KOR_MAP
-from pykis.responses.dynamic import KisDynamic
+from pykis.utils.repr import kis_repr
+
+__all__ = [
+    "KisChartBar",
+    "KisChart",
+    "TChart",
+]
 
 
-class KisChartBar(KisDynamic):
+@kis_repr(
+    "time",
+    "open",
+    "close",
+    "high",
+    "low",
+    "volume",
+    "amount",
+    "change",
+    lines="single",
+)
+class KisChartBar:
     """한국투자증권 차트 봉"""
-
-    chart: "KisChart"
-    """차트 (post initialization)"""
 
     time: datetime
     """시간 (현지시간)"""
@@ -57,8 +72,22 @@ class KisChartBar(KisDynamic):
         return STOCK_SIGN_TYPE_KOR_MAP[self.sign]
 
 
-class KisChart(KisDynamic, KisProductBase):
+@kis_repr(
+    "market",
+    "symbol",
+    "bars",
+    lines="multiple",
+    field_lines={
+        "bars": "multiple",
+    },
+)
+class KisChart(KisProductBase):
     """한국투자증권 차트"""
+
+    symbol: str
+    """종목코드"""
+    market: MARKET_TYPE
+    """상품유형타입"""
 
     timezone: tzinfo
     """시간대"""

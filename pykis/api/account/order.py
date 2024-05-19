@@ -282,7 +282,7 @@ def resolve_domestic_order_condition(
     return DOMESTIC_REVERSE_ORDER_CONDITION_MAP[code]
 
 
-class KisOrderNumber(KisDynamic, KisAccountProductBase):
+class KisOrderNumber(KisAccountProductBase):
     """한국투자증권 주문번호"""
 
     symbol: str
