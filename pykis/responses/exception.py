@@ -2,7 +2,12 @@ from typing import Any
 
 from requests import Response
 
-from pykis.client.exception import KisAPIError, KisException, KisHTTPError
+from pykis.client.exception import KisAPIError, KisException
+
+__all__ = [
+    "KisNotFoundError",
+    "KisMarketNotOpenedError",
+]
 
 
 class KisNotFoundError(KisException):

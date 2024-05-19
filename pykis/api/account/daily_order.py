@@ -321,7 +321,7 @@ class KisDomesticDailyOrders(KisPaginationAPIResponse, KisDailyOrders):
         self._kis_spread(self.orders)
 
 
-class KisOverseasDailyOrder(KisDynamic, KisDailyOrder, KisAccountProductBase):
+class KisForeignDailyOrder(KisDynamic, KisDailyOrder, KisAccountProductBase):
     """한국투자증권 해외 일별 체결내역"""
 
     time: datetime
@@ -402,7 +402,7 @@ class KisOverseasDailyOrder(KisDynamic, KisDailyOrder, KisAccountProductBase):
         self.time = self.time_kst.astimezone(self.timezone)
 
 
-class KisOverseasDailyOrders(KisPaginationAPIResponse, KisDailyOrders):
+class KisForeignDailyOrders(KisPaginationAPIResponse, KisDailyOrders):
     """한국투자증권 해외 일별 체결내역"""
 
     __path__ = None
@@ -410,7 +410,7 @@ class KisOverseasDailyOrders(KisPaginationAPIResponse, KisDailyOrders):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    orders: list[KisOverseasDailyOrder] = KisList(KisOverseasDailyOrder)["output"]
+    orders: list[KisForeignDailyOrder] = KisList(KisForeignDailyOrder)["output"]
     """일별 체결내역"""
 
     def __init__(self, account_number: KisAccountNumber):
@@ -582,7 +582,7 @@ def domestic_daily_orders(
     return first
 
 
-def _overseas_daily_orders(
+def _foreign_daily_orders(
     self: "PyKis",
     account: str | KisAccountNumber,
     start: date,
@@ -590,7 +590,7 @@ def _overseas_daily_orders(
     market: str | None = None,
     page: KisPage | None = None,
     continuous: bool = True,
-) -> KisOverseasDailyOrders:
+) -> KisForeignDailyOrders:
     if not isinstance(account, KisAccountNumber):
         account = KisAccountNumber(account)
 
@@ -621,7 +621,7 @@ def _overseas_daily_orders(
                 page,
             ],
             continuous=not page.is_first,
-            response_type=KisOverseasDailyOrders(
+            response_type=KisForeignDailyOrders(
                 account_number=account,
             ),
         )
@@ -639,7 +639,7 @@ def _overseas_daily_orders(
     return first
 
 
-OVERSEAS_COUNTRY_MARKET_MAP: dict[str | None, list[MARKET_TYPE | None]] = {
+FOREIGN_COUNTRY_MARKET_MAP: dict[str | None, list[MARKET_TYPE | None]] = {
     # 국가코드 -> 조회시장코드
     None: [None],
     "US": ["NASD"],
@@ -650,13 +650,13 @@ OVERSEAS_COUNTRY_MARKET_MAP: dict[str | None, list[MARKET_TYPE | None]] = {
 }
 
 
-def overseas_daily_orders(
+def foreign_daily_orders(
     self: "PyKis",
     account: str | KisAccountNumber,
     start: date,
     end: date,
     country: COUNTRY_TYPE | None = None,
-) -> KisOverseasDailyOrders:
+) -> KisForeignDailyOrders:
     """
     한국투자증권 해외 체결내역 조회
 
@@ -674,12 +674,12 @@ def overseas_daily_orders(
         KisAPIError: API 호출에 실패한 경우
         ValueError: 계좌번호가 잘못된 경우
     """
-    markets = OVERSEAS_COUNTRY_MARKET_MAP.get(country, OVERSEAS_COUNTRY_MARKET_MAP[None])
+    markets = FOREIGN_COUNTRY_MARKET_MAP.get(country, FOREIGN_COUNTRY_MARKET_MAP[None])
 
     first = None
 
     for market in markets:
-        result = _overseas_daily_orders(
+        result = _foreign_daily_orders(
             self,
             account=account,
             start=start,
@@ -736,7 +736,7 @@ def daily_orders(
                 start=start,
                 end=end,
             ),
-            overseas_daily_orders(
+            foreign_daily_orders(
                 self,
                 account=account,
                 start=start,
@@ -751,7 +751,7 @@ def daily_orders(
             end=end,
         )
     else:
-        return overseas_daily_orders(
+        return foreign_daily_orders(
             self,
             account=account,
             start=start,

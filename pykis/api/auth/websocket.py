@@ -6,6 +6,11 @@ from pykis.responses.types import KisString
 if TYPE_CHECKING:
     from pykis.kis import PyKis
 
+__all__ = [
+    "KisWebsocketApprovalKey",
+    "websocket_approval_key",
+]
+
 
 class KisWebsocketApprovalKey(KisDynamic):
     """한국투자증권 웹소켓 접속 키"""

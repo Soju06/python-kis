@@ -1,6 +1,10 @@
 from abc import ABCMeta, abstractmethod
 from typing import Any
 
+__all__ = [
+    "KisForm",
+]
+
 
 class KisForm(metaclass=ABCMeta):
     @abstractmethod

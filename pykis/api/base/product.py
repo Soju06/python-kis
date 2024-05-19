@@ -1,8 +1,7 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Protocol
 
-from pykis.api.base.market import KisMarketBase
+from pykis.api.base.market import KisMarketBase, KisMarketProtocol
 from pykis.api.stock.market import MARKET_TYPE
-from pykis.client.object import KisObjectBase
 from pykis.utils.cache import cached
 from pykis.utils.repr import kis_repr
 
@@ -12,12 +11,36 @@ if TYPE_CHECKING:
     from pykis.scope.stock.info_stock import KisInfoStock
 
 
+class KisProductProtocol(KisMarketProtocol, Protocol):
+    """한국투자증권 상품 프로토콜"""
+
+    @property
+    def symbol(self) -> str:
+        """종목코드"""
+        ...
+
+    @property
+    def name(self) -> str:
+        """상품명"""
+        ...
+
+    @property
+    def info(self) -> "KisStockInfo":
+        """상품기본정보 조회"""
+        ...
+
+    @property
+    def stock(self) -> "KisInfoStock":
+        """종목 Scope"""
+        ...
+
+
 @kis_repr(
     "market",
     "symbol",
     lines="single",
 )
-class KisProductBase(KisObjectBase, KisMarketBase):
+class KisProductBase(KisMarketBase):
     """한국투자증권 상품 기본정보"""
 
     kis: "PyKis"

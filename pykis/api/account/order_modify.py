@@ -46,7 +46,7 @@ class KisDomesticModifyOrder(KisAPIResponse, KisOrder):
         )
 
 
-class KisOverseasModifyOrder(KisAPIResponse, KisOrder):
+class KisForeignModifyOrder(KisAPIResponse, KisOrder):
     """한국투자증권 해외주식 정정 주문"""
 
     branch: str = KisString["KRX_FWDG_ORD_ORGNO"]
@@ -69,7 +69,7 @@ class KisOverseasModifyOrder(KisAPIResponse, KisOrder):
         self.time = self.time_kst.astimezone(self.timezone)
 
 
-class KisOverseasDaytimeModifyOrder(KisAPIResponse, KisOrder):
+class KisForeignDaytimeModifyOrder(KisAPIResponse, KisOrder):
     """한국투자증권 해외주식 정정 주문 (주간)"""
 
     branch: str = KisString["KRX_FWDG_ORD_ORGNO"]
@@ -159,7 +159,7 @@ def domestic_modify_order(
         account = KisAccountNumber(account)
 
     if price_setting:
-        quote_data = quote(self, code=order.symbol, market="KRX")
+        quote_data = quote(self, symbol=order.symbol, market="KRX")
         price = quote_data.high_limit if price_setting == "upper" else quote_data.low_limit
 
     return self.fetch(
@@ -224,7 +224,7 @@ def domestic_cancel_order(
     )
 
 
-OVERSEAS_ORDER_MODIFY_API_CODES: dict[tuple[bool, MARKET_TYPE, Literal["modify", "cancel"]], str] = {
+FOREIGN_ORDER_MODIFY_API_CODES: dict[tuple[bool, MARKET_TYPE, Literal["modify", "cancel"]], str] = {
     # (실전투자여부, 시장, 주문종류): API코드
     (True, "NASD", "modify"): "TTTT1004U",  # 미국 정정 주문
     (True, "NYSE", "modify"): "TTTT1004U",  # 미국 정정 주문
@@ -257,7 +257,7 @@ OVERSEAS_ORDER_MODIFY_API_CODES: dict[tuple[bool, MARKET_TYPE, Literal["modify",
 }
 
 
-def overseas_modify_order(
+def foreign_modify_order(
     self: "PyKis",
     account: str | KisAccountNumber,
     order: KisOrderNumber,
@@ -265,7 +265,7 @@ def overseas_modify_order(
     qty: Decimal | None = None,
     condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
     execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
-) -> KisOverseasModifyOrder:
+) -> KisForeignModifyOrder:
     """
     한국투자증권 해외 주식 주문정정
 
@@ -320,13 +320,13 @@ def overseas_modify_order(
         account = KisAccountNumber(account)
 
     if price_setting:
-        quote_data = quote(self, code=order.symbol, market=order.market)
+        quote_data = quote(self, symbol=order.symbol, market=order.market)
         price = quote_data.high_limit if price_setting == "upper" else quote_data.low_limit
 
     if qty is None:
         qty = order_info.qty
 
-    api = OVERSEAS_ORDER_MODIFY_API_CODES.get((not self.virtual, order.market, "modify"))
+    api = FOREIGN_ORDER_MODIFY_API_CODES.get((not self.virtual, order.market, "modify"))
 
     if not api:
         raise ValueError("해당 시장은 정정 주문을 지원하지 않습니다.")
@@ -343,7 +343,7 @@ def overseas_modify_order(
             "OVRS_ORD_UNPR": str(price or 0),
         },
         form=[account],
-        response_type=KisOverseasModifyOrder(
+        response_type=KisForeignModifyOrder(
             account_number=account,
             symbol=order.symbol,
             market=order.market,
@@ -352,11 +352,11 @@ def overseas_modify_order(
     )
 
 
-def overseas_cancel_order(
+def foreign_cancel_order(
     self: "PyKis",
     account: str | KisAccountNumber,
     order: KisOrderNumber,
-) -> KisOverseasModifyOrder:
+) -> KisForeignModifyOrder:
     """
     한국투자증권 해외 주식 주문취소
 
@@ -373,7 +373,7 @@ def overseas_cancel_order(
     if not isinstance(account, KisAccountNumber):
         account = KisAccountNumber(account)
 
-    api = OVERSEAS_ORDER_MODIFY_API_CODES.get((not self.virtual, order.market, "cancel"))
+    api = FOREIGN_ORDER_MODIFY_API_CODES.get((not self.virtual, order.market, "cancel"))
 
     if not api:
         raise ValueError("해당 시장은 취소 주문을 지원하지 않습니다.")
@@ -390,7 +390,7 @@ def overseas_cancel_order(
             "OVRS_ORD_UNPR": "0",
         },
         form=[account],
-        response_type=KisOverseasModifyOrder(
+        response_type=KisForeignModifyOrder(
             account_number=account,
             symbol=order.symbol,
             market=order.market,
@@ -399,13 +399,13 @@ def overseas_cancel_order(
     )
 
 
-def overseas_daytime_modify_order(
+def foreign_daytime_modify_order(
     self: "PyKis",
     account: str | KisAccountNumber,
     order: KisOrderNumber,
     price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
     qty: Decimal | None = None,
-) -> KisOverseasDaytimeModifyOrder:
+) -> KisForeignDaytimeModifyOrder:
     """
     한국투자증권 해외 주간거래 주문정정
 
@@ -454,7 +454,7 @@ def overseas_daytime_modify_order(
         qty = order_info.qty
 
     if not price:
-        quote_data = quote(self, code=order.symbol, market=order.market, extended=True)
+        quote_data = quote(self, symbol=order.symbol, market=order.market, extended=True)
         price = quote_data.high_limit if order == "buy" else quote_data.low_limit
 
     return self.fetch(
@@ -472,7 +472,7 @@ def overseas_daytime_modify_order(
             "ORD_SVR_DVSN_CD": "0",
         },
         form=[account],
-        response_type=KisOverseasDaytimeModifyOrder(
+        response_type=KisForeignDaytimeModifyOrder(
             account_number=account,
             symbol=order.symbol,
             market=order.market,
@@ -481,11 +481,11 @@ def overseas_daytime_modify_order(
     )
 
 
-def overseas_daytime_cancel_order(
+def foreign_daytime_cancel_order(
     self: "PyKis",
     account: str | KisAccountNumber,
     order: KisOrderNumber,
-) -> KisOverseasModifyOrder:
+) -> KisForeignModifyOrder:
     """
     한국투자증권 해외 주식 주문취소
 
@@ -530,7 +530,7 @@ def overseas_daytime_cancel_order(
             "ORD_SVR_DVSN_CD": "0",
         },
         form=[account],
-        response_type=KisOverseasModifyOrder(
+        response_type=KisForeignModifyOrder(
             account_number=account,
             symbol=order.symbol,
             market=order.market,
@@ -575,7 +575,7 @@ def modify_order(
         )
 
     try:
-        return overseas_modify_order(
+        return foreign_modify_order(
             self,
             account=account,
             order=order,
@@ -588,7 +588,7 @@ def modify_order(
         if e.error_code != "APBK0918":
             raise e
 
-        return overseas_daytime_modify_order(
+        return foreign_daytime_modify_order(
             self,
             account=account,
             order=order,
@@ -617,9 +617,9 @@ def cancel_order(
         return domestic_cancel_order(self, account=account, order=order)
 
     try:
-        return overseas_cancel_order(self, account=account, order=order)
+        return foreign_cancel_order(self, account=account, order=order)
     except KisAPIError as e:
         if e.error_code != "APBK0918":
             raise e
 
-        return overseas_daytime_cancel_order(self, account=account, order=order)
+        return foreign_daytime_cancel_order(self, account=account, order=order)

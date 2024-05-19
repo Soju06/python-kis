@@ -182,7 +182,7 @@ class KisDomesticOrderableAmount(KisAPIResponse, KisOrderableAmount):
             )
 
 
-class KisOverseasOrderableAmount(KisAPIResponse, KisOrderableAmount):
+class KisForeignOrderableAmount(KisAPIResponse, KisOrderableAmount):
     """한국투자증권 해외주식 주문가능금액"""
 
     amount: Decimal = KisDecimal["ovrs_ord_psbl_amt"]
@@ -283,7 +283,7 @@ def _domestic_orderable_amount(
         account = KisAccountNumber(account)
 
     if price_setting:
-        price = quote(self, code=symbol, market="KRX").close
+        price = quote(self, symbol=symbol, market="KRX").close
 
     result = KisDomesticOrderableAmount(
         account_number=account,
@@ -363,7 +363,7 @@ def domestic_orderable_amount(
     )
 
 
-def overseas_orderable_amount(
+def foreign_orderable_amount(
     self: "PyKis",
     account: str | KisAccountNumber,
     market: MARKET_TYPE,
@@ -371,7 +371,7 @@ def overseas_orderable_amount(
     price: ORDER_PRICE | None = None,
     condition: ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION | None = None,
-) -> KisOverseasOrderableAmount:
+) -> KisForeignOrderableAmount:
     """
     한국투자증권 해외 주식 주문가능금액 조회
 
@@ -387,26 +387,26 @@ def overseas_orderable_amount(
         execution (ORDER_EXECUTION_CONDITION | None, optional): 체결조건
 
     Examples:
-        >>> overseas_orderable_amount(account, 전체, code, price=100, condition=None, execution=None) # 전체 지정가 매수
-        >>> overseas_orderable_amount(account, 전체, code, price=None, condition=None, execution=None) # 전체 시장가 매수
-        >>> overseas_orderable_amount(account, 'NASD', code, price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
-        >>> overseas_orderable_amount(account, 'NASD', code, price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
-        >>> overseas_orderable_amount(account, 'NASD', code, price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
-        >>> overseas_orderable_amount(account, 'NASD', code, price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
-        >>> overseas_orderable_amount(account, 'NYSE', code, price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 미지원)
-        >>> overseas_orderable_amount(account, 'NYSE', code, price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 미지원)
-        >>> overseas_orderable_amount(account, 'NYSE', code, price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 미지원)
-        >>> overseas_orderable_amount(account, 'NYSE', code, price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매수 (모의투자 미지원)
-        >>> overseas_orderable_amount(account, 'AMEX', code, price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매수 (모의투자 미지원)
-        >>> overseas_orderable_amount(account, 'AMEX', code, price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 미지원)
-        >>> overseas_orderable_amount(account, 'AMEX', code, price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 미지원)
-        >>> overseas_orderable_amount(account, 'AMEX', code, price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 미지원)
-        >>> overseas_orderable_amount(account, 'NASD', code, price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매수
-        >>> overseas_orderable_amount(account, 'NASD', code, price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매수
-        >>> overseas_orderable_amount(account, 'NYSE', code, price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매수
-        >>> overseas_orderable_amount(account, 'NYSE', code, price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매수
-        >>> overseas_orderable_amount(account, 'AMEX', code, price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매수
-        >>> overseas_orderable_amount(account, 'AMEX', code, price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매수
+        >>> foreign_orderable_amount(account, 전체, code, price=100, condition=None, execution=None) # 전체 지정가 매수
+        >>> foreign_orderable_amount(account, 전체, code, price=None, condition=None, execution=None) # 전체 시장가 매수
+        >>> foreign_orderable_amount(account, 'NASD', code, price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
+        >>> foreign_orderable_amount(account, 'NASD', code, price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
+        >>> foreign_orderable_amount(account, 'NASD', code, price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
+        >>> foreign_orderable_amount(account, 'NASD', code, price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
+        >>> foreign_orderable_amount(account, 'NYSE', code, price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 미지원)
+        >>> foreign_orderable_amount(account, 'NYSE', code, price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 미지원)
+        >>> foreign_orderable_amount(account, 'NYSE', code, price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 미지원)
+        >>> foreign_orderable_amount(account, 'NYSE', code, price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매수 (모의투자 미지원)
+        >>> foreign_orderable_amount(account, 'AMEX', code, price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매수 (모의투자 미지원)
+        >>> foreign_orderable_amount(account, 'AMEX', code, price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 미지원)
+        >>> foreign_orderable_amount(account, 'AMEX', code, price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 미지원)
+        >>> foreign_orderable_amount(account, 'AMEX', code, price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 미지원)
+        >>> foreign_orderable_amount(account, 'NASD', code, price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매수
+        >>> foreign_orderable_amount(account, 'NASD', code, price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매수
+        >>> foreign_orderable_amount(account, 'NYSE', code, price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매수
+        >>> foreign_orderable_amount(account, 'NYSE', code, price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매수
+        >>> foreign_orderable_amount(account, 'AMEX', code, price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매수
+        >>> foreign_orderable_amount(account, 'AMEX', code, price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매수
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
@@ -438,7 +438,7 @@ def overseas_orderable_amount(
     unit_price = (
         quote(
             self,
-            code=symbol,
+            symbol=symbol,
             market=market,
             extended=condition == "extended",
         ).close
@@ -446,7 +446,7 @@ def overseas_orderable_amount(
         else price
     )
 
-    result = KisOverseasOrderableAmount(
+    result = KisForeignOrderableAmount(
         account_number=account,
         symbol=symbol,
         market=market,
@@ -541,7 +541,7 @@ def orderable_amount(
             execution=execution,
         )
     else:
-        return overseas_orderable_amount(
+        return foreign_orderable_amount(
             self,
             account,
             market,

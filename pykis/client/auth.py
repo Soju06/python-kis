@@ -5,6 +5,10 @@ from os import PathLike
 from pykis.client.account import KisAccountNumber
 from pykis.client.appkey import KisKey
 
+__all__ = [
+    "KisAuth",
+]
+
 
 @dataclass
 class KisAuth:

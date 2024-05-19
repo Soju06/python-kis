@@ -142,14 +142,14 @@ class KisStockInfo(KisAPIResponse, KisProductBase):
         return R_MARKET_TYPE_MAP[self.market_code]
 
     @property
-    def overseas(self) -> bool:
+    def foreign(self) -> bool:
         """해외종목 여부"""
         return self.market_code not in MARKET_TYPE_MAP["KRX"]
 
     @property
     def domestic(self) -> bool:
         """국내종목 여부"""
-        return not self.overseas
+        return not self.foreign
 
     def __post_init__(self):
         set_cache(self, "info", self)

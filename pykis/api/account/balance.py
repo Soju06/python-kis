@@ -397,7 +397,7 @@ class KisDomesticBalance(KisPaginationAPIResponse, KisBalance):
         self._kis_spread(self.deposits)
 
 
-class KisOverseasPresentBalanceStock(KisDynamic, KisBalanceStock):
+class KisForeignPresentBalanceStock(KisDynamic, KisBalanceStock):
     """한국투자증권 해외종목 잔고"""
 
     kis: "PyKis"
@@ -436,7 +436,7 @@ class KisOverseasPresentBalanceStock(KisDynamic, KisBalanceStock):
     """환율"""
 
 
-class KisOverseasPresentDeposit(KisDynamic, KisDeposit):
+class KisForeignPresentDeposit(KisDynamic, KisDeposit):
     """한국투자증권 국내종목 예수금"""
 
     kis: "PyKis"
@@ -462,7 +462,7 @@ class KisOverseasPresentDeposit(KisDynamic, KisDeposit):
     """환율"""
 
 
-class KisOverseasPresentBalance(KisAPIResponse, KisBalance):
+class KisForeignPresentBalance(KisAPIResponse, KisBalance):
     """한국투자증권 해외종목 잔고"""
 
     __path__ = None
@@ -479,13 +479,13 @@ class KisOverseasPresentBalance(KisAPIResponse, KisBalance):
     country: COUNTRY_TYPE | None
     """국가코드 (스코프 지정시)"""
 
-    stocks: list[KisBalanceStock] = KisList(KisOverseasPresentBalanceStock)["output1"]
+    stocks: list[KisBalanceStock] = KisList(KisForeignPresentBalanceStock)["output1"]
     """보유종목"""
     deposits: dict[CURRENCY_TYPE, KisDeposit] = KisAny(
         lambda x: {
             i["crcy_cd"]: KisObject.transform_(
                 i,
-                KisOverseasPresentDeposit,
+                KisForeignPresentDeposit,
                 ignore_missing=True,
             )
             for i in x
@@ -512,7 +512,7 @@ class KisOverseasPresentBalance(KisAPIResponse, KisBalance):
         self._kis_spread(self.deposits)
 
 
-class KisOverseasBalanceStock(KisDynamic, KisBalanceStock):
+class KisForeignBalanceStock(KisDynamic, KisBalanceStock):
     """한국투자증권 해외종목 잔고"""
 
     kis: "PyKis"
@@ -557,7 +557,7 @@ class KisOverseasBalanceStock(KisDynamic, KisBalanceStock):
         return self.balance.deposits[self.currency].exchange_rate
 
 
-class KisOverseasBalance(KisPaginationAPIResponse, KisBalance):
+class KisForeignBalance(KisPaginationAPIResponse, KisBalance):
     """한국투자증권 해외종목 잔고"""
 
     __path__ = None
@@ -574,7 +574,7 @@ class KisOverseasBalance(KisPaginationAPIResponse, KisBalance):
     country: COUNTRY_TYPE | None
     """국가코드 (스코프 지정시)"""
 
-    stocks: list[KisBalanceStock] = KisList(KisOverseasBalanceStock)["output1"]
+    stocks: list[KisBalanceStock] = KisList(KisForeignBalanceStock)["output1"]
     """보유종목"""
     deposits: dict[CURRENCY_TYPE, KisDeposit]
     """통화별 예수금"""
@@ -689,13 +689,13 @@ def domestic_balance(
     return first
 
 
-def _internal_overseas_balance(
+def _internal_foreign_balance(
     self: "PyKis",
     account: str | KisAccountNumber,
     market: str | None = None,
     page: KisPage | None = None,
     continuous: bool = True,
-) -> KisOverseasBalance:
+) -> KisForeignBalance:
     """
     한국투자증권 해외 주식 잔고 조회
 
@@ -731,7 +731,7 @@ def _internal_overseas_balance(
                 page,
             ],
             continuous=not page.is_first,
-            response_type=KisOverseasBalance(
+            response_type=KisForeignBalance(
                 account_number=account,
             ),
         )
@@ -749,7 +749,7 @@ def _internal_overseas_balance(
     return first
 
 
-OVERSEAS_COUNTRY_MARKET_MAP: dict[tuple[bool | None, COUNTRY_TYPE | None], list[str | None]] = {
+FOREIGN_COUNTRY_MARKET_MAP: dict[tuple[bool | None, COUNTRY_TYPE | None], list[str | None]] = {
     # 실전투자여부, 국가코드 -> 조회시장코드
     (None, None): [None],
     (True, "US"): ["NASD"],
@@ -761,11 +761,11 @@ OVERSEAS_COUNTRY_MARKET_MAP: dict[tuple[bool | None, COUNTRY_TYPE | None], list[
 }
 
 
-def _overseas_balance(
+def _foreign_balance(
     self: "PyKis",
     account: str | KisAccountNumber,
     country: COUNTRY_TYPE | None = None,
-) -> KisOverseasBalance:
+) -> KisForeignBalance:
     """
     한국투자증권 해외 주식 잔고 조회
 
@@ -780,14 +780,14 @@ def _overseas_balance(
         KisAPIError: API 호출에 실패한 경우
         ValueError: 계좌번호가 잘못된 경우
     """
-    markets = OVERSEAS_COUNTRY_MARKET_MAP.get(
-        (not self.virtual, country), OVERSEAS_COUNTRY_MARKET_MAP[(None, country)]
+    markets = FOREIGN_COUNTRY_MARKET_MAP.get(
+        (not self.virtual, country), FOREIGN_COUNTRY_MARKET_MAP[(None, country)]
     )
 
     first = None
 
     for market in markets:
-        result = _internal_overseas_balance(self, account, market)
+        result = _internal_foreign_balance(self, account, market)
 
         if first is None:
             first = result
@@ -800,7 +800,7 @@ def _overseas_balance(
     return first
 
 
-OVERSEAS_COUNTRY_MAP = {
+FOREIGN_COUNTRY_MAP = {
     None: "000",
     "US": "840",
     "HK": "344",
@@ -810,11 +810,11 @@ OVERSEAS_COUNTRY_MAP = {
 }
 
 
-def overseas_balance(
+def foreign_balance(
     self: "PyKis",
     account: str | KisAccountNumber,
     country: COUNTRY_TYPE | None = None,
-) -> KisOverseasPresentBalance:
+) -> KisForeignPresentBalance:
     """
     한국투자증권 해외 주식 잔고 조회
 
@@ -839,19 +839,19 @@ def overseas_balance(
         api="VTRP6504R" if self.virtual else "CTRP6504R",
         params={
             "WCRC_FRCR_DVSN_CD": "02",
-            "NATN_CD": OVERSEAS_COUNTRY_MAP[country],
+            "NATN_CD": FOREIGN_COUNTRY_MAP[country],
             "TR_MKET_CD": "00",
             "INQR_DVSN_CD": "00",
         },
         form=[account],
-        response_type=KisOverseasPresentBalance(
+        response_type=KisForeignPresentBalance(
             account_number=account,
             country=country,
         ),
     )
 
     if self.virtual:
-        result.stocks = _overseas_balance(
+        result.stocks = _foreign_balance(
             self,
             account=account,
             country=country,
@@ -892,12 +892,12 @@ def balance(
             self,
             account,
             domestic_balance(self, account),
-            overseas_balance(self, account),
+            foreign_balance(self, account),
         )
     elif country == "KR":
         return domestic_balance(self, account)
     else:
-        return overseas_balance(self, account, country)
+        return foreign_balance(self, account, country)
 
 
 def orderable_quantity(

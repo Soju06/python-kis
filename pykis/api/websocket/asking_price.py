@@ -10,7 +10,7 @@ from pykis.api.stock.market import (
     get_market_currency,
     get_market_timezone,
 )
-from pykis.api.websocket.price import parse_overseas_realtime_symbol
+from pykis.api.websocket.price import parse_foreign_realtime_symbol
 from pykis.responses.types import KisAny, KisInt, KisString
 from pykis.responses.websocket import KisWebsocketResponse
 
@@ -226,7 +226,7 @@ class KisAsiaRealtimeAskingPrice(KisRealtimeAskingPrice):
             self.market,
             self.condition,
             _,
-        ) = parse_overseas_realtime_symbol(data[0])
+        ) = parse_foreign_realtime_symbol(data[0])
         self.timezone = get_market_timezone(self.market)
         self.currency = get_market_currency(self.market)
 
@@ -247,7 +247,7 @@ class KisAsiaRealtimeAskingPrice(KisRealtimeAskingPrice):
         ]
 
 
-class KisUSARealtimeAskingPrice(KisRealtimeAskingPrice):
+class KisUSRealtimeAskingPrice(KisRealtimeAskingPrice):
     """미국 주식 실시간 호가"""
 
     __fields__ = [
@@ -356,7 +356,7 @@ class KisUSARealtimeAskingPrice(KisRealtimeAskingPrice):
             self.market,
             self.condition,
             _,
-        ) = parse_overseas_realtime_symbol(data[0])
+        ) = parse_foreign_realtime_symbol(data[0])
         self.timezone = get_market_timezone(self.market)
         self.currency = get_market_currency(self.market)
 

@@ -35,6 +35,10 @@ from pykis.utils.thread_safe import thread_safe
 if TYPE_CHECKING:
     from pykis.kis import PyKis
 
+__all__ = [
+    "KisWebsocketClient",
+]
+
 
 class KisWebsocketClient:
     """한국투자증권 실시간 클라이언트"""

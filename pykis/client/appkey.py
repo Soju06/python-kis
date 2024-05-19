@@ -3,6 +3,8 @@ from typing import Any
 from pykis.__env__ import APPKEY_LENGTH, SECRETKEY_LENGTH
 from pykis.client.form import KisForm
 
+__all__ = ["KisKey"]
+
 
 class KisKey(KisForm):
     """
@@ -28,7 +30,12 @@ class KisKey(KisForm):
         if dict is None:
             dict = {}
 
-        dict.update({"appkey": self.appkey, "appsecret": self.secretkey})
+        dict.update(
+            {
+                "appkey": self.appkey,
+                "appsecret": self.secretkey,
+            }
+        )
         return dict
 
     def __repr__(self) -> str:
