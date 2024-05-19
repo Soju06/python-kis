@@ -1,16 +1,23 @@
 from datetime import timedelta
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Literal, Protocol
 
-from pykis.api.base.product import KisProductBase
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.exception import KisAPIError
 from pykis.responses.response import KisAPIResponse, raise_not_found
 from pykis.responses.types import KisString
-from pykis.utils.cache import set_cache
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
+
+__all__ = [
+    "KisStockInfo",
+    "COUNTRY_TYPE",
+    "market_to_country",
+    "MARKET_INFO_TYPES",
+    "info",
+    "resolve_market",
+]
 
 MARKET_TYPE_MAP = {
     "KR": ["300", "301", "302"],
@@ -107,7 +114,66 @@ MARKET_CODE_MAP = {
     "eng_name",
     lines="single",
 )
-class KisStockInfo(KisAPIResponse, KisProductBase):
+class KisStockInfo(Protocol):
+    """상품기본정보"""
+
+    @property
+    def symbol(self) -> str:
+        """종목코드"""
+        ...
+
+    @property
+    def std_code(self) -> str:
+        """표준코드"""
+        ...
+
+    @property
+    def name_kor(self) -> str:
+        """종목명"""
+        ...
+
+    @property
+    def full_name_kor(self) -> str:
+        """종목전체명"""
+        ...
+
+    @property
+    def name_eng(self) -> str:
+        """종목영문명"""
+        ...
+
+    @property
+    def full_name_eng(self) -> str:
+        """종목영문전체명"""
+        ...
+
+    @property
+    def name(self) -> str:
+        """종목명"""
+        ...
+
+    @property
+    def market(self) -> MARKET_TYPE:
+        """상품유형타입"""
+        ...
+
+    @property
+    def market_name(self) -> str:
+        """상품유형명"""
+        ...
+
+    @property
+    def foreign(self) -> bool:
+        """해외종목 여부"""
+        ...
+
+    @property
+    def domestic(self) -> bool:
+        """국내종목 여부"""
+        ...
+
+
+class _KisStockInfo(KisAPIResponse):
     """상품기본정보"""
 
     symbol: str = KisString["shtn_pdno"]
@@ -150,9 +216,6 @@ class KisStockInfo(KisAPIResponse, KisProductBase):
     def domestic(self) -> bool:
         """국내종목 여부"""
         return not self.foreign
-
-    def __post_init__(self):
-        set_cache(self, "info", self)
 
 
 COUNTRY_TYPE = Literal["KR", "US", "HK", "JP", "VN", "CN"]
@@ -207,7 +270,7 @@ def info(
         raise ValueError("종목 코드를 입력해주세요.")
 
     if use_cache:
-        cached = self.cache.get(f"info:{market}:{symbol}", KisStockInfo)
+        cached = self.cache.get(f"info:{market}:{symbol}", _KisStockInfo)
 
         if cached:
             return cached
@@ -224,7 +287,7 @@ def info(
                     "PRDT_TYPE_CD": market_,
                 },
                 domain="real",
-                response_type=KisStockInfo,
+                response_type=_KisStockInfo,
             )
 
             if use_cache:
@@ -269,4 +332,9 @@ def resolve_market(
         KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
-    return info(self, symbol, market, use_cache).market
+    return info(
+        self,
+        symbol=symbol,
+        market=market,
+        use_cache=use_cache,
+    ).market

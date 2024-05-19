@@ -152,32 +152,6 @@ class KisDynamic:
     def __post_init__(self) -> None:
         pass
 
-    @classmethod
-    def _asdict(cls, object: "KisDynamic", data: dict[str, Any]) -> dict[str, Any]:
-        for key, type_ in type(object).__dict__.items():
-            if (
-                key.startswith("_")
-                or not isinstance(type_, KisType)
-                or (value := getattr(object, key, empty)) is empty
-            ):
-                continue
-
-            data[key] = (
-                cls._asdict(value, {})
-                if isinstance(value, KisDynamic)
-                else (
-                    [cls._asdict(item, {}) if isinstance(item, KisDynamic) else item for item in value]
-                    if isinstance(value, list)
-                    else value
-                )
-            )
-
-        return data
-
-    def asdict(self) -> dict[str, Any]:
-        """응답 데이터 필드를 딕셔너리 형태로 반환합니다."""
-        return self._asdict(self, {})
-
     def raw(self) -> dict[str, Any] | None:
         """원본 응답 데이터의 복사본을 반환합니다."""
         if self.__data__ is None:
@@ -188,11 +162,6 @@ class KisDynamic:
 
         return data
 
-    def __str__(self) -> str:
-        return str(self.asdict())
-
-    def __repr__(self) -> str:
-        return repr(self.asdict())
 
 
 TDynamic = TypeVar("TDynamic", bound=KisDynamic)
