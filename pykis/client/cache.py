@@ -3,6 +3,11 @@ from multiprocessing import Lock
 from multiprocessing.synchronize import Lock as LockType
 from typing import Any, TypeVar
 
+__all__ = [
+    "TObject",
+    "KisCacheStorage",
+]
+
 TObject = TypeVar("TObject")
 
 

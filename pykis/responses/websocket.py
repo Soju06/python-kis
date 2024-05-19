@@ -1,8 +1,13 @@
-from typing import Any, Callable, Iterable, TypeVar
+from typing import Any, Iterable, TypeVar
 
 from pykis import logging
 from pykis.responses.dynamic import KisType
 from pykis.responses.types import KisAny
+
+__all__ = [
+    "TWebsocketResponse",
+    "KisWebsocketResponse",
+]
 
 TWebsocketResponse = TypeVar("TWebsocketResponse", bound="KisWebsocketResponse")
 

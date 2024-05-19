@@ -6,6 +6,12 @@ from requests import Response
 
 from pykis.__env__ import TRACE_DETAIL_ERROR
 
+__all__ = [
+    "KisException",
+    "KisHTTPError",
+    "KisAPIError",
+]
+
 
 def safe_request_data(response: Response):
     header = dict(response.request.headers)

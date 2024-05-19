@@ -235,7 +235,7 @@ class KisDomesticOrderProfits(KisPaginationAPIResponse, KisOrderProfits):
         self._kis_spread(self.orders)
 
 
-class KisOverseasOrderProfit(KisDynamic, KisOrderProfit):
+class KisForeignOrderProfit(KisDynamic, KisOrderProfit):
     """한국투자증권 해외 일별 매매손익"""
 
     time: datetime
@@ -280,7 +280,7 @@ class KisOverseasOrderProfit(KisDynamic, KisOrderProfit):
         self.time = self.time_kst.astimezone(self.timezone)
 
 
-class KisOverseasOrderProfits(KisPaginationAPIResponse, KisOrderProfits):
+class KisForeignOrderProfits(KisPaginationAPIResponse, KisOrderProfits):
     """한국투자증권 해외 일별 매매손익"""
 
     __path__ = None
@@ -288,7 +288,7 @@ class KisOverseasOrderProfits(KisPaginationAPIResponse, KisOrderProfits):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    orders: list[KisOverseasOrderProfit] = KisList(KisOverseasOrderProfit)["output1"]
+    orders: list[KisForeignOrderProfit] = KisList(KisForeignOrderProfit)["output1"]
     """일별 체결내역"""
 
     _start: date
@@ -303,7 +303,7 @@ class KisOverseasOrderProfits(KisPaginationAPIResponse, KisOrderProfits):
 
         국내주식주문 -> 해외주식 기간손익[v1_해외주식-032]
         """
-        return overseas_order_fees(
+        return foreign_order_fees(
             self.kis,
             account=self.account_number,
             start=self._start,
@@ -443,7 +443,7 @@ def domestic_order_profits(
     return first
 
 
-OVERSEAS_ORDER_PROFIT_MARKET_MAP: dict[COUNTRY_TYPE, str] = {
+FOREIGN_ORDER_PROFIT_MARKET_MAP: dict[COUNTRY_TYPE, str] = {
     "US": "NASD",
     "HK": "SEHK",
     "CN": "SHAA",
@@ -452,7 +452,7 @@ OVERSEAS_ORDER_PROFIT_MARKET_MAP: dict[COUNTRY_TYPE, str] = {
 }
 
 
-def overseas_order_profits(
+def foreign_order_profits(
     self: "PyKis",
     account: str | KisAccountNumber,
     start: date,
@@ -460,7 +460,7 @@ def overseas_order_profits(
     country: COUNTRY_TYPE | None = None,
     page: KisPage | None = None,
     continuous: bool = True,
-) -> KisOverseasOrderProfits:
+) -> KisForeignOrderProfits:
     """
     한국투자증권 해외 기간 손익 조회
 
@@ -496,7 +496,7 @@ def overseas_order_profits(
             "/uapi/overseas-stock/v1/trading/inquire-period-profit",
             api="TTTS3039R",
             params={
-                "OVRS_EXCG_CD": OVERSEAS_ORDER_PROFIT_MARKET_MAP[country] if country else "",
+                "OVRS_EXCG_CD": FOREIGN_ORDER_PROFIT_MARKET_MAP[country] if country else "",
                 "NATN_CD": "",
                 "CRCY_CD": "",
                 "PDNO": "",
@@ -509,7 +509,7 @@ def overseas_order_profits(
                 page,
             ],
             continuous=not page.is_first,
-            response_type=KisOverseasOrderProfits(
+            response_type=KisForeignOrderProfits(
                 account_number=account,
                 start=start,
                 end=end,
@@ -530,7 +530,7 @@ def overseas_order_profits(
     return first
 
 
-def overseas_order_fees(
+def foreign_order_fees(
     self: "PyKis",
     account: str | KisAccountNumber,
     start: date,
@@ -566,7 +566,7 @@ def overseas_order_fees(
         "/uapi/overseas-stock/v1/trading/inquire-period-profit",
         api="TTTS3039R",
         params={
-            "OVRS_EXCG_CD": OVERSEAS_ORDER_PROFIT_MARKET_MAP[country] if country else "",
+            "OVRS_EXCG_CD": FOREIGN_ORDER_PROFIT_MARKET_MAP[country] if country else "",
             "NATN_CD": "",
             "CRCY_CD": "",
             "PDNO": "",
@@ -619,7 +619,7 @@ def order_profits(
                 start=start,
                 end=end,
             ),
-            overseas_order_profits(
+            foreign_order_profits(
                 self,
                 account=account,
                 start=start,
@@ -634,7 +634,7 @@ def order_profits(
             end=end,
         )
     else:
-        return overseas_order_profits(
+        return foreign_order_profits(
             self,
             account=account,
             start=start,

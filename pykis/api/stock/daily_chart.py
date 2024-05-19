@@ -121,12 +121,12 @@ class KisDomesticDailyChart(KisResponse, KisDailyChart):
         data["output2"] = [x for x in data["output2"] if x]
 
 
-class KisOverseasDailyChartBar(KisDynamic, KisDailyChartBar):
+class KisForeignDailyChartBar(KisDynamic, KisDailyChartBar):
     """한국투자증권 해외 기간 차트 봉"""
 
-    time: datetime = KisDatetime("%Y%m%d")["xymd"]  # KisOverseasDailyChart의 __post_init__에서 timezone 설정
+    time: datetime = KisDatetime("%Y%m%d")["xymd"]  # KisForeignDailyChart의 __post_init__에서 timezone 설정
     """시간 (현지시간)"""
-    time_kst: datetime  # KisOverseasDailyChart의 __post_init__에서 값 지정
+    time_kst: datetime  # KisForeignDailyChart의 __post_init__에서 값 지정
     """시간 (한국시간)"""
 
     open: Decimal = KisDecimal["open"]
@@ -148,10 +148,10 @@ class KisOverseasDailyChartBar(KisDynamic, KisDailyChartBar):
     """전일대비 부호"""
 
 
-class KisOverseasDailyChart(KisResponse, KisDailyChart):
+class KisForeignDailyChart(KisResponse, KisDailyChart):
     """한국투자증권 해외 당일 차트"""
 
-    bars: list[KisOverseasDailyChartBar] = KisList(KisOverseasDailyChartBar)["output2"]
+    bars: list[KisForeignDailyChartBar] = KisList(KisForeignDailyChartBar)["output2"]
     """차트"""
 
     def __init__(self, symbol: str, market: MARKET_TYPE):
@@ -293,7 +293,7 @@ def domestic_daily_chart(
     )
 
 
-def overseas_daily_chart(
+def foreign_daily_chart(
     self: "PyKis",
     symbol: str,
     market: MARKET_TYPE,
@@ -301,7 +301,7 @@ def overseas_daily_chart(
     end: date | None = None,
     period: Literal["day", "week", "month", "year"] = "day",
     adjust: bool = False,
-) -> KisOverseasDailyChart:
+) -> KisForeignDailyChart:
     """
     한국투자증권 해외 기간 차트 조회
 
@@ -343,7 +343,7 @@ def overseas_daily_chart(
                 "BYMD": cursor.strftime("%Y%m%d") if cursor else "",
                 "MODP": "1" if adjust else "0",
             },
-            response_type=KisOverseasDailyChart(
+            response_type=KisForeignDailyChart(
                 symbol=symbol,
                 market=market,
             ),
@@ -446,7 +446,7 @@ def daily_chart(
             adjust=adjust,
         )
     else:
-        return overseas_daily_chart(
+        return foreign_daily_chart(
             self,
             symbol,
             market,

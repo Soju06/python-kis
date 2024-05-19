@@ -287,7 +287,7 @@ class KisDomesticPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
         self._kis_spread(self.orders)
 
 
-class KisOverseasPendingOrder(KisDynamic, KisPendingOrder, KisAccountProductBase):
+class KisForeignPendingOrder(KisDynamic, KisPendingOrder, KisAccountProductBase):
     """한국투자증권 해외 미체결 주식"""
 
     symbol: str = KisString["pdno"]
@@ -368,7 +368,7 @@ class KisOverseasPendingOrder(KisDynamic, KisPendingOrder, KisAccountProductBase
         )
 
 
-class KisOverseasPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
+class KisForeignPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
     """한국투자증권 해외 미체결 주식"""
 
     __path__ = None
@@ -376,7 +376,7 @@ class KisOverseasPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    orders: list[KisOverseasPendingOrder] = KisList(KisOverseasPendingOrder)["output"]
+    orders: list[KisForeignPendingOrder] = KisList(KisForeignPendingOrder)["output"]
     """미체결주문"""
 
     def __init__(self, account_number: KisAccountNumber):
@@ -479,13 +479,13 @@ def domestic_pending_orders(
     return first
 
 
-def _overseas_pending_orders(
+def _foreign_pending_orders(
     self: "PyKis",
     account: str | KisAccountNumber,
     market: MARKET_TYPE | None = None,
     page: KisPage | None = None,
     continuous: bool = True,
-) -> KisOverseasPendingOrders:
+) -> KisForeignPendingOrders:
     """
     한국투자증권 해외 주식 미체결 조회
 
@@ -521,7 +521,7 @@ def _overseas_pending_orders(
                 page,
             ],
             continuous=not page.is_first,
-            response_type=KisOverseasPendingOrders(
+            response_type=KisForeignPendingOrders(
                 account_number=account,
             ),
         )
@@ -539,7 +539,7 @@ def _overseas_pending_orders(
     return first
 
 
-OVERSEAS_COUNTRY_MARKET_MAP: dict[str | None, list[MARKET_TYPE | None]] = {
+FOREIGN_COUNTRY_MARKET_MAP: dict[str | None, list[MARKET_TYPE | None]] = {
     # 국가코드 -> 조회시장코드
     None: [None],
     "US": ["NASD"],
@@ -550,11 +550,11 @@ OVERSEAS_COUNTRY_MARKET_MAP: dict[str | None, list[MARKET_TYPE | None]] = {
 }
 
 
-def overseas_pending_orders(
+def foreign_pending_orders(
     self: "PyKis",
     account: str | KisAccountNumber,
     country: COUNTRY_TYPE | None = None,
-) -> KisOverseasPendingOrders:
+) -> KisForeignPendingOrders:
     """
     한국투자증권 해외 주식 미체결 조회
 
@@ -569,12 +569,12 @@ def overseas_pending_orders(
         KisAPIError: API 호출에 실패한 경우
         ValueError: 계좌번호가 잘못된 경우
     """
-    markets = OVERSEAS_COUNTRY_MARKET_MAP.get(country, OVERSEAS_COUNTRY_MARKET_MAP[None])
+    markets = FOREIGN_COUNTRY_MARKET_MAP.get(country, FOREIGN_COUNTRY_MARKET_MAP[None])
 
     first = None
 
     for market in markets:
-        result = _overseas_pending_orders(self, account, market)
+        result = _foreign_pending_orders(self, account, market)
 
         if first is None:
             first = result
@@ -615,9 +615,9 @@ def pending_orders(
             self,
             account,
             domestic_pending_orders(self, account),
-            overseas_pending_orders(self, account),
+            foreign_pending_orders(self, account),
         )
     elif country == "KR":
         return domestic_pending_orders(self, account)
     else:
-        return overseas_pending_orders(self, account, country)
+        return foreign_pending_orders(self, account, country)

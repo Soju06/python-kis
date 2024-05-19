@@ -187,12 +187,12 @@ class KisChart(KisProductBase):
         해당 함수는 Pandas가 설치되어 있어야 합니다.
         """
         try:
-            import pandas as pd
-        except ImportError:
+            import pandas as pd  # type: ignore
+        except ImportError as e:
             raise ImportError(
                 "Pandas가 설치되어 있지 않습니다.\n"
                 "Pandas를 설치하려면 `pip install pandas`를 실행해주세요."
-            )
+            ) from e
 
         return pd.DataFrame(
             {

@@ -69,7 +69,7 @@ DOMESTIC_ORDER_CONDITION = Literal[
     "after",
 ]
 
-OVERSEAS_ORDER_CONDITION = Literal[
+FOREIGN_ORDER_CONDITION = Literal[
     # 장개시지정가
     "LOO",
     # 장마감지정가
@@ -82,7 +82,7 @@ OVERSEAS_ORDER_CONDITION = Literal[
     "extended",
 ]
 
-ORDER_CONDITION = DOMESTIC_ORDER_CONDITION | OVERSEAS_ORDER_CONDITION
+ORDER_CONDITION = DOMESTIC_ORDER_CONDITION | FOREIGN_ORDER_CONDITION
 """주문 조건"""
 
 
@@ -93,8 +93,8 @@ def to_domestic_order_condition(condition: ORDER_CONDITION) -> DOMESTIC_ORDER_CO
     raise ValueError(f"주문 조건이 국내 주문 조건이 아닙니다. ({condition!r})")
 
 
-def to_overseas_order_condition(condition: ORDER_CONDITION) -> OVERSEAS_ORDER_CONDITION:
-    if condition in get_args(OVERSEAS_ORDER_CONDITION):
+def to_foreign_order_condition(condition: ORDER_CONDITION) -> FOREIGN_ORDER_CONDITION:
+    if condition in get_args(FOREIGN_ORDER_CONDITION):
         return condition  # type: ignore
 
     raise ValueError(f"주문 조건이 해외 주문 조건이 아닙니다. ({condition!r})")
@@ -493,7 +493,7 @@ class KisDomesticOrder(KisAPIResponse, KisOrder):
         )
 
 
-class KisOverseasOrder(KisAPIResponse, KisOrder):
+class KisForeignOrder(KisAPIResponse, KisOrder):
     """한국투자증권 해외주식 주문"""
 
     branch: str = KisString["KRX_FWDG_ORD_ORGNO"]
@@ -529,7 +529,7 @@ class KisOverseasOrder(KisAPIResponse, KisOrder):
         self.time = self.time_kst.astimezone(self.timezone)
 
 
-class KisOverseasDaytimeOrder(KisAPIResponse, KisOrder):
+class KisForeignDaytimeOrder(KisAPIResponse, KisOrder):
     """한국투자증권 해외주식 주문 (주간)"""
 
     branch: str = KisString["KRX_FWDG_ORD_ORGNO"]
@@ -743,7 +743,7 @@ def domestic_order(
         account = KisAccountNumber(account)
 
     if price_setting:
-        quote_data = quote(self, code=symbol, market="KRX")
+        quote_data = quote(self, symbol=symbol, market="KRX")
         price = quote_data.high_limit if price_setting == "upper" else quote_data.low_limit
 
     if qty is None:
@@ -778,7 +778,7 @@ def domestic_order(
     )
 
 
-OVERSEAS_ORDER_API_CODES: dict[tuple[bool, MARKET_TYPE, ORDER_TYPE], str] = {
+FOREIGN_ORDER_API_CODES: dict[tuple[bool, MARKET_TYPE, ORDER_TYPE], str] = {
     # (실전투자여부, 시장, 주문종류): API코드
     (True, "NASD", "buy"): "TTTT1002U",  # 미국 매수 주문
     (True, "NYSE", "buy"): "TTTT1002U",  # 미국 매수 주문
@@ -819,7 +819,7 @@ OVERSEAS_ORDER_API_CODES: dict[tuple[bool, MARKET_TYPE, ORDER_TYPE], str] = {
 }
 
 
-def overseas_order(
+def foreign_order(
     self: "PyKis",
     account: str | KisAccountNumber,
     market: MARKET_TYPE,
@@ -827,10 +827,10 @@ def overseas_order(
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
     qty: Decimal | None = None,
-    condition: OVERSEAS_ORDER_CONDITION | None = None,
+    condition: FOREIGN_ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
-) -> KisOverseasOrder:
+) -> KisForeignOrder:
     """
     한국투자증권 해외 주식 주문
 
@@ -849,34 +849,34 @@ def overseas_order(
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
 
     Examples:
-        >>> overseas_order(account, 전체, code, order='buy', price=100, condition=None, execution=None) # 전체 지정가 매수
-        >>> overseas_order(account, 전체, code, order='buy', price=None, condition=None, execution=None) # 전체 시장가 매수
-        >>> overseas_order(account, 전체, code, order='sell', price=100, condition=None, execution=None) # 전체 지정가 매도
-        >>> overseas_order(account, 전체, code, order='sell', price=None, condition=None, execution=None) # 전체 시장가 매도
-        >>> overseas_order(account, 'NASD', code, order='buy', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
-        >>> overseas_order(account, 'NASD', code, order='buy', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
-        >>> overseas_order(account, 'NASD', code, order='buy', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
-        >>> overseas_order(account, 'NASD', code, order='buy', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
-        >>> overseas_order(account, 'NYSE', code, order='buy', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 미지원)
-        >>> overseas_order(account, 'NYSE', code, order='buy', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 미지원)
-        >>> overseas_order(account, 'NYSE', code, order='buy', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 미지원)
-        >>> overseas_order(account, 'NYSE', code, order='buy', price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매수 (모의투자 미지원)
-        >>> overseas_order(account, 'AMEX', code, order='buy', price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매수 (모의투자 미지원)
-        >>> overseas_order(account, 'AMEX', code, order='buy', price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 미지원)
-        >>> overseas_order(account, 'AMEX', code, order='buy', price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 미지원)
-        >>> overseas_order(account, 'AMEX', code, order='buy', price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 미지원)
-        >>> overseas_order(account, 'NASD', code, order='sell', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매도 (모의투자 미지원)
-        >>> overseas_order(account, 'NASD', code, order='sell', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매도 (모의투자 미지원)
-        >>> overseas_order(account, 'NASD', code, order='sell', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매도 (모의투자 미지원)
-        >>> overseas_order(account, 'NASD', code, order='sell', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매도 (모의투자 미지원)
-        >>> overseas_order(account, 'NYSE', code, order='sell', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매도 (모의투자 미지원)
-        >>> overseas_order(account, 'NYSE', code, order='sell', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매도 (모의투자 미지원)
-        >>> overseas_order(account, 'NYSE', code, order='sell', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매도 (모의투자 미지원)
-        >>> overseas_order(account, 'NYSE', code, order='sell', price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매도 (모의투자 미지원)
-        >>> overseas_order(account, 'AMEX', code, order='sell', price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매도 (모의투자 미지원)
-        >>> overseas_order(account, 'AMEX', code, order='sell', price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매도 (모의투자 미지원)
-        >>> overseas_order(account, 'AMEX', code, order='sell', price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매도 (모의투자 미지원)
-        >>> overseas_order(account, 'AMEX', code, order='sell', price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 전체, code, order='buy', price=100, condition=None, execution=None) # 전체 지정가 매수
+        >>> foreign_order(account, 전체, code, order='buy', price=None, condition=None, execution=None) # 전체 시장가 매수
+        >>> foreign_order(account, 전체, code, order='sell', price=100, condition=None, execution=None) # 전체 지정가 매도
+        >>> foreign_order(account, 전체, code, order='sell', price=None, condition=None, execution=None) # 전체 시장가 매도
+        >>> foreign_order(account, 'NASD', code, order='buy', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'NASD', code, order='buy', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'NASD', code, order='buy', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'NASD', code, order='buy', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'NYSE', code, order='buy', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'NYSE', code, order='buy', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'NYSE', code, order='buy', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'NYSE', code, order='buy', price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'AMEX', code, order='buy', price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'AMEX', code, order='buy', price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'AMEX', code, order='buy', price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'AMEX', code, order='buy', price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'NASD', code, order='sell', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'NASD', code, order='sell', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'NASD', code, order='sell', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'NASD', code, order='sell', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'NYSE', code, order='sell', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'NYSE', code, order='sell', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'NYSE', code, order='sell', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'NYSE', code, order='sell', price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'AMEX', code, order='sell', price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'AMEX', code, order='sell', price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'AMEX', code, order='sell', price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'AMEX', code, order='sell', price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매도 (모의투자 미지원)
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
@@ -911,7 +911,7 @@ def overseas_order(
         account = KisAccountNumber(account)
 
     if price_setting:
-        quote_data = quote(self, code=symbol, market=market)
+        quote_data = quote(self, symbol=symbol, market=market)
         price = quote_data.high_limit if price_setting == "upper" else quote_data.low_limit
 
     if qty is None:
@@ -929,7 +929,7 @@ def overseas_order(
 
     return self.fetch(
         "/uapi/overseas-stock/v1/trading/order",
-        api=OVERSEAS_ORDER_API_CODES[(not self.virtual, market, order)],
+        api=FOREIGN_ORDER_API_CODES[(not self.virtual, market, order)],
         body={
             "OVRS_EXCG_CD": market,
             "PDNO": symbol,
@@ -940,7 +940,7 @@ def overseas_order(
             "ORD_DVSN": condition_code,
         },
         form=[account],
-        response_type=KisOverseasOrder(
+        response_type=KisForeignOrder(
             account_number=account,
             symbol=symbol,
             market=market,
@@ -949,7 +949,7 @@ def overseas_order(
     )
 
 
-def overseas_daytime_order(
+def foreign_daytime_order(
     self: "PyKis",
     account: str | KisAccountNumber,
     market: MARKET_TYPE,
@@ -958,7 +958,7 @@ def overseas_daytime_order(
     price: ORDER_PRICE | None = None,
     qty: Decimal | None = None,
     include_foreign: bool = False,
-) -> KisOverseasDaytimeOrder:
+) -> KisForeignDaytimeOrder:
     """
     한국투자증권 해외주식 주간거래 주문 (주간, 모의투자 미지원)
 
@@ -1010,7 +1010,7 @@ def overseas_daytime_order(
         )
 
     if not price:
-        quote_data = quote(self, code=symbol, market=market, extended=True)
+        quote_data = quote(self, symbol=symbol, market=market, extended=True)
         price = quote_data.high_limit if order == "buy" else quote_data.low_limit
 
     return self.fetch(
@@ -1025,7 +1025,7 @@ def overseas_daytime_order(
             "ORD_DVSN": "00",
         },
         form=[account],
-        response_type=KisOverseasDaytimeOrder(
+        response_type=KisForeignDaytimeOrder(
             account_number=account,
             symbol=symbol,
             market=market,
@@ -1156,7 +1156,7 @@ def order(
             if execution is not None:
                 raise ValueError("주간거래 주문에서는 체결조건을 지정할 수 없습니다.")
 
-            return overseas_daytime_order(
+            return foreign_daytime_order(
                 self,
                 account=account,
                 market=market,
@@ -1167,7 +1167,7 @@ def order(
                 include_foreign=include_foreign,
             )
 
-        return overseas_order(
+        return foreign_order(
             self,
             account=account,
             market=market,

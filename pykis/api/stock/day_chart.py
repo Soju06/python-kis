@@ -130,7 +130,7 @@ class KisDomesticDayChart(KisResponse, KisDayChart):
             bar.change = bar.close - self.prev_price
 
 
-class KisOverseasDayChartBar(KisDynamic, KisDayChartBar):
+class KisForeignDayChartBar(KisDynamic, KisDayChartBar):
     """한국투자증권 해외 당일 차트 봉"""
 
     time: datetime = KisTransform[
@@ -138,7 +138,7 @@ class KisOverseasDayChartBar(KisDynamic, KisDayChartBar):
             x["xymd"] + x["xhms"],
             "%Y%m%d%H%M%S",
         )
-    ]  #  KisOverseasDayChart의 __post_init__에서 timezone 설정
+    ]  #  KisForeignDayChart의 __post_init__에서 timezone 설정
     """시간 (현지시간)"""
     time_kst: datetime = KisTransform[
         lambda x: datetime.strptime(
@@ -161,7 +161,7 @@ class KisOverseasDayChartBar(KisDynamic, KisDayChartBar):
     """거래대금"""
 
 
-class KisOverseasTradingHours(KisDynamic, KisTradingHours):
+class KisForeignTradingHours(KisDynamic, KisTradingHours):
     """한국투자증권 해외 장 운영 시간"""
 
     market: MARKET_TYPE
@@ -179,10 +179,10 @@ class KisOverseasTradingHours(KisDynamic, KisTradingHours):
         self.market = market
 
 
-class KisOverseasDayChart(KisResponse, KisDayChart):
+class KisForeignDayChart(KisResponse, KisDayChart):
     """한국투자증권 해외 당일 차트"""
 
-    trading_hours: KisOverseasTradingHours
+    trading_hours: KisForeignTradingHours
     """장 운영 시간"""
 
     symbol: str
@@ -192,11 +192,11 @@ class KisOverseasDayChart(KisResponse, KisDayChart):
 
     timezone: tzinfo
     """시간대"""
-    bars: list[KisOverseasDayChartBar] = KisList(KisOverseasDayChartBar)["output2"]
+    bars: list[KisForeignDayChartBar] = KisList(KisForeignDayChartBar)["output2"]
     """차트 (오름차순)"""
 
     def __init__(self, symbol: str, market: MARKET_TYPE):
-        self.trading_hours = KisOverseasTradingHours(self.market)
+        self.trading_hours = KisForeignTradingHours(self.market)
         self.symbol = symbol
         self.market = market
 
@@ -342,8 +342,8 @@ def domestic_day_chart(
     )
 
 
-OVERSEAS_MAX_RECORDS = 120
-OVERSEAS_MAX_PERIODS = math.ceil(24 * 60 / OVERSEAS_MAX_RECORDS)
+FOREIGN_MAX_RECORDS = 120
+FOREIGN_MAX_PERIODS = math.ceil(24 * 60 / FOREIGN_MAX_RECORDS)
 
 
 # records = 120
@@ -354,7 +354,7 @@ OVERSEAS_MAX_PERIODS = math.ceil(24 * 60 / OVERSEAS_MAX_RECORDS)
 #         indices.add((i + 1) * (j + 1))
 
 
-def overseas_day_chart(
+def foreign_day_chart(
     self: "PyKis",
     symbol: str,
     market: MARKET_TYPE,
@@ -362,7 +362,7 @@ def overseas_day_chart(
     end: time | None = None,
     period: int = 1,
     once: bool = False,
-) -> KisOverseasDayChart:
+) -> KisForeignDayChart:
     """
     한국투자증권 해외 당일 봉 차트 조회
 
@@ -397,7 +397,7 @@ def overseas_day_chart(
     chart = None
     bars = {}
 
-    for i in range(OVERSEAS_MAX_PERIODS):
+    for i in range(FOREIGN_MAX_PERIODS):
         result = self.fetch(
             "/uapi/overseas-price/v1/quotations/inquire-time-itemchartprice",
             api="HHDFS76950200",
@@ -408,11 +408,11 @@ def overseas_day_chart(
                 "NMIN": str(i + 1),
                 "PINC": "1",
                 "NEXT": "",
-                "NREC": str(OVERSEAS_MAX_RECORDS),
+                "NREC": str(FOREIGN_MAX_RECORDS),
                 "FILL": "",
                 "KEYB": "",
             },
-            response_type=KisOverseasDayChart(
+            response_type=KisForeignDayChart(
                 symbol=symbol,
                 market=market,
             ),
@@ -490,7 +490,7 @@ def day_chart(
             period=period,
         )
     else:
-        return overseas_day_chart(
+        return foreign_day_chart(
             self,
             symbol,
             market,

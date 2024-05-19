@@ -22,7 +22,7 @@ from pykis.responses.websocket import KisWebsocketResponse
 from pykis.utils.repr import kis_repr
 
 
-def parse_overseas_realtime_symbol(raw_symbol: str) -> tuple[MARKET_TYPE, ORDER_CONDITION | None, str]:
+def parse_foreign_realtime_symbol(raw_symbol: str) -> tuple[MARKET_TYPE, ORDER_CONDITION | None, str]:
     match raw_symbol[0]:
         case "D":
             return REVERSE_MARKET_SHORT_TYPE_MAP[raw_symbol[1:4]], None, raw_symbol[4:]
@@ -33,7 +33,7 @@ def parse_overseas_realtime_symbol(raw_symbol: str) -> tuple[MARKET_TYPE, ORDER_
                 raw_symbol[4:],
             )
         case _:
-            raise ValueError(f"Invalid overseas realtime symbol: {raw_symbol!r}")
+            raise ValueError(f"Invalid foreign realtime symbol: {raw_symbol!r}")
 
 
 @kis_repr(
@@ -364,14 +364,14 @@ class KisDomesticRealtimePrice(KisRealtimePrice):
         self.low_time_kst = self.low_time.astimezone(TIMEZONE)
 
 
-OVERSEAS_REALTIME_PRICE_ORDER_CONDITION_MAP: dict[str, ORDER_CONDITION | None] = {
+FOREIGN_REALTIME_PRICE_ORDER_CONDITION_MAP: dict[str, ORDER_CONDITION | None] = {
     "1": None,
     "2": None,
     "3": "extended",
 }
 
 
-class KisOverseasRealtimePrice(KisRealtimePrice):
+class KisForeignRealtimePrice(KisRealtimePrice):
     """해외주식 실시간 체결가"""
 
     __fields__ = [
@@ -400,7 +400,7 @@ class KisOverseasRealtimePrice(KisRealtimePrice):
         KisInt["sell_quantity"],  # 22 BIVL 매도체결량
         KisInt["buy_quantity"],  # 23 ASVL 매수체결량
         None,  # 24 STRN 체결강도
-        KisAny(lambda x: OVERSEAS_REALTIME_PRICE_ORDER_CONDITION_MAP.get(x))[
+        KisAny(lambda x: FOREIGN_REALTIME_PRICE_ORDER_CONDITION_MAP.get(x))[
             "condition"
         ],  # 25 MTYP 시장구분 1:장중,2:장전,3:장후
     ]
@@ -488,7 +488,7 @@ class KisOverseasRealtimePrice(KisRealtimePrice):
             self.market,
             _,
             _,
-        ) = parse_overseas_realtime_symbol(data[0])
+        ) = parse_foreign_realtime_symbol(data[0])
         self.timezone = get_market_timezone(self.market)
         self.currency = get_market_currency(self.market)
 
