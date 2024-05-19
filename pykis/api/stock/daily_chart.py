@@ -12,7 +12,7 @@ from pykis.api.stock.market import (
     get_market_timezone,
 )
 from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_MAP
-from pykis.responses.dynamic import KisList
+from pykis.responses.dynamic import KisDynamic, KisList
 from pykis.responses.response import KisResponse, raise_not_found
 from pykis.responses.types import KisAny, KisDatetime, KisDecimal, KisInt
 
@@ -23,28 +23,44 @@ if TYPE_CHECKING:
 class KisDailyChartBar(KisChartBar):
     """한국투자증권 기간 차트 봉"""
 
-    chart: "KisDailyChart"
-    """차트"""
+    time: datetime
+    """시간 (현지시간)"""
+    time_kst: datetime
+    """시간 (한국시간)"""
+    open: Decimal
+    """시가"""
+    close: Decimal
+    """종가 (현재가)"""
+    high: Decimal
+    """고가"""
+    low: Decimal
+    """저가"""
+    volume: int
+    """거래량"""
+    amount: Decimal
+    """거래대금"""
+
+    change: Decimal
+    """전일대비"""
+    sign: STOCK_SIGN_TYPE
+    """전일대비 부호"""
 
 
 class KisDailyChart(KisChart):
     """한국투자증권 기간 차트"""
 
+    symbol: str
+    """종목코드"""
+    market: MARKET_TYPE
+    """상품유형타입"""
+
+    timezone: tzinfo
+    """시간대"""
     bars: list[KisDailyChartBar]
     """차트"""
 
-    def __init__(self, symbol: str, market: MARKET_TYPE):
-        self.symbol = symbol
-        self.market = market
 
-    def __post_init__(self):
-        super().__post_init__()
-
-        for bar in self.bars:
-            bar.chart = self
-
-
-class KisDomesticDailyChartBar(KisDailyChartBar):
+class KisDomesticDailyChartBar(KisDynamic, KisDailyChartBar):
     """한국투자증권 국내 기간 차트 봉"""
 
     time: datetime = KisDatetime("%Y%m%d", timezone=TIMEZONE)["stck_bsop_date"]
@@ -78,10 +94,18 @@ class KisDomesticDailyChartBar(KisDailyChartBar):
 class KisDomesticDailyChart(KisResponse, KisDailyChart):
     """한국투자증권 국내 기간 차트"""
 
-    bars: list[KisDomesticDailyChartBar] = KisList(KisDomesticDailyChartBar)["output2"]
-    """차트"""
+    symbol: str
+    """종목코드"""
+    market: MARKET_TYPE = "KRX"
+    """상품유형타입"""
+
     timezone: tzinfo = TIMEZONE
     """시간대"""
+    bars: list[KisDomesticDailyChartBar] = KisList(KisDomesticDailyChartBar)["output2"]
+    """차트"""
+
+    def __init__(self, symbol: str):
+        self.symbol = symbol
 
     def __pre_init__(self, data: dict[str, Any]):
         super().__pre_init__(data)
@@ -97,15 +121,13 @@ class KisDomesticDailyChart(KisResponse, KisDailyChart):
         data["output2"] = [x for x in data["output2"] if x]
 
 
-class KisOverseasDailyChartBar(KisDailyChartBar):
+class KisOverseasDailyChartBar(KisDynamic, KisDailyChartBar):
     """한국투자증권 해외 기간 차트 봉"""
 
-    time: datetime = KisDatetime("%Y%m%d")["xymd"]
+    time: datetime = KisDatetime("%Y%m%d")["xymd"]  # KisOverseasDailyChart의 __post_init__에서 timezone 설정
     """시간 (현지시간)"""
-
-    def time_kst(self) -> datetime:
-        """시간 (한국시간)"""
-        return self.time.astimezone(self.chart.timezone)
+    time_kst: datetime  # KisOverseasDailyChart의 __post_init__에서 값 지정
+    """시간 (한국시간)"""
 
     open: Decimal = KisDecimal["open"]
     """시가"""
@@ -132,6 +154,10 @@ class KisOverseasDailyChart(KisResponse, KisDailyChart):
     bars: list[KisOverseasDailyChartBar] = KisList(KisOverseasDailyChartBar)["output2"]
     """차트"""
 
+    def __init__(self, symbol: str, market: MARKET_TYPE):
+        self.symbol = symbol
+        self.market = market
+
     def __pre_init__(self, data: dict[str, Any]):
         super().__pre_init__(data)
 
@@ -149,6 +175,11 @@ class KisOverseasDailyChart(KisResponse, KisDailyChart):
 
         data["output2"] = data["output2"][: int(record_size)]
 
+    def __post_init__(self):
+        for bar in self.bars:
+            bar.time.replace(tzinfo=self.timezone)
+            bar.time_kst = bar.time.astimezone(TIMEZONE)
+
 
 def drop_after(
     chart: TChart,
@@ -160,14 +191,13 @@ def drop_after(
 
     bars = []
 
-    for i, bar in enumerate(chart.bars):
+    for bar in chart.bars:
         if start and bar.time.date() < start:
             break
 
         if end and bar.time.date() > end:
             continue
 
-        bar.time.replace(tzinfo=chart.timezone)
         bars.insert(0, bar)
 
     chart.bars = bars
@@ -230,10 +260,7 @@ def domestic_daily_chart(
                 ),
                 "FID_ORG_ADJ_PRC": "0" if adjust else "1",
             },
-            response_type=KisDomesticDailyChart(
-                symbol=symbol,
-                market="KRX",
-            ),
+            response_type=KisDomesticDailyChart(symbol=symbol),
             domain="real",
         )
 

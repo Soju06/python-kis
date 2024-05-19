@@ -3,7 +3,7 @@ from enum import Flag
 from typing import Literal
 from zoneinfo import ZoneInfo
 
-from pykis.responses.dynamic import KisDynamic
+from pykis.api.base.market import KisMarketBase
 
 MARKET_TYPE = Literal[
     "KRX",
@@ -168,7 +168,7 @@ EX_DATE_TYPE_KOR_MAP = {
 }
 
 
-class KisTradingHours(KisDynamic):
+class KisTradingHours(KisMarketBase):
     """한국투자증권 장 운영 시간"""
 
     market: MARKET_TYPE

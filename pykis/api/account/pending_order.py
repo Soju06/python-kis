@@ -37,7 +37,7 @@ if TYPE_CHECKING:
     "execution",
     lines="multiple",
 )
-class KisPendingOrder(KisDynamic, KisAccountProductBase):
+class KisPendingOrder(KisAccountProductBase):
     """한국투자증권 미체결 주식"""
 
     symbol: str
@@ -134,7 +134,7 @@ class KisPendingOrder(KisDynamic, KisAccountProductBase):
     lines="multiple",
     field_lines={"orders": "multiple"},
 )
-class KisPendingOrders(KisDynamic, KisAccountBase):
+class KisPendingOrders(KisAccountBase):
     """한국투자증권 미체결 주식"""
 
     account_number: KisAccountNumber
@@ -178,7 +178,7 @@ class KisPendingOrders(KisDynamic, KisAccountBase):
         return iter(self.orders)
 
 
-class KisDomesticPendingOrder(KisPendingOrder, KisAccountProductBase):
+class KisDomesticPendingOrder(KisDynamic, KisPendingOrder, KisAccountProductBase):
     """한국투자증권 국내 미체결 주식"""
 
     symbol: str = KisString["pdno"]
@@ -287,7 +287,7 @@ class KisDomesticPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
         self._kis_spread(self.orders)
 
 
-class KisOverseasPendingOrder(KisPendingOrder, KisAccountProductBase):
+class KisOverseasPendingOrder(KisDynamic, KisPendingOrder, KisAccountProductBase):
     """한국투자증권 해외 미체결 주식"""
 
     symbol: str = KisString["pdno"]

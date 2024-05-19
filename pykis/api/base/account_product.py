@@ -7,7 +7,7 @@ from pykis.client.account import KisAccountNumber
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
-    from pykis.scope.account.account import KisAccount
+    from pykis.kis import PyKis
 
 
 @kis_repr(
@@ -19,18 +19,19 @@ if TYPE_CHECKING:
 class KisAccountProductBase(KisAccountBase, KisProductBase):
     """한국투자증권 계좌 상품 기본정보"""
 
+    kis: "PyKis"
+    """
+    한국투자증권 API.
+    
+    Note:
+        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
+        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
+    """
+
     symbol: str
     """종목코드"""
     market: MARKET_TYPE
     """상품유형타입"""
+
     account_number: KisAccountNumber
     """계좌번호"""
-
-    @property
-    def account(self) -> "KisAccount":
-        """
-        계좌 Scope
-
-        해당 계좌 Scope는 해당 상품에 해당하는 시장에 대한 정보를 제공합니다.
-        """
-        return self.kis.account(account=self.account_number)

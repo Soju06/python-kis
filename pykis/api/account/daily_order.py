@@ -39,7 +39,7 @@ if TYPE_CHECKING:
     "executed_qty",
     lines="multiple",
 )
-class KisDailyOrder(KisDynamic, KisAccountProductBase):
+class KisDailyOrder(KisAccountProductBase):
     """한국투자증권 일별 체결내역"""
 
     time: datetime
@@ -127,7 +127,7 @@ class KisDailyOrder(KisDynamic, KisAccountProductBase):
     lines="multiple",
     field_lines={"orders": "multiple"},
 )
-class KisDailyOrders(KisDynamic, KisAccountBase):
+class KisDailyOrders(KisAccountBase):
     """한국투자증권 일별 체결내역"""
 
     account_number: KisAccountNumber
@@ -196,7 +196,7 @@ DOMESTIC_EXCHANGE_CODE_MAP: dict[str, tuple[COUNTRY_TYPE, MARKET_TYPE | None, OR
 }
 
 
-class KisDomesticDailyOrder(KisDailyOrder, KisAccountProductBase):
+class KisDomesticDailyOrder(KisDynamic, KisDailyOrder, KisAccountProductBase):
     """한국투자증권 국내 일별 체결내역"""
 
     time: datetime
@@ -321,7 +321,7 @@ class KisDomesticDailyOrders(KisPaginationAPIResponse, KisDailyOrders):
         self._kis_spread(self.orders)
 
 
-class KisOverseasDailyOrder(KisDailyOrder, KisAccountProductBase):
+class KisOverseasDailyOrder(KisDynamic, KisDailyOrder, KisAccountProductBase):
     """한국투자증권 해외 일별 체결내역"""
 
     time: datetime
