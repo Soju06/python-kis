@@ -1,75 +1,73 @@
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Protocol
 
-from pykis.api.base.product import KisProductBase
 from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
-from pykis.responses.dynamic import KisDynamic, KisTransform
-from pykis.responses.response import KisAPIResponse, raise_not_found
+from pykis.responses.dynamic import KisTransform
+from pykis.responses.response import (
+    KisAPIResponse,
+    KisResponseProtocol,
+    raise_not_found,
+)
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
+    from pykis.api.base.product import KisProductProtocol
     from pykis.kis import PyKis
 
+__all__ = [
+    "KisAskingPrice",
+    "KisAskingPriceItem",
+    "KisAskingPriceResponse",
+    "asking_price",
+]
 
-@kis_repr(
-    "price",
-    "volume",
-    lines="single",
-)
-class KisAskingPriceItem:
+
+class KisAskingPriceItem(Protocol):
     """한국투자증권 호가 항목"""
 
-    price: Decimal
-    """호가가격"""
-    volume: int
-    """호가잔량"""
+    @property
+    def price(self) -> Decimal:
+        """호가가격"""
+        raise NotImplementedError
 
-    def __init__(self, price: Decimal, volume: int):
-        super().__init__()
-        self.price = price
-        self.volume = volume
-
-    def __eq__(self, o: object) -> bool:
-        if not isinstance(o, KisAskingPriceItem):
-            return False
-        return self.price == o.price and self.volume == o.volume
-
-    def __ne__(self, o: object) -> bool:
-        return not self.__eq__(o)
-
-    def __iter__(self):
-        yield self.price
-        yield self.volume
+    @property
+    def volume(self) -> int:
+        """호가잔량"""
+        raise NotImplementedError
 
 
-@kis_repr(
-    "market",
-    "symbol",
-    "ask",
-    "bid",
-    lines="multiple",
-    field_lines={
-        "ask": "multiple",
-        "bid": "multiple",
-    },
-)
-class KisAskingPrice:
+class KisAskingPrice(Protocol):
     """한국투자증권 호가"""
 
-    symbol: str
-    """종목코드"""
-    market: MARKET_TYPE
-    """상품유형타입"""
+    @property
+    def symbol(self) -> str:
+        """종목코드"""
+        raise NotImplementedError
 
-    decimal_places: int
-    """소수점 자리수"""
-    currency: CURRENCY_TYPE
-    """통화코드"""
+    @property
+    def market(self) -> MARKET_TYPE:
+        """상품유형타입"""
+        raise NotImplementedError
 
-    ask: list[KisAskingPriceItem]
-    """매도호가"""
-    bid: list[KisAskingPriceItem]
-    """매수호가"""
+    @property
+    def decimal_places(self) -> int:
+        """소수점 자리수"""
+        raise NotImplementedError
+
+    @property
+    def currency(self) -> CURRENCY_TYPE:
+        """통화코드"""
+        raise NotImplementedError
+
+    @property
+    def ask(self) -> list[KisAskingPriceItem]:
+        """매도호가"""
+        raise NotImplementedError
+
+    @property
+    def bid(self) -> list[KisAskingPriceItem]:
+        """매수호가"""
+        raise NotImplementedError
 
     @property
     def count(self) -> int:
@@ -96,10 +94,61 @@ class KisAskingPrice:
         return self.bid_price.volume
 
 
-class KisAPIAskingPrice(KisDynamic, KisAskingPrice): ...
+@kis_repr(
+    "price",
+    "volume",
+    lines="single",
+)
+class KisAskingPriceItemRepr:
+    """한국투자증권 호가 항목"""
 
 
-class KisDomesticAskingPrice(KisAPIResponse, KisAPIAskingPrice):
+class _KisAskingPriceItem(KisAskingPriceItemRepr):
+    """한국투자증권 호가 항목"""
+
+    price: Decimal
+    """호가가격"""
+    volume: int
+    """호가잔량"""
+
+    def __init__(self, price: Decimal, volume: int):
+        super().__init__()
+        self.price = price
+        self.volume = volume
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, _KisAskingPriceItem):
+            return False
+        return self.price == o.price and self.volume == o.volume
+
+    def __ne__(self, o: object) -> bool:
+        return not self.__eq__(o)
+
+    def __iter__(self):
+        yield self.price
+        yield self.volume
+
+
+class KisAskingPriceResponse(KisAskingPrice, KisResponseProtocol, Protocol):
+    """한국투자증권 호가 응답"""
+
+
+@kis_repr(
+    "market",
+    "symbol",
+    "ask",
+    "bid",
+    lines="multiple",
+    field_lines={
+        "ask": "multiple",
+        "bid": "multiple",
+    },
+)
+class KisAskingPriceRepr:
+    """한국투자증권 호가"""
+
+
+class KisDomesticAskingPrice(KisAPIResponse, KisAskingPriceRepr):
     """한국투자증권 국내 호가"""
 
     __path__ = "output1"
@@ -114,9 +163,9 @@ class KisDomesticAskingPrice(KisAPIResponse, KisAPIAskingPrice):
     currency: CURRENCY_TYPE = "KRW"
     """통화코드"""
 
-    ask: list[KisAskingPriceItem] = KisTransform(
+    ask: list[KisAskingPriceItem] = KisTransform[KisAskingPriceItem](
         lambda x: [
-            KisAskingPriceItem(
+            _KisAskingPriceItem(
                 price=Decimal(x[f"askp{i + 1}"]),
                 volume=int(x[f"askp_rsqn{i + 1}"]),
             )
@@ -124,9 +173,9 @@ class KisDomesticAskingPrice(KisAPIResponse, KisAPIAskingPrice):
         ]
     )()
     """매도호가"""
-    bid: list[KisAskingPriceItem] = KisTransform(
+    bid: list[KisAskingPriceItem] = KisTransform[KisAskingPriceItem](
         lambda x: [
-            KisAskingPriceItem(
+            _KisAskingPriceItem(
                 price=Decimal(x[f"bidp{i + 1}"]),
                 volume=int(x[f"bidp_rsqn{i + 1}"]),
             )
@@ -134,6 +183,30 @@ class KisDomesticAskingPrice(KisAPIResponse, KisAPIAskingPrice):
         ]
     )()
     """매수호가"""
+
+    @property
+    def count(self) -> int:
+        return min(len(self.ask), len(self.bid))
+
+    @property
+    def ask_price(self) -> KisAskingPriceItem:
+        """매도 1호가"""
+        return self.ask[0]
+
+    @property
+    def bid_price(self) -> KisAskingPriceItem:
+        """매수 1호가"""
+        return self.bid[0]
+
+    @property
+    def ask_volume(self) -> int:
+        """매도 1호가 잔량"""
+        return self.ask_price.volume
+
+    @property
+    def bid_volume(self) -> int:
+        """매수 1호가 잔량"""
+        return self.bid_price.volume
 
     def __init__(self, symbol: str):
         super().__init__()
@@ -180,4 +253,49 @@ def domestic_asking_price(
             "FID_INPUT_ISCD": symbol,
         },
         response_type=KisDomesticAskingPrice(symbol),
+    )
+
+
+def asking_price(
+    self: "PyKis",
+    market: MARKET_TYPE,
+    symbol: str,
+) -> KisAskingPriceResponse:
+    """
+    한국투자증권 호가 조회
+
+    [국내주식] 기본시세 -> 주식현재가 호가/예상체결[v1_국내주식-011]
+
+    Args:
+        market (MARKET_TYPE): 상품유형타입
+        symbol (str): 종목코드
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
+        ValueError: 종목 코드가 올바르지 않은 경우
+    """
+    if market == "KRX":
+        return domestic_asking_price(self, symbol=symbol)
+
+    raise ValueError(f"해외주식 호가는 지원하지 않습니다. ({market})")
+
+
+def product_asking_price(
+    self: "KisProductProtocol",
+) -> KisAskingPriceResponse:
+    """
+    한국투자증권 호가 조회
+
+    [국내주식] 기본시세 -> 주식현재가 호가/예상체결[v1_국내주식-011]
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
+        ValueError: 종목 코드가 올바르지 않은 경우
+    """
+    return asking_price(
+        self.kis,
+        market=self.market,
+        symbol=self.symbol,
     )

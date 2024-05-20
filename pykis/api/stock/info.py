@@ -3,7 +3,11 @@ from typing import TYPE_CHECKING, Literal, Protocol
 
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.exception import KisAPIError
-from pykis.responses.response import KisAPIResponse, raise_not_found
+from pykis.responses.response import (
+    KisAPIResponse,
+    KisResponseProtocol,
+    raise_not_found,
+)
 from pykis.responses.types import KisString
 from pykis.utils.repr import kis_repr
 
@@ -12,6 +16,7 @@ if TYPE_CHECKING:
 
 __all__ = [
     "KisStockInfo",
+    "KisStockInfoResponse",
     "COUNTRY_TYPE",
     "market_to_country",
     "MARKET_INFO_TYPES",
@@ -107,6 +112,69 @@ MARKET_CODE_MAP = {
 }
 
 
+class KisStockInfo(Protocol):
+    """상품기본정보"""
+
+    @property
+    def symbol(self) -> str:
+        """종목코드"""
+        raise NotImplementedError
+
+    @property
+    def std_code(self) -> str:
+        """표준코드"""
+        raise NotImplementedError
+
+    @property
+    def name_kor(self) -> str:
+        """종목명"""
+        raise NotImplementedError
+
+    @property
+    def full_name_kor(self) -> str:
+        """종목전체명"""
+        raise NotImplementedError
+
+    @property
+    def name_eng(self) -> str:
+        """종목영문명"""
+        raise NotImplementedError
+
+    @property
+    def full_name_eng(self) -> str:
+        """종목영문전체명"""
+        raise NotImplementedError
+
+    @property
+    def name(self) -> str:
+        """종목명"""
+        raise NotImplementedError
+
+    @property
+    def market(self) -> MARKET_TYPE:
+        """상품유형타입"""
+        raise NotImplementedError
+
+    @property
+    def market_name(self) -> str:
+        """상품유형명"""
+        raise NotImplementedError
+
+    @property
+    def foreign(self) -> bool:
+        """해외종목 여부"""
+        raise NotImplementedError
+
+    @property
+    def domestic(self) -> bool:
+        """국내종목 여부"""
+        raise NotImplementedError
+
+
+class KisStockInfoResponse(KisStockInfo, KisResponseProtocol, Protocol):
+    """상품기본정보 응답"""
+
+
 @kis_repr(
     "market",
     "symbol",
@@ -114,66 +182,11 @@ MARKET_CODE_MAP = {
     "eng_name",
     lines="single",
 )
-class KisStockInfo(Protocol):
+class KisStockInfoRepr:
     """상품기본정보"""
 
-    @property
-    def symbol(self) -> str:
-        """종목코드"""
-        ...
 
-    @property
-    def std_code(self) -> str:
-        """표준코드"""
-        ...
-
-    @property
-    def name_kor(self) -> str:
-        """종목명"""
-        ...
-
-    @property
-    def full_name_kor(self) -> str:
-        """종목전체명"""
-        ...
-
-    @property
-    def name_eng(self) -> str:
-        """종목영문명"""
-        ...
-
-    @property
-    def full_name_eng(self) -> str:
-        """종목영문전체명"""
-        ...
-
-    @property
-    def name(self) -> str:
-        """종목명"""
-        ...
-
-    @property
-    def market(self) -> MARKET_TYPE:
-        """상품유형타입"""
-        ...
-
-    @property
-    def market_name(self) -> str:
-        """상품유형명"""
-        ...
-
-    @property
-    def foreign(self) -> bool:
-        """해외종목 여부"""
-        ...
-
-    @property
-    def domestic(self) -> bool:
-        """국내종목 여부"""
-        ...
-
-
-class _KisStockInfo(KisAPIResponse):
+class _KisStockInfo(KisAPIResponse, KisStockInfoRepr):
     """상품기본정보"""
 
     symbol: str = KisString["shtn_pdno"]
@@ -249,7 +262,7 @@ def info(
     symbol: str,
     market: MARKET_INFO_TYPES = "KR",
     use_cache: bool = True,
-) -> KisStockInfo:
+) -> KisStockInfoResponse:
     """
     상품기본정보 조회
 

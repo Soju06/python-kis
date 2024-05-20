@@ -1,5 +1,5 @@
 from types import NoneType
-from typing import Any, Callable, Generic, TypeVar, get_args
+from typing import Any, Callable, Generic, Protocol, TypeVar, get_args
 
 from pykis import logging
 from pykis.__env__ import EMPTY, EMPTY_TYPE
@@ -133,6 +133,17 @@ class KisDynamicScopedPath:
         return scope
 
 
+class KisDynamicProtocol(Protocol):
+    @property
+    def __data__(self) -> dict[str, Any]:
+        """원본 응답 데이터"""
+        raise NotImplementedError
+
+    def raw(self) -> dict[str, Any] | None:
+        """원본 응답 데이터의 복사본을 반환합니다."""
+        raise NotImplementedError
+
+
 class KisDynamic:
     __verbose_missing__: bool = False
     """정의된 필드가 아닌 데이터가 있을 경우 경고 여부"""
@@ -158,10 +169,8 @@ class KisDynamic:
             return None
 
         data = self.__data__.copy()
-        data.pop("__response__", None)
 
         return data
-
 
 
 TDynamic = TypeVar("TDynamic", bound=KisDynamic)

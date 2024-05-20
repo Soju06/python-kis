@@ -1,61 +1,31 @@
 import math
 from datetime import datetime, time, timedelta, tzinfo
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from pykis.__env__ import TIMEZONE
-from pykis.api.stock.chart import KisChart, KisChartBar, TChart
-from pykis.api.stock.market import MARKET_SHORT_TYPE_MAP, MARKET_TYPE, KisTradingHours
-from pykis.api.stock.quote import STOCK_SIGN_TYPE
+from pykis.api.stock.chart import KisChart, KisChartBar, KisChartBarRepr, KisChartBase
+from pykis.api.stock.market import (
+    MARKET_SHORT_TYPE_MAP,
+    MARKET_TYPE,
+    KisTradingHours,
+    KisTradingHoursBase,
+)
+from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_KOR_MAP
 from pykis.responses.dynamic import KisDynamic, KisList, KisObject, KisTransform
-from pykis.responses.response import KisResponse, raise_not_found
+from pykis.responses.response import KisAPIResponse, KisResponse, raise_not_found
 from pykis.responses.types import KisDecimal, KisInt, KisTime
 
 if TYPE_CHECKING:
+    from pykis.api.base.product import KisProductProtocol
     from pykis.kis import PyKis
 
-
-class KisDayChartBar(KisChartBar):
-    """한국투자증권 당일 차트 봉"""
-
-    time: datetime
-    """시간 (현지시간)"""
-    time_kst: datetime
-    """시간 (한국시간)"""
-    open: Decimal
-    """시가"""
-    close: Decimal
-    """종가 (현재가)"""
-    high: Decimal
-    """고가"""
-    low: Decimal
-    """저가"""
-    volume: int
-    """거래량"""
-    amount: Decimal
-    """거래대금"""
-
-    change: Decimal
-    """전일대비"""
-    sign: STOCK_SIGN_TYPE
-    """전일대비 부호"""
+__all__ = [
+    "day_chart",
+]
 
 
-class KisDayChart(KisChart):
-    """한국투자증권 당일 차트"""
-
-    symbol: str
-    """종목코드"""
-    market: MARKET_TYPE
-    """상품유형타입"""
-
-    timezone: tzinfo
-    """시간대"""
-    bars: list[KisDayChartBar]
-    """차트 (오름차순)"""
-
-
-class KisDomesticDayChartBar(KisDynamic, KisDayChartBar):
+class KisDomesticDayChartBar(KisDynamic, KisChartBarRepr):
     """한국투자증권 국내 당일 차트 봉"""
 
     time: datetime = KisTransform[
@@ -88,13 +58,35 @@ class KisDomesticDayChartBar(KisDynamic, KisDayChartBar):
         """전일대비 부호"""
         return "steady" if self.change == 0 else "rise" if self.change > 0 else "decline"
 
+    @property
+    def price(self) -> Decimal:
+        """현재가 (종가)"""
+        return self.close
+
+    @property
+    def prev_price(self) -> Decimal:
+        """전일가"""
+        return self.close - self.change
+
+    @property
+    def rate(self) -> Decimal:
+        """등락률 (-100 ~ 100)"""
+        return self.change / self.prev_price * 100
+
+    @property
+    def sign_name(self) -> str:
+        """대비부호명"""
+        return STOCK_SIGN_TYPE_KOR_MAP[self.sign]
+
     def __post_init__(self):
         super().__post_init__()
         self.time_kst = self.time.astimezone(TIMEZONE)
 
 
-class KisDomesticDayChart(KisResponse, KisDayChart):
+class KisDomesticDayChart(KisAPIResponse, KisChartBase):
     """한국투자증권 국내 당일 차트"""
+
+    __path__ = "output1"
 
     symbol: str
     """종목코드"""
@@ -103,7 +95,7 @@ class KisDomesticDayChart(KisResponse, KisDayChart):
 
     timezone: tzinfo = TIMEZONE
     """시간대"""
-    bars: list[KisDomesticDayChartBar] = KisList(KisDomesticDayChartBar)("output2", absolute=True)
+    bars: list[KisChartBar] = KisList(KisDomesticDayChartBar)("output2", absolute=True)
     """차트"""
 
     prev_price: Decimal = KisDecimal["stck_prdy_clpr"]
@@ -127,10 +119,10 @@ class KisDomesticDayChart(KisResponse, KisDayChart):
         super().__post_init__()
 
         for bar in self.bars:
-            bar.change = bar.close - self.prev_price
+            bar.change = bar.close - self.prev_price  # type: ignore
 
 
-class KisForeignDayChartBar(KisDynamic, KisDayChartBar):
+class KisForeignDayChartBar(KisDynamic, KisChartBarRepr):
     """한국투자증권 해외 당일 차트 봉"""
 
     time: datetime = KisTransform[
@@ -161,7 +153,7 @@ class KisForeignDayChartBar(KisDynamic, KisDayChartBar):
     """거래대금"""
 
 
-class KisForeignTradingHours(KisDynamic, KisTradingHours):
+class KisForeignTradingHours(KisDynamic, KisTradingHoursBase):
     """한국투자증권 해외 장 운영 시간"""
 
     market: MARKET_TYPE
@@ -178,11 +170,19 @@ class KisForeignTradingHours(KisDynamic, KisTradingHours):
     def __init__(self, market: MARKET_TYPE):
         self.market = market
 
+    def __post_init__(self):
+        super().__post_init__()
 
-class KisForeignDayChart(KisResponse, KisDayChart):
+        self.open.replace(tzinfo=self.timezone)
+        self.open_kst.replace(tzinfo=TIMEZONE)
+        self.close.replace(tzinfo=self.timezone)
+        self.close_kst.replace(tzinfo=TIMEZONE)
+
+
+class KisForeignDayChart(KisResponse, KisChartBase):
     """한국투자증권 해외 당일 차트"""
 
-    trading_hours: KisForeignTradingHours
+    trading_hours: KisTradingHours
     """장 운영 시간"""
 
     symbol: str
@@ -192,7 +192,7 @@ class KisForeignDayChart(KisResponse, KisDayChart):
 
     timezone: tzinfo
     """시간대"""
-    bars: list[KisForeignDayChartBar] = KisList(KisForeignDayChartBar)["output2"]
+    bars: list[KisChartBar] = KisList(KisForeignDayChartBar)["output2"]
     """차트 (오름차순)"""
 
     def __init__(self, symbol: str, market: MARKET_TYPE):
@@ -222,15 +222,18 @@ class KisForeignDayChart(KisResponse, KisDayChart):
         super().__post_init__()
 
         for bar in self.bars:
-            bar.time = bar.time.replace(tzinfo=self.timezone)
+            bar.time = bar.time.replace(tzinfo=self.timezone)  # type: ignore
+
+
+TChartBase = TypeVar("TChartBase", bound=KisChartBase)
 
 
 def drop_after(
-    chart: TChart,
+    chart: TChartBase,
     start: time | timedelta | None = None,
     end: time | None = None,
     period: int | None = None,
-) -> TChart:
+) -> TChartBase:
     if isinstance(start, timedelta):
         start = (chart.bars[0].time - start).time()
 
@@ -459,7 +462,7 @@ def day_chart(
     start: time | timedelta | None = None,
     end: time | None = None,
     period: int = 1,
-) -> KisDayChart:
+) -> KisChart:
     """
     한국투자증권 당일 봉 차트 조회
 
@@ -498,3 +501,38 @@ def day_chart(
             end=end,
             period=period,
         )
+
+
+def product_day_chart(
+    self: "KisProductProtocol",
+    start: time | timedelta | None = None,
+    end: time | None = None,
+    period: int = 1,
+) -> KisChart:
+    """
+    한국투자증권 당일 봉 차트 조회
+
+    해외 당일 봉 차트 조회는 한국투자증권 API의 한계로 인해 (24 * 60 / 최대 레코드 수)번 호출하여 원하는 영역의 근접 값을 채워넣습니다.
+    따라서, 누락된 봉이 존재할 수 있으며, n = (최대 레코드 수), I = {x | x = (i + 1) * (j + 1), 0 <= ceil(24 * 60 / n), 0 <= j < n}의 해상도를 가집니다.
+
+    국내주식시세 -> 주식당일분봉조회[v1_국내주식-022]
+    해외주식현재가 -> 해외주식분봉조회[v1_해외주식-030]
+
+    Args:
+        start (time | timedelta, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
+        end (time, optional): 조회 종료 시간. Defaults to None.
+        period (int, optional): 조회 간격 (분). Defaults to 1.
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
+        ValueError: 조회 파라미터가 올바르지 않은 경우
+    """
+    return day_chart(
+        self.kis,
+        symbol=self.symbol,
+        market=self.market,
+        start=start,
+        end=end,
+        period=period,
+    )

@@ -1,11 +1,16 @@
-from typing import Any
+from typing import Any, Protocol
 
 from requests import Response
 
 from pykis.client.exception import KisAPIError
-from pykis.client.object import KisObjectBase
+from pykis.client.object import KisObjectBase, KisObjectProtocol
 from pykis.client.page import KisPage, KisPageStatus, to_page_status
-from pykis.responses.dynamic import KisDynamic, KisObject
+from pykis.responses.dynamic import (
+    KisDynamic,
+    KisDynamicProtocol,
+    KisDynamicScopedPath,
+    KisObject,
+)
 from pykis.responses.exception import KisNotFoundError
 from pykis.responses.types import KisAny, KisString
 
@@ -41,6 +46,25 @@ def raise_not_found(
     )
 
 
+class KisResponseProtocol(KisDynamicProtocol, KisObjectProtocol, Protocol):
+    """KIS 응답 결과 프로토콜"""
+
+    @property
+    def __response__(self) -> Response | None:
+        """원본 응답 데이터"""
+        raise NotImplementedError
+
+    @property
+    def __message__(self) -> str:
+        """응답 메시지"""
+        raise NotImplementedError
+
+    @property
+    def __code__(self) -> str:
+        """응답 코드"""
+        raise NotImplementedError
+
+
 class KisResponse(KisDynamic, KisObjectBase):
     """KIS 응답 결과"""
 
@@ -60,11 +84,45 @@ class KisResponse(KisDynamic, KisObjectBase):
                 response=data["__response__"],
             )
 
+    def raw(self) -> dict[str, Any] | None:
+        """원본 응답 데이터의 복사본을 반환합니다."""
+        if self.__data__ is None:
+            return None
+
+        data = self.__data__.copy()
+        data.pop("__response__", None)
+
+        return data
+
 
 class KisAPIResponse(KisResponse):
     """KIS API 응답 결과"""
 
-    __path__ = "output"
+    __path__: KisDynamicScopedPath | str | None = "output"
+
+
+class KisPaginationAPIResponseProtocol(KisResponseProtocol, Protocol):
+    """KIS Pagination API 응답 결과 프로토콜"""
+
+    @property
+    def page_status(self) -> KisPageStatus:
+        """페이징 상태"""
+        raise NotImplementedError
+
+    @property
+    def next_page(self) -> KisPage:
+        """페이징 정보"""
+        raise NotImplementedError
+
+    @property
+    def is_last(self) -> bool:
+        """마지막 페이지인지 확인합니다."""
+        raise NotImplementedError
+
+    @property
+    def has_next(self) -> bool:
+        """다음 페이지가 있는지 확인합니다."""
+        raise NotImplementedError
 
 
 class KisPaginationAPIResponse(KisAPIResponse):

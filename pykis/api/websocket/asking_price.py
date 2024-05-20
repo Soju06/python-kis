@@ -3,7 +3,7 @@ from decimal import Decimal
 
 from pykis.__env__ import TIMEZONE
 from pykis.api.account.order import ORDER_CONDITION
-from pykis.api.stock.asking_price import KisAskingPrice, KisAskingPriceItem
+from pykis.api.stock.asking_price import _KisAskingPrice, _KisAskingPriceItem
 from pykis.api.stock.market import (
     CURRENCY_TYPE,
     MARKET_TYPE,
@@ -15,7 +15,7 @@ from pykis.responses.types import KisAny, KisInt, KisString
 from pykis.responses.websocket import KisWebsocketResponse
 
 
-class KisRealtimeAskingPrice(KisWebsocketResponse, KisAskingPrice):
+class KisRealtimeAskingPrice(KisWebsocketResponse, _KisAskingPrice):
     """한국투자증권 실시간 호가"""
 
     symbol: str
@@ -35,9 +35,9 @@ class KisRealtimeAskingPrice(KisWebsocketResponse, KisAskingPrice):
     currency: CURRENCY_TYPE
     """통화코드"""
 
-    ask: list[KisAskingPriceItem]
+    ask: list[_KisAskingPriceItem]
     """매도호가"""
-    bid: list[KisAskingPriceItem]
+    bid: list[_KisAskingPriceItem]
     """매수호가"""
 
     condition: ORDER_CONDITION | None
@@ -137,9 +137,9 @@ class KisDomesticRealtimeAskingPrice(KisRealtimeAskingPrice):
     currency: CURRENCY_TYPE = "KRW"
     """통화코드"""
 
-    ask: list[KisAskingPriceItem]  # 매도호가
+    ask: list[_KisAskingPriceItem]  # 매도호가
     """매도호가"""
-    bid: list[KisAskingPriceItem]  # 매수호가
+    bid: list[_KisAskingPriceItem]  # 매수호가
     """매수호가"""
 
     condition: ORDER_CONDITION | None  # HOUR_CLS_CODE 시간 구분 코드
@@ -156,14 +156,14 @@ class KisDomesticRealtimeAskingPrice(KisRealtimeAskingPrice):
         self.time_kst = self.time.astimezone(TIMEZONE)
 
         self.ask = [
-            KisAskingPriceItem(
+            _KisAskingPriceItem(
                 price=Decimal(data[3 + i]),
                 volume=int(data[23 + i]),
             )
             for i in range(10)
         ]
         self.bid = [
-            KisAskingPriceItem(
+            _KisAskingPriceItem(
                 price=Decimal(data[13 + i]),
                 volume=int(data[33 + i]),
             )
@@ -211,9 +211,9 @@ class KisAsiaRealtimeAskingPrice(KisRealtimeAskingPrice):
     currency: CURRENCY_TYPE  # RSYM 실시간종목코드
     """통화코드"""
 
-    ask: list[KisAskingPriceItem]  # PASK1 매도호가1, VASK1 매도잔량1
+    ask: list[_KisAskingPriceItem]  # PASK1 매도호가1, VASK1 매도잔량1
     """매도호가"""
-    bid: list[KisAskingPriceItem]  # PBID1 매수호가1, VBID1 매수잔량1
+    bid: list[_KisAskingPriceItem]  # PBID1 매수호가1, VBID1 매수잔량1
     """매수호가"""
 
     condition: ORDER_CONDITION | None  # RSYM 실시간종목코드
@@ -234,13 +234,13 @@ class KisAsiaRealtimeAskingPrice(KisRealtimeAskingPrice):
         self.time_kst = self.time.astimezone(TIMEZONE)
 
         self.ask = [
-            KisAskingPriceItem(
+            _KisAskingPriceItem(
                 price=Decimal(data[12]),
                 volume=int(data[14]),
             )
         ]
         self.bid = [
-            KisAskingPriceItem(
+            _KisAskingPriceItem(
                 price=Decimal(data[11]),
                 volume=int(data[13]),
             )
@@ -341,9 +341,9 @@ class KisUSRealtimeAskingPrice(KisRealtimeAskingPrice):
     currency: CURRENCY_TYPE
     """통화코드"""
 
-    ask: list[KisAskingPriceItem]
+    ask: list[_KisAskingPriceItem]
     """매도호가"""
-    bid: list[KisAskingPriceItem]
+    bid: list[_KisAskingPriceItem]
     """매수호가"""
 
     condition: ORDER_CONDITION | None
@@ -364,14 +364,14 @@ class KisUSRealtimeAskingPrice(KisRealtimeAskingPrice):
         self.time_kst = self.time.astimezone(TIMEZONE)
 
         self.ask = [
-            KisAskingPriceItem(
+            _KisAskingPriceItem(
                 price=Decimal(data[12 + i * 6]),
                 volume=int(data[14 + i * 6]),
             )
             for i in range(10)
         ]
         self.bid = [
-            KisAskingPriceItem(
+            _KisAskingPriceItem(
                 price=Decimal(data[11 + i * 6]),
                 volume=int(data[13 + i * 6]),
             )

@@ -76,7 +76,8 @@ def _append_with_indent(sb: StringIO, value: str, indent: str):
 
 
 class ReprFunction(Protocol):
-    def __call__(self, obj: Any, max_depth: int = 7, depth: int = 0) -> str: ...
+    def __call__(self, obj: Any, max_depth: int = 7, depth: int = 0) -> str:
+        raise NotImplementedError
 
 
 custom_reprs: dict[type, ReprFunction] = {}
