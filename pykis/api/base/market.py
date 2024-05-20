@@ -4,7 +4,7 @@ from pykis.client.object import KisObjectBase, KisObjectProtocol
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
-    from pykis.api.stock.market import MARKET_TYPE, MARKET_TYPE_KOR_MAP
+    from pykis.api.stock.market import MARKET_TYPE
 
 
 class KisMarketProtocol(KisObjectProtocol, Protocol):
@@ -13,22 +13,22 @@ class KisMarketProtocol(KisObjectProtocol, Protocol):
     @property
     def market(self) -> "MARKET_TYPE":
         """시장유형"""
-        ...
+        raise NotImplementedError
 
     @property
     def market_name(self) -> str:
         """실제 상품유형명"""
-        ...
+        raise NotImplementedError
 
     @property
     def foreign(self) -> bool:
         """해외종목 여부"""
-        ...
+        raise NotImplementedError
 
     @property
     def domestic(self) -> bool:
         """국내종목 여부"""
-        ...
+        raise NotImplementedError
 
 
 @kis_repr(

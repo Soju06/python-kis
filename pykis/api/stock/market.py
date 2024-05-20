@@ -1,9 +1,9 @@
 from datetime import time, tzinfo
 from enum import Flag
-from typing import Literal
+from typing import Literal, Protocol
 from zoneinfo import ZoneInfo
 
-from pykis.api.base.market import KisMarketBase
+from pykis.api.base.market import KisMarketBase, KisMarketProtocol
 
 __all__ = [
     "MARKET_TYPE",
@@ -178,7 +178,46 @@ EX_DATE_TYPE_KOR_MAP = {
 }
 
 
-class KisTradingHours(KisMarketBase):
+class KisTradingHours(KisMarketProtocol, Protocol):
+    """한국투자증권 장 운영 시간"""
+
+    @property
+    def market(self) -> MARKET_TYPE:
+        """시장 종류"""
+        raise NotImplementedError
+
+    @property
+    def open(self) -> time:
+        """장 시작 시간"""
+        raise NotImplementedError
+
+    @property
+    def open_kst(self) -> time:
+        """장 시작 시간 (한국시간)"""
+        raise NotImplementedError
+
+    @property
+    def close(self) -> time:
+        """장 종료 시간"""
+        raise NotImplementedError
+
+    @property
+    def close_kst(self) -> time:
+        """장 종료 시간 (한국시간)"""
+        raise NotImplementedError
+
+    @property
+    def timezone(self) -> tzinfo:
+        """시간대"""
+        raise NotImplementedError
+
+    @property
+    def market_name(self) -> str:
+        """시장 종류"""
+        raise NotImplementedError
+
+
+class KisTradingHoursBase(KisMarketBase):
     """한국투자증권 장 운영 시간"""
 
     market: MARKET_TYPE

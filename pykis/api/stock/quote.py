@@ -10,7 +10,11 @@ from pykis.api.stock.market import (
     MARKET_TYPE,
 )
 from pykis.responses.dynamic import KisDynamic, KisObject, KisTransform
-from pykis.responses.response import KisAPIResponse, raise_not_found
+from pykis.responses.response import (
+    KisAPIResponse,
+    KisResponseProtocol,
+    raise_not_found,
+)
 from pykis.responses.types import (
     KisAny,
     KisBool,
@@ -31,10 +35,7 @@ __all__ = [
     "STOCK_RISK_TYPE",
     "KisIndicator",
     "KisQuote",
-    "KisDomesticIndicator",
-    "KisDomesticQuote",
-    "KisForeignIndicator",
-    "KisForeignQuote",
+    "KisQuoteResponse",
     "quote",
 ]
 
@@ -76,42 +77,42 @@ class KisIndicator(Protocol):
     @property
     def eps(self) -> Decimal:
         """EPS (주당순이익)"""
-        ...
+        raise NotImplementedError
 
     @property
     def bps(self) -> Decimal:
         """BPS (주당순자산)"""
-        ...
+        raise NotImplementedError
 
     @property
     def per(self) -> Decimal:
         """PER (주가수익비율)"""
-        ...
+        raise NotImplementedError
 
     @property
     def pbr(self) -> Decimal:
         """PBR (주가순자산비율)"""
-        ...
+        raise NotImplementedError
 
     @property
     def week52_high(self) -> Decimal:
         """52주 최고가"""
-        ...
+        raise NotImplementedError
 
     @property
     def week52_low(self) -> Decimal:
         """52주 최저가"""
-        ...
+        raise NotImplementedError
 
     @property
     def week52_high_date(self) -> date:
         """52주 최고가 날짜"""
-        ...
+        raise NotImplementedError
 
     @property
     def week52_low_date(self) -> date:
         """52주 최저가 날짜"""
-        ...
+        raise NotImplementedError
 
 
 class KisQuote(Protocol):
@@ -120,132 +121,132 @@ class KisQuote(Protocol):
     @property
     def symbol(self) -> str:
         """종목코드"""
-        ...
+        raise NotImplementedError
 
     @property
     def market(self) -> MARKET_TYPE:
         """상품유형타입"""
-        ...
+        raise NotImplementedError
 
     @property
     def name(self) -> str:
         """종목명"""
-        ...
+        raise NotImplementedError
 
     @property
     def sector_name(self) -> str:
         """업종명"""
-        ...
+        raise NotImplementedError
 
     @property
     def price(self) -> Decimal:
         """현재가"""
-        ...
+        raise NotImplementedError
 
     @property
     def volume(self) -> int:
         """거래량"""
-        ...
+        raise NotImplementedError
 
     @property
     def amount(self) -> Decimal:
         """거래대금"""
-        ...
+        raise NotImplementedError
 
     @property
     def market_cap(self) -> Decimal:
         """시가총액"""
-        ...
+        raise NotImplementedError
 
     @property
     def sign(self) -> STOCK_SIGN_TYPE:
         """대비부호"""
-        ...
+        raise NotImplementedError
 
     @property
     def risk(self) -> STOCK_RISK_TYPE:
         """위험도"""
-        ...
+        raise NotImplementedError
 
     @property
     def halt(self) -> bool:
         """거래정지"""
-        ...
+        raise NotImplementedError
 
     @property
     def overbought(self) -> bool:
         """단기과열구분"""
-        ...
+        raise NotImplementedError
 
     @property
     def prev_price(self) -> Decimal:
         """전일종가"""
-        ...
+        raise NotImplementedError
 
     @property
     def prev_volume(self) -> Decimal:
         """전일거래량"""
-        ...
+        raise NotImplementedError
 
     @property
     def change(self) -> Decimal:
         """전일대비"""
-        ...
+        raise NotImplementedError
 
     @property
     def indicator(self) -> KisIndicator:
         """종목 지표"""
-        ...
+        raise NotImplementedError
 
     @property
     def open(self) -> Decimal:
         """당일시가"""
-        ...
+        raise NotImplementedError
 
     @property
     def high(self) -> Decimal:
         """당일고가"""
-        ...
+        raise NotImplementedError
 
     @property
     def low(self) -> Decimal:
         """당일저가"""
-        ...
+        raise NotImplementedError
 
     @property
     def high_limit(self) -> Decimal:
         """상한가"""
-        ...
+        raise NotImplementedError
 
     @property
     def low_limit(self) -> Decimal:
         """하한가"""
-        ...
+        raise NotImplementedError
 
     @property
     def unit(self) -> Decimal:
         """거래단위"""
-        ...
+        raise NotImplementedError
 
     @property
     def tick(self) -> Decimal:
         """호가단위"""
-        ...
+        raise NotImplementedError
 
     @property
     def decimal_places(self) -> int:
         """소수점 자리수"""
-        ...
+        raise NotImplementedError
 
     @property
     def currency(self) -> CURRENCY_TYPE:
         """통화코드"""
-        ...
+        raise NotImplementedError
 
     @property
     def exchange_rate(self) -> Decimal:
         """당일환율"""
-        ...
+        raise NotImplementedError
 
     @property
     def close(self) -> Decimal:
@@ -261,6 +262,10 @@ class KisQuote(Protocol):
     def sign_name(self) -> str:
         """대비부호명"""
         return STOCK_SIGN_TYPE_KOR_MAP[self.sign]
+
+
+class KisQuoteResponse(KisQuote, KisResponseProtocol, Protocol):
+    """한국투자증권 상품 시세 응답"""
 
 
 @kis_repr(
@@ -699,7 +704,7 @@ def quote(
     symbol: str,
     market: MARKET_TYPE,
     extended: bool = False,
-) -> KisQuote:
+) -> KisQuoteResponse:
     """
     한국투자증권 주식 현재가 조회
 
@@ -730,7 +735,7 @@ def quote(
 def product_quote(
     self: "KisProductProtocol",
     extended: bool = False,
-) -> KisQuote:
+) -> KisQuoteResponse:
     """
     한국투자증권 주식 현재가 조회
 

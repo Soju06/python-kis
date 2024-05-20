@@ -30,7 +30,7 @@ class KisWebsocketAdapter(Generic[TEventType, TSender, TEventArgs], metaclass=AB
             where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
             once (bool, optional): 한번만 실행할지 여부. Defaults to False.
         """
-        ...
+        raise NotImplementedError
 
     @abstractmethod
     def once(
@@ -47,4 +47,4 @@ class KisWebsocketAdapter(Generic[TEventType, TSender, TEventArgs], metaclass=AB
             callback (Callable[[TSender, TEventArgs], None]): 콜백 함수
             where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
         """
-        ...
+        raise NotImplementedError
