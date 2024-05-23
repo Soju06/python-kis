@@ -25,9 +25,10 @@ class KisProductScope(KisScope, KisProductBase):
     market: MARKET_TYPE
     """시장구분"""
 
-    def __init__(self, kis: "PyKis", market: MARKET_TYPE):
+    def __init__(self, kis: "PyKis", market: MARKET_TYPE, symbol: str):
         super().__init__(kis)
         self.market = market
+        self.symbol = symbol
 
     from pykis.api.stock.asking_price import (
         product_asking_price as asking_price,  # 호가 조회

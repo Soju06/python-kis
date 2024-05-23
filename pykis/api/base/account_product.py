@@ -1,13 +1,17 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Protocol
 
-from pykis.api.base.account import KisAccountBase
-from pykis.api.base.product import KisProductBase
+from pykis.api.base.account import KisAccountBase, KisAccountProtocol
+from pykis.api.base.product import KisProductBase, KisProductProtocol
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
+
+
+class KisAccountProductProtocol(KisAccountProtocol, KisProductProtocol, Protocol):
+    """한국투자증권 계좌 상품 프로토콜"""
 
 
 @kis_repr(

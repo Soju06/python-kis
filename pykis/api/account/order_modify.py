@@ -12,7 +12,7 @@ from pykis.api.account.order import (
     ensure_price,
     order_condition,
 )
-from pykis.api.stock.info import market_to_country
+from pykis.api.stock.info import get_market_country
 from pykis.api.stock.market import DAYTIME_MARKETS, MARKET_TYPE
 from pykis.api.stock.quote import quote
 from pykis.client.account import KisAccountNumber
@@ -288,7 +288,7 @@ def foreign_modify_order(
 
     from pykis.api.account.pending_order import pending_orders
 
-    order_info = pending_orders(self, account=account, country=market_to_country(order.market)).order(order)
+    order_info = pending_orders(self, account=account, country=get_market_country(order.market)).order(order)
 
     if not order_info:
         raise ValueError("주문정보를 찾을 수 없습니다. 이미 체결되었거나 취소된 주문일 수 있습니다.")
@@ -434,7 +434,7 @@ def foreign_daytime_modify_order(
 
     from pykis.api.account.pending_order import pending_orders
 
-    order_info = pending_orders(self, account=account, country=market_to_country(order.market)).order(order)
+    order_info = pending_orders(self, account=account, country=get_market_country(order.market)).order(order)
 
     if not order_info:
         raise ValueError("주문정보를 찾을 수 없습니다. 이미 체결되었거나 취소된 주문일 수 있습니다.")
@@ -510,7 +510,7 @@ def foreign_daytime_cancel_order(
 
     from pykis.api.account.pending_order import pending_orders
 
-    order_info = pending_orders(self, account=account, country=market_to_country(order.market)).order(order)
+    order_info = pending_orders(self, account=account, country=get_market_country(order.market)).order(order)
 
     if not order_info:
         raise ValueError("주문정보를 찾을 수 없습니다. 이미 체결되었거나 취소된 주문일 수 있습니다.")

@@ -1,13 +1,32 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Protocol
 
 from pykis.client.account import KisAccountNumber
-from pykis.client.object import KisObjectBase
+from pykis.client.object import KisObjectBase, KisObjectProtocol
+from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
     from pykis.scope.account.account import KisAccount
 
 
+class KisAccountProtocol(KisObjectProtocol, Protocol):
+    """한국투자증권 계좌 프로토콜"""
+
+    @property
+    def account_number(self) -> KisAccountNumber:
+        """계좌번호"""
+        raise NotImplementedError
+
+    @property
+    def account(self) -> "KisAccount":
+        """계좌 Scope"""
+        raise NotImplementedError
+
+
+@kis_repr(
+    "account_number",
+    lines="single",
+)
 class KisAccountBase(KisObjectBase):
     """한국투자증권 계좌 기본정보"""
 

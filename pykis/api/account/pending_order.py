@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Iterable, Protocol
 from zoneinfo import ZoneInfo
 
 from pykis.__env__ import TIMEZONE
@@ -12,9 +12,12 @@ from pykis.api.account.order import (
     KisOrderNumber,
     resolve_domestic_order_condition,
 )
-from pykis.api.base.account import KisAccountBase
-from pykis.api.base.account_product import KisAccountProductBase
-from pykis.api.stock.info import COUNTRY_TYPE
+from pykis.api.base.account import KisAccountBase, KisAccountProtocol
+from pykis.api.base.account_product import (
+    KisAccountProductBase,
+    KisAccountProductProtocol,
+)
+from pykis.api.stock.info import COUNTRY_TYPE, get_market_country
 from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE, get_market_timezone
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
@@ -27,6 +30,163 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+class KisPendingOrder(KisAccountProductProtocol, Protocol):
+    """한국투자증권 미체결 주식"""
+
+    @property
+    def symbol(self) -> str:
+        """종목코드"""
+        raise NotImplementedError
+
+    @property
+    def market(self) -> MARKET_TYPE:
+        """상품유형타입"""
+        raise NotImplementedError
+
+    @property
+    def account_number(self) -> KisAccountNumber:
+        """계좌번호"""
+        raise NotImplementedError
+
+    @property
+    def time(self) -> datetime:
+        """주문시각"""
+        raise NotImplementedError
+
+    @property
+    def time_kst(self) -> datetime:
+        """주문시각(KST)"""
+        raise NotImplementedError
+
+    @property
+    def timezone(self) -> ZoneInfo:
+        """시간대"""
+        raise NotImplementedError
+
+    @property
+    def order_number(self) -> KisOrder:
+        """주문번호"""
+        raise NotImplementedError
+
+    @property
+    def type(self) -> ORDER_TYPE:
+        """주문유형"""
+        raise NotImplementedError
+
+    @property
+    def price(self) -> Decimal | None:
+        """체결단가"""
+        raise NotImplementedError
+
+    @property
+    def unit_price(self) -> Decimal | None:
+        """주문단가"""
+        raise NotImplementedError
+
+    @property
+    def order_price(self) -> Decimal | None:
+        """주문단가"""
+        raise NotImplementedError
+
+    @property
+    def quantity(self) -> Decimal:
+        """주문수량"""
+        raise NotImplementedError
+
+    @property
+    def qty(self) -> Decimal:
+        """주문수량"""
+        raise NotImplementedError
+
+    @property
+    def executed_quantity(self) -> Decimal:
+        """체결수량"""
+        raise NotImplementedError
+
+    @property
+    def orderable_quantity(self) -> Decimal:
+        """주문가능수량"""
+        raise NotImplementedError
+
+    @property
+    def executed_qty(self) -> Decimal:
+        """체결수량"""
+        raise NotImplementedError
+
+    @property
+    def executed_amount(self) -> Decimal:
+        """체결금액"""
+        raise NotImplementedError
+
+    @property
+    def orderable_qty(self) -> Decimal:
+        """주문가능수량"""
+        raise NotImplementedError
+
+    @property
+    def pending_quantity(self) -> Decimal:
+        """미체결수량"""
+        raise NotImplementedError
+
+    @property
+    def pending_qty(self) -> Decimal:
+        """미체결수량"""
+        raise NotImplementedError
+
+    @property
+    def condition(self) -> ORDER_CONDITION | None:
+        """주문조건"""
+        raise NotImplementedError
+
+    @property
+    def execution(self) -> ORDER_EXECUTION | None:
+        """체결조건"""
+        raise NotImplementedError
+
+    @property
+    def rejected(self) -> bool:
+        """거부여부"""
+        raise NotImplementedError
+
+    @property
+    def rejected_reason(self) -> str | None:
+        """거부사유"""
+        raise NotImplementedError
+
+    @property
+    def currency(self) -> CURRENCY_TYPE:
+        """통화"""
+        raise NotImplementedError
+
+
+class KisPendingOrders(KisAccountProtocol, Protocol):
+    """한국투자증권 미체결 주식"""
+
+    @property
+    def account_number(self) -> KisAccountNumber:
+        """계좌번호"""
+        raise NotImplementedError
+
+    @property
+    def orders(self) -> list[KisPendingOrder]:
+        """미체결주문"""
+        raise NotImplementedError
+
+    def __getitem__(self, key: int | KisOrderNumber | str) -> KisPendingOrder:
+        """인덱스 또는 주문번호로 주문을 조회합니다."""
+        raise NotImplementedError
+
+    def order(self, key: KisOrderNumber | str) -> KisPendingOrder | None:
+        """주문번호 또는 종목코드로 주문을 조회합니다."""
+        raise NotImplementedError
+
+    def __len__(self) -> int:
+        raise NotImplementedError
+
+    def __iter__(self) -> Iterable[KisPendingOrder]:
+        raise NotImplementedError
+
+
 @kis_repr(
     "order_number",
     "type",
@@ -37,7 +197,7 @@ if TYPE_CHECKING:
     "execution",
     lines="multiple",
 )
-class KisPendingOrder(KisAccountProductBase):
+class KisPendingOrderBase(KisAccountProductBase):
     """한국투자증권 미체결 주식"""
 
     symbol: str
@@ -57,11 +217,6 @@ class KisPendingOrder(KisAccountProductBase):
     order_number: KisOrder
     """주문번호"""
 
-    @property
-    def name(self) -> str:
-        """종목명"""
-        return self.info.name
-
     type: ORDER_TYPE
     """주문유형"""
 
@@ -69,6 +224,28 @@ class KisPendingOrder(KisAccountProductBase):
     """체결단가"""
     unit_price: Decimal | None
     """주문단가"""
+
+    quantity: Decimal
+    """주문수량"""
+
+    executed_quantity: Decimal
+    """체결수량"""
+
+    orderable_quantity: Decimal
+    """주문가능수량"""
+
+    condition: ORDER_CONDITION | None
+    """주문조건"""
+    execution: ORDER_EXECUTION | None
+    """체결조건"""
+
+    rejected: bool
+    """거부여부"""
+    rejected_reason: str | None
+    """거부사유"""
+
+    currency: CURRENCY_TYPE
+    """통화"""
 
     @property
     def order_price(self) -> Decimal | None:
@@ -82,12 +259,6 @@ class KisPendingOrder(KisAccountProductBase):
     def qty(self) -> Decimal:
         """주문수량"""
         return self.quantity
-
-    executed_quantity: Decimal
-    """체결수량"""
-
-    orderable_quantity: Decimal
-    """주문가능수량"""
 
     @property
     def executed_qty(self) -> Decimal:
@@ -114,19 +285,6 @@ class KisPendingOrder(KisAccountProductBase):
         """미체결수량"""
         return self.pending_quantity
 
-    condition: ORDER_CONDITION | None
-    """주문조건"""
-    execution: ORDER_EXECUTION | None
-    """체결조건"""
-
-    rejected: bool
-    """거부여부"""
-    rejected_reason: str | None
-    """거부사유"""
-
-    currency: CURRENCY_TYPE
-    """통화"""
-
 
 @kis_repr(
     "account_number",
@@ -134,7 +292,7 @@ class KisPendingOrder(KisAccountProductBase):
     lines="multiple",
     field_lines={"orders": "multiple"},
 )
-class KisPendingOrders(KisAccountBase):
+class KisPendingOrdersBase(KisAccountBase):
     """한국투자증권 미체결 주식"""
 
     account_number: KisAccountNumber
@@ -174,11 +332,11 @@ class KisPendingOrders(KisAccountBase):
     def __len__(self) -> int:
         return len(self.orders)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterable[KisPendingOrder]:
         return iter(self.orders)
 
 
-class KisDomesticPendingOrder(KisDynamic, KisPendingOrder, KisAccountProductBase):
+class KisDomesticPendingOrder(KisDynamic, KisPendingOrderBase):
     """한국투자증권 국내 미체결 주식"""
 
     symbol: str = KisString["pdno"]
@@ -261,7 +419,7 @@ class KisDomesticPendingOrder(KisDynamic, KisPendingOrder, KisAccountProductBase
         )
 
 
-class KisDomesticPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
+class KisDomesticPendingOrders(KisPaginationAPIResponse, KisPendingOrdersBase):
     """한국투자증권 국내 미체결 주식"""
 
     __path__ = None
@@ -269,7 +427,7 @@ class KisDomesticPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    orders: list[KisDomesticPendingOrder] = KisList(KisDomesticPendingOrder)["output"]
+    orders: list[KisPendingOrder] = KisList(KisDomesticPendingOrder)["output"]
     """미체결주문"""
 
     def __init__(self, account_number: KisAccountNumber):
@@ -280,14 +438,14 @@ class KisDomesticPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
         super().__post_init__()
 
         for order in self.orders:
-            order.account_number = self.account_number
+            order.account_number = self.account_number  # type: ignore
 
     def __kis_post_init__(self):
         super().__kis_post_init__()
-        self._kis_spread(self.orders)
+        self._kis_spread(self.orders)  # type: ignore
 
 
-class KisForeignPendingOrder(KisDynamic, KisPendingOrder, KisAccountProductBase):
+class KisForeignPendingOrder(KisDynamic, KisPendingOrderBase):
     """한국투자증권 해외 미체결 주식"""
 
     symbol: str = KisString["pdno"]
@@ -368,7 +526,7 @@ class KisForeignPendingOrder(KisDynamic, KisPendingOrder, KisAccountProductBase)
         )
 
 
-class KisForeignPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
+class KisForeignPendingOrders(KisPaginationAPIResponse, KisPendingOrdersBase):
     """한국투자증권 해외 미체결 주식"""
 
     __path__ = None
@@ -376,7 +534,7 @@ class KisForeignPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    orders: list[KisForeignPendingOrder] = KisList(KisForeignPendingOrder)["output"]
+    orders: list[KisPendingOrder] = KisList(KisForeignPendingOrder)["output"]
     """미체결주문"""
 
     def __init__(self, account_number: KisAccountNumber):
@@ -387,14 +545,14 @@ class KisForeignPendingOrders(KisPaginationAPIResponse, KisPendingOrders):
         super().__post_init__()
 
         for order in self.orders:
-            order.account_number = self.account_number
+            order.account_number = self.account_number  # type: ignore
 
     def __kis_post_init__(self):
         super().__kis_post_init__()
-        self._kis_spread(self.orders)
+        self._kis_spread(self.orders)  # type: ignore
 
 
-class KisIntegrationPendingOrders(KisPendingOrders):
+class KisIntegrationPendingOrders(KisPendingOrdersBase):
     """한국투자증권 미체결 주식"""
 
     account_number: KisAccountNumber
@@ -621,3 +779,29 @@ def pending_orders(
         return domestic_pending_orders(self, account)
     else:
         return foreign_pending_orders(self, account, country)
+
+
+def product_pending_orders(
+    self: "KisAccountProtocol",
+    country: COUNTRY_TYPE | None = None,
+) -> KisPendingOrders:
+    """
+    한국투자증권 통합 미체결 조회
+
+    국내주식주문 -> 주식정정취소가능주문조회[v1_국내주식-004] (모의투자 미지원)
+    해외주식주문 -> 해외주식 미체결내역[v1_해외주식-005]
+    (업데이트 날짜: 2024/04/01)
+
+    Args:
+        country (COUNTRY_TYPE, optional): 국가코드
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 계좌번호가 잘못된 경우
+    """
+
+    return pending_orders(
+        self.kis,
+        account=self.account_number,
+        country=country,
+    )
