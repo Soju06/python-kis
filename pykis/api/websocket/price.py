@@ -3,7 +3,6 @@ from decimal import Decimal
 
 from pykis.__env__ import TIMEZONE
 from pykis.api.account.order import ORDER_CONDITION
-from pykis.api.base.product import KisProductBase
 from pykis.api.stock.market import (
     CURRENCY_TYPE,
     MARKET_TYPE,

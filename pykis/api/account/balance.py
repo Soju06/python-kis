@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 
 from pykis.api.base.account import KisAccountBase
 from pykis.api.base.account_product import KisAccountProductBase
-from pykis.api.stock.info import COUNTRY_TYPE, market_to_country, resolve_market
+from pykis.api.stock.info import COUNTRY_TYPE, get_market_country, resolve_market
 from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
@@ -928,7 +928,7 @@ def orderable_quantity(
         ValueError: 계좌번호가 잘못된 경우
     """
     if not country:
-        country = market_to_country(resolve_market(self, symbol=symbol))
+        country = get_market_country(resolve_market(self, symbol=symbol))
 
     stock = balance(
         self,

@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, Literal, get_args, overload
 
 from pykis.__env__ import TIMEZONE
 from pykis.api.base.account_product import KisAccountProductBase
-from pykis.api.stock.info import market_to_country
+from pykis.api.stock.info import get_market_country
 from pykis.api.stock.market import (
     DAYTIME_MARKET_SHORT_TYPE_MAP,
     MARKET_TYPE,
@@ -647,7 +647,7 @@ def _orderable_quantity(
             self,
             account=account,
             symbol=symbol,
-            country=market_to_country(market),
+            country=get_market_country(market),
         )
 
         if throw_no_qty and (not qty or qty <= 0):

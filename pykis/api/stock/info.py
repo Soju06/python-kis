@@ -18,7 +18,7 @@ __all__ = [
     "KisStockInfo",
     "KisStockInfoResponse",
     "COUNTRY_TYPE",
-    "market_to_country",
+    "get_market_country",
     "MARKET_INFO_TYPES",
     "info",
     "resolve_market",
@@ -234,23 +234,26 @@ class _KisStockInfo(KisAPIResponse, KisStockInfoRepr):
 COUNTRY_TYPE = Literal["KR", "US", "HK", "JP", "VN", "CN"]
 """국가유형명"""
 
+MARKET_COUNTRY_MAP: dict[MARKET_TYPE, COUNTRY_TYPE] = {
+    "KRX": "KR",
+    "NASD": "US",
+    "NYSE": "US",
+    "AMEX": "US",
+    "SEHK": "HK",
+    "TKSE": "JP",
+    "HASE": "VN",
+    "VNSE": "VN",
+    "SHAA": "CN",
+    "SZAA": "CN",
+}
 
-def market_to_country(market: MARKET_TYPE) -> COUNTRY_TYPE:
+
+def get_market_country(market: MARKET_TYPE) -> COUNTRY_TYPE:
     """상품유형명을 국가유형명으로 변환합니다."""
-    if market == "KRX":
-        return "KR"
-    elif market in ["NASD", "NYSE", "AMEX"]:
-        return "US"
-    elif market == "SEHK":
-        return "HK"
-    elif market == "TKSE":
-        return "JP"
-    elif market in ["HASE", "VNSE"]:
-        return "VN"
-    elif market in ["SHAA", "SZAA"]:
-        return "CN"
-    else:
-        raise ValueError(f"지원하지 않는 상품유형명입니다. {market}")
+    if country := MARKET_COUNTRY_MAP.get(market):
+        return country
+
+    raise ValueError(f"지원하지 않는 상품유형명입니다. {market}")
 
 
 MARKET_INFO_TYPES = MARKET_TYPE | COUNTRY_TYPE | None

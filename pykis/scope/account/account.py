@@ -10,8 +10,6 @@ if TYPE_CHECKING:
 class KisAccount(KisAccountScope):
     """한국투자증권 계좌 Scope"""
 
-    # TODO: stock() 보유중인 주식 정보를 반환합니다.
-
 
 def account(
     self: "PyKis",
