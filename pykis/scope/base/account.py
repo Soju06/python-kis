@@ -27,6 +27,10 @@ class KisAccountScope(KisScope, KisAccountBase):
         super().__init__(kis=kis)
         self.account_number = account
 
+    from pykis.api.account.balance import account_balance as balance  # 잔고 조회
+    from pykis.api.account.orderable_amount import (
+        account_orderable_amount as orderable_amount,  # 주문 가능 금액 조회
+    )
     from pykis.api.account.pending_order import (
-        product_pending_orders as pending_orders,  # 미체결 조회
+        account_pending_orders as pending_orders,  # 미체결 조회
     )

@@ -17,7 +17,7 @@ from pykis.api.base.account_product import (
     KisAccountProductBase,
     KisAccountProductProtocol,
 )
-from pykis.api.stock.info import COUNTRY_TYPE, get_market_country
+from pykis.api.stock.info import COUNTRY_TYPE
 from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE, get_market_timezone
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
@@ -32,21 +32,6 @@ if TYPE_CHECKING:
 
 class KisPendingOrder(KisAccountProductProtocol, Protocol):
     """한국투자증권 미체결 주식"""
-
-    @property
-    def symbol(self) -> str:
-        """종목코드"""
-        raise NotImplementedError
-
-    @property
-    def market(self) -> MARKET_TYPE:
-        """상품유형타입"""
-        raise NotImplementedError
-
-    @property
-    def account_number(self) -> KisAccountNumber:
-        """계좌번호"""
-        raise NotImplementedError
 
     @property
     def time(self) -> datetime:
@@ -781,7 +766,7 @@ def pending_orders(
         return foreign_pending_orders(self, account, country)
 
 
-def product_pending_orders(
+def account_pending_orders(
     self: "KisAccountProtocol",
     country: COUNTRY_TYPE | None = None,
 ) -> KisPendingOrders:
