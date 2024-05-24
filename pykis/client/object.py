@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Iterable, Protocol
+from typing import TYPE_CHECKING, Any, Iterable, Protocol
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -41,7 +41,7 @@ class KisObjectBase:
 
     def _kis_spread(
         self,
-        object: "KisObjectBase | Iterable[KisObjectBase] | Iterable[KisObjectBase | None] | dict | None",
+        object: "KisObjectBase | Iterable[KisObjectBase] | Iterable[KisObjectBase | None] | dict[Any, KisObjectBase | None] | None",
     ) -> None:
         if isinstance(object, dict):
             for o in object.values():

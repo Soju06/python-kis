@@ -24,3 +24,7 @@ class KisAccountProductScope(KisProductScope, KisAccountProductBase):
             market=market,
             symbol=symbol,
         )
+
+    from pykis.api.account.orderable_amount import (
+        account_product_orderable_amount as orderable_amount,  # 주문 가능 금액 조회
+    )
