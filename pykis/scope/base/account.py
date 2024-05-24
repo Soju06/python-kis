@@ -28,6 +28,16 @@ class KisAccountScope(KisScope, KisAccountBase):
         self.account_number = account
 
     from pykis.api.account.balance import account_balance as balance  # 잔고 조회
+    from pykis.api.account.daily_order import (
+        account_daily_orders as daily_orders,  # 일별 체결내역 조회
+    )
+    from pykis.api.account.order import account_order as order  # 주문
+    from pykis.api.account.order_modify import (
+        account_cancel_order as cancel_order,  # 주문 취소
+    )
+    from pykis.api.account.order_modify import (
+        account_modify_order as modify_order,  # 주문 정정
+    )
     from pykis.api.account.orderable_amount import (
         account_orderable_amount as orderable_amount,  # 주문 가능 금액 조회
     )

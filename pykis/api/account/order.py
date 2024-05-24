@@ -1,9 +1,21 @@
 from datetime import datetime, tzinfo
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any, Literal, get_args, overload
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Literal,
+    Protocol,
+    get_args,
+    overload,
+    runtime_checkable,
+)
 
 from pykis.__env__ import TIMEZONE
-from pykis.api.base.account_product import KisAccountProductBase
+from pykis.api.base.account import KisAccountProtocol
+from pykis.api.base.account_product import (
+    KisAccountProductBase,
+    KisAccountProductProtocol,
+)
 from pykis.api.stock.info import get_market_country
 from pykis.api.stock.market import (
     DAYTIME_MARKET_SHORT_TYPE_MAP,
@@ -13,13 +25,12 @@ from pykis.api.stock.market import (
 )
 from pykis.api.stock.quote import quote
 from pykis.client.account import KisAccountNumber
-from pykis.responses.dynamic import KisDynamic
 from pykis.responses.exception import KisMarketNotOpenedError
 from pykis.responses.response import KisAPIResponse, raise_not_found
 from pykis.responses.types import KisString
-from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
+    from pykis.api.base.account_product import KisAccountProductProtocol
     from pykis.kis import PyKis
 
 ORDER_TYPE = Literal["buy", "sell"]
@@ -282,7 +293,102 @@ def resolve_domestic_order_condition(
     return DOMESTIC_REVERSE_ORDER_CONDITION_MAP[code]
 
 
-class KisOrderNumber(KisAccountProductBase):
+class KisOrderNumber(KisAccountProductProtocol, Protocol):
+    """한국투자증권 주문번호"""
+
+    @property
+    def branch(self) -> str:
+        """지점코드"""
+        raise NotImplementedError
+
+    @property
+    def number(self) -> str:
+        """주문번호"""
+        raise NotImplementedError
+
+
+@runtime_checkable
+class KisOrder(KisOrderNumber, Protocol):
+    """한국투자증권 주문"""
+
+    @property
+    def time(self) -> datetime:
+        """주문시간 (현지시간)"""
+        raise NotImplementedError
+
+    @property
+    def time_kst(self) -> datetime:
+        """주문시간 (한국시간)"""
+        raise NotImplementedError
+
+    @property
+    def timezone(self) -> tzinfo:
+        """시간대"""
+        raise NotImplementedError
+
+    @staticmethod
+    def from_number(
+        kis: "PyKis",
+        symbol: str,
+        market: MARKET_TYPE,
+        account_number: KisAccountNumber,
+        branch: str,
+        number: str,
+    ) -> "KisOrderNumber":
+        """
+        주문번호 생성
+
+        Args:
+            kis (PyKis): 한국투자증권 API
+            symbol (str): 종목코드
+            market (MARKET_TYPE): 상품유형
+            account_number (KisAccountNumber): 계좌번호
+            branch (str): 지점코드
+            number (str): 주문번호
+        """
+        return KisOrderNumberBase(
+            kis=kis,
+            symbol=symbol,
+            market=market,
+            account_number=account_number,
+            branch=branch,
+            number=number,
+        )
+
+    @staticmethod
+    def from_order(
+        kis: "PyKis",
+        symbol: str,
+        market: MARKET_TYPE,
+        account_number: KisAccountNumber,
+        branch: str,
+        number: str,
+        time_kst: datetime,
+    ) -> "KisOrder":
+        """
+        주문 생성
+
+        Args:
+            kis (PyKis): 한국투자증권 API
+            symbol (str): 종목코드
+            market (MARKET_TYPE): 상품유형
+            account_number (KisAccountNumber): 계좌번호
+            branch (str): 지점코드
+            number (str): 주문번호
+            time_kst (datetime): 주문시간 (한국시간)
+        """
+        return KisOrderBase(
+            account_number=account_number,
+            symbol=symbol,
+            market=market,  # type: ignore
+            branch=branch,
+            number=number,
+            time_kst=time_kst,
+            kis=kis,
+        )
+
+
+class KisOrderNumberBase(KisAccountProductBase):
     """한국투자증권 주문번호"""
 
     symbol: str
@@ -351,23 +457,23 @@ class KisOrderNumber(KisAccountProductBase):
 
             self.number = number
 
-    def __eq__(self, value: object) -> bool:
-        if not isinstance(value, KisOrderNumber):
-            return NotImplemented
+    def __eq__(self, value: "object | KisOrderNumberBase") -> bool:
+        if not isinstance(value, KisOrderNumberBase):
+            return False
 
         return (
-            self.account_number == value.account_number
-            and self.symbol == value.symbol
-            and self.market == value.market
-            and self.branch == value.branch
-            and self.number == value.number
+            self.account_number == value.account_number  # type: ignore
+            and self.symbol == value.symbol  # type: ignore
+            and self.market == value.market  # type: ignore
+            and self.branch == value.branch  # type: ignore
+            and self.number == value.number  # type: ignore
         )
 
     def __hash__(self) -> int:
         return hash((self.account_number, self.symbol, self.market, self.branch, self.number))
 
     def __repr__(self) -> str:
-        return f"""KisOrderNumber(
+        return f"""{self.__class__.__name__}(
     kis=kis,
     account_number={self.account_number!r},
     code={self.symbol!r},
@@ -376,8 +482,69 @@ class KisOrderNumber(KisAccountProductBase):
     number={self.number!r}
 )"""
 
+    @staticmethod
+    def from_number(
+        kis: "PyKis",
+        symbol: str,
+        market: MARKET_TYPE,
+        account_number: KisAccountNumber,
+        branch: str,
+        number: str,
+    ) -> "KisOrderNumber":
+        """
+        주문번호 생성
 
-class KisOrder(KisOrderNumber):
+        Args:
+            kis (PyKis): 한국투자증권 API
+            symbol (str): 종목코드
+            market (MARKET_TYPE): 상품유형
+            account_number (KisAccountNumber): 계좌번호
+            branch (str): 지점코드
+            number (str): 주문번호
+        """
+        return KisOrder.from_number(
+            kis=kis,
+            symbol=symbol,
+            market=market,
+            account_number=account_number,
+            branch=branch,
+            number=number,
+        )
+
+    @staticmethod
+    def from_order(
+        kis: "PyKis",
+        symbol: str,
+        market: MARKET_TYPE,
+        account_number: KisAccountNumber,
+        branch: str,
+        number: str,
+        time_kst: datetime,
+    ) -> "KisOrder":
+        """
+        주문 생성
+
+        Args:
+            kis (PyKis): 한국투자증권 API
+            symbol (str): 종목코드
+            market (MARKET_TYPE): 상품유형
+            account_number (KisAccountNumber): 계좌번호
+            branch (str): 지점코드
+            number (str): 주문번호
+            time_kst (datetime): 주문시간 (한국시간)
+        """
+        return KisOrder.from_order(
+            kis=kis,
+            symbol=symbol,
+            market=market,
+            account_number=account_number,
+            branch=branch,
+            number=number,
+            time_kst=time_kst,
+        )
+
+
+class KisOrderBase(KisOrderNumberBase):
     """한국투자증권 주문"""
 
     time: datetime
@@ -391,14 +558,14 @@ class KisOrder(KisOrderNumber):
     def __init__(self): ...
 
     @overload
-    def __init__(self, account_number: KisAccountNumber, symbol: str, market: MARKET_TYPE): ...
+    def __init__(self, account_number: KisAccountNumber, symbol: str, market: "MARKET_TYPE"): ...
 
     @overload
     def __init__(
         self,
         account_number: KisAccountNumber,
         symbol: str,
-        market: MARKET_TYPE,
+        market: "MARKET_TYPE",
         branch: str,
         number: str,
         time_kst: datetime,
@@ -409,7 +576,7 @@ class KisOrder(KisOrderNumber):
         self,
         account_number: KisAccountNumber | None = None,
         symbol: str | None = None,
-        market: MARKET_TYPE | None = None,
+        market: "MARKET_TYPE | None" = None,
         branch: str | None = None,
         number: str | None = None,
         time_kst: datetime | None = None,
@@ -451,14 +618,14 @@ class KisOrder(KisOrderNumber):
             self.time_kst = time_kst
             self.time = self.time_kst.astimezone(self.timezone)
 
-    def __eq__(self, value: object) -> bool:
+    def __eq__(self, value: "object") -> bool:
         if not isinstance(value, KisOrder):
             return False
 
-        return super().__eq__(value) and self.time_kst == value.time_kst
+        return super().__eq__(value) and self.time_kst == value.time_kst  # type: ignore
 
 
-class KisDomesticOrder(KisAPIResponse, KisOrder):
+class KisDomesticOrder(KisAPIResponse, KisOrderBase):
     """한국투자증권 국내주식 주문"""
 
     branch: str = KisString["KRX_FWDG_ORD_ORGNO"]
@@ -493,7 +660,7 @@ class KisDomesticOrder(KisAPIResponse, KisOrder):
         )
 
 
-class KisForeignOrder(KisAPIResponse, KisOrder):
+class KisForeignOrder(KisAPIResponse, KisOrderBase):
     """한국투자증권 해외주식 주문"""
 
     branch: str = KisString["KRX_FWDG_ORD_ORGNO"]
@@ -529,7 +696,7 @@ class KisForeignOrder(KisAPIResponse, KisOrder):
         self.time = self.time_kst.astimezone(self.timezone)
 
 
-class KisForeignDaytimeOrder(KisAPIResponse, KisOrder):
+class KisForeignDaytimeOrder(KisAPIResponse, KisOrderBase):
     """한국투자증권 해외주식 주문 (주간)"""
 
     branch: str = KisString["KRX_FWDG_ORD_ORGNO"]
@@ -1147,10 +1314,10 @@ def order(
             order=order,
             price=price,
             qty=qty,
-            condition=condition,  # type: ignore
+            condition=condition,
             execution=execution,
             include_foreign=include_foreign,
-        )
+        )  # type: ignore
     else:
         if condition == "extended":
             if execution is not None:
@@ -1165,7 +1332,7 @@ def order(
                 price=price,
                 qty=qty,
                 include_foreign=include_foreign,
-            )
+            )  # type: ignore
 
         return foreign_order(
             self,
@@ -1178,4 +1345,236 @@ def order(
             condition=condition,  # type: ignore
             execution=execution,
             include_foreign=include_foreign,
-        )
+        )  # type: ignore
+
+
+order_function = order
+
+
+def account_order(
+    self: "KisAccountProtocol",
+    market: MARKET_TYPE,
+    symbol: str,
+    order: ORDER_TYPE,
+    price: ORDER_PRICE | None = None,
+    qty: Decimal | None = None,
+    condition: ORDER_CONDITION | None = None,
+    execution: ORDER_EXECUTION | None = None,
+    include_foreign: bool = False,
+) -> KisOrder:
+    """
+    한국투자증권 통합주식 주문
+
+    국내주식주문 -> 주식주문(현금)[v1_국내주식-001]
+    해외주식주문 -> 해외주식 주문[v1_해외주식-001]
+
+    Args:
+        symbol (str): 종목코드
+        order (ORDER_TYPE): 주문종류
+        price (ORDER_PRICE, optional): 주문가격
+        qty (Decimal, optional): 주문수량
+        condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
+        execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
+        include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
+
+    Examples:
+        >>> order(전체, code, order='buy', price=100, condition=None, execution=None) # 전체 지정가 매수
+        >>> order(전체, code, order='buy', price=None, condition=None, execution=None) # 전체 시장가 매수
+        >>> order(전체, code, order='sell', price=100, condition=None, execution=None) # 전체 지정가 매도
+        >>> order(전체, code, order='sell', price=None, condition=None, execution=None) # 전체 시장가 매도
+        >>> order('KRX', code, order='buy', price=100, condition=None, execution=None) # 지정가 매수
+        >>> order('KRX', code, order='buy', price=None, condition=None, execution=None) # 시장가 매수
+        >>> order('KRX', code, order='buy', price=100, condition='condition', execution=None) # 조건부지정가 매수
+        >>> order('KRX', code, order='buy', price=100, condition='best', execution=None) # 최유리지정가 매수
+        >>> order('KRX', code, order='buy', price=100, condition='priority', execution=None) # 최우선지정가 매수
+        >>> order('KRX', code, order='buy', price=100, condition='extended', execution=None) # 시간외단일가 매수 (모의투자 미지원)
+        >>> order('KRX', code, order='buy', price=None, condition='before', execution=None) # 장전시간외 매수 (모의투자 미지원)
+        >>> order('KRX', code, order='buy', price=None, condition='after', execution=None) # 장후시간외 매수 (모의투자 미지원)
+        >>> order('KRX', code, order='buy', price=100, condition=None, execution='IOC') # IOC지정가 매수 (모의투자 미지원)
+        >>> order('KRX', code, order='buy', price=100, condition=None, execution='FOK') # FOK지정가 매수 (모의투자 미지원)
+        >>> order('KRX', code, order='buy', price=None, condition=None, execution='IOC') # IOC시장가 매수 (모의투자 미지원)
+        >>> order('KRX', code, order='buy', price=None, condition=None, execution='FOK') # FOK시장가 매수 (모의투자 미지원)
+        >>> order('KRX', code, order='buy', price=100, condition='best', execution='IOC') # IOC최유리 매수 (모의투자 미지원)
+        >>> order('KRX', code, order='buy', price=100, condition='best', execution='FOK') # FOK최유리 매수 (모의투자 미지원)
+        >>> order('KRX', code, order='sell', price=100, condition=None, execution=None) # 지정가 매도
+        >>> order('KRX', code, order='sell', price=None, condition=None, execution=None) # 시장가 매도
+        >>> order('KRX', code, order='sell', price=100, condition='condition', execution=None) # 조건부지정가 매도
+        >>> order('KRX', code, order='sell', price=100, condition='best', execution=None) # 최유리지정가 매도
+        >>> order('KRX', code, order='sell', price=100, condition='priority', execution=None) # 최우선지정가 매도
+        >>> order('KRX', code, order='sell', price=100, condition='extended', execution=None) # 시간외단일가 매도 (모의투자 미지원)
+        >>> order('KRX', code, order='sell', price=None, condition='before', execution=None) # 장전시간외 매도 (모의투자 미지원)
+        >>> order('KRX', code, order='sell', price=None, condition='after', execution=None) # 장후시간외 매도
+        >>> order('KRX', code, order='sell', price=100, condition=None, execution='IOC') # IOC지정가 매도 (모의투자 미지원)
+        >>> order('KRX', code, order='sell', price=100, condition=None, execution='FOK') # FOK지정가 매도 (모의투자 미지원)
+        >>> order('KRX', code, order='sell', price=None, condition=None, execution='IOC') # IOC시장가 매도 (모의투자 미지원)
+        >>> order('KRX', code, order='sell', price=None, condition=None, execution='FOK') # FOK시장가 매도 (모의투자 미지원)
+        >>> order('KRX', code, order='sell', price=100, condition='best', execution='IOC') # IOC최유리 매도 (모의투자 미지원)
+        >>> order('KRX', code, order='sell', price=100, condition='best', execution='FOK') # FOK최유리 매도 (모의투자 미지원)
+        >>> order('NASD', code, order='buy', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
+        >>> order('NASD', code, order='buy', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
+        >>> order('NASD', code, order='buy', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
+        >>> order('NASD', code, order='buy', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
+        >>> order('NYSE', code, order='buy', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 미지원)
+        >>> order('NYSE', code, order='buy', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 미지원)
+        >>> order('NYSE', code, order='buy', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 미지원)
+        >>> order('NYSE', code, order='buy', price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매수 (모의투자 미지원)
+        >>> order('AMEX', code, order='buy', price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매수 (모의투자 미지원)
+        >>> order('AMEX', code, order='buy', price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 미지원)
+        >>> order('AMEX', code, order='buy', price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 미지원)
+        >>> order('AMEX', code, order='buy', price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 미지원)
+        >>> order('NASD', code, order='sell', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매도 (모의투자 미지원)
+        >>> order('NASD', code, order='sell', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매도 (모의투자 미지원)
+        >>> order('NASD', code, order='sell', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매도 (모의투자 미지원)
+        >>> order('NASD', code, order='sell', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매도 (모의투자 미지원)
+        >>> order('NYSE', code, order='sell', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매도 (모의투자 미지원)
+        >>> order('NYSE', code, order='sell', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매도 (모의투자 미지원)
+        >>> order('NYSE', code, order='sell', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매도 (모의투자 미지원)
+        >>> order('NYSE', code, order='sell', price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매도 (모의투자 미지원)
+        >>> order('AMEX', code, order='sell', price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매도 (모의투자 미지원)
+        >>> order('AMEX', code, order='sell', price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매도 (모의투자 미지원)
+        >>> order('AMEX', code, order='sell', price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매도 (모의투자 미지원)
+        >>> order('AMEX', code, order='sell', price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매도 (모의투자 미지원)
+        >>> order('NASD', code, order='buy', price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매수 (모의투자 미지원)
+        >>> order('NYSE', code, order='buy', price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매수 (모의투자 미지원)
+        >>> order('AMEX', code, order='buy', price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매수 (모의투자 미지원)
+        >>> order('NASD', code, order='buy', price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매수 (모의투자 미지원)
+        >>> order('NYSE', code, order='buy', price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매수 (모의투자 미지원)
+        >>> order('AMEX', code, order='buy', price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매수 (모의투자 미지원)
+        >>> order('NASD', code, order='sell', price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매도 (모의투자 미지원)
+        >>> order('NYSE', code, order='sell', price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매도 (모의투자 미지원)
+        >>> order('AMEX', code, order='sell', price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매도 (모의투자 미지원)
+        >>> order('NASD', code, order='sell', price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매도 (모의투자 미지원)
+        >>> order('NYSE', code, order='sell', price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매도 (모의투자 미지원)
+        >>> order('AMEX', code, order='sell', price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매도 (모의투자 미지원)
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
+        KisMarketNotOpenedError: 시장이 열리지 않은 경우
+        ValueError: 종목 코드가 올바르지 않은 경우
+    """
+    return order_function(
+        self.kis,
+        account=self.account_number,
+        market=market,
+        symbol=symbol,
+        order=order,
+        price=price,
+        qty=qty,
+        condition=condition,
+        execution=execution,
+        include_foreign=include_foreign,
+    )
+
+
+def account_product_order(
+    self: "KisAccountProductProtocol",
+    order: ORDER_TYPE,
+    price: ORDER_PRICE | None = None,
+    qty: Decimal | None = None,
+    condition: ORDER_CONDITION | None = None,
+    execution: ORDER_EXECUTION | None = None,
+    include_foreign: bool = False,
+) -> KisOrder:
+    """
+    한국투자증권 통합주식 주문
+
+    국내주식주문 -> 주식주문(현금)[v1_국내주식-001]
+    해외주식주문 -> 해외주식 주문[v1_해외주식-001]
+
+    Args:
+        order (ORDER_TYPE): 주문종류
+        price (ORDER_PRICE, optional): 주문가격
+        qty (Decimal, optional): 주문수량
+        condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
+        execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
+        include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
+
+    Examples:
+        >>> order('buy', price=100, condition=None, execution=None) # 전체 지정가 매수
+        >>> order('buy', price=None, condition=None, execution=None) # 전체 시장가 매수
+        >>> order('sell', price=100, condition=None, execution=None) # 전체 지정가 매도
+        >>> order('sell', price=None, condition=None, execution=None) # 전체 시장가 매도
+        >>> order('buy', price=100, condition=None, execution=None) # 지정가 매수
+        >>> order('buy', price=None, condition=None, execution=None) # 시장가 매수
+        >>> order('buy', price=100, condition='condition', execution=None) # 조건부지정가 매수
+        >>> order('buy', price=100, condition='best', execution=None) # 최유리지정가 매수
+        >>> order('buy', price=100, condition='priority', execution=None) # 최우선지정가 매수
+        >>> order('buy', price=100, condition='extended', execution=None) # 시간외단일가 매수 (모의투자 미지원)
+        >>> order('buy', price=None, condition='before', execution=None) # 장전시간외 매수 (모의투자 미지원)
+        >>> order('buy', price=None, condition='after', execution=None) # 장후시간외 매수 (모의투자 미지원)
+        >>> order('buy', price=100, condition=None, execution='IOC') # IOC지정가 매수 (모의투자 미지원)
+        >>> order('buy', price=100, condition=None, execution='FOK') # FOK지정가 매수 (모의투자 미지원)
+        >>> order('buy', price=None, condition=None, execution='IOC') # IOC시장가 매수 (모의투자 미지원)
+        >>> order('buy', price=None, condition=None, execution='FOK') # FOK시장가 매수 (모의투자 미지원)
+        >>> order('buy', price=100, condition='best', execution='IOC') # IOC최유리 매수 (모의투자 미지원)
+        >>> order('buy', price=100, condition='best', execution='FOK') # FOK최유리 매수 (모의투자 미지원)
+        >>> order('sell', price=100, condition=None, execution=None) # 지정가 매도
+        >>> order('sell', price=None, condition=None, execution=None) # 시장가 매도
+        >>> order('sell', price=100, condition='condition', execution=None) # 조건부지정가 매도
+        >>> order('sell', price=100, condition='best', execution=None) # 최유리지정가 매도
+        >>> order('sell', price=100, condition='priority', execution=None) # 최우선지정가 매도
+        >>> order('sell', price=100, condition='extended', execution=None) # 시간외단일가 매도 (모의투자 미지원)
+        >>> order('sell', price=None, condition='before', execution=None) # 장전시간외 매도 (모의투자 미지원)
+        >>> order('sell', price=None, condition='after', execution=None) # 장후시간외 매도
+        >>> order('sell', price=100, condition=None, execution='IOC') # IOC지정가 매도 (모의투자 미지원)
+        >>> order('sell', price=100, condition=None, execution='FOK') # FOK지정가 매도 (모의투자 미지원)
+        >>> order('sell', price=None, condition=None, execution='IOC') # IOC시장가 매도 (모의투자 미지원)
+        >>> order('sell', price=None, condition=None, execution='FOK') # FOK시장가 매도 (모의투자 미지원)
+        >>> order('sell', price=100, condition='best', execution='IOC') # IOC최유리 매도 (모의투자 미지원)
+        >>> order('sell', price=100, condition='best', execution='FOK') # FOK최유리 매도 (모의투자 미지원)
+        >>> order('buy', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
+        >>> order('buy', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
+        >>> order('buy', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
+        >>> order('buy', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
+        >>> order('buy', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 미지원)
+        >>> order('buy', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 미지원)
+        >>> order('buy', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 미지원)
+        >>> order('buy', price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매수 (모의투자 미지원)
+        >>> order('buy', price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매수 (모의투자 미지원)
+        >>> order('buy', price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 미지원)
+        >>> order('buy', price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 미지원)
+        >>> order('buy', price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 미지원)
+        >>> order('sell', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매도 (모의투자 미지원)
+        >>> order('sell', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매도 (모의투자 미지원)
+        >>> order('sell', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매도 (모의투자 미지원)
+        >>> order('sell', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매도 (모의투자 미지원)
+        >>> order('sell', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매도 (모의투자 미지원)
+        >>> order('sell', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매도 (모의투자 미지원)
+        >>> order('sell', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매도 (모의투자 미지원)
+        >>> order('sell', price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매도 (모의투자 미지원)
+        >>> order('sell', price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매도 (모의투자 미지원)
+        >>> order('sell', price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매도 (모의투자 미지원)
+        >>> order('sell', price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매도 (모의투자 미지원)
+        >>> order('sell', price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매도 (모의투자 미지원)
+        >>> order('buy', price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매수 (모의투자 미지원)
+        >>> order('buy', price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매수 (모의투자 미지원)
+        >>> order('buy', price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매수 (모의투자 미지원)
+        >>> order('buy', price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매수 (모의투자 미지원)
+        >>> order('buy', price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매수 (모의투자 미지원)
+        >>> order('buy', price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매수 (모의투자 미지원)
+        >>> order('sell', price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매도 (모의투자 미지원)
+        >>> order('sell', price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매도 (모의투자 미지원)
+        >>> order('sell', price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매도 (모의투자 미지원)
+        >>> order('sell', price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매도 (모의투자 미지원)
+        >>> order('sell', price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매도 (모의투자 미지원)
+        >>> order('sell', price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매도 (모의투자 미지원)
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
+        KisMarketNotOpenedError: 시장이 열리지 않은 경우
+        ValueError: 종목 코드가 올바르지 않은 경우
+    """
+    return order_function(
+        self.kis,
+        account=self.account_number,
+        market=self.market,
+        symbol=self.symbol,
+        order=order,
+        price=price,
+        qty=qty,
+        condition=condition,
+        execution=execution,
+        include_foreign=include_foreign,
+    )

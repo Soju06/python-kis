@@ -9,7 +9,7 @@ from pykis.api.account.order import (
     ORDER_EXECUTION,
     ORDER_TYPE,
     KisOrder,
-    KisOrderNumber,
+    KisOrderNumberBase,
     resolve_domestic_order_condition,
 )
 from pykis.api.base.account import KisAccountBase, KisAccountProtocol
@@ -157,11 +157,11 @@ class KisPendingOrders(KisAccountProtocol, Protocol):
         """미체결주문"""
         raise NotImplementedError
 
-    def __getitem__(self, key: int | KisOrderNumber | str) -> KisPendingOrder:
+    def __getitem__(self, key: int | KisOrderNumberBase | str) -> KisPendingOrder:
         """인덱스 또는 주문번호로 주문을 조회합니다."""
         raise NotImplementedError
 
-    def order(self, key: KisOrderNumber | str) -> KisPendingOrder | None:
+    def order(self, key: KisOrderNumberBase | str) -> KisPendingOrder | None:
         """주문번호 또는 종목코드로 주문을 조회합니다."""
         raise NotImplementedError
 
@@ -286,7 +286,7 @@ class KisPendingOrdersBase(KisAccountBase):
     orders: list[KisPendingOrder]
     """미체결주문"""
 
-    def __getitem__(self, key: int | KisOrderNumber | str) -> KisPendingOrder:
+    def __getitem__(self, key: int | KisOrderNumberBase | str) -> KisPendingOrder:
         """인덱스 또는 주문번호로 주문을 조회합니다."""
         if isinstance(key, int):
             return self.orders[key]
@@ -294,20 +294,20 @@ class KisPendingOrdersBase(KisAccountBase):
             for order in self.orders:
                 if order.symbol == key:
                     return order
-        elif isinstance(key, KisOrderNumber):
+        elif isinstance(key, KisOrderNumberBase):
             for order in self.orders:
                 if order.order_number == key:
                     return order
 
         raise KeyError(key)
 
-    def order(self, key: KisOrderNumber | str) -> KisPendingOrder | None:
+    def order(self, key: KisOrderNumberBase | str) -> KisPendingOrder | None:
         """주문번호 또는 종목코드로 주문을 조회합니다."""
         if isinstance(key, str):
             for order in self.orders:
                 if order.symbol == key:
                     return order
-        elif isinstance(key, KisOrderNumber):
+        elif isinstance(key, KisOrderNumberBase):
             for order in self.orders:
                 if order.order_number == key:
                     return order
@@ -393,7 +393,7 @@ class KisDomesticPendingOrder(KisDynamic, KisPendingOrderBase):
     def __kis_post_init__(self):
         super().__kis_post_init__()
 
-        self.order_number = KisOrder(
+        self.order_number = KisOrder.from_order(
             kis=self.kis,
             symbol=self.symbol,
             market=self.market,
@@ -500,7 +500,7 @@ class KisForeignPendingOrder(KisDynamic, KisPendingOrderBase):
     def __kis_post_init__(self):
         super().__kis_post_init__()
 
-        self.order_number = KisOrder(
+        self.order_number = KisOrder.from_order(
             kis=self.kis,
             symbol=self.symbol,
             market=self.market,

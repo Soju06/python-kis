@@ -2,11 +2,11 @@ from typing import TYPE_CHECKING, Protocol
 
 from pykis.api.base.account import KisAccountBase, KisAccountProtocol
 from pykis.api.base.product import KisProductBase, KisProductProtocol
-from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
+    from pykis.api.stock.market import MARKET_TYPE
     from pykis.kis import PyKis
 
 
@@ -34,7 +34,7 @@ class KisAccountProductBase(KisAccountBase, KisProductBase):
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    market: "MARKET_TYPE"
     """상품유형타입"""
 
     account_number: KisAccountNumber
