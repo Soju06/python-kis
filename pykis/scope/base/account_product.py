@@ -25,6 +25,7 @@ class KisAccountProductScope(KisProductScope, KisAccountProductBase):
             symbol=symbol,
         )
 
+    from pykis.api.account.order import account_product_order as order  # 주문
     from pykis.api.account.orderable_amount import (
         account_product_orderable_amount as orderable_amount,  # 주문 가능 금액 조회
     )
