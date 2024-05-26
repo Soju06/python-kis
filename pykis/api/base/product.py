@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 from pykis.api.base.market import KisMarketBase, KisMarketProtocol
 from pykis.api.stock.market import MARKET_TYPE
@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from pykis.scope.stock.info_stock import KisInfoStock
 
 
+@runtime_checkable
 class KisProductProtocol(KisMarketProtocol, Protocol):
     """한국투자증권 상품 프로토콜"""
 

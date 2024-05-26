@@ -1,11 +1,14 @@
 from datetime import date, datetime
 from decimal import Decimal
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Iterable, Protocol, runtime_checkable
 from zoneinfo import ZoneInfo
 
 from pykis.__env__ import TIMEZONE
-from pykis.api.base.account import KisAccountBase
-from pykis.api.base.account_product import KisAccountProductBase
+from pykis.api.base.account import KisAccountBase, KisAccountProtocol
+from pykis.api.base.account_product import (
+    KisAccountProductBase,
+    KisAccountProductProtocol,
+)
 from pykis.api.stock.info import COUNTRY_TYPE
 from pykis.api.stock.market import (
     CURRENCY_TYPE,
@@ -25,6 +28,145 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+@runtime_checkable
+class KisOrderProfit(KisAccountProductProtocol, Protocol):
+    """한국투자증권 일별 매매손익"""
+
+    @property
+    def time(self) -> datetime:
+        """시간 (현지시간)"""
+        raise NotImplementedError
+
+    @property
+    def time_kst(self) -> datetime:
+        """시간 (한국시간)"""
+        raise NotImplementedError
+
+    @property
+    def timezone(self) -> ZoneInfo:
+        """시간대"""
+        raise NotImplementedError
+
+    @property
+    def symbol(self) -> str:
+        """종목코드"""
+        raise NotImplementedError
+
+    @property
+    def market(self) -> MARKET_TYPE:
+        """상품유형타입"""
+        raise NotImplementedError
+
+    @property
+    def account_number(self) -> KisAccountNumber:
+        """계좌번호"""
+        raise NotImplementedError
+
+    @property
+    def name(self) -> str:
+        """종목명"""
+        raise NotImplementedError
+
+    @property
+    def buy_price(self) -> Decimal:
+        """매수단가"""
+        raise NotImplementedError
+
+    @property
+    def sell_price(self) -> Decimal:
+        """매도단가"""
+        raise NotImplementedError
+
+    @property
+    def buy_amount(self) -> Decimal:
+        """매수금액"""
+        raise NotImplementedError
+
+    @property
+    def sell_amount(self) -> Decimal:
+        """매도금액"""
+        raise NotImplementedError
+
+    @property
+    def quantity(self) -> Decimal:
+        """매도수량"""
+        raise NotImplementedError
+
+    @property
+    def qty(self) -> Decimal:
+        """매도수량"""
+        raise NotImplementedError
+
+    @property
+    def profit(self) -> Decimal:
+        """손익금액"""
+        raise NotImplementedError
+
+    @property
+    def profit_rate(self) -> Decimal:
+        """손익률 (-100 ~ 100)"""
+        raise NotImplementedError
+
+    @property
+    def currency(self) -> CURRENCY_TYPE:
+        """통화"""
+        raise NotImplementedError
+
+    @property
+    def exchange_rate(self) -> Decimal:
+        """당일환율"""
+        raise NotImplementedError
+
+
+@runtime_checkable
+class KisOrderProfits(KisAccountProtocol, Protocol):
+    """한국투자증권 일별 매매손익"""
+
+    @property
+    def account_number(self) -> KisAccountNumber:
+        """계좌번호"""
+        raise NotImplementedError
+
+    @property
+    def orders(self) -> list[KisOrderProfit]:
+        """일별 체결내역"""
+        raise NotImplementedError
+
+    @property
+    def fees(self) -> Decimal:
+        """수수료"""
+        raise NotImplementedError
+
+    @property
+    def buy_amount(self) -> Decimal:
+        """매수금액"""
+        raise NotImplementedError
+
+    @property
+    def sell_amount(self) -> Decimal:
+        """매도금액"""
+        raise NotImplementedError
+
+    @property
+    def profit(self) -> Decimal:
+        """손익금액"""
+        raise NotImplementedError
+
+    def __getitem__(self, key: int | str) -> KisOrderProfit:
+        """인덱스 또는 주문번호로 주문을 조회합니다."""
+        raise NotImplementedError
+
+    def order(self, key: str) -> KisOrderProfit | None:
+        """주문번호 또는 종목코드로 주문을 조회합니다."""
+        raise NotImplementedError
+
+    def __len__(self) -> int:
+        raise NotImplementedError
+
+    def __iter__(self) -> Iterable[KisOrderProfit]:
+        raise NotImplementedError
+
+
 @kis_repr(
     "time_kst",
     "market",
@@ -37,7 +179,11 @@ if TYPE_CHECKING:
     "profit_rate",
     lines="single",
 )
-class KisOrderProfit(KisAccountProductBase):
+class KisOrderProfitRepr:
+    """한국투자증권 일별 매매손익"""
+
+
+class KisOrderProfitBase(KisAccountProductBase, KisOrderProfitRepr):
     """한국투자증권 일별 매매손익"""
 
     time: datetime
@@ -100,7 +246,11 @@ class KisOrderProfit(KisAccountProductBase):
     lines="multiple",
     field_lines={"orders": "multiple"},
 )
-class KisOrderProfits(KisAccountBase):
+class KisOrderProfitsRepr:
+    """한국투자증권 일별 매매손익"""
+
+
+class KisOrderProfitsBase(KisAccountBase, KisOrderProfitsRepr):
     """한국투자증권 일별 매매손익"""
 
     account_number: KisAccountNumber
@@ -154,7 +304,7 @@ class KisOrderProfits(KisAccountBase):
         return iter(self.orders)
 
 
-class KisDomesticOrderProfit(KisDynamic, KisOrderProfit):
+class KisDomesticOrderProfit(KisDynamic, KisOrderProfitBase):
     """한국투자증권 국내 일별 매매손익"""
 
     time: datetime
@@ -198,7 +348,7 @@ class KisDomesticOrderProfit(KisDynamic, KisOrderProfit):
     """당일환율"""
 
 
-class KisDomesticOrderProfits(KisPaginationAPIResponse, KisOrderProfits):
+class KisDomesticOrderProfits(KisPaginationAPIResponse, KisOrderProfitsBase):
     """한국투자증권 국내 일별 매매손익"""
 
     __path__ = None
@@ -206,7 +356,7 @@ class KisDomesticOrderProfits(KisPaginationAPIResponse, KisOrderProfits):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    orders: list[KisDomesticOrderProfit] = KisList(KisDomesticOrderProfit)["output1"]
+    orders: list[KisOrderProfit] = KisList(KisDomesticOrderProfit)["output1"]
     """일별 체결내역"""
 
     fees: Decimal = KisAny(lambda x: Decimal(x["tot_fee"]))["output2"]
@@ -225,17 +375,19 @@ class KisDomesticOrderProfits(KisPaginationAPIResponse, KisOrderProfits):
             if order.quantity <= 0:
                 continue
 
-            order.account_number = self.account_number
+            if isinstance(order, KisDomesticOrderProfit):
+                order.account_number = self.account_number
+
             orders.append(order)
 
         self.orders = orders
 
     def __kis_post_init__(self):
         super().__kis_post_init__()
-        self._kis_spread(self.orders)
+        self._kis_spread(self.orders)  # type: ignore
 
 
-class KisForeignOrderProfit(KisDynamic, KisOrderProfit):
+class KisForeignOrderProfit(KisDynamic, KisOrderProfitBase):
     """한국투자증권 해외 일별 매매손익"""
 
     time: datetime
@@ -280,7 +432,7 @@ class KisForeignOrderProfit(KisDynamic, KisOrderProfit):
         self.time = self.time_kst.astimezone(self.timezone)
 
 
-class KisForeignOrderProfits(KisPaginationAPIResponse, KisOrderProfits):
+class KisForeignOrderProfits(KisPaginationAPIResponse, KisOrderProfitsBase):
     """한국투자증권 해외 일별 매매손익"""
 
     __path__ = None
@@ -288,7 +440,7 @@ class KisForeignOrderProfits(KisPaginationAPIResponse, KisOrderProfits):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    orders: list[KisForeignOrderProfit] = KisList(KisForeignOrderProfit)["output1"]
+    orders: list[KisOrderProfit] = KisList(KisForeignOrderProfit)["output1"]
     """일별 체결내역"""
 
     _start: date
@@ -333,17 +485,18 @@ class KisForeignOrderProfits(KisPaginationAPIResponse, KisOrderProfits):
             if order.quantity <= 0:
                 continue
 
-            order.account_number = self.account_number
+            if isinstance(order, KisForeignOrderProfit):
+                order.account_number = self.account_number
             orders.append(order)
 
         self.orders = orders
 
     def __kis_post_init__(self):
         super().__kis_post_init__()
-        self._kis_spread(self.orders)
+        self._kis_spread(self.orders)  # type: ignore
 
 
-class KisIntegrationOrderProfits(KisOrderProfits):
+class KisIntegrationOrderProfits(KisOrderProfitsBase):
     """한국투자증권 통합 매매손익"""
 
     account_number: KisAccountNumber
@@ -641,3 +794,35 @@ def order_profits(
             end=end,
             country=country,
         )
+
+
+def account_order_profits(
+    self: "KisAccountProtocol",
+    start: date,
+    end: date,
+    country: COUNTRY_TYPE | None = None,
+) -> KisOrderProfits:
+    """
+    한국투자증권 통합 기간 손익 조회
+
+    국내주식주문 -> 기간별매매손익현황조회[v1_국내주식-060] (모의투자 미지원)
+    국내주식주문 -> 해외주식 기간손익[v1_해외주식-032] (모의투자 미지원)
+    (업데이트 날짜: 2024/04/03)
+
+    Args:
+        account (str | KisAccountNumber): 계좌번호
+        start (date): 조회 시작일
+        end (date): 조회 종료일
+        country (COUNTRY_TYPE, optional): 국가
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        ValueError: 계좌번호가 잘못된 경우
+    """
+    return order_profits(
+        self.kis,
+        account=self.account_number,
+        start=start,
+        end=end,
+        country=country,
+    )

@@ -293,6 +293,7 @@ def resolve_domestic_order_condition(
     return DOMESTIC_REVERSE_ORDER_CONDITION_MAP[code]
 
 
+@runtime_checkable
 class KisOrderNumber(KisAccountProductProtocol, Protocol):
     """한국투자증권 주문번호"""
 

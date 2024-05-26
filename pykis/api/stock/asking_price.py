@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any, Protocol
+from typing import TYPE_CHECKING, Any, Protocol, runtime_checkable
 
 from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
 from pykis.responses.dynamic import KisTransform
@@ -22,6 +22,7 @@ __all__ = [
 ]
 
 
+@runtime_checkable
 class KisAskingPriceItem(Protocol):
     """한국투자증권 호가 항목"""
 
@@ -36,6 +37,7 @@ class KisAskingPriceItem(Protocol):
         raise NotImplementedError
 
 
+@runtime_checkable
 class KisAskingPrice(Protocol):
     """한국투자증권 호가"""
 
@@ -262,7 +264,7 @@ def asking_price(
     symbol: str,
 ) -> KisAskingPriceResponse:
     """
-    한국투자증권 호가 조회
+    한국투자증권 호가 조회 (해외주식 미지원)
 
     [국내주식] 기본시세 -> 주식현재가 호가/예상체결[v1_국내주식-011]
 
@@ -285,7 +287,7 @@ def product_asking_price(
     self: "KisProductProtocol",
 ) -> KisAskingPriceResponse:
     """
-    한국투자증권 호가 조회
+    한국투자증권 호가 조회 (해외주식 미지원)
 
     [국내주식] 기본시세 -> 주식현재가 호가/예상체결[v1_국내주식-011]
 

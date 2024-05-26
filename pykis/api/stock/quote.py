@@ -1,6 +1,6 @@
 from datetime import date
 from decimal import Decimal
-from typing import TYPE_CHECKING, Literal, Protocol
+from typing import TYPE_CHECKING, Literal, Protocol, runtime_checkable
 
 from pykis.__env__ import TIMEZONE
 from pykis.api.stock.market import (
@@ -71,6 +71,7 @@ STOCK_RISK_TYPE_KOR_MAP = {
 }
 
 
+@runtime_checkable
 class KisIndicator(Protocol):
     """한국투자증권 종목 지표"""
 
@@ -115,6 +116,7 @@ class KisIndicator(Protocol):
         raise NotImplementedError
 
 
+@runtime_checkable
 class KisQuote(Protocol):
     """한국투자증권 상품 시세"""
 
@@ -264,6 +266,7 @@ class KisQuote(Protocol):
         return STOCK_SIGN_TYPE_KOR_MAP[self.sign]
 
 
+@runtime_checkable
 class KisQuoteResponse(KisQuote, KisResponseProtocol, Protocol):
     """한국투자증권 상품 시세 응답"""
 

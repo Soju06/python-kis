@@ -1,7 +1,7 @@
 import bisect
 from datetime import date, datetime, time, tzinfo
 from decimal import Decimal
-from typing import Literal, Protocol, TypeVar, overload
+from typing import Literal, Protocol, TypeVar, overload, runtime_checkable
 
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.api.stock.quote import STOCK_SIGN_TYPE
@@ -15,6 +15,7 @@ __all__ = [
 ]
 
 
+@runtime_checkable
 class KisChartBar:
     """한국투자증권 차트 봉"""
 
@@ -89,6 +90,7 @@ class KisChartBar:
         raise NotImplementedError
 
 
+@runtime_checkable
 class KisChart(Protocol):
     """한국투자증권 차트"""
 
@@ -163,6 +165,7 @@ class KisChart(Protocol):
         raise NotImplementedError
 
 
+@runtime_checkable
 class KisChartResponse(KisChart, KisResponseProtocol, Protocol):
     """차트 응답"""
 

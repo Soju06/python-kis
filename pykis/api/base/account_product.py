@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 from pykis.api.base.account import KisAccountBase, KisAccountProtocol
 from pykis.api.base.product import KisProductBase, KisProductProtocol
@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+@runtime_checkable
 class KisAccountProductProtocol(KisAccountProtocol, KisProductProtocol, Protocol):
     """한국투자증권 계좌 상품 프로토콜"""
 

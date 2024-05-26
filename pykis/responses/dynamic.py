@@ -1,5 +1,13 @@
 from types import NoneType
-from typing import Any, Callable, Generic, Protocol, TypeVar, get_args
+from typing import (
+    Any,
+    Callable,
+    Generic,
+    Protocol,
+    TypeVar,
+    get_args,
+    runtime_checkable,
+)
 
 from pykis import logging
 from pykis.__env__ import EMPTY, EMPTY_TYPE
@@ -133,6 +141,7 @@ class KisDynamicScopedPath:
         return scope
 
 
+@runtime_checkable
 class KisDynamicProtocol(Protocol):
     @property
     def __data__(self) -> dict[str, Any]:

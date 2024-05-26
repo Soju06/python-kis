@@ -1,4 +1,4 @@
-from typing import Any, Protocol
+from typing import Any, Protocol, runtime_checkable
 
 from requests import Response
 
@@ -46,6 +46,7 @@ def raise_not_found(
     )
 
 
+@runtime_checkable
 class KisResponseProtocol(KisDynamicProtocol, KisObjectProtocol, Protocol):
     """KIS 응답 결과 프로토콜"""
 
@@ -101,6 +102,7 @@ class KisAPIResponse(KisResponse):
     __path__: KisDynamicScopedPath | str | None = "output"
 
 
+@runtime_checkable
 class KisPaginationAPIResponseProtocol(KisResponseProtocol, Protocol):
     """KIS Pagination API 응답 결과 프로토콜"""
 
