@@ -1,6 +1,6 @@
 from datetime import date, datetime, timedelta
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any, Iterable, Protocol
+from typing import TYPE_CHECKING, Any, Iterable, Protocol, runtime_checkable
 from zoneinfo import ZoneInfo
 
 from pykis.__env__ import TIMEZONE
@@ -34,6 +34,7 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+@runtime_checkable
 class KisDailyOrder(KisAccountProductProtocol, Protocol):
     """한국투자증권 일별 체결내역"""
 
@@ -163,6 +164,7 @@ class KisDailyOrder(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
 
+@runtime_checkable
 class KisDailyOrders(KisAccountProtocol, Protocol):
     """한국투자증권 일별 체결내역"""
 

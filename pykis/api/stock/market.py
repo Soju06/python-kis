@@ -1,6 +1,6 @@
 from datetime import time, tzinfo
 from enum import Flag
-from typing import Literal, Protocol
+from typing import Literal, Protocol, runtime_checkable
 from zoneinfo import ZoneInfo
 
 from pykis.api.base.market import KisMarketBase, KisMarketProtocol
@@ -178,6 +178,7 @@ EX_DATE_TYPE_KOR_MAP = {
 }
 
 
+@runtime_checkable
 class KisTradingHours(KisMarketProtocol, Protocol):
     """한국투자증권 장 운영 시간"""
 

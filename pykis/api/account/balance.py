@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import TYPE_CHECKING, Iterable, Protocol
+from typing import TYPE_CHECKING, Iterable, Protocol, runtime_checkable
 
 from pykis.api.base.account import KisAccountBase, KisAccountProtocol
 from pykis.api.base.account_product import (
@@ -20,6 +20,7 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+@runtime_checkable
 class KisBalanceStock(KisAccountProductProtocol, Protocol):
     """한국투자증권 보유종목"""
 
@@ -94,6 +95,7 @@ class KisBalanceStock(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
 
+@runtime_checkable
 class KisDeposit(KisAccountProtocol, Protocol):
     """한국투자증권 통화별 예수금"""
 
@@ -123,6 +125,7 @@ class KisDeposit(KisAccountProtocol, Protocol):
         raise NotImplementedError
 
 
+@runtime_checkable
 class KisBalance(KisAccountProtocol, Protocol):
     """한국투자증권 계좌 잔고"""
 

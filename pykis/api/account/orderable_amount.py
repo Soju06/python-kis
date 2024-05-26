@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any, Protocol
+from typing import TYPE_CHECKING, Any, Protocol, runtime_checkable
 
 from pykis.api.account.order import (
     DOMESTIC_ORDER_CONDITION,
@@ -29,6 +29,7 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+@runtime_checkable
 class KisOrderableAmount(KisAccountProductProtocol, Protocol):
     """한국투자증권 주문가능금액"""
 
@@ -108,6 +109,7 @@ class KisOrderableAmount(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
 
+@runtime_checkable
 class KisOrderableAmountResponse(KisOrderableAmount, KisResponseProtocol, Protocol):
     """한국투자증권 주문가능금액 응답"""
 

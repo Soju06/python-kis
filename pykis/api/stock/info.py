@@ -1,5 +1,5 @@
 from datetime import timedelta
-from typing import TYPE_CHECKING, Literal, Protocol
+from typing import TYPE_CHECKING, Literal, Protocol, runtime_checkable
 
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.exception import KisAPIError
@@ -112,6 +112,7 @@ MARKET_CODE_MAP = {
 }
 
 
+@runtime_checkable
 class KisStockInfo(Protocol):
     """상품기본정보"""
 
@@ -171,6 +172,7 @@ class KisStockInfo(Protocol):
         raise NotImplementedError
 
 
+@runtime_checkable
 class KisStockInfoResponse(KisStockInfo, KisResponseProtocol, Protocol):
     """상품기본정보 응답"""
 

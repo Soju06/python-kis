@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Iterable, Protocol
+from typing import TYPE_CHECKING, Any, Iterable, Protocol, runtime_checkable
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -8,6 +8,7 @@ __all__ = [
 ]
 
 
+@runtime_checkable
 class KisObjectProtocol(Protocol):
     @property
     def kis(self) -> "PyKis":
