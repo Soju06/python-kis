@@ -4,7 +4,7 @@ from pykis.client.object import KisObjectBase, KisObjectProtocol
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
-    from pykis.api.stock.market import MARKET_TYPE
+    from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
 
 
 @runtime_checkable
@@ -31,6 +31,11 @@ class KisMarketProtocol(KisObjectProtocol, Protocol):
         """국내종목 여부"""
         raise NotImplementedError
 
+    @property
+    def currency(self) -> "CURRENCY_TYPE":
+        """통화"""
+        raise NotImplementedError
+
 
 @kis_repr(
     "market",
@@ -45,9 +50,9 @@ class KisMarketBase(KisObjectBase):
     @property
     def market_name(self) -> str:
         """실제 상품유형명"""
-        from pykis.api.stock.market import MARKET_TYPE_KOR_MAP
+        from pykis.api.stock.market import get_market_name
 
-        return MARKET_TYPE_KOR_MAP[self.market]
+        return get_market_name(self.market)
 
     @property
     def foreign(self) -> bool:
@@ -60,3 +65,10 @@ class KisMarketBase(KisObjectBase):
     def domestic(self) -> bool:
         """국내종목 여부"""
         return not self.foreign
+
+    @property
+    def currency(self) -> "CURRENCY_TYPE":
+        """통화"""
+        from pykis.api.stock.market import get_market_currency
+
+        return get_market_currency(self.market)

@@ -13,7 +13,7 @@ from pykis.api.base.account_product import (
     KisAccountProductBase,
     KisAccountProductProtocol,
 )
-from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
+from pykis.api.stock.market import MARKET_TYPE
 from pykis.api.stock.quote import quote
 from pykis.client.account import KisAccountNumber
 from pykis.responses.response import (
@@ -21,7 +21,7 @@ from pykis.responses.response import (
     KisResponseProtocol,
     raise_not_found,
 )
-from pykis.responses.types import KisDecimal, KisString
+from pykis.responses.types import KisDecimal
 from pykis.utils.cache import cached
 
 if TYPE_CHECKING:
@@ -94,11 +94,6 @@ class KisOrderableAmount(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def currency(self) -> CURRENCY_TYPE:
-        """통화코드"""
-        raise NotImplementedError
-
-    @property
     def exchange_rate(self) -> Decimal:
         """당일환율"""
         raise NotImplementedError
@@ -157,8 +152,6 @@ class KisOrderableAmountBase(KisAccountProductBase):
         """주문가능수량 (통합)"""
         return self.foreign_quantity
 
-    currency: CURRENCY_TYPE
-    """통화코드"""
     exchange_rate: Decimal
     """당일환율"""
 
@@ -231,8 +224,6 @@ class KisDomesticOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
         """
         return self._foreign.quantity
 
-    currency: CURRENCY_TYPE = "KRW"
-    """통화코드"""
     exchange_rate: Decimal = Decimal(1)
     """당일환율"""
 
@@ -295,8 +286,6 @@ class KisForeignOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
     주문가능수량 (통화) + 주문가능수량 (원화 등)을 합산한 금액으로 계산한 수량
     """
 
-    currency: CURRENCY_TYPE = KisString["tr_crcy_cd"]
-    """통화코드"""
     exchange_rate: Decimal = KisDecimal["exrt"]
     """당일환율"""
 

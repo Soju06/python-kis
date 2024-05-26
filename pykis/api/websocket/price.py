@@ -1,14 +1,14 @@
 from datetime import datetime, tzinfo
 from decimal import Decimal
+from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 from pykis.__env__ import TIMEZONE
 from pykis.api.account.order import ORDER_CONDITION
+from pykis.api.base.product import KisProductBase, KisProductProtocol
 from pykis.api.stock.market import (
-    CURRENCY_TYPE,
     MARKET_TYPE,
     REVERSE_DAYTIME_MARKET_SHORT_TYPE_MAP,
     REVERSE_MARKET_SHORT_TYPE_MAP,
-    get_market_currency,
     get_market_timezone,
 )
 from pykis.api.stock.quote import (
@@ -17,22 +17,233 @@ from pykis.api.stock.quote import (
     STOCK_SIGN_TYPE_MAP,
 )
 from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
-from pykis.responses.websocket import KisWebsocketResponse
+from pykis.responses.websocket import KisWebsocketResponse, KisWebsocketResponseProtocol
 from pykis.utils.repr import kis_repr
 
 
-def parse_foreign_realtime_symbol(raw_symbol: str) -> tuple[MARKET_TYPE, ORDER_CONDITION | None, str]:
-    match raw_symbol[0]:
-        case "D":
-            return REVERSE_MARKET_SHORT_TYPE_MAP[raw_symbol[1:4]], None, raw_symbol[4:]
-        case "R":
-            return (
-                REVERSE_DAYTIME_MARKET_SHORT_TYPE_MAP[raw_symbol[1:4]],
-                "extended",
-                raw_symbol[4:],
-            )
-        case _:
-            raise ValueError(f"Invalid foreign realtime symbol: {raw_symbol!r}")
+@runtime_checkable
+class KisRealtimePrice(KisWebsocketResponseProtocol, KisProductProtocol, Protocol):
+    """한국투자증권 실시간 체결가"""
+
+    @property
+    def time(self) -> datetime:
+        """체결 시간"""
+        raise NotImplementedError
+
+    @property
+    def time_kst(self) -> datetime:
+        """체결 시간(KST)"""
+        raise NotImplementedError
+
+    @property
+    def timezone(self) -> tzinfo:
+        """시간대"""
+        raise NotImplementedError
+
+    @property
+    def price(self) -> Decimal:
+        """현재가"""
+        raise NotImplementedError
+
+    @property
+    def last(self) -> Decimal:
+        """현재가"""
+        raise NotImplementedError
+
+    @property
+    def prev_price(self) -> Decimal:
+        """전일가"""
+        raise NotImplementedError
+
+    @property
+    def change(self) -> Decimal:
+        """전일대비"""
+        raise NotImplementedError
+
+    @property
+    def sign(self) -> STOCK_SIGN_TYPE:
+        """대비부호"""
+        raise NotImplementedError
+
+    @property
+    def sign_name(self) -> str:
+        """대비부호명"""
+        raise NotImplementedError
+
+    @property
+    def change_rate(self) -> Decimal:
+        """전일대비율 (-100~100)"""
+        raise NotImplementedError
+
+    @property
+    def bid(self) -> Decimal:
+        """매수호가"""
+        raise NotImplementedError
+
+    @property
+    def ask(self) -> Decimal:
+        """매도호가"""
+        raise NotImplementedError
+
+    @property
+    def bid_quantity(self) -> int:
+        """매수호가잔량"""
+        raise NotImplementedError
+
+    @property
+    def ask_quantity(self) -> int:
+        """매도호가잔량"""
+        raise NotImplementedError
+
+    @property
+    def spread(self) -> Decimal:
+        """매수/매도호가대비"""
+        raise NotImplementedError
+
+    @property
+    def spread_rate(self) -> Decimal:
+        """매수/매도호가대비율 (-100~100)"""
+        raise NotImplementedError
+
+    @property
+    def bid_qty(self) -> int:
+        """매수호가잔량"""
+        raise NotImplementedError
+
+    @property
+    def ask_qty(self) -> int:
+        """매도호가잔량"""
+        raise NotImplementedError
+
+    @property
+    def open(self) -> Decimal:
+        """당일시가"""
+        raise NotImplementedError
+
+    @property
+    def open_time(self) -> datetime | None:
+        """시가시간"""
+        raise NotImplementedError
+
+    @property
+    def open_time_kst(self) -> datetime | None:
+        """시가시간(KST)"""
+        raise NotImplementedError
+
+    @property
+    def open_change(self) -> Decimal:
+        """시가대비"""
+        raise NotImplementedError
+
+    @property
+    def open_change_rate(self) -> Decimal:
+        """시가대비율"""
+        raise NotImplementedError
+
+    @property
+    def high(self) -> Decimal:
+        """당일고가"""
+        raise NotImplementedError
+
+    @property
+    def high_time(self) -> datetime | None:
+        """고가시간"""
+        raise NotImplementedError
+
+    @property
+    def high_time_kst(self) -> datetime | None:
+        """고가시간(KST)"""
+        raise NotImplementedError
+
+    @property
+    def high_change(self) -> Decimal:
+        """고가대비"""
+        raise NotImplementedError
+
+    @property
+    def high_change_rate(self) -> Decimal:
+        """고가대비율"""
+        raise NotImplementedError
+
+    @property
+    def low(self) -> Decimal:
+        """당일저가"""
+        raise NotImplementedError
+
+    @property
+    def low_time(self) -> datetime | None:
+        """저가시간"""
+        raise NotImplementedError
+
+    @property
+    def low_time_kst(self) -> datetime | None:
+        """저가시간(KST)"""
+        raise NotImplementedError
+
+    @property
+    def low_change(self) -> Decimal:
+        """저가대비"""
+        raise NotImplementedError
+
+    @property
+    def low_change_rate(self) -> Decimal:
+        """저가대비율"""
+        raise NotImplementedError
+
+    @property
+    def volume(self) -> int:
+        """누적거래량"""
+        raise NotImplementedError
+
+    @property
+    def amount(self) -> Decimal:
+        """누적거래대금"""
+        raise NotImplementedError
+
+    @property
+    def prev_volume(self) -> int | None:
+        """전일동일시간거래량"""
+        raise NotImplementedError
+
+    @property
+    def buy_quantity(self) -> int:
+        """매수체결량"""
+        raise NotImplementedError
+
+    @property
+    def sell_quantity(self) -> int:
+        """매도체결량"""
+        raise NotImplementedError
+
+    @property
+    def intensity(self) -> float:
+        """체결강도 (0 ~ 100+)"""
+        raise NotImplementedError
+
+    @property
+    def buy_qty(self) -> int:
+        """매수체결량"""
+        raise NotImplementedError
+
+    @property
+    def sell_qty(self) -> int:
+        """매도체결량"""
+        raise NotImplementedError
+
+    @property
+    def volume_rate(self) -> Decimal | None:
+        """전일동일시간거래량비율 (-100~100)"""
+        raise NotImplementedError
+
+    @property
+    def condition(self) -> ORDER_CONDITION | None:
+        """주문조건"""
+        raise NotImplementedError
+
+    @property
+    def decimal_places(self) -> int:
+        """소수점 자리수"""
+        raise NotImplementedError
 
 
 @kis_repr(
@@ -45,7 +256,11 @@ def parse_foreign_realtime_symbol(raw_symbol: str) -> tuple[MARKET_TYPE, ORDER_C
     "amount",
     lines="single",
 )
-class KisRealtimePrice(KisWebsocketResponse):
+class KisRealtimePriceRepr:
+    """한국투자증권 실시간 체결가"""
+
+
+class KisRealtimePriceBase(KisWebsocketResponse, KisProductBase, KisRealtimePriceRepr):
     """한국투자증권 실시간 체결가"""
 
     symbol: str
@@ -203,9 +418,6 @@ class KisRealtimePrice(KisWebsocketResponse):
     decimal_places: int
     """소수점 자리수"""
 
-    currency: CURRENCY_TYPE
-    """통화코드"""
-
 
 DOMESTIC_REALTIME_PRICE_ORDER_CONDITION_MAP: dict[str, ORDER_CONDITION | None] = {
     "1": "before",
@@ -215,7 +427,7 @@ DOMESTIC_REALTIME_PRICE_ORDER_CONDITION_MAP: dict[str, ORDER_CONDITION | None] =
 }
 
 
-class KisDomesticRealtimePrice(KisRealtimePrice):
+class KisDomesticRealtimePrice(KisRealtimePriceBase):
     """국내주식 실시간 체결가"""
 
     __fields__ = [
@@ -347,9 +559,6 @@ class KisDomesticRealtimePrice(KisRealtimePrice):
     decimal_places: int = 1
     """소수점 자리수"""
 
-    currency: CURRENCY_TYPE = "KRW"
-    """통화코드"""
-
     def __pre_init__(self, data: list[str]):
         super().__pre_init__(data)
 
@@ -370,7 +579,21 @@ FOREIGN_REALTIME_PRICE_ORDER_CONDITION_MAP: dict[str, ORDER_CONDITION | None] = 
 }
 
 
-class KisForeignRealtimePrice(KisRealtimePrice):
+def parse_foreign_realtime_symbol(raw_symbol: str) -> tuple[MARKET_TYPE, ORDER_CONDITION | None, str]:
+    match raw_symbol[0]:
+        case "D":
+            return REVERSE_MARKET_SHORT_TYPE_MAP[raw_symbol[1:4]], None, raw_symbol[4:]
+        case "R":
+            return (
+                REVERSE_DAYTIME_MARKET_SHORT_TYPE_MAP[raw_symbol[1:4]],
+                "extended",
+                raw_symbol[4:],
+            )
+        case _:
+            raise ValueError(f"Invalid foreign realtime symbol: {raw_symbol!r}")
+
+
+class KisForeignRealtimePrice(KisRealtimePriceBase):
     """해외주식 실시간 체결가"""
 
     __fields__ = [
@@ -477,9 +700,6 @@ class KisForeignRealtimePrice(KisRealtimePrice):
     decimal_places: int  # ZDIV 수수점자리수
     """소수점 자리수"""
 
-    currency: CURRENCY_TYPE  # RSYM 실시간종목코드
-    """통화코드"""
-
     def __pre_init__(self, data: list[str]):
         super().__pre_init__(data)
 
@@ -489,7 +709,17 @@ class KisForeignRealtimePrice(KisRealtimePrice):
             _,
         ) = parse_foreign_realtime_symbol(data[0])
         self.timezone = get_market_timezone(self.market)
-        self.currency = get_market_currency(self.market)
 
         self.time = datetime.strptime(data[4] + data[5], "%Y%m%d%H%M%S").replace(tzinfo=self.timezone)
         self.time_kst = self.time.astimezone(TIMEZONE)
+
+# IDE Type Checker
+if TYPE_CHECKING:
+
+    def _() -> KisRealtimePrice:
+        return KisDomesticRealtimePrice()
+
+    def _() -> KisRealtimePrice:
+        return KisForeignRealtimePrice()
+    
+    del _
