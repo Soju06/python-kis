@@ -178,6 +178,7 @@ class KisDynamic:
             return None
 
         data = self.__data__.copy()
+        data.pop("__response__", None)
 
         return data
 

@@ -1,7 +1,7 @@
 from decimal import Decimal
 from typing import TYPE_CHECKING, Any, Protocol, runtime_checkable
 
-from pykis.api.base.product import KisProductBase
+from pykis.api.base.product import KisProductBase, KisProductProtocol
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.responses.dynamic import KisTransform
 from pykis.responses.response import (
@@ -10,9 +10,9 @@ from pykis.responses.response import (
     raise_not_found,
 )
 from pykis.utils.repr import kis_repr
+from pykis.utils.typing import Checkable
 
 if TYPE_CHECKING:
-    from pykis.api.base.product import KisProductProtocol
     from pykis.kis import PyKis
 
 __all__ = [
@@ -117,6 +117,10 @@ class _KisAskingPriceItem(KisAskingPriceItemRepr):
         yield self.volume
 
 
+if TYPE_CHECKING:
+    Checkable[KisAskingPriceItem](_KisAskingPriceItem)
+
+
 class KisAskingPriceResponse(KisAskingPrice, KisResponseProtocol, Protocol):
     """한국투자증권 호가 응답"""
 
@@ -136,7 +140,7 @@ class KisAskingPriceRepr:
     """한국투자증권 호가"""
 
 
-class KisAskingPriceBase(KisProductBase, KisAskingPriceRepr):
+class KisAskingPriceBase(KisAskingPriceRepr, KisProductBase):
     """한국투자증권 호가"""
 
     symbol: str
@@ -190,7 +194,7 @@ class KisDomesticAskingPrice(KisAPIResponse, KisAskingPriceBase):
     decimal_places: int = 1
     """소수점 자리수"""
 
-    ask: list[KisAskingPriceItem] = KisTransform[KisAskingPriceItem](
+    ask: list[KisAskingPriceItem] = KisTransform(
         lambda x: [
             _KisAskingPriceItem(
                 price=Decimal(x[f"askp{i + 1}"]),
@@ -198,9 +202,9 @@ class KisDomesticAskingPrice(KisAPIResponse, KisAskingPriceBase):
             )
             for i in range(10)
         ]
-    )()
+    )()  # type: ignore
     """매도호가"""
-    bid: list[KisAskingPriceItem] = KisTransform[KisAskingPriceItem](
+    bid: list[KisAskingPriceItem] = KisTransform(
         lambda x: [
             _KisAskingPriceItem(
                 price=Decimal(x[f"bidp{i + 1}"]),
@@ -208,7 +212,7 @@ class KisDomesticAskingPrice(KisAPIResponse, KisAskingPriceBase):
             )
             for i in range(10)
         ]
-    )()
+    )()  # type: ignore
     """매수호가"""
 
     def __init__(self, symbol: str):

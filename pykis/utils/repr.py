@@ -222,6 +222,8 @@ def dict_repr(
 
         sb.write("}")
 
+    sb.flush()
+
     return sb.getvalue()
 
 
@@ -364,6 +366,8 @@ def _iterable_repr(
 
         sb.write(close_tie)
 
+    sb.flush()
+
     return sb.getvalue()
 
 
@@ -439,6 +443,8 @@ def object_repr(
             _append_with_indent(sb, f"{k}={v}", indent)
 
         sb.write("\n)")
+
+    sb.flush()
 
     return sb.getvalue()
 

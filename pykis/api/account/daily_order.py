@@ -727,7 +727,7 @@ def domestic_daily_orders(
     return first
 
 
-def _foreign_daily_orders(
+def _internal_foreign_daily_orders(
     self: "PyKis",
     account: str | KisAccountNumber,
     start: date,
@@ -824,7 +824,7 @@ def foreign_daily_orders(
     first = None
 
     for market in markets:
-        result = _foreign_daily_orders(
+        result = _internal_foreign_daily_orders(
             self,
             account=account,
             start=start,

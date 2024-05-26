@@ -15,7 +15,7 @@ class KisInfoStock(KisStock):
     _info: KisStockInfo
     """주식 정보"""
 
-    def __init__(self, kis: "PyKis", info: KisStockInfo, account: KisAccountNumber | None = None):
+    def __init__(self, kis: "PyKis", info: KisStockInfo, account: KisAccountNumber):
         super().__init__(
             kis=kis,
             symbol=info.symbol,
@@ -38,7 +38,8 @@ class KisInfoStock(KisStock):
 def info_stock(
     self: "PyKis",
     symbol: str,
-    market: MARKET_INFO_TYPES | None = None,
+    market: MARKET_INFO_TYPES = None,
+    account: KisAccountNumber | None = None,
 ) -> KisInfoStock:
     """
     종목을 조회하고 종목 Scope를 반환합니다.
@@ -46,6 +47,7 @@ def info_stock(
     Args:
         symbol (str): 종목코드
         market (str): 상품유형명
+        account (KisAccountNumber): 계좌번호
     """
 
     return KisInfoStock(
@@ -53,6 +55,7 @@ def info_stock(
         info=_info(
             self,
             symbol=symbol,
-            market=market,  # type: ignore
+            market=market,
         ),
+        account=account or self.primary,
     )

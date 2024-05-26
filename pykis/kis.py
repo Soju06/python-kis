@@ -207,7 +207,7 @@ class PyKis:
 
             headers["tr_cont"] = "N"
 
-        resp = self.request(
+        response = self.request(
             path,
             method=method,
             params=params,
@@ -220,8 +220,8 @@ class PyKis:
             auth=auth,
         )
 
-        data = resp.json()
-        data["__response__"] = resp
+        data = response.json()
+        data["__response__"] = response
 
         if verbose:
             logging.logger.debug(

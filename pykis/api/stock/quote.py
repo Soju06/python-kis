@@ -3,6 +3,7 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, Literal, Protocol, runtime_checkable
 
 from pykis.__env__ import TIMEZONE
+from pykis.api.base.product import KisProductBase, KisProductProtocol
 from pykis.api.stock.market import (
     DAYTIME_MARKET_SHORT_TYPE_MAP,
     MARKET_SHORT_TYPE_MAP,
@@ -22,11 +23,9 @@ from pykis.responses.types import (
     KisInt,
     KisString,
 )
-from pykis.utils.cache import cached
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
-    from pykis.api.base.product import KisProductProtocol
     from pykis.kis import PyKis
 
 __all__ = [
@@ -71,68 +70,8 @@ STOCK_RISK_TYPE_KOR_MAP = {
 
 
 @runtime_checkable
-class KisIndicator(Protocol):
-    """한국투자증권 종목 지표"""
-
-    @property
-    def eps(self) -> Decimal:
-        """EPS (주당순이익)"""
-        raise NotImplementedError
-
-    @property
-    def bps(self) -> Decimal:
-        """BPS (주당순자산)"""
-        raise NotImplementedError
-
-    @property
-    def per(self) -> Decimal:
-        """PER (주가수익비율)"""
-        raise NotImplementedError
-
-    @property
-    def pbr(self) -> Decimal:
-        """PBR (주가순자산비율)"""
-        raise NotImplementedError
-
-    @property
-    def week52_high(self) -> Decimal:
-        """52주 최고가"""
-        raise NotImplementedError
-
-    @property
-    def week52_low(self) -> Decimal:
-        """52주 최저가"""
-        raise NotImplementedError
-
-    @property
-    def week52_high_date(self) -> date:
-        """52주 최고가 날짜"""
-        raise NotImplementedError
-
-    @property
-    def week52_low_date(self) -> date:
-        """52주 최저가 날짜"""
-        raise NotImplementedError
-
-
-@runtime_checkable
-class KisQuote(Protocol):
+class KisQuote(KisProductProtocol, Protocol):
     """한국투자증권 상품 시세"""
-
-    @property
-    def symbol(self) -> str:
-        """종목코드"""
-        raise NotImplementedError
-
-    @property
-    def market(self) -> MARKET_TYPE:
-        """상품유형타입"""
-        raise NotImplementedError
-
-    @property
-    def name(self) -> str:
-        """종목명"""
-        raise NotImplementedError
 
     @property
     def sector_name(self) -> str:
@@ -195,7 +134,7 @@ class KisQuote(Protocol):
         raise NotImplementedError
 
     @property
-    def indicator(self) -> KisIndicator:
+    def indicator(self) -> "KisIndicator":
         """종목 지표"""
         raise NotImplementedError
 
@@ -261,6 +200,51 @@ class KisQuote(Protocol):
 
 
 @runtime_checkable
+class KisIndicator(Protocol):
+    """한국투자증권 종목 지표"""
+
+    @property
+    def eps(self) -> Decimal:
+        """EPS (주당순이익)"""
+        raise NotImplementedError
+
+    @property
+    def bps(self) -> Decimal:
+        """BPS (주당순자산)"""
+        raise NotImplementedError
+
+    @property
+    def per(self) -> Decimal:
+        """PER (주가수익비율)"""
+        raise NotImplementedError
+
+    @property
+    def pbr(self) -> Decimal:
+        """PBR (주가순자산비율)"""
+        raise NotImplementedError
+
+    @property
+    def week52_high(self) -> Decimal:
+        """52주 최고가"""
+        raise NotImplementedError
+
+    @property
+    def week52_low(self) -> Decimal:
+        """52주 최저가"""
+        raise NotImplementedError
+
+    @property
+    def week52_high_date(self) -> date:
+        """52주 최고가 날짜"""
+        raise NotImplementedError
+
+    @property
+    def week52_low_date(self) -> date:
+        """52주 최저가 날짜"""
+        raise NotImplementedError
+
+
+@runtime_checkable
 class KisQuoteResponse(KisQuote, KisResponseProtocol, Protocol):
     """한국투자증권 상품 시세 응답"""
 
@@ -308,7 +292,86 @@ class KisQuoteRepr:
     """한국투자증권 상품 시세"""
 
 
-class KisDomesticIndicator(KisDynamic, KisIndicatorRepr):
+class KisQuoteBase(KisQuoteRepr, KisProductBase):
+    """한국투자증권 상품 시세"""
+
+    symbol: str
+    """종목코드"""
+    market: MARKET_TYPE
+    """상품유형타입"""
+
+    sector_name: str
+    """업종명"""
+    price: Decimal
+    """현재가"""
+    volume: int
+    """거래량"""
+    amount: Decimal
+    """거래대금"""
+    market_cap: Decimal
+    """시가총액"""
+    sign: STOCK_SIGN_TYPE
+    """대비부호"""
+    risk: STOCK_RISK_TYPE
+    """위험도"""
+    halt: bool
+    """거래정지"""
+    overbought: bool
+    """단기과열구분"""
+
+    prev_price: Decimal
+    """전일종가"""
+    prev_volume_rate: Decimal
+    """전일대비거래량비율 (-100~100)"""
+
+    prev_volume: Decimal
+    """전일거래량"""
+    change: Decimal
+    """전일대비"""
+
+    indicator: KisIndicator
+    """종목 지표"""
+
+    open: Decimal
+    """당일시가"""
+    high: Decimal
+    """당일고가"""
+    low: Decimal
+    """당일저가"""
+
+    high_limit: Decimal
+    """상한가"""
+    low_limit: Decimal
+    """하한가"""
+    base_price: Decimal
+    """기준가"""
+    unit: Decimal
+    """거래단위"""
+    tick: Decimal
+    """호가단위"""
+    decimal_places: int
+    """소수점 자리수"""
+
+    exchange_rate: Decimal
+    """당일환율"""
+
+    @property
+    def close(self) -> Decimal:
+        """당일종가 (현재가)"""
+        return self.price
+
+    @property
+    def rate(self) -> Decimal:
+        """등락율 (-100~100)"""
+        return self.change / self.prev_price * 100
+
+    @property
+    def sign_name(self) -> str:
+        """대비부호명"""
+        return STOCK_SIGN_TYPE_KOR_MAP[self.sign]
+
+
+class KisDomesticIndicator(KisIndicatorRepr, KisDynamic):
     """한국투자증권 국내 종목 지표"""
 
     eps: Decimal = KisDecimal["eps"]
@@ -330,34 +393,13 @@ class KisDomesticIndicator(KisDynamic, KisIndicatorRepr):
     """52주 최저가 날짜"""
 
 
-class KisDomesticQuote(KisAPIResponse, KisQuoteRepr):
+class KisDomesticQuote(KisQuoteBase, KisAPIResponse):
     """한국투자증권 국내 상품 시세"""
-
-    kis: "PyKis"
-    """
-    한국투자증권 API.
-    
-    Note:
-        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
-        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
-    """
 
     symbol: str = KisString["stck_shrn_iscd"]
     """종목코드"""
     market: MARKET_TYPE
     """상품유형타입"""
-
-    @property
-    @cached
-    def name(self) -> str:
-        """종목명 (캐시됨)"""
-        from pykis.api.stock.info import info
-
-        return info(
-            self.kis,
-            symbol=self.symbol,
-            market=self.market,
-        ).name
 
     sector_name: str = KisString["bstp_kor_isnm"]
     """업종명"""
@@ -426,21 +468,6 @@ class KisDomesticQuote(KisAPIResponse, KisQuoteRepr):
     exchange_rate: Decimal = Decimal(1)
     """당일환율"""
 
-    @property
-    def close(self) -> Decimal:
-        """당일종가 (현재가)"""
-        return self.price
-
-    @property
-    def rate(self) -> Decimal:
-        """등락율 (-100~100)"""
-        return self.change / self.prev_price * 100
-
-    @property
-    def sign_name(self) -> str:
-        """대비부호명"""
-        return STOCK_SIGN_TYPE_KOR_MAP[self.sign]
-
     def __init__(self, symbol: str, market: MARKET_TYPE):
         super().__init__()
         self.symbol = symbol
@@ -458,7 +485,7 @@ class KisDomesticQuote(KisAPIResponse, KisQuoteRepr):
         super().__pre_init__(data)
 
 
-class KisForeignIndicator(KisDynamic, KisIndicatorRepr):
+class KisForeignIndicator(KisIndicatorRepr, KisDynamic):
     """한국투자증권 해외 종목 지표"""
 
     eps: Decimal = KisDecimal["epsx"]
@@ -480,34 +507,13 @@ class KisForeignIndicator(KisDynamic, KisIndicatorRepr):
     """52주 최저가 날짜"""
 
 
-class KisForeignQuote(KisAPIResponse, KisQuoteRepr):
+class KisForeignQuote(KisQuoteBase, KisAPIResponse):
     """한국투자증권 해외 상품 시세"""
-
-    kis: "PyKis"
-    """
-    한국투자증권 API.
-    
-    Note:
-        기본적으로 __init__ 호출 이후 라이브러리 단위에서 lazy initialization 되며,
-        라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
-    """
 
     symbol: str
     """종목코드"""
     market: MARKET_TYPE
     """상품유형타입"""
-
-    @property
-    @cached
-    def name(self) -> str:
-        """종목명 (캐시됨)"""
-        from pykis.api.stock.info import info
-
-        return info(
-            self.kis,
-            symbol=self.symbol,
-            market=self.market,
-        ).name
 
     sector_name: str = KisString["e_icod"]
     """업종명"""
@@ -574,21 +580,6 @@ class KisForeignQuote(KisAPIResponse, KisQuoteRepr):
 
     exchange_rate: Decimal = KisDecimal["t_rate"]
     """당일환율"""
-
-    @property
-    def close(self) -> Decimal:
-        """당일종가 (현재가)"""
-        return self.price
-
-    @property
-    def rate(self) -> Decimal:
-        """등락율 (-100~100)"""
-        return self.change / self.prev_price * 100
-
-    @property
-    def sign_name(self) -> str:
-        """대비부호명"""
-        return STOCK_SIGN_TYPE_KOR_MAP[self.sign]
 
     def __init__(self, symbol: str, market: MARKET_TYPE):
         super().__init__()
@@ -669,8 +660,6 @@ def foreign_quote(
     if not symbol:
         raise ValueError("종목코드를 입력해주세요.")
 
-    result = KisForeignQuote(symbol, market)
-
     if extended:
         market_code = DAYTIME_MARKET_SHORT_TYPE_MAP.get(market)
 
@@ -687,7 +676,7 @@ def foreign_quote(
             "EXCD": market_code,
             "SYMB": symbol,
         },
-        response_type=result,
+        response_type=KisForeignQuote(symbol=symbol, market=market),
         domain="real",
     )
 
