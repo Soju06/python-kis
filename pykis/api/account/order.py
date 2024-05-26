@@ -20,7 +20,7 @@ from pykis.api.stock.info import get_market_country
 from pykis.api.stock.market import (
     DAYTIME_MARKET_SHORT_TYPE_MAP,
     MARKET_TYPE,
-    MARKET_TYPE_KOR_MAP,
+    get_market_name,
     get_market_timezone,
 )
 from pykis.api.stock.quote import quote
@@ -204,7 +204,7 @@ def orderable_conditions_repr():
     return "\n".join(
         (
             f"order(market={repr(market) if market else '전체'}, order={order!r}, price={'100' if price else 'None'}, condition={condition!r}, execution={execution!r}) "
-            f"# {MARKET_TYPE_KOR_MAP[market]} {label} {'매수' if order == 'buy' else '매도'}{'' if ((False, market, order, price, condition, execution) in ORDER_CONDITION_MAP) or (None, market, order, price, condition, execution) in ORDER_CONDITION_MAP else ' (모의투자 미지원)'}"
+            f"# {get_market_name(market)} {label} {'매수' if order == 'buy' else '매도'}{'' if ((False, market, order, price, condition, execution) in ORDER_CONDITION_MAP) or (None, market, order, price, condition, execution) in ORDER_CONDITION_MAP else ' (모의투자 미지원)'}"
         )
         for (real, market, order, price, condition, execution), (
             _,

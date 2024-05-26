@@ -1,4 +1,4 @@
-from typing import Any, Iterable, TypeVar
+from typing import Any, Iterable, Protocol, TypeVar, runtime_checkable
 
 from pykis import logging
 from pykis.responses.dynamic import KisType
@@ -9,7 +9,19 @@ __all__ = [
     "KisWebsocketResponse",
 ]
 
-TWebsocketResponse = TypeVar("TWebsocketResponse", bound="KisWebsocketResponse")
+
+@runtime_checkable
+class KisWebsocketResponseProtocol(Protocol):
+    """한국투자증권 실시간 응답 클래스"""
+
+    @property
+    def __data__(self) -> list[str]:
+        """원본 데이터"""
+        raise NotImplementedError
+
+    def raw(self) -> list[str]:
+        """원본 응답 데이터를 반환합니다."""
+        raise NotImplementedError
 
 
 class KisWebsocketResponse:
@@ -27,6 +39,10 @@ class KisWebsocketResponse:
     def __post_init__(self) -> None:
         pass
 
+    def raw(self) -> list[str]:
+        """원본 응답 데이터를 반환합니다."""
+        return self.__data__
+
     @classmethod
     def parse(
         cls,
@@ -34,8 +50,8 @@ class KisWebsocketResponse:
         count: int | None = None,
         split: str = "^",
         *,
-        response_type: type[TWebsocketResponse],
-    ) -> Iterable[TWebsocketResponse]:
+        response_type: "type[TWebsocketResponse]",
+    ) -> "Iterable[TWebsocketResponse]":
         """
         데이터를 파싱합니다.
 
@@ -96,3 +112,6 @@ class KisWebsocketResponse:
                 yield response
         except Exception as e:
             raise ValueError(f"데이터 파싱 중 오류가 발생했습니다.\n→ {type(e).__name__}: {e}") from e
+
+
+TWebsocketResponse = TypeVar("TWebsocketResponse", bound=KisWebsocketResponse)

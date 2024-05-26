@@ -1,7 +1,8 @@
 from decimal import Decimal
 from typing import TYPE_CHECKING, Any, Protocol, runtime_checkable
 
-from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
+from pykis.api.base.product import KisProductBase
+from pykis.api.stock.market import MARKET_TYPE
 from pykis.responses.dynamic import KisTransform
 from pykis.responses.response import (
     KisAPIResponse,
@@ -38,27 +39,12 @@ class KisAskingPriceItem(Protocol):
 
 
 @runtime_checkable
-class KisAskingPrice(Protocol):
+class KisAskingPrice(KisProductProtocol, Protocol):
     """한국투자증권 호가"""
-
-    @property
-    def symbol(self) -> str:
-        """종목코드"""
-        raise NotImplementedError
-
-    @property
-    def market(self) -> MARKET_TYPE:
-        """상품유형타입"""
-        raise NotImplementedError
 
     @property
     def decimal_places(self) -> int:
         """소수점 자리수"""
-        raise NotImplementedError
-
-    @property
-    def currency(self) -> CURRENCY_TYPE:
-        """통화코드"""
         raise NotImplementedError
 
     @property
@@ -150,40 +136,20 @@ class KisAskingPriceRepr:
     """한국투자증권 호가"""
 
 
-class KisDomesticAskingPrice(KisAPIResponse, KisAskingPriceRepr):
-    """한국투자증권 국내 호가"""
-
-    __path__ = "output1"
+class KisAskingPriceBase(KisProductBase, KisAskingPriceRepr):
+    """한국투자증권 호가"""
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE = "KRX"
+    market: MARKET_TYPE
     """상품유형타입"""
 
-    decimal_places: int = 1
+    decimal_places: int
     """소수점 자리수"""
-    currency: CURRENCY_TYPE = "KRW"
-    """통화코드"""
 
-    ask: list[KisAskingPriceItem] = KisTransform[KisAskingPriceItem](
-        lambda x: [
-            _KisAskingPriceItem(
-                price=Decimal(x[f"askp{i + 1}"]),
-                volume=int(x[f"askp_rsqn{i + 1}"]),
-            )
-            for i in range(10)
-        ]
-    )()
+    ask: list[KisAskingPriceItem]
     """매도호가"""
-    bid: list[KisAskingPriceItem] = KisTransform[KisAskingPriceItem](
-        lambda x: [
-            _KisAskingPriceItem(
-                price=Decimal(x[f"bidp{i + 1}"]),
-                volume=int(x[f"bidp_rsqn{i + 1}"]),
-            )
-            for i in range(10)
-        ]
-    )()
+    bid: list[KisAskingPriceItem]
     """매수호가"""
 
     @property
@@ -209,6 +175,41 @@ class KisDomesticAskingPrice(KisAPIResponse, KisAskingPriceRepr):
     def bid_volume(self) -> int:
         """매수 1호가 잔량"""
         return self.bid_price.volume
+
+
+class KisDomesticAskingPrice(KisAPIResponse, KisAskingPriceBase):
+    """한국투자증권 국내 호가"""
+
+    __path__ = "output1"
+
+    symbol: str  ## __init__ 에서 초기화
+    """종목코드"""
+    market: MARKET_TYPE = "KRX"
+    """상품유형타입"""
+
+    decimal_places: int = 1
+    """소수점 자리수"""
+
+    ask: list[KisAskingPriceItem] = KisTransform[KisAskingPriceItem](
+        lambda x: [
+            _KisAskingPriceItem(
+                price=Decimal(x[f"askp{i + 1}"]),
+                volume=int(x[f"askp_rsqn{i + 1}"]),
+            )
+            for i in range(10)
+        ]
+    )()
+    """매도호가"""
+    bid: list[KisAskingPriceItem] = KisTransform[KisAskingPriceItem](
+        lambda x: [
+            _KisAskingPriceItem(
+                price=Decimal(x[f"bidp{i + 1}"]),
+                volume=int(x[f"bidp_rsqn{i + 1}"]),
+            )
+            for i in range(10)
+        ]
+    )()
+    """매수호가"""
 
     def __init__(self, symbol: str):
         super().__init__()

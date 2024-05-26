@@ -85,11 +85,6 @@ class KisBalanceStock(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def currency(self) -> CURRENCY_TYPE:
-        """통화코드"""
-        raise NotImplementedError
-
-    @property
     def exchange_rate(self) -> Decimal:
         """환율"""
         raise NotImplementedError
@@ -98,11 +93,6 @@ class KisBalanceStock(KisAccountProductProtocol, Protocol):
 @runtime_checkable
 class KisDeposit(KisAccountProtocol, Protocol):
     """한국투자증권 통화별 예수금"""
-
-    @property
-    def currency(self) -> CURRENCY_TYPE:
-        """통화코드"""
-        raise NotImplementedError
 
     @property
     def amount(self) -> Decimal:
@@ -296,8 +286,6 @@ class KisBalanceStockBase(KisAccountProductBase):
         """수익률 (-100 ~ 100)"""
         return self.profit_rate
 
-    currency: CURRENCY_TYPE
-    """통화코드"""
     exchange_rate: Decimal
     """환율"""
 
@@ -324,8 +312,6 @@ class KisDepositBase(KisAccountBase):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    currency: CURRENCY_TYPE
-    """통화코드"""
     amount: Decimal
     """예수금"""
     withdrawable_amount: Decimal
@@ -505,8 +491,6 @@ class KisDomesticBalanceStock(KisDynamic, KisBalanceStockBase):
     purchase_amount: Decimal = KisDecimal["pchs_amt"]
     """매입금액"""
 
-    currency: CURRENCY_TYPE = "KRW"
-    """통화코드"""
     exchange_rate: Decimal = Decimal(1)
     """환율"""
 
@@ -526,8 +510,6 @@ class KisDomesticDeposit(KisDynamic, KisDepositBase):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    currency: CURRENCY_TYPE = "KRW"
-    """통화코드"""
     amount: Decimal = KisDecimal["dnca_tot_amt"]
     """예수금"""
     withdrawable_amount: Decimal = KisDecimal["dnca_tot_amt"]
@@ -621,8 +603,6 @@ class KisForeignPresentBalanceStock(KisDynamic, KisBalanceStockBase):
     purchase_amount: Decimal = KisDecimal["frcr_pchs_amt"]
     """매입금액"""
 
-    currency: CURRENCY_TYPE = KisString["buy_crcy_cd"]
-    """통화코드"""
     exchange_rate: Decimal = KisDecimal["bass_exrt"]
     """환율"""
 
@@ -642,8 +622,6 @@ class KisForeignPresentDeposit(KisDynamic, KisDeposit):
     account_number: KisAccountNumber
     """계좌번호"""
 
-    currency: CURRENCY_TYPE = KisString["crcy_cd"]
-    """통화코드"""
     amount: Decimal = KisDecimal["frcr_dncl_amt_2"]
     """예수금"""
     withdrawable_amount: Decimal = KisDecimal["frcr_drwg_psbl_amt_1"]
@@ -740,9 +718,6 @@ class KisForeignBalanceStock(KisDynamic, KisBalanceStockBase):
 
     purchase_amount: Decimal = KisDecimal["frcr_pchs_amt1"]
     """매입금액"""
-
-    currency: CURRENCY_TYPE = KisString["tr_crcy_cd"]
-    """통화코드"""
 
     @property
     @cached

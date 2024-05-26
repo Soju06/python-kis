@@ -18,7 +18,7 @@ from pykis.api.base.account_product import (
     KisAccountProductProtocol,
 )
 from pykis.api.stock.info import COUNTRY_TYPE
-from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE, get_market_timezone
+from pykis.api.stock.market import MARKET_TYPE, get_market_timezone
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList
@@ -139,11 +139,6 @@ class KisPendingOrder(KisAccountProductProtocol, Protocol):
         """거부사유"""
         raise NotImplementedError
 
-    @property
-    def currency(self) -> CURRENCY_TYPE:
-        """통화"""
-        raise NotImplementedError
-
 
 @runtime_checkable
 class KisPendingOrders(KisAccountProtocol, Protocol):
@@ -230,9 +225,6 @@ class KisPendingOrderBase(KisAccountProductBase):
     """거부여부"""
     rejected_reason: str | None
     """거부사유"""
-
-    currency: CURRENCY_TYPE
-    """통화"""
 
     @property
     def order_price(self) -> Decimal | None:
@@ -370,9 +362,6 @@ class KisDomesticPendingOrder(KisDynamic, KisPendingOrderBase):
     rejected_reason: str | None = None
     """거부사유"""
 
-    currency: CURRENCY_TYPE = "KRW"
-    """통화"""
-
     def __pre_init__(self, data: dict[str, Any]):
         super().__pre_init__(data)
 
@@ -478,9 +467,6 @@ class KisForeignPendingOrder(KisDynamic, KisPendingOrderBase):
     """거부여부"""
     rejected_reason: str | None = KisAny(lambda x: x if x else None)["rjct_rson_name"]
     """거부사유"""
-
-    currency: CURRENCY_TYPE = KisString["tr_crcy_cd"]
-    """통화"""
 
     def __pre_init__(self, data: dict[str, Any]):
         super().__pre_init__(data)

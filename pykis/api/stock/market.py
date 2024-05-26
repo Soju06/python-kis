@@ -8,6 +8,7 @@ from pykis.api.base.market import KisMarketBase, KisMarketProtocol
 __all__ = [
     "MARKET_TYPE",
     "CURRENCY_TYPE",
+    "get_market_name",
     "get_market_currency",
     "get_market_timezone",
     "ExDateType",
@@ -28,6 +29,16 @@ MARKET_TYPE = Literal[
     "SZAA",
 ]
 """시장 종류"""
+
+CURRENCY_TYPE = Literal[
+    "KRW",
+    "USD",
+    "JPY",
+    "HKD",
+    "VND",
+    "CNY",
+]
+"""통화 종류"""
 
 MARKET_SHORT_TYPE_MAP: dict[MARKET_TYPE, str] = {
     "NASD": "NAS",
@@ -61,7 +72,7 @@ REVERSE_DAYTIME_MARKET_SHORT_TYPE_MAP: dict[str, MARKET_TYPE] = {
     value: key for key, value in DAYTIME_MARKET_SHORT_TYPE_MAP.items()
 }
 
-MARKET_TYPE_KOR_MAP = {
+MARKET_TYPE_KOR_MAP: dict[MARKET_TYPE | None, str] = {
     None: "전체",
     "KRX": "국내",
     "NASD": "나스닥",
@@ -75,15 +86,11 @@ MARKET_TYPE_KOR_MAP = {
     "SZAA": "심천",
 }
 
-CURRENCY_TYPE = Literal[
-    "KRW",
-    "USD",
-    "JPY",
-    "HKD",
-    "VND",
-    "CNY",
-]
-"""통화 종류"""
+
+def get_market_name(market: MARKET_TYPE | None) -> str:
+    """시장 종류로 시장 이름 반환"""
+    return MARKET_TYPE_KOR_MAP[market]
+
 
 MARKET_CURRENCY_MAP: dict[MARKET_TYPE, CURRENCY_TYPE] = {
     "KRX": "KRW",
@@ -240,4 +247,4 @@ class KisTradingHoursBase(KisMarketBase):
     @property
     def market_name(self) -> str:
         """시장 종류"""
-        return MARKET_TYPE_KOR_MAP[self.market]
+        return get_market_name(self.market)

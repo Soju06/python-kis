@@ -10,12 +10,7 @@ from pykis.api.base.account_product import (
     KisAccountProductProtocol,
 )
 from pykis.api.stock.info import COUNTRY_TYPE
-from pykis.api.stock.market import (
-    CURRENCY_TYPE,
-    MARKET_TYPE,
-    get_market_currency,
-    get_market_timezone,
-)
+from pykis.api.stock.market import MARKET_TYPE, get_market_timezone
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
@@ -105,11 +100,6 @@ class KisOrderProfit(KisAccountProductProtocol, Protocol):
     @property
     def profit_rate(self) -> Decimal:
         """손익률 (-100 ~ 100)"""
-        raise NotImplementedError
-
-    @property
-    def currency(self) -> CURRENCY_TYPE:
-        """통화"""
         raise NotImplementedError
 
     @property
@@ -231,8 +221,6 @@ class KisOrderProfitBase(KisAccountProductBase, KisOrderProfitRepr):
         """손익률 (-100 ~ 100)"""
         return (self.profit / self.buy_amount) * 100
 
-    currency: CURRENCY_TYPE
-    """통화"""
     exchange_rate: Decimal
     """당일환율"""
 
@@ -342,8 +330,6 @@ class KisDomesticOrderProfit(KisDynamic, KisOrderProfitBase):
     quantity: Decimal = KisDecimal["sll_qty"]
     """매도수량"""
 
-    currency: CURRENCY_TYPE = "KRW"
-    """통화"""
     exchange_rate: Decimal = Decimal(1)
     """당일환율"""
 
@@ -422,8 +408,6 @@ class KisForeignOrderProfit(KisDynamic, KisOrderProfitBase):
     quantity: Decimal = KisDecimal["slcl_qty"]
     """매도수량"""
 
-    currency: CURRENCY_TYPE = KisAny(get_market_currency)["ovrs_excg_cd"]
-    """통화"""
     exchange_rate: Decimal = KisDecimal["frst_bltn_exrt"]
     """당일환율"""
 

@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING, Literal, Protocol, runtime_checkable
 
 from pykis.__env__ import TIMEZONE
 from pykis.api.stock.market import (
-    CURRENCY_TYPE,
     DAYTIME_MARKET_SHORT_TYPE_MAP,
     MARKET_SHORT_TYPE_MAP,
     MARKET_TYPE,
@@ -241,11 +240,6 @@ class KisQuote(Protocol):
         raise NotImplementedError
 
     @property
-    def currency(self) -> CURRENCY_TYPE:
-        """통화코드"""
-        raise NotImplementedError
-
-    @property
     def exchange_rate(self) -> Decimal:
         """당일환율"""
         raise NotImplementedError
@@ -429,8 +423,6 @@ class KisDomesticQuote(KisAPIResponse, KisQuoteRepr):
     decimal_places: int = 0
     """소수점 자리수"""
 
-    currency: CURRENCY_TYPE = "KRW"
-    """통화코드"""
     exchange_rate: Decimal = Decimal(1)
     """당일환율"""
 
@@ -580,8 +572,6 @@ class KisForeignQuote(KisAPIResponse, KisQuoteRepr):
     decimal_places: int = KisInt["zdiv"]
     """소수점 자리수"""
 
-    currency: CURRENCY_TYPE = KisString["curr"]
-    """통화코드"""
     exchange_rate: Decimal = KisDecimal["t_rate"]
     """당일환율"""
 

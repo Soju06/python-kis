@@ -16,12 +16,7 @@ from pykis.api.base.account_product import (
     KisAccountProductProtocol,
 )
 from pykis.api.stock.info import COUNTRY_TYPE
-from pykis.api.stock.market import (
-    CURRENCY_TYPE,
-    MARKET_TYPE,
-    get_market_currency,
-    get_market_timezone,
-)
+from pykis.api.stock.market import MARKET_TYPE, get_market_timezone
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
@@ -158,11 +153,6 @@ class KisDailyOrder(KisAccountProductProtocol, Protocol):
         """취소여부"""
         raise NotImplementedError
 
-    @property
-    def currency(self) -> CURRENCY_TYPE:
-        """통화"""
-        raise NotImplementedError
-
 
 @runtime_checkable
 class KisDailyOrders(KisAccountProtocol, Protocol):
@@ -278,9 +268,6 @@ class KisDailyOrderBase(KisAccountProductBase):
 
     cancelled: bool
     """취소여부"""
-
-    currency: CURRENCY_TYPE
-    """통화"""
 
 
 @kis_repr(
@@ -435,8 +422,6 @@ class KisDomesticDailyOrder(KisDynamic, KisDailyOrderBase):
     cancelled: bool = KisTransform(lambda x: x == "Y")["ccld_yn"]
     """취소여부"""
 
-    currency: CURRENCY_TYPE = "KRW"
-
     def __pre_init__(self, data: dict[str, Any]):
         super().__pre_init__(data)
 
@@ -447,7 +432,6 @@ class KisDomesticDailyOrder(KisDynamic, KisDailyOrderBase):
         if market:
             self.market = market
             self.timezone = get_market_timezone(market)
-            self.currency = get_market_currency(market)
 
         self.condition = condition
 
@@ -555,9 +539,6 @@ class KisForeignDailyOrder(KisDynamic, KisDailyOrderBase):
 
     cancelled: bool = False
     """취소여부"""
-
-    currency: CURRENCY_TYPE = KisString["tr_crcy_cd"]
-    """통화"""
 
     def __post_init__(self):
         super().__post_init__()
