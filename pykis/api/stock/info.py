@@ -188,7 +188,7 @@ class KisStockInfoRepr:
     """상품기본정보"""
 
 
-class _KisStockInfo(KisAPIResponse, KisStockInfoRepr):
+class _KisStockInfo(KisStockInfoRepr, KisAPIResponse):
     """상품기본정보"""
 
     symbol: str = KisString["shtn_pdno"]

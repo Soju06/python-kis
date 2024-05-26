@@ -14,6 +14,7 @@ from pykis.api.stock.market import MARKET_TYPE, get_market_timezone
 from pykis.api.websocket.price import parse_foreign_realtime_symbol
 from pykis.responses.types import KisAny, KisInt, KisString
 from pykis.responses.websocket import KisWebsocketResponse, KisWebsocketResponseProtocol
+from pykis.utils.typing import Checkable
 
 
 @runtime_checkable
@@ -377,14 +378,6 @@ class KisUSRealtimeAskingPrice(KisRealtimeAskingPriceBase):
 
 # IDE Type Checker
 if TYPE_CHECKING:
-
-    def _() -> KisRealtimeAskingPrice:
-        return KisDomesticRealtimeAskingPrice()
-
-    def _() -> KisRealtimeAskingPrice:
-        return KisAsiaRealtimeAskingPrice()
-
-    def _() -> KisRealtimeAskingPrice:
-        return KisUSRealtimeAskingPrice()
-
-    del _
+    Checkable[KisRealtimeAskingPrice](KisDomesticRealtimeAskingPrice)
+    Checkable[KisRealtimeAskingPrice](KisAsiaRealtimeAskingPrice)
+    Checkable[KisRealtimeAskingPrice](KisUSRealtimeAskingPrice)

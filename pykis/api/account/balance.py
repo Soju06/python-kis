@@ -607,7 +607,7 @@ class KisForeignPresentBalanceStock(KisDynamic, KisBalanceStockBase):
     """환율"""
 
 
-class KisForeignPresentDeposit(KisDynamic, KisDeposit):
+class KisForeignPresentDeposit(KisDynamic, KisDepositBase):
     """한국투자증권 국내종목 예수금"""
 
     kis: "PyKis"

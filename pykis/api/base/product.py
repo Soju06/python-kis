@@ -92,4 +92,5 @@ class KisProductBase(KisMarketBase):
         return KisInfoStock(
             kis=self.kis,
             info=self.info,
+            account=self.kis.primary,
         )

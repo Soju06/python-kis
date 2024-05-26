@@ -29,7 +29,7 @@ __all__ = [
 ]
 
 
-class KisDomesticDailyChartBar(KisDynamic, KisChartBarRepr):
+class KisDomesticDailyChartBar(KisChartBarRepr, KisDynamic):
     """한국투자증권 국내 기간 차트 봉"""
 
     time: datetime = KisDatetime("%Y%m%d", timezone=TIMEZONE)["stck_bsop_date"]
@@ -110,7 +110,7 @@ class KisDomesticDailyChart(KisResponse, KisChartBase):
         data["output2"] = [x for x in data["output2"] if x]
 
 
-class KisForeignDailyChartBar(KisDynamic, KisChartBarRepr):
+class KisForeignDailyChartBar(KisChartBarRepr, KisDynamic):
     """한국투자증권 해외 기간 차트 봉"""
 
     time: datetime = KisDatetime("%Y%m%d")["xymd"]  # KisForeignDailyChart의 __post_init__에서 timezone 설정

@@ -173,7 +173,7 @@ class KisOrderProfitRepr:
     """한국투자증권 일별 매매손익"""
 
 
-class KisOrderProfitBase(KisAccountProductBase, KisOrderProfitRepr):
+class KisOrderProfitBase(KisOrderProfitRepr, KisAccountProductBase):
     """한국투자증권 일별 매매손익"""
 
     time: datetime
@@ -238,7 +238,7 @@ class KisOrderProfitsRepr:
     """한국투자증권 일별 매매손익"""
 
 
-class KisOrderProfitsBase(KisAccountBase, KisOrderProfitsRepr):
+class KisOrderProfitsBase(KisOrderProfitsRepr, KisAccountBase):
     """한국투자증권 일별 매매손익"""
 
     account_number: KisAccountNumber

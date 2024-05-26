@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Literal
 
 from pykis.api.base.product import KisProductBase
 from pykis.api.stock.market import MARKET_TYPE
-from pykis.scope.base.scope import KisScope
+from pykis.scope.base.scope import KisScope, KisScopeProtocol
 from pykis.utils.repr import kis_repr
 from pykis.utils.timex import TIMEX_TYPE, timex
 
@@ -20,15 +20,20 @@ if TYPE_CHECKING:
 class KisProductScope(KisScope, KisProductBase):
     """한국투자증권 상품 기본정보"""
 
-    symbol: str
-    """종목코드"""
-    market: MARKET_TYPE
-    """시장구분"""
+    @property
+    def symbol(self) -> str:
+        """종목코드"""
+        return self._symbol
+
+    @property
+    def market(self) -> MARKET_TYPE:
+        """상품유형타입"""
+        return self._market
 
     def __init__(self, kis: "PyKis", market: MARKET_TYPE, symbol: str):
-        super().__init__(kis)
-        self.market = market
-        self.symbol = symbol
+        super().__init__(kis=kis)
+        self._market: MARKET_TYPE = market
+        self._symbol: str = symbol
 
     from pykis.api.stock.asking_price import (
         product_asking_price as asking_price,  # 호가 조회
@@ -82,7 +87,7 @@ class KisProductScope(KisScope, KisProductBase):
         if not start and expression:
             start = timex(expression)
 
-            if start <= timedelta(days=1):
+            if not isinstance(period, int) and start <= timedelta(days=1):
                 period = 1
 
         if isinstance(period, int):

@@ -824,6 +824,20 @@ def _orderable_quantity(
         return qty or Decimal(0), None
 
 
+def _get_order_price(
+    self: "PyKis",
+    market: MARKET_TYPE,
+    symbol: str,
+    price_setting: Literal["lower", "upper"],
+) -> Decimal:
+    quote_data = quote(self, symbol=symbol, market=market)
+
+    if price_setting == "upper":
+        return quote_data.high_limit or (quote_data.close * Decimal(1.5))
+    else:
+        return quote_data.low_limit or (quote_data.close * Decimal(0.5))
+
+
 def domestic_order(
     self: "PyKis",
     account: str | KisAccountNumber,
@@ -911,8 +925,12 @@ def domestic_order(
         account = KisAccountNumber(account)
 
     if price_setting:
-        quote_data = quote(self, symbol=symbol, market="KRX")
-        price = quote_data.high_limit if price_setting == "upper" else quote_data.low_limit
+        price = _get_order_price(
+            self,
+            market="KRX",
+            symbol=symbol,
+            price_setting=price_setting,
+        )
 
     if qty is None:
         qty, _ = _orderable_quantity(
@@ -1079,8 +1097,12 @@ def foreign_order(
         account = KisAccountNumber(account)
 
     if price_setting:
-        quote_data = quote(self, symbol=symbol, market=market)
-        price = quote_data.high_limit if price_setting == "upper" else quote_data.low_limit
+        price = _get_order_price(
+            self,
+            market=market,
+            symbol=symbol,
+            price_setting=price_setting,
+        )
 
     if qty is None:
         qty, _ = _orderable_quantity(
@@ -1472,7 +1494,7 @@ def account_product_order(
     self: "KisAccountProductProtocol",
     order: ORDER_TYPE,
     price: ORDER_PRICE | None = None,
-    qty: Decimal | None = None,
+    qty: float | Decimal | None = None,
     condition: ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
@@ -1486,7 +1508,7 @@ def account_product_order(
     Args:
         order (ORDER_TYPE): 주문종류
         price (ORDER_PRICE, optional): 주문가격
-        qty (Decimal, optional): 주문수량
+        qty (float | Decimal, optional): 주문수량
         condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -1574,7 +1596,7 @@ def account_product_order(
         symbol=self.symbol,
         order=order,
         price=price,
-        qty=qty,
+        qty=Decimal(qty) if qty is not None else None,
         condition=condition,
         execution=execution,
         include_foreign=include_foreign,

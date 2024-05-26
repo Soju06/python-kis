@@ -3,6 +3,7 @@ from datetime import date, datetime, time, tzinfo
 from decimal import Decimal
 from typing import Literal, Protocol, TypeVar, overload, runtime_checkable
 
+from pykis.api.base.product import KisProductBase, KisProductProtocol
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.api.stock.quote import STOCK_SIGN_TYPE
 from pykis.responses.response import KisResponseProtocol
@@ -16,7 +17,7 @@ __all__ = [
 
 
 @runtime_checkable
-class KisChartBar:
+class KisChartBar(Protocol):
     """한국투자증권 차트 봉"""
 
     @property
@@ -91,18 +92,8 @@ class KisChartBar:
 
 
 @runtime_checkable
-class KisChart(Protocol):
+class KisChart(KisProductProtocol, Protocol):
     """한국투자증권 차트"""
-
-    @property
-    def symbol(self) -> str:
-        """종목코드"""
-        raise NotImplementedError
-
-    @property
-    def market(self) -> MARKET_TYPE:
-        """상품유형타입"""
-        raise NotImplementedError
 
     @property
     def timezone(self) -> tzinfo:
@@ -198,7 +189,7 @@ class KisChartRepr:
     """한국투자증권 차트"""
 
 
-class KisChartBase(KisChartRepr):
+class KisChartBase(KisChartRepr, KisProductBase):
 
     symbol: str
     """종목코드"""

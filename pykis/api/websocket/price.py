@@ -19,6 +19,7 @@ from pykis.api.stock.quote import (
 from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
 from pykis.responses.websocket import KisWebsocketResponse, KisWebsocketResponseProtocol
 from pykis.utils.repr import kis_repr
+from pykis.utils.typing import Checkable
 
 
 @runtime_checkable
@@ -260,7 +261,7 @@ class KisRealtimePriceRepr:
     """한국투자증권 실시간 체결가"""
 
 
-class KisRealtimePriceBase(KisWebsocketResponse, KisProductBase, KisRealtimePriceRepr):
+class KisRealtimePriceBase(KisRealtimePriceRepr, KisWebsocketResponse, KisProductBase):
     """한국투자증권 실시간 체결가"""
 
     symbol: str
@@ -713,13 +714,8 @@ class KisForeignRealtimePrice(KisRealtimePriceBase):
         self.time = datetime.strptime(data[4] + data[5], "%Y%m%d%H%M%S").replace(tzinfo=self.timezone)
         self.time_kst = self.time.astimezone(TIMEZONE)
 
+
 # IDE Type Checker
 if TYPE_CHECKING:
-
-    def _() -> KisRealtimePrice:
-        return KisDomesticRealtimePrice()
-
-    def _() -> KisRealtimePrice:
-        return KisForeignRealtimePrice()
-    
-    del _
+    Checkable[KisRealtimePrice](KisDomesticRealtimePrice)
+    Checkable[KisRealtimePrice](KisForeignRealtimePrice)
