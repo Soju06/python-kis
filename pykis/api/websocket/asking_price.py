@@ -8,7 +8,7 @@ from pykis.api.stock.asking_price import (
     KisAskingPrice,
     KisAskingPriceBase,
     KisAskingPriceItem,
-    _KisAskingPriceItem,
+    KisAskingPriceItemBase,
 )
 from pykis.api.stock.market import MARKET_TYPE, get_market_timezone
 from pykis.api.websocket.price import parse_foreign_realtime_symbol
@@ -56,6 +56,10 @@ DOMESTIC_REALTIME_ASKING_PRICE_ORDER_CONDITION_MAP: dict[str, ORDER_CONDITION | 
     "C": None,
     "D": "extended",
 }
+
+
+class KisDomesticRealtimeAskingPriceItem(KisAskingPriceItemBase):
+    """국내주식 실시간 호가"""
 
 
 class KisDomesticRealtimeAskingPrice(KisRealtimeAskingPriceBase):
@@ -159,19 +163,23 @@ class KisDomesticRealtimeAskingPrice(KisRealtimeAskingPriceBase):
         self.time_kst = self.time.astimezone(TIMEZONE)
 
         self.ask = [
-            _KisAskingPriceItem(
+            KisDomesticRealtimeAskingPriceItem(
                 price=Decimal(data[3 + i]),
                 volume=int(data[23 + i]),
             )
             for i in range(10)
         ]
         self.bid = [
-            _KisAskingPriceItem(
+            KisDomesticRealtimeAskingPriceItem(
                 price=Decimal(data[13 + i]),
                 volume=int(data[33 + i]),
             )
             for i in range(10)
         ]
+
+
+class KisAsiaRealtimeAskingPriceItem(KisAskingPriceItemBase):
+    """아시아 주식 실시간 호가"""
 
 
 class KisAsiaRealtimeAskingPrice(KisRealtimeAskingPriceBase):
@@ -234,17 +242,21 @@ class KisAsiaRealtimeAskingPrice(KisRealtimeAskingPriceBase):
         self.time_kst = self.time.astimezone(TIMEZONE)
 
         self.ask = [
-            _KisAskingPriceItem(
+            KisAsiaRealtimeAskingPriceItem(
                 price=Decimal(data[12]),
                 volume=int(data[14]),
             )
         ]
         self.bid = [
-            _KisAskingPriceItem(
+            KisAsiaRealtimeAskingPriceItem(
                 price=Decimal(data[11]),
                 volume=int(data[13]),
             )
         ]
+
+
+class KisUSRealtimeAskingPriceItem(KisAskingPriceItemBase):
+    """미국 주식 실시간 호가"""
 
 
 class KisUSRealtimeAskingPrice(KisRealtimeAskingPriceBase):
@@ -361,14 +373,14 @@ class KisUSRealtimeAskingPrice(KisRealtimeAskingPriceBase):
         self.time_kst = self.time.astimezone(TIMEZONE)
 
         self.ask = [
-            _KisAskingPriceItem(
+            KisUSRealtimeAskingPriceItem(
                 price=Decimal(data[12 + i * 6]),
                 volume=int(data[14 + i * 6]),
             )
             for i in range(10)
         ]
         self.bid = [
-            _KisAskingPriceItem(
+            KisUSRealtimeAskingPriceItem(
                 price=Decimal(data[11 + i * 6]),
                 volume=int(data[13 + i * 6]),
             )

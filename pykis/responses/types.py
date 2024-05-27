@@ -4,6 +4,7 @@ from typing import Any, Callable
 
 from pykis.__env__ import TIMEZONE
 from pykis.responses.dynamic import KisDynamic, KisNoneError, KisType, KisTypeMeta
+from pykis.utils.repr import dict_repr
 
 __all__ = [
     "KisDynamicDict",
@@ -25,10 +26,10 @@ class KisDynamicDict(KisDynamic):
     __transform__ = lambda type, _: type()
 
     def __str__(self) -> str:
-        return str(self.__data__)
+        return self.__repr__()
 
     def __repr__(self) -> str:
-        return repr(self.__data__)
+        return dict_repr(self.__data__)
 
     def __getattr__(self, name: str) -> Any:
         if (value := self.__data__.get(name)) is not None:
