@@ -42,13 +42,16 @@ class PyKis:
     """캐시 저장소"""
 
     _rate_limiters: dict[str, RateLimiter]
+    """API 호출 제한"""
     _token: KisAccessToken | None
+    """API 접속 토큰"""
 
     def __init__(
         self,
         auth: str | PathLike[str] | KisAuth | None = None,
         *,
         account: str | KisAccountNumber | None = None,
+        id: str | None = None,
         appkey: str | KisKey | None = None,
         secretkey: str | None = None,
         virtual: bool = False,
@@ -58,6 +61,7 @@ class PyKis:
 
         Args:
             auth: 한국투자증권 계좌 및 인증 정보
+            id: HTS 아이디
             appkey: 한국투자증권 API AppKey
             secretkey: 한국투자증권 API AppSecret
             account: 한국투자증권 기본 계좌 정보
@@ -65,13 +69,18 @@ class PyKis:
 
             token: 한국투자증권 API 접속 토큰
         """
+        # TODO: add code examples
         if auth is not None:
             if not isinstance(auth, KisAuth):
                 auth = KisAuth.load(auth)
 
+            id = auth.id
             appkey = auth.key
-            account = auth.account_
+            account = auth.account_number
             virtual = auth.virtual
+
+        if id is None:
+            raise ValueError("id를 입력해야 합니다.")
 
         if appkey is None:
             raise ValueError("appkey를 입력해야 합니다.")
@@ -80,7 +89,11 @@ class PyKis:
             if secretkey is None:
                 raise ValueError("secretkey를 입력해야 합니다.")
 
-            appkey = KisKey(appkey=appkey, secretkey=secretkey)
+            appkey = KisKey(
+                id=id,
+                appkey=appkey,
+                secretkey=secretkey,
+            )
 
         self.appkey = appkey
 

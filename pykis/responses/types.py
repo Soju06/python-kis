@@ -242,7 +242,7 @@ class KisTimeToDatetime(KisType[datetime], metaclass=KisTypeMeta[datetime]):
             raise KisNoneError
 
         return datetime.combine(
-            datetime.now(TIMEZONE).date(),
+            datetime.now(self.timezone).date(),
             datetime.strptime(data, self.format).time(),
             tzinfo=self.timezone,
         )

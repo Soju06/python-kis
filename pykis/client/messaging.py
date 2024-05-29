@@ -73,6 +73,11 @@ TR_UNSUBSCRIBE_TYPE = "2"
 class KisWebsocketTR(KisWebsocketForm):
     """한국투자증권 실시간 TR 요청"""
 
+    __slots__ = [
+        "id",
+        "key",
+    ]
+
     id: str
     """TR ID"""
     key: str
@@ -113,6 +118,11 @@ class KisWebsocketTR(KisWebsocketForm):
 
 class KisWebsocketEncryptionKey:
     """한국투자증권 실시간 암호화 키"""
+
+    __slots__ = [
+        "iv",
+        "key",
+    ]
 
     iv: bytes
     """Initialization Vector"""

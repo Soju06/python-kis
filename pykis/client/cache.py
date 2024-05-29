@@ -14,9 +14,18 @@ TObject = TypeVar("TObject")
 class KisCacheStorage:
     """캐시 저장소"""
 
+    __slots__ = [
+        "_data",
+        "_expire",
+        "_lock",
+    ]
+
     _data: dict[str, Any]
+    """캐시 데이터"""
     _expire: dict[str, datetime]
+    """캐시 만료 시간"""
     _lock: LockType
+    """Lock 객체"""
 
     def __init__(self):
         self._data = {}

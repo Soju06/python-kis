@@ -46,6 +46,9 @@ class KisWebsocketClient:
     kis: "PyKis"
     """한국투자증권 API"""
 
+    virtual: bool
+    """모의투자 서버 여부"""
+
     websocket: WebSocketApp | None = None
     """웹소켓"""
     thread: threading.Thread | None = None
@@ -79,8 +82,12 @@ class KisWebsocketClient:
     _keychain: dict[KisWebsocketTR, KisWebsocketEncryptionKey]
     """암호화 키체인"""
 
-    def __init__(self, kis: "PyKis"):
+    _primary_client: "KisWebsocketClient | None" = None
+    """계좌 조회가 가능한 서버의 클라이언트 (모의투자에서만 사용)"""
+
+    def __init__(self, kis: "PyKis", virtual: bool = False):
         self.kis = kis
+        self.virtual = virtual
         self.subscribed_event = KisEventHandler()
         self.unsubscribed_event = KisEventHandler()
         self.event = KisEventHandler()
@@ -89,7 +96,7 @@ class KisWebsocketClient:
         self._connected_event = Event()
         self._subscriptions = set()
         self._registered_subscriptions = set()
-        self._keychain = {}
+        self._keychain = dict()
 
     def is_subscribed(self, id: str, key: str = "") -> bool:
         """
@@ -102,19 +109,28 @@ class KisWebsocketClient:
         Returns:
             bool: 구독 여부
         """
-        return KisWebsocketTR(id, key) in self._subscriptions
+        return (KisWebsocketTR(id, key) in self._subscriptions) or (
+            self._primary_client is not None and self._primary_client.is_subscribed(id, key)
+        )
 
     @property
     def subscriptions(self) -> set[KisWebsocketTR]:
-        return self._subscriptions
+        return self._subscriptions | (self._primary_client.subscriptions if self._primary_client else set())
 
     @property
     def connected(self) -> bool:
-        return self.websocket is not None and self._connected_event.is_set()
+        return (
+            self.websocket is not None
+            and self._connected_event.is_set()
+            and (self._primary_client is None or self._primary_client.connected)
+        )
 
     @thread_safe("connect")
     def connect(self):
         """한국투자증권 웹소켓 서버에 접속합니다. (비동기)"""
+        if self._primary_client:
+            self._primary_client.connect()
+
         if self.connected:
             return
 
@@ -141,12 +157,18 @@ class KisWebsocketClient:
         Raises:
             TimeoutError: 접속 시간 초과
         """
+        if self._primary_client:
+            return self._primary_client.ensure_connected(timeout=timeout)
+
         self._ensure_connection()
         self._connected_event.wait(timeout=timeout)
 
     @thread_safe("connect")
     def disconnect(self):
         """한국투자증권 웹소켓 서버와 연결을 해제합니다."""
+        if self._primary_client:
+            self._primary_client.disconnect()
+
         thread = self.thread
 
         if thread is not None and thread.is_alive():
@@ -184,17 +206,26 @@ class KisWebsocketClient:
         return True
 
     @thread_safe("subscriptions")
-    def subscribe(self, id: str, key: str):
+    def subscribe(self, id: str, key: str, primary: bool = False):
         """
         TR을 구독합니다.
 
         Args:
             id (str): TR ID
             key (str): TR Key
+            primary (bool): 주 서버에 구독할지 여부
 
         Raises:
             ValueError: 최대 구독 수를 초과했습니다.
         """
+        if primary:
+            self._ensure_primary_client().subscribe(
+                id=id,
+                key=key,
+                primary=False,
+            )
+            return
+
         self._ensure_connection()
         tr = KisWebsocketTR(id, key)
 
@@ -210,14 +241,23 @@ class KisWebsocketClient:
         logging.logger.info("RTC: Subscribed to %s", tr)
 
     @thread_safe("subscriptions")
-    def unsubscribe(self, id: str, key: str):
+    def unsubscribe(self, id: str, key: str, primary: bool = False):
         """
         TR 구독을 취소합니다.
 
         Args:
             id (str): TR ID
             key (str): TR Key
+            primary (bool): 주 서버에 구독을 취소할지 여부
         """
+        if primary:
+            self._ensure_primary_client().unsubscribe(
+                id=id,
+                key=key,
+                primary=False,
+            )
+            return
+
         tr = KisWebsocketTR(id, key)
 
         if tr not in self._subscriptions:
@@ -228,6 +268,9 @@ class KisWebsocketClient:
 
     def unsubscribe_all(self):
         """모든 TR 구독을 취소합니다."""
+        if self._primary_client:
+            self._primary_client.unsubscribe_all()
+
         for tr in self._subscriptions.copy():
             self.unsubscribe(tr.id, tr.key)
 
@@ -262,7 +305,7 @@ class KisWebsocketClient:
                 try:
                     self._connected_event.clear()
                     self.websocket = WebSocketApp(
-                        f"{WEBSOCKET_REAL_DOMAIN}/tryitout",
+                        f"{WEBSOCKET_VIRTUAL_DOMAIN if self.virtual else WEBSOCKET_REAL_DOMAIN}/tryitout",
                         on_open=self._on_open,  # type: ignore
                         on_error=self._on_error,  # type: ignore
                         on_close=self._on_close,  # type: ignore
@@ -344,7 +387,6 @@ class KisWebsocketClient:
 
         id: str = header["tr_id"]
         key: str | None = header.get("tr_key")
-        encrypted: bool = header.get("encrypt") == "Y"
 
         if id == "PINGPONG":
             logging.logger.debug("RTC: Received PINGPONG")
@@ -359,8 +401,7 @@ class KisWebsocketClient:
         code = data["body"]["msg_cd"]
         message = data["body"]["msg1"]
 
-        if encrypted:
-            self._set_encryption_key(tr, body["output"])
+        self._set_encryption_key(tr, body["output"])
 
         match code:
             case "OPSP0000":  # subscribed
@@ -391,6 +432,11 @@ class KisWebsocketClient:
 
     def _set_encryption_key(self, tr: KisWebsocketTR, body: dict):
         """암호화 키를 설정합니다."""
+        # 국내주식 실시간체결통보 실전, 모의 해외주식 실시간체결통보 실전, 모의
+        if tr.id in ("H0STCNI0", "H0STCNI9", "H0GSCNI0", "H0GSCNI9"):
+            # 체결통보의 경우 tr key를 사용하지 않음
+            tr = KisWebsocketTR(tr.id, "")
+
         self._keychain[tr] = KisWebsocketEncryptionKey(
             key=body["key"].encode("utf-8"),
             iv=body["iv"].encode("utf-8"),
@@ -443,3 +489,25 @@ class KisWebsocketClient:
         except Exception as e:
             logging.logger.exception("RTC: Failed to parse message: %s %s", tr, e)
             return
+
+    @thread_safe("primary_client")
+    def _ensure_primary_client(self) -> "KisWebsocketClient":
+        if self.kis.virtual and not self.virtual and not self._primary_client:
+            self._primary_client = KisWebsocketClient(self.kis, virtual=True)
+
+            self._primary_client.subscribed_event += self._primary_client_subscribed_event
+            self._primary_client.unsubscribed_event += self._primary_client_unsubscribed_event
+            self._primary_client.event += self._primary_client_event
+
+            return self._primary_client
+        else:
+            return self
+
+    def _primary_client_subscribed_event(self, sender: "KisWebsocketClient", args: KisSubscribedEventArgs):
+        self.subscribed_event.invoke(self, args)
+
+    def _primary_client_unsubscribed_event(self, sender: "KisWebsocketClient", args: KisSubscribedEventArgs):
+        self.unsubscribed_event.invoke(self, args)
+
+    def _primary_client_event(self, sender: "KisWebsocketClient", args: KisSubscriptionEventArgs):
+        self.event.invoke(self, args)

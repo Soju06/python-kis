@@ -1,6 +1,11 @@
 import logging
 import sys
+
 from colorlog import ColoredFormatter
+
+__all__ = [
+    "logger",
+]
 
 logging.addLevelName(logging.DEBUG, "DEBG")
 logging.addLevelName(logging.INFO, "INFO")
