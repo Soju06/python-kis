@@ -10,6 +10,11 @@ __all__ = [
 class KisAccountNumber(KisForm):
     """한국투자증권 계좌 정보"""
 
+    __slots__ = [
+        "number",
+        "code",
+    ]
+
     number: str
     """종합계좌번호"""
     code: str

@@ -14,6 +14,8 @@ __all__ = [
 class KisAuth:
     """한국투자증권 OpenAPI 계좌 및 인증 정보"""
 
+    id: str
+    """HTS 아이디"""
     appkey: str
     """앱 키"""
     secretkey: str
@@ -26,10 +28,14 @@ class KisAuth:
     @property
     def key(self):
         """앱 키"""
-        return KisKey(appkey=self.appkey, secretkey=self.secretkey)
+        return KisKey(
+            id=self.id,
+            appkey=self.appkey,
+            secretkey=self.secretkey,
+        )
 
     @property
-    def account_(self):
+    def account_number(self):
         """계좌번호"""
         return KisAccountNumber(self.account)
 

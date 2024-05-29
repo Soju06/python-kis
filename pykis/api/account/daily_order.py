@@ -49,16 +49,6 @@ class KisDailyOrder(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def symbol(self) -> str:
-        """종목코드"""
-        raise NotImplementedError
-
-    @property
-    def market(self) -> MARKET_TYPE:
-        """상품유형타입"""
-        raise NotImplementedError
-
-    @property
     def account_number(self) -> KisAccountNumber:
         """계좌번호"""
         raise NotImplementedError
@@ -66,11 +56,6 @@ class KisDailyOrder(KisAccountProductProtocol, Protocol):
     @property
     def order_number(self) -> KisOrder:
         """주문번호"""
-        raise NotImplementedError
-
-    @property
-    def name(self) -> str:
-        """종목명"""
         raise NotImplementedError
 
     @property

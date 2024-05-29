@@ -64,6 +64,14 @@ class KisWebsocketResponse:
         items = data.split(split)
         fields = response_type.__fields__
 
+        if not fields:
+            response = response_type()
+            response.__pre_init__(items)
+            response.__data__ = items
+            response.__post_init__()
+            yield response
+            return
+
         if len(items) % len(fields) != 0:
             raise ValueError(f"Invalid data length: {len(items)}")
 

@@ -11,14 +11,25 @@ __all__ = [
 class RateLimiter:
     """호출 유량을 제한하는 클래스입니다."""
 
+    __slots__ = [
+        "rate",
+        "period",
+        "_count",
+        "_last",
+        "_lock",
+    ]
+
     rate: int
     """기간 호출 횟수"""
     period: float
     """기간"""
 
     _count: int
+    """호출 횟수"""
     _last: float
+    """마지막 호출 시간"""
     _lock: LockType
+    """Lock 객체"""
 
     def __init__(self, rate: int, period: float):
         """호출 유량을 제한하는 클래스를 생성합니다.
