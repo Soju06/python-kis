@@ -134,7 +134,7 @@ class KisDailyOrder(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def cancelled(self) -> bool:
+    def canceled(self) -> bool:
         """취소여부"""
         raise NotImplementedError
 
@@ -251,7 +251,7 @@ class KisDailyOrderBase(KisAccountProductBase):
     rejected_reason: str | None = None
     """거부사유"""
 
-    cancelled: bool
+    canceled: bool
     """취소여부"""
 
 
@@ -404,7 +404,7 @@ class KisDomesticDailyOrder(KisDynamic, KisDailyOrderBase):
     rejected_reason: str | None = None
     """거부사유"""
 
-    cancelled: bool = KisTransform(lambda x: x == "Y")["ccld_yn"]
+    canceled: bool = KisTransform(lambda x: x == "Y")["ccld_yn"]
     """취소여부"""
 
     def __pre_init__(self, data: dict[str, Any]):
@@ -522,7 +522,7 @@ class KisForeignDailyOrder(KisDynamic, KisDailyOrderBase):
     rejected_reason: str | None = KisString["rjct_rson_name"]
     """거부사유"""
 
-    cancelled: bool = False
+    canceled: bool = False
     """취소여부"""
 
     def __post_init__(self):

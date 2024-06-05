@@ -3,7 +3,7 @@ from decimal import Decimal
 from typing import Any, Callable
 
 from pykis.__env__ import TIMEZONE
-from pykis.responses.dynamic import KisDynamic, KisNoneError, KisType, KisTypeMeta
+from pykis.responses.dynamic import KisDynamic, KisNoneValueError, KisType, KisTypeMeta
 from pykis.utils.repr import dict_repr
 
 __all__ = [
@@ -82,7 +82,7 @@ class KisInt(KisType[int], metaclass=KisTypeMeta[int]):
             return data
 
         if data == "":
-            raise KisNoneError
+            raise KisNoneValueError
 
         return int(data)
 
@@ -100,7 +100,7 @@ class KisFloat(KisType[float], metaclass=KisTypeMeta[float]):
             return data
 
         if data == "":
-            raise KisNoneError
+            raise KisNoneValueError
 
         return float(data)
 
@@ -113,7 +113,7 @@ class KisDecimal(KisType[Decimal], metaclass=KisTypeMeta[Decimal]):
             return data
 
         if data == "":
-            raise KisNoneError
+            raise KisNoneValueError
 
         return Decimal(data).normalize()
 
@@ -126,7 +126,7 @@ class KisBool(KisType[bool], metaclass=KisTypeMeta[bool]):
             return data
 
         if data == "":
-            raise KisNoneError
+            raise KisNoneValueError
 
         if isinstance(data, int):
             return data != 0
@@ -157,7 +157,7 @@ class KisDate(KisType[date], metaclass=KisTypeMeta[date]):
             return data
 
         if data == "":
-            raise KisNoneError
+            raise KisNoneValueError
 
         return datetime.strptime(data, self.format).replace(tzinfo=self.timezone).date()
 
@@ -180,7 +180,7 @@ class KisTime(KisType[time], metaclass=KisTypeMeta[time]):
             return data
 
         if data == "":
-            raise KisNoneError
+            raise KisNoneValueError
 
         return datetime.strptime(data, self.format).replace(tzinfo=self.timezone).time()
 
@@ -203,7 +203,7 @@ class KisDatetime(KisType[datetime], metaclass=KisTypeMeta[datetime]):
             return data
 
         if data == "":
-            raise KisNoneError
+            raise KisNoneValueError
 
         return datetime.strptime(data, self.format).replace(tzinfo=self.timezone)
 
@@ -216,7 +216,7 @@ class KisDict(KisType[dict[str, Any]], metaclass=KisTypeMeta[dict[str, Any]]):
             return data
 
         if data == "":
-            raise KisNoneError
+            raise KisNoneValueError
 
         return dict(data)
 
@@ -239,7 +239,7 @@ class KisTimeToDatetime(KisType[datetime], metaclass=KisTypeMeta[datetime]):
             return data
 
         if data == "":
-            raise KisNoneError
+            raise KisNoneValueError
 
         return datetime.combine(
             datetime.now(self.timezone).date(),

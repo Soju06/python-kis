@@ -22,7 +22,7 @@ __all__ = [
     "TListItem",
     "KisList",
     "KisObject",
-    "KisNoneError",
+    "KisNoneValueError",
 ]
 
 T = TypeVar("T")
@@ -329,7 +329,7 @@ class KisObject(Generic[TDynamic], KisType[TDynamic], metaclass=KisTypeMeta):
             if value is not None:
                 try:
                     result = type_.transform(value)
-                except KisNoneError:
+                except KisNoneValueError:
                     pass
                 except Exception as e:
                     raise ValueError(
@@ -361,7 +361,7 @@ class KisObject(Generic[TDynamic], KisType[TDynamic], metaclass=KisTypeMeta):
         return object  # type: ignore
 
 
-class KisNoneError(Exception):
+class KisNoneValueError(Exception):
     """빈 값이 입력되었을 때 발생하는 예외"""
 
     pass
