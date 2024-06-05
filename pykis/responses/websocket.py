@@ -1,7 +1,8 @@
-from typing import Any, Iterable, Protocol, TypeVar, runtime_checkable
+from types import NoneType
+from typing import Any, Iterable, Protocol, TypeVar, get_args, runtime_checkable
 
 from pykis import logging
-from pykis.responses.dynamic import KisType
+from pykis.responses.dynamic import KisNoneValueError, KisType
 from pykis.responses.types import KisAny
 
 __all__ = [
@@ -90,6 +91,8 @@ class KisWebsocketResponse:
                 response.__pre_init__(values)
                 response.__data__ = values
 
+                annotation = response_type.__annotations__
+
                 for i, (field, value) in enumerate(zip(fields, values)):
                     if field is None:
                         continue
@@ -110,6 +113,18 @@ class KisWebsocketResponse:
                             value = field.transform(value)
 
                         setattr(response, field.field, value)
+                    except KisNoneValueError:
+                        nullable = (
+                            NoneType in get_args(anno) if (anno := annotation.get(field.field)) else False
+                        )
+
+                        if not nullable:
+                            raise ValueError(
+                                f"{response_type.__name__}.{field.field} 필드가 None일 수 없습니다."
+                            )
+
+                        setattr(response, field.field, None)
+
                     except Exception as e:
                         raise ValueError(
                             f"{response_type.__name__}.{field.field} 필드를 변환하는 중 오류가 발생했습니다.\n→ {type(e).__name__}: {e}"

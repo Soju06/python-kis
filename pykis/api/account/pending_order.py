@@ -9,7 +9,7 @@ from pykis.api.account.order import (
     ORDER_EXECUTION,
     ORDER_TYPE,
     KisOrder,
-    KisOrderNumberBase,
+    KisOrderNumber,
     resolve_domestic_order_condition,
 )
 from pykis.api.base.account import KisAccountBase, KisAccountProtocol
@@ -60,7 +60,7 @@ class KisPendingOrder(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def price(self) -> Decimal | None:
+    def price(self) -> Decimal:
         """체결단가"""
         raise NotImplementedError
 
@@ -154,11 +154,11 @@ class KisPendingOrders(KisAccountProtocol, Protocol):
         """미체결주문"""
         raise NotImplementedError
 
-    def __getitem__(self, key: int | KisOrderNumberBase | str) -> KisPendingOrder:
+    def __getitem__(self, key: int | KisOrderNumber | str) -> KisPendingOrder:
         """인덱스 또는 주문번호로 주문을 조회합니다."""
         raise NotImplementedError
 
-    def order(self, key: KisOrderNumberBase | str) -> KisPendingOrder | None:
+    def order(self, key: KisOrderNumber | str) -> KisPendingOrder | None:
         """주문번호 또는 종목코드로 주문을 조회합니다."""
         raise NotImplementedError
 
@@ -202,7 +202,7 @@ class KisPendingOrderBase(KisAccountProductBase):
     type: ORDER_TYPE
     """주문유형"""
 
-    price: Decimal | None
+    price: Decimal
     """체결단가"""
     unit_price: Decimal | None
     """주문단가"""
@@ -280,7 +280,7 @@ class KisPendingOrdersBase(KisAccountBase):
     orders: list[KisPendingOrder]
     """미체결주문"""
 
-    def __getitem__(self, key: int | KisOrderNumberBase | str) -> KisPendingOrder:
+    def __getitem__(self, key: int | KisOrderNumber | str) -> KisPendingOrder:
         """인덱스 또는 주문번호로 주문을 조회합니다."""
         if isinstance(key, int):
             return self.orders[key]
@@ -288,20 +288,20 @@ class KisPendingOrdersBase(KisAccountBase):
             for order in self.orders:
                 if order.symbol == key:
                     return order
-        elif isinstance(key, KisOrderNumberBase):
+        elif isinstance(key, KisOrderNumber):
             for order in self.orders:
                 if order.order_number == key:
                     return order
 
         raise KeyError(key)
 
-    def order(self, key: KisOrderNumberBase | str) -> KisPendingOrder | None:
+    def order(self, key: KisOrderNumber | str) -> KisPendingOrder | None:
         """주문번호 또는 종목코드로 주문을 조회합니다."""
         if isinstance(key, str):
             for order in self.orders:
                 if order.symbol == key:
                     return order
-        elif isinstance(key, KisOrderNumberBase):
+        elif isinstance(key, KisOrderNumber):
             for order in self.orders:
                 if order.order_number == key:
                     return order
@@ -338,7 +338,7 @@ class KisDomesticPendingOrder(KisDynamic, KisPendingOrderBase):
     type: ORDER_TYPE = KisAny(lambda x: "buy" if x == "02" else "sell")["sll_buy_dvsn_cd"]
     """주문유형"""
 
-    price: Decimal | None = KisDecimal["ord_unpr"]
+    price: Decimal = KisDecimal["ord_unpr"]
     """체결단가"""
     unit_price: Decimal | None = KisDecimal["ord_unpr"]
     """주문단가"""
@@ -444,7 +444,7 @@ class KisForeignPendingOrder(KisDynamic, KisPendingOrderBase):
     type: ORDER_TYPE = KisAny(lambda x: "buy" if x == "02" else "sell")["sll_buy_dvsn_cd"]
     """주문유형"""
 
-    price: Decimal | None = KisDecimal["ft_ccld_unpr3"]
+    price: Decimal = KisDecimal["ft_ccld_unpr3"]
     """체결단가"""
     unit_price: Decimal | None = KisDecimal["ft_ord_unpr3"]
     """주문단가"""
