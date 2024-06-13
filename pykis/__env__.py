@@ -28,10 +28,8 @@ VERSION = "2.0.0"
 
 USER_AGENT = f"PyKis/{VERSION}"
 
-
-class EMPTY_TYPE:
-    def __eq__(self, other):
-        return isinstance(other, EMPTY_TYPE)
-
-
-EMPTY = EMPTY_TYPE()
+__version__ = VERSION
+__author__ = "soju06"
+__author_email__ = "qlskssk@gmail.com"
+__url__ = "https://github.com/soju06/python-kis"
+__license__ = "MIT"

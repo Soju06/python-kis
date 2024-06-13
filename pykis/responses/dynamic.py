@@ -10,7 +10,7 @@ from typing import (
 )
 
 from pykis import logging
-from pykis.__env__ import EMPTY, EMPTY_TYPE
+from pykis.utils.params import EMPTY, EMPTY_TYPE
 
 __all__ = [
     "KisType",
