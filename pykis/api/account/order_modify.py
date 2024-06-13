@@ -2,7 +2,7 @@ from datetime import datetime
 from decimal import Decimal
 from typing import TYPE_CHECKING, Any, Literal
 
-from pykis.__env__ import EMPTY, EMPTY_TYPE, TIMEZONE
+from pykis.__env__ import TIMEZONE
 from pykis.api.account.order import (
     ORDER_CONDITION,
     ORDER_EXECUTION,
@@ -20,6 +20,7 @@ from pykis.client.account import KisAccountNumber
 from pykis.client.exception import KisAPIError
 from pykis.responses.response import KisAPIResponse
 from pykis.responses.types import KisString
+from pykis.utils.params import EMPTY, EMPTY_TYPE
 
 if TYPE_CHECKING:
     from pykis.api.base.account import KisAccountProtocol
