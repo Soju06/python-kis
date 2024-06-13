@@ -19,7 +19,7 @@ from pykis.client.account import KisAccountNumber
 from pykis.client.appkey import KisKey
 from pykis.client.auth import KisAuth
 from pykis.client.cache import KisCacheStorage
-from pykis.client.exception import KisHTTPError
+from pykis.client.exceptions import KisHTTPError
 from pykis.client.form import KisForm
 from pykis.client.object import KisObjectBase
 from pykis.responses.dynamic import KisObject, TDynamic

@@ -25,7 +25,7 @@ from pykis.api.stock.market import (
 )
 from pykis.api.stock.quote import quote
 from pykis.client.account import KisAccountNumber
-from pykis.responses.exception import KisMarketNotOpenedError
+from pykis.responses.exceptions import KisMarketNotOpenedError
 from pykis.responses.response import KisAPIResponse, raise_not_found
 from pykis.responses.types import KisString
 
