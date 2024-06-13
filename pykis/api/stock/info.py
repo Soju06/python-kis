@@ -2,7 +2,7 @@ from datetime import timedelta
 from typing import TYPE_CHECKING, Literal, Protocol, runtime_checkable
 
 from pykis.api.stock.market import MARKET_TYPE
-from pykis.client.exception import KisAPIError
+from pykis.client.exceptions import KisAPIError
 from pykis.responses.response import (
     KisAPIResponse,
     KisResponseProtocol,

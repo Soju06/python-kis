@@ -17,7 +17,7 @@ from pykis.api.stock.info import get_market_country
 from pykis.api.stock.market import DAYTIME_MARKETS, MARKET_TYPE
 from pykis.api.stock.quote import quote
 from pykis.client.account import KisAccountNumber
-from pykis.client.exception import KisAPIError
+from pykis.client.exceptions import KisAPIError
 from pykis.responses.response import KisAPIResponse
 from pykis.responses.types import KisString
 from pykis.utils.params import EMPTY, EMPTY_TYPE

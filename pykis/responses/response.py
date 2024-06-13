@@ -2,7 +2,7 @@ from typing import Any, Protocol, runtime_checkable
 
 from requests import Response
 
-from pykis.client.exception import KisAPIError
+from pykis.client.exceptions import KisAPIError
 from pykis.client.object import KisObjectBase, KisObjectProtocol
 from pykis.client.page import KisPage, KisPageStatus, to_page_status
 from pykis.responses.dynamic import (
@@ -11,7 +11,7 @@ from pykis.responses.dynamic import (
     KisDynamicScopedPath,
     KisObject,
 )
-from pykis.responses.exception import KisNotFoundError
+from pykis.responses.exceptions import KisNotFoundError
 from pykis.responses.types import KisAny, KisString
 
 __all__ = [
