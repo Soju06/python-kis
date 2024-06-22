@@ -29,6 +29,12 @@ from pykis.utils.repr import kis_repr
 if TYPE_CHECKING:
     from pykis.kis import PyKis
 
+__all__ = [
+    "KisPendingOrder",
+    "KisPendingOrders",
+    "pending_orders",
+]
+
 
 @runtime_checkable
 class KisPendingOrder(KisAccountProductProtocol, Protocol):

@@ -10,6 +10,11 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
     from pykis.scope.stock.info_stock import KisInfoStock
 
+__all__ = [
+    "KisProductProtocol",
+    "KisProductBase",
+]
+
 
 @runtime_checkable
 class KisProductProtocol(KisMarketProtocol, Protocol):

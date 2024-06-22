@@ -1,5 +1,5 @@
 from pykis.client.messaging import KisWebsocketTR
-from pykis.event.eventhandler import KisEventArgs
+from pykis.event.handler import KisEventArgs
 from pykis.responses.websocket import KisWebsocketResponse
 
 

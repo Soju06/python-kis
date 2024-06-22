@@ -105,7 +105,7 @@ class KisChart(KisProductProtocol, Protocol):
         """차트 (오름차순)"""
         raise NotImplementedError
 
-    def index(self, time: datetime | date | time, kst: bool = False) -> int:
+    def index(self, time: datetime | date | time, /, kst: bool = False) -> int:
         """
         이진탐색으로 시간에 해당하는 봉의 인덱스를 반환합니다.
 
@@ -118,6 +118,7 @@ class KisChart(KisProductProtocol, Protocol):
     def order_by(
         self,
         key: Literal["time", "open", "high", "low", "close", "volume", "amount", "change"],
+        /,
         reverse: bool = False,
     ) -> list[KisChartBar]:
         """
@@ -201,7 +202,7 @@ class KisChartBase(KisChartRepr, KisProductBase):
     bars: list[KisChartBar]
     """차트 (오름차순)"""
 
-    def index(self, time: datetime | date | time, kst: bool = False) -> int:
+    def index(self, time: datetime | date | time, /, kst: bool = False) -> int:
         """
         이진탐색으로 시간에 해당하는 봉의 인덱스를 반환합니다.
 
@@ -243,6 +244,7 @@ class KisChartBase(KisChartRepr, KisProductBase):
     def order_by(
         self,
         key: Literal["time", "open", "high", "low", "close", "volume", "amount", "change"],
+        /,
         reverse: bool = False,
     ) -> list[KisChartBar]:
         """

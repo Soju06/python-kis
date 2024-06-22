@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from typing import Callable, Generic, TypeVar
 
-from pykis.event.eventhandler import KisEventFilter, KisEventTicket, TEventArgs, TSender
+from pykis.event.handler import KisEventFilter, KisEventTicket, TEventArgs, TSender
 
 TEventType = TypeVar("TEventType", bound=str)
 

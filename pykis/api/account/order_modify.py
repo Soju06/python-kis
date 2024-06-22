@@ -27,6 +27,12 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+__all__ = [
+    "modify_order",
+    "cancel_order",
+]
+
+
 class KisDomesticModifyOrder(KisAPIResponse, KisOrderBase):
     """한국투자증권 국내주식 정정 주문"""
 

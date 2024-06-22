@@ -104,7 +104,7 @@ class KisLambdaEventCallback(KisEventCallback[TSender, TEventArgs]):
         return hash((self.callback, self.where))
 
 
-Callback = Callable[[TSender, TEventArgs], None] | KisEventCallback[TSender, TEventArgs]
+EventCallback = Callable[[TSender, TEventArgs], None] | KisEventCallback[TSender, TEventArgs]
 
 
 class KisEventTicket(Generic[TSender, TEventArgs]):
@@ -112,13 +112,13 @@ class KisEventTicket(Generic[TSender, TEventArgs]):
 
     handler: "KisEventHandler[TSender, TEventArgs]"
     """이벤트 핸들러"""
-    callback: Callback[TSender, TEventArgs]
+    callback: EventCallback[TSender, TEventArgs]
     """이벤트 콜백"""
 
     def __init__(
         self,
         handler: "KisEventHandler[TSender, TEventArgs]",
-        callback: Callback[TSender, TEventArgs],
+        callback: EventCallback[TSender, TEventArgs],
     ):
         self.handler = handler
         self.callback = callback
@@ -165,13 +165,13 @@ class KisEventTicket(Generic[TSender, TEventArgs]):
 class KisEventHandler(Generic[TSender, TEventArgs]):
     """이벤트 핸들러"""
 
-    handlers: set[Callback[TSender, TEventArgs]]
+    handlers: set[EventCallback[TSender, TEventArgs]]
     """이벤트 핸들러 목록"""
 
-    def __init__(self, *handlers: Callback[TSender, TEventArgs]):
+    def __init__(self, *handlers: EventCallback[TSender, TEventArgs]):
         self.handlers = set(handlers)
 
-    def add(self, handler: Callback[TSender, TEventArgs]) -> KisEventTicket[TSender, TEventArgs]:
+    def add(self, handler: EventCallback[TSender, TEventArgs]) -> KisEventTicket[TSender, TEventArgs]:
         """이벤트 핸들러를 추가합니다."""
         self.handlers.add(handler)
         return KisEventTicket(self, handler)
@@ -196,7 +196,7 @@ class KisEventHandler(Generic[TSender, TEventArgs]):
             )
         )
 
-    def remove(self, handler: Callback[TSender, TEventArgs]):
+    def remove(self, handler: EventCallback[TSender, TEventArgs]):
         """이벤트 핸들러를 제거합니다."""
         self.handlers.remove(handler)
 
@@ -217,11 +217,11 @@ class KisEventHandler(Generic[TSender, TEventArgs]):
         """이벤트를 발생시킵니다."""
         self.invoke(sender, e)
 
-    def __iadd__(self, handler: Callback[TSender, TEventArgs]):
+    def __iadd__(self, handler: EventCallback[TSender, TEventArgs]):
         self.add(handler)
         return self
 
-    def __isub__(self, handler: Callback[TSender, TEventArgs]):
+    def __isub__(self, handler: EventCallback[TSender, TEventArgs]):
         self.remove(handler)
         return self
 
@@ -231,7 +231,7 @@ class KisEventHandler(Generic[TSender, TEventArgs]):
     def __iter__(self):
         return iter(self.handlers)
 
-    def __contains__(self, handler: Callback[TSender, TEventArgs]):
+    def __contains__(self, handler: EventCallback[TSender, TEventArgs]):
         return handler in self.handlers
 
     def __bool__(self):

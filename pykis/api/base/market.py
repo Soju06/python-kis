@@ -7,6 +7,12 @@ if TYPE_CHECKING:
     from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
 
 
+__all__ = [
+    "KisMarketProtocol",
+    "KisMarketBase",
+]
+
+
 @runtime_checkable
 class KisMarketProtocol(KisObjectProtocol, Protocol):
     """한국투자증권 시장 프로토콜"""

@@ -7,6 +7,10 @@ from pykis.scope.base.scope import KisScope
 if TYPE_CHECKING:
     from pykis.kis import PyKis
 
+__all__ = [
+    "KisAccountScope",
+]
+
 
 class KisAccountScope(KisScope, KisAccountBase):
     """한국투자증권 계좌 Base Scope"""
