@@ -3,7 +3,9 @@ from typing import Any
 from pykis.__env__ import APPKEY_LENGTH, SECRETKEY_LENGTH
 from pykis.client.form import KisForm
 
-__all__ = ["KisKey"]
+__all__ = [
+    "KisKey",
+]
 
 
 class KisKey(KisForm):

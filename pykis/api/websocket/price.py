@@ -21,6 +21,10 @@ from pykis.responses.websocket import KisWebsocketResponse, KisWebsocketResponse
 from pykis.utils.repr import kis_repr
 from pykis.utils.typing import Checkable
 
+__all__ = [
+    "KisRealtimePrice",
+]
+
 
 @runtime_checkable
 class KisRealtimePrice(KisWebsocketResponseProtocol, KisProductProtocol, Protocol):

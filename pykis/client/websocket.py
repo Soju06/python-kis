@@ -25,11 +25,8 @@ from pykis.client.messaging import (
     KisWebsocketTR,
 )
 from pykis.client.object import KisObjectBase
-from pykis.event.eventhandler import KisEventHandler
-from pykis.event.websocket.subscription import (
-    KisSubscribedEventArgs,
-    KisSubscriptionEventArgs,
-)
+from pykis.event.handler import KisEventHandler
+from pykis.event.subscription import KisSubscribedEventArgs, KisSubscriptionEventArgs
 from pykis.responses.websocket import KisWebsocketResponse
 from pykis.utils.thread_safe import thread_safe
 
@@ -473,7 +470,7 @@ class KisWebsocketClient:
 
         try:
             for response in KisWebsocketResponse.parse(
-                data=body,
+                body,
                 count=count,
                 response_type=response_type,
             ):

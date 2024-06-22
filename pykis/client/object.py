@@ -4,6 +4,7 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 __all__ = [
+    "KisObjectProtocol",
     "KisObjectBase",
 ]
 

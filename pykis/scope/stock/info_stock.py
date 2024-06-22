@@ -9,6 +9,12 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+__all__ = [
+    "KisInfoStock",
+    "info_stock",
+]
+
+
 class KisInfoStock(KisStock):
     """한국투자증권 주식 정보 Scope"""
 
@@ -40,7 +46,7 @@ def info_stock(
     symbol: str,
     market: MARKET_INFO_TYPES = None,
     account: KisAccountNumber | None = None,
-) -> KisInfoStock:
+) -> KisStock:
     """
     종목을 조회하고 종목 Scope를 반환합니다.
 

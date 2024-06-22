@@ -48,6 +48,7 @@ class KisWebsocketResponse:
     def parse(
         cls,
         data: str,
+        /,
         count: int | None = None,
         split: str = "^",
         *,

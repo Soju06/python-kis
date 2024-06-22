@@ -6,6 +6,13 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+__all__ = [
+    "KisScopeProtocol",
+    "KisScope",
+    "TScope",
+]
+
+
 @runtime_checkable
 class KisScopeProtocol(KisObjectProtocol, Protocol):
     """한국투자증권 API Scope"""

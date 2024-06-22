@@ -10,6 +10,11 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
+__all__ = [
+    "KisAccountProductScope",
+]
+
+
 @kis_repr(
     "account_number",
     "market",

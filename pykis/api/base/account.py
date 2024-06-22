@@ -8,6 +8,11 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
     from pykis.scope.account.account import KisAccount
 
+__all__ = [
+    "KisAccountProtocol",
+    "KisAccountBase",
+]
+
 
 @runtime_checkable
 class KisAccountProtocol(KisObjectProtocol, Protocol):

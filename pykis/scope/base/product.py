@@ -3,13 +3,18 @@ from typing import TYPE_CHECKING, Literal
 
 from pykis.api.base.product import KisProductBase
 from pykis.api.stock.market import MARKET_TYPE
-from pykis.scope.base.scope import KisScope, KisScopeProtocol
+from pykis.scope.base.scope import KisScope
 from pykis.utils.repr import kis_repr
 from pykis.utils.timex import TIMEX_TYPE, timex
 
 if TYPE_CHECKING:
     from pykis.api.stock.chart import KisChart
     from pykis.kis import PyKis
+
+
+__all__ = [
+    "KisProductScope",
+]
 
 
 @kis_repr(
