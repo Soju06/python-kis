@@ -4,6 +4,10 @@ from pykis.adapter.account_product.order import (
     KisOrderableAccountProduct,
     KisOrderableAccountProductImpl,
 )
+from pykis.adapter.websocket.price import (
+    KisWebsocketQuotableProduct,
+    KisWebsocketQuotableProductImpl,
+)
 from pykis.api.base.account_product import (
     KisAccountProductBase,
     KisAccountProductProtocol,
@@ -18,11 +22,15 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 
-class KisStock(KisScope, KisAccountProductProtocol, KisOrderableAccountProduct, Protocol):
+class KisStock(
+    KisScope, KisAccountProductProtocol, KisOrderableAccountProduct, KisWebsocketQuotableProduct, Protocol
+):
     """한국투자증권 주식 Base Scope"""
 
 
-class KisStockScope(KisScopeBase, KisAccountProductBase, KisOrderableAccountProductImpl):
+class KisStockScope(
+    KisScopeBase, KisAccountProductBase, KisOrderableAccountProductImpl, KisWebsocketQuotableProductImpl
+):
     """한국투자증권 주식 Base Scope"""
 
     symbol: str

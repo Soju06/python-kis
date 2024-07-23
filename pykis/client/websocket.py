@@ -5,9 +5,9 @@ import time
 from multiprocessing import Event, Lock
 from multiprocessing.synchronize import Event as EventType
 from multiprocessing.synchronize import Lock as LockType
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable
 
-from websocket import WebSocketApp
+from websocket import WebSocketApp, WebSocketConnectionClosedException
 
 from pykis import logging
 from pykis.__env__ import (
@@ -25,9 +25,16 @@ from pykis.client.messaging import (
     KisWebsocketTR,
 )
 from pykis.client.object import KisObjectBase
-from pykis.event.handler import KisEventHandler
+from pykis.event.handler import (
+    KisEventFilter,
+    KisEventHandler,
+    KisEventTicket,
+    TEventArgs,
+    TSender,
+)
 from pykis.event.subscription import KisSubscribedEventArgs, KisSubscriptionEventArgs
-from pykis.responses.websocket import KisWebsocketResponse
+from pykis.responses.websocket import KisWebsocketResponse, TWebsocketResponse
+from pykis.utils.reference import ReferenceStore, ReferenceTicket, package_mathod
 from pykis.utils.thread_safe import thread_safe
 
 if TYPE_CHECKING:
@@ -79,6 +86,8 @@ class KisWebsocketClient:
 
     _keychain: dict[KisWebsocketTR, KisWebsocketEncryptionKey]
     """암호화 키체인"""
+    _reference_store: ReferenceStore
+    """이벤트 참조 카운터"""
 
     _primary_client: "KisWebsocketClient | None" = None
     """계좌 조회가 가능한 서버의 클라이언트 (모의투자에서만 사용)"""
@@ -95,6 +104,7 @@ class KisWebsocketClient:
         self._subscriptions = set()
         self._registered_subscriptions = set()
         self._keychain = dict()
+        self._reference_store = ReferenceStore(callback=self._release_reference)
 
     def is_subscribed(self, id: str, key: str = "") -> bool:
         """
@@ -272,6 +282,56 @@ class KisWebsocketClient:
         for tr in self._subscriptions.copy():
             self.unsubscribe(tr.id, tr.key)
 
+    def referenced_subscribe(self, id: str, key: str, primary: bool = False) -> ReferenceTicket:
+        """
+        래퍼런스 카운터를 사용하여 TR을 구독합니다.
+        카운터가 0일 때 구독을 취소합니다.
+
+        Args:
+            id (str): TR ID
+            key (str): TR Key
+            primary (bool): 주 서버에 구독할지 여부
+        """
+        self.subscribe(id, key, primary)
+        return self._reference_store.ticket(f"{id}:{key}")
+
+    def on(
+        self,
+        id: str,
+        key: str,
+        callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]], None],
+        where: KisEventFilter | None = None,
+        once: bool = False,
+        primary: bool = False,
+    ) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]]:
+        """
+        TR을 구독합니다.
+
+        Args:
+            id (str): TR ID
+            key (str): TR Key
+            callback (Callable[[TSender, TEventArgs], None]): 콜백 함수
+            where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+            primary (bool): 주 서버에 구독할지 여부
+        """
+        return self.event.on(
+            handler=package_mathod(
+                callback,
+                ticket=self.referenced_subscribe(
+                    id=id,
+                    key=key,
+                    primary=primary,
+                ),
+            ),
+            where=where,
+            once=once,
+        )
+
+    def _release_reference(self, key: str, value: int):
+        if value == 0:
+            id, key = key.split(":", 1)
+            self.unsubscribe(id, key)
+
     @thread_safe("subscriptions")
     def _reset_session_state(self):
         """세션 상태를 초기화합니다."""
@@ -311,7 +371,7 @@ class KisWebsocketClient:
                     )
                     self.websocket.run_forever()
                 except Exception as e:
-                    logging.logger.error("RTC: Unexpected error: %s", e)
+                    logging.logger.error("RTC: Unexpected error: %s", e, exc_info=True)
 
                 # 종료 확인
                 if self.thread != threading.current_thread():
@@ -355,7 +415,12 @@ class KisWebsocketClient:
         if websocket is not self.websocket:
             return
 
-        logging.logger.error("RTC: WebSocket error: %s", error)
+        if isinstance(error, WebSocketConnectionClosedException):
+            logging.logger.error("RTC Websocket error: Connection closed")
+        elif isinstance(error, KeyboardInterrupt):
+            logging.logger.error("RTC Websocket error: Keyboard interrupt")
+        else:
+            logging.logger.error("RTC Websocket error: %s", error, exc_info=True)
 
     def _on_close(self, websocket: WebSocketApp, code: int, reason: str):
         if websocket is not self.websocket:
@@ -374,7 +439,7 @@ class KisWebsocketClient:
                 case "{" | _:  # 제어 데이터
                     self._handle_control(json.loads(message))
         except Exception as e:
-            logging.logger.error("RTC: failed to handle message: %s", e)
+            logging.logger.error("RTC: failed to handle message: %s", e, exc_info=True)
 
     def _handle_control(self, data: dict):
         if not self.websocket:
@@ -396,10 +461,12 @@ class KisWebsocketClient:
             return
 
         tr = KisWebsocketTR(id, key or "")
-        code = data["body"]["msg_cd"]
-        message = data["body"]["msg1"]
+        code = body["msg_cd"]
+        message = body["msg1"]
+        output = body.get("output")
 
-        self._set_encryption_key(tr, body["output"])
+        if output:
+            self._set_encryption_key(tr, output)
 
         match code:
             case "OPSP0000":  # subscribed
@@ -421,6 +488,9 @@ class KisWebsocketClient:
                 logging.logger.info("RTC: Already unsubscribed from %s", tr)
                 self._registered_subscriptions.remove(tr)
                 self._keychain.pop(tr, None)
+
+            case "OPSP8996":  # already in use
+                logging.logger.error("RTC: Session already in use")
 
             case "OPSP0007":  # internal error
                 logging.logger.error("RTC: Internal server error: %s %s", tr, message)

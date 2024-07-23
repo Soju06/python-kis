@@ -138,4 +138,4 @@ class KisWebsocketResponse:
             raise ValueError(f"데이터 파싱 중 오류가 발생했습니다.\n→ {type(e).__name__}: {e}") from e
 
 
-TWebsocketResponse = TypeVar("TWebsocketResponse", bound=KisWebsocketResponse)
+TWebsocketResponse = TypeVar("TWebsocketResponse", bound=KisWebsocketResponseProtocol)

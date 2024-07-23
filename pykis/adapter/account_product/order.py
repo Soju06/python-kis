@@ -1,4 +1,3 @@
-from abc import abstractmethod
 from typing import Protocol, runtime_checkable
 
 from pykis.api.account.order import (
@@ -21,9 +20,8 @@ __all__ = [
 
 @runtime_checkable
 class KisOrderableAccountProduct(Protocol):
-    """한국투자증권 웹소켓 어댑터"""
+    """한국투자증권 주문가능 상품 프로토콜"""
 
-    @abstractmethod
     def order(
         self: "KisAccountProductProtocol",
         order: ORDER_TYPE,
@@ -125,7 +123,6 @@ class KisOrderableAccountProduct(Protocol):
         """
         raise NotImplementedError
 
-    @abstractmethod
     def buy(
         self: "KisAccountProductProtocol",
         price: ORDER_PRICE | None = None,
@@ -191,7 +188,6 @@ class KisOrderableAccountProduct(Protocol):
         """
         raise NotImplementedError
 
-    @abstractmethod
     def sell(
         self: "KisAccountProductProtocol",
         price: ORDER_PRICE | None = None,
@@ -347,6 +343,8 @@ class KisOrderableAccountProduct(Protocol):
 
 
 class KisOrderableAccountProductImpl:
+    """한국투자증권 주문가능 상품"""
+
     from pykis.api.account.order import account_product_order as order  # 주문
     from pykis.api.account.orderable_amount import (
         account_product_orderable_amount as orderable_amount,  # 주문 가능 금액 조회
