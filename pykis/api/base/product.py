@@ -2,13 +2,12 @@ from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 from pykis.api.base.market import KisMarketBase, KisMarketProtocol
 from pykis.api.stock.market import MARKET_TYPE
-from pykis.utils.cache import cached
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.api.stock.info import KisStockInfo
     from pykis.kis import PyKis
-    from pykis.scope.stock.info_stock import KisInfoStock
+    from pykis.scope.stock import KisStock
 
 __all__ = [
     "KisProductProtocol",
@@ -36,7 +35,7 @@ class KisProductProtocol(KisMarketProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def stock(self) -> "KisInfoStock":
+    def stock(self) -> "KisStock":
         """종목 Scope"""
         raise NotImplementedError
 
@@ -69,7 +68,6 @@ class KisProductBase(KisMarketBase):
         return self.info.name
 
     @property
-    @cached
     def info(self) -> "KisStockInfo":
         """
         상품기본정보 조회.
@@ -90,12 +88,12 @@ class KisProductBase(KisMarketBase):
         )
 
     @property
-    def stock(self) -> "KisInfoStock":
+    def stock(self) -> "KisStock":
         """종목 Scope"""
-        from pykis.scope.stock.info_stock import KisInfoStock
+        from pykis.scope.stock import stock
 
-        return KisInfoStock(
-            kis=self.kis,
-            info=self.info,
-            account=self.kis.primary,
+        return stock(
+            self.kis,
+            symbol=self.symbol,
+            market=self.market,
         )

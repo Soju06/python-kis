@@ -1,6 +1,14 @@
 from decimal import Decimal
 from typing import TYPE_CHECKING, Iterator, Protocol, runtime_checkable
 
+from pykis.adapter.account_product.order import (
+    KisOrderableAccountProduct,
+    KisOrderableAccountProductImpl,
+)
+from pykis.adapter.websocket.price import (
+    KisWebsocketQuotableProduct,
+    KisWebsocketQuotableProductImpl,
+)
 from pykis.api.account.order import ORDER_QUANTITY
 from pykis.api.base.account import KisAccountBase, KisAccountProtocol
 from pykis.api.base.account_product import (
@@ -16,6 +24,7 @@ from pykis.responses.response import KisAPIResponse, KisPaginationAPIResponse
 from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
 from pykis.utils.cache import cached
 from pykis.utils.repr import kis_repr
+from pykis.utils.typing import Checkable
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -29,7 +38,9 @@ __all__ = [
 
 
 @runtime_checkable
-class KisBalanceStock(KisAccountProductProtocol, Protocol):
+class KisBalanceStock(
+    KisAccountProductProtocol, KisOrderableAccountProduct, KisWebsocketQuotableProduct, Protocol
+):
     """한국투자증권 보유종목"""
 
     @property
@@ -217,7 +228,9 @@ class KisBalance(KisAccountProtocol, Protocol):
     "profit_rate",
     lines="single",
 )
-class KisBalanceStockBase(KisAccountProductBase):
+class KisBalanceStockBase(
+    KisAccountProductBase, KisOrderableAccountProductImpl, KisWebsocketQuotableProductImpl
+):
     """한국투자증권 보유종목"""
 
     kis: "PyKis"
@@ -1187,3 +1200,9 @@ def account_orderable_quantity(
         symbol=symbol,
         country=country,
     )
+
+
+if TYPE_CHECKING:
+    Checkable[KisBalanceStock](KisDomesticBalanceStock)
+    Checkable[KisBalanceStock](KisForeignPresentBalanceStock)
+    Checkable[KisBalanceStock](KisForeignBalanceStock)

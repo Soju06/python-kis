@@ -22,15 +22,15 @@ if TYPE_CHECKING:
     from pykis.kis import PyKis
 
 __all__ = [
-    "KisAskingPrice",
-    "KisAskingPriceItem",
-    "KisAskingPriceResponse",
-    "asking_price",
+    "KisOrderBook",
+    "KisOrderBookItem",
+    "KisOrderBookResponse",
+    "order_book",
 ]
 
 
 @runtime_checkable
-class KisAskingPriceItem(Protocol):
+class KisOrderBookItem(Protocol):
     """한국투자증권 호가 항목"""
 
     @property
@@ -45,7 +45,7 @@ class KisAskingPriceItem(Protocol):
 
 
 @runtime_checkable
-class KisAskingPrice(KisProductProtocol, Protocol):
+class KisOrderBook(KisProductProtocol, Protocol):
     """한국투자증권 호가"""
 
     @property
@@ -54,12 +54,12 @@ class KisAskingPrice(KisProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def ask(self) -> list[KisAskingPriceItem]:
+    def ask(self) -> list[KisOrderBookItem]:
         """매도호가"""
         raise NotImplementedError
 
     @property
-    def bid(self) -> list[KisAskingPriceItem]:
+    def bid(self) -> list[KisOrderBookItem]:
         """매수호가"""
         raise NotImplementedError
 
@@ -68,12 +68,12 @@ class KisAskingPrice(KisProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def ask_price(self) -> KisAskingPriceItem:
+    def ask_price(self) -> KisOrderBookItem:
         """매도 1호가"""
         raise NotImplementedError
 
     @property
-    def bid_price(self) -> KisAskingPriceItem:
+    def bid_price(self) -> KisOrderBookItem:
         """매수 1호가"""
         raise NotImplementedError
 
@@ -93,11 +93,11 @@ class KisAskingPrice(KisProductProtocol, Protocol):
     "volume",
     lines="single",
 )
-class KisAskingPriceItemRepr:
+class KisOrderBookItemRepr:
     """한국투자증권 호가 항목"""
 
 
-class KisAskingPriceItemBase(KisAskingPriceItemRepr):
+class KisOrderBookItemBase(KisOrderBookItemRepr):
     """한국투자증권 호가 항목"""
 
     price: Decimal
@@ -111,7 +111,7 @@ class KisAskingPriceItemBase(KisAskingPriceItemRepr):
         self.volume = volume
 
     def __eq__(self, o: object) -> bool:
-        if not isinstance(o, KisAskingPriceItemBase):
+        if not isinstance(o, KisOrderBookItemBase):
             return False
         return self.price == o.price and self.volume == o.volume
 
@@ -123,7 +123,7 @@ class KisAskingPriceItemBase(KisAskingPriceItemRepr):
         yield self.volume
 
 
-class KisAskingPriceResponse(KisAskingPrice, KisResponseProtocol, Protocol):
+class KisOrderBookResponse(KisOrderBook, KisResponseProtocol, Protocol):
     """한국투자증권 호가 응답"""
 
 
@@ -138,11 +138,11 @@ class KisAskingPriceResponse(KisAskingPrice, KisResponseProtocol, Protocol):
         "bid": "multiple",
     },
 )
-class KisAskingPriceRepr:
+class KisOrderBookRepr:
     """한국투자증권 호가"""
 
 
-class KisAskingPriceBase(KisAskingPriceRepr, KisProductBase):
+class KisOrderBookBase(KisOrderBookRepr, KisProductBase):
     """한국투자증권 호가"""
 
     symbol: str
@@ -153,9 +153,9 @@ class KisAskingPriceBase(KisAskingPriceRepr, KisProductBase):
     decimal_places: int
     """소수점 자리수"""
 
-    ask: list[KisAskingPriceItem]
+    ask: list[KisOrderBookItem]
     """매도호가"""
-    bid: list[KisAskingPriceItem]
+    bid: list[KisOrderBookItem]
     """매수호가"""
 
     @property
@@ -163,12 +163,12 @@ class KisAskingPriceBase(KisAskingPriceRepr, KisProductBase):
         return min(len(self.ask), len(self.bid))
 
     @property
-    def ask_price(self) -> KisAskingPriceItem:
+    def ask_price(self) -> KisOrderBookItem:
         """매도 1호가"""
         return self.ask[0]
 
     @property
-    def bid_price(self) -> KisAskingPriceItem:
+    def bid_price(self) -> KisOrderBookItem:
         """매수 1호가"""
         return self.bid[0]
 
@@ -183,15 +183,15 @@ class KisAskingPriceBase(KisAskingPriceRepr, KisProductBase):
         return self.bid_price.volume
 
 
-class KisDomesticAskingPriceItem(KisAskingPriceItemBase):
+class KisDomesticOrderBookItem(KisOrderBookItemBase):
     """한국투자증권 국내 호가"""
 
 
 if TYPE_CHECKING:
-    Checkable[KisAskingPriceItem](KisDomesticAskingPriceItem)
+    Checkable[KisOrderBookItem](KisDomesticOrderBookItem)
 
 
-class KisDomesticAskingPrice(KisAPIResponse, KisAskingPriceBase):
+class KisDomesticOrderBook(KisAPIResponse, KisOrderBookBase):
     """한국투자증권 국내 호가"""
 
     __path__ = "output1"
@@ -204,9 +204,9 @@ class KisDomesticAskingPrice(KisAPIResponse, KisAskingPriceBase):
     decimal_places: int = 1
     """소수점 자리수"""
 
-    ask: list[KisAskingPriceItem] = KisTransform(
+    ask: list[KisOrderBookItem] = KisTransform(
         lambda x: [
-            KisDomesticAskingPriceItem(
+            KisDomesticOrderBookItem(
                 price=Decimal(x[f"askp{i}"]),
                 volume=int(x[f"askp_rsqn{i}"]),
             )
@@ -214,9 +214,9 @@ class KisDomesticAskingPrice(KisAPIResponse, KisAskingPriceBase):
         ]
     )()  # type: ignore
     """매도호가"""
-    bid: list[KisAskingPriceItem] = KisTransform(
+    bid: list[KisOrderBookItem] = KisTransform(
         lambda x: [
-            KisDomesticAskingPriceItem(
+            KisDomesticOrderBookItem(
                 price=Decimal(x[f"bidp{i}"]),
                 volume=int(x[f"bidp_rsqn{i}"]),
             )
@@ -241,15 +241,15 @@ class KisDomesticAskingPrice(KisAPIResponse, KisAskingPriceBase):
         super().__pre_init__(data)
 
 
-class KisForeignAskingPriceItem(KisAskingPriceItemBase):
+class KisForeignOrderBookItem(KisOrderBookItemBase):
     """한국투자증권 해외 호가"""
 
 
 if TYPE_CHECKING:
-    Checkable[KisAskingPriceItem](KisForeignAskingPriceItem)
+    Checkable[KisOrderBookItem](KisForeignOrderBookItem)
 
 
-class KisForeignAskingPrice(KisAPIResponse, KisAskingPriceBase):
+class KisForeignOrderBook(KisAPIResponse, KisOrderBookBase):
     """한국투자증권 해외 호가"""
 
     __path__ = "output1"
@@ -262,9 +262,9 @@ class KisForeignAskingPrice(KisAPIResponse, KisAskingPriceBase):
     decimal_places: int = KisInt["zdiv"]
     """소수점 자리수"""
 
-    ask: list[KisAskingPriceItem]  # __pre_init__ 에서 초기화
+    ask: list[KisOrderBookItem]  # __pre_init__ 에서 초기화
     """매도호가"""
-    bid: list[KisAskingPriceItem]  # __pre_init__ 에서 초기화
+    bid: list[KisOrderBookItem]  # __pre_init__ 에서 초기화
     """매수호가"""
 
     def __init__(self, symbol: str, market: MARKET_TYPE):
@@ -287,14 +287,14 @@ class KisForeignAskingPrice(KisAPIResponse, KisAskingPriceBase):
         count = 10 if self.market in ["NASD", "NYSE"] else 1  # 미국외 시장은 1호가만 제공
 
         self.ask = [
-            KisForeignAskingPriceItem(
+            KisForeignOrderBookItem(
                 price=Decimal(output2[f"pask{i}"]),
                 volume=int(output2[f"vask{i}"]),
             )
             for i in range(1, 1 + count)
         ]
         self.bid = [
-            KisForeignAskingPriceItem(
+            KisForeignOrderBookItem(
                 price=Decimal(output2[f"pbid{i}"]),
                 volume=int(output2[f"vbid{i}"]),
             )
@@ -302,10 +302,10 @@ class KisForeignAskingPrice(KisAPIResponse, KisAskingPriceBase):
         ]
 
 
-def domestic_asking_price(
+def domestic_order_book(
     self: "PyKis",
     symbol: str,
-) -> KisDomesticAskingPrice:
+) -> KisDomesticOrderBook:
     """
     한국투자증권 국내 주식 호가 조회
 
@@ -330,16 +330,16 @@ def domestic_asking_price(
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": symbol,
         },
-        response_type=KisDomesticAskingPrice(symbol),
+        response_type=KisDomesticOrderBook(symbol),
     )
 
 
-def foreign_asking_price(
+def foreign_order_book(
     self: "PyKis",
     market: MARKET_TYPE,
     symbol: str,
     condition: ORDER_CONDITION | None = None,
-) -> KisForeignAskingPrice:
+) -> KisForeignOrderBook:
     """
     한국투자증권 해외 주식 호가 조회
 
@@ -370,19 +370,19 @@ def foreign_asking_price(
             ),
             "SYMB": symbol,
         },
-        response_type=KisForeignAskingPrice(
+        response_type=KisForeignOrderBook(
             symbol=symbol,
             market=market,
         ),
     )
 
 
-def asking_price(
+def order_book(
     self: "PyKis",
     market: MARKET_TYPE,
     symbol: str,
     condition: ORDER_CONDITION | None = None,
-) -> KisAskingPriceResponse:
+) -> KisOrderBookResponse:
     """
     한국투자증권 호가 조회
 
@@ -400,12 +400,12 @@ def asking_price(
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     if market == "KRX":
-        return domestic_asking_price(
+        return domestic_order_book(
             self,
             symbol=symbol,
         )
     else:
-        return foreign_asking_price(
+        return foreign_order_book(
             self,
             market=market,
             symbol=symbol,
@@ -413,10 +413,10 @@ def asking_price(
         )
 
 
-def product_asking_price(
+def product_order_book(
     self: "KisProductProtocol",
     condition: ORDER_CONDITION | None = None,
-) -> KisAskingPriceResponse:
+) -> KisOrderBookResponse:
     """
     한국투자증권 호가 조회
 
@@ -431,7 +431,7 @@ def product_asking_price(
         KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
-    return asking_price(
+    return order_book(
         self.kis,
         market=self.market,
         symbol=self.symbol,

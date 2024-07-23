@@ -1,28 +1,37 @@
 from datetime import datetime, tzinfo
 from decimal import Decimal
-from typing import TYPE_CHECKING, Protocol, runtime_checkable
+from typing import TYPE_CHECKING, Callable, Protocol, runtime_checkable
 
 from pykis.__env__ import TIMEZONE
 from pykis.api.account.order import ORDER_CONDITION
-from pykis.api.stock.asking_price import (
-    KisAskingPrice,
-    KisAskingPriceBase,
-    KisAskingPriceItem,
-    KisAskingPriceItemBase,
-)
+from pykis.api.base.product import KisProductProtocol
 from pykis.api.stock.market import MARKET_TYPE, get_market_timezone
-from pykis.api.websocket.price import parse_foreign_realtime_symbol
+from pykis.api.stock.order_book import (
+    KisOrderBook,
+    KisOrderBookBase,
+    KisOrderBookItem,
+    KisOrderBookItemBase,
+)
+from pykis.api.websocket.price import (
+    build_foreign_realtime_symbol,
+    parse_foreign_realtime_symbol,
+)
+from pykis.event.handler import KisEventFilter, KisEventTicket
+from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.responses.types import KisAny, KisInt, KisString
 from pykis.responses.websocket import KisWebsocketResponse, KisWebsocketResponseProtocol
 from pykis.utils.typing import Checkable
 
+if TYPE_CHECKING:
+    from pykis.client.websocket import KisWebsocketClient
+
 
 @runtime_checkable
-class KisRealtimeAskingPrice(KisWebsocketResponseProtocol, KisAskingPrice, Protocol):
+class KisRealtimeOrderBook(KisWebsocketResponseProtocol, KisOrderBook, Protocol):
     """한국투자증권 실시간 호가"""
 
 
-class KisRealtimeAskingPriceBase(KisWebsocketResponse, KisAskingPriceBase):
+class KisRealtimeOrderBookBase(KisWebsocketResponse, KisOrderBookBase):
     """한국투자증권 실시간 호가"""
 
     symbol: str
@@ -40,16 +49,16 @@ class KisRealtimeAskingPriceBase(KisWebsocketResponse, KisAskingPriceBase):
     decimal_places: int
     """소수점 자리수"""
 
-    ask: list[KisAskingPriceItem]
+    ask: list[KisOrderBookItem]
     """매도호가"""
-    bid: list[KisAskingPriceItem]
+    bid: list[KisOrderBookItem]
     """매수호가"""
 
     condition: ORDER_CONDITION | None
     """주문 조건"""
 
 
-DOMESTIC_REALTIME_ASKING_PRICE_ORDER_CONDITION_MAP: dict[str, ORDER_CONDITION | None] = {
+DOMESTIC_REALTIME_ORDER_BOOK_ORDER_CONDITION_MAP: dict[str, ORDER_CONDITION | None] = {
     "0": None,
     "A": "after",
     "B": "before",
@@ -58,17 +67,17 @@ DOMESTIC_REALTIME_ASKING_PRICE_ORDER_CONDITION_MAP: dict[str, ORDER_CONDITION | 
 }
 
 
-class KisDomesticRealtimeAskingPriceItem(KisAskingPriceItemBase):
+class KisDomesticRealtimeOrderBookItem(KisOrderBookItemBase):
     """국내주식 실시간 호가"""
 
 
-class KisDomesticRealtimeAskingPrice(KisRealtimeAskingPriceBase):
+class KisDomesticRealtimeOrderBook(KisRealtimeOrderBookBase):
     """국내주식 실시간 호가"""
 
     __fields__ = [
         KisString["symbol"],  # 0 MKSC_SHRN_ISCD 유가증권 단축 종목코드
         None,  # 1 BSOP_HOUR 영업 시간
-        KisAny(lambda x: DOMESTIC_REALTIME_ASKING_PRICE_ORDER_CONDITION_MAP.get(x))[
+        KisAny(lambda x: DOMESTIC_REALTIME_ORDER_BOOK_ORDER_CONDITION_MAP.get(x))[
             "condition"
         ],  # 2 HOUR_CLS_CODE 시간 구분 코드
         None,  # 3 ASKP1 매도호가1
@@ -144,9 +153,9 @@ class KisDomesticRealtimeAskingPrice(KisRealtimeAskingPriceBase):
     decimal_places: int = 1
     """소수점 자리수"""
 
-    ask: list[KisAskingPriceItem]  # 매도호가
+    ask: list[KisOrderBookItem]  # 매도호가
     """매도호가"""
-    bid: list[KisAskingPriceItem]  # 매수호가
+    bid: list[KisOrderBookItem]  # 매수호가
     """매수호가"""
 
     condition: ORDER_CONDITION | None  # HOUR_CLS_CODE 시간 구분 코드
@@ -163,14 +172,14 @@ class KisDomesticRealtimeAskingPrice(KisRealtimeAskingPriceBase):
         self.time_kst = self.time.astimezone(TIMEZONE)
 
         self.ask = [
-            KisDomesticRealtimeAskingPriceItem(
+            KisDomesticRealtimeOrderBookItem(
                 price=Decimal(data[3 + i]),
                 volume=int(data[23 + i]),
             )
             for i in range(10)
         ]
         self.bid = [
-            KisDomesticRealtimeAskingPriceItem(
+            KisDomesticRealtimeOrderBookItem(
                 price=Decimal(data[13 + i]),
                 volume=int(data[33 + i]),
             )
@@ -178,11 +187,11 @@ class KisDomesticRealtimeAskingPrice(KisRealtimeAskingPriceBase):
         ]
 
 
-class KisAsiaRealtimeAskingPriceItem(KisAskingPriceItemBase):
+class KisAsiaRealtimeOrderBookItem(KisOrderBookItemBase):
     """아시아 주식 실시간 호가"""
 
 
-class KisAsiaRealtimeAskingPrice(KisRealtimeAskingPriceBase):
+class KisAsiaRealtimeOrderBook(KisRealtimeOrderBookBase):
     """아시아 주식 실시간 호가"""
 
     __fields__ = [
@@ -220,9 +229,9 @@ class KisAsiaRealtimeAskingPrice(KisRealtimeAskingPriceBase):
     decimal_places: int  # ZDIV 소수점자리수
     """소수점 자리수"""
 
-    ask: list[KisAskingPriceItem]  # PASK1 매도호가1, VASK1 매도잔량1
+    ask: list[KisOrderBookItem]  # PASK1 매도호가1, VASK1 매도잔량1
     """매도호가"""
-    bid: list[KisAskingPriceItem]  # PBID1 매수호가1, VBID1 매수잔량1
+    bid: list[KisOrderBookItem]  # PBID1 매수호가1, VBID1 매수잔량1
     """매수호가"""
 
     condition: ORDER_CONDITION | None  # RSYM 실시간종목코드
@@ -242,24 +251,24 @@ class KisAsiaRealtimeAskingPrice(KisRealtimeAskingPriceBase):
         self.time_kst = self.time.astimezone(TIMEZONE)
 
         self.ask = [
-            KisAsiaRealtimeAskingPriceItem(
+            KisAsiaRealtimeOrderBookItem(
                 price=Decimal(data[12]),
                 volume=int(data[14]),
             )
         ]
         self.bid = [
-            KisAsiaRealtimeAskingPriceItem(
+            KisAsiaRealtimeOrderBookItem(
                 price=Decimal(data[11]),
                 volume=int(data[13]),
             )
         ]
 
 
-class KisUSRealtimeAskingPriceItem(KisAskingPriceItemBase):
+class KisUSRealtimeOrderBookItem(KisOrderBookItemBase):
     """미국 주식 실시간 호가"""
 
 
-class KisUSRealtimeAskingPrice(KisRealtimeAskingPriceBase):
+class KisUSRealtimeOrderBook(KisRealtimeOrderBookBase):
     """미국 주식 실시간 호가"""
 
     __fields__ = [
@@ -351,9 +360,9 @@ class KisUSRealtimeAskingPrice(KisRealtimeAskingPriceBase):
     decimal_places: int  # ZDIV 소수점자리수
     """소수점 자리수"""
 
-    ask: list[KisAskingPriceItem]
+    ask: list[KisOrderBookItem]
     """매도호가"""
-    bid: list[KisAskingPriceItem]
+    bid: list[KisOrderBookItem]
     """매수호가"""
 
     condition: ORDER_CONDITION | None
@@ -373,14 +382,14 @@ class KisUSRealtimeAskingPrice(KisRealtimeAskingPriceBase):
         self.time_kst = self.time.astimezone(TIMEZONE)
 
         self.ask = [
-            KisUSRealtimeAskingPriceItem(
+            KisUSRealtimeOrderBookItem(
                 price=Decimal(data[12 + i * 6]),
                 volume=int(data[14 + i * 6]),
             )
             for i in range(10)
         ]
         self.bid = [
-            KisUSRealtimeAskingPriceItem(
+            KisUSRealtimeOrderBookItem(
                 price=Decimal(data[11 + i * 6]),
                 volume=int(data[13 + i * 6]),
             )
@@ -390,6 +399,74 @@ class KisUSRealtimeAskingPrice(KisRealtimeAskingPriceBase):
 
 # IDE Type Checker
 if TYPE_CHECKING:
-    Checkable[KisRealtimeAskingPrice](KisDomesticRealtimeAskingPrice)
-    Checkable[KisRealtimeAskingPrice](KisAsiaRealtimeAskingPrice)
-    Checkable[KisRealtimeAskingPrice](KisUSRealtimeAskingPrice)
+    Checkable[KisRealtimeOrderBook](KisDomesticRealtimeOrderBook)
+    Checkable[KisRealtimeOrderBook](KisAsiaRealtimeOrderBook)
+    Checkable[KisRealtimeOrderBook](KisUSRealtimeOrderBook)
+
+
+def on_order_book(
+    self: "KisWebsocketClient",
+    market: MARKET_TYPE,
+    symbol: str,
+    callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderBook]], None],
+    where: KisEventFilter | None = None,
+    once: bool = False,
+    extended: bool = False,
+) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderBook]]:
+    """
+    웹소켓 이벤트 핸들러 등록
+
+    Args:
+        market (MARKET_TYPE): 시장유형
+        symbol (str): 종목코드
+        callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None]): 콜백 함수
+        where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+        once (bool, optional): 한번만 실행 여부. Defaults to False.
+        extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
+    """
+    return self.on(
+        id=(
+            "H0STASP0"
+            if market == "KRX"
+            else "HDFSASP0" if market in ("NYSE", "NASD", "AMEX") else "HDFSASP1"
+        ),
+        key=(
+            symbol
+            if market == "KRX"
+            else build_foreign_realtime_symbol(
+                market=market,
+                symbol=symbol,
+                extended=extended,
+            )
+        ),
+        callback=callback,
+        where=where,
+        once=once,
+    )
+
+
+def on_product_order_book(
+    self: "KisProductProtocol",
+    callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderBook]], None],
+    where: KisEventFilter | None = None,
+    once: bool = False,
+    extended: bool = False,
+) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderBook]]:
+    """
+    웹소켓 이벤트 핸들러 등록
+
+    Args:
+        callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None]): 콜백 함수
+        where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+        once (bool, optional): 한번만 실행 여부. Defaults to False.
+        extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
+    """
+    return on_order_book(
+        self.kis.websocket,
+        market=self.market,
+        symbol=self.symbol,
+        callback=callback,
+        where=where,
+        once=once,
+        extended=extended,
+    )

@@ -1,6 +1,8 @@
 from abc import ABCMeta, abstractmethod
 from typing import Callable, Generic, TypeVar
 
+from pykis.utils.reference import release_method
+
 TSender = TypeVar("TSender")
 
 
@@ -103,6 +105,9 @@ class KisLambdaEventCallback(KisEventCallback[TSender, TEventArgs]):
     def __hash__(self) -> int:
         return hash((self.callback, self.where))
 
+    def __del__(self):
+        release_method(self.callback)
+
 
 EventCallback = Callable[[TSender, TEventArgs], None] | KisEventCallback[TSender, TEventArgs]
 
@@ -133,7 +138,7 @@ class KisEventTicket(Generic[TSender, TEventArgs]):
         """이벤트 핸들러에 등록되어 있는지 여부"""
         return self.callback in self.handler
 
-    def off(self):
+    def release(self):
         """이벤트 핸들러에서 제거합니다."""
         self.handler.remove(self.callback)
 
@@ -141,7 +146,10 @@ class KisEventTicket(Generic[TSender, TEventArgs]):
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        self.off()
+        self.release()
+
+    def __del__(self):
+        self.release()
 
     def __repr__(self):
         return f"<EventTicket {self.callback}>"
@@ -176,6 +184,28 @@ class KisEventHandler(Generic[TSender, TEventArgs]):
         self.handlers.add(handler)
         return KisEventTicket(self, handler)
 
+    def on(
+        self,
+        handler: Callable[[TSender, TEventArgs], None],
+        where: KisEventFilter[TSender, TEventArgs] | None = None,
+        once: bool = False,
+    ) -> KisEventTicket[TSender, TEventArgs]:
+        """
+        이벤트를 등록합니다.
+
+        Args:
+            handler: 이벤트 콜백
+            where: 이벤트 필터
+            once: 한 번만 실행할지 여부
+        """
+        return self.add(
+            KisLambdaEventCallback(
+                handler,
+                where=where,
+                once=once,
+            )
+        )
+
     def once(
         self,
         handler: Callable[[TSender, TEventArgs], None],
@@ -188,17 +218,26 @@ class KisEventHandler(Generic[TSender, TEventArgs]):
             handler: 이벤트 콜백
             where: 이벤트 필터
         """
-        return self.add(
-            KisLambdaEventCallback(
-                handler,
-                where=where,
-                once=True,
-            )
+        return self.on(
+            handler,
+            where=where,
+            once=True,
         )
 
     def remove(self, handler: EventCallback[TSender, TEventArgs]):
         """이벤트 핸들러를 제거합니다."""
-        self.handlers.remove(handler)
+        if isinstance(handler, KisEventCallback):
+            del_method = getattr(handler, "__del__", None)
+
+            if del_method is not None:
+                del_method()
+        else:
+            release_method(handler)
+
+        try:
+            self.handlers.remove(handler)
+        except KeyError:
+            pass
 
     def clear(self):
         """이벤트 핸들러를 모두 제거합니다."""
@@ -206,9 +245,9 @@ class KisEventHandler(Generic[TSender, TEventArgs]):
 
     def invoke(self, sender: TSender, e: TEventArgs):
         """이벤트를 발생시킵니다."""
-        for handler in self.handlers:
+        for handler in self.handlers.copy():
             if isinstance(handler, KisEventCallback):
-                if not handler.__filter__(self, sender, e):
+                if handler.__filter__(self, sender, e):
                     handler.__callback__(self, sender, e)
             else:
                 handler(sender, e)

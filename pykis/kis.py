@@ -22,6 +22,7 @@ from pykis.client.cache import KisCacheStorage
 from pykis.client.exceptions import KisHTTPError
 from pykis.client.form import KisForm
 from pykis.client.object import KisObjectBase
+from pykis.client.websocket import KisWebsocketClient
 from pykis.responses.dynamic import KisObject, TDynamic
 from pykis.responses.types import KisDynamicDict
 from pykis.utils.rate_limit import RateLimiter
@@ -45,10 +46,13 @@ class PyKis:
     """API 호출 제한"""
     _token: KisAccessToken | None
     """API 접속 토큰"""
+    _websocket: KisWebsocketClient | None
+    """웹소켓 클라이언트"""
 
     def __init__(
         self,
         auth: str | PathLike[str] | KisAuth | None = None,
+        /,
         *,
         account: str | KisAccountNumber | None = None,
         id: str | None = None,
@@ -56,18 +60,20 @@ class PyKis:
         secretkey: str | None = None,
         virtual: bool = False,
         token: KisAccessToken | str | PathLike[str] | None = None,
+        use_websocket: bool = True,
     ):
-        """한국투자증권 API를 생성합니다.
+        """
+        한국투자증권 API를 생성합니다.
 
         Args:
-            auth: 한국투자증권 계좌 및 인증 정보
-            id: HTS 아이디
-            appkey: 한국투자증권 API AppKey
-            secretkey: 한국투자증권 API AppSecret
-            account: 한국투자증권 기본 계좌 정보
-            virtual: 모의투자 여부
-
-            token: 한국투자증권 API 접속 토큰
+            auth (str | PathLike[str] | KisAuth | None, optional): 인증 정보. Defaults to None.
+            id (str | None, optional): 한국투자증권 API ID. Defaults to None.
+            appkey (str | KisKey | None, optional): 한국투자증권 API AppKey. Defaults to None.
+            secretkey (str | None, optional): 한국투자증권 API SecretKey. Defaults to None.
+            account (str | KisAccountNumber | None, optional): 한국투자증권 계좌번호. Defaults to None.
+            virtual (bool, optional): 모의투자 여부. Defaults to False.
+            token (KisAccessToken | str | PathLike[str] | None, optional): API 접속 토큰. Defaults to None.
+            use_websocket (bool, optional): 웹소켓 사용 여부. Defaults to True.
         """
         # TODO: add code examples
         if auth is not None:
@@ -103,6 +109,7 @@ class PyKis:
         self.primary_account = account
         self.virtual = virtual
 
+        self._websocket = KisWebsocketClient(self) if use_websocket else None
         self.cache = KisCacheStorage()
 
         self._rate_limiters = {
@@ -297,6 +304,14 @@ class PyKis:
             raise ValueError("기본 계좌 정보가 없습니다.")
 
         return self.primary_account
+
+    @property
+    def websocket(self) -> KisWebsocketClient:
+        """웹소켓 클라이언트를 반환합니다."""
+        if self._websocket is None:
+            raise ValueError("웹소켓 클라이언트가 초기화되지 않았습니다.")
+
+        return self._websocket
 
     from pykis.scope.account import account
     from pykis.scope.stock import stock
