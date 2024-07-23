@@ -7,6 +7,7 @@ from pykis.__env__ import TIMEZONE
 from pykis.api.account.order import (
     ORDER_CONDITION,
     ORDER_EXECUTION,
+    ORDER_QUANTITY,
     ORDER_TYPE,
     KisOrder,
     KisOrderNumber,
@@ -23,7 +24,7 @@ from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList
 from pykis.responses.response import KisPaginationAPIResponse
-from pykis.responses.types import KisAny, KisDecimal, KisString
+from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
@@ -81,27 +82,27 @@ class KisPendingOrder(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def quantity(self) -> Decimal:
+    def quantity(self) -> ORDER_QUANTITY:
         """주문수량"""
         raise NotImplementedError
 
     @property
-    def qty(self) -> Decimal:
+    def qty(self) -> ORDER_QUANTITY:
         """주문수량"""
         raise NotImplementedError
 
     @property
-    def executed_quantity(self) -> Decimal:
+    def executed_quantity(self) -> ORDER_QUANTITY:
         """체결수량"""
         raise NotImplementedError
 
     @property
-    def orderable_quantity(self) -> Decimal:
+    def orderable_quantity(self) -> ORDER_QUANTITY:
         """주문가능수량"""
         raise NotImplementedError
 
     @property
-    def executed_qty(self) -> Decimal:
+    def executed_qty(self) -> ORDER_QUANTITY:
         """체결수량"""
         raise NotImplementedError
 
@@ -111,17 +112,17 @@ class KisPendingOrder(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def orderable_qty(self) -> Decimal:
+    def orderable_qty(self) -> ORDER_QUANTITY:
         """주문가능수량"""
         raise NotImplementedError
 
     @property
-    def pending_quantity(self) -> Decimal:
+    def pending_quantity(self) -> ORDER_QUANTITY:
         """미체결수량"""
         raise NotImplementedError
 
     @property
-    def pending_qty(self) -> Decimal:
+    def pending_qty(self) -> ORDER_QUANTITY:
         """미체결수량"""
         raise NotImplementedError
 
@@ -213,13 +214,13 @@ class KisPendingOrderBase(KisAccountProductBase):
     unit_price: Decimal | None
     """주문단가"""
 
-    quantity: Decimal
+    quantity: ORDER_QUANTITY
     """주문수량"""
 
-    executed_quantity: Decimal
+    executed_quantity: ORDER_QUANTITY
     """체결수량"""
 
-    orderable_quantity: Decimal
+    orderable_quantity: ORDER_QUANTITY
     """주문가능수량"""
 
     condition: ORDER_CONDITION | None
@@ -237,16 +238,16 @@ class KisPendingOrderBase(KisAccountProductBase):
         """주문단가"""
         return self.unit_price
 
-    quantity: Decimal
+    quantity: ORDER_QUANTITY
     """주문수량"""
 
     @property
-    def qty(self) -> Decimal:
+    def qty(self) -> ORDER_QUANTITY:
         """주문수량"""
         return self.quantity
 
     @property
-    def executed_qty(self) -> Decimal:
+    def executed_qty(self) -> ORDER_QUANTITY:
         """체결수량"""
         return self.executed_quantity
 
@@ -256,17 +257,17 @@ class KisPendingOrderBase(KisAccountProductBase):
         return (self.executed_quantity * self.price) if self.price else Decimal(0)
 
     @property
-    def orderable_qty(self) -> Decimal:
+    def orderable_qty(self) -> ORDER_QUANTITY:
         """주문가능수량"""
         return self.orderable_quantity
 
     @property
-    def pending_quantity(self) -> Decimal:
+    def pending_quantity(self) -> ORDER_QUANTITY:
         """미체결수량"""
         return self.quantity - self.executed_quantity
 
     @property
-    def pending_qty(self) -> Decimal:
+    def pending_qty(self) -> ORDER_QUANTITY:
         """미체결수량"""
         return self.pending_quantity
 
@@ -349,13 +350,13 @@ class KisDomesticPendingOrder(KisDynamic, KisPendingOrderBase):
     unit_price: Decimal | None = KisDecimal["ord_unpr"]
     """주문단가"""
 
-    quantity: Decimal = KisDecimal["ord_qty"]
+    quantity: ORDER_QUANTITY = KisInt["ord_qty"]
     """주문수량"""
 
-    executed_quantity: Decimal = KisDecimal["tot_ccld_qty"]
+    executed_quantity: ORDER_QUANTITY = KisInt["tot_ccld_qty"]
     """체결수량"""
 
-    orderable_quantity: Decimal = KisDecimal["psbl_qty"]
+    orderable_quantity: ORDER_QUANTITY = KisInt["psbl_qty"]
     """주문가능수량"""
 
     condition: ORDER_CONDITION | None
@@ -455,13 +456,13 @@ class KisForeignPendingOrder(KisDynamic, KisPendingOrderBase):
     unit_price: Decimal | None = KisDecimal["ft_ord_unpr3"]
     """주문단가"""
 
-    quantity: Decimal = KisDecimal["ft_ord_qty"]
+    quantity: ORDER_QUANTITY = KisInt["ft_ord_qty"]
     """주문수량"""
 
-    executed_quantity: Decimal = KisDecimal["ft_ccld_qty"]
+    executed_quantity: ORDER_QUANTITY = KisInt["ft_ccld_qty"]
     """체결수량"""
 
-    orderable_quantity: Decimal = KisDecimal["nccs_qty"]
+    orderable_quantity: ORDER_QUANTITY = KisInt["nccs_qty"]
     """주문가능수량"""
 
     condition: ORDER_CONDITION | None = None

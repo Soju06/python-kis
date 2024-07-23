@@ -7,8 +7,10 @@ from pykis.api.account.order import (
     ORDER_CONDITION,
     ORDER_EXECUTION,
     ORDER_PRICE,
+    ORDER_QUANTITY,
     KisOrder,
     KisOrderBase,
+    KisOrderNumber,
     KisOrderNumberBase,
     ensure_price,
     order_condition,
@@ -104,9 +106,9 @@ class KisForeignDaytimeModifyOrder(KisAPIResponse, KisOrderBase):
 def domestic_modify_order(
     self: "PyKis",
     account: str | KisAccountNumber,
-    order: KisOrderNumberBase,
+    order: KisOrderNumber,
     price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-    qty: Decimal | None = None,
+    qty: ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
     execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
 ) -> KisDomesticModifyOrder:
@@ -120,7 +122,7 @@ def domestic_modify_order(
         account (str | KisAccountNumber): 계좌번호
         order (KisOrderNumber): 주문번호
         price (ORDER_PRICE, optional): 주문가격
-        qty (Decimal, optional): 주문수량
+        qty (ORDER_QUANTITY, optional): 주문수량
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
     """
@@ -131,7 +133,7 @@ def domestic_modify_order(
     if not account:
         raise ValueError("계좌번호를 입력해주세요.")
 
-    if isinstance(qty, Decimal) and qty <= 0:
+    if isinstance(qty, int) and qty <= 0:
         raise ValueError("수량은 0보다 커야합니다.")
 
     from pykis.api.account.pending_order import pending_orders
@@ -269,9 +271,9 @@ FOREIGN_ORDER_MODIFY_API_CODES: dict[tuple[bool, MARKET_TYPE, Literal["modify", 
 def foreign_modify_order(
     self: "PyKis",
     account: str | KisAccountNumber,
-    order: KisOrderNumberBase,
+    order: KisOrderNumber,
     price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-    qty: Decimal | None = None,
+    qty: ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
     execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
 ) -> KisForeignModifyOrder:
@@ -285,7 +287,7 @@ def foreign_modify_order(
         account (str | KisAccountNumber): 계좌번호
         order (KisOrderNumber): 주문번호
         price (ORDER_PRICE, optional): 주문가격
-        qty (Decimal, optional): 주문수량
+        qty (ORDER_QUANTITY, optional): 주문수량
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
     """
@@ -348,7 +350,7 @@ def foreign_modify_order(
             "PDNO": order.symbol,
             "ORGN_ODNO": order.number,
             "RVSE_CNCL_DVSN_CD": "01",
-            "ORD_QTY": str(int(qty)),
+            "ORD_QTY": str(qty),
             "OVRS_ORD_UNPR": str(price or 0),
         },
         form=[account],
@@ -411,9 +413,9 @@ def foreign_cancel_order(
 def foreign_daytime_modify_order(
     self: "PyKis",
     account: str | KisAccountNumber,
-    order: KisOrderNumberBase,
+    order: KisOrderNumber,
     price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-    qty: Decimal | None = None,
+    qty: ORDER_QUANTITY | None = None,
 ) -> KisForeignDaytimeModifyOrder:
     """
     한국투자증권 해외 주간거래 주문정정
@@ -425,7 +427,7 @@ def foreign_daytime_modify_order(
         account (str | KisAccountNumber): 계좌번호
         order (KisOrderNumber): 주문번호
         price (ORDER_PRICE, optional): 주문가격
-        qty (Decimal, optional): 주문수량
+        qty (ORDER_QUANTITY, optional): 주문수량
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
     """
@@ -474,7 +476,7 @@ def foreign_daytime_modify_order(
             "PDNO": order.symbol,
             "ORGN_ODNO": order.number,
             "RVSE_CNCL_DVSN_CD": "01",
-            "ORD_QTY": str(int(qty)),
+            "ORD_QTY": str(qty),
             "OVRS_ORD_UNPR": str(price),
             "CTAC_TLNO": "",
             "MGCO_APTM_ODNO": "",
@@ -551,9 +553,9 @@ def foreign_daytime_cancel_order(
 def modify_order(
     self: "PyKis",
     account: str | KisAccountNumber,
-    order: KisOrderNumberBase,
+    order: KisOrderNumber,
     price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-    qty: Decimal | None = None,
+    qty: ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
     execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
 ) -> KisOrder:
@@ -568,7 +570,7 @@ def modify_order(
         account (str | KisAccountNumber): 계좌번호
         order (KisOrderNumber): 주문번호
         price (ORDER_PRICE, optional): 주문가격
-        qty (Decimal, optional): 주문수량
+        qty (ORDER_QUANTITY, optional): 주문수량
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
     """
@@ -608,9 +610,9 @@ def modify_order(
 
 def account_modify_order(
     self: "KisAccountProtocol",
-    order: KisOrderNumberBase,
+    order: KisOrderNumber,
     price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-    qty: Decimal | None = None,
+    qty: ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
     execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
 ) -> KisOrder:
@@ -625,7 +627,7 @@ def account_modify_order(
         account (str | KisAccountNumber): 계좌번호
         order (KisOrderNumber): 주문번호
         price (ORDER_PRICE, optional): 주문가격
-        qty (Decimal, optional): 주문수량
+        qty (ORDER_QUANTITY, optional): 주문수량
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
     """
@@ -643,7 +645,7 @@ def account_modify_order(
 def cancel_order(
     self: "PyKis",
     account: str | KisAccountNumber,
-    order: KisOrderNumberBase,
+    order: KisOrderNumber,
 ) -> KisOrder:
     """
     한국투자증권 통합 주식 주문취소 (해외 주간거래 모의투자 미지원)
@@ -670,7 +672,7 @@ def cancel_order(
 
 def account_cancel_order(
     self: "KisAccountProtocol",
-    order: KisOrderNumberBase,
+    order: KisOrderNumber,
 ) -> KisOrder:
     """
     한국투자증권 통합 주식 주문취소 (해외 주간거래 모의투자 미지원)

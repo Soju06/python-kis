@@ -6,6 +6,7 @@ from pykis.api.account.order import (
     ORDER_CONDITION,
     ORDER_EXECUTION,
     ORDER_PRICE,
+    ORDER_QUANTITY,
     ensure_price,
     order_condition,
 )
@@ -21,8 +22,9 @@ from pykis.responses.response import (
     KisResponseProtocol,
     raise_not_found,
 )
-from pykis.responses.types import KisDecimal
+from pykis.responses.types import KisDecimal, KisInt
 from pykis.utils.cache import cached
+from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.api.base.account import KisAccountProtocol
@@ -65,12 +67,12 @@ class KisOrderableAmount(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def quantity(self) -> Decimal:
+    def quantity(self) -> ORDER_QUANTITY:
         """주문가능수량 (통화)"""
         raise NotImplementedError
 
     @property
-    def qty(self) -> Decimal:
+    def qty(self) -> ORDER_QUANTITY:
         """주문가능수량"""
         raise NotImplementedError
 
@@ -85,7 +87,7 @@ class KisOrderableAmount(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def foreign_quantity(self) -> Decimal:
+    def foreign_quantity(self) -> ORDER_QUANTITY:
         """
         주문가능수량 (통합)
 
@@ -95,7 +97,7 @@ class KisOrderableAmount(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def foreign_qty(self) -> Decimal:
+    def foreign_qty(self) -> ORDER_QUANTITY:
         """주문가능수량 (통합)"""
         raise NotImplementedError
 
@@ -115,6 +117,17 @@ class KisOrderableAmountResponse(KisOrderableAmount, KisResponseProtocol, Protoc
     """한국투자증권 주문가능금액 응답"""
 
 
+@kis_repr(
+    "account_number",
+    "symbol",
+    "market",
+    "unit_price",
+    "qty",
+    "amount",
+    "condition",
+    "execution",
+    lines="multiple",
+)
 class KisOrderableAmountBase(KisAccountProductBase):
     """한국투자증권 주문가능금액"""
 
@@ -130,11 +143,11 @@ class KisOrderableAmountBase(KisAccountProductBase):
 
     amount: Decimal
     """주문가능금액 (통화)"""
-    quantity: Decimal
+    quantity: ORDER_QUANTITY
     """주문가능수량 (통화)"""
 
     @property
-    def qty(self) -> Decimal:
+    def qty(self) -> ORDER_QUANTITY:
         """주문가능수량"""
         return self.quantity
 
@@ -145,7 +158,7 @@ class KisOrderableAmountBase(KisAccountProductBase):
     국내주식의 경우, 원화주문가능금액 + 외화주문가능금액을 합산한 금액
     해외주식의 경우, 주문가능금액 (통화) + 주문가능금액 (원화 등)을 합산한 금액
     """
-    foreign_quantity: Decimal
+    foreign_quantity: ORDER_QUANTITY
     """
     주문가능수량 (통합)
 
@@ -154,7 +167,7 @@ class KisOrderableAmountBase(KisAccountProductBase):
     """
 
     @property
-    def foreign_qty(self) -> Decimal:
+    def foreign_qty(self) -> ORDER_QUANTITY:
         """주문가능수량 (통합)"""
         return self.foreign_quantity
 
@@ -172,7 +185,7 @@ class KisDomesticOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
     """계산단가"""
     amount: Decimal = KisDecimal["ord_psbl_cash"]
     """주문가능금액 (통화)"""
-    quantity: Decimal = KisDecimal["max_buy_qty"]
+    quantity: ORDER_QUANTITY = KisInt["max_buy_qty"]
     """주문가능수량 (통화)"""
 
     foreign_only_amount: Decimal = KisDecimal["ord_psbl_frcr_amt_wcrc"]
@@ -213,7 +226,7 @@ class KisDomesticOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
         return self.amount + self.foreign_only_amount
 
     @property
-    def foreign_quantity(self) -> Decimal:
+    def foreign_quantity(self) -> ORDER_QUANTITY:
         """
         주문가능수량 (통합)
 
@@ -276,7 +289,7 @@ class KisForeignOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
 
     amount: Decimal = KisDecimal["ovrs_ord_psbl_amt"]
     """주문가능금액 (통화)"""
-    quantity: Decimal = KisDecimal["max_ord_psbl_qty"]
+    quantity: ORDER_QUANTITY = KisInt["max_ord_psbl_qty"]
     """주문가능수량 (통화)"""
 
     foreign_amount: Decimal = KisDecimal["frcr_ord_psbl_amt1"]
@@ -285,7 +298,7 @@ class KisForeignOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
     
     주문가능금액 (통화) + 주문가능금액 (원화 등)을 합산한 금액
     """
-    foreign_quantity: Decimal = KisDecimal["ovrs_max_ord_psbl_qty"]
+    foreign_quantity: ORDER_QUANTITY = KisInt["ovrs_max_ord_psbl_qty"]
     """
     주문가능수량 (통합)
 

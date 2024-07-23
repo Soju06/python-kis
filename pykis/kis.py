@@ -298,5 +298,5 @@ class PyKis:
 
         return self.primary_account
 
-    from pykis.scope.account.account import account
-    from pykis.scope.stock.info_stock import info_stock as stock
+    from pykis.scope.account import account
+    from pykis.scope.stock import stock

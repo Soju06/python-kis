@@ -1,6 +1,7 @@
 from decimal import Decimal
-from typing import TYPE_CHECKING, Iterable, Protocol, runtime_checkable
+from typing import TYPE_CHECKING, Iterator, Protocol, runtime_checkable
 
+from pykis.api.account.order import ORDER_QUANTITY
 from pykis.api.base.account import KisAccountBase, KisAccountProtocol
 from pykis.api.base.account_product import (
     KisAccountProductBase,
@@ -12,7 +13,7 @@ from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisObject, KisTransform
 from pykis.responses.response import KisAPIResponse, KisPaginationAPIResponse
-from pykis.responses.types import KisAny, KisDecimal, KisString
+from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
 from pykis.utils.cache import cached
 from pykis.utils.repr import kis_repr
 
@@ -47,17 +48,17 @@ class KisBalanceStock(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def quantity(self) -> Decimal:
+    def quantity(self) -> ORDER_QUANTITY:
         """수량"""
         raise NotImplementedError
 
     @property
-    def orderable(self) -> Decimal:
+    def orderable(self) -> ORDER_QUANTITY:
         """매도가능수량"""
         raise NotImplementedError
 
     @property
-    def qty(self) -> Decimal:
+    def qty(self) -> ORDER_QUANTITY:
         """수량"""
         raise NotImplementedError
 
@@ -141,9 +142,6 @@ class KisBalance(KisAccountProtocol, Protocol):
         """통화별 예수금"""
         raise NotImplementedError
 
-    def __kis_post_init__(self):
-        raise NotImplementedError
-
     @property
     def amount(self) -> Decimal:
         """총자산금액 (원화, 보유종목 + 예수금)"""
@@ -184,7 +182,7 @@ class KisBalance(KisAccountProtocol, Protocol):
         """총출금가능금액 (원화)"""
         raise NotImplementedError
 
-    def __iter__(self) -> Iterable[KisBalanceStock]:
+    def __iter__(self) -> Iterator[KisBalanceStock]:
         raise NotImplementedError
 
     def __len__(self) -> int:
@@ -254,14 +252,14 @@ class KisBalanceStockBase(KisAccountProductBase):
         """현재가"""
         return self.current_price
 
-    quantity: Decimal
+    quantity: ORDER_QUANTITY
     """수량"""
 
     orderable: Decimal
     """매도가능수량"""
 
     @property
-    def qty(self) -> Decimal:
+    def qty(self) -> ORDER_QUANTITY:
         """수량"""
         return self.quantity
 
@@ -331,6 +329,9 @@ class KisDepositBase(KisAccountBase):
 
     exchange_rate: Decimal
     """환율"""
+
+    currency: CURRENCY_TYPE
+    """통화"""
 
 
 @kis_repr(
@@ -415,7 +416,7 @@ class KisBalanceBase(KisAccountBase):
     @property
     def profit_rate(self) -> Decimal:
         """총손익률 (-100 ~ 100)"""
-        return self.profit / self.purchase_amount * 100
+        return (self.profit / self.purchase_amount * 100) if self.purchase_amount else Decimal(0)
 
     @property
     def withdrawable_amount(self) -> Decimal:
@@ -490,9 +491,9 @@ class KisDomesticBalanceStock(KisDynamic, KisBalanceStockBase):
     current_price: Decimal = KisDecimal["prpr"]
     """현재가"""
 
-    quantity: Decimal = KisDecimal["hldg_qty"]
+    quantity: ORDER_QUANTITY = KisInt["hldg_qty"]
     """수량"""
-    orderable: Decimal = KisDecimal["ord_psbl_qty"]
+    orderable: ORDER_QUANTITY = KisInt["ord_psbl_qty"]
     """매도가능수량"""
 
     purchase_amount: Decimal = KisDecimal["pchs_amt"]
@@ -524,6 +525,9 @@ class KisDomesticDeposit(KisDynamic, KisDepositBase):
 
     exchange_rate: Decimal = Decimal(1)
     """환율"""
+
+    currency: CURRENCY_TYPE = "KRW"
+    """통화"""
 
 
 class KisDomesticBalance(KisPaginationAPIResponse, KisBalanceBase):
@@ -570,7 +574,7 @@ class KisDomesticBalance(KisPaginationAPIResponse, KisBalanceBase):
         for stock in self.stocks:
             if isinstance(stock, KisBalanceStockBase):
                 stock.balance = self
-                stock.account_number = self.account_number
+                stock.account_number = self.account_number  # type: ignore
 
         for deposit in self.deposits.values():
             if isinstance(deposit, KisDepositBase):
@@ -602,9 +606,9 @@ class KisForeignPresentBalanceStock(KisDynamic, KisBalanceStockBase):
     current_price: Decimal = KisDecimal["ovrs_now_pric1"]
     """현재가"""
 
-    quantity: Decimal = KisDecimal["cblc_qty13"]
+    quantity: ORDER_QUANTITY = KisInt["cblc_qty13"]
     """수량"""
-    orderable: Decimal = KisDecimal["ord_psbl_qty1"]
+    orderable: ORDER_QUANTITY = KisInt["ord_psbl_qty1"]
     """매도가능수량"""
 
     purchase_amount: Decimal = KisDecimal["frcr_pchs_amt"]
@@ -615,7 +619,7 @@ class KisForeignPresentBalanceStock(KisDynamic, KisBalanceStockBase):
 
 
 class KisForeignPresentDeposit(KisDynamic, KisDepositBase):
-    """한국투자증권 국내종목 예수금"""
+    """한국투자증권 해외종목 예수금"""
 
     kis: "PyKis"
     """
@@ -636,6 +640,9 @@ class KisForeignPresentDeposit(KisDynamic, KisDepositBase):
 
     exchange_rate: Decimal = KisDecimal["frst_bltn_exrt"]
     """환율"""
+
+    currency: CURRENCY_TYPE = KisString["crcy_cd"]
+    """통화"""
 
 
 class KisForeignPresentBalance(KisAPIResponse, KisBalanceBase):
@@ -684,7 +691,7 @@ class KisForeignPresentBalance(KisAPIResponse, KisBalanceBase):
         for stock in self.stocks:
             if isinstance(stock, KisBalanceStockBase):
                 stock.balance = self
-                stock.account_number = self.account_number
+                stock.account_number = self.account_number  # type: ignore
 
         for deposit in self.deposits.values():
             if isinstance(deposit, KisDepositBase):
@@ -718,9 +725,9 @@ class KisForeignBalanceStock(KisDynamic, KisBalanceStockBase):
     current_price: Decimal = KisDecimal["now_pric2"]
     """현재가"""
 
-    quantity: Decimal = KisDecimal["ovrs_cblc_qty"]
+    quantity: ORDER_QUANTITY = KisInt["ovrs_cblc_qty"]
     """수량"""
-    orderable: Decimal = KisDecimal["ord_psbl_qty"]
+    orderable: ORDER_QUANTITY = KisInt["ord_psbl_qty"]
     """매도가능수량"""
 
     purchase_amount: Decimal = KisDecimal["frcr_pchs_amt1"]
@@ -1112,7 +1119,7 @@ def orderable_quantity(
     account: str | KisAccountNumber,
     symbol: str,
     country: COUNTRY_TYPE | None = None,
-) -> Decimal | None:
+) -> ORDER_QUANTITY | None:
     """
     한국투자증권 매도가능수량 조회
 
@@ -1128,7 +1135,7 @@ def orderable_quantity(
         country (COUNTRY_TYPE, optional): 국가코드
 
     Returns:
-        Decimal: 매도가능수량
+        ORDER_QUANTITY: 매도가능수량
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
@@ -1153,7 +1160,7 @@ def account_orderable_quantity(
     self: "KisAccountProtocol",
     symbol: str,
     country: COUNTRY_TYPE | None = None,
-) -> Decimal | None:
+) -> ORDER_QUANTITY | None:
     """
     한국투자증권 매도가능수량 조회
 
@@ -1168,7 +1175,7 @@ def account_orderable_quantity(
         country (COUNTRY_TYPE, optional): 국가코드
 
     Returns:
-        Decimal: 매도가능수량
+        ORDER_QUANTITY: 매도가능수량
 
     Raises:
         KisAPIError: API 호출에 실패한 경우

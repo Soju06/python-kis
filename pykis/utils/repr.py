@@ -305,6 +305,9 @@ def _iterable_repr(
     if not isinstance(lst, (list, tuple, set, frozenset)):
         lst = list(lst)
 
+    if not lst:
+        return f"{open_tie}{close_tie}"
+
     values = []
     length = len(lst)
     has_ellipsis = length > (ellipsis or length)
