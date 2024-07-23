@@ -7,6 +7,7 @@ from pykis.__env__ import TIMEZONE
 from pykis.api.account.order import (
     ORDER_CONDITION,
     ORDER_EXECUTION,
+    ORDER_QUANTITY,
     ORDER_TYPE,
     KisOrder,
     KisOrderNumber,
@@ -71,22 +72,22 @@ class KisRealtimeOrderExecution(KisWebsocketResponseProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def quantity(self) -> Decimal:
+    def quantity(self) -> ORDER_QUANTITY:
         """주문수량"""
         raise NotImplementedError
 
     @property
-    def qty(self) -> Decimal:
+    def qty(self) -> ORDER_QUANTITY:
         """주문수량"""
         raise NotImplementedError
 
     @property
-    def executed_quantity(self) -> Decimal:
+    def executed_quantity(self) -> ORDER_QUANTITY:
         """체결수량"""
         raise NotImplementedError
 
     @property
-    def executed_qty(self) -> Decimal:
+    def executed_qty(self) -> ORDER_QUANTITY:
         """체결수량"""
         raise NotImplementedError
 
@@ -176,19 +177,19 @@ class KisRealtimeOrderExecutionBase(
         """주문단가"""
         return self.unit_price
 
-    quantity: Decimal
+    quantity: ORDER_QUANTITY
     """주문수량"""
 
     @property
-    def qty(self) -> Decimal:
+    def qty(self) -> ORDER_QUANTITY:
         """주문수량"""
         return self.quantity
 
-    executed_quantity: Decimal
+    executed_quantity: ORDER_QUANTITY
     """체결수량"""
 
     @property
-    def executed_qty(self) -> Decimal:
+    def executed_qty(self) -> ORDER_QUANTITY:
         """체결수량"""
         return self.executed_quantity
 
@@ -268,16 +269,16 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeOrderExecutionBase):
     unit_price: Decimal | None  # 22 ODER_PRC 주문가격
     """주문단가"""
 
-    quantity: Decimal  # 16 ODER_QTY 주문수량
+    quantity: ORDER_QUANTITY  # 16 ODER_QTY 주문수량
     """주문수량"""
 
-    executed_quantity: Decimal  # 9 CNTG_QTY 체결 수량
+    executed_quantity: ORDER_QUANTITY  # 9 CNTG_QTY 체결 수량
     """체결수량"""
 
     @property
     def executed_amount(self) -> Decimal:
         """체결수량"""
-        return self.executed_quantity * (self.price or 0)
+        return self.executed_quantity * (self.price or Decimal(0))
 
     condition: ORDER_CONDITION | None  # 6 ODER_KIND 주문종류
     """주문조건"""
@@ -312,7 +313,7 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeOrderExecutionBase):
 
         if self.receipt:
             self.quantity = self.executed_quantity
-            self.executed_quantity = Decimal(0)
+            self.executed_quantity = 0
 
     def __kis_post_init__(self):
         super().__kis_post_init__()
@@ -404,10 +405,10 @@ class KisForeignRealtimeOrderExecution(KisRealtimeOrderExecutionBase):
     unit_price: Decimal | None
     """주문단가"""
 
-    quantity: Decimal
+    quantity: ORDER_QUANTITY
     """주문수량"""
 
-    executed_quantity: Decimal
+    executed_quantity: ORDER_QUANTITY
     """체결수량"""
 
     executed_amount: Decimal

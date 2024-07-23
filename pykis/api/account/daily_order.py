@@ -7,6 +7,7 @@ from pykis.__env__ import TIMEZONE
 from pykis.api.account.order import (
     ORDER_CONDITION,
     ORDER_EXECUTION,
+    ORDER_QUANTITY,
     ORDER_TYPE,
     KisOrder,
 )
@@ -21,7 +22,7 @@ from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
 from pykis.responses.response import KisPaginationAPIResponse
-from pykis.responses.types import KisAny, KisDecimal, KisString
+from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
 from pykis.utils.cache import cached
 from pykis.utils.repr import kis_repr
 
@@ -85,27 +86,27 @@ class KisDailyOrder(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def quantity(self) -> Decimal:
+    def quantity(self) -> ORDER_QUANTITY:
         """주문수량"""
         raise NotImplementedError
 
     @property
-    def qty(self) -> Decimal:
+    def qty(self) -> ORDER_QUANTITY:
         """주문수량"""
         raise NotImplementedError
 
     @property
-    def executed_quantity(self) -> Decimal:
+    def executed_quantity(self) -> ORDER_QUANTITY:
         """체결수량"""
         raise NotImplementedError
 
     @property
-    def pending_quantity(self) -> Decimal:
+    def pending_quantity(self) -> ORDER_QUANTITY:
         """미체결수량"""
         raise NotImplementedError
 
     @property
-    def executed_qty(self) -> Decimal:
+    def executed_qty(self) -> ORDER_QUANTITY:
         """체결수량"""
         raise NotImplementedError
 
@@ -115,7 +116,7 @@ class KisDailyOrder(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def pending_qty(self) -> Decimal:
+    def pending_qty(self) -> ORDER_QUANTITY:
         """미체결수량"""
         raise NotImplementedError
 
@@ -218,22 +219,22 @@ class KisDailyOrderBase(KisAccountProductBase):
         """주문단가"""
         return self.unit_price
 
-    quantity: Decimal
+    quantity: ORDER_QUANTITY
     """주문수량"""
 
     @property
-    def qty(self) -> Decimal:
+    def qty(self) -> ORDER_QUANTITY:
         """주문수량"""
         return self.quantity
 
-    executed_quantity: Decimal
+    executed_quantity: ORDER_QUANTITY
     """체결수량"""
 
-    pending_quantity: Decimal
+    pending_quantity: ORDER_QUANTITY
     """미체결수량"""
 
     @property
-    def executed_qty(self) -> Decimal:
+    def executed_qty(self) -> ORDER_QUANTITY:
         """체결수량"""
         return self.executed_quantity
 
@@ -243,7 +244,7 @@ class KisDailyOrderBase(KisAccountProductBase):
         return (self.executed_quantity * self.price) if self.price else Decimal(0)
 
     @property
-    def pending_qty(self) -> Decimal:
+    def pending_qty(self) -> ORDER_QUANTITY:
         """미체결수량"""
         return self.pending_quantity
 
@@ -386,18 +387,18 @@ class KisDomesticDailyOrder(KisDynamic, KisDailyOrderBase):
     unit_price: Decimal | None = KisDecimal["ord_unpr"]
     """주문단가"""
 
-    quantity: Decimal = KisDecimal["ord_qty"]
+    quantity: ORDER_QUANTITY = KisInt["ord_qty"]
     """주문수량"""
 
     @property
-    def qty(self) -> Decimal:
+    def qty(self) -> ORDER_QUANTITY:
         """주문수량"""
         return self.quantity
 
-    executed_quantity: Decimal = KisDecimal["tot_ccld_qty"]
+    executed_quantity: ORDER_QUANTITY = KisInt["tot_ccld_qty"]
     """체결수량"""
 
-    pending_quantity: Decimal = KisDecimal["rmn_qty"]
+    pending_quantity: ORDER_QUANTITY = KisInt["rmn_qty"]
     """미체결수량"""
 
     condition: ORDER_CONDITION | None = None
@@ -509,13 +510,13 @@ class KisForeignDailyOrder(KisDynamic, KisDailyOrderBase):
     unit_price: Decimal | None = KisDecimal["ft_ord_unpr3"]
     """주문단가"""
 
-    quantity: Decimal = KisDecimal["ft_ord_qty"]
+    quantity: ORDER_QUANTITY = KisInt["ft_ord_qty"]
     """주문수량"""
 
-    executed_quantity: Decimal = KisDecimal["ft_ccld_qty"]
+    executed_quantity: ORDER_QUANTITY = KisInt["ft_ccld_qty"]
     """체결수량"""
 
-    pending_quantity: Decimal = KisDecimal["nccs_qty"]
+    pending_quantity: ORDER_QUANTITY = KisInt["nccs_qty"]
     """미체결수량"""
 
     condition: ORDER_CONDITION | None = None

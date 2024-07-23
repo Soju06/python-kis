@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Iterable, Protocol, runtime_checkable
 from zoneinfo import ZoneInfo
 
 from pykis.__env__ import TIMEZONE
+from pykis.api.account.order import ORDER_QUANTITY
 from pykis.api.base.account import KisAccountBase, KisAccountProtocol
 from pykis.api.base.account_product import (
     KisAccountProductBase,
@@ -15,7 +16,7 @@ from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
 from pykis.responses.response import KisPaginationAPIResponse
-from pykis.responses.types import KisAny, KisDecimal, KisString
+from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
 from pykis.utils.cache import cached
 from pykis.utils.repr import kis_repr
 
@@ -89,12 +90,12 @@ class KisOrderProfit(KisAccountProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def quantity(self) -> Decimal:
+    def quantity(self) -> ORDER_QUANTITY:
         """매도수량"""
         raise NotImplementedError
 
     @property
-    def qty(self) -> Decimal:
+    def qty(self) -> ORDER_QUANTITY:
         """매도수량"""
         raise NotImplementedError
 
@@ -209,11 +210,11 @@ class KisOrderProfitBase(KisOrderProfitRepr, KisAccountProductBase):
     sell_amount: Decimal
     """매도금액"""
 
-    quantity: Decimal
+    quantity: ORDER_QUANTITY
     """매도수량"""
 
     @property
-    def qty(self) -> Decimal:
+    def qty(self) -> ORDER_QUANTITY:
         """매도수량"""
         return self.quantity
 
@@ -333,7 +334,7 @@ class KisDomesticOrderProfit(KisDynamic, KisOrderProfitBase):
     sell_amount: Decimal = KisDecimal["sll_amt"]
     """매도금액"""
 
-    quantity: Decimal = KisDecimal["sll_qty"]
+    quantity: ORDER_QUANTITY = KisInt["sll_qty"]
     """매도수량"""
 
     exchange_rate: Decimal = Decimal(1)
@@ -411,7 +412,7 @@ class KisForeignOrderProfit(KisDynamic, KisOrderProfitBase):
     sell_amount: Decimal = KisDecimal["frcr_sll_amt_smtl1"]
     """매도금액"""
 
-    quantity: Decimal = KisDecimal["slcl_qty"]
+    quantity: ORDER_QUANTITY = KisInt["slcl_qty"]
     """매도수량"""
 
     exchange_rate: Decimal = KisDecimal["frst_bltn_exrt"]

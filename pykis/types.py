@@ -86,13 +86,9 @@ from pykis.responses.response import (
     KisResponseProtocol,
 )
 from pykis.responses.websocket import KisWebsocketResponse, KisWebsocketResponseProtocol
-from pykis.scope.account.account import KisAccount
-from pykis.scope.base.account import KisAccountScope
-from pykis.scope.base.account_product import KisAccountProductScope
-from pykis.scope.base.product import KisProductScope
-from pykis.scope.base.scope import KisScope, KisScopeProtocol
-from pykis.scope.stock.info_stock import KisInfoStock
-from pykis.scope.stock.stock import KisStock
+from pykis.scope.account import KisAccount, KisAccountScope
+from pykis.scope.base import KisScopeBase
+from pykis.scope.stock import KisStock, KisStockScope
 from pykis.utils.timex import TIMEX_TYPE
 
 __all__ = [
@@ -149,14 +145,12 @@ __all__ = [
     ################################
     ##            Scope           ##
     ################################
-    "KisScopeProtocol",
-    "KisScope",
-    "KisProductScope",
+    "KisScopeBase",
+    "KisScopeBase",
     "KisAccountScope",
-    "KisAccountProductScope",
     "KisAccount",
-    "KisInfoStock",
     "KisStock",
+    "KisStockScope",
     ################################
     ##          Responses         ##
     ################################

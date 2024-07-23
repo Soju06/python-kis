@@ -7,18 +7,18 @@ if TYPE_CHECKING:
 
 
 __all__ = [
-    "KisScopeProtocol",
     "KisScope",
+    "KisScopeBase",
     "TScope",
 ]
 
 
 @runtime_checkable
-class KisScopeProtocol(KisObjectProtocol, Protocol):
+class KisScope(KisObjectProtocol, Protocol):
     """한국투자증권 API Scope"""
 
 
-class KisScope(KisObjectBase):
+class KisScopeBase(KisObjectBase):
     """한국투자증권 API Scope"""
 
     def __init__(self, kis: "PyKis"):

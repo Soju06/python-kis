@@ -6,7 +6,7 @@ from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
-    from pykis.scope.account.account import KisAccount
+    from pykis.scope.account import KisAccount
 
 __all__ = [
     "KisAccountProtocol",
