@@ -147,7 +147,7 @@ class KisWebsocketClient:
             self._connect_event.set()
             return
 
-        self.thread = threading.Thread(target=self._run_forever)
+        self.thread = threading.Thread(target=self._run_forever, daemon=True)
         self.thread.start()
 
     def _ensure_connection(self):

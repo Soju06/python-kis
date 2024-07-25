@@ -7,6 +7,11 @@ from pykis.client.websocket import KisWebsocketClient
 from pykis.event.handler import KisEventFilter, KisEventTicket
 from pykis.event.subscription import KisSubscriptionEventArgs
 
+__all__ = [
+    "KisWebsocketQuotableProduct",
+    "KisWebsocketQuotableProductImpl",
+]
+
 
 @runtime_checkable
 class KisWebsocketQuotableProduct(Protocol):
@@ -31,6 +36,7 @@ class KisWebsocketQuotableProduct(Protocol):
             once (bool, optional): 한번만 실행할지 여부. Defaults to False.
             extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
         """
+        raise NotImplementedError
 
     @overload
     def on(
@@ -53,6 +59,7 @@ class KisWebsocketQuotableProduct(Protocol):
             once (bool, optional): 한번만 실행할지 여부. Defaults to False.
             extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
         """
+        raise NotImplementedError
 
     def on(
         self,
@@ -219,6 +226,8 @@ class KisWebsocketQuotableProductImpl:
                 once=once,
                 extended=extended,
             )
+
+        raise ValueError(f"Unknown event: {event}")
 
     @overload
     def once(

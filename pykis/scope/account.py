@@ -1,6 +1,10 @@
 from datetime import date
 from typing import TYPE_CHECKING, Protocol
 
+from pykis.adapter.websocket.execution import (
+    KisRealtimeOrderableAccount,
+    KisRealtimeOrderableAccountImpl,
+)
 from pykis.api.account.balance import KisBalance
 from pykis.api.account.daily_order import KisDailyOrders
 from pykis.api.account.order import (
@@ -11,7 +15,6 @@ from pykis.api.account.order import (
     ORDER_TYPE,
     KisOrder,
     KisOrderNumber,
-    KisOrderNumberBase,
 )
 from pykis.api.account.order_profit import KisOrderProfits
 from pykis.api.account.orderable_amount import KisOrderableAmountResponse
@@ -32,7 +35,7 @@ __all__ = [
 ]
 
 
-class KisAccount(KisScope, KisAccountProtocol, Protocol):
+class KisAccount(KisScope, KisAccountProtocol, KisRealtimeOrderableAccount, Protocol):
     """한국투자증권 계좌 Base Scope"""
 
     def balance(
@@ -472,7 +475,7 @@ class KisAccount(KisScope, KisAccountProtocol, Protocol):
         raise NotImplementedError
 
 
-class KisAccountScope(KisScopeBase, KisAccountBase):
+class KisAccountScope(KisScopeBase, KisAccountBase, KisRealtimeOrderableAccountImpl):
     """한국투자증권 계좌 Base Scope"""
 
     account_number: KisAccountNumber
