@@ -25,13 +25,7 @@ from pykis.client.messaging import (
     KisWebsocketTR,
 )
 from pykis.client.object import KisObjectBase
-from pykis.event.handler import (
-    KisEventFilter,
-    KisEventHandler,
-    KisEventTicket,
-    TEventArgs,
-    TSender,
-)
+from pykis.event.handler import KisEventFilter, KisEventHandler, KisEventTicket
 from pykis.event.subscription import KisSubscribedEventArgs, KisSubscriptionEventArgs
 from pykis.responses.websocket import KisWebsocketResponse, TWebsocketResponse
 from pykis.utils.reference import ReferenceStore, ReferenceTicket, package_mathod
@@ -246,7 +240,6 @@ class KisWebsocketClient:
 
         self._subscriptions.add(tr)
         self._request(TR_SUBSCRIBE_TYPE, tr)
-        logging.logger.info("RTC: Subscribed to %s", tr)
 
     @thread_safe("subscriptions")
     def unsubscribe(self, id: str, key: str, primary: bool = False):
@@ -347,7 +340,7 @@ class KisWebsocketClient:
         if not subscriptions:
             return
 
-        logging.logger.info("RTC: Restoring subscriptions...")
+        logging.logger.info("RTC: Restoring subscriptions... %s", ", ".join(map(str, subscriptions)))
 
         for tr in subscriptions:
             self._request(TR_SUBSCRIBE_TYPE, tr)
@@ -480,13 +473,19 @@ class KisWebsocketClient:
 
             case "OPSP0001":  # unsubscribed
                 logging.logger.info("RTC: Unsubscribed from %s", tr)
-                self._registered_subscriptions.remove(tr)
+                try:
+                    self._registered_subscriptions.remove(tr)
+                except KeyError:
+                    pass
                 self._keychain.pop(tr, None)
                 self.unsubscribed_event.invoke(self, KisSubscribedEventArgs(tr))
 
             case "OPSP0003":  # not subscribed
                 logging.logger.info("RTC: Already unsubscribed from %s", tr)
-                self._registered_subscriptions.remove(tr)
+                try:
+                    self._registered_subscriptions.remove(tr)
+                except KeyError:
+                    pass
                 self._keychain.pop(tr, None)
 
             case "OPSP8996":  # already in use

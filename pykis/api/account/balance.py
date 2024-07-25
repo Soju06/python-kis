@@ -504,9 +504,9 @@ class KisDomesticBalanceStock(KisDynamic, KisBalanceStockBase):
     current_price: Decimal = KisDecimal["prpr"]
     """현재가"""
 
-    quantity: ORDER_QUANTITY = KisInt["hldg_qty"]
+    quantity: ORDER_QUANTITY = KisDecimal["hldg_qty"]
     """수량"""
-    orderable: ORDER_QUANTITY = KisInt["ord_psbl_qty"]
+    orderable: ORDER_QUANTITY = KisDecimal["ord_psbl_qty"]
     """매도가능수량"""
 
     purchase_amount: Decimal = KisDecimal["pchs_amt"]
@@ -619,9 +619,9 @@ class KisForeignPresentBalanceStock(KisDynamic, KisBalanceStockBase):
     current_price: Decimal = KisDecimal["ovrs_now_pric1"]
     """현재가"""
 
-    quantity: ORDER_QUANTITY = KisInt["cblc_qty13"]
+    quantity: ORDER_QUANTITY = KisDecimal["cblc_qty13"]
     """수량"""
-    orderable: ORDER_QUANTITY = KisInt["ord_psbl_qty1"]
+    orderable: ORDER_QUANTITY = KisDecimal["ord_psbl_qty1"]
     """매도가능수량"""
 
     purchase_amount: Decimal = KisDecimal["frcr_pchs_amt"]
@@ -738,9 +738,9 @@ class KisForeignBalanceStock(KisDynamic, KisBalanceStockBase):
     current_price: Decimal = KisDecimal["now_pric2"]
     """현재가"""
 
-    quantity: ORDER_QUANTITY = KisInt["ovrs_cblc_qty"]
+    quantity: ORDER_QUANTITY = KisDecimal["ovrs_cblc_qty"]
     """수량"""
-    orderable: ORDER_QUANTITY = KisInt["ord_psbl_qty"]
+    orderable: ORDER_QUANTITY = KisDecimal["ord_psbl_qty"]
     """매도가능수량"""
 
     purchase_amount: Decimal = KisDecimal["frcr_pchs_amt1"]
@@ -952,7 +952,7 @@ def _internal_foreign_balance(
 FOREIGN_COUNTRY_MARKET_MAP: dict[tuple[bool | None, COUNTRY_TYPE | None], list[str | None]] = {
     # 실전투자여부, 국가코드 -> 조회시장코드
     (None, None): [None],
-    (True, "US"): ["NASD"],
+    (None, "US"): ["NASD"],
     (False, "US"): ["NASD", "NYSE", "AMEX"],
     (None, "HK"): ["SEHK"],
     (None, "CN"): ["SHAA", "SZAA"],

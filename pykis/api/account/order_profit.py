@@ -334,7 +334,7 @@ class KisDomesticOrderProfit(KisDynamic, KisOrderProfitBase):
     sell_amount: Decimal = KisDecimal["sll_amt"]
     """매도금액"""
 
-    quantity: ORDER_QUANTITY = KisInt["sll_qty"]
+    quantity: ORDER_QUANTITY = KisDecimal["sll_qty"]
     """매도수량"""
 
     exchange_rate: Decimal = Decimal(1)
@@ -412,7 +412,7 @@ class KisForeignOrderProfit(KisDynamic, KisOrderProfitBase):
     sell_amount: Decimal = KisDecimal["frcr_sll_amt_smtl1"]
     """매도금액"""
 
-    quantity: ORDER_QUANTITY = KisInt["slcl_qty"]
+    quantity: ORDER_QUANTITY = KisDecimal["slcl_qty"]
     """매도수량"""
 
     exchange_rate: Decimal = KisDecimal["frst_bltn_exrt"]

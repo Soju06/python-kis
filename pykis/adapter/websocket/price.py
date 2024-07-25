@@ -29,6 +29,9 @@ class KisWebsocketQuotableProduct(Protocol):
         """
         웹소켓 이벤트 핸들러 등록
 
+        [국내주식] 실시간시세 -> 국내주식 실시간체결가[실시간-003]
+        [해외주식] 실시간시세 -> 해외주식 실시간지연체결가[실시간-007]
+
         Args:
             event (Literal["price"]): 이벤트 타입
             callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]], None]): 콜백 함수
@@ -51,6 +54,10 @@ class KisWebsocketQuotableProduct(Protocol):
     ) -> KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]:
         """
         웹소켓 이벤트 핸들러 등록
+
+        [국내주식] 실시간시세 -> 국내주식 실시간호가[실시간-004]
+        [해외주식] 실시간시세 -> 해외주식 실시간지연호가(아시아)[실시간-008]
+        [해외주식] 실시간시세 -> 해외주식 실시간호가(미국)[실시간-021]
 
         Args:
             event (TEventType): 이벤트 타입
@@ -92,6 +99,9 @@ class KisWebsocketQuotableProduct(Protocol):
         """
         웹소켓 이벤트 핸들러 등록
 
+        [국내주식] 실시간시세 -> 국내주식 실시간체결가[실시간-003]
+        [해외주식] 실시간시세 -> 해외주식 실시간지연체결가[실시간-007]
+
         Args:
             event (Literal["price"]): 이벤트 타입
             callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]], None]): 콜백 함수
@@ -112,6 +122,10 @@ class KisWebsocketQuotableProduct(Protocol):
     ) -> KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]:
         """
         웹소켓 이벤트 핸들러 등록
+
+        [국내주식] 실시간시세 -> 국내주식 실시간호가[실시간-004]
+        [해외주식] 실시간시세 -> 해외주식 실시간지연호가(아시아)[실시간-008]
+        [해외주식] 실시간시세 -> 해외주식 실시간호가(미국)[실시간-021]
 
         Args:
             event (Literal["orderbook"]): 이벤트 타입
@@ -156,6 +170,9 @@ class KisWebsocketQuotableProductImpl:
         """
         웹소켓 이벤트 핸들러 등록
 
+        [국내주식] 실시간시세 -> 국내주식 실시간체결가[실시간-003]
+        [해외주식] 실시간시세 -> 해외주식 실시간지연체결가[실시간-007]
+
         Args:
             event (Literal["price"]): 이벤트 타입
             callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]], None]): 콜백 함수
@@ -177,6 +194,10 @@ class KisWebsocketQuotableProductImpl:
     ) -> KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]:
         """
         웹소켓 이벤트 핸들러 등록
+
+        [국내주식] 실시간시세 -> 국내주식 실시간호가[실시간-004]
+        [해외주식] 실시간시세 -> 해외주식 실시간지연호가(아시아)[실시간-008]
+        [해외주식] 실시간시세 -> 해외주식 실시간호가(미국)[실시간-021]
 
         Args:
             event (TEventType): 이벤트 타입
@@ -240,6 +261,9 @@ class KisWebsocketQuotableProductImpl:
         """
         웹소켓 이벤트 핸들러 등록
 
+        [국내주식] 실시간시세 -> 국내주식 실시간체결가[실시간-003]
+        [해외주식] 실시간시세 -> 해외주식 실시간지연체결가[실시간-007]
+
         Args:
             event (Literal["price"]): 이벤트 타입
             callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]], None]): 콜백 함수
@@ -260,6 +284,10 @@ class KisWebsocketQuotableProductImpl:
     ) -> KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]:
         """
         웹소켓 이벤트 핸들러 등록
+
+        [국내주식] 실시간시세 -> 국내주식 실시간호가[실시간-004]
+        [해외주식] 실시간시세 -> 해외주식 실시간지연호가(아시아)[실시간-008]
+        [해외주식] 실시간시세 -> 해외주식 실시간호가(미국)[실시간-021]
 
         Args:
             event (Literal["orderbook"]): 이벤트 타입
@@ -286,15 +314,6 @@ class KisWebsocketQuotableProductImpl:
         KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]]
         | KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]
     ):
-        """
-        웹소켓 이벤트 핸들러 등록
-
-        Args:
-            event (Literal["price", "orderbook"]): 이벤트 타입
-            callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice | KisRealtimeOrderBook]], None]): 콜백 함수
-            where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]] | None, optional): 이벤트 필터. Defaults to None.
-            extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
-        """
         if event == "price":
             from pykis.api.websocket.price import on_product_price as on_price
 

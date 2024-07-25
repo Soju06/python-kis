@@ -185,7 +185,7 @@ class KisDomesticOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
     """계산단가"""
     amount: Decimal = KisDecimal["ord_psbl_cash"]
     """주문가능금액 (통화)"""
-    quantity: ORDER_QUANTITY = KisInt["max_buy_qty"]
+    quantity: ORDER_QUANTITY = KisDecimal["max_buy_qty"]
     """주문가능수량 (통화)"""
 
     foreign_only_amount: Decimal = KisDecimal["ord_psbl_frcr_amt_wcrc"]
@@ -289,7 +289,7 @@ class KisForeignOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
 
     amount: Decimal = KisDecimal["ovrs_ord_psbl_amt"]
     """주문가능금액 (통화)"""
-    quantity: ORDER_QUANTITY = KisInt["max_ord_psbl_qty"]
+    quantity: ORDER_QUANTITY = KisDecimal["max_ord_psbl_qty"]
     """주문가능수량 (통화)"""
 
     foreign_amount: Decimal = KisDecimal["frcr_ord_psbl_amt1"]
@@ -298,7 +298,7 @@ class KisForeignOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
     
     주문가능금액 (통화) + 주문가능금액 (원화 등)을 합산한 금액
     """
-    foreign_quantity: ORDER_QUANTITY = KisInt["ovrs_max_ord_psbl_qty"]
+    foreign_quantity: ORDER_QUANTITY = KisDecimal["ovrs_max_ord_psbl_qty"]
     """
     주문가능수량 (통합)
 

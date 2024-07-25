@@ -64,13 +64,19 @@ class KisWebsocketResponse:
             response_type (Callable[..., TWebsocketResponse]): 응답 클래스
         """
         items = data.split(split)
-        fields = response_type.__fields__
+        fields = getattr(response_type, "__fields__", None)
 
         if not fields:
             response = response_type()
-            response.__pre_init__(items)
-            response.__data__ = items
-            response.__post_init__()
+
+            if (pre_init := getattr(response, "__pre_init__", None)) is not None:
+                pre_init(items)
+
+            setattr(response, "__data__", items)
+
+            if (post_init := getattr(response, "__post_init__", None)) is not None:
+                post_init()
+
             yield response
             return
 
@@ -89,8 +95,11 @@ class KisWebsocketResponse:
             for values in zip(*[iter(items)] * len(fields)):
                 values: list[str]
                 response = response_type()
-                response.__pre_init__(values)
-                response.__data__ = values
+
+                if (pre_init := getattr(response, "__pre_init__", None)) is not None:
+                    pre_init(values)
+
+                setattr(response, "__data__", values)
 
                 annotation = response_type.__annotations__
 
@@ -131,7 +140,8 @@ class KisWebsocketResponse:
                             f"{response_type.__name__}.{field.field} 필드를 변환하는 중 오류가 발생했습니다.\n→ {type(e).__name__}: {e}"
                         ) from e
 
-                response.__post_init__()
+                if (post_init := getattr(response, "__post_init__", None)) is not None:
+                    post_init()
 
                 yield response
         except Exception as e:

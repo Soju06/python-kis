@@ -46,7 +46,7 @@ from pykis.api.stock.quote import (
     KisQuoteResponse,
 )
 from pykis.api.websocket.order_book import KisRealtimeOrderBook
-from pykis.api.websocket.order_execution import KisRealtimeOrderExecution
+from pykis.api.websocket.order_execution import KisRealtimeExecution
 from pykis.api.websocket.price import KisRealtimePrice
 from pykis.client.account import KisAccountNumber
 from pykis.client.appkey import KisKey
@@ -190,7 +190,7 @@ __all__ = [
     "KisPendingOrder",
     "KisPendingOrders",
     "KisRealtimeOrderBook",
-    "KisRealtimeOrderExecution",
+    "KisRealtimeExecution",
     "KisRealtimePrice",
     ################################
     ##        API Responses       ##
