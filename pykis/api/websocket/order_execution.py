@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import TYPE_CHECKING, Callable, Protocol
+from typing import TYPE_CHECKING, Callable, Protocol, runtime_checkable
 from zoneinfo import ZoneInfo
 
 from pykis.__env__ import TIMEZONE
@@ -32,6 +32,7 @@ __all__ = [
 ]
 
 
+@runtime_checkable
 class KisRealtimeExecution(KisWebsocketResponseProtocol, Protocol):
     """한국투자증권 실시간 체결"""
 
