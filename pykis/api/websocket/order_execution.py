@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING, Callable, Protocol
 from zoneinfo import ZoneInfo
 
 from pykis.__env__ import TIMEZONE
@@ -13,8 +13,11 @@ from pykis.api.account.order import (
     KisOrderNumber,
     resolve_domestic_order_condition,
 )
+from pykis.api.base.account import KisAccountProtocol
 from pykis.api.base.account_product import KisAccountProductBase
 from pykis.client.account import KisAccountNumber
+from pykis.event.handler import KisEventFilter, KisEventTicket
+from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.responses.types import KisAny, KisDecimal, KisString, KisTimeToDatetime
 from pykis.responses.websocket import KisWebsocketResponse, KisWebsocketResponseProtocol
 from pykis.utils.repr import kis_repr
@@ -22,6 +25,7 @@ from pykis.utils.typing import Checkable
 
 if TYPE_CHECKING:
     from pykis.api.stock.market import MARKET_TYPE
+    from pykis.client.websocket import KisWebsocketClient
 
 __all__ = [
     "KisRealtimeOrderExecution",
@@ -329,29 +333,6 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeOrderExecutionBase):
         )
 
 
-# CUST_ID	고객 ID	String	Y	8	'각 항목사이에는 구분자로 ^ 사용, 모든 데이터타입은 String으로 변환되어 push 처리됨'
-# ACNT_NO	계좌번호	String	Y	10
-# ODER_NO	주문번호	String	Y	10
-# OODER_NO	원주문번호	String	Y	10
-# SELN_BYOV_CLS	매도매수구분	String	Y	2	01:매도 02:매수 03:전매도 04:환매수
-# RCTF_CLS	정정구분	String	Y	1	0:정상 1:정정 2:취소
-# ODER_KIND2	주문종류2	String	Y	1	1:시장가 2:지정자 6:단주시장가 7:단주지정가 A:MOO B:LOO C:MOC D:LOC
-# STCK_SHRN_ISCD	주식 단축 종목코드	String	Y	9
-# CNTG_QTY	체결 수량	String	Y	10
-# CNTG_UNPR	체결단가	String	Y	9	※ 체결단가의 경우, 국가에 따라 소수점 생략 위치가 상이합니다. 미국 4 일본 1 중국 3 홍콩 3 베트남 0 EX) 미국 AAPL(현재가 : 148.0100)의 경우 001480100으로 체결단가가 오는데, 4번째 자리에 소수점을 찍어 148.01로 해석하시면 됩니다.
-# STCK_CNTG_HOUR	주식 체결 시간	String	Y	6	특정 거래소의 체결시간 데이터는 수신되지 않습니다. 체결시간 데이터가 필요할 경우, 체결통보 데이터 수신 시 타임스탬프를 찍는 것으로 대체하시길 바랍니다.
-# RFUS_YN	거부여부	String	Y	1	0:정상 1:거부
-# CNTG_YN	체결여부	String	Y	1	1:주문,정정,취소,거부 2:체결
-# ACPT_YN	접수여부	String	Y	1	1:주문접수 2:확인 3:취소(FOK/IOC)
-# BRNC_NO	지점번호	String	Y	5
-# ODER_QTY	주문수량	String	Y	9
-# ACNT_NAME	계좌명	String	Y	12
-# CNTG_ISNM	체결종목명	String	Y	14
-# ODER_COND	해외종목구분	String	Y	1	4:홍콩(HKD) 5:상해B(USD) 6:NASDAQ 7:NYSE 8:AMEX 9:OTCB C:홍콩(CNY) A:상해A(CNY) B:심천B(HKD) D:도쿄 E:하노이 F:호치민
-# DEBT_GB	담보유형코드	String	Y	2	10:현금 15:해외주식담보대출
-# DEBT_DATE	담보대출일자	String	Y	8	대출일(YYYYMMDD)
-
-
 class KisForeignRealtimeOrderExecution(KisRealtimeOrderExecutionBase):
     """한국투자증권 해외주식 실시간 체결"""
 
@@ -434,3 +415,48 @@ class KisForeignRealtimeOrderExecution(KisRealtimeOrderExecutionBase):
 if TYPE_CHECKING:
     Checkable[KisRealtimeOrderExecution](KisDomesticRealtimeOrderExecution)
     Checkable[KisRealtimeOrderExecution](KisForeignRealtimeOrderExecution)
+
+
+def on_execution(
+    self: "KisWebsocketClient",
+    callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderExecution]], None],
+    where: KisEventFilter | None = None,
+    once: bool = False,
+) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderExecution]]:
+    """
+    웹소켓 이벤트 핸들러 등록
+
+    Args:
+        callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderExecution]], None]): 콜백 함수
+        where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+        once (bool, optional): 한번만 실행 여부. Defaults to False.
+    """
+    return self.on(
+        id="H0GSCNI9" if self.kis.virtual else "H0GSCNI0",
+        key=self.kis.appkey.id,
+        callback=callback,
+        where=where,
+        once=once,
+    )
+
+
+def on_account_execution(
+    self: "KisAccountProtocol",
+    callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderExecution]], None],
+    where: KisEventFilter | None = None,
+    once: bool = False,
+) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderExecution]]:
+    """
+    웹소켓 이벤트 핸들러 등록
+
+    Args:
+        callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderExecution]], None]): 콜백 함수
+        where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+        once (bool, optional): 한번만 실행 여부. Defaults to False.
+    """
+    return on_execution(
+        self.kis.websocket,
+        callback=callback,
+        where=where,
+        once=once,
+    )
