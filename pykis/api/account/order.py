@@ -25,6 +25,8 @@ from pykis.api.stock.market import (
 )
 from pykis.api.stock.quote import quote
 from pykis.client.account import KisAccountNumber
+from pykis.event.filters.order import KisOrderNumberEventFilter
+from pykis.event.handler import KisEventFilter
 from pykis.responses.exceptions import KisMarketNotOpenedError
 from pykis.responses.response import KisAPIResponse, raise_not_found
 from pykis.responses.types import KisString
@@ -307,7 +309,7 @@ def resolve_domestic_order_condition(
 
 
 @runtime_checkable
-class KisOrderNumber(KisAccountProductProtocol, Protocol):
+class KisOrderNumber(KisAccountProductProtocol, KisEventFilter, Protocol):
     """한국투자증권 주문번호"""
 
     @property
@@ -402,7 +404,7 @@ class KisOrder(KisOrderNumber, Protocol):
         )
 
 
-class KisOrderNumberBase(KisAccountProductBase):
+class KisOrderNumberBase(KisAccountProductBase, KisOrderNumberEventFilter):
     """한국투자증권 주문번호"""
 
     symbol: str
@@ -443,7 +445,7 @@ class KisOrderNumberBase(KisAccountProductBase):
         branch: str | None = None,
         number: str | None = None,
     ):
-        super().__init__()
+        super().__init__(self)
 
         if kis is not None:
             self.kis = kis

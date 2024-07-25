@@ -3,7 +3,7 @@ from typing import Protocol, overload, runtime_checkable
 from pykis.api.base.product import KisProductProtocol
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.websocket import KisWebsocketClient
-from pykis.event.handler import KisEventFilter, KisEventHandler
+from pykis.event.handler import KisEventFilterBase, KisEventHandler
 from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.responses.websocket import TWebsocketResponse
 
@@ -24,7 +24,7 @@ class KisSimpleProductProtocol(Protocol):
 
 
 class KisSimpleProduct:
-    """한국투자증권 상품 프로토콜"""
+    """한국투자증권 상품"""
 
     __slots__ = ("market", "symbol")
 
@@ -38,7 +38,9 @@ class KisSimpleProduct:
         self.market = market
 
 
-class KisProductEventFilter(KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[TWebsocketResponse]]):
+class KisProductEventFilter(
+    KisEventFilterBase[KisWebsocketClient, KisSubscriptionEventArgs[TWebsocketResponse]]
+):
 
     _product: KisSimpleProductProtocol
 
