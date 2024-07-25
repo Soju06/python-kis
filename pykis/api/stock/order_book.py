@@ -25,7 +25,7 @@ __all__ = [
     "KisOrderBook",
     "KisOrderBookItem",
     "KisOrderBookResponse",
-    "order_book",
+    "orderbook",
 ]
 
 
@@ -302,7 +302,7 @@ class KisForeignOrderBook(KisAPIResponse, KisOrderBookBase):
         ]
 
 
-def domestic_order_book(
+def domestic_orderbook(
     self: "PyKis",
     symbol: str,
 ) -> KisDomesticOrderBook:
@@ -334,7 +334,7 @@ def domestic_order_book(
     )
 
 
-def foreign_order_book(
+def foreign_orderbook(
     self: "PyKis",
     market: MARKET_TYPE,
     symbol: str,
@@ -377,7 +377,7 @@ def foreign_order_book(
     )
 
 
-def order_book(
+def orderbook(
     self: "PyKis",
     market: MARKET_TYPE,
     symbol: str,
@@ -400,12 +400,12 @@ def order_book(
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     if market == "KRX":
-        return domestic_order_book(
+        return domestic_orderbook(
             self,
             symbol=symbol,
         )
     else:
-        return foreign_order_book(
+        return foreign_orderbook(
             self,
             market=market,
             symbol=symbol,
@@ -413,7 +413,7 @@ def order_book(
         )
 
 
-def product_order_book(
+def product_orderbook(
     self: "KisProductProtocol",
     condition: ORDER_CONDITION | None = None,
 ) -> KisOrderBookResponse:
@@ -431,7 +431,7 @@ def product_order_book(
         KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
-    return order_book(
+    return orderbook(
         self.kis,
         market=self.market,
         symbol=self.symbol,

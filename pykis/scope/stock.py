@@ -4,6 +4,10 @@ from pykis.adapter.account_product.order import (
     KisOrderableAccountProduct,
     KisOrderableAccountProductImpl,
 )
+from pykis.adapter.account_product.quote import (
+    KisQuotableProduct,
+    KisQuotableProductImpl,
+)
 from pykis.adapter.websocket.price import (
     KisWebsocketQuotableProduct,
     KisWebsocketQuotableProductImpl,
@@ -35,6 +39,7 @@ class KisStock(
     # Adapters
     KisOrderableAccountProduct,
     KisWebsocketQuotableProduct,
+    KisQuotableProduct,
     # Filters
     KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs],
     Protocol,
@@ -49,6 +54,7 @@ class KisStockScope(
     # Adapters
     KisOrderableAccountProductImpl,
     KisWebsocketQuotableProductImpl,
+    KisQuotableProductImpl,
     # Filters
     KisProductEventFilter,
 ):
