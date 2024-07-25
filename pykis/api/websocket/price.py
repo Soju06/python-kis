@@ -751,6 +751,9 @@ def on_price(
     """
     웹소켓 이벤트 핸들러 등록
 
+    [국내주식] 실시간시세 -> 국내주식 실시간체결가[실시간-003]
+    [해외주식] 실시간시세 -> 해외주식 실시간지연체결가[실시간-007]
+
     Args:
         market (MARKET_TYPE): 시장유형
         symbol (str): 종목코드
@@ -785,6 +788,9 @@ def on_product_price(
 ) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimePrice]]:
     """
     웹소켓 이벤트 핸들러 등록
+
+    [국내주식] 실시간시세 -> 국내주식 실시간체결가[실시간-003]
+    [해외주식] 실시간시세 -> 해외주식 실시간지연체결가[실시간-007]
 
     Args:
         callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]], None]): 콜백 함수

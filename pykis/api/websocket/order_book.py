@@ -416,6 +416,10 @@ def on_order_book(
     """
     웹소켓 이벤트 핸들러 등록
 
+    [국내주식] 실시간시세 -> 국내주식 실시간호가[실시간-004]
+    [해외주식] 실시간시세 -> 해외주식 실시간지연호가(아시아)[실시간-008]
+    [해외주식] 실시간시세 -> 해외주식 실시간호가(미국)[실시간-021]
+
     Args:
         market (MARKET_TYPE): 시장유형
         symbol (str): 종목코드
@@ -454,6 +458,10 @@ def on_product_order_book(
 ) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderBook]]:
     """
     웹소켓 이벤트 핸들러 등록
+
+    [국내주식] 실시간시세 -> 국내주식 실시간호가[실시간-004]
+    [해외주식] 실시간시세 -> 해외주식 실시간지연호가(아시아)[실시간-008]
+    [해외주식] 실시간시세 -> 해외주식 실시간호가(미국)[실시간-021]
 
     Args:
         callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None]): 콜백 함수

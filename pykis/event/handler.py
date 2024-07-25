@@ -1,9 +1,10 @@
 from abc import ABCMeta, abstractmethod
-from typing import Callable, Generic, TypeVar
+from typing import Callable, Generic, Protocol, TypeVar, runtime_checkable
 
 from pykis.utils.reference import release_method
 
 TSender = TypeVar("TSender")
+TCSender = TypeVar("TCSender", contravariant=True)
 
 
 class KisEventArgs:
@@ -13,9 +14,30 @@ class KisEventArgs:
 
 
 TEventArgs = TypeVar("TEventArgs", bound=KisEventArgs)
+TCEventArgs = TypeVar("TCEventArgs", bound=KisEventArgs, contravariant=True)
 
 
-class KisEventFilter(Generic[TSender, TEventArgs], metaclass=ABCMeta):
+@runtime_checkable
+class KisEventFilter(Protocol[TCSender, TCEventArgs]):
+    """이벤트 필터"""
+
+    @abstractmethod
+    def __filter__(self, handler: "KisEventHandler", sender: TCSender, e: TCEventArgs) -> bool:
+        """
+        이벤트를 필터링합니다.
+
+        Args:
+            sender: 이벤트 발생 객체
+            e: 이벤트 데이터
+
+        Returns:
+            `False`일 경우 이벤트를 전달합니다.
+            `True`일 경우 이벤트를 무시합니다.
+        """
+        pass
+
+
+class KisEventFilterBase(Generic[TSender, TEventArgs], metaclass=ABCMeta):
     """이벤트 필터"""
 
     @abstractmethod
@@ -28,13 +50,13 @@ class KisEventFilter(Generic[TSender, TEventArgs], metaclass=ABCMeta):
             e: 이벤트 데이터
 
         Returns:
-            `True`일 경우 이벤트를 전달합니다.
-            `False`일 경우 이벤트를 무시합니다.
+            `False`일 경우 이벤트를 전달합니다.
+            `True`일 경우 이벤트를 무시합니다.
         """
         pass
 
 
-class KisLambdaEventFilter(KisEventFilter[TSender, TEventArgs]):
+class KisLambdaEventFilter(KisEventFilterBase[TSender, TEventArgs]):
     """람다 이벤트 필터"""
 
     def __init__(self, filter: Callable[[TSender, TEventArgs], bool]):
@@ -47,7 +69,7 @@ class KisLambdaEventFilter(KisEventFilter[TSender, TEventArgs]):
         return hash(self.filter)
 
 
-class KisEventCallback(KisEventFilter[TSender, TEventArgs], metaclass=ABCMeta):
+class KisEventCallback(KisEventFilterBase[TSender, TEventArgs], metaclass=ABCMeta):
     """이벤트 콜백"""
 
     @abstractmethod
@@ -115,18 +137,25 @@ EventCallback = Callable[[TSender, TEventArgs], None] | KisEventCallback[TSender
 class KisEventTicket(Generic[TSender, TEventArgs]):
     """이벤트 티켓"""
 
+    __slots__ = ("handler", "callback", "unsubscribed_callbacks")
+
     handler: "KisEventHandler[TSender, TEventArgs]"
     """이벤트 핸들러"""
     callback: EventCallback[TSender, TEventArgs]
     """이벤트 콜백"""
 
+    unsubscribed_callbacks: list[Callable[["KisEventTicket"], None]]
+    """이벤트 콜백 제거 이벤트"""
+
     def __init__(
         self,
         handler: "KisEventHandler[TSender, TEventArgs]",
         callback: EventCallback[TSender, TEventArgs],
+        unsubscribed_callbacks: list[Callable[["KisEventTicket"], None]] | None = None,
     ):
         self.handler = handler
         self.callback = callback
+        self.unsubscribed_callbacks = unsubscribed_callbacks or []
 
     @property
     def once(self) -> bool:
@@ -138,18 +167,22 @@ class KisEventTicket(Generic[TSender, TEventArgs]):
         """이벤트 핸들러에 등록되어 있는지 여부"""
         return self.callback in self.handler
 
-    def release(self):
+    def unsubscribe(self):
         """이벤트 핸들러에서 제거합니다."""
         self.handler.remove(self.callback)
+
+        if self.registered:
+            for unsubscribed_callback in self.unsubscribed_callbacks:
+                unsubscribed_callback(self)
 
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        self.release()
+        self.unsubscribe()
 
     def __del__(self):
-        self.release()
+        self.unsubscribe()
 
     def __repr__(self):
         return f"<EventTicket {self.callback}>"
@@ -247,7 +280,7 @@ class KisEventHandler(Generic[TSender, TEventArgs]):
         """이벤트를 발생시킵니다."""
         for handler in self.handlers.copy():
             if isinstance(handler, KisEventCallback):
-                if handler.__filter__(self, sender, e):
+                if not handler.__filter__(self, sender, e):
                     handler.__callback__(self, sender, e)
             else:
                 handler(sender, e)

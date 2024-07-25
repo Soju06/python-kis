@@ -28,11 +28,11 @@ if TYPE_CHECKING:
     from pykis.client.websocket import KisWebsocketClient
 
 __all__ = [
-    "KisRealtimeOrderExecution",
+    "KisRealtimeExecution",
 ]
 
 
-class KisRealtimeOrderExecution(KisWebsocketResponseProtocol, Protocol):
+class KisRealtimeExecution(KisWebsocketResponseProtocol, Protocol):
     """한국투자증권 실시간 체결"""
 
     @property
@@ -141,13 +141,11 @@ class KisRealtimeOrderExecution(KisWebsocketResponseProtocol, Protocol):
     "executed_qty",
     lines="single",
 )
-class KisRealtimeOrderExecutionRepr:
+class KisRealtimeExecutionRepr:
     """한국투자증권 실시간 체결"""
 
 
-class KisRealtimeOrderExecutionBase(
-    KisRealtimeOrderExecutionRepr, KisWebsocketResponse, KisAccountProductBase
-):
+class KisRealtimeExecutionBase(KisRealtimeExecutionRepr, KisWebsocketResponse, KisAccountProductBase):
     """한국투자증권 실시간 체결"""
 
     symbol: str
@@ -216,7 +214,7 @@ class KisRealtimeOrderExecutionBase(
     """거부사유"""
 
 
-class KisDomesticRealtimeOrderExecution(KisRealtimeOrderExecutionBase):
+class KisDomesticRealtimeOrderExecution(KisRealtimeExecutionBase):
     """한국투자증권 국내주식 실시간 체결"""
 
     __fields__ = [
@@ -317,7 +315,7 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeOrderExecutionBase):
 
         if self.receipt:
             self.quantity = self.executed_quantity
-            self.executed_quantity = 0
+            self.executed_quantity = ORDER_QUANTITY(0)
 
     def __kis_post_init__(self):
         super().__kis_post_init__()
@@ -333,7 +331,7 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeOrderExecutionBase):
         )
 
 
-class KisForeignRealtimeOrderExecution(KisRealtimeOrderExecutionBase):
+class KisForeignRealtimeOrderExecution(KisRealtimeExecutionBase):
     """한국투자증권 해외주식 실시간 체결"""
 
     __fields__ = [
@@ -413,25 +411,36 @@ class KisForeignRealtimeOrderExecution(KisRealtimeOrderExecutionBase):
 
 # IDE Type Checker
 if TYPE_CHECKING:
-    Checkable[KisRealtimeOrderExecution](KisDomesticRealtimeOrderExecution)
-    Checkable[KisRealtimeOrderExecution](KisForeignRealtimeOrderExecution)
+    Checkable[KisRealtimeExecution](KisDomesticRealtimeOrderExecution)
+    Checkable[KisRealtimeExecution](KisForeignRealtimeOrderExecution)
 
 
 def on_execution(
     self: "KisWebsocketClient",
-    callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderExecution]], None],
+    callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeExecution]], None],
     where: KisEventFilter | None = None,
     once: bool = False,
-) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderExecution]]:
+) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeExecution]]:
     """
     웹소켓 이벤트 핸들러 등록
 
+    [국내주식] 실시간시세 -> 국내주식 실시간체결통보[실시간-005]
+    [해외주식] 실시간시세 -> 해외주식 실시간체결통보[실시간-009]
+
     Args:
-        callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderExecution]], None]): 콜백 함수
+        callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]): 콜백 함수
         where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
         once (bool, optional): 한번만 실행 여부. Defaults to False.
     """
-    return self.on(
+    domestic = self.on(
+        id="H0STCNI9" if self.kis.virtual else "H0STCNI0",
+        key=self.kis.appkey.id,
+        callback=callback,
+        where=where,
+        once=once,
+    )
+
+    foreign = self.on(
         id="H0GSCNI9" if self.kis.virtual else "H0GSCNI0",
         key=self.kis.appkey.id,
         callback=callback,
@@ -439,18 +448,25 @@ def on_execution(
         once=once,
     )
 
+    domestic.unsubscribed_callbacks.append(lambda _: foreign.unsubscribe())
+
+    return domestic
+
 
 def on_account_execution(
     self: "KisAccountProtocol",
-    callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderExecution]], None],
+    callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeExecution]], None],
     where: KisEventFilter | None = None,
     once: bool = False,
-) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderExecution]]:
+) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeExecution]]:
     """
     웹소켓 이벤트 핸들러 등록
 
+    [국내주식] 실시간시세 -> 국내주식 실시간체결통보[실시간-005]
+    [해외주식] 실시간시세 -> 해외주식 실시간체결통보[실시간-009]
+
     Args:
-        callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderExecution]], None]): 콜백 함수
+        callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]): 콜백 함수
         where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
         once (bool, optional): 한번만 실행 여부. Defaults to False.
     """

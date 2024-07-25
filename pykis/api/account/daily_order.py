@@ -387,7 +387,7 @@ class KisDomesticDailyOrder(KisDynamic, KisDailyOrderBase):
     unit_price: Decimal | None = KisDecimal["ord_unpr"]
     """주문단가"""
 
-    quantity: ORDER_QUANTITY = KisInt["ord_qty"]
+    quantity: ORDER_QUANTITY = KisDecimal["ord_qty"]
     """주문수량"""
 
     @property
@@ -395,10 +395,10 @@ class KisDomesticDailyOrder(KisDynamic, KisDailyOrderBase):
         """주문수량"""
         return self.quantity
 
-    executed_quantity: ORDER_QUANTITY = KisInt["tot_ccld_qty"]
+    executed_quantity: ORDER_QUANTITY = KisDecimal["tot_ccld_qty"]
     """체결수량"""
 
-    pending_quantity: ORDER_QUANTITY = KisInt["rmn_qty"]
+    pending_quantity: ORDER_QUANTITY = KisDecimal["rmn_qty"]
     """미체결수량"""
 
     condition: ORDER_CONDITION | None = None
@@ -510,13 +510,13 @@ class KisForeignDailyOrder(KisDynamic, KisDailyOrderBase):
     unit_price: Decimal | None = KisDecimal["ft_ord_unpr3"]
     """주문단가"""
 
-    quantity: ORDER_QUANTITY = KisInt["ft_ord_qty"]
+    quantity: ORDER_QUANTITY = KisDecimal["ft_ord_qty"]
     """주문수량"""
 
-    executed_quantity: ORDER_QUANTITY = KisInt["ft_ccld_qty"]
+    executed_quantity: ORDER_QUANTITY = KisDecimal["ft_ccld_qty"]
     """체결수량"""
 
-    pending_quantity: ORDER_QUANTITY = KisInt["nccs_qty"]
+    pending_quantity: ORDER_QUANTITY = KisDecimal["nccs_qty"]
     """미체결수량"""
 
     condition: ORDER_CONDITION | None = None

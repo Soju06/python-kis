@@ -49,7 +49,7 @@ ORDER_TYPE = Literal["buy", "sell"]
 ORDER_PRICE = Decimal | int | float
 """주문 가격"""
 
-ORDER_QUANTITY = int
+ORDER_QUANTITY = Decimal
 """주문 수량"""
 
 
@@ -834,7 +834,7 @@ def _orderable_quantity(
         if throw_no_qty and (not qty or qty <= 0):
             raise ValueError("주문가능수량이 없습니다.")
 
-        return qty or 0, None
+        return qty or Decimal(0), None
 
 
 def _get_order_price(
@@ -964,7 +964,7 @@ def domestic_order(
         body={
             "PDNO": symbol,
             "ORD_DVSN": condition_code,
-            "ORD_QTY": str(qty),
+            "ORD_QTY": str(int(qty)),
             "ORD_UNPR": str(price or 0),
         },
         form=[account],
@@ -1136,7 +1136,7 @@ def foreign_order(
         body={
             "OVRS_EXCG_CD": market,
             "PDNO": symbol,
-            "ORD_QTY": str(qty),
+            "ORD_QTY": str(int(qty)),
             "OVRS_ORD_UNPR": str(price or 0),
             "SLL_TYPE": "00" if order == "sell" else "",
             "ORD_SVR_DVSN_CD": "0",
@@ -1186,9 +1186,6 @@ def foreign_daytime_order(
     if not account:
         raise ValueError("계좌번호를 입력해주세요.")
 
-    if not market:
-        raise ValueError("시장을 입력해주세요.")
-
     if not symbol:
         raise ValueError("종목코드를 입력해주세요.")
 
@@ -1222,7 +1219,7 @@ def foreign_daytime_order(
         body={
             "OVRS_EXCG_CD": market,
             "PDNO": symbol,
-            "ORD_QTY": str(qty),
+            "ORD_QTY": str(int(qty)),
             "OVRS_ORD_UNPR": str(price),
             "ORD_SVR_DVSN_CD": "0",
             "ORD_DVSN": "00",
@@ -1584,6 +1581,7 @@ def account_buy(
         include_foreign=include_foreign,
     )
 
+
 def account_sell(
     self: "KisAccountProtocol",
     market: MARKET_TYPE,
@@ -1769,6 +1767,154 @@ def account_product_order(
         market=self.market,
         symbol=self.symbol,
         order=order,
+        price=price,
+        qty=qty,
+        condition=condition,
+        execution=execution,
+        include_foreign=include_foreign,
+    )
+
+
+def account_product_buy(
+    self: "KisAccountProductProtocol",
+    price: ORDER_PRICE | None = None,
+    qty: ORDER_QUANTITY | None = None,
+    condition: ORDER_CONDITION | None = None,
+    execution: ORDER_EXECUTION | None = None,
+    include_foreign: bool = False,
+) -> KisOrder:
+    """
+    한국투자증권 통합주식 매수 주문
+
+    국내주식주문 -> 주식주문(현금)[v1_국내주식-001]
+    해외주식주문 -> 해외주식 주문[v1_해외주식-001]
+
+    Args:
+        price (ORDER_PRICE, optional): 주문가격
+        qty (ORDER_QUANTITY, optional): 주문수량
+        condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
+        execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
+        include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
+
+    Examples:
+        >>> buy(price=100, condition=None, execution=None) # 전체 지정가 매수
+        >>> buy(price=None, condition=None, execution=None) # 전체 시장가 매수
+        >>> buy(price=100, condition=None, execution=None) # 지정가 매수
+        >>> buy(price=None, condition=None, execution=None) # 시장가 매수
+        >>> buy(price=100, condition='condition', execution=None) # 조건부지정가 매수
+        >>> buy(price=100, condition='best', execution=None) # 최유리지정가 매수
+        >>> buy(price=100, condition='priority', execution=None) # 최우선지정가 매수
+        >>> buy(price=100, condition='extended', execution=None) # 시간외단일가 매수 (모의투자 미지원)
+        >>> buy(price=None, condition='before', execution=None) # 장전시간외 매수 (모의투자 미지원)
+        >>> buy(price=None, condition='after', execution=None) # 장후시간외 매수 (모의투자 미지원)
+        >>> buy(price=100, condition=None, execution='IOC') # IOC지정가 매수 (모의투자 미지원)
+        >>> buy(price=100, condition=None, execution='FOK') # FOK지정가 매수 (모의투자 미지원)
+        >>> buy(price=None, condition=None, execution='IOC') # IOC시장가 매수 (모의투자 미지원)
+        >>> buy(price=None, condition=None, execution='FOK') # FOK시장가 매수 (모의투자 미지원)
+        >>> buy(price=100, condition='best', execution='IOC') # IOC최유리 매수 (모의투자 미지원)
+        >>> buy(price=100, condition='best', execution='FOK') # FOK최유리 매수 (모의투자 미지원)
+        >>> buy(price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
+        >>> buy(price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
+        >>> buy(price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
+        >>> buy(price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
+        >>> buy(price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 미지원)
+        >>> buy(price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 미지원)
+        >>> buy(price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 미지원)
+        >>> buy(price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매수 (모의투자 미지원)
+        >>> buy(price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매수 (모의투자 미지원)
+        >>> buy(price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 미지원)
+        >>> buy(price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 미지원)
+        >>> buy(price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 미지원)
+        >>> buy(price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매수 (모의투자 미지원)
+        >>> buy(price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매수 (모의투자 미지원)
+        >>> buy(price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매수 (모의투자 미지원)
+        >>> buy(price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매수 (모의투자 미지원)
+        >>> buy(price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매수 (모의투자 미지원)
+        >>> buy(price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매수 (모의투자 미지원)
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
+        KisMarketNotOpenedError: 시장이 열리지 않은 경우
+        ValueError: 종목 코드가 올바르지 않은 경우
+    """
+    return account_product_order(
+        self,
+        order="buy",
+        price=price,
+        qty=qty,
+        condition=condition,
+        execution=execution,
+        include_foreign=include_foreign,
+    )
+
+
+def account_product_sell(
+    self: "KisAccountProductProtocol",
+    price: ORDER_PRICE | None = None,
+    qty: ORDER_QUANTITY | None = None,
+    condition: ORDER_CONDITION | None = None,
+    execution: ORDER_EXECUTION | None = None,
+    include_foreign: bool = False,
+) -> KisOrder:
+    """
+    한국투자증권 통합주식 매도 주문
+
+    국내주식주문 -> 주식주문(현금)[v1_국내주식-001]
+    해외주식주문 -> 해외주식 주문[v1_해외주식-001]
+
+    Args:
+        price (ORDER_PRICE, optional): 주문가격
+        qty (ORDER_QUANTITY, optional): 주문수량
+        condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
+        execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
+        include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
+
+    Examples:
+        >>> sell(price=100, condition=None, execution=None) # 전체 지정가 매도
+        >>> sell(price=None, condition=None, execution=None) # 전체 시장가 매도
+        >>> sell(price=100, condition=None, execution=None) # 지정가 매도
+        >>> sell(price=None, condition=None, execution=None) # 시장가 매도
+        >>> sell(price=100, condition='condition', execution=None) # 조건부지정가 매도
+        >>> sell(price=100, condition='best', execution=None) # 최유리지정가 매도
+        >>> sell(price=100, condition='priority', execution=None) # 최우선지정가 매도
+        >>> sell(price=100, condition='extended', execution=None) # 시간외단일가 매도 (모의투자 미지원)
+        >>> sell(price=None, condition='before', execution=None) # 장전시간외 매도 (모의투자 미지원)
+        >>> sell(price=None, condition='after', execution=None) # 장후시간외 매도
+        >>> sell(price=100, condition=None, execution='IOC') # IOC지정가 매도 (모의투자 미지원)
+        >>> sell(price=100, condition=None, execution='FOK') # FOK지정가 매도 (모의투자 미지원)
+        >>> sell(price=None, condition=None, execution='IOC') # IOC시장가 매도 (모의투자 미지원)
+        >>> sell(price=None, condition=None, execution='FOK') # FOK시장가 매도 (모의투자 미지원)
+        >>> sell(price=100, condition='best', execution='IOC') # IOC최유리 매도 (모의투자 미지원)
+        >>> sell(price=100, condition='best', execution='FOK') # FOK최유리 매도 (모의투자 미지원)
+        >>> sell(price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매도 (모의투자 미지원)
+        >>> sell(price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매도 (모의투자 미지원)
+        >>> sell(price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매도 (모의투자 미지원)
+        >>> sell(price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매도 (모의투자 미지원)
+        >>> sell(price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매도 (모의투자 미지원)
+        >>> sell(price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매도 (모의투자 미지원)
+        >>> sell(price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매도 (모의투자 미지원)
+        >>> sell(price=None, condition='MOC', execution=None) # 뉴욕 장마감시장가 매도 (모의투자 미지원)
+        >>> sell(price=100, condition='LOO', execution=None) # 아멕스 장개시지정가 매도 (모의투자 미지원)
+        >>> sell(price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매도 (모의투자 미지원)
+        >>> sell(price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매도 (모의투자 미지원)
+        >>> sell(price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매도 (모의투자 미지원)
+        >>> sell(price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매도 (모의투자 미지원)
+        >>> sell(price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매도 (모의투자 미지원)
+        >>> sell(price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매도 (모의투자 미지원)
+        >>> sell(price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매도 (모의투자 미지원)
+        >>> sell(price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매도 (모의투자 미지원)
+        >>> sell(price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매도 (모의투자 미지원)
+
+    Raises:
+        KisAPIError: API 호출에 실패한 경우
+        KisNotFoundError: 조회 결과가 없는 경우
+        KisMarketNotOpenedError: 시장이 열리지 않은 경우
+        ValueError: 종목 코드가 올바르지 않은 경우
+    """
+    return account_product_order(
+        self,
+        order="sell",
         price=price,
         qty=qty,
         condition=condition,

@@ -14,7 +14,13 @@ from pykis.api.base.account_product import (
 )
 from pykis.api.stock.info import MARKET_INFO_TYPES
 from pykis.api.stock.info import info as _info
+from pykis.api.websocket.order_execution import KisRealtimeExecution
+from pykis.api.websocket.price import KisRealtimePrice
 from pykis.client.account import KisAccountNumber
+from pykis.client.websocket import KisWebsocketClient
+from pykis.event.filters.product import KisProductEventFilter
+from pykis.event.handler import KisEventFilter
+from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.scope.base import KisScope, KisScopeBase
 
 if TYPE_CHECKING:
@@ -23,13 +29,28 @@ if TYPE_CHECKING:
 
 
 class KisStock(
-    KisScope, KisAccountProductProtocol, KisOrderableAccountProduct, KisWebsocketQuotableProduct, Protocol
+    # Base
+    KisScope,
+    KisAccountProductProtocol,
+    # Adapters
+    KisOrderableAccountProduct,
+    KisWebsocketQuotableProduct,
+    # Filters
+    KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs],
+    Protocol,
 ):
     """한국투자증권 주식 Base Scope"""
 
 
 class KisStockScope(
-    KisScopeBase, KisAccountProductBase, KisOrderableAccountProductImpl, KisWebsocketQuotableProductImpl
+    # Base
+    KisScopeBase,
+    KisAccountProductBase,
+    # Adapters
+    KisOrderableAccountProductImpl,
+    KisWebsocketQuotableProductImpl,
+    # Filters
+    KisProductEventFilter,
 ):
     """한국투자증권 주식 Base Scope"""
 
