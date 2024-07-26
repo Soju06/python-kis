@@ -16,7 +16,8 @@ from pykis.api.websocket.price import (
     build_foreign_realtime_symbol,
     parse_foreign_realtime_symbol,
 )
-from pykis.event.handler import KisEventFilter, KisEventTicket
+from pykis.event.filters.product import KisProductEventFilter
+from pykis.event.handler import KisEventFilter, KisEventTicket, KisMultiEventFilter
 from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.responses.types import KisAny, KisInt, KisString
 from pykis.responses.websocket import KisWebsocketResponse, KisWebsocketResponseProtocol
@@ -409,7 +410,7 @@ def on_order_book(
     market: MARKET_TYPE,
     symbol: str,
     callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderBook]], None],
-    where: KisEventFilter | None = None,
+    where: KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderBook]] | None = None,
     once: bool = False,
     extended: bool = False,
 ) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderBook]]:
@@ -424,10 +425,12 @@ def on_order_book(
         market (MARKET_TYPE): 시장유형
         symbol (str): 종목코드
         callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None]): 콜백 함수
-        where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+        where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]] | None, optional): 이벤트 필터. Defaults to None.
         once (bool, optional): 한번만 실행 여부. Defaults to False.
         extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
     """
+    filter = KisProductEventFilter(symbol=symbol, market=market)
+
     return self.on(
         id=(
             "H0STASP0"
@@ -444,7 +447,7 @@ def on_order_book(
             )
         ),
         callback=callback,
-        where=where,
+        where=KisMultiEventFilter(filter, where) if where else filter,
         once=once,
     )
 
@@ -452,7 +455,7 @@ def on_order_book(
 def on_product_order_book(
     self: "KisProductProtocol",
     callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderBook]], None],
-    where: KisEventFilter | None = None,
+    where: KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderBook]] | None = None,
     once: bool = False,
     extended: bool = False,
 ) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderBook]]:
@@ -465,7 +468,7 @@ def on_product_order_book(
 
     Args:
         callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None]): 콜백 함수
-        where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+        where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]] | None, optional): 이벤트 필터. Defaults to None.
         once (bool, optional): 한번만 실행 여부. Defaults to False.
         extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
     """

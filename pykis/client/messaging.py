@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal
 
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
@@ -31,17 +31,21 @@ class KisWebsocketRequest(KisForm, KisObjectBase):
     """요청 타입"""
     body: KisWebsocketForm | None
     """요청 본문"""
+    domain: Literal["real", "virtual"] | None = None
+    """요청 도메인"""
 
     def __init__(
         self,
         kis: "PyKis",
         type: str,
         body: KisWebsocketForm | None = None,
+        domain: Literal["real", "virtual"] | None = None,
     ):
         super().__init__()
         self.kis = kis
         self.type = type
         self.body = body
+        self.domain = domain
 
     def build(self, dict: dict[str, Any] | None = None) -> dict[str, Any]:
         from pykis.api.auth.websocket import websocket_approval_key
@@ -49,7 +53,10 @@ class KisWebsocketRequest(KisForm, KisObjectBase):
         dict = dict or {}
 
         dict["header"] = {
-            "approval_key": websocket_approval_key(self.kis).approval_key,
+            "approval_key": websocket_approval_key(
+                self.kis,
+                domain=self.domain,
+            ).approval_key,
             "custtype": "P",
             "tr_type": self.type,
             "content-type": "utf-8",
@@ -61,8 +68,8 @@ class KisWebsocketRequest(KisForm, KisObjectBase):
         return dict
 
 
-TR_SUBSCRIBE_TYPE = "1"
-TR_UNSUBSCRIBE_TYPE = "2"
+TR_SUBSCRIBE_TYPE: str = "1"
+TR_UNSUBSCRIBE_TYPE: str = "2"
 
 
 @kis_repr(

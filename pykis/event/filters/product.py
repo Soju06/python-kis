@@ -1,11 +1,13 @@
-from typing import Protocol, overload, runtime_checkable
+from typing import TYPE_CHECKING, Protocol, overload, runtime_checkable
 
 from pykis.api.base.product import KisProductProtocol
 from pykis.api.stock.market import MARKET_TYPE
-from pykis.client.websocket import KisWebsocketClient
 from pykis.event.handler import KisEventFilterBase, KisEventHandler
 from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.responses.websocket import TWebsocketResponse
+
+if TYPE_CHECKING:
+    from pykis.client.websocket import KisWebsocketClient
 
 
 @runtime_checkable
@@ -39,7 +41,7 @@ class KisSimpleProduct:
 
 
 class KisProductEventFilter(
-    KisEventFilterBase[KisWebsocketClient, KisSubscriptionEventArgs[TWebsocketResponse]]
+    KisEventFilterBase["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]]
 ):
 
     _product: KisSimpleProductProtocol
@@ -64,7 +66,7 @@ class KisProductEventFilter(
     def __filter__(
         self,
         handler: KisEventHandler,
-        sender: KisWebsocketClient,
+        sender: "KisWebsocketClient",
         e: KisSubscriptionEventArgs[TWebsocketResponse],
     ) -> bool:
         """

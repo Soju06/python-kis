@@ -25,7 +25,14 @@ from pykis.client.messaging import (
     KisWebsocketTR,
 )
 from pykis.client.object import KisObjectBase
-from pykis.event.handler import KisEventFilter, KisEventHandler, KisEventTicket
+from pykis.event.filters.subscription import KisSubscriptionEventFilter
+from pykis.event.handler import (
+    KisEventFilter,
+    KisEventHandler,
+    KisEventTicket,
+    KisLambdaEventFilter,
+    KisMultiEventFilter,
+)
 from pykis.event.subscription import KisSubscribedEventArgs, KisSubscriptionEventArgs
 from pykis.responses.websocket import KisWebsocketResponse, TWebsocketResponse
 from pykis.utils.reference import ReferenceStore, ReferenceTicket, package_mathod
@@ -201,6 +208,7 @@ class KisWebsocketClient:
                     kis=self.kis,
                     type=type,
                     body=body,
+                    domain="virtual" if self.virtual else "real",
                 ).build()
             )
         )
@@ -220,8 +228,8 @@ class KisWebsocketClient:
         Raises:
             ValueError: 최대 구독 수를 초과했습니다.
         """
-        if primary:
-            self._ensure_primary_client().subscribe(
+        if primary and (client := self._ensure_primary_client()) is not self:
+            client.subscribe(
                 id=id,
                 key=key,
                 primary=False,
@@ -251,8 +259,8 @@ class KisWebsocketClient:
             key (str): TR Key
             primary (bool): 주 서버에 구독을 취소할지 여부
         """
-        if primary:
-            self._ensure_primary_client().unsubscribe(
+        if primary and (client := self._ensure_primary_client()) is not self:
+            client.unsubscribe(
                 id=id,
                 key=key,
                 primary=False,
@@ -293,7 +301,9 @@ class KisWebsocketClient:
         id: str,
         key: str,
         callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]], None],
-        where: KisEventFilter | None = None,
+        where: (
+            KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]] | None
+        ) = None,
         once: bool = False,
         primary: bool = False,
     ) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]]:
@@ -304,9 +314,11 @@ class KisWebsocketClient:
             id (str): TR ID
             key (str): TR Key
             callback (Callable[[TSender, TEventArgs], None]): 콜백 함수
-            where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+            where (KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]], optional): 이벤트 필터. Defaults to None.
             primary (bool): 주 서버에 구독할지 여부
         """
+        subscription_filter = KisSubscriptionEventFilter(id)
+
         return self.event.on(
             handler=package_mathod(
                 callback,
@@ -316,7 +328,7 @@ class KisWebsocketClient:
                     primary=primary,
                 ),
             ),
-            where=where,
+            where=KisMultiEventFilter(subscription_filter, where) if where else subscription_filter,
             once=once,
         )
 

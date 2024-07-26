@@ -33,7 +33,7 @@ class KisRealtimeOrderableAccount(Protocol):
 
         Args:
             callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]): 콜백 함수
-            where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+            where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None, optional): 이벤트 필터. Defaults to None.
             once (bool, optional): 한번만 실행 여부. Defaults to False.
         """
         raise NotImplementedError
@@ -59,7 +59,7 @@ class KisRealtimeOrderableAccountImpl:
 
         Args:
             callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]): 콜백 함수
-            where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+            where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None, optional): 이벤트 필터. Defaults to None.
             once (bool, optional): 한번만 실행 여부. Defaults to False.
         """
         from pykis.api.websocket.order_execution import on_account_execution
