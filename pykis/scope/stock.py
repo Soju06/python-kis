@@ -4,10 +4,7 @@ from pykis.adapter.account_product.order import (
     KisOrderableAccountProduct,
     KisOrderableAccountProductImpl,
 )
-from pykis.adapter.account_product.quote import (
-    KisQuotableProduct,
-    KisQuotableProductImpl,
-)
+from pykis.adapter.product.quote import KisQuotableProduct, KisQuotableProductImpl
 from pykis.adapter.websocket.price import (
     KisWebsocketQuotableProduct,
     KisWebsocketQuotableProductImpl,

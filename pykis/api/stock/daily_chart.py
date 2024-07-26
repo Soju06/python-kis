@@ -256,6 +256,12 @@ def domestic_daily_chart(
     if not end:
         end = datetime.now(TIMEZONE).date()
 
+    if isinstance(start, datetime):
+        start = start.date()
+
+    if isinstance(end, datetime):
+        end = end.date()
+
     if isinstance(start, date) and end and start > end:
         start, end = end, start
 
@@ -342,6 +348,12 @@ def foreign_daily_chart(
     """
     if not symbol:
         raise ValueError("종목 코드를 입력해주세요.")
+
+    if isinstance(start, datetime):
+        start = start.date()
+
+    if isinstance(end, datetime):
+        end = end.date()
 
     if isinstance(start, date) and end and start > end:
         start, end = end, start
