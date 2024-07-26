@@ -1,4 +1,4 @@
-requests>=2.28.1
-websocket-client>=1.4.1
-pycryptodome>=3.15.0
-colorlog>=6.7.0
+requests>=2.32.3
+websocket-client>=1.8.0
+cryptography>=43.0.0
+colorlog>=6.8.2

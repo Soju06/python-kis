@@ -1,7 +1,8 @@
 from typing import TYPE_CHECKING, Any, Literal
 
-from Crypto.Cipher import AES
-from Crypto.Util.Padding import unpad
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import padding
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 from pykis.client.form import KisForm
 from pykis.client.object import KisObjectBase
@@ -143,15 +144,17 @@ class KisWebsocketEncryptionKey:
         self.key = key
 
     @property
-    def aes(self):
-        return AES.new(
-            key=self.key,
-            mode=AES.MODE_CBC,
-            iv=self.iv,
-        )
+    def cipher(self):
+        return Cipher(algorithms.AES(self.key), modes.CBC(self.iv), backend=default_backend())
 
     def decrypt(self, data: bytes) -> bytes:
-        return unpad(self.aes.decrypt(data), AES.block_size)
+        decryptor = self.cipher.decryptor()
+        decrypted_data = decryptor.update(data) + decryptor.finalize()
+
+        # Unpadding the decrypted data
+        unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()  # type: ignore
+        unpadded_data = unpadder.update(decrypted_data) + unpadder.finalize()
+        return unpadded_data
 
     def text(self, data: bytes) -> str:
         return self.decrypt(data).decode("utf-8")
