@@ -1,12 +1,14 @@
-from typing import Protocol, overload, runtime_checkable
+from typing import TYPE_CHECKING, Protocol, overload, runtime_checkable
 
-from pykis.api.account.order import KisOrderNumber
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.account import KisAccountNumber
-from pykis.client.websocket import KisWebsocketClient
 from pykis.event.handler import KisEventFilter, KisEventHandler
 from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.responses.websocket import TWebsocketResponse
+
+if TYPE_CHECKING:
+    from pykis.api.account.order import KisOrderNumber
+    from pykis.client.websocket import KisWebsocketClient
 
 
 @runtime_checkable
@@ -14,7 +16,7 @@ class KisSimpleRealtimeExecution(Protocol):
     """한국투자증권 실시간체결 프로토콜"""
 
     @property
-    def order_number(self) -> KisOrderNumber:
+    def order_number(self) -> "KisOrderNumber":
         """주문번호"""
         raise NotImplementedError
 
@@ -73,7 +75,7 @@ class KisSimpleOrderNumber:
 
 
 class KisOrderNumberEventFilter(
-    KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[TWebsocketResponse]]
+    KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]]
 ):
 
     _order: KisSimpleOrderNumberProtocol
@@ -84,11 +86,11 @@ class KisOrderNumberEventFilter(
     ): ...
 
     @overload
-    def __init__(self, symbol: KisOrderNumber, /): ...
+    def __init__(self, symbol: "KisOrderNumber", /): ...
 
     def __init__(
         self,
-        symbol: KisOrderNumber | str,
+        symbol: "KisOrderNumber | str",
         market: MARKET_TYPE | None = None,
         branch: str | None = None,
         number: str | None = None,
@@ -122,7 +124,7 @@ class KisOrderNumberEventFilter(
     def __filter__(
         self,
         handler: KisEventHandler,
-        sender: KisWebsocketClient,
+        sender: "KisWebsocketClient",
         e: KisSubscriptionEventArgs[TWebsocketResponse],
     ) -> bool:
         """

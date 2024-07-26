@@ -24,3 +24,13 @@ def thread_safe(name: str | None = None):
         return wrapper
 
     return decorator
+
+
+def get_lock(self, name: str):
+    key = f"__thread_safe_{name}_lock"
+
+    if not (lock := getattr(self, key, None)):
+        lock = Lock()
+        setattr(self, key, lock)
+
+    return lock

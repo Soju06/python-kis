@@ -33,11 +33,16 @@ class PyKis:
     """한국투자증권 API"""
 
     appkey: KisKey
+    """한국투자증권 실전도메인 API AppKey"""
+    virtual_appkey: KisKey | None
     """한국투자증권 API AppKey"""
     primary_account: KisAccountNumber | None
     """한국투자증권 기본 계좌 정보"""
-    virtual: bool
-    """모의투자 여부"""
+
+    @property
+    def virtual(self) -> bool:
+        """모의도메인 여부"""
+        return self.virtual_appkey is not None
 
     cache: KisCacheStorage
     """캐시 저장소"""
@@ -45,6 +50,8 @@ class PyKis:
     _rate_limiters: dict[str, RateLimiter]
     """API 호출 제한"""
     _token: KisAccessToken | None
+    """실전투자 API 접속 토큰"""
+    _virtual_token: KisAccessToken | None
     """API 접속 토큰"""
     _websocket: KisWebsocketClient | None
     """웹소켓 클라이언트"""
@@ -52,27 +59,35 @@ class PyKis:
     def __init__(
         self,
         auth: str | PathLike[str] | KisAuth | None = None,
+        virtual_auth: str | PathLike[str] | KisAuth | None = None,
         /,
         *,
         account: str | KisAccountNumber | None = None,
         id: str | None = None,
         appkey: str | KisKey | None = None,
         secretkey: str | None = None,
-        virtual: bool = False,
         token: KisAccessToken | str | PathLike[str] | None = None,
+        virtual_id: str | None = None,
+        virtual_appkey: str | KisKey | None = None,
+        virtual_secretkey: str | None = None,
+        virtual_token: KisAccessToken | str | PathLike[str] | None = None,
         use_websocket: bool = True,
     ):
         """
         한국투자증권 API를 생성합니다.
 
         Args:
-            auth (str | PathLike[str] | KisAuth | None, optional): 인증 정보. Defaults to None.
+            auth (str | PathLike[str] | KisAuth | None, optional): 실전도메인 인증 정보. Defaults to None.
+            virtual_auth (str | PathLike[str] | KisAuth | None, optional): 모의도메인 인증 정보. Defaults to None.
             id (str | None, optional): 한국투자증권 API ID. Defaults to None.
-            appkey (str | KisKey | None, optional): 한국투자증권 API AppKey. Defaults to None.
-            secretkey (str | None, optional): 한국투자증권 API SecretKey. Defaults to None.
+            appkey (str | KisKey | None, optional): 한국투자증권 API 실전도메인 AppKey. Defaults to None.
+            secretkey (str | None, optional): 한국투자증권 API 실전도메인 SecretKey. Defaults to None.
+            token (KisAccessToken | str | PathLike[str] | None, optional): 실전도메인 API 접속 토큰. Defaults to None.
+            virtual_id (str | None, optional): 한국투자증권 모의도메인 API ID. Defaults to None.
+            virtual_appkey (str | KisKey | None, optional): 한국투자증권 모의도메인 API AppKey. Defaults to None.
+            virtual_secretkey (str | None, optional): 한국투자증권 모의도메인 API SecretKey. Defaults to None.
             account (str | KisAccountNumber | None, optional): 한국투자증권 계좌번호. Defaults to None.
-            virtual (bool, optional): 모의투자 여부. Defaults to False.
-            token (KisAccessToken | str | PathLike[str] | None, optional): API 접속 토큰. Defaults to None.
+            virtual_token (KisAccessToken | str | PathLike[str] | None, optional): 모의도메인 API 접속 토큰. Defaults to None.
             use_websocket (bool, optional): 웹소켓 사용 여부. Defaults to True.
         """
         # TODO: add code examples
@@ -80,16 +95,37 @@ class PyKis:
             if not isinstance(auth, KisAuth):
                 auth = KisAuth.load(auth)
 
+            if auth.virtual:
+                raise ValueError("auth에는 실전도메인 인증 정보를 입력해야 합니다.")
+
             id = auth.id
             appkey = auth.key
             account = auth.account_number
-            virtual = auth.virtual
+
+        if virtual_auth is not None:
+            if not isinstance(virtual_auth, KisAuth):
+                virtual_auth = KisAuth.load(virtual_auth)
+
+            if not virtual_auth.virtual:
+                raise ValueError("virtual_auth에는 모의도메인 인증 정보를 입력해야 합니다.")
+
+            virtual_id = virtual_auth.id
+            virtual_appkey = virtual_auth.key
+            account = virtual_auth.account_number
+
+        virtual = virtual_appkey is not None and virtual_auth is not None
 
         if id is None:
             raise ValueError("id를 입력해야 합니다.")
 
         if appkey is None:
             raise ValueError("appkey를 입력해야 합니다.")
+
+        if virtual and virtual_id is None:
+            raise ValueError("virtual_id를 입력해야 합니다.")
+
+        if virtual and virtual_appkey is None:
+            raise ValueError("virtual_appkey를 입력해야 합니다.")
 
         if isinstance(appkey, str):
             if secretkey is None:
@@ -103,11 +139,22 @@ class PyKis:
 
         self.appkey = appkey
 
+        if isinstance(virtual_appkey, str):
+            if virtual_secretkey is None:
+                raise ValueError("primary_secretkey를 입력해야 합니다.")
+
+            virtual_appkey = KisKey(
+                id=id,
+                appkey=virtual_appkey,
+                secretkey=virtual_secretkey,
+            )
+
+        self.virtual_appkey = virtual_appkey
+
         if isinstance(account, str):
             account = KisAccountNumber(account)
 
         self.primary_account = account
-        self.virtual = virtual
 
         self._websocket = KisWebsocketClient(self) if use_websocket else None
         self.cache = KisCacheStorage()
@@ -118,6 +165,11 @@ class PyKis:
         }
         self._token = (
             token if isinstance(token, KisAccessToken) else KisAccessToken.load(token) if token else None
+        )
+        self._virtual_token = (
+            virtual_token
+            if isinstance(virtual_token, KisAccessToken)
+            else KisAccessToken.load(virtual_token) if self.virtual and virtual_token else None
         )
 
     def _rate_limit_exceeded(self):
@@ -153,10 +205,15 @@ class PyKis:
             domain = "virtual" if self.virtual else "real"
 
         if appkey_location:
-            self.appkey.build(headers if appkey_location == "header" else body)
+            appkey = self.appkey if domain == "real" else self.virtual_appkey
+
+            if appkey is None:
+                raise ValueError("모의도메인 AppKey가 없습니다.")
+
+            appkey.build(headers if appkey_location == "header" else body)
 
         if auth:
-            self.token.build(headers)
+            (self.token if domain == "real" else self.primary_token).build(headers)
 
         if form is not None:
             if form_location is None:
@@ -269,12 +326,12 @@ class PyKis:
     @property
     @thread_safe("token")
     def token(self) -> KisAccessToken:
-        """API 접속 토큰을 반환합니다."""
+        """실전도메인 API 접속 토큰을 반환합니다."""
         if self._token is None or self._token.remaining < timedelta(minutes=10):
             from pykis.api.auth.token import token_issue
 
-            self._token = token_issue(self)
-            logging.logger.debug(f"API 접속 토큰을 발급했습니다.")
+            self._token = token_issue(self, domain="real")
+            logging.logger.debug(f"실전도메인 API 접속 토큰을 발급했습니다.")
 
         return self._token
 
@@ -284,13 +341,38 @@ class PyKis:
         """API 접속 토큰을 설정합니다."""
         self._token = token
 
-    def discard(self):
-        """API 접속 토큰을 폐기합니다."""
-        if self._token is not None:
-            from pykis.api.auth.token import token_revoke
+    @property
+    @thread_safe("primary_token")
+    def primary_token(self) -> KisAccessToken:
+        """API 접속 토큰을 반환합니다."""
+        if not self.virtual:
+            return self.token
 
+        if self._virtual_token is None or self._virtual_token.remaining < timedelta(minutes=10):
+            from pykis.api.auth.token import token_issue
+
+            self._virtual_token = token_issue(self, domain="virtual")
+            logging.logger.debug(f"모의도메인 API 접속 토큰을 발급했습니다.")
+
+        return self._virtual_token
+
+    @primary_token.setter
+    @thread_safe("primary_token")
+    def primary_token(self, token: KisAccessToken):
+        """API 접속 토큰을 설정합니다."""
+        self._virtual_token = token
+
+    def discard(self, domain: Literal["real", "virtual"] | None = None):
+        """API 접속 토큰을 폐기합니다."""
+        from pykis.api.auth.token import token_revoke
+
+        if self._token is not None and (domain is None or domain == "real"):
             token_revoke(self, self._token.token)
             self._token = None
+
+        if self._virtual_token is not None and (domain is None or (domain == "virtual" and self.virtual)):
+            token_revoke(self, self._virtual_token.token)
+            self._virtual_token = None
 
     @property
     def primary(self) -> KisAccountNumber:

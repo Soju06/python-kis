@@ -18,7 +18,8 @@ from pykis.api.stock.quote import (
     STOCK_SIGN_TYPE_KOR_MAP,
     STOCK_SIGN_TYPE_MAP,
 )
-from pykis.event.handler import KisEventFilter, KisEventTicket
+from pykis.event.filters.product import KisProductEventFilter
+from pykis.event.handler import KisEventFilter, KisEventTicket, KisMultiEventFilter
 from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
 from pykis.responses.websocket import KisWebsocketResponse, KisWebsocketResponseProtocol
@@ -744,7 +745,7 @@ def on_price(
     market: MARKET_TYPE,
     symbol: str,
     callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimePrice]], None],
-    where: KisEventFilter | None = None,
+    where: KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimePrice]] | None = None,
     once: bool = False,
     extended: bool = False,
 ) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimePrice]]:
@@ -758,10 +759,12 @@ def on_price(
         market (MARKET_TYPE): 시장유형
         symbol (str): 종목코드
         callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]], None]): 콜백 함수
-        where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+        where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]] | None, optional): 이벤트 필터. Defaults to None.
         once (bool, optional): 한번만 실행 여부. Defaults to False.
         extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
     """
+    filter = KisProductEventFilter(symbol=symbol, market=market)
+
     return self.on(
         id="H0STCNT0" if market == "KRX" else "HDFSCNT0",
         key=(
@@ -774,7 +777,7 @@ def on_price(
             )
         ),
         callback=callback,
-        where=where,
+        where=KisMultiEventFilter(filter, where) if where else filter,
         once=once,
     )
 
@@ -782,7 +785,7 @@ def on_price(
 def on_product_price(
     self: "KisProductProtocol",
     callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimePrice]], None],
-    where: KisEventFilter | None = None,
+    where: KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimePrice]] | None = None,
     once: bool = False,
     extended: bool = False,
 ) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimePrice]]:
@@ -794,7 +797,7 @@ def on_product_price(
 
     Args:
         callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]], None]): 콜백 함수
-        where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+        where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]] | None, optional): 이벤트 필터. Defaults to None.
         once (bool, optional): 한번만 실행 여부. Defaults to False.
         extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
     """

@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from typing import Callable, Generic, Protocol, TypeVar, runtime_checkable
+from typing import Callable, Generic, Literal, Protocol, TypeVar, runtime_checkable
 
 from pykis.utils.reference import release_method
 
@@ -69,6 +69,36 @@ class KisLambdaEventFilter(KisEventFilterBase[TSender, TEventArgs]):
         return hash(self.filter)
 
 
+class KisMultiEventFilter(KisEventFilterBase[TSender, TEventArgs]):
+    """다중 이벤트 필터"""
+
+    __slots__ = ("filters", "gate")
+
+    def __init__(
+        self,
+        *filters: KisEventFilter[TSender, TEventArgs] | Callable[[TSender, TEventArgs], bool],
+        gate: Literal["and", "or"] = "or",
+    ):
+        self.filters = filters
+        self.gate = gate
+
+    def __filter__(self, handler: "KisEventHandler", sender: TSender, e: TEventArgs) -> bool:
+        results = (
+            filter.__filter__(handler, sender, e) if isinstance(filter, KisEventFilter) else filter(sender, e)
+            for filter in self.filters
+        )
+
+        if self.gate == "and":
+            return all(results)
+        elif self.gate == "or":
+            return any(results)
+
+        return False
+
+    def __hash__(self) -> int:
+        return hash((self.filters, self.gate))
+
+
 class KisEventCallback(KisEventFilterBase[TSender, TEventArgs], metaclass=ABCMeta):
     """이벤트 콜백"""
 
@@ -106,7 +136,7 @@ class KisLambdaEventCallback(KisEventCallback[TSender, TEventArgs]):
 
     def __filter__(self, handler: "KisEventHandler", sender: TSender, e: TEventArgs) -> bool:
         if self.where is None:
-            return True
+            return False
 
         return (
             self.where.__filter__(handler, sender, e)
@@ -137,7 +167,12 @@ EventCallback = Callable[[TSender, TEventArgs], None] | KisEventCallback[TSender
 class KisEventTicket(Generic[TSender, TEventArgs]):
     """이벤트 티켓"""
 
-    __slots__ = ("handler", "callback", "unsubscribed_callbacks")
+    __slots__ = (
+        "handler",
+        "callback",
+        "unsubscribed_callbacks",
+        "_suppress_del",
+    )
 
     handler: "KisEventHandler[TSender, TEventArgs]"
     """이벤트 핸들러"""
@@ -146,6 +181,9 @@ class KisEventTicket(Generic[TSender, TEventArgs]):
 
     unsubscribed_callbacks: list[Callable[["KisEventTicket"], None]]
     """이벤트 콜백 제거 이벤트"""
+
+    _suppress_del: bool
+    """가비지 컬렉션에서 해지되지 않도록 합니다."""
 
     def __init__(
         self,
@@ -156,6 +194,7 @@ class KisEventTicket(Generic[TSender, TEventArgs]):
         self.handler = handler
         self.callback = callback
         self.unsubscribed_callbacks = unsubscribed_callbacks or []
+        self._suppress_del = False
 
     @property
     def once(self) -> bool:
@@ -175,6 +214,10 @@ class KisEventTicket(Generic[TSender, TEventArgs]):
             for unsubscribed_callback in self.unsubscribed_callbacks:
                 unsubscribed_callback(self)
 
+    def suppress(self):
+        """가비지 컬렉션에서 해지되지 않도록 합니다."""
+        self._suppress_del = True
+
     def __enter__(self):
         return self
 
@@ -182,7 +225,8 @@ class KisEventTicket(Generic[TSender, TEventArgs]):
         self.unsubscribe()
 
     def __del__(self):
-        self.unsubscribe()
+        if not self._suppress_del:
+            self.unsubscribe()
 
     def __repr__(self):
         return f"<EventTicket {self.callback}>"
@@ -290,7 +334,7 @@ class KisEventHandler(Generic[TSender, TEventArgs]):
         self.invoke(sender, e)
 
     def __iadd__(self, handler: EventCallback[TSender, TEventArgs]):
-        self.add(handler)
+        self.add(handler).suppress()
         return self
 
     def __isub__(self, handler: EventCallback[TSender, TEventArgs]):

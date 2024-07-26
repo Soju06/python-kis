@@ -1,7 +1,7 @@
 import json
 from datetime import datetime, timedelta
 from os import PathLike
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal
 
 from pykis.__env__ import TIMEZONE
 from pykis.client.form import KisForm
@@ -69,7 +69,7 @@ class KisAccessToken(KisDynamic, KisForm):
             )
 
 
-def token_issue(self: "PyKis"):
+def token_issue(self: "PyKis", domain: Literal["real", "virtual"] | None = None) -> KisAccessToken:
     """
     API 접속 토큰을 발급합니다.
 
@@ -84,6 +84,7 @@ def token_issue(self: "PyKis"):
         appkey_location="body",
         response_type=KisAccessToken,
         method="POST",
+        domain=domain,
         auth=False,
         verbose=False,
     )

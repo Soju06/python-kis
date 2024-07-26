@@ -419,7 +419,7 @@ if TYPE_CHECKING:
 def on_execution(
     self: "KisWebsocketClient",
     callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeExecution]], None],
-    where: KisEventFilter | None = None,
+    where: KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeExecution]] | None = None,
     once: bool = False,
 ) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeExecution]]:
     """
@@ -430,23 +430,30 @@ def on_execution(
 
     Args:
         callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]): 콜백 함수
-        where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+        where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None, optional): 이벤트 필터. Defaults to None.
         once (bool, optional): 한번만 실행 여부. Defaults to False.
     """
+    appkey = self.kis.virtual_appkey if self.kis.virtual else self.kis.appkey
+
+    if appkey is None:
+        raise ValueError("모의도메인 appkey가 없습니다.")
+
     domestic = self.on(
         id="H0STCNI9" if self.kis.virtual else "H0STCNI0",
-        key=self.kis.appkey.id,
+        key=appkey.id,
         callback=callback,
         where=where,
         once=once,
+        primary=True,
     )
 
     foreign = self.on(
         id="H0GSCNI9" if self.kis.virtual else "H0GSCNI0",
-        key=self.kis.appkey.id,
+        key=appkey.id,
         callback=callback,
         where=where,
         once=once,
+        primary=True,
     )
 
     domestic.unsubscribed_callbacks.append(lambda _: foreign.unsubscribe())
@@ -457,7 +464,7 @@ def on_execution(
 def on_account_execution(
     self: "KisAccountProtocol",
     callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeExecution]], None],
-    where: KisEventFilter | None = None,
+    where: KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeExecution]] | None = None,
     once: bool = False,
 ) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeExecution]]:
     """
@@ -468,7 +475,7 @@ def on_account_execution(
 
     Args:
         callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]): 콜백 함수
-        where (KisEventFilter | None, optional): 이벤트 필터. Defaults to None.
+        where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None, optional): 이벤트 필터. Defaults to None.
         once (bool, optional): 한번만 실행 여부. Defaults to False.
     """
     return on_execution(
