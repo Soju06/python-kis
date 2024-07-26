@@ -7,28 +7,20 @@ __all__ = [
     "logger",
 ]
 
-logging.addLevelName(logging.DEBUG, "DEBG")
-logging.addLevelName(logging.INFO, "INFO")
-logging.addLevelName(logging.WARNING, "WARN")
-logging.addLevelName(logging.ERROR, "EROR")
-logging.addLevelName(logging.CRITICAL, "CRIT")
-
 
 def _create_logger(name: str, level) -> logging.Logger:
     logger = logging.getLogger(name)
     handler = logging.StreamHandler(stream=sys.stdout)
     handler.setFormatter(
         ColoredFormatter(
-            "%(log_color)s[%(asctime)s] %(levelname)s %(message)s",
+            "%(log_color)s[%(asctime)s] %(levelname)s: %(message)s",
             datefmt="%m/%d %H:%M:%S",
             reset=True,
             log_colors={
-                "DEBUG": "white",
-                "INFO": "white,bold",
-                "INFOV": "white,bold",
-                "WARNING": "yellow",
-                "ERROR": "red,bold",
-                "CRITICAL": "red,bold",
+                "INFO": "white",
+                "WARNING": "bold_yellow",
+                "ERROR": "bold_red",
+                "CRITICAL": "bold_red",
             },
             secondary_log_colors={},
             style="%",

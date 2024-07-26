@@ -9,6 +9,10 @@ from pykis.responses.websocket import TWebsocketResponse
 if TYPE_CHECKING:
     from pykis.client.websocket import KisWebsocketClient
 
+__all__ = [
+    "KisProductEventFilter",
+]
+
 
 @runtime_checkable
 class KisSimpleProductProtocol(Protocol):

@@ -7,6 +7,7 @@ from pykis.event.handler import (
     KisEventTicket,
     KisLambdaEventCallback,
     KisLambdaEventFilter,
+    KisMultiEventFilter,
 )
 from pykis.event.subscription import (
     KisSubscribedEventArgs,
@@ -23,6 +24,7 @@ __all__ = [
     "KisEventTicket",
     "KisLambdaEventCallback",
     "KisLambdaEventFilter",
+    "KisMultiEventFilter",
     "KisSubscribedEventArgs",
     "KisUnsubscribedEventArgs",
     "KisSubscriptionEventArgs",

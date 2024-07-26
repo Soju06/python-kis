@@ -8,6 +8,11 @@ if TYPE_CHECKING:
     from pykis.client.websocket import KisWebsocketClient
 
 
+__all__ = [
+    "KisSubscriptionEventFilter",
+]
+
+
 class KisSubscriptionEventFilter(
     KisEventFilterBase["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]]
 ):
