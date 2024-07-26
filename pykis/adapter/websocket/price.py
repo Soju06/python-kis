@@ -231,7 +231,7 @@ class KisWebsocketQuotableProductImpl:
             return on_price(
                 self,
                 callback,  # type: ignore
-                where=where,
+                where=where,  # type: ignore
                 once=once,
                 extended=extended,
             )
@@ -243,7 +243,7 @@ class KisWebsocketQuotableProductImpl:
             return on_orderbook(
                 self,
                 callback,  # type: ignore
-                where=where,
+                where=where,  # type: ignore
                 once=once,
                 extended=extended,
             )
@@ -320,7 +320,7 @@ class KisWebsocketQuotableProductImpl:
             return on_price(
                 self,
                 callback,  # type: ignore
-                where=where,
+                where=where,  # type: ignore
                 once=True,
                 extended=extended,
             )
@@ -332,7 +332,7 @@ class KisWebsocketQuotableProductImpl:
             return on_orderbook(
                 self,
                 callback,  # type: ignore
-                where=where,
+                where=where,  # type: ignore
                 once=True,
                 extended=extended,
             )

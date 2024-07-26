@@ -184,7 +184,7 @@ class KisWebsocketClient:
             self.thread = None
 
             if self.websocket:
-                logging.logger.info("RTC: Disconnecting from server")
+                logging.logger.info("RTC Disconnecting from server")
                 self.websocket.close()
 
     def _request(self, type: str, body: KisWebsocketForm | None = None) -> bool:
@@ -198,10 +198,10 @@ class KisWebsocketClient:
         Returns:
             bool: 요청 성공 여부
         """
-        if not self.websocket or not self.connected:
+        if not self.websocket or not self._connected_event.is_set():
             return False
 
-        logging.logger.debug("RTC: Sending request: %s %s", type, body)
+        logging.logger.debug("RTC Sending request: %s %s", type, body)
         self.websocket.send(
             json.dumps(
                 KisWebsocketRequest(
@@ -243,7 +243,7 @@ class KisWebsocketClient:
             return
 
         if len(self._subscriptions) >= WEBSOCKET_MAX_SUBSCRIPTIONS:
-            logging.logger.warning("RTC: Maximum number of subscriptions reached")
+            logging.logger.warning("RTC Maximum number of subscriptions reached")
             raise ValueError("Maximum number of subscriptions reached")
 
         self._subscriptions.add(tr)
@@ -352,7 +352,7 @@ class KisWebsocketClient:
         if not subscriptions:
             return
 
-        logging.logger.info("RTC: Restoring subscriptions... %s", ", ".join(map(str, subscriptions)))
+        logging.logger.info("RTC Restoring subscriptions... %s", ", ".join(map(str, subscriptions)))
 
         for tr in subscriptions:
             self._request(TR_SUBSCRIBE_TYPE, tr)
@@ -376,7 +376,7 @@ class KisWebsocketClient:
                     )
                     self.websocket.run_forever()
                 except Exception as e:
-                    logging.logger.error("RTC: Unexpected error: %s", e, exc_info=True)
+                    logging.logger.error("RTC Unexpected error: %s", e, exc_info=True)
 
                 # 종료 확인
                 if self.thread != threading.current_thread():
@@ -384,7 +384,7 @@ class KisWebsocketClient:
 
                 # 재접속 간격
                 self.websocket = None
-                logging.logger.info("RTC: Reconnecting in %s seconds...", self.reconnect_interval)
+                logging.logger.info("RTC Reconnecting in %s seconds...", self.reconnect_interval)
 
                 self._connect_event.clear()
 
@@ -410,7 +410,7 @@ class KisWebsocketClient:
         if websocket is not self.websocket:
             return
 
-        logging.logger.info("RTC: Connected to server")
+        logging.logger.info("RTC Connected to %s server", "virtual" if self.virtual else "real")
         self._reset_session_state()
         self._connected_event.set()
 
@@ -431,7 +431,7 @@ class KisWebsocketClient:
         if websocket is not self.websocket:
             return
 
-        logging.logger.info("RTC: Disconnected from server: %s", reason)
+        logging.logger.info("RTC Disconnected from server: %s", reason)
 
     def _on_message(self, websocket: WebSocketApp, message: str):
         if websocket is not self.websocket:
@@ -444,7 +444,7 @@ class KisWebsocketClient:
                 case "{" | _:  # 제어 데이터
                     self._handle_control(json.loads(message))
         except Exception as e:
-            logging.logger.error("RTC: failed to handle message: %s", e, exc_info=True)
+            logging.logger.error("RTC failed to handle message: %s", e, exc_info=True)
 
     def _handle_control(self, data: dict):
         if not self.websocket:
@@ -457,12 +457,12 @@ class KisWebsocketClient:
         key: str | None = header.get("tr_key")
 
         if id == "PINGPONG":
-            logging.logger.debug("RTC: Received PINGPONG")
+            logging.logger.debug("RTC Received PINGPONG")
             self.websocket.send(json.dumps(data))
             return
 
         if not body:
-            logging.logger.warning("RTC: Unhandled control data: %s", id)
+            logging.logger.warning("RTC Unhandled control data: %s", id)
             return
 
         tr = KisWebsocketTR(id, key or "")
@@ -475,16 +475,16 @@ class KisWebsocketClient:
 
         match code:
             case "OPSP0000":  # subscribed
-                logging.logger.info("RTC: Subscribed to %s", tr)
+                logging.logger.info("RTC Subscribed to %s", tr)
                 self._registered_subscriptions.add(tr)
                 self.subscribed_event.invoke(self, KisSubscribedEventArgs(tr))
 
             case "OPSP0002":  # already subscribed
-                logging.logger.info("RTC: Already subscribed to %s", tr)
+                logging.logger.info("RTC Already subscribed to %s", tr)
                 self._registered_subscriptions.add(tr)
 
             case "OPSP0001":  # unsubscribed
-                logging.logger.info("RTC: Unsubscribed from %s", tr)
+                logging.logger.info("RTC Unsubscribed from %s", tr)
                 try:
                     self._registered_subscriptions.remove(tr)
                 except KeyError:
@@ -493,7 +493,7 @@ class KisWebsocketClient:
                 self.unsubscribed_event.invoke(self, KisSubscribedEventArgs(tr))
 
             case "OPSP0003":  # not subscribed
-                logging.logger.info("RTC: Already unsubscribed from %s", tr)
+                logging.logger.info("RTC Already unsubscribed from %s", tr)
                 try:
                     self._registered_subscriptions.remove(tr)
                 except KeyError:
@@ -501,13 +501,13 @@ class KisWebsocketClient:
                 self._keychain.pop(tr, None)
 
             case "OPSP8996":  # already in use
-                logging.logger.error("RTC: Session already in use")
+                logging.logger.error("RTC Session already in use")
 
             case "OPSP0007":  # internal error
-                logging.logger.error("RTC: Internal server error: %s %s", tr, message)
+                logging.logger.error("RTC Internal server error: %s %s", tr, message)
 
             case _:
-                logging.logger.warning("RTC: Unhandled control message: %s(%s) %s", tr, code, message)
+                logging.logger.warning("RTC Unhandled control message: %s(%s) %s", tr, code, message)
 
     def _set_encryption_key(self, tr: KisWebsocketTR, body: dict):
         """암호화 키를 설정합니다."""
@@ -537,16 +537,16 @@ class KisWebsocketClient:
                 key = self._keychain.get(tr)
 
                 if not key:
-                    logging.logger.error("RTC: No encryption key for %s", tr)
+                    logging.logger.error("RTC No encryption key for %s", tr)
                     return
 
                 body = key.decrypt(base64.b64decode(body)).decode("utf-8")
             except Exception as e:
-                logging.logger.exception("RTC: Failed to decrypt message: %s %s", id, e)
+                logging.logger.exception("RTC Failed to decrypt message: %s %s", id, e)
                 return
 
         if not (response_type := WEBSOCKET_RESPONSES_MAP.get(id)):
-            logging.logger.warning("RTC: No response type for %s", id)
+            logging.logger.warning("RTC No response type for %s", id)
             return
 
         try:
@@ -568,9 +568,9 @@ class KisWebsocketClient:
                         ),
                     )
                 except Exception as e:
-                    logging.logger.exception("RTC: Failed to emit event: %s %s", tr, e)
+                    logging.logger.exception("RTC Failed to emit event: %s %s", tr, e)
         except Exception as e:
-            logging.logger.exception("RTC: Failed to parse message: %s %s", tr, e)
+            logging.logger.exception("RTC Failed to parse message: %s %s", tr, e)
             return
 
     @thread_safe("primary_client")

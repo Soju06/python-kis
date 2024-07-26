@@ -29,6 +29,11 @@ if TYPE_CHECKING:
     from pykis.api.stock.market import MARKET_TYPE
     from pykis.kis import PyKis
 
+__all__ = [
+    "KisStock",
+    "KisStockScope",
+]
+
 
 class KisStock(
     # Base

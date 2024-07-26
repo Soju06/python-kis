@@ -10,6 +10,10 @@ if TYPE_CHECKING:
     from pykis.api.account.order import KisOrderNumber
     from pykis.client.websocket import KisWebsocketClient
 
+__all__ = [
+    "KisOrderNumberEventFilter",
+]
+
 
 @runtime_checkable
 class KisSimpleRealtimeExecution(Protocol):
