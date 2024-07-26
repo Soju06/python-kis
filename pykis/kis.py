@@ -77,17 +77,17 @@ class PyKis:
         한국투자증권 API를 생성합니다.
 
         Args:
-            auth (str | PathLike[str] | KisAuth | None, optional): 실전도메인 인증 정보. Defaults to None.
-            virtual_auth (str | PathLike[str] | KisAuth | None, optional): 모의도메인 인증 정보. Defaults to None.
-            id (str | None, optional): 한국투자증권 API ID. Defaults to None.
-            appkey (str | KisKey | None, optional): 한국투자증권 API 실전도메인 AppKey. Defaults to None.
-            secretkey (str | None, optional): 한국투자증권 API 실전도메인 SecretKey. Defaults to None.
-            token (KisAccessToken | str | PathLike[str] | None, optional): 실전도메인 API 접속 토큰. Defaults to None.
-            virtual_id (str | None, optional): 한국투자증권 모의도메인 API ID. Defaults to None.
-            virtual_appkey (str | KisKey | None, optional): 한국투자증권 모의도메인 API AppKey. Defaults to None.
-            virtual_secretkey (str | None, optional): 한국투자증권 모의도메인 API SecretKey. Defaults to None.
-            account (str | KisAccountNumber | None, optional): 한국투자증권 계좌번호. Defaults to None.
-            virtual_token (KisAccessToken | str | PathLike[str] | None, optional): 모의도메인 API 접속 토큰. Defaults to None.
+            auth (str | PathLike[str] | KisAuth | None, optional): 실전도메인 인증 정보.
+            virtual_auth (str | PathLike[str] | KisAuth | None, optional): 모의도메인 인증 정보.
+            id (str | None, optional): API ID.
+            appkey (str | KisKey | None, optional): API 실전도메인 AppKey.
+            secretkey (str | None, optional): API 실전도메인 SecretKey.
+            token (KisAccessToken | str | PathLike[str] | None, optional): 실전도메인 API 접속 토큰.
+            virtual_id (str | None, optional): 모의도메인 API ID.
+            virtual_appkey (str | KisKey | None, optional): 모의도메인 API AppKey.
+            virtual_secretkey (str | None, optional): 모의도메인 API SecretKey.
+            account (str | KisAccountNumber | None, optional): 계좌번호.
+            virtual_token (KisAccessToken | str | PathLike[str] | None, optional): 모의도메인 API 접속 토큰.
             use_websocket (bool, optional): 웹소켓 사용 여부. Defaults to True.
         """
         # TODO: add code examples

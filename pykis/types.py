@@ -1,7 +1,7 @@
 from pykis.adapter.account.balance import KisQuotableAccount
 from pykis.adapter.account.order import KisOrderableAccount
 from pykis.adapter.account_product.order import KisOrderableAccountProduct
-from pykis.adapter.account_product.quote import KisQuotableProduct
+from pykis.adapter.product.quote import KisQuotableProduct
 from pykis.adapter.websocket.execution import KisRealtimeOrderableAccount
 from pykis.adapter.websocket.price import KisWebsocketQuotableProduct
 from pykis.api.account.balance import KisBalance, KisBalanceStock, KisDeposit
