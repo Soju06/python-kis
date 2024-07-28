@@ -24,7 +24,7 @@ from pykis.client.auth import KisAuth
 from pykis.client.cache import KisCacheStorage
 from pykis.client.exceptions import KisHTTPError
 from pykis.client.form import KisForm
-from pykis.client.object import KisObjectBase
+from pykis.client.object import KisObjectBase, kis_object_init
 from pykis.client.websocket import KisWebsocketClient
 from pykis.responses.dynamic import KisObject, TDynamic
 from pykis.responses.types import KisDynamicDict
@@ -447,8 +447,7 @@ class PyKis:
         )
 
         if isinstance(response_object, KisObjectBase):
-            response_object.__kis_init__(self)
-            response_object.__kis_post_init__()
+            kis_object_init(self, response_object)
 
         return response_object  # type: ignore
 

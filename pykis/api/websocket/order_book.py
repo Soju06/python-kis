@@ -50,9 +50,9 @@ class KisRealtimeOrderBookBase(KisWebsocketResponse, KisOrderBookBase):
     decimal_places: int
     """소수점 자리수"""
 
-    ask: list[KisOrderBookItem]
+    asks: list[KisOrderBookItem]
     """매도호가"""
-    bid: list[KisOrderBookItem]
+    bids: list[KisOrderBookItem]
     """매수호가"""
 
     condition: ORDER_CONDITION | None
@@ -154,9 +154,9 @@ class KisDomesticRealtimeOrderBook(KisRealtimeOrderBookBase):
     decimal_places: int = 1
     """소수점 자리수"""
 
-    ask: list[KisOrderBookItem]  # 매도호가
+    asks: list[KisOrderBookItem]  # 매도호가
     """매도호가"""
-    bid: list[KisOrderBookItem]  # 매수호가
+    bids: list[KisOrderBookItem]  # 매수호가
     """매수호가"""
 
     condition: ORDER_CONDITION | None  # HOUR_CLS_CODE 시간 구분 코드
@@ -172,14 +172,14 @@ class KisDomesticRealtimeOrderBook(KisRealtimeOrderBookBase):
         )
         self.time_kst = self.time.astimezone(TIMEZONE)
 
-        self.ask = [
+        self.asks = [
             KisDomesticRealtimeOrderBookItem(
                 price=Decimal(data[3 + i]),
                 volume=int(data[23 + i]),
             )
             for i in range(10)
         ]
-        self.bid = [
+        self.bids = [
             KisDomesticRealtimeOrderBookItem(
                 price=Decimal(data[13 + i]),
                 volume=int(data[33 + i]),
@@ -230,9 +230,9 @@ class KisAsiaRealtimeOrderBook(KisRealtimeOrderBookBase):
     decimal_places: int  # ZDIV 소수점자리수
     """소수점 자리수"""
 
-    ask: list[KisOrderBookItem]  # PASK1 매도호가1, VASK1 매도잔량1
+    asks: list[KisOrderBookItem]  # PASK1 매도호가1, VASK1 매도잔량1
     """매도호가"""
-    bid: list[KisOrderBookItem]  # PBID1 매수호가1, VBID1 매수잔량1
+    bids: list[KisOrderBookItem]  # PBID1 매수호가1, VBID1 매수잔량1
     """매수호가"""
 
     condition: ORDER_CONDITION | None  # RSYM 실시간종목코드
@@ -251,13 +251,13 @@ class KisAsiaRealtimeOrderBook(KisRealtimeOrderBookBase):
         self.time = datetime.strptime(data[3] + data[4], "%Y%m%d%H%M%S").replace(tzinfo=self.timezone)
         self.time_kst = self.time.astimezone(TIMEZONE)
 
-        self.ask = [
+        self.asks = [
             KisAsiaRealtimeOrderBookItem(
                 price=Decimal(data[12]),
                 volume=int(data[14]),
             )
         ]
-        self.bid = [
+        self.bids = [
             KisAsiaRealtimeOrderBookItem(
                 price=Decimal(data[11]),
                 volume=int(data[13]),
@@ -361,9 +361,9 @@ class KisUSRealtimeOrderBook(KisRealtimeOrderBookBase):
     decimal_places: int  # ZDIV 소수점자리수
     """소수점 자리수"""
 
-    ask: list[KisOrderBookItem]
+    asks: list[KisOrderBookItem]
     """매도호가"""
-    bid: list[KisOrderBookItem]
+    bids: list[KisOrderBookItem]
     """매수호가"""
 
     condition: ORDER_CONDITION | None
@@ -382,14 +382,14 @@ class KisUSRealtimeOrderBook(KisRealtimeOrderBookBase):
         self.time = datetime.strptime(data[3] + data[4], "%Y%m%d%H%M%S").replace(tzinfo=self.timezone)
         self.time_kst = self.time.astimezone(TIMEZONE)
 
-        self.ask = [
+        self.asks = [
             KisUSRealtimeOrderBookItem(
                 price=Decimal(data[12 + i * 6]),
                 volume=int(data[14 + i * 6]),
             )
             for i in range(10)
         ]
-        self.bid = [
+        self.bids = [
             KisUSRealtimeOrderBookItem(
                 price=Decimal(data[11 + i * 6]),
                 volume=int(data[13 + i * 6]),

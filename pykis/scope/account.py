@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 from pykis.adapter.account.balance import KisQuotableAccount, KisQuotableAccountImpl
 from pykis.adapter.account.order import KisOrderableAccount, KisOrderableAccountImpl
@@ -19,6 +19,7 @@ __all__ = [
 ]
 
 
+@runtime_checkable
 class KisAccount(
     # Base
     KisScope,
