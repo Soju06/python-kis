@@ -54,7 +54,9 @@ class KisDomesticDailyChartBar(KisChartBarRepr, KisDynamic):
     sign: STOCK_SIGN_TYPE = KisAny(lambda x: STOCK_SIGN_TYPE_MAP[x])["prdy_vrss_sign"]
     """전일대비 부호"""
 
-    ex_date_type: ExDateType = KisAny(lambda x: EX_DATE_TYPE_CODE_MAP[x])["flng_cls_code"]
+    ex_date_type: ExDateType = KisAny(lambda x: EX_DATE_TYPE_CODE_MAP.get(x, ExDateType.NONE))[
+        "flng_cls_code"
+    ]
     """락 구분"""
     split_ratio: Decimal = KisDecimal["prtt_rate"]
     """분할 비율"""

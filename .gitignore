@@ -1,6 +1,7 @@
 test.py
 test-*.py
 test.ipynb
+test-*.ipynb
 __pycache__
 .vscode
 build/
