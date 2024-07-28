@@ -1,4 +1,5 @@
 test.py
+test-*.py
 test.ipynb
 __pycache__
 .vscode
