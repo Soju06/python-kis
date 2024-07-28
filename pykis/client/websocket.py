@@ -24,7 +24,7 @@ from pykis.client.messaging import (
     KisWebsocketRequest,
     KisWebsocketTR,
 )
-from pykis.client.object import KisObjectBase
+from pykis.client.object import KisObjectBase, kis_object_init
 from pykis.event.filters.subscription import KisSubscriptionEventFilter
 from pykis.event.handler import (
     KisEventFilter,
@@ -556,8 +556,7 @@ class KisWebsocketClient:
                 response_type=response_type,
             ):
                 if isinstance(response, KisObjectBase):
-                    response.__kis_init__(self.kis)
-                    response.__kis_post_init__()
+                    kis_object_init(self.kis, response)
 
                 try:
                     self.event.invoke(

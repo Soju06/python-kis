@@ -6,6 +6,7 @@ if TYPE_CHECKING:
 __all__ = [
     "KisObjectProtocol",
     "KisObjectBase",
+    "kis_object_init",
 ]
 
 
@@ -58,3 +59,8 @@ class KisObjectBase:
             object.__kis_post_init__()
         elif object is not None:
             raise ValueError(f"Invalid object type: {type(object)}")
+
+
+def kis_object_init(kis: "PyKis", object: KisObjectBase):
+    object.__kis_init__(kis)
+    object.__kis_post_init__()

@@ -54,12 +54,12 @@ class KisOrderBook(KisProductProtocol, Protocol):
         raise NotImplementedError
 
     @property
-    def ask(self) -> list[KisOrderBookItem]:
+    def asks(self) -> list[KisOrderBookItem]:
         """매도호가"""
         raise NotImplementedError
 
     @property
-    def bid(self) -> list[KisOrderBookItem]:
+    def bids(self) -> list[KisOrderBookItem]:
         """매수호가"""
         raise NotImplementedError
 
@@ -153,24 +153,24 @@ class KisOrderBookBase(KisOrderBookRepr, KisProductBase):
     decimal_places: int
     """소수점 자리수"""
 
-    ask: list[KisOrderBookItem]
+    asks: list[KisOrderBookItem]
     """매도호가"""
-    bid: list[KisOrderBookItem]
+    bids: list[KisOrderBookItem]
     """매수호가"""
 
     @property
     def count(self) -> int:
-        return min(len(self.ask), len(self.bid))
+        return min(len(self.asks), len(self.bids))
 
     @property
     def ask_price(self) -> KisOrderBookItem:
         """매도 1호가"""
-        return self.ask[0]
+        return self.asks[0]
 
     @property
     def bid_price(self) -> KisOrderBookItem:
         """매수 1호가"""
-        return self.bid[0]
+        return self.bids[0]
 
     @property
     def ask_volume(self) -> int:
@@ -204,7 +204,7 @@ class KisDomesticOrderBook(KisAPIResponse, KisOrderBookBase):
     decimal_places: int = 1
     """소수점 자리수"""
 
-    ask: list[KisOrderBookItem] = KisTransform(
+    asks: list[KisOrderBookItem] = KisTransform(
         lambda x: [
             KisDomesticOrderBookItem(
                 price=Decimal(x[f"askp{i}"]),
@@ -214,7 +214,7 @@ class KisDomesticOrderBook(KisAPIResponse, KisOrderBookBase):
         ]
     )()  # type: ignore
     """매도호가"""
-    bid: list[KisOrderBookItem] = KisTransform(
+    bids: list[KisOrderBookItem] = KisTransform(
         lambda x: [
             KisDomesticOrderBookItem(
                 price=Decimal(x[f"bidp{i}"]),
@@ -262,9 +262,9 @@ class KisForeignOrderBook(KisAPIResponse, KisOrderBookBase):
     decimal_places: int = KisInt["zdiv"]
     """소수점 자리수"""
 
-    ask: list[KisOrderBookItem]  # __pre_init__ 에서 초기화
+    asks: list[KisOrderBookItem]  # __pre_init__ 에서 초기화
     """매도호가"""
-    bid: list[KisOrderBookItem]  # __pre_init__ 에서 초기화
+    bids: list[KisOrderBookItem]  # __pre_init__ 에서 초기화
     """매수호가"""
 
     def __init__(self, symbol: str, market: MARKET_TYPE):
@@ -286,14 +286,14 @@ class KisForeignOrderBook(KisAPIResponse, KisOrderBookBase):
         output2 = data["output2"]
         count = 10 if self.market in ["NASD", "NYSE"] else 1  # 미국외 시장은 1호가만 제공
 
-        self.ask = [
+        self.asks = [
             KisForeignOrderBookItem(
                 price=Decimal(output2[f"pask{i}"]),
                 volume=int(output2[f"vask{i}"]),
             )
             for i in range(1, 1 + count)
         ]
-        self.bid = [
+        self.bids = [
             KisForeignOrderBookItem(
                 price=Decimal(output2[f"pbid{i}"]),
                 volume=int(output2[f"vbid{i}"]),
