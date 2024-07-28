@@ -3,7 +3,7 @@ from datetime import timedelta
 from os import PathLike
 from pathlib import Path
 from time import sleep
-from typing import Callable, Iterable, Literal
+from typing import Callable, Iterable, Literal, overload
 from urllib.parse import urljoin
 
 import requests
@@ -67,66 +67,26 @@ class PyKis:
         """API 접속 토큰 자동 저장 여부"""
         return self._keep_token is not None
 
+    @overload
     def __init__(
         self,
         auth: str | PathLike[str] | KisAuth | None = None,
-        virtual_auth: str | PathLike[str] | KisAuth | None = None,
         /,
         *,
-        account: str | KisAccountNumber | None = None,
-        id: str | None = None,
-        appkey: str | KisKey | None = None,
-        secretkey: str | None = None,
         token: KisAccessToken | str | PathLike[str] | None = None,
-        virtual_id: str | None = None,
-        virtual_appkey: str | KisKey | None = None,
-        virtual_secretkey: str | None = None,
-        virtual_token: KisAccessToken | str | PathLike[str] | None = None,
-        use_websocket: bool = True,
         keep_token: bool | str | PathLike[str] | None = None,
+        use_websocket: bool = True,
     ):
         """
-        한국투자증권 API를 생성합니다.
+        `KisAuth` 인증 정보를 이용하여 실전투자용 한국투자증권 API를 생성합니다.
 
         Args:
             auth (str | PathLike[str] | KisAuth | None, optional): 실전도메인 인증 정보.
-            virtual_auth (str | PathLike[str] | KisAuth | None, optional): 모의도메인 인증 정보.
-            id (str | None, optional): API ID.
-            appkey (str | KisKey | None, optional): API 실전도메인 AppKey.
-            secretkey (str | None, optional): API 실전도메인 SecretKey.
             token (KisAccessToken | str | PathLike[str] | None, optional): 실전도메인 API 접속 토큰.
-            virtual_id (str | None, optional): 모의도메인 API ID.
-            virtual_appkey (str | KisKey | None, optional): 모의도메인 API AppKey.
-            virtual_secretkey (str | None, optional): 모의도메인 API SecretKey.
-            account (str | KisAccountNumber | None, optional): 계좌번호.
-            virtual_token (KisAccessToken | str | PathLike[str] | None, optional): 모의도메인 API 접속 토큰.
-            use_websocket (bool, optional): 웹소켓 사용 여부.
             keep_token (bool | str | PathLike[str] | None, optional): API 접속 토큰을 저장할지 여부. 기본 저장 폴더: `~/.pykis/` (신뢰할 수 없는 환경에서 사용하지 마세요)
+            use_websocket (bool, optional): 웹소켓 사용 여부.
 
         Examples:
-
-            인증 정보를 입력하여 PyKis 객체를 생성합니다.
-
-            >>> kis = PyKis(
-            ...     id="soju06",                        # HTS 로그인 ID
-            ...     account="00000000-01",              # 계좌번호
-            ...     appkey="PSED321z...",               # AppKey 36자리
-            ...     secretkey="RR0sFMVB...",            # SecretKey 180자리
-            ...     keep_token=True,                    # API 접속 토큰 자동 저장
-            ... )
-
-            인증 정보를 입력하여 모의 투자용 PyKis 객체를 생성합니다.
-
-            >>> kis = PyKis(
-            ...     id="soju06",                        # HTS 로그인 ID
-            ...     account="00000000-01",              # 모의투자 계좌번호
-            ...     appkey="PSED321z...",               # 실전투자 AppKey 36자리
-            ...     secretkey="RR0sFMVB...",            # 실전투자 SecretKey 180자리
-            ...     virtual_id="soju06",                # 모의투자 HTS 로그인 ID
-            ...     virtual_appkey="PSED321z...",       # 모의투자 AppKey 36자리
-            ...     virtual_secretkey="RR0sFMVB...",    # 모의투자 SecretKey 180자리
-            ...     keep_token=True,                    # API 접속 토큰 자동 저장
-            ... )
 
             파일로 저장된 인증 정보를 불러와 PyKis 객체를 생성합니다.
 
@@ -150,6 +110,238 @@ class PyKis:
         Raises:
             ValueError: 인증 정보가 올바르지 않을 경우
         """
+        ...
+
+    @overload
+    def __init__(
+        self,
+        auth: str | PathLike[str] | KisAuth | None = None,
+        virtual_auth: str | PathLike[str] | KisAuth | None = None,
+        /,
+        *,
+        token: KisAccessToken | str | PathLike[str] | None = None,
+        virtual_token: KisAccessToken | str | PathLike[str] | None = None,
+        keep_token: bool | str | PathLike[str] | None = None,
+        use_websocket: bool = True,
+    ):
+        """
+        `KisAuth` 인증 정보를 이용하여 모의투자용 한국투자증권 API를 생성합니다.
+
+        Args:
+            auth (str | PathLike[str] | KisAuth | None, optional): 실전도메인 인증 정보.
+            virtual_auth (str | PathLike[str] | KisAuth | None, optional): 모의도메인 인증 정보.
+            token (KisAccessToken | str | PathLike[str] | None, optional): 실전도메인 API 접속 토큰.
+            virtual_token (KisAccessToken | str | PathLike[str] | None, optional): 모의도메인 API 접속 토큰.
+            keep_token (bool | str | PathLike[str] | None, optional): API 접속 토큰을 저장할지 여부. 기본 저장 폴더: `~/.pykis/` (신뢰할 수 없는 환경에서 사용하지 마세요)
+            use_websocket (bool, optional): 웹소켓 사용 여부.
+
+        Examples:
+
+            먼저, 실전투자 인증 정보를 저장합니다.
+
+            >>> real_auth = KisAuth(
+            ...     id="soju06",                # HTS 로그인 ID
+            ...     account="00000000-01",      # 계좌번호
+            ...     appkey="PSED321z...",       # AppKey 36자리
+            ...     secretkey="RR0sFMVB...",    # SecretKey 180자리
+            ... )
+            >>> real_auth.save("pykis_real_auth.json")
+
+            그 다음, 모의투자 인증 정보를 저장합니다.
+
+            >>> virtual_auth = KisAuth(
+            ...     id="soju06",                # 모의투자 HTS 로그인 ID
+            ...     account="00000000-01",      # 모의투자 계좌번호
+            ...     appkey="PSED321z...",       # 모의투자 AppKey 36자리
+            ...     secretkey="RR0sFMVB...",    # 모의투자 SecretKey 180자리
+            ...     virtual=True,               # 모의투자 여부
+            ... )
+            >>> virtual_auth.save("pykis_virtual_auth.json")
+
+            그 후, 저장된 인증 정보를 불러와 PyKis 객체를 생성합니다.
+
+            >>> kis = PyKis(
+            ...     "pykis_real_auth.json",     # 실전투자 인증 정보 파일 경로
+            ...     "pykis_virtual_auth.json",  # 모의투자 인증 정보 파일 경로
+            ...     keep_token=True             # API 접속 토큰 자동 저장
+            ... )
+
+        Raises:
+            ValueError: 인증 정보가 올바르지 않을 경우
+        """
+        ...
+
+    @overload
+    def __init__(
+        self,
+        /,
+        *,
+        id: str | None = None,
+        account: str | KisAccountNumber | None = None,
+        appkey: str | KisKey | None = None,
+        secretkey: str | None = None,
+        token: KisAccessToken | str | PathLike[str] | None = None,
+        keep_token: bool | str | PathLike[str] | None = None,
+        use_websocket: bool = True,
+    ):
+        """
+        실전투자용 한국투자증권 API를 생성합니다.
+
+        Args:
+            id (str | None, optional): API ID.
+            account (str | KisAccountNumber | None, optional): 계좌번호.
+            appkey (str | KisKey | None, optional): API 실전도메인 AppKey.
+            secretkey (str | None, optional): API 실전도메인 SecretKey.
+            token (KisAccessToken | str | PathLike[str] | None, optional): 실전도메인 API 접속 토큰.
+            keep_token (bool | str | PathLike[str] | None, optional): API 접속 토큰을 저장할지 여부. 기본 저장 폴더: `~/.pykis/` (신뢰할 수 없는 환경에서 사용하지 마세요)
+            use_websocket (bool, optional): 웹소켓 사용 여부.
+
+        Examples:
+
+            인증 정보를 입력하여 PyKis 객체를 생성합니다.
+
+            >>> kis = PyKis(
+            ...     id="soju06",                        # HTS 로그인 ID
+            ...     account="00000000-01",              # 계좌번호
+            ...     appkey="PSED321z...",               # AppKey 36자리
+            ...     secretkey="RR0sFMVB...",            # SecretKey 180자리
+            ...     keep_token=True,                    # API 접속 토큰 자동 저장
+            ... )
+
+        Raises:
+            ValueError: 인증 정보가 올바르지 않을 경우
+        """
+        ...
+
+    @overload
+    def __init__(
+        self,
+        /,
+        *,
+        id: str | None = None,
+        account: str | KisAccountNumber | None = None,
+        appkey: str | KisKey | None = None,
+        secretkey: str | None = None,
+        token: KisAccessToken | str | PathLike[str] | None = None,
+        virtual_id: str | None = None,
+        virtual_appkey: str | KisKey | None = None,
+        virtual_secretkey: str | None = None,
+        virtual_token: KisAccessToken | str | PathLike[str] | None = None,
+        keep_token: bool | str | PathLike[str] | None = None,
+        use_websocket: bool = True,
+    ):
+        """
+        모의투자용 한국투자증권 API를 생성합니다.
+
+        Args:
+            id (str | None, optional): API ID.
+            appkey (str | KisKey | None, optional): API 실전도메인 AppKey.
+            secretkey (str | None, optional): API 실전도메인 SecretKey.
+            token (KisAccessToken | str | PathLike[str] | None, optional): 실전도메인 API 접속 토큰.
+            virtual_id (str | None, optional): 모의도메인 API ID.
+            virtual_appkey (str | KisKey | None, optional): 모의도메인 API AppKey.
+            virtual_secretkey (str | None, optional): 모의도메인 API SecretKey.
+            account (str | KisAccountNumber | None, optional): 계좌번호.
+            virtual_token (KisAccessToken | str | PathLike[str] | None, optional): 모의도메인 API 접속 토큰.
+            keep_token (bool | str | PathLike[str] | None, optional): API 접속 토큰을 저장할지 여부. 기본 저장 폴더: `~/.pykis/` (신뢰할 수 없는 환경에서 사용하지 마세요)
+            use_websocket (bool, optional): 웹소켓 사용 여부.
+
+        Examples:
+
+            인증 정보를 입력하여 모의 투자용 PyKis 객체를 생성합니다.
+
+            >>> kis = PyKis(
+            ...     id="soju06",                        # HTS 로그인 ID
+            ...     account="00000000-01",              # 모의투자 계좌번호
+            ...     appkey="PSED321z...",               # 실전투자 AppKey 36자리
+            ...     secretkey="RR0sFMVB...",            # 실전투자 SecretKey 180자리
+            ...     virtual_id="soju06",                # 모의투자 HTS 로그인 ID
+            ...     virtual_appkey="PSED321z...",       # 모의투자 AppKey 36자리
+            ...     virtual_secretkey="RR0sFMVB...",    # 모의투자 SecretKey 180자리
+            ...     keep_token=True,                    # API 접속 토큰 자동 저장
+            ... )
+
+        Raises:
+            ValueError: 인증 정보가 올바르지 않을 경우
+        """
+        ...
+
+    @overload
+    def __init__(
+        self,
+        auth: str | PathLike[str] | KisAuth | None = None,
+        /,
+        *,
+        account: str | KisAccountNumber | None = None,
+        token: KisAccessToken | str | PathLike[str] | None = None,
+        virtual_id: str | None = None,
+        virtual_appkey: str | KisKey | None = None,
+        virtual_secretkey: str | None = None,
+        virtual_token: KisAccessToken | str | PathLike[str] | None = None,
+        keep_token: bool | str | PathLike[str] | None = None,
+        use_websocket: bool = True,
+    ):
+        """
+        `KisAuth` 인증 정보를 이용하여 모의투자용 한국투자증권 API를 생성합니다.
+
+        Args:
+            auth (str | PathLike[str] | KisAuth | None, optional): 실전도메인 인증 정보.
+            account (str | KisAccountNumber | None, optional): 계좌번호.
+            token (KisAccessToken | str | PathLike[str] | None, optional): 실전도메인 API 접속 토큰.
+            virtual_id (str | None, optional): 모의도메인 API ID.
+            virtual_appkey (str | KisKey | None, optional): 모의도메인 API AppKey.
+            virtual_secretkey (str | None, optional): 모의도메인 API SecretKey.
+            virtual_token (KisAccessToken | str | PathLike[str] | None, optional): 모의도메인 API 접속 토큰.
+            keep_token (bool | str | PathLike[str] | None, optional): API 접속 토큰을 저장할지 여부. 기본 저장 폴더: `~/.pykis/` (신뢰할 수 없는 환경에서 사용하지 마세요)
+            use_websocket (bool, optional): 웹소켓 사용 여부.
+
+        Examples:
+
+            파일로 저장된 인증 정보를 불러와 모의투자용 PyKis 객체를 생성합니다.
+
+            먼저, 실전투자 인증 정보를 저장합니다.
+
+            >>> real_auth = KisAuth(
+            ...     id="soju06",                        # HTS 로그인 ID
+            ...     account="00000000-01",              # 모의투자 계좌번호
+            ...     appkey="PSED321z...",               # AppKey 36자리
+            ...     secretkey="RR0sFMVB...",            # SecretKey 180자리
+            ... )
+            >>> real_auth.save("pykis_real_auth.json")
+
+            그 후, 저장된 인증 정보를 불러와 모의투자용 PyKis 객체를 생성합니다.
+
+            >>> kis = PyKis(
+            ...     "pykis_real_auth.json",             # 실전투자 인증 정보 파일 경로
+            ...     virtual_id="soju06",                # 모의투자 HTS 로그인 ID
+            ...     virtual_appkey="PSED321z...",       # 모의투자 AppKey 36자리
+            ...     virtual_secretkey="RR0sFMVB...",    # 모의투자 SecretKey 180자리
+            ...     keep_token=True,                    # API 접속 토큰 자동 저장
+            ... )
+
+        Raises:
+            ValueError: 인증 정보가 올바르지 않을 경우
+        """
+        ...
+
+    def __init__(
+        self,
+        auth: str | PathLike[str] | KisAuth | None = None,
+        virtual_auth: str | PathLike[str] | KisAuth | None = None,
+        /,
+        *,
+        account: str | KisAccountNumber | None = None,
+        id: str | None = None,
+        appkey: str | KisKey | None = None,
+        secretkey: str | None = None,
+        token: KisAccessToken | str | PathLike[str] | None = None,
+        virtual_id: str | None = None,
+        virtual_appkey: str | KisKey | None = None,
+        virtual_secretkey: str | None = None,
+        virtual_token: KisAccessToken | str | PathLike[str] | None = None,
+        use_websocket: bool = True,
+        keep_token: bool | str | PathLike[str] | None = None,
+    ):
         if auth is not None:
             if not isinstance(auth, KisAuth):
                 auth = KisAuth.load(auth)
