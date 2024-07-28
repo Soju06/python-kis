@@ -457,7 +457,7 @@ class KisWebsocketClient:
         key: str | None = header.get("tr_key")
 
         if id == "PINGPONG":
-            logging.logger.debug("RTC Received PINGPONG")
+            # logging.logger.debug("RTC Received PINGPONG")
             self.websocket.send(json.dumps(data))
             return
 

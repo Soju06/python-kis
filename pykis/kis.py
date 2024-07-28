@@ -1,5 +1,8 @@
+import hashlib
 from datetime import timedelta
 from os import PathLike
+from pathlib import Path
+from time import sleep
 from typing import Callable, Iterable, Literal
 from urllib.parse import urljoin
 
@@ -27,6 +30,7 @@ from pykis.responses.dynamic import KisObject, TDynamic
 from pykis.responses.types import KisDynamicDict
 from pykis.utils.rate_limit import RateLimiter
 from pykis.utils.thread_safe import thread_safe
+from pykis.utils.workspace import get_cache_path
 
 
 class PyKis:
@@ -55,6 +59,13 @@ class PyKis:
     """API 접속 토큰"""
     _websocket: KisWebsocketClient | None
     """웹소켓 클라이언트"""
+    _keep_token: Path | None
+    """API 접속 토큰 자동 저장 경로"""
+
+    @property
+    def keep_token(self) -> bool:
+        """API 접속 토큰 자동 저장 여부"""
+        return self._keep_token is not None
 
     def __init__(
         self,
@@ -72,6 +83,7 @@ class PyKis:
         virtual_secretkey: str | None = None,
         virtual_token: KisAccessToken | str | PathLike[str] | None = None,
         use_websocket: bool = True,
+        keep_token: bool | str | PathLike[str] | None = None,
     ):
         """
         한국투자증권 API를 생성합니다.
@@ -88,9 +100,56 @@ class PyKis:
             virtual_secretkey (str | None, optional): 모의도메인 API SecretKey.
             account (str | KisAccountNumber | None, optional): 계좌번호.
             virtual_token (KisAccessToken | str | PathLike[str] | None, optional): 모의도메인 API 접속 토큰.
-            use_websocket (bool, optional): 웹소켓 사용 여부. Defaults to True.
+            use_websocket (bool, optional): 웹소켓 사용 여부.
+            keep_token (bool | str | PathLike[str] | None, optional): API 접속 토큰을 저장할지 여부. 기본 저장 폴더: `~/.pykis/` (신뢰할 수 없는 환경에서 사용하지 마세요)
+
+        Examples:
+
+            인증 정보를 입력하여 PyKis 객체를 생성합니다.
+
+            >>> kis = PyKis(
+            ...     id="soju06",                        # HTS 로그인 ID
+            ...     account="00000000-01",              # 계좌번호
+            ...     appkey="PSED321z...",               # AppKey 36자리
+            ...     secretkey="RR0sFMVB...",            # SecretKey 180자리
+            ...     keep_token=True,                    # API 접속 토큰 자동 저장
+            ... )
+
+            인증 정보를 입력하여 모의 투자용 PyKis 객체를 생성합니다.
+
+            >>> kis = PyKis(
+            ...     id="soju06",                        # HTS 로그인 ID
+            ...     account="00000000-01",              # 모의투자 계좌번호
+            ...     appkey="PSED321z...",               # 실전투자 AppKey 36자리
+            ...     secretkey="RR0sFMVB...",            # 실전투자 SecretKey 180자리
+            ...     virtual_id="soju06",                # 모의투자 HTS 로그인 ID
+            ...     virtual_appkey="PSED321z...",       # 모의투자 AppKey 36자리
+            ...     virtual_secretkey="RR0sFMVB...",    # 모의투자 SecretKey 180자리
+            ...     keep_token=True,                    # API 접속 토큰 자동 저장
+            ... )
+
+            파일로 저장된 인증 정보를 불러와 PyKis 객체를 생성합니다.
+
+            먼저, 인증 정보를 저장합니다.
+
+            >>> auth = KisAuth(
+            ...     id="soju06",                # HTS 로그인 ID
+            ...     account="00000000-01",      # 계좌번호
+            ...     appkey="PSED321z...",       # AppKey 36자리
+            ...     secretkey="RR0sFMVB...",    # SecretKey 180자리
+            ... )
+            >>> auth.save("pykis_auth.json")
+
+            그 후, 저장된 인증 정보를 불러와 PyKis 객체를 생성합니다.
+
+            >>> kis = PyKis(
+            ...     "pykis_auth.json",          # 인증 정보 파일 경로
+            ...     keep_token=True             # API 접속 토큰 자동 저장
+            ... )
+
+        Raises:
+            ValueError: 인증 정보가 올바르지 않을 경우
         """
-        # TODO: add code examples
         if auth is not None:
             if not isinstance(auth, KisAuth):
                 auth = KisAuth.load(auth)
@@ -171,6 +230,75 @@ class PyKis:
             if isinstance(virtual_token, KisAccessToken)
             else KisAccessToken.load(virtual_token) if self.virtual and virtual_token else None
         )
+
+        if keep_token:
+            if keep_token is True:
+                keep_token = get_cache_path()
+
+            self._keep_token = Path(keep_token).resolve()
+            self._load_cached_token(self._keep_token)
+        else:
+            self._keep_token = None
+
+    def _get_hashed_token_name(self, domain: Literal["real", "virtual"]) -> str:
+        appkey = self.appkey if domain == "real" else self.virtual_appkey
+
+        if appkey is None:
+            raise ValueError("모의도메인 AppKey가 없습니다.")
+
+        hash = hashlib.sha1(f"pykis{appkey.id}{appkey.appkey}{appkey.secretkey}token".encode()).hexdigest()
+
+        return f"token_{domain}_{self.appkey.id}_{hash}.json"
+
+    def _load_cached_token(self, token_dir: str | PathLike[str] | Path):
+        if not isinstance(token_dir, Path):
+            token_dir = Path(token_dir)
+
+        token_dir = token_dir.resolve()
+        virtual_token_path = token_dir / self._get_hashed_token_name("real")
+
+        if virtual_token_path.exists():
+            try:
+                self.token = KisAccessToken.load(virtual_token_path)
+                logging.logger.debug(f"실전도메인 API 접속 토큰을 불러왔습니다.")
+            except:
+                pass
+
+        if self.virtual:
+            virtual_token_path = token_dir / self._get_hashed_token_name("virtual")
+
+            if virtual_token_path.exists():
+                try:
+                    self.primary_token = KisAccessToken.load(virtual_token_path)
+                    logging.logger.debug(f"모의도메인 API 접속 토큰을 불러왔습니다.")
+                except:
+                    pass
+
+    def _save_cached_token(
+        self,
+        token_dir: str | PathLike[str] | Path,
+        domain: Literal["real", "virtual"] | None = None,
+        force: bool = False,
+    ):
+        if not isinstance(token_dir, Path):
+            token_dir = Path(token_dir)
+
+        token_dir = token_dir.resolve()
+        token_dir.mkdir(parents=True, exist_ok=True)
+
+        if domain is None or domain == "real":
+            token = self.token if force else self._token
+
+            if token is not None:
+                token.save(token_dir / self._get_hashed_token_name("real"))
+                logging.logger.debug(f"실전도메인 API 접속 토큰을 저장했습니다.")
+
+        if self.virtual and (domain is None or domain == "virtual"):
+            virtual_token = self.primary_token if force else self._virtual_token
+
+            if virtual_token is not None:
+                virtual_token.save(token_dir / self._get_hashed_token_name("virtual"))
+                logging.logger.debug(f"모의도메인 API 접속 토큰을 저장했습니다.")
 
     def _rate_limit_exceeded(self):
         logging.logger.warning("API 호출 횟수를 초과하여 호출 유량 획득까지 대기합니다.")
@@ -253,6 +381,7 @@ class PyKis:
                 raise KisHTTPError(response=resp)
 
             logging.logger.warning("API 호출 횟수를 초과하였습니다.")
+            sleep(0.1)
 
     def fetch(
         self,
@@ -333,6 +462,9 @@ class PyKis:
             self._token = token_issue(self, domain="real")
             logging.logger.debug(f"실전도메인 API 접속 토큰을 발급했습니다.")
 
+            if self._keep_token:
+                self._save_cached_token(self._keep_token, domain="real", force=False)
+
         return self._token
 
     @token.setter
@@ -353,6 +485,9 @@ class PyKis:
 
             self._virtual_token = token_issue(self, domain="virtual")
             logging.logger.debug(f"모의도메인 API 접속 토큰을 발급했습니다.")
+
+            if self._keep_token:
+                self._save_cached_token(self._keep_token, domain="virtual", force=False)
 
         return self._virtual_token
 

@@ -22,7 +22,7 @@ class KisAuth:
     """앱 시크릿"""
     account: str
     """계좌번호"""
-    virtual: bool
+    virtual: bool = False
     """모의투자 여부"""
 
     @property
