@@ -1,9 +1,10 @@
 from datetime import time, tzinfo
 from enum import Flag
-from typing import Literal, Protocol, runtime_checkable
+from typing import Any, Literal, Protocol, runtime_checkable
 from zoneinfo import ZoneInfo
 
 from pykis.api.base.market import KisMarketBase, KisMarketProtocol
+from pykis.responses.dynamic import KisType, KisTypeMeta
 
 __all__ = [
     "MARKET_TYPE",
@@ -18,15 +19,15 @@ __all__ = [
 
 MARKET_TYPE = Literal[
     "KRX",
-    "NASD",
+    "NASDAQ",
     "NYSE",
     "AMEX",
-    "TKSE",
-    "SEHK",
-    "HASE",
-    "VNSE",
-    "SHAA",
-    "SZAA",
+    "TYO",
+    "HKEX",
+    "HNX",
+    "HSX",
+    "SSE",
+    "SZSE",
 ]
 """시장 종류"""
 
@@ -40,16 +41,41 @@ CURRENCY_TYPE = Literal[
 ]
 """통화 종류"""
 
+MARKET_CODE_MAP: dict[MARKET_TYPE, str] = {
+    "NASDAQ": "NASD",
+    "NYSE": "NYSE",
+    "AMEX": "AMEX",
+    "TYO": "TKSE",
+    "HKEX": "SEHK",
+    "HNX": "HASE",
+    "HSX": "VNSE",
+    "SSE": "SHAA",
+    "SZSE": "SZAA",
+}
+
+REVERSE_MARKET_CODE_MAP: dict[str, MARKET_TYPE] = {value: key for key, value in MARKET_CODE_MAP.items()}
+
+
+def get_market_code(market: MARKET_TYPE) -> str:
+    """시장 종류로 시장 코드 반환"""
+    return MARKET_CODE_MAP[market]
+
+
+def get_market_type(code: str) -> MARKET_TYPE:
+    """시장 코드로 시장 종류 반환"""
+    return REVERSE_MARKET_CODE_MAP[code]
+
+
 MARKET_SHORT_TYPE_MAP: dict[MARKET_TYPE, str] = {
-    "NASD": "NAS",
+    "NASDAQ": "NAS",
     "NYSE": "NYS",
     "AMEX": "AMS",
-    "TKSE": "TSE",
-    "SEHK": "HKS",
-    "HASE": "HNX",
-    "VNSE": "HSX",
-    "SHAA": "SHS",
-    "SZAA": "SZS",
+    "TYO": "TSE",
+    "HKEX": "HKS",
+    "HNX": "HNX",
+    "HSX": "HSX",
+    "SSE": "SHS",
+    "SZSE": "SZS",
 }
 
 REVERSE_MARKET_SHORT_TYPE_MAP: dict[str, MARKET_TYPE] = {
@@ -57,13 +83,13 @@ REVERSE_MARKET_SHORT_TYPE_MAP: dict[str, MARKET_TYPE] = {
 }
 
 DAYTIME_MARKETS = {
-    "NASD",
+    "NASDAQ",
     "NYSE",
     "AMEX",
 }
 
 DAYTIME_MARKET_SHORT_TYPE_MAP: dict[MARKET_TYPE, str] = {
-    "NASD": "BAQ",
+    "NASDAQ": "BAQ",
     "NYSE": "BAY",
     "AMEX": "BAA",
 }
@@ -75,15 +101,15 @@ REVERSE_DAYTIME_MARKET_SHORT_TYPE_MAP: dict[str, MARKET_TYPE] = {
 MARKET_TYPE_KOR_MAP: dict[MARKET_TYPE | None, str] = {
     None: "전체",
     "KRX": "국내",
-    "NASD": "나스닥",
+    "NASDAQ": "나스닥",
     "NYSE": "뉴욕",
     "AMEX": "아멕스",
-    "TKSE": "일본",
-    "SEHK": "홍콩",
-    "HASE": "하노이",
-    "VNSE": "호치민",
-    "SHAA": "상해",
-    "SZAA": "심천",
+    "TYO": "일본",
+    "HKEX": "홍콩",
+    "HNX": "하노이",
+    "HSX": "호치민",
+    "SSE": "상하이",
+    "SZSE": "심천",
 }
 
 
@@ -94,15 +120,15 @@ def get_market_name(market: MARKET_TYPE | None) -> str:
 
 MARKET_CURRENCY_MAP: dict[MARKET_TYPE, CURRENCY_TYPE] = {
     "KRX": "KRW",
-    "NASD": "USD",
+    "NASDAQ": "USD",
     "NYSE": "USD",
     "AMEX": "USD",
-    "TKSE": "JPY",
-    "SEHK": "HKD",
-    "HASE": "VND",
-    "VNSE": "VND",
-    "SHAA": "CNY",
-    "SZAA": "CNY",
+    "TYO": "JPY",
+    "HKEX": "HKD",
+    "HNX": "VND",
+    "HSX": "VND",
+    "SSE": "CNY",
+    "SZSE": "CNY",
 }
 
 
@@ -113,15 +139,15 @@ def get_market_currency(market: MARKET_TYPE) -> CURRENCY_TYPE:
 
 MARKET_TIMEZONE_MAP = {
     "KRX": "Asia/Seoul",
-    "NASD": "America/New_York",
+    "NASDAQ": "America/New_York",
     "NYSE": "America/New_York",
     "AMEX": "America/New_York",
-    "TKSE": "Asia/Tokyo",
-    "SEHK": "Asia/Hong_Kong",
-    "HASE": "Asia/Ho_Chi_Minh",
-    "VNSE": "Asia/Ho_Chi_Minh",
-    "SHAA": "Asia/Shanghai",
-    "SZAA": "Asia/Shanghai",
+    "TYO": "Asia/Tokyo",
+    "HKEX": "Asia/Hong_Kong",
+    "HNX": "Asia/Ho_Chi_Minh",
+    "HSX": "Asia/Ho_Chi_Minh",
+    "SSE": "Asia/Shanghai",
+    "SZSE": "Asia/Shanghai",
 }
 
 MARKET_TIMEZONE_OBJECT_MAP = {key: ZoneInfo(value) for key, value in MARKET_TIMEZONE_MAP.items()}
@@ -130,6 +156,11 @@ MARKET_TIMEZONE_OBJECT_MAP = {key: ZoneInfo(value) for key, value in MARKET_TIME
 def get_market_timezone(market: MARKET_TYPE) -> ZoneInfo:
     """시장 종류로 시간대 반환"""
     return MARKET_TIMEZONE_OBJECT_MAP[market]
+
+
+def get_market_code_timezone(market: str) -> ZoneInfo:
+    """시장 종류로 시간대 반환"""
+    return get_market_timezone(get_market_type(market))
 
 
 class ExDateType(Flag):
@@ -248,3 +279,16 @@ class KisTradingHoursBase(KisMarketBase):
     def market_name(self) -> str:
         """시장 종류"""
         return get_market_name(self.market)
+
+
+class KisMarketType(KisType[MARKET_TYPE], metaclass=KisTypeMeta[MARKET_TYPE]):
+    __default__ = []
+
+    def __init__(self):
+        super().__init__()
+
+    def transform(self, data: Any) -> MARKET_TYPE:
+        try:
+            return get_market_type(data)
+        except KeyError:
+            raise ValueError(f"올바르지 않은 시장 종류입니다: {data}")

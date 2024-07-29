@@ -19,7 +19,13 @@ from pykis.api.base.account_product import (
     KisAccountProductProtocol,
 )
 from pykis.api.stock.info import COUNTRY_TYPE, get_market_country
-from pykis.api.stock.market import MARKET_TYPE, get_market_timezone
+from pykis.api.stock.market import (
+    MARKET_TYPE,
+    KisMarketType,
+    get_market_code,
+    get_market_code_timezone,
+    get_market_timezone,
+)
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList
@@ -433,7 +439,7 @@ class KisForeignPendingOrder(KisDynamic, KisPendingOrderBase):
 
     symbol: str = KisString["pdno"]
     """종목코드"""
-    market: MARKET_TYPE = KisString["ovrs_excg_cd"]
+    market: MARKET_TYPE = KisMarketType["ovrs_excg_cd"]
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -442,7 +448,7 @@ class KisForeignPendingOrder(KisDynamic, KisPendingOrderBase):
     """주문시각"""
     time_kst: datetime
     """주문시각(KST)"""
-    timezone: ZoneInfo = KisAny(get_market_timezone)["ovrs_excg_cd"]
+    timezone: ZoneInfo = KisAny(get_market_code_timezone)["ovrs_excg_cd"]
     """시간대"""
 
     order_number: KisOrder
@@ -666,7 +672,7 @@ def _foreign_pending_orders(
             "/uapi/overseas-stock/v1/trading/inquire-nccs",
             api="VTTS3018R" if self.virtual else "TTTS3018R",
             params={
-                "OVRS_EXCG_CD": market or "",
+                "OVRS_EXCG_CD": get_market_code(market) if market is not None else "",
                 "SORT_SQN": "DS" if self.virtual else "",
             },
             form=[
@@ -695,11 +701,11 @@ def _foreign_pending_orders(
 FOREIGN_COUNTRY_MARKET_MAP: dict[str | None, list[MARKET_TYPE | None]] = {
     # 국가코드 -> 조회시장코드
     None: [None],
-    "US": ["NASD"],
-    "HK": ["SEHK"],
-    "CN": ["SHAA", "SZAA"],
-    "JP": ["TKSE"],
-    "VN": ["VNSE", "HASE"],
+    "US": ["NASDAQ"],
+    "HK": ["HKEX"],
+    "CN": ["SSE", "SZSE"],
+    "JP": ["TYO"],
+    "VN": ["HSX", "HNX"],
 }
 
 

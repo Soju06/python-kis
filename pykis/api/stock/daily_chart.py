@@ -51,7 +51,7 @@ class KisDomesticDailyChartBar(KisChartBarRepr, KisDynamic):
 
     change: Decimal = KisDecimal["prdy_vrss"]
     """전일대비"""
-    sign: STOCK_SIGN_TYPE = KisAny(lambda x: STOCK_SIGN_TYPE_MAP[x])["prdy_vrss_sign"]
+    sign: STOCK_SIGN_TYPE = KisAny(STOCK_SIGN_TYPE_MAP.__getitem__)["prdy_vrss_sign"]
     """전일대비 부호"""
 
     ex_date_type: ExDateType = KisAny(lambda x: EX_DATE_TYPE_CODE_MAP.get(x, ExDateType.NONE))[
@@ -135,7 +135,7 @@ class KisForeignDailyChartBar(KisChartBarRepr, KisDynamic):
 
     change: Decimal = KisDecimal["diff"]
     """전일대비"""
-    sign: STOCK_SIGN_TYPE = KisAny(lambda x: STOCK_SIGN_TYPE_MAP[x])["sign"]
+    sign: STOCK_SIGN_TYPE = KisAny(STOCK_SIGN_TYPE_MAP.__getitem__)["sign"]
     """전일대비 부호"""
 
     @property

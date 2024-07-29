@@ -411,9 +411,9 @@ class KisDomesticQuote(KisQuoteBase, KisAPIResponse):
     """거래대금"""
     market_cap: Decimal = KisDecimal["hts_avls"]
     """시가총액"""
-    sign: STOCK_SIGN_TYPE = KisAny(lambda x: STOCK_SIGN_TYPE_MAP[x])["prdy_vrss_sign"]
+    sign: STOCK_SIGN_TYPE = KisAny(STOCK_SIGN_TYPE_MAP.__getitem__)["prdy_vrss_sign"]
     """대비부호"""
-    risk: STOCK_RISK_TYPE = KisAny(lambda x: STOCK_RISK_TYPE_MAP[x])["mrkt_warn_cls_code"]
+    risk: STOCK_RISK_TYPE = KisAny(STOCK_RISK_TYPE_MAP.__getitem__)["mrkt_warn_cls_code"]
     """위험도"""
     halt: bool = KisBool["temp_stop_yn"]
     """거래정지"""
@@ -526,7 +526,7 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
     market_cap: Decimal = KisDecimal["tomv"]
     """시가총액"""
 
-    sign: STOCK_SIGN_TYPE = KisAny(lambda x: STOCK_SIGN_TYPE_MAP[x])["t_xsgn"]
+    sign: STOCK_SIGN_TYPE = KisAny(STOCK_SIGN_TYPE_MAP.__getitem__)["t_xsgn"]
     """대비부호"""
     risk: STOCK_RISK_TYPE = "none"
     """위험도"""

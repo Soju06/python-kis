@@ -284,7 +284,7 @@ class KisForeignOrderbook(KisAPIResponse, KisOrderbookBase):
             )
 
         output2 = data["output2"]
-        count = 10 if self.market in ["NASD", "NYSE"] else 1  # 미국외 시장은 1호가만 제공
+        count = 10 if self.market in ["NASDAQ", "NYSE"] else 1  # 미국외 시장은 1호가만 제공
 
         self.asks = [
             KisForeignOrderbookItem(

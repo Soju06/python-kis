@@ -17,7 +17,13 @@ from pykis.api.base.account_product import (
     KisAccountProductProtocol,
 )
 from pykis.api.stock.info import COUNTRY_TYPE
-from pykis.api.stock.market import MARKET_TYPE, get_market_timezone
+from pykis.api.stock.market import (
+    MARKET_TYPE,
+    KisMarketType,
+    get_market_code,
+    get_market_code_timezone,
+    get_market_timezone,
+)
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
@@ -322,13 +328,13 @@ DOMESTIC_EXCHANGE_CODE_MAP: dict[str, tuple[COUNTRY_TYPE, MARKET_TYPE | None, OR
     "07": ("KR", "KRX", None),
     "21": ("KR", "KRX", None),
     "51": ("HK", None, None),
-    "52": ("CN", "SHAA", None),
-    "53": ("CN", "SZAA", None),
+    "52": ("CN", "SSE", None),
+    "53": ("CN", "SZSE", None),
     "54": ("HK", None, None),
     "55": ("US", None, None),
-    "56": ("JP", "TKSE", None),
-    "57": ("CN", "SHAA", None),
-    "58": ("CN", "SZAA", None),
+    "56": ("JP", "TYO", None),
+    "57": ("CN", "SSE", None),
+    "58": ("CN", "SZSE", None),
     "59": ("VN", None, None),
     "61": ("KR", "KRX", "before"),
     "64": ("KR", "KRX", None),
@@ -469,12 +475,12 @@ class KisForeignDailyOrder(KisDynamic, KisDailyOrderBase):
         lambda x: datetime.strptime(x["ord_dt"] + x["ord_tmd"], "%Y%m%d%H%M%S").replace(tzinfo=TIMEZONE)
     )()
     """시간 (한국시간)"""
-    timezone: ZoneInfo = KisAny(get_market_timezone)["ovrs_excg_cd"]
+    timezone: ZoneInfo = KisAny(get_market_code_timezone)["ovrs_excg_cd"]
     """시간대"""
 
     symbol: str = KisString["pdno"]
     """종목코드"""
-    market: MARKET_TYPE = KisString["ovrs_excg_cd"]
+    market: MARKET_TYPE = KisMarketType["ovrs_excg_cd"]
     """상품유형타입"""
 
     account_number: KisAccountNumber
@@ -724,7 +730,7 @@ def _internal_foreign_daily_orders(
     account: str | KisAccountNumber,
     start: date,
     end: date,
-    market: str | None = None,
+    market: MARKET_TYPE | None = None,
     page: KisPage | None = None,
     continuous: bool = True,
 ) -> KisForeignDailyOrders:
@@ -747,7 +753,7 @@ def _internal_foreign_daily_orders(
                 "ORD_END_DT": end.strftime("%Y%m%d"),
                 "SLL_BUY_DVSN": "00",
                 "CCLD_NCCS_DVSN": "00",
-                "OVRS_EXCG_CD": ("" if self.virtual else "%") if market is None else market,
+                "OVRS_EXCG_CD": ("" if self.virtual else "%") if market is None else get_market_code(market),
                 "SORT_SQN": "DS",
                 "ORD_DT": "",
                 "ORD_GNO_BRNO": "",
@@ -779,11 +785,11 @@ def _internal_foreign_daily_orders(
 FOREIGN_COUNTRY_MARKET_MAP: dict[str | None, list[MARKET_TYPE | None]] = {
     # 국가코드 -> 조회시장코드
     None: [None],
-    "US": ["NASD"],
-    "HK": ["SEHK"],
-    "CN": ["SHAA", "SZAA"],
-    "JP": ["TKSE"],
-    "VN": ["VNSE", "HASE"],
+    "US": ["NASDAQ"],
+    "HK": ["HKEX"],
+    "CN": ["SSE", "SZSE"],
+    "JP": ["TYO"],
+    "VN": ["HSX", "HNX"],
 }
 
 

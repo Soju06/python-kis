@@ -447,7 +447,7 @@ class KisDomesticRealtimePrice(KisRealtimePriceBase):
         KisString["symbol"],  # 0 MKSC_SHRN_ISCD 유가증권 단축 종목코드
         None,  # 1 STCK_CNTG_HOUR 주식 체결 시간
         KisDecimal["price"],  # 2 STCK_PRPR 주식 현재가
-        KisAny(lambda x: STOCK_SIGN_TYPE_MAP[x])["sign"],  # 3 PRDY_VRSS_SIGN 전일 대비 부호
+        KisAny(STOCK_SIGN_TYPE_MAP.__getitem__)["sign"],  # 3 PRDY_VRSS_SIGN 전일 대비 부호
         KisDecimal["change"],  # 4 PRDY_VRSS 전일 대비
         None,  # 5 PRDY_CTRT 전일 대비율
         None,  # 6 WGHN_AVRG_STCK_PRC 가중 평균 주식 가격
@@ -478,7 +478,7 @@ class KisDomesticRealtimePrice(KisRealtimePriceBase):
         None,  # 31 LWPR_VRSS_PRPR_SIGN 저가대비구분
         None,  # 32 LWPR_VRSS_PRPR 저가대비
         None,  # 33 BSOP_DATE 영업 일자
-        KisAny(lambda x: DOMESTIC_REALTIME_PRICE_ORDER_CONDITION_MAP.get(x))[
+        KisAny(DOMESTIC_REALTIME_PRICE_ORDER_CONDITION_MAP.__getitem__)[
             "condition"
         ],  # 34 NEW_MKOP_CLS_CODE 신 장운영 구분 코드
         None,  # 35 TRHT_YN 거래정지 여부
@@ -629,7 +629,7 @@ class KisForeignRealtimePrice(KisRealtimePriceBase):
         KisDecimal["high"],  # 9 HIGH 고가
         KisDecimal["low"],  # 10 LOW 저가
         KisDecimal["price"],  # 11 LAST 현재가
-        KisAny(lambda x: STOCK_SIGN_TYPE_MAP[x])["sign"],  # 12 SIGN 대비구분
+        KisAny(STOCK_SIGN_TYPE_MAP.__getitem__)["sign"],  # 12 SIGN 대비구분
         KisDecimal["change"],  # 13 DIFF 전일대비
         None,  # 14 RATE 등락율
         KisDecimal["bid"],  # 15 PBID 매수호가
@@ -642,7 +642,7 @@ class KisForeignRealtimePrice(KisRealtimePriceBase):
         KisInt["sell_quantity"],  # 22 BIVL 매도체결량
         KisInt["buy_quantity"],  # 23 ASVL 매수체결량
         None,  # 24 STRN 체결강도
-        KisAny(lambda x: FOREIGN_REALTIME_PRICE_ORDER_CONDITION_MAP.get(x))[
+        KisAny(FOREIGN_REALTIME_PRICE_ORDER_CONDITION_MAP.get)[
             "condition"
         ],  # 25 MTYP 시장구분 1:장중,2:장전,3:장후
     ]
