@@ -5,7 +5,7 @@ from unittest import TestCase
 from pykis import PyKis
 from pykis.adapter.product.quote import KisQuotableProduct
 from pykis.api.stock.chart import KisChart, KisChartBar
-from pykis.api.stock.order_book import KisOrderBook, KisOrderBookItem
+from pykis.api.stock.order_book import KisOrderbook, KisOrderbookItem
 from pykis.api.stock.quote import KisQuote
 
 if TYPE_CHECKING:
@@ -31,23 +31,23 @@ class ProductQuoteTests(TestCase):
 
     def test_krx_orderbook(self):
         orderbook = self.pykis.stock("005930").orderbook()
-        self.assertTrue(isinstance(orderbook, KisOrderBook))
+        self.assertTrue(isinstance(orderbook, KisOrderbook))
 
         for ask in orderbook.asks:
-            self.assertTrue(isinstance(ask, KisOrderBookItem))
+            self.assertTrue(isinstance(ask, KisOrderbookItem))
 
         for bid in orderbook.bids:
-            self.assertTrue(isinstance(bid, KisOrderBookItem))
+            self.assertTrue(isinstance(bid, KisOrderbookItem))
 
     def test_nasd_orderbook(self):
         orderbook = self.pykis.stock("NVDA").orderbook()
-        self.assertTrue(isinstance(orderbook, KisOrderBook))
+        self.assertTrue(isinstance(orderbook, KisOrderbook))
 
         for ask in orderbook.asks:
-            self.assertTrue(isinstance(ask, KisOrderBookItem))
+            self.assertTrue(isinstance(ask, KisOrderbookItem))
 
         for bid in orderbook.bids:
-            self.assertTrue(isinstance(bid, KisOrderBookItem))
+            self.assertTrue(isinstance(bid, KisOrderbookItem))
 
     def test_krx_day_chart(self):
         chart = self.pykis.stock("005930").day_chart()

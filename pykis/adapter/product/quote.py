@@ -4,7 +4,7 @@ from typing import Literal, Protocol, runtime_checkable
 from pykis.api.account.order import ORDER_CONDITION
 from pykis.api.base.product import KisProductProtocol
 from pykis.api.stock.chart import KisChart
-from pykis.api.stock.order_book import KisOrderBookResponse
+from pykis.api.stock.order_book import KisOrderbookResponse
 from pykis.api.stock.quote import KisQuoteResponse
 from pykis.utils.timex import TIMEX_TYPE, timex
 
@@ -74,7 +74,7 @@ class KisQuotableProduct(Protocol):
     def orderbook(
         self,
         condition: ORDER_CONDITION | None = None,
-    ) -> KisOrderBookResponse:
+    ) -> KisOrderbookResponse:
         """
         한국투자증권 호가 조회
 

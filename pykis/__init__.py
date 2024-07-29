@@ -105,8 +105,8 @@ __all__ = [
     "KisAccountProtocol",
     "KisAccountProductProtocol",
     "KisStockInfo",
-    "KisOrderBook",
-    "KisOrderBookItem",
+    "KisOrderbook",
+    "KisOrderbookItem",
     "KisChartBar",
     "KisChart",
     "KisTradingHours",
@@ -124,7 +124,7 @@ __all__ = [
     "KisOrderableAmount",
     "KisPendingOrder",
     "KisPendingOrders",
-    "KisRealtimeOrderBook",
+    "KisRealtimeOrderbook",
     "KisRealtimeExecution",
     "KisRealtimePrice",
     ################################
@@ -140,7 +140,7 @@ __all__ = [
     ##        API Responses       ##
     ################################
     "KisStockInfoResponse",
-    "KisOrderBookResponse",
+    "KisOrderbookResponse",
     "KisQuoteResponse",
     "KisOrderableAmountResponse",
 ]
