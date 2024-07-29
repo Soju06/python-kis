@@ -34,12 +34,7 @@ from pykis.api.stock.info import (
     KisStockInfo,
     KisStockInfoResponse,
 )
-from pykis.api.stock.market import (
-    CURRENCY_TYPE,
-    MARKET_TYPE,
-    ExDateType,
-    KisTradingHours,
-)
+from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE, ExDateType
 from pykis.api.stock.order_book import (
     KisOrderbook,
     KisOrderbookItem,
@@ -52,6 +47,7 @@ from pykis.api.stock.quote import (
     KisQuote,
     KisQuoteResponse,
 )
+from pykis.api.stock.trading_hours import KisTradingHours
 from pykis.api.websocket.order_book import KisRealtimeOrderbook
 from pykis.api.websocket.order_execution import KisRealtimeExecution
 from pykis.api.websocket.price import KisRealtimePrice

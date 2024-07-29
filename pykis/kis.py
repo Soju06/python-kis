@@ -721,5 +721,6 @@ class PyKis:
 
         return self._websocket
 
+    from pykis.api.stock.trading_hours import trading_hours
     from pykis.scope.account import account
     from pykis.scope.stock import stock

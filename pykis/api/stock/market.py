@@ -1,9 +1,7 @@
-from datetime import time, tzinfo
 from enum import Flag
-from typing import Any, Literal, Protocol, runtime_checkable
+from typing import Any, Literal
 from zoneinfo import ZoneInfo
 
-from pykis.api.base.market import KisMarketBase, KisMarketProtocol
 from pykis.responses.dynamic import KisType, KisTypeMeta
 
 __all__ = [
@@ -13,7 +11,6 @@ __all__ = [
     "get_market_currency",
     "get_market_timezone",
     "ExDateType",
-    "KisTradingHours",
 ]
 
 
@@ -214,71 +211,6 @@ EX_DATE_TYPE_KOR_MAP = {
     ExDateType.INTERIM | ExDateType.EX_RIGHTS | ExDateType.EX_DIVIDEND: "중간/권리락/배당락",
     ExDateType.QUARTERLY | ExDateType.EX_RIGHTS | ExDateType.EX_DIVIDEND: "분기/권리락/배당락",
 }
-
-
-@runtime_checkable
-class KisTradingHours(KisMarketProtocol, Protocol):
-    """한국투자증권 장 운영 시간"""
-
-    @property
-    def market(self) -> MARKET_TYPE:
-        """시장 종류"""
-        raise NotImplementedError
-
-    @property
-    def open(self) -> time:
-        """장 시작 시간"""
-        raise NotImplementedError
-
-    @property
-    def open_kst(self) -> time:
-        """장 시작 시간 (한국시간)"""
-        raise NotImplementedError
-
-    @property
-    def close(self) -> time:
-        """장 종료 시간"""
-        raise NotImplementedError
-
-    @property
-    def close_kst(self) -> time:
-        """장 종료 시간 (한국시간)"""
-        raise NotImplementedError
-
-    @property
-    def timezone(self) -> tzinfo:
-        """시간대"""
-        raise NotImplementedError
-
-    @property
-    def market_name(self) -> str:
-        """시장 종류"""
-        raise NotImplementedError
-
-
-class KisTradingHoursBase(KisMarketBase):
-    """한국투자증권 장 운영 시간"""
-
-    market: MARKET_TYPE
-    """시장 종류"""
-    open: time
-    """장 시작 시간"""
-    open_kst: time
-    """장 시작 시간 (한국시간)"""
-    close: time
-    """장 종료 시간"""
-    close_kst: time
-    """장 종료 시간 (한국시간)"""
-
-    @property
-    def timezone(self) -> tzinfo:
-        """시간대"""
-        return get_market_timezone(self.market)
-
-    @property
-    def market_name(self) -> str:
-        """시장 종류"""
-        return get_market_name(self.market)
 
 
 class KisMarketType(KisType[MARKET_TYPE], metaclass=KisTypeMeta[MARKET_TYPE]):
