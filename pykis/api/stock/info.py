@@ -27,19 +27,19 @@ __all__ = [
 MARKET_TYPE_MAP = {
     "KR": ["300"],  # "301", "302"
     "KRX": ["300"],  # "301", "302"
-    "NASD": ["512"],
+    "NASDAQ": ["512"],
     "NYSE": ["513"],
     "AMEX": ["529"],
     "US": ["512", "513", "529"],
-    "TKSE": ["515"],
+    "TYO": ["515"],
     "JP": ["515"],
-    "SEHK": ["501"],
+    "HKEX": ["501"],
     "HK": ["501", "543", "558"],
-    "HASE": ["507"],
-    "VNSE": ["508"],
+    "HNX": ["507"],
+    "HSX": ["508"],
     "VN": ["507", "508"],
-    "SHAA": ["551"],
-    "SZAA": ["552"],
+    "SSE": ["551"],
+    "SZSE": ["552"],
     "CN": ["551", "552"],
     None: [
         "300",
@@ -72,7 +72,7 @@ R_MARKET_TYPE_MAP = {
     "558": "홍콩USD",
     "507": "하노이",
     "508": "호치민",
-    "551": "상해",
+    "551": "상하이",
     "552": "심천",
 }
 
@@ -98,17 +98,17 @@ MARKET_CODE_MAP = {
     "300": "KRX",
     "301": "KRX",
     "302": "KRX",
-    "512": "NASD",
+    "512": "NASDAQ",
     "513": "NYSE",
     "529": "AMEX",
-    "515": "TKSE",
-    "501": "SEHK",
-    "543": "SEHK",
-    "558": "SEHK",
-    "507": "HASE",
-    "508": "VNSE",
-    "551": "SHAA",
-    "552": "SZAA",
+    "515": "TYO",
+    "501": "HKEX",
+    "543": "HKEX",
+    "558": "HKEX",
+    "507": "HNX",
+    "508": "HSX",
+    "551": "SSE",
+    "552": "SZSE",
 }
 
 
@@ -238,15 +238,15 @@ COUNTRY_TYPE = Literal["KR", "US", "HK", "JP", "VN", "CN"]
 
 MARKET_COUNTRY_MAP: dict[MARKET_TYPE, COUNTRY_TYPE] = {
     "KRX": "KR",
-    "NASD": "US",
+    "NASDAQ": "US",
     "NYSE": "US",
     "AMEX": "US",
-    "SEHK": "HK",
-    "TKSE": "JP",
-    "HASE": "VN",
-    "VNSE": "VN",
-    "SHAA": "CN",
-    "SZAA": "CN",
+    "HKEX": "HK",
+    "TYO": "JP",
+    "HNX": "VN",
+    "HSX": "VN",
+    "SSE": "CN",
+    "SZSE": "CN",
 }
 
 

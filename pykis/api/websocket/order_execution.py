@@ -15,6 +15,8 @@ from pykis.api.account.order import (
 )
 from pykis.api.base.account import KisAccountProtocol
 from pykis.api.base.account_product import KisAccountProductBase
+from pykis.api.stock.info import COUNTRY_TYPE, get_market_country
+from pykis.api.stock.market import get_market_timezone
 from pykis.client.account import KisAccountNumber
 from pykis.event.handler import KisEventFilter, KisEventTicket
 from pykis.event.subscription import KisSubscriptionEventArgs
@@ -220,7 +222,7 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeExecutionBase):
 
     __fields__ = [
         None,  # 0 CUST_ID 고객 ID
-        KisAny(lambda x: KisAccountNumber(x))["account_number"],  # 1 ACNT_NO 계좌번호
+        KisAny(KisAccountNumber)["account_number"],  # 1 ACNT_NO 계좌번호
         None,  # 2 ODER_NO 주문번호
         None,  # 3 OODER_NO 원주문번호
         KisAny(lambda x: "sell" if x == "01" else "buy")[
@@ -280,7 +282,7 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeExecutionBase):
 
     @property
     def executed_amount(self) -> Decimal:
-        """체결수량"""
+        """체결금액"""
         return self.executed_quantity * (self.price or Decimal(0))
 
     condition: ORDER_CONDITION | None  # 6 ODER_KIND 주문종류
@@ -332,82 +334,158 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeExecutionBase):
         )
 
 
+# 해외종목구분 4:홍콩(HKD) 5:상하이B(USD) 6:NASDAQ 7:NYSE 8:AMEX 9:OTCB C:홍콩(CNY) A:상하이A(CNY) B:심천B(HKD) D:도쿄 E:하노이 F:호치민
+FOREIGN_MARKET_CODE_MAP: dict[str, "MARKET_TYPE"] = {
+    "4": "HKEX",
+    "5": "SSE",
+    "6": "NASDAQ",
+    "7": "NYSE",
+    "8": "AMEX",
+    "C": "HKEX",
+    "A": "SSE",
+    "B": "SZSE",
+    "D": "TYO",
+    "E": "HNX",
+    "F": "HSX",
+}
+
+# 미국 4 일본 1 중국 3 홍콩 3 베트남 0
+FOREIGN_DECIMAL_PLACES_MAP: dict[COUNTRY_TYPE, int] = {
+    "US": 4,
+    "JP": 1,
+    "CN": 3,
+    "HK": 3,
+    "VN": 0,
+}
+
+# 주문종류2 1:시장가 2:지정자 6:단주시장가 7:단주지정가 A:MOO B:LOO C:MOC D:LOC
+FOREIGN_ORDER_CONDITION_MAP: dict[str, tuple[bool, ORDER_CONDITION | None]] = {
+    # (지정가여부, 주문조건)
+    "1": (False, None),
+    "2": (True, None),
+    "6": (False, None),
+    "7": (True, None),
+    "A": (False, "MOO"),
+    "B": (True, "LOO"),
+    "C": (False, "MOC"),
+    "D": (True, "LOC"),
+}
+
+
 class KisForeignRealtimeOrderExecution(KisRealtimeExecutionBase):
     """한국투자증권 해외주식 실시간 체결"""
 
     __fields__ = [
         None,  # 0 CUST_ID 고객 ID
-        None,  # 1 ACNT_NO 계좌번호
+        KisAny(KisAccountNumber)["account_number"],  # 1 ACNT_NO 계좌번호
         None,  # 2 ODER_NO 주문번호
         None,  # 3 OODER_NO 원주문번호
-        None,  # 4 SELN_BYOV_CLS 매도매수구분
+        KisAny(lambda x: "sell" if x == "01" else "buy")["type"],  # 4 SELN_BYOV_CLS 매도매수구분
         None,  # 5 RCTF_CLS 정정구분 0:정상 1:정정 2:취소
         None,  # 6 ODER_KIND2 주문종류2 1:시장가 2:지정자 6:단주시장가 7:단주지정가 A:MOO B:LOO C:MOC D:LOC
-        None,  # 7 STCK_SHRN_ISCD 주식 단축 종목코드
-        None,  # 8 CNTG_QTY 체결 수량
-        None,  # 9 CNTG_UNPR 체결단가 ※ 체결단가의 경우, 국가에 따라 소수점 생략 위치가 상이합니다. 미국 4 일본 1 중국 3 홍콩 3 베트남 0 EX) 미국 AAPL(현재가 : 148.0100)의 경우 001480100으로 체결단가가 오는데, 4번째 자리에 소수점을 찍어 148.01로 해석하시면 됩니다.
+        KisString["symbol"],  # 7 STCK_SHRN_ISCD 주식 단축 종목코드
+        KisDecimal["executed_quantity"],  # 8 CNTG_QTY 체결 수량
+        KisDecimal[
+            "price"
+        ],  # 9 CNTG_UNPR 체결단가 ※ 체결단가의 경우, 국가에 따라 소수점 생략 위치가 상이합니다. 미국 4 일본 1 중국 3 홍콩 3 베트남 0 EX) 미국 AAPL(현재가 : 148.0100)의 경우 001480100으로 체결단가가 오는데, 4번째 자리에 소수점을 찍어 148.01로 해석하시면 됩니다.
         None,  # 10 STCK_CNTG_HOUR 주식 체결 시간 특정 거래소의 체결시간 데이터는 수신되지 않습니다. 체결시간 데이터가 필요할 경우, 체결통보 데이터 수신 시 타임스탬프를 찍는 것으로 대체하시길 바랍니다.
-        None,  # 11 RFUS_YN 거부여부 0:정상 1:거부
+        KisAny(lambda x: x == "1")["rejected"],  # 11 RFUS_YN 거부여부 0:정상 1:거부
         None,  # 12 CNTG_YN 체결여부 1:주문,정정,취소,거부 2:체결
         None,  # 13 ACPT_YN 접수여부 1:주문접수 2:확인 3:취소(FOK/IOC)
         None,  # 14 BRNC_NO 지점번호
-        None,  # 15 ODER_QTY 주문수량
+        KisDecimal["quantity"],  # 15 ODER_QTY 주문수량
         None,  # 16 ACNT_NAME 계좌명
         None,  # 17 CNTG_ISNM 체결종목명
-        None,  # 18 ODER_COND 해외종목구분 4:홍콩(HKD) 5:상해B(USD) 6:NASDAQ 7:NYSE 8:AMEX 9:OTCB C:홍콩(CNY) A:상해A(CNY) B:심천B(HKD) D:도쿄 E:하노이 F:호치민
+        KisAny(FOREIGN_MARKET_CODE_MAP.__getitem__)[
+            "market"
+        ],  # 18 ODER_COND 해외종목구분 4:홍콩(HKD) 5:상하이B(USD) 6:NASDAQ 7:NYSE 8:AMEX 9:OTCB C:홍콩(CNY) A:상하이A(CNY) B:심천B(HKD) D:도쿄 E:하노이 F:호치민
         None,  # 19 DEBT_GB 담보유형코드 10:현금 15:해외주식담보대출
         None,  # 20 DEBT_DATE 담보대출일자 대출일(YYYYMMDD)
     ]
 
-    symbol: str
+    symbol: str  # 7 STCK_SHRN_ISCD 주식 단축 종목코드
     """종목코드"""
-    market: "MARKET_TYPE"
+    market: "MARKET_TYPE"  # 18 ODER_COND 해외종목구분
     """상품유형타입"""
 
-    account_number: KisAccountNumber
+    account_number: KisAccountNumber  # 1 ACNT_NO 계좌번호
     """계좌번호"""
 
-    time: datetime
+    time: datetime  # __post_init__에서 설정
     """체결시각"""
-    time_kst: datetime
+    time_kst: datetime  # __post_init__에서 설정
     """체결시각(KST)"""
-    timezone: ZoneInfo
+    timezone: ZoneInfo  # __post_init__에서 설정
     """시간대"""
 
-    order_number: KisOrderNumber
+    order_number: KisOrderNumber  # 2 ODER_NO 주문번호, 14 BRNC_NO 지점번호
     """주문번호"""
 
-    type: ORDER_TYPE
+    type: ORDER_TYPE  # 4 SELN_BYOV_CLS 매도매수구분
     """주문유형"""
 
-    price: Decimal
+    price: Decimal  # 9 CNTG_UNPR 체결단가, __post_init__에서 설정
     """체결단가"""
-    unit_price: Decimal | None
+    unit_price: Decimal | None  # 9 CNTG_UNPR 체결단가, __post_init__에서 설정
     """주문단가"""
 
-    quantity: ORDER_QUANTITY
+    quantity: ORDER_QUANTITY  # 15 ODER_QTY 주문수량
     """주문수량"""
 
-    executed_quantity: ORDER_QUANTITY
+    executed_quantity: ORDER_QUANTITY  # 8 CNTG_QTY 체결 수량
     """체결수량"""
 
-    executed_amount: Decimal
-    """체결금액"""
+    @property
+    def executed_amount(self) -> Decimal:
+        """체결금액"""
+        return self.executed_quantity * (self.price or Decimal(0))
 
-    condition: ORDER_CONDITION | None
+    condition: ORDER_CONDITION | None  # 6 ODER_KIND2 주문종류2, __post_init__에서 설정
     """주문조건"""
-    execution: ORDER_EXECUTION | None
+    execution: ORDER_EXECUTION | None = None
     """체결조건"""
 
-    receipt: bool
+    receipt: bool  # 13 ACPT_YN 접수여부
     """접수여부"""
 
-    canceled: bool
+    canceled: bool  # 13 ACPT_YN 접수여부
     """취소여부 (IOC/FOK)"""
-    rejected: bool
+    rejected: bool  # 11 RFUS_YN 거부여부
     """거부여부"""
-    rejected_reason: str | None
+    rejected_reason: str | None = None
     """거부사유"""
+
+    def __pre_init__(self, data: list[str]):
+        super().__pre_init__(data)
+
+        self.canceled = data[13] == "3"
+        self.receipt = data[13] == "1"
+
+    def __post_init__(self):
+        super().__post_init__()
+        has_price, self.condition = FOREIGN_ORDER_CONDITION_MAP[self.__data__[6]]
+        self.price = self.price * Decimal(f"1e-{FOREIGN_DECIMAL_PLACES_MAP[get_market_country(self.market)]}")
+        self.unit_price = self.price if has_price else None
+        self.time_kst = datetime.now(TIMEZONE)
+        self.timezone = get_market_timezone(self.market)
+        self.time = self.time_kst.astimezone(self.timezone)
+
+        if self.receipt:
+            self.quantity = self.executed_quantity
+            self.executed_quantity = ORDER_QUANTITY(0)
+
+    def __kis_post_init__(self):
+        super().__kis_post_init__()
+
+        self.order_number = KisOrder.from_order(
+            kis=self.kis,
+            symbol=self.symbol,
+            market=self.market,
+            account_number=self.account_number,
+            branch=self.__data__[14],  # 지점번호
+            number=self.__data__[2],  # 주문번호
+            time_kst=self.time_kst,
+        )
 
 
 # IDE Type Checker

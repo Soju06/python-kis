@@ -16,7 +16,12 @@ from pykis.api.base.account_product import (
     KisAccountProductProtocol,
 )
 from pykis.api.stock.info import COUNTRY_TYPE, get_market_country, resolve_market
-from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE
+from pykis.api.stock.market import (
+    CURRENCY_TYPE,
+    MARKET_TYPE,
+    KisMarketType,
+    get_market_code,
+)
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisObject, KisTransform
@@ -608,7 +613,7 @@ class KisForeignPresentBalanceStock(KisDynamic, KisBalanceStockBase):
 
     symbol: str = KisString["pdno"]
     """종목코드"""
-    market: MARKET_TYPE = KisString["ovrs_excg_cd"]
+    market: MARKET_TYPE = KisMarketType["ovrs_excg_cd"]
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -725,7 +730,7 @@ class KisForeignBalanceStock(KisDynamic, KisBalanceStockBase):
 
     symbol: str = KisString["ovrs_pdno"]
     """종목코드"""
-    market: MARKET_TYPE = KisString["ovrs_excg_cd"]
+    market: MARKET_TYPE = KisMarketType["ovrs_excg_cd"]
     """상품유형타입"""
     account_number: KisAccountNumber = KisTransform(
         lambda x: KisAccountNumber(f"{x['cano']}-{x['acnt_prdt_cd']}")
@@ -892,7 +897,7 @@ def domestic_balance(
 def _internal_foreign_balance(
     self: "PyKis",
     account: str | KisAccountNumber,
-    market: str | None = None,
+    market: MARKET_TYPE | None = None,
     page: KisPage | None = None,
     continuous: bool = True,
 ) -> KisForeignBalance:
@@ -923,7 +928,7 @@ def _internal_foreign_balance(
             "/uapi/overseas-stock/v1/trading/inquire-balance",
             api="VTTS3012R" if self.virtual else "TTTS3012R",
             params={
-                "OVRS_EXCG_CD": market if market else "",
+                "OVRS_EXCG_CD": get_market_code(market) if market else "",
                 "TR_CRCY_CD": "",
             },
             form=[
@@ -949,15 +954,15 @@ def _internal_foreign_balance(
     return first
 
 
-FOREIGN_COUNTRY_MARKET_MAP: dict[tuple[bool | None, COUNTRY_TYPE | None], list[str | None]] = {
+FOREIGN_COUNTRY_MARKET_MAP: dict[tuple[bool | None, COUNTRY_TYPE | None], list[MARKET_TYPE | None]] = {
     # 실전투자여부, 국가코드 -> 조회시장코드
     (None, None): [None],
-    (None, "US"): ["NASD"],
-    (False, "US"): ["NASD", "NYSE", "AMEX"],
-    (None, "HK"): ["SEHK"],
-    (None, "CN"): ["SHAA", "SZAA"],
-    (None, "JP"): ["TKSE"],
-    (None, "VN"): ["VNSE", "HASE"],
+    (None, "US"): ["NASDAQ"],
+    (False, "US"): ["NASDAQ", "NYSE", "AMEX"],
+    (None, "HK"): ["HKEX"],
+    (None, "CN"): ["SSE", "SZSE"],
+    (None, "JP"): ["TYO"],
+    (None, "VN"): ["HSX", "HNX"],
 }
 
 

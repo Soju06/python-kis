@@ -78,7 +78,7 @@ class KisDomesticRealtimeOrderbook(KisRealtimeOrderbookBase):
     __fields__ = [
         KisString["symbol"],  # 0 MKSC_SHRN_ISCD 유가증권 단축 종목코드
         None,  # 1 BSOP_HOUR 영업 시간
-        KisAny(lambda x: DOMESTIC_REALTIME_ORDER_BOOK_ORDER_CONDITION_MAP.get(x))[
+        KisAny(DOMESTIC_REALTIME_ORDER_BOOK_ORDER_CONDITION_MAP.get)[
             "condition"
         ],  # 2 HOUR_CLS_CODE 시간 구분 코드
         None,  # 3 ASKP1 매도호가1
@@ -435,7 +435,7 @@ def on_order_book(
         id=(
             "H0STASP0"
             if market == "KRX"
-            else "HDFSASP0" if market in ("NYSE", "NASD", "AMEX") else "HDFSASP1"
+            else "HDFSASP0" if market in ("NYSE", "NASDAQ", "AMEX") else "HDFSASP1"
         ),
         key=(
             symbol

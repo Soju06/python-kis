@@ -20,6 +20,7 @@ from pykis.api.stock.info import get_market_country
 from pykis.api.stock.market import (
     DAYTIME_MARKET_SHORT_TYPE_MAP,
     MARKET_TYPE,
+    get_market_code,
     get_market_name,
     get_market_timezone,
 )
@@ -183,10 +184,10 @@ ORDER_CONDITION_MAP: dict[
     (True, "KRX", "sell", True, "best", "IOC"): ("15", None, "IOC최유리"),
     (True, "KRX", "sell", True, "best", "FOK"): ("16", None, "FOK최유리"),
     # 나스닥
-    (True, "NASD", "buy", True, "LOO", None): ("32", None, "장개시지정가"),
-    (True, "NASD", "buy", True, "LOC", None): ("34", None, "장마감지정가"),
-    (True, "NASD", "buy", False, "MOO", None): ("32", "upper", "장개시시장가"),
-    (True, "NASD", "buy", False, "MOC", None): ("34", "upper", "장마감시장가"),
+    (True, "NASDAQ", "buy", True, "LOO", None): ("32", None, "장개시지정가"),
+    (True, "NASDAQ", "buy", True, "LOC", None): ("34", None, "장마감지정가"),
+    (True, "NASDAQ", "buy", False, "MOO", None): ("32", "upper", "장개시시장가"),
+    (True, "NASDAQ", "buy", False, "MOC", None): ("34", "upper", "장마감시장가"),
     # 뉴욕
     (True, "NYSE", "buy", True, "LOO", None): ("32", None, "장개시지정가"),
     (True, "NYSE", "buy", True, "LOC", None): ("34", None, "장마감지정가"),
@@ -198,10 +199,10 @@ ORDER_CONDITION_MAP: dict[
     (True, "AMEX", "buy", False, "MOO", None): ("32", "upper", "장개시시장가"),
     (True, "AMEX", "buy", False, "MOC", None): ("34", "upper", "장마감시장가"),
     # 나스닥
-    (True, "NASD", "sell", True, "LOO", None): ("32", None, "장개시지정가"),
-    (True, "NASD", "sell", True, "LOC", None): ("34", None, "장마감지정가"),
-    (True, "NASD", "sell", False, "MOO", None): ("31", None, "장개시시장가"),
-    (True, "NASD", "sell", False, "MOC", None): ("33", None, "장마감시장가"),
+    (True, "NASDAQ", "sell", True, "LOO", None): ("32", None, "장개시지정가"),
+    (True, "NASDAQ", "sell", True, "LOC", None): ("34", None, "장마감지정가"),
+    (True, "NASDAQ", "sell", False, "MOO", None): ("31", None, "장개시시장가"),
+    (True, "NASDAQ", "sell", False, "MOC", None): ("33", None, "장마감시장가"),
     # 뉴욕
     (True, "NYSE", "sell", True, "LOO", None): ("32", None, "장개시지정가"),
     (True, "NYSE", "sell", True, "LOC", None): ("34", None, "장마감지정가"),
@@ -981,42 +982,42 @@ def domestic_order(
 
 FOREIGN_ORDER_API_CODES: dict[tuple[bool, MARKET_TYPE, ORDER_TYPE], str] = {
     # (실전투자여부, 시장, 주문종류): API코드
-    (True, "NASD", "buy"): "TTTT1002U",  # 미국 매수 주문
+    (True, "NASDAQ", "buy"): "TTTT1002U",  # 미국 매수 주문
     (True, "NYSE", "buy"): "TTTT1002U",  # 미국 매수 주문
     (True, "AMEX", "buy"): "TTTT1002U",  # 미국 매수 주문
-    (True, "NASD", "sell"): "TTTT1006U",  # 미국 매도 주문
+    (True, "NASDAQ", "sell"): "TTTT1006U",  # 미국 매도 주문
     (True, "NYSE", "sell"): "TTTT1006U",  # 미국 매도 주문
     (True, "AMEX", "sell"): "TTTT1006U",  # 미국 매도 주문
-    (True, "TKSE", "buy"): "TTTS0308U",  # 일본 매수 주문
-    (True, "TKSE", "sell"): "TTTS0307U",  # 일본 매도 주문
-    (True, "SHAA", "buy"): "TTTS0202U",  # 상해 매수 주문
-    (True, "SHAA", "sell"): "TTTS1005U",  # 상해 매도 주문
-    (True, "SEHK", "buy"): "TTTS1002U",  # 홍콩 매수 주문
-    (True, "SEHK", "sell"): "TTTS1001U",  # 홍콩 매도 주문
-    (True, "SZAA", "buy"): "TTTS0305U",  # 심천 매수 주문
-    (True, "SZAA", "sell"): "TTTS0304U",  # 심천 매도 주문
-    (True, "HASE", "buy"): "TTTS0311U",  # 베트남 매수 주문
-    (True, "VNSE", "buy"): "TTTS0311U",  # 베트남 매수 주문
-    (True, "HASE", "sell"): "TTTS0310U",  # 베트남 매도 주문
-    (True, "VNSE", "sell"): "TTTS0310U",  # 베트남 매도 주문
-    (False, "NASD", "buy"): "VTTT1002U",  # 미국 매수 주문
+    (True, "TYO", "buy"): "TTTS0308U",  # 일본 매수 주문
+    (True, "TYO", "sell"): "TTTS0307U",  # 일본 매도 주문
+    (True, "SSE", "buy"): "TTTS0202U",  # 상하이 매수 주문
+    (True, "SSE", "sell"): "TTTS1005U",  # 상하이 매도 주문
+    (True, "HKEX", "buy"): "TTTS1002U",  # 홍콩 매수 주문
+    (True, "HKEX", "sell"): "TTTS1001U",  # 홍콩 매도 주문
+    (True, "SZSE", "buy"): "TTTS0305U",  # 심천 매수 주문
+    (True, "SZSE", "sell"): "TTTS0304U",  # 심천 매도 주문
+    (True, "HNX", "buy"): "TTTS0311U",  # 베트남 매수 주문
+    (True, "HSX", "buy"): "TTTS0311U",  # 베트남 매수 주문
+    (True, "HNX", "sell"): "TTTS0310U",  # 베트남 매도 주문
+    (True, "HSX", "sell"): "TTTS0310U",  # 베트남 매도 주문
+    (False, "NASDAQ", "buy"): "VTTT1002U",  # 미국 매수 주문
     (False, "NYSE", "buy"): "VTTT1002U",  # 미국 매수 주문
     (False, "AMEX", "buy"): "VTTT1002U",  # 미국 매수 주문
-    (False, "NASD", "sell"): "VTTT1001U",  # 미국 매도 주문
+    (False, "NASDAQ", "sell"): "VTTT1001U",  # 미국 매도 주문
     (False, "NYSE", "sell"): "VTTT1001U",  # 미국 매도 주문
     (False, "AMEX", "sell"): "VTTT1001U",  # 미국 매도 주문
-    (False, "TKSE", "buy"): "VTTS0308U",  # 일본 매수 주문
-    (False, "TKSE", "sell"): "VTTS0307U",  # 일본 매도 주문
-    (False, "SHAA", "buy"): "VTTS0202U",  # 상해 매수 주문
-    (False, "SHAA", "sell"): "VTTS1005U",  # 상해 매도 주문
-    (False, "SEHK", "buy"): "VTTS1002U",  # 홍콩 매수 주문
-    (False, "SEHK", "sell"): "VTTS1001U",  # 홍콩 매도 주문
-    (False, "SZAA", "buy"): "VTTS0305U",  # 심천 매수 주문
-    (False, "SZAA", "sell"): "VTTS0304U",  # 심천 매도 주문
-    (False, "HASE", "buy"): "VTTS0311U",  # 베트남 매수 주문
-    (False, "VNSE", "buy"): "VTTS0311U",  # 베트남 매수 주문
-    (False, "HASE", "sell"): "VTTS0310U",  # 베트남 매도 주문
-    (False, "VNSE", "sell"): "VTTS0310U",  # 베트남 매도 주문
+    (False, "TYO", "buy"): "VTTS0308U",  # 일본 매수 주문
+    (False, "TYO", "sell"): "VTTS0307U",  # 일본 매도 주문
+    (False, "SSE", "buy"): "VTTS0202U",  # 상하이 매수 주문
+    (False, "SSE", "sell"): "VTTS1005U",  # 상하이 매도 주문
+    (False, "HKEX", "buy"): "VTTS1002U",  # 홍콩 매수 주문
+    (False, "HKEX", "sell"): "VTTS1001U",  # 홍콩 매도 주문
+    (False, "SZSE", "buy"): "VTTS0305U",  # 심천 매수 주문
+    (False, "SZSE", "sell"): "VTTS0304U",  # 심천 매도 주문
+    (False, "HNX", "buy"): "VTTS0311U",  # 베트남 매수 주문
+    (False, "HSX", "buy"): "VTTS0311U",  # 베트남 매수 주문
+    (False, "HNX", "sell"): "VTTS0310U",  # 베트남 매도 주문
+    (False, "HSX", "sell"): "VTTS0310U",  # 베트남 매도 주문
 }
 
 
@@ -1054,10 +1055,10 @@ def foreign_order(
         >>> foreign_order(account, 전체, code, order='buy', price=None, condition=None, execution=None) # 전체 시장가 매수
         >>> foreign_order(account, 전체, code, order='sell', price=100, condition=None, execution=None) # 전체 지정가 매도
         >>> foreign_order(account, 전체, code, order='sell', price=None, condition=None, execution=None) # 전체 시장가 매도
-        >>> foreign_order(account, 'NASD', code, order='buy', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
-        >>> foreign_order(account, 'NASD', code, order='buy', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
-        >>> foreign_order(account, 'NASD', code, order='buy', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
-        >>> foreign_order(account, 'NASD', code, order='buy', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'NASDAQ', code, order='buy', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'NASDAQ', code, order='buy', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'NASDAQ', code, order='buy', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
+        >>> foreign_order(account, 'NASDAQ', code, order='buy', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
         >>> foreign_order(account, 'NYSE', code, order='buy', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 미지원)
         >>> foreign_order(account, 'NYSE', code, order='buy', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 미지원)
         >>> foreign_order(account, 'NYSE', code, order='buy', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 미지원)
@@ -1066,10 +1067,10 @@ def foreign_order(
         >>> foreign_order(account, 'AMEX', code, order='buy', price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 미지원)
         >>> foreign_order(account, 'AMEX', code, order='buy', price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 미지원)
         >>> foreign_order(account, 'AMEX', code, order='buy', price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 미지원)
-        >>> foreign_order(account, 'NASD', code, order='sell', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매도 (모의투자 미지원)
-        >>> foreign_order(account, 'NASD', code, order='sell', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매도 (모의투자 미지원)
-        >>> foreign_order(account, 'NASD', code, order='sell', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매도 (모의투자 미지원)
-        >>> foreign_order(account, 'NASD', code, order='sell', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'NASDAQ', code, order='sell', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'NASDAQ', code, order='sell', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'NASDAQ', code, order='sell', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매도 (모의투자 미지원)
+        >>> foreign_order(account, 'NASDAQ', code, order='sell', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매도 (모의투자 미지원)
         >>> foreign_order(account, 'NYSE', code, order='sell', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매도 (모의투자 미지원)
         >>> foreign_order(account, 'NYSE', code, order='sell', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매도 (모의투자 미지원)
         >>> foreign_order(account, 'NYSE', code, order='sell', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매도 (모의투자 미지원)
@@ -1136,7 +1137,7 @@ def foreign_order(
         "/uapi/overseas-stock/v1/trading/order",
         api=FOREIGN_ORDER_API_CODES[(not self.virtual, market, order)],
         body={
-            "OVRS_EXCG_CD": market,
+            "OVRS_EXCG_CD": get_market_code(market),
             "PDNO": symbol,
             "ORD_QTY": str(int(qty)),
             "OVRS_ORD_UNPR": str(price or 0),
@@ -1219,7 +1220,7 @@ def foreign_daytime_order(
         "/uapi/overseas-stock/v1/trading/daytime-order",
         api="TTTS6036U" if order == "buy" else "TTTS6037U",
         body={
-            "OVRS_EXCG_CD": market,
+            "OVRS_EXCG_CD": get_market_code(market),
             "PDNO": symbol,
             "ORD_QTY": str(int(qty)),
             "OVRS_ORD_UNPR": str(price),
@@ -1299,10 +1300,10 @@ def order(
         >>> order(account, 'KRX', code, order='sell', price=None, condition=None, execution='FOK') # FOK시장가 매도 (모의투자 미지원)
         >>> order(account, 'KRX', code, order='sell', price=100, condition='best', execution='IOC') # IOC최유리 매도 (모의투자 미지원)
         >>> order(account, 'KRX', code, order='sell', price=100, condition='best', execution='FOK') # FOK최유리 매도 (모의투자 미지원)
-        >>> order(account, 'NASD', code, order='buy', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
-        >>> order(account, 'NASD', code, order='buy', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
-        >>> order(account, 'NASD', code, order='buy', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
-        >>> order(account, 'NASD', code, order='buy', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
+        >>> order(account, 'NASDAQ', code, order='buy', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
+        >>> order(account, 'NASDAQ', code, order='buy', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
+        >>> order(account, 'NASDAQ', code, order='buy', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
+        >>> order(account, 'NASDAQ', code, order='buy', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
         >>> order(account, 'NYSE', code, order='buy', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 미지원)
         >>> order(account, 'NYSE', code, order='buy', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 미지원)
         >>> order(account, 'NYSE', code, order='buy', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 미지원)
@@ -1311,10 +1312,10 @@ def order(
         >>> order(account, 'AMEX', code, order='buy', price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 미지원)
         >>> order(account, 'AMEX', code, order='buy', price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 미지원)
         >>> order(account, 'AMEX', code, order='buy', price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 미지원)
-        >>> order(account, 'NASD', code, order='sell', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매도 (모의투자 미지원)
-        >>> order(account, 'NASD', code, order='sell', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매도 (모의투자 미지원)
-        >>> order(account, 'NASD', code, order='sell', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매도 (모의투자 미지원)
-        >>> order(account, 'NASD', code, order='sell', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매도 (모의투자 미지원)
+        >>> order(account, 'NASDAQ', code, order='sell', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매도 (모의투자 미지원)
+        >>> order(account, 'NASDAQ', code, order='sell', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매도 (모의투자 미지원)
+        >>> order(account, 'NASDAQ', code, order='sell', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매도 (모의투자 미지원)
+        >>> order(account, 'NASDAQ', code, order='sell', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매도 (모의투자 미지원)
         >>> order(account, 'NYSE', code, order='sell', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매도 (모의투자 미지원)
         >>> order(account, 'NYSE', code, order='sell', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매도 (모의투자 미지원)
         >>> order(account, 'NYSE', code, order='sell', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매도 (모의투자 미지원)
@@ -1323,16 +1324,16 @@ def order(
         >>> order(account, 'AMEX', code, order='sell', price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매도 (모의투자 미지원)
         >>> order(account, 'AMEX', code, order='sell', price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매도 (모의투자 미지원)
         >>> order(account, 'AMEX', code, order='sell', price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매도 (모의투자 미지원)
-        >>> order(account, 'NASD', code, order='buy', price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매수 (모의투자 미지원)
+        >>> order(account, 'NASDAQ', code, order='buy', price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매수 (모의투자 미지원)
         >>> order(account, 'NYSE', code, order='buy', price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매수 (모의투자 미지원)
         >>> order(account, 'AMEX', code, order='buy', price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매수 (모의투자 미지원)
-        >>> order(account, 'NASD', code, order='buy', price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매수 (모의투자 미지원)
+        >>> order(account, 'NASDAQ', code, order='buy', price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매수 (모의투자 미지원)
         >>> order(account, 'NYSE', code, order='buy', price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매수 (모의투자 미지원)
         >>> order(account, 'AMEX', code, order='buy', price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매수 (모의투자 미지원)
-        >>> order(account, 'NASD', code, order='sell', price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매도 (모의투자 미지원)
+        >>> order(account, 'NASDAQ', code, order='sell', price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매도 (모의투자 미지원)
         >>> order(account, 'NYSE', code, order='sell', price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매도 (모의투자 미지원)
         >>> order(account, 'AMEX', code, order='sell', price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매도 (모의투자 미지원)
-        >>> order(account, 'NASD', code, order='sell', price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매도 (모의투자 미지원)
+        >>> order(account, 'NASDAQ', code, order='sell', price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매도 (모의투자 미지원)
         >>> order(account, 'NYSE', code, order='sell', price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매도 (모의투자 미지원)
         >>> order(account, 'AMEX', code, order='sell', price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매도 (모의투자 미지원)
 
@@ -1447,10 +1448,10 @@ def account_order(
         >>> order('KRX', code, order='sell', price=None, condition=None, execution='FOK') # FOK시장가 매도 (모의투자 미지원)
         >>> order('KRX', code, order='sell', price=100, condition='best', execution='IOC') # IOC최유리 매도 (모의투자 미지원)
         >>> order('KRX', code, order='sell', price=100, condition='best', execution='FOK') # FOK최유리 매도 (모의투자 미지원)
-        >>> order('NASD', code, order='buy', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
-        >>> order('NASD', code, order='buy', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
-        >>> order('NASD', code, order='buy', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
-        >>> order('NASD', code, order='buy', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
+        >>> order('NASDAQ', code, order='buy', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
+        >>> order('NASDAQ', code, order='buy', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
+        >>> order('NASDAQ', code, order='buy', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
+        >>> order('NASDAQ', code, order='buy', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
         >>> order('NYSE', code, order='buy', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 미지원)
         >>> order('NYSE', code, order='buy', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 미지원)
         >>> order('NYSE', code, order='buy', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 미지원)
@@ -1459,10 +1460,10 @@ def account_order(
         >>> order('AMEX', code, order='buy', price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 미지원)
         >>> order('AMEX', code, order='buy', price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 미지원)
         >>> order('AMEX', code, order='buy', price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 미지원)
-        >>> order('NASD', code, order='sell', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매도 (모의투자 미지원)
-        >>> order('NASD', code, order='sell', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매도 (모의투자 미지원)
-        >>> order('NASD', code, order='sell', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매도 (모의투자 미지원)
-        >>> order('NASD', code, order='sell', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매도 (모의투자 미지원)
+        >>> order('NASDAQ', code, order='sell', price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매도 (모의투자 미지원)
+        >>> order('NASDAQ', code, order='sell', price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매도 (모의투자 미지원)
+        >>> order('NASDAQ', code, order='sell', price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매도 (모의투자 미지원)
+        >>> order('NASDAQ', code, order='sell', price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매도 (모의투자 미지원)
         >>> order('NYSE', code, order='sell', price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매도 (모의투자 미지원)
         >>> order('NYSE', code, order='sell', price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매도 (모의투자 미지원)
         >>> order('NYSE', code, order='sell', price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매도 (모의투자 미지원)
@@ -1471,16 +1472,16 @@ def account_order(
         >>> order('AMEX', code, order='sell', price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매도 (모의투자 미지원)
         >>> order('AMEX', code, order='sell', price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매도 (모의투자 미지원)
         >>> order('AMEX', code, order='sell', price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매도 (모의투자 미지원)
-        >>> order('NASD', code, order='buy', price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매수 (모의투자 미지원)
+        >>> order('NASDAQ', code, order='buy', price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매수 (모의투자 미지원)
         >>> order('NYSE', code, order='buy', price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매수 (모의투자 미지원)
         >>> order('AMEX', code, order='buy', price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매수 (모의투자 미지원)
-        >>> order('NASD', code, order='buy', price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매수 (모의투자 미지원)
+        >>> order('NASDAQ', code, order='buy', price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매수 (모의투자 미지원)
         >>> order('NYSE', code, order='buy', price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매수 (모의투자 미지원)
         >>> order('AMEX', code, order='buy', price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매수 (모의투자 미지원)
-        >>> order('NASD', code, order='sell', price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매도 (모의투자 미지원)
+        >>> order('NASDAQ', code, order='sell', price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매도 (모의투자 미지원)
         >>> order('NYSE', code, order='sell', price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매도 (모의투자 미지원)
         >>> order('AMEX', code, order='sell', price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매도 (모의투자 미지원)
-        >>> order('NASD', code, order='sell', price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매도 (모의투자 미지원)
+        >>> order('NASDAQ', code, order='sell', price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매도 (모의투자 미지원)
         >>> order('NYSE', code, order='sell', price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매도 (모의투자 미지원)
         >>> order('AMEX', code, order='sell', price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매도 (모의투자 미지원)
 
@@ -1546,10 +1547,10 @@ def account_buy(
         >>> buy('KRX', code, price=None, condition=None, execution='FOK') # FOK시장가 매수 (모의투자 미지원)
         >>> buy('KRX', code, price=100, condition='best', execution='IOC') # IOC최유리 매수 (모의투자 미지원)
         >>> buy('KRX', code, price=100, condition='best', execution='FOK') # FOK최유리 매수 (모의투자 미지원)
-        >>> buy('NASD', code, price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
-        >>> buy('NASD', code, price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
-        >>> buy('NASD', code, price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
-        >>> buy('NASD', code, price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
+        >>> buy('NASDAQ', code, price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매수 (모의투자 미지원)
+        >>> buy('NASDAQ', code, price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매수 (모의투자 미지원)
+        >>> buy('NASDAQ', code, price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매수 (모의투자 미지원)
+        >>> buy('NASDAQ', code, price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매수 (모의투자 미지원)
         >>> buy('NYSE', code, price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매수 (모의투자 미지원)
         >>> buy('NYSE', code, price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매수 (모의투자 미지원)
         >>> buy('NYSE', code, price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매수 (모의투자 미지원)
@@ -1558,10 +1559,10 @@ def account_buy(
         >>> buy('AMEX', code, price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매수 (모의투자 미지원)
         >>> buy('AMEX', code, price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매수 (모의투자 미지원)
         >>> buy('AMEX', code, price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매수 (모의투자 미지원)
-        >>> buy('NASD', code, price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매수 (모의투자 미지원)
+        >>> buy('NASDAQ', code, price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매수 (모의투자 미지원)
         >>> buy('NYSE', code, price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매수 (모의투자 미지원)
         >>> buy('AMEX', code, price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매수 (모의투자 미지원)
-        >>> buy('NASD', code, price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매수 (모의투자 미지원)
+        >>> buy('NASDAQ', code, price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매수 (모의투자 미지원)
         >>> buy('NYSE', code, price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매수 (모의투자 미지원)
         >>> buy('AMEX', code, price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매수 (모의투자 미지원)
 
@@ -1626,10 +1627,10 @@ def account_sell(
         >>> sell('KRX', code, price=None, condition=None, execution='FOK') # FOK시장가 매도 (모의투자 미지원)
         >>> sell('KRX', code, price=100, condition='best', execution='IOC') # IOC최유리 매도 (모의투자 미지원)
         >>> sell('KRX', code, price=100, condition='best', execution='FOK') # FOK최유리 매도 (모의투자 미지원)
-        >>> sell('NASD', code, price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매도 (모의투자 미지원)
-        >>> sell('NASD', code, price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매도 (모의투자 미지원)
-        >>> sell('NASD', code, price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매도 (모의투자 미지원)
-        >>> sell('NASD', code, price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매도 (모의투자 미지원)
+        >>> sell('NASDAQ', code, price=100, condition='LOO', execution=None) # 나스닥 장개시지정가 매도 (모의투자 미지원)
+        >>> sell('NASDAQ', code, price=100, condition='LOC', execution=None) # 나스닥 장마감지정가 매도 (모의투자 미지원)
+        >>> sell('NASDAQ', code, price=None, condition='MOO', execution=None) # 나스닥 장개시시장가 매도 (모의투자 미지원)
+        >>> sell('NASDAQ', code, price=None, condition='MOC', execution=None) # 나스닥 장마감시장가 매도 (모의투자 미지원)
         >>> sell('NYSE', code, price=100, condition='LOO', execution=None) # 뉴욕 장개시지정가 매도 (모의투자 미지원)
         >>> sell('NYSE', code, price=100, condition='LOC', execution=None) # 뉴욕 장마감지정가 매도 (모의투자 미지원)
         >>> sell('NYSE', code, price=None, condition='MOO', execution=None) # 뉴욕 장개시시장가 매도 (모의투자 미지원)
@@ -1638,10 +1639,10 @@ def account_sell(
         >>> sell('AMEX', code, price=100, condition='LOC', execution=None) # 아멕스 장마감지정가 매도 (모의투자 미지원)
         >>> sell('AMEX', code, price=None, condition='MOO', execution=None) # 아멕스 장개시시장가 매도 (모의투자 미지원)
         >>> sell('AMEX', code, price=None, condition='MOC', execution=None) # 아멕스 장마감시장가 매도 (모의투자 미지원)
-        >>> sell('NASD', code, price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매도 (모의투자 미지원)
+        >>> sell('NASDAQ', code, price=None, condition='extended', execution=None) # 나스닥 주간거래 시장가 매도 (모의투자 미지원)
         >>> sell('NYSE', code, price=None, condition='extended', execution=None) # 뉴욕 주간거래 시장가 매도 (모의투자 미지원)
         >>> sell('AMEX', code, price=None, condition='extended', execution=None) # 아멕스 주간거래 시장가 매도 (모의투자 미지원)
-        >>> sell('NASD', code, price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매도 (모의투자 미지원)
+        >>> sell('NASDAQ', code, price=100, condition='extended', execution=None) # 나스닥 주간거래 지정가 매도 (모의투자 미지원)
         >>> sell('NYSE', code, price=100, condition='extended', execution=None) # 뉴욕 주간거래 지정가 매도 (모의투자 미지원)
         >>> sell('AMEX', code, price=100, condition='extended', execution=None) # 아멕스 주간거래 지정가 매도 (모의투자 미지원)
 

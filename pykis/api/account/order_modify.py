@@ -1,5 +1,4 @@
 from datetime import datetime
-from decimal import Decimal
 from typing import TYPE_CHECKING, Any, Literal
 
 from pykis.__env__ import TIMEZONE
@@ -16,7 +15,7 @@ from pykis.api.account.order import (
     order_condition,
 )
 from pykis.api.stock.info import get_market_country
-from pykis.api.stock.market import DAYTIME_MARKETS, MARKET_TYPE
+from pykis.api.stock.market import DAYTIME_MARKETS, MARKET_TYPE, get_market_code
 from pykis.api.stock.quote import quote
 from pykis.client.account import KisAccountNumber
 from pykis.client.exceptions import KisAPIError
@@ -237,34 +236,34 @@ def domestic_cancel_order(
 
 FOREIGN_ORDER_MODIFY_API_CODES: dict[tuple[bool, MARKET_TYPE, Literal["modify", "cancel"]], str] = {
     # (실전투자여부, 시장, 주문종류): API코드
-    (True, "NASD", "modify"): "TTTT1004U",  # 미국 정정 주문
+    (True, "NASDAQ", "modify"): "TTTT1004U",  # 미국 정정 주문
     (True, "NYSE", "modify"): "TTTT1004U",  # 미국 정정 주문
     (True, "AMEX", "modify"): "TTTT1004U",  # 미국 정정 주문
-    (True, "NASD", "cancel"): "TTTT1004U",  # 미국 취소 주문
+    (True, "NASDAQ", "cancel"): "TTTT1004U",  # 미국 취소 주문
     (True, "NYSE", "cancel"): "TTTT1004U",  # 미국 취소 주문
     (True, "AMEX", "cancel"): "TTTT1004U",  # 미국 취소 주문
-    (True, "SEHK", "modify"): "TTTS1003U",  # 홍콩 정정 주문
-    (True, "SEHK", "cancel"): "TTTS1003U",  # 홍콩 취소 주문
-    (True, "TKSE", "modify"): "TTTS0309U",  # 일본 정정 주문
-    (True, "TKSE", "cancel"): "TTTS0309U",  # 일본 취소 주문
-    (True, "SHAA", "cancel"): "TTTS0302U",  # 상해 취소 주문
-    (True, "SZAA", "cancel"): "TTTS0302U",  # 상해 취소 주문
-    (True, "VNSE", "cancel"): "TTTS0312U",  # 베트남 취소 주문
-    (True, "HASE", "cancel"): "TTTS0312U",  # 베트남 취소 주문
-    (False, "NASD", "modify"): "VTTT1004U",  # 미국 정정 주문
+    (True, "HKEX", "modify"): "TTTS1003U",  # 홍콩 정정 주문
+    (True, "HKEX", "cancel"): "TTTS1003U",  # 홍콩 취소 주문
+    (True, "TYO", "modify"): "TTTS0309U",  # 일본 정정 주문
+    (True, "TYO", "cancel"): "TTTS0309U",  # 일본 취소 주문
+    (True, "SSE", "cancel"): "TTTS0302U",  # 상하이 취소 주문
+    (True, "SZSE", "cancel"): "TTTS0302U",  # 상하이 취소 주문
+    (True, "HSX", "cancel"): "TTTS0312U",  # 베트남 취소 주문
+    (True, "HNX", "cancel"): "TTTS0312U",  # 베트남 취소 주문
+    (False, "NASDAQ", "modify"): "VTTT1004U",  # 미국 정정 주문
     (False, "NYSE", "modify"): "VTTT1004U",  # 미국 정정 주문
     (False, "AMEX", "modify"): "VTTT1004U",  # 미국 정정 주문
-    (False, "NASD", "cancel"): "VTTT1004U",  # 미국 취소 주문
+    (False, "NASDAQ", "cancel"): "VTTT1004U",  # 미국 취소 주문
     (False, "NYSE", "cancel"): "VTTT1004U",  # 미국 취소 주문
     (False, "AMEX", "cancel"): "VTTT1004U",  # 미국 취소 주문
-    (False, "SEHK", "modify"): "VTTS1003U",  # 홍콩 정정 주문
-    (False, "SEHK", "cancel"): "VTTS1003U",  # 홍콩 취소 주문
-    (False, "TKSE", "modify"): "VTTS0309U",  # 일본 정정 주문
-    (False, "TKSE", "cancel"): "VTTS0309U",  # 일본 취소 주문
-    (False, "SHAA", "cancel"): "VTTS0302U",  # 상해 취소 주문
-    (False, "SZAA", "cancel"): "VTTS0302U",  # 상해 취소 주문
-    (False, "VNSE", "cancel"): "VTTS0312U",  # 베트남 취소 주문
-    (False, "HASE", "cancel"): "VTTS0312U",  # 베트남 취소 주문
+    (False, "HKEX", "modify"): "VTTS1003U",  # 홍콩 정정 주문
+    (False, "HKEX", "cancel"): "VTTS1003U",  # 홍콩 취소 주문
+    (False, "TYO", "modify"): "VTTS0309U",  # 일본 정정 주문
+    (False, "TYO", "cancel"): "VTTS0309U",  # 일본 취소 주문
+    (False, "SSE", "cancel"): "VTTS0302U",  # 상하이 취소 주문
+    (False, "SZSE", "cancel"): "VTTS0302U",  # 상하이 취소 주문
+    (False, "HSX", "cancel"): "VTTS0312U",  # 베트남 취소 주문
+    (False, "HNX", "cancel"): "VTTS0312U",  # 베트남 취소 주문
 }
 
 
@@ -346,7 +345,7 @@ def foreign_modify_order(
         "/uapi/overseas-stock/v1/trading/order-rvsecncl",
         api=api,
         body={
-            "OVRS_EXCG_CD": order.market,
+            "OVRS_EXCG_CD": get_market_code(order.market),
             "PDNO": order.symbol,
             "ORGN_ODNO": order.number,
             "RVSE_CNCL_DVSN_CD": "01",
@@ -393,7 +392,7 @@ def foreign_cancel_order(
         "/uapi/overseas-stock/v1/trading/order-rvsecncl",
         api=api,
         body={
-            "OVRS_EXCG_CD": order.market,
+            "OVRS_EXCG_CD": get_market_code(order.market),
             "PDNO": order.symbol,
             "ORGN_ODNO": order.number,
             "RVSE_CNCL_DVSN_CD": "02",
@@ -472,7 +471,7 @@ def foreign_daytime_modify_order(
         "/uapi/overseas-stock/v1/trading/daytime-order-rvsecncl",
         api="TTTS6038U",
         body={
-            "OVRS_EXCG_CD": order.market,
+            "OVRS_EXCG_CD": get_market_code(order.market),
             "PDNO": order.symbol,
             "ORGN_ODNO": order.number,
             "RVSE_CNCL_DVSN_CD": "01",
@@ -530,7 +529,7 @@ def foreign_daytime_cancel_order(
         "/uapi/overseas-stock/v1/trading/daytime-order-rvsecncl",
         api="TTTS6038U",
         body={
-            "OVRS_EXCG_CD": order.market,
+            "OVRS_EXCG_CD": get_market_code(order.market),
             "PDNO": order.symbol,
             "ORGN_ODNO": order.number,
             "RVSE_CNCL_DVSN_CD": "02",

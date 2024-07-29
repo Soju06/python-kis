@@ -11,7 +11,13 @@ from pykis.api.base.account_product import (
     KisAccountProductProtocol,
 )
 from pykis.api.stock.info import COUNTRY_TYPE
-from pykis.api.stock.market import MARKET_TYPE, get_market_timezone
+from pykis.api.stock.market import (
+    MARKET_TYPE,
+    KisMarketType,
+    get_market_code,
+    get_market_code_timezone,
+    get_market_timezone,
+)
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
@@ -389,12 +395,12 @@ class KisForeignOrderProfit(KisDynamic, KisOrderProfitBase):
         lambda x: datetime.strptime(x["trad_day"], "%Y%m%d").replace(tzinfo=TIMEZONE)
     )()
     """시간 (한국시간)"""
-    timezone: ZoneInfo = KisAny(get_market_timezone)["ovrs_excg_cd"]
+    timezone: ZoneInfo = KisAny(get_market_code_timezone)["ovrs_excg_cd"]
     """시간대"""
 
     symbol: str = KisString["ovrs_pdno"]
     """종목코드"""
-    market: MARKET_TYPE = KisString["ovrs_excg_cd"]
+    market: MARKET_TYPE = KisMarketType["ovrs_excg_cd"]
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -587,12 +593,12 @@ def domestic_order_profits(
     return first
 
 
-FOREIGN_ORDER_PROFIT_MARKET_MAP: dict[COUNTRY_TYPE, str] = {
-    "US": "NASD",
-    "HK": "SEHK",
-    "CN": "SHAA",
-    "JP": "TKSE",
-    "VN": "HASE",
+FOREIGN_ORDER_PROFIT_MARKET_MAP: dict[COUNTRY_TYPE, MARKET_TYPE] = {
+    "US": "NASDAQ",
+    "HK": "HKEX",
+    "CN": "SSE",
+    "JP": "TYO",
+    "VN": "HNX",
 }
 
 
@@ -640,7 +646,7 @@ def foreign_order_profits(
             "/uapi/overseas-stock/v1/trading/inquire-period-profit",
             api="TTTS3039R",
             params={
-                "OVRS_EXCG_CD": FOREIGN_ORDER_PROFIT_MARKET_MAP[country] if country else "",
+                "OVRS_EXCG_CD": get_market_code(FOREIGN_ORDER_PROFIT_MARKET_MAP[country]) if country else "",
                 "NATN_CD": "",
                 "CRCY_CD": "",
                 "PDNO": "",
@@ -710,7 +716,7 @@ def foreign_order_fees(
         "/uapi/overseas-stock/v1/trading/inquire-period-profit",
         api="TTTS3039R",
         params={
-            "OVRS_EXCG_CD": FOREIGN_ORDER_PROFIT_MARKET_MAP[country] if country else "",
+            "OVRS_EXCG_CD": get_market_code(FOREIGN_ORDER_PROFIT_MARKET_MAP[country]) if country else "",
             "NATN_CD": "",
             "CRCY_CD": "",
             "PDNO": "",
