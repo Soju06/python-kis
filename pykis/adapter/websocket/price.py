@@ -1,7 +1,7 @@
 from typing import Callable, Literal, Protocol, overload, runtime_checkable
 
 from pykis.api.base.product import KisProductProtocol
-from pykis.api.websocket.order_book import KisRealtimeOrderBook
+from pykis.api.websocket.order_book import KisRealtimeOrderbook
 from pykis.api.websocket.price import KisRealtimePrice
 from pykis.client.websocket import KisWebsocketClient
 from pykis.event.handler import KisEventFilter, KisEventTicket
@@ -45,13 +45,13 @@ class KisWebsocketQuotableProduct(Protocol):
     def on(
         self,
         event: Literal["orderbook"],
-        callback: Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None],
+        callback: Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]], None],
         where: (
-            KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]] | None
+            KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]] | None
         ) = None,
         once: bool = False,
         extended: bool = False,
-    ) -> KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]:
+    ) -> KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]]:
         """
         웹소켓 이벤트 핸들러 등록
 
@@ -61,7 +61,7 @@ class KisWebsocketQuotableProduct(Protocol):
 
         Args:
             event (TEventType): 이벤트 타입
-            callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None]): 콜백 함수
+            callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]], None]): 콜백 함수
             where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]] | None, optional): 이벤트 필터. Defaults to None.
             once (bool, optional): 한번만 실행할지 여부. Defaults to False.
             extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
@@ -73,18 +73,18 @@ class KisWebsocketQuotableProduct(Protocol):
         event: Literal["price", "orderbook"],
         callback: (
             Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]], None]
-            | Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None]
+            | Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]], None]
         ),
         where: (
             KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]]
-            | KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]
+            | KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]]
             | None
         ) = None,
         once: bool = False,
         extended: bool = False,
     ) -> (
         KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]]
-        | KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]
+        | KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]]
     ):
         raise NotImplementedError
 
@@ -114,12 +114,12 @@ class KisWebsocketQuotableProduct(Protocol):
     def once(
         self,
         event: Literal["orderbook"],
-        callback: Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None],
+        callback: Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]], None],
         where: (
-            KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]] | None
+            KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]] | None
         ) = None,
         extended: bool = False,
-    ) -> KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]:
+    ) -> KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]]:
         """
         웹소켓 이벤트 핸들러 등록
 
@@ -129,7 +129,7 @@ class KisWebsocketQuotableProduct(Protocol):
 
         Args:
             event (Literal["orderbook"]): 이벤트 타입
-            callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None]): 콜백 함수
+            callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]], None]): 콜백 함수
             where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]] | None, optional): 이벤트 필터. Defaults to None.
             extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
         """
@@ -140,17 +140,17 @@ class KisWebsocketQuotableProduct(Protocol):
         event: Literal["price", "orderbook"],
         callback: (
             Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]], None]
-            | Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None]
+            | Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]], None]
         ),
         where: (
             KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]]
-            | KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]
+            | KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]]
             | None
         ) = None,
         extended: bool = False,
     ) -> (
         KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]]
-        | KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]
+        | KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]]
     ):
         raise NotImplementedError
 
@@ -185,13 +185,13 @@ class KisWebsocketQuotableProductImpl:
     def on(
         self: "KisProductProtocol",
         event: Literal["orderbook"],
-        callback: Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None],
+        callback: Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]], None],
         where: (
-            KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]] | None
+            KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]] | None
         ) = None,
         once: bool = False,
         extended: bool = False,
-    ) -> KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]:
+    ) -> KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]]:
         """
         웹소켓 이벤트 핸들러 등록
 
@@ -201,7 +201,7 @@ class KisWebsocketQuotableProductImpl:
 
         Args:
             event (TEventType): 이벤트 타입
-            callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None]): 콜백 함수
+            callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]], None]): 콜백 함수
             where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]] | None, optional): 이벤트 필터. Defaults to None.
             once (bool, optional): 한번만 실행할지 여부. Defaults to False.
             extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
@@ -212,18 +212,18 @@ class KisWebsocketQuotableProductImpl:
         event: Literal["price", "orderbook"],
         callback: (
             Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]], None]
-            | Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None]
+            | Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]], None]
         ),
         where: (
             KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]]
-            | KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]
+            | KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]]
             | None
         ) = None,
         once: bool = False,
         extended: bool = False,
     ) -> (
         KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]]
-        | KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]
+        | KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]]
     ):
         if event == "price":
             from pykis.api.websocket.price import on_product_price as on_price
@@ -276,12 +276,12 @@ class KisWebsocketQuotableProductImpl:
     def once(
         self: "KisProductProtocol",
         event: Literal["orderbook"],
-        callback: Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None],
+        callback: Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]], None],
         where: (
-            KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]] | None
+            KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]] | None
         ) = None,
         extended: bool = False,
-    ) -> KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]:
+    ) -> KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]]:
         """
         웹소켓 이벤트 핸들러 등록
 
@@ -291,7 +291,7 @@ class KisWebsocketQuotableProductImpl:
 
         Args:
             event (Literal["orderbook"]): 이벤트 타입
-            callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None]): 콜백 함수
+            callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]], None]): 콜백 함수
             where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]] | None, optional): 이벤트 필터. Defaults to None.
             extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
         """
@@ -302,17 +302,17 @@ class KisWebsocketQuotableProductImpl:
         event: Literal["price", "orderbook"],
         callback: (
             Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]], None]
-            | Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]], None]
+            | Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]], None]
         ),
         where: (
             KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]]
-            | KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]
+            | KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]]
             | None
         ) = None,
         extended: bool = False,
     ) -> (
         KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]]
-        | KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderBook]]
+        | KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]]
     ):
         if event == "price":
             from pykis.api.websocket.price import on_product_price as on_price

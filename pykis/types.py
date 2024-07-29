@@ -41,9 +41,9 @@ from pykis.api.stock.market import (
     KisTradingHours,
 )
 from pykis.api.stock.order_book import (
-    KisOrderBook,
-    KisOrderBookItem,
-    KisOrderBookResponse,
+    KisOrderbook,
+    KisOrderbookItem,
+    KisOrderbookResponse,
 )
 from pykis.api.stock.quote import (
     STOCK_RISK_TYPE,
@@ -52,7 +52,7 @@ from pykis.api.stock.quote import (
     KisQuote,
     KisQuoteResponse,
 )
-from pykis.api.websocket.order_book import KisRealtimeOrderBook
+from pykis.api.websocket.order_book import KisRealtimeOrderbook
 from pykis.api.websocket.order_execution import KisRealtimeExecution
 from pykis.api.websocket.price import KisRealtimePrice
 from pykis.client.account import KisAccountNumber
@@ -189,8 +189,8 @@ __all__ = [
     "KisAccountProtocol",
     "KisAccountProductProtocol",
     "KisStockInfo",
-    "KisOrderBook",
-    "KisOrderBookItem",
+    "KisOrderbook",
+    "KisOrderbookItem",
     "KisChartBar",
     "KisChart",
     "KisTradingHours",
@@ -208,7 +208,7 @@ __all__ = [
     "KisOrderableAmount",
     "KisPendingOrder",
     "KisPendingOrders",
-    "KisRealtimeOrderBook",
+    "KisRealtimeOrderbook",
     "KisRealtimeExecution",
     "KisRealtimePrice",
     ################################
@@ -224,7 +224,7 @@ __all__ = [
     ##        API Responses       ##
     ################################
     "KisStockInfoResponse",
-    "KisOrderBookResponse",
+    "KisOrderbookResponse",
     "KisQuoteResponse",
     "KisOrderableAmountResponse",
 ]
