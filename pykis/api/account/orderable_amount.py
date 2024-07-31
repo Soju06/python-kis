@@ -557,7 +557,7 @@ def foreign_orderable_amount(
 
     return self.fetch(
         "/uapi/overseas-stock/v1/trading/inquire-psamount",
-        api="TTTS3007R",
+        api="VTTS3007R" if self.virtual else "TTTS3007R",
         form=[account],
         params={
             "OVRS_EXCG_CD": get_market_code(market),

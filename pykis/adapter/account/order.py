@@ -404,6 +404,9 @@ class KisOrderableAccountImpl:
     from pykis.api.account.order import account_sell as sell  # 매도
     from pykis.api.account.order_modify import account_cancel_order as cancel  # 주문 취소
     from pykis.api.account.order_modify import account_modify_order as modify  # 주문 정정
+    from pykis.api.account.orderable_amount import (
+        account_orderable_amount as orderable_amount,  # 주문 가능 금액 조회
+    )
     from pykis.api.account.pending_order import (
         account_pending_orders as pending_orders,  # 미체결 조회
     )
