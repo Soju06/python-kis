@@ -526,7 +526,7 @@ def domestic_order_profits(
     self: "PyKis",
     account: str | KisAccountNumber,
     start: date,
-    end: date,
+    end: date | None = None,
     page: KisPage | None = None,
     continuous: bool = True,
 ) -> KisDomesticOrderProfits:
@@ -539,7 +539,7 @@ def domestic_order_profits(
     Args:
         account (str | KisAccountNumber): 계좌번호
         start (date): 조회 시작일
-        end (date): 조회 종료일
+        end (date | None, optional): 조회 종료일
         page (KisPage, optional): 페이지 정보
         continuous (bool, optional): 연속조회 여부
 
@@ -549,6 +549,9 @@ def domestic_order_profits(
     """
     if self.virtual:
         raise NotImplementedError("모의투자에서는 국내 기간 손익 조회를 지원하지 않습니다.")
+    
+    if end is None:
+        end = datetime.now(TIMEZONE).date()
 
     if start > end:
         start, end = end, start
@@ -606,7 +609,7 @@ def foreign_order_profits(
     self: "PyKis",
     account: str | KisAccountNumber,
     start: date,
-    end: date,
+    end: date | None = None,
     country: COUNTRY_TYPE | None = None,
     page: KisPage | None = None,
     continuous: bool = True,
@@ -620,7 +623,7 @@ def foreign_order_profits(
     Args:
         account (str | KisAccountNumber): 계좌번호
         start (date): 조회 시작일
-        end (date): 조회 종료일
+        end (date | None, optional): 조회 종료일
         country (COUNTRY_TYPE, optional): 국가
         page (KisPage, optional): 페이지 정보
         continuous (bool, optional): 연속조회 여부
@@ -631,6 +634,9 @@ def foreign_order_profits(
     """
     if self.virtual:
         raise NotImplementedError("모의투자에서는 해외 기간 손익 조회를 지원하지 않습니다.")
+
+    if end is None:
+        end = datetime.now(TIMEZONE).date()
 
     if start > end:
         start, end = end, start
@@ -684,7 +690,7 @@ def foreign_order_fees(
     self: "PyKis",
     account: str | KisAccountNumber,
     start: date,
-    end: date,
+    end: date | None = None,
     country: COUNTRY_TYPE | None = None,
 ) -> Decimal:
     """
@@ -705,6 +711,9 @@ def foreign_order_fees(
     """
     if self.virtual:
         raise NotImplementedError("모의투자에서는 해외 기간 손익 조회를 지원하지 않습니다.")
+
+    if end is None:
+        end = datetime.now(TIMEZONE).date()
 
     if start > end:
         start, end = end, start
@@ -736,7 +745,7 @@ def order_profits(
     self: "PyKis",
     account: str | KisAccountNumber,
     start: date,
-    end: date,
+    end: date | None = None,
     country: COUNTRY_TYPE | None = None,
 ) -> KisOrderProfits:
     """
@@ -749,7 +758,7 @@ def order_profits(
     Args:
         account (str | KisAccountNumber): 계좌번호
         start (date): 조회 시작일
-        end (date): 조회 종료일
+        end (date | None, optional): 조회 종료일
         country (COUNTRY_TYPE, optional): 국가
 
     Raises:
@@ -796,7 +805,7 @@ def order_profits(
 def account_order_profits(
     self: "KisAccountProtocol",
     start: date,
-    end: date,
+    end: date | None = None,
     country: COUNTRY_TYPE | None = None,
 ) -> KisOrderProfits:
     """

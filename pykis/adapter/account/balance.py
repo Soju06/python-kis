@@ -41,7 +41,7 @@ class KisQuotableAccount(Protocol):
     def daily_orders(
         self: KisAccountProtocol,
         start: date,
-        end: date,
+        end: date | None = None,
         country: COUNTRY_TYPE | None = None,
     ) -> KisDailyOrders:
         """
@@ -52,7 +52,7 @@ class KisQuotableAccount(Protocol):
 
         Args:
             start (date): 조회 시작일
-            end (date): 조회 종료일
+            end (date, optional): 조회 종료일. Defaults to None.
             country (COUNTRY_TYPE, optional): 국가코드
 
         Raises:
@@ -64,7 +64,7 @@ class KisQuotableAccount(Protocol):
     def profits(
         self: KisAccountProtocol,
         start: date,
-        end: date,
+        end: date | None = None,
         country: COUNTRY_TYPE | None = None,
     ) -> KisOrderProfits:
         """
@@ -77,7 +77,7 @@ class KisQuotableAccount(Protocol):
         Args:
             account (str | KisAccountNumber): 계좌번호
             start (date): 조회 시작일
-            end (date): 조회 종료일
+            end (date, optional): 조회 종료일. Defaults to None.
             country (COUNTRY_TYPE, optional): 국가
 
         Raises:
@@ -96,7 +96,4 @@ class KisQuotableAccountImpl:
     )
     from pykis.api.account.order_profit import (
         account_order_profits as profits,  # 주문 수익률 조회
-    )
-    from pykis.api.account.orderable_amount import (
-        account_orderable_amount as orderable_amount,  # 주문 가능 금액 조회
     )

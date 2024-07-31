@@ -23,6 +23,7 @@ from pykis.responses.types import (
     KisInt,
     KisString,
 )
+from pykis.utils.cache import cached, set_cache
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
@@ -551,14 +552,16 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
         """전일대비"""
         return self.price - self.prev_price
 
-    indicator: KisForeignIndicator = KisTransform(
-        lambda x: KisObject.transform_(
-            x,
-            KisForeignIndicator,
-            ignore_missing=True,
-        )
-    )()
-    """종목 지표"""
+    @property
+    @cached
+    def indicator(self) -> KisForeignIndicator:
+        """종목 지표"""
+        return foreign_quote(
+            self.kis,
+            symbol=self.symbol,
+            market=self.market,
+            extended=False,
+        ).indicator
 
     open: Decimal = KisDecimal["open"]
     """당일시가"""
@@ -581,10 +584,14 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
     exchange_rate: Decimal = KisDecimal["t_rate"]
     """당일환율"""
 
-    def __init__(self, symbol: str, market: MARKET_TYPE):
+    extended: bool
+    """주간거래 시세 조회 여부"""
+
+    def __init__(self, symbol: str, market: MARKET_TYPE, extended: bool):
         super().__init__()
         self.symbol = symbol
         self.market = market
+        self.extended = extended
 
     def __pre_init__(self, data: dict):
         if not data["output"]["last"]:
@@ -596,6 +603,17 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
             )
 
         super().__pre_init__(data)
+
+        if not self.extended:
+            set_cache(
+                self,
+                "indicator",
+                KisObject.transform_(
+                    data["output"],
+                    KisForeignIndicator,
+                    ignore_missing=True,
+                ),
+            )
 
 
 def domestic_quote(
@@ -676,7 +694,11 @@ def foreign_quote(
             "EXCD": market_code,
             "SYMB": symbol,
         },
-        response_type=KisForeignQuote(symbol=symbol, market=market),
+        response_type=KisForeignQuote(
+            symbol=symbol,
+            market=market,
+            extended=extended,
+        ),
         domain="real",
     )
 

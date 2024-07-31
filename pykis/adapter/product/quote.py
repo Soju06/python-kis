@@ -214,8 +214,8 @@ class KisQuotableProductImpl:
             if (start and not isinstance(start, (time, timedelta))) or (end and not isinstance(end, time)):
                 raise ValueError("분봉 차트는 시간 타입만 지원합니다.")
 
-            if adjust:
-                raise ValueError("분봉 차트는 수정주가를 지원하지 않습니다.")
+            # if adjust:
+            #     raise ValueError("분봉 차트는 수정주가를 지원하지 않습니다.")
 
             from pykis.api.stock.day_chart import product_day_chart
 

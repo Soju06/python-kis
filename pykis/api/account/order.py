@@ -31,8 +31,10 @@ from pykis.event.handler import KisEventFilter
 from pykis.responses.exceptions import KisMarketNotOpenedError
 from pykis.responses.response import KisAPIResponse, raise_not_found
 from pykis.responses.types import KisString
+from pykis.utils.params import EMPTY, EMPTY_TYPE
 
 if TYPE_CHECKING:
+    from pykis.api.account.pending_order import KisPendingOrder
     from pykis.api.base.account_product import KisAccountProductProtocol
     from pykis.kis import PyKis
 
@@ -323,6 +325,12 @@ class KisOrderNumber(KisAccountProductProtocol, KisEventFilter, Protocol):
         """주문번호"""
         raise NotImplementedError
 
+    def __eq__(self, value: "object | KisOrderNumber") -> bool:
+        raise NotImplementedError
+
+    def __hash__(self) -> int:
+        raise NotImplementedError
+
 
 @runtime_checkable
 class KisOrder(KisOrderNumber, Protocol):
@@ -341,6 +349,46 @@ class KisOrder(KisOrderNumber, Protocol):
     @property
     def timezone(self) -> tzinfo:
         """시간대"""
+        raise NotImplementedError
+
+    @property
+    def pending(self) -> bool:
+        """미체결 여부"""
+        raise NotImplementedError
+
+    @property
+    def pending_order(self) -> "KisPendingOrder | None":
+        """미체결 주문"""
+        raise NotImplementedError
+
+    def modify(
+        self,
+        price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
+        qty: ORDER_QUANTITY | None = None,
+        condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
+        execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
+    ) -> "KisOrder":
+        """
+        한국투자증권 통합 주식 주문정정 (국내 모의투자 미지원, 해외 주간거래 모의투자 미지원)
+
+        국내주식주문 -> 주식주문(정정취소)[v1_국내주식-003]
+        국내주식주문 -> 해외주식 정정취소주문[v1_해외주식-003]
+
+        Args:
+            price (ORDER_PRICE, optional): 주문가격
+            qty (ORDER_QUANTITY, optional): 주문수량
+            condition (ORDER_CONDITION, optional): 주문조건
+            execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
+        """
+        raise NotImplementedError
+
+    def cancel(self) -> "KisOrder":
+        """
+        한국투자증권 통합 주식 주문취소 (해외 주간거래 모의투자 미지원)
+
+        국내주식주문 -> 주식주문(정정취소)[v1_국내주식-003]
+        국내주식주문 -> 해외주식 정정취소주문[v1_해외주식-003]
+        """
         raise NotImplementedError
 
     @staticmethod
@@ -564,6 +612,18 @@ class KisOrderNumberBase(KisAccountProductBase, KisOrderNumberEventFilter):
 class KisOrderBase(KisOrderNumberBase):
     """한국투자증권 주문"""
 
+    symbol: str
+    """종목코드"""
+    market: MARKET_TYPE
+    """상품유형타입"""
+    account_number: KisAccountNumber
+    """계좌번호"""
+
+    branch: str
+    """지점코드"""
+    number: str
+    """주문번호"""
+
     time: datetime
     """주문시간 (현지시간)"""
     time_kst: datetime
@@ -635,11 +695,65 @@ class KisOrderBase(KisOrderNumberBase):
             self.time_kst = time_kst
             self.time = self.time_kst.astimezone(self.timezone)
 
-    def __eq__(self, value: "object") -> bool:
-        if not isinstance(value, KisOrder):
-            return False
+    @property
+    def pending(self) -> bool:
+        """미체결 여부"""
+        return self.pending_order is not None
 
-        return super().__eq__(value) and self.time_kst == value.time_kst  # type: ignore
+    @property
+    def pending_order(self) -> "KisPendingOrder | None":
+        """미체결 주문"""
+        from pykis.api.account.pending_order import pending_orders
+
+        return pending_orders(
+            self.kis,
+            account=self.account_number,
+            country=get_market_country(self.market),
+        ).order(self)
+
+    def modify(
+        self,
+        price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
+        qty: ORDER_QUANTITY | None = None,
+        condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
+        execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
+    ) -> KisOrder:
+        """
+        한국투자증권 통합 주식 주문정정 (국내 모의투자 미지원, 해외 주간거래 모의투자 미지원)
+
+        국내주식주문 -> 주식주문(정정취소)[v1_국내주식-003]
+        국내주식주문 -> 해외주식 정정취소주문[v1_해외주식-003]
+
+        Args:
+            price (ORDER_PRICE, optional): 주문가격
+            qty (ORDER_QUANTITY, optional): 주문수량
+            condition (ORDER_CONDITION, optional): 주문조건
+            execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
+        """
+        from pykis.api.account.order_modify import modify_order
+
+        return modify_order(
+            self.kis,
+            order=self,
+            price=price,
+            qty=qty,
+            condition=condition,
+            execution=execution,
+        )
+
+    def cancel(self) -> "KisOrder":
+        """
+        한국투자증권 통합 주식 주문취소 (해외 주간거래 모의투자 미지원)
+
+        국내주식주문 -> 주식주문(정정취소)[v1_국내주식-003]
+        국내주식주문 -> 해외주식 정정취소주문[v1_해외주식-003]
+        """
+        from pykis.api.account.order_modify import cancel_order
+
+        return cancel_order(
+            self.kis,
+            order=self
+        )
 
 
 class KisDomesticOrder(KisAPIResponse, KisOrderBase):

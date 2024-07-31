@@ -672,7 +672,7 @@ def domestic_daily_orders(
     self: "PyKis",
     account: str | KisAccountNumber,
     start: date,
-    end: date,
+    end: date | None = None,
 ) -> KisDomesticDailyOrders:
     """
     한국투자증권 국내 체결내역 조회
@@ -684,12 +684,15 @@ def domestic_daily_orders(
         account (str | KisAccountNumber): 계좌번호
         page (KisPage, optional): 페이지 정보
         start (date): 조회 시작일
-        end (date): 조회 종료일
+        end (date, optional): 조회 종료일
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
         ValueError: 계좌번호가 잘못된 경우
     """
+    if end is None:
+        end = datetime.now(TIMEZONE).date()
+
     if start > end:
         start, end = end, start
 
@@ -797,7 +800,7 @@ def foreign_daily_orders(
     self: "PyKis",
     account: str | KisAccountNumber,
     start: date,
-    end: date,
+    end: date | None = None,
     country: COUNTRY_TYPE | None = None,
 ) -> KisForeignDailyOrders:
     """
@@ -810,13 +813,16 @@ def foreign_daily_orders(
         account (str | KisAccountNumber): 계좌번호
         page (KisPage, optional): 페이지 정보
         start (date): 조회 시작일
-        end (date): 조회 종료일
+        end (date, optional): 조회 종료일
         country (COUNTRY_TYPE, optional): 국가코드
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
         ValueError: 계좌번호가 잘못된 경우
     """
+    if end is None:
+        end = datetime.now(TIMEZONE).date()
+
     markets = FOREIGN_COUNTRY_MARKET_MAP.get(country, FOREIGN_COUNTRY_MARKET_MAP[None])
 
     first = None
@@ -847,7 +853,7 @@ def daily_orders(
     self: "PyKis",
     account: str | KisAccountNumber,
     start: date,
-    end: date,
+    end: date | None = None,
     country: COUNTRY_TYPE | None = None,
 ) -> KisDailyOrders:
     """
@@ -859,7 +865,7 @@ def daily_orders(
     Args:
         account (str | KisAccountNumber): 계좌번호
         start (date): 조회 시작일
-        end (date): 조회 종료일
+        end (date, optional): 조회 종료
         country (COUNTRY_TYPE, optional): 국가코드
 
     Raises:
@@ -906,7 +912,7 @@ def daily_orders(
 def account_daily_orders(
     self: "KisAccountProtocol",
     start: date,
-    end: date,
+    end: date | None = None,
     country: COUNTRY_TYPE | None = None,
 ) -> KisDailyOrders:
     """

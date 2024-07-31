@@ -329,15 +329,25 @@ class KisOrderableAccountProduct(Protocol):
     @property
     def quantity(self) -> ORDER_QUANTITY:
         """
-        주문 가능 수량 (단축)
+        보유수량 (단축)
 
         Returns:
-            ORDER_QUANTITY: 주문 가능 수량
+            ORDER_QUANTITY: 보유수량
         """
         raise NotImplementedError
 
     @property
     def qty(self) -> ORDER_QUANTITY:
+        """
+        보유수량 (단축)
+
+        Returns:
+            ORDER_QUANTITY: 보유수량
+        """
+        raise NotImplementedError
+
+    @property
+    def orderable(self) -> ORDER_QUANTITY:
         """
         주문 가능 수량 (단축)
 
@@ -381,13 +391,27 @@ class KisOrderableAccountProductImpl:
     @property
     def qty(self: "KisAccountProductProtocol") -> ORDER_QUANTITY:
         """
+        보유수량 (단축)
+
+        Returns:
+            ORDER_QUANTITY: 보유수량
+        """
+        return (
+            stock.quantity
+            if (stock := self.account.balance(get_market_country(self.market)).stock(self.symbol))
+            else ORDER_QUANTITY(0)
+        )
+
+    @property
+    def orderable(self: "KisAccountProductProtocol") -> ORDER_QUANTITY:
+        """
         주문 가능 수량 (단축)
 
         Returns:
             ORDER_QUANTITY: 주문 가능 수량
         """
         return (
-            stock.quantity
+            stock.orderable
             if (stock := self.account.balance(get_market_country(self.market)).stock(self.symbol))
             else ORDER_QUANTITY(0)
         )
