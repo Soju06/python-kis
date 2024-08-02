@@ -478,7 +478,7 @@ class KisDomesticRealtimePrice(KisRealtimePriceBase):
         None,  # 31 LWPR_VRSS_PRPR_SIGN 저가대비구분
         None,  # 32 LWPR_VRSS_PRPR 저가대비
         None,  # 33 BSOP_DATE 영업 일자
-        KisAny(DOMESTIC_REALTIME_PRICE_ORDER_CONDITION_MAP.__getitem__)[
+        KisAny(lambda x: DOMESTIC_REALTIME_PRICE_ORDER_CONDITION_MAP[x[0]])[
             "condition"
         ],  # 34 NEW_MKOP_CLS_CODE 신 장운영 구분 코드
         None,  # 35 TRHT_YN 거래정지 여부

@@ -3,6 +3,7 @@ from decimal import Decimal
 from typing import (
     TYPE_CHECKING,
     Any,
+    Callable,
     Literal,
     Protocol,
     get_args,
@@ -11,6 +12,7 @@ from typing import (
 )
 
 from pykis.__env__ import TIMEZONE
+from pykis.adapter.websocket.execution import KisRealtimeOrderableAccount
 from pykis.api.base.account import KisAccountProtocol
 from pykis.api.base.account_product import (
     KisAccountProductBase,
@@ -27,15 +29,19 @@ from pykis.api.stock.market import (
 from pykis.api.stock.quote import quote
 from pykis.client.account import KisAccountNumber
 from pykis.event.filters.order import KisOrderNumberEventFilter
-from pykis.event.handler import KisEventFilter
+from pykis.event.handler import KisEventFilter, KisEventTicket, KisMultiEventFilter
+from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.responses.exceptions import KisMarketNotOpenedError
 from pykis.responses.response import KisAPIResponse, raise_not_found
 from pykis.responses.types import KisString
 from pykis.utils.params import EMPTY, EMPTY_TYPE
+from pykis.utils.typing import Checkable
 
 if TYPE_CHECKING:
     from pykis.api.account.pending_order import KisPendingOrder
     from pykis.api.base.account_product import KisAccountProductProtocol
+    from pykis.api.websocket.order_execution import KisRealtimeExecution
+    from pykis.client.websocket import KisWebsocketClient
     from pykis.kis import PyKis
 
 __all__ = [
@@ -312,7 +318,9 @@ def resolve_domestic_order_condition(
 
 
 @runtime_checkable
-class KisOrderNumber(KisAccountProductProtocol, KisEventFilter, Protocol):
+class KisOrderNumber(
+    KisAccountProductProtocol, KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs], Protocol
+):
     """한국투자증권 주문번호"""
 
     @property
@@ -333,7 +341,7 @@ class KisOrderNumber(KisAccountProductProtocol, KisEventFilter, Protocol):
 
 
 @runtime_checkable
-class KisOrder(KisOrderNumber, Protocol):
+class KisOrder(KisOrderNumber, KisRealtimeOrderableAccount, Protocol):
     """한국투자증권 주문"""
 
     @property
@@ -750,10 +758,75 @@ class KisOrderBase(KisOrderNumberBase):
         """
         from pykis.api.account.order_modify import cancel_order
 
-        return cancel_order(
-            self.kis,
-            order=self
-        )
+        return cancel_order(self.kis, order=self)
+
+    def on(
+        self,
+        event: Literal["execution"],
+        callback: "Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]",
+        where: (
+            "KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None"
+        ) = None,
+        once: bool = False,
+    ) -> "KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]]":
+        """
+        웹소켓 이벤트 핸들러 등록
+
+        [국내주식] 실시간시세 -> 국내주식 실시간체결통보[실시간-005]
+        [해외주식] 실시간시세 -> 해외주식 실시간체결통보[실시간-009]
+
+        Args:
+            callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]): 콜백 함수
+            where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None, optional): 이벤트 필터. Defaults to None.
+            once (bool, optional): 한번만 실행 여부. Defaults to False.
+        """
+        from pykis.api.websocket.order_execution import on_account_execution
+
+        if event == "execution":
+            return on_account_execution(
+                self,
+                callback=callback,
+                where=KisMultiEventFilter(self, where) if where else self,
+                once=once,
+            )
+
+        raise ValueError(f"Unknown event: {event}")
+
+    def once(
+        self,
+        event: Literal["execution"],
+        callback: "Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]",
+        where: (
+            "KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None"
+        ) = None,
+    ) -> "KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]]":
+        """
+        웹소켓 이벤트 핸들러 등록
+
+        [국내주식] 실시간시세 -> 국내주식 실시간체결통보[실시간-005]
+        [해외주식] 실시간시세 -> 해외주식 실시간체결통보[실시간-009]
+
+        Args:
+            callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]): 콜백 함수
+            where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None, optional): 이벤트 필터. Defaults to None.
+        """
+        from pykis.api.websocket.order_execution import on_account_execution
+
+        if event == "execution":
+            return on_account_execution(
+                self,
+                callback=callback,
+                where=KisMultiEventFilter(self, where) if where else self,
+                once=True,
+            )
+
+        raise ValueError(f"Unknown event: {event}")
+
+
+if TYPE_CHECKING:
+    # IDE Type Checking
+    Checkable[KisOrderNumber](KisOrderNumberBase)
+    Checkable[KisOrder](KisOrderBase)
 
 
 class KisDomesticOrder(KisAPIResponse, KisOrderBase):
