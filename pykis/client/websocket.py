@@ -412,9 +412,8 @@ class KisWebsocketClient:
 
         logging.logger.info("RTC Connected to %s server", "virtual" if self.virtual else "real")
         self._reset_session_state()
-        self._connected_event.set()
-
         self._restore_subscriptions()
+        self._connected_event.set()
 
     def _on_error(self, websocket: WebSocketApp, error: Exception):
         if websocket is not self.websocket:
