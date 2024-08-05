@@ -5,7 +5,7 @@
 
 한국투자증권의 트레이딩 OPEN API 서비스를 파이썬 환경에서 사용할 수 있도록 만든 강력한 커뮤니티 라이브러리입니다.
 
-2.0.0 버전 이전의 라이브러리는 [여기](https://github.com/Soju06/python-kis/tree/v1.0.6), 문서는 [1](https://github.com/Soju06/python-kis/wiki/Home/d6aaf207dc523b92b52e734908dd6b8084cd36ff), [2](https://github.com/Soju06/python-kis/wiki/Tutorial/d6aaf207dc523b92b52e734908dd6b8084cd36ff), [3](https://github.com/Soju06/python-kis/wiki/Examples/d6aaf207dc523b92b52e734908dd6b8084cd36ff)에서 확인할 수 있습니다.
+**2.0.0 버전 이전의 라이브러리는 [여기](https://github.com/Soju06/python-kis/tree/v1.0.6), 문서는 [1](https://github.com/Soju06/python-kis/wiki/Home/d6aaf207dc523b92b52e734908dd6b8084cd36ff), [2](https://github.com/Soju06/python-kis/wiki/Tutorial/d6aaf207dc523b92b52e734908dd6b8084cd36ff), [3](https://github.com/Soju06/python-kis/wiki/Examples/d6aaf207dc523b92b52e734908dd6b8084cd36ff)에서 확인할 수 있습니다.**
 
 
 ### 1.1. 라이브러리 특징

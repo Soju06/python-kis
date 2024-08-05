@@ -1,0 +1,33 @@
+name: ❓ Question
+description: PyKis 라이브러리에 대해 궁금한 점이 있나요?
+title: "[질문]: "
+labels: ["질문"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        PyKis 커뮤니티 라이브러리의 활용해 주셔서 감사합니다!
+
+  - type: checkboxes
+    attributes:
+      label: 빠른 문제 해결을 위해 다음을 확인했나요?
+      description: >
+        PyKis [Docs](https://github.com/Soju06/python-kis/wiki)나 [Issues](https://github.com/Soju06/python-kis/issues)에서 유사한 질문이나 버그가 존재하는지 확인해주세요.
+      options:
+        - label: >
+            PyKis [Issues](https://github.com/Soju06/python-kis/issues)에서 검색했지만 유사한 질문을 찾지 못했습니다.
+          required: true
+  
+  - type: textarea
+    attributes:
+      label: 질문 내용
+      description: 최대한 자세한 정보를 제공해 주시면, 빠르게 문제를 해결할 수 있습니다. 질문의 목적, 설명, 코드를 포함해주세요. [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)형식을 지원합니다.
+      placeholder: |
+        💡 유용한 답변을 받으려면 가능한 많은 정보(질문의 목적, 설명, 코드 등)을 포함해주세요.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 추가 정보
+      description: 또 이야기하고 싶은 것이 있나요?
