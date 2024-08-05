@@ -34,6 +34,14 @@ body:
         기능 요청의 사용 사례를 설명해주세요. 이 기능을 어떻게 사용할 수 있을지, Python 코드 예제를 포함해주세요.
       placeholder: |
         💡 기능을 사용하는 예제 코드와 설명을 제공해주세요.
+        
+        ```python
+        from pykis import PyKis
+
+        kis = PyKis("secret.json", keep_token=True)
+
+        ...
+        ```
 
   - type: textarea
     attributes:
