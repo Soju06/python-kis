@@ -1,5 +1,4 @@
 import sys
-from zoneinfo import ZoneInfo
 
 APPKEY_LENGTH = 36
 SECRETKEY_LENGTH = 180
@@ -22,13 +21,12 @@ TRACE_DETAIL_ERROR: bool = False
 이로 인해 예외 메세지에서 앱 키가 노출될 수 있습니다.
 """
 
-TIMEZONE_NAME = "Asia/Seoul"
-TIMEZONE = ZoneInfo(TIMEZONE_NAME)
 
 VERSION = "2.0.0"
 
 USER_AGENT = f"PyKis/{VERSION}"
 
+__package_name__ = "python-kis"
 __version__ = VERSION
 __author__ = "soju06"
 __author_email__ = "qlskssk@gmail.com"

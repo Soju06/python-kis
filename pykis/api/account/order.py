@@ -11,7 +11,6 @@ from typing import (
     runtime_checkable,
 )
 
-from pykis.__env__ import TIMEZONE
 from pykis.adapter.websocket.execution import KisRealtimeOrderableAccount
 from pykis.api.base.account import KisAccountProtocol
 from pykis.api.base.account_product import (
@@ -35,6 +34,7 @@ from pykis.responses.exceptions import KisMarketNotOpenedError
 from pykis.responses.response import KisAPIResponse, raise_not_found
 from pykis.responses.types import KisString
 from pykis.utils.params import EMPTY, EMPTY_TYPE
+from pykis.utils.timezone import TIMEZONE
 from pykis.utils.typing import Checkable
 
 if TYPE_CHECKING:

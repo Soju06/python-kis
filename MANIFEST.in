@@ -1,4 +1,0 @@
-include LICENCE
-include README.md
-include requirements.txt
-recursive-include pykis *

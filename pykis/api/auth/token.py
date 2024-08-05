@@ -3,10 +3,10 @@ from datetime import datetime, timedelta
 from os import PathLike
 from typing import TYPE_CHECKING, Any, Literal
 
-from pykis.__env__ import TIMEZONE
 from pykis.client.form import KisForm
 from pykis.responses.dynamic import KisObject
 from pykis.responses.types import KisDatetime, KisDynamic, KisInt, KisString
+from pykis.utils.timezone import TIMEZONE
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis

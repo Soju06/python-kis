@@ -2,6 +2,7 @@ from pykis.__env__ import (
     __author__,
     __author_email__,
     __license__,
+    __package_name__,
     __url__,
     __version__,
 )

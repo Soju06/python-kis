@@ -2,7 +2,6 @@ from datetime import date
 from decimal import Decimal
 from typing import TYPE_CHECKING, Literal, Protocol, runtime_checkable
 
-from pykis.__env__ import TIMEZONE
 from pykis.api.base.product import KisProductBase, KisProductProtocol
 from pykis.api.stock.market import (
     DAYTIME_MARKET_SHORT_TYPE_MAP,
@@ -25,6 +24,7 @@ from pykis.responses.types import (
 )
 from pykis.utils.cache import cached, set_cache
 from pykis.utils.repr import kis_repr
+from pykis.utils.timezone import TIMEZONE
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis

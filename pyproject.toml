@@ -1,0 +1,67 @@
+[build-system]
+requires = [
+    "setuptools>=71.1",
+    "setuptools-scm>=8.1"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python-kis"
+description = "파이썬 한국투자증권 REST 기반 Trading API 라이브러리"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Soju06", email = "qlskssk@gmail.com" }
+]
+keywords = [
+    "python",
+    "client",
+    "library",
+    "trading",
+    "websocket",
+    "realtime",
+    "investing",
+    "korean",
+    "investment",
+    "autotrading",
+    "koreainvestment"
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "Typing :: Typed"
+]
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.32.3",
+    "websocket-client>=1.8.0",
+    "cryptography>=43.0.0",
+    "colorlog>=6.8.2"
+]
+dynamic = [
+    "version",
+]
+[project.urls]
+"Bug Tracker" = "https://github.com/Soju06/python-kis/issues"
+"Documentation" = "https://github.com/Soju06/python-kis/wiki/Tutorial"
+"Source Code" = "https://github.com/Soju06/python-kis"
+
+[tool.setuptools.dynamic]
+version = { attr = "pykis.__env__.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pykis"]
+exclude = ["tests"]

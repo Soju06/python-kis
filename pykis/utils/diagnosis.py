@@ -1,3 +1,4 @@
+import importlib.metadata as metadata
 import platform
 from pathlib import Path
 
@@ -13,15 +14,15 @@ def check():
     print()
     print("Installed Packages:", end=" ")
 
-    requirements = Path(__file__).parents[2].joinpath("requirements.txt")
+    try:
+        requires = metadata.distribution(pykis.__package_name__).requires
 
-    if requirements.exists():
-        try:
-            import importlib.metadata as metadata
-
+        if not requires:
+            print("No Dependencies")
+        else:
             print()
 
-            for package in requirements.read_text().splitlines():
+            for package in requires:
                 package, version = package.rsplit("=", 1)
                 package, operator = package[:-1], package[-1]
                 l = (30 - len(package)) // 2
@@ -37,12 +38,11 @@ def check():
                 except metadata.PackageNotFoundError:
                     print("Not Found")
 
-            print("=" * 32)
-        except ImportError:
-            print("importlib-metadata not found")
-            return
-    else:
-        print("requirements.txt not found")
+    except metadata.PackageNotFoundError:
+        print("Package Not Found")
+        return
+
+    print("=" * 32)
 
     print()
 

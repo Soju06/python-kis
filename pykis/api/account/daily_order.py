@@ -3,7 +3,6 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, Any, Iterable, Protocol, runtime_checkable
 from zoneinfo import ZoneInfo
 
-from pykis.__env__ import TIMEZONE
 from pykis.api.account.order import (
     ORDER_CONDITION,
     ORDER_EXECUTION,
@@ -28,9 +27,10 @@ from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
 from pykis.responses.response import KisPaginationAPIResponse
-from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
+from pykis.responses.types import KisAny, KisDecimal, KisString
 from pykis.utils.cache import cached
 from pykis.utils.repr import kis_repr
+from pykis.utils.timezone import TIMEZONE
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
