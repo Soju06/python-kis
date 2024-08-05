@@ -1,3 +1,4 @@
+import sys
 from zoneinfo import ZoneInfo
 
 APPKEY_LENGTH = 36
@@ -33,3 +34,6 @@ __author__ = "soju06"
 __author_email__ = "qlskssk@gmail.com"
 __url__ = "https://github.com/soju06/python-kis"
 __license__ = "MIT"
+
+if sys.version_info < (3, 10):
+    raise RuntimeError(f"PyKis에는 Python 3.10 이상이 필요합니다. (Current: {sys.version})")
