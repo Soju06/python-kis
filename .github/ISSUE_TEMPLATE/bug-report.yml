@@ -1,0 +1,87 @@
+name: 🐛 Bug Report
+description: 라이브러리가 예상대로 작동하지 않나요?
+title: "[버그]: "
+labels: ["버그"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        PyKis 커뮤니티 라이브러리의 버그 보고서를 작성해 주셔서 감사합니다!
+
+  - type: checkboxes
+    attributes:
+      label: 빠른 문제 해결을 위해 다음을 확인했나요?
+      description: >
+        PyKis [Docs](https://github.com/Soju06/python-kis/wiki)나 [Issues](https://github.com/Soju06/python-kis/issues)에서 유사한 버그가 존재하는지 확인해주세요.
+      options:
+        - label: >
+            PyKis [Issues](https://github.com/Soju06/python-kis/issues)에서 검색했지만 유사한 버그를 찾지 못했습니다.
+          required: true
+  
+  - type: textarea
+    attributes:
+      label: 버그 설명
+      description: 최대한 자세한 정보를 제공해 주시면, 빠르게 문제를 해결할 수 있습니다. 디버그 로그 및 오류 메시지, Traceback을 포함해주세요. [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)형식을 지원합니다.
+      placeholder: |
+        💡 유용한 답변을 받으려면 가능한 많은 정보(디버그 로그, Traceback, 코드 등)을 포함해주세요.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 종속성 버전 문제 진단
+      description: 종속성 라이브러리 버전 문제를 진단하기 위해 `from pykis.utils.diagnosis import check; check()`를 실행한 결과를 붙여넣어주세요.
+      placeholder: |
+        `from pykis.utils.diagnosis import check; check()` 실행 결과를 붙여넣어주세요.
+
+        ```
+        Version: PyKis/2.0.0
+        Python: CPython 3.11.7
+        System: Windows 10.0.26120 [AMD64]
+
+        Installed Packages: 
+        =========== requests ===========
+        Required: 2.32.3>=
+        Installed: 2.32.3
+        ======= websocket-client =======
+        Required: 1.8.0>=
+        Installed: 1.8.0
+        ========= cryptography =========
+        Required: 43.0.0>=
+        Installed: 43.0.0
+        =========== colorlog ===========
+        Required: 6.8.2>=
+        Installed: 6.8.2
+        ================================
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 재현 방법
+      description: >
+        질문을 할 때 사람들이 쉽게 이해하고 문제를 **재현**하는 데 사용할 수 있는 코드를 제공하면 더 나은 도움을 드릴 수 있습니다.
+      placeholder: |
+        ```python
+        from pykis import PyKis
+
+        kis = PyKis("secret.json", keep_token=True)
+
+        ...
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 추가 정보
+      description: 또 궁금하고 싶은 것이 있나요?
+
+  - type: checkboxes
+    attributes:
+      label: PR를 통해 라이브러리에 기여하고 싶으신가요?
+      description: >
+        구현 방법을 잘 이해하고 있는 경우, [Pull Request](https://github.com/Soju06/python-kis/pulls) PyKis 커뮤니티 라이브러리를 개선해주세요!
+      options:
+        - label: 네, PR을 제출하여 도움을 주고 싶습니다!
