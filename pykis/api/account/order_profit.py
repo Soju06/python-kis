@@ -3,7 +3,6 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, Iterable, Protocol, runtime_checkable
 from zoneinfo import ZoneInfo
 
-from pykis.__env__ import TIMEZONE
 from pykis.api.account.order import ORDER_QUANTITY
 from pykis.api.base.account import KisAccountBase, KisAccountProtocol
 from pykis.api.base.account_product import (
@@ -25,6 +24,7 @@ from pykis.responses.response import KisPaginationAPIResponse
 from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
 from pykis.utils.cache import cached
 from pykis.utils.repr import kis_repr
+from pykis.utils.timezone import TIMEZONE
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -549,7 +549,7 @@ def domestic_order_profits(
     """
     if self.virtual:
         raise NotImplementedError("모의투자에서는 국내 기간 손익 조회를 지원하지 않습니다.")
-    
+
     if end is None:
         end = datetime.now(TIMEZONE).date()
 

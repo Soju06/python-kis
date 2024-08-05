@@ -3,7 +3,6 @@ from datetime import date, datetime, time, timedelta, tzinfo
 from decimal import Decimal
 from typing import TYPE_CHECKING, Any, TypeVar
 
-from pykis.__env__ import TIMEZONE
 from pykis.api.stock.chart import KisChart, KisChartBar, KisChartBarRepr, KisChartBase
 from pykis.api.stock.market import MARKET_SHORT_TYPE_MAP, MARKET_TYPE
 from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_KOR_MAP
@@ -11,6 +10,7 @@ from pykis.api.stock.trading_hours import KisTradingHours, KisTradingHoursBase
 from pykis.responses.dynamic import KisDynamic, KisList, KisObject, KisTransform
 from pykis.responses.response import KisAPIResponse, KisResponse, raise_not_found
 from pykis.responses.types import KisDecimal, KisInt, KisTime
+from pykis.utils.timezone import TIMEZONE
 from pykis.utils.typing import Checkable
 
 if TYPE_CHECKING:

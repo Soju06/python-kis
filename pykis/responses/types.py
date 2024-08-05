@@ -2,9 +2,9 @@ from datetime import date, datetime, time, tzinfo
 from decimal import Decimal
 from typing import Any, Callable
 
-from pykis.__env__ import TIMEZONE
 from pykis.responses.dynamic import KisDynamic, KisNoneValueError, KisType, KisTypeMeta
 from pykis.utils.repr import dict_repr
+from pykis.utils.timezone import TIMEZONE
 
 __all__ = [
     "KisDynamicDict",

@@ -2,7 +2,6 @@ from datetime import datetime, tzinfo
 from decimal import Decimal
 from typing import TYPE_CHECKING, Callable, Protocol, runtime_checkable
 
-from pykis.__env__ import TIMEZONE
 from pykis.api.account.order import ORDER_CONDITION
 from pykis.api.base.product import KisProductBase, KisProductProtocol
 from pykis.api.stock.market import (
@@ -24,6 +23,7 @@ from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
 from pykis.responses.websocket import KisWebsocketResponse, KisWebsocketResponseProtocol
 from pykis.utils.repr import kis_repr
+from pykis.utils.timezone import TIMEZONE
 from pykis.utils.typing import Checkable
 
 if TYPE_CHECKING:

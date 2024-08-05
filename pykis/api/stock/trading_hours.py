@@ -1,12 +1,12 @@
 from datetime import date, datetime, time, timedelta, tzinfo
 from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
-from pykis.__env__ import TIMEZONE
 from pykis.api.base.market import KisMarketBase, KisMarketProtocol
 from pykis.api.stock.info import COUNTRY_TYPE
 from pykis.api.stock.market import MARKET_TYPE, get_market_name, get_market_timezone
 from pykis.responses.exceptions import KisNotFoundError
 from pykis.utils.repr import kis_repr
+from pykis.utils.timezone import TIMEZONE
 
 if TYPE_CHECKING:
     from pykis import PyKis
