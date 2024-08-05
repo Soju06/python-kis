@@ -1,5 +1,14 @@
-from typing import Literal
+from typing import Any, Literal
 
+from pykis.client.form import KisForm
+from pykis.responses.dynamic import KisDynamic
+from pykis.utils.repr import kis_repr
+
+__all__ = [
+    "KisPageStatus",
+    "to_page_status",
+    "KisPage",
+]
 
 KisPageStatus = Literal["begin", "end"]
 
@@ -13,86 +22,81 @@ def to_page_status(status: str) -> KisPageStatus:
         raise ValueError(f"Invalid page status: {status}")
 
 
-class KisPage:
-    """한국투자증권 페이징 정보"""
+@kis_repr(
+    "size",
+    "search",
+    "key",
+    lines="single",
+)
+class KisPage(KisDynamic, KisForm):
+    """한국투자증권 페이지 커서"""
 
     search: str
-    """CTX_AREA_FK{size}	연속조회검색조건"""
+    """연속조회검색조건"""
     key: str
-    """CTX_AREA_NK{size}	연속조회키"""
-    size: int
-    """조회키 크기"""
+    """연속조회키"""
+    size: int | None
+    """커서 길이"""
 
-    def __init__(self, data: dict | tuple[str, str] | None = None, size: int = 100):
+    def __init__(self, size: int | None = None, search: str | None = None, key: str | None = None):
+        super().__init__()
         self.size = size
-        if data:
-            if isinstance(data, tuple):
-                self.search = data[0]
-                self.key = data[1]
-            if isinstance(data, dict):
-                self.search = data[f'ctx_area_fk{"" if not size else size}']
-                self.key = data[f'ctx_area_nk{"" if not size else size}']
-            else:
-                raise ValueError(f"Invalid data type: {type(data)}")
+        self.search = search or ""
+        self.key = key or ""
+
+    def __pre_init__(self, data: dict[str, Any]):
+        super().__pre_init__(data)
+
+        if (search := data.get("ctx_area_fk100")) is not None:
+            self.search = search
+            self.key = data["ctx_area_nk100"]
+            self.size = 100
+        elif (search := data.get("ctx_area_fk200")) is not None:
+            self.search = search
+            self.key = data["ctx_area_nk200"]
+            self.size = 200
         else:
-            self.search = ""
-            self.key = ""
+            raise ValueError(f"페이지 커서를 파싱할 수 없었습니다. {data}")
 
     @property
-    def empty(self) -> bool:
-        """페이징 정보가 비어있는지 확인합니다."""
-        return self.search == "" and self.key == ""
+    def is_empty(self) -> bool:
+        """커서가 비어있는지 확인합니다."""
+        return (not self.key or self.key.isspace()) and (not self.search or self.search.isspace())
 
     @property
-    def long(self) -> bool:
-        """긴 페이징 정보인지 확인합니다."""
+    def is_first(self) -> bool:
+        """첫 번째 페이지인지 확인합니다."""
+        return self.is_empty
+
+    @property
+    def is_100(self) -> bool:
+        """커서 길이가 100인지 확인합니다."""
+        return self.size == 100
+
+    @property
+    def is_200(self) -> bool:
+        """커서 길이가 200인지 확인합니다."""
         return self.size == 200
 
-    def to_long(self) -> "KisLongPage":
-        """긴 페이징 정보로 변환합니다."""
-        return KisLongPage((self.search, self.key))
+    def to(self, size: int) -> "KisPage":
+        """커서 길이를 변경합니다."""
+        if len(self.key) > size or len(self.search) > size:
+            raise ValueError(f"커서 길이가 이미 {size}보다 큽니다.")
 
-    @property
-    def zero(self) -> bool:
-        """0 페이징 정보인지 확인합니다."""
-        return self.size == 0
+        return type(self)(size, self.search, self.key)
 
-    def to_zero(self) -> "KisZeroPage":
-        """0 페이징 정보로 변환합니다."""
-        return KisZeroPage((self.search, self.key))
+    def build(self, data: dict[str, Any] | None = None) -> dict[str, Any]:
+        """요청 폼을 생성합니다."""
+        if self.size is None:
+            raise ValueError("커서 길이가 지정되지 않았습니다.")
 
-    def build_body(self, body: dict) -> dict:
-        """페이징 정보를 추가합니다."""
-        body[f'CTX_AREA_FK{"" if not self.size else self.size}'] = self.search
-        body[f'CTX_AREA_NK{"" if not self.size else self.size}'] = self.key
+        data = data or {}
+        data[f"ctx_area_fk{self.size}"] = self.search
+        data[f"ctx_area_nk{self.size}"] = self.key
 
-        return body
+        return data
 
-    @staticmethod
-    def first(size: int = 100) -> "KisPage":
-        """첫 페이지"""
-        return KisPage(None, size)
-
-
-class KisLongPage(KisPage):
-    """한국투자증권 페이징 정보"""
-
-    def __init__(self, data: dict | tuple[str, str] | None = None):
-        super().__init__(data, 200)
-
-    @staticmethod
-    def first() -> "KisLongPage":
-        """첫 페이지"""
-        return KisLongPage(None)
-
-
-class KisZeroPage(KisPage):
-    """한국투자증권 페이징 정보"""
-
-    def __init__(self, data: dict | tuple[str, str] | None = None):
-        super().__init__(data, 0)
-
-    @staticmethod
-    def first() -> "KisZeroPage":
-        """첫 페이지"""
-        return KisZeroPage(None)
+    @classmethod
+    def first(cls, size: int | None = None) -> "KisPage":
+        """첫 번째를 만듭니다."""
+        return cls(size)

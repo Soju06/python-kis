@@ -1,55 +1,54 @@
 import logging
 import sys
+from typing import Literal
+
 from colorlog import ColoredFormatter
 
-logging.addLevelName(logging.DEBUG, 'DEBG')
-logging.addLevelName(logging.INFO, 'INFO')
-logging.addLevelName(logging.WARNING, 'WARN')
-logging.addLevelName(logging.ERROR, 'EROR')
-logging.addLevelName(logging.CRITICAL, 'CRIT')
+__all__ = [
+    "logger",
+    "setLevel",
+]
+
 
 def _create_logger(name: str, level) -> logging.Logger:
     logger = logging.getLogger(name)
     handler = logging.StreamHandler(stream=sys.stdout)
-    handler.setFormatter(ColoredFormatter(
-        "%(log_color)s[%(asctime)s] %(levelname)s %(message)s",
-        datefmt="%m/%d %H:%M:%S",
-        reset=True,
-        log_colors={
-            'DEBUG':    'white',
-            'INFO':     'white,bold',
-            'INFOV':    'white,bold',
-            'WARNING':  'yellow',
-            'ERROR':    'red,bold',
-            'CRITICAL': 'red,bold',
-        },
-        secondary_log_colors={},
-        style='%'
-    ))
+    handler.setFormatter(
+        ColoredFormatter(
+            "%(log_color)s[%(asctime)s] %(levelname)s: %(message)s",
+            datefmt="%m/%d %H:%M:%S",
+            reset=True,
+            log_colors={
+                "INFO": "white",
+                "WARNING": "bold_yellow",
+                "ERROR": "bold_red",
+                "CRITICAL": "bold_red",
+            },
+            secondary_log_colors={},
+            style="%",
+        )
+    )
     logger.addHandler(handler)
     logger.setLevel(level)
     return logger
 
-default_logger = _create_logger('pykis', logging.INFO)
 
-class KisLoggable:
-    logger: logging.Logger
-    '''로거'''
+logger = _create_logger("pykis", logging.INFO)
 
-    def _logger_ready(self, logger: logging.Logger):
-        pass
 
-    def _emit_logger(self, logger: logging.Logger | None = None):
-        if logger:
-            n = logger != getattr(self, 'logger', None)
-            self.logger = logger
-        else:
-            self.logger = default_logger
-            n = True
+def setLevel(level: int | Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]) -> None:
+    """PyKis 로거의 로깅 레벨을 설정합니다."""
+    if isinstance(level, str):
+        match level:
+            case "DEBUG":
+                level = logging.DEBUG
+            case "INFO":
+                level = logging.INFO
+            case "WARNING":
+                level = logging.WARNING
+            case "ERROR":
+                level = logging.ERROR
+            case "CRITICAL":
+                level = logging.CRITICAL
 
-        for obj in self.__dict__.values():
-            if isinstance(obj, KisLoggable):
-                obj._emit_logger(self.logger)
-        
-        if n:
-            self._logger_ready(logger)  # type: ignore
+    logger.setLevel(level)

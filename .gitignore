@@ -1,5 +1,7 @@
 test.py
+test-*.py
 test.ipynb
+test-*.ipynb
 __pycache__
 .vscode
 build/
@@ -21,3 +23,5 @@ MANIFEST
 wiki/
 tests/vack.txt
 tests/vacco.txt
+dummy/
+.env
