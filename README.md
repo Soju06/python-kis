@@ -312,6 +312,10 @@ KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:4
 
 ## 4. Changelog ✨
 
+### ver 2.0.1
+
+- 초기 웹소켓 이벤트 구독시 클라이언트 접속 후 구독을 요청하는 코드에서 `_connected_event`가 set 되어있지 않아, 요청이 무시되는 버그를 수정했습니다.
+
 ### ver 2.0.0
 
 - 라이브러리가 완전히 새롭게 변경되었습니다.
