@@ -1,5 +1,13 @@
 from abc import ABCMeta, abstractmethod
-from typing import Callable, Generic, Literal, Protocol, TypeVar, runtime_checkable
+from typing import (
+    Callable,
+    Generic,
+    Iterable,
+    Literal,
+    Protocol,
+    TypeVar,
+    runtime_checkable,
+)
 
 from pykis.utils.reference import release_method
 
@@ -356,7 +364,7 @@ class KisEventHandler(Generic[TSender, TEventArgs]):
     def __len__(self):
         return len(self.handlers)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterable[EventCallback[TSender, TEventArgs]]:
         return iter(self.handlers)
 
     def __contains__(self, handler: EventCallback[TSender, TEventArgs]):

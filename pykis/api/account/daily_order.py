@@ -314,7 +314,7 @@ class KisDailyOrdersBase(KisAccountBase):
     def __len__(self) -> int:
         return len(self.orders)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterable[KisDailyOrder]:
         return iter(self.orders)
 
 
@@ -420,7 +420,7 @@ class KisDomesticDailyOrder(KisDynamic, KisDailyOrderBase):
     canceled: bool = KisTransform(lambda x: x == "Y")["ccld_yn"]
     """취소여부"""
 
-    def __pre_init__(self, data: dict[str, Any]):
+    def __pre_init__(self, data: dict[str, Any]) -> None:
         super().__pre_init__(data)
 
         country, market, condition = DOMESTIC_EXCHANGE_CODE_MAP[data["excg_dvsn_cd"]]
@@ -433,7 +433,7 @@ class KisDomesticDailyOrder(KisDynamic, KisDailyOrderBase):
 
         self.condition = condition
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         super().__post_init__()
 
         self.time = self.time_kst.astimezone(self.timezone)
@@ -450,7 +450,7 @@ class KisDomesticDailyOrders(KisPaginationAPIResponse, KisDailyOrdersBase):
     orders: list[KisDailyOrder] = KisList(KisDomesticDailyOrder)["output1"]
     """일별 체결내역"""
 
-    def __init__(self, account_number: KisAccountNumber):
+    def __init__(self, account_number: KisAccountNumber) -> None:
         super().__init__()
         self.account_number = account_number
 
@@ -461,7 +461,7 @@ class KisDomesticDailyOrders(KisPaginationAPIResponse, KisDailyOrdersBase):
             if isinstance(order, KisDailyOrderBase):
                 order.account_number = self.account_number
 
-    def __kis_post_init__(self):
+    def __kis_post_init__(self) -> None:
         super().__kis_post_init__()
         self._kis_spread(self.orders)  # type: ignore
 
@@ -538,7 +538,7 @@ class KisForeignDailyOrder(KisDynamic, KisDailyOrderBase):
     canceled: bool = False
     """취소여부"""
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         super().__post_init__()
 
         self.time = self.time_kst.astimezone(self.timezone)
@@ -555,7 +555,7 @@ class KisForeignDailyOrders(KisPaginationAPIResponse, KisDailyOrdersBase):
     orders: list[KisDailyOrder] = KisList(KisForeignDailyOrder)["output"]
     """일별 체결내역"""
 
-    def __init__(self, account_number: KisAccountNumber):
+    def __init__(self, account_number: KisAccountNumber) -> None:
         super().__init__()
         self.account_number = account_number
 
@@ -566,7 +566,7 @@ class KisForeignDailyOrders(KisPaginationAPIResponse, KisDailyOrdersBase):
             if isinstance(order, KisDailyOrderBase):
                 order.account_number = self.account_number
 
-    def __kis_post_init__(self):
+    def __kis_post_init__(self) -> None:
         super().__kis_post_init__()
         self._kis_spread(self.orders)  # type: ignore
 
@@ -582,7 +582,7 @@ class KisIntegrationDailyOrders(KisDailyOrdersBase):
     _orders: list[KisDailyOrders]
     """내부구현 체결내역"""
 
-    def __init__(self, kis: "PyKis", account_number: KisAccountNumber, *orders: KisDailyOrders):
+    def __init__(self, kis: "PyKis", account_number: KisAccountNumber, *orders: KisDailyOrders) -> None:
         super().__init__()
         self.kis = kis
         self.account_number = account_number

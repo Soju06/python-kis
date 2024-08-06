@@ -301,7 +301,7 @@ class KisOrderProfitsBase(KisOrderProfitsRepr, KisAccountBase):
     def __len__(self) -> int:
         return len(self.orders)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterable[KisOrderProfit]:
         return iter(self.orders)
 
 
