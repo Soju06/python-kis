@@ -187,18 +187,19 @@ class KisWebsocketClient:
                 logging.logger.info("RTC Disconnecting from server")
                 self.websocket.close()
 
-    def _request(self, type: str, body: KisWebsocketForm | None = None) -> bool:
+    def _request(self, type: str, body: KisWebsocketForm | None = None, force: bool = False) -> bool:
         """
         요청을 보냅니다.
 
         Args:
             type (str): 요청 타입
             body (KisWebsocketForm | None): 요청 본문
+            force (bool): 접속 상태와 상관없이 요청을 보낼지 여부
 
         Returns:
             bool: 요청 성공 여부
         """
-        if not self.websocket or not self._connected_event.is_set():
+        if not self.websocket or (not force and not self._connected_event.is_set()):
             return False
 
         logging.logger.debug("RTC Sending request: %s %s", type, body)
@@ -355,7 +356,7 @@ class KisWebsocketClient:
         logging.logger.info("RTC Restoring subscriptions... %s", ", ".join(map(str, subscriptions)))
 
         for tr in subscriptions:
-            self._request(TR_SUBSCRIBE_TYPE, tr)
+            self._request(TR_SUBSCRIBE_TYPE, tr, force=True)
 
     def _run_forever(self) -> bool:
         SLEEP_INTERVAL = 0.1
