@@ -7,6 +7,7 @@ from pykis.adapter.websocket.price import KisWebsocketQuotableProduct
 from pykis.api.account.balance import KisBalance, KisBalanceStock, KisDeposit
 from pykis.api.account.daily_order import KisDailyOrder, KisDailyOrders
 from pykis.api.account.order import (
+    IN_ORDER_QUANTITY,
     ORDER_CONDITION,
     ORDER_EXECUTION,
     ORDER_PRICE,
@@ -115,6 +116,7 @@ __all__ = [
     "ORDER_EXECUTION",
     "ORDER_CONDITION",
     "ORDER_QUANTITY",
+    "IN_ORDER_QUANTITY",
     ################################
     ##             API            ##
     ################################

@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 from pykis.api.account.order import (
+    IN_ORDER_QUANTITY,
     ORDER_CONDITION,
     ORDER_EXECUTION,
     ORDER_PRICE,
-    ORDER_QUANTITY,
     ORDER_TYPE,
     KisOrder,
     KisOrderNumber,
@@ -33,7 +33,7 @@ class KisOrderableAccount(Protocol):
         market: MARKET_TYPE,
         symbol: str,
         price: ORDER_PRICE | None = None,
-        qty: ORDER_QUANTITY | None = None,
+        qty: IN_ORDER_QUANTITY | None = None,
         condition: ORDER_CONDITION | None = None,
         execution: ORDER_EXECUTION | None = None,
         include_foreign: bool = False,
@@ -48,7 +48,7 @@ class KisOrderableAccount(Protocol):
             market (MARKET_TYPE): 시장
             symbol (str): 종목코드
             price (ORDER_PRICE, optional): 주문가격
-            qty (ORDER_QUANTITY, optional): 주문수량
+            qty (IN_ORDER_QUANTITY, optional): 주문수량
             condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
             execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
             include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -102,7 +102,7 @@ class KisOrderableAccount(Protocol):
         market: MARKET_TYPE,
         symbol: str,
         price: ORDER_PRICE | None = None,
-        qty: ORDER_QUANTITY | None = None,
+        qty: IN_ORDER_QUANTITY | None = None,
         condition: ORDER_CONDITION | None = None,
         execution: ORDER_EXECUTION | None = None,
         include_foreign: bool = False,
@@ -117,7 +117,7 @@ class KisOrderableAccount(Protocol):
             market (MARKET_TYPE): 시장
             symbol (str): 종목코드
             price (ORDER_PRICE, optional): 주문가격
-            qty (ORDER_QUANTITY, optional): 주문수량
+            qty (IN_ORDER_QUANTITY, optional): 주문수량
             condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
             execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
             include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -172,7 +172,7 @@ class KisOrderableAccount(Protocol):
         symbol: str,
         order: ORDER_TYPE,
         price: ORDER_PRICE | None = None,
-        qty: ORDER_QUANTITY | None = None,
+        qty: IN_ORDER_QUANTITY | None = None,
         condition: ORDER_CONDITION | None = None,
         execution: ORDER_EXECUTION | None = None,
         include_foreign: bool = False,
@@ -188,7 +188,7 @@ class KisOrderableAccount(Protocol):
             symbol (str): 종목코드
             order (ORDER_TYPE): 주문종류
             price (ORDER_PRICE, optional): 주문가격
-            qty (ORDER_QUANTITY, optional): 주문수량
+            qty (IN_ORDER_QUANTITY, optional): 주문수량
             condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
             execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
             include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -275,7 +275,7 @@ class KisOrderableAccount(Protocol):
         self: "KisAccountProtocol",
         order: KisOrderNumber,
         price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-        qty: ORDER_QUANTITY | None = None,
+        qty: IN_ORDER_QUANTITY | None = None,
         condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
         execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
     ) -> KisOrder:
@@ -290,7 +290,7 @@ class KisOrderableAccount(Protocol):
             account (str | KisAccountNumber): 계좌번호
             order (KisOrderNumber): 주문번호
             price (ORDER_PRICE, optional): 주문가격
-            qty (ORDER_QUANTITY, optional): 주문수량
+            qty (IN_ORDER_QUANTITY, optional): 주문수량
             condition (ORDER_CONDITION, optional): 주문조건
             execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         """

@@ -1,7 +1,7 @@
-from decimal import Decimal
 from typing import Protocol, runtime_checkable
 
 from pykis.api.account.order import (
+    IN_ORDER_QUANTITY,
     ORDER_CONDITION,
     ORDER_EXECUTION,
     ORDER_PRICE,
@@ -28,7 +28,7 @@ class KisOrderableAccountProduct(Protocol):
         self: "KisAccountProductProtocol",
         order: ORDER_TYPE,
         price: ORDER_PRICE | None = None,
-        qty: ORDER_QUANTITY | None = None,
+        qty: IN_ORDER_QUANTITY | None = None,
         condition: ORDER_CONDITION | None = None,
         execution: ORDER_EXECUTION | None = None,
         include_foreign: bool = False,
@@ -42,7 +42,7 @@ class KisOrderableAccountProduct(Protocol):
         Args:
             order (ORDER_TYPE): 주문종류
             price (ORDER_PRICE, optional): 주문가격
-            qty (ORDER_QUANTITY, optional): 주문수량
+            qty (IN_ORDER_QUANTITY, optional): 주문수량
             condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
             execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
             include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -128,7 +128,7 @@ class KisOrderableAccountProduct(Protocol):
     def buy(
         self: "KisAccountProductProtocol",
         price: ORDER_PRICE | None = None,
-        qty: ORDER_QUANTITY | None = None,
+        qty: IN_ORDER_QUANTITY | None = None,
         condition: ORDER_CONDITION | None = None,
         execution: ORDER_EXECUTION | None = None,
         include_foreign: bool = False,
@@ -141,7 +141,7 @@ class KisOrderableAccountProduct(Protocol):
 
         Args:
             price (ORDER_PRICE, optional): 주문가격
-            qty (ORDER_QUANTITY, optional): 주문수량
+            qty (IN_ORDER_QUANTITY, optional): 주문수량
             condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
             execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
             include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -193,7 +193,7 @@ class KisOrderableAccountProduct(Protocol):
     def sell(
         self: "KisAccountProductProtocol",
         price: ORDER_PRICE | None = None,
-        qty: ORDER_QUANTITY | None = None,
+        qty: IN_ORDER_QUANTITY | None = None,
         condition: ORDER_CONDITION | None = None,
         execution: ORDER_EXECUTION | None = None,
         include_foreign: bool = False,
@@ -206,7 +206,7 @@ class KisOrderableAccountProduct(Protocol):
 
         Args:
             price (ORDER_PRICE, optional): 주문가격
-            qty (ORDER_QUANTITY, optional): 주문수량
+            qty (IN_ORDER_QUANTITY, optional): 주문수량
             condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
             execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
             include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부

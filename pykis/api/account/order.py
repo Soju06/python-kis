@@ -63,6 +63,9 @@ ORDER_PRICE = Decimal | int | float
 ORDER_QUANTITY = Decimal
 """주문 수량"""
 
+IN_ORDER_QUANTITY = Decimal | int | float
+"""주문 수량"""
+
 
 def ensure_price(price: ORDER_PRICE, digit: int | None = 4) -> Decimal:
     """
@@ -79,6 +82,23 @@ def ensure_price(price: ORDER_PRICE, digit: int | None = 4) -> Decimal:
         price = price.quantize(Decimal(f"1e{-digit}"))
 
     return price
+
+
+def ensure_quantity(quantity: IN_ORDER_QUANTITY, digit: int | None = 0) -> ORDER_QUANTITY:
+    """
+    주문 수량을 Decimal로 변환합니다.
+
+    Args:
+        quantity (IN_ORDER_QUANTITY): 주문 수량
+        digit (int | None, optional): 소수점 자릿수 (내림)
+    """
+    if not isinstance(quantity, ORDER_QUANTITY):
+        quantity = ORDER_QUANTITY(quantity)
+
+    if digit is not None:
+        quantity = quantity.quantize(Decimal(f"1e{-digit}"))
+
+    return quantity
 
 
 ORDER_EXECUTION = Literal[
@@ -372,7 +392,7 @@ class KisOrder(KisOrderNumber, KisRealtimeOrderableAccount, Protocol):
     def modify(
         self,
         price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-        qty: ORDER_QUANTITY | None = None,
+        qty: IN_ORDER_QUANTITY | None = None,
         condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
         execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
     ) -> "KisOrder":
@@ -384,7 +404,7 @@ class KisOrder(KisOrderNumber, KisRealtimeOrderableAccount, Protocol):
 
         Args:
             price (ORDER_PRICE, optional): 주문가격
-            qty (ORDER_QUANTITY, optional): 주문수량
+            qty (IN_ORDER_QUANTITY, optional): 주문수량
             condition (ORDER_CONDITION, optional): 주문조건
             execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         """
@@ -722,7 +742,7 @@ class KisOrderBase(KisOrderNumberBase):
     def modify(
         self,
         price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-        qty: ORDER_QUANTITY | None = None,
+        qty: IN_ORDER_QUANTITY | None = None,
         condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
         execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
     ) -> KisOrder:
@@ -734,7 +754,7 @@ class KisOrderBase(KisOrderNumberBase):
 
         Args:
             price (ORDER_PRICE, optional): 주문가격
-            qty (ORDER_QUANTITY, optional): 주문수량
+            qty (IN_ORDER_QUANTITY, optional): 주문수량
             condition (ORDER_CONDITION, optional): 주문조건
             execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         """
@@ -952,7 +972,6 @@ def _orderable_quantity(
     symbol: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
-    qty: ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
@@ -975,7 +994,6 @@ def _orderable_quantity(
         symbol (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -1047,7 +1065,7 @@ def domestic_order(
     symbol: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
@@ -1063,7 +1081,7 @@ def domestic_order(
         symbol (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -1215,7 +1233,7 @@ def foreign_order(
     symbol: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     condition: FOREIGN_ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
@@ -1232,7 +1250,7 @@ def foreign_order(
         symbol (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -1349,7 +1367,7 @@ def foreign_daytime_order(
     symbol: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     include_foreign: bool = False,
 ) -> KisForeignDaytimeOrder:
     """
@@ -1364,7 +1382,7 @@ def foreign_daytime_order(
         symbol (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
     """
     if self.virtual:
@@ -1432,7 +1450,7 @@ def order(
     symbol: str,
     order: ORDER_TYPE,
     price: ORDER_PRICE | None = None,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
@@ -1449,7 +1467,7 @@ def order(
         symbol (str): 종목코드
         order (ORDER_TYPE): 주문종류
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -1581,7 +1599,7 @@ def account_order(
     symbol: str,
     order: ORDER_TYPE,
     price: ORDER_PRICE | None = None,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
@@ -1597,7 +1615,7 @@ def account_order(
         symbol (str): 종목코드
         order (ORDER_TYPE): 주문종류
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -1697,7 +1715,7 @@ def account_buy(
     market: MARKET_TYPE,
     symbol: str,
     price: ORDER_PRICE | None = None,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
@@ -1712,7 +1730,7 @@ def account_buy(
         market (MARKET_TYPE): 시장
         symbol (str): 종목코드
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -1777,7 +1795,7 @@ def account_sell(
     market: MARKET_TYPE,
     symbol: str,
     price: ORDER_PRICE | None = None,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
@@ -1792,7 +1810,7 @@ def account_sell(
         market (MARKET_TYPE): 시장
         symbol (str): 종목코드
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -1856,7 +1874,7 @@ def account_product_order(
     self: "KisAccountProductProtocol",
     order: ORDER_TYPE,
     price: ORDER_PRICE | None = None,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
@@ -1870,7 +1888,7 @@ def account_product_order(
     Args:
         order (ORDER_TYPE): 주문종류
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -1968,7 +1986,7 @@ def account_product_order(
 def account_product_buy(
     self: "KisAccountProductProtocol",
     price: ORDER_PRICE | None = None,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
@@ -1981,7 +1999,7 @@ def account_product_buy(
 
     Args:
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
@@ -2042,7 +2060,7 @@ def account_product_buy(
 def account_product_sell(
     self: "KisAccountProductProtocol",
     price: ORDER_PRICE | None = None,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None = None,
     execution: ORDER_EXECUTION | None = None,
     include_foreign: bool = False,
@@ -2055,7 +2073,7 @@ def account_product_sell(
 
     Args:
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (DOMESTIC_ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         include_foreign (bool, optional): 전량 주문시 외화 주문가능금액 포함 여부
