@@ -312,6 +312,11 @@ KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:4
 
 ## 4. Changelog ✨
 
+### ver 2.0.2
+
+- `KisBalance`, `KisChart` 등 `__iter__` 메서드의 반환 타입이 누락되어있는 버그를 수정했습니다.
+- 주문 수량을 입력할 때 `Decimal` 타입 이외의 `int`, `float` 타입을 입력할 수 있도록 개선했습니다.
+
 ### ver 2.0.1
 
 - 초기 웹소켓 이벤트 구독시 클라이언트 접속 후 구독을 요청하는 코드에서 `_connected_event`가 set 되어있지 않아, 요청이 무시되는 버그를 수정했습니다.

@@ -22,7 +22,7 @@ TRACE_DETAIL_ERROR: bool = False
 """
 
 
-VERSION = "2.0.1"
+VERSION = "2.0.2"
 
 USER_AGENT = f"PyKis/{VERSION}"
 
