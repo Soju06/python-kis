@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING, Any, Literal
 
 from pykis.api.account.order import (
+    IN_ORDER_QUANTITY,
     ORDER_CONDITION,
     ORDER_EXECUTION,
     ORDER_PRICE,
@@ -106,7 +107,7 @@ def domestic_modify_order(
     self: "PyKis",
     order: KisOrderNumber,
     price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
     execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
 ) -> KisDomesticModifyOrder:
@@ -119,7 +120,7 @@ def domestic_modify_order(
     Args:
         order (KisOrderNumber): 주문번호
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
     """
@@ -262,7 +263,7 @@ def foreign_modify_order(
     self: "PyKis",
     order: KisOrderNumber,
     price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
     execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
 ) -> KisForeignModifyOrder:
@@ -275,7 +276,7 @@ def foreign_modify_order(
     Args:
         order (KisOrderNumber): 주문번호
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
     """
@@ -392,7 +393,7 @@ def foreign_daytime_modify_order(
     self: "PyKis",
     order: KisOrderNumber,
     price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
 ) -> KisForeignDaytimeModifyOrder:
     """
     한국투자증권 해외 주간거래 주문정정
@@ -403,7 +404,7 @@ def foreign_daytime_modify_order(
     Args:
         order (KisOrderNumber): 주문번호
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
     """
@@ -524,7 +525,7 @@ def modify_order(
     self: "PyKis",
     order: KisOrderNumber,
     price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
     execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
 ) -> KisOrder:
@@ -538,7 +539,7 @@ def modify_order(
     Args:
         order (KisOrderNumber): 주문번호
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
     """
@@ -577,7 +578,7 @@ def account_modify_order(
     self: "KisAccountProtocol",
     order: KisOrderNumber,
     price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-    qty: ORDER_QUANTITY | None = None,
+    qty: IN_ORDER_QUANTITY | None = None,
     condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
     execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
 ) -> KisOrder:
@@ -592,7 +593,7 @@ def account_modify_order(
         account (str | KisAccountNumber): 계좌번호
         order (KisOrderNumber): 주문번호
         price (ORDER_PRICE, optional): 주문가격
-        qty (ORDER_QUANTITY, optional): 주문수량
+        qty (IN_ORDER_QUANTITY, optional): 주문수량
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
     """

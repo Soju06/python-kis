@@ -44,7 +44,10 @@ __all__ = [
 
 @runtime_checkable
 class KisBalanceStock(
-    KisAccountProductProtocol, KisOrderableAccountProduct, KisWebsocketQuotableProduct, Protocol
+    KisAccountProductProtocol,
+    KisOrderableAccountProduct,
+    KisWebsocketQuotableProduct,
+    Protocol,
 ):
     """한국투자증권 보유종목"""
 

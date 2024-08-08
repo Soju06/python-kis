@@ -36,10 +36,10 @@ class KisObjectBase:
         라이브러리 내에서는 해당 속성을 사용할 때 초기화 단계에서 사용하지 않도록 해야합니다.
     """
 
-    def __kis_init__(self, kis: "PyKis"):
+    def __kis_init__(self, kis: "PyKis") -> None:
         self.kis = kis
 
-    def __kis_post_init__(self):
+    def __kis_post_init__(self) -> None:
         pass
 
     def _kis_spread(
