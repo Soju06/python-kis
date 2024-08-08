@@ -95,10 +95,10 @@ class KisDomesticDailyChart(KisResponse, KisChartBase):
     bars: list[KisChartBar] = KisList(KisDomesticDailyChartBar)["output2"]
     """차트"""
 
-    def __init__(self, symbol: str):
+    def __init__(self, symbol: str) -> None:
         self.symbol = symbol
 
-    def __pre_init__(self, data: dict[str, Any]):
+    def __pre_init__(self, data: dict[str, Any]) -> None:
         super().__pre_init__(data)
 
         if data["output1"]["stck_prpr"] == "0":
@@ -172,11 +172,11 @@ class KisForeignDailyChart(KisResponse, KisChartBase):
     bars: list[KisChartBar] = KisList(KisForeignDailyChartBar)["output2"]
     """차트"""
 
-    def __init__(self, symbol: str, market: MARKET_TYPE):
+    def __init__(self, symbol: str, market: MARKET_TYPE) -> None:
         self.symbol = symbol
         self.market = market
 
-    def __pre_init__(self, data: dict[str, Any]):
+    def __pre_init__(self, data: dict[str, Any]) -> None:
         super().__pre_init__(data)
 
         record_size = data["output1"]["nrec"]
@@ -193,7 +193,7 @@ class KisForeignDailyChart(KisResponse, KisChartBase):
 
         data["output2"] = data["output2"][: int(record_size)]
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         for bar in self.bars:
             bar.time.replace(tzinfo=self.timezone)
             bar.time_kst = bar.time.astimezone(TIMEZONE)  # type: ignore

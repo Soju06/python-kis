@@ -442,7 +442,7 @@ class PyKis:
 
         return f"token_{domain}_{self.appkey.id}_{hash}.json"
 
-    def _load_cached_token(self, token_dir: str | PathLike[str] | Path):
+    def _load_cached_token(self, token_dir: str | PathLike[str] | Path) -> None:
         if not isinstance(token_dir, Path):
             token_dir = Path(token_dir)
 
@@ -492,7 +492,7 @@ class PyKis:
                 virtual_token.save(token_dir / self._get_hashed_token_name("virtual"))
                 logging.logger.debug(f"모의도메인 API 접속 토큰을 저장했습니다.")
 
-    def _rate_limit_exceeded(self):
+    def _rate_limit_exceeded(self) -> None:
         logging.logger.warning("API 호출 횟수를 초과하여 호출 유량 획득까지 대기합니다.")
 
     def request(
@@ -660,7 +660,7 @@ class PyKis:
 
     @token.setter
     @thread_safe("token")
-    def token(self, token: KisAccessToken):
+    def token(self, token: KisAccessToken) -> None:
         """API 접속 토큰을 설정합니다."""
         self._token = token
 
@@ -684,11 +684,11 @@ class PyKis:
 
     @primary_token.setter
     @thread_safe("primary_token")
-    def primary_token(self, token: KisAccessToken):
+    def primary_token(self, token: KisAccessToken) -> None:
         """API 접속 토큰을 설정합니다."""
         self._virtual_token = token
 
-    def discard(self, domain: Literal["real", "virtual"] | None = None):
+    def discard(self, domain: Literal["real", "virtual"] | None = None) -> None:
         """API 접속 토큰을 폐기합니다."""
         from pykis.api.auth.token import token_revoke
 

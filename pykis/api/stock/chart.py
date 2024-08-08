@@ -1,7 +1,7 @@
 import bisect
 from datetime import date, datetime, time, tzinfo
 from decimal import Decimal
-from typing import Literal, Protocol, TypeVar, overload, runtime_checkable
+from typing import Iterable, Literal, Protocol, TypeVar, overload, runtime_checkable
 
 from pykis.api.base.product import KisProductBase, KisProductProtocol
 from pykis.api.stock.market import MARKET_TYPE
@@ -139,7 +139,7 @@ class KisChart(KisProductProtocol, Protocol):
     def __getitem__(self, index: datetime | date | time | int | slice) -> KisChartBar | list[KisChartBar]:
         raise NotImplementedError
 
-    def __iter__(self):
+    def __iter__(self) -> Iterable[KisChartBar]:
         raise NotImplementedError
 
     def __len__(self) -> int:
@@ -280,7 +280,7 @@ class KisChartBase(KisChartRepr, KisProductBase):
 
         raise TypeError(f"인덱스 {index}는 지원하지 않습니다.")
 
-    def __iter__(self):
+    def __iter__(self) -> Iterable[KisChartBar]:
         return iter(self.bars)
 
     def __len__(self) -> int:

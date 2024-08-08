@@ -448,10 +448,10 @@ class KisBalanceBase(KisAccountBase):
         """총출금가능금액 (원화)"""
         return self.withdrawable_amount
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[KisBalanceStock]:
         return iter(self.stocks)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.stocks)
 
     def __getitem__(self, key: int | str) -> KisBalanceStock:
@@ -578,11 +578,11 @@ class KisDomesticBalance(KisPaginationAPIResponse, KisBalanceBase):
     )["output2"]
     """통화별 예수금"""
 
-    def __init__(self, account_number: KisAccountNumber):
+    def __init__(self, account_number: KisAccountNumber) -> None:
         super().__init__()
         self.account_number = account_number
 
-    def __kis_post_init__(self):
+    def __kis_post_init__(self) -> None:
         self._kis_spread(self.stocks)  # type: ignore
         self._kis_spread(self.deposits)  # type: ignore
 
@@ -694,12 +694,12 @@ class KisForeignPresentBalance(KisAPIResponse, KisBalanceBase):
     )["output2"]
     """통화별 예수금"""
 
-    def __init__(self, account_number: KisAccountNumber, country: COUNTRY_TYPE | None = None):
+    def __init__(self, account_number: KisAccountNumber, country: COUNTRY_TYPE | None = None) -> None:
         super().__init__()
         self.account_number = account_number
         self.country = country
 
-    def __kis_post_init__(self):
+    def __kis_post_init__(self) -> None:
         self._kis_spread(self.stocks)  # type: ignore
         self._kis_spread(self.deposits)  # type: ignore
 
@@ -780,13 +780,13 @@ class KisForeignBalance(KisPaginationAPIResponse, KisBalanceBase):
     deposits: dict[CURRENCY_TYPE, KisDeposit]
     """통화별 예수금"""
 
-    def __init__(self, account_number: KisAccountNumber, country: COUNTRY_TYPE | None = None):
+    def __init__(self, account_number: KisAccountNumber, country: COUNTRY_TYPE | None = None) -> None:
         super().__init__()
         self.account_number = account_number
         self.country = country
         self.deposits = {}
 
-    def __kis_post_init__(self):
+    def __kis_post_init__(self) -> None:
         self._kis_spread(self.stocks)  # type: ignore
         self._kis_spread(self.deposits)  # type: ignore
 
@@ -812,7 +812,7 @@ class KisIntegrationBalance(KisBalanceBase):
     _balances: list[KisBalance]
     """내부구현 잔고"""
 
-    def __init__(self, kis: "PyKis", account_number: KisAccountNumber, *balances: KisBalance):
+    def __init__(self, kis: "PyKis", account_number: KisAccountNumber, *balances: KisBalance) -> None:
         super().__init__()
         self.kis = kis
         self.account_number = account_number

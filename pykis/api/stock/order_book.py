@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any, Protocol, runtime_checkable
+from typing import TYPE_CHECKING, Any, Iterable, Protocol, runtime_checkable
 
 from pykis.api.account.order import ORDER_CONDITION
 from pykis.api.base.product import KisProductBase, KisProductProtocol
@@ -118,7 +118,7 @@ class KisOrderbookItemBase(KisOrderbookItemRepr):
     def __ne__(self, o: object) -> bool:
         return not self.__eq__(o)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterable[Decimal | int]:
         yield self.price
         yield self.volume
 
