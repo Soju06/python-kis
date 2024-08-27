@@ -1058,16 +1058,19 @@ def foreign_balance(
         ),
     )
 
-    if self.virtual:
-        result.stocks = _foreign_balance(
-            self,
-            account=account,
-            country=country,
-        ).stocks
+    # Issue #41 - [버그]: KisIntegrationBalance에서 해외주식 잔고수량이 0으로 표시됨
+    # https://apiportal.koreainvestment.com/apiservice/apiservice-oversea-stock-order#L_09baff2a-6e9d-4502-ba66-d7bb94094b67
+    # 위 Docs와 같이 "잔고 확인을 원하실 경우에는 해외주식 잔고[v1_해외주식-006] API 사용을 부탁드립니다.)" 라고 되어있음
+    
+    result.stocks = _foreign_balance(
+        self,
+        account=account,
+        country=country,
+    ).stocks
 
-        for stock in result.stocks:
-            if isinstance(stock, KisBalanceStockBase):
-                stock.balance = result
+    for stock in result.stocks:
+        if isinstance(stock, KisBalanceStockBase):
+            stock.balance = result
 
     return result
 
