@@ -312,6 +312,10 @@ KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:4
 
 ## 4. Changelog ✨
 
+### ver 2.0.3
+
+- [KisIntegrationBalance에서 해외주식 잔고수량이 0으로 표시됨](https://github.com/Soju06/python-kis/issues/41) 버그를 수정했습니다.
+
 ### ver 2.0.2
 
 - `KisBalance`, `KisChart` 등 `__iter__` 메서드의 반환 타입이 누락되어있는 버그를 수정했습니다.
