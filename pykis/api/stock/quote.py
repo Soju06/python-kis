@@ -75,7 +75,7 @@ class KisQuote(KisProductProtocol, Protocol):
     """한국투자증권 상품 시세"""
 
     @property
-    def sector_name(self) -> str:
+    def sector_name(self) -> str | None:
         """업종명"""
         raise NotImplementedError
 
@@ -301,7 +301,7 @@ class KisQuoteBase(KisQuoteRepr, KisProductBase):
     market: MARKET_TYPE
     """상품유형타입"""
 
-    sector_name: str
+    sector_name: str | None
     """업종명"""
     price: Decimal
     """현재가"""
@@ -402,7 +402,7 @@ class KisDomesticQuote(KisQuoteBase, KisAPIResponse):
     market: MARKET_TYPE
     """상품유형타입"""
 
-    sector_name: str = KisString["bstp_kor_isnm"]
+    sector_name: str | None = KisString["bstp_kor_isnm", None]
     """업종명"""
     price: Decimal = KisDecimal["stck_prpr"]
     """현재가"""
@@ -516,7 +516,7 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
     market: MARKET_TYPE
     """상품유형타입"""
 
-    sector_name: str = KisString["e_icod"]
+    sector_name: str | None = KisString["e_icod"]
     """업종명"""
     price: Decimal = KisDecimal["last"]
     """현재가"""

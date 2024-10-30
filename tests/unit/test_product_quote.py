@@ -25,6 +25,9 @@ class ProductQuoteTests(TestCase):
 
     def test_krx_quote(self):
         self.assertTrue(isinstance(self.pykis.stock("005930").quote(), KisQuote))
+        # https://github.com/Soju06/python-kis/issues/48
+        # bstp_kor_isnm 필드 누락 대응
+        self.assertTrue(isinstance(self.pykis.stock("002170").quote(), KisQuote))
 
     def test_nasd_quote(self):
         self.assertTrue(isinstance(self.pykis.stock("NVDA").quote(), KisQuote))
