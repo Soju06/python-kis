@@ -1,14 +1,14 @@
 from datetime import timedelta
 from typing import TYPE_CHECKING, Literal, Protocol, runtime_checkable
 
-from pykis.api.stock.market import MARKET_TYPE
+from pykis.api.stock.market import MARKET_SHORT_TYPE_MAP, MARKET_TYPE
 from pykis.client.exceptions import KisAPIError
 from pykis.responses.response import (
     KisAPIResponse,
     KisResponseProtocol,
     raise_not_found,
 )
-from pykis.responses.types import KisString
+from pykis.responses.types import KisDynamicDict, KisString
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
@@ -24,7 +24,7 @@ __all__ = [
     "resolve_market",
 ]
 
-MARKET_TYPE_MAP = {
+MARKET_TYPE_MAP: dict[str | None, list[str]] = {
     "KR": ["300"],  # "301", "302"
     "KRX": ["300"],  # "301", "302"
     "NASDAQ": ["512"],
@@ -59,7 +59,7 @@ MARKET_TYPE_MAP = {
     ],
 }
 
-R_MARKET_TYPE_MAP = {
+R_MARKET_TYPE_MAP: dict[str, str] = {
     "300": "주식",
     "301": "선물옵션",
     "302": "채권",
@@ -94,7 +94,7 @@ MARKET_CODE = Literal[
     "552",
 ]
 
-MARKET_CODE_MAP = {
+MARKET_CODE_MAP: dict[str, MARKET_TYPE] = {
     "300": "KRX",
     "301": "KRX",
     "302": "KRX",
@@ -262,11 +262,81 @@ MARKET_INFO_TYPES = MARKET_TYPE | COUNTRY_TYPE | None
 """상품유형명"""
 
 
+def quotable_market(
+    self: "PyKis",
+    symbol: str,
+    market: MARKET_INFO_TYPES = None,
+    use_cache: bool = True,
+) -> MARKET_TYPE:
+    """
+    시세조회 가능한 상품유형명 조회
+
+    국내주식시세 -> 주식현재가 시세[v1_국내주식-008]
+    해외주식현재가 -> 해외주식 현재가상세[v1_해외주식-029]
+    (업데이트 날짜: 2024/11/05)
+
+    Args:
+        symbol (str): 종목코드
+        market (str): 상품유형명
+        use_cache (bool, optional): 캐시 사용 여부
+    """
+    if not symbol:
+        raise ValueError("종목 코드를 입력해주세요.")
+
+    if use_cache:
+        cached: MARKET_TYPE = self.cache.get(f"quotable_market:{market}:{symbol}", str)  # type: ignore
+
+        if cached:
+            return cached
+
+    last_response: KisDynamicDict | None = None
+
+    for market_code in MARKET_TYPE_MAP[market]:
+        try:
+            market_type = MARKET_CODE_MAP[market_code]
+
+            if market_code in MARKET_TYPE_MAP["KR"]:
+                if not int(
+                    (
+                        last_response := self.fetch(
+                            "/uapi/domestic-stock/v1/quotations/inquire-price",
+                            api="FHKST01010100",
+                            params={"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": symbol},
+                            domain="real",
+                        )
+                    ).output.stck_prpr
+                ):
+                    continue
+            elif not (
+                (
+                    last_response := self.fetch(
+                        "/uapi/overseas-price/v1/quotations/price",
+                        api="HHDFS00000300",
+                        params={"AUTH": "", "EXCD": MARKET_SHORT_TYPE_MAP[market_type], "SYMB": symbol},
+                        domain="real",
+                    )
+                ).output.last
+            ):
+                continue
+
+            return market_type
+        except AttributeError:
+            pass
+
+    raise raise_not_found(
+        (None if last_response is None else last_response.__data__) or {},
+        "해당 종목의 정보를 조회할 수 없습니다.",
+        code=symbol,
+        market=market,
+    )
+
+
 def info(
     self: "PyKis",
     symbol: str,
     market: MARKET_INFO_TYPES = "KR",
     use_cache: bool = True,
+    quotable: bool = True,
 ) -> KisStockInfoResponse:
     """
     상품기본정보 조회
@@ -278,6 +348,7 @@ def info(
         symbol (str): 종목코드
         market (str): 상품유형명
         use_cache (bool, optional): 캐시 사용 여부
+        quotable (bool, optional): 시세조회 가능한 상품유형명 조회
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
@@ -292,6 +363,14 @@ def info(
 
         if cached:
             return cached
+
+    if quotable:
+        market = quotable_market(
+            self,
+            symbol=symbol,
+            market=market,
+            use_cache=use_cache,
+        )
 
     ex = None
 
@@ -333,6 +412,7 @@ def resolve_market(
     symbol: str,
     market: MARKET_INFO_TYPES = None,
     use_cache: bool = True,
+    quotable: bool = True,
 ) -> MARKET_TYPE:
     """
     상품유형명 해석
@@ -344,6 +424,7 @@ def resolve_market(
         symbol (str): 종목코드
         market (str): 상품유형명
         use_cache (bool, optional): 캐시 사용 여부
+        quotable (bool, optional): 시세조회 가능한 상품유형명 조회
 
     Raises:
         KisAPIError: API 호출에 실패한 경우
@@ -355,4 +436,5 @@ def resolve_market(
         symbol=symbol,
         market=market,
         use_cache=use_cache,
+        quotable=quotable,
     ).market
