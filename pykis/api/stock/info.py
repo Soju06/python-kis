@@ -181,7 +181,7 @@ class KisStockInfoResponse(KisStockInfo, KisResponseProtocol, Protocol):
     "market",
     "symbol",
     "name",
-    "eng_name",
+    "name_eng",
     lines="single",
 )
 class KisStockInfoRepr:
