@@ -10,6 +10,7 @@ from pykis.api.account.order import (
     ORDER_TYPE,
     KisOrder,
     KisOrderNumber,
+    KisSimpleOrder,
     resolve_domestic_order_condition,
 )
 from pykis.api.base.account import KisAccountProtocol
@@ -225,9 +226,7 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeExecutionBase):
         KisAny(KisAccountNumber)["account_number"],  # 1 ACNT_NO 계좌번호
         None,  # 2 ODER_NO 주문번호
         None,  # 3 OODER_NO 원주문번호
-        KisAny(lambda x: "sell" if x == "01" else "buy")[
-            "type"
-        ],  # 4 SELN_BYOV_CLS 매도매수구분 01 : 매도 02 : 매수
+        KisAny(lambda x: "sell" if x == "01" else "buy")["type"],  # 4 SELN_BYOV_CLS 매도매수구분 01 : 매도 02 : 매수
         None,  # 5 RCTF_CLS 정정구분
         None,  # 6 ODER_KIND 주문종류 00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04 : 최우선지정가 05 : 장전 시간외 06 : 장후 시간외 07 : 시간외 단일가 08 : 자기주식 09 : 자기주식S-Option 10 : 자기주식금전신탁 11 : IOC지정가 (즉시체결,잔량취소) 12 : FOK지정가 (즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : FOK시장가 (즉시체결,전량취소) 15 : IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 (즉시체결,전량취소)
         None,  # 7 ODER_COND 주문조건
@@ -323,7 +322,7 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeExecutionBase):
     def __kis_post_init__(self):
         super().__kis_post_init__()
 
-        self.order_number = KisOrder.from_order(
+        self.order_number = KisSimpleOrder.from_order(
             kis=self.kis,
             symbol=self.symbol,
             market=self.market,
@@ -477,7 +476,7 @@ class KisForeignRealtimeOrderExecution(KisRealtimeExecutionBase):
     def __kis_post_init__(self):
         super().__kis_post_init__()
 
-        self.order_number = KisOrder.from_order(
+        self.order_number = KisSimpleOrder.from_order(
             kis=self.kis,
             symbol=self.symbol,
             market=self.market,

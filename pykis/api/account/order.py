@@ -11,7 +11,16 @@ from typing import (
     runtime_checkable,
 )
 
-from pykis.adapter.websocket.execution import KisRealtimeOrderableAccount
+from typing_extensions import deprecated
+
+from pykis.adapter.account_product.order_modify import (
+    KisOrderableOrder,
+    KisOrderableOrderImpl,
+)
+from pykis.adapter.websocket.execution import (
+    KisRealtimeOrderableAccount,
+    KisRealtimeOrderableOrderImpl,
+)
 from pykis.api.base.account import KisAccountProtocol
 from pykis.api.base.account_product import (
     KisAccountProductBase,
@@ -295,11 +304,7 @@ def order_condition(
                 virtual_not_supported = True
 
         raise ValueError(
-            (
-                "모의투자는 해당 주문조건을 지원하지 않습니다."
-                if virtual_not_supported
-                else "주문조건이 잘못되었습니다."
-            )
+            ("모의투자는 해당 주문조건을 지원하지 않습니다." if virtual_not_supported else "주문조건이 잘못되었습니다.")
             + f" (market={market!r}, order={order!r}, price={price!r}, condition={condition!r}, execution={execution!r})\n"
             "아래 주문 가능 조건을 참고하세요.\n\n" + orderable_conditions_repr()
         )
@@ -307,9 +312,7 @@ def order_condition(
     return ORDER_CONDITION_MAP[tuple(order_condition)]  # type: ignore
 
 
-DOMESTIC_REVERSE_ORDER_CONDITION_MAP: dict[
-    str, tuple[bool, ORDER_CONDITION | None, ORDER_EXECUTION | None]
-] = {
+DOMESTIC_REVERSE_ORDER_CONDITION_MAP: dict[str, tuple[bool, ORDER_CONDITION | None, ORDER_EXECUTION | None]] = {
     # 주문구분코드: (지정가여부, 주문조건, 체결조건)
     "00": (True, None, None),
     "01": (False, None, None),
@@ -338,9 +341,7 @@ def resolve_domestic_order_condition(
 
 
 @runtime_checkable
-class KisOrderNumber(
-    KisAccountProductProtocol, KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs], Protocol
-):
+class KisOrderNumber(KisAccountProductProtocol, KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs], Protocol):
     """한국투자증권 주문번호"""
 
     @property
@@ -361,7 +362,7 @@ class KisOrderNumber(
 
 
 @runtime_checkable
-class KisOrder(KisOrderNumber, KisRealtimeOrderableAccount, Protocol):
+class KisOrder(KisOrderNumber, KisOrderableOrder, KisRealtimeOrderableAccount, Protocol):
     """한국투자증권 주문"""
 
     @property
@@ -389,36 +390,6 @@ class KisOrder(KisOrderNumber, KisRealtimeOrderableAccount, Protocol):
         """미체결 주문"""
         raise NotImplementedError
 
-    def modify(
-        self,
-        price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-        qty: IN_ORDER_QUANTITY | None = None,
-        condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
-        execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
-    ) -> "KisOrder":
-        """
-        한국투자증권 통합 주식 주문정정 (국내 모의투자 미지원, 해외 주간거래 모의투자 미지원)
-
-        국내주식주문 -> 주식주문(정정취소)[v1_국내주식-003]
-        국내주식주문 -> 해외주식 정정취소주문[v1_해외주식-003]
-
-        Args:
-            price (ORDER_PRICE, optional): 주문가격
-            qty (IN_ORDER_QUANTITY, optional): 주문수량
-            condition (ORDER_CONDITION, optional): 주문조건
-            execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
-        """
-        raise NotImplementedError
-
-    def cancel(self) -> "KisOrder":
-        """
-        한국투자증권 통합 주식 주문취소 (해외 주간거래 모의투자 미지원)
-
-        국내주식주문 -> 주식주문(정정취소)[v1_국내주식-003]
-        국내주식주문 -> 해외주식 정정취소주문[v1_해외주식-003]
-        """
-        raise NotImplementedError
-
     @staticmethod
     def from_number(
         kis: "PyKis",
@@ -439,7 +410,7 @@ class KisOrder(KisOrderNumber, KisRealtimeOrderableAccount, Protocol):
             branch (str): 지점코드
             number (str): 주문번호
         """
-        return KisOrderNumberBase(
+        return KisSimpleOrderNumber.from_number(
             kis=kis,
             symbol=symbol,
             market=market,
@@ -470,14 +441,14 @@ class KisOrder(KisOrderNumber, KisRealtimeOrderableAccount, Protocol):
             number (str): 주문번호
             time_kst (datetime): 주문시간 (한국시간)
         """
-        return KisOrderBase(
-            account_number=account_number,
+        return KisSimpleOrder.from_order(
+            kis=kis,
             symbol=symbol,
-            market=market,  # type: ignore
+            market=market,
+            account_number=account_number,
             branch=branch,
             number=number,
             time_kst=time_kst,
-            kis=kis,
         )
 
 
@@ -550,17 +521,17 @@ class KisOrderNumberBase(KisAccountProductBase, KisOrderNumberEventFilter):
 
             self.number = number
 
-    def __eq__(self, value: "object | KisOrderNumberBase") -> bool:
-        if not isinstance(value, KisOrderNumberBase):
+    def __eq__(self, value: object | KisOrderNumber) -> bool:
+        try:
+            return (
+                self.account_number == value.account_number  # type: ignore
+                and self.symbol == value.symbol  # type: ignore
+                and self.market == value.market  # type: ignore
+                and self.branch == value.branch  # type: ignore
+                and self.number == value.number  # type: ignore
+            )
+        except AttributeError:
             return False
-
-        return (
-            self.account_number == value.account_number  # type: ignore
-            and self.symbol == value.symbol  # type: ignore
-            and self.market == value.market  # type: ignore
-            and self.branch == value.branch  # type: ignore
-            and self.number == value.number  # type: ignore
-        )
 
     def __hash__(self) -> int:
         return hash((self.account_number, self.symbol, self.market, self.branch, self.number))
@@ -575,69 +546,8 @@ class KisOrderNumberBase(KisAccountProductBase, KisOrderNumberEventFilter):
     number={self.number!r}
 )"""
 
-    @staticmethod
-    def from_number(
-        kis: "PyKis",
-        symbol: str,
-        market: MARKET_TYPE,
-        account_number: KisAccountNumber,
-        branch: str,
-        number: str,
-    ) -> "KisOrderNumber":
-        """
-        주문번호 생성
 
-        Args:
-            kis (PyKis): 한국투자증권 API
-            symbol (str): 종목코드
-            market (MARKET_TYPE): 상품유형
-            account_number (KisAccountNumber): 계좌번호
-            branch (str): 지점코드
-            number (str): 주문번호
-        """
-        return KisOrder.from_number(
-            kis=kis,
-            symbol=symbol,
-            market=market,
-            account_number=account_number,
-            branch=branch,
-            number=number,
-        )
-
-    @staticmethod
-    def from_order(
-        kis: "PyKis",
-        symbol: str,
-        market: MARKET_TYPE,
-        account_number: KisAccountNumber,
-        branch: str,
-        number: str,
-        time_kst: datetime,
-    ) -> "KisOrder":
-        """
-        주문 생성
-
-        Args:
-            kis (PyKis): 한국투자증권 API
-            symbol (str): 종목코드
-            market (MARKET_TYPE): 상품유형
-            account_number (KisAccountNumber): 계좌번호
-            branch (str): 지점코드
-            number (str): 주문번호
-            time_kst (datetime): 주문시간 (한국시간)
-        """
-        return KisOrder.from_order(
-            kis=kis,
-            symbol=symbol,
-            market=market,
-            account_number=account_number,
-            branch=branch,
-            number=number,
-            time_kst=time_kst,
-        )
-
-
-class KisOrderBase(KisOrderNumberBase):
+class KisOrderBase(KisOrderNumberBase, KisOrderableOrderImpl, KisRealtimeOrderableOrderImpl):
     """한국투자증권 주문"""
 
     symbol: str
@@ -739,108 +649,137 @@ class KisOrderBase(KisOrderNumberBase):
             country=get_market_country(self.market),
         ).order(self)
 
-    def modify(
-        self,
-        price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-        qty: IN_ORDER_QUANTITY | None = None,
-        condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
-        execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
-    ) -> KisOrder:
+    @staticmethod
+    @deprecated("Use KisOrder.from_number() instead")
+    def from_number(
+        kis: "PyKis",
+        symbol: str,
+        market: MARKET_TYPE,
+        account_number: KisAccountNumber,
+        branch: str,
+        number: str,
+    ) -> "KisOrderNumber":
         """
-        한국투자증권 통합 주식 주문정정 (국내 모의투자 미지원, 해외 주간거래 모의투자 미지원)
-
-        국내주식주문 -> 주식주문(정정취소)[v1_국내주식-003]
-        국내주식주문 -> 해외주식 정정취소주문[v1_해외주식-003]
+        주문번호 생성
 
         Args:
-            price (ORDER_PRICE, optional): 주문가격
-            qty (IN_ORDER_QUANTITY, optional): 주문수량
-            condition (ORDER_CONDITION, optional): 주문조건
-            execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
+            kis (PyKis): 한국투자증권 API
+            symbol (str): 종목코드
+            market (MARKET_TYPE): 상품유형
+            account_number (KisAccountNumber): 계좌번호
+            branch (str): 지점코드
+            number (str): 주문번호
         """
-        from pykis.api.account.order_modify import modify_order
-
-        return modify_order(
-            self.kis,
-            order=self,
-            price=price,
-            qty=qty,
-            condition=condition,
-            execution=execution,
+        return KisSimpleOrderNumber.from_number(
+            kis=kis,
+            symbol=symbol,
+            market=market,
+            account_number=account_number,
+            branch=branch,
+            number=number,
         )
 
-    def cancel(self) -> "KisOrder":
+    @staticmethod
+    @deprecated("Use KisOrder.from_order() instead")
+    def from_order(
+        kis: "PyKis",
+        symbol: str,
+        market: MARKET_TYPE,
+        account_number: KisAccountNumber,
+        branch: str,
+        number: str,
+        time_kst: datetime,
+    ) -> "KisOrder":
         """
-        한국투자증권 통합 주식 주문취소 (해외 주간거래 모의투자 미지원)
-
-        국내주식주문 -> 주식주문(정정취소)[v1_국내주식-003]
-        국내주식주문 -> 해외주식 정정취소주문[v1_해외주식-003]
-        """
-        from pykis.api.account.order_modify import cancel_order
-
-        return cancel_order(self.kis, order=self)
-
-    def on(
-        self,
-        event: Literal["execution"],
-        callback: "Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]",
-        where: (
-            "KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None"
-        ) = None,
-        once: bool = False,
-    ) -> "KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]]":
-        """
-        웹소켓 이벤트 핸들러 등록
-
-        [국내주식] 실시간시세 -> 국내주식 실시간체결통보[실시간-005]
-        [해외주식] 실시간시세 -> 해외주식 실시간체결통보[실시간-009]
+        주문 생성
 
         Args:
-            callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]): 콜백 함수
-            where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None, optional): 이벤트 필터. Defaults to None.
-            once (bool, optional): 한번만 실행 여부. Defaults to False.
+            kis (PyKis): 한국투자증권 API
+            symbol (str): 종목코드
+            market (MARKET_TYPE): 상품유형
+            account_number (KisAccountNumber): 계좌번호
+            branch (str): 지점코드
+            number (str): 주문번호
+            time_kst (datetime): 주문시간 (한국시간)
         """
-        from pykis.api.websocket.order_execution import on_account_execution
+        return KisSimpleOrder.from_order(
+            kis=kis,
+            symbol=symbol,
+            market=market,
+            account_number=account_number,
+            branch=branch,
+            number=number,
+            time_kst=time_kst,
+        )
 
-        if event == "execution":
-            return on_account_execution(
-                self,
-                callback=callback,
-                where=KisMultiEventFilter(self, where) if where else self,
-                once=once,
-            )
 
-        raise ValueError(f"Unknown event: {event}")
+class KisSimpleOrderNumber(KisOrderNumberBase):
+    """한국투자증권 주문번호"""
 
-    def once(
-        self,
-        event: Literal["execution"],
-        callback: "Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]",
-        where: (
-            "KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None"
-        ) = None,
-    ) -> "KisEventTicket[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]]":
+    @staticmethod
+    def from_number(
+        kis: "PyKis",
+        symbol: str,
+        market: MARKET_TYPE,
+        account_number: KisAccountNumber,
+        branch: str,
+        number: str,
+    ) -> "KisOrderNumber":
         """
-        웹소켓 이벤트 핸들러 등록
-
-        [국내주식] 실시간시세 -> 국내주식 실시간체결통보[실시간-005]
-        [해외주식] 실시간시세 -> 해외주식 실시간체결통보[실시간-009]
+        주문번호 생성
 
         Args:
-            callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]): 콜백 함수
-            where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None, optional): 이벤트 필터. Defaults to None.
+            kis (PyKis): 한국투자증권 API
+            symbol (str): 종목코드
+            market (MARKET_TYPE): 상품유형
+            account_number (KisAccountNumber): 계좌번호
+            branch (str): 지점코드
+            number (str): 주문번호
         """
-        from pykis.api.websocket.order_execution import on_account_execution
+        return KisSimpleOrderNumber(
+            kis=kis,
+            symbol=symbol,
+            market=market,
+            account_number=account_number,
+            branch=branch,
+            number=number,
+        )
 
-        if event == "execution":
-            return on_account_execution(
-                self,
-                callback=callback,
-                where=KisMultiEventFilter(self, where) if where else self,
-                once=True,
-            )
 
-        raise ValueError(f"Unknown event: {event}")
+class KisSimpleOrder(KisOrderBase):
+    """한국투자증권 주문번호"""
+
+    @staticmethod
+    def from_order(
+        kis: "PyKis",
+        symbol: str,
+        market: MARKET_TYPE,
+        account_number: KisAccountNumber,
+        branch: str,
+        number: str,
+        time_kst: datetime,
+    ) -> "KisOrder":
+        """
+        주문 생성
+
+        Args:
+            kis (PyKis): 한국투자증권 API
+            symbol (str): 종목코드
+            market (MARKET_TYPE): 상품유형
+            account_number (KisAccountNumber): 계좌번호
+            branch (str): 지점코드
+            number (str): 주문번호
+            time_kst (datetime): 주문시간 (한국시간)
+        """
+        return KisSimpleOrder(
+            account_number=account_number,
+            symbol=symbol,
+            market=market,  # type: ignore
+            branch=branch,
+            number=number,
+            time_kst=time_kst,
+            kis=kis,
+        )
 
 
 if TYPE_CHECKING:
