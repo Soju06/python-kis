@@ -295,6 +295,9 @@ class KisPendingOrderBase(
         """미체결수량"""
         return self.pending_quantity
 
+    def __init__(self) -> None:
+        super().__init__(lambda: self)
+
     @staticmethod
     @deprecated("Use KisOrder.from_number() instead")
     def from_number(

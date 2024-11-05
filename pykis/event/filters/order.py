@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Protocol, overload, runtime_checkable
+from typing import TYPE_CHECKING, Callable, Protocol, overload, runtime_checkable
 
 from pykis.api.stock.market import MARKET_TYPE
 from pykis.client.account import KisAccountNumber
@@ -78,23 +78,21 @@ class KisSimpleOrderNumber:
         self.account_number = account
 
 
-class KisOrderNumberEventFilter(
-    KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]]
-):
-
-    _order: KisSimpleOrderNumberProtocol
+class KisOrderNumberEventFilter(KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]]):
+    _order: KisSimpleOrderNumberProtocol | Callable[..., KisSimpleOrderNumberProtocol]
 
     @overload
-    def __init__(
-        self, symbol: str, market: MARKET_TYPE, branch: str, number: str, account: KisAccountNumber
-    ): ...
+    def __init__(self, symbol: str, /, market: MARKET_TYPE, branch: str, number: str, account: KisAccountNumber): ...
 
     @overload
     def __init__(self, symbol: "KisOrderNumber", /): ...
 
+    @overload
+    def __init__(self, callable: Callable[..., KisSimpleOrderNumberProtocol], /): ...
+
     def __init__(
         self,
-        symbol: "KisOrderNumber | str",
+        symbol_or_callable: "KisOrderNumber | str | Callable[..., KisSimpleOrderNumberProtocol]",
         market: MARKET_TYPE | None = None,
         branch: str | None = None,
         number: str | None = None,
@@ -102,7 +100,7 @@ class KisOrderNumberEventFilter(
     ):
         super().__init__()
 
-        if isinstance(symbol, str):
+        if isinstance(symbol_or_callable, str):
             if market is None:
                 raise ValueError("market is required")
 
@@ -116,14 +114,14 @@ class KisOrderNumberEventFilter(
                 raise ValueError("account is required")
 
             self._order = KisSimpleOrderNumber(
-                symbol=symbol,
+                symbol=symbol_or_callable,
                 market=market,
                 branch=branch,
                 number=number,
                 account=account,
             )
         else:
-            self._product = symbol
+            self._order = symbol_or_callable
 
     def __filter__(
         self,
@@ -146,11 +144,12 @@ class KisOrderNumberEventFilter(
             return True
 
         order = e.response.order_number
+        value = self._order() if callable(self._order) else self._order
 
         return not (
-            order.symbol == self._order.symbol
-            and order.market == self._order.market
-            and order.branch == self._order.branch
-            and order.number == self._order.number
-            and order.account_number == self._order.account_number
+            order.symbol == value.symbol
+            and order.market == value.market
+            and order.branch == value.branch
+            and int(order.number) == int(value.number)
+            and order.account_number == value.account_number
         )

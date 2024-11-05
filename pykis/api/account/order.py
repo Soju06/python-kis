@@ -37,19 +37,17 @@ from pykis.api.stock.market import (
 from pykis.api.stock.quote import quote
 from pykis.client.account import KisAccountNumber
 from pykis.event.filters.order import KisOrderNumberEventFilter
-from pykis.event.handler import KisEventFilter, KisEventTicket, KisMultiEventFilter
+from pykis.event.handler import KisEventFilter
 from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.responses.exceptions import KisMarketNotOpenedError
 from pykis.responses.response import KisAPIResponse, raise_not_found
 from pykis.responses.types import KisString
-from pykis.utils.params import EMPTY, EMPTY_TYPE
 from pykis.utils.timezone import TIMEZONE
 from pykis.utils.typing import Checkable
 
 if TYPE_CHECKING:
     from pykis.api.account.pending_order import KisPendingOrder
     from pykis.api.base.account_product import KisAccountProductProtocol
-    from pykis.api.websocket.order_execution import KisRealtimeExecution
     from pykis.client.websocket import KisWebsocketClient
     from pykis.kis import PyKis
 
@@ -528,13 +526,13 @@ class KisOrderNumberBase(KisAccountProductBase, KisOrderNumberEventFilter):
                 and self.symbol == value.symbol  # type: ignore
                 and self.market == value.market  # type: ignore
                 and self.branch == value.branch  # type: ignore
-                and self.number == value.number  # type: ignore
+                and int(self.number) == int(value.number)  # type: ignore
             )
         except AttributeError:
             return False
 
     def __hash__(self) -> int:
-        return hash((self.account_number, self.symbol, self.market, self.branch, self.number))
+        return hash((self.account_number, self.symbol, self.market, self.branch, int(self.number)))
 
     def __repr__(self) -> str:
         return f"""{self.__class__.__name__}(

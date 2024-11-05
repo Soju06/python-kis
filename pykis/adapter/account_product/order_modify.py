@@ -32,10 +32,10 @@ class KisModifyableOrder(Protocol):
 
     def modify(
         self,
-        price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-        qty: IN_ORDER_QUANTITY | None = None,
-        condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
-        execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
+        price: "ORDER_PRICE | None | EMPTY_TYPE" = EMPTY,
+        qty: "IN_ORDER_QUANTITY | None" = None,
+        condition: "ORDER_CONDITION | None | EMPTY_TYPE" = EMPTY,
+        execution: "ORDER_EXECUTION | None | EMPTY_TYPE" = EMPTY,
     ) -> "KisOrder":
         """
         한국투자증권 통합 주식 주문정정 (국내 모의투자 미지원, 해외 주간거래 모의투자 미지원)
@@ -79,10 +79,10 @@ class KisModifyableOrderImpl:
 
     def modify(
         self: "KisOrderNumber",
-        price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
-        qty: IN_ORDER_QUANTITY | None = None,
-        condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
-        execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
+        price: "ORDER_PRICE | None | EMPTY_TYPE" = EMPTY,
+        qty: "IN_ORDER_QUANTITY | None" = None,
+        condition: "ORDER_CONDITION | None | EMPTY_TYPE" = EMPTY,
+        execution: "ORDER_EXECUTION | None | EMPTY_TYPE" = EMPTY,
     ) -> "KisOrder":
         """
         한국투자증권 통합 주식 주문정정 (국내 모의투자 미지원, 해외 주간거래 모의투자 미지원)

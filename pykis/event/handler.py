@@ -158,11 +158,7 @@ class KisLambdaEventCallback(KisEventCallback[TSender, TEventArgs]):
         if self.where is None:
             return False
 
-        return (
-            self.where.__filter__(handler, sender, e)
-            if isinstance(self.where, KisEventFilter)
-            else self.where(sender, e)
-        )
+        return self.where.__filter__(handler, sender, e) if isinstance(self.where, KisEventFilter) else self.where(sender, e)
 
     def __callback__(self, handler: "KisEventHandler", sender: TSender, e: TEventArgs):
         if self.once:
