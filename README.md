@@ -312,6 +312,10 @@ KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:4
 
 ## 4. Changelog ✨
 
+### ver 2.0.4
+
+- [krx 주식 002170 정보를 quote 로 가져올 때 발생하는 버그](https://github.com/Soju06/python-kis/issues/48) 국내주식 시세조회의 업종명이 없을때 발생하는 버그를 수정했습니다.
+
 ### ver 2.0.3
 
 - [KisIntegrationBalance에서 해외주식 잔고수량이 0으로 표시됨](https://github.com/Soju06/python-kis/issues/41) 버그를 수정했습니다.
