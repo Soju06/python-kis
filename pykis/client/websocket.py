@@ -30,7 +30,6 @@ from pykis.event.handler import (
     KisEventFilter,
     KisEventHandler,
     KisEventTicket,
-    KisLambdaEventFilter,
     KisMultiEventFilter,
 )
 from pykis.event.subscription import KisSubscribedEventArgs, KisSubscriptionEventArgs
@@ -302,9 +301,7 @@ class KisWebsocketClient:
         id: str,
         key: str,
         callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]], None],
-        where: (
-            KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]] | None
-        ) = None,
+        where: KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]] | None = None,
         once: bool = False,
         primary: bool = False,
     ) -> KisEventTicket["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]]:

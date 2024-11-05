@@ -6,18 +6,15 @@ from pykis.api.account.order import (
     ORDER_CONDITION,
     ORDER_EXECUTION,
     ORDER_PRICE,
-    ORDER_QUANTITY,
     KisOrder,
     KisOrderBase,
     KisOrderNumber,
-    KisOrderNumberBase,
     ensure_price,
     order_condition,
 )
 from pykis.api.stock.info import get_market_country
 from pykis.api.stock.market import DAYTIME_MARKETS, MARKET_TYPE, get_market_code
 from pykis.api.stock.quote import quote
-from pykis.client.account import KisAccountNumber
 from pykis.client.exceptions import KisAPIError
 from pykis.responses.response import KisAPIResponse
 from pykis.responses.types import KisString

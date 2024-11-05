@@ -9,6 +9,7 @@ from pykis.api.account.order import (
     ORDER_QUANTITY,
     ORDER_TYPE,
     KisOrder,
+    KisSimpleOrder,
 )
 from pykis.api.base.account import KisAccountBase, KisAccountProtocol
 from pykis.api.base.account_product import (
@@ -372,7 +373,7 @@ class KisDomesticDailyOrder(KisDynamic, KisDailyOrderBase):
     @property
     def order_number(self) -> KisOrder:
         """주문번호"""
-        return KisOrder.from_order(
+        return KisSimpleOrder.from_order(
             account_number=self.account_number,
             symbol=self.symbol,
             market=self.market,
@@ -495,7 +496,7 @@ class KisForeignDailyOrder(KisDynamic, KisDailyOrderBase):
     @cached
     def order_number(self) -> KisOrder:
         """주문번호"""
-        return KisOrder.from_order(
+        return KisSimpleOrder.from_order(
             account_number=self.account_number,
             symbol=self.symbol,
             market=self.market,

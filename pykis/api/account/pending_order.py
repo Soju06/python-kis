@@ -3,6 +3,13 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, Any, Iterable, Protocol, runtime_checkable
 from zoneinfo import ZoneInfo
 
+from typing_extensions import deprecated
+
+from pykis.adapter.account_product.order_modify import (
+    KisOrderableOrder,
+    KisOrderableOrderImpl,
+)
+from pykis.adapter.websocket.execution import KisRealtimeOrderableOrderImpl
 from pykis.api.account.order import (
     ORDER_CONDITION,
     ORDER_EXECUTION,
@@ -10,6 +17,9 @@ from pykis.api.account.order import (
     ORDER_TYPE,
     KisOrder,
     KisOrderNumber,
+    KisOrderNumberBase,
+    KisSimpleOrder,
+    KisSimpleOrderNumber,
     resolve_domestic_order_condition,
 )
 from pykis.api.base.account import KisAccountBase, KisAccountProtocol
@@ -23,15 +33,16 @@ from pykis.api.stock.market import (
     KisMarketType,
     get_market_code,
     get_market_code_timezone,
-    get_market_timezone,
 )
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
+from pykis.event.filters.order import KisOrderNumberEventFilter
 from pykis.responses.dynamic import KisDynamic, KisList
 from pykis.responses.response import KisPaginationAPIResponse
-from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
+from pykis.responses.types import KisAny, KisDecimal, KisString
 from pykis.utils.repr import kis_repr
 from pykis.utils.timezone import TIMEZONE
+from pykis.utils.typing import Checkable
 
 if TYPE_CHECKING:
     from pykis.kis import PyKis
@@ -44,23 +55,8 @@ __all__ = [
 
 
 @runtime_checkable
-class KisPendingOrder(KisAccountProductProtocol, Protocol):
+class KisPendingOrder(KisOrder, Protocol):
     """한국투자증권 미체결 주식"""
-
-    @property
-    def time(self) -> datetime:
-        """주문시각"""
-        raise NotImplementedError
-
-    @property
-    def time_kst(self) -> datetime:
-        """주문시각(KST)"""
-        raise NotImplementedError
-
-    @property
-    def timezone(self) -> ZoneInfo:
-        """시간대"""
-        raise NotImplementedError
 
     @property
     def order_number(self) -> KisOrder:
@@ -192,7 +188,9 @@ class KisPendingOrders(KisAccountProtocol, Protocol):
     "execution",
     lines="multiple",
 )
-class KisPendingOrderBase(KisAccountProductBase):
+class KisPendingOrderBase(
+    KisAccountProductBase, KisOrderNumberEventFilter, KisRealtimeOrderableOrderImpl, KisOrderableOrderImpl
+):
     """한국투자증권 미체결 주식"""
 
     symbol: str
@@ -202,12 +200,32 @@ class KisPendingOrderBase(KisAccountProductBase):
     account_number: KisAccountNumber
     """계좌번호"""
 
+    @property
+    def branch(self) -> str:
+        """지점코드"""
+        return self.order_number.branch
+
+    @property
+    def number(self) -> str:
+        """주문번호"""
+        return self.order_number.number
+
     time: datetime
     """주문시각"""
     time_kst: datetime
     """주문시각(KST)"""
     timezone: ZoneInfo
     """시간대"""
+
+    @property
+    def pending(self) -> bool:
+        """미체결 여부"""
+        return True
+
+    @property
+    def pending_order(self) -> "KisPendingOrder | None":
+        """미체결 주문"""
+        return self
 
     order_number: KisOrder
     """주문번호"""
@@ -276,6 +294,84 @@ class KisPendingOrderBase(KisAccountProductBase):
     def pending_qty(self) -> ORDER_QUANTITY:
         """미체결수량"""
         return self.pending_quantity
+
+    def __init__(self) -> None:
+        super().__init__(lambda: self)
+
+    @staticmethod
+    @deprecated("Use KisOrder.from_number() instead")
+    def from_number(
+        kis: "PyKis",
+        symbol: str,
+        market: MARKET_TYPE,
+        account_number: KisAccountNumber,
+        branch: str,
+        number: str,
+    ) -> "KisOrderNumber":
+        """
+        주문번호 생성
+
+        Args:
+            kis (PyKis): 한국투자증권 API
+            symbol (str): 종목코드
+            market (MARKET_TYPE): 상품유형
+            account_number (KisAccountNumber): 계좌번호
+            branch (str): 지점코드
+            number (str): 주문번호
+        """
+        return KisSimpleOrderNumber.from_number(
+            kis=kis,
+            symbol=symbol,
+            market=market,
+            account_number=account_number,
+            branch=branch,
+            number=number,
+        )
+
+    @staticmethod
+    @deprecated("Use KisOrder.from_order() instead")
+    def from_order(
+        kis: "PyKis",
+        symbol: str,
+        market: MARKET_TYPE,
+        account_number: KisAccountNumber,
+        branch: str,
+        number: str,
+        time_kst: datetime,
+    ) -> "KisOrder":
+        """
+        주문 생성
+
+        Args:
+            kis (PyKis): 한국투자증권 API
+            symbol (str): 종목코드
+            market (MARKET_TYPE): 상품유형
+            account_number (KisAccountNumber): 계좌번호
+            branch (str): 지점코드
+            number (str): 주문번호
+            time_kst (datetime): 주문시간 (한국시간)
+        """
+        return KisSimpleOrder.from_order(
+            kis=kis,
+            symbol=symbol,
+            market=market,
+            account_number=account_number,
+            branch=branch,
+            number=number,
+            time_kst=time_kst,
+        )
+
+    def __eq__(self, value: object | KisOrderNumber) -> bool:
+        return self.order_number == value
+
+    def __hash__(self) -> int:
+        return hash(self.order_number)
+
+
+if TYPE_CHECKING:
+    # IDE Type Checking
+    Checkable[KisOrderNumber](KisPendingOrderBase)
+    Checkable[KisOrder](KisPendingOrderBase)
 
 
 @kis_repr(
@@ -387,9 +483,7 @@ class KisDomesticPendingOrder(KisDynamic, KisPendingOrderBase):
     def __post_init__(self):
         super().__post_init__()
 
-        has_price, self.condition, self.execution = resolve_domestic_order_condition(
-            self.__data__["ord_dvsn_cd"]
-        )
+        has_price, self.condition, self.execution = resolve_domestic_order_condition(self.__data__["ord_dvsn_cd"])
 
         if not has_price:
             self.unit_price = None
@@ -397,7 +491,7 @@ class KisDomesticPendingOrder(KisDynamic, KisPendingOrderBase):
     def __kis_post_init__(self):
         super().__kis_post_init__()
 
-        self.order_number = KisOrder.from_order(
+        self.order_number = KisSimpleOrder.from_order(
             kis=self.kis,
             symbol=self.symbol,
             market=self.market,
@@ -501,7 +595,7 @@ class KisForeignPendingOrder(KisDynamic, KisPendingOrderBase):
     def __kis_post_init__(self):
         super().__kis_post_init__()
 
-        self.order_number = KisOrder.from_order(
+        self.order_number = KisSimpleOrder.from_order(
             kis=self.kis,
             symbol=self.symbol,
             market=self.market,
@@ -831,7 +925,5 @@ def account_product_pending_orders(
 
     return KisSimplePendingOrders(
         account_number=self.account_number,
-        orders=[
-            order for order in orders.orders if order.symbol == self.symbol and order.market == self.market
-        ],
+        orders=[order for order in orders.orders if order.symbol == self.symbol and order.market == self.market],
     )
