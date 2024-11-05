@@ -22,7 +22,8 @@ TRACE_DETAIL_ERROR: bool = False
 """
 
 
-VERSION = "2.0.4"
+VERSION = "{{VERSION_PLACEHOLDER}}"  # This is automatically set via a tag in GitHub Workflow.
+VERSION = "dev" if "VERSION_PLACEHOLDER" in VERSION else VERSION
 
 USER_AGENT = f"PyKis/{VERSION}"
 
