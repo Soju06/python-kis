@@ -414,9 +414,7 @@ class PyKis:
             "real": RateLimiter(REAL_API_REQUEST_PER_SECOND, 1),
             "virtual": RateLimiter(VIRTUAL_API_REQUEST_PER_SECOND, 1),
         }
-        self._token = (
-            token if isinstance(token, KisAccessToken) else KisAccessToken.load(token) if token else None
-        )
+        self._token = token if isinstance(token, KisAccessToken) else KisAccessToken.load(token) if token else None
         self._virtual_token = (
             virtual_token
             if isinstance(virtual_token, KisAccessToken)
@@ -532,9 +530,6 @@ class PyKis:
 
             appkey.build(headers if appkey_location == "header" else body)
 
-        if auth:
-            (self.token if domain == "real" else self.primary_token).build(headers)
-
         if form is not None:
             if form_location is None:
                 form_location = "params" if method == "GET" else "body"
@@ -552,6 +547,9 @@ class PyKis:
         while True:
             rate_limit.acquire(blocking_callback=self._rate_limit_exceeded)
 
+            if auth:
+                (self.token if domain == "real" else self.primary_token).build(headers)
+
             resp = requests.request(
                 method=method,
                 url=urljoin(REAL_DOMAIN if domain == "real" else VIRTUAL_DOMAIN, path),
@@ -568,12 +566,24 @@ class PyKis:
             except:
                 data = None
 
-            # Rate limit exceeded
-            if resp.status_code != 500 or not data or data.get("msg_cd") != "EGW00201":
-                raise KisHTTPError(response=resp)
+            error_code = data.get("msg_cd") if data is not None else None
 
-            logging.logger.warning("API 호출 횟수를 초과하였습니다.")
-            sleep(0.1)
+            match error_code:
+                case "EGW00201":
+                    # Rate limit exceeded
+                    logging.logger.warning("API 호출 횟수를 초과하였습니다.")
+                    sleep(0.1)
+                    continue
+
+                case "EGW00123":
+                    # Token expired
+                    if domain == "real":
+                        self._token = None
+                    else:
+                        self._virtual_token = None
+
+                case _:
+                    raise KisHTTPError(response=resp)
 
     def fetch(
         self,
