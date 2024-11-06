@@ -312,6 +312,12 @@ KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:4
 
 ## 4. Changelog ✨
 
+### ver 2.1.0
+
+- [몇몇 종목의 주식 객체 quote, chart 동작 관련 질문](https://github.com/Soju06/python-kis/issues/47) 상품기본정보 조회 시세조회 가능 여부 확인 로직을 추가했습니다.
+- [order 객체를 분실했을 때, order 객체를 다시 가져올 수 있는 방법이 있을까요?](https://github.com/Soju06/python-kis/issues/45) 미체결 주문 객체에 KisOrder 프로토콜을 지원하도록 개선했습니다.
+- 인증 토큰 만료되었을 때 발생하는 예외를 핸들링하여 재발급을 시도하도록 개선했습니다.
+
 ### ver 2.0.4
 
 - [krx 주식 002170 정보를 quote 로 가져올 때 발생하는 버그](https://github.com/Soju06/python-kis/issues/48) 국내주식 시세조회의 업종명이 없을때 발생하는 버그를 수정했습니다.
