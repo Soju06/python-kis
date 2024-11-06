@@ -2,7 +2,7 @@ from types import NoneType
 from typing import Any, Iterable, Protocol, TypeVar, get_args, runtime_checkable
 
 from pykis import logging
-from pykis.responses.dynamic import KisNoneValueError, KisType
+from pykis.responses.dynamic import KisNoneValueError, KisType, empty
 from pykis.responses.types import KisAny
 
 __all__ = [
@@ -111,9 +111,7 @@ class KisWebsocketResponse:
                         field = field.default_type()
 
                     if field.field is None:
-                        logging.logger.warning(
-                            f"{response_type.__name__}[{i}] 필드의 이름이 지정되지 않았습니다."
-                        )
+                        logging.logger.warning(f"{response_type.__name__}[{i}] 필드의 이름이 지정되지 않았습니다.")
                         continue
 
                     try:
@@ -124,16 +122,17 @@ class KisWebsocketResponse:
 
                         setattr(response, field.field, value)
                     except KisNoneValueError:
-                        nullable = (
-                            NoneType in get_args(anno) if (anno := annotation.get(field.field)) else False
-                        )
+                        nullable = NoneType in get_args(anno) if (anno := annotation.get(field.field)) else False
 
-                        if not nullable:
-                            raise ValueError(
-                                f"{response_type.__name__}.{field.field} 필드가 None일 수 없습니다."
-                            )
+                        default_value = None if field.default is empty else field.default
 
-                        setattr(response, field.field, None)
+                        if callable(default_value):
+                            default_value = default_value()
+
+                        if default_value is None and not nullable:
+                            raise ValueError(f"{response_type.__name__}.{field.field} 필드가 None일 수 없습니다.")
+
+                        setattr(response, field.field, default_value)
 
                     except Exception as e:
                         raise ValueError(
