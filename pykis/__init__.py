@@ -123,6 +123,8 @@ __all__ = [
     "KisOrderProfits",
     "KisOrderNumber",
     "KisOrder",
+    "KisSimpleOrderNumber",
+    "KisSimpleOrder",
     "KisOrderableAmount",
     "KisPendingOrder",
     "KisPendingOrders",
@@ -138,6 +140,9 @@ __all__ = [
     "KisQuotableProduct",
     "KisRealtimeOrderableAccount",
     "KisWebsocketQuotableProduct",
+    "KisCancelableOrder",
+    "KisModifyableOrder",
+    "KisOrderableOrder",
     ################################
     ##        API Responses       ##
     ################################

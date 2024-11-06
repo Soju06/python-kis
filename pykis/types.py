@@ -1,6 +1,11 @@
 from pykis.adapter.account.balance import KisQuotableAccount
 from pykis.adapter.account.order import KisOrderableAccount
 from pykis.adapter.account_product.order import KisOrderableAccountProduct
+from pykis.adapter.account_product.order_modify import (
+    KisCancelableOrder,
+    KisModifyableOrder,
+    KisOrderableOrder,
+)
 from pykis.adapter.product.quote import KisQuotableProduct
 from pykis.adapter.websocket.execution import KisRealtimeOrderableAccount
 from pykis.adapter.websocket.price import KisWebsocketQuotableProduct
@@ -15,6 +20,8 @@ from pykis.api.account.order import (
     ORDER_TYPE,
     KisOrder,
     KisOrderNumber,
+    KisSimpleOrder,
+    KisSimpleOrderNumber,
 )
 from pykis.api.account.order_profit import KisOrderProfit, KisOrderProfits
 from pykis.api.account.orderable_amount import (
@@ -203,6 +210,8 @@ __all__ = [
     "KisOrderProfits",
     "KisOrderNumber",
     "KisOrder",
+    "KisSimpleOrderNumber",
+    "KisSimpleOrder",
     "KisOrderableAmount",
     "KisPendingOrder",
     "KisPendingOrders",
@@ -218,6 +227,9 @@ __all__ = [
     "KisQuotableProduct",
     "KisRealtimeOrderableAccount",
     "KisWebsocketQuotableProduct",
+    "KisCancelableOrder",
+    "KisModifyableOrder",
+    "KisOrderableOrder",
     ################################
     ##        API Responses       ##
     ################################
