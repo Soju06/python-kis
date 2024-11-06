@@ -525,7 +525,7 @@ class KisOrderNumberBase(KisAccountProductBase, KisOrderNumberEventFilter):
                 self.account_number == value.account_number  # type: ignore
                 and self.symbol == value.symbol  # type: ignore
                 and self.market == value.market  # type: ignore
-                and self.branch == value.branch  # type: ignore
+                and (self.foreign or self.branch == value.branch)  # type: ignore
                 and int(self.number) == int(value.number)  # type: ignore
             )
         except AttributeError:
