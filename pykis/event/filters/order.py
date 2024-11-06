@@ -149,7 +149,7 @@ class KisOrderNumberEventFilter(KisEventFilter["KisWebsocketClient", KisSubscrip
         return not (
             order.symbol == value.symbol
             and order.market == value.market
-            and order.branch == value.branch
+            and (order.foreign or order.branch == value.branch)
             and int(order.number) == int(value.number)
             and order.account_number == value.account_number
         )
