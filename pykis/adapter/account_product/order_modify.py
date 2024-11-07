@@ -1,6 +1,5 @@
+from types import EllipsisType
 from typing import TYPE_CHECKING, Protocol, runtime_checkable
-
-from pykis.utils.params import EMPTY, EMPTY_TYPE
 
 if TYPE_CHECKING:
     from pykis.api.account.order import (
@@ -11,6 +10,15 @@ if TYPE_CHECKING:
         KisOrder,
         KisOrderNumber,
     )
+
+__all__ = [
+    "KisCancelableOrder",
+    "KisModifyableOrder",
+    "KisOrderableOrder",
+    "KisCancelableOrderMixin",
+    "KisModifyableOrderMixin",
+    "KisOrderableOrderMixin",
+]
 
 
 @runtime_checkable
@@ -24,7 +32,7 @@ class KisCancelableOrder(Protocol):
         국내주식주문 -> 주식주문(정정취소)[v1_국내주식-003]
         국내주식주문 -> 해외주식 정정취소주문[v1_해외주식-003]
         """
-        raise NotImplementedError
+        ...
 
 
 class KisModifyableOrder(Protocol):
@@ -32,10 +40,10 @@ class KisModifyableOrder(Protocol):
 
     def modify(
         self,
-        price: "ORDER_PRICE | None | EMPTY_TYPE" = EMPTY,
+        price: "ORDER_PRICE | None | EllipsisType" = ...,
         qty: "IN_ORDER_QUANTITY | None" = None,
-        condition: "ORDER_CONDITION | None | EMPTY_TYPE" = EMPTY,
-        execution: "ORDER_EXECUTION | None | EMPTY_TYPE" = EMPTY,
+        condition: "ORDER_CONDITION | None | EllipsisType" = ...,
+        execution: "ORDER_EXECUTION | None | EllipsisType" = ...,
     ) -> "KisOrder":
         """
         한국투자증권 통합 주식 주문정정 (국내 모의투자 미지원, 해외 주간거래 모의투자 미지원)
@@ -49,7 +57,7 @@ class KisModifyableOrder(Protocol):
             condition (ORDER_CONDITION, optional): 주문조건
             execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         """
-        raise NotImplementedError
+        ...
 
 
 @runtime_checkable
@@ -57,7 +65,7 @@ class KisOrderableOrder(KisCancelableOrder, KisModifyableOrder, Protocol):
     """주문 가능 주문 프로토콜"""
 
 
-class KisCancelableOrderImpl:
+class KisCancelableOrderMixin:
     """취소 가능 주문"""
 
     def cancel(
@@ -74,15 +82,15 @@ class KisCancelableOrderImpl:
         return cancel_order(self.kis, order=self)
 
 
-class KisModifyableOrderImpl:
+class KisModifyableOrderMixin:
     """정정 가능 주문"""
 
     def modify(
         self: "KisOrderNumber",
-        price: "ORDER_PRICE | None | EMPTY_TYPE" = EMPTY,
+        price: "ORDER_PRICE | None | EllipsisType" = ...,
         qty: "IN_ORDER_QUANTITY | None" = None,
-        condition: "ORDER_CONDITION | None | EMPTY_TYPE" = EMPTY,
-        execution: "ORDER_EXECUTION | None | EMPTY_TYPE" = EMPTY,
+        condition: "ORDER_CONDITION | None | EllipsisType" = ...,
+        execution: "ORDER_EXECUTION | None | EllipsisType" = ...,
     ) -> "KisOrder":
         """
         한국투자증권 통합 주식 주문정정 (국내 모의투자 미지원, 해외 주간거래 모의투자 미지원)
@@ -108,5 +116,5 @@ class KisModifyableOrderImpl:
         )
 
 
-class KisOrderableOrderImpl(KisCancelableOrderImpl, KisModifyableOrderImpl):
+class KisOrderableOrderMixin(KisCancelableOrderMixin, KisModifyableOrderMixin):
     """주문 가능 주문"""

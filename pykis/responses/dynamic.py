@@ -1,4 +1,4 @@
-from types import NoneType
+from types import EllipsisType, NoneType
 from typing import (
     Any,
     Callable,
@@ -10,7 +10,6 @@ from typing import (
 )
 
 from pykis import logging
-from pykis.utils.params import EMPTY, EMPTY_TYPE
 
 __all__ = [
     "KisType",
@@ -62,22 +61,22 @@ class KisType(Generic[T]):
 
     def __call__(
         self,
-        field: str | None | EMPTY_TYPE = EMPTY,
-        default: T | Callable[[], T] | None | object | EMPTY_TYPE = EMPTY,
-        scope: str | None | EMPTY_TYPE = EMPTY,
-        absolute: bool | EMPTY_TYPE = EMPTY,
+        field: str | None | EllipsisType = ...,
+        default: T | Callable[[], T] | None | object | EllipsisType = ...,
+        scope: str | None | EllipsisType = ...,
+        absolute: bool | EllipsisType = ...,
     ) -> T:
-        if field is not EMPTY:
-            self.field = field  # type: ignore
+        if not isinstance(field, EllipsisType):
+            self.field = field
 
-        if default is not EMPTY:
+        if not isinstance(default, EllipsisType):
             self.default = default
 
-        if scope is not EMPTY:
-            self.scope = scope  # type: ignore
+        if not isinstance(scope, EllipsisType):
+            self.scope = scope
 
-        if absolute is not EMPTY:
-            self.absolute = absolute  # type: ignore
+        if not isinstance(absolute, EllipsisType):
+            self.absolute = absolute
 
         return self  # type: ignore
 
@@ -146,11 +145,11 @@ class KisDynamicProtocol(Protocol):
     @property
     def __data__(self) -> dict[str, Any]:
         """원본 응답 데이터"""
-        raise NotImplementedError
+        ...
 
     def raw(self) -> dict[str, Any] | None:
         """원본 응답 데이터의 복사본을 반환합니다."""
-        raise NotImplementedError
+        ...
 
 
 class KisDynamic:
@@ -313,9 +312,7 @@ class KisObject(Generic[TDynamic], KisType[TDynamic], metaclass=KisTypeMeta):
                     if ignore_missing:
                         continue
 
-                    raise KeyError(
-                        f"{object_type.__name__}.{key} 필드의 {field}값이 존재하지 않습니다. ({type_!r})"
-                    )
+                    raise KeyError(f"{object_type.__name__}.{key} 필드의 {field}값이 존재하지 않습니다. ({type_!r})")
 
                 if callable(type_.default):
                     value = type_.default()
@@ -349,9 +346,7 @@ class KisObject(Generic[TDynamic], KisType[TDynamic], metaclass=KisTypeMeta):
                 missing -= ignore_missing_fields
 
             if missing:
-                logging.logger.warning(
-                    f"{object_type.__name__}에 정의되지 않은 필드가 있습니다: {', '.join(missing)}"
-                )
+                logging.logger.warning(f"{object_type.__name__}에 정의되지 않은 필드가 있습니다: {', '.join(missing)}")
 
         setattr(object, "__data__", data)
 

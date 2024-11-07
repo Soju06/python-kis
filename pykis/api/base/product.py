@@ -22,22 +22,22 @@ class KisProductProtocol(KisMarketProtocol, Protocol):
     @property
     def symbol(self) -> str:
         """종목코드"""
-        raise NotImplementedError
+        ...
 
     @property
     def name(self) -> str:
         """상품명"""
-        raise NotImplementedError
+        ...
 
     @property
     def info(self) -> "KisStockInfo":
         """상품기본정보 조회"""
-        raise NotImplementedError
+        ...
 
     @property
     def stock(self) -> "KisStock":
         """종목 Scope"""
-        raise NotImplementedError
+        ...
 
 
 @kis_repr(

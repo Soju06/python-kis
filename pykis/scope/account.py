@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
-from pykis.adapter.account.balance import KisQuotableAccount, KisQuotableAccountImpl
-from pykis.adapter.account.order import KisOrderableAccount, KisOrderableAccountImpl
+from pykis.adapter.account.balance import KisQuotableAccount, KisQuotableAccountMixin
+from pykis.adapter.account.order import KisOrderableAccount, KisOrderableAccountMixin
 from pykis.adapter.websocket.execution import (
     KisRealtimeOrderableAccount,
-    KisRealtimeOrderableAccountImpl,
+    KisRealtimeOrderableAccountMixin,
 )
 from pykis.api.base.account import KisAccountBase, KisAccountProtocol
 from pykis.client.account import KisAccountNumber
@@ -38,9 +38,9 @@ class KisAccountScope(
     KisScopeBase,
     KisAccountBase,
     # Adapters
-    KisRealtimeOrderableAccountImpl,
-    KisOrderableAccountImpl,
-    KisQuotableAccountImpl,
+    KisRealtimeOrderableAccountMixin,
+    KisOrderableAccountMixin,
+    KisQuotableAccountMixin,
 ):
     """한국투자증권 계좌 Scope"""
 

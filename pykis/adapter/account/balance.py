@@ -9,7 +9,7 @@ from pykis.api.stock.info import COUNTRY_TYPE
 
 __all__ = [
     "KisQuotableAccount",
-    "KisQuotableAccountImpl",
+    "KisQuotableAccountMixin",
 ]
 
 
@@ -36,7 +36,7 @@ class KisQuotableAccount(Protocol):
             KisAPIError: API 호출에 실패한 경우
             ValueError: 계좌번호가 잘못된 경우
         """
-        raise NotImplementedError
+        ...
 
     def daily_orders(
         self: KisAccountProtocol,
@@ -59,7 +59,7 @@ class KisQuotableAccount(Protocol):
             KisAPIError: API 호출에 실패한 경우
             ValueError: 계좌번호가 잘못된 경우
         """
-        raise NotImplementedError
+        ...
 
     def profits(
         self: KisAccountProtocol,
@@ -84,10 +84,10 @@ class KisQuotableAccount(Protocol):
             KisAPIError: API 호출에 실패한 경우
             ValueError: 계좌번호가 잘못된 경우
         """
-        raise NotImplementedError
+        ...
 
 
-class KisQuotableAccountImpl:
+class KisQuotableAccountMixin:
     """한국투자증권 잔고조회가능 프로토콜"""
 
     from pykis.api.account.balance import account_balance as balance  # 잔고 조회

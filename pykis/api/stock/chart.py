@@ -23,72 +23,72 @@ class KisChartBar(Protocol):
     @property
     def time(self) -> datetime:
         """시간 (현지시간)"""
-        raise NotImplementedError
+        ...
 
     @property
     def time_kst(self) -> datetime:
         """시간 (한국시간)"""
-        raise NotImplementedError
+        ...
 
     @property
     def open(self) -> Decimal:
         """시가"""
-        raise NotImplementedError
+        ...
 
     @property
     def close(self) -> Decimal:
         """종가 (현재가)"""
-        raise NotImplementedError
+        ...
 
     @property
     def high(self) -> Decimal:
         """고가"""
-        raise NotImplementedError
+        ...
 
     @property
     def low(self) -> Decimal:
         """저가"""
-        raise NotImplementedError
+        ...
 
     @property
     def volume(self) -> int:
         """거래량"""
-        raise NotImplementedError
+        ...
 
     @property
     def amount(self) -> Decimal:
         """거래대금"""
-        raise NotImplementedError
+        ...
 
     @property
     def change(self) -> Decimal:
         """전일대비"""
-        raise NotImplementedError
+        ...
 
     @property
     def sign(self) -> STOCK_SIGN_TYPE:
         """전일대비 부호"""
-        raise NotImplementedError
+        ...
 
     @property
     def price(self) -> Decimal:
         """현재가 (종가)"""
-        raise NotImplementedError
+        ...
 
     @property
     def prev_price(self) -> Decimal:
         """전일가"""
-        raise NotImplementedError
+        ...
 
     @property
     def rate(self) -> Decimal:
         """등락률 (-100 ~ 100)"""
-        raise NotImplementedError
+        ...
 
     @property
     def sign_name(self) -> str:
         """대비부호명"""
-        raise NotImplementedError
+        ...
 
 
 @runtime_checkable
@@ -98,12 +98,12 @@ class KisChart(KisProductProtocol, Protocol):
     @property
     def timezone(self) -> tzinfo:
         """시간대"""
-        raise NotImplementedError
+        ...
 
     @property
     def bars(self) -> list[KisChartBar]:
         """차트 (오름차순)"""
-        raise NotImplementedError
+        ...
 
     def index(self, time: datetime | date | time, /, kst: bool = False) -> int:
         """
@@ -113,7 +113,7 @@ class KisChart(KisProductProtocol, Protocol):
             time: 시간대
             kst: 한국시간대 여부
         """
-        raise NotImplementedError
+        ...
 
     def order_by(
         self,
@@ -128,7 +128,7 @@ class KisChart(KisProductProtocol, Protocol):
             key: 정렬 키
             reverse: 내림차순 여부
         """
-        raise NotImplementedError
+        ...
 
     @overload
     def __getitem__(self, index: datetime | date | time | int) -> KisChartBar: ...
@@ -136,17 +136,13 @@ class KisChart(KisProductProtocol, Protocol):
     @overload
     def __getitem__(self, index: slice) -> list[KisChartBar]: ...
 
-    def __getitem__(self, index: datetime | date | time | int | slice) -> KisChartBar | list[KisChartBar]:
-        raise NotImplementedError
+    def __getitem__(self, index: datetime | date | time | int | slice) -> KisChartBar | list[KisChartBar]: ...
 
-    def __iter__(self) -> Iterable[KisChartBar]:
-        raise NotImplementedError
+    def __iter__(self) -> Iterable[KisChartBar]: ...
 
-    def __len__(self) -> int:
-        raise NotImplementedError
+    def __len__(self) -> int: ...
 
-    def __reversed__(self):
-        raise NotImplementedError
+    def __reversed__(self): ...
 
     def df(self):
         """
@@ -154,7 +150,7 @@ class KisChart(KisProductProtocol, Protocol):
 
         해당 함수는 Pandas가 설치되어 있어야 합니다.
         """
-        raise NotImplementedError
+        ...
 
 
 @runtime_checkable
@@ -217,21 +213,13 @@ class KisChartBase(KisChartRepr, KisProductBase):
                 (
                     (lambda bar: bar.time_kst)
                     if isinstance(time, datetime)
-                    else (
-                        (lambda bar: bar.time_kst.date())
-                        if isinstance(time, date)
-                        else (lambda bar: bar.time_kst.time())
-                    )
+                    else ((lambda bar: bar.time_kst.date()) if isinstance(time, date) else (lambda bar: bar.time_kst.time()))
                 )
                 if kst
                 else (
                     (lambda bar: bar.time)
                     if isinstance(time, datetime)
-                    else (
-                        (lambda bar: bar.time.date())
-                        if isinstance(time, date)
-                        else (lambda bar: bar.time.time())
-                    )
+                    else ((lambda bar: bar.time.date()) if isinstance(time, date) else (lambda bar: bar.time.time()))
                 )
             ),
         )
@@ -299,8 +287,7 @@ class KisChartBase(KisChartRepr, KisProductBase):
             import pandas as pd  # type: ignore
         except ImportError as e:
             raise ImportError(
-                "Pandas가 설치되어 있지 않습니다.\n"
-                "Pandas를 설치하려면 `pip install pandas`를 실행해주세요."
+                "Pandas가 설치되어 있지 않습니다.\n" "Pandas를 설치하려면 `pip install pandas`를 실행해주세요."
             ) from e
 
         return pd.DataFrame(

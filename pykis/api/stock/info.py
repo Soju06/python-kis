@@ -119,57 +119,57 @@ class KisStockInfo(Protocol):
     @property
     def symbol(self) -> str:
         """종목코드"""
-        raise NotImplementedError
+        ...
 
     @property
     def std_code(self) -> str:
         """표준코드"""
-        raise NotImplementedError
+        ...
 
     @property
     def name_kor(self) -> str:
         """종목명"""
-        raise NotImplementedError
+        ...
 
     @property
     def full_name_kor(self) -> str:
         """종목전체명"""
-        raise NotImplementedError
+        ...
 
     @property
     def name_eng(self) -> str:
         """종목영문명"""
-        raise NotImplementedError
+        ...
 
     @property
     def full_name_eng(self) -> str:
         """종목영문전체명"""
-        raise NotImplementedError
+        ...
 
     @property
     def name(self) -> str:
         """종목명"""
-        raise NotImplementedError
+        ...
 
     @property
     def market(self) -> MARKET_TYPE:
         """상품유형타입"""
-        raise NotImplementedError
+        ...
 
     @property
     def market_name(self) -> str:
         """상품유형명"""
-        raise NotImplementedError
+        ...
 
     @property
     def foreign(self) -> bool:
         """해외종목 여부"""
-        raise NotImplementedError
+        ...
 
     @property
     def domestic(self) -> bool:
         """국내종목 여부"""
-        raise NotImplementedError
+        ...
 
 
 @runtime_checkable

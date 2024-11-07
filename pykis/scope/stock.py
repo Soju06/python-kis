@@ -2,12 +2,12 @@ from typing import TYPE_CHECKING, Protocol
 
 from pykis.adapter.account_product.order import (
     KisOrderableAccountProduct,
-    KisOrderableAccountProductImpl,
+    KisOrderableAccountProductMixin,
 )
-from pykis.adapter.product.quote import KisQuotableProduct, KisQuotableProductImpl
+from pykis.adapter.product.quote import KisQuotableProduct, KisQuotableProductMixin
 from pykis.adapter.websocket.price import (
     KisWebsocketQuotableProduct,
-    KisWebsocketQuotableProductImpl,
+    KisWebsocketQuotableProductMixin,
 )
 from pykis.api.base.account_product import (
     KisAccountProductBase,
@@ -52,9 +52,9 @@ class KisStockScope(
     KisScopeBase,
     KisAccountProductBase,
     # Adapters
-    KisOrderableAccountProductImpl,
-    KisWebsocketQuotableProductImpl,
-    KisQuotableProductImpl,
+    KisOrderableAccountProductMixin,
+    KisWebsocketQuotableProductMixin,
+    KisQuotableProductMixin,
     # Filters
     KisProductEventFilter,
 ):

@@ -25,37 +25,37 @@ class KisTradingHours(KisMarketProtocol, Protocol):
     @property
     def market(self) -> MARKET_TYPE:
         """시장 종류"""
-        raise NotImplementedError
+        ...
 
     @property
     def open(self) -> time:
         """장 시작 시간"""
-        raise NotImplementedError
+        ...
 
     @property
     def open_kst(self) -> time:
         """장 시작 시간 (한국시간)"""
-        raise NotImplementedError
+        ...
 
     @property
     def close(self) -> time:
         """장 종료 시간"""
-        raise NotImplementedError
+        ...
 
     @property
     def close_kst(self) -> time:
         """장 종료 시간 (한국시간)"""
-        raise NotImplementedError
+        ...
 
     @property
     def timezone(self) -> tzinfo:
         """시간대"""
-        raise NotImplementedError
+        ...
 
     @property
     def market_name(self) -> str:
         """시장 종류"""
-        raise NotImplementedError
+        ...
 
 
 @kis_repr(

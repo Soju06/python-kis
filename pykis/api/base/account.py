@@ -21,12 +21,12 @@ class KisAccountProtocol(KisObjectProtocol, Protocol):
     @property
     def account_number(self) -> KisAccountNumber:
         """계좌번호"""
-        raise NotImplementedError
+        ...
 
     @property
     def account(self) -> "KisAccount":
         """계좌 Scope"""
-        raise NotImplementedError
+        ...
 
 
 @kis_repr(

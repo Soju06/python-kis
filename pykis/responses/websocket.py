@@ -18,11 +18,11 @@ class KisWebsocketResponseProtocol(Protocol):
     @property
     def __data__(self) -> list[str]:
         """원본 데이터"""
-        raise NotImplementedError
+        ...
 
     def raw(self) -> list[str]:
         """원본 응답 데이터를 반환합니다."""
-        raise NotImplementedError
+        ...
 
 
 class KisWebsocketResponse:

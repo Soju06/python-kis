@@ -1,4 +1,5 @@
 from datetime import datetime
+from types import EllipsisType
 from typing import TYPE_CHECKING, Any, Literal
 
 from pykis.api.account.order import (
@@ -18,7 +19,6 @@ from pykis.api.stock.quote import quote
 from pykis.client.exceptions import KisAPIError
 from pykis.responses.response import KisAPIResponse
 from pykis.responses.types import KisString
-from pykis.utils.params import EMPTY, EMPTY_TYPE
 from pykis.utils.timezone import TIMEZONE
 
 if TYPE_CHECKING:
@@ -103,10 +103,10 @@ class KisForeignDaytimeModifyOrder(KisAPIResponse, KisOrderBase):
 def domestic_modify_order(
     self: "PyKis",
     order: KisOrderNumber,
-    price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
+    price: ORDER_PRICE | None | EllipsisType = ...,
     qty: IN_ORDER_QUANTITY | None = None,
-    condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
-    execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
+    condition: ORDER_CONDITION | None | EllipsisType = ...,
+    execution: ORDER_EXECUTION | None | EllipsisType = ...,
 ) -> KisDomesticModifyOrder:
     """
     한국투자증권 국내 주식 주문정정 (모의투자 미지원)
@@ -139,16 +139,16 @@ def domestic_modify_order(
     if not order_info:
         raise ValueError("주문정보를 찾을 수 없습니다. 이미 체결되었거나 취소된 주문일 수 있습니다.")
 
-    if isinstance(price, EMPTY_TYPE):
+    if isinstance(price, EllipsisType):
         price = order_info.price
 
-    if isinstance(qty, EMPTY_TYPE):
+    if isinstance(qty, EllipsisType):
         qty = order_info.qty
 
-    if isinstance(condition, EMPTY_TYPE):
+    if isinstance(condition, EllipsisType):
         condition = order_info.condition
 
-    if isinstance(execution, EMPTY_TYPE):
+    if isinstance(execution, EllipsisType):
         execution = order_info.execution
 
     price = None if price is None else ensure_price(price, 0)
@@ -259,10 +259,10 @@ FOREIGN_ORDER_MODIFY_API_CODES: dict[tuple[bool, MARKET_TYPE, Literal["modify", 
 def foreign_modify_order(
     self: "PyKis",
     order: KisOrderNumber,
-    price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
+    price: ORDER_PRICE | None | EllipsisType = ...,
     qty: IN_ORDER_QUANTITY | None = None,
-    condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
-    execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
+    condition: ORDER_CONDITION | None | EllipsisType = ...,
+    execution: ORDER_EXECUTION | None | EllipsisType = ...,
 ) -> KisForeignModifyOrder:
     """
     한국투자증권 해외 주식 주문정정
@@ -291,16 +291,16 @@ def foreign_modify_order(
     if not order_info:
         raise ValueError("주문정보를 찾을 수 없습니다. 이미 체결되었거나 취소된 주문일 수 있습니다.")
 
-    if isinstance(price, EMPTY_TYPE):
+    if isinstance(price, EllipsisType):
         price = order_info.price
 
-    if isinstance(qty, EMPTY_TYPE):
+    if isinstance(qty, EllipsisType):
         qty = order_info.qty
 
-    if isinstance(condition, EMPTY_TYPE):
+    if isinstance(condition, EllipsisType):
         condition = order_info.condition
 
-    if isinstance(execution, EMPTY_TYPE):
+    if isinstance(execution, EllipsisType):
         execution = order_info.execution
 
     price = None if price is None else ensure_price(price)
@@ -389,7 +389,7 @@ def foreign_cancel_order(
 def foreign_daytime_modify_order(
     self: "PyKis",
     order: KisOrderNumber,
-    price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
+    price: ORDER_PRICE | None | EllipsisType = ...,
     qty: IN_ORDER_QUANTITY | None = None,
 ) -> KisForeignDaytimeModifyOrder:
     """
@@ -425,10 +425,10 @@ def foreign_daytime_modify_order(
     if not order_info:
         raise ValueError("주문정보를 찾을 수 없습니다. 이미 체결되었거나 취소된 주문일 수 있습니다.")
 
-    if isinstance(price, EMPTY_TYPE):
+    if isinstance(price, EllipsisType):
         price = order_info.price
 
-    if isinstance(qty, EMPTY_TYPE):
+    if isinstance(qty, EllipsisType):
         qty = order_info.qty
 
     price = None if price is None else ensure_price(price)
@@ -521,10 +521,10 @@ def foreign_daytime_cancel_order(
 def modify_order(
     self: "PyKis",
     order: KisOrderNumber,
-    price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
+    price: ORDER_PRICE | None | EllipsisType = ...,
     qty: IN_ORDER_QUANTITY | None = None,
-    condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
-    execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
+    condition: ORDER_CONDITION | None | EllipsisType = ...,
+    execution: ORDER_EXECUTION | None | EllipsisType = ...,
 ) -> KisOrder:
     """
     한국투자증권 통합 주식 주문정정 (국내 모의투자 미지원, 해외 주간거래 모의투자 미지원)
@@ -574,10 +574,10 @@ def modify_order(
 def account_modify_order(
     self: "KisAccountProtocol",
     order: KisOrderNumber,
-    price: ORDER_PRICE | None | EMPTY_TYPE = EMPTY,
+    price: ORDER_PRICE | None | EllipsisType = ...,
     qty: IN_ORDER_QUANTITY | None = None,
-    condition: ORDER_CONDITION | None | EMPTY_TYPE = EMPTY,
-    execution: ORDER_EXECUTION | None | EMPTY_TYPE = EMPTY,
+    condition: ORDER_CONDITION | None | EllipsisType = ...,
+    execution: ORDER_EXECUTION | None | EllipsisType = ...,
 ) -> KisOrder:
     """
     한국투자증권 통합 주식 주문정정 (국내 모의투자 미지원, 해외 주간거래 모의투자 미지원)

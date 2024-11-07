@@ -22,7 +22,7 @@ class KisSimpleRealtimeExecution(Protocol):
     @property
     def order_number(self) -> "KisOrderNumber":
         """주문번호"""
-        raise NotImplementedError
+        ...
 
 
 @runtime_checkable
@@ -32,27 +32,27 @@ class KisSimpleOrderNumberProtocol(Protocol):
     @property
     def symbol(self) -> str:
         """종목코드"""
-        raise NotImplementedError
+        ...
 
     @property
     def market(self) -> MARKET_TYPE:
         """시장유형"""
-        raise NotImplementedError
+        ...
 
     @property
     def branch(self) -> str:
         """지점코드"""
-        raise NotImplementedError
+        ...
 
     @property
     def number(self) -> str:
         """주문번호"""
-        raise NotImplementedError
+        ...
 
     @property
     def account_number(self) -> KisAccountNumber:
         """계좌번호"""
-        raise NotImplementedError
+        ...
 
 
 class KisSimpleOrderNumber:

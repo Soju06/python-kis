@@ -43,82 +43,82 @@ class KisOrderProfit(KisAccountProductProtocol, Protocol):
     @property
     def time(self) -> datetime:
         """시간 (현지시간)"""
-        raise NotImplementedError
+        ...
 
     @property
     def time_kst(self) -> datetime:
         """시간 (한국시간)"""
-        raise NotImplementedError
+        ...
 
     @property
     def timezone(self) -> ZoneInfo:
         """시간대"""
-        raise NotImplementedError
+        ...
 
     @property
     def symbol(self) -> str:
         """종목코드"""
-        raise NotImplementedError
+        ...
 
     @property
     def market(self) -> MARKET_TYPE:
         """상품유형타입"""
-        raise NotImplementedError
+        ...
 
     @property
     def account_number(self) -> KisAccountNumber:
         """계좌번호"""
-        raise NotImplementedError
+        ...
 
     @property
     def name(self) -> str:
         """종목명"""
-        raise NotImplementedError
+        ...
 
     @property
     def buy_price(self) -> Decimal:
         """매수단가"""
-        raise NotImplementedError
+        ...
 
     @property
     def sell_price(self) -> Decimal:
         """매도단가"""
-        raise NotImplementedError
+        ...
 
     @property
     def buy_amount(self) -> Decimal:
         """매수금액"""
-        raise NotImplementedError
+        ...
 
     @property
     def sell_amount(self) -> Decimal:
         """매도금액"""
-        raise NotImplementedError
+        ...
 
     @property
     def quantity(self) -> ORDER_QUANTITY:
         """매도수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def qty(self) -> ORDER_QUANTITY:
         """매도수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def profit(self) -> Decimal:
         """손익금액"""
-        raise NotImplementedError
+        ...
 
     @property
     def profit_rate(self) -> Decimal:
         """손익률 (-100 ~ 100)"""
-        raise NotImplementedError
+        ...
 
     @property
     def exchange_rate(self) -> Decimal:
         """당일환율"""
-        raise NotImplementedError
+        ...
 
 
 @runtime_checkable
@@ -128,46 +128,44 @@ class KisOrderProfits(KisAccountProtocol, Protocol):
     @property
     def account_number(self) -> KisAccountNumber:
         """계좌번호"""
-        raise NotImplementedError
+        ...
 
     @property
     def orders(self) -> list[KisOrderProfit]:
         """일별 체결내역"""
-        raise NotImplementedError
+        ...
 
     @property
     def fees(self) -> Decimal:
         """수수료"""
-        raise NotImplementedError
+        ...
 
     @property
     def buy_amount(self) -> Decimal:
         """매수금액"""
-        raise NotImplementedError
+        ...
 
     @property
     def sell_amount(self) -> Decimal:
         """매도금액"""
-        raise NotImplementedError
+        ...
 
     @property
     def profit(self) -> Decimal:
         """손익금액"""
-        raise NotImplementedError
+        ...
 
     def __getitem__(self, key: int | str) -> KisOrderProfit:
         """인덱스 또는 주문번호로 주문을 조회합니다."""
-        raise NotImplementedError
+        ...
 
     def order(self, key: str) -> KisOrderProfit | None:
         """주문번호 또는 종목코드로 주문을 조회합니다."""
-        raise NotImplementedError
+        ...
 
-    def __len__(self) -> int:
-        raise NotImplementedError
+    def __len__(self) -> int: ...
 
-    def __iter__(self) -> Iterable[KisOrderProfit]:
-        raise NotImplementedError
+    def __iter__(self) -> Iterable[KisOrderProfit]: ...
 
 
 @kis_repr(
@@ -310,9 +308,7 @@ class KisDomesticOrderProfit(KisDynamic, KisOrderProfitBase):
 
     time: datetime
     """시간 (현지시간)"""
-    time_kst: datetime = KisTransform(
-        lambda x: datetime.strptime(x["trad_dt"], "%Y%m%d").replace(tzinfo=TIMEZONE)
-    )()
+    time_kst: datetime = KisTransform(lambda x: datetime.strptime(x["trad_dt"], "%Y%m%d").replace(tzinfo=TIMEZONE))()
     """시간 (한국시간)"""
     timezone: ZoneInfo = TIMEZONE
     """시간대"""
@@ -391,9 +387,7 @@ class KisForeignOrderProfit(KisDynamic, KisOrderProfitBase):
 
     time: datetime
     """시간 (현지시간)"""
-    time_kst: datetime = KisTransform(
-        lambda x: datetime.strptime(x["trad_day"], "%Y%m%d").replace(tzinfo=TIMEZONE)
-    )()
+    time_kst: datetime = KisTransform(lambda x: datetime.strptime(x["trad_day"], "%Y%m%d").replace(tzinfo=TIMEZONE))()
     """시간 (한국시간)"""
     timezone: ZoneInfo = KisAny(get_market_code_timezone)["ovrs_excg_cd"]
     """시간대"""

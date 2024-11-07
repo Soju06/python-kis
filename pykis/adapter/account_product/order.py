@@ -16,7 +16,7 @@ from pykis.api.stock.info import get_market_country
 
 __all__ = [
     "KisOrderableAccountProduct",
-    "KisOrderableAccountProductImpl",
+    "KisOrderableAccountProductMixin",
 ]
 
 
@@ -123,7 +123,7 @@ class KisOrderableAccountProduct(Protocol):
             KisMarketNotOpenedError: 시장이 열리지 않은 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
-        raise NotImplementedError
+        ...
 
     def buy(
         self: "KisAccountProductProtocol",
@@ -188,7 +188,7 @@ class KisOrderableAccountProduct(Protocol):
             KisMarketNotOpenedError: 시장이 열리지 않은 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
-        raise NotImplementedError
+        ...
 
     def sell(
         self: "KisAccountProductProtocol",
@@ -253,7 +253,7 @@ class KisOrderableAccountProduct(Protocol):
             KisMarketNotOpenedError: 시장이 열리지 않은 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
-        raise NotImplementedError
+        ...
 
     def orderable_amount(
         self: "KisAccountProductProtocol",
@@ -311,7 +311,7 @@ class KisOrderableAccountProduct(Protocol):
             KisNotFoundError: 조회 결과가 없는 경우
             ValueError: 주문조건이 잘못된 경우
         """
-        raise NotImplementedError
+        ...
 
     def pending_orders(self: "KisAccountProductProtocol") -> KisPendingOrders:
         """
@@ -324,7 +324,7 @@ class KisOrderableAccountProduct(Protocol):
             KisAPIError: API 호출에 실패한 경우
             ValueError: 계좌번호가 잘못된 경우
         """
-        raise NotImplementedError
+        ...
 
     @property
     def quantity(self) -> ORDER_QUANTITY:
@@ -334,7 +334,7 @@ class KisOrderableAccountProduct(Protocol):
         Returns:
             ORDER_QUANTITY: 보유수량
         """
-        raise NotImplementedError
+        ...
 
     @property
     def qty(self) -> ORDER_QUANTITY:
@@ -344,7 +344,7 @@ class KisOrderableAccountProduct(Protocol):
         Returns:
             ORDER_QUANTITY: 보유수량
         """
-        raise NotImplementedError
+        ...
 
     @property
     def orderable(self) -> ORDER_QUANTITY:
@@ -354,7 +354,7 @@ class KisOrderableAccountProduct(Protocol):
         Returns:
             ORDER_QUANTITY: 주문 가능 수량
         """
-        raise NotImplementedError
+        ...
 
     @property
     def purchase_amount(self) -> ORDER_PRICE:
@@ -364,10 +364,10 @@ class KisOrderableAccountProduct(Protocol):
         Returns:
             ORDER_PRICE: 주문 가능 금액
         """
-        raise NotImplementedError
+        ...
 
 
-class KisOrderableAccountProductImpl:
+class KisOrderableAccountProductMixin:
     """한국투자증권 주문가능 상품"""
 
     from pykis.api.account.order import account_product_buy as buy  # 매수

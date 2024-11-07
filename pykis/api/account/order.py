@@ -15,11 +15,11 @@ from typing_extensions import deprecated
 
 from pykis.adapter.account_product.order_modify import (
     KisOrderableOrder,
-    KisOrderableOrderImpl,
+    KisOrderableOrderMixin,
 )
 from pykis.adapter.websocket.execution import (
     KisRealtimeOrderableAccount,
-    KisRealtimeOrderableOrderImpl,
+    KisRealtimeOrderableOrderMixin,
 )
 from pykis.api.base.account import KisAccountProtocol
 from pykis.api.base.account_product import (
@@ -345,18 +345,18 @@ class KisOrderNumber(KisAccountProductProtocol, KisEventFilter["KisWebsocketClie
     @property
     def branch(self) -> str:
         """지점코드"""
-        raise NotImplementedError
+        ...
 
     @property
     def number(self) -> str:
         """주문번호"""
-        raise NotImplementedError
+        ...
 
     def __eq__(self, value: "object | KisOrderNumber") -> bool:
-        raise NotImplementedError
+        ...
 
     def __hash__(self) -> int:
-        raise NotImplementedError
+        ...
 
 
 @runtime_checkable
@@ -366,27 +366,27 @@ class KisOrder(KisOrderNumber, KisOrderableOrder, KisRealtimeOrderableAccount, P
     @property
     def time(self) -> datetime:
         """주문시간 (현지시간)"""
-        raise NotImplementedError
+        ...
 
     @property
     def time_kst(self) -> datetime:
         """주문시간 (한국시간)"""
-        raise NotImplementedError
+        ...
 
     @property
     def timezone(self) -> tzinfo:
         """시간대"""
-        raise NotImplementedError
+        ...
 
     @property
     def pending(self) -> bool:
         """미체결 여부"""
-        raise NotImplementedError
+        ...
 
     @property
     def pending_order(self) -> "KisPendingOrder | None":
         """미체결 주문"""
-        raise NotImplementedError
+        ...
 
     @staticmethod
     def from_number(
@@ -545,7 +545,7 @@ class KisOrderNumberBase(KisAccountProductBase, KisOrderNumberEventFilter):
 )"""
 
 
-class KisOrderBase(KisOrderNumberBase, KisOrderableOrderImpl, KisRealtimeOrderableOrderImpl):
+class KisOrderBase(KisOrderNumberBase, KisOrderableOrderMixin, KisRealtimeOrderableOrderMixin):
     """한국투자증권 주문"""
 
     symbol: str

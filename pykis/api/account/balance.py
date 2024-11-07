@@ -3,11 +3,11 @@ from typing import TYPE_CHECKING, Iterator, Protocol, runtime_checkable
 
 from pykis.adapter.account_product.order import (
     KisOrderableAccountProduct,
-    KisOrderableAccountProductImpl,
+    KisOrderableAccountProductMixin,
 )
 from pykis.adapter.websocket.price import (
     KisWebsocketQuotableProduct,
-    KisWebsocketQuotableProductImpl,
+    KisWebsocketQuotableProductMixin,
 )
 from pykis.api.account.order import ORDER_QUANTITY
 from pykis.api.base.account import KisAccountBase, KisAccountProtocol
@@ -26,7 +26,7 @@ from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisObject, KisTransform
 from pykis.responses.response import KisAPIResponse, KisPaginationAPIResponse
-from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
+from pykis.responses.types import KisAny, KisDecimal, KisString
 from pykis.utils.cache import cached
 from pykis.utils.repr import kis_repr
 from pykis.utils.typing import Checkable
@@ -54,67 +54,67 @@ class KisBalanceStock(
     @property
     def purchase_price(self) -> Decimal:
         """매입평균가"""
-        raise NotImplementedError
+        ...
 
     @property
     def current_price(self) -> Decimal:
         """현재가"""
-        raise NotImplementedError
+        ...
 
     @property
     def price(self) -> Decimal:
         """현재가"""
-        raise NotImplementedError
+        ...
 
     @property
     def quantity(self) -> ORDER_QUANTITY:
         """수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def orderable(self) -> ORDER_QUANTITY:
         """매도가능수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def qty(self) -> ORDER_QUANTITY:
         """수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def purchase_amount(self) -> Decimal:
         """매입금액"""
-        raise NotImplementedError
+        ...
 
     @property
     def current_amount(self) -> Decimal:
         """평가금액"""
-        raise NotImplementedError
+        ...
 
     @property
     def amount(self) -> Decimal:
         """평가금액"""
-        raise NotImplementedError
+        ...
 
     @property
     def profit(self) -> Decimal:
         """손익금액"""
-        raise NotImplementedError
+        ...
 
     @property
     def profit_rate(self) -> Decimal:
         """손익률 (-100 ~ 100)"""
-        raise NotImplementedError
+        ...
 
     @property
     def rate(self) -> Decimal:
         """수익률 (-100 ~ 100)"""
-        raise NotImplementedError
+        ...
 
     @property
     def exchange_rate(self) -> Decimal:
         """환율"""
-        raise NotImplementedError
+        ...
 
 
 @runtime_checkable
@@ -124,22 +124,22 @@ class KisDeposit(KisAccountProtocol, Protocol):
     @property
     def amount(self) -> Decimal:
         """예수금"""
-        raise NotImplementedError
+        ...
 
     @property
     def withdrawable_amount(self) -> Decimal:
         """출금가능금액"""
-        raise NotImplementedError
+        ...
 
     @property
     def withdrawable(self) -> Decimal:
         """출금가능금액"""
-        raise NotImplementedError
+        ...
 
     @property
     def exchange_rate(self) -> Decimal:
         """환율"""
-        raise NotImplementedError
+        ...
 
 
 @runtime_checkable
@@ -149,63 +149,61 @@ class KisBalance(KisAccountProtocol, Protocol):
     @property
     def country(self) -> COUNTRY_TYPE | None:
         """국가코드 (스코프 지정시)"""
-        raise NotImplementedError
+        ...
 
     @property
     def stocks(self) -> list[KisBalanceStock]:
         """보유종목"""
-        raise NotImplementedError
+        ...
 
     @property
     def deposits(self) -> dict[CURRENCY_TYPE, KisDeposit]:
         """통화별 예수금"""
-        raise NotImplementedError
+        ...
 
     @property
     def amount(self) -> Decimal:
         """총자산금액 (원화, 보유종목 + 예수금)"""
-        raise NotImplementedError
+        ...
 
     @property
     def total(self) -> Decimal:
         """총평가금액 (원화, 보유종목 + 예수금)"""
-        raise NotImplementedError
+        ...
 
     @property
     def purchase_amount(self) -> Decimal:
         """총매입금액 (원화)"""
-        raise NotImplementedError
+        ...
 
     @property
     def current_amount(self) -> Decimal:
         """총평가금액 (원화)"""
-        raise NotImplementedError
+        ...
 
     @property
     def profit(self) -> Decimal:
         """총손익금액 (원화)"""
-        raise NotImplementedError
+        ...
 
     @property
     def profit_rate(self) -> Decimal:
         """총손익률 (-100 ~ 100)"""
-        raise NotImplementedError
+        ...
 
     @property
     def withdrawable_amount(self) -> Decimal:
         """총출금가능금액 (원화)"""
-        raise NotImplementedError
+        ...
 
     @property
     def withdrawable(self) -> Decimal:
         """총출금가능금액 (원화)"""
-        raise NotImplementedError
+        ...
 
-    def __iter__(self) -> Iterator[KisBalanceStock]:
-        raise NotImplementedError
+    def __iter__(self) -> Iterator[KisBalanceStock]: ...
 
-    def __len__(self) -> int:
-        raise NotImplementedError
+    def __len__(self) -> int: ...
 
     def __getitem__(self, key: int | str) -> KisBalanceStock:
         """
@@ -214,15 +212,15 @@ class KisBalance(KisAccountProtocol, Protocol):
         Args:
             key (int | str): 인덱스 또는 종목코드
         """
-        raise NotImplementedError
+        ...
 
     def stock(self, symbol: str) -> KisBalanceStock | None:
         """보유종목을 종목코드로 조회합니다."""
-        raise NotImplementedError
+        ...
 
     def deposit(self, currency: CURRENCY_TYPE) -> KisDeposit | None:
         """통화별 예수금을 조회합니다."""
-        raise NotImplementedError
+        ...
 
 
 @kis_repr(
@@ -236,9 +234,7 @@ class KisBalance(KisAccountProtocol, Protocol):
     "profit_rate",
     lines="single",
 )
-class KisBalanceStockBase(
-    KisAccountProductBase, KisOrderableAccountProductImpl, KisWebsocketQuotableProductImpl
-):
+class KisBalanceStockBase(KisAccountProductBase, KisOrderableAccountProductMixin, KisWebsocketQuotableProductMixin):
     """한국투자증권 보유종목"""
 
     kis: "PyKis"
@@ -735,9 +731,7 @@ class KisForeignBalanceStock(KisDynamic, KisBalanceStockBase):
     """종목코드"""
     market: MARKET_TYPE = KisMarketType["ovrs_excg_cd"]
     """상품유형타입"""
-    account_number: KisAccountNumber = KisTransform(
-        lambda x: KisAccountNumber(f"{x['cano']}-{x['acnt_prdt_cd']}")
-    )()
+    account_number: KisAccountNumber = KisTransform(lambda x: KisAccountNumber(f"{x['cano']}-{x['acnt_prdt_cd']}"))()
     """계좌번호"""
 
     name: str = KisString["ovrs_item_name"]
@@ -988,9 +982,7 @@ def _foreign_balance(
         KisAPIError: API 호출에 실패한 경우
         ValueError: 계좌번호가 잘못된 경우
     """
-    markets = FOREIGN_COUNTRY_MARKET_MAP.get(
-        (not self.virtual, country), FOREIGN_COUNTRY_MARKET_MAP[(None, country)]
-    )
+    markets = FOREIGN_COUNTRY_MARKET_MAP.get((not self.virtual, country), FOREIGN_COUNTRY_MARKET_MAP[(None, country)])
 
     first = None
 
@@ -1061,7 +1053,7 @@ def foreign_balance(
     # Issue #41 - [버그]: KisIntegrationBalance에서 해외주식 잔고수량이 0으로 표시됨
     # https://apiportal.koreainvestment.com/apiservice/apiservice-oversea-stock-order#L_09baff2a-6e9d-4502-ba66-d7bb94094b67
     # 위 Docs와 같이 "잔고 확인을 원하실 경우에는 해외주식 잔고[v1_해외주식-006] API 사용을 부탁드립니다.)" 라고 되어있음
-    
+
     result.stocks = _foreign_balance(
         self,
         account=account,

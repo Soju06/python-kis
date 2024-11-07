@@ -50,107 +50,107 @@ class KisDailyOrder(KisAccountProductProtocol, Protocol):
     @property
     def time(self) -> datetime:
         """시간 (현지시간)"""
-        raise NotImplementedError
+        ...
 
     @property
     def time_kst(self) -> datetime:
         """시간 (한국시간)"""
-        raise NotImplementedError
+        ...
 
     @property
     def timezone(self) -> ZoneInfo:
         """시간대"""
-        raise NotImplementedError
+        ...
 
     @property
     def account_number(self) -> KisAccountNumber:
         """계좌번호"""
-        raise NotImplementedError
+        ...
 
     @property
     def order_number(self) -> KisOrder:
         """주문번호"""
-        raise NotImplementedError
+        ...
 
     @property
     def type(self) -> ORDER_TYPE:
         """주문유형"""
-        raise NotImplementedError
+        ...
 
     @property
     def price(self) -> Decimal | None:
         """체결단가"""
-        raise NotImplementedError
+        ...
 
     @property
     def unit_price(self) -> Decimal | None:
         """주문단가"""
-        raise NotImplementedError
+        ...
 
     @property
     def order_price(self) -> Decimal | None:
         """주문단가"""
-        raise NotImplementedError
+        ...
 
     @property
     def quantity(self) -> ORDER_QUANTITY:
         """주문수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def qty(self) -> ORDER_QUANTITY:
         """주문수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def executed_quantity(self) -> ORDER_QUANTITY:
         """체결수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def pending_quantity(self) -> ORDER_QUANTITY:
         """미체결수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def executed_qty(self) -> ORDER_QUANTITY:
         """체결수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def executed_amount(self) -> Decimal:
         """체결금액"""
-        raise NotImplementedError
+        ...
 
     @property
     def pending_qty(self) -> ORDER_QUANTITY:
         """미체결수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def condition(self) -> ORDER_CONDITION | None:
         """주문조건"""
-        raise NotImplementedError
+        ...
 
     @property
     def execution(self) -> ORDER_EXECUTION | None:
         """체결조건"""
-        raise NotImplementedError
+        ...
 
     @property
     def rejected(self) -> bool:
         """거부여부"""
-        raise NotImplementedError
+        ...
 
     @property
     def rejected_reason(self) -> str | None:
         """거부사유"""
-        raise NotImplementedError
+        ...
 
     @property
     def canceled(self) -> bool:
         """취소여부"""
-        raise NotImplementedError
+        ...
 
 
 @runtime_checkable
@@ -160,26 +160,24 @@ class KisDailyOrders(KisAccountProtocol, Protocol):
     @property
     def account_number(self) -> KisAccountNumber:
         """계좌번호"""
-        raise NotImplementedError
+        ...
 
     @property
     def orders(self) -> list[KisDailyOrder]:
         """일별 체결내역"""
-        raise NotImplementedError
+        ...
 
     def __getitem__(self, key: int | KisOrder | str) -> KisDailyOrder:
         """인덱스 또는 주문번호로 주문을 조회합니다."""
-        raise NotImplementedError
+        ...
 
     def order(self, key: KisOrder | str) -> KisDailyOrder | None:
         """주문번호 또는 종목코드로 주문을 조회합니다."""
-        raise NotImplementedError
+        ...
 
-    def __len__(self) -> int:
-        raise NotImplementedError
+    def __len__(self) -> int: ...
 
-    def __iter__(self) -> Iterable[KisDailyOrder]:
-        raise NotImplementedError
+    def __iter__(self) -> Iterable[KisDailyOrder]: ...
 
 
 @kis_repr(
