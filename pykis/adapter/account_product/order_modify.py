@@ -1,6 +1,5 @@
+from types import EllipsisType
 from typing import TYPE_CHECKING, Protocol, runtime_checkable
-
-from pykis.utils.params import EMPTY, EMPTY_TYPE
 
 if TYPE_CHECKING:
     from pykis.api.account.order import (
@@ -41,10 +40,10 @@ class KisModifyableOrder(Protocol):
 
     def modify(
         self,
-        price: "ORDER_PRICE | None | EMPTY_TYPE" = EMPTY,
+        price: "ORDER_PRICE | None | EllipsisType" = ...,
         qty: "IN_ORDER_QUANTITY | None" = None,
-        condition: "ORDER_CONDITION | None | EMPTY_TYPE" = EMPTY,
-        execution: "ORDER_EXECUTION | None | EMPTY_TYPE" = EMPTY,
+        condition: "ORDER_CONDITION | None | EllipsisType" = ...,
+        execution: "ORDER_EXECUTION | None | EllipsisType" = ...,
     ) -> "KisOrder":
         """
         한국투자증권 통합 주식 주문정정 (국내 모의투자 미지원, 해외 주간거래 모의투자 미지원)
@@ -88,10 +87,10 @@ class KisModifyableOrderMixin:
 
     def modify(
         self: "KisOrderNumber",
-        price: "ORDER_PRICE | None | EMPTY_TYPE" = EMPTY,
+        price: "ORDER_PRICE | None | EllipsisType" = ...,
         qty: "IN_ORDER_QUANTITY | None" = None,
-        condition: "ORDER_CONDITION | None | EMPTY_TYPE" = EMPTY,
-        execution: "ORDER_EXECUTION | None | EMPTY_TYPE" = EMPTY,
+        condition: "ORDER_CONDITION | None | EllipsisType" = ...,
+        execution: "ORDER_EXECUTION | None | EllipsisType" = ...,
     ) -> "KisOrder":
         """
         한국투자증권 통합 주식 주문정정 (국내 모의투자 미지원, 해외 주간거래 모의투자 미지원)

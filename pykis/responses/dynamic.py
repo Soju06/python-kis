@@ -1,4 +1,4 @@
-from types import NoneType
+from types import EllipsisType, NoneType
 from typing import (
     Any,
     Callable,
@@ -10,7 +10,6 @@ from typing import (
 )
 
 from pykis import logging
-from pykis.utils.params import EMPTY, EMPTY_TYPE
 
 __all__ = [
     "KisType",
@@ -62,22 +61,22 @@ class KisType(Generic[T]):
 
     def __call__(
         self,
-        field: str | None | EMPTY_TYPE = EMPTY,
-        default: T | Callable[[], T] | None | object | EMPTY_TYPE = EMPTY,
-        scope: str | None | EMPTY_TYPE = EMPTY,
-        absolute: bool | EMPTY_TYPE = EMPTY,
+        field: str | None | EllipsisType = ...,
+        default: T | Callable[[], T] | None | object | EllipsisType = ...,
+        scope: str | None | EllipsisType = ...,
+        absolute: bool | EllipsisType = ...,
     ) -> T:
-        if field is not EMPTY:
-            self.field = field  # type: ignore
+        if not isinstance(field, EllipsisType):
+            self.field = field
 
-        if default is not EMPTY:
+        if not isinstance(default, EllipsisType):
             self.default = default
 
-        if scope is not EMPTY:
-            self.scope = scope  # type: ignore
+        if not isinstance(scope, EllipsisType):
+            self.scope = scope
 
-        if absolute is not EMPTY:
-            self.absolute = absolute  # type: ignore
+        if not isinstance(absolute, EllipsisType):
+            self.absolute = absolute
 
         return self  # type: ignore
 
