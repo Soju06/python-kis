@@ -1,3 +1,4 @@
+import warnings
 from abc import ABCMeta, abstractmethod
 from typing import (
     Callable,
@@ -88,6 +89,12 @@ class KisLambdaEventFilter(KisEventFilterBase[TSender, TEventArgs]):
     def __hash__(self) -> int:
         return hash(self.filter)
 
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.filter!r})"
+
+    def __str__(self) -> str:
+        return repr(self)
+
 
 class KisMultiEventFilter(KisEventFilterBase[TSender, TEventArgs]):
     """다중 이벤트 필터"""
@@ -117,6 +124,12 @@ class KisMultiEventFilter(KisEventFilterBase[TSender, TEventArgs]):
 
     def __hash__(self) -> int:
         return hash((self.filters, self.gate))
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({", ".join(repr(filter) for filter in self.filters)}, gate={self.gate!r})"
+
+    def __str__(self) -> str:
+        return repr(self)
 
 
 class KisEventCallback(KisEventFilterBase[TSender, TEventArgs], metaclass=ABCMeta):
@@ -175,6 +188,12 @@ class KisLambdaEventCallback(KisEventCallback[TSender, TEventArgs]):
 
     def __del__(self):
         release_method(self.callback)
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.callback!r}, where={self.where!r}, once={self.once!r})"
+
+    def __str__(self) -> str:
+        return repr(self)
 
 
 EventCallback = Callable[[TSender, TEventArgs], None] | KisEventCallback[TSender, TEventArgs]
@@ -245,7 +264,7 @@ class KisEventTicket(Generic[TSender, TEventArgs]):
             self.unsubscribe()
 
     def __repr__(self):
-        return f"<EventTicket {self.callback}>"
+        return f"<{self.__class__.__name__} callback={self.callback}>"
 
     def __str__(self):
         return repr(self)
@@ -370,7 +389,7 @@ class KisEventHandler(Generic[TSender, TEventArgs]):
         return bool(self.handlers)
 
     def __repr__(self):
-        return f"<EventHandler {len(self.handlers)} handlers>"
+        return f"<{self.__class__.__name__} {len(self.handlers)} handlers>"
 
     def __str__(self):
         return repr(self)
