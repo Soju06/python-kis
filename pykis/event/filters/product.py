@@ -44,9 +44,7 @@ class KisSimpleProduct:
         self.market = market
 
 
-class KisProductEventFilter(
-    KisEventFilterBase["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]]
-):
+class KisProductEventFilter(KisEventFilterBase["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]]):
 
     _product: KisSimpleProductProtocol
 
@@ -93,3 +91,12 @@ class KisProductEventFilter(
             and e.response.symbol == self._product.symbol
             and e.response.market == self._product.market
         )
+
+    def __hash__(self) -> int:
+        return hash((self.__class__, self._product))
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(symbol={self._product.symbol!r}, market={self._product.market!r})"
+
+    def __str__(self) -> str:
+        return repr(self)

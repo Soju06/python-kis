@@ -13,9 +13,7 @@ __all__ = [
 ]
 
 
-class KisSubscriptionEventFilter(
-    KisEventFilterBase["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]]
-):
+class KisSubscriptionEventFilter(KisEventFilterBase["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]]):
     """TR 구독 이벤트 필터"""
 
     __slots__ = ("id", "key")
@@ -34,3 +32,9 @@ class KisSubscriptionEventFilter(
 
     def __hash__(self) -> int:
         return hash((self.__class__, self.id, self.key))
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(id={self.id!r}, key={self.key!r})"
+
+    def __str__(self) -> str:
+        return repr(self)

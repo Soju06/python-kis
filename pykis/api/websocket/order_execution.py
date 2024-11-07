@@ -394,7 +394,7 @@ class KisForeignRealtimeOrderExecution(KisRealtimeExecutionBase):
         None,  # 14 BRNC_NO 지점번호
         KisDecimal[
             "quantity", Decimal(-1)
-        ],  # 15 ODER_QTY 주문수량 ,주문통보인 경우 해당 위치 미출력 (주문통보의 주문수량은 CNTG_QTY 위치에 출력). 체결통보인 경우 해당 위치에 주문수량이 출력
+        ],  # 15 ODER_QTY 주문수량, 주문통보인 경우 해당 위치 미출력 (주문통보의 주문수량은 CNTG_QTY 위치에 출력). 체결통보인 경우 해당 위치에 주문수량이 출력
         None,  # 16 ACNT_NAME 계좌명
         None,  # 17 CNTG_ISNM 체결종목명
         KisAny(FOREIGN_MARKET_CODE_MAP.__getitem__)[
