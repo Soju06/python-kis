@@ -10,7 +10,7 @@ from pykis.utils.timex import TIMEX_TYPE, timex
 
 __all__ = [
     "KisQuotableProduct",
-    "KisQuotableProductImpl",
+    "KisQuotableProductMixin",
 ]
 
 
@@ -42,7 +42,7 @@ class KisQuotableProduct(Protocol):
             KisNotFoundError: 조회 결과가 없는 경우
             ValueError: 조회 파라미터가 올바르지 않은 경우
         """
-        raise NotImplementedError
+        ...
 
     def day_chart(
         self,
@@ -69,7 +69,7 @@ class KisQuotableProduct(Protocol):
             KisNotFoundError: 조회 결과가 없는 경우
             ValueError: 조회 파라미터가 올바르지 않은 경우
         """
-        raise NotImplementedError
+        ...
 
     def orderbook(
         self,
@@ -89,7 +89,7 @@ class KisQuotableProduct(Protocol):
             KisNotFoundError: 조회 결과가 없는 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
-        raise NotImplementedError
+        ...
 
     def quote(
         self,
@@ -109,7 +109,7 @@ class KisQuotableProduct(Protocol):
             KisNotFoundError: 조회 결과가 없는 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
-        raise NotImplementedError
+        ...
 
     def chart(
         self: KisProductProtocol,
@@ -152,10 +152,10 @@ class KisQuotableProduct(Protocol):
             KisNotFoundError: 조회 결과가 없는 경우
             ValueError: 조회 파라미터가 올바르지 않은 경우
         """
-        raise NotImplementedError
+        ...
 
 
-class KisQuotableProductImpl:
+class KisQuotableProductMixin:
     """한국투자증권 시세조회가능 상품 프로토콜"""
 
     from pykis.api.stock.daily_chart import product_daily_chart as daily_chart  # 일봉 조회

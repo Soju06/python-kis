@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 __all__ = [
     "KisRealtimeOrderableAccount",
-    "KisRealtimeOrderableAccountImpl",
+    "KisRealtimeOrderableAccountMixin",
 ]
 
 
@@ -37,7 +37,7 @@ class KisRealtimeOrderableAccount(Protocol):
             where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None, optional): 이벤트 필터. Defaults to None.
             once (bool, optional): 한번만 실행 여부. Defaults to False.
         """
-        raise NotImplementedError
+        ...
 
     def once(
         self,
@@ -55,10 +55,10 @@ class KisRealtimeOrderableAccount(Protocol):
             callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]], None]): 콜백 함수
             where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeExecution]] | None, optional): 이벤트 필터. Defaults to None.
         """
-        raise NotImplementedError
+        ...
 
 
-class KisRealtimeOrderableAccountImpl:
+class KisRealtimeOrderableAccountMixin:
     """한국투자증권 실시간 주문가능 상품"""
 
     def on(
@@ -120,7 +120,7 @@ class KisRealtimeOrderableAccountImpl:
         raise ValueError(f"Unknown event: {event}")
 
 
-class KisRealtimeOrderableOrderImpl:
+class KisRealtimeOrderableOrderMixin:
     """한국투자증권 실시간 주문 가능 주문"""
 
     def on(

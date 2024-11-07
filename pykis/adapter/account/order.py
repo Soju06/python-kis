@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
 __all__ = [
     "KisOrderableAccount",
-    "KisOrderableAccountImpl",
+    "KisOrderableAccountMixin",
 ]
 
 
@@ -95,7 +95,7 @@ class KisOrderableAccount(Protocol):
             KisMarketNotOpenedError: 시장이 열리지 않은 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
-        raise NotImplementedError
+        ...
 
     def sell(
         self: "KisAccountProtocol",
@@ -164,7 +164,7 @@ class KisOrderableAccount(Protocol):
             KisMarketNotOpenedError: 시장이 열리지 않은 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
-        raise NotImplementedError
+        ...
 
     def order(
         self: "KisAccountProtocol",
@@ -269,7 +269,7 @@ class KisOrderableAccount(Protocol):
             KisMarketNotOpenedError: 시장이 열리지 않은 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
-        raise NotImplementedError
+        ...
 
     def modify(
         self: "KisAccountProtocol",
@@ -294,7 +294,7 @@ class KisOrderableAccount(Protocol):
             condition (ORDER_CONDITION, optional): 주문조건
             execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
         """
-        raise NotImplementedError
+        ...
 
     def cancel(
         self: "KisAccountProtocol",
@@ -311,7 +311,7 @@ class KisOrderableAccount(Protocol):
             account (str | KisAccountNumber): 계좌번호
             order (KisOrderNumber): 주문번호
         """
-        raise NotImplementedError
+        ...
 
     def orderable_amount(
         self: "KisAccountProtocol",
@@ -373,7 +373,7 @@ class KisOrderableAccount(Protocol):
             KisNotFoundError: 조회 결과가 없는 경우
             ValueError: 주문조건이 잘못된 경우
         """
-        raise NotImplementedError
+        ...
 
     def pending_orders(
         self: "KisAccountProtocol",
@@ -393,10 +393,10 @@ class KisOrderableAccount(Protocol):
             KisAPIError: API 호출에 실패한 경우
             ValueError: 계좌번호가 잘못된 경우
         """
-        raise NotImplementedError
+        ...
 
 
-class KisOrderableAccountImpl:
+class KisOrderableAccountMixin:
     """한국투자증권 주문가능 잔고 프로토콜"""
 
     from pykis.api.account.order import account_buy as buy  # 매수
