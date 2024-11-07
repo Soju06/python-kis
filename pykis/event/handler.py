@@ -262,10 +262,12 @@ class KisEventTicket(Generic[TSender, TEventArgs]):
     def __del__(self):
         if not self._suppress_del:
             # 2.1.1 버전 이후부터는 티켓을 명시적으로 해지하지 않으면 경고 메시지를 출력합니다.
-            warnings.warn(
-                f"Event ticket {self} was not explicitly unsubscribed, but was unsubscribed due to a resource release.",
-                UserWarning,
-            )
+            if self.registered:
+                warnings.warn(
+                    f"Event ticket {self} was not explicitly unsubscribed, but was unsubscribed due to a resource release.",
+                    UserWarning,
+                )
+
             self.unsubscribe()
 
     def __repr__(self):
