@@ -21,12 +21,12 @@ class KisSimpleProductProtocol(Protocol):
     @property
     def symbol(self) -> str:
         """종목코드"""
-        raise NotImplementedError
+        ...
 
     @property
     def market(self) -> MARKET_TYPE:
         """시장유형"""
-        raise NotImplementedError
+        ...
 
 
 class KisSimpleProduct:

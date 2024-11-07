@@ -41,222 +41,222 @@ class KisRealtimePrice(KisWebsocketResponseProtocol, KisProductProtocol, Protoco
     @property
     def time(self) -> datetime:
         """체결 시간"""
-        raise NotImplementedError
+        ...
 
     @property
     def time_kst(self) -> datetime:
         """체결 시간(KST)"""
-        raise NotImplementedError
+        ...
 
     @property
     def timezone(self) -> tzinfo:
         """시간대"""
-        raise NotImplementedError
+        ...
 
     @property
     def price(self) -> Decimal:
         """현재가"""
-        raise NotImplementedError
+        ...
 
     @property
     def last(self) -> Decimal:
         """현재가"""
-        raise NotImplementedError
+        ...
 
     @property
     def prev_price(self) -> Decimal:
         """전일가"""
-        raise NotImplementedError
+        ...
 
     @property
     def change(self) -> Decimal:
         """전일대비"""
-        raise NotImplementedError
+        ...
 
     @property
     def sign(self) -> STOCK_SIGN_TYPE:
         """대비부호"""
-        raise NotImplementedError
+        ...
 
     @property
     def sign_name(self) -> str:
         """대비부호명"""
-        raise NotImplementedError
+        ...
 
     @property
     def change_rate(self) -> Decimal:
         """전일대비율 (-100~100)"""
-        raise NotImplementedError
+        ...
 
     @property
     def bid(self) -> Decimal:
         """매수호가"""
-        raise NotImplementedError
+        ...
 
     @property
     def ask(self) -> Decimal:
         """매도호가"""
-        raise NotImplementedError
+        ...
 
     @property
     def bid_quantity(self) -> int:
         """매수호가잔량"""
-        raise NotImplementedError
+        ...
 
     @property
     def ask_quantity(self) -> int:
         """매도호가잔량"""
-        raise NotImplementedError
+        ...
 
     @property
     def spread(self) -> Decimal:
         """매수/매도호가대비"""
-        raise NotImplementedError
+        ...
 
     @property
     def spread_rate(self) -> Decimal:
         """매수/매도호가대비율 (-100~100)"""
-        raise NotImplementedError
+        ...
 
     @property
     def bid_qty(self) -> int:
         """매수호가잔량"""
-        raise NotImplementedError
+        ...
 
     @property
     def ask_qty(self) -> int:
         """매도호가잔량"""
-        raise NotImplementedError
+        ...
 
     @property
     def open(self) -> Decimal:
         """당일시가"""
-        raise NotImplementedError
+        ...
 
     @property
     def open_time(self) -> datetime | None:
         """시가시간"""
-        raise NotImplementedError
+        ...
 
     @property
     def open_time_kst(self) -> datetime | None:
         """시가시간(KST)"""
-        raise NotImplementedError
+        ...
 
     @property
     def open_change(self) -> Decimal:
         """시가대비"""
-        raise NotImplementedError
+        ...
 
     @property
     def open_change_rate(self) -> Decimal:
         """시가대비율"""
-        raise NotImplementedError
+        ...
 
     @property
     def high(self) -> Decimal:
         """당일고가"""
-        raise NotImplementedError
+        ...
 
     @property
     def high_time(self) -> datetime | None:
         """고가시간"""
-        raise NotImplementedError
+        ...
 
     @property
     def high_time_kst(self) -> datetime | None:
         """고가시간(KST)"""
-        raise NotImplementedError
+        ...
 
     @property
     def high_change(self) -> Decimal:
         """고가대비"""
-        raise NotImplementedError
+        ...
 
     @property
     def high_change_rate(self) -> Decimal:
         """고가대비율"""
-        raise NotImplementedError
+        ...
 
     @property
     def low(self) -> Decimal:
         """당일저가"""
-        raise NotImplementedError
+        ...
 
     @property
     def low_time(self) -> datetime | None:
         """저가시간"""
-        raise NotImplementedError
+        ...
 
     @property
     def low_time_kst(self) -> datetime | None:
         """저가시간(KST)"""
-        raise NotImplementedError
+        ...
 
     @property
     def low_change(self) -> Decimal:
         """저가대비"""
-        raise NotImplementedError
+        ...
 
     @property
     def low_change_rate(self) -> Decimal:
         """저가대비율"""
-        raise NotImplementedError
+        ...
 
     @property
     def volume(self) -> int:
         """누적거래량"""
-        raise NotImplementedError
+        ...
 
     @property
     def amount(self) -> Decimal:
         """누적거래대금"""
-        raise NotImplementedError
+        ...
 
     @property
     def prev_volume(self) -> int | None:
         """전일동일시간거래량"""
-        raise NotImplementedError
+        ...
 
     @property
     def buy_quantity(self) -> int:
         """매수체결량"""
-        raise NotImplementedError
+        ...
 
     @property
     def sell_quantity(self) -> int:
         """매도체결량"""
-        raise NotImplementedError
+        ...
 
     @property
     def intensity(self) -> float:
         """체결강도 (0 ~ 100+)"""
-        raise NotImplementedError
+        ...
 
     @property
     def buy_qty(self) -> int:
         """매수체결량"""
-        raise NotImplementedError
+        ...
 
     @property
     def sell_qty(self) -> int:
         """매도체결량"""
-        raise NotImplementedError
+        ...
 
     @property
     def volume_rate(self) -> Decimal | None:
         """전일동일시간거래량비율 (-100~100)"""
-        raise NotImplementedError
+        ...
 
     @property
     def condition(self) -> ORDER_CONDITION | None:
         """주문조건"""
-        raise NotImplementedError
+        ...
 
     @property
     def decimal_places(self) -> int:
         """소수점 자리수"""
-        raise NotImplementedError
+        ...
 
 
 @kis_repr(
@@ -642,9 +642,7 @@ class KisForeignRealtimePrice(KisRealtimePriceBase):
         KisInt["sell_quantity"],  # 22 BIVL 매도체결량
         KisInt["buy_quantity"],  # 23 ASVL 매수체결량
         None,  # 24 STRN 체결강도
-        KisAny(FOREIGN_REALTIME_PRICE_ORDER_CONDITION_MAP.get)[
-            "condition"
-        ],  # 25 MTYP 시장구분 1:장중,2:장전,3:장후
+        KisAny(FOREIGN_REALTIME_PRICE_ORDER_CONDITION_MAP.get)["condition"],  # 25 MTYP 시장구분 1:장중,2:장전,3:장후
     ]
 
     symbol: str  # RSYM 실시간종목코드

@@ -42,97 +42,97 @@ class KisRealtimeExecution(KisWebsocketResponseProtocol, Protocol):
     @property
     def time(self) -> datetime:
         """주문시각"""
-        raise NotImplementedError
+        ...
 
     @property
     def time_kst(self) -> datetime:
         """주문시각(KST)"""
-        raise NotImplementedError
+        ...
 
     @property
     def timezone(self) -> ZoneInfo:
         """시간대"""
-        raise NotImplementedError
+        ...
 
     @property
     def order_number(self) -> KisOrderNumber:
         """주문번호"""
-        raise NotImplementedError
+        ...
 
     @property
     def type(self) -> ORDER_TYPE:
         """주문유형"""
-        raise NotImplementedError
+        ...
 
     @property
     def price(self) -> Decimal:
         """체결단가"""
-        raise NotImplementedError
+        ...
 
     @property
     def unit_price(self) -> Decimal | None:
         """주문단가"""
-        raise NotImplementedError
+        ...
 
     @property
     def order_price(self) -> Decimal | None:
         """주문단가"""
-        raise NotImplementedError
+        ...
 
     @property
     def quantity(self) -> ORDER_QUANTITY:
         """주문수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def qty(self) -> ORDER_QUANTITY:
         """주문수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def executed_quantity(self) -> ORDER_QUANTITY:
         """체결수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def executed_qty(self) -> ORDER_QUANTITY:
         """체결수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def executed_amount(self) -> Decimal:
         """체결금액"""
-        raise NotImplementedError
+        ...
 
     @property
     def condition(self) -> ORDER_CONDITION | None:
         """주문조건"""
-        raise NotImplementedError
+        ...
 
     @property
     def execution(self) -> ORDER_EXECUTION | None:
         """체결조건"""
-        raise NotImplementedError
+        ...
 
     @property
     def receipt(self) -> bool:
         """접수여부"""
-        raise NotImplementedError
+        ...
 
     @property
     def canceled(self) -> bool:
         """취소여부 (IOC/FOK)"""
-        raise NotImplementedError
+        ...
 
     @property
     def rejected(self) -> bool:
         """거부여부"""
-        raise NotImplementedError
+        ...
 
     @property
     def rejected_reason(self) -> str | None:
         """거부사유"""
-        raise NotImplementedError
+        ...
 
 
 @kis_repr(

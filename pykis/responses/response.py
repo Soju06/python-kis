@@ -53,17 +53,17 @@ class KisResponseProtocol(KisDynamicProtocol, KisObjectProtocol, Protocol):
     @property
     def __response__(self) -> Response | None:
         """원본 응답 데이터"""
-        raise NotImplementedError
+        ...
 
     @property
     def __message__(self) -> str:
         """응답 메시지"""
-        raise NotImplementedError
+        ...
 
     @property
     def __code__(self) -> str:
         """응답 코드"""
-        raise NotImplementedError
+        ...
 
 
 class KisResponse(KisDynamic, KisObjectBase):
@@ -109,22 +109,22 @@ class KisPaginationAPIResponseProtocol(KisResponseProtocol, Protocol):
     @property
     def page_status(self) -> KisPageStatus:
         """페이징 상태"""
-        raise NotImplementedError
+        ...
 
     @property
     def next_page(self) -> KisPage:
         """페이징 정보"""
-        raise NotImplementedError
+        ...
 
     @property
     def is_last(self) -> bool:
         """마지막 페이지인지 확인합니다."""
-        raise NotImplementedError
+        ...
 
     @property
     def has_next(self) -> bool:
         """다음 페이지가 있는지 확인합니다."""
-        raise NotImplementedError
+        ...
 
 
 class KisPaginationAPIResponse(KisAPIResponse):

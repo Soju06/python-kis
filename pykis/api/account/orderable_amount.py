@@ -44,37 +44,37 @@ class KisOrderableAmount(KisAccountProductProtocol, Protocol):
     @property
     def price(self) -> Decimal | None:
         """주문단가"""
-        raise NotImplementedError
+        ...
 
     @property
     def condition(self) -> ORDER_CONDITION | None:
         """주문조건"""
-        raise NotImplementedError
+        ...
 
     @property
     def execution(self) -> ORDER_EXECUTION | None:
         """체결조건"""
-        raise NotImplementedError
+        ...
 
     @property
     def unit_price(self) -> Decimal:
         """계산단가"""
-        raise NotImplementedError
+        ...
 
     @property
     def amount(self) -> Decimal:
         """주문가능금액 (통화)"""
-        raise NotImplementedError
+        ...
 
     @property
     def quantity(self) -> ORDER_QUANTITY:
         """주문가능수량 (통화)"""
-        raise NotImplementedError
+        ...
 
     @property
     def qty(self) -> ORDER_QUANTITY:
         """주문가능수량"""
-        raise NotImplementedError
+        ...
 
     @property
     def foreign_amount(self) -> Decimal:
@@ -84,7 +84,7 @@ class KisOrderableAmount(KisAccountProductProtocol, Protocol):
         국내주식의 경우, 원화주문가능금액 + 외화주문가능금액을 합산한 금액
         해외주식의 경우, 주문가능금액 (통화) + 주문가능금액 (원화 등)을 합산한 금액
         """
-        raise NotImplementedError
+        ...
 
     @property
     def foreign_quantity(self) -> ORDER_QUANTITY:
@@ -94,22 +94,22 @@ class KisOrderableAmount(KisAccountProductProtocol, Protocol):
         국내주식의 경우, 원화주문가능수량 + 외화주문가능수량을 합산한 금액으로 계산한 수량
         해외주식의 경우, 주문가능수량 (통화) + 주문가능수량 (원화 등)을 합산한 금액으로 계산한 수량
         """
-        raise NotImplementedError
+        ...
 
     @property
     def foreign_qty(self) -> ORDER_QUANTITY:
         """주문가능수량 (통합)"""
-        raise NotImplementedError
+        ...
 
     @property
     def exchange_rate(self) -> Decimal:
         """당일환율"""
-        raise NotImplementedError
+        ...
 
     @property
     def condition_kor(self) -> str:
         """주문조건 (한글)"""
-        raise NotImplementedError
+        ...
 
 
 @runtime_checkable

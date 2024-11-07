@@ -36,12 +36,12 @@ class KisOrderbookItem(Protocol):
     @property
     def price(self) -> Decimal:
         """호가가격"""
-        raise NotImplementedError
+        ...
 
     @property
     def volume(self) -> int:
         """호가잔량"""
-        raise NotImplementedError
+        ...
 
 
 @runtime_checkable
@@ -51,41 +51,40 @@ class KisOrderbook(KisProductProtocol, Protocol):
     @property
     def decimal_places(self) -> int:
         """소수점 자리수"""
-        raise NotImplementedError
+        ...
 
     @property
     def asks(self) -> list[KisOrderbookItem]:
         """매도호가"""
-        raise NotImplementedError
+        ...
 
     @property
     def bids(self) -> list[KisOrderbookItem]:
         """매수호가"""
-        raise NotImplementedError
+        ...
 
     @property
-    def count(self) -> int:
-        raise NotImplementedError
+    def count(self) -> int: ...
 
     @property
     def ask_price(self) -> KisOrderbookItem:
         """매도 1호가"""
-        raise NotImplementedError
+        ...
 
     @property
     def bid_price(self) -> KisOrderbookItem:
         """매수 1호가"""
-        raise NotImplementedError
+        ...
 
     @property
     def ask_volume(self) -> int:
         """매도 1호가 잔량"""
-        raise NotImplementedError
+        ...
 
     @property
     def bid_volume(self) -> int:
         """매수 1호가 잔량"""
-        raise NotImplementedError
+        ...
 
 
 @kis_repr(
@@ -363,11 +362,7 @@ def foreign_orderbook(
         "/uapi/overseas-price/v1/quotations/inquire-asking-price",
         api="HHDFS76200100",
         params={
-            "EXCD": (
-                DAYTIME_MARKET_SHORT_TYPE_MAP[market]
-                if condition == "extended"
-                else MARKET_SHORT_TYPE_MAP[market]
-            ),
+            "EXCD": (DAYTIME_MARKET_SHORT_TYPE_MAP[market] if condition == "extended" else MARKET_SHORT_TYPE_MAP[market]),
             "SYMB": symbol,
         },
         response_type=KisForeignOrderbook(
