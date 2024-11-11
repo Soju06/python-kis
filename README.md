@@ -312,6 +312,12 @@ KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:4
 
 ## 4. Changelog ✨
 
+### ver 2.1.1
+
+- [해외주식 실시간 체결 이벤트 버그 수정](https://github.com/Soju06/python-kis/pull/53) 해외주식 실시간 체결 이벤트를 받을 수 없는 버그를 수정했습니다.
+- [이벤트 티켓 암시적 구독 해지 경고 메시지 추가](https://github.com/Soju06/python-kis/pull/55) 이벤트 티켓이 GC에 의해 해지되었을 때 경고 메시지를 추가했습니다.
+- [코드 리펙토링](https://github.com/Soju06/python-kis/pull/56) 기존 `EMPTY`, `EMPTY_TYPE` 대신 `EllipsisType`를 사용하도록 변경하고, `Impl` 타입의 이름을 `Mixin`으로 변경했습니다.
+
 ### ver 2.1.0
 
 - [몇몇 종목의 주식 객체 quote, chart 동작 관련 질문](https://github.com/Soju06/python-kis/issues/47) 상품기본정보 조회 시세조회 가능 여부 확인 로직을 추가했습니다.
