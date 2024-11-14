@@ -312,6 +312,11 @@ KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:4
 
 ## 4. Changelog ✨
 
+### ver 2.1.2
+
+- [fix: SyntaxError: f-string: expecting '}' but got "}"](https://github.com/Soju06/python-kis/pull/57) 파이썬 3.11 이하에서 SyntaxError 오류가 발생하는 문제를 해결했습니다. by @tasoo-oos
+
+
 ### ver 2.1.1
 
 - [해외주식 실시간 체결 이벤트 버그 수정](https://github.com/Soju06/python-kis/pull/53) 해외주식 실시간 체결 이벤트를 받을 수 없는 버그를 수정했습니다.
