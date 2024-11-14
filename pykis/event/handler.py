@@ -126,7 +126,7 @@ class KisMultiEventFilter(KisEventFilterBase[TSender, TEventArgs]):
         return hash((self.filters, self.gate))
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({", ".join(repr(filter) for filter in self.filters)}, gate={self.gate!r})"
+        return f"{self.__class__.__name__}({', '.join(repr(filter) for filter in self.filters)}, gate={self.gate!r})"
 
     def __str__(self) -> str:
         return repr(self)
