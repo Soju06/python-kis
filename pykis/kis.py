@@ -421,6 +421,16 @@ class PyKis:
             else KisAccessToken.load(virtual_token) if self.virtual and virtual_token else None
         )
 
+        self._sessions = {
+            "real": requests.Session(),
+            "virtual": requests.Session()
+        }
+
+        for session in self._sessions.values():
+            session.headers.update({
+                "User-Agent": USER_AGENT
+            })
+
         if keep_token:
             if keep_token is True:
                 keep_token = get_cache_path()
@@ -516,11 +526,11 @@ class PyKis:
         elif body is None:
             body = {}
 
-        if headers is None:
-            headers = {}
+        request_headers = headers.copy() if headers else {}
 
         if domain is None:
             domain = "virtual" if self.virtual else "real"
+        session = self._sessions[domain]
 
         if appkey_location:
             appkey = self.appkey if domain == "real" else self.virtual_appkey
@@ -528,19 +538,17 @@ class PyKis:
             if appkey is None:
                 raise ValueError("모의도메인 AppKey가 없습니다.")
 
-            appkey.build(headers if appkey_location == "header" else body)
+            appkey.build(request_headers if appkey_location == "header" else body)
 
         if form is not None:
             if form_location is None:
                 form_location = "params" if method == "GET" else "body"
 
-            dist = headers if form_location == "header" else params if form_location == "params" else body
+            dist = request_headers if form_location == "header" else params if form_location == "params" else body
 
             for f in form:
                 if f is not None:
                     f.build(dist)
-
-        headers["User-Agent"] = USER_AGENT
 
         rate_limit = self._rate_limiters[domain]
 
@@ -548,12 +556,12 @@ class PyKis:
             rate_limit.acquire(blocking_callback=self._rate_limit_exceeded)
 
             if auth:
-                (self.token if domain == "real" else self.primary_token).build(headers)
+                (self.token if domain == "real" else self.primary_token).build(request_headers)
 
-            resp = requests.request(
+            resp = session.request(
                 method=method,
                 url=urljoin(REAL_DOMAIN if domain == "real" else VIRTUAL_DOMAIN, path),
-                headers=headers,
+                headers=request_headers,
                 params=params,
                 json=body,
             )
@@ -563,7 +571,7 @@ class PyKis:
 
             try:
                 data = resp.json()
-            except:
+            except Exception:
                 data = None
 
             error_code = data.get("msg_cd") if data is not None else None
@@ -579,8 +587,10 @@ class PyKis:
                     # Token expired
                     if domain == "real":
                         self._token = None
+                        self._sessions["real"].headers.pop('Authorization', None)
                     else:
                         self._virtual_token = None
+                        self._sessions["virtual"].headers.pop('Authorization', None)
 
                 case _:
                     raise KisHTTPError(response=resp)
@@ -730,6 +740,11 @@ class PyKis:
             raise ValueError("웹소켓 클라이언트가 초기화되지 않았습니다.")
 
         return self._websocket
+
+    def __del__(self):
+        """API 세션을 종료합니다."""
+        for session in self._sessions.values():
+            session.close()
 
     from pykis.api.stock.trading_hours import trading_hours
     from pykis.scope.account import account
