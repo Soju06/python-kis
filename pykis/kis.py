@@ -61,6 +61,8 @@ class PyKis:
     """웹소켓 클라이언트"""
     _keep_token: Path | None
     """API 접속 토큰 자동 저장 경로"""
+    _sessions: dict[Literal["real", "virtual"], requests.Session]
+    """API 세션"""
 
     @property
     def keep_token(self) -> bool:
@@ -420,16 +422,13 @@ class PyKis:
             if isinstance(virtual_token, KisAccessToken)
             else KisAccessToken.load(virtual_token) if self.virtual and virtual_token else None
         )
-
         self._sessions = {
             "real": requests.Session(),
-            "virtual": requests.Session()
+            "virtual": requests.Session(),
         }
 
         for session in self._sessions.values():
-            session.headers.update({
-                "User-Agent": USER_AGENT
-            })
+            session.headers.update({"User-Agent": USER_AGENT})
 
         if keep_token:
             if keep_token is True:
@@ -530,6 +529,7 @@ class PyKis:
 
         if domain is None:
             domain = "virtual" if self.virtual else "real"
+
         session = self._sessions[domain]
 
         if appkey_location:
@@ -587,10 +587,8 @@ class PyKis:
                     # Token expired
                     if domain == "real":
                         self._token = None
-                        self._sessions["real"].headers.pop('Authorization', None)
                     else:
                         self._virtual_token = None
-                        self._sessions["virtual"].headers.pop('Authorization', None)
 
                 case _:
                     raise KisHTTPError(response=resp)
@@ -741,10 +739,14 @@ class PyKis:
 
         return self._websocket
 
-    def __del__(self):
+    def close(self) -> None:
         """API 세션을 종료합니다."""
         for session in self._sessions.values():
             session.close()
+
+    def __del__(self) -> None:
+        """API 세션을 종료합니다."""
+        self.close()
 
     from pykis.api.stock.trading_hours import trading_hours
     from pykis.scope.account import account
