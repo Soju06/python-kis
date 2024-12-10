@@ -1,3 +1,4 @@
+from functools import wraps
 from multiprocessing import Lock
 from typing import Any, Callable
 
@@ -9,7 +10,8 @@ __all__ = [
 
 
 def thread_safe(name: str | None = None):
-    def decorator(fn: Callable[..., Any]):
+    def decorator(fn: Callable[..., Any]) -> Callable[..., Any]:
+        @wraps(fn)
         def wrapper(self, *args, **kwargs):
             with global_lock:
                 key = f"__thread_safe_{name or fn.__name__}_lock"
