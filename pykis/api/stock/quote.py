@@ -1,5 +1,6 @@
 from datetime import date
 from decimal import Decimal
+from functools import cached_property
 from typing import TYPE_CHECKING, Literal, Protocol, runtime_checkable
 
 from pykis.api.base.product import KisProductBase, KisProductProtocol
@@ -22,7 +23,6 @@ from pykis.responses.types import (
     KisInt,
     KisString,
 )
-from pykis.utils.cache import cached, set_cache
 from pykis.utils.repr import kis_repr
 from pykis.utils.timezone import TIMEZONE
 
@@ -552,9 +552,9 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
         """전일대비"""
         return self.price - self.prev_price
 
-    @property
-    @cached
-    def indicator(self) -> KisForeignIndicator:
+    # Pylance bug: cached_property[KisForeignIndicator] type inference error.
+    @cached_property
+    def indicator(self) -> KisForeignIndicator:  # type: ignore
         """종목 지표"""
         return foreign_quote(
             self.kis,
@@ -562,6 +562,8 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
             market=self.market,
             extended=False,
         ).indicator
+
+    indicator: KisForeignIndicator
 
     open: Decimal = KisDecimal["open"]
     """당일시가"""
@@ -605,14 +607,10 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
         super().__pre_init__(data)
 
         if not self.extended:
-            set_cache(
-                self,
-                "indicator",
-                KisObject.transform_(
-                    data["output"],
-                    KisForeignIndicator,
-                    ignore_missing=True,
-                ),
+            self.indicator = KisObject.transform_(
+                data["output"],
+                KisForeignIndicator,
+                ignore_missing=True,
             )
 
 

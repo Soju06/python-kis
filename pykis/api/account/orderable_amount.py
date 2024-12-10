@@ -1,4 +1,5 @@
 from decimal import Decimal
+from functools import cached_property
 from typing import TYPE_CHECKING, Any, Protocol, runtime_checkable
 
 from pykis.api.account.order import (
@@ -22,8 +23,7 @@ from pykis.responses.response import (
     KisResponseProtocol,
     raise_not_found,
 )
-from pykis.responses.types import KisDecimal, KisInt
-from pykis.utils.cache import cached
+from pykis.responses.types import KisDecimal
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
@@ -191,8 +191,7 @@ class KisDomesticOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
     foreign_only_amount: Decimal = KisDecimal["ord_psbl_frcr_amt_wcrc"]
     """외화주문가능금액 (원화환산)"""
 
-    @property
-    @cached
+    @cached_property
     def _foreign(self) -> "KisDomesticOrderableAmount":
         """
         한국투자증권 국내 주식 주문가능금액 조회
