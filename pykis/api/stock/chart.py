@@ -1,7 +1,16 @@
 import bisect
 from datetime import date, datetime, time, tzinfo
 from decimal import Decimal
-from typing import Iterable, Literal, Protocol, TypeVar, overload, runtime_checkable
+from typing import (
+    TYPE_CHECKING,
+    Iterable,
+    Iterator,
+    Literal,
+    Protocol,
+    TypeVar,
+    overload,
+    runtime_checkable,
+)
 
 from pykis.api.base.product import KisProductBase, KisProductProtocol
 from pykis.api.stock.market import MARKET_TYPE
@@ -14,6 +23,9 @@ __all__ = [
     "KisChart",
     "TChart",
 ]
+
+if TYPE_CHECKING:
+    from pandas import DataFrame
 
 
 @runtime_checkable
@@ -142,9 +154,9 @@ class KisChart(KisProductProtocol, Protocol):
 
     def __len__(self) -> int: ...
 
-    def __reversed__(self): ...
+    def __reversed__(self) -> Iterator[KisChartBar]: ...
 
-    def df(self):
+    def df(self) -> "DataFrame":
         """
         차트를 Pandas DataFrame으로 변환합니다.
 
@@ -274,10 +286,10 @@ class KisChartBase(KisChartRepr, KisProductBase):
     def __len__(self) -> int:
         return len(self.bars)
 
-    def __reversed__(self):
+    def __reversed__(self) -> Iterator[KisChartBar]:
         return reversed(self.bars)
 
-    def df(self):
+    def df(self) -> "DataFrame":
         """
         차트를 Pandas DataFrame으로 변환합니다.
 
