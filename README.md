@@ -312,6 +312,11 @@ KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:4
 
 ## 4. Changelog ✨
 
+### ver 2.1.3
+
+- [HTTPSConnectionPool이 제대로 닫히지 않는 것 같습니다.](https://github.com/Soju06/python-kis/issues/58) [fixed #58: session 추가](https://github.com/Soju06/python-kis/pull/59) by @tasoo-oos
+- [Refector/decorator keeping function information](https://github.com/Soju06/python-kis/pull/60) `KisChartBar`의 타이핑 문제를 해결했습니다.
+
 ### ver 2.1.2
 
 - [fix: SyntaxError: f-string: expecting '}' but got "}"](https://github.com/Soju06/python-kis/pull/57) 파이썬 3.11 이하에서 SyntaxError 오류가 발생하는 문제를 해결했습니다. by @tasoo-oos
