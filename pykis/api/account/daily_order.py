@@ -1,5 +1,6 @@
 from datetime import date, datetime, timedelta
 from decimal import Decimal
+from functools import cached_property
 from typing import TYPE_CHECKING, Any, Iterable, Protocol, runtime_checkable
 from zoneinfo import ZoneInfo
 
@@ -29,7 +30,6 @@ from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
 from pykis.responses.response import KisPaginationAPIResponse
 from pykis.responses.types import KisAny, KisDecimal, KisString
-from pykis.utils.cache import cached
 from pykis.utils.repr import kis_repr
 from pykis.utils.timezone import TIMEZONE
 
@@ -490,9 +490,9 @@ class KisForeignDailyOrder(KisDynamic, KisDailyOrderBase):
     number: str = KisString["odno"]
     """주문번호"""
 
-    @property
-    @cached
-    def order_number(self) -> KisOrder:
+    # Pylance bug: cached_property[KisOrder] type inference error.
+    @cached_property
+    def order_number(self) -> KisOrder:  # type: ignore
         """주문번호"""
         return KisSimpleOrder.from_order(
             account_number=self.account_number,
@@ -503,6 +503,8 @@ class KisForeignDailyOrder(KisDynamic, KisDailyOrderBase):
             time_kst=self.time_kst,
             kis=self.kis,
         )
+
+    order_number: KisOrder
 
     name: str = KisString["prdt_name"]
     """종목명"""

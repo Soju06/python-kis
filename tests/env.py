@@ -1,12 +1,15 @@
 import os
 from typing import Literal
 
-import dotenv
-
 import pykis.logging
 from pykis import PyKis
 
-dotenv.load_dotenv()
+try:
+    import dotenv
+
+    dotenv.load_dotenv()
+except ImportError:
+    pass
 
 
 def load_pykis(

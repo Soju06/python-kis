@@ -1,4 +1,5 @@
 from decimal import Decimal
+from functools import cached_property
 from typing import TYPE_CHECKING, Iterator, Protocol, runtime_checkable
 
 from pykis.adapter.account_product.order import (
@@ -27,7 +28,6 @@ from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisObject, KisTransform
 from pykis.responses.response import KisAPIResponse, KisPaginationAPIResponse
 from pykis.responses.types import KisAny, KisDecimal, KisString
-from pykis.utils.cache import cached
 from pykis.utils.repr import kis_repr
 from pykis.utils.typing import Checkable
 
@@ -748,11 +748,13 @@ class KisForeignBalanceStock(KisDynamic, KisBalanceStockBase):
     purchase_amount: Decimal = KisDecimal["frcr_pchs_amt1"]
     """매입금액"""
 
-    @property
-    @cached
-    def exchange_rate(self) -> Decimal:
+    # Pylance bug: cached_property[Decimal] type inference error.
+    @cached_property
+    def exchange_rate(self) -> Decimal:  # type: ignore
         """환율 (캐시됨)"""
         return self.balance.deposits[self.currency].exchange_rate
+
+    exchange_rate: Decimal
 
 
 class KisForeignBalance(KisPaginationAPIResponse, KisBalanceBase):

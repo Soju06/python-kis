@@ -1,5 +1,6 @@
 from datetime import date, datetime
 from decimal import Decimal
+from functools import cached_property
 from typing import TYPE_CHECKING, Iterable, Protocol, runtime_checkable
 from zoneinfo import ZoneInfo
 
@@ -15,14 +16,12 @@ from pykis.api.stock.market import (
     KisMarketType,
     get_market_code,
     get_market_code_timezone,
-    get_market_timezone,
 )
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
 from pykis.responses.response import KisPaginationAPIResponse
-from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
-from pykis.utils.cache import cached
+from pykis.responses.types import KisAny, KisDecimal, KisString
 from pykis.utils.repr import kis_repr
 from pykis.utils.timezone import TIMEZONE
 
@@ -438,9 +437,9 @@ class KisForeignOrderProfits(KisPaginationAPIResponse, KisOrderProfitsBase):
     _end: date
     _country: COUNTRY_TYPE | None = None
 
-    @property
-    @cached
-    def fees(self) -> Decimal:
+    # Pylance bug: cached_property[Decimal] type inference error.
+    @cached_property
+    def fees(self) -> Decimal:  # type: ignore
         """
         수수료 조회 (모의투자 미지원)
 
@@ -453,6 +452,8 @@ class KisForeignOrderProfits(KisPaginationAPIResponse, KisOrderProfitsBase):
             end=self._end,
             country=self._country,
         )
+
+    fees: Decimal
 
     def __init__(
         self,

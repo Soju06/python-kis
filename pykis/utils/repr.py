@@ -1,3 +1,4 @@
+from functools import wraps
 from io import StringIO
 from typing import Any, Iterable, Literal, Protocol, TypeVar
 
@@ -41,6 +42,7 @@ def kis_repr(
     max_depth: int = 7,
 ):
     def decorator(cls: type[TObject]) -> type[TObject]:
+        @wraps(cls.__repr__)
         def __repr__(self, _depth: int = 0) -> str:
             return object_repr(
                 self,
@@ -57,7 +59,7 @@ def kis_repr(
         __repr__.__module__ = cls.__module__
         __repr__.__qualname__ = f"{cls.__qualname__}.__repr__"
         __repr__.__name__ = "__repr__"
-        __repr__.__is_kis_repr__ = True
+        __repr__.__is_kis_repr__ = True  # type: ignore
 
         cls.__repr__ = __repr__
         return cls
