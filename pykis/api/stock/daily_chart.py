@@ -18,6 +18,7 @@ from pykis.api.stock.quote import (
 from pykis.responses.dynamic import KisDynamic, KisList
 from pykis.responses.response import KisResponse, raise_not_found
 from pykis.responses.types import KisAny, KisDatetime, KisDecimal, KisInt
+from pykis.utils.math import safe_divide
 from pykis.utils.timezone import TIMEZONE
 
 if TYPE_CHECKING:
@@ -54,9 +55,7 @@ class KisDomesticDailyChartBar(KisChartBarRepr, KisDynamic):
     sign: STOCK_SIGN_TYPE = KisAny(STOCK_SIGN_TYPE_MAP.__getitem__)["prdy_vrss_sign"]
     """전일대비 부호"""
 
-    ex_date_type: ExDateType = KisAny(lambda x: EX_DATE_TYPE_CODE_MAP.get(x, ExDateType.NONE))[
-        "flng_cls_code"
-    ]
+    ex_date_type: ExDateType = KisAny(lambda x: EX_DATE_TYPE_CODE_MAP.get(x, ExDateType.NONE))["flng_cls_code"]
     """락 구분"""
     split_ratio: Decimal = KisDecimal["prtt_rate"]
     """분할 비율"""
@@ -74,7 +73,7 @@ class KisDomesticDailyChartBar(KisChartBarRepr, KisDynamic):
     @property
     def rate(self) -> Decimal:
         """등락률 (-100 ~ 100)"""
-        return self.change / self.prev_price * 100
+        return safe_divide(self.change, self.prev_price) * 100
 
     @property
     def sign_name(self) -> str:
@@ -151,7 +150,7 @@ class KisForeignDailyChartBar(KisChartBarRepr, KisDynamic):
     @property
     def rate(self) -> Decimal:
         """등락률 (-100 ~ 100)"""
-        return self.change / self.prev_price * 100
+        return safe_divide(self.change, self.prev_price) * 100
 
     @property
     def sign_name(self) -> str:
@@ -269,9 +268,7 @@ def domestic_daily_chart(
 
     cursor = end
     chart = None
-    period_delta = timedelta(
-        days=1 if period == "day" else 7 if period == "week" else 30 if period == "month" else 365
-    )
+    period_delta = timedelta(days=1 if period == "day" else 7 if period == "week" else 30 if period == "month" else 365)
 
     while True:
         result = self.fetch(

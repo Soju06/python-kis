@@ -23,6 +23,7 @@ from pykis.responses.types import (
     KisInt,
     KisString,
 )
+from pykis.utils.math import safe_divide
 from pykis.utils.repr import kis_repr
 from pykis.utils.timezone import TIMEZONE
 
@@ -192,7 +193,7 @@ class KisQuote(KisProductProtocol, Protocol):
     @property
     def rate(self) -> Decimal:
         """등락율 (-100~100)"""
-        return self.change / self.prev_price * 100
+        return safe_divide(self.change, self.prev_price) * 100
 
     @property
     def sign_name(self) -> str:
@@ -364,7 +365,7 @@ class KisQuoteBase(KisQuoteRepr, KisProductBase):
     @property
     def rate(self) -> Decimal:
         """등락율 (-100~100)"""
-        return self.change / self.prev_price * 100
+        return safe_divide(self.change, self.prev_price) * 100
 
     @property
     def sign_name(self) -> str:
@@ -432,7 +433,7 @@ class KisDomesticQuote(KisQuoteBase, KisAPIResponse):
     @property
     def prev_volume(self) -> Decimal:
         """전일거래량"""
-        return self.volume / (1 + self.prev_volume_rate / 100)
+        return safe_divide(self.volume, (1 + safe_divide(self.prev_volume_rate, 100)))
 
     change: Decimal = KisDecimal["prdy_vrss"]
     """전일대비"""
@@ -542,7 +543,7 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
     @property
     def prev_volume_rate(self) -> Decimal:
         """전일대비거래량비율 (-100~100)"""
-        return self.volume / self.prev_volume * 100 - 100
+        return safe_divide(self.volume, self.prev_volume) * 100 - 100
 
     prev_volume: Decimal = KisDecimal["pvol"]
     """전일거래량"""
