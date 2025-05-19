@@ -87,6 +87,11 @@ class KisBalanceStock(
         ...
 
     @property
+    def purchase_amount_krw(self) -> Decimal:
+        """매입금액(원화)"""
+        ...
+
+    @property
     def current_amount(self) -> Decimal:
         """평가금액"""
         ...
@@ -516,6 +521,9 @@ class KisDomesticBalanceStock(KisDynamic, KisBalanceStockBase):
     purchase_amount: Decimal = KisDecimal["pchs_amt"]
     """매입금액"""
 
+    purchase_amount_krw: Decimal = KisDecimal["pchs_amt"]
+    """매입금액(원화)"""
+
     exchange_rate: Decimal = Decimal(1)
     """환율"""
 
@@ -750,6 +758,11 @@ class KisForeignBalanceStock(KisDynamic, KisBalanceStockBase):
 
     purchase_amount: Decimal = KisDecimal["frcr_pchs_amt1"]
     """매입금액"""
+
+    @property
+    def purchase_amount_krw(self) -> Decimal:
+        """매입금액(원화, 당시 환율 조회 불가)"""
+        return self.purchase_amount * self.exchange_rate
 
     # Pylance bug: cached_property[Decimal] type inference error.
     @cached_property
@@ -1062,9 +1075,9 @@ def foreign_balance(
             country=country,
         ).stocks
 
-        for stock in result.stocks:
-            if isinstance(stock, KisBalanceStockBase):
-                stock.balance = result
+    for stock in result.stocks:
+        if isinstance(stock, KisBalanceStockBase):
+            stock.balance = result
 
     return result
 
