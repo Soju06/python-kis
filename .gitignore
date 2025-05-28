@@ -25,3 +25,6 @@ tests/vack.txt
 tests/vacco.txt
 dummy/
 .env
+
+.specstory/.what-is-this.md
+.specstory/.gitignore
