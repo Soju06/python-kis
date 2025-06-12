@@ -25,3 +25,8 @@ tests/vack.txt
 tests/vacco.txt
 dummy/
 .env
+
+.DS_Store
+
+real_secret.json
+virtual_secret.json
