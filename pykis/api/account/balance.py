@@ -642,7 +642,7 @@ class KisForeignPresentBalanceStock(KisDynamic, KisBalanceStockBase):
     exchange_rate: Decimal = KisDecimal["bass_exrt"]
     """환율"""
 
-    purchase_krw_amount: Decimal = KisDecimal["pchs_rmnd_wcrc_amt"]
+    purchase_amount_krw: Decimal = KisDecimal["pchs_rmnd_wcrc_amt"]
     """매입금액(원화)"""
 
 
