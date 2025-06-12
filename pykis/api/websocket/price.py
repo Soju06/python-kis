@@ -22,6 +22,7 @@ from pykis.event.handler import KisEventFilter, KisEventTicket, KisMultiEventFil
 from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.responses.types import KisAny, KisDecimal, KisInt, KisString
 from pykis.responses.websocket import KisWebsocketResponse, KisWebsocketResponseProtocol
+from pykis.utils.math import safe_divide
 from pykis.utils.repr import kis_repr
 from pykis.utils.timezone import TIMEZONE
 from pykis.utils.typing import Checkable
@@ -311,7 +312,7 @@ class KisRealtimePriceBase(KisRealtimePriceRepr, KisWebsocketResponse, KisProduc
     @property
     def change_rate(self) -> Decimal:
         """전일대비율 (-100~100)"""
-        return self.change / self.price * 100
+        return safe_divide(self.change, self.price) * 100
 
     bid: Decimal
     """매수호가"""
@@ -330,7 +331,7 @@ class KisRealtimePriceBase(KisRealtimePriceRepr, KisWebsocketResponse, KisProduc
     @property
     def spread_rate(self) -> Decimal:
         """매수/매도호가대비율 (-100~100)"""
-        return self.spread / self.price * 100
+        return safe_divide(self.spread, self.price) * 100
 
     @property
     def bid_qty(self) -> int:
@@ -357,7 +358,7 @@ class KisRealtimePriceBase(KisRealtimePriceRepr, KisWebsocketResponse, KisProduc
     @property
     def open_change_rate(self) -> Decimal:
         """시가대비율"""
-        return self.open_change / self.open * 100
+        return safe_divide(self.open_change, self.open) * 100
 
     high: Decimal
     """당일고가"""
@@ -374,7 +375,7 @@ class KisRealtimePriceBase(KisRealtimePriceRepr, KisWebsocketResponse, KisProduc
     @property
     def high_change_rate(self) -> Decimal:
         """고가대비율"""
-        return self.high_change / self.high * 100
+        return safe_divide(self.high_change, self.high) * 100
 
     low: Decimal
     """당일저가"""
@@ -391,7 +392,7 @@ class KisRealtimePriceBase(KisRealtimePriceRepr, KisWebsocketResponse, KisProduc
     @property
     def low_change_rate(self) -> Decimal:
         """저가대비율"""
-        return self.low_change / self.low * 100
+        return safe_divide(self.low_change, self.low) * 100
 
     volume: int
     """누적거래량"""
@@ -408,7 +409,7 @@ class KisRealtimePriceBase(KisRealtimePriceRepr, KisWebsocketResponse, KisProduc
     @property
     def intensity(self) -> float:
         """체결강도 (0 ~ 100+)"""
-        return (self.buy_quantity / self.sell_quantity * 100) if self.sell_quantity else 100
+        return safe_divide(self.buy_quantity, self.sell_quantity) * 100 if self.sell_quantity else 100
 
     @property
     def buy_qty(self) -> int:
@@ -423,7 +424,7 @@ class KisRealtimePriceBase(KisRealtimePriceRepr, KisWebsocketResponse, KisProduc
     @property
     def volume_rate(self) -> Decimal | None:
         """전일동일시간거래량비율 (-100~100)"""
-        return Decimal(self.volume / self.prev_volume * 100) if self.prev_volume else None
+        return Decimal(safe_divide(self.volume, self.prev_volume) * 100) if self.prev_volume else None
 
     condition: ORDER_CONDITION | None
     """주문조건"""

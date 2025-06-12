@@ -28,6 +28,7 @@ from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisObject, KisTransform
 from pykis.responses.response import KisAPIResponse, KisPaginationAPIResponse
 from pykis.responses.types import KisAny, KisDecimal, KisString
+from pykis.utils.math import safe_divide
 from pykis.utils.repr import kis_repr
 from pykis.utils.typing import Checkable
 
@@ -264,7 +265,7 @@ class KisBalanceStockBase(KisAccountProductBase, KisOrderableAccountProductMixin
     @property
     def purchase_price(self) -> Decimal:
         """매입평균가"""
-        return self.purchase_amount / self.quantity
+        return safe_divide(self.purchase_amount, self.quantity)
 
     current_price: Decimal
     """현재가"""
@@ -306,7 +307,7 @@ class KisBalanceStockBase(KisAccountProductBase, KisOrderableAccountProductMixin
     @property
     def profit_rate(self) -> Decimal:
         """손익률 (-100 ~ 100)"""
-        return self.profit / self.purchase_amount * 100
+        return safe_divide(self.profit, self.purchase_amount) * 100
 
     @property
     def rate(self) -> Decimal:
@@ -438,7 +439,7 @@ class KisBalanceBase(KisAccountBase):
     @property
     def profit_rate(self) -> Decimal:
         """총손익률 (-100 ~ 100)"""
-        return (self.profit / self.purchase_amount * 100) if self.purchase_amount else Decimal(0)
+        return safe_divide(self.profit, self.purchase_amount) * 100
 
     @property
     def withdrawable_amount(self) -> Decimal:

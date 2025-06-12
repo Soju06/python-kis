@@ -229,7 +229,7 @@ class KisOrderProfitBase(KisOrderProfitRepr, KisAccountProductBase):
     @property
     def profit_rate(self) -> Decimal:
         """손익률 (-100 ~ 100)"""
-        return (self.profit / self.buy_amount) * 100
+        return safe_divide(self.profit, self.buy_amount) * 100
 
     exchange_rate: Decimal
     """당일환율"""

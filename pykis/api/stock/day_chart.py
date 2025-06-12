@@ -63,7 +63,7 @@ class KisDayChartBarBase(KisChartBarRepr):
     @property
     def rate(self) -> Decimal:
         """등락률 (-100 ~ 100)"""
-        return self.change / self.prev_price * 100
+        return safe_divide(self.change, self.prev_price) * 100
 
     @property
     def sign_name(self) -> str:
@@ -389,14 +389,6 @@ def domestic_day_chart(
 
 FOREIGN_MAX_RECORDS = 120
 FOREIGN_MAX_PERIODS = math.ceil(24 * 60 / FOREIGN_MAX_RECORDS)
-
-
-# records = 120
-# indices = set()
-
-# for i in range(math.ceil(24 * 60 / records)):
-#     for j in range(records):
-#         indices.add((i + 1) * (j + 1))
 
 
 def foreign_day_chart(
