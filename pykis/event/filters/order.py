@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Callable, Protocol, overload, runtime_checkable
 
-from pykis.api.stock.market import MARKET_TYPE
+from pykis.api.stock.exchange import EXCHANGE_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.event.handler import KisEventFilter, KisEventHandler
 from pykis.event.subscription import KisSubscriptionEventArgs
@@ -35,7 +35,7 @@ class KisSimpleOrderNumberProtocol(Protocol):
         ...
 
     @property
-    def market(self) -> MARKET_TYPE:
+    def exchange(self) -> EXCHANGE_TYPE:
         """시장유형"""
         ...
 
@@ -58,11 +58,11 @@ class KisSimpleOrderNumberProtocol(Protocol):
 class KisSimpleOrderNumber:
     """한국투자증권 주문번호"""
 
-    __slots__ = ("market", "symbol", "branch", "number", "account_number")
+    __slots__ = ("exchange", "symbol", "branch", "number", "account_number")
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """시장유형"""
     branch: str
     """지점코드"""
@@ -70,9 +70,9 @@ class KisSimpleOrderNumber:
     """주문번호"""
     account_number: KisAccountNumber
 
-    def __init__(self, symbol: str, market: MARKET_TYPE, branch: str, number: str, account: KisAccountNumber):
+    def __init__(self, symbol: str, exchange: EXCHANGE_TYPE, branch: str, number: str, account: KisAccountNumber):
         self.symbol = symbol
-        self.market = market
+        self.exchange = exchange
         self.branch = branch
         self.number = number
         self.account_number = account
@@ -82,7 +82,7 @@ class KisOrderNumberEventFilter(KisEventFilter["KisWebsocketClient", KisSubscrip
     _order: KisSimpleOrderNumberProtocol | Callable[..., KisSimpleOrderNumberProtocol]
 
     @overload
-    def __init__(self, symbol: str, /, market: MARKET_TYPE, branch: str, number: str, account: KisAccountNumber): ...
+    def __init__(self, symbol: str, /, exchange: EXCHANGE_TYPE, branch: str, number: str, account: KisAccountNumber): ...
 
     @overload
     def __init__(self, symbol: "KisOrderNumber", /): ...
@@ -93,7 +93,7 @@ class KisOrderNumberEventFilter(KisEventFilter["KisWebsocketClient", KisSubscrip
     def __init__(
         self,
         symbol_or_callable: "KisOrderNumber | str | Callable[..., KisSimpleOrderNumberProtocol]",
-        market: MARKET_TYPE | None = None,
+        exchange: EXCHANGE_TYPE | None = None,
         branch: str | None = None,
         number: str | None = None,
         account: KisAccountNumber | None = None,
@@ -101,8 +101,8 @@ class KisOrderNumberEventFilter(KisEventFilter["KisWebsocketClient", KisSubscrip
         super().__init__()
 
         if isinstance(symbol_or_callable, str):
-            if market is None:
-                raise ValueError("market is required")
+            if exchange is None:
+                raise ValueError("exchange is required")
 
             if branch is None:
                 raise ValueError("branch is required")
@@ -115,7 +115,7 @@ class KisOrderNumberEventFilter(KisEventFilter["KisWebsocketClient", KisSubscrip
 
             self._order = KisSimpleOrderNumber(
                 symbol=symbol_or_callable,
-                market=market,
+                exchange=exchange,
                 branch=branch,
                 number=number,
                 account=account,
@@ -148,7 +148,7 @@ class KisOrderNumberEventFilter(KisEventFilter["KisWebsocketClient", KisSubscrip
 
         return not (
             order.symbol == value.symbol
-            and order.market == value.market
+            and order.exchange == value.exchange
             and (order.foreign or order.branch == value.branch)
             and int(order.number) == int(value.number)
             and order.account_number == value.account_number

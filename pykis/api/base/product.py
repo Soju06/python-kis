@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
-from pykis.api.base.market import KisMarketBase, KisMarketProtocol
-from pykis.api.stock.market import MARKET_TYPE
+from pykis.api.base.exchange import KisExchangeBase, KisExchangeProtocol
+from pykis.api.stock.exchange import EXCHANGE_TYPE
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
@@ -16,7 +16,7 @@ __all__ = [
 
 
 @runtime_checkable
-class KisProductProtocol(KisMarketProtocol, Protocol):
+class KisProductProtocol(KisExchangeProtocol, Protocol):
     """한국투자증권 상품 프로토콜"""
 
     @property
@@ -41,11 +41,11 @@ class KisProductProtocol(KisMarketProtocol, Protocol):
 
 
 @kis_repr(
-    "market",
+    "exchange",
     "symbol",
     lines="single",
 )
-class KisProductBase(KisMarketBase):
+class KisProductBase(KisExchangeBase):
     """한국투자증권 상품 기본정보"""
 
     kis: "PyKis"
@@ -59,7 +59,7 @@ class KisProductBase(KisMarketBase):
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
 
     @property
@@ -84,7 +84,7 @@ class KisProductBase(KisMarketBase):
         return _info(
             self.kis,
             symbol=self.symbol,
-            market=self.market,
+            exchange=self.exchange,
         )
 
     @property
@@ -95,5 +95,5 @@ class KisProductBase(KisMarketBase):
         return stock(
             self.kis,
             symbol=self.symbol,
-            market=self.market,
+            exchange=self.exchange,
         )

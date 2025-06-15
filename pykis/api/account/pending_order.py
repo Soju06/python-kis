@@ -27,13 +27,13 @@ from pykis.api.base.account_product import (
     KisAccountProductBase,
     KisAccountProductProtocol,
 )
-from pykis.api.stock.info import COUNTRY_TYPE, get_market_country
-from pykis.api.stock.market import (
-    MARKET_TYPE,
-    KisMarketType,
-    get_market_code,
-    get_market_code_timezone,
+from pykis.api.stock.exchange import (
+    EXCHANGE_TYPE,
+    KisExchangeType,
+    get_exchange_code,
+    get_exchange_code_timezone,
 )
+from pykis.api.stock.info import COUNTRY_TYPE, get_exchange_country
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.event.filters.order import KisOrderNumberEventFilter
@@ -171,11 +171,9 @@ class KisPendingOrders(KisAccountProtocol, Protocol):
         """주문번호 또는 종목코드로 주문을 조회합니다."""
         ...
 
-    def __len__(self) -> int:
-        ...
+    def __len__(self) -> int: ...
 
-    def __iter__(self) -> Iterable[KisPendingOrder]:
-        ...
+    def __iter__(self) -> Iterable[KisPendingOrder]: ...
 
 
 @kis_repr(
@@ -195,7 +193,7 @@ class KisPendingOrderBase(
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -303,7 +301,7 @@ class KisPendingOrderBase(
     def from_number(
         kis: "PyKis",
         symbol: str,
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         account_number: KisAccountNumber,
         branch: str,
         number: str,
@@ -314,7 +312,7 @@ class KisPendingOrderBase(
         Args:
             kis (PyKis): 한국투자증권 API
             symbol (str): 종목코드
-            market (MARKET_TYPE): 상품유형
+            exchange (EXCHANGE_TYPE): 상품유형
             account_number (KisAccountNumber): 계좌번호
             branch (str): 지점코드
             number (str): 주문번호
@@ -322,7 +320,7 @@ class KisPendingOrderBase(
         return KisSimpleOrderNumber.from_number(
             kis=kis,
             symbol=symbol,
-            market=market,
+            exchange=exchange,
             account_number=account_number,
             branch=branch,
             number=number,
@@ -333,7 +331,7 @@ class KisPendingOrderBase(
     def from_order(
         kis: "PyKis",
         symbol: str,
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         account_number: KisAccountNumber,
         branch: str,
         number: str,
@@ -345,7 +343,7 @@ class KisPendingOrderBase(
         Args:
             kis (PyKis): 한국투자증권 API
             symbol (str): 종목코드
-            market (MARKET_TYPE): 상품유형
+            exchange (EXCHANGE_TYPE): 상품유형
             account_number (KisAccountNumber): 계좌번호
             branch (str): 지점코드
             number (str): 주문번호
@@ -354,7 +352,7 @@ class KisPendingOrderBase(
         return KisSimpleOrder.from_order(
             kis=kis,
             symbol=symbol,
-            market=market,
+            exchange=exchange,
             account_number=account_number,
             branch=branch,
             number=number,
@@ -429,7 +427,7 @@ class KisDomesticPendingOrder(KisDynamic, KisPendingOrderBase):
 
     symbol: str = KisString["pdno"]
     """종목코드"""
-    market: MARKET_TYPE = "KRX"
+    exchange: EXCHANGE_TYPE = "KRX"
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -494,7 +492,7 @@ class KisDomesticPendingOrder(KisDynamic, KisPendingOrderBase):
         self.order_number = KisSimpleOrder.from_order(
             kis=self.kis,
             symbol=self.symbol,
-            market=self.market,
+            exchange=self.exchange,
             account_number=self.account_number,
             branch=self.__data__["ord_gno_brno"],
             number=self.__data__["odno"],
@@ -533,7 +531,7 @@ class KisForeignPendingOrder(KisDynamic, KisPendingOrderBase):
 
     symbol: str = KisString["pdno"]
     """종목코드"""
-    market: MARKET_TYPE = KisMarketType["ovrs_excg_cd"]
+    exchange: EXCHANGE_TYPE = KisExchangeType["ovrs_excg_cd"]
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -542,7 +540,7 @@ class KisForeignPendingOrder(KisDynamic, KisPendingOrderBase):
     """주문시각"""
     time_kst: datetime
     """주문시각(KST)"""
-    timezone: ZoneInfo = KisAny(get_market_code_timezone)["ovrs_excg_cd"]
+    timezone: ZoneInfo = KisAny(get_exchange_code_timezone)["ovrs_excg_cd"]
     """시간대"""
 
     order_number: KisOrder
@@ -598,7 +596,7 @@ class KisForeignPendingOrder(KisDynamic, KisPendingOrderBase):
         self.order_number = KisSimpleOrder.from_order(
             kis=self.kis,
             symbol=self.symbol,
-            market=self.market,
+            exchange=self.exchange,
             account_number=self.account_number,
             branch=self.__data__["ord_gno_brno"],
             number=self.__data__["odno"],
@@ -735,7 +733,7 @@ def domestic_pending_orders(
 def _foreign_pending_orders(
     self: "PyKis",
     account: str | KisAccountNumber,
-    market: MARKET_TYPE | None = None,
+    exchange: EXCHANGE_TYPE | None = None,
     page: KisPage | None = None,
     continuous: bool = True,
 ) -> KisForeignPendingOrders:
@@ -747,7 +745,7 @@ def _foreign_pending_orders(
 
     Args:
         account (str | KisAccountNumber): 계좌번호
-        market (MARKET_TYPE, optional): 시장코드
+        exchange (EXCHANGE_TYPE, optional): 시장코드
         page (KisPage, optional): 페이지 정보
         continuous (bool, optional): 연속조회 여부
 
@@ -766,7 +764,7 @@ def _foreign_pending_orders(
             "/uapi/overseas-stock/v1/trading/inquire-nccs",
             api="VTTS3018R" if self.virtual else "TTTS3018R",
             params={
-                "OVRS_EXCG_CD": get_market_code(market) if market is not None else "",
+                "OVRS_EXCG_CD": get_exchange_code(exchange) if exchange is not None else "",
                 "SORT_SQN": "DS" if self.virtual else "",
             },
             form=[
@@ -792,7 +790,7 @@ def _foreign_pending_orders(
     return first
 
 
-FOREIGN_COUNTRY_MARKET_MAP: dict[str | None, list[MARKET_TYPE | None]] = {
+FOREIGN_COUNTRY_EXCHANGE_MAP: dict[str | None, list[EXCHANGE_TYPE | None]] = {
     # 국가코드 -> 조회시장코드
     None: [None],
     "US": ["NASDAQ"],
@@ -822,12 +820,12 @@ def foreign_pending_orders(
         KisAPIError: API 호출에 실패한 경우
         ValueError: 계좌번호가 잘못된 경우
     """
-    markets = FOREIGN_COUNTRY_MARKET_MAP.get(country, FOREIGN_COUNTRY_MARKET_MAP[None])
+    exchanges = FOREIGN_COUNTRY_EXCHANGE_MAP.get(country, FOREIGN_COUNTRY_EXCHANGE_MAP[None])
 
     first = None
 
-    for market in markets:
-        result = _foreign_pending_orders(self, account, market)
+    for exchange in exchanges:
+        result = _foreign_pending_orders(self, account, exchange)
 
         if first is None:
             first = result
@@ -920,10 +918,10 @@ def account_product_pending_orders(
     orders = pending_orders(
         self.kis,
         account=self.account_number,
-        country=get_market_country(self.market),
+        country=get_exchange_country(self.exchange),
     )
 
     return KisSimplePendingOrders(
         account_number=self.account_number,
-        orders=[order for order in orders.orders if order.symbol == self.symbol and order.market == self.market],
+        orders=[order for order in orders.orders if order.symbol == self.symbol and order.exchange == self.exchange],
     )

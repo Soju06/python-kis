@@ -15,8 +15,8 @@ from pykis.api.account.order import (
 )
 from pykis.api.base.account import KisAccountProtocol
 from pykis.api.base.account_product import KisAccountProductBase
-from pykis.api.stock.info import COUNTRY_TYPE, get_market_country
-from pykis.api.stock.market import get_market_timezone
+from pykis.api.stock.info import COUNTRY_TYPE, get_exchange_country
+from pykis.api.stock.exchange import get_exchange_timezone
 from pykis.client.account import KisAccountNumber
 from pykis.event.handler import KisEventFilter, KisEventTicket
 from pykis.event.subscription import KisSubscriptionEventArgs
@@ -27,7 +27,7 @@ from pykis.utils.timezone import TIMEZONE
 from pykis.utils.typing import Checkable
 
 if TYPE_CHECKING:
-    from pykis.api.stock.market import MARKET_TYPE
+    from pykis.api.stock.exchange import EXCHANGE_TYPE
     from pykis.client.websocket import KisWebsocketClient
 
 __all__ = [
@@ -137,7 +137,7 @@ class KisRealtimeExecution(KisWebsocketResponseProtocol, Protocol):
 
 @kis_repr(
     "account_number",
-    "market",
+    "exchange",
     "symbol",
     "time",
     "type",
@@ -154,7 +154,7 @@ class KisRealtimeExecutionBase(KisRealtimeExecutionRepr, KisWebsocketResponse, K
 
     symbol: str
     """종목코드"""
-    market: "MARKET_TYPE"
+    exchange: "EXCHANGE_TYPE"
     """상품유형타입"""
 
     account_number: KisAccountNumber
@@ -249,7 +249,7 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeExecutionBase):
 
     symbol: str  # 8 STCK_SHRN_ISCD 주식 단축 종목코드
     """종목코드"""
-    market: "MARKET_TYPE" = "KRX"
+    exchange: "EXCHANGE_TYPE" = "KRX"
     """상품유형타입"""
 
     account_number: KisAccountNumber  # 1 ACNT_NO 계좌번호
@@ -325,7 +325,7 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeExecutionBase):
         self.order_number = KisSimpleOrder.from_order(
             kis=self.kis,
             symbol=self.symbol,
-            market=self.market,
+            exchange=self.exchange,
             account_number=self.account_number,
             branch=self.__data__[15],  # 지점번호
             number=self.__data__[2],  # 주문번호
@@ -334,7 +334,7 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeExecutionBase):
 
 
 # 해외종목구분 4:홍콩(HKD) 5:상하이B(USD) 6:NASDAQ 7:NYSE 8:AMEX 9:OTCB C:홍콩(CNY) A:상하이A(CNY) B:심천B(HKD) D:도쿄 E:하노이 F:호치민
-FOREIGN_MARKET_CODE_MAP: dict[str, "MARKET_TYPE"] = {
+FOREIGN_EXCHANGE_CODE_MAP: dict[str, "EXCHANGE_TYPE"] = {
     "4": "HKEX",
     "5": "SSE",
     "6": "NASDAQ",
@@ -397,8 +397,8 @@ class KisForeignRealtimeOrderExecution(KisRealtimeExecutionBase):
         ],  # 15 ODER_QTY 주문수량, 주문통보인 경우 해당 위치 미출력 (주문통보의 주문수량은 CNTG_QTY 위치에 출력). 체결통보인 경우 해당 위치에 주문수량이 출력
         None,  # 16 ACNT_NAME 계좌명
         None,  # 17 CNTG_ISNM 체결종목명
-        KisAny(FOREIGN_MARKET_CODE_MAP.__getitem__)[
-            "market"
+        KisAny(FOREIGN_EXCHANGE_CODE_MAP.__getitem__)[
+            "exchange"
         ],  # 18 ODER_COND 해외종목구분 4:홍콩(HKD) 5:상하이B(USD) 6:NASDAQ 7:NYSE 8:AMEX 9:OTCB C:홍콩(CNY) A:상하이A(CNY) B:심천B(HKD) D:도쿄 E:하노이 F:호치민
         None,  # 19 DEBT_GB 담보유형코드 10:현금 15:해외주식담보대출
         None,  # 20 DEBT_DATE 담보대출일자 대출일(YYYYMMDD)
@@ -406,7 +406,7 @@ class KisForeignRealtimeOrderExecution(KisRealtimeExecutionBase):
 
     symbol: str  # 7 STCK_SHRN_ISCD 주식 단축 종목코드
     """종목코드"""
-    market: "MARKET_TYPE"  # 18 ODER_COND 해외종목구분
+    exchange: "EXCHANGE_TYPE"  # 18 ODER_COND 해외종목구분
     """상품유형타입"""
 
     account_number: KisAccountNumber  # 1 ACNT_NO 계좌번호
@@ -465,10 +465,10 @@ class KisForeignRealtimeOrderExecution(KisRealtimeExecutionBase):
     def __post_init__(self):
         super().__post_init__()
         has_price, self.condition = FOREIGN_ORDER_CONDITION_MAP[self.__data__[6]]
-        self.price = self.price * Decimal(f"1e-{FOREIGN_DECIMAL_PLACES_MAP[get_market_country(self.market)]}")
+        self.price = self.price * Decimal(f"1e-{FOREIGN_DECIMAL_PLACES_MAP[get_exchange_country(self.exchange)]}")
         self.unit_price = self.price if has_price else None
         self.time_kst = datetime.now(TIMEZONE)
-        self.timezone = get_market_timezone(self.market)
+        self.timezone = get_exchange_timezone(self.exchange)
         self.time = self.time_kst.astimezone(self.timezone)
 
         if self.quantity < 0:
@@ -484,7 +484,7 @@ class KisForeignRealtimeOrderExecution(KisRealtimeExecutionBase):
         self.order_number = KisSimpleOrder.from_order(
             kis=self.kis,
             symbol=self.symbol,
-            market=self.market,
+            exchange=self.exchange,
             account_number=self.account_number,
             branch=self.__data__[14],  # 지점번호
             number=self.__data__[2],  # 주문번호

@@ -10,13 +10,13 @@ from pykis.api.base.account_product import (
     KisAccountProductBase,
     KisAccountProductProtocol,
 )
-from pykis.api.stock.info import COUNTRY_TYPE
-from pykis.api.stock.market import (
-    MARKET_TYPE,
-    KisMarketType,
-    get_market_code,
-    get_market_code_timezone,
+from pykis.api.stock.exchange import (
+    EXCHANGE_TYPE,
+    KisExchangeType,
+    get_exchange_code,
+    get_exchange_code_timezone,
 )
+from pykis.api.stock.info import COUNTRY_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
@@ -60,7 +60,7 @@ class KisOrderProfit(KisAccountProductProtocol, Protocol):
         ...
 
     @property
-    def market(self) -> MARKET_TYPE:
+    def exchange(self) -> EXCHANGE_TYPE:
         """상품유형타입"""
         ...
 
@@ -169,7 +169,7 @@ class KisOrderProfits(KisAccountProtocol, Protocol):
 
 @kis_repr(
     "time_kst",
-    "market",
+    "exchange",
     "symbol",
     "name",
     "buy_price",
@@ -195,7 +195,7 @@ class KisOrderProfitBase(KisOrderProfitRepr, KisAccountProductBase):
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -314,7 +314,7 @@ class KisDomesticOrderProfit(KisDynamic, KisOrderProfitBase):
 
     symbol: str = KisString["pdno"]
     """종목코드"""
-    market: MARKET_TYPE = "KRX"
+    exchange: EXCHANGE_TYPE = "KRX"
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -388,12 +388,12 @@ class KisForeignOrderProfit(KisDynamic, KisOrderProfitBase):
     """시간 (현지시간)"""
     time_kst: datetime = KisTransform(lambda x: datetime.strptime(x["trad_day"], "%Y%m%d").replace(tzinfo=TIMEZONE))()
     """시간 (한국시간)"""
-    timezone: ZoneInfo = KisAny(get_market_code_timezone)["ovrs_excg_cd"]
+    timezone: ZoneInfo = KisAny(get_exchange_code_timezone)["ovrs_excg_cd"]
     """시간대"""
 
     symbol: str = KisString["ovrs_pdno"]
     """종목코드"""
-    market: MARKET_TYPE = KisMarketType["ovrs_excg_cd"]
+    exchange: EXCHANGE_TYPE = KisExchangeType["ovrs_excg_cd"]
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -591,7 +591,7 @@ def domestic_order_profits(
     return first
 
 
-FOREIGN_ORDER_PROFIT_MARKET_MAP: dict[COUNTRY_TYPE, MARKET_TYPE] = {
+FOREIGN_ORDER_PROFIT_EXCHANGE_MAP: dict[COUNTRY_TYPE, EXCHANGE_TYPE] = {
     "US": "NASDAQ",
     "HK": "HKEX",
     "CN": "SSE",
@@ -647,7 +647,7 @@ def foreign_order_profits(
             "/uapi/overseas-stock/v1/trading/inquire-period-profit",
             api="TTTS3039R",
             params={
-                "OVRS_EXCG_CD": get_market_code(FOREIGN_ORDER_PROFIT_MARKET_MAP[country]) if country else "",
+                "OVRS_EXCG_CD": get_exchange_code(FOREIGN_ORDER_PROFIT_EXCHANGE_MAP[country]) if country else "",
                 "NATN_CD": "",
                 "CRCY_CD": "",
                 "PDNO": "",
@@ -720,7 +720,7 @@ def foreign_order_fees(
         "/uapi/overseas-stock/v1/trading/inquire-period-profit",
         api="TTTS3039R",
         params={
-            "OVRS_EXCG_CD": get_market_code(FOREIGN_ORDER_PROFIT_MARKET_MAP[country]) if country else "",
+            "OVRS_EXCG_CD": get_exchange_code(FOREIGN_ORDER_PROFIT_EXCHANGE_MAP[country]) if country else "",
             "NATN_CD": "",
             "CRCY_CD": "",
             "PDNO": "",

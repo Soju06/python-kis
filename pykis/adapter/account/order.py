@@ -12,8 +12,8 @@ from pykis.api.account.order import (
 )
 from pykis.api.account.orderable_amount import KisOrderableAmountResponse
 from pykis.api.account.pending_order import KisPendingOrders
+from pykis.api.stock.exchange import EXCHANGE_TYPE
 from pykis.api.stock.info import COUNTRY_TYPE
-from pykis.api.stock.market import MARKET_TYPE
 
 if TYPE_CHECKING:
     from pykis.api.base.account import KisAccountProtocol
@@ -30,7 +30,7 @@ class KisOrderableAccount(Protocol):
 
     def buy(
         self: "KisAccountProtocol",
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         symbol: str,
         price: ORDER_PRICE | None = None,
         qty: IN_ORDER_QUANTITY | None = None,
@@ -45,7 +45,7 @@ class KisOrderableAccount(Protocol):
         해외주식주문 -> 해외주식 주문[v1_해외주식-001]
 
         Args:
-            market (MARKET_TYPE): 시장
+            exchange (EXCHANGE_TYPE): 시장
             symbol (str): 종목코드
             price (ORDER_PRICE, optional): 주문가격
             qty (IN_ORDER_QUANTITY, optional): 주문수량
@@ -92,14 +92,14 @@ class KisOrderableAccount(Protocol):
         Raises:
             KisAPIError: API 호출에 실패한 경우
             KisNotFoundError: 조회 결과가 없는 경우
-            KisMarketNotOpenedError: 시장이 열리지 않은 경우
+            KisExchangeNotOpenedError: 시장이 열리지 않은 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
         ...
 
     def sell(
         self: "KisAccountProtocol",
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         symbol: str,
         price: ORDER_PRICE | None = None,
         qty: IN_ORDER_QUANTITY | None = None,
@@ -114,7 +114,7 @@ class KisOrderableAccount(Protocol):
         해외주식주문 -> 해외주식 주문[v1_해외주식-001]
 
         Args:
-            market (MARKET_TYPE): 시장
+            exchange (EXCHANGE_TYPE): 시장
             symbol (str): 종목코드
             price (ORDER_PRICE, optional): 주문가격
             qty (IN_ORDER_QUANTITY, optional): 주문수량
@@ -161,14 +161,14 @@ class KisOrderableAccount(Protocol):
         Raises:
             KisAPIError: API 호출에 실패한 경우
             KisNotFoundError: 조회 결과가 없는 경우
-            KisMarketNotOpenedError: 시장이 열리지 않은 경우
+            KisExchangeNotOpenedError: 시장이 열리지 않은 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
         ...
 
     def order(
         self: "KisAccountProtocol",
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         symbol: str,
         order: ORDER_TYPE,
         price: ORDER_PRICE | None = None,
@@ -184,7 +184,7 @@ class KisOrderableAccount(Protocol):
         해외주식주문 -> 해외주식 주문[v1_해외주식-001]
 
         Args:
-            market (MARKET_TYPE): 시장
+            exchange (EXCHANGE_TYPE): 시장
             symbol (str): 종목코드
             order (ORDER_TYPE): 주문종류
             price (ORDER_PRICE, optional): 주문가격
@@ -266,7 +266,7 @@ class KisOrderableAccount(Protocol):
         Raises:
             KisAPIError: API 호출에 실패한 경우
             KisNotFoundError: 조회 결과가 없는 경우
-            KisMarketNotOpenedError: 시장이 열리지 않은 경우
+            KisExchangeNotOpenedError: 시장이 열리지 않은 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
         ...
@@ -315,7 +315,7 @@ class KisOrderableAccount(Protocol):
 
     def orderable_amount(
         self: "KisAccountProtocol",
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         symbol: str,
         price: ORDER_PRICE | None = None,
         condition: ORDER_CONDITION | None = None,
@@ -328,7 +328,7 @@ class KisOrderableAccount(Protocol):
         해외주식주문 -> 해외주식 매수가능금액조회[v1_해외주식-014]
 
         Args:
-            market (MARKET_TYPE): 시장코드
+            exchange (EXCHANGE_TYPE): 시장코드
             symbol (str): 종목코드
             price (int | None, optional): 주문가격. None인 경우 시장가 주문
             condition (ORDER_CONDITION | None, optional): 주문조건

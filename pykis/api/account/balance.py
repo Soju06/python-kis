@@ -16,13 +16,13 @@ from pykis.api.base.account_product import (
     KisAccountProductBase,
     KisAccountProductProtocol,
 )
-from pykis.api.stock.info import COUNTRY_TYPE, get_market_country, resolve_market
-from pykis.api.stock.market import (
+from pykis.api.stock.exchange import (
     CURRENCY_TYPE,
-    MARKET_TYPE,
-    KisMarketType,
-    get_market_code,
+    EXCHANGE_TYPE,
+    KisExchangeType,
+    get_exchange_code,
 )
+from pykis.api.stock.info import COUNTRY_TYPE, get_exchange_country, resolve_exchange
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisObject, KisTransform
@@ -231,7 +231,7 @@ class KisBalance(KisAccountProtocol, Protocol):
 
 @kis_repr(
     "account_number",
-    "market",
+    "exchange",
     "symbol",
     "qty",
     "price",
@@ -257,7 +257,7 @@ class KisBalanceStockBase(KisAccountProductBase, KisOrderableAccountProductMixin
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -503,7 +503,7 @@ class KisDomesticBalanceStock(KisDynamic, KisBalanceStockBase):
 
     symbol: str = KisString["pdno"]
     """종목코드"""
-    market: MARKET_TYPE = "KRX"
+    exchange: EXCHANGE_TYPE = "KRX"
     """상품유형타입"""
     account_number: KisAccountNumber  # KisDomesticBalance의 __post_init__에서 값이 지정됨
     """계좌번호"""
@@ -621,7 +621,7 @@ class KisForeignPresentBalanceStock(KisDynamic, KisBalanceStockBase):
 
     symbol: str = KisString["pdno"]
     """종목코드"""
-    market: MARKET_TYPE = KisMarketType["ovrs_excg_cd"]
+    exchange: EXCHANGE_TYPE = KisExchangeType["ovrs_excg_cd"]
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -741,7 +741,7 @@ class KisForeignBalanceStock(KisDynamic, KisBalanceStockBase):
 
     symbol: str = KisString["ovrs_pdno"]
     """종목코드"""
-    market: MARKET_TYPE = KisMarketType["ovrs_excg_cd"]
+    exchange: EXCHANGE_TYPE = KisExchangeType["ovrs_excg_cd"]
     """상품유형타입"""
     account_number: KisAccountNumber = KisTransform(lambda x: KisAccountNumber(f"{x['cano']}-{x['acnt_prdt_cd']}"))()
     """계좌번호"""
@@ -913,7 +913,7 @@ def domestic_balance(
 def _internal_foreign_balance(
     self: "PyKis",
     account: str | KisAccountNumber,
-    market: MARKET_TYPE | None = None,
+    exchange: EXCHANGE_TYPE | None = None,
     page: KisPage | None = None,
     continuous: bool = True,
 ) -> KisForeignBalance:
@@ -925,7 +925,7 @@ def _internal_foreign_balance(
 
     Args:
         account (str | KisAccountNumber): 계좌번호
-        market (str, optional): 시장코드
+        exchange (str, optional): 시장코드
         page (KisPage, optional): 페이지 정보
         continuous (bool, optional): 연속조회 여부
 
@@ -944,7 +944,7 @@ def _internal_foreign_balance(
             "/uapi/overseas-stock/v1/trading/inquire-balance",
             api="VTTS3012R" if self.virtual else "TTTS3012R",
             params={
-                "OVRS_EXCG_CD": get_market_code(market) if market else "",
+                "OVRS_EXCG_CD": get_exchange_code(exchange) if exchange else "",
                 "TR_CRCY_CD": "",
             },
             form=[
@@ -970,7 +970,7 @@ def _internal_foreign_balance(
     return first
 
 
-FOREIGN_COUNTRY_MARKET_MAP: dict[tuple[bool | None, COUNTRY_TYPE | None], list[MARKET_TYPE | None]] = {
+FOREIGN_COUNTRY_EXCHANGE_MAP: dict[tuple[bool | None, COUNTRY_TYPE | None], list[EXCHANGE_TYPE | None]] = {
     # 실전투자여부, 국가코드 -> 조회시장코드
     (None, None): [None],
     (None, "US"): ["NASDAQ"],
@@ -1001,12 +1001,14 @@ def _foreign_balance(
         KisAPIError: API 호출에 실패한 경우
         ValueError: 계좌번호가 잘못된 경우
     """
-    markets = FOREIGN_COUNTRY_MARKET_MAP.get((not self.virtual, country), FOREIGN_COUNTRY_MARKET_MAP[(None, country)])
+    exchanges = FOREIGN_COUNTRY_EXCHANGE_MAP.get(
+        (not self.virtual, country), FOREIGN_COUNTRY_EXCHANGE_MAP[(None, country)]
+    )
 
     first = None
 
-    for market in markets:
-        result = _internal_foreign_balance(self, account, market)
+    for exchange in exchanges:
+        result = _internal_foreign_balance(self, account, exchange)
 
         if first is None:
             first = result
@@ -1174,7 +1176,7 @@ def orderable_quantity(
         ValueError: 계좌번호가 잘못된 경우
     """
     if not country:
-        country = get_market_country(resolve_market(self, symbol=symbol))
+        country = get_exchange_country(resolve_exchange(self, symbol=symbol))
 
     stock = balance(
         self,

@@ -18,16 +18,16 @@ __all__ = [
     "KisException",
     "KisHTTPError",
     "KisAPIError",
-    "KisMarketNotOpenedError",
+    "KisExchangeNotOpenedError",
     "KisNotFoundError",
     ################################
     ##            Types           ##
     ################################
     "TIMEX_TYPE",
     "COUNTRY_TYPE",
-    "MARKET_TYPE",
+    "EXCHANGE_TYPE",
     "CURRENCY_TYPE",
-    "MARKET_INFO_TYPES",
+    "EXCHANGE_INFO_TYPES",
     "ExDateType",
     "STOCK_SIGN_TYPE",
     "STOCK_RISK_TYPE",
@@ -102,7 +102,7 @@ __all__ = [
     ##          Protocols         ##
     ################################
     "KisObjectProtocol",
-    "KisMarketProtocol",
+    "KisExchangeProtocol",
     "KisProductProtocol",
     "KisAccountProtocol",
     "KisAccountProductProtocol",

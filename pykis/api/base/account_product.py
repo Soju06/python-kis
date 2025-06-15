@@ -6,7 +6,7 @@ from pykis.client.account import KisAccountNumber
 from pykis.utils.repr import kis_repr
 
 if TYPE_CHECKING:
-    from pykis.api.stock.market import MARKET_TYPE
+    from pykis.api.stock.exchange import EXCHANGE_TYPE
     from pykis.kis import PyKis
 
 __all__ = [
@@ -22,7 +22,7 @@ class KisAccountProductProtocol(KisAccountProtocol, KisProductProtocol, Protocol
 
 @kis_repr(
     "account_number",
-    "market",
+    "exchange",
     "symbol",
     lines="single",
 )
@@ -40,7 +40,7 @@ class KisAccountProductBase(KisAccountBase, KisProductBase):
 
     symbol: str
     """종목코드"""
-    market: "MARKET_TYPE"
+    exchange: "EXCHANGE_TYPE"
     """상품유형타입"""
 
     account_number: KisAccountNumber

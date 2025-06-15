@@ -4,7 +4,7 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, Any, TypeVar
 
 from pykis.api.stock.chart import KisChart, KisChartBar, KisChartBarRepr, KisChartBase
-from pykis.api.stock.market import MARKET_SHORT_TYPE_MAP, MARKET_TYPE
+from pykis.api.stock.exchange import EXCHANGE_SHORT_TYPE_MAP, EXCHANGE_TYPE
 from pykis.api.stock.quote import STOCK_SIGN_TYPE, STOCK_SIGN_TYPE_KOR_MAP
 from pykis.api.stock.trading_hours import KisTradingHours, KisTradingHoursBase
 from pykis.responses.dynamic import KisDynamic, KisList, KisObject, KisTransform
@@ -111,7 +111,7 @@ class KisDomesticDayChart(KisAPIResponse, KisChartBase):
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE = "KRX"
+    exchange: EXCHANGE_TYPE = "KRX"
     """상품유형타입"""
 
     timezone: tzinfo = TIMEZONE
@@ -137,7 +137,7 @@ class KisDomesticDayChart(KisAPIResponse, KisChartBase):
                 data,
                 "해당 종목의 차트를 조회할 수 없습니다.",
                 code=self.symbol,
-                market=self.market,
+                exchange=self.exchange,
             )
 
     def __post_init__(self):
@@ -184,7 +184,7 @@ class KisForeignDayChartBar(KisDynamic, KisDayChartBarBase):
 class KisForeignTradingHours(KisDynamic, KisTradingHoursBase):
     """한국투자증권 해외 장 운영 시간"""
 
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """시장 종류"""
     open: time = KisTime["stim"]
     """장 시작 시간"""
@@ -195,8 +195,8 @@ class KisForeignTradingHours(KisDynamic, KisTradingHoursBase):
     close_kst: time = KisTime["ektm"]
     """장 종료 시간 (한국시간)"""
 
-    def __init__(self, market: MARKET_TYPE):
-        self.market = market
+    def __init__(self, exchange: EXCHANGE_TYPE):
+        self.exchange = exchange
 
     def __post_init__(self):
         super().__post_init__()
@@ -215,7 +215,7 @@ class KisForeignDayChart(KisResponse, KisChartBase):
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
 
     timezone: tzinfo
@@ -230,10 +230,10 @@ class KisForeignDayChart(KisResponse, KisChartBase):
     prev_price: Decimal
     """전일종가"""
 
-    def __init__(self, symbol: str, market: MARKET_TYPE, prev_price: Decimal):
+    def __init__(self, symbol: str, exchange: EXCHANGE_TYPE, prev_price: Decimal):
         self.symbol = symbol
-        self.market = market
-        self.trading_hours = KisForeignTradingHours(self.market)
+        self.exchange = exchange
+        self.trading_hours = KisForeignTradingHours(self.exchange)
         self.prev_price = prev_price
 
     def __pre_init__(self, data: dict[str, Any]):
@@ -244,7 +244,7 @@ class KisForeignDayChart(KisResponse, KisChartBase):
                 data,
                 "해당 종목의 차트를 조회할 수 없습니다.",
                 code=self.symbol,
-                market=self.market,
+                exchange=self.exchange,
             )
 
         self.timezone = KisObject.transform_(
@@ -394,7 +394,7 @@ FOREIGN_MAX_PERIODS = math.ceil(24 * 60 / FOREIGN_MAX_RECORDS)
 def foreign_day_chart(
     self: "PyKis",
     symbol: str,
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     start: time | timedelta | None = None,
     end: time | None = None,
     period: int = 1,
@@ -412,7 +412,7 @@ def foreign_day_chart(
 
     Args:
         symbol (str): 종목코드
-        market (MARKET_TYPE): 시장 종류
+        exchange (EXCHANGE_TYPE): 시장 종류
         start (time | timedelta, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
         end (time, optional): 조회 종료 시간. Defaults to None.
         period (int, optional): 조회 간격 (분). Defaults to 1.
@@ -431,13 +431,13 @@ def foreign_day_chart(
     if period < 1:
         raise ValueError("간격은 1분 이상이어야 합니다.")
 
-    if market == "KRX":
+    if exchange == "KRX":
         raise ValueError("국내 시장은 domestic_chart()를 사용해주세요.")
 
     chart = None
     bars: dict[time, KisChartBar] | list[KisChartBar] = {}
 
-    prev_price = quote(self, symbol, market).prev_price
+    prev_price = quote(self, symbol, exchange).prev_price
 
     for i in range(FOREIGN_MAX_PERIODS):
         result = self.fetch(
@@ -445,7 +445,7 @@ def foreign_day_chart(
             api="HHDFS76950200",
             params={
                 "AUTH": "",
-                "EXCD": MARKET_SHORT_TYPE_MAP[market],
+                "EXCD": EXCHANGE_SHORT_TYPE_MAP[exchange],
                 "SYMB": symbol,
                 "NMIN": str(i + 1),
                 "PINC": "1",
@@ -456,7 +456,7 @@ def foreign_day_chart(
             },
             response_type=KisForeignDayChart(
                 symbol=symbol,
-                market=market,
+                exchange=exchange,
                 prev_price=prev_price,
             ),
             domain="real",
@@ -506,7 +506,7 @@ def foreign_day_chart(
 def day_chart(
     self: "PyKis",
     symbol: str,
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     start: time | timedelta | None = None,
     end: time | None = None,
     period: int = 1,
@@ -522,7 +522,7 @@ def day_chart(
 
     Args:
         symbol (str): 종목코드
-        market (MARKET_TYPE): 시장 종류
+        exchange (EXCHANGE_TYPE): 시장 종류
         start (time | timedelta, optional): 조회 시작 시간. timedelta인 경우 최근 timedelta만큼의 봉을 조회합니다. Defaults to None.
         end (time, optional): 조회 종료 시간. Defaults to None.
         period (int, optional): 조회 간격 (분). Defaults to 1.
@@ -532,7 +532,7 @@ def day_chart(
         KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 조회 파라미터가 올바르지 않은 경우
     """
-    if market == "KRX":
+    if exchange == "KRX":
         return domestic_day_chart(
             self,
             symbol,
@@ -544,7 +544,7 @@ def day_chart(
         return foreign_day_chart(
             self,
             symbol,
-            market,
+            exchange,
             start=start,
             end=end,
             period=period,
@@ -579,7 +579,7 @@ def product_day_chart(
     return day_chart(
         self.kis,
         symbol=self.symbol,
-        market=self.market,
+        exchange=self.exchange,
         start=start,
         end=end,
         period=period,

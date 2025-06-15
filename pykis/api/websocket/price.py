@@ -4,13 +4,13 @@ from typing import TYPE_CHECKING, Callable, Protocol, runtime_checkable
 
 from pykis.api.account.order import ORDER_CONDITION
 from pykis.api.base.product import KisProductBase, KisProductProtocol
-from pykis.api.stock.market import (
-    DAYTIME_MARKET_SHORT_TYPE_MAP,
-    MARKET_SHORT_TYPE_MAP,
-    MARKET_TYPE,
-    REVERSE_DAYTIME_MARKET_SHORT_TYPE_MAP,
-    REVERSE_MARKET_SHORT_TYPE_MAP,
-    get_market_timezone,
+from pykis.api.stock.exchange import (
+    DAYTIME_EXCHANGE_SHORT_TYPE_MAP,
+    EXCHANGE_SHORT_TYPE_MAP,
+    EXCHANGE_TYPE,
+    REVERSE_DAYTIME_EXCHANGE_SHORT_TYPE_MAP,
+    REVERSE_EXCHANGE_SHORT_TYPE_MAP,
+    get_exchange_timezone,
 )
 from pykis.api.stock.quote import (
     STOCK_SIGN_TYPE,
@@ -261,7 +261,7 @@ class KisRealtimePrice(KisWebsocketResponseProtocol, KisProductProtocol, Protoco
 
 
 @kis_repr(
-    "market",
+    "exchange",
     "symbol",
     "time",
     "price",
@@ -279,7 +279,7 @@ class KisRealtimePriceBase(KisRealtimePriceRepr, KisWebsocketResponse, KisProduc
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
 
     time: datetime
@@ -497,7 +497,7 @@ class KisDomesticRealtimePrice(KisRealtimePriceBase):
 
     symbol: str  # MKSC_SHRN_ISCD 유가증권 단축 종목코드
     """종목코드"""
-    market: MARKET_TYPE = "KRX"
+    exchange: EXCHANGE_TYPE = "KRX"
     """상품유형타입"""
 
     time: datetime
@@ -593,13 +593,13 @@ FOREIGN_REALTIME_PRICE_ORDER_CONDITION_MAP: dict[str, ORDER_CONDITION | None] = 
 }
 
 
-def parse_foreign_realtime_symbol(raw_symbol: str) -> tuple[MARKET_TYPE, ORDER_CONDITION | None, str]:
+def parse_foreign_realtime_symbol(raw_symbol: str) -> tuple[EXCHANGE_TYPE, ORDER_CONDITION | None, str]:
     match raw_symbol[0]:
         case "D":
-            return REVERSE_MARKET_SHORT_TYPE_MAP[raw_symbol[1:4]], None, raw_symbol[4:]
+            return REVERSE_EXCHANGE_SHORT_TYPE_MAP[raw_symbol[1:4]], None, raw_symbol[4:]
         case "R":
             return (
-                REVERSE_DAYTIME_MARKET_SHORT_TYPE_MAP[raw_symbol[1:4]],
+                REVERSE_DAYTIME_EXCHANGE_SHORT_TYPE_MAP[raw_symbol[1:4]],
                 "extended",
                 raw_symbol[4:],
             )
@@ -607,11 +607,11 @@ def parse_foreign_realtime_symbol(raw_symbol: str) -> tuple[MARKET_TYPE, ORDER_C
             raise ValueError(f"Invalid foreign realtime symbol: {raw_symbol!r}")
 
 
-def build_foreign_realtime_symbol(market: MARKET_TYPE, symbol: str, extended: bool = False) -> str:
-    if extended and market in DAYTIME_MARKET_SHORT_TYPE_MAP:
-        return f"R{DAYTIME_MARKET_SHORT_TYPE_MAP[market]}{symbol}"
+def build_foreign_realtime_symbol(exchange: EXCHANGE_TYPE, symbol: str, extended: bool = False) -> str:
+    if extended and exchange in DAYTIME_EXCHANGE_SHORT_TYPE_MAP:
+        return f"R{DAYTIME_EXCHANGE_SHORT_TYPE_MAP[exchange]}{symbol}"
 
-    return f"D{MARKET_SHORT_TYPE_MAP[market]}{symbol}"
+    return f"D{EXCHANGE_SHORT_TYPE_MAP[exchange]}{symbol}"
 
 
 class KisForeignRealtimePrice(KisRealtimePriceBase):
@@ -648,7 +648,7 @@ class KisForeignRealtimePrice(KisRealtimePriceBase):
 
     symbol: str  # RSYM 실시간종목코드
     """종목코드"""
-    market: MARKET_TYPE  # RSYM 실시간종목코드
+    exchange: EXCHANGE_TYPE  # RSYM 실시간종목코드
     """상품유형타입"""
 
     time: datetime  # XYMD 현지일자 + XHMS 현지시간
@@ -723,11 +723,11 @@ class KisForeignRealtimePrice(KisRealtimePriceBase):
         super().__pre_init__(data)
 
         (
-            self.market,
+            self.exchange,
             _,
             _,
         ) = parse_foreign_realtime_symbol(data[0])
-        self.timezone = get_market_timezone(self.market)
+        self.timezone = get_exchange_timezone(self.exchange)
 
         self.time = datetime.strptime(data[4] + data[5], "%Y%m%d%H%M%S").replace(tzinfo=self.timezone)
         self.time_kst = self.time.astimezone(TIMEZONE)
@@ -741,7 +741,7 @@ if TYPE_CHECKING:
 
 def on_price(
     self: "KisWebsocketClient",
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimePrice]], None],
     where: KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimePrice]] | None = None,
@@ -755,22 +755,22 @@ def on_price(
     [해외주식] 실시간시세 -> 해외주식 실시간지연체결가[실시간-007]
 
     Args:
-        market (MARKET_TYPE): 시장유형
+        exchange (EXCHANGE_TYPE): 시장유형
         symbol (str): 종목코드
         callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]], None]): 콜백 함수
         where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimePrice]] | None, optional): 이벤트 필터. Defaults to None.
         once (bool, optional): 한번만 실행 여부. Defaults to False.
         extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
     """
-    filter = KisProductEventFilter(symbol=symbol, market=market)
+    filter = KisProductEventFilter(symbol=symbol, exchange=exchange)
 
     return self.on(
-        id="H0STCNT0" if market == "KRX" else "HDFSCNT0",
+        id="H0STCNT0" if exchange == "KRX" else "HDFSCNT0",
         key=(
             symbol
-            if market == "KRX"
+            if exchange == "KRX"
             else build_foreign_realtime_symbol(
-                market=market,
+                exchange=exchange,
                 symbol=symbol,
                 extended=extended,
             )
@@ -802,7 +802,7 @@ def on_product_price(
     """
     return on_price(
         self.kis.websocket,
-        market=self.market,
+        exchange=self.exchange,
         symbol=self.symbol,
         callback=callback,
         where=where,

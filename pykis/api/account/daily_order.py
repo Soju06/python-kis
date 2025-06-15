@@ -17,14 +17,14 @@ from pykis.api.base.account_product import (
     KisAccountProductBase,
     KisAccountProductProtocol,
 )
-from pykis.api.stock.info import COUNTRY_TYPE
-from pykis.api.stock.market import (
-    MARKET_TYPE,
-    KisMarketType,
-    get_market_code,
-    get_market_code_timezone,
-    get_market_timezone,
+from pykis.api.stock.exchange import (
+    EXCHANGE_TYPE,
+    KisExchangeType,
+    get_exchange_code,
+    get_exchange_code_timezone,
+    get_exchange_timezone,
 )
+from pykis.api.stock.info import COUNTRY_TYPE
 from pykis.client.account import KisAccountNumber
 from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
@@ -200,7 +200,7 @@ class KisDailyOrderBase(KisAccountProductBase):
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -317,7 +317,7 @@ class KisDailyOrdersBase(KisAccountBase):
         return iter(self.orders)
 
 
-DOMESTIC_EXCHANGE_CODE_MAP: dict[str, tuple[COUNTRY_TYPE, MARKET_TYPE | None, ORDER_CONDITION | None]] = {
+DOMESTIC_EXCHANGE_CODE_MAP: dict[str, tuple[COUNTRY_TYPE, EXCHANGE_TYPE | None, ORDER_CONDITION | None]] = {
     "01": ("KR", "KRX", None),
     "02": ("KR", "KRX", None),
     "03": ("KR", "KRX", None),
@@ -357,7 +357,7 @@ class KisDomesticDailyOrder(KisDynamic, KisDailyOrderBase):
     symbol: str = KisString["pdno"]
     """종목코드"""
 
-    market: MARKET_TYPE = "KRX"
+    exchange: EXCHANGE_TYPE = "KRX"
     """시장"""
 
     account_number: KisAccountNumber
@@ -374,7 +374,7 @@ class KisDomesticDailyOrder(KisDynamic, KisDailyOrderBase):
         return KisSimpleOrder.from_order(
             account_number=self.account_number,
             symbol=self.symbol,
-            market=self.market,
+            exchange=self.exchange,
             branch=self.branch,
             number=self.number,
             time_kst=self.time_kst,
@@ -422,13 +422,13 @@ class KisDomesticDailyOrder(KisDynamic, KisDailyOrderBase):
     def __pre_init__(self, data: dict[str, Any]) -> None:
         super().__pre_init__(data)
 
-        country, market, condition = DOMESTIC_EXCHANGE_CODE_MAP[data["excg_dvsn_cd"]]
+        country, exchange, condition = DOMESTIC_EXCHANGE_CODE_MAP[data["excg_dvsn_cd"]]
 
         self.country = country
 
-        if market:
-            self.market = market
-            self.timezone = get_market_timezone(market)
+        if exchange:
+            self.exchange = exchange
+            self.timezone = get_exchange_timezone(exchange)
 
         self.condition = condition
 
@@ -474,12 +474,12 @@ class KisForeignDailyOrder(KisDynamic, KisDailyOrderBase):
         lambda x: datetime.strptime(x["ord_dt"] + x["ord_tmd"], "%Y%m%d%H%M%S").replace(tzinfo=TIMEZONE)
     )()
     """시간 (한국시간)"""
-    timezone: ZoneInfo = KisAny(get_market_code_timezone)["ovrs_excg_cd"]
+    timezone: ZoneInfo = KisAny(get_exchange_code_timezone)["ovrs_excg_cd"]
     """시간대"""
 
     symbol: str = KisString["pdno"]
     """종목코드"""
-    market: MARKET_TYPE = KisMarketType["ovrs_excg_cd"]
+    exchange: EXCHANGE_TYPE = KisExchangeType["ovrs_excg_cd"]
     """상품유형타입"""
 
     account_number: KisAccountNumber
@@ -497,7 +497,7 @@ class KisForeignDailyOrder(KisDynamic, KisDailyOrderBase):
         return KisSimpleOrder.from_order(
             account_number=self.account_number,
             symbol=self.symbol,
-            market=self.market,
+            exchange=self.exchange,
             branch=self.branch,
             number=self.number,
             time_kst=self.time_kst,
@@ -734,7 +734,7 @@ def _internal_foreign_daily_orders(
     account: str | KisAccountNumber,
     start: date,
     end: date,
-    market: MARKET_TYPE | None = None,
+    exchange: EXCHANGE_TYPE | None = None,
     page: KisPage | None = None,
     continuous: bool = True,
 ) -> KisForeignDailyOrders:
@@ -757,7 +757,7 @@ def _internal_foreign_daily_orders(
                 "ORD_END_DT": end.strftime("%Y%m%d"),
                 "SLL_BUY_DVSN": "00",
                 "CCLD_NCCS_DVSN": "00",
-                "OVRS_EXCG_CD": ("" if self.virtual else "%") if market is None else get_market_code(market),
+                "OVRS_EXCG_CD": ("" if self.virtual else "%") if exchange is None else get_exchange_code(exchange),
                 "SORT_SQN": "DS",
                 "ORD_DT": "",
                 "ORD_GNO_BRNO": "",
@@ -786,7 +786,7 @@ def _internal_foreign_daily_orders(
     return first
 
 
-FOREIGN_COUNTRY_MARKET_MAP: dict[str | None, list[MARKET_TYPE | None]] = {
+FOREIGN_COUNTRY_EXCHANGE_MAP: dict[str | None, list[EXCHANGE_TYPE | None]] = {
     # 국가코드 -> 조회시장코드
     None: [None],
     "US": ["NASDAQ"],
@@ -824,17 +824,17 @@ def foreign_daily_orders(
     if end is None:
         end = datetime.now(TIMEZONE).date()
 
-    markets = FOREIGN_COUNTRY_MARKET_MAP.get(country, FOREIGN_COUNTRY_MARKET_MAP[None])
+    exchanges = FOREIGN_COUNTRY_EXCHANGE_MAP.get(country, FOREIGN_COUNTRY_EXCHANGE_MAP[None])
 
     first = None
 
-    for market in markets:
+    for exchange in exchanges:
         result = _internal_foreign_daily_orders(
             self,
             account=account,
             start=start,
             end=end,
-            market=market,
+            exchange=exchange,
         )
 
         if first is None:

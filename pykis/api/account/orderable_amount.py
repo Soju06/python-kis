@@ -15,7 +15,7 @@ from pykis.api.base.account_product import (
     KisAccountProductBase,
     KisAccountProductProtocol,
 )
-from pykis.api.stock.market import MARKET_TYPE, get_market_code
+from pykis.api.stock.exchange import EXCHANGE_TYPE, get_exchange_code
 from pykis.api.stock.quote import quote
 from pykis.client.account import KisAccountNumber
 from pykis.responses.response import (
@@ -120,7 +120,7 @@ class KisOrderableAmountResponse(KisOrderableAmount, KisResponseProtocol, Protoc
 @kis_repr(
     "account_number",
     "symbol",
-    "market",
+    "exchange",
     "unit_price",
     "qty",
     "amount",
@@ -258,7 +258,7 @@ class KisDomesticOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
         self,
         account_number: KisAccountNumber,
         symbol: str,
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         price: Decimal | None,
         condition: ORDER_CONDITION | None,
         execution: ORDER_EXECUTION | None,
@@ -266,7 +266,7 @@ class KisDomesticOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
         super().__init__()
         self.account_number = account_number
         self.symbol = symbol
-        self.market = market
+        self.exchange = exchange
         self.price = price
         self.condition = condition
         self.execution = execution
@@ -279,7 +279,7 @@ class KisDomesticOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
                 data,
                 "해당 종목의 주문가능금액을 조회할 수 없습니다.",
                 code=self.symbol,
-                market=self.market,
+                exchange=self.exchange,
             )
 
 
@@ -312,7 +312,7 @@ class KisForeignOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
         """주문조건 (한글)"""
         return order_condition(
             virtual=self.kis.virtual,
-            market=self.market,
+            exchange=self.exchange,
             order="buy",
             price=self.price,
             condition=self.condition,  # type: ignore
@@ -323,7 +323,7 @@ class KisForeignOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
         self,
         account_number: KisAccountNumber,
         symbol: str,
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         price: Decimal | None,
         unit_price: Decimal,
         condition: ORDER_CONDITION | None,
@@ -332,7 +332,7 @@ class KisForeignOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
         super().__init__()
         self.account_number = account_number
         self.symbol = symbol
-        self.market = market
+        self.exchange = exchange
         self.price = price
         self.condition = condition
         self.execution = execution
@@ -345,7 +345,7 @@ class KisForeignOrderableAmount(KisAPIResponse, KisOrderableAmountBase):
                 data,
                 "해당 종목의 주문가능금액을 조회할 수 없습니다.",
                 code=self.symbol,
-                market=self.market,
+                exchange=self.exchange,
             )
 
         super().__pre_init__(data)
@@ -370,7 +370,7 @@ def _domestic_orderable_amount(
 
     condition_code, price_setting, _ = order_condition(
         virtual=self.virtual,
-        market="KRX",
+        exchange="KRX",
         order="buy",
         price=price,
         condition=condition,
@@ -381,12 +381,12 @@ def _domestic_orderable_amount(
         account = KisAccountNumber(account)
 
     if price_setting:
-        price = quote(self, symbol=symbol, market="KRX").close
+        price = quote(self, symbol=symbol, exchange="KRX").close
 
     result = KisDomesticOrderableAmount(
         account_number=account,
         symbol=symbol,
-        market="KRX",
+        exchange="KRX",
         price=price,
         condition=condition,
         execution=execution,
@@ -464,7 +464,7 @@ def domestic_orderable_amount(
 def foreign_orderable_amount(
     self: "PyKis",
     account: str | KisAccountNumber,
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     price: ORDER_PRICE | None = None,
     condition: ORDER_CONDITION | None = None,
@@ -478,7 +478,7 @@ def foreign_orderable_amount(
 
     Args:
         account (str | KisAccountNumber): 계좌번호
-        market (MARKET_TYPE): 시장코드
+        exchange (EXCHANGE_TYPE): 시장코드
         symbol (str): 종목코드
         price (int | None, optional): 주문가격. None인 경우 시장가 주문
         condition (ORDER_CONDITION | None, optional): 주문조건
@@ -523,7 +523,7 @@ def foreign_orderable_amount(
     if condition != "extended":
         order_condition(
             virtual=self.virtual,
-            market=market,
+            exchange=exchange,
             order="buy",
             price=price,
             condition=condition,
@@ -537,7 +537,7 @@ def foreign_orderable_amount(
         quote(
             self,
             symbol=symbol,
-            market=market,
+            exchange=exchange,
             extended=condition == "extended",
         ).close
         if not price
@@ -547,7 +547,7 @@ def foreign_orderable_amount(
     result = KisForeignOrderableAmount(
         account_number=account,
         symbol=symbol,
-        market=market,
+        exchange=exchange,
         price=price,
         unit_price=unit_price,
         condition=condition,
@@ -559,7 +559,7 @@ def foreign_orderable_amount(
         api="VTTS3007R" if self.virtual else "TTTS3007R",
         form=[account],
         params={
-            "OVRS_EXCG_CD": get_market_code(market),
+            "OVRS_EXCG_CD": get_exchange_code(exchange),
             "OVRS_ORD_UNPR": str(unit_price),
             "ITEM_CD": symbol,
         },
@@ -570,7 +570,7 @@ def foreign_orderable_amount(
 def orderable_amount(
     self: "PyKis",
     account: str | KisAccountNumber,
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     price: ORDER_PRICE | None = None,
     condition: ORDER_CONDITION | None = None,
@@ -584,7 +584,7 @@ def orderable_amount(
 
     Args:
         account (str | KisAccountNumber): 계좌번호
-        market (MARKET_TYPE): 시장코드
+        exchange (EXCHANGE_TYPE): 시장코드
         symbol (str): 종목코드
         price (int | None, optional): 주문가격. None인 경우 시장가 주문
         condition (ORDER_CONDITION | None, optional): 주문조건
@@ -629,7 +629,7 @@ def orderable_amount(
         KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 주문조건이 잘못된 경우
     """
-    if market == "KRX":
+    if exchange == "KRX":
         return domestic_orderable_amount(
             self,
             account,
@@ -642,7 +642,7 @@ def orderable_amount(
         return foreign_orderable_amount(
             self,
             account,
-            market,
+            exchange,
             symbol,
             price=price,
             condition=condition,  # type: ignore
@@ -652,7 +652,7 @@ def orderable_amount(
 
 def account_orderable_amount(
     self: "KisAccountProtocol",
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     price: ORDER_PRICE | None = None,
     condition: ORDER_CONDITION | None = None,
@@ -665,7 +665,7 @@ def account_orderable_amount(
     해외주식주문 -> 해외주식 매수가능금액조회[v1_해외주식-014]
 
     Args:
-        market (MARKET_TYPE): 시장코드
+        exchange (EXCHANGE_TYPE): 시장코드
         symbol (str): 종목코드
         price (int | None, optional): 주문가격. None인 경우 시장가 주문
         condition (ORDER_CONDITION | None, optional): 주문조건
@@ -713,7 +713,7 @@ def account_orderable_amount(
     return orderable_amount(
         self.kis,
         account=self.account_number,
-        market=market,
+        exchange=exchange,
         symbol=symbol,
         price=price,
         condition=condition,
@@ -780,7 +780,7 @@ def account_product_orderable_amount(
     return orderable_amount(
         self.kis,
         account=self.account_number,
-        market=self.market,
+        exchange=self.exchange,
         symbol=self.symbol,
         price=price,
         condition=condition,

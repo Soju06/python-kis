@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Callable, Protocol, runtime_checkable
 
 from pykis.api.account.order import ORDER_CONDITION
 from pykis.api.base.product import KisProductProtocol
-from pykis.api.stock.market import MARKET_TYPE, get_market_timezone
+from pykis.api.stock.exchange import EXCHANGE_TYPE, get_exchange_timezone
 from pykis.api.stock.order_book import (
     KisOrderbook,
     KisOrderbookBase,
@@ -37,7 +37,7 @@ class KisRealtimeOrderbookBase(KisWebsocketResponse, KisOrderbookBase):
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
 
     time: datetime
@@ -141,7 +141,7 @@ class KisDomesticRealtimeOrderbook(KisRealtimeOrderbookBase):
 
     symbol: str  # MKSC_SHRN_ISCD 유가증권 단축 종목코드
     """종목코드"""
-    market: MARKET_TYPE = "KRX"
+    exchange: EXCHANGE_TYPE = "KRX"
     """상품유형타입"""
 
     time: datetime  # BSOP_HOUR 영업 시간
@@ -217,7 +217,7 @@ class KisAsiaRealtimeOrderbook(KisRealtimeOrderbookBase):
 
     symbol: str  # SYMB 종목코드
     """종목코드"""
-    market: MARKET_TYPE  # RSYM 실시간종목코드
+    exchange: EXCHANGE_TYPE  # RSYM 실시간종목코드
     """상품유형타입"""
 
     time: datetime  # XYMD 현지일자, XHMS 현지시간
@@ -242,11 +242,11 @@ class KisAsiaRealtimeOrderbook(KisRealtimeOrderbookBase):
         super().__pre_init__(data)
 
         (
-            self.market,
+            self.exchange,
             self.condition,
             _,
         ) = parse_foreign_realtime_symbol(data[0])
-        self.timezone = get_market_timezone(self.market)
+        self.timezone = get_exchange_timezone(self.exchange)
 
         self.time = datetime.strptime(data[3] + data[4], "%Y%m%d%H%M%S").replace(tzinfo=self.timezone)
         self.time_kst = self.time.astimezone(TIMEZONE)
@@ -348,7 +348,7 @@ class KisUSRealtimeOrderbook(KisRealtimeOrderbookBase):
 
     symbol: str  # SYMB 종목코드
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
 
     time: datetime
@@ -373,11 +373,11 @@ class KisUSRealtimeOrderbook(KisRealtimeOrderbookBase):
         super().__pre_init__(data)
 
         (
-            self.market,
+            self.exchange,
             self.condition,
             _,
         ) = parse_foreign_realtime_symbol(data[0])
-        self.timezone = get_market_timezone(self.market)
+        self.timezone = get_exchange_timezone(self.exchange)
 
         self.time = datetime.strptime(data[3] + data[4], "%Y%m%d%H%M%S").replace(tzinfo=self.timezone)
         self.time_kst = self.time.astimezone(TIMEZONE)
@@ -407,7 +407,7 @@ if TYPE_CHECKING:
 
 def on_order_book(
     self: "KisWebsocketClient",
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     callback: Callable[["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderbook]], None],
     where: KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs[KisRealtimeOrderbook]] | None = None,
@@ -422,26 +422,26 @@ def on_order_book(
     [해외주식] 실시간시세 -> 해외주식 실시간호가(미국)[실시간-021]
 
     Args:
-        market (MARKET_TYPE): 시장유형
+        exchange (EXCHANGE_TYPE): 시장유형
         symbol (str): 종목코드
         callback (Callable[[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]], None]): 콜백 함수
         where (KisEventFilter[KisWebsocketClient, KisSubscriptionEventArgs[KisRealtimeOrderbook]] | None, optional): 이벤트 필터. Defaults to None.
         once (bool, optional): 한번만 실행 여부. Defaults to False.
         extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
     """
-    filter = KisProductEventFilter(symbol=symbol, market=market)
+    filter = KisProductEventFilter(symbol=symbol, exchange=exchange)
 
     return self.on(
         id=(
             "H0STASP0"
-            if market == "KRX"
-            else "HDFSASP0" if market in ("NYSE", "NASDAQ", "AMEX") else "HDFSASP1"
+            if exchange == "KRX"
+            else "HDFSASP0" if exchange in ("NYSE", "NASDAQ", "AMEX") else "HDFSASP1"
         ),
         key=(
             symbol
-            if market == "KRX"
+            if exchange == "KRX"
             else build_foreign_realtime_symbol(
-                market=market,
+                exchange=exchange,
                 symbol=symbol,
                 extended=extended,
             )
@@ -474,7 +474,7 @@ def on_product_order_book(
     """
     return on_order_book(
         self.kis.websocket,
-        market=self.market,
+        exchange=self.exchange,
         symbol=self.symbol,
         callback=callback,
         where=where,

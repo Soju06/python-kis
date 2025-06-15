@@ -3,10 +3,10 @@ from typing import TYPE_CHECKING, Any, Iterable, Protocol, runtime_checkable
 
 from pykis.api.account.order import ORDER_CONDITION
 from pykis.api.base.product import KisProductBase, KisProductProtocol
-from pykis.api.stock.market import (
-    DAYTIME_MARKET_SHORT_TYPE_MAP,
-    MARKET_SHORT_TYPE_MAP,
-    MARKET_TYPE,
+from pykis.api.stock.exchange import (
+    DAYTIME_EXCHANGE_SHORT_TYPE_MAP,
+    EXCHANGE_SHORT_TYPE_MAP,
+    EXCHANGE_TYPE,
 )
 from pykis.responses.dynamic import KisTransform
 from pykis.responses.response import (
@@ -127,7 +127,7 @@ class KisOrderbookResponse(KisOrderbook, KisResponseProtocol, Protocol):
 
 
 @kis_repr(
-    "market",
+    "exchange",
     "symbol",
     "asks",
     "bids",
@@ -146,7 +146,7 @@ class KisOrderbookBase(KisOrderbookRepr, KisProductBase):
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
 
     decimal_places: int
@@ -197,7 +197,7 @@ class KisDomesticOrderbook(KisAPIResponse, KisOrderbookBase):
 
     symbol: str  # __init__ 에서 초기화
     """종목코드"""
-    market: MARKET_TYPE = "KRX"
+    exchange: EXCHANGE_TYPE = "KRX"
     """상품유형타입"""
 
     decimal_places: int = 1
@@ -234,7 +234,7 @@ class KisDomesticOrderbook(KisAPIResponse, KisOrderbookBase):
                 data,
                 "해당 종목의 호가를 조회할 수 없습니다.",
                 symbol=self.symbol,
-                market=self.market,
+                exchange=self.exchange,
             )
 
         super().__pre_init__(data)
@@ -255,7 +255,7 @@ class KisForeignOrderbook(KisAPIResponse, KisOrderbookBase):
 
     symbol: str  # __init__ 에서 초기화
     """종목코드"""
-    market: MARKET_TYPE  # __init__ 에서 초기화
+    exchange: EXCHANGE_TYPE  # __init__ 에서 초기화
     """상품유형타입"""
 
     decimal_places: int = KisInt["zdiv"]
@@ -266,10 +266,10 @@ class KisForeignOrderbook(KisAPIResponse, KisOrderbookBase):
     bids: list[KisOrderbookItem]  # __pre_init__ 에서 초기화
     """매수호가"""
 
-    def __init__(self, symbol: str, market: MARKET_TYPE):
+    def __init__(self, symbol: str, exchange: EXCHANGE_TYPE):
         super().__init__()
         self.symbol = symbol
-        self.market = market
+        self.exchange = exchange
 
     def __pre_init__(self, data: dict[str, Any]):
         super().__pre_init__(data)
@@ -279,11 +279,11 @@ class KisForeignOrderbook(KisAPIResponse, KisOrderbookBase):
                 data,
                 "해당 종목의 호가를 조회할 수 없습니다.",
                 symbol=self.symbol,
-                market=self.market,
+                exchange=self.exchange,
             )
 
         output2 = data["output2"]
-        count = 10 if self.market in ["NASDAQ", "NYSE"] else 1  # 미국외 시장은 1호가만 제공
+        count = 10 if self.exchange in ["NASDAQ", "NYSE"] else 1  # 미국외 시장은 1호가만 제공
 
         self.asks = [
             KisForeignOrderbookItem(
@@ -335,7 +335,7 @@ def domestic_orderbook(
 
 def foreign_orderbook(
     self: "PyKis",
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     condition: ORDER_CONDITION | None = None,
 ) -> KisForeignOrderbook:
@@ -346,7 +346,7 @@ def foreign_orderbook(
     (업데이트 날짜: 2024/05/27)
 
     Args:
-        market (MARKET_TYPE): 상품유형타입
+        exchange (EXCHANGE_TYPE): 상품유형타입
         symbol (str): 종목코드
         condition (ORDER_CONDITION, optional): 주문조건. Defaults to None.
 
@@ -362,19 +362,19 @@ def foreign_orderbook(
         "/uapi/overseas-price/v1/quotations/inquire-asking-price",
         api="HHDFS76200100",
         params={
-            "EXCD": (DAYTIME_MARKET_SHORT_TYPE_MAP[market] if condition == "extended" else MARKET_SHORT_TYPE_MAP[market]),
+            "EXCD": (DAYTIME_EXCHANGE_SHORT_TYPE_MAP[exchange] if condition == "extended" else EXCHANGE_SHORT_TYPE_MAP[exchange]),
             "SYMB": symbol,
         },
         response_type=KisForeignOrderbook(
             symbol=symbol,
-            market=market,
+            exchange=exchange,
         ),
     )
 
 
 def orderbook(
     self: "PyKis",
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     condition: ORDER_CONDITION | None = None,
 ) -> KisOrderbookResponse:
@@ -385,7 +385,7 @@ def orderbook(
     [해외주식] 기본시세 -> 해외주식 현재가 10호가 [해외주식-033]
 
     Args:
-        market (MARKET_TYPE): 상품유형타입
+        exchange (EXCHANGE_TYPE): 상품유형타입
         symbol (str): 종목코드
         condition (ORDER_CONDITION, optional): 주문조건. Defaults to None.
 
@@ -394,7 +394,7 @@ def orderbook(
         KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
-    if market == "KRX":
+    if exchange == "KRX":
         return domestic_orderbook(
             self,
             symbol=symbol,
@@ -402,7 +402,7 @@ def orderbook(
     else:
         return foreign_orderbook(
             self,
-            market=market,
+            exchange=exchange,
             symbol=symbol,
             condition=condition,
         )
@@ -428,7 +428,7 @@ def product_orderbook(
     """
     return orderbook(
         self.kis,
-        market=self.market,
+        exchange=self.exchange,
         symbol=self.symbol,
         condition=condition,
     )

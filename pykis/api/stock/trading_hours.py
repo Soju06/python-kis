@@ -1,9 +1,13 @@
 from datetime import date, datetime, time, timedelta, tzinfo
 from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
-from pykis.api.base.market import KisMarketBase, KisMarketProtocol
+from pykis.api.base.exchange import KisExchangeBase, KisExchangeProtocol
+from pykis.api.stock.exchange import (
+    EXCHANGE_TYPE,
+    get_exchange_name,
+    get_exchange_timezone,
+)
 from pykis.api.stock.info import COUNTRY_TYPE
-from pykis.api.stock.market import MARKET_TYPE, get_market_name, get_market_timezone
 from pykis.responses.exceptions import KisNotFoundError
 from pykis.utils.repr import kis_repr
 from pykis.utils.timezone import TIMEZONE
@@ -19,11 +23,11 @@ __all__ = [
 
 
 @runtime_checkable
-class KisTradingHours(KisMarketProtocol, Protocol):
+class KisTradingHours(KisExchangeProtocol, Protocol):
     """한국투자증권 장 운영 시간"""
 
     @property
-    def market(self) -> MARKET_TYPE:
+    def exchange(self) -> EXCHANGE_TYPE:
         """시장 종류"""
         ...
 
@@ -53,13 +57,13 @@ class KisTradingHours(KisMarketProtocol, Protocol):
         ...
 
     @property
-    def market_name(self) -> str:
+    def exchange_name(self) -> str:
         """시장 종류"""
         ...
 
 
 @kis_repr(
-    "market",
+    "exchange",
     "open",
     "open_kst",
     "close",
@@ -70,10 +74,10 @@ class KisTradingHoursRepr:
     """한국투자증권 장 운영 시간"""
 
 
-class KisTradingHoursBase(KisTradingHoursRepr, KisMarketBase):
+class KisTradingHoursBase(KisTradingHoursRepr, KisExchangeBase):
     """한국투자증권 장 운영 시간"""
 
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """시장 종류"""
     open: time
     """장 시작 시간"""
@@ -87,18 +91,18 @@ class KisTradingHoursBase(KisTradingHoursRepr, KisMarketBase):
     @property
     def timezone(self) -> tzinfo:
         """시간대"""
-        return get_market_timezone(self.market)
+        return get_exchange_timezone(self.exchange)
 
     @property
-    def market_name(self) -> str:
+    def exchange_name(self) -> str:
         """시장 종류"""
-        return get_market_name(self.market)
+        return get_exchange_name(self.exchange)
 
 
 class KisSimpleTradingHours(KisTradingHoursBase):
     """한국투자증권 장 운영 시간"""
 
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """시장 종류"""
     open: time
     """장 시작 시간"""
@@ -109,8 +113,8 @@ class KisSimpleTradingHours(KisTradingHoursBase):
     close_kst: time
     """장 종료 시간 (한국시간)"""
 
-    def __init__(self, market: MARKET_TYPE, open: time, close: time):
-        self.market = market
+    def __init__(self, exchange: EXCHANGE_TYPE, open: time, close: time):
+        self.exchange = exchange
         self.open = open
         self.close = close
 
@@ -120,7 +124,7 @@ class KisSimpleTradingHours(KisTradingHoursBase):
         self.close_kst = datetime.combine(day, close, tzinfo=self.timezone).astimezone(TIMEZONE).time()
 
 
-MARKET_SAMPLE_STOCK_MAP: dict[MARKET_TYPE, list[str] | MARKET_TYPE] = {
+EXCHANGE_SAMPLE_STOCK_MAP: dict[EXCHANGE_TYPE, list[str] | EXCHANGE_TYPE] = {
     # 2024/07/29 기준 시총 상위 3개 종목
     "KRX": ["005930", "000660", "373220"],  # 삼성전자, SK하이닉스, LG에너지솔루션
     "NASDAQ": ["MSFT", "AAPL", "NVDA"],  # 마이크로소프트, 애플, 엔비디아
@@ -137,7 +141,7 @@ MARKET_SAMPLE_STOCK_MAP: dict[MARKET_TYPE, list[str] | MARKET_TYPE] = {
 
 def trading_hours(
     self: "PyKis",
-    market: MARKET_TYPE | COUNTRY_TYPE,
+    exchange: EXCHANGE_TYPE | COUNTRY_TYPE,
     use_cache: bool = True,
 ) -> KisTradingHours:
     """
@@ -149,7 +153,7 @@ def trading_hours(
     (업데이트 날짜: 2024/07/29)
 
     Args:
-        market (MARKET_TYPE): 시장 종류
+        exchange (EXCHANGE_TYPE): 시장 종류
         use_cache (bool, optional): 캐시 사용 여부. Defaults to True.
 
     Raises:
@@ -157,37 +161,37 @@ def trading_hours(
         KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 조회 파라미터가 올바르지 않은 경우
     """
-    match market:
+    match exchange:
         case "KR":
-            market = "KRX"
+            exchange = "KRX"
         case "US":
-            market = "NASDAQ"
+            exchange = "NASDAQ"
         case "JP":
-            market = "TYO"
+            exchange = "TYO"
         case "HK":
-            market = "HKEX"
+            exchange = "HKEX"
         case "VN":
-            market = "HSX"
+            exchange = "HSX"
         case "CN":
-            market = "SSE"
+            exchange = "SSE"
 
     if use_cache:
-        cached = self.cache.get(f"trading_hours:{market}", KisSimpleTradingHours)
+        cached = self.cache.get(f"trading_hours:{exchange}", KisSimpleTradingHours)
 
         if cached:
             return cached
 
-    if market == "KRX":
+    if exchange == "KRX":
         result = KisSimpleTradingHours(
-            market="KRX",
+            exchange="KRX",
             open=time(9, 0, tzinfo=TIMEZONE),
             close=time(15, 30, tzinfo=TIMEZONE),
         )
     else:
         from pykis.api.stock.day_chart import foreign_day_chart
 
-        while isinstance(samples := MARKET_SAMPLE_STOCK_MAP[market], str):
-            market = samples
+        while isinstance(samples := EXCHANGE_SAMPLE_STOCK_MAP[exchange], str):
+            exchange = samples
 
         result = None
 
@@ -195,7 +199,7 @@ def trading_hours(
             try:
                 chart = foreign_day_chart(
                     self,
-                    market=market,
+                    exchange=exchange,
                     symbol=symbol,
                     once=True,
                 )
@@ -209,6 +213,6 @@ def trading_hours(
             raise ValueError("해외 주식 시장 정보를 찾을 수 없습니다.")
 
     if use_cache:
-        self.cache.set(f"trading_hours:{market}", result, expire=timedelta(days=1))
+        self.cache.set(f"trading_hours:{exchange}", result, expire=timedelta(days=1))
 
     return result

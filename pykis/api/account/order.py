@@ -26,20 +26,20 @@ from pykis.api.base.account_product import (
     KisAccountProductBase,
     KisAccountProductProtocol,
 )
-from pykis.api.stock.info import get_market_country
-from pykis.api.stock.market import (
-    DAYTIME_MARKET_SHORT_TYPE_MAP,
-    MARKET_TYPE,
-    get_market_code,
-    get_market_name,
-    get_market_timezone,
+from pykis.api.stock.exchange import (
+    DAYTIME_EXCHANGE_SHORT_TYPE_MAP,
+    EXCHANGE_TYPE,
+    get_exchange_code,
+    get_exchange_name,
+    get_exchange_timezone,
 )
+from pykis.api.stock.info import get_exchange_country
 from pykis.api.stock.quote import quote
 from pykis.client.account import KisAccountNumber
 from pykis.event.filters.order import KisOrderNumberEventFilter
 from pykis.event.handler import KisEventFilter
 from pykis.event.subscription import KisSubscriptionEventArgs
-from pykis.responses.exceptions import KisMarketNotOpenedError
+from pykis.responses.exceptions import KisExchangeNotOpenedError
 from pykis.responses.response import KisAPIResponse, raise_not_found
 from pykis.responses.types import KisString
 from pykis.utils.timezone import TIMEZONE
@@ -175,7 +175,7 @@ DOMESTIC_ORDER_CONDITION_KOR_MAP: dict[DOMESTIC_ORDER_CONDITION, str] = {
 ORDER_CONDITION_MAP: dict[
     tuple[
         bool | None,
-        MARKET_TYPE | None,
+        EXCHANGE_TYPE | None,
         ORDER_TYPE,
         bool,
         ORDER_CONDITION | None,
@@ -254,10 +254,10 @@ ORDER_CONDITION_MAP: dict[
 def orderable_conditions_repr():
     return "\n".join(
         (
-            f"order(market={repr(market) if market else '전체'}, order={order!r}, price={'100' if price else 'None'}, condition={condition!r}, execution={execution!r}) "
-            f"# {get_market_name(market)} {label} {'매수' if order == 'buy' else '매도'}{'' if ((False, market, order, price, condition, execution) in ORDER_CONDITION_MAP) or (None, market, order, price, condition, execution) in ORDER_CONDITION_MAP else ' (모의투자 미지원)'}"
+            f"order(exchange={repr(exchange) if exchange else '전체'}, order={order!r}, price={'100' if price else 'None'}, condition={condition!r}, execution={execution!r}) "
+            f"# {get_exchange_name(exchange)} {label} {'매수' if order == 'buy' else '매도'}{'' if ((False, exchange, order, price, condition, execution) in ORDER_CONDITION_MAP) or (None, exchange, order, price, condition, execution) in ORDER_CONDITION_MAP else ' (모의투자 미지원)'}"
         )
-        for (real, market, order, price, condition, execution), (
+        for (real, exchange, order, price, condition, execution), (
             _,
             _,
             label,
@@ -268,7 +268,7 @@ def orderable_conditions_repr():
 
 def order_condition(
     virtual: bool,
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     order: ORDER_TYPE,
     price: Decimal | None = None,
     condition: ORDER_CONDITION | None = None,
@@ -277,7 +277,7 @@ def order_condition(
     if price and price <= 0:
         raise ValueError("가격은 0보다 커야합니다.")
 
-    order_condition = [not virtual, market, order, price is not None, condition, execution]
+    order_condition = [not virtual, exchange, order, price is not None, condition, execution]
 
     if tuple(order_condition) not in ORDER_CONDITION_MAP:
         # 조건을 찾을 수 없을 경우, 투자구분을 기본값으로 변환
@@ -303,7 +303,7 @@ def order_condition(
 
         raise ValueError(
             ("모의투자는 해당 주문조건을 지원하지 않습니다." if virtual_not_supported else "주문조건이 잘못되었습니다.")
-            + f" (market={market!r}, order={order!r}, price={price!r}, condition={condition!r}, execution={execution!r})\n"
+            + f" (exchange={exchange!r}, order={order!r}, price={price!r}, condition={condition!r}, execution={execution!r})\n"
             "아래 주문 가능 조건을 참고하세요.\n\n" + orderable_conditions_repr()
         )
 
@@ -339,7 +339,9 @@ def resolve_domestic_order_condition(
 
 
 @runtime_checkable
-class KisOrderNumber(KisAccountProductProtocol, KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs], Protocol):
+class KisOrderNumber(
+    KisAccountProductProtocol, KisEventFilter["KisWebsocketClient", KisSubscriptionEventArgs], Protocol
+):
     """한국투자증권 주문번호"""
 
     @property
@@ -352,11 +354,9 @@ class KisOrderNumber(KisAccountProductProtocol, KisEventFilter["KisWebsocketClie
         """주문번호"""
         ...
 
-    def __eq__(self, value: "object | KisOrderNumber") -> bool:
-        ...
+    def __eq__(self, value: "object | KisOrderNumber") -> bool: ...
 
-    def __hash__(self) -> int:
-        ...
+    def __hash__(self) -> int: ...
 
 
 @runtime_checkable
@@ -392,7 +392,7 @@ class KisOrder(KisOrderNumber, KisOrderableOrder, KisRealtimeOrderableAccount, P
     def from_number(
         kis: "PyKis",
         symbol: str,
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         account_number: KisAccountNumber,
         branch: str,
         number: str,
@@ -403,7 +403,7 @@ class KisOrder(KisOrderNumber, KisOrderableOrder, KisRealtimeOrderableAccount, P
         Args:
             kis (PyKis): 한국투자증권 API
             symbol (str): 종목코드
-            market (MARKET_TYPE): 상품유형
+            exchange (EXCHANGE_TYPE): 상품유형
             account_number (KisAccountNumber): 계좌번호
             branch (str): 지점코드
             number (str): 주문번호
@@ -411,7 +411,7 @@ class KisOrder(KisOrderNumber, KisOrderableOrder, KisRealtimeOrderableAccount, P
         return KisSimpleOrderNumber.from_number(
             kis=kis,
             symbol=symbol,
-            market=market,
+            exchange=exchange,
             account_number=account_number,
             branch=branch,
             number=number,
@@ -421,7 +421,7 @@ class KisOrder(KisOrderNumber, KisOrderableOrder, KisRealtimeOrderableAccount, P
     def from_order(
         kis: "PyKis",
         symbol: str,
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         account_number: KisAccountNumber,
         branch: str,
         number: str,
@@ -433,7 +433,7 @@ class KisOrder(KisOrderNumber, KisOrderableOrder, KisRealtimeOrderableAccount, P
         Args:
             kis (PyKis): 한국투자증권 API
             symbol (str): 종목코드
-            market (MARKET_TYPE): 상품유형
+            exchange (EXCHANGE_TYPE): 상품유형
             account_number (KisAccountNumber): 계좌번호
             branch (str): 지점코드
             number (str): 주문번호
@@ -442,7 +442,7 @@ class KisOrder(KisOrderNumber, KisOrderableOrder, KisRealtimeOrderableAccount, P
         return KisSimpleOrder.from_order(
             kis=kis,
             symbol=symbol,
-            market=market,
+            exchange=exchange,
             account_number=account_number,
             branch=branch,
             number=number,
@@ -455,7 +455,7 @@ class KisOrderNumberBase(KisAccountProductBase, KisOrderNumberEventFilter):
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -476,7 +476,7 @@ class KisOrderNumberBase(KisAccountProductBase, KisOrderNumberEventFilter):
         self,
         kis: "PyKis",
         symbol: str,
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         account_number: KisAccountNumber,
         branch: str,
         number: str,
@@ -486,7 +486,7 @@ class KisOrderNumberBase(KisAccountProductBase, KisOrderNumberEventFilter):
         self,
         kis: "PyKis | None" = None,
         symbol: str | None = None,
-        market: MARKET_TYPE | None = None,
+        exchange: EXCHANGE_TYPE | None = None,
         account_number: KisAccountNumber | None = None,
         branch: str | None = None,
         number: str | None = None,
@@ -499,10 +499,10 @@ class KisOrderNumberBase(KisAccountProductBase, KisOrderNumberEventFilter):
         if symbol is not None:
             self.symbol = symbol
 
-            if market is None:
-                raise ValueError("market이 지정되지 않았습니다.")
+            if exchange is None:
+                raise ValueError("exchange이 지정되지 않았습니다.")
 
-            self.market = market
+            self.exchange = exchange
 
             if account_number is None:
                 raise ValueError("account_number가 지정되지 않았습니다.")
@@ -524,7 +524,7 @@ class KisOrderNumberBase(KisAccountProductBase, KisOrderNumberEventFilter):
             return (
                 self.account_number == value.account_number  # type: ignore
                 and self.symbol == value.symbol  # type: ignore
-                and self.market == value.market  # type: ignore
+                and self.exchange == value.exchange  # type: ignore
                 and (self.foreign or self.branch == value.branch)  # type: ignore
                 and int(self.number) == int(value.number)  # type: ignore
             )
@@ -532,14 +532,14 @@ class KisOrderNumberBase(KisAccountProductBase, KisOrderNumberEventFilter):
             return False
 
     def __hash__(self) -> int:
-        return hash((self.account_number, self.symbol, self.market, self.branch, int(self.number)))
+        return hash((self.account_number, self.symbol, self.exchange, self.branch, int(self.number)))
 
     def __repr__(self) -> str:
         return f"""{self.__class__.__name__}(
     kis=kis,
     account_number={self.account_number!r},
     code={self.symbol!r},
-    market={self.market!r},
+    exchange={self.exchange!r},
     branch={self.branch!r},
     number={self.number!r}
 )"""
@@ -550,7 +550,7 @@ class KisOrderBase(KisOrderNumberBase, KisOrderableOrderMixin, KisRealtimeOrdera
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
     account_number: KisAccountNumber
     """계좌번호"""
@@ -571,14 +571,14 @@ class KisOrderBase(KisOrderNumberBase, KisOrderableOrderMixin, KisRealtimeOrdera
     def __init__(self): ...
 
     @overload
-    def __init__(self, account_number: KisAccountNumber, symbol: str, market: "MARKET_TYPE"): ...
+    def __init__(self, account_number: KisAccountNumber, symbol: str, exchange: "EXCHANGE_TYPE"): ...
 
     @overload
     def __init__(
         self,
         account_number: KisAccountNumber,
         symbol: str,
-        market: "MARKET_TYPE",
+        exchange: "EXCHANGE_TYPE",
         branch: str,
         number: str,
         time_kst: datetime,
@@ -589,7 +589,7 @@ class KisOrderBase(KisOrderNumberBase, KisOrderableOrderMixin, KisRealtimeOrdera
         self,
         account_number: KisAccountNumber | None = None,
         symbol: str | None = None,
-        market: "MARKET_TYPE | None" = None,
+        exchange: "EXCHANGE_TYPE | None" = None,
         branch: str | None = None,
         number: str | None = None,
         time_kst: datetime | None = None,
@@ -608,11 +608,11 @@ class KisOrderBase(KisOrderNumberBase, KisOrderableOrderMixin, KisRealtimeOrdera
 
             self.symbol = symbol
 
-            if market is None:
-                raise ValueError("market이 지정되지 않았습니다.")
+            if exchange is None:
+                raise ValueError("exchange이 지정되지 않았습니다.")
 
-            self.market = market
-            self.timezone = get_market_timezone(self.market)
+            self.exchange = exchange
+            self.timezone = get_exchange_timezone(self.exchange)
 
         if branch is not None:
             if account_number is None:
@@ -644,7 +644,7 @@ class KisOrderBase(KisOrderNumberBase, KisOrderableOrderMixin, KisRealtimeOrdera
         return pending_orders(
             self.kis,
             account=self.account_number,
-            country=get_market_country(self.market),
+            country=get_exchange_country(self.exchange),
         ).order(self)
 
     @staticmethod
@@ -652,7 +652,7 @@ class KisOrderBase(KisOrderNumberBase, KisOrderableOrderMixin, KisRealtimeOrdera
     def from_number(
         kis: "PyKis",
         symbol: str,
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         account_number: KisAccountNumber,
         branch: str,
         number: str,
@@ -663,7 +663,7 @@ class KisOrderBase(KisOrderNumberBase, KisOrderableOrderMixin, KisRealtimeOrdera
         Args:
             kis (PyKis): 한국투자증권 API
             symbol (str): 종목코드
-            market (MARKET_TYPE): 상품유형
+            exchange (EXCHANGE_TYPE): 상품유형
             account_number (KisAccountNumber): 계좌번호
             branch (str): 지점코드
             number (str): 주문번호
@@ -671,7 +671,7 @@ class KisOrderBase(KisOrderNumberBase, KisOrderableOrderMixin, KisRealtimeOrdera
         return KisSimpleOrderNumber.from_number(
             kis=kis,
             symbol=symbol,
-            market=market,
+            exchange=exchange,
             account_number=account_number,
             branch=branch,
             number=number,
@@ -682,7 +682,7 @@ class KisOrderBase(KisOrderNumberBase, KisOrderableOrderMixin, KisRealtimeOrdera
     def from_order(
         kis: "PyKis",
         symbol: str,
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         account_number: KisAccountNumber,
         branch: str,
         number: str,
@@ -694,7 +694,7 @@ class KisOrderBase(KisOrderNumberBase, KisOrderableOrderMixin, KisRealtimeOrdera
         Args:
             kis (PyKis): 한국투자증권 API
             symbol (str): 종목코드
-            market (MARKET_TYPE): 상품유형
+            exchange (EXCHANGE_TYPE): 상품유형
             account_number (KisAccountNumber): 계좌번호
             branch (str): 지점코드
             number (str): 주문번호
@@ -703,7 +703,7 @@ class KisOrderBase(KisOrderNumberBase, KisOrderableOrderMixin, KisRealtimeOrdera
         return KisSimpleOrder.from_order(
             kis=kis,
             symbol=symbol,
-            market=market,
+            exchange=exchange,
             account_number=account_number,
             branch=branch,
             number=number,
@@ -718,7 +718,7 @@ class KisSimpleOrderNumber(KisOrderNumberBase):
     def from_number(
         kis: "PyKis",
         symbol: str,
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         account_number: KisAccountNumber,
         branch: str,
         number: str,
@@ -729,7 +729,7 @@ class KisSimpleOrderNumber(KisOrderNumberBase):
         Args:
             kis (PyKis): 한국투자증권 API
             symbol (str): 종목코드
-            market (MARKET_TYPE): 상품유형
+            exchange (EXCHANGE_TYPE): 상품유형
             account_number (KisAccountNumber): 계좌번호
             branch (str): 지점코드
             number (str): 주문번호
@@ -737,7 +737,7 @@ class KisSimpleOrderNumber(KisOrderNumberBase):
         return KisSimpleOrderNumber(
             kis=kis,
             symbol=symbol,
-            market=market,
+            exchange=exchange,
             account_number=account_number,
             branch=branch,
             number=number,
@@ -751,7 +751,7 @@ class KisSimpleOrder(KisOrderBase):
     def from_order(
         kis: "PyKis",
         symbol: str,
-        market: MARKET_TYPE,
+        exchange: EXCHANGE_TYPE,
         account_number: KisAccountNumber,
         branch: str,
         number: str,
@@ -763,7 +763,7 @@ class KisSimpleOrder(KisOrderBase):
         Args:
             kis (PyKis): 한국투자증권 API
             symbol (str): 종목코드
-            market (MARKET_TYPE): 상품유형
+            exchange (EXCHANGE_TYPE): 상품유형
             account_number (KisAccountNumber): 계좌번호
             branch (str): 지점코드
             number (str): 주문번호
@@ -772,7 +772,7 @@ class KisSimpleOrder(KisOrderBase):
         return KisSimpleOrder(
             account_number=account_number,
             symbol=symbol,
-            market=market,  # type: ignore
+            exchange=exchange,  # type: ignore
             branch=branch,
             number=number,
             time_kst=time_kst,
@@ -800,7 +800,7 @@ class KisDomesticOrder(KisAPIResponse, KisOrderBase):
 
     def __pre_init__(self, data: dict[str, Any]):
         if data["msg_cd"] == "APBK0919":
-            raise KisMarketNotOpenedError(
+            raise KisExchangeNotOpenedError(
                 data=data,
                 response=data["__response__"],
             )
@@ -809,7 +809,7 @@ class KisDomesticOrder(KisAPIResponse, KisOrderBase):
             raise_not_found(
                 data,
                 code=self.symbol,
-                market=self.market,
+                exchange=self.exchange,
             )
 
         super().__pre_init__(data)
@@ -835,7 +835,7 @@ class KisForeignOrder(KisAPIResponse, KisOrderBase):
 
     def __pre_init__(self, data: dict[str, Any]):
         if data["msg_cd"] == "APBK1664":
-            raise KisMarketNotOpenedError(
+            raise KisExchangeNotOpenedError(
                 data=data,
                 response=data["__response__"],
             )
@@ -844,7 +844,7 @@ class KisForeignOrder(KisAPIResponse, KisOrderBase):
             raise_not_found(
                 data,
                 code=self.symbol,
-                market=self.market,
+                exchange=self.exchange,
             )
 
         super().__pre_init__(data)
@@ -871,7 +871,7 @@ class KisForeignDaytimeOrder(KisAPIResponse, KisOrderBase):
 
     def __pre_init__(self, data: dict[str, Any]):
         if data["msg_cd"] == "APBK1664":
-            raise KisMarketNotOpenedError(
+            raise KisExchangeNotOpenedError(
                 data=data,
                 response=data["__response__"],
             )
@@ -880,7 +880,7 @@ class KisForeignDaytimeOrder(KisAPIResponse, KisOrderBase):
             raise_not_found(
                 data,
                 code=self.symbol,
-                market=self.market,
+                exchange=self.exchange,
             )
 
         super().__pre_init__(data)
@@ -905,7 +905,7 @@ DOMESTIC_ORDER_API_CODES: dict[tuple[bool, ORDER_TYPE], str] = {
 def _orderable_quantity(
     self: "PyKis",
     account: str | KisAccountNumber,
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
@@ -927,7 +927,7 @@ def _orderable_quantity(
 
     Args:
         account (str | KisAccountNumber): 계좌번호
-        market (MARKET_TYPE): 시장
+        exchange (EXCHANGE_TYPE): 시장
         symbol (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
@@ -950,7 +950,7 @@ def _orderable_quantity(
         amount = orderable_amount(
             self,
             account=account,
-            market="KRX",
+            exchange="KRX",
             symbol=symbol,
             price=price,
             condition=condition,
@@ -973,7 +973,7 @@ def _orderable_quantity(
             self,
             account=account,
             symbol=symbol,
-            country=get_market_country(market),
+            country=get_exchange_country(exchange),
         )
 
         if throw_no_qty and (not qty or qty <= 0):
@@ -984,11 +984,11 @@ def _orderable_quantity(
 
 def _get_order_price(
     self: "PyKis",
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     price_setting: Literal["lower", "upper"],
 ) -> Decimal:
-    quote_data = quote(self, symbol=symbol, market=market)
+    quote_data = quote(self, symbol=symbol, exchange=exchange)
 
     if price_setting == "upper":
         return quote_data.high_limit or (quote_data.close * Decimal(1.5))
@@ -1056,7 +1056,7 @@ def domestic_order(
     Raises:
         KisAPIError: API 호출에 실패한 경우
         KisNotFoundError: 조회 결과가 없는 경우
-        KisMarketNotOpenedError: 시장이 열리지 않은 경우
+        KisExchangeNotOpenedError: 시장이 열리지 않은 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     if not account:
@@ -1072,7 +1072,7 @@ def domestic_order(
 
     condition_code, price_setting, _ = order_condition(
         virtual=self.virtual,
-        market="KRX",
+        exchange="KRX",
         order=order,
         price=price,
         condition=condition,
@@ -1085,7 +1085,7 @@ def domestic_order(
     if price_setting:
         price = _get_order_price(
             self,
-            market="KRX",
+            exchange="KRX",
             symbol=symbol,
             price_setting=price_setting,
         )
@@ -1094,7 +1094,7 @@ def domestic_order(
         qty, _ = _orderable_quantity(
             self,
             account=account,
-            market="KRX",
+            exchange="KRX",
             symbol=symbol,
             order=order,
             price=None if price_setting else price,
@@ -1116,13 +1116,13 @@ def domestic_order(
         response_type=KisDomesticOrder(
             account_number=account,
             symbol=symbol,
-            market="KRX",
+            exchange="KRX",
         ),
         method="POST",
     )
 
 
-FOREIGN_ORDER_API_CODES: dict[tuple[bool, MARKET_TYPE, ORDER_TYPE], str] = {
+FOREIGN_ORDER_API_CODES: dict[tuple[bool, EXCHANGE_TYPE, ORDER_TYPE], str] = {
     # (실전투자여부, 시장, 주문종류): API코드
     (True, "NASDAQ", "buy"): "TTTT1002U",  # 미국 매수 주문
     (True, "NYSE", "buy"): "TTTT1002U",  # 미국 매수 주문
@@ -1166,7 +1166,7 @@ FOREIGN_ORDER_API_CODES: dict[tuple[bool, MARKET_TYPE, ORDER_TYPE], str] = {
 def foreign_order(
     self: "PyKis",
     account: str | KisAccountNumber,
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
@@ -1183,7 +1183,7 @@ def foreign_order(
 
     Args:
         account (str | KisAccountNumber): 계좌번호
-        market (MARKET_TYPE): 시장
+        exchange (EXCHANGE_TYPE): 시장
         symbol (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
@@ -1225,13 +1225,13 @@ def foreign_order(
     Raises:
         KisAPIError: API 호출에 실패한 경우
         KisNotFoundError: 조회 결과가 없는 경우
-        KisMarketNotOpenedError: 시장이 열리지 않은 경우
+        KisExchangeNotOpenedError: 시장이 열리지 않은 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     if not account:
         raise ValueError("계좌번호를 입력해주세요.")
 
-    if not market:
+    if not exchange:
         raise ValueError("시장을 입력해주세요.")
 
     if not symbol:
@@ -1244,7 +1244,7 @@ def foreign_order(
 
     condition_code, price_setting, _ = order_condition(
         virtual=self.virtual,
-        market=market,
+        exchange=exchange,
         order=order,
         price=price,
         condition=condition,
@@ -1257,7 +1257,7 @@ def foreign_order(
     if price_setting:
         price = _get_order_price(
             self,
-            market=market,
+            exchange=exchange,
             symbol=symbol,
             price_setting=price_setting,
         )
@@ -1266,7 +1266,7 @@ def foreign_order(
         qty, _ = _orderable_quantity(
             self,
             account=account,
-            market=market,
+            exchange=exchange,
             symbol=symbol,
             order=order,
             price=None if price_setting else price,
@@ -1277,9 +1277,9 @@ def foreign_order(
 
     return self.fetch(
         "/uapi/overseas-stock/v1/trading/order",
-        api=FOREIGN_ORDER_API_CODES[(not self.virtual, market, order)],
+        api=FOREIGN_ORDER_API_CODES[(not self.virtual, exchange, order)],
         body={
-            "OVRS_EXCG_CD": get_market_code(market),
+            "OVRS_EXCG_CD": get_exchange_code(exchange),
             "PDNO": symbol,
             "ORD_QTY": str(int(qty)),
             "OVRS_ORD_UNPR": str(price or 0),
@@ -1291,7 +1291,7 @@ def foreign_order(
         response_type=KisForeignOrder(
             account_number=account,
             symbol=symbol,
-            market=market,
+            exchange=exchange,
         ),
         method="POST",
     )
@@ -1300,7 +1300,7 @@ def foreign_order(
 def foreign_daytime_order(
     self: "PyKis",
     account: str | KisAccountNumber,
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     order: ORDER_TYPE = "buy",
     price: ORDER_PRICE | None = None,
@@ -1315,7 +1315,7 @@ def foreign_daytime_order(
 
     Args:
         account (str | KisAccountNumber): 계좌번호
-        market (MARKET_TYPE): 시장
+        exchange (EXCHANGE_TYPE): 시장
         symbol (str): 종목코드
         order (ORDER_TYPE, optional): 주문종류
         price (ORDER_PRICE, optional): 주문가격
@@ -1325,8 +1325,8 @@ def foreign_daytime_order(
     if self.virtual:
         raise NotImplementedError("주간거래 주문은 모의투자를 지원하지 않습니다.")
 
-    if market not in DAYTIME_MARKET_SHORT_TYPE_MAP:
-        raise ValueError(f"주간거래가 지원되지 않는 시장입니다. ({market})")
+    if exchange not in DAYTIME_EXCHANGE_SHORT_TYPE_MAP:
+        raise ValueError(f"주간거래가 지원되지 않는 시장입니다. ({exchange})")
 
     if not account:
         raise ValueError("계좌번호를 입력해주세요.")
@@ -1346,7 +1346,7 @@ def foreign_daytime_order(
         qty, price = _orderable_quantity(
             self,
             account=account,
-            market=market,
+            exchange=exchange,
             symbol=symbol,
             order=order,
             price=price,
@@ -1355,14 +1355,14 @@ def foreign_daytime_order(
         )
 
     if not price:
-        quote_data = quote(self, symbol=symbol, market=market, extended=True)
+        quote_data = quote(self, symbol=symbol, exchange=exchange, extended=True)
         price = quote_data.high_limit if order == "buy" else quote_data.low_limit
 
     return self.fetch(
         "/uapi/overseas-stock/v1/trading/daytime-order",
         api="TTTS6036U" if order == "buy" else "TTTS6037U",
         body={
-            "OVRS_EXCG_CD": get_market_code(market),
+            "OVRS_EXCG_CD": get_exchange_code(exchange),
             "PDNO": symbol,
             "ORD_QTY": str(int(qty)),
             "OVRS_ORD_UNPR": str(price),
@@ -1373,7 +1373,7 @@ def foreign_daytime_order(
         response_type=KisForeignDaytimeOrder(
             account_number=account,
             symbol=symbol,
-            market=market,
+            exchange=exchange,
         ),
         method="POST",
         domain="real",
@@ -1383,7 +1383,7 @@ def foreign_daytime_order(
 def order(
     self: "PyKis",
     account: str | KisAccountNumber,
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     order: ORDER_TYPE,
     price: ORDER_PRICE | None = None,
@@ -1400,7 +1400,7 @@ def order(
 
     Args:
         account (str | KisAccountNumber): 계좌번호
-        market (MARKET_TYPE): 시장
+        exchange (EXCHANGE_TYPE): 시장
         symbol (str): 종목코드
         order (ORDER_TYPE): 주문종류
         price (ORDER_PRICE, optional): 주문가격
@@ -1482,10 +1482,10 @@ def order(
     Raises:
         KisAPIError: API 호출에 실패한 경우
         KisNotFoundError: 조회 결과가 없는 경우
-        KisMarketNotOpenedError: 시장이 열리지 않은 경우
+        KisExchangeNotOpenedError: 시장이 열리지 않은 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
-    if market == "KRX":
+    if exchange == "KRX":
         return domestic_order(
             self,
             account=account,
@@ -1505,7 +1505,7 @@ def order(
             return foreign_daytime_order(
                 self,
                 account=account,
-                market=market,
+                exchange=exchange,
                 symbol=symbol,
                 order=order,
                 price=price,
@@ -1516,7 +1516,7 @@ def order(
         return foreign_order(
             self,
             account=account,
-            market=market,
+            exchange=exchange,
             symbol=symbol,
             order=order,
             price=price,
@@ -1532,7 +1532,7 @@ order_function = order
 
 def account_order(
     self: "KisAccountProtocol",
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     order: ORDER_TYPE,
     price: ORDER_PRICE | None = None,
@@ -1548,7 +1548,7 @@ def account_order(
     해외주식주문 -> 해외주식 주문[v1_해외주식-001]
 
     Args:
-        market (MARKET_TYPE): 시장
+        exchange (EXCHANGE_TYPE): 시장
         symbol (str): 종목코드
         order (ORDER_TYPE): 주문종류
         price (ORDER_PRICE, optional): 주문가격
@@ -1630,13 +1630,13 @@ def account_order(
     Raises:
         KisAPIError: API 호출에 실패한 경우
         KisNotFoundError: 조회 결과가 없는 경우
-        KisMarketNotOpenedError: 시장이 열리지 않은 경우
+        KisExchangeNotOpenedError: 시장이 열리지 않은 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     return order_function(
         self.kis,
         account=self.account_number,
-        market=market,
+        exchange=exchange,
         symbol=symbol,
         order=order,
         price=price,
@@ -1649,7 +1649,7 @@ def account_order(
 
 def account_buy(
     self: "KisAccountProtocol",
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     price: ORDER_PRICE | None = None,
     qty: IN_ORDER_QUANTITY | None = None,
@@ -1664,7 +1664,7 @@ def account_buy(
     해외주식주문 -> 해외주식 주문[v1_해외주식-001]
 
     Args:
-        market (MARKET_TYPE): 시장
+        exchange (EXCHANGE_TYPE): 시장
         symbol (str): 종목코드
         price (ORDER_PRICE, optional): 주문가격
         qty (IN_ORDER_QUANTITY, optional): 주문수량
@@ -1711,12 +1711,12 @@ def account_buy(
     Raises:
         KisAPIError: API 호출에 실패한 경우
         KisNotFoundError: 조회 결과가 없는 경우
-        KisMarketNotOpenedError: 시장이 열리지 않은 경우
+        KisExchangeNotOpenedError: 시장이 열리지 않은 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     return account_order(
         self,
-        market=market,
+        exchange=exchange,
         symbol=symbol,
         order="buy",
         price=price,
@@ -1729,7 +1729,7 @@ def account_buy(
 
 def account_sell(
     self: "KisAccountProtocol",
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     symbol: str,
     price: ORDER_PRICE | None = None,
     qty: IN_ORDER_QUANTITY | None = None,
@@ -1744,7 +1744,7 @@ def account_sell(
     해외주식주문 -> 해외주식 주문[v1_해외주식-001]
 
     Args:
-        market (MARKET_TYPE): 시장
+        exchange (EXCHANGE_TYPE): 시장
         symbol (str): 종목코드
         price (ORDER_PRICE, optional): 주문가격
         qty (IN_ORDER_QUANTITY, optional): 주문수량
@@ -1791,12 +1791,12 @@ def account_sell(
     Raises:
         KisAPIError: API 호출에 실패한 경우
         KisNotFoundError: 조회 결과가 없는 경우
-        KisMarketNotOpenedError: 시장이 열리지 않은 경우
+        KisExchangeNotOpenedError: 시장이 열리지 않은 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     return account_order(
         self,
-        market=market,
+        exchange=exchange,
         symbol=symbol,
         order="sell",
         price=price,
@@ -1903,13 +1903,13 @@ def account_product_order(
     Raises:
         KisAPIError: API 호출에 실패한 경우
         KisNotFoundError: 조회 결과가 없는 경우
-        KisMarketNotOpenedError: 시장이 열리지 않은 경우
+        KisExchangeNotOpenedError: 시장이 열리지 않은 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     return order_function(
         self.kis,
         account=self.account_number,
-        market=self.market,
+        exchange=self.exchange,
         symbol=self.symbol,
         order=order,
         price=price,
@@ -1980,7 +1980,7 @@ def account_product_buy(
     Raises:
         KisAPIError: API 호출에 실패한 경우
         KisNotFoundError: 조회 결과가 없는 경우
-        KisMarketNotOpenedError: 시장이 열리지 않은 경우
+        KisExchangeNotOpenedError: 시장이 열리지 않은 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     return account_product_order(
@@ -2054,7 +2054,7 @@ def account_product_sell(
     Raises:
         KisAPIError: API 호출에 실패한 경우
         KisNotFoundError: 조회 결과가 없는 경우
-        KisMarketNotOpenedError: 시장이 열리지 않은 경우
+        KisExchangeNotOpenedError: 시장이 열리지 않은 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
     return account_product_order(

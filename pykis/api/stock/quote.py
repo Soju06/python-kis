@@ -4,10 +4,10 @@ from functools import cached_property
 from typing import TYPE_CHECKING, Literal, Protocol, runtime_checkable
 
 from pykis.api.base.product import KisProductBase, KisProductProtocol
-from pykis.api.stock.market import (
-    DAYTIME_MARKET_SHORT_TYPE_MAP,
-    MARKET_SHORT_TYPE_MAP,
-    MARKET_TYPE,
+from pykis.api.stock.exchange import (
+    DAYTIME_EXCHANGE_SHORT_TYPE_MAP,
+    EXCHANGE_SHORT_TYPE_MAP,
+    EXCHANGE_TYPE,
 )
 from pykis.responses.dynamic import KisDynamic, KisObject, KisTransform
 from pykis.responses.response import (
@@ -96,7 +96,7 @@ class KisQuote(KisProductProtocol, Protocol):
         ...
 
     @property
-    def market_cap(self) -> Decimal:
+    def exchange_cap(self) -> Decimal:
         """시가총액"""
         ...
 
@@ -268,12 +268,12 @@ class KisIndicatorRepr:
 
 @kis_repr(
     "symbol",
-    "market",
+    "exchange",
     "name",
     "sector_name",
     "volume",
     "amount",
-    "market_cap",
+    "exchange_cap",
     "indicator",
     "open",
     "high",
@@ -299,7 +299,7 @@ class KisQuoteBase(KisQuoteRepr, KisProductBase):
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
 
     sector_name: str | None
@@ -310,7 +310,7 @@ class KisQuoteBase(KisQuoteRepr, KisProductBase):
     """거래량"""
     amount: Decimal
     """거래대금"""
-    market_cap: Decimal
+    exchange_cap: Decimal
     """시가총액"""
     sign: STOCK_SIGN_TYPE
     """대비부호"""
@@ -400,7 +400,7 @@ class KisDomesticQuote(KisQuoteBase, KisAPIResponse):
 
     symbol: str = KisString["stck_shrn_iscd"]
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
 
     sector_name: str | None = KisString["bstp_kor_isnm", None]
@@ -411,7 +411,7 @@ class KisDomesticQuote(KisQuoteBase, KisAPIResponse):
     """거래량"""
     amount: Decimal = KisDecimal["acml_tr_pbmn"]
     """거래대금"""
-    market_cap: Decimal = KisDecimal["hts_avls"]
+    exchange_cap: Decimal = KisDecimal["hts_avls"]
     """시가총액"""
     sign: STOCK_SIGN_TYPE = KisAny(STOCK_SIGN_TYPE_MAP.__getitem__)["prdy_vrss_sign"]
     """대비부호"""
@@ -470,10 +470,10 @@ class KisDomesticQuote(KisQuoteBase, KisAPIResponse):
     exchange_rate: Decimal = Decimal(1)
     """당일환율"""
 
-    def __init__(self, symbol: str, market: MARKET_TYPE):
+    def __init__(self, symbol: str, exchange: EXCHANGE_TYPE):
         super().__init__()
         self.symbol = symbol
-        self.market = market
+        self.exchange = exchange
 
     def __pre_init__(self, data: dict):
         if data["output"]["stck_prpr"] == "0":
@@ -481,7 +481,7 @@ class KisDomesticQuote(KisQuoteBase, KisAPIResponse):
                 data,
                 "해당 종목의 현재가를 조회할 수 없습니다.",
                 code=self.symbol,
-                market=self.market,
+                exchange=self.exchange,
             )
 
         super().__pre_init__(data)
@@ -514,7 +514,7 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
 
     sector_name: str | None = KisString["e_icod"]
@@ -525,7 +525,7 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
     """거래량"""
     amount: Decimal = KisDecimal["tamt"]
     """거래대금"""
-    market_cap: Decimal = KisDecimal["tomv"]
+    exchange_cap: Decimal = KisDecimal["tomv"]
     """시가총액"""
 
     sign: STOCK_SIGN_TYPE = KisAny(STOCK_SIGN_TYPE_MAP.__getitem__)["t_xsgn"]
@@ -560,7 +560,7 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
         return foreign_quote(
             self.kis,
             symbol=self.symbol,
-            market=self.market,
+            exchange=self.exchange,
             extended=False,
         ).indicator
 
@@ -590,10 +590,10 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
     extended: bool
     """주간거래 시세 조회 여부"""
 
-    def __init__(self, symbol: str, market: MARKET_TYPE, extended: bool):
+    def __init__(self, symbol: str, exchange: EXCHANGE_TYPE, extended: bool):
         super().__init__()
         self.symbol = symbol
-        self.market = market
+        self.exchange = exchange
         self.extended = extended
 
     def __pre_init__(self, data: dict):
@@ -602,7 +602,7 @@ class KisForeignQuote(KisQuoteBase, KisAPIResponse):
                 data,
                 "해당 종목의 현재가를 조회할 수 없습니다.",
                 code=self.symbol,
-                market=self.market,
+                exchange=self.exchange,
             )
 
         super().__pre_init__(data)
@@ -655,7 +655,7 @@ def domestic_quote(
 def foreign_quote(
     self: "PyKis",
     symbol: str,
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     extended: bool = False,
 ) -> KisForeignQuote:
     """
@@ -666,7 +666,7 @@ def foreign_quote(
 
     Args:
         symbol (str): 종목코드
-        market (MARKET_TYPE): 시장구분
+        exchange (EXCHANGE_TYPE): 시장구분
         extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
 
     Raises:
@@ -678,24 +678,24 @@ def foreign_quote(
         raise ValueError("종목코드를 입력해주세요.")
 
     if extended:
-        market_code = DAYTIME_MARKET_SHORT_TYPE_MAP.get(market)
+        exchange_code = DAYTIME_EXCHANGE_SHORT_TYPE_MAP.get(exchange)
 
-        if not market_code:
-            raise ValueError(f"주간거래 시세 조회가 불가능한 시장입니다. ({market})")
+        if not exchange_code:
+            raise ValueError(f"주간거래 시세 조회가 불가능한 시장입니다. ({exchange})")
     else:
-        market_code = MARKET_SHORT_TYPE_MAP[market]
+        exchange_code = EXCHANGE_SHORT_TYPE_MAP[exchange]
 
     return self.fetch(
         "/uapi/overseas-price/v1/quotations/price-detail",
         api="HHDFS76200200",
         params={
             "AUTH": "",
-            "EXCD": market_code,
+            "EXCD": exchange_code,
             "SYMB": symbol,
         },
         response_type=KisForeignQuote(
             symbol=symbol,
-            market=market,
+            exchange=exchange,
             extended=extended,
         ),
         domain="real",
@@ -705,7 +705,7 @@ def foreign_quote(
 def quote(
     self: "PyKis",
     symbol: str,
-    market: MARKET_TYPE,
+    exchange: EXCHANGE_TYPE,
     extended: bool = False,
 ) -> KisQuoteResponse:
     """
@@ -716,7 +716,7 @@ def quote(
 
     Args:
         symbol (str): 종목코드
-        market (MARKET_TYPE): 시장구분
+        exchange (EXCHANGE_TYPE): 시장구분
         extended (bool, optional): 주간거래 시세 조회 여부 (나스닥, 뉴욕, 아멕스)
 
     Raises:
@@ -724,13 +724,13 @@ def quote(
         KisNotFoundError: 조회 결과가 없는 경우
         ValueError: 종목 코드가 올바르지 않은 경우
     """
-    if market == "KRX":
+    if exchange == "KRX":
         return domestic_quote(self, symbol=symbol)
     else:
         return foreign_quote(
             self,
             symbol=symbol,
-            market=market,
+            exchange=exchange,
             extended=extended,
         )
 
@@ -756,6 +756,6 @@ def product_quote(
     return quote(
         self.kis,
         symbol=self.symbol,
-        market=self.market,
+        exchange=self.exchange,
         extended=extended,
     )

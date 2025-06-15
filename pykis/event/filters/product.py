@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Protocol, overload, runtime_checkable
 
 from pykis.api.base.product import KisProductProtocol
-from pykis.api.stock.market import MARKET_TYPE
+from pykis.api.stock.exchange import EXCHANGE_TYPE
 from pykis.event.handler import KisEventFilterBase, KisEventHandler
 from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.responses.websocket import TWebsocketResponse
@@ -24,7 +24,7 @@ class KisSimpleProductProtocol(Protocol):
         ...
 
     @property
-    def market(self) -> MARKET_TYPE:
+    def exchange(self) -> EXCHANGE_TYPE:
         """시장유형"""
         ...
 
@@ -32,16 +32,16 @@ class KisSimpleProductProtocol(Protocol):
 class KisSimpleProduct:
     """한국투자증권 상품"""
 
-    __slots__ = ("market", "symbol")
+    __slots__ = ("exchange", "symbol")
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """시장유형"""
 
-    def __init__(self, symbol: str, market: MARKET_TYPE):
+    def __init__(self, symbol: str, exchange: EXCHANGE_TYPE):
         self.symbol = symbol
-        self.market = market
+        self.exchange = exchange
 
 
 class KisProductEventFilter(KisEventFilterBase["KisWebsocketClient", KisSubscriptionEventArgs[TWebsocketResponse]]):
@@ -49,19 +49,19 @@ class KisProductEventFilter(KisEventFilterBase["KisWebsocketClient", KisSubscrip
     _product: KisSimpleProductProtocol
 
     @overload
-    def __init__(self, symbol: str, market: MARKET_TYPE): ...
+    def __init__(self, symbol: str, exchange: EXCHANGE_TYPE): ...
 
     @overload
     def __init__(self, symbol: KisProductProtocol, /): ...
 
-    def __init__(self, symbol: KisProductProtocol | str, market: MARKET_TYPE | None = None):
+    def __init__(self, symbol: KisProductProtocol | str, exchange: EXCHANGE_TYPE | None = None):
         super().__init__()
 
         if isinstance(symbol, str):
-            if market is None:
-                raise ValueError("market is required")
+            if exchange is None:
+                raise ValueError("exchange is required")
 
-            self._product = KisSimpleProduct(symbol=symbol, market=market)
+            self._product = KisSimpleProduct(symbol=symbol, exchange=exchange)
         else:
             self._product = symbol
 
@@ -89,14 +89,14 @@ class KisProductEventFilter(KisEventFilterBase["KisWebsocketClient", KisSubscrip
         return not (
             isinstance(e.response, KisSimpleProductProtocol)
             and e.response.symbol == self._product.symbol
-            and e.response.market == self._product.market
+            and e.response.exchange == self._product.exchange
         )
 
     def __hash__(self) -> int:
         return hash((self.__class__, self._product))
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(symbol={self._product.symbol!r}, market={self._product.market!r})"
+        return f"{self.__class__.__name__}(symbol={self._product.symbol!r}, exchange={self._product.exchange!r})"
 
     def __str__(self) -> str:
         return repr(self)

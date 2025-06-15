@@ -33,16 +33,16 @@ from pykis.api.auth.token import KisAccessToken
 from pykis.api.auth.websocket import KisWebsocketApprovalKey
 from pykis.api.base.account import KisAccountProtocol
 from pykis.api.base.account_product import KisAccountProductProtocol
-from pykis.api.base.market import KisMarketProtocol
+from pykis.api.base.exchange import KisExchangeProtocol
 from pykis.api.base.product import KisProductProtocol
 from pykis.api.stock.chart import KisChart, KisChartBar
+from pykis.api.stock.exchange import CURRENCY_TYPE, EXCHANGE_TYPE, ExDateType
 from pykis.api.stock.info import (
     COUNTRY_TYPE,
-    MARKET_INFO_TYPES,
+    EXCHANGE_INFO_TYPES,
     KisStockInfo,
     KisStockInfoResponse,
 )
-from pykis.api.stock.market import CURRENCY_TYPE, MARKET_TYPE, ExDateType
 from pykis.api.stock.order_book import (
     KisOrderbook,
     KisOrderbookItem,
@@ -112,9 +112,9 @@ __all__ = [
     ################################
     "TIMEX_TYPE",
     "COUNTRY_TYPE",
-    "MARKET_TYPE",
+    "EXCHANGE_TYPE",
     "CURRENCY_TYPE",
-    "MARKET_INFO_TYPES",
+    "EXCHANGE_INFO_TYPES",
     "ExDateType",
     "STOCK_SIGN_TYPE",
     "STOCK_RISK_TYPE",
@@ -189,7 +189,7 @@ __all__ = [
     ##          Protocols         ##
     ################################
     "KisObjectProtocol",
-    "KisMarketProtocol",
+    "KisExchangeProtocol",
     "KisProductProtocol",
     "KisAccountProtocol",
     "KisAccountProductProtocol",

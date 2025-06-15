@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import TYPE_CHECKING, Literal, Protocol, runtime_checkable
 
-from pykis.api.stock.market import MARKET_SHORT_TYPE_MAP, MARKET_TYPE
+from pykis.api.stock.exchange import EXCHANGE_SHORT_TYPE_MAP, EXCHANGE_TYPE
 from pykis.client.exceptions import KisAPIError
 from pykis.responses.response import (
     KisAPIResponse,
@@ -18,13 +18,13 @@ __all__ = [
     "KisStockInfo",
     "KisStockInfoResponse",
     "COUNTRY_TYPE",
-    "get_market_country",
-    "MARKET_INFO_TYPES",
+    "get_exchange_country",
+    "EXCHANGE_INFO_TYPES",
     "info",
-    "resolve_market",
+    "resolve_exchange",
 ]
 
-MARKET_TYPE_MAP: dict[str | None, list[str]] = {
+EXCHANGE_TYPE_MAP: dict[str | None, list[str]] = {
     "KR": ["300"],  # "301", "302"
     "KRX": ["300"],  # "301", "302"
     "NASDAQ": ["512"],
@@ -59,7 +59,7 @@ MARKET_TYPE_MAP: dict[str | None, list[str]] = {
     ],
 }
 
-R_MARKET_TYPE_MAP: dict[str, str] = {
+R_EXCHANGE_TYPE_MAP: dict[str, str] = {
     "300": "주식",
     "301": "선물옵션",
     "302": "채권",
@@ -77,7 +77,7 @@ R_MARKET_TYPE_MAP: dict[str, str] = {
 }
 
 
-MARKET_CODE = Literal[
+EXCHANGE_CODE = Literal[
     "300",
     "301",
     "302",
@@ -94,7 +94,7 @@ MARKET_CODE = Literal[
     "552",
 ]
 
-MARKET_CODE_MAP: dict[str, MARKET_TYPE] = {
+EXCHANGE_CODE_MAP: dict[str, EXCHANGE_TYPE] = {
     "300": "KRX",
     "301": "KRX",
     "302": "KRX",
@@ -152,12 +152,12 @@ class KisStockInfo(Protocol):
         ...
 
     @property
-    def market(self) -> MARKET_TYPE:
+    def exchange(self) -> EXCHANGE_TYPE:
         """상품유형타입"""
         ...
 
     @property
-    def market_name(self) -> str:
+    def exchange_name(self) -> str:
         """상품유형명"""
         ...
 
@@ -178,7 +178,7 @@ class KisStockInfoResponse(KisStockInfo, KisResponseProtocol, Protocol):
 
 
 @kis_repr(
-    "market",
+    "exchange",
     "symbol",
     "name",
     "name_eng",
@@ -209,23 +209,23 @@ class _KisStockInfo(KisStockInfoRepr, KisAPIResponse):
         """종목명"""
         return self.name_kor
 
-    market_code: MARKET_CODE = KisString["prdt_type_cd"]
+    exchange_code: EXCHANGE_CODE = KisString["prdt_type_cd"]
     """상품유형코드"""
 
     @property
-    def market(self) -> MARKET_TYPE:
+    def exchange(self) -> EXCHANGE_TYPE:
         """상품유형타입"""
-        return MARKET_CODE_MAP[self.market_code]  # type: ignore
+        return EXCHANGE_CODE_MAP[self.exchange_code]  # type: ignore
 
     @property
-    def market_name(self) -> str:
+    def exchange_name(self) -> str:
         """상품유형명"""
-        return R_MARKET_TYPE_MAP[self.market_code]
+        return R_EXCHANGE_TYPE_MAP[self.exchange_code]
 
     @property
     def foreign(self) -> bool:
         """해외종목 여부"""
-        return self.market_code not in MARKET_TYPE_MAP["KRX"]
+        return self.exchange_code not in EXCHANGE_TYPE_MAP["KRX"]
 
     @property
     def domestic(self) -> bool:
@@ -236,7 +236,7 @@ class _KisStockInfo(KisStockInfoRepr, KisAPIResponse):
 COUNTRY_TYPE = Literal["KR", "US", "HK", "JP", "VN", "CN"]
 """국가유형명"""
 
-MARKET_COUNTRY_MAP: dict[MARKET_TYPE, COUNTRY_TYPE] = {
+EXCHANGE_COUNTRY_MAP: dict[EXCHANGE_TYPE, COUNTRY_TYPE] = {
     "KRX": "KR",
     "NASDAQ": "US",
     "NYSE": "US",
@@ -250,24 +250,24 @@ MARKET_COUNTRY_MAP: dict[MARKET_TYPE, COUNTRY_TYPE] = {
 }
 
 
-def get_market_country(market: MARKET_TYPE) -> COUNTRY_TYPE:
+def get_exchange_country(exchange: EXCHANGE_TYPE) -> COUNTRY_TYPE:
     """상품유형명을 국가유형명으로 변환합니다."""
-    if country := MARKET_COUNTRY_MAP.get(market):
+    if country := EXCHANGE_COUNTRY_MAP.get(exchange):
         return country
 
-    raise ValueError(f"지원하지 않는 상품유형명입니다. {market}")
+    raise ValueError(f"지원하지 않는 상품유형명입니다. {exchange}")
 
 
-MARKET_INFO_TYPES = MARKET_TYPE | COUNTRY_TYPE | None
+EXCHANGE_INFO_TYPES = EXCHANGE_TYPE | COUNTRY_TYPE | None
 """상품유형명"""
 
 
-def quotable_market(
+def quotable_exchange(
     self: "PyKis",
     symbol: str,
-    market: MARKET_INFO_TYPES = None,
+    exchange: EXCHANGE_INFO_TYPES = None,
     use_cache: bool = True,
-) -> MARKET_TYPE:
+) -> EXCHANGE_TYPE:
     """
     시세조회 가능한 상품유형명 조회
 
@@ -277,25 +277,25 @@ def quotable_market(
 
     Args:
         symbol (str): 종목코드
-        market (str): 상품유형명
+        exchange (str): 상품유형명
         use_cache (bool, optional): 캐시 사용 여부
     """
     if not symbol:
         raise ValueError("종목 코드를 입력해주세요.")
 
     if use_cache:
-        cached: MARKET_TYPE = self.cache.get(f"quotable_market:{market}:{symbol}", str)  # type: ignore
+        cached: EXCHANGE_TYPE = self.cache.get(f"quotable_exchange:{exchange}:{symbol}", str)  # type: ignore
 
         if cached:
             return cached
 
     last_response: KisDynamicDict | None = None
 
-    for market_code in MARKET_TYPE_MAP[market]:
+    for exchange_code in EXCHANGE_TYPE_MAP[exchange]:
         try:
-            market_type = MARKET_CODE_MAP[market_code]
+            exchange_type = EXCHANGE_CODE_MAP[exchange_code]
 
-            if market_code in MARKET_TYPE_MAP["KR"]:
+            if exchange_code in EXCHANGE_TYPE_MAP["KR"]:
                 if not int(
                     (
                         last_response := self.fetch(
@@ -312,14 +312,14 @@ def quotable_market(
                     last_response := self.fetch(
                         "/uapi/overseas-price/v1/quotations/price",
                         api="HHDFS00000300",
-                        params={"AUTH": "", "EXCD": MARKET_SHORT_TYPE_MAP[market_type], "SYMB": symbol},
+                        params={"AUTH": "", "EXCD": EXCHANGE_SHORT_TYPE_MAP[exchange_type], "SYMB": symbol},
                         domain="real",
                     )
                 ).output.last
             ):
                 continue
 
-            return market_type
+            return exchange_type
         except AttributeError:
             pass
 
@@ -327,14 +327,14 @@ def quotable_market(
         (None if last_response is None else last_response.__data__) or {},
         "해당 종목의 정보를 조회할 수 없습니다.",
         code=symbol,
-        market=market,
+        exchange=exchange,
     )
 
 
 def info(
     self: "PyKis",
     symbol: str,
-    market: MARKET_INFO_TYPES = "KR",
+    exchange: EXCHANGE_INFO_TYPES = "KR",
     use_cache: bool = True,
     quotable: bool = True,
 ) -> KisStockInfoResponse:
@@ -346,7 +346,7 @@ def info(
 
     Args:
         symbol (str): 종목코드
-        market (str): 상품유형명
+        exchange (str): 상품유형명
         use_cache (bool, optional): 캐시 사용 여부
         quotable (bool, optional): 시세조회 가능한 상품유형명 조회
 
@@ -359,36 +359,36 @@ def info(
         raise ValueError("종목 코드를 입력해주세요.")
 
     if use_cache:
-        cached = self.cache.get(f"info:{market}:{symbol}", _KisStockInfo)
+        cached = self.cache.get(f"info:{exchange}:{symbol}", _KisStockInfo)
 
         if cached:
             return cached
 
     if quotable:
-        market = quotable_market(
+        exchange = quotable_exchange(
             self,
             symbol=symbol,
-            market=market,
+            exchange=exchange,
             use_cache=use_cache,
         )
 
     ex = None
 
-    for market_ in MARKET_TYPE_MAP[market]:
+    for exchange_ in EXCHANGE_TYPE_MAP[exchange]:
         try:
             result = self.fetch(
                 "/uapi/domestic-stock/v1/quotations/search-info",
                 api="CTPF1604R",
                 params={
                     "PDNO": symbol,
-                    "PRDT_TYPE_CD": market_,
+                    "PRDT_TYPE_CD": exchange_,
                 },
                 domain="real",
                 response_type=_KisStockInfo,
             )
 
             if use_cache:
-                self.cache.set(f"info:{market}:{symbol}", result, expire=timedelta(days=1))
+                self.cache.set(f"info:{exchange}:{symbol}", result, expire=timedelta(days=1))
 
             return result
         except KisAPIError as e:
@@ -403,17 +403,17 @@ def info(
         ex.data if ex else {},
         "해당 종목의 정보를 조회할 수 없습니다.",
         code=symbol,
-        market=market,
+        exchange=exchange,
     )
 
 
-def resolve_market(
+def resolve_exchange(
     self: "PyKis",
     symbol: str,
-    market: MARKET_INFO_TYPES = None,
+    exchange: EXCHANGE_INFO_TYPES = None,
     use_cache: bool = True,
     quotable: bool = True,
-) -> MARKET_TYPE:
+) -> EXCHANGE_TYPE:
     """
     상품유형명 해석
 
@@ -422,7 +422,7 @@ def resolve_market(
 
     Args:
         symbol (str): 종목코드
-        market (str): 상품유형명
+        exchange (str): 상품유형명
         use_cache (bool, optional): 캐시 사용 여부
         quotable (bool, optional): 시세조회 가능한 상품유형명 조회
 
@@ -434,7 +434,7 @@ def resolve_market(
     return info(
         self,
         symbol=symbol,
-        market=market,
+        exchange=exchange,
         use_cache=use_cache,
         quotable=quotable,
-    ).market
+    ).exchange

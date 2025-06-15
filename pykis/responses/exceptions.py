@@ -6,7 +6,7 @@ from pykis.client.exceptions import KisAPIError, KisException
 
 __all__ = [
     "KisNotFoundError",
-    "KisMarketNotOpenedError",
+    "KisExchangeNotOpenedError",
 ]
 
 
@@ -31,7 +31,7 @@ class KisNotFoundError(KisException):
         self.data = data
 
 
-class KisMarketNotOpenedError(KisAPIError):
+class KisExchangeNotOpenedError(KisAPIError):
     """시장이 열리지 않은 경우"""
 
     def __init__(self, data: dict, response: Response):

@@ -13,7 +13,7 @@ from pykis.api.base.account_product import (
     KisAccountProductBase,
     KisAccountProductProtocol,
 )
-from pykis.api.stock.info import MARKET_INFO_TYPES
+from pykis.api.stock.info import EXCHANGE_INFO_TYPES
 from pykis.api.stock.info import info as _info
 from pykis.client.account import KisAccountNumber
 from pykis.client.websocket import KisWebsocketClient
@@ -23,7 +23,7 @@ from pykis.event.subscription import KisSubscriptionEventArgs
 from pykis.scope.base import KisScope, KisScopeBase
 
 if TYPE_CHECKING:
-    from pykis.api.stock.market import MARKET_TYPE
+    from pykis.api.stock.exchange import EXCHANGE_TYPE
     from pykis.kis import PyKis
 
 __all__ = [
@@ -62,7 +62,7 @@ class KisStockScope(
 
     symbol: str
     """종목코드"""
-    market: "MARKET_TYPE"
+    exchange: "EXCHANGE_TYPE"
     """상품유형타입"""
 
     account_number: KisAccountNumber
@@ -71,13 +71,13 @@ class KisStockScope(
     def __init__(
         self,
         kis: "PyKis",
-        market: "MARKET_TYPE",
+        exchange: "EXCHANGE_TYPE",
         symbol: str,
         account: KisAccountNumber,
     ):
         super().__init__(kis=kis)
         KisProductEventFilter.__init__(self, self)  # Register event filter
-        self.market = market
+        self.exchange = exchange
         self.symbol = symbol
         self.account_number = account
 
@@ -85,7 +85,7 @@ class KisStockScope(
 def stock(
     self: "PyKis",
     symbol: str,
-    market: MARKET_INFO_TYPES = None,
+    exchange: EXCHANGE_INFO_TYPES = None,
     account: KisAccountNumber | None = None,
 ) -> KisStock:
     """
@@ -95,7 +95,7 @@ def stock(
 
     Args:
         symbol (str): 종목코드
-        market (str): 상품유형명
+        exchange (str): 상품유형명
         account (KisAccountNumber): 계좌번호
 
     Raises:
@@ -106,12 +106,12 @@ def stock(
     info = _info(
         self,
         symbol=symbol,
-        market=market,
+        exchange=exchange,
     )
 
     return KisStockScope(
         kis=self,
         symbol=info.symbol,
-        market=info.market,
+        exchange=info.exchange,
         account=account or self.primary,
     )

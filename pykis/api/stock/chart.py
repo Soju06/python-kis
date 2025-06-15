@@ -13,7 +13,7 @@ from typing import (
 )
 
 from pykis.api.base.product import KisProductBase, KisProductProtocol
-from pykis.api.stock.market import MARKET_TYPE
+from pykis.api.stock.exchange import EXCHANGE_TYPE
 from pykis.api.stock.quote import STOCK_SIGN_TYPE
 from pykis.responses.response import KisResponseProtocol
 from pykis.utils.repr import kis_repr
@@ -186,7 +186,7 @@ class KisChartBarRepr:
 
 
 @kis_repr(
-    "market",
+    "exchange",
     "symbol",
     "bars",
     lines="multiple",
@@ -202,7 +202,7 @@ class KisChartBase(KisChartRepr, KisProductBase):
 
     symbol: str
     """종목코드"""
-    market: MARKET_TYPE
+    exchange: EXCHANGE_TYPE
     """상품유형타입"""
 
     timezone: tzinfo

@@ -13,8 +13,8 @@ from pykis.api.account.order import (
     ensure_price,
     order_condition,
 )
-from pykis.api.stock.info import get_market_country
-from pykis.api.stock.market import DAYTIME_MARKETS, MARKET_TYPE, get_market_code
+from pykis.api.stock.info import get_exchange_country
+from pykis.api.stock.exchange import DAYTIME_EXCHANGES, EXCHANGE_TYPE, get_exchange_code
 from pykis.api.stock.quote import quote
 from pykis.client.exceptions import KisAPIError
 from pykis.responses.response import KisAPIResponse
@@ -155,7 +155,7 @@ def domestic_modify_order(
 
     condition_code, price_setting, _ = order_condition(
         virtual=self.virtual,
-        market="KRX",
+        exchange="KRX",
         order=order_info.type,
         price=price,
         condition=condition,
@@ -163,7 +163,7 @@ def domestic_modify_order(
     )
 
     if price_setting:
-        quote_data = quote(self, symbol=order.symbol, market="KRX")
+        quote_data = quote(self, symbol=order.symbol, exchange="KRX")
         price = quote_data.high_limit if price_setting == "upper" else quote_data.low_limit
 
     return self.fetch(
@@ -182,7 +182,7 @@ def domestic_modify_order(
         response_type=KisDomesticModifyOrder(
             account_number=order.account_number,
             symbol=order.symbol,
-            market="KRX",
+            exchange="KRX",
         ),
         method="POST",
     )
@@ -217,13 +217,13 @@ def domestic_cancel_order(
         response_type=KisDomesticModifyOrder(
             account_number=order.account_number,
             symbol=order.symbol,
-            market="KRX",
+            exchange="KRX",
         ),
         method="POST",
     )
 
 
-FOREIGN_ORDER_MODIFY_API_CODES: dict[tuple[bool, MARKET_TYPE, Literal["modify", "cancel"]], str] = {
+FOREIGN_ORDER_MODIFY_API_CODES: dict[tuple[bool, EXCHANGE_TYPE, Literal["modify", "cancel"]], str] = {
     # (실전투자여부, 시장, 주문종류): API코드
     (True, "NASDAQ", "modify"): "TTTT1004U",  # 미국 정정 주문
     (True, "NYSE", "modify"): "TTTT1004U",  # 미국 정정 주문
@@ -285,7 +285,7 @@ def foreign_modify_order(
     order_info = pending_orders(
         self,
         account=order.account_number,
-        country=get_market_country(order.market),
+        country=get_exchange_country(order.exchange),
     ).order(order)
 
     if not order_info:
@@ -307,7 +307,7 @@ def foreign_modify_order(
 
     _, price_setting, _ = order_condition(
         virtual=self.virtual,
-        market=order.market,
+        exchange=order.exchange,
         order=order_info.type,
         price=price,
         condition=condition,
@@ -315,13 +315,13 @@ def foreign_modify_order(
     )
 
     if price_setting:
-        quote_data = quote(self, symbol=order.symbol, market=order.market)
+        quote_data = quote(self, symbol=order.symbol, exchange=order.exchange)
         price = quote_data.high_limit if price_setting == "upper" else quote_data.low_limit
 
     if qty is None:
         qty = order_info.qty
 
-    api = FOREIGN_ORDER_MODIFY_API_CODES.get((not self.virtual, order.market, "modify"))
+    api = FOREIGN_ORDER_MODIFY_API_CODES.get((not self.virtual, order.exchange, "modify"))
 
     if not api:
         raise ValueError("해당 시장은 정정 주문을 지원하지 않습니다.")
@@ -330,7 +330,7 @@ def foreign_modify_order(
         "/uapi/overseas-stock/v1/trading/order-rvsecncl",
         api=api,
         body={
-            "OVRS_EXCG_CD": get_market_code(order.market),
+            "OVRS_EXCG_CD": get_exchange_code(order.exchange),
             "PDNO": order.symbol,
             "ORGN_ODNO": order.number,
             "RVSE_CNCL_DVSN_CD": "01",
@@ -341,7 +341,7 @@ def foreign_modify_order(
         response_type=KisForeignModifyOrder(
             account_number=order.account_number,
             symbol=order.symbol,
-            market=order.market,
+            exchange=order.exchange,
         ),
         method="POST",
     )
@@ -360,7 +360,7 @@ def foreign_cancel_order(
     Args:
         order (KisOrderNumber): 주문번호
     """
-    api = FOREIGN_ORDER_MODIFY_API_CODES.get((not self.virtual, order.market, "cancel"))
+    api = FOREIGN_ORDER_MODIFY_API_CODES.get((not self.virtual, order.exchange, "cancel"))
 
     if not api:
         raise ValueError("해당 시장은 취소 주문을 지원하지 않습니다.")
@@ -369,7 +369,7 @@ def foreign_cancel_order(
         "/uapi/overseas-stock/v1/trading/order-rvsecncl",
         api=api,
         body={
-            "OVRS_EXCG_CD": get_market_code(order.market),
+            "OVRS_EXCG_CD": get_exchange_code(order.exchange),
             "PDNO": order.symbol,
             "ORGN_ODNO": order.number,
             "RVSE_CNCL_DVSN_CD": "02",
@@ -380,7 +380,7 @@ def foreign_cancel_order(
         response_type=KisForeignModifyOrder(
             account_number=order.account_number,
             symbol=order.symbol,
-            market=order.market,
+            exchange=order.exchange,
         ),
         method="POST",
     )
@@ -405,7 +405,7 @@ def foreign_daytime_modify_order(
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
     """
-    if order.market not in DAYTIME_MARKETS:
+    if order.exchange not in DAYTIME_EXCHANGES:
         raise ValueError("해당 시장은 주간거래를 지원하지 않습니다.")
 
     if self.virtual:
@@ -419,7 +419,7 @@ def foreign_daytime_modify_order(
     order_info = pending_orders(
         self,
         account=order.account_number,
-        country=get_market_country(order.market),
+        country=get_exchange_country(order.exchange),
     ).order(order)
 
     if not order_info:
@@ -437,14 +437,14 @@ def foreign_daytime_modify_order(
         qty = order_info.qty
 
     if not price:
-        quote_data = quote(self, symbol=order.symbol, market=order.market, extended=True)
+        quote_data = quote(self, symbol=order.symbol, exchange=order.exchange, extended=True)
         price = quote_data.high_limit if order == "buy" else quote_data.low_limit
 
     return self.fetch(
         "/uapi/overseas-stock/v1/trading/daytime-order-rvsecncl",
         api="TTTS6038U",
         body={
-            "OVRS_EXCG_CD": get_market_code(order.market),
+            "OVRS_EXCG_CD": get_exchange_code(order.exchange),
             "PDNO": order.symbol,
             "ORGN_ODNO": order.number,
             "RVSE_CNCL_DVSN_CD": "01",
@@ -458,7 +458,7 @@ def foreign_daytime_modify_order(
         response_type=KisForeignDaytimeModifyOrder(
             account_number=order.account_number,
             symbol=order.symbol,
-            market=order.market,
+            exchange=order.exchange,
         ),
         method="POST",
     )
@@ -477,7 +477,7 @@ def foreign_daytime_cancel_order(
     Args:
         order (KisOrderNumber): 주문번호
     """
-    if order.market not in DAYTIME_MARKETS:
+    if order.exchange not in DAYTIME_EXCHANGES:
         raise ValueError("해당 시장은 주간거래를 지원하지 않습니다.")
 
     if self.virtual:
@@ -488,7 +488,7 @@ def foreign_daytime_cancel_order(
     order_info = pending_orders(
         self,
         account=order.account_number,
-        country=get_market_country(order.market),
+        country=get_exchange_country(order.exchange),
     ).order(order)
 
     if not order_info:
@@ -498,7 +498,7 @@ def foreign_daytime_cancel_order(
         "/uapi/overseas-stock/v1/trading/daytime-order-rvsecncl",
         api="TTTS6038U",
         body={
-            "OVRS_EXCG_CD": get_market_code(order.market),
+            "OVRS_EXCG_CD": get_exchange_code(order.exchange),
             "PDNO": order.symbol,
             "ORGN_ODNO": order.number,
             "RVSE_CNCL_DVSN_CD": "02",
@@ -512,7 +512,7 @@ def foreign_daytime_cancel_order(
         response_type=KisForeignModifyOrder(
             account_number=order.account_number,
             symbol=order.symbol,
-            market=order.market,
+            exchange=order.exchange,
         ),
         method="POST",
     )
@@ -540,7 +540,7 @@ def modify_order(
         condition (ORDER_CONDITION, optional): 주문조건
         execution (ORDER_EXECUTION_CONDITION, optional): 체결조건
     """
-    if order.market == "KRX":
+    if order.exchange == "KRX":
         return domestic_modify_order(
             self,
             order=order,
@@ -618,7 +618,7 @@ def cancel_order(
     Args:
         order (KisOrderNumber): 주문번호
     """
-    if order.market == "KRX":
+    if order.exchange == "KRX":
         return domestic_cancel_order(self, order=order)
 
     try:

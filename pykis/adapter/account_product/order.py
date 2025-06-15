@@ -12,7 +12,7 @@ from pykis.api.account.order import (
 from pykis.api.account.orderable_amount import KisOrderableAmount
 from pykis.api.account.pending_order import KisPendingOrders
 from pykis.api.base.account_product import KisAccountProductProtocol
-from pykis.api.stock.info import get_market_country
+from pykis.api.stock.info import get_exchange_country
 
 __all__ = [
     "KisOrderableAccountProduct",
@@ -120,7 +120,7 @@ class KisOrderableAccountProduct(Protocol):
         Raises:
             KisAPIError: API 호출에 실패한 경우
             KisNotFoundError: 조회 결과가 없는 경우
-            KisMarketNotOpenedError: 시장이 열리지 않은 경우
+            KisExchangeNotOpenedError: 시장이 열리지 않은 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
         ...
@@ -185,7 +185,7 @@ class KisOrderableAccountProduct(Protocol):
         Raises:
             KisAPIError: API 호출에 실패한 경우
             KisNotFoundError: 조회 결과가 없는 경우
-            KisMarketNotOpenedError: 시장이 열리지 않은 경우
+            KisExchangeNotOpenedError: 시장이 열리지 않은 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
         ...
@@ -250,7 +250,7 @@ class KisOrderableAccountProduct(Protocol):
         Raises:
             KisAPIError: API 호출에 실패한 경우
             KisNotFoundError: 조회 결과가 없는 경우
-            KisMarketNotOpenedError: 시장이 열리지 않은 경우
+            KisExchangeNotOpenedError: 시장이 열리지 않은 경우
             ValueError: 종목 코드가 올바르지 않은 경우
         """
         ...
@@ -384,7 +384,7 @@ class KisOrderableAccountProductMixin:
     def quantity(self: "KisAccountProductProtocol") -> ORDER_QUANTITY:
         return (
             stock.quantity
-            if (stock := self.account.balance(get_market_country(self.market)).stock(self.symbol))
+            if (stock := self.account.balance(get_exchange_country(self.exchange)).stock(self.symbol))
             else ORDER_QUANTITY(0)
         )
 
@@ -398,7 +398,7 @@ class KisOrderableAccountProductMixin:
         """
         return (
             stock.quantity
-            if (stock := self.account.balance(get_market_country(self.market)).stock(self.symbol))
+            if (stock := self.account.balance(get_exchange_country(self.exchange)).stock(self.symbol))
             else ORDER_QUANTITY(0)
         )
 
@@ -412,7 +412,7 @@ class KisOrderableAccountProductMixin:
         """
         return (
             stock.orderable
-            if (stock := self.account.balance(get_market_country(self.market)).stock(self.symbol))
+            if (stock := self.account.balance(get_exchange_country(self.exchange)).stock(self.symbol))
             else ORDER_QUANTITY(0)
         )
 
@@ -426,6 +426,6 @@ class KisOrderableAccountProductMixin:
         """
         return (
             stock.purchase_amount
-            if (stock := self.account.balance(get_market_country(self.market)).stock(self.symbol))
+            if (stock := self.account.balance(get_exchange_country(self.exchange)).stock(self.symbol))
             else 0
         )
