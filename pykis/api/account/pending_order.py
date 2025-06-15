@@ -5,10 +5,7 @@ from zoneinfo import ZoneInfo
 
 from typing_extensions import deprecated
 
-from pykis.adapter.account_product.order_modify import (
-    KisOrderableOrder,
-    KisOrderableOrderMixin,
-)
+from pykis.adapter.account_product.order_modify import KisOrderableOrderMixin
 from pykis.adapter.websocket.execution import KisRealtimeOrderableOrderMixin
 from pykis.api.account.order import (
     ORDER_CONDITION,
@@ -17,7 +14,6 @@ from pykis.api.account.order import (
     ORDER_TYPE,
     KisOrder,
     KisOrderNumber,
-    KisOrderNumberBase,
     KisSimpleOrder,
     KisSimpleOrderNumber,
     resolve_domestic_order_condition,

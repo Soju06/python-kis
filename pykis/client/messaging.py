@@ -41,7 +41,7 @@ class KisWebsocketRequest(KisForm, KisObjectBase):
         type: str,
         body: KisWebsocketForm | None = None,
         domain: Literal["real", "virtual"] | None = None,
-    ):
+    ) -> None:
         super().__init__()
         self.kis = kis
         self.type = type
@@ -91,7 +91,7 @@ class KisWebsocketTR(KisWebsocketForm):
     key: str
     """TR Key"""
 
-    def __init__(self, tr_id: str, tr_key: str):
+    def __init__(self, tr_id: str, tr_key: str) -> None:
         super().__init__()
 
         self.id = tr_id
@@ -137,7 +137,7 @@ class KisWebsocketEncryptionKey:
     key: bytes
     """Key"""
 
-    def __init__(self, iv: bytes, key: bytes):
+    def __init__(self, iv: bytes, key: bytes) -> None:
         super().__init__()
 
         self.iv = iv

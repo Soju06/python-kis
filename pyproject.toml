@@ -1,18 +1,10 @@
-[build-system]
-requires = [
-    "setuptools>=71.1",
-    "setuptools-scm>=8.1"
-]
-build-backend = "setuptools.build_meta"
-
-[project]
+[tool.poetry]
 name = "python-kis"
+version = "0.0.0"
 description = "파이썬 한국투자증권 REST 기반 Trading API 라이브러리"
+authors = ["Soju06 <qlskssk@gmail.com>"]
+license = "MIT"
 readme = "README.md"
-license = { text = "MIT" }
-authors = [
-    { name = "Soju06", email = "qlskssk@gmail.com" }
-]
 keywords = [
     "python",
     "client",
@@ -43,25 +35,46 @@ classifiers = [
     "Topic :: Office/Business :: Financial :: Investment",
     "Typing :: Typed"
 ]
-requires-python = ">=3.10"
-dependencies = [
-    "requests>=2.32.3",
-    "websocket-client>=1.8.0",
-    "cryptography>=43.0.0",
-    "colorlog>=6.8.2"
-]
-dynamic = [
-    "version",
-]
-[project.urls]
+packages = [{include = "pykis"}]
+
+[tool.poetry.urls]
 "Bug Tracker" = "https://github.com/Soju06/python-kis/issues"
 "Documentation" = "https://github.com/Soju06/python-kis/wiki/Tutorial"
 "Source Code" = "https://github.com/Soju06/python-kis"
 
-[tool.setuptools.dynamic]
-version = { attr = "pykis.__env__.__version__" }
+[tool.poetry.dependencies]
+python = ">=3.10"
+requests = ">=2.32.3"
+websocket-client = ">=1.8.0"
+cryptography = ">=43.0.0"
+colorlog = ">=6.8.2"
+typing-extensions = "^4.14.0"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["pykis"]
-exclude = ["tests"]
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "pep440"
+pattern = "^v(?P<base>\\d+\\.\\d+\\.\\d+)(-(?P<stage>[a-zA-Z]+)\\.(?P<revision>\\d+))?$"
+format-jinja = """
+{%- if distance == 0 -%}
+    {{ serialize_pep440(base, stage, revision) }}
+{%- else -%}
+    {{ serialize_pep440(base, stage, revision, dev=distance, metadata=[commit]) }}
+{%- endif -%}
+"""
+metadata = true
+
+[tool.poetry-dynamic-versioning.substitution]
+folders = [
+    { path = "pykis", files = ["__env__.py"] }
+]
+patterns = [
+    "(VERSION = \")[^\"]*(\").*"
+]
+
+[build-system]
+requires = ["poetry-core>=1.8.0", "poetry-dynamic-versioning>=1.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"

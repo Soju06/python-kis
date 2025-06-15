@@ -27,7 +27,7 @@ class KisKey(KisForm):
     secretkey: str
     """앱 시크릿"""
 
-    def __init__(self, id: str, appkey: str, secretkey: str):
+    def __init__(self, id: str, appkey: str, secretkey: str) -> None:
         if not id:
             raise ValueError("id를 입력해야 합니다.")
         if len(appkey) != APPKEY_LENGTH:
@@ -43,12 +43,7 @@ class KisKey(KisForm):
         if dict is None:
             dict = {}
 
-        dict.update(
-            {
-                "appkey": self.appkey,
-                "appsecret": self.secretkey,
-            }
-        )
+        dict.update({"appkey": self.appkey, "appsecret": self.secretkey})
         return dict
 
     def __repr__(self) -> str:

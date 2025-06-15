@@ -157,12 +157,12 @@ print(quote)
 ```python
 KisForeignQuote(
     symbol='NVDA',
-    market='NASDAQ',
+    exchange='NASDAQ',
     name='엔비디아',
     sector_name='반도체 및 반도체장비',
     volume=1506310,
     amount=160791125,
-    market_cap=2593332000000,
+    exchange_cap=2593332000000,
     indicator=KisForeignIndicator(
         eps=1.71,
         bps=2,
@@ -209,8 +209,8 @@ KisIntegrationBalance(
         'USD': KisForeignPresentDeposit(account_number=KisAccountNumber('50113500-01'), currency='USD', amount=0, exchange_rate=1384.6),
     },
     stocks=[
-        KisDomesticBalanceStock(account_number=KisAccountNumber('50113500-01'), market='KRX', symbol='000660', qty=14, price=192600, amount=2696400, profit=22900, profit_rate=0.856555077613615111277351786),
-        KisDomesticBalanceStock(account_number=KisAccountNumber('50113500-01'), market='KRX', symbol='039200', qty=118, price=39600, amount=4672800, profit=-199500, profit_rate=-4.094575457176282248630010467)
+        KisDomesticBalanceStock(account_number=KisAccountNumber('50113500-01'), exchange='KRX', symbol='000660', qty=14, price=192600, amount=2696400, profit=22900, profit_rate=0.856555077613615111277351786),
+        KisDomesticBalanceStock(account_number=KisAccountNumber('50113500-01'), exchange='KRX', symbol='039200', qty=118, price=39600, amount=4672800, profit=-199500, profit_rate=-4.094575457176282248630010467)
     ],
     purchase_amount=7545800,
     current_amount=7369200,
@@ -274,11 +274,11 @@ Press Enter to exit...
 [08/02 13:50:42] INFO: RTC Connected to real server
 [08/02 13:50:42] INFO: RTC Restoring subscriptions... H0STCNT0.000660
 [08/02 13:50:42] INFO: RTC Subscribed to H0STCNT0.000660
-KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:44+09:00', price=174900, change=-18400, volume=8919304, amount=1587870362300)
-KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:44+09:00', price=174800, change=-18500, volume=8919354, amount=1587879102300)
-KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:45+09:00', price=174800, change=-18500, volume=8919358, amount=1587879801500)
-KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:45+09:00', price=174900, change=-18400, volume=8920313, amount=1588046831000)
-KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:45+09:00', price=174800, change=-18500, volume=8920319, amount=1588047879800)
+KisDomesticRealtimePrice(exchange='KRX', symbol='000660', time='2024-08-02T13:50:44+09:00', price=174900, change=-18400, volume=8919304, amount=1587870362300)
+KisDomesticRealtimePrice(exchange='KRX', symbol='000660', time='2024-08-02T13:50:44+09:00', price=174800, change=-18500, volume=8919354, amount=1587879102300)
+KisDomesticRealtimePrice(exchange='KRX', symbol='000660', time='2024-08-02T13:50:45+09:00', price=174800, change=-18500, volume=8919358, amount=1587879801500)
+KisDomesticRealtimePrice(exchange='KRX', symbol='000660', time='2024-08-02T13:50:45+09:00', price=174900, change=-18400, volume=8920313, amount=1588046831000)
+KisDomesticRealtimePrice(exchange='KRX', symbol='000660', time='2024-08-02T13:50:45+09:00', price=174800, change=-18500, volume=8920319, amount=1588047879800)
 
 [08/02 13:50:48] INFO: RTC Unsubscribed from H0STCNT0.000660
 ```
@@ -398,7 +398,7 @@ KisDomesticRealtimePrice(market='KRX', symbol='000660', time='2024-08-02T13:50:4
 
 - API 초당 요청 제한을 넘어버리는 버그를 수정하였습니다.
 - `period_price` 응답 데이터의 `stck_fcam`값 `float`으로 변경하였습니다.
-- `utils.KRXMarketOpen` 공휴일 데이터가 1개인 경우 오류 발생하는 버그 수정하였습니다.
+- `utils.KRXExchangeOpen` 공휴일 데이터가 1개인 경우 오류 발생하는 버그 수정하였습니다.
 
 
 ### License

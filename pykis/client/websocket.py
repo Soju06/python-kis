@@ -10,11 +10,7 @@ from typing import TYPE_CHECKING, Callable
 from websocket import WebSocketApp, WebSocketConnectionClosedException
 
 from pykis import logging
-from pykis.__env__ import (
-    WEBSOCKET_MAX_SUBSCRIPTIONS,
-    WEBSOCKET_REAL_DOMAIN,
-    WEBSOCKET_VIRTUAL_DOMAIN,
-)
+from pykis.__env__ import WEBSOCKET_MAX_SUBSCRIPTIONS
 from pykis.api.websocket import WEBSOCKET_RESPONSES_MAP
 from pykis.client.messaging import (
     TR_SUBSCRIBE_TYPE,
