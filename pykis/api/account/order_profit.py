@@ -22,6 +22,7 @@ from pykis.client.page import KisPage
 from pykis.responses.dynamic import KisDynamic, KisList, KisTransform
 from pykis.responses.response import KisPaginationAPIResponse
 from pykis.responses.types import KisAny, KisDecimal, KisString
+from pykis.utils.math import safe_divide
 from pykis.utils.repr import kis_repr
 from pykis.utils.timezone import TIMEZONE
 
