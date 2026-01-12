@@ -1,0 +1,602 @@
+id: 0bb05819-d759-4789-8eda-27a0b88f02aa
+name: 선물옵션 시세[v1_국내선물-006]
+section: '[국내선물옵션] 기본시세'
+category: 국내선물옵션
+subcategory: 기본시세
+method: GET
+url: /uapi/domestic-futureoption/v1/quotations/inquire-price
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: https://openapivts.koreainvestment.com:29443
+tr_ids:
+- FHMIF10000000
+real_tr_id: FHMIF10000000
+virtual_tr_id: FHMIF10000000
+summary: "선물옵션 시세 API입니다. \n\n※ 종목코드 마스터파일 파이썬 정제코드는 한국투자증권 Github 참고 부탁드립니다.\n   https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info"
+description: '[국내선물-006 v1] 선물옵션 시세'
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2021-12-15T13:07:05+09:00'
+  last_modified_date: '2025-04-30T12:24:19+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: false
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)\n\n※ 토큰 지정시 토큰\
+      \ 타입(\"Bearer\") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 \"Bearer\" 붙여서 호출\nEX) \"Bearer eyJ..........8GA\""
+  - code: appkey
+    name: '앱키 '
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: '[실전/모의투자]
+
+      FHMIF10000000 : 선물 옵션 시세'
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'B : 법인
+
+      P : 개인'
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: FID 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 'F: 지수선물, O:지수옵션
+
+      JF: 주식선물, JO:주식옵션
+
+      CF: 상품선물(금), 금리선물(국채), 통화선물(달러)
+
+      CM: 야간선물, EU: 야간옵션'
+  - code: FID_INPUT_ISCD
+    name: FID 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '종목코드 (예: 101S03)'
+  example:
+    fid_cond_mrkt_div_code: F
+    fid_input_iscd: 101S03
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '0 : 성공
+
+      0 이외의 값 : 실패'
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 응답코드
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: 응답메세지
+  - code: output1
+    name: 응답상세1
+    type: A0003
+    type_name: String
+    length: ''
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: 종목명
+  - code: futs_prpr
+    name: 선물 현재가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 선물의 현재가격
+  - code: futs_prdy_vrss
+    name: 선물 전일 대비
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 선물의 전일 종가와 당일 현재가의 차이 (당일 현재가-전일 종가)
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "1 : 상한 \n2 : 상승\n3 : 보합\n4 : 하한\n5 : 하락"
+  - code: futs_prdy_clpr
+    name: 선물 전일 종가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 선물 종목의 전일 종가
+  - code: futs_prdy_ctrt
+    name: 선물 전일 대비율
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: 선물 전일 대비 / 당일 현재가 * 100
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 당일 조회시점까지 전체 거래량
+  - code: acml_tr_pbmn
+    name: 누적 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 당일 조회시점까지 전체 거래금액
+  - code: hts_otst_stpl_qty
+    name: HTS 미결제 약정 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 현재까지 반대매매로 청산되지 않은 계약수
+  - code: otst_stpl_qty_icdc
+    name: 미결제 약정 수량 증감
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 전일대비 미결제 약정 수량의 증감
+  - code: futs_oprc
+    name: 선물 시가2
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 당일 최초 거래가격
+  - code: futs_hgpr
+    name: 선물 최고가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 당일 조회 시점까지 가장 높은 거래가격
+  - code: futs_lwpr
+    name: 선물 최저가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 당일 조회 시점까지 가장 낮은 거래가격
+  - code: futs_mxpr
+    name: 선물 상한가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 당일 거래 가능한 최고 가격
+  - code: futs_llam
+    name: 선물 하한가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 당일 거래 가능한 최저 가격
+  - code: basis
+    name: 베이시스
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: '이론베이시스
+
+      선물 이론가격과 현물가격과의 차이'
+  - code: futs_sdpr
+    name: 선물 기준가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: hts_thpr
+    name: HTS 이론가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 월물의 이론적 가치를 계산한 것으로 주가지수 선물 이론가격은 (주가지수 선물 이론가격 = 주가지수 + 기간이자비용 - 기간배당수입) 로 계산
+  - code: dprt
+    name: 괴리율
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: '현재의 시장가가 이론가격으로부터 얼마나 벗어나 있는지에 대한 측정 자료
+
+      괴리도 = (현재가 - 이론가격)'
+  - code: crbr_aply_mxpr
+    name: 서킷브레이커 적용 상한가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: crbr_aply_llam
+    name: 서킷브레이커 적용 하한가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: futs_last_tr_date
+    name: 선물 최종 거래 일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 해당 선물 종목의 마지막 거래일
+  - code: hts_rmnn_dynu
+    name: HTS 잔존 일수
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 최종 거래일까지 남은 일수
+  - code: futs_lstn_medm_hgpr
+    name: 선물 상장 중 최고가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 선물 종목의 상장일 이후 최고 거래가격
+  - code: futs_lstn_medm_lwpr
+    name: 선물 상장 중 최저가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 선물 종목의 상장일 이후 최저 거래가격
+  - code: delta_val
+    name: 델타 값
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: 옵션 종목의 지표값
+  - code: gama
+    name: 감마
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 옵션 종목의 지표값
+  - code: theta
+    name: 세타
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 옵션 종목의 지표값
+  - code: vega
+    name: 베가
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 옵션 종목의 지표값
+  - code: rho
+    name: 로우
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 옵션 종목의 지표값
+  - code: hist_vltl
+    name: 역사적 변동성
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: 옵션 종목의 지표값
+  - code: hts_ints_vltl
+    name: HTS 내재 변동성
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: 옵션 종목의 지표값
+  - code: mrkt_basis
+    name: 시장 베이시스
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: '시장베이시스
+
+      현재 시장에서 형성된 선물가격과 현물가격과의 차이'
+  - code: acpr
+    name: 행사가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 옵션의 행사가격
+  - code: output2
+    name: 응답상세2
+    type: A0003
+    type_name: String
+    length: ''
+    required: true
+    description: ''
+  - code: bstp_cls_code
+    name: 업종 구분 코드
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: 종목명
+  - code: bstp_nmix_prpr
+    name: 업종 지수 현재가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: bstp_nmix_prdy_vrss
+    name: 업종 지수 전일 대비
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: bstp_nmix_prdy_ctrt
+    name: 업종 지수 전일 대비율
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: output3
+    name: 응답상세3
+    type: A0003
+    type_name: String
+    length: ''
+    required: true
+    description: ''
+  - code: bstp_cls_code
+    name: 업종 구분 코드
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: bstp_nmix_prpr
+    name: 업종 지수 현재가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: bstp_nmix_prdy_vrss
+    name: 업종 지수 전일 대비
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: bstp_nmix_prdy_ctrt
+    name: 업종 지수 전일 대비율
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  example:
+    output1:
+      hts_kor_isnm: F 202203
+      futs_prpr: '395.00'
+      futs_prdy_vrss: '6.70'
+      prdy_vrss_sign: '2'
+      futs_prdy_clpr: '388.30'
+      futs_prdy_ctrt: '1.73'
+      acml_vol: '220924'
+      acml_tr_pbmn: '21741293338'
+      hts_otst_stpl_qty: '247121'
+      otst_stpl_qty_icdc: '-592'
+      futs_oprc: '391.05'
+      futs_hgpr: '395.15'
+      futs_lwpr: '391.00'
+      futs_mxpr: '419.35'
+      futs_llam: '357.25'
+      basis: '0.82'
+      futs_sdpr: '388.30'
+      hts_thpr: '395.48'
+      dprt: '-0.12'
+      crbr_aply_mxpr: '0.00'
+      crbr_aply_llam: '0.00'
+      futs_last_tr_date: '20220310'
+      hts_rmnn_dynu: '58'
+      futs_lstn_medm_hgpr: '434.00'
+      futs_lstn_medm_lwpr: '366.60'
+      delta_val: '1.0000'
+      gama: '0.0000'
+      theta: '0.0000'
+      vega: '0.0000'
+      rho: '0.0000'
+      mrkt_basis: '0.34'
+    output2:
+      bstp_cls_code: '0001'
+      hts_kor_isnm: 종합
+      bstp_nmix_prpr: '2972.48'
+      prdy_vrss_sign: '2'
+      bstp_nmix_prdy_vrss: '45.10'
+      bstp_nmix_prdy_ctrt: '1.54'
+    output3:
+      bstp_cls_code: '2001'
+      hts_kor_isnm: KOSPI200
+      bstp_nmix_prpr: '394.66'
+      prdy_vrss_sign: '2'
+      bstp_nmix_prdy_vrss: '5.69'
+      bstp_nmix_prdy_ctrt: '1.46'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다!
+errors: []

@@ -1,0 +1,1607 @@
+id: 03997d2f-6145-4a84-88fe-5a63fe4374fb
+name: 예탁원정보(공모주청약일정)[국내주식-151]
+section: '[국내주식] 종목정보'
+category: 국내주식
+subcategory: 종목정보
+method: GET
+url: /uapi/domestic-stock/v1/ksdinfo/pub-offer
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 미지원
+tr_ids:
+- HHKDB669108C0
+- 모의투자 미지원
+real_tr_id: HHKDB669108C0
+virtual_tr_id: 모의투자 미지원
+summary: "예탁원정보(공모주청약일정) API입니다. \n한국투자 HTS(eFriend Plus) > [0667] 공모주청약 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\
+  \n※ 예탁원에서 제공한 자료이므로 정보용으로만 사용하시기 바랍니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-03-27T10:20:24+09:00'
+  last_modified_date: '2025-05-14T13:21:21+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHKDB669108C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: SHT_CD
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: '공백: 전체,  특정종목 조회시 : 종목코드'
+  - code: CTS
+    name: CTS
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: 공백
+  - code: F_DT
+    name: 조회일자From
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 일자 ~
+  - code: T_DT
+    name: 조회일자To
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ~ 일자
+  example: "cts:\r\nf_dt:20230301\r\nt_dt:20240326\r\nsht_cd:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: record_date
+    name: 기준일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: sht_cd
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: isin_name
+    name: 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: fix_subscr_pri
+    name: 공모가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: face_value
+    name: 액면가
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: subscr_dt
+    name: 청약기간
+    type: A0001
+    type_name: String
+    length: '23'
+    required: true
+    description: ''
+  - code: pay_dt
+    name: 납입일
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: refund_dt
+    name: 환불일
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: list_dt
+    name: 상장/등록일
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: lead_mgr
+    name: 주간사
+    type: A0001
+    type_name: String
+    length: '41'
+    required: true
+    description: ''
+  - code: pub_bf_cap
+    name: 공모전자본금
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: pub_af_cap
+    name: 공모후자본금
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: assign_stk_qty
+    name: 당사배정물량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  example:
+    output1:
+    - record_date: '20240325'
+      sht_cd: '461030'
+      isin_name: 아이엠비디엑스
+      fix_subscr_pri: '       13000'
+      face_value: '000000100'
+      subscr_dt: 2024/03/25 ~ 2024/03/26
+      pay_dt: 2024/03/28
+      refund_dt: 2024/03/28
+      list_dt: ''
+      lead_mgr: 미래에셋증권
+      pub_bf_cap: '     1141762'
+      pub_af_cap: '       62500'
+      assign_stk_qty: '           0'
+    - record_date: '20240318'
+      sht_cd: '475240'
+      isin_name: 하나32호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2024/03/18 ~ 2024/03/19
+      pay_dt: 2024/03/21
+      refund_dt: 2024/03/21
+      list_dt: 2024/03/27
+      lead_mgr: 하나증권
+      pub_bf_cap: '       20000'
+      pub_af_cap: '       75000'
+      assign_stk_qty: '           0'
+    - record_date: '20240314'
+      sht_cd: '455900'
+      isin_name: 엔젤로보틱스
+      fix_subscr_pri: '       20000'
+      face_value: '000000500'
+      subscr_dt: 2024/03/14 ~ 2024/03/15
+      pay_dt: 2024/03/19
+      refund_dt: 2024/03/19
+      list_dt: 2024/03/26
+      lead_mgr: NH투자증권
+      pub_bf_cap: '     6648690'
+      pub_af_cap: '      240000'
+      assign_stk_qty: '           0'
+    - record_date: '20240312'
+      sht_cd: '437730'
+      isin_name: 삼현
+      fix_subscr_pri: '       30000'
+      face_value: '000000500'
+      subscr_dt: 2024/03/12 ~ 2024/03/13
+      pay_dt: 2024/03/15
+      refund_dt: 2024/03/15
+      list_dt: 2024/03/21
+      lead_mgr: 한국투자증권
+      pub_bf_cap: '     4267928'
+      pub_af_cap: '      250000'
+      assign_stk_qty: '      500000'
+    - record_date: '20240304'
+      sht_cd: '036220'
+      isin_name: 오상헬스케어
+      fix_subscr_pri: '       20000'
+      face_value: '000000500'
+      subscr_dt: 2024/03/04 ~ 2024/03/05
+      pay_dt: 2024/03/07
+      refund_dt: 2024/03/07
+      list_dt: ''
+      lead_mgr: NH투자증권
+      pub_bf_cap: '     6542358'
+      pub_af_cap: '      123750'
+      assign_stk_qty: '           0'
+    - record_date: '20240226'
+      sht_cd: '199430'
+      isin_name: 케이엔알시스템
+      fix_subscr_pri: '       13500'
+      face_value: '000000100'
+      subscr_dt: 2024/02/26 ~ 2024/02/27
+      pay_dt: 2024/02/29
+      refund_dt: 2024/02/29
+      list_dt: 2024/03/07
+      lead_mgr: DB금융투자
+      pub_bf_cap: '      870059'
+      pub_af_cap: '       52600'
+      assign_stk_qty: '           0'
+    - record_date: '20240222'
+      sht_cd: '469900'
+      isin_name: 하나31호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2024/02/22 ~ 2024/02/23
+      pay_dt: 2024/02/27
+      refund_dt: 2024/02/27
+      list_dt: 2024/03/05
+      lead_mgr: 하나증권
+      pub_bf_cap: '       60500'
+      pub_af_cap: '      125000'
+      assign_stk_qty: '           0'
+    - record_date: '20240220'
+      sht_cd: '472230'
+      isin_name: 에스케이증권제11호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2024/02/20 ~ 2024/02/21
+      pay_dt: 2024/02/23
+      refund_dt: 2024/02/23
+      list_dt: 2024/03/04
+      lead_mgr: SK증권
+      pub_bf_cap: '       15500'
+      pub_af_cap: '      100000'
+      assign_stk_qty: '           0'
+    - record_date: '20240220'
+      sht_cd: '473050'
+      isin_name: 유안타제15호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2024/02/20 ~ 2024/02/21
+      pay_dt: 2024/02/23
+      refund_dt: 2024/02/23
+      list_dt: 2024/02/29
+      lead_mgr: 유안타증권
+      pub_bf_cap: '       51000'
+      pub_af_cap: '      162500'
+      assign_stk_qty: '           0'
+    - record_date: '20240219'
+      sht_cd: '468760'
+      isin_name: 유진기업인수목적10호
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2024/02/19 ~ 2024/02/20
+      pay_dt: 2024/02/22
+      refund_dt: 2024/02/22
+      list_dt: 2024/02/29
+      lead_mgr: 유진투자증권
+      pub_bf_cap: '       24000'
+      pub_af_cap: '      100000'
+      assign_stk_qty: '           0'
+    - record_date: '20240219'
+      sht_cd: '473370'
+      isin_name: 비엔케이제2호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2024/02/19 ~ 2024/02/20
+      pay_dt: 2024/02/22
+      refund_dt: 2024/02/22
+      list_dt: 2024/03/05
+      lead_mgr: 비엔케이투자증권
+      pub_bf_cap: '       21000'
+      pub_af_cap: '      100000'
+      assign_stk_qty: '           0'
+    - record_date: '20240214'
+      sht_cd: '278470'
+      isin_name: 에이피알
+      fix_subscr_pri: '      250000'
+      face_value: '000000500'
+      subscr_dt: 2024/02/14 ~ 2024/02/15
+      pay_dt: 2024/02/19
+      refund_dt: 2024/02/19
+      list_dt: 2024/02/27
+      lead_mgr: 신한투자증권, 하나증권
+      pub_bf_cap: '     3637689'
+      pub_af_cap: '       56850'
+      assign_stk_qty: '           0'
+    - record_date: '20240213'
+      sht_cd: 068100
+      isin_name: 케이웨더
+      fix_subscr_pri: '        7000'
+      face_value: '000000500'
+      subscr_dt: 2024/02/13 ~ 2024/02/14
+      pay_dt: 2024/02/16
+      refund_dt: 2024/02/16
+      list_dt: 2024/02/22
+      lead_mgr: NH투자증권
+      pub_bf_cap: '     4454807'
+      pub_af_cap: '      125000'
+      assign_stk_qty: '           0'
+    - record_date: '20240213'
+      sht_cd: '360350'
+      isin_name: 코셈
+      fix_subscr_pri: '       16000'
+      face_value: '000000500'
+      subscr_dt: 2024/02/13 ~ 2024/02/14
+      pay_dt: 2024/02/16
+      refund_dt: 2024/02/16
+      list_dt: 2024/02/23
+      lead_mgr: 키움증권
+      pub_bf_cap: '     2521985'
+      pub_af_cap: '       75000'
+      assign_stk_qty: '           0'
+    - record_date: '20240213'
+      sht_cd: '418620'
+      isin_name: 이에이트
+      fix_subscr_pri: '       20000'
+      face_value: '000000500'
+      subscr_dt: 2024/02/13 ~ 2024/02/14
+      pay_dt: 2024/02/16
+      refund_dt: 2024/02/16
+      list_dt: 2024/02/23
+      lead_mgr: 한화투자증권
+      pub_bf_cap: '     4205888'
+      pub_af_cap: '      141250'
+      assign_stk_qty: '           0'
+    - record_date: '20240125'
+      sht_cd: '415380'
+      isin_name: 스튜디오삼익
+      fix_subscr_pri: '       18000'
+      face_value: '000000500'
+      subscr_dt: 2024/01/25 ~ 2024/01/26
+      pay_dt: 2024/01/30
+      refund_dt: 2024/01/30
+      list_dt: 2024/02/06
+      lead_mgr: DB금융투자
+      pub_bf_cap: '     1674999'
+      pub_af_cap: '      106250'
+      assign_stk_qty: '           0'
+    - record_date: '20240125'
+      sht_cd: '472220'
+      isin_name: 신영해피투모로우제10호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2024/01/25 ~ 2024/01/26
+      pay_dt: 2024/01/30
+      refund_dt: 2024/01/30
+      list_dt: 2024/02/06
+      lead_mgr: 신영증권
+      pub_bf_cap: '       11500'
+      pub_af_cap: '      114375'
+      assign_stk_qty: '           0'
+    - record_date: '20240123'
+      sht_cd: '452400'
+      isin_name: 이닉스
+      fix_subscr_pri: '       14000'
+      face_value: '000000500'
+      subscr_dt: 2024/01/23 ~ 2024/01/24
+      pay_dt: 2024/01/26
+      refund_dt: 2024/01/26
+      list_dt: 2024/02/01
+      lead_mgr: 삼성증권㈜
+      pub_bf_cap: '     3000000'
+      pub_af_cap: '      375000'
+      assign_stk_qty: '           0'
+    - record_date: '20240123'
+      sht_cd: '469480'
+      isin_name: 아이비케이에스제24호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2024/01/23 ~ 2024/01/24
+      pay_dt: 2024/01/26
+      refund_dt: 2024/01/26
+      list_dt: ''
+      lead_mgr: 아이비케이투자증권㈜
+      pub_bf_cap: '       23000'
+      pub_af_cap: '      100000'
+      assign_stk_qty: '           0'
+    - record_date: '20240117'
+      sht_cd: '105760'
+      isin_name: 포스뱅크
+      fix_subscr_pri: '       18000'
+      face_value: '000000500'
+      subscr_dt: 2024/01/17 ~ 2024/01/18
+      pay_dt: 2024/01/22
+      refund_dt: 2024/01/22
+      list_dt: 2024/01/29
+      lead_mgr: 하나증권
+      pub_bf_cap: '     3905242'
+      pub_af_cap: '      187500'
+      assign_stk_qty: '           0'
+    - record_date: '20240117'
+      sht_cd: '460930'
+      isin_name: 현대힘스
+      fix_subscr_pri: '        7300'
+      face_value: '000000500'
+      subscr_dt: 2024/01/17 ~ 2024/01/18
+      pay_dt: 2024/01/22
+      refund_dt: 2024/01/24
+      list_dt: 2024/01/26
+      lead_mgr: 미래에셋증권
+      pub_bf_cap: '    14800000'
+      pub_af_cap: '     1306050'
+      assign_stk_qty: '           0'
+    - record_date: '20240116'
+      sht_cd: '440290'
+      isin_name: 에이치비인베스트먼트
+      fix_subscr_pri: '        3400'
+      face_value: '000000500'
+      subscr_dt: 2024/01/16 ~ 2024/01/17
+      pay_dt: 2024/01/19
+      refund_dt: 2024/01/19
+      list_dt: 2024/01/25
+      lead_mgr: NH투자증권
+      pub_bf_cap: '    10000000'
+      pub_af_cap: '      833375'
+      assign_stk_qty: '           0'
+    - record_date: '20240116'
+      sht_cd: '457550'
+      isin_name: 우진엔텍
+      fix_subscr_pri: '        5300'
+      face_value: '000000500'
+      subscr_dt: 2024/01/16 ~ 2024/01/17
+      pay_dt: 2024/01/19
+      refund_dt: 2024/01/19
+      list_dt: 2024/01/24
+      lead_mgr: KB증권
+      pub_bf_cap: '     3574770'
+      pub_af_cap: '      257500'
+      assign_stk_qty: '           0'
+    - record_date: '20240115'
+      sht_cd: '471050'
+      isin_name: 대신밸런스제17호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2024/01/15 ~ 2024/01/16
+      pay_dt: 2024/01/18
+      refund_dt: 2024/01/18
+      list_dt: 2024/01/24
+      lead_mgr: 대신증권
+      pub_bf_cap: '       56000'
+      pub_af_cap: '      137500'
+      assign_stk_qty: '           0'
+    - record_date: '20231214'
+      sht_cd: 017860
+      isin_name: 디에스단석
+      fix_subscr_pri: '      100000'
+      face_value: '000000500'
+      subscr_dt: 2023/12/14 ~ 2023/12/15
+      pay_dt: 2023/12/19
+      refund_dt: 2023/12/19
+      list_dt: ''
+      lead_mgr: KB증권,NH투자증권
+      pub_bf_cap: '     2530702'
+      pub_af_cap: '      152500'
+      assign_stk_qty: '           0'
+    - record_date: '20231213'
+      sht_cd: '469880'
+      isin_name: 하나30호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/12/13 ~ 2023/12/14
+      pay_dt: 2023/12/18
+      refund_dt: 2023/12/18
+      list_dt: 2023/12/22
+      lead_mgr: 하나증권㈜
+      pub_bf_cap: '       30500'
+      pub_af_cap: '      175000'
+      assign_stk_qty: '           0'
+    - record_date: '20231212'
+      sht_cd: '467930'
+      isin_name: 아이비케이에스제23호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/12/12 ~ 2023/12/13
+      pay_dt: 2023/12/15
+      refund_dt: 2023/12/15
+      list_dt: 2023/12/22
+      lead_mgr: 아이비케이투자증권
+      pub_bf_cap: '       23000'
+      pub_af_cap: '      100000'
+      assign_stk_qty: '           0'
+    - record_date: '20231204'
+      sht_cd: '439580'
+      isin_name: 블루엠텍
+      fix_subscr_pri: '       19000'
+      face_value: '000000100'
+      subscr_dt: 2023/12/04 ~ 2023/12/05
+      pay_dt: 2023/12/07
+      refund_dt: 2023/12/07
+      list_dt: 2023/12/13
+      lead_mgr: 하나증권,키움증권
+      pub_bf_cap: '      920819'
+      pub_af_cap: '       35000'
+      assign_stk_qty: '           0'
+    - record_date: '20231201'
+      sht_cd: '417200'
+      isin_name: 엘에스머트리얼즈
+      fix_subscr_pri: '        6000'
+      face_value: '000000500'
+      subscr_dt: 2023/12/01 ~ 2023/12/04
+      pay_dt: 2023/12/06
+      refund_dt: 2023/12/06
+      list_dt: 2023/12/12
+      lead_mgr: 키움증권,KB증권,이베스트투자증권,하이투
+      pub_bf_cap: '    29438830'
+      pub_af_cap: '     1828125'
+      assign_stk_qty: '           0'
+    - record_date: '20231127'
+      sht_cd: '432470'
+      isin_name: 케이엔에스
+      fix_subscr_pri: '       23000'
+      face_value: '000000100'
+      subscr_dt: 2023/11/27 ~ 2023/11/28
+      pay_dt: 2023/11/30
+      refund_dt: 2023/11/30
+      list_dt: 2023/12/06
+      lead_mgr: 신영증권
+      pub_bf_cap: '      311106'
+      pub_af_cap: '       18750'
+      assign_stk_qty: '           0'
+    - record_date: '20231123'
+      sht_cd: '338840'
+      isin_name: 와이바이오로직스
+      fix_subscr_pri: '        9000'
+      face_value: '000000500'
+      subscr_dt: 2023/11/23 ~ 2023/11/24
+      pay_dt: 2023/11/28
+      refund_dt: 2023/11/28
+      list_dt: 2023/12/05
+      lead_mgr: 유안타증권
+      pub_bf_cap: '     6639074'
+      pub_af_cap: '      750000'
+      assign_stk_qty: '           0'
+    - record_date: '20231123'
+      sht_cd: '465320'
+      isin_name: 교보15호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/11/23 ~ 2023/11/24
+      pay_dt: 2023/11/28
+      refund_dt: 2023/11/28
+      list_dt: ''
+      lead_mgr: 교보증권
+      pub_bf_cap: '       31000'
+      pub_af_cap: '      350000'
+      assign_stk_qty: '           0'
+    - record_date: '20231123'
+      sht_cd: '468510'
+      isin_name: 삼성기업인수목적9호
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/11/23 ~ 2023/11/24
+      pay_dt: 2023/11/28
+      refund_dt: 2023/11/28
+      list_dt: 2023/12/04
+      lead_mgr: 삼성증권
+      pub_bf_cap: '      105000'
+      pub_af_cap: '     1000000'
+      assign_stk_qty: '           0'
+    - record_date: '20231121'
+      sht_cd: '355690'
+      isin_name: 에이텀
+      fix_subscr_pri: '       18000'
+      face_value: '000000500'
+      subscr_dt: 2023/11/21 ~ 2023/11/22
+      pay_dt: 2023/11/24
+      refund_dt: 2023/11/24
+      list_dt: 2023/12/01
+      lead_mgr: 하나증권
+      pub_bf_cap: '     2337840'
+      pub_af_cap: '       81250'
+      assign_stk_qty: '           0'
+    - record_date: '20231121'
+      sht_cd: '466910'
+      isin_name: 엔에이치기업인수목적30호
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/11/21 ~ 2023/11/22
+      pay_dt: 2023/11/24
+      refund_dt: 2023/11/24
+      list_dt: 2023/12/01
+      lead_mgr: NH투자증권
+      pub_bf_cap: '      110000'
+      pub_af_cap: '      200000'
+      assign_stk_qty: '           0'
+    - record_date: '20231116'
+      sht_cd: '453860'
+      isin_name: 에이에스텍
+      fix_subscr_pri: '       28000'
+      face_value: '000000500'
+      subscr_dt: 2023/11/16 ~ 2023/11/17
+      pay_dt: 2023/11/21
+      refund_dt: 2023/11/21
+      list_dt: 2023/11/28
+      lead_mgr: 미래에셋증권
+      pub_bf_cap: '     2388750'
+      pub_af_cap: '      175875'
+      assign_stk_qty: '           0'
+    - record_date: '20231113'
+      sht_cd: '402490'
+      isin_name: 그린리소스
+      fix_subscr_pri: '       17000'
+      face_value: '000000500'
+      subscr_dt: 2023/11/13 ~ 2023/11/14
+      pay_dt: 2023/11/16
+      refund_dt: 2023/11/16
+      list_dt: 2023/11/24
+      lead_mgr: NH투자증권
+      pub_bf_cap: '     3247372'
+      pub_af_cap: '      205000'
+      assign_stk_qty: '           0'
+    - record_date: '20231113'
+      sht_cd: '452280'
+      isin_name: 한선엔지니어링
+      fix_subscr_pri: '        7000'
+      face_value: '000000500'
+      subscr_dt: 2023/11/13 ~ 2023/11/14
+      pay_dt: 2023/11/16
+      refund_dt: 2023/11/16
+      list_dt: 2023/11/24
+      lead_mgr: 대신증권
+      pub_bf_cap: '     6312500'
+      pub_af_cap: '      531250'
+      assign_stk_qty: '           0'
+    - record_date: '20231110'
+      sht_cd: '448280'
+      isin_name: 에코아이
+      fix_subscr_pri: '       34700'
+      face_value: '000000500'
+      subscr_dt: 2023/11/10 ~ 2023/11/13
+      pay_dt: 2023/11/15
+      refund_dt: 2023/11/15
+      list_dt: 2023/11/21
+      lead_mgr: KB증권
+      pub_bf_cap: '     3884612'
+      pub_af_cap: '      259875'
+      assign_stk_qty: '           0'
+    - record_date: '20231109'
+      sht_cd: '111380'
+      isin_name: 동인기연
+      fix_subscr_pri: '       30000'
+      face_value: '000000100'
+      subscr_dt: 2023/11/09 ~ 2023/11/10
+      pay_dt: 2023/11/14
+      refund_dt: 2023/11/14
+      list_dt: 2023/11/21
+      lead_mgr: NH투자증권
+      pub_bf_cap: '      500000'
+      pub_af_cap: '       44112'
+      assign_stk_qty: '           0'
+    - record_date: '20231109'
+      sht_cd: '352090'
+      isin_name: 스톰테크
+      fix_subscr_pri: '       11000'
+      face_value: '000000100'
+      subscr_dt: 2023/11/09 ~ 2023/11/10
+      pay_dt: 2023/11/14
+      refund_dt: 2023/11/14
+      list_dt: 2023/11/20
+      lead_mgr: 하이투자증권
+      pub_bf_cap: '      999559'
+      pub_af_cap: '       83750'
+      assign_stk_qty: '           0'
+    - record_date: '20231108'
+      sht_cd: '450080'
+      isin_name: 에코프로머티리얼즈
+      fix_subscr_pri: '       36200'
+      face_value: '000000500'
+      subscr_dt: 2023/11/08 ~ 2023/11/09
+      pay_dt: 2023/11/13
+      refund_dt: 2023/11/13
+      list_dt: 2023/11/17
+      lead_mgr: 미래에셋증권, NH투자증권, 하이투자증권
+      pub_bf_cap: '    28951079'
+      pub_af_cap: '     1737120'
+      assign_stk_qty: '           0'
+    - record_date: '20231106'
+      sht_cd: '452300'
+      isin_name: 캡스톤파트너스
+      fix_subscr_pri: '        4000'
+      face_value: '000000200'
+      subscr_dt: 2023/11/06 ~ 2023/11/07
+      pay_dt: 2023/11/09
+      refund_dt: 2023/11/09
+      list_dt: 2023/11/15
+      lead_mgr: NH투자증권
+      pub_bf_cap: '     2340500'
+      pub_af_cap: '       79800'
+      assign_stk_qty: '           0'
+    - record_date: '20231102'
+      sht_cd: '445090'
+      isin_name: 에이직랜드
+      fix_subscr_pri: '       25000'
+      face_value: '000000500'
+      subscr_dt: 2023/11/02 ~ 2023/11/03
+      pay_dt: 2023/11/07
+      refund_dt: 2023/11/07
+      list_dt: 2023/11/13
+      lead_mgr: 삼성증권
+      pub_bf_cap: '     3954495'
+      pub_af_cap: '      329542'
+      assign_stk_qty: '           0'
+    - record_date: '20231101'
+      sht_cd: '365330'
+      isin_name: 에스와이스틸텍
+      fix_subscr_pri: '        1800'
+      face_value: '000000500'
+      subscr_dt: 2023/11/01 ~ 2023/11/02
+      pay_dt: 2023/11/06
+      refund_dt: 2023/11/06
+      list_dt: 2023/11/13
+      lead_mgr: KB증권
+      pub_bf_cap: '    11700000'
+      pub_af_cap: '      875000'
+      assign_stk_qty: '           0'
+    - record_date: '20231101'
+      sht_cd: '464440'
+      isin_name: 한국제13호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/11/01 ~ 2023/11/02
+      pay_dt: 2023/11/06
+      refund_dt: 2023/11/06
+      list_dt: 2023/11/13
+      lead_mgr: 한국투자증권
+      pub_bf_cap: '       32000'
+      pub_af_cap: '      100000'
+      assign_stk_qty: '     1000000'
+    - record_date: '20231031'
+      sht_cd: '372320'
+      isin_name: 큐로셀
+      fix_subscr_pri: '       20000'
+      face_value: '000000500'
+      subscr_dt: 2023/10/31 ~ 2023/11/01
+      pay_dt: 2023/11/03
+      refund_dt: 2023/11/03
+      list_dt: 2023/11/09
+      lead_mgr: 삼성증권,미래에셋증권
+      pub_bf_cap: '     5982368'
+      pub_af_cap: '      200000'
+      assign_stk_qty: '           0'
+    - record_date: '20231031'
+      sht_cd: '413640'
+      isin_name: 비아이매트릭스
+      fix_subscr_pri: '       13000'
+      face_value: '000000500'
+      subscr_dt: 2023/10/31 ~ 2023/11/01
+      pay_dt: 2023/11/03
+      refund_dt: 2023/11/03
+      list_dt: 2023/11/09
+      lead_mgr: 아이비케이투자증권
+      pub_bf_cap: '     2985470'
+      pub_af_cap: '      150000'
+      assign_stk_qty: '           0'
+    - record_date: '20231031'
+      sht_cd: '446540'
+      isin_name: 메가터치
+      fix_subscr_pri: '        4800'
+      face_value: '000000500'
+      subscr_dt: 2023/10/31 ~ 2023/11/01
+      pay_dt: 2023/11/03
+      refund_dt: 2023/11/03
+      list_dt: 2023/11/09
+      lead_mgr: NH투자증권
+      pub_bf_cap: '     7707500'
+      pub_af_cap: '      650000'
+      assign_stk_qty: '           0'
+    - record_date: '20231031'
+      sht_cd: '451760'
+      isin_name: 컨텍
+      fix_subscr_pri: '       22500'
+      face_value: '000000500'
+      subscr_dt: 2023/10/31 ~ 2023/11/01
+      pay_dt: 2023/11/03
+      refund_dt: 2023/11/03
+      list_dt: 2023/11/09
+      lead_mgr: 대신증권
+      pub_bf_cap: '     6169890'
+      pub_af_cap: '      257500'
+      assign_stk_qty: '           0'
+    - record_date: '20231026'
+      sht_cd: 088280
+      isin_name: 쏘닉스
+      fix_subscr_pri: '        7500'
+      face_value: '000001000'
+      subscr_dt: 2023/10/26 ~ 2023/10/27
+      pay_dt: 2023/10/31
+      refund_dt: 2023/10/31
+      list_dt: 2023/11/07
+      lead_mgr: KB증권
+      pub_bf_cap: '    13598490'
+      pub_af_cap: '      900000'
+      assign_stk_qty: '           0'
+    - record_date: '20231024'
+      sht_cd: '464680'
+      isin_name: 케이비제27호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/10/24 ~ 2023/10/25
+      pay_dt: 2023/10/27
+      refund_dt: 2023/10/27
+      list_dt: 2023/11/03
+      lead_mgr: KB증권
+      pub_bf_cap: '       40500'
+      pub_af_cap: '      312500'
+      assign_stk_qty: '           0'
+    - record_date: '20231023'
+      sht_cd: '221800'
+      isin_name: 유투바이오
+      fix_subscr_pri: '        4400'
+      face_value: '000000500'
+      subscr_dt: 2023/10/23 ~ 2023/10/24
+      pay_dt: 2023/10/26
+      refund_dt: 2023/10/26
+      list_dt: ''
+      lead_mgr: 신한투자증권
+      pub_bf_cap: '     5051020'
+      pub_af_cap: '      141090'
+      assign_stk_qty: '           0'
+    - record_date: '20231023'
+      sht_cd: '240600'
+      isin_name: 유진테크놀로지
+      fix_subscr_pri: '       17000'
+      face_value: '000000500'
+      subscr_dt: 2023/10/23 ~ 2023/10/24
+      pay_dt: 2023/10/26
+      refund_dt: 2023/10/26
+      list_dt: 2023/11/02
+      lead_mgr: NH투자증권
+      pub_bf_cap: '     2642734'
+      pub_af_cap: '      131186'
+      assign_stk_qty: '           0'
+    - record_date: '20231018'
+      sht_cd: '432720'
+      isin_name: 퀄리타스반도체
+      fix_subscr_pri: '       17000'
+      face_value: '000000500'
+      subscr_dt: 2023/10/18 ~ 2023/10/19
+      pay_dt: 2023/10/23
+      refund_dt: 2023/10/23
+      list_dt: 2023/10/27
+      lead_mgr: 한국투자증권
+      pub_bf_cap: '     4476920'
+      pub_af_cap: '      225000'
+      assign_stk_qty: '      450000'
+    - record_date: '20231016'
+      sht_cd: '396470'
+      isin_name: 워트
+      fix_subscr_pri: '        6500'
+      face_value: '000000100'
+      subscr_dt: 2023/10/16 ~ 2023/10/17
+      pay_dt: 2023/10/19
+      refund_dt: 2023/10/19
+      list_dt: 2023/10/26
+      lead_mgr: 키움증권
+      pub_bf_cap: '     1200000'
+      pub_af_cap: '      100000'
+      assign_stk_qty: '           0'
+    - record_date: '20231010'
+      sht_cd: '246250'
+      isin_name: 에스엘에스바이오
+      fix_subscr_pri: '        7000'
+      face_value: '000000500'
+      subscr_dt: 2023/10/10 ~ 2023/10/11
+      pay_dt: 2023/10/13
+      refund_dt: 2023/10/13
+      list_dt: 2023/10/20
+      lead_mgr: 하나증권
+      pub_bf_cap: '     3432802'
+      pub_af_cap: '       96250'
+      assign_stk_qty: '           0'
+    - record_date: '20231010'
+      sht_cd: '416180'
+      isin_name: 신성에스티
+      fix_subscr_pri: '       26000'
+      face_value: '000000500'
+      subscr_dt: 2023/10/10 ~ 2023/10/11
+      pay_dt: 2023/10/13
+      refund_dt: 2023/10/13
+      list_dt: 2023/10/19
+      lead_mgr: 미래에셋증권
+      pub_bf_cap: '     3500658'
+      pub_af_cap: '      250000'
+      assign_stk_qty: '           0'
+    - record_date: '20231005'
+      sht_cd: '445180'
+      isin_name: 퓨릿
+      fix_subscr_pri: '       10700'
+      face_value: '000000500'
+      subscr_dt: 2023/10/05 ~ 2023/10/06
+      pay_dt: 2023/10/11
+      refund_dt: 2023/10/11
+      list_dt: ''
+      lead_mgr: 미래에셋증권
+      pub_bf_cap: '     6894365'
+      pub_af_cap: '      517125'
+      assign_stk_qty: '           0'
+    - record_date: '20230925'
+      sht_cd: '462020'
+      isin_name: 에이치엠씨아이비제6호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/09/25 ~ 2023/09/26
+      pay_dt: 2023/10/04
+      refund_dt: 2023/10/04
+      list_dt: 2023/10/13
+      lead_mgr: 현대차증권
+      pub_bf_cap: '       34500'
+      pub_af_cap: '      100000'
+      assign_stk_qty: '           0'
+    - record_date: '20230921'
+      sht_cd: '454910'
+      isin_name: 두산로보틱스
+      fix_subscr_pri: '       26000'
+      face_value: '000000500'
+      subscr_dt: 2023/09/21 ~ 2023/09/22
+      pay_dt: 2023/09/26
+      refund_dt: 2023/09/26
+      list_dt: 2023/10/05
+      lead_mgr: 한국투자증권, 미래에셋증권,  NH투자증권,
+      pub_bf_cap: '    24309990'
+      pub_af_cap: '     2430000'
+      assign_stk_qty: '     1638203'
+    - record_date: '20230919'
+      sht_cd: '430690'
+      isin_name: 한싹
+      fix_subscr_pri: '       12500'
+      face_value: '000000500'
+      subscr_dt: 2023/09/19 ~ 2023/09/20
+      pay_dt: 2023/09/22
+      refund_dt: 2023/09/22
+      list_dt: 2023/10/04
+      lead_mgr: KB증권
+      pub_bf_cap: '     1951338'
+      pub_af_cap: '      187500'
+      assign_stk_qty: '           0'
+    - record_date: '20230919'
+      sht_cd: '443250'
+      isin_name: 레뷰코퍼레이션
+      fix_subscr_pri: '       15000'
+      face_value: '000000500'
+      subscr_dt: 2023/09/19 ~ 2023/09/20
+      pay_dt: 2023/09/22
+      refund_dt: 2023/09/22
+      list_dt: 2023/10/06
+      lead_mgr: 삼성증권
+      pub_bf_cap: '     4631360'
+      pub_af_cap: '      280000'
+      assign_stk_qty: '           0'
+    - record_date: '20230919'
+      sht_cd: '452980'
+      isin_name: 신한제11호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/09/19 ~ 2023/09/20
+      pay_dt: 2023/09/22
+      refund_dt: 2023/09/22
+      list_dt: 2023/10/04
+      lead_mgr: 신한투자증권
+      pub_bf_cap: '       90500'
+      pub_af_cap: '      450000'
+      assign_stk_qty: '           0'
+    - record_date: '20230918'
+      sht_cd: '418470'
+      isin_name: 밀리의서재
+      fix_subscr_pri: '       23000'
+      face_value: '000000500'
+      subscr_dt: 2023/09/18 ~ 2023/09/19
+      pay_dt: 2023/09/21
+      refund_dt: 2023/09/21
+      list_dt: 2023/09/27
+      lead_mgr: 미래에셋증권
+      pub_bf_cap: '     3283455'
+      pub_af_cap: '      187500'
+      assign_stk_qty: '           0'
+    - record_date: '20230918'
+      sht_cd: '451220'
+      isin_name: 아이엠티
+      fix_subscr_pri: '       14000'
+      face_value: '000000500'
+      subscr_dt: 2023/09/18 ~ 2023/09/19
+      pay_dt: 2023/09/21
+      refund_dt: 2023/09/21
+      list_dt: 2023/10/10
+      lead_mgr: 유안타증권, 유진투자증권
+      pub_bf_cap: '     3123606'
+      pub_af_cap: '      197500'
+      assign_stk_qty: '           0'
+    - record_date: '20230914'
+      sht_cd: '450520'
+      isin_name: 인스웨이브시스템즈
+      fix_subscr_pri: '       24000'
+      face_value: '000000500'
+      subscr_dt: 2023/09/14 ~ 2023/09/15
+      pay_dt: 2023/09/19
+      refund_dt: 2023/09/19
+      list_dt: 2023/09/25
+      lead_mgr: 신영증권
+      pub_bf_cap: '     1984263'
+      pub_af_cap: '      137500'
+      assign_stk_qty: '           0'
+    - record_date: '20230904'
+      sht_cd: '452670'
+      isin_name: 상상인제4호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/09/04 ~ 2023/09/05
+      pay_dt: 2023/09/07
+      refund_dt: 2023/09/07
+      list_dt: 2023/09/14
+      lead_mgr: 상상인증권
+      pub_bf_cap: '       72000'
+      pub_af_cap: '      112500'
+      assign_stk_qty: '           0'
+    - record_date: '20230829'
+      sht_cd: '455310'
+      isin_name: 한화플러스제4호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/08/29 ~ 2023/08/30
+      pay_dt: 2023/09/01
+      refund_dt: 2023/09/01
+      list_dt: 2023/09/07
+      lead_mgr: 한화투자증권
+      pub_bf_cap: '       31000'
+      pub_af_cap: '      118750'
+      assign_stk_qty: '           0'
+    - record_date: '20230823'
+      sht_cd: '457630'
+      isin_name: 대신밸런스제16호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/08/23 ~ 2023/08/24
+      pay_dt: 2023/08/28
+      refund_dt: 2023/08/28
+      list_dt: 2023/09/04
+      lead_mgr: 대신증권
+      pub_bf_cap: '       81000'
+      pub_af_cap: '      162500'
+      assign_stk_qty: '           0'
+    - record_date: '20230822'
+      sht_cd: '444920'
+      isin_name: 유안타제11호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/08/22 ~ 2023/08/23
+      pay_dt: 2023/08/25
+      refund_dt: 2023/08/25
+      list_dt: 2023/09/01
+      lead_mgr: 유안타증권
+      pub_bf_cap: '       24000'
+      pub_af_cap: '      125000'
+      assign_stk_qty: '           0'
+    - record_date: '20230821'
+      sht_cd: '457390'
+      isin_name: 대신밸런스제15호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/08/21 ~ 2023/08/22
+      pay_dt: 2023/08/24
+      refund_dt: 2023/08/24
+      list_dt: 2023/08/30
+      lead_mgr: 대신증권
+      pub_bf_cap: '       53500'
+      pub_af_cap: '      162500'
+      assign_stk_qty: '           0'
+    - record_date: '20230821'
+      sht_cd: '458610'
+      isin_name: 한국제12호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/08/21 ~ 2023/08/22
+      pay_dt: 2023/08/24
+      refund_dt: 2023/08/24
+      list_dt: 2023/08/30
+      lead_mgr: 한국투자증권
+      pub_bf_cap: '       23000'
+      pub_af_cap: '      100000'
+      assign_stk_qty: '     1000000'
+    - record_date: '20230814'
+      sht_cd: '418250'
+      isin_name: 시큐레터
+      fix_subscr_pri: '       12000'
+      face_value: '000000500'
+      subscr_dt: 2023/08/14 ~ 2023/08/16
+      pay_dt: 2023/08/18
+      refund_dt: 2023/08/18
+      list_dt: 2023/08/24
+      lead_mgr: 대신증권
+      pub_bf_cap: '     3268810'
+      pub_af_cap: '      166736'
+      assign_stk_qty: '           0'
+    - record_date: '20230810'
+      sht_cd: '424960'
+      isin_name: 스마트레이더시스템
+      fix_subscr_pri: '        8000'
+      face_value: '000000500'
+      subscr_dt: 2023/08/10 ~ 2023/08/11
+      pay_dt: 2023/08/16
+      refund_dt: 2023/08/16
+      list_dt: 2023/08/22
+      lead_mgr: 대신증권
+      pub_bf_cap: '     6274870'
+      pub_af_cap: '      277500'
+      assign_stk_qty: '           0'
+    - record_date: '20230809'
+      sht_cd: 092790
+      isin_name: 넥스틸
+      fix_subscr_pri: '       11500'
+      face_value: '000000500'
+      subscr_dt: 2023/08/09 ~ 2023/08/10
+      pay_dt: 2023/08/14
+      refund_dt: 2023/08/14
+      list_dt: 2023/08/21
+      lead_mgr: 하나증권
+      pub_bf_cap: '    11176000'
+      pub_af_cap: '      875000'
+      assign_stk_qty: '           0'
+    - record_date: '20230807'
+      sht_cd: '210120'
+      isin_name: 빅토리콘텐츠
+      fix_subscr_pri: '       23000'
+      face_value: '000000500'
+      subscr_dt: 2023/08/07 ~ 2023/08/08
+      pay_dt: 2023/08/10
+      refund_dt: 2023/08/10
+      list_dt: ''
+      lead_mgr: NH투자증권
+      pub_bf_cap: '     1326500'
+      pub_af_cap: '       58525'
+      assign_stk_qty: '           0'
+    - record_date: '20230801'
+      sht_cd: '445680'
+      isin_name: 큐리옥스바이오시스템즈
+      fix_subscr_pri: '       13000'
+      face_value: '000000500'
+      subscr_dt: 2023/08/01 ~ 2023/08/02
+      pay_dt: 2023/08/04
+      refund_dt: 2023/08/04
+      list_dt: 2023/08/10
+      lead_mgr: 키움증권
+      pub_bf_cap: '     3284484'
+      pub_af_cap: '      175000'
+      assign_stk_qty: '           0'
+    - record_date: '20230801'
+      sht_cd: '448710'
+      isin_name: 코츠테크놀로지
+      fix_subscr_pri: '       13000'
+      face_value: '000000100'
+      subscr_dt: 2023/08/01 ~ 2023/08/02
+      pay_dt: 2023/08/04
+      refund_dt: 2023/08/04
+      list_dt: 2023/08/10
+      lead_mgr: 한국투자증권,하이투자증권
+      pub_bf_cap: '      405179'
+      pub_af_cap: '       25000'
+      assign_stk_qty: '      237500'
+    - record_date: '20230801'
+      sht_cd: '454750'
+      isin_name: 하나28호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/08/01 ~ 2023/08/02
+      pay_dt: 2023/08/04
+      refund_dt: 2023/08/04
+      list_dt: 2023/08/10
+      lead_mgr: 하나증권
+      pub_bf_cap: '       70200'
+      pub_af_cap: '      162500'
+      assign_stk_qty: '           0'
+    - record_date: '20230801'
+      sht_cd: '457940'
+      isin_name: 에스케이증권제10호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/08/01 ~ 2023/08/02
+      pay_dt: 2023/08/04
+      refund_dt: 2023/08/04
+      list_dt: 2023/08/11
+      lead_mgr: SK증권
+      pub_bf_cap: '       31000'
+      pub_af_cap: '       75000'
+      assign_stk_qty: '           0'
+    - record_date: '20230731'
+      sht_cd: '458320'
+      isin_name: 케이비제26호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/07/31 ~ 2023/08/01
+      pay_dt: 2023/08/03
+      refund_dt: 2023/08/03
+      list_dt: 2023/08/10
+      lead_mgr: KB증권
+      pub_bf_cap: '       50500'
+      pub_af_cap: '      125000'
+      assign_stk_qty: '           0'
+    - record_date: '20230727'
+      sht_cd: '440110'
+      isin_name: 파두
+      fix_subscr_pri: '       31000'
+      face_value: '000000100'
+      subscr_dt: 2023/07/27 ~ 2023/07/28
+      pay_dt: 2023/08/01
+      refund_dt: 2023/08/01
+      list_dt: 2023/08/07
+      lead_mgr: NH투자증권,한국투자증권,한화투자증권,현
+      pub_bf_cap: '     4177072'
+      pub_af_cap: '      156250'
+      assign_stk_qty: '      437500'
+    - record_date: '20230726'
+      sht_cd: '373170'
+      isin_name: 엠아이큐브솔루션
+      fix_subscr_pri: '       12000'
+      face_value: '000000100'
+      subscr_dt: 2023/07/26 ~ 2023/07/27
+      pay_dt: 2023/07/31
+      refund_dt: 2023/07/31
+      list_dt: 2023/08/04
+      lead_mgr: 한국투자증권
+      pub_bf_cap: '      358500'
+      pub_af_cap: '       30250'
+      assign_stk_qty: '      302500'
+    - record_date: '20230724'
+      sht_cd: '429270'
+      isin_name: 시지트로닉스
+      fix_subscr_pri: '       25000'
+      face_value: '000000500'
+      subscr_dt: 2023/07/24 ~ 2023/07/25
+      pay_dt: 2023/07/27
+      refund_dt: 2023/07/27
+      list_dt: 2023/08/03
+      lead_mgr: 유안타증권
+      pub_bf_cap: '     1789625'
+      pub_af_cap: '      112500'
+      assign_stk_qty: '           0'
+    - record_date: '20230717'
+      sht_cd: '172670'
+      isin_name: 에이엘티
+      fix_subscr_pri: '       25000'
+      face_value: '000000500'
+      subscr_dt: 2023/07/17 ~ 2023/07/18
+      pay_dt: 2023/07/20
+      refund_dt: 2023/07/20
+      list_dt: 2023/07/27
+      lead_mgr: 미래에셋증권
+      pub_bf_cap: '     3781336'
+      pub_af_cap: '      112500'
+      assign_stk_qty: '           0'
+    - record_date: '20230717'
+      sht_cd: '388870'
+      isin_name: 파로스아이바이오
+      fix_subscr_pri: '       14000'
+      face_value: '000000500'
+      subscr_dt: 2023/07/17 ~ 2023/07/18
+      pay_dt: 2023/07/20
+      refund_dt: 2023/07/20
+      list_dt: 2023/07/27
+      lead_mgr: 한국투자증권
+      pub_bf_cap: '     5738481'
+      pub_af_cap: '      175000'
+      assign_stk_qty: '      350000'
+    - record_date: '20230717'
+      sht_cd: '438700'
+      isin_name: 버넥트
+      fix_subscr_pri: '       16000'
+      face_value: '000000500'
+      subscr_dt: 2023/07/17 ~ 2023/07/18
+      pay_dt: 2023/07/20
+      refund_dt: 2023/07/20
+      list_dt: 2023/07/26
+      lead_mgr: 대신증권
+      pub_bf_cap: '     4446000'
+      pub_af_cap: '      240000'
+      assign_stk_qty: '           0'
+    - record_date: '20230717'
+      sht_cd: '450940'
+      isin_name: 유안타제14호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/07/17 ~ 2023/07/18
+      pay_dt: 2023/07/20
+      refund_dt: 2023/07/20
+      list_dt: 2023/07/27
+      lead_mgr: 유안타증권
+      pub_bf_cap: '       54000'
+      pub_af_cap: '      100000'
+      assign_stk_qty: '           0'
+    - record_date: '20230713'
+      sht_cd: '406820'
+      isin_name: 뷰티스킨
+      fix_subscr_pri: '       26000'
+      face_value: '000000500'
+      subscr_dt: 2023/07/13 ~ 2023/07/14
+      pay_dt: 2023/07/18
+      refund_dt: 2023/07/18
+      list_dt: 2023/07/24
+      lead_mgr: DB금융투자
+      pub_bf_cap: '     1540420'
+      pub_af_cap: '       55000'
+      assign_stk_qty: '           0'
+    - record_date: '20230711'
+      sht_cd: '455910'
+      isin_name: 에스케이증권제9호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/07/11 ~ 2023/07/12
+      pay_dt: 2023/07/14
+      refund_dt: 2023/07/14
+      list_dt: 2023/07/21
+      lead_mgr: SK증권
+      pub_bf_cap: '      102000'
+      pub_af_cap: '      100000'
+      assign_stk_qty: '           0'
+    - record_date: '20230710'
+      sht_cd: '321370'
+      isin_name: 센서뷰
+      fix_subscr_pri: '        4500'
+      face_value: '000000500'
+      subscr_dt: 2023/07/10 ~ 2023/07/11
+      pay_dt: 2023/07/13
+      refund_dt: 2023/07/13
+      list_dt: 2023/07/19
+      lead_mgr: 삼성증권
+      pub_bf_cap: '    10960455'
+      pub_af_cap: '      487500'
+      assign_stk_qty: '           0'
+    - record_date: '20230710'
+      sht_cd: '432430'
+      isin_name: 와이랩
+      fix_subscr_pri: '        9000'
+      face_value: '000000500'
+      subscr_dt: 2023/07/10 ~ 2023/07/11
+      pay_dt: 2023/07/13
+      refund_dt: 2023/07/13
+      list_dt: 2023/07/20
+      lead_mgr: 한국투자증권
+      pub_bf_cap: '     6370677'
+      pub_af_cap: '      375000'
+      assign_stk_qty: '      750000'
+    - record_date: '20230705'
+      sht_cd: '378340'
+      isin_name: 필에너지
+      fix_subscr_pri: '       34000'
+      face_value: '000000500'
+      subscr_dt: 2023/07/05 ~ 2023/07/06
+      pay_dt: 2023/07/10
+      refund_dt: 2023/07/10
+      list_dt: 2023/07/14
+      lead_mgr: 미래에셋증권, 삼성증권
+      pub_bf_cap: '     3750000'
+      pub_af_cap: '      351562'
+      assign_stk_qty: '           0'
+    - record_date: '20230703'
+      sht_cd: '456440'
+      isin_name: 디비금융제11호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/07/03 ~ 2023/07/04
+      pay_dt: 2023/07/06
+      refund_dt: 2023/07/06
+      list_dt: 2023/07/12
+      lead_mgr: DB금융투자
+      pub_bf_cap: '       31500'
+      pub_af_cap: '      125000'
+      assign_stk_qty: '           0'
+    - record_date: '20230627'
+      sht_cd: '274400'
+      isin_name: 이노시뮬레이션
+      fix_subscr_pri: '       15000'
+      face_value: '000000500'
+      subscr_dt: 2023/06/27 ~ 2023/06/28
+      pay_dt: 2023/06/30
+      refund_dt: 2023/06/30
+      list_dt: 2023/07/06
+      lead_mgr: 하나증권
+      pub_bf_cap: '     3446413'
+      pub_af_cap: '      112500'
+      assign_stk_qty: '           0'
+    - record_date: '20230626'
+      sht_cd: '456490'
+      isin_name: 교보14호기업인수목적
+      fix_subscr_pri: '        2000'
+      face_value: '000000100'
+      subscr_dt: 2023/06/26 ~ 2023/06/27
+      pay_dt: 2023/06/29
+      refund_dt: 2023/06/29
+      list_dt: 2023/07/06
+      lead_mgr: 교보증권
+      pub_bf_cap: '       35000'
+      pub_af_cap: '       96250'
+      assign_stk_qty: '           0'
+    - record_date: '20230621'
+      sht_cd: '440320'
+      isin_name: 오픈놀
+      fix_subscr_pri: '       10000'
+      face_value: '000000100'
+      subscr_dt: 2023/06/21 ~ 2023/06/22
+      pay_dt: 2023/06/26
+      refund_dt: 2023/06/26
+      list_dt: 2023/06/30
+      lead_mgr: 하나증권
+      pub_bf_cap: '      852147'
+      pub_af_cap: '       41250'
+      assign_stk_qty: '           0'
+    - record_date: '20230620'
+      sht_cd: '232830'
+      isin_name: 시큐센
+      fix_subscr_pri: '        3000'
+      face_value: '000000500'
+      subscr_dt: 2023/06/20 ~ 2023/06/21
+      pay_dt: 2023/06/23
+      refund_dt: 2023/06/23
+      list_dt: ''
+      lead_mgr: 신한투자증권
+      pub_bf_cap: '     4754516'
+      pub_af_cap: '      243500'
+      assign_stk_qty: '           0'
+    - record_date: '20230620'
+      sht_cd: '354320'
+      isin_name: 알멕
+      fix_subscr_pri: '       50000'
+      face_value: '000000500'
+      subscr_dt: 2023/06/20 ~ 2023/06/21
+      pay_dt: 2023/06/23
+      refund_dt: 2023/06/23
+      list_dt: 2023/06/30
+      lead_mgr: NH투자증권
+      pub_bf_cap: '     2685690'
+      pub_af_cap: '      125000'
+      assign_stk_qty: '           0'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

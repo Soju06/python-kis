@@ -1,0 +1,880 @@
+id: 07126b90-256e-4b93-b0be-e1e59dfc89f0
+name: (야간)선물옵션 증거금 상세 [국내선물-024]
+section: '[국내선물옵션] 주문/계좌'
+category: 국내선물옵션
+subcategory: 주문/계좌
+method: GET
+url: /uapi/domestic-futureoption/v1/trading/ngt-margin-detail
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- (구) JTCE6003R (신) CTFN7107R
+real_tr_id: (구) JTCE6003R (신) CTFN7107R
+virtual_tr_id: 모의투자 미지원
+summary: '(야간)선물옵션 증거금상세 API입니다.
+
+  한국투자 HTS(eFriend Force) > [2537] 야간선물옵션 증거금상세 화면 의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-24T10:12:57+09:00'
+  last_modified_date: '2025-06-06T19:44:16+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: (구) JTCE6003R (신) CTFN7107R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '공백 : 초기 조회
+
+      N : 다음 데이터 조회 (output header의 tr_cont가 M일 경우)'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: MGNA_DVSN_CD
+    name: 증거금 구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 위탁(01), 유지(02)
+  example: "CANO:12345678\r\nACNT_PRDT_CD:03\r\nMGNA_DVSN_CD:01"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'F or M : 다음 데이터 있음
+
+      D or E : 마지막 데이터'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: "array\n아래 18가지 항목이 순서대로 출력됨\n(1) A. 신규증거금 - 선물 - 1.개별종목\n(2) A. 신규증거금 - 선물 - 2.스프레드\n(3) A. 신규증거금 - 3. \uFEFF\
+      \uFEFF\uFEFF옵션매수증거금\n\uFEFF\uFEFF(4) A. 신규증거금 - 4. 옵션매도증거금\n\uFEFF\uFEFF(5) A. 소계(1+2+3+4)\n(6) B. 순위험증거금 - 1. \uFEFF\
+      \uFEFF가격변동증거금\n(7) B. 순위험증거금 - 2. \uFEFF\uFEFF\uFEFF선물스프레드증거금\n\uFEFF\uFEFF(8) B. 순위험증거금 - 3. 인수수도 증거금 등\n(9) B. 순위험증거금\
+      \ - 4. 최소증거금\n(10) B. 순위험증거금 - 5. 옵션가격증거금\n(11) B. 순위험증거금 - 6. 총위험증거금\n(12) B. 소계SUM상품군별MAX[{MAX(1+2+3,4)+5},6]\n(13)\
+      \ C. 결제예정금액 - 1. \uFEFF\uFEFF\uFEFF당일옵션매수금액\n(14) \uFEFF\uFEFFC. 결제예정금액 - 2. 당일옵션매도금액\n(15) C. 결제예정금액 - 3. \uFEFF\uFEFF\
+      당일선물손실\n\uFEFF\uFEFF\uFEFF(16) C. 결제예정금액 - 4. 당일선물이익 \n(17) C.소계(1-2+3-4)\n(18) (A)+B+(C)"
+  - code: cash_amt
+    name: 현금금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tot_amt
+    name: 총금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: "array\n아래 5가지 항목이 순서대로 출력됨\n(1) 예수금\n(2) 인출가능금액\n(3) 주문가능금액\n\uFEFF\uFEFF(4) 위탁증거금액\n\uFEFF\uFEFF(5) 추가증거금액\n\
+      \n※ 인출가능금액은 정산 후 인출가능 예정 금액입니다.\n현재 시점 실제 인출 가능금액은 정규장, 야간시장 인출가능금액 중 적은 금액 기준입니다."
+  - code: cash_amt
+    name: 현금금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: sbst_amt
+    name: 대용금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tot_amt
+    name: 총금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: output3
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: base_dpsa_gdat_grad_cd
+    name: 기본예탁금차등등급코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: bfdy_sbst_sll_ccld_amt
+    name: 전일대용매도체결금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: bfdy_sbst_sll_sbst_amt
+    name: 전일대용매도대용금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: excc_dfpa
+    name: 정산차금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: fee_amt
+    name: 수수료금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: nxdy_dncl_amt
+    name: 익일예수금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: opt_base_dpsa_gdat_grad_cd
+    name: 옵션기본예탁금차등등급코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: opt_buy_exus_acnt_yn
+    name: 옵션매수전용계좌여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: opt_dfpa
+    name: 옵션차금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: prsm_dpast_amt
+    name: 추정예탁자산금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: thdt_sbst_sll_ccld_amt
+    name: 당일대용매도체결금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: thdt_sbst_sll_sbst_amt
+    name: 당일대용매도대용금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: Array 신 TR 사용 필드
+  - code: futr_new_mgn_amt
+    name: 선물신규증거금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: futr_sprd_ord_mgna
+    name: 선물스프레드주문증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: opt_sll_new_mgn_amt
+    name: 옵션매도신규증거금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: opt_buy_new_mgn_amt
+    name: 옵션매수신규증거금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: new_mgn_amt
+    name: 신규증거금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: opt_pric_mgna
+    name: 옵션가격증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: fuop_pric_altr_mgna
+    name: 선물옵션가격변동증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: futr_sprd_mgna
+    name: 선물스프레드증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: uwdl_mgna
+    name: 인수도증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: ctrt_per_min_mgna
+    name: 계약당최소증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: tot_risk_mgna
+    name: 총위험증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: netrisk_brkg_mgna
+    name: 순위험위탁증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: opt_sll_chgs
+    name: 옵션매도대금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: opt_buy_chgs
+    name: 옵션매수대금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: futr_loss_amt
+    name: 선물손실금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: futr_prft_amt
+    name: 선물이익금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: thdt_ccld_net_loss_amt
+    name: 당일체결순손실금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: brkg_mgna
+    name: 위탁증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: Array 신 TR 사용 필드
+  - code: futr_new_mgn_amt
+    name: 선물신규증거금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: futr_sprd_ord_mgna
+    name: 선물스프레드주문증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: opt_sll_new_mgn_amt
+    name: 옵션매도신규증거금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: opt_buy_new_mgn_amt
+    name: 옵션매수신규증거금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: new_mgn_amt
+    name: 신규증거금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: opt_pric_mgna
+    name: 옵션가격증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: fuop_pric_altr_mgna
+    name: 선물옵션가격변동증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: futr_sprd_mgna
+    name: 선물스프레드증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: uwdl_mgna
+    name: 인수도증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: ctrt_per_min_mgna
+    name: 계약당최소증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: tot_risk_mgna
+    name: 총위험증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: netrisk_brkg_mgna
+    name: 순위험위탁증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: opt_sll_chgs
+    name: 옵션매도대금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: opt_buy_chgs
+    name: 옵션매수대금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: futr_loss_amt
+    name: 선물손실금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: futr_prft_amt
+    name: 선물이익금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: thdt_ccld_net_loss_amt
+    name: 당일체결순손실금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: brkg_mgna
+    name: 위탁증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: output3
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: Single 신 TR 사용 필드
+  - code: dnca_cash
+    name: 예수금현금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: dnca_sbst
+    name: 예수금대용
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: dnca_tota
+    name: 예수금총액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: wdrw_psbl_cash_amt
+    name: 인출가능현금금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: wdrw_psbl_sbsa
+    name: 인출가능대용금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: wdrw_psbl_tot_amt
+    name: 인출가능총금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: ord_psbl_cash_amt
+    name: 주문가능현금금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: ord_psbl_sbsa
+    name: 주문가능대용금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: ord_psbl_tot_amt
+    name: 주문가능총금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: brkg_mgna_cash_amt
+    name: 위탁증거금현금금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: brkg_mgna_sbst
+    name: 위탁증거금대용
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: brkg_mgna_tot_amt
+    name: 위탁증거금총금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: add_mgna_cash_amt
+    name: 추가증거금현금금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: add_mgna_sbsa
+    name: 추가증거금대용금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: add_mgna_tot_amt
+    name: 추가증거금총금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: bfdy_sbst_sll_sbst_amt
+    name: 전일대용매도대용금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: thdt_sbst_sll_sbst_amt
+    name: 당일대용매도대용금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: bfdy_sbst_sll_ccld_amt
+    name: 전일대용매도체결금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: thdt_sbst_sll_ccld_amt
+    name: 당일대용매도체결금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: opt_dfpa
+    name: 옵션차금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: excc_dfpa
+    name: 정산차금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: fee_amt
+    name: 수수료금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: nxdy_dncl_amt
+    name: 익일예수금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: prsm_dpast_amt
+    name: 추정예탁자산금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: opt_buy_exus_acnt_yn
+    name: 옵션매수전용계좌여부
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: base_dpsa_gdat_grad_cd
+    name: 기본예탁금차등등급코드
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  - code: opt_base_dpsa_gdat_grad_cd
+    name: 옵션기본예탁금차등등급코드
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 신 TR 사용 필드
+  example:
+    output1:
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      tot_amt: '0'
+    output2:
+    - cash_amt: '100000000'
+      sbst_amt: '0'
+      tot_amt: '100000000'
+    - cash_amt: '100000000'
+      sbst_amt: '0'
+      tot_amt: '100000000'
+    - cash_amt: '100000000'
+      sbst_amt: '0'
+      tot_amt: '100000000'
+    - cash_amt: '0'
+      sbst_amt: '0'
+      tot_amt: '0'
+    - cash_amt: '0'
+      sbst_amt: '0'
+      tot_amt: '0'
+    output3:
+      bfdy_sbst_sll_sbst_amt: '0'
+      thdt_sbst_sll_sbst_amt: '0'
+      bfdy_sbst_sll_ccld_amt: '0'
+      thdt_sbst_sll_ccld_amt: '0'
+      opt_buy_exus_acnt_yn: N
+      base_dpsa_gdat_grad_cd: '03'
+      opt_dfpa: '0'
+      excc_dfpa: '0'
+      fee_amt: '0'
+      nxdy_dncl_amt: '100000000'
+      prsm_dpast_amt: '100000000'
+      opt_base_dpsa_gdat_grad_cd: '01'
+    rt_cd: '0'
+    msg_cd: KIOK0510
+    msg1: '조회가 완료되었습니다                                                           '
+errors: []

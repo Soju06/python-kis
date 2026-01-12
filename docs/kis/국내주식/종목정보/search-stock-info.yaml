@@ -1,0 +1,1044 @@
+id: da0485b5-31f1-4c62-a3d4-294a4311ad39
+name: 주식기본조회[v1_국내주식-067]
+section: '[국내주식] 종목정보'
+category: 국내주식
+subcategory: 종목정보
+method: GET
+url: /uapi/domestic-stock/v1/quotations/search-stock-info
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- CTPF1002R
+real_tr_id: CTPF1002R
+virtual_tr_id: 모의투자 미지원
+summary: '주식기본조회 API입니다.
+
+  국내주식 종목의 종목상세정보를 확인할 수 있습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-02-16T15:47:02+09:00'
+  last_modified_date: '2025-05-14T13:18:34+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTPF1002R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: PRDT_TYPE_CD
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: "300: 주식, ETF, ETN, ELW \n301 : 선물옵션 \n302 : 채권 \n306 : ELS'"
+  - code: PDNO
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '종목번호 (6자리)
+
+      ETN의 경우, Q로 시작 (EX. Q500001)'
+  example:
+    PDNO: '000660'
+    PRDT_TYPE_CD: '300'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세1
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: pdno
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_type_cd
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: mket_id_cd
+    name: 시장ID코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: 'AGR.농축산물파생
+
+      BON.채권파생
+
+      CMD.일반상품시장
+
+      CUR.통화파생
+
+      ENG.에너지파생
+
+      EQU.주식파생
+
+      ETF.ETF파생
+
+      IRT.금리파생
+
+      KNX.코넥스
+
+      KSQ.코스닥
+
+      MTL.금속파생
+
+      SPI.주가지수파생
+
+      STK.유가증권'
+  - code: scty_grp_id_cd
+    name: 증권그룹ID코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 'BC.수익증권
+
+      DR.주식예탁증서
+
+      EF.ETF
+
+      EN.ETN
+
+      EW.ELW
+
+      FE.해외ETF
+
+      FO.선물옵션
+
+      FS.외국주권
+
+      FU.선물
+
+      FX.플렉스 선물
+
+      GD.금현물
+
+      IC.투자계약증권
+
+      IF.사회간접자본투융자회사
+
+      KN.코넥스주권
+
+      MF.투자회사
+
+      OP.옵션
+
+      RT.부동산투자회사
+
+      SC.선박투자회사
+
+      SR.신주인수권증서
+
+      ST.주권
+
+      SW.신주인수권증권
+
+      TC.신탁수익증권'
+  - code: excg_dvsn_cd
+    name: 거래소구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '01.한국증권
+
+      02.증권거래소
+
+      03.코스닥
+
+      04.K-OTC
+
+      05.선물거래소
+
+      06.CME
+
+      07.EUREX
+
+      21.금현물
+
+      50.미국주간
+
+      51.홍콩
+
+      52.상해B
+
+      53.심천
+
+      54.홍콩거래소
+
+      55.미국
+
+      56.일본
+
+      57.상해A
+
+      58.심천A
+
+      59.베트남
+
+      61.장전시간외시장
+
+      64.경쟁대량매매
+
+      65.경매매시장
+
+      81.시간외단일가시장'
+  - code: setl_mmdd
+    name: 결산월일
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: lstg_stqt
+    name: 상장주수
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: lstg_cptl_amt
+    name: 상장자본금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: cpta
+    name: 자본금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: papr
+    name: 액면가
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: issu_pric
+    name: 발행가격
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: kospi200_item_yn
+    name: 코스피200종목여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: scts_mket_lstg_dt
+    name: 유가증권시장상장일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: scts_mket_lstg_abol_dt
+    name: 유가증권시장상장폐지일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: kosdaq_mket_lstg_dt
+    name: 코스닥시장상장일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: kosdaq_mket_lstg_abol_dt
+    name: 코스닥시장상장폐지일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: frbd_mket_lstg_dt
+    name: 프리보드시장상장일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: frbd_mket_lstg_abol_dt
+    name: 프리보드시장상장폐지일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: reits_kind_cd
+    name: 리츠종류코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: etf_dvsn_cd
+    name: ETF구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: oilf_fund_yn
+    name: 유전펀드여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: idx_bztp_lcls_cd
+    name: 지수업종대분류코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: idx_bztp_mcls_cd
+    name: 지수업종중분류코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: idx_bztp_scls_cd
+    name: 지수업종소분류코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: stck_kind_cd
+    name: 주식종류코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: '000.해당사항없음
+
+      101.보통주
+
+      201.우선주
+
+      202.2우선주
+
+      203.3우선주
+
+      204.4우선주
+
+      205.5우선주
+
+      206.6우선주
+
+      207.7우선주
+
+      208.8우선주
+
+      209.9우선주
+
+      210.10우선주
+
+      211.11우선주
+
+      212.12우선주
+
+      213.13우선주
+
+      214.14우선주
+
+      215.15우선주
+
+      216.16우선주
+
+      217.17우선주
+
+      218.18우선주
+
+      219.19우선주
+
+      220.20우선주
+
+      301.후배주
+
+      401.혼합주'
+  - code: mfnd_opng_dt
+    name: 뮤추얼펀드개시일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: mfnd_end_dt
+    name: 뮤추얼펀드종료일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: dpsi_erlm_cncl_dt
+    name: 예탁등록취소일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: etf_cu_qty
+    name: ETFCU수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdt_name
+    name: 상품명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: prdt_name120
+    name: 상품명120
+    type: A0001
+    type_name: String
+    length: '120'
+    required: true
+    description: ''
+  - code: prdt_abrv_name
+    name: 상품약어명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: std_pdno
+    name: 표준상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_eng_name
+    name: 상품영문명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: prdt_eng_name120
+    name: 상품영문명120
+    type: A0001
+    type_name: String
+    length: '120'
+    required: true
+    description: ''
+  - code: prdt_eng_abrv_name
+    name: 상품영문약어명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: dpsi_aptm_erlm_yn
+    name: 예탁지정등록여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: etf_txtn_type_cd
+    name: ETF과세유형코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: etf_type_cd
+    name: ETF유형코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: lstg_abol_dt
+    name: 상장폐지일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: nwst_odst_dvsn_cd
+    name: 신주구주구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: sbst_pric
+    name: 대용가격
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: thco_sbst_pric
+    name: 당사대용가격
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: thco_sbst_pric_chng_dt
+    name: 당사대용가격변경일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: tr_stop_yn
+    name: 거래정지여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: admn_item_yn
+    name: 관리종목여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: thdt_clpr
+    name: 당일종가
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: bfdy_clpr
+    name: 전일종가
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: clpr_chng_dt
+    name: 종가변경일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: std_idst_clsf_cd
+    name: 표준산업분류코드
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: std_idst_clsf_cd_name
+    name: 표준산업분류코드명
+    type: A0001
+    type_name: String
+    length: '130'
+    required: true
+    description: "표준산업소분류코드\n000000\t해당사항없음                                     \n010101\t작물 재배업                         \
+      \             \n010102\t축산업                                           \n010103\t작물재배 및 축산 복합농업                     \
+      \   \n010104\t작물재배 및 축산 관련 서비스업                   \n010105\t수렵 및 관련 서비스업                            \n010201\t임업   \
+      \                                          \n010301\t어로 어업                                        \n010302\t양식어업 및 어업관련\
+      \ 서비스업                    \n020501\t석탄 광업                                        \n020502\t원유 및 천연가스 채굴업           \
+      \               \n020601\t철 광업                                          \n020602\t비철금속 광업                          \
+      \          \n020701\t토사석 광업                                      \n020702\t기타 비금속광물 광업                             \n\
+      020801\t광업 지원 서비스업                               \n031001\t도축, 육류 가공 및 저장 처리업                   \n031002\t수산물 가공 및 저장\
+      \ 처리업                       \n031003\t과실, 채소 가공 및 저장 처리업                   \n031004\t동물성 및 식물성 유지 제조업              \
+      \       \n031005\t낙농제품 및 식용빙과류 제조업                    \n031006\t곡물가공품, 전분 및 전분제품 제조업              \n031007\t기타 식품 제조업\
+      \                                 \n031008\t동물용 사료 및 조제식품 제조업                   \n031101\t알콜음료 제조업                 \
+      \                 \n031102\t비알콜음료 및 얼음 제조업                        \n031201\t담배 제조업                                 \
+      \     \n031301\t방적 및 가공사 제조업                            \n031302\t직물직조 및 직물제품 제조업                      \n031303\t편조원단\
+      \ 및 편조제품 제조업                      \n031304\t섬유제품 염색, 정리 및 마무리 가공업             \n031309\t기타 섬유제품 제조업                \
+      \             \n031401\t봉제의복 제조업                                  \n031402\t모피가공 및 모피제품 제조업                      \n\
+      031403\t편조의복 제조업                                  \n031404\t의복 액세서리 제조업                             \n031501\t가죽, 가방\
+      \ 및 유사제품 제조업                    \n031502\t신발 및 신발부분품 제조업                        \n031601\t제재 및 목재 가공업              \
+      \                \n031602\t나무제품 제조업                                  \n031603\t코르크 및 조물 제품 제조업                     \
+      \  \n031701\t펄프, 종이 및 판지 제조업                        \n031702\t골판지, 종이 상자 및 종이용기 제조업             \n031709\t기타 종이 및 판지\
+      \ 제품 제조업                    \n031801\t인쇄 및 인쇄관련 산업                            \n031802\t기록매체 복제업                   \
+      \               \n031901\t코크스 및 연탄 제조업                            \n031902\t석유 정제품 제조업                             \
+      \  \n032001\t기초화학물질 제조업                              \n032002\t비료 및 질소화합물 제조업                        \n032003\t합성고무\
+      \ 및 플라스틱 물질 제조업                 \n032004\t기타 화학제품 제조업                             \n032005\t화학섬유 제조업               \
+      \                   \n032101\t기초 의약물질 및 생물학적 제제 제조업            \n032102\t의약품 제조업                                   \
+      \ \n032103\t의료용품 및 기타 의약관련제품 제조업             \n032201\t고무제품 제조업                                  \n032202\t플라스틱제품 제조업\
+      \                              \n032301\t유리 및 유리제품 제조업                          \n032302\t도자기 및 기타 요업제품 제조업        \
+      \           \n032303\t시멘트, 석회, 플라스터 및 그 제품 제조업         \n032309\t기타 비금속 광물제품 제조업                      \n032401\t1차 철강\
+      \ 제조업                                  \n032402\t1차 비철금속 제조업                              \n032403\t금속 주조업         \
+      \                             \n032501\t구조용 금속제품, 탱크 및 증기발생기 제조업       \n032502\t무기 및 총포탄 제조업                      \
+      \      \n032509\t기타 금속가공제품 제조업                         \n032601\t반도체 제조업                                    \n032602\t\
+      전자부품 제조업                                  \n032603\t컴퓨터 및 주변장치 제조업                        \n032604\t통신 및 방송 장비 제조업 \
+      \                        \n032605\t영상 및 음향기기 제조업                          \n032606\t마그네틱 및 광학 매체 제조업               \
+      \      \n032701\t의료용 기기 제조업                               \n032702\t측정, 시험, 항해, 제어 및 기타 정밀기기 제조업; ?\n032703\t안경, 사진장비\
+      \ 및 기타 광학기기 제조업           \n032704\t시계 및 시계부품 제조업                          \n032801\t전동기, 발전기 및 전기 변환 · 공급 · 제어 장치 \n\
+      032802\t일차전지 및 축전지 제조업                        \n032803\t절연선 및 케이블 제조업                          \n032804\t전구 및 조명장치 제조업\
+      \                          \n032805\t가정용 기기 제조업                               \n032809\t기타 전기장비 제조업                \
+      \             \n032901\t일반 목적용 기계 제조업                          \n032902\t특수 목적용 기계 제조업                          \n033001\t\
+      자동차용 엔진 및 자동차 제조업                   \n033002\t자동차 차체 및 트레일러 제조업                   \n033003\t자동차 부품 제조업             \
+      \                  \n033101\t선박 및 보트 건조업                              \n033102\t철도장비 제조업                           \
+      \       \n033103\t항공기,우주선 및 부품 제조업                     \n033109\t그외 기타 운송장비 제조업                        \n033201\t가구\
+      \ 제조업                                      \n033301\t귀금속 및 장신용품 제조업                        \n033302\t악기 제조업        \
+      \                              \n033303\t운동 및 경기용구 제조업                          \n033304\t인형,장난감 및 오락용품 제조업        \
+      \           \n033309\t그외 기타 제품 제조업                            \n043501\t전기업                                        \
+      \   \n043502\t가스 제조 및 배관공급업                          \n043503\t증기, 냉온수 및 공기조절 공급업                  \n043601\t수도사업  \
+      \                                       \n053701\t하수, 폐수 및 분뇨 처리업                        \n053801\t폐기물 수집운반업       \
+      \                         \n053802\t폐기물 처리업                                    \n053803\t금속 및 비금속 원료 재생업           \
+      \            \n053901\t환경 정화 및 복원업                              \n064101\t건물 건설업                                   \
+      \   \n064102\t토목 건설업                                      \n064201\t기반조성 및 시설물 축조관련 전문공사업           \n064202\t건물설비 설치\
+      \ 공사업                             \n064203\t전기 및 통신 공사업                              \n064204\t실내건축 및 건축 마무리 공사업   \
+      \                \n064205\t건설장비 운영업                                  \n074501\t자동차 판매업                             \
+      \       \n074502\t자동차 부품 및 내장품 판매업                     \n074503\t모터사이클 및 부품 판매업                        \n074601\t상품\
+      \ 중개업                                      \n074602\t산업용 농축산물 및 산동물 도매업                 \n074603\t음·식료품 및 담배 도매업   \
+      \                     \n074604\t가정용품 도매업                                  \n074605\t기계장비 및 관련 물품 도매업               \
+      \      \n074606\t건축자재, 철물 및 난방장치 도매업                \n074607\t기타 전문 도매업                                 \n074608\t상품\
+      \ 종합 도매업                                 \n074701\t종합 소매업                                      \n074702\t음·식료품 및 담배\
+      \ 소매업                        \n074703\t정보통신장비 소매업                              \n074704\t섬유, 의복, 신발 및 가죽제품 소매업     \
+      \         \n074705\t기타 가정용품 소매업                             \n074706\t문화, 오락 및 여가 용품 소매업                   \n074707\t\
+      연료 소매업                                      \n074708\t기타 상품 전문 소매업                            \n074709\t무점포 소매업    \
+      \                                \n084901\t철도운송업                                       \n084902\t육상 여객 운송업         \
+      \                        \n084903\t도로 화물 운송업                                 \n084904\t소화물 전문 운송업                  \
+      \             \n084905\t파이프라인 운송업                                \n085001\t해상 운송업                                  \
+      \    \n085002\t내륙 수상 및 항만내 운송업                       \n085101\t정기 항공 운송업                                 \n085102\t\
+      부정기 항공 운송업                               \n085201\t보관 및 창고업                                   \n085209\t기타 운송관련 서비스업\
+      \                           \n095501\t숙박시설 운영업                                  \n095509\t기타 숙박업                   \
+      \                   \n095601\t음식점업                                         \n095602\t주점 및 비알콜음료점업                  \
+      \         \n105801\t서적, 잡지 및 기타 인쇄물 출판업                 \n105802\t소프트웨어 개발 및 공급업                        \n105901\t영화,\
+      \ 비디오물, 방송프로그램 제작 및 배급업      \n105902\t오디오물 출판 및 원판 녹음업                     \n106001\t라디오 방송업                      \
+      \              \n106002\t텔레비전 방송업                                  \n106101\t우편업                                   \
+      \        \n106102\t전기통신업                                       \n106201\t컴퓨터 프로그래밍, 시스템 통합 및 관리업         \n106301\t\
+      자료처리, 호스팅, 포털 및 기타 인터넷 정보매개서?\n106309\t기타 정보 서비스업                               \n116401\t은행 및 저축기관                \
+      \                 \n116402\t투자기관                                         \n116409\t기타 금융업                          \
+      \            \n116501\t보험업                                           \n116502\t재 보험업                               \
+      \         \n116503\t연금 및 공제업                                   \n116601\t금융지원 서비스업                                \n\
+      116602\t보험 및 연금관련 서비스업                        \n126801\t부동산 임대 및 공급업                            \n126802\t부동산 관련 서비스업\
+      \                             \n126901\t운송장비 임대업                                  \n126902\t개인 및 가정용품 임대업          \
+      \                \n126903\t산업용 기계 및 장비 임대업                       \n126904\t무형재산권 임대업                               \
+      \ \n137001\t자연과학 및 공학 연구개발업                      \n137002\t인문 및 사회과학 연구개발업                      \n137101\t법무관련 서비스업\
+      \                                \n137102\t회계 및 세무관련 서비스업                        \n137103\t광고업                     \
+      \                      \n137104\t시장조사 및 여론조사업                           \n137105\t회사본부, 지주회사 및 경영컨설팅 서비스업        \n\
+      137201\t건축기술, 엔지니어링 및 관련기술 서비스업        \n137209\t기타 과학기술 서비스업                           \n137301\t수의업              \
+      \                             \n137302\t전문디자인업                                     \n137303\t사진 촬영 및 처리업           \
+      \                   \n137309\t그외 기타 전문, 과학 및 기술 서비스업            \n147401\t사업시설 유지관리 서비스업                       \n147402\t\
+      건물·산업설비 청소 및 방제 서비스업             \n147403\t조경 관리 및 유지 서비스업                       \n147501\t인력공급 및 고용알선업            \
+      \               \n147502\t여행사 및 기타 여행보조 서비스업                 \n147503\t경비, 경호 및 탐정업                             \n147509\t\
+      기타 사업지원 서비스업                           \n158401\t입법 및 일반 정부 행정                           \n158402\t사회 및 산업정책 행정    \
+      \                        \n158403\t외무 및 국방 행정                                \n158404\t사법 및 공공질서 행정                \
+      \            \n158405\t사회보장 행정                                    \n168501\t초등 교육기관                                \
+      \    \n168502\t중등 교육기관                                    \n168503\t고등 교육기관                                    \n168504\t\
+      특수학교, 외국인학교 및 대안학교                 \n168505\t일반 교습 학원                                   \n168506\t기타 교육기관          \
+      \                          \n168507\t교육지원 서비스업                                \n178601\t병원                         \
+      \                    \n178602\t의원                                             \n178603\t공중 보건 의료업                  \
+      \               \n178609\t기타 보건업                                      \n178701\t거주 복지시설 운영업                        \
+      \     \n178702\t비거주 복지시설 운영업                           \n189001\t창작 및 예술관련 서비스업                        \n189002\t도서관,\
+      \ 사적지 및 유사 여가관련 서비스업         \n189101\t스포츠 서비스업                                  \n189102\t유원지 및 기타 오락관련 서비스업      \
+      \           \n199401\t산업 및 전문가 단체                              \n199402\t노동조합                                      \
+      \   \n199409\t기타 협회 및 단체                                \n199501\t기계 및 장비 수리업                              \n199502\t\
+      자동차 및 모터사이클 수리업                      \n199503\t개인 및 가정용품 수리업                          \n199601\t미용, 욕탕 및 유사 서비스업   \
+      \                   \n199609\t그외 기타 개인 서비스업                          \n209701\t가구내 고용활동                            \
+      \      \n209801\t자가 소비를 위한 가사 생산 활동                  \n209802\t자가 소비를 위한 가사 서비스 활동                \n219901\t국제 및 외국기관"
+  - code: idx_bztp_lcls_cd_name
+    name: 지수업종대분류코드명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: "표준산업대분류코드\n00\t해당사항없음                                                            \n01\t농업, 임업 및 어업     \
+      \                                                 \n02\t광업                                                         \
+      \           \n03\t제조업                                                                  \n04\t전기, 가스, 증기 및 수도사업     \
+      \                                       \n05\t하수-폐기물 처리, 원료재생 및환경복원업                                 \n06\t건설업     \
+      \                                                             \n07\t도매 및 소매업                                       \
+      \                   \n08\t운수업                                                                  \n09\t숙박 및 음식점업     \
+      \                                                   \n10\t출판, 영상, 방송통신 및 정보서비스업                                    \n\
+      11\t금융 및 보험업                                                          \n12\t부동산업 및 임대업                             \
+      \                         \n13\t전문, 과학 및 기술 서비스업                                             \n14\t사업시설관리 및 사업지원서비스업\
+      \                                        \n15\t공공행정, 국방 및 사회보장 행정                                         \n16\t교육 서비스업\
+      \                                                           \n17\t보건업 및 사회복지 서비스업                                  \
+      \           \n18\t예술, 스포츠 및 여가관련 서비스업                                       \n19\t협회 및 단체, 수리 및 기타 개인 서비스업         \
+      \                       \n20\t가구내 고용활동 및 달리 분류되지 않은 자가소비생산활동                  \n21\t국제 및 외국기관"
+  - code: idx_bztp_mcls_cd_name
+    name: 지수업종중분류코드명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: "표준산업중분류코드                                                   \n0000\t해당사항없음                             \
+      \                               \n0101\t농업                                                                    \n0102\t\
+      임업                                                                    \n0103\t어업                                   \
+      \                                 \n0205\t석탄, 원유 및 천연가스 광업                                             \n0206\t금속 광업\
+      \                                                               \n0207\t비금속광물 광업; 연료용 제외                           \
+      \                 \n0208\t광업 지원 서비스업                                                      \n0310\t식료품 제조업          \
+      \                                                 \n0311\t음료 제조업                                                   \
+      \          \n0312\t담배 제조업                                                             \n0313\t섬유제품 제조업; 의복제외       \
+      \                                        \n0314\t의복, 의복액세서리 및 모피제품제조업                                    \n0315\t가죽,\
+      \ 가방 및 신발 제조업                                               \n0316\t목재 및 나무제품 제조업;가구제외                             \
+      \           \n0317\t펄프, 종이 및 종이제품 제조업                                           \n0318\t인쇄 및 기록매체 복제업              \
+      \                                   \n0319\t코크스, 연탄 및 석유정제품 제조업                                       \n0320\t화학물질 및\
+      \ 화학제품 제조업;의약품 제외                                 \n0321\t의료용 물질 및 의약품 제조업                                         \
+      \   \n0322\t고무제품 및 플라스틱제품 제조업                                         \n0323\t비금속 광물제품 제조업                         \
+      \                         \n0324\t1차 금속 제조업                                                         \n0325\t금속가공제품 제조업;기계\
+      \ 및가구 제외                                    \n0326\t전자부품, 컴퓨터, 영상, 음향 및 통신장비 제조업                         \n0327\t의료,\
+      \ 정밀, 광학기기 및 시계 제조업                                     \n0328\t전기장비 제조업                                           \
+      \              \n0329\t기타 기계 및 장비 제조업                                                \n0330\t자동차 및 트레일러 제조업        \
+      \                                       \n0331\t기타 운송장비 제조업                                                    \n0332\t\
+      가구 제조업                                                             \n0333\t기타 제품 제조업                               \
+      \                         \n0435\t전기, 가스, 증기 및 공기조절 공급업                                     \n0436\t수도사업           \
+      \                                                     \n0537\t하수, 폐수 및 분뇨 처리업                                      \
+      \         \n0538\t폐기물 수집운반, 처리 및 원료재생업                                     \n0539\t환경 정화 및 복원업                     \
+      \                                \n0641\t종합 건설업                                                             \n0642\t\
+      전문직별 공사업                                                         \n0745\t자동차 및 부품 판매업                              \
+      \                     \n0746\t도매 및 상품중개업                                                      \n0747\t소매업; 자동차 제외  \
+      \                                                   \n0849\t육상운송 및 파이프라인 운송업                                       \
+      \    \n0850\t수상 운송업                                                             \n0851\t항공 운송업                     \
+      \                                        \n0852\t창고 및 운송관련 서비스업                                               \n0955\t\
+      숙박업                                                                  \n0956\t음식점 및 주점업                             \
+      \                           \n1058\t출판업                                                                  \n1059\t영상·오디오\
+      \ 기록물 제작 및 배급업                                      \n1060\t방송업                                                    \
+      \              \n1061\t통신업                                                                  \n1062\t컴퓨터 프로그래밍, 시스템 통합및\
+      \ 관리업                                 \n1063\t정보서비스업                                                            \n1164\t\
+      금융업                                                                  \n1165\t보험 및 연금업                              \
+      \                            \n1166\t금융 및 보험 관련 서비스업                                              \n1268\t부동산업     \
+      \                                                           \n1269\t임대업;부동산 제외                                     \
+      \                 \n1370\t연구개발업                                                              \n1371\t전문서비스업        \
+      \                                                    \n1372\t건축기술, 엔지니어링 및 기타과학기술 서비스업                           \n\
+      1373\t기타 전문, 과학 및 기술 서비스업                                        \n1474\t사업시설 관리 및 조경 서비스업                         \
+      \                 \n1475\t사업지원 서비스업                                                       \n1584\t공공행정, 국방 및 사회보장 행정\
+      \                                         \n1685\t교육 서비스업                                                          \
+      \ \n1786\t보건업                                                                  \n1787\t사회복지 서비스업                   \
+      \                                    \n1890\t창작, 예술 및 여가관련 서비스업                                         \n1891\t스포츠\
+      \ 및 오락관련 서비스업                                             \n1994\t협회 및 단체                                          \
+      \                  \n1995\t수리업                                                                  \n1996\t기타 개인 서비스업 \
+      \                                                     \n2097\t가구내 고용활동                                             \
+      \            \n2098\t달리 분류되지 않은 자가소비를 위한가구의 재화 및 서비스 생산활동        \n2199\t국제 및 외국기관"
+  - code: idx_bztp_scls_cd_name
+    name: 지수업종소분류코드명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: 표준산업소분류코드 참조
+  - code: ocr_no
+    name: OCR번호
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: crfd_item_yn
+    name: 크라우드펀딩종목여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: elec_scty_yn
+    name: 전자증권여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: issu_istt_cd
+    name: 발행기관코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: etf_chas_erng_rt_dbnb
+    name: ETF추적수익율배수
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: etf_etn_ivst_heed_item_yn
+    name: ETFETN투자유의종목여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: stln_int_rt_dvsn_cd
+    name: 대주이자율구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: frnr_psnl_lmt_rt
+    name: 외국인개인한도비율
+    type: A0001
+    type_name: String
+    length: '24'
+    required: true
+    description: ''
+  - code: lstg_rqsr_issu_istt_cd
+    name: 상장신청인발행기관코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: lstg_rqsr_item_cd
+    name: 상장신청인종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: trst_istt_issu_istt_cd
+    name: 신탁기관발행기관코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: cptt_trad_tr_psbl_yn
+    name: NXT 거래종목여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: NXT 거래가능한 종목은 Y, 그 외 종목은 N
+  - code: nxt_tr_stop_yn
+    name: NXT 거래정지여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: NXT 거래종목 중 거래정지가 된 종목은 Y, 그 외 모든 종목은 N
+  example:
+    output:
+      pdno: 00000A000660
+      prdt_type_cd: '300'
+      mket_id_cd: STK
+      scty_grp_id_cd: ST
+      excg_dvsn_cd: '02'
+      setl_mmdd: '12'
+      lstg_stqt: '728002365'
+      lstg_cptl_amt: '0'
+      cpta: '3657652050000'
+      papr: '5000'
+      issu_pric: '5000'
+      kospi200_item_yn: Y
+      scts_mket_lstg_dt: '19961226'
+      scts_mket_lstg_abol_dt: ''
+      kosdaq_mket_lstg_dt: ''
+      kosdaq_mket_lstg_abol_dt: ''
+      frbd_mket_lstg_dt: '19961226'
+      frbd_mket_lstg_abol_dt: ''
+      reits_kind_cd: ''
+      etf_dvsn_cd: '0'
+      oilf_fund_yn: N
+      idx_bztp_lcls_cd: '002'
+      idx_bztp_mcls_cd: '013'
+      idx_bztp_scls_cd: '013'
+      stck_kind_cd: '101'
+      mfnd_opng_dt: ''
+      mfnd_end_dt: ''
+      dpsi_erlm_cncl_dt: ''
+      etf_cu_qty: '0'
+      prdt_name: 에스케이하이닉스보통주
+      prdt_name120: 에스케이하이닉스보통주
+      prdt_abrv_name: SK하이닉스
+      std_pdno: KR7000660001
+      prdt_eng_name: SK hynix
+      prdt_eng_name120: SK hynix
+      prdt_eng_abrv_name: SK hynix
+      dpsi_aptm_erlm_yn: Y
+      etf_txtn_type_cd: '00'
+      etf_type_cd: ''
+      lstg_abol_dt: ''
+      nwst_odst_dvsn_cd: '1'
+      sbst_pric: '115980'
+      thco_sbst_pric: '115980'
+      thco_sbst_pric_chng_dt: '20240215'
+      tr_stop_yn: N
+      admn_item_yn: N
+      thdt_clpr: '146800'
+      bfdy_clpr: '148700'
+      clpr_chng_dt: '20240216'
+      std_idst_clsf_cd: '032601'
+      std_idst_clsf_cd_name: 반도체 제조업
+      idx_bztp_lcls_cd_name: 시가총액규모대
+      idx_bztp_mcls_cd_name: 전기,전자
+      idx_bztp_scls_cd_name: 전기,전자
+      ocr_no: '1147'
+      crfd_item_yn: N
+      elec_scty_yn: Y
+    rt_cd: '0'
+    msg_cd: KIOK0530
+    msg1: '조회되었습니다                                                                  '
+errors: []

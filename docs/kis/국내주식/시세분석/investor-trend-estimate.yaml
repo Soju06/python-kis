@@ -1,0 +1,251 @@
+id: 7fcf90d5-5e84-484a-8000-9121fb0a81d7
+name: 종목별 외인기관 추정가집계[v1_국내주식-046]
+section: '[국내주식] 시세분석'
+category: 국내주식
+subcategory: 시세분석
+method: GET
+url: /uapi/domestic-stock/v1/quotations/investor-trend-estimate
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- HHPTJ04160200
+real_tr_id: HHPTJ04160200
+virtual_tr_id: 모의투자 미지원
+summary: '국내주식 종목별 외국인, 기관 추정가집계 API입니다.
+
+
+  한국투자 MTS > 국내 현재가 > 투자자 > 투자자동향 탭 > 왼쪽구분을 ''추정(주)''로 선택 시 확인 가능한 데이터를 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
+
+
+  증권사 직원이 장중에 집계/입력한 자료를 단순 누계한 수치로서,
+
+  입력시간은 외국인 09:30, 11:20, 13:20, 14:30 / 기관종합 10:00, 11:20, 13:20, 14:30 이며, 사정에 따라 변동될 수 있습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2023-04-14T07:28:15+09:00'
+  last_modified_date: '2025-05-14T14:29:37+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHPTJ04160200
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: MKSC_SHRN_ISCD
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목코드
+  example:
+    MKSC_SHRN_ISCD: '000660'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: Array
+  - code: bsop_hour_gb
+    name: 입력구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "1: 09시 30분 입력\n2: 10시 00분 입력 \n3: 11시 20분 입력 \n4: 13시 20분 입력 \n5: 14시 30분 입력"
+  - code: frgn_fake_ntby_qty
+    name: 외국인수량(가집계)
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: orgn_fake_ntby_qty
+    name: 기관수량(가집계)
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: sum_fake_ntby_qty
+    name: 합산수량(가집계)
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  example:
+    output2:
+    - bsop_hour_gb: '5'
+      frgn_fake_ntby_qty: '-00000000000030000'
+      orgn_fake_ntby_qty: '000000000000121000'
+      sum_fake_ntby_qty: 000000000000091000
+    - bsop_hour_gb: '4'
+      frgn_fake_ntby_qty: -00000000000093000
+      orgn_fake_ntby_qty: '000000000000130000'
+      sum_fake_ntby_qty: '000000000000037000'
+    - bsop_hour_gb: '3'
+      frgn_fake_ntby_qty: '-00000000000026000'
+      orgn_fake_ntby_qty: '000000000000037000'
+      sum_fake_ntby_qty: '000000000000011000'
+    - bsop_hour_gb: '2'
+      frgn_fake_ntby_qty: -00000000000038000
+      orgn_fake_ntby_qty: '000000000000022000'
+      sum_fake_ntby_qty: '-00000000000016000'
+    - bsop_hour_gb: '1'
+      frgn_fake_ntby_qty: '-00000000000023000'
+      orgn_fake_ntby_qty: '000000000000000000'
+      sum_fake_ntby_qty: '-00000000000023000'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

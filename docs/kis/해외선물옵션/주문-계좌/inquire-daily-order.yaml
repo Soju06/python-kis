@@ -1,0 +1,545 @@
+id: ca3e5ee4-a1f3-48a6-ab11-cd298ebef686
+name: 해외선물옵션 일별 주문내역[해외선물-013]
+section: '[해외선물옵션] 주문/계좌'
+category: 해외선물옵션
+subcategory: 주문/계좌
+method: GET
+url: /uapi/overseas-futureoption/v1/trading/inquire-daily-order
+content_type: application/json; charset=utf-8
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- OTFM3120R
+- 모의투자 미지원
+real_tr_id: OTFM3120R
+virtual_tr_id: 모의투자 미지원
+summary: 해외선물옵션 일별 주문내역 API입니다.
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2022-10-07T12:57:58+09:00'
+  last_modified_date: '2025-04-30T12:55:33+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)\n\n※ 토큰 지정시 토큰\
+      \ 타입(\"Bearer\") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 \"Bearer\" 붙여서 호출\nEX) \"Bearer eyJ..........8GA\""
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: OTFM3120R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '공백 : 초기 조회
+
+      N : 다음 데이터 조회 (output header의 tr_cont가 M일 경우)'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 계좌번호 체계(8-2)의 앞 8자리
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 계좌번호 체계(8-2)의 뒤 2자리
+  - code: STRT_DT
+    name: 시작일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: END_DT
+    name: 종료일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: FM_PDGR_CD
+    name: FM상품군코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: CCLD_NCCS_DVSN
+    name: 체결미체결구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 01:전체 / 02:체결 / 03:미체결
+  - code: SLL_BUY_DVSN_CD
+    name: 매도매수구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '%%전체 / 01 : 매도 / 02 : 매수'
+  - code: FUOP_DVSN
+    name: 선물옵션구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 00:전체 / 01:선물 / 02:옵션
+  - code: CTX_AREA_FK200
+    name: 연속조회검색조건200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: ''
+  - code: CTX_AREA_NK200
+    name: 연속조회키200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: ''
+  example: "{\r\n\t\"CANO\":\"12345678\",\r\n\t\"ACNT_PRDT_CD\":\"08\",\r\n\t\"STRT_DT\":\"20220101\",\r\n\t\"END_DT\":\"\
+    20221214\",\r\n\t\"FM_PDGR_CD\":\"\",\r\n\t\"CCLD_NCCS_DVSN\":\"01\",\r\n\t\"SLL_BUY_DVSN_CD\":\"%%\",\r\n\t\"FUOP_DVSN\"\
+    :\"00\",\r\n\t\"CTX_AREA_FK200\":\"\",\r\n\t\"CTX_AREA_NK200\":\"\",\r\n}"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'F or M : 다음 데이터 있음
+
+      D or E : 마지막 데이터'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세1
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: Array
+  - code: cano
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: acnt_prdt_cd
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: dt
+    name: 일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ord_dt
+    name: 주문일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: odno
+    name: 주문번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: "접수한 주문의 일련번호(ex. 00360686)\n* 정정/취소시 문자열처럼 \"0\"을 포함해서 전송 \n  (ex. ORGN_ODNO : 00360686)\n* 정정/취소시 문자열처럼\
+      \ \"0\"을 포함해서 전송 \n  (ex. ORGN_ODNO : 00360686)"
+  - code: orgn_ord_dt
+    name: 원주문일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: orgn_odno
+    name: 원주문번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 원주문번호(ex. 00360685)
+  - code: ovrs_futr_fx_pdno
+    name: 해외선물FX상품번호
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: ''
+  - code: rvse_cncl_dvsn_cd
+    name: 정정취소구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: "청산체결이 없는 신규\t00\n청산체결이 없는 정정\t01\n청산체결이 없는 취소\t02\n청산체결이 있는 취소\t02\n청산체결이 있는 신규\t03\n청산체결이 있는 정정\t04\n행사\t\
+      05\n배정\t06\n소멸\t07\n만기\t08"
+  - code: sll_buy_dvsn_cd
+    name: 매도매수구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: cplx_ord_dvsn_cd
+    name: 복합주문구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: pric_dvsn_cd
+    name: 가격구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: rcit_dvsn_cd
+    name: 접수구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: fm_ord_qty
+    name: FM주문수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: fm_ord_pric
+    name: FM주문가격
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_stop_ord_pric
+    name: FMSTOP주문가격
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: ecis_rsvn_ord_yn
+    name: 행사예약주문여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: fm_ccld_qty
+    name: FM체결수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: fm_ccld_pric
+    name: FM체결가격
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_ord_rmn_qty
+    name: FM주문잔여수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ord_grp_name
+    name: 주문그룹명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: rcit_dtl_dtime
+    name: 접수상세일시
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: ''
+  - code: ccld_dtl_dtime
+    name: 체결상세일시
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: ''
+  - code: ordr_emp_no
+    name: 주문자사원번호
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: rjct_rson_name
+    name: 거부사유명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: ccld_cndt_cd
+    name: 체결조건코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: trad_end_dt
+    name: 매매종료일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  example: "{\r\n    \"ctx_area_fk200\": \"12345678^08^20231206^20231206^^01^%%^00^                                      \
+    \                                                                                                                    \
+    \      \",\r\n    \"ctx_area_nk200\": \"                                                                             \
+    \                                                                                                                    \
+    \       \",\r\n    \"output\": [\r\n        {\r\n            \"cano\": \"12345678\",\r\n            \"acnt_prdt_cd\":\
+    \ \"08\",\r\n            \"dt\": \"20231206\",\r\n            \"ord_dt\": \"20231206\",\r\n            \"odno\": \"00362398\"\
+    ,\r\n            \"orgn_ord_dt\": \"\",\r\n            \"orgn_odno\": \"\",\r\n            \"ovrs_futr_fx_pdno\": \"6CZ23\"\
+    ,\r\n            \"rvse_cncl_dvsn_cd\": \"00\",\r\n            \"sll_buy_dvsn_cd\": \"02\",\r\n            \"cplx_ord_dvsn_cd\"\
+    : \"0\",\r\n            \"pric_dvsn_cd\": \"2\",\r\n            \"rcit_dvsn_cd\": \"02\",\r\n            \"fm_ord_qty\"\
+    : \"3\",\r\n            \"fm_ord_pric\": \"0.00000\",\r\n            \"fm_stop_ord_pric\": \"0.00000\",\r\n          \
+    \  \"ecis_rsvn_ord_yn\": \"N\",\r\n            \"fm_ccld_qty\": \"3\",\r\n            \"fm_ccld_pric\": \"0.73935\",\r\
+    \n            \"fm_ord_rmn_qty\": \"0\",\r\n            \"ord_grp_name\": \"\",\r\n            \"rcit_dtl_dtime\": \"\
+    20231206092306005\",\r\n            \"ccld_dtl_dtime\": \"20231206092306005\",\r\n            \"ordr_emp_no\": \"109171\"\
+    ,\r\n            \"rjct_rson_name\": \"\",\r\n            \"ccld_cndt_cd\": \"2\",\r\n            \"trad_end_dt\": \"\"\
+    \r\n        },\r\n        {\r\n            \"cano\": \"12345678\",\r\n            \"acnt_prdt_cd\": \"08\",\r\n      \
+    \      \"dt\": \"20231206\",\r\n            \"ord_dt\": \"20231206\",\r\n            \"odno\": \"00362397\",\r\n     \
+    \       \"orgn_ord_dt\": \"\",\r\n            \"orgn_odno\": \"\",\r\n            \"ovrs_futr_fx_pdno\": \"6CZ23\",\r\n\
+    \            \"rvse_cncl_dvsn_cd\": \"00\",\r\n            \"sll_buy_dvsn_cd\": \"02\",\r\n            \"cplx_ord_dvsn_cd\"\
+    : \"0\",\r\n            \"pric_dvsn_cd\": \"2\",\r\n            \"rcit_dvsn_cd\": \"02\",\r\n            \"fm_ord_qty\"\
+    : \"1\",\r\n            \"fm_ord_pric\": \"0.00000\",\r\n            \"fm_stop_ord_pric\": \"0.00000\",\r\n          \
+    \  \"ecis_rsvn_ord_yn\": \"N\",\r\n            \"fm_ccld_qty\": \"1\",\r\n            \"fm_ccld_pric\": \"0.73925\",\r\
+    \n            \"fm_ord_rmn_qty\": \"0\",\r\n            \"ord_grp_name\": \"\",\r\n            \"rcit_dtl_dtime\": \"\
+    20231206092247252\",\r\n            \"ccld_dtl_dtime\": \"20231206092247252\",\r\n            \"ordr_emp_no\": \"109171\"\
+    ,\r\n            \"rjct_rson_name\": \"\",\r\n            \"ccld_cndt_cd\": \"2\",\r\n            \"trad_end_dt\": \"\"\
+    \r\n        },\r\n        {\r\n            \"cano\": \"12345678\",\r\n            \"acnt_prdt_cd\": \"08\",\r\n      \
+    \      \"dt\": \"20231206\",\r\n            \"ord_dt\": \"20231206\",\r\n            \"odno\": \"00362396\",\r\n     \
+    \       \"orgn_ord_dt\": \"\",\r\n            \"orgn_odno\": \"\",\r\n            \"ovrs_futr_fx_pdno\": \"6CZ23\",\r\n\
+    \            \"rvse_cncl_dvsn_cd\": \"00\",\r\n            \"sll_buy_dvsn_cd\": \"02\",\r\n            \"cplx_ord_dvsn_cd\"\
+    : \"0\",\r\n            \"pric_dvsn_cd\": \"2\",\r\n            \"rcit_dvsn_cd\": \"02\",\r\n            \"fm_ord_qty\"\
+    : \"1\",\r\n            \"fm_ord_pric\": \"0.00000\",\r\n            \"fm_stop_ord_pric\": \"0.00000\",\r\n          \
+    \  \"ecis_rsvn_ord_yn\": \"N\",\r\n            \"fm_ccld_qty\": \"1\",\r\n            \"fm_ccld_pric\": \"0.73920\",\r\
+    \n            \"fm_ord_rmn_qty\": \"0\",\r\n            \"ord_grp_name\": \"\",\r\n            \"rcit_dtl_dtime\": \"\
+    20231206092123893\",\r\n            \"ccld_dtl_dtime\": \"20231206092123893\",\r\n            \"ordr_emp_no\": \"109171\"\
+    ,\r\n            \"rjct_rson_name\": \"\",\r\n            \"ccld_cndt_cd\": \"2\",\r\n            \"trad_end_dt\": \"\"\
+    \r\n        },\r\n        {\r\n            \"cano\": \"12345678\",\r\n            \"acnt_prdt_cd\": \"08\",\r\n      \
+    \      \"dt\": \"20231206\",\r\n            \"ord_dt\": \"20231206\",\r\n            \"odno\": \"00362395\",\r\n     \
+    \       \"orgn_ord_dt\": \"\",\r\n            \"orgn_odno\": \"\",\r\n            \"ovrs_futr_fx_pdno\": \"6CZ23\",\r\n\
+    \            \"rvse_cncl_dvsn_cd\": \"00\",\r\n            \"sll_buy_dvsn_cd\": \"02\",\r\n            \"cplx_ord_dvsn_cd\"\
+    : \"0\",\r\n            \"pric_dvsn_cd\": \"2\",\r\n            \"rcit_dvsn_cd\": \"02\",\r\n            \"fm_ord_qty\"\
+    : \"1\",\r\n            \"fm_ord_pric\": \"0.00000\",\r\n            \"fm_stop_ord_pric\": \"0.00000\",\r\n          \
+    \  \"ecis_rsvn_ord_yn\": \"N\",\r\n            \"fm_ccld_qty\": \"1\",\r\n            \"fm_ccld_pric\": \"0.73915\",\r\
+    \n            \"fm_ord_rmn_qty\": \"0\",\r\n            \"ord_grp_name\": \"\",\r\n            \"rcit_dtl_dtime\": \"\
+    20231206092039261\",\r\n            \"ccld_dtl_dtime\": \"20231206092039261\",\r\n            \"ordr_emp_no\": \"109171\"\
+    ,\r\n            \"rjct_rson_name\": \"\",\r\n            \"ccld_cndt_cd\": \"2\",\r\n            \"trad_end_dt\": \"\"\
+    \r\n        },\r\n        {\r\n            \"cano\": \"12345678\",\r\n            \"acnt_prdt_cd\": \"08\",\r\n      \
+    \      \"dt\": \"20231206\",\r\n            \"ord_dt\": \"20231206\",\r\n            \"odno\": \"00362394\",\r\n     \
+    \       \"orgn_ord_dt\": \"\",\r\n            \"orgn_odno\": \"\",\r\n            \"ovrs_futr_fx_pdno\": \"10YZ23\",\r\
+    \n            \"rvse_cncl_dvsn_cd\": \"00\",\r\n            \"sll_buy_dvsn_cd\": \"02\",\r\n            \"cplx_ord_dvsn_cd\"\
+    : \"0\",\r\n            \"pric_dvsn_cd\": \"2\",\r\n            \"rcit_dvsn_cd\": \"03\",\r\n            \"fm_ord_qty\"\
+    : \"1\",\r\n            \"fm_ord_pric\": \"0.000\",\r\n            \"fm_stop_ord_pric\": \"0.000\",\r\n            \"\
+    ecis_rsvn_ord_yn\": \"N\",\r\n            \"fm_ccld_qty\": \"0\",\r\n            \"fm_ccld_pric\": \"0.000\",\r\n    \
+    \        \"fm_ord_rmn_qty\": \"0\",\r\n            \"ord_grp_name\": \"\",\r\n            \"rcit_dtl_dtime\": \"\",\r\n\
+    \            \"ccld_dtl_dtime\": \"\",\r\n            \"ordr_emp_no\": \"109171\",\r\n            \"rjct_rson_name\":\
+    \ \"[정상적인거부]Text[Order price is outside bands 'Bid of 4269\",\r\n            \"ccld_cndt_cd\": \"2\",\r\n            \"\
+    trad_end_dt\": \"\"\r\n        },\r\n        {\r\n            \"cano\": \"12345678\",\r\n            \"acnt_prdt_cd\"\
+    : \"08\",\r\n            \"dt\": \"20231206\",\r\n            \"ord_dt\": \"20231206\",\r\n            \"odno\": \"00362393\"\
+    ,\r\n            \"orgn_ord_dt\": \"\",\r\n            \"orgn_odno\": \"\",\r\n            \"ovrs_futr_fx_pdno\": \"6AZ23\"\
+    ,\r\n            \"rvse_cncl_dvsn_cd\": \"00\",\r\n            \"sll_buy_dvsn_cd\": \"02\",\r\n            \"cplx_ord_dvsn_cd\"\
+    : \"0\",\r\n            \"pric_dvsn_cd\": \"1\",\r\n            \"rcit_dvsn_cd\": \"02\",\r\n            \"fm_ord_qty\"\
+    : \"2\",\r\n            \"fm_ord_pric\": \"0.65000\",\r\n            \"fm_stop_ord_pric\": \"0.00000\",\r\n          \
+    \  \"ecis_rsvn_ord_yn\": \"N\",\r\n            \"fm_ccld_qty\": \"0\",\r\n            \"fm_ccld_pric\": \"0.00000\",\r\
+    \n            \"fm_ord_rmn_qty\": \"0\",\r\n            \"ord_grp_name\": \"\",\r\n            \"rcit_dtl_dtime\": \"\
+    20231206091838237\",\r\n            \"ccld_dtl_dtime\": \"\",\r\n            \"ordr_emp_no\": \"45TesT\",\r\n        \
+    \    \"rjct_rson_name\": \"FCM 거부됨\",\r\n            \"ccld_cndt_cd\": \"6\",\r\n            \"trad_end_dt\": \"\"\r\n\
+    \        },\r\n        {\r\n            \"cano\": \"12345678\",\r\n            \"acnt_prdt_cd\": \"08\",\r\n         \
+    \   \"dt\": \"20231206\",\r\n            \"ord_dt\": \"20231206\",\r\n            \"odno\": \"00362392\",\r\n        \
+    \    \"orgn_ord_dt\": \"\",\r\n            \"orgn_odno\": \"\",\r\n            \"ovrs_futr_fx_pdno\": \"6AZ23\",\r\n \
+    \           \"rvse_cncl_dvsn_cd\": \"00\",\r\n            \"sll_buy_dvsn_cd\": \"02\",\r\n            \"cplx_ord_dvsn_cd\"\
+    : \"0\",\r\n            \"pric_dvsn_cd\": \"1\",\r\n            \"rcit_dvsn_cd\": \"02\",\r\n            \"fm_ord_qty\"\
+    : \"2\",\r\n            \"fm_ord_pric\": \"0.65000\",\r\n            \"fm_stop_ord_pric\": \"0.00000\",\r\n          \
+    \  \"ecis_rsvn_ord_yn\": \"N\",\r\n            \"fm_ccld_qty\": \"0\",\r\n            \"fm_ccld_pric\": \"0.00000\",\r\
+    \n            \"fm_ord_rmn_qty\": \"0\",\r\n            \"ord_grp_name\": \"\",\r\n            \"rcit_dtl_dtime\": \"\
+    20231206091835180\",\r\n            \"ccld_dtl_dtime\": \"\",\r\n            \"ordr_emp_no\": \"45TesT\",\r\n        \
+    \    \"rjct_rson_name\": \"FCM 거부됨\",\r\n            \"ccld_cndt_cd\": \"6\",\r\n            \"trad_end_dt\": \"\"\r\n\
+    \        },\r\n        {\r\n            \"cano\": \"12345678\",\r\n            \"acnt_prdt_cd\": \"08\",\r\n         \
+    \   \"dt\": \"20231206\",\r\n            \"ord_dt\": \"20231206\",\r\n            \"odno\": \"00362391\",\r\n        \
+    \    \"orgn_ord_dt\": \"\",\r\n            \"orgn_odno\": \"\",\r\n            \"ovrs_futr_fx_pdno\": \"6AZ23\",\r\n \
+    \           \"rvse_cncl_dvsn_cd\": \"00\",\r\n            \"sll_buy_dvsn_cd\": \"02\",\r\n            \"cplx_ord_dvsn_cd\"\
+    : \"0\",\r\n            \"pric_dvsn_cd\": \"1\",\r\n            \"rcit_dvsn_cd\": \"02\",\r\n            \"fm_ord_qty\"\
+    : \"2\",\r\n            \"fm_ord_pric\": \"0.65000\",\r\n            \"fm_stop_ord_pric\": \"0.00000\",\r\n          \
+    \  \"ecis_rsvn_ord_yn\": \"N\",\r\n            \"fm_ccld_qty\": \"0\",\r\n            \"fm_ccld_pric\": \"0.00000\",\r\
+    \n            \"fm_ord_rmn_qty\": \"0\",\r\n            \"ord_grp_name\": \"\",\r\n            \"rcit_dtl_dtime\": \"\
+    20231206083023955\",\r\n            \"ccld_dtl_dtime\": \"\",\r\n            \"ordr_emp_no\": \"45TesT\",\r\n        \
+    \    \"rjct_rson_name\": \"FCM 거부됨\",\r\n            \"ccld_cndt_cd\": \"6\",\r\n            \"trad_end_dt\": \"\"\r\n\
+    \        },\r\n        {\r\n            \"cano\": \"12345678\",\r\n            \"acnt_prdt_cd\": \"08\",\r\n         \
+    \   \"dt\": \"20231206\",\r\n            \"ord_dt\": \"20231206\",\r\n            \"odno\": \"00362390\",\r\n        \
+    \    \"orgn_ord_dt\": \"\",\r\n            \"orgn_odno\": \"\",\r\n            \"ovrs_futr_fx_pdno\": \"6AZ23\",\r\n \
+    \           \"rvse_cncl_dvsn_cd\": \"00\",\r\n            \"sll_buy_dvsn_cd\": \"02\",\r\n            \"cplx_ord_dvsn_cd\"\
+    : \"0\",\r\n            \"pric_dvsn_cd\": \"1\",\r\n            \"rcit_dvsn_cd\": \"02\",\r\n            \"fm_ord_qty\"\
+    : \"2\",\r\n            \"fm_ord_pric\": \"0.65000\",\r\n            \"fm_stop_ord_pric\": \"0.00000\",\r\n          \
+    \  \"ecis_rsvn_ord_yn\": \"N\",\r\n            \"fm_ccld_qty\": \"0\",\r\n            \"fm_ccld_pric\": \"0.00000\",\r\
+    \n            \"fm_ord_rmn_qty\": \"0\",\r\n            \"ord_grp_name\": \"\",\r\n            \"rcit_dtl_dtime\": \"\
+    20231206082401404\",\r\n            \"ccld_dtl_dtime\": \"\",\r\n            \"ordr_emp_no\": \"45TesT\",\r\n        \
+    \    \"rjct_rson_name\": \"FCM 거부됨\",\r\n            \"ccld_cndt_cd\": \"6\",\r\n            \"trad_end_dt\": \"\"\r\n\
+    \        }\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"KIOK0510\","
+errors: []

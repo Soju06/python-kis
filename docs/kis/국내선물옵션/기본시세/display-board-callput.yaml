@@ -1,0 +1,861 @@
+id: d9b0e346-a67d-43c6-938a-508e2d8507c6
+name: 국내옵션전광판_콜풋[국내선물-022]
+section: '[국내선물옵션] 기본시세'
+category: 국내선물옵션
+subcategory: 기본시세
+method: GET
+url: /uapi/domestic-futureoption/v1/quotations/display-board-callput
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- FHPIF05030100
+real_tr_id: FHPIF05030100
+virtual_tr_id: 모의투자 미지원
+summary: '국내옵션전광판_콜풋 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0503] 선물옵션 종합시세(Ⅰ) 화면의 "중앙" 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
+
+
+  ※ output1, output2 각각 100건까지만 확인이 가능합니다. (FY25년도 서비스 개선 예정)
+
+  ※ 조회시간이 긴 API인 점 참고 부탁드리며, 잦은 호출을 삼가해주시기 바랍니다. (1초당 최대 1건 권장)'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-05T13:26:51+09:00'
+  last_modified_date: '2025-04-30T12:36:13+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPIF05030100
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '시장구분코드 (O: 옵션)'
+  - code: FID_COND_SCR_DIV_CODE
+    name: 조건 화면 분류 코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: Unique key(20503)
+  - code: FID_MRKT_CLS_CODE
+    name: 시장 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '시장구분코드 (CO: 콜옵션)'
+  - code: FID_MTRT_CNT
+    name: 만기 수
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: '- FID_COND_MRKT_CLS_CODE : 공백(KOSPI200), MKI(미니KOSPI200), KQI(KOSDAQ150) 인 경우
+
+      : 만기년월(YYYYMM) 입력 (ex. 202407)
+
+
+      - FID_COND_MRKT_CLS_CODE : WKM(KOSPI200위클리(월)), WKI(KOSPI200위클리(목)) 인 경우
+
+      : 만기년월주차(YYMMWW) 입력
+
+      (ex. 2024년도 7월 3주차인 경우, 240703 입력)'
+  - code: FID_COND_MRKT_CLS_CODE
+    name: 조건 시장 구분 코드
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: '공백: KOSPI200
+
+      MKI: 미니KOSPI200
+
+      WKM: KOSPI200위클리(월)
+
+      WKI: KOSPI200위클리(목)
+
+      KQI: KOSDAQ150'
+  - code: FID_MRKT_CLS_CODE1
+    name: 시장 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '시장구분코드 (PO: 풋옵션)'
+  example: "fid_cond_mrkt_div_code:O\r\nfid_cond_scr_div_code:20503\r\nfid_mrkt_cls_code:CO\r\nfid_mtrt_cnt:202405\r\nfid_cond_mrkt_cls_code:\r\
+    \nfid_mrkt_cls_code1:PO"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: acpr
+    name: 행사가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: unch_prpr
+    name: 환산 현재가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_shrn_iscd
+    name: 옵션 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: optn_prpr
+    name: 옵션 현재가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_prdy_vrss
+    name: 옵션 전일 대비
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: optn_prdy_ctrt
+    name: 옵션 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: optn_bidp
+    name: 옵션 매수호가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_askp
+    name: 옵션 매도호가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: tmvl_val
+    name: 시간가치 값
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: ''
+  - code: nmix_sdpr
+    name: 지수 기준가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: seln_rsqn
+    name: 매도 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: shnu_rsqn
+    name: 매수2 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: acml_tr_pbmn
+    name: 누적 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: hts_otst_stpl_qty
+    name: HTS 미결제 약정 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: otst_stpl_qty_icdc
+    name: 미결제 약정 수량 증감
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: delta_val
+    name: 델타 값
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: gama
+    name: 감마
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: vega
+    name: 베가
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: theta
+    name: 세타
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: rho
+    name: 로우
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: hts_ints_vltl
+    name: HTS 내재 변동성
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: invl_val
+    name: 내재가치 값
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: ''
+  - code: esdg
+    name: 괴리도
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: dprt
+    name: 괴리율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: hist_vltl
+    name: 역사적 변동성
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: hts_thpr
+    name: HTS 이론가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_oprc
+    name: 옵션 시가2
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_hgpr
+    name: 옵션 최고가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_lwpr
+    name: 옵션 최저가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_mxpr
+    name: 옵션 상한가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_llam
+    name: 옵션 하한가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: atm_cls_name
+    name: ATM 구분 명
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: rgbf_vrss_icdc
+    name: 직전 대비 증감
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: total_askp_rsqn
+    name: 총 매도호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: total_bidp_rsqn
+    name: 총 매수호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: futs_antc_cnpr
+    name: 선물예상체결가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: futs_antc_cntg_vrss
+    name: 선물예상체결대비
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: antc_cntg_vrss_sign
+    name: 예상 체결 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: antc_cntg_prdy_ctrt
+    name: 예상 체결 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: acpr
+    name: 행사가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: unch_prpr
+    name: 환산 현재가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_shrn_iscd
+    name: 옵션 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: optn_prpr
+    name: 옵션 현재가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_prdy_vrss
+    name: 옵션 전일 대비
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: optn_prdy_ctrt
+    name: 옵션 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: optn_bidp
+    name: 옵션 매수호가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_askp
+    name: 옵션 매도호가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: tmvl_val
+    name: 시간가치 값
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: ''
+  - code: nmix_sdpr
+    name: 지수 기준가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: seln_rsqn
+    name: 매도 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: shnu_rsqn
+    name: 매수2 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: acml_tr_pbmn
+    name: 누적 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: hts_otst_stpl_qty
+    name: HTS 미결제 약정 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: otst_stpl_qty_icdc
+    name: 미결제 약정 수량 증감
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: delta_val
+    name: 델타 값
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: gama
+    name: 감마
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: vega
+    name: 베가
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: theta
+    name: 세타
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: rho
+    name: 로우
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: hts_ints_vltl
+    name: HTS 내재 변동성
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: invl_val
+    name: 내재가치 값
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: ''
+  - code: esdg
+    name: 괴리도
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: dprt
+    name: 괴리율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: hist_vltl
+    name: 역사적 변동성
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: hts_thpr
+    name: HTS 이론가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_oprc
+    name: 옵션 시가2
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_hgpr
+    name: 옵션 최고가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_lwpr
+    name: 옵션 최저가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_mxpr
+    name: 옵션 상한가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: optn_llam
+    name: 옵션 하한가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: atm_cls_name
+    name: ATM 구분 명
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: rgbf_vrss_icdc
+    name: 직전 대비 증감
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: total_askp_rsqn
+    name: 총 매도호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: total_bidp_rsqn
+    name: 총 매수호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: futs_antc_cnpr
+    name: 선물예상체결가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: futs_antc_cntg_vrss
+    name: 선물예상체결대비
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: antc_cntg_vrss_sign
+    name: 예상 체결 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: antc_cntg_prdy_ctrt
+    name: 예상 체결 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  example: "{\r\n    \"output1\": [\r\n        {\r\n            \"acpr\": \"480.00\",\r\n            \"unch_prpr\": \"3505.17\"\
+    ,\r\n            \"optn_shrn_iscd\": \"201V05480\",\r\n            \"optn_prpr\": \"0.01\",\r\n            \"optn_prdy_vrss\"\
+    : \"0.00\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"optn_prdy_ctrt\": \"0.00\",\r\n            \"optn_bidp\"\
+    : \"0.00\",\r\n            \"optn_askp\": \"0.01\",\r\n            \"tmvl_val\": \"0.01\",\r\n            \"nmix_sdpr\"\
+    : \"0.01\",\r\n            \"acml_vol\": \"34\",\r\n            \"seln_rsqn\": \"1710\",\r\n            \"shnu_rsqn\"\
+    : \"0\",\r\n            \"acml_tr_pbmn\": \"85\",\r\n            \"hts_otst_stpl_qty\": \"642\",\r\n            \"otst_stpl_qty_icdc\"\
+    : \"39\",\r\n            \"delta_val\": \"0.0000\",\r\n            \"gama\": \"0.0000\",\r\n            \"vega\": \"0.0000\"\
+    ,\r\n            \"theta\": \"-0.0000\",\r\n            \"rho\": \"0.0000\",\r\n            \"hts_ints_vltl\": \"31.5614\"\
+    ,\r\n            \"invl_val\": \"0.00\",\r\n            \"esdg\": \"0.01\",\r\n            \"dprt\": \"9999.99\",\r\n\
+    \            \"hist_vltl\": \"16.9285\",\r\n            \"hts_thpr\": \"0.00\",\r\n            \"optn_oprc\": \"0.01\"\
+    ,\r\n            \"optn_hgpr\": \"0.01\",\r\n            \"optn_lwpr\": \"0.01\",\r\n            \"optn_mxpr\": \"5.20\"\
+    ,\r\n            \"optn_llam\": \"0.01\",\r\n            \"atm_cls_name\": \"OTM\",\r\n            \"rgbf_vrss_icdc\"\
+    : \"1\",\r\n            \"total_askp_rsqn\": \"1710\",\r\n            \"total_bidp_rsqn\": \"0\",\r\n            \"futs_antc_cnpr\"\
+    : \"0.00\",\r\n            \"futs_antc_cntg_vrss\": \"0.00\",\r\n            \"antc_cntg_vrss_sign\": \"0\",\r\n     \
+    \       \"antc_cntg_prdy_ctrt\": \"0.00\"\r\n        },\r\n\t\t...\r\n    ],\r\n    \"output2\": [\r\n        {\r\n  \
+    \          \"acpr\": \"480.00\",\r\n            \"unch_prpr\": \"3505.17\",\r\n            \"optn_shrn_iscd\": \"301V05480\"\
+    ,\r\n            \"optn_prpr\": \"108.45\",\r\n            \"optn_prdy_vrss\": \"0.00\",\r\n            \"prdy_vrss_sign\"\
+    : \"3\",\r\n            \"optn_prdy_ctrt\": \"0.00\",\r\n            \"optn_bidp\": \"78.35\",\r\n            \"optn_askp\"\
+    : \"142.60\",\r\n            \"tmvl_val\": \"-4.30\",\r\n            \"nmix_sdpr\": \"108.45\",\r\n            \"acml_vol\"\
+    : \"0\",\r\n            \"seln_rsqn\": \"10\",\r\n            \"shnu_rsqn\": \"10\",\r\n            \"acml_tr_pbmn\":\
+    \ \"0\",\r\n            \"hts_otst_stpl_qty\": \"48\",\r\n            \"otst_stpl_qty_icdc\": \"0\",\r\n            \"\
+    delta_val\": \"-1.0000\",\r\n            \"gama\": \"0.0000\",\r\n            \"vega\": \"0.0000\",\r\n            \"\
+    theta\": \"0.0460\",\r\n            \"rho\": \"-0.3541\",\r\n            \"hts_ints_vltl\": \"0.0000\",\r\n          \
+    \  \"invl_val\": \"112.75\",\r\n            \"esdg\": \"-3.06\",\r\n            \"dprt\": \"-2.74\",\r\n            \"\
+    hist_vltl\": \"16.9285\",\r\n            \"hts_thpr\": \"111.51\",\r\n            \"optn_oprc\": \"0.00\",\r\n       \
+    \     \"optn_hgpr\": \"0.00\",\r\n            \"optn_lwpr\": \"0.00\",\r\n            \"optn_mxpr\": \"142.60\",\r\n \
+    \           \"optn_llam\": \"78.35\",\r\n            \"atm_cls_name\": \"ITM\",\r\n            \"rgbf_vrss_icdc\": \"\
+    0\",\r\n            \"total_askp_rsqn\": \"10\",\r\n            \"total_bidp_rsqn\": \"10\",\r\n            \"futs_antc_cnpr\"\
+    : \"0.00\",\r\n            \"futs_antc_cntg_vrss\": \"0.00\",\r\n            \"antc_cntg_vrss_sign\": \"0\",\r\n     \
+    \       \"antc_cntg_prdy_ctrt\": \"0.00\"\r\n        },...\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"MCA00000\"\
+    ,\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

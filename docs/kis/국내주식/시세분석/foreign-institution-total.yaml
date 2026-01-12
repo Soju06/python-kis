@@ -1,0 +1,415 @@
+id: 4a077f43-7053-47be-b811-8e35be4ea745
+name: 국내기관_외국인 매매종목가집계[국내주식-037]
+section: '[국내주식] 시세분석'
+category: 국내주식
+subcategory: 시세분석
+method: GET
+url: /uapi/domestic-stock/v1/quotations/foreign-institution-total
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- FHPTJ04400000
+- 모의투자 미지원
+real_tr_id: FHPTJ04400000
+virtual_tr_id: 모의투자 미지원
+summary: "국내기관_외국인 매매종목가집계 API입니다.\n\nHTS(efriend Plus) [0440] 외국인/기관 매매종목 가집계 화면을 API로 구현한 사항으로 화면을 함께 보시면 기능 이해가 쉽습니다.\n\
+  \n증권사 직원이 장중에 집계/입력한 자료를 단순 누계한 수치로서, \n입력시간은 외국인 09:30, 11:20, 13:20, 14:30 / 기관종합 10:00, 11:20, 13:20, 14:30 이며, \n입력한\
+  \ 시간은 ±10분정도 차이가 발생할 수 있으며, 장운영 사정에 다라 변동될 수 있습니다."
+description: 국내기관_외국인 매매종목가집계[국내주식-037]
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2023-01-06T09:11:46+09:00'
+  last_modified_date: '2025-05-14T14:28:21+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPTJ04400000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: V(Default)
+  - code: FID_COND_SCR_DIV_CODE
+    name: 조건 화면 분류 코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 16449(Default)
+  - code: FID_INPUT_ISCD
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '0000:전체, 0001:코스피, 1001:코스닥
+
+      ...
+
+      포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)'
+  - code: FID_DIV_CLS_CODE
+    name: 분류 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '0: 수량정열, 1: 금액정열'
+  - code: FID_RANK_SORT_CLS_CODE
+    name: 순위 정렬 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '0: 순매수상위, 1: 순매도상위'
+  - code: FID_ETC_CLS_CODE
+    name: 기타 구분  정렬
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 0:전체 1:외국인 2:기관계 3:기타
+  example: null
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: Output
+    name: 응답상세1
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: mksc_shrn_iscd
+    name: 유가증권 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: ntby_qty
+    name: 순매수 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: stck_prpr
+    name: 주식 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일 대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일 대비율
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: frgn_ntby_qty
+    name: 외국인 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: orgn_ntby_qty
+    name: 기관계 순매수 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: ivtr_ntby_qty
+    name: 투자신탁 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bank_ntby_qty
+    name: 은행 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: insu_ntby_qty
+    name: 보험 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: mrbn_ntby_qty
+    name: 종금 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: fund_ntby_qty
+    name: 기금 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: etc_orgt_ntby_vol
+    name: 기타 단체 순매수 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_corp_ntby_vol
+    name: 기타 법인 순매수 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: frgn_ntby_tr_pbmn
+    name: 외국인 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 'frgn_ntby_tr_pbmn ~ etc_corp_ntby_tr_pbmn
+
+      (단위 : 백만원, 수량*현재가)'
+  - code: orgn_ntby_tr_pbmn
+    name: 기관계 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: ivtr_ntby_tr_pbmn
+    name: 투자신탁 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: bank_ntby_tr_pbmn
+    name: 은행 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: insu_ntby_tr_pbmn
+    name: 보험 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: mrbn_ntby_tr_pbmn
+    name: 종금 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: fund_ntby_tr_pbmn
+    name: 기금 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_orgt_ntby_tr_pbmn
+    name: 기타 단체 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_corp_ntby_tr_pbmn
+    name: 기타 법인 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  example: null
+errors: []

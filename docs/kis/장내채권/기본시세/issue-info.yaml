@@ -1,0 +1,890 @@
+id: cf45db98-43d0-476a-8774-d9690365300a
+name: 장내채권 발행정보[국내주식-156]
+section: '[장내채권] 기본시세'
+category: 장내채권
+subcategory: 기본시세
+method: GET
+url: /uapi/domestic-bond/v1/quotations/issue-info
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- CTPF1101R
+- 모의투자 미지원
+real_tr_id: CTPF1101R
+virtual_tr_id: 모의투자 미지원
+summary: '장내채권 발행정보 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [7216] 채권 발행정보 화면의 상단 채권정보 데이터를 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-05T13:36:51+09:00'
+  last_modified_date: '2025-04-30T13:07:57+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTPF1101R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: PDNO
+    name: 사용자권한정보
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 채권 종목번호(ex. KR6449111CB8)
+  - code: PRDT_TYPE_CD
+    name: 거래소코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: Unique key(302)
+  example: "PDNO:KR6449111CB8\r\nPRDT_TYPE_CD:302"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: pdno
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_type_cd
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: prdt_name
+    name: 상품명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: prdt_eng_name
+    name: 상품영문명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: ivst_heed_prdt_yn
+    name: 투자유의상품여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: exts_yn
+    name: 연장여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: bond_clsf_cd
+    name: 채권분류코드
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: bond_clsf_kor_name
+    name: 채권분류한글명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: papr
+    name: 액면가
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: int_mned_dvsn_cd
+    name: 이자월말구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: rvnu_shap_cd
+    name: 매출형태코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: issu_amt
+    name: 발행금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: lstg_rmnd
+    name: 상장잔액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: int_dfrm_mcnt
+    name: 이자지급개월수
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: bond_int_dfrm_mthd_cd
+    name: 채권이자지급방법코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: splt_rdpt_rcnt
+    name: 분할상환횟수
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: prca_dfmt_term_mcnt
+    name: 원금거치기간개월수
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: int_anap_dvsn_cd
+    name: 이자선후급구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: bond_rght_dvsn_cd
+    name: 채권권리구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: prdt_pclc_text
+    name: 상품특성내용
+    type: A0001
+    type_name: String
+    length: '500'
+    required: true
+    description: ''
+  - code: prdt_abrv_name
+    name: 상품약어명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: prdt_eng_abrv_name
+    name: 상품영문약어명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: sprx_psbl_yn
+    name: 분리과세가능여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: pbff_pplc_ofrg_mthd_cd
+    name: 공모사모모집방법코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: cmco_cd
+    name: 주간사코드
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: issu_istt_cd
+    name: 발행기관코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: issu_istt_name
+    name: 발행기관명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: pnia_dfrm_agcy_istt_cd
+    name: 원리금지급대행기관코드
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: dsct_ec_rt
+    name: 할인할증율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: srfc_inrt
+    name: 표면이율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: expd_rdpt_rt
+    name: 만기상환율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: expd_asrc_erng_rt
+    name: 만기보장수익율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: bond_grte_istt_name
+    name: 채권보증기관명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: int_dfrm_day_type_cd
+    name: 이자지급일유형코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: ksd_int_calc_unit_cd
+    name: 증권예탁결제원이자계산단위코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: int_wunt_uder_prcs_dvsn_cd
+    name: 이자원화단위미만처리구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: rvnu_dt
+    name: 매출일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: issu_dt
+    name: 발행일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: lstg_dt
+    name: 상장일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: expd_dt
+    name: 만기일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: rdpt_dt
+    name: 상환일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: sbst_pric
+    name: 대용가격
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: rgbf_int_dfrm_dt
+    name: 직전이자지급일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: nxtm_int_dfrm_dt
+    name: 차기이자지급일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: frst_int_dfrm_dt
+    name: 최초이자지급일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ecis_pric
+    name: 행사가격
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: rght_stck_std_pdno
+    name: 권리주식표준상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ecis_opng_dt
+    name: 행사개시일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ecis_end_dt
+    name: 행사종료일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: bond_rvnu_mthd_cd
+    name: 채권매출방법코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: oprt_stfno
+    name: 조작직원번호
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: oprt_stff_name
+    name: 조작직원명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: rgbf_int_dfrm_wday
+    name: 직전이자지급요일
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: nxtm_int_dfrm_wday
+    name: 차기이자지급요일
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: kis_crdt_grad_text
+    name: 한국신용평가신용등급내용
+    type: A0001
+    type_name: String
+    length: '500'
+    required: true
+    description: ''
+  - code: kbp_crdt_grad_text
+    name: 한국채권평가신용등급내용
+    type: A0001
+    type_name: String
+    length: '500'
+    required: true
+    description: ''
+  - code: nice_crdt_grad_text
+    name: 한국신용정보신용등급내용
+    type: A0001
+    type_name: String
+    length: '500'
+    required: true
+    description: ''
+  - code: fnp_crdt_grad_text
+    name: 에프앤자산평가신용등급내용
+    type: A0001
+    type_name: String
+    length: '500'
+    required: true
+    description: ''
+  - code: dpsi_psbl_yn
+    name: 예탁가능여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: pnia_int_calc_unpr
+    name: 원리금이자계산단가
+    type: A0001
+    type_name: String
+    length: '234'
+    required: true
+    description: ''
+  - code: prcm_idx_bond_yn
+    name: 물가지수채권여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: expd_exts_srdp_rcnt
+    name: 만기연장분할상환횟수
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: expd_exts_srdp_rt
+    name: 만기연장분할상환율
+    type: A0001
+    type_name: String
+    length: '2212'
+    required: true
+    description: ''
+  - code: loan_psbl_yn
+    name: 대출가능여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: grte_dvsn_cd
+    name: 보증구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: fnrr_rank_dvsn_cd
+    name: 선후순위구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: krx_lstg_abol_dvsn_cd
+    name: 한국거래소상장폐지구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: asst_rqdi_dvsn_cd
+    name: 자산유동화구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: opcb_dvsn_cd
+    name: 옵션부사채구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: crfd_item_yn
+    name: 크라우드펀딩종목여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: crfd_item_rstc_cclc_dt
+    name: 크라우드펀딩종목제한해지일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: bond_nmpr_unit_pric
+    name: 채권호가단위가격
+    type: A0001
+    type_name: String
+    length: '202'
+    required: true
+    description: ''
+  - code: ivst_heed_bond_dvsn_name
+    name: 투자유의채권구분명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: add_erng_rt
+    name: 추가수익율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: add_erng_rt_aply_dt
+    name: 추가수익율적용일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: bond_tr_stop_dvsn_cd
+    name: 채권거래정지구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ivst_heed_bond_dvsn_cd
+    name: 투자유의채권구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: pclr_cndt_text
+    name: 특이조건내용
+    type: A0001
+    type_name: String
+    length: '500'
+    required: true
+    description: ''
+  - code: hbbd_yn
+    name: 하이브리드채권여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: cdtl_cptl_scty_type_cd
+    name: 조건부자본증권유형코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: elec_scty_yn
+    name: 전자증권여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: sq1_clop_ecis_opng_dt
+    name: 1차콜옵션행사개시일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: frst_erlm_stfno
+    name: 최초등록직원번호
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: frst_erlm_dt
+    name: 최초등록일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: frst_erlm_tmd
+    name: 최초등록시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: tlg_rcvg_dtl_dtime
+    name: 전문수신상세일시
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: ''
+  example:
+    output:
+      pdno: KR6449111CB8
+      prdt_type_cd: '302'
+      prdt_name: 2022기보제일차유동화전문1-1(사)
+      prdt_eng_name: 2022 KIBO 1st Securitization Specialty1-1(S)
+      ivst_heed_prdt_yn: N
+      exts_yn: N
+      bond_clsf_cd: '116100'
+      bond_clsf_kor_name: 일반사채
+      papr: '10000'
+      int_mned_dvsn_cd: '1'
+      rvnu_shap_cd: '2'
+      issu_amt: '77839700000'
+      lstg_rmnd: '77839700000'
+      int_dfrm_mcnt: '3'
+      bond_int_dfrm_mthd_cd: '03'
+      splt_rdpt_rcnt: '0'
+      prca_dfmt_term_mcnt: '0'
+      int_anap_dvsn_cd: '2'
+      bond_rght_dvsn_cd: ''
+      prdt_pclc_text: ''
+      prdt_abrv_name: 2022기보제일차유1-1(사)
+      prdt_eng_abrv_name: 2022 KIBO 1st SEC1-1(S)
+      sprx_psbl_yn: N
+      pbff_pplc_ofrg_mthd_cd: '01'
+      cmco_cd: '2117'
+      issu_istt_cd: '44911'
+      issu_istt_name: 2022기보제일차유동화전문 유한회사
+      pnia_dfrm_agcy_istt_cd: '1105'
+      dsct_ec_rt: '0.000000'
+      srfc_inrt: '5.931000'
+      expd_rdpt_rt: '0.000000'
+      expd_asrc_erng_rt: '0.000000'
+      bond_grte_istt_name: 2022기보제일차유동화전문 유한회사
+      int_dfrm_day_type_cd: '01'
+      ksd_int_calc_unit_cd: '1'
+      int_wunt_uder_prcs_dvsn_cd: '1'
+      rvnu_dt: ''
+      issu_dt: '20221116'
+      lstg_dt: '20221116'
+      expd_dt: '20241116'
+      rdpt_dt: '20241116'
+      sbst_pric: '8900'
+      rgbf_int_dfrm_dt: '20240516'
+      nxtm_int_dfrm_dt: '20240816'
+      frst_int_dfrm_dt: ''
+      ecis_pric: '0'
+      rght_stck_std_pdno: ''
+      ecis_opng_dt: ''
+      ecis_end_dt: ''
+      bond_rvnu_mthd_cd: ''
+      oprt_stfno: BATCH
+      oprt_stff_name: ''
+      rgbf_int_dfrm_wday: '05'
+      nxtm_int_dfrm_wday: '06'
+      kis_crdt_grad_text: AAA
+      kbp_crdt_grad_text: AAA
+      nice_crdt_grad_text: AAA
+      fnp_crdt_grad_text: AAA
+      dpsi_psbl_yn: Y
+      pnia_int_calc_unpr: '0'
+      prcm_idx_bond_yn: N
+      expd_exts_srdp_rcnt: '0'
+      expd_exts_srdp_rt: '0'
+      loan_psbl_yn: N
+      grte_dvsn_cd: '4'
+      fnrr_rank_dvsn_cd: '1'
+      krx_lstg_abol_dvsn_cd: Y
+      asst_rqdi_dvsn_cd: '11'
+      opcb_dvsn_cd: ''
+      crfd_item_yn: N
+      crfd_item_rstc_cclc_dt: ''
+      bond_nmpr_unit_pric: '0.100000'
+      ivst_heed_bond_dvsn_name: ''
+      add_erng_rt: '0.000000'
+      add_erng_rt_aply_dt: ''
+      bond_tr_stop_dvsn_cd: N
+      ivst_heed_bond_dvsn_cd: '0'
+      pclr_cndt_text: ''
+      hbbd_yn: N
+      cdtl_cptl_scty_type_cd: ''
+      elec_scty_yn: Y
+      sq1_clop_ecis_opng_dt: ''
+      frst_erlm_stfno: ''
+      frst_erlm_dt: ''
+      frst_erlm_tmd: ''
+    rt_cd: '0'
+    msg_cd: KIOK0530
+    msg1: '조회되었습니다                                                                  '
+errors: []

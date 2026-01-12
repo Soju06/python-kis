@@ -1,0 +1,696 @@
+id: dd867a76-745d-4268-8ff8-b3e7f71e6e83
+name: NAV 비교추이(분)[v1_국내주식-070]
+section: '[국내주식] 기본시세'
+category: 국내주식
+subcategory: 기본시세
+method: GET
+url: /uapi/etfetn/v1/quotations/nav-comparison-time-trend
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- FHPST02440100
+real_tr_id: FHPST02440100
+virtual_tr_id: 모의투자 미지원
+summary: 'NAV 비교추이(분) API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0244] ETF/ETN 비교추이(NAV/IIV) 좌측 화면 "분별" 비교추이 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
+
+  실전계좌의 경우, 한 번의 호출에 최근 30건까지 확인 가능합니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-02-23T09:49:52+09:00'
+  last_modified_date: '2025-04-30T10:18:06+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPST02440100
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: fid_hour_cls_code
+    name: FID 시간 구분 코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: '1분 :60, 3분: 180 … 120분:7200'
+  - code: fid_cond_mrkt_div_code
+    name: FID 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: E - 고정값
+  - code: fid_input_iscd
+    name: FID 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목코드
+  example:
+    fid_cond_mrkt_div_code: E
+    fid_input_iscd: 069500
+    fid_hour_cls_code: '60'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: bsop_hour
+    name: 영업 시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: nav
+    name: NAV
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: nav_prdy_vrss_sign
+    name: NAV 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: nav_prdy_vrss
+    name: NAV 전일 대비
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: nav_prdy_ctrt
+    name: NAV 전일 대비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: nav_vrss_prpr
+    name: NAV 대비 현재가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: dprt
+    name: 괴리율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: stck_prpr
+    name: 주식 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일 대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: cntg_vol
+    name: 체결 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  example:
+    output:
+    - bsop_hour: '153000'
+      nav: '36127.30'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '91.08'
+      nav_prdy_ctrt: '0.25'
+      nav_vrss_prpr: '-37.30'
+      dprt: '-0.10'
+      stck_prpr: '36090'
+      prdy_vrss: '110'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.31'
+      acml_vol: '3714732'
+      cntg_vol: '93993'
+    - bsop_hour: '152900'
+      nav: '36170.22'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '134.00'
+      nav_prdy_ctrt: '0.37'
+      nav_vrss_prpr: '-60.22'
+      dprt: '-0.17'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3620739'
+      cntg_vol: '46'
+    - bsop_hour: '152800'
+      nav: '36170.22'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '134.00'
+      nav_prdy_ctrt: '0.37'
+      nav_vrss_prpr: '-60.22'
+      dprt: '-0.17'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3620739'
+      cntg_vol: '46'
+    - bsop_hour: '152700'
+      nav: '36170.22'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '134.00'
+      nav_prdy_ctrt: '0.37'
+      nav_vrss_prpr: '-60.22'
+      dprt: '-0.17'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3620739'
+      cntg_vol: '46'
+    - bsop_hour: '152600'
+      nav: '36170.22'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '134.00'
+      nav_prdy_ctrt: '0.37'
+      nav_vrss_prpr: '-60.22'
+      dprt: '-0.17'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3620739'
+      cntg_vol: '46'
+    - bsop_hour: '152500'
+      nav: '36170.22'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '134.00'
+      nav_prdy_ctrt: '0.37'
+      nav_vrss_prpr: '-60.22'
+      dprt: '-0.17'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3620739'
+      cntg_vol: '46'
+    - bsop_hour: '152400'
+      nav: '36170.22'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '134.00'
+      nav_prdy_ctrt: '0.37'
+      nav_vrss_prpr: '-60.22'
+      dprt: '-0.17'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3620739'
+      cntg_vol: '46'
+    - bsop_hour: '152300'
+      nav: '36170.22'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '134.00'
+      nav_prdy_ctrt: '0.37'
+      nav_vrss_prpr: '-60.22'
+      dprt: '-0.17'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3620739'
+      cntg_vol: '46'
+    - bsop_hour: '152200'
+      nav: '36170.22'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '134.00'
+      nav_prdy_ctrt: '0.37'
+      nav_vrss_prpr: '-60.22'
+      dprt: '-0.17'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3620739'
+      cntg_vol: '46'
+    - bsop_hour: '152100'
+      nav: '36170.22'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '134.00'
+      nav_prdy_ctrt: '0.37'
+      nav_vrss_prpr: '-60.22'
+      dprt: '-0.17'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3620739'
+      cntg_vol: '46'
+    - bsop_hour: '152000'
+      nav: '36170.22'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '134.00'
+      nav_prdy_ctrt: '0.37'
+      nav_vrss_prpr: '-60.22'
+      dprt: '-0.17'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3620739'
+      cntg_vol: '46'
+    - bsop_hour: '151900'
+      nav: '36160.15'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '123.93'
+      nav_prdy_ctrt: '0.34'
+      nav_vrss_prpr: '-50.15'
+      dprt: '-0.14'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3620739'
+      cntg_vol: '46'
+    - bsop_hour: '151800'
+      nav: '36166.66'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '130.44'
+      nav_prdy_ctrt: '0.36'
+      nav_vrss_prpr: '-51.66'
+      dprt: '-0.14'
+      stck_prpr: '36115'
+      prdy_vrss: '135'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.38'
+      acml_vol: '3600900'
+      cntg_vol: '67'
+    - bsop_hour: '151700'
+      nav: '36138.90'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '102.68'
+      nav_prdy_ctrt: '0.28'
+      nav_vrss_prpr: '-28.90'
+      dprt: '-0.08'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3574190'
+      cntg_vol: '100'
+    - bsop_hour: '151600'
+      nav: '36151.53'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '115.31'
+      nav_prdy_ctrt: '0.32'
+      nav_vrss_prpr: '-36.53'
+      dprt: '-0.10'
+      stck_prpr: '36115'
+      prdy_vrss: '135'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.38'
+      acml_vol: '3566213'
+      cntg_vol: '127'
+    - bsop_hour: '151500'
+      nav: '36148.81'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '112.59'
+      nav_prdy_ctrt: '0.31'
+      nav_vrss_prpr: '-38.81'
+      dprt: '-0.11'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3561650'
+      cntg_vol: '1'
+    - bsop_hour: '151400'
+      nav: '36144.32'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '108.10'
+      nav_prdy_ctrt: '0.30'
+      nav_vrss_prpr: '-34.32'
+      dprt: '-0.09'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3554609'
+      cntg_vol: '20'
+    - bsop_hour: '151300'
+      nav: '36153.81'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '117.59'
+      nav_prdy_ctrt: '0.33'
+      nav_vrss_prpr: '-38.81'
+      dprt: '-0.11'
+      stck_prpr: '36115'
+      prdy_vrss: '135'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.38'
+      acml_vol: '3548014'
+      cntg_vol: '17'
+    - bsop_hour: '151200'
+      nav: '36146.99'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '110.77'
+      nav_prdy_ctrt: '0.31'
+      nav_vrss_prpr: '-36.99'
+      dprt: '-0.10'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3531673'
+      cntg_vol: '5000'
+    - bsop_hour: '151100'
+      nav: '36134.21'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '97.99'
+      nav_prdy_ctrt: '0.27'
+      nav_vrss_prpr: '-34.21'
+      dprt: '-0.09'
+      stck_prpr: '36100'
+      prdy_vrss: '120'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.33'
+      acml_vol: '3508924'
+      cntg_vol: '1'
+    - bsop_hour: '151000'
+      nav: '36125.95'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '89.73'
+      nav_prdy_ctrt: '0.25'
+      nav_vrss_prpr: '-30.95'
+      dprt: '-0.09'
+      stck_prpr: '36095'
+      prdy_vrss: '115'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.32'
+      acml_vol: '3497610'
+      cntg_vol: '107'
+    - bsop_hour: '150900'
+      nav: '36140.40'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '104.18'
+      nav_prdy_ctrt: '0.29'
+      nav_vrss_prpr: '-40.40'
+      dprt: '-0.11'
+      stck_prpr: '36100'
+      prdy_vrss: '120'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.33'
+      acml_vol: '3465289'
+      cntg_vol: '1'
+    - bsop_hour: '150800'
+      nav: '36142.41'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '106.19'
+      nav_prdy_ctrt: '0.29'
+      nav_vrss_prpr: '-52.41'
+      dprt: '-0.15'
+      stck_prpr: '36090'
+      prdy_vrss: '110'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.31'
+      acml_vol: '3455837'
+      cntg_vol: '2'
+    - bsop_hour: '150700'
+      nav: '36128.14'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '91.92'
+      nav_prdy_ctrt: '0.25'
+      nav_vrss_prpr: '-38.14'
+      dprt: '-0.11'
+      stck_prpr: '36090'
+      prdy_vrss: '110'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.31'
+      acml_vol: '3443292'
+      cntg_vol: '6'
+    - bsop_hour: '150600'
+      nav: '36143.67'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '107.45'
+      nav_prdy_ctrt: '0.30'
+      nav_vrss_prpr: '-43.67'
+      dprt: '-0.12'
+      stck_prpr: '36100'
+      prdy_vrss: '120'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.33'
+      acml_vol: '3438545'
+      cntg_vol: '38'
+    - bsop_hour: '150500'
+      nav: '36149.19'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '112.97'
+      nav_prdy_ctrt: '0.31'
+      nav_vrss_prpr: '-49.19'
+      dprt: '-0.14'
+      stck_prpr: '36100'
+      prdy_vrss: '120'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.33'
+      acml_vol: '3429629'
+      cntg_vol: '1'
+    - bsop_hour: '150400'
+      nav: '36144.80'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '108.58'
+      nav_prdy_ctrt: '0.30'
+      nav_vrss_prpr: '-34.80'
+      dprt: '-0.11'
+      stck_prpr: '36110'
+      prdy_vrss: '125'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.35'
+      acml_vol: '3425274'
+      cntg_vol: '50'
+    - bsop_hour: '150300'
+      nav: '36152.94'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '116.72'
+      nav_prdy_ctrt: '0.32'
+      nav_vrss_prpr: '-42.94'
+      dprt: '-0.12'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3417931'
+      cntg_vol: '10'
+    - bsop_hour: '150200'
+      nav: '36152.33'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '116.11'
+      nav_prdy_ctrt: '0.32'
+      nav_vrss_prpr: '-37.33'
+      dprt: '-0.08'
+      stck_prpr: '36115'
+      prdy_vrss: '145'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.40'
+      acml_vol: '3410977'
+      cntg_vol: '276'
+    - bsop_hour: '150100'
+      nav: '36156.58'
+      nav_prdy_vrss_sign: '2'
+      nav_prdy_vrss: '120.36'
+      nav_prdy_ctrt: '0.33'
+      nav_vrss_prpr: '-46.58'
+      dprt: '-0.13'
+      stck_prpr: '36110'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '3400392'
+      cntg_vol: '5'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

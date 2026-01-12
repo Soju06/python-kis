@@ -1,0 +1,374 @@
+id: da63a88a-e288-426f-9498-42db0b537bf3
+name: 해외주식 종목/지수/환율기간별시세(일/주/월/년)[v1_해외주식-012]
+section: '[해외주식] 기본시세'
+category: 해외주식
+subcategory: 기본시세
+method: GET
+url: /uapi/overseas-price/v1/quotations/inquire-daily-chartprice
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: https://openapivts.koreainvestment.com:29443
+tr_ids:
+- FHKST03030100
+real_tr_id: FHKST03030100
+virtual_tr_id: FHKST03030100
+summary: "해외주식 종목/지수/환율기간별시세(일/주/월/년) API입니다.\n\n해외지수 당일 시세의 경우 지연시세 or 종가시세가 제공됩니다.\n\n※ 해당 API로 미국주식 조회 시, 다우30, 나스닥100,\
+  \ S&P500 종목만 조회 가능합니다.\n   더 많은 미국주식 종목 시세를 이용할 시에는, 해외주식기간별시세 API 사용 부탁드립니다."
+description: '[v1_해외주식-012] 해외지수/환율기간별시세(일/주/월/년)'
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2022-07-01T16:10:05+09:00'
+  last_modified_date: '2025-04-30T12:13:04+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: false
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: '[실전투자/모의투자]
+
+      FHKST03030100'
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: FID 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 'N: 해외지수, X 환율, I: 국채, S:금선물'
+  - code: FID_INPUT_ISCD
+    name: FID 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: "종목코드\n※ 해외주식 마스터 코드 참조 \n(포럼 > FAQ > 종목정보 다운로드(해외) > 해외지수)\n\n※ 해당 API로 미국주식 조회 시, 다우30, 나스닥100, S&P500\
+      \ 종목만 조회 가능합니다. 더 많은 미국주식 종목 시세를 이용할 시에는, 해외주식기간별시세 API 사용 부탁드립니다."
+  - code: FID_INPUT_DATE_1
+    name: FID 입력 날짜1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 시작일자(YYYYMMDD)
+  - code: FID_INPUT_DATE_2
+    name: FID 입력 날짜2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 종료일자(YYYYMMDD)
+  - code: FID_PERIOD_DIV_CODE
+    name: FID 기간 분류 코드
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: D:일, W:주, M:월, Y:년
+  example: "        \"input\": {\r\n            \"fid_cond_mrkt_div_code\": \"N\",\r\n            \"fid_input_date_1\": \"\
+    20220401\",\r\n            \"fid_input_date_2\": \"20220613\",\r\n            \"fid_input_iscd\": \".DJI\",\r\n      \
+    \      \"fid_period_div_code\": \"D\"\r\n        }"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세1
+    type: A0003
+    type_name: String
+    length: ' '
+    required: false
+    description: 기본정보
+  - code: ovrs_nmix_prdy_vrss
+    name: ' 전일 대비'
+    type: A0001
+    type_name: String
+    length: '16'
+    required: false
+    description: 16(11.4) 정수부분 11자리, 소수부분 4자리
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: ''
+  - code: prdy_ctrt
+    name: 전일 대비율
+    type: A0001
+    type_name: String
+    length: '11'
+    required: false
+    description: 11(8.2) 정수부분 8자리, 소수부분 2자리
+  - code: ovrs_nmix_prdy_clpr
+    name: 전일 종가
+    type: A0001
+    type_name: String
+    length: '16'
+    required: false
+    description: 16(11.4) 정수부분 11자리, 소수부분 4자리
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: false
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: false
+    description: ''
+  - code: ovrs_nmix_prpr
+    name: 현재가
+    type: A0001
+    type_name: String
+    length: '16'
+    required: false
+    description: 16(11.4) 정수부분 11자리, 소수부분 4자리
+  - code: stck_shrn_iscd
+    name: 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: false
+    description: ''
+  - code: prdy_vol
+    name: 전일 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: false
+    description: ''
+  - code: ovrs_prod_oprc
+    name: 시가
+    type: A0001
+    type_name: String
+    length: '16'
+    required: false
+    description: 16(11.4) 정수부분 11자리, 소수부분 4자리
+  - code: ovrs_prod_hgpr
+    name: 최고가
+    type: A0001
+    type_name: String
+    length: '16'
+    required: false
+    description: 16(11.4) 정수부분 11자리, 소수부분 4자리
+  - code: ovrs_prod_lwpr
+    name: 최저가
+    type: A0001
+    type_name: String
+    length: '16'
+    required: false
+    description: 16(11.4) 정수부분 11자리, 소수부분 4자리
+  - code: output2
+    name: 응답상세2
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: false
+    description: 일자별 정보
+  - code: stck_bsop_date
+    name: 영업 일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: false
+    description: ''
+  - code: ovrs_nmix_prpr
+    name: 현재가
+    type: A0001
+    type_name: String
+    length: '16'
+    required: false
+    description: 16(11.4) 정수부분 11자리, 소수부분 4자리
+  - code: ovrs_nmix_oprc
+    name: 시가
+    type: A0001
+    type_name: String
+    length: '16'
+    required: false
+    description: 16(11.4) 정수부분 11자리, 소수부분 4자리
+  - code: ovrs_nmix_hgpr
+    name: 최고가
+    type: A0001
+    type_name: String
+    length: '16'
+    required: false
+    description: 16(11.4) 정수부분 11자리, 소수부분 4자리
+  - code: ovrs_nmix_lwpr
+    name: 최저가
+    type: A0001
+    type_name: String
+    length: '16'
+    required: false
+    description: 16(11.4) 정수부분 11자리, 소수부분 4자리
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: false
+    description: ''
+  - code: mod_yn
+    name: 변경 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: ''
+  example: "        \"output1\": {\r\n            \"acml_vol\": \"397268510\",\r\n            \"hts_kor_isnm\": \"다우존스 산업지수\"\
+    ,\r\n            \"ovrs_nmix_prdy_clpr\": \"31029.31\",\r\n            \"ovrs_nmix_prdy_vrss\": \"-253.88\",\r\n     \
+    \       \"ovrs_nmix_prpr\": \"30775.43\",\r\n            \"ovrs_prod_hgpr\": \"30979.85\",\r\n            \"ovrs_prod_lwpr\"\
+    : \"30431.87\",\r\n            \"ovrs_prod_oprc\": \"30790.00\",\r\n            \"prdy_ctrt\": \"-0.82\",\r\n        \
+    \    \"prdy_vrss_sign\": \"5\",\r\n            \"stck_shrn_iscd\": \".DJI\"\r\n        },\r\n        \"output2\": [\r\n\
+    \            {\r\n                \"acml_vol\": \"480501460\",\r\n                \"mod_yn\": \"N\",\r\n             \
+    \   \"ovrs_nmix_hgpr\": \"31144.91\",\r\n                \"ovrs_nmix_lwpr\": \"30373.72\",\r\n                \"ovrs_nmix_oprc\"\
+    : \"31144.91\",\r\n                \"ovrs_nmix_prpr\": \"30516.74\",\r\n                \"stck_bsop_date\": \"20220613\"\
+    \r\n            },\r\n....\r\n            {\r\n                \"acml_vol\": \"346813590\",\r\n                \"mod_yn\"\
+    : \"N\",\r\n                \"ovrs_nmix_hgpr\": \"34847.91\",\r\n                \"ovrs_nmix_lwpr\": \"34538.25\",\r\n\
+    \                \"ovrs_nmix_oprc\": \"34740.89\",\r\n                \"ovrs_nmix_prpr\": \"34818.27\",\r\n          \
+    \      \"stck_bsop_date\": \"20220401\"\r\n            }"
+errors: []

@@ -1,0 +1,415 @@
+id: 48c30d93-ffc0-47c7-a6ba-da728b0b3d5d
+name: 해외선물 상품기본정보 [해외선물-023]
+section: '[해외선물옵션] 기본시세'
+category: 해외선물옵션
+subcategory: 기본시세
+method: GET
+url: /uapi/overseas-futureoption/v1/quotations/search-contract-detail
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- HHDFC55200000
+real_tr_id: HHDFC55200000
+virtual_tr_id: 모의투자 미지원
+summary: '해외선물옵션 상품기본정보 API입니다.
+
+  QRY_CNT에 SRS_CD 요청 개수 입력, SRS_CD_01 ~SRS_CD_32 까지 최대 32건의 상품코드 추가 입력하여 해외선물옵션 상품기본정보 확인이 가능합니다. (아래 Example 참고)'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-10T10:16:27+09:00'
+  last_modified_date: '2025-04-30T12:58:45+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHDFC55200000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: QRY_CNT
+    name: 요청개수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: 입력한 코드 개수
+  - code: SRS_CD_01
+    name: 품목종류
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 최대 32개 까지 가능
+  - code: SRS_CD_02…
+    name: 품목종류…
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: ''
+  - code: SRS_CD_32
+    name: 품목종류
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: ''
+  example: "QRY_CNT:2\r\nSRS_CD_01:6AM24\r\nSRS_CD_02:10YK24"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: exch_cd
+    name: 거래소코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: clas_cd
+    name: 품목종류
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: crc_cd
+    name: 거래통화
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: sttl_price
+    name: 정산가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: sttl_date
+    name: 정산일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: trst_mgn
+    name: 증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: disp_digit
+    name: 가격표시진법
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: tick_sz
+    name: 틱사이즈
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tick_val
+    name: 틱가치
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: mrkt_open_date
+    name: 장개시일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: mrkt_open_time
+    name: 장개시시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: mrkt_close_date
+    name: 장마감일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: mrkt_close_time
+    name: 장마감시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: trd_fr_date
+    name: 상장일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: expr_date
+    name: 만기일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: trd_to_date
+    name: 최종거래일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: remn_cnt
+    name: 잔존일수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: stat_tp
+    name: 매매여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ctrt_size
+    name: 계약크기
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: stl_tp
+    name: 최종결제구분
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: frst_noti_date
+    name: 최초식별일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: sub_exch_nm
+    name: 서브거래소코드
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: ''
+  example:
+    output2:
+    - exch_cd: CME
+      clas_cd: '001'
+      crc_cd: USD
+      sttl_price: '         6684.5'
+      sttl_date: '20240516'
+      trst_mgn: '               1595'
+      disp_digit: '        10'
+      tick_sz: '            0.00005'
+      tick_val: '                  5'
+      mrkt_open_date: '20240517'
+      mrkt_open_time: '070000'
+      mrkt_close_date: '20240518'
+      mrkt_close_time: '060000'
+      trd_fr_date: '20190604'
+      expr_date: '20240617'
+      trd_to_date: '20240617'
+      remn_cnt: '  29'
+      stat_tp: '1'
+      ctrt_size: '             100000'
+      stl_tp: 실물인수도
+      frst_noti_date: '20240617'
+      sub_exch_nm: CME
+    - exch_cd: CME
+      clas_cd: '002'
+      crc_cd: USD
+      sttl_price: '           4375'
+      sttl_date: '20240516'
+      trst_mgn: '                352'
+      disp_digit: '        10'
+      tick_sz: '              0.001'
+      tick_val: '                  1'
+      mrkt_open_date: '20240517'
+      mrkt_open_time: '070000'
+      mrkt_close_date: '20240518'
+      mrkt_close_time: '060000'
+      trd_fr_date: '20240315'
+      expr_date: '20240531'
+      trd_to_date: '20240531'
+      remn_cnt: '  15'
+      stat_tp: '1'
+      ctrt_size: '               1000'
+      stl_tp: 현금결제
+      frst_noti_date: '20240531'
+      sub_exch_nm: CBOT
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

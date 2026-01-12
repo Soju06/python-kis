@@ -1,0 +1,569 @@
+id: 00eafa0f-820b-4a12-91dc-a65593a8322e
+name: 주식옵션 실시간호가 [실시간-045]
+section: '[국내선물옵션] 실시간시세'
+category: 국내선물옵션
+subcategory: 실시간시세
+method: POST
+url: /tryitout/H0ZOASP0
+content_type: ''
+req_format: ''
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- H0ZOASP0
+real_tr_id: H0ZOASP0
+virtual_tr_id: 모의투자 미지원
+summary: ''
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-19T09:38:54+09:00'
+  last_modified_date: '2025-04-30T13:29:41+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'B : 법인 / P : 개인'
+  - code: tr_type
+    name: 등록/해제
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '"1: 등록, 2:해제"'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '7'
+    required: true
+    description: H0ZOASP0
+  - code: tr_key
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 종목코드
+  example:
+    header:
+      approval_key: 35xxxxxa-bxxa-4xxb-87xxx-f56xxxxxxxxxx
+      custtype: P
+      tr_type: '1'
+      content-type: utf-8
+    body:
+      input:
+        tr_id: H0ZOASP0
+        tr_key: 211V05059
+response:
+  headers: []
+  body:
+  - code: OPTN_SHRN_ISCD
+    name: 옵션단축종목코드
+    type: A0003
+    type_name: String
+    length: '9'
+    required: true
+    description: '''각 항목사이에는 구분자로 ^ 사용,
+
+      모든 데이터타입은 String으로 변환되어 push 처리됨'''
+  - code: BSOP_HOUR
+    name: 영업시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: OPTN_ASKP1
+    name: 옵션매도호가1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_ASKP2
+    name: 옵션매도호가2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_ASKP3
+    name: 옵션매도호가3
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_ASKP4
+    name: 옵션매도호가4
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_ASKP5
+    name: 옵션매도호가5
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_BIDP1
+    name: 옵션매수호가1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_BIDP2
+    name: 옵션매수호가2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_BIDP3
+    name: 옵션매수호가3
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_BIDP4
+    name: 옵션매수호가4
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_BIDP5
+    name: 옵션매수호가5
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_CSNU1
+    name: 매도호가건수1
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP_CSNU2
+    name: 매도호가건수2
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP_CSNU3
+    name: 매도호가건수3
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP_CSNU4
+    name: 매도호가건수4
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP_CSNU5
+    name: 매도호가건수5
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP_CSNU1
+    name: 매수호가건수1
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP_CSNU2
+    name: 매수호가건수2
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP_CSNU3
+    name: 매수호가건수3
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP_CSNU4
+    name: 매수호가건수4
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP_CSNU5
+    name: 매수호가건수5
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP_RSQN1
+    name: 매도호가잔량1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN2
+    name: 매도호가잔량2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN3
+    name: 매도호가잔량3
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN4
+    name: 매도호가잔량4
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN5
+    name: 매도호가잔량5
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN1
+    name: 매수호가잔량1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN2
+    name: 매수호가잔량2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN3
+    name: 매수호가잔량3
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN4
+    name: 매수호가잔량4
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN5
+    name: 매수호가잔량5
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_ASKP_CSNU
+    name: 총매도호가건수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: TOTAL_BIDP_CSNU
+    name: 총매수호가건수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: TOTAL_ASKP_RSQN
+    name: 총매도호가잔량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_BIDP_RSQN
+    name: 총매수호가잔량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_ASKP_RSQN_ICDC
+    name: 총매도호가잔량증감
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: TOTAL_BIDP_RSQN_ICDC
+    name: 총매수호가잔량증감
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: OPTN_ASKP6
+    name: 옵션매도호가6
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_ASKP7
+    name: 옵션매도호가7
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_ASKP8
+    name: 옵션매도호가8
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_ASKP9
+    name: 옵션매도호가9
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_ASKP10
+    name: 옵션매도호가10
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_BIDP6
+    name: 옵션매수호가6
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_BIDP7
+    name: 옵션매수호가7
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_BIDP8
+    name: 옵션매수호가8
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_BIDP9
+    name: 옵션매수호가9
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPTN_BIDP10
+    name: 옵션매수호가10
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_CSNU6
+    name: 매도호가건수6
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP_CSNU7
+    name: 매도호가건수7
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP_CSNU8
+    name: 매도호가건수8
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP_CSNU9
+    name: 매도호가건수9
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP_CSNU10
+    name: 매도호가건수10
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP_CSNU6
+    name: 매수호가건수6
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP_CSNU7
+    name: 매수호가건수7
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP_CSNU8
+    name: 매수호가건수8
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP_CSNU9
+    name: 매수호가건수9
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP_CSNU10
+    name: 매수호가건수10
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP_RSQN6
+    name: 매도호가잔량6
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN7
+    name: 매도호가잔량7
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN8
+    name: 매도호가잔량8
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN9
+    name: 매도호가잔량9
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN10
+    name: 매도호가잔량10
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN6
+    name: 매수호가잔량6
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN7
+    name: 매수호가잔량7
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN8
+    name: 매수호가잔량8
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN9
+    name: 매수호가잔량9
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN10
+    name: 매수호가잔량10
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  example: "# 연결 확인\r\n{\r\n    \"header\": {\r\n        \"tr_id\": \"H0ZOASP0\", \r\n        \"tr_key\": \"211V05059\", \r\
+    \n        \"encrypt\": \"N\"\r\n        }, \r\n    \"body\": {\r\n        \"rt_cd\": \"0\", \r\n        \"msg_cd\": \"\
+    OPSP0000\",\r\n        \"msg1\": \"SUBSCRIBE SUCCESS\", \r\n        \"output\": {\r\n            \"iv\": \"0123456789abcdef\"\
+    , \r\n            \"key\": \"abcdefghijklmnopabcdefghijklmnop\"}\r\n        }\r\n}\r\n\r\n# output\r\n0|H0ZOASP0|001|211V05059^091509^1140.00^1160.00^1200.00^1300.00^1400.00^1120\r\
+    \n.00^1080.00^620.00^580.00^530.00^2^1^1^1^1^1^2^1^1^1^187^12^10^10^10^12^187^3^3^3^9^6^241^208^\r\n0^0^1500.00^1520.00^1700.00^0.00^0.00^0.00^0.00^0.00^0.00^0.00^1^1^1^0^0^0^0^0^0^0^10^1^1^0^0^\r\
+    \n0^0^0^0^0"
+errors: []

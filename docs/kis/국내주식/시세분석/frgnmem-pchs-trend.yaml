@@ -1,0 +1,315 @@
+id: fdecab0c-4c48-499b-9436-4ac3d32dbd09
+name: 종목별 외국계 순매수추이 [국내주식-164]
+section: '[국내주식] 시세분석'
+category: 국내주식
+subcategory: 시세분석
+method: GET
+url: /uapi/domestic-stock/v1/quotations/frgnmem-pchs-trend
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 미지원
+tr_ids:
+- FHKST644400C0
+- 모의투자 미지원
+real_tr_id: FHKST644400C0
+virtual_tr_id: 모의투자 미지원
+summary: '종목별 외국계 순매수추이 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0433] 종목별 외국계 순매수추이 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-03T12:43:41+09:00'
+  last_modified_date: '2025-05-14T14:32:19+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKST644400C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_INPUT_ISCD
+    name: 조건시장분류코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목코드(ex) 005930(삼성전자))
+  - code: FID_INPUT_ISCD_2
+    name: 조건화면분류코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 외국계 전체(99999)
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 시장구분코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: J (KRX만 지원)
+  example: "FID_INPUT_ISCD:005930\r\nFID_INPUT_ISCD_2:99999"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: bsop_hour
+    name: 영업시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: stck_prpr
+    name: 주식현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: frgn_seln_vol
+    name: 외국인매도거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: frgn_shnu_vol
+    name: 외국인매수2거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: glob_ntby_qty
+    name: 외국계순매수수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: frgn_ntby_qty_icdc
+    name: 외국인순매수수량증감
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example: "{\r\n    \"output\": [\r\n        {\r\n            \"bsop_hour\": \"153106\",\r\n            \"stck_prpr\": \"\
+    81300\",\r\n            \"prdy_vrss\": \"3700\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\"\
+    : \"4.77\",\r\n            \"acml_vol\": \"24771461\",\r\n            \"frgn_seln_vol\": \"547879\",\r\n            \"\
+    frgn_shnu_vol\": \"4418409\",\r\n            \"glob_ntby_qty\": \"3870530\",\r\n            \"frgn_ntby_qty_icdc\": \"\
+    194396\"\r\n        },\r\n        {\r\n            \"bsop_hour\": \"151952\",\r\n            \"stck_prpr\": \"81200\"\
+    ,\r\n            \"prdy_vrss\": \"3600\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"4.64\"\
+    ,\r\n            \"acml_vol\": \"23517309\",\r\n            \"frgn_seln_vol\": \"547879\",\r\n            \"frgn_shnu_vol\"\
+    : \"4224013\",\r\n            \"glob_ntby_qty\": \"3676134\",\r\n            \"frgn_ntby_qty_icdc\": \"3123\"\r\n    \
+    \    },\r\n        {\r\n            \"bsop_hour\": \"151836\",\r\n            \"stck_prpr\": \"81100\",\r\n          \
+    \  \"prdy_vrss\": \"3500\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"4.51\",\r\n    \
+    \        \"acml_vol\": \"23404992\",\r\n            \"frgn_seln_vol\": \"547879\",\r\n            \"frgn_shnu_vol\": \"\
+    4220890\",\r\n            \"glob_ntby_qty\": \"3673011\",\r\n            \"frgn_ntby_qty_icdc\": \"1700\"\r\n        },\r\
+    \n        {\r\n            \"bsop_hour\": \"151724\",\r\n            \"stck_prpr\": \"81100\",\r\n            \"prdy_vrss\"\
+    : \"3500\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"4.51\",\r\n            \"acml_vol\"\
+    : \"23374199\",\r\n            \"frgn_seln_vol\": \"547879\",\r\n            \"frgn_shnu_vol\": \"4219190\",\r\n     \
+    \       \"glob_ntby_qty\": \"3671311\",\r\n            \"frgn_ntby_qty_icdc\": \"1261\"\r\n        },\r\n        {\r\n\
+    \            \"bsop_hour\": \"151613\",\r\n            \"stck_prpr\": \"81100\",\r\n            \"prdy_vrss\": \"3500\"\
+    ,\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"4.51\",\r\n            \"acml_vol\": \"23327774\"\
+    ,\r\n            \"frgn_seln_vol\": \"547879\",\r\n            \"frgn_shnu_vol\": \"4217929\",\r\n            \"glob_ntby_qty\"\
+    : \"3670050\",\r\n            \"frgn_ntby_qty_icdc\": \"5152\"\r\n        },\r\n        {\r\n            \"bsop_hour\"\
+    : \"151503\",\r\n            \"stck_prpr\": \"81100\",\r\n            \"prdy_vrss\": \"3500\",\r\n            \"prdy_vrss_sign\"\
+    : \"2\",\r\n            \"prdy_ctrt\": \"4.51\",\r\n            \"acml_vol\": \"23255295\",\r\n            \"frgn_seln_vol\"\
+    : \"547879\",\r\n            \"frgn_shnu_vol\": \"4212777\",\r\n            \"glob_ntby_qty\": \"3664898\",\r\n      \
+    \      \"frgn_ntby_qty_icdc\": \"181\"\r\n        },\r\n        {\r\n            \"bsop_hour\": \"151355\",\r\n      \
+    \      \"stck_prpr\": \"81200\",\r\n            \"prdy_vrss\": \"3600\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n\
+    \            \"prdy_ctrt\": \"4.64\",\r\n            \"acml_vol\": \"23222914\",\r\n            \"frgn_seln_vol\": \"\
+    547879\",\r\n            \"frgn_shnu_vol\": \"4212596\",\r\n            \"glob_ntby_qty\": \"3664717\",\r\n          \
+    \  \"frgn_ntby_qty_icdc\": \"87\"\r\n        },\r\n        {\r\n            \"bsop_hour\": \"151245\",\r\n           \
+    \ \"stck_prpr\": \"81200\",\r\n            \"prdy_vrss\": \"3600\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n    \
+    \        \"prdy_ctrt\": \"4.64\",\r\n            \"acml_vol\": \"23207485\",\r\n            \"frgn_seln_vol\": \"547879\"\
+    ,\r\n            \"frgn_shnu_vol\": \"4212509\",\r\n            \"glob_ntby_qty\": \"3664630\",\r\n            \"frgn_ntby_qty_icdc\"\
+    : \"588\"\r\n        },\r\n        {\r\n            \"bsop_hour\": \"151136\",\r\n            \"stck_prpr\": \"81300\"\
+    ,\r\n            \"prdy_vrss\": \"3700\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"4.77\"\
+    ,\r\n            \"acml_vol\": \"23126698\",\r\n            \"frgn_seln_vol\": \"547879\",\r\n            \"frgn_shnu_vol\"\
+    : \"4211921\",\r\n            \"glob_ntby_qty\": \"3664042\",\r\n            \"frgn_ntby_qty_icdc\": \"4468\"\r\n    \
+    \    },\r\n        {\r\n            \"bsop_hour\": \"151022\",\r\n            \"stck_prpr\": \"81200\",\r\n          \
+    \  \"prdy_vrss\": \"3600\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"4.64\",\r\n    \
+    \        \"acml_vol\": \"23058530\",\r\n            \"frgn_seln_vol\": \"547879\",\r\n            \"frgn_shnu_vol\": \"\
+    4207453\",\r\n            \"glob_ntby_qty\": \"3659574\",\r\n            \"frgn_ntby_qty_icdc\": \"143\"\r\n        },...\r\
+    \n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"MCA00000\",\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

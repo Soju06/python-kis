@@ -1,0 +1,306 @@
+id: 0a0f2b43-8a3f-44a4-80b7-f8cf4d6e2f37
+name: 해외주식 체결추이[해외주식-037]
+section: '[해외주식] 기본시세'
+category: 해외주식
+subcategory: 기본시세
+method: GET
+url: /uapi/overseas-price/v1/quotations/inquire-ccnl
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- HHDFS76200300
+real_tr_id: HHDFS76200300
+virtual_tr_id: 모의투자 미지원
+summary: 해외주식 체결추이 API입니다.
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-03-27T10:23:43+09:00'
+  last_modified_date: '2025-06-20T09:54:37+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHDFS76200300
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: EXCD
+    name: 거래소명
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: "'NYS : 뉴욕, NAS : 나스닥,  AMS : 아멕스 \nHKS : 홍콩, SHS : 상해 , SZS : 심천\nHSX : 호치민, HNX : 하노이\nTSE : 도쿄 '"
+  - code: AUTH
+    name: 사용자권한정보
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 공백
+  - code: KEYB
+    name: NEXT KEY BUFF
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 공백
+  - code: TDAY
+    name: 당일전일구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 0:전일, 1:당일
+  - code: SYMB
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: 해외종목코드
+  example: "AUTH:\r\nEXCD:NAS\r\nSYMB:AAPL\r\nTDAY:0\r\nKEYB:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: khms
+    name: 한국기준시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: last
+    name: 체결가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: sign
+    name: 기호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: diff
+    name: 대비
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: rate
+    name: 등락율
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: evol
+    name: 체결량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: tvol
+    name: 거래량
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: mtyp
+    name: 시장구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '0: 장중 1:장전 2:장후'
+  - code: pbid
+    name: 매수호가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: pask
+    name: 매도호가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: vpow
+    name: 체결강도
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example: "{\r\n    \"output1\": [\r\n        {\r\n            \"khms\": \"085957\",\r\n            \"last\": \"195.2000\"\
+    ,\r\n            \"sign\": \"5\",\r\n            \"diff\": \"3.2200\",\r\n            \"rate\": \"-1.62\",\r\n       \
+    \     \"evol\": \"30\",\r\n            \"tvol\": \"29159135\",\r\n            \"mtyp\": \"\",\r\n            \"pbid\"\
+    : \"195.1500\",\r\n            \"pask\": \"195.6000\",\r\n            \"vpow\": \"71.66\"\r\n        },\r\n        {\r\
+    \n            \"khms\": \"085957\",\r\n            \"last\": \"195.2000\",\r\n            \"sign\": \"5\",\r\n       \
+    \     \"diff\": \"3.2200\",\r\n            \"rate\": \"-1.62\",\r\n            \"evol\": \"10\",\r\n            \"tvol\"\
+    : \"29159105\",\r\n            \"mtyp\": \"\",\r\n            \"pbid\": \"195.1500\",\r\n            \"pask\": \"195.6000\"\
+    ,\r\n            \"vpow\": \"71.66\"\r\n        },...\r\n        {\r\n            \"khms\": \"085505\",\r\n          \
+    \  \"last\": \"195.2700\",\r\n            \"sign\": \"5\",\r\n            \"diff\": \"3.1500\",\r\n            \"rate\"\
+    : \"-1.59\",\r\n            \"evol\": \"50\",\r\n            \"tvol\": \"29155328\",\r\n            \"mtyp\": \"\",\r\n\
+    \            \"pbid\": \"195.2300\",\r\n            \"pask\": \"195.3000\",\r\n            \"vpow\": \"71.67\"\r\n   \
+    \     }\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"MCA00000\",\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

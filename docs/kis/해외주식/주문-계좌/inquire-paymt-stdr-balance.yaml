@@ -1,0 +1,657 @@
+id: 8e78ed2f-8c3d-424e-b400-82fc94ca4a6b
+name: 해외주식 결제기준잔고 [해외주식-064]
+section: '[해외주식] 주문/계좌'
+category: 해외주식
+subcategory: 주문/계좌
+method: GET
+url: /uapi/overseas-stock/v1/trading/inquire-paymt-stdr-balance
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- CTRP6010R
+- 모의투자 미지원
+real_tr_id: CTRP6010R
+virtual_tr_id: 모의투자 미지원
+summary: '해외주식 결제기준잔고 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0829] 해외 결제기준잔고 화면 의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
+
+
+  ※ 적용환율은 당일 매매기준이며, 현재가의 경우 지연된 시세로 평가되므로 실제매도금액과 상이할 수 있습니다.
+
+  ※ 주문가능수량 : 보유수량 - 미결제 매도수량
+
+  ※ 매입금액 계산 시 결제일의 최초고시환율을 적용하므로, 금일 최초고시환율을 적용하는 체결기준 잔고와는 상이합니다.
+
+  ※ 해외증권 투자 및 업무문의 안내: 한국투자증권 해외투자지원부 02)3276-5300'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-24T10:17:50+09:00'
+  last_modified_date: '2025-04-30T10:52:57+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTRP6010R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '공백 : 초기 조회
+
+      N : 다음 데이터 조회 (output header의 tr_cont가 M일 경우)'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: BASS_DT
+    name: 기준일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: WCRC_FRCR_DVSN_CD
+    name: 원화외화구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 01(원화기준),02(외화기준)
+  - code: INQR_DVSN_CD
+    name: 조회구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 00(전체), 01(일반), 02(미니스탁)
+  example: "CANO:12345678\r\nACNT_PRDT_CD:01\r\nBASS_DT:20240524\r\nWCRC_FRCR_DVSN_CD:01\r\nINQR_DVSN_CD:00"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'F or M : 다음 데이터 있음
+
+      D or E : 마지막 데이터'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: pdno
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_name
+    name: 상품명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: cblc_qty13
+    name: 잔고수량13
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: ord_psbl_qty1
+    name: 주문가능수량1
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: avg_unpr3
+    name: 평균단가3
+    type: A0001
+    type_name: String
+    length: '244'
+    required: true
+    description: ''
+  - code: ovrs_now_pric1
+    name: 해외현재가격1
+    type: A0001
+    type_name: String
+    length: '235'
+    required: true
+    description: ''
+  - code: frcr_pchs_amt
+    name: 외화매입금액
+    type: A0001
+    type_name: String
+    length: '235'
+    required: true
+    description: ''
+  - code: frcr_evlu_amt2
+    name: 외화평가금액2
+    type: A0001
+    type_name: String
+    length: '236'
+    required: true
+    description: ''
+  - code: evlu_pfls_amt2
+    name: 평가손익금액2
+    type: A0001
+    type_name: String
+    length: '255'
+    required: true
+    description: ''
+  - code: bass_exrt
+    name: 기준환율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: oprt_dtl_dtime
+    name: 조작상세일시
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: ''
+  - code: buy_crcy_cd
+    name: 매수통화코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: thdt_sll_ccld_qty1
+    name: 당일매도체결수량1
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: thdt_buy_ccld_qty1
+    name: 당일매수체결수량1
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: evlu_pfls_rt1
+    name: 평가손익율1
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: tr_mket_name
+    name: 거래시장명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: natn_kor_name
+    name: 국가한글명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: std_pdno
+    name: 표준상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: mgge_qty
+    name: 담보수량
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: loan_rmnd
+    name: 대출잔액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: prdt_type_cd
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: ovrs_excg_cd
+    name: 해외거래소코드
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: scts_dvsn_name
+    name: 유가증권구분명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: ldng_cblc_qty
+    name: 대여잔고수량
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: crcy_cd
+    name: 통화코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: crcy_cd_name
+    name: 통화코드명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: frcr_dncl_amt_2
+    name: 외화예수금액2
+    type: A0001
+    type_name: String
+    length: '236'
+    required: true
+    description: ''
+  - code: frst_bltn_exrt
+    name: 최초고시환율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: frcr_evlu_amt2
+    name: 외화평가금액2
+    type: A0001
+    type_name: String
+    length: '236'
+    required: true
+    description: ''
+  - code: output3
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: pchs_amt_smtl_amt
+    name: 매입금액합계금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tot_evlu_pfls_amt
+    name: 총평가손익금액
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: evlu_erng_rt1
+    name: 평가수익율1
+    type: A0001
+    type_name: String
+    length: '201'
+    required: true
+    description: ''
+  - code: tot_dncl_amt
+    name: 총예수금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: wcrc_evlu_amt_smtl
+    name: 원화평가금액합계
+    type: A0001
+    type_name: String
+    length: '236'
+    required: true
+    description: ''
+  - code: tot_asst_amt2
+    name: 총자산금액2
+    type: A0001
+    type_name: String
+    length: '236'
+    required: true
+    description: ''
+  - code: frcr_cblc_wcrc_evlu_amt_smtl
+    name: 외화잔고원화평가금액합계
+    type: A0001
+    type_name: String
+    length: '236'
+    required: true
+    description: ''
+  - code: tot_loan_amt
+    name: 총대출금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tot_ldng_evlu_amt
+    name: 총대여평가금액
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  example:
+    output1:
+    - pdno: ACVA
+      prdt_name: ACV 옥션스
+      cblc_qty13: '5.00000000'
+      ord_psbl_qty1: '5.00000000'
+      avg_unpr3: '11137.2000'
+      ovrs_now_pric1: '26065.48600'
+      frcr_pchs_amt: '55686.00000'
+      frcr_evlu_amt2: '130327.000000'
+      evlu_pfls_amt2: '74641.00000'
+      bass_exrt: '1365.40000000'
+      oprt_dtl_dtime: '20240525104030326'
+      buy_crcy_cd: USD
+      thdt_sll_ccld_qty1: '0.00000000'
+      thdt_buy_ccld_qty1: '0.00000000'
+      evlu_pfls_rt1: '134.03000000'
+      tr_mket_name: 나스닥
+      natn_kor_name: 미국
+      std_pdno: US00091G1040
+      mgge_qty: '0'
+      loan_rmnd: '0'
+      prdt_type_cd: '512'
+      ovrs_excg_cd: NASD
+      scts_dvsn_name: 현금
+    - pdno: DLPN
+      prdt_name: 돌핀 엔터테인먼트
+      cblc_qty13: '1.00000000'
+      ord_psbl_qty1: '1.00000000'
+      avg_unpr3: '2279.0000'
+      ovrs_now_pric1: '1529.24800'
+      frcr_pchs_amt: '2279.00000'
+      frcr_evlu_amt2: '1529.000000'
+      evlu_pfls_amt2: '-750.00000'
+      bass_exrt: '1365.40000000'
+      oprt_dtl_dtime: '20240525104052328'
+      buy_crcy_cd: USD
+      thdt_sll_ccld_qty1: '0.00000000'
+      thdt_buy_ccld_qty1: '0.00000000'
+      evlu_pfls_rt1: '-32.90000000'
+      tr_mket_name: 나스닥
+      natn_kor_name: 미국
+      std_pdno: US25686H2094
+      mgge_qty: '0'
+      loan_rmnd: '0'
+      prdt_type_cd: '512'
+      ovrs_excg_cd: NASD
+      scts_dvsn_name: 현금
+    - pdno: NIO
+      prdt_name: 니오(ADR)
+      cblc_qty13: '1.00000000'
+      ord_psbl_qty1: '1.00000000'
+      avg_unpr3: '14316.0000'
+      ovrs_now_pric1: '6854.30800'
+      frcr_pchs_amt: '14316.00000'
+      frcr_evlu_amt2: '6854.000000'
+      evlu_pfls_amt2: '-7462.00000'
+      bass_exrt: '1365.40000000'
+      oprt_dtl_dtime: '20240528185338061'
+      buy_crcy_cd: USD
+      thdt_sll_ccld_qty1: '0.00000000'
+      thdt_buy_ccld_qty1: '0.00000000'
+      evlu_pfls_rt1: '-52.12000000'
+      tr_mket_name: 뉴욕거래소
+      natn_kor_name: 미국
+      std_pdno: US62914V1061
+      mgge_qty: '0'
+      loan_rmnd: '0'
+      prdt_type_cd: '513'
+      ovrs_excg_cd: NYSE
+      scts_dvsn_name: 현금
+    - pdno: '6731'
+      prdt_name: '[6731]픽셀라'
+      cblc_qty13: '4.00000000'
+      ord_psbl_qty1: '4.00000000'
+      avg_unpr3: '8851.7500'
+      ovrs_now_pric1: '922.30600'
+      frcr_pchs_amt: '35407.00000'
+      frcr_evlu_amt2: '3689.000000'
+      evlu_pfls_amt2: '-31718.00000'
+      bass_exrt: '870.10000000'
+      oprt_dtl_dtime: '20240528170115625'
+      buy_crcy_cd: JPY
+      thdt_sll_ccld_qty1: '0.00000000'
+      thdt_buy_ccld_qty1: '0.00000000'
+      evlu_pfls_rt1: '-89.58000000'
+      tr_mket_name: 일본
+      natn_kor_name: 일본
+      std_pdno: JP3801620000
+      mgge_qty: '0'
+      loan_rmnd: '0'
+      prdt_type_cd: '515'
+      ovrs_excg_cd: TKSE
+      scts_dvsn_name: 현금
+    - pdno: CEI
+      prdt_name: 캠버 에너지
+      cblc_qty13: '1.00000000'
+      ord_psbl_qty1: '1.00000000'
+      avg_unpr3: '2255.0000'
+      ovrs_now_pric1: '238.94500'
+      frcr_pchs_amt: '2255.00000'
+      frcr_evlu_amt2: '238.000000'
+      evlu_pfls_amt2: '-2017.00000'
+      bass_exrt: '1365.40000000'
+      oprt_dtl_dtime: '20240528185356653'
+      buy_crcy_cd: USD
+      thdt_sll_ccld_qty1: '0.00000000'
+      thdt_buy_ccld_qty1: '0.00000000'
+      evlu_pfls_rt1: '-89.44000000'
+      tr_mket_name: 아멕스
+      natn_kor_name: 미국
+      std_pdno: US13200M6075
+      mgge_qty: '0'
+      loan_rmnd: '0'
+      prdt_type_cd: '529'
+      ovrs_excg_cd: AMEX
+      scts_dvsn_name: 현금
+    output2:
+    - crcy_cd: CNY
+      crcy_cd_name: 중국위안
+      frcr_dncl_amt_2: '1459.110000'
+      frst_bltn_exrt: '188.15000000'
+      frcr_evlu_amt2: '274531.000000'
+    - crcy_cd: USD
+      crcy_cd_name: 미국달러
+      frcr_dncl_amt_2: '698.190000'
+      frst_bltn_exrt: '1365.40000000'
+      frcr_evlu_amt2: '953308.000000'
+    - crcy_cd: VND
+      crcy_cd_name: 베트남 동
+      frcr_dncl_amt_2: '377568.000000'
+      frst_bltn_exrt: '5.36000000'
+      frcr_evlu_amt2: '20237.000000'
+    output3:
+      pchs_amt_smtl_amt: '109943'
+      tot_evlu_pfls_amt: '32694.00000000'
+      evlu_erng_rt1: '29.7300000000'
+      tot_dncl_amt: '296967'
+      wcrc_evlu_amt_smtl: '142637.000000'
+      tot_asst_amt2: '1687680.000000'
+      frcr_cblc_wcrc_evlu_amt_smtl: '1248076.000000'
+      tot_loan_amt: '0'
+    rt_cd: '0'
+    msg_cd: KIOK0530
+    msg1: '조회되었습니다                                                                  '
+errors: []

@@ -1,0 +1,501 @@
+id: 07313e08-45f2-4423-abb2-2a49752910ae
+name: ELW 현재가 시세[v1_국내주식-014]
+section: '[국내주식] ELW 시세'
+category: 국내주식
+subcategory: ELW 시세
+method: GET
+url: /uapi/domestic-stock/v1/quotations/inquire-elw-price
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: https://openapivts.koreainvestment.com:29443
+tr_ids:
+- FHKEW15010000
+real_tr_id: FHKEW15010000
+virtual_tr_id: FHKEW15010000
+summary: ELW 현재가 시세 API입니다. ELW 관련 정보를 얻을 수 있습니다.
+description: ELW 현재가 시세
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-19T09:38:54+09:00'
+  last_modified_date: '2025-06-19T10:40:27+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKEW15010000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: W
+  - code: FID_INPUT_ISCD
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목번호 (6자리)
+  example:
+    fid_cond_mrkt_div_code: J
+    fid_input_iscd: '000660'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: elw_shrn_iscd
+    name: ELW 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: elw_prpr
+    name: ELW 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일 대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일 대비율
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: prdy_vrss_vol_rate
+    name: 전일 대비 거래량 비율
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: ''
+  - code: unas_shrn_iscd
+    name: 기초자산 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: unas_isnm
+    name: 기초자산 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: unas_prpr
+    name: 기초자산 현재가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: unas_prdy_vrss
+    name: 기초자산 전일 대비
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: unas_prdy_vrss_sign
+    name: 기초자산 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: unas_prdy_ctrt
+    name: 기초자산 전일 대비율
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: bidp
+    name: 매수호가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp
+    name: 매도호가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: acml_tr_pbmn
+    name: 누적 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: vol_tnrt
+    name: 거래량 회전율
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: elw_oprc
+    name: ELW 시가2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: elw_hgpr
+    name: ELW 최고가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: elw_lwpr
+    name: ELW 최저가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: stck_prdy_clpr
+    name: 주식 전일 종가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: hts_thpr
+    name: HTS 이론가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: dprt
+    name: 괴리율
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: atm_cls_name
+    name: ATM 구분 명
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: hts_ints_vltl
+    name: HTS 내재 변동성
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: acpr
+    name: 행사가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: pvt_scnd_dmrs_prc
+    name: 피벗 2차 디저항 가격
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: pvt_frst_dmrs_prc
+    name: 피벗 1차 디저항 가격
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: pvt_pont_val
+    name: 피벗 포인트 값
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: pvt_frst_dmsp_prc
+    name: 피벗 1차 디지지 가격
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: pvt_scnd_dmsp_prc
+    name: 피벗 2차 디지지 가격
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: dmsp_val
+    name: 디지지 값
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: dmrs_val
+    name: 디저항 값
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: elw_sdpr
+    name: ELW 기준가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: apprch_rate
+    name: 접근도
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: tick_conv_prc
+    name: 틱환산가
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: invt_epmd_cntt
+    name: 투자 유의 내용
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: ''
+  example:
+    output:
+      elw_prpr: '0'
+      prdy_vrss: '0'
+      prdy_ctrt: '0.00'
+      acml_vol: '0'
+      prdy_vrss_vol_rate: '0.00'
+      unas_isnm: BASKET
+      unas_prpr: '0.00'
+      unas_prdy_vrss: '0.00'
+      unas_prdy_vrss_sign: '3'
+      unas_prdy_ctrt: '0.00'
+      bidp: '0'
+      askp: '0'
+      acml_tr_pbmn: '0'
+      vol_tnrt: '0.00'
+      elw_oprc: '0'
+      elw_hgpr: '0'
+      elw_lwpr: '0'
+      stck_prdy_clpr: '0'
+      hts_thpr: '0.00'
+      dprt: '0.00'
+      atm_cls_name: ATM
+      hts_ints_vltl: '0.00'
+      acpr: '0.00'
+      pvt_scnd_dmrs_prc: '0'
+      pvt_frst_dmrs_prc: '0'
+      pvt_pont_val: '0'
+      pvt_frst_dmsp_prc: '0'
+      pvt_scnd_dmsp_prc: '0'
+      dmsp_val: '0'
+      dmrs_val: '0'
+      elw_sdpr: '0'
+      apprch_rate: '0.00'
+      tick_conv_prc: '0.00'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다!
+errors: []

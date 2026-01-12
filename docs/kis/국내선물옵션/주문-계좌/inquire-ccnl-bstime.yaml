@@ -1,0 +1,373 @@
+id: f64db1b8-012a-4e92-ab1c-e9b3b264b2b7
+name: 선물옵션 기준일체결내역[v1_국내선물-016]
+section: '[국내선물옵션] 주문/계좌'
+category: 국내선물옵션
+subcategory: 주문/계좌
+method: GET
+url: /uapi/domestic-futureoption/v1/trading/inquire-ccnl-bstime
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- CTFO5139R
+real_tr_id: CTFO5139R
+virtual_tr_id: 모의투자 미지원
+summary: 선물옵션 기준일체결내역 API입니다.
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2023-09-22T07:53:03+09:00'
+  last_modified_date: '2025-04-30T12:23:25+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTFO5139R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '공백 : 초기 조회
+
+      N : 다음 데이터 조회 (output header의 tr_cont가 M일 경우)'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 계좌번호 체계(8-2)의 앞 8자리
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 계좌번호 체계(8-2)의 뒤 2자리
+  - code: ORD_DT
+    name: 주문일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 주문일자(YYYYMMDD)
+  - code: FUOP_TR_STRT_TMD
+    name: 선물옵션거래시작시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 선물옵션거래시작시간(HHMMSS)
+  - code: FUOP_TR_END_TMD
+    name: 선물옵션거래종료시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 선물옵션거래종료시간(HHMMSS)
+  - code: CTX_AREA_FK200
+    name: 연속조회검색조건200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: 연속조회검색조건200
+  - code: CTX_AREA_NK200
+    name: 연속조회키200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: 연속조회키200
+  example: "{\r\n\t\"CANO\":\"12345678\",\r\n\t\"ACNT_PRDT_CD\":\"03\",\r\n\t\"ORD_DT\":\"20230920\",\r\n\t\"FUOP_TR_STRT_TMD\"\
+    :\"000000\",\r\n\t\"FUOP_TR_END_TMD\":\"240000\",\r\n\t\"CTX_AREA_FK200\":\"\",\r\n\t'CTX_AREA_NK200\":\"\"\r\n}"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'F or M : 다음 데이터 있음
+
+      D or E : 마지막 데이터'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0002
+    type_name: String
+    length: ' '
+    required: true
+    description: array
+  - code: pdno
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_name
+    name: 상품명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: odno
+    name: 주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: tr_type_name
+    name: 거래유형명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: last_sttldt
+    name: 최종결제일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ccld_idx
+    name: 체결지수
+    type: A0001
+    type_name: String
+    length: '24'
+    required: true
+    description: ''
+  - code: ccld_qty
+    name: 체결량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: trad_amt
+    name: 매매금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: fee
+    name: 수수료
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: ccld_btwn
+    name: 체결시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세2
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: tot_ccld_qty_smtl
+    name: 총체결수량합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tot_ccld_amt_smtl
+    name: 총체결금액합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: fee_adjt
+    name: 수수료조정
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: fee_smtl
+    name: 수수료합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  example:
+    ctx_area_fk200: '12345678!^03!^20230920!^000000!^240000                                                                                                                                                                  '
+    ctx_area_nk200: ' !^ !^ !^                                                                                                                                                                                               '
+    output1:
+    - pdno: 201T10340
+      prdt_name: 코스피200 C 202310 340.0
+      odno: 0000219602
+      tr_type_name: 지수콜옵션매수
+      last_sttldt: '20231012'
+      ccld_idx: '2.80000000'
+      ccld_qty: '1'
+      trad_amt: '700000'
+      fee: '2758'
+      ccld_btwn: '140144'
+    - pdno: 101T12
+      prdt_name: 코스피200 F 202312
+      odno: 0000219606
+      tr_type_name: 지수선물매수
+      last_sttldt: '20231214'
+      ccld_idx: '335.50000000'
+      ccld_qty: '5'
+      trad_amt: '419375000'
+      fee: '41144'
+      ccld_btwn: '140121'
+    output2:
+      tot_ccld_qty_smtl: '6'
+      tot_ccld_amt_smtl: '420075000'
+      fee_adjt: '43902'
+      fee_smtl: '43890'
+    rt_cd: '0'
+    msg_cd: KIOK0460
+    msg1: '조회 되었습니다. (마지막 자료)                                                  '
+errors: []

@@ -1,0 +1,375 @@
+id: b290d16e-aa18-4e41-9c08-f4d941efe9a1
+name: 국내주식 체결금액별 매매비중 [국내주식-192]
+section: '[국내주식] 시세분석'
+category: 국내주식
+subcategory: 시세분석
+method: GET
+url: /uapi/domestic-stock/v1/quotations/tradprt-byamt
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 미지원
+tr_ids:
+- FHKST111900C0
+- 모의투자 미지원
+real_tr_id: FHKST111900C0
+virtual_tr_id: 모의투자 미지원
+summary: '국내주식 체결금액별 매매비중 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0135] 체결금액별 매매비중 화면의 "상단 표" 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-03T12:46:49+09:00'
+  last_modified_date: '2025-05-14T14:32:30+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKST111900C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건시장분류코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 'J: KRX, NX: NXT, UN: 통합'
+  - code: FID_COND_SCR_DIV_CODE
+    name: 조건화면분류코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: Uniquekey(11119)
+  - code: FID_INPUT_ISCD
+    name: 입력종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목코드(ex)(005930 (삼성전자))
+  example: "FID_COND_MRKT_DIV_CODE:J\r\nFID_COND_SCR_DIV_CODE:11119\r\nFID_INPUT_ISCD:005930"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: prpr_name
+    name: 가격명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: smtn_avrg_prpr
+    name: 합계 평균가격
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 합계 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_ntby_qty_rate
+    name: 합계 순매수비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: ntby_cntg_csnu
+    name: 합계 순매수건수
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: seln_cnqn_smtn
+    name: 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_seln_vol_rate
+    name: 매도 거래량비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: seln_cntg_csnu
+    name: 매도 건수
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: shnu_cnqn_smtn
+    name: 매수 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_shun_vol_rate
+    name: 매수 거래량비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: shnu_cntg_csnu
+    name: 매수 건수
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example:
+    output:
+    - prpr_name: 3백 이하
+      smtn_avrg_prpr: '78315'
+      acml_vol: '291426'
+      whol_ntby_qty_rate: '0.37'
+      ntby_cntg_csnu: '13297'
+      seln_cnqn_smtn: '126451'
+      whol_seln_vol_rate: '1.21'
+      seln_cntg_csnu: '16084'
+      shnu_cnqn_smtn: '164975'
+      whol_shun_vol_rate: '1.58'
+      shnu_cntg_csnu: '29381'
+    - prpr_name: 5백 이하
+      smtn_avrg_prpr: '78317'
+      acml_vol: '138138'
+      whol_ntby_qty_rate: '-0.13'
+      ntby_cntg_csnu: '-278'
+      seln_cnqn_smtn: '75634'
+      whol_seln_vol_rate: '0.73'
+      seln_cntg_csnu: '1525'
+      shnu_cnqn_smtn: '62504'
+      whol_shun_vol_rate: '0.60'
+      shnu_cntg_csnu: '1247'
+    - prpr_name: 1천 이하
+      smtn_avrg_prpr: '78304'
+      acml_vol: '378958'
+      whol_ntby_qty_rate: '0.10'
+      ntby_cntg_csnu: '110'
+      seln_cnqn_smtn: '184499'
+      whol_seln_vol_rate: '1.77'
+      seln_cntg_csnu: '2000'
+      shnu_cnqn_smtn: '194459'
+      whol_shun_vol_rate: '1.87'
+      shnu_cntg_csnu: '2110'
+    - prpr_name: 3천 이하
+      smtn_avrg_prpr: '78328'
+      acml_vol: '720672'
+      whol_ntby_qty_rate: '-0.51'
+      ntby_cntg_csnu: '-330'
+      seln_cnqn_smtn: '387086'
+      whol_seln_vol_rate: '3.72'
+      seln_cntg_csnu: '1993'
+      shnu_cnqn_smtn: '333586'
+      whol_shun_vol_rate: '3.20'
+      shnu_cntg_csnu: '1663'
+    - prpr_name: 5천 이하
+      smtn_avrg_prpr: '78349'
+      acml_vol: '429911'
+      whol_ntby_qty_rate: '0.16'
+      ntby_cntg_csnu: '63'
+      seln_cnqn_smtn: '206855'
+      whol_seln_vol_rate: '1.99'
+      seln_cntg_csnu: '426'
+      shnu_cnqn_smtn: '223056'
+      whol_shun_vol_rate: '2.14'
+      shnu_cntg_csnu: '489'
+    - prpr_name: 1억 이하
+      smtn_avrg_prpr: '78336'
+      acml_vol: '580130'
+      whol_ntby_qty_rate: '-1.24'
+      ntby_cntg_csnu: '-153'
+      seln_cnqn_smtn: '354585'
+      whol_seln_vol_rate: '3.40'
+      seln_cntg_csnu: '402'
+      shnu_cnqn_smtn: '225545'
+      whol_shun_vol_rate: '2.17'
+      shnu_cntg_csnu: '249'
+    - prpr_name: 5억 이하
+      smtn_avrg_prpr: '78326'
+      acml_vol: '1664623'
+      whol_ntby_qty_rate: '-1.57'
+      ntby_cntg_csnu: '-61'
+      seln_cnqn_smtn: '914220'
+      whol_seln_vol_rate: '8.78'
+      seln_cntg_csnu: '306'
+      shnu_cnqn_smtn: '750403'
+      whol_shun_vol_rate: '7.21'
+      shnu_cntg_csnu: '245'
+    - prpr_name: 5억 초과
+      smtn_avrg_prpr: '78316'
+      acml_vol: '6210233'
+      whol_ntby_qty_rate: '-18.01'
+      ntby_cntg_csnu: '-55'
+      seln_cnqn_smtn: '4042917'
+      whol_seln_vol_rate: '38.82'
+      seln_cntg_csnu: '173'
+      shnu_cnqn_smtn: '2167316'
+      whol_shun_vol_rate: '20.81'
+      shnu_cntg_csnu: '118'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

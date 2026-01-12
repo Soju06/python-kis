@@ -1,0 +1,567 @@
+id: bec98736-8f5a-49a0-b325-5f6c40ff13b3
+name: 선물옵션 시세호가[v1_국내선물-007]
+section: '[국내선물옵션] 기본시세'
+category: 국내선물옵션
+subcategory: 기본시세
+method: GET
+url: /uapi/domestic-futureoption/v1/quotations/inquire-asking-price
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: https://openapivts.koreainvestment.com:29443
+tr_ids:
+- FHMIF10010000
+real_tr_id: FHMIF10010000
+virtual_tr_id: FHMIF10010000
+summary: 선물옵션 시세호가 API입니다.
+description: '[국내선물-007 v1] 선물옵션 시세호가'
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2021-12-15T13:07:50+09:00'
+  last_modified_date: '2025-04-30T12:26:25+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: false
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)\n\n※ 토큰 지정시 토큰\
+      \ 타입(\"Bearer\") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 \"Bearer\" 붙여서 호출\nEX) \"Bearer eyJ..........8GA\""
+  - code: appkey
+    name: '앱키 '
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: '[실전/모의투자]
+
+      FHMIF10010000 : 선물 옵션 시세 호가'
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'B : 법인
+
+      P : 개인'
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: FID 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 'F: 지수선물, O:지수옵션
+
+      JF: 주식선물, JO:주식옵션
+
+      CF: 상품선물(금), 금리선물(국채), 통화선물(달러)
+
+      CM: 야간선물, EU: 야간옵션'
+  - code: FID_INPUT_ISCD
+    name: FID 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '종목코드 (예: 101S03)'
+  example:
+    fid_cond_mrkt_div_code: F
+    fid_input_iscd: 101S06
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '0 : 성공
+
+      0 이외의 값 : 실패'
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 응답코드
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: 응답메세지
+  - code: output1
+    name: 응답상세1
+    type: A0003
+    type_name: String
+    length: ''
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: 종목명
+  - code: futs_prpr
+    name: 선물 현재가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 선물의 현재가격
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "1 : 상한 \n2 : 상승\n3 : 보합\n4 : 하한\n5 : 하락"
+  - code: futs_prdy_vrss
+    name: 선물 전일 대비
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 선물의 전일 종가와 당일 현재가의 차이 (당일 현재가-전일 종가)
+  - code: futs_prdy_ctrt
+    name: 선물 전일 대비율
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: 선물 전일 대비 / 당일 현재가 * 100
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 당일 조회시점까지 전체 거래량
+  - code: futs_prdy_clpr
+    name: 선물 전일 종가
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 선물 종목의 전일 종가
+  - code: futs_shrn_iscd
+    name: 선물 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세2
+    type: A0005
+    type_name: Object
+    length: ''
+    required: true
+    description: Array
+  - code: futs_askp1
+    name: 선물 매도호가1
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 종목의 매도호가 중 1번째 낮은 호가
+  - code: futs_askp2
+    name: 선물 매도호가2
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 종목의 매도호가 중 2번째 낮은 호가
+  - code: futs_askp3
+    name: 선물 매도호가3
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 종목의 매도호가 중 3번째 낮은 호가
+  - code: futs_askp4
+    name: 선물 매도호가4
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 종목의 매도호가 중 4번째 낮은 호가
+  - code: futs_askp5
+    name: 선물 매도호가5
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 종목의 매도호가 중 5번째 낮은 호가
+  - code: futs_bidp1
+    name: 선물 매수호가1
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 종목의 매수호가 중 가장 높은 호가
+  - code: futs_bidp2
+    name: 선물 매수호가1
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 종목의 매수호가 중 2번째 높은 호가
+  - code: futs_bidp3
+    name: 선물 매수호가3
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 종목의 매수호가 중 3번째 높은 호가
+  - code: futs_bidp4
+    name: 선물 매수호가4
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 종목의 매수호가 중 4번째 높은 호가
+  - code: futs_bidp5
+    name: 선물 매수호가5
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: 해당 종목의 매수호가 중 5번째 높은 호가
+  - code: askp_rsqn1
+    name: 매도호가 잔량1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 매도호가 1의 미체결수량
+  - code: askp_rsqn2
+    name: 매도호가 잔량2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 매도호가 2의 미체결수량
+  - code: askp_rsqn3
+    name: 매도호가 잔량3
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 매도호가 3의 미체결수량
+  - code: askp_rsqn4
+    name: 매도호가 잔량4
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 매도호가 4의 미체결수량
+  - code: askp_rsqn5
+    name: 매도호가 잔량5
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 매도호가 5의 미체결수량
+  - code: bidp_rsqn1
+    name: 매수호가 잔량1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 매수호가 1의 미체결수량
+  - code: bidp_rsqn2
+    name: 매수호가 잔량2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 매수호가 2의 미체결수량
+  - code: bidp_rsqn3
+    name: 매수호가 잔량3
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 매수호가 3의 미체결수량
+  - code: bidp_rsqn4
+    name: 매수호가 잔량4
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 매수호가 4의 미체결수량
+  - code: bidp_rsqn5
+    name: 매수호가 잔량5
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 매수호가 5의 미체결수량
+  - code: askp_csnu1
+    name: 매도호가 건수1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매도호가 1의 미체결 주문 건수
+  - code: askp_csnu2
+    name: 매도호가 건수2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매도호가 2의 미체결 주문 건수
+  - code: askp_csnu3
+    name: 매도호가 건수3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매도호가 3의 미체결 주문 건수
+  - code: askp_csnu4
+    name: 매도호가 건수4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매도호가 4의 미체결 주문 건수
+  - code: askp_csnu5
+    name: 매도호가 건수5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매도호가 5의 미체결 주문 건수
+  - code: bidp_csnu1
+    name: 매수호가 건수1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매수호가 1의 미체결 주문 건수
+  - code: bidp_csnu2
+    name: 매수호가 건수2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매수호가 2의 미체결 주문 건수
+  - code: bidp_csnu3
+    name: 매수호가 건수3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매수호가 3의 미체결 주문 건수
+  - code: bidp_csnu4
+    name: 매수호가 건수4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매수호가 4의 미체결 주문 건수
+  - code: bidp_csnu5
+    name: 매수호가 건수5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매수호가 5의 미체결 주문 건수
+  - code: total_askp_rsqn
+    name: 총 매도호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 매도호가 1~5의 잔량 합계
+  - code: total_bidp_rsqn
+    name: 총 매수호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 매수호가 1~5의 잔량 합계
+  - code: total_askp_csnu
+    name: 총 매도호가 건수
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매도호가 1~5의 미체결 주문 건수 합계
+  - code: total_bidp_csnu
+    name: 총 매수호가 건수
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매수호가 1~5의 미체결 주문 건수 합계
+  - code: aspr_acpt_hour
+    name: 호가 접수 시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 가장 최근 호가의 접수 시간
+  example:
+    output1:
+      hts_kor_isnm: F 202206
+      futs_prpr: '364.40'
+      prdy_vrss_sign: '2'
+      futs_prdy_vrss: '3.00'
+      futs_prdy_ctrt: '0.83'
+      acml_vol: '193112'
+      futs_prdy_clpr: '361.40'
+      futs_shrn_iscd: 101S06
+    output2:
+      futs_askp1: '364.40'
+      futs_askp2: '364.45'
+      futs_askp3: '364.50'
+      futs_askp4: '364.55'
+      futs_askp5: '364.60'
+      futs_bidp1: '364.35'
+      futs_bidp2: '364.30'
+      futs_bidp3: '364.25'
+      futs_bidp4: '364.20'
+      futs_bidp5: '364.15'
+      askp_rsqn1: '35'
+      askp_rsqn2: '47'
+      askp_rsqn3: '32'
+      askp_rsqn4: '56'
+      askp_rsqn5: '88'
+      bidp_rsqn1: '22'
+      bidp_rsqn2: '70'
+      bidp_rsqn3: '68'
+      bidp_rsqn4: '97'
+      bidp_rsqn5: '42'
+      askp_csnu1: '9'
+      askp_csnu2: '19'
+      askp_csnu3: '21'
+      askp_csnu4: '28'
+      askp_csnu5: '20'
+      bidp_csnu1: '9'
+      bidp_csnu2: '45'
+      bidp_csnu3: '26'
+      bidp_csnu4: '31'
+      bidp_csnu5: '22'
+      total_askp_rsqn: '7140'
+      total_bidp_rsqn: '9319'
+      total_askp_csnu: '1091'
+      total_bidp_csnu: '1115'
+      aspr_acpt_hour: '153744'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

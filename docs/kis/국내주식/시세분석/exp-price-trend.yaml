@@ -1,0 +1,538 @@
+id: c4d31a39-d602-4848-9c00-1d9d3f494e63
+name: 국내주식 예상체결가 추이[국내주식-118]
+section: '[국내주식] 시세분석'
+category: 국내주식
+subcategory: 시세분석
+method: GET
+url: /uapi/domestic-stock/v1/quotations/exp-price-trend
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- FHPST01810000
+- 모의투자 미지원
+real_tr_id: FHPST01810000
+virtual_tr_id: 모의투자 미지원
+summary: '국내주식 예상체결가 추이 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0184] 예상체결지수 추이 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
+
+  최대 30건 확인 가능하며, 다음 조회가 불가합니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-03-15T09:34:10+09:00'
+  last_modified_date: '2025-05-14T14:30:55+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPST01810000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: fid_mkop_cls_code
+    name: 장운영 구분 코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 0:전체, 4:체결량 0 제외
+  - code: fid_cond_mrkt_div_code
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 시장구분코드 (주식 J)
+  - code: fid_input_iscd
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 종목코드(ex. 005930)
+  example:
+    fid_cond_mrkt_div_code: J
+    fid_input_iscd: 005930
+    fid_mkop_cls_code: '0'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: rprs_mrkt_kor_name
+    name: 대표 시장 한글 명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: antc_cnpr
+    name: 예상 체결가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: antc_cntg_vrss_sign
+    name: 예상 체결 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: antc_cntg_vrss
+    name: 예상 체결 대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: antc_cntg_prdy_ctrt
+    name: 예상 체결 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: antc_vol
+    name: 예상 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: antc_tr_pbmn
+    name: 예상 거래대금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: stck_bsop_date
+    name: 주식 영업 일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: stck_cntg_hour
+    name: 주식 체결 시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: stck_prpr
+    name: 주식 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일 대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  example:
+    output1:
+      rprs_mrkt_kor_name: KOSPI200
+      antc_cnpr: '72600'
+      antc_cntg_vrss_sign: '2'
+      antc_cntg_vrss: '300'
+      antc_cntg_prdy_ctrt: '0.41'
+      antc_vol: '420303'
+      antc_tr_pbmn: '30513997800'
+    output2:
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090023
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '420303'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090023
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '420196'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090023
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '420206'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090023
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '419330'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090022
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '419131'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090022
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '418134'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090022
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '418123'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090021
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '418123'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090020
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '418123'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090019
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '418123'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090019
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '418120'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090018
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '418120'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090017
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '418120'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090017
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '418121'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090016
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '418121'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090016
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '418003'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090016
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '417953'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090016
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '417729'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090016
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '417679'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090015
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '417679'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090015
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '417060'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090015
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '417050'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090015
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '416945'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090015
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '416921'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090015
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '416915'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090014
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '416915'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090014
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '416770'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090014
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '416759'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090014
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '415059'
+    - stck_bsop_date: '20240318'
+      stck_cntg_hour: 090013
+      stck_prpr: '72600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '414942'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

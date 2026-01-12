@@ -1,0 +1,806 @@
+id: 71356fc2-c4ca-4d5f-b564-cd16b8155ecc
+name: 선물옵션 잔고현황[v1_국내선물-004]
+section: '[국내선물옵션] 주문/계좌'
+category: 국내선물옵션
+subcategory: 주문/계좌
+method: GET
+url: /uapi/domestic-futureoption/v1/trading/inquire-balance
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: https://openapivts.koreainvestment.com:29443
+tr_ids:
+- VTFO6118R
+- CTFO6118R
+real_tr_id: CTFO6118R
+virtual_tr_id: VTFO6118R
+summary: 선물옵션 잔고현황 API입니다. 한 번의 호출에 최대 20건까지 확인 가능하며, 이후의 값은 연속조회를 통해 확인하실 수 있습니다.
+description: '[국내선물-004 v1] 선물옵션 잔고현황'
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2021-12-15T13:06:01+09:00'
+  last_modified_date: '2025-04-30T12:20:03+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: false
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: '앱키 '
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: "[실전투자]\nCTFO6118R : 선물 옵션 잔고 현황\n\n[모의투자] \nVTFO6118R : 선물 옵션 잔고 현황"
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 계좌번호 체계(8-2)의 앞 8자리
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 계좌번호 체계(8-2)의 뒤 2자리
+  - code: MGNA_DVSN
+    name: 증거금 구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '01 : 개시
+
+      02 : 유지'
+  - code: EXCC_STAT_CD
+    name: 정산상태코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '1 : 정산 (정산가격으로 잔고 조회)
+
+      2 : 본정산 (매입가격으로 잔고 조회)'
+  - code: CTX_AREA_FK200
+    name: 연속조회검색조건200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: '공란 : 최초 조회시
+
+      이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)'
+  - code: CTX_AREA_NK200
+    name: 연속조회키200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: '공란 : 최초 조회시
+
+      이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)'
+  example:
+    CANO: 810XXXXX
+    ACNT_PRDT_CD: '3'
+    MGNA_DVSN: '01'
+    EXCC_STAT_CD: '1'
+    CTX_AREA_FK200: ''
+    CTX_AREA_NK200: ''
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '0 : 성공
+
+      0 이외의 값 : 실패'
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 응답코드
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: 응답메세지
+  - code: ctx_area_fk200
+    name: 연속조회검색조건200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: ''
+  - code: ctx_area_nk200
+    name: 연속조회키200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세1
+    type: A0002
+    type_name: String
+    length: ''
+    required: true
+    description: ''
+  - code: cano
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 계좌번호 체계(8-2)의 앞 8자리
+  - code: acnt_prdt_cd
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 계좌번호 체계(8-2)의 뒤 2자리
+  - code: pdno
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 선물옵션종목코드
+  - code: prdt_type_cd
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: shtn_pdno
+    name: 단축상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '단축상품번호 (예: 101P09)'
+  - code: prdt_name
+    name: 상품명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: sll_buy_dvsn_name
+    name: 매도매수구분명
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: '매도/매수 구분의 명칭
+
+
+      - 매수잔고를 가진 경우, "매수" 혹은 "BUY"로 출력
+
+      - 매도잔고를 가진 경우, "매도" 혹은 "SLL"로 출력
+
+      - 당일 잔고를 청산하여 잔고를 가지고 있지 않은 경우 빈칸으로 출력'
+  - code: cblc_qty
+    name: 잔고수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 보유한 종목의 수량
+  - code: excc_unpr
+    name: 정산단가
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 당일 종가로 정산한 가격
+  - code: ccld_avg_unpr1
+    name: 체결평균단가1
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 보유한 종목의 평균 체결 가격
+  - code: idx_clpr
+    name: 지수종가
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: ''
+  - code: pchs_amt
+    name: 매입금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 보유 종목을 매수한 금액
+  - code: evlu_amt
+    name: 평가금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 보유 종목을 현재가로 평가하여 산출한 금액
+  - code: evlu_pfls_amt
+    name: 평가손익금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 매입금액과 평가금액을 비교한 손익
+  - code: trad_pfls_amt
+    name: 매매손익금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 매수와 매도가 완료된 수량에 대한 실현 손익
+  - code: lqd_psbl_qty
+    name: 청산가능수량
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 청산 가능한 수량
+  - code: output2
+    name: 응답상세2
+    type: A0003
+    type_name: String
+    length: ''
+    required: true
+    description: ''
+  - code: dnca_cash
+    name: 예수금현금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 원화로 보유한 현금 (현금미수금액, 수수료미수금액 차감)
+  - code: frcr_dncl_amt
+    name: 외화예수금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 외화로 보유한 현금
+  - code: dnca_sbst
+    name: 예수금대용
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 주식대용금액+채권대용금액+전일대용매도대용금액+당일대용매도대용금액
+  - code: tot_dncl_amt
+    name: 총예수금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 상기 3개 예수금 항목의 합계 금액
+  - code: tot_ccld_amt
+    name: 총체결금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 체결된 주문의 합계금액
+  - code: cash_mgna
+    name: 현금증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 원화 현금 중 주문증거금으로 사용된 금액
+  - code: sbst_mgna
+    name: 대용증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 대용 예수금 중 주문증거금으로 사용된 금액
+  - code: mgna_tota
+    name: 증거금총액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 증거금으로 사용된 항목의 합계 금액
+  - code: opt_dfpa
+    name: 옵션차금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 당일옵션매도금에서 당일옵션매수금을 차감한 금액
+  - code: thdt_dfpa
+    name: 당일차금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: '당일의 각 매수거래에 대하여 1에 의하여 산출한 금액의 합계액과 당일의 각 매도거래에 대하여 2에 의하여 산출한 금액의 합계액을 합산한 금액
+
+      1. 매수거래수량*(당일의 정산가격-체결가격)*최소가격변동금액*환산승수
+
+      2. 매도거래수량*(체결가격-당일의 정산가격)*최소가격변동금액*환산승수'
+  - code: rnwl_dfpa
+    name: 갱신차금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: '직전 거래일의 매수미결제약정에 대하여 1에 의하여 산출한 금액과 직전거래일의 매도미결제약정에 대하여 2에 의하여 산출한 금액을 합산한 금액
+
+      1. 매수미결제약정*(당일의 정산가격-직전거래일의 정산가격)*최소가격변동 금액*환산승수
+
+      2. 매도미결제약정*(직전거래일의 정산가격-당일의 정산가격)*최소가격변동 금액*환산승수'
+  - code: fee
+    name: 수수료
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 체결된 주문에 의한 매매수수료
+  - code: nxdy_dnca
+    name: 익일예수금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 당일 매매내역을 근거로 익일(결제일) 고객님 계좌에 있는 현금
+  - code: nxdy_dncl_amt
+    name: 익일예수금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: prsm_dpast
+    name: 추정예탁자산
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 보유한 잔고를 정산 기준으로 평가한 금액과 예수금을 합한 금액
+  - code: prsm_dpast_amt
+    name: 추정예탁자산금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: pprt_ord_psbl_cash
+    name: 적정주문가능현금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 미수없는 주문가능금액
+  - code: add_mgna_cash
+    name: 추가증거금현금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: '장 종료 후 예탁평가액이 유지증거금을 하회할 경우 또는 예탁현금이 결제금액 보다 적은 경우 고객이 추가적으로 납부해야
+
+      하는 증거금'
+  - code: add_mgna_tota
+    name: 추가증거금총액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: futr_trad_pfls_amt
+    name: 선물매매손익금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 선물 매수와 매도가 완료된 수량에 대한 실현 손익
+  - code: opt_trad_pfls_amt
+    name: 옵션매매손익금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 옵션 매수와 매도가 완료된 수량에 대한 실현 손익
+  - code: futr_evlu_pfls_amt
+    name: 선물평가손익금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 선물 잔고의 매입가격 또는 정산가격과 평가금액을 비교한 손익
+  - code: opt_evlu_pfls_amt
+    name: 옵션평가손익금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 옵션 잔고의 매입가격 또는 정산가격과 평가금액을 비교한 손익
+  - code: trad_pfls_amt_smtl
+    name: 매매손익금액합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 선물매매손익금액과 옵션매매손익금액을 합한 금액
+  - code: evlu_pfls_amt_smtl
+    name: 평가손익금액합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 선물평가손익금액과 옵션평가손익금액을 합한 금액
+  - code: wdrw_psbl_tot_amt
+    name: 인출가능총금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 출금 가능한 현금(예탁현금+예탁대용-예탁증거금총액)
+  - code: ord_psbl_cash
+    name: 주문가능현금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 예수금현금에서 현금증거금을 차감한 금액
+  - code: ord_psbl_sbst
+    name: 주문가능대용
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 예수금대용에서 대용증거금을 차감한 금액
+  - code: ord_psbl_tota
+    name: 주문가능총액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 주문가능현금과 주문가능대용을 합한 금액
+  - code: pchs_amt_smtl
+    name: 매입금액합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 종목별 매입금액의 합계 금액
+  - code: evlu_amt_smtl
+    name: 평가금액합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 종목별 평가금액의 합계 금액
+  example:
+    ctx_area_fk200: 연속조회검색조건200을 입력하세요.
+    output1:
+      lqd_psbl_qty:
+      - '6'
+      - '133'
+      - '110'
+      - '1000'
+      - '1000'
+      - '1000'
+      - '1000'
+      - '1'
+      - '25'
+      pdno:
+      - KR4101RC0000
+      - KR4101S30001
+      - KR4111RA0000
+      - KR41ACRC0005
+      - KR41ACS60004
+      - KR41ADRC0004
+      - KR41ADS30005
+      - KR41AES90007
+      - KR41DRRA0007
+      prdt_type_cd:
+      - '301'
+      - '301'
+      - '301'
+      - '301'
+      - '301'
+      - '301'
+      - '301'
+      - '301'
+      - '301'
+      pchs_amt:
+      - '586950000'
+      - '12937575000'
+      - '78980000'
+      - '3003000000'
+      - '3012000000'
+      - '5686000000'
+      - '5672000000'
+      - '2610000'
+      - '21350000'
+      sll_buy_dvsn_name:
+      - SLL
+      - BUY
+      - BUY
+      - BUY
+      - SLL
+      - BUY
+      - SLL
+      - SLL
+      - BUY
+      trad_pfls_amt:
+      - '0'
+      - '0'
+      - '0'
+      - '0'
+      - '0'
+      - '0'
+      - '0'
+      - '0'
+      - '0'
+      shtn_pdno:
+      - 101R12
+      - 101S03
+      - 111R10
+      - 1ACR12
+      - 1ACS06
+      - 1ADR12
+      - 1ADS03
+      - 1AES09
+      - 1DRR10
+      acnt_prdt_cd:
+      - ''
+      - ''
+      - ''
+      - ''
+      - ''
+      - ''
+      - ''
+      - ''
+      - ''
+      cblc_qty:
+      - '6'
+      - '133'
+      - '110'
+      - '1000'
+      - '1000'
+      - '1000'
+      - '1000'
+      - '1'
+      - '25'
+      excc_unpr:
+      - '391.30000000'
+      - '389.10000000'
+      - '71800.00000000'
+      - '3003.00000000'
+      - '3012.00000000'
+      - '5686.00000000'
+      - '5672.00000000'
+      - '2610.00000000'
+      - '85400.00000000'
+      cano:
+      - ''
+      - ''
+      - ''
+      - ''
+      - ''
+      - ''
+      - ''
+      - ''
+      - ''
+      idx_clpr:
+      - '380.55000000'
+      - '389.10000000'
+      - '71800.00000000'
+      - '3003.00000000'
+      - '3012.00000000'
+      - '5686.00000000'
+      - '5672.00000000'
+      - '2610.00000000'
+      - '85400.00000000'
+      ccld_avg_unpr1:
+      - '402.28975400'
+      - '406.38538995'
+      - '71618.18181818'
+      - '4626.00000000'
+      - '4766.50000000'
+      - '6992.50000000'
+      - '5695.50000000'
+      - '3430.50000000'
+      - '87700.00000000'
+      evlu_pfls_amt:
+      - '16125000'
+      - '0'
+      - '0'
+      - '0'
+      - '0'
+      - '0'
+      - '0'
+      - '0'
+      - '0'
+      evlu_amt:
+      - '570825000'
+      - '12937575000'
+      - '78980000'
+      - '3003000000'
+      - '3012000000'
+      - '5686000000'
+      - '5672000000'
+      - '2610000'
+      - '21350000'
+      prdt_name:
+      - F 202112
+      - F 202203
+      - SamsungEle F 202110 (  10)
+      - BBIG K-NewDeal     F 202112
+      - BBIG K-NewDeal     F 202206
+      - Battery K-NewDeal  F 202112
+      - Battery K-NewDeal  F 202203
+      - Bio K-NewDeal      F 202209
+      - C2S        F 202110 (  10)
+    rt_cd: '0'
+    output2:
+      nxdy_dnca: '90016125000'
+      sbst_mgna: '1391065523'
+      cash_mgna: '0'
+      ord_psbl_tota: '88608934477'
+      opt_dfpa: '0'
+      fee: '0'
+      pchs_amt_smtl: '31000465000'
+      prsm_dpast: '90016125000'
+      evlu_pfls_amt_smtl: '16125000'
+      thdt_dfpa: '0'
+      prsm_dpast_amt: '90016125000'
+      frcr_dncl_amt: '0'
+      pprt_ord_psbl_cash: '88608934477'
+      evlu_amt_smtl: '30984340000'
+      futr_trad_pfls_amt: '0'
+      rnwl_dfpa: '16125000'
+      futr_evlu_pfls_amt: '16125000'
+      wdrw_psbl_tot_amt: '88608934477'
+      dnca_sbst: '0'
+      opt_evlu_pfls_amt: '0'
+      dnca_cash: '90000000000'
+      tot_dncl_amt: '90000000000'
+      nxdy_dncl_amt: '90016125000'
+      tot_ccld_amt: '0'
+      opt_trad_pfls_amt: '0'
+      trad_pfls_amt_smtl: '0'
+      ord_psbl_cash: '88608934477'
+      mgna_tota: '1391065523'
+      ord_psbl_sbst: '0'
+      add_mgna_tota: '0'
+      add_mgna_cash: '0'
+    msg1: '조회 되었습니다. (마지막 자료) '
+    msg_cd: KIOK0460
+    ctx_area_nk200: ''
+errors: []

@@ -1,0 +1,398 @@
+id: fdb555c9-b958-48ad-a836-fd81f18ad73e
+name: 국내주식 기타주요비율[v1_국내주식-082]
+section: '[국내주식] 종목정보'
+category: 국내주식
+subcategory: 종목정보
+method: GET
+url: /uapi/domestic-stock/v1/finance/other-major-ratios
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- FHKST66430500
+- 모의투자 미지원
+real_tr_id: FHKST66430500
+virtual_tr_id: 모의투자 미지원
+summary: '국내주식 기타주요비율 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0635] 재무분석종합 화면의 하단 ''9. 기타주요비율'' 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-02-29T09:29:26+09:00'
+  last_modified_date: '2025-05-14T13:19:30+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKST66430500
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: fid_input_iscd
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '000660 : 종목코드'
+  - code: fid_div_cls_code
+    name: 분류 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '0: 년, 1: 분기'
+  - code: fid_cond_mrkt_div_code
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: J
+  example:
+    fid_cond_mrkt_div_code: J
+    fid_input_iscd: 005930
+    fid_div_cls_code: '1'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: stac_yymm
+    name: 결산 년월
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: payout_rate
+    name: 배당 성향
+    type: A0001
+    type_name: String
+    length: '92'
+    required: true
+    description: 비정상 출력되는 데이터로 무시
+  - code: eva
+    name: EVA
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: ebitda
+    name: EBITDA
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: ev_ebitda
+    name: EV_EBITDA
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  example:
+    output:
+    - stac_yymm: '202309'
+      payout_rate: '-0.02'
+      eva: '0.00'
+      ebitda: '23464.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '202306'
+      payout_rate: '-0.02'
+      eva: '0.00'
+      ebitda: '7851.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '202303'
+      payout_rate: '-0.05'
+      eva: '0.00'
+      ebitda: '1574.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '202212'
+      payout_rate: '0.05'
+      eva: '-18075.00'
+      ebitda: '209609.00'
+      ev_ebitda: '3.48'
+    - stac_yymm: '202209'
+      payout_rate: '0.02'
+      eva: '0.00'
+      ebitda: '191549.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '202206'
+      payout_rate: '0.02'
+      eva: '0.00'
+      ebitda: '139382.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '202203'
+      payout_rate: '0.06'
+      eva: '0.00'
+      ebitda: '62600.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '202112'
+      payout_rate: '0.01'
+      eva: '40178.00'
+      ebitda: '230671.00'
+      ev_ebitda: '4.59'
+    - stac_yymm: '202109'
+      payout_rate: '0.02'
+      eva: '0.00'
+      ebitda: '160524.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '202106'
+      payout_rate: '0.04'
+      eva: '0.00'
+      ebitda: '91711.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '202103'
+      payout_rate: '0.12'
+      eva: '0.00'
+      ebitda: '38610.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '202012'
+      payout_rate: '0.03'
+      eva: '3789.00'
+      ebitda: '147848.00'
+      ev_ebitda: '6.37'
+    - stac_yymm: '202009'
+      payout_rate: '0.04'
+      eva: '0.00'
+      ebitda: '112945.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '202006'
+      payout_rate: '0.06'
+      eva: '0.00'
+      ebitda: '75099.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '202003'
+      payout_rate: '0.19'
+      eva: '0.00'
+      ebitda: '31351.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '201912'
+      payout_rate: '0.06'
+      eva: '-24528.00'
+      ebitda: '113396.00'
+      ev_ebitda: '6.76'
+    - stac_yymm: '201909'
+      payout_rate: '0.06'
+      eva: '0.00'
+      ebitda: '87849.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '201906'
+      payout_rate: '0.07'
+      eva: '0.00'
+      ebitda: '61528.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '201903'
+      payout_rate: '0.11'
+      eva: '0.00'
+      ebitda: '34045.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '201812'
+      payout_rate: '0.01'
+      eva: '123025.00'
+      ebitda: '272721.00'
+      ev_ebitda: '1.62'
+    - stac_yymm: '201809'
+      payout_rate: '0.01'
+      eva: '0.00'
+      ebitda: '210889.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '201806'
+      payout_rate: '0.02'
+      eva: '0.00'
+      ebitda: '129647.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '201803'
+      payout_rate: '0.04'
+      eva: '0.00'
+      ebitda: '58160.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '201712'
+      payout_rate: '0.01'
+      eva: '77272.00'
+      ebitda: '187476.00'
+      ev_ebitda: '2.97'
+    - stac_yymm: '201709'
+      payout_rate: '0.02'
+      eva: '0.00'
+      ebitda: '129433.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '201706'
+      payout_rate: '0.03'
+      eva: '0.00'
+      ebitda: '78973.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '201703'
+      payout_rate: '0.06'
+      eva: '0.00'
+      ebitda: '36327.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '201612'
+      payout_rate: '0.04'
+      eva: '11971.00'
+      ebitda: '77332.00'
+      ev_ebitda: '4.23'
+    - stac_yymm: '201609'
+      payout_rate: '0.09'
+      eva: '0.00'
+      ebitda: '50536.00'
+      ev_ebitda: '0.00'
+    - stac_yymm: '201606'
+      payout_rate: '0.16'
+      eva: '0.00'
+      ebitda: '32197.00'
+      ev_ebitda: '0.00'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

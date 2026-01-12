@@ -1,0 +1,627 @@
+id: 1900e01f-58a4-4c4d-b15d-4a30283af4c2
+name: 국내주식 실시간회원사 (NXT)
+section: '[국내주식] 실시간시세'
+category: 국내주식
+subcategory: 실시간시세
+method: POST
+url: /tryitout/H0NXMBC0
+content_type: ''
+req_format: ''
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- H0NXMBC0
+real_tr_id: H0NXMBC0
+virtual_tr_id: 모의투자 미지원
+summary: ''
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2025-03-06T17:42:58+09:00'
+  last_modified_date: '2025-04-30T13:19:47+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '286'
+    required: false
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: custtype
+    name: 고객타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '''B : 법인
+
+      P : 개인'''
+  - code: tr_type
+    name: 거래타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '''1 : 등록
+
+      2 : 해제'''
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: "'\tutf-8'"
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 'H0NXMBC0 : 국내주식 주식종목회원사 (NXT)'
+  - code: tr_key
+    name: 구분값
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목코드 (ex 005930 삼성전자)
+  example: null
+response:
+  headers: []
+  body:
+  - code: MKSC_SHRN_ISCD
+    name: 유가증권 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: SELN2_MBCR_NAME1
+    name: 매도2 회원사명1
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: SELN2_MBCR_NAME2
+    name: 매도2 회원사명2
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: SELN2_MBCR_NAME3
+    name: 매도2 회원사명3
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: SELN2_MBCR_NAME4
+    name: 매도2 회원사명4
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: SELN2_MBCR_NAME5
+    name: 매도2 회원사명5
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: BYOV_MBCR_NAME1
+    name: 매수 회원사명1
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: BYOV_MBCR_NAME2
+    name: 매수 회원사명2
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: BYOV_MBCR_NAME3
+    name: 매수 회원사명3
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: BYOV_MBCR_NAME4
+    name: 매수 회원사명4
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: BYOV_MBCR_NAME5
+    name: 매수 회원사명5
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: TOTAL_SELN_QTY1
+    name: 총 매도 수량1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_SELN_QTY2
+    name: 총 매도 수량2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_SELN_QTY3
+    name: 총 매도 수량3
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_SELN_QTY4
+    name: 총 매도 수량4
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_SELN_QTY5
+    name: 총 매도 수량5
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_SHNU_QTY1
+    name: 총 매수2 수량1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_SHNU_QTY2
+    name: 총 매수2 수량2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_SHNU_QTY3
+    name: 총 매수2 수량3
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_SHNU_QTY4
+    name: 총 매수2 수량4
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_SHNU_QTY5
+    name: 총 매수2 수량5
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SELN_MBCR_GLOB_YN_1
+    name: 매도거래원구분1
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SELN_MBCR_GLOB_YN_2
+    name: 매도거래원구분2
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SELN_MBCR_GLOB_YN_3
+    name: 매도거래원구분3
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SELN_MBCR_GLOB_YN_4
+    name: 매도거래원구분4
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SELN_MBCR_GLOB_YN_5
+    name: 매도거래원구분5
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_GLOB_YN_1
+    name: 매수거래원구분1
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_GLOB_YN_2
+    name: 매수거래원구분2
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_GLOB_YN_3
+    name: 매수거래원구분3
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_GLOB_YN_4
+    name: 매수거래원구분4
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_GLOB_YN_5
+    name: 매수거래원구분5
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SELN_MBCR_NO1
+    name: 매도거래원코드1
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: SELN_MBCR_NO2
+    name: 매도거래원코드2
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: SELN_MBCR_NO3
+    name: 매도거래원코드3
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: SELN_MBCR_NO4
+    name: 매도거래원코드4
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: SELN_MBCR_NO5
+    name: 매도거래원코드5
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_NO1
+    name: 매수거래원코드1
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_NO2
+    name: 매수거래원코드2
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_NO3
+    name: 매수거래원코드3
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_NO4
+    name: 매수거래원코드4
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_NO5
+    name: 매수거래원코드5
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: SELN_MBCR_RLIM1
+    name: 매도 회원사 비중1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SELN_MBCR_RLIM2
+    name: 매도 회원사 비중2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SELN_MBCR_RLIM3
+    name: 매도 회원사 비중3
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SELN_MBCR_RLIM4
+    name: 매도 회원사 비중4
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SELN_MBCR_RLIM5
+    name: 매도 회원사 비중5
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_RLIM1
+    name: 매수2 회원사 비중1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_RLIM2
+    name: 매수2 회원사 비중2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_RLIM3
+    name: 매수2 회원사 비중3
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_RLIM4
+    name: 매수2 회원사 비중4
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SHNU_MBCR_RLIM5
+    name: 매수2 회원사 비중5
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SELN_QTY_ICDC1
+    name: 매도 수량 증감1
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: SELN_QTY_ICDC2
+    name: 매도 수량 증감2
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: SELN_QTY_ICDC3
+    name: 매도 수량 증감3
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: SELN_QTY_ICDC4
+    name: 매도 수량 증감4
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: SELN_QTY_ICDC5
+    name: 매도 수량 증감5
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: SHNU_QTY_ICDC1
+    name: 매수2 수량 증감1
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: SHNU_QTY_ICDC2
+    name: 매수2 수량 증감2
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: SHNU_QTY_ICDC3
+    name: 매수2 수량 증감3
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: SHNU_QTY_ICDC4
+    name: 매수2 수량 증감4
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: SHNU_QTY_ICDC5
+    name: 매수2 수량 증감5
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: GLOB_TOTAL_SELN_QTY
+    name: 외국계 총 매도 수량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: GLOB_TOTAL_SHNU_QTY
+    name: 외국계 총 매수2 수량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: GLOB_TOTAL_SELN_QTY_ICDC
+    name: 외국계 총 매도 수량 증감
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: GLOB_TOTAL_SHNU_QTY_ICDC
+    name: 외국계 총 매수2 수량 증감
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: GLOB_NTBY_QTY
+    name: 외국계 순매수 수량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: GLOB_SELN_RLIM
+    name: 외국계 매도 비중
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: GLOB_SHNU_RLIM
+    name: 외국계 매수2 비중
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SELN2_MBCR_ENG_NAME1
+    name: 매도2 영문회원사명1
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: SELN2_MBCR_ENG_NAME2
+    name: 매도2 영문회원사명2
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: SELN2_MBCR_ENG_NAME3
+    name: 매도2 영문회원사명3
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: SELN2_MBCR_ENG_NAME4
+    name: 매도2 영문회원사명4
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: SELN2_MBCR_ENG_NAME5
+    name: 매도2 영문회원사명5
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: BYOV_MBCR_ENG_NAME1
+    name: 매수 영문회원사명1
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: BYOV_MBCR_ENG_NAME2
+    name: 매수 영문회원사명2
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: BYOV_MBCR_ENG_NAME3
+    name: 매수 영문회원사명3
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: BYOV_MBCR_ENG_NAME4
+    name: 매수 영문회원사명4
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: BYOV_MBCR_ENG_NAME5
+    name: 매수 영문회원사명5
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  example: null
+errors: []

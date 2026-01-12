@@ -1,0 +1,356 @@
+id: 506cd6e9-97d9-4c4b-82bc-6a6c13586885
+name: 해외옵션 호가 [해외선물-033]
+section: '[해외선물옵션] 기본시세'
+category: 해외선물옵션
+subcategory: 기본시세
+method: GET
+url: /uapi/overseas-futureoption/v1/quotations/opt-asking-price
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- HHDFO86000000
+real_tr_id: HHDFO86000000
+virtual_tr_id: 모의투자 미지원
+summary: '해외옵션 호가 API입니다.
+
+  한국투자 HTS(eFriend Force) > [5501] 해외선물옵션 현재가 화면 의 "왼쪽 상단 현재가" 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-24T10:16:18+09:00'
+  last_modified_date: '2025-04-30T12:59:18+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHDFO86000000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: SRS_CD
+    name: 종목명
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 예)OESM24 C5340
+  example: SRS_CD:OTXM24 C22000
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: open_price
+    name: 시가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: high_price
+    name: 고가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: lowp_rice
+    name: 저가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: last_price
+    name: 현재가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: sttl_price
+    name: 정산가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: vol
+    name: 거래량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prev_diff_price
+    name: 전일대비가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: prev_diff_rate
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: quot_date
+    name: 호가수신일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: quot_time
+    name: 호가수신시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array (1호가~ 5호가 순서대로 표시)
+  - code: bid_qntt
+    name: 매수수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bid_num
+    name: 매수번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bid_price
+    name: 매수호가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: ask_qntt
+    name: 매도수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ask_num
+    name: 매도번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ask_price
+    name: 매도호가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  example:
+    output1:
+      open_price: '          282.0'
+      high_price: '          295.0'
+      lowp_rice: '          280.0'
+      last_price: '          290.0'
+      sttl_price: '          288.0'
+      vol: '       100'
+      prev_diff_price: '            2.0'
+      prev_diff_rate: '      0.69'
+      quot_date: '20240528'
+      quot_time: '184601'
+    output2:
+    - bid_qntt: '        37'
+      bid_num: '         0'
+      bid_price: '          288.0'
+      ask_qntt: '         4'
+      ask_num: '         0'
+      ask_price: '          290.0'
+    - bid_qntt: '        43'
+      bid_num: '         0'
+      bid_price: '          287.0'
+      ask_qntt: '         8'
+      ask_num: '         0'
+      ask_price: '          291.0'
+    - bid_qntt: '        20'
+      bid_num: '         0'
+      bid_price: '          285.0'
+      ask_qntt: '        54'
+      ask_num: '         0'
+      ask_price: '          292.0'
+    - bid_qntt: '         4'
+      bid_num: '         0'
+      bid_price: '          280.0'
+      ask_qntt: '        21'
+      ask_num: '         0'
+      ask_price: '          295.0'
+    - bid_qntt: '         5'
+      bid_num: '         0'
+      bid_price: '          276.0'
+      ask_qntt: '         1'
+      ask_num: '         0'
+      ask_price: '          296.0'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

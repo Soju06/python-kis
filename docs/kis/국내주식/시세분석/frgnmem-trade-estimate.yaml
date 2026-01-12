@@ -1,0 +1,382 @@
+id: f13f5e30-1065-451b-bcd3-06543b840a2e
+name: 외국계 매매종목 가집계 [국내주식-161]
+section: '[국내주식] 시세분석'
+category: 국내주식
+subcategory: 시세분석
+method: GET
+url: /uapi/domestic-stock/v1/quotations/frgnmem-trade-estimate
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 미지원
+tr_ids:
+- FHKST644100C0
+- 모의투자 미지원
+real_tr_id: FHKST644100C0
+virtual_tr_id: 모의투자 미지원
+summary: '외국계 매매종목 가집계 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0430] 외국계 매매종목 가집계 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-03T12:42:14+09:00'
+  last_modified_date: '2025-05-14T14:32:06+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKST644100C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건시장분류코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 시장구분코드 (J)
+  - code: FID_COND_SCR_DIV_CODE
+    name: 조건화면분류코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: Uniquekey (16441)
+  - code: FID_INPUT_ISCD
+    name: 입력종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 0000(전체), 1001(코스피), 2001(코스닥)
+  - code: FID_RANK_SORT_CLS_CODE
+    name: 순위정렬구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 0(금액순), 1(수량순)
+  - code: FID_RANK_SORT_CLS_CODE_2
+    name: 순위정렬구분코드2
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 0(매수순), 1(매도순)
+  example: "FID_COND_MRKT_DIV_CODE:J\r\nFID_COND_SCR_DIV_CODE:16441\r\nFID_INPUT_ISCD:0000\r\nFID_RANK_SORT_CLS_CODE:0\r\n\
+    FID_RANK_SORT_CLS_CODE_2:0"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: stck_shrn_iscd
+    name: 주식단축종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS한글종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: glob_ntsl_qty
+    name: 외국계순매도수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: stck_prpr
+    name: 주식현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: glob_total_seln_qty
+    name: 외국계총매도수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: glob_total_shnu_qty
+    name: 외국계총매수2수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  example: "{\r\n    \"output\": [\r\n        {\r\n            \"stck_shrn_iscd\": \"005930\",\r\n            \"hts_kor_isnm\"\
+    : \"삼성전자\",\r\n            \"glob_ntsl_qty\": \"3870530\",\r\n            \"stck_prpr\": \"81300\",\r\n            \"\
+    prdy_vrss\": \"3700\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"4.77\",\r\n         \
+    \   \"acml_vol\": \"24892595\",\r\n            \"glob_total_seln_qty\": \"547879\",\r\n            \"glob_total_shnu_qty\"\
+    : \"4418409\"\r\n        },\r\n        {\r\n            \"stck_shrn_iscd\": \"000660\",\r\n            \"hts_kor_isnm\"\
+    : \"SK하이닉스\",\r\n            \"glob_ntsl_qty\": \"964256\",\r\n            \"stck_prpr\": \"179600\",\r\n            \"\
+    prdy_vrss\": \"6400\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"3.70\",\r\n         \
+    \   \"acml_vol\": \"4333233\",\r\n            \"glob_total_seln_qty\": \"680043\",\r\n            \"glob_total_shnu_qty\"\
+    : \"1644299\"\r\n        },\r\n        {\r\n            \"stck_shrn_iscd\": \"267260\",\r\n            \"hts_kor_isnm\"\
+    : \"HD현대일렉트릭\",\r\n            \"glob_ntsl_qty\": \"329507\",\r\n            \"stck_prpr\": \"252000\",\r\n          \
+    \  \"prdy_vrss\": \"22000\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"9.57\",\r\n   \
+    \         \"acml_vol\": \"955597\",\r\n            \"glob_total_seln_qty\": \"87986\",\r\n            \"glob_total_shnu_qty\"\
+    : \"417493\"\r\n        },\r\n        {\r\n            \"stck_shrn_iscd\": \"005935\",\r\n            \"hts_kor_isnm\"\
+    : \"삼성전자우\",\r\n            \"glob_ntsl_qty\": \"455400\",\r\n            \"stck_prpr\": \"66900\",\r\n            \"\
+    prdy_vrss\": \"2300\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"3.56\",\r\n         \
+    \   \"acml_vol\": \"1554888\",\r\n            \"glob_total_seln_qty\": \"211634\",\r\n            \"glob_total_shnu_qty\"\
+    : \"667034\"\r\n        },\r\n        {\r\n            \"stck_shrn_iscd\": \"011070\",\r\n            \"hts_kor_isnm\"\
+    : \"LG이노텍\",\r\n            \"glob_ntsl_qty\": \"79842\",\r\n            \"stck_prpr\": \"239500\",\r\n            \"\
+    prdy_vrss\": \"5000\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"2.13\",\r\n         \
+    \   \"acml_vol\": \"283787\",\r\n            \"glob_total_seln_qty\": \"0\",\r\n            \"glob_total_shnu_qty\": \"\
+    79842\"\r\n        },\r\n        {\r\n            \"stck_shrn_iscd\": \"012450\",\r\n            \"hts_kor_isnm\": \"\
+    한화에어로스페이스\",\r\n            \"glob_ntsl_qty\": \"56853\",\r\n            \"stck_prpr\": \"218500\",\r\n            \"\
+    prdy_vrss\": \"3000\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"1.39\",\r\n         \
+    \   \"acml_vol\": \"334636\",\r\n            \"glob_total_seln_qty\": \"15218\",\r\n            \"glob_total_shnu_qty\"\
+    : \"72071\"\r\n        },\r\n        {\r\n            \"stck_shrn_iscd\": \"010140\",\r\n            \"hts_kor_isnm\"\
+    : \"삼성중공업\",\r\n            \"glob_ntsl_qty\": \"1230023\",\r\n            \"stck_prpr\": \"9600\",\r\n            \"\
+    prdy_vrss\": \"210\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"2.24\",\r\n          \
+    \  \"acml_vol\": \"7158181\",\r\n            \"glob_total_seln_qty\": \"0\",\r\n            \"glob_total_shnu_qty\": \"\
+    1230023\"\r\n        },\r\n        {\r\n            \"stck_shrn_iscd\": \"009150\",\r\n            \"hts_kor_isnm\": \"\
+    삼성전기\",\r\n            \"glob_ntsl_qty\": \"73431\",\r\n            \"stck_prpr\": \"158000\",\r\n            \"prdy_vrss\"\
+    : \"6900\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"4.57\",\r\n            \"acml_vol\"\
+    : \"551401\",\r\n            \"glob_total_seln_qty\": \"3452\",\r\n            \"glob_total_shnu_qty\": \"76883\"\r\n\
+    \        },\r\n        {\r\n            \"stck_shrn_iscd\": \"316140\",\r\n            \"hts_kor_isnm\": \"우리금융지주\",\r\
+    \n            \"glob_ntsl_qty\": \"605764\",\r\n            \"stck_prpr\": \"14190\",\r\n            \"prdy_vrss\": \"\
+    60\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"0.42\",\r\n            \"acml_vol\": \"\
+    2313443\",\r\n            \"glob_total_seln_qty\": \"0\",\r\n            \"glob_total_shnu_qty\": \"605764\"\r\n     \
+    \   },\r\n        {\r\n            \"stck_shrn_iscd\": \"010120\",\r\n            \"hts_kor_isnm\": \"LS ELECTRIC\",\r\
+    \n            \"glob_ntsl_qty\": \"47936\",\r\n            \"stck_prpr\": \"164800\",\r\n            \"prdy_vrss\": \"\
+    5000\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"3.13\",\r\n            \"acml_vol\"\
+    : \"787906\",\r\n            \"glob_total_seln_qty\": \"0\",\r\n            \"glob_total_shnu_qty\": \"47936\"\r\n   \
+    \     },\r\n        {\r\n            \"stck_shrn_iscd\": \"035420\",\r\n            \"hts_kor_isnm\": \"NAVER\",\r\n \
+    \           \"glob_ntsl_qty\": \"35414\",\r\n            \"stck_prpr\": \"194800\",\r\n            \"prdy_vrss\": \"200\"\
+    ,\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"0.10\",\r\n            \"acml_vol\": \"1270446\"\
+    ,\r\n            \"glob_total_seln_qty\": \"3814\",\r\n            \"glob_total_shnu_qty\": \"39228\"\r\n        },\r\n\
+    \        {\r\n            \"stck_shrn_iscd\": \"034020\",\r\n            \"hts_kor_isnm\": \"두산에너빌리티\",\r\n          \
+    \  \"glob_ntsl_qty\": \"407917\",\r\n            \"stck_prpr\": \"17080\",\r\n            \"prdy_vrss\": \"530\",\r\n\
+    \            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"3.20\",\r\n            \"acml_vol\": \"4896880\"\
+    ,\r\n            \"glob_total_seln_qty\": \"0\",\r\n            \"glob_total_shnu_qty\": \"407917\"\r\n        },\r\n\
+    \        {\r\n            \"stck_shrn_iscd\": \"032830\",\r\n            \"hts_kor_isnm\": \"삼성생명\",\r\n            \"\
+    glob_ntsl_qty\": \"71420\",\r\n            \"stck_prpr\": \"88300\",\r\n            \"prdy_vrss\": \"4500\",\r\n     \
+    \       \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"5.37\",\r\n            \"acml_vol\": \"428755\",\r\n\
+    \            \"glob_total_seln_qty\": \"106254\",\r\n            \"glob_total_shnu_qty\": \"177674\"\r\n        },\r\n\
+    \        {\r\n            \"stck_shrn_iscd\": \"196170\",\r\n            \"hts_kor_isnm\": \"알테오젠\",\r\n            \"\
+    glob_ntsl_qty\": \"29877\",\r\n            \"stck_prpr\": \"177300\",\r\n            \"prdy_vrss\": \"100\",\r\n     \
+    \       \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"0.06\",\r\n            \"acml_vol\": \"848702\",\r\n\
+    \            \"glob_total_seln_qty\": \"902\",\r\n            \"glob_total_shnu_qty\": \"30779\"\r\n        },\r\n   \
+    \     {\r\n            \"stck_shrn_iscd\": \"031980\",\r\n            \"hts_kor_isnm\": \"피에스케이홀딩스\",\r\n            \"\
+    glob_ntsl_qty\": \"107530\",\r\n            \"stck_prpr\": \"50500\",\r\n            \"prdy_vrss\": \"3900\",\r\n    \
+    \        \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"8.37\",\r\n            \"acml_vol\": \"625360\",\r\
+    \n            \"glob_total_seln_qty\": \"0\",\r\n            \"glob_total_shnu_qty\": \"107530\"\r\n        },\r\n   \
+    \     {\r\n            \"stck_shrn_iscd\": \"036930\",\r\n            \"hts_kor_isnm\": \"주성엔지니어링\",\r\n            \"\
+    glob_ntsl_qty\": \"139898\",\r\n            \"stck_prpr\": \"34950\",\r\n            \"prdy_vrss\": \"600\",\r\n     \
+    \       \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"1.75\",\r\n            \"acml_vol\": \"782431\",\r\n\
+    \            \"glob_total_seln_qty\": \"0\",\r\n            \"glob_total_shnu_qty\": \"139898\"\r\n        },\r\n    \
+    \    {\r\n            \"stck_shrn_iscd\": \"259960\",\r\n            \"hts_kor_isnm\": \"크래프톤\",\r\n            \"glob_ntsl_qty\"\
+    : \"18822\",\r\n            \"stck_prpr\": \"257500\",\r\n            \"prdy_vrss\": \"6500\",\r\n            \"prdy_vrss_sign\"\
+    : \"2\",\r\n            \"prdy_ctrt\": \"2.59\",\r\n            \"acml_vol\": \"192541\",\r\n            \"glob_total_seln_qty\"\
+    : \"20936\",\r\n            \"glob_total_shnu_qty\": \"39758\"\r\n        },\r\n        {\r\n            \"stck_shrn_iscd\"\
+    : \"024110\",\r\n            \"hts_kor_isnm\": \"기업은행\",\r\n            \"glob_ntsl_qty\": \"296747\",\r\n           \
+    \ \"stck_prpr\": \"13760\",\r\n            \"prdy_vrss\": \"100\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n     \
+    \       \"prdy_ctrt\": \"0.73\",\r\n            \"acml_vol\": \"1259841\",\r\n            \"glob_total_seln_qty\": \"\
+    0\",\r\n            \"glob_total_shnu_qty\": \"296747\"\r\n        },\r\n        {\r\n            \"stck_shrn_iscd\":\
+    \ \"047810\",\r\n            \"hts_kor_isnm\": \"한국항공우주\",\r\n            \"glob_ntsl_qty\": \"75000\",\r\n          \
+    \  \"stck_prpr\": \"53200\",\r\n            \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n      \
+    \      \"prdy_ctrt\": \"0.00\",\r\n            \"acml_vol\": \"499071\",\r\n            \"glob_total_seln_qty\": \"0\"\
+    ,\r\n            \"glob_total_shnu_qty\": \"75000\"\r\n        },\r\n        {\r\n            \"stck_shrn_iscd\": \"298040\"\
+    ,\r\n            \"hts_kor_isnm\": \"효성중공업\",\r\n            \"glob_ntsl_qty\": \"13317\",\r\n            \"stck_prpr\"\
+    : \"298000\",\r\n            \"prdy_vrss\": \"9500\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\"\
+    : \"3.29\",\r\n            \"acml_vol\": \"127846\",\r\n            \"glob_total_seln_qty\": \"435\",\r\n            \"\
+    glob_total_shnu_qty\": \"13752\"\r\n        },\r\n        {\r\n            \"stck_shrn_iscd\": \"000720\",\r\n       \
+    \     \"hts_kor_isnm\": \"현대건설\",\r\n            \"glob_ntsl_qty\": \"105515\",\r\n            \"stck_prpr\": \"35600\"\
+    ,\r\n            \"prdy_vrss\": \"350\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"0.99\"\
+    ,\r\n            \"acml_vol\": \"383978\",\r\n            \"glob_total_seln_qty\": \"9872\",\r\n            \"glob_total_shnu_qty\"\
+    : \"115387\"\r\n        },\r\n        {\r\n            \"stck_shrn_iscd\": \"084370\",\r\n            \"hts_kor_isnm\"\
+    : \"유진테크\",\r\n            \"glob_ntsl_qty\": \"60338\",\r\n            \"stck_prpr\": \"57600\",\r\n            \"prdy_vrss\"\
+    : \"2200\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"3.97\",\r\n            \"acml_vol\"\
+    : \"242728\",\r\n            \"glob_total_seln_qty\": \"18396\",\r\n            \"glob_total_shnu_qty\": \"78734\"\r\n\
+    \        },\r\n        {\r\n            \"stck_shrn_iscd\": \"064350\",\r\n            \"hts_kor_isnm\": \"현대로템\",\r\n\
+    \            \"glob_ntsl_qty\": \"91584\",\r\n            \"stck_prpr\": \"38100\",\r\n            \"prdy_vrss\": \"150\"\
+    ,\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"0.40\",\r\n            \"acml_vol\": \"1032621\"\
+    ,\r\n            \"glob_total_seln_qty\": \"2256\",\r\n            \"glob_total_shnu_qty\": \"93840\"\r\n        },...\r\
+    \n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"MCA00000\",\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

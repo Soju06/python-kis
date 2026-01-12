@@ -1,0 +1,629 @@
+id: 263ef907-db8c-4bf6-8da9-388c8fb4cf10
+name: ELW 기초자산별 종목시세 [국내주식-186]
+section: '[국내주식] ELW 시세'
+category: 국내주식
+subcategory: ELW 시세
+method: GET
+url: /uapi/elw/v1/quotations/udrl-asset-price
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- FHKEW154101C0
+- 모의투자 미지원
+real_tr_id: FHKEW154101C0
+virtual_tr_id: 모의투자 미지원
+summary: 'ELW 기초자산별 종목시세  API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0288] ELW 기초자산별 ELW 시세 화면의 "우측 기초자산별 종목 리스트" 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-26T09:28:29+09:00'
+  last_modified_date: '2025-05-07T09:38:47+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKEW154101C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건시장분류코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 시장구분(W)
+  - code: FID_COND_SCR_DIV_CODE
+    name: 조건화면분류코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: Uniquekey(11541)
+  - code: FID_MRKT_CLS_CODE
+    name: 시장구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 전체(A),콜(C),풋(P)
+  - code: FID_INPUT_ISCD
+    name: 입력종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '''00000(전체), 00003(한국투자증권)
+
+      , 00017(KB증권), 00005(미래에셋주식회사)'''
+  - code: FID_UNAS_INPUT_ISCD
+    name: 기초자산입력종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: FID_VOL_CNT
+    name: 거래량수
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 전일거래량(정수량미만)
+  - code: FID_TRGT_EXLS_CLS_CODE
+    name: 대상제외구분코드
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 거래불가종목제외(0:미체크,1:체크)
+  - code: FID_INPUT_PRICE_1
+    name: 입력가격1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 가격~원이상
+  - code: FID_INPUT_PRICE_2
+    name: 입력가격2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 가격~월이하
+  - code: FID_INPUT_VOL_1
+    name: 입력거래량1
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 거래량~계약이상
+  - code: FID_INPUT_VOL_2
+    name: 입력거래량2
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 거래량~계약이하
+  - code: FID_INPUT_RMNN_DYNU_1
+    name: 입력잔존일수1
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 잔존일(~일이상)
+  - code: FID_INPUT_RMNN_DYNU_2
+    name: 입력잔존일수2
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 잔존일(~일이하)
+  - code: FID_OPTION
+    name: 옵션
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 옵션상태(0:없음,1:ATM,2:ITM,3:OTM)
+  - code: FID_INPUT_OPTION_1
+    name: 입력옵션1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: FID_INPUT_OPTION_2
+    name: 입력옵션2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example: "FID_COND_MRKT_DIV_CODE:W\r\nFID_COND_SCR_DIV_CODE:11541\r\nFID_MRKT_CLS_CODE:A\r\nFID_INPUT_ISCD:00000\r\nFID_UNAS_INPUT_ISCD:005930\r\
+    \nFID_VOL_CNT:\r\nFID_TRGT_EXLS_CLS_CODE:0\r\nFID_INPUT_PRICE_1:\r\nFID_INPUT_PRICE_2:\r\nFID_INPUT_VOL_1:\r\nFID_INPUT_VOL_2:\r\
+    \nFID_INPUT_RMNN_DYNU_1:\r\nFID_INPUT_RMNN_DYNU_2:\r\nFID_OPTION:0\r\nFID_INPUT_OPTION_1:\r\nFID_INPUT_OPTION_2:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: elw_shrn_iscd
+    name: ELW단축종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS한글종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: elw_prpr
+    name: ELW현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: acpr
+    name: 행사가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: prls_qryr_stpr_prc
+    name: 손익분기주가가격
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: hts_rmnn_dynu
+    name: HTS잔존일수
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: hts_ints_vltl
+    name: HTS내재변동성
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: stck_cnvr_rate
+    name: 주식전환비율
+    type: A0001
+    type_name: String
+    length: '136'
+    required: true
+    description: ''
+  - code: lp_hvol
+    name: LP보유량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: lp_rlim
+    name: LP비중
+    type: A0001
+    type_name: String
+    length: '52'
+    required: true
+    description: ''
+  - code: lvrg_val
+    name: 레버리지값
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: gear
+    name: 기어링
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: delta_val
+    name: 델타값
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: gama
+    name: 감마
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: vega
+    name: 베가
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: theta
+    name: 세타
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: prls_qryr_rate
+    name: 손익분기비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: cfp
+    name: 자본지지점
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: prit
+    name: 패리티
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: invl_val
+    name: 내재가치값
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: ''
+  - code: tmvl_val
+    name: 시간가치값
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: ''
+  - code: hts_thpr
+    name: HTS이론가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: stck_lstn_date
+    name: 주식상장일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: stck_last_tr_date
+    name: 주식최종거래일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: lp_ntby_qty
+    name: LP순매도량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  example: "{\r\n    \"output\": [\r\n        {\r\n            \"elw_shrn_iscd\": \"57JAAQ\",\r\n            \"hts_kor_isnm\"\
+    : \"한국JAAQ삼성전자풋\",\r\n            \"elw_prpr\": \"10\",\r\n            \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\"\
+    : \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n            \"acml_vol\": \"0\",\r\n            \"acpr\": \"63300.00\"\
+    ,\r\n            \"prls_qryr_stpr_prc\": \"62300.00\",\r\n            \"hts_rmnn_dynu\": \"42\",\r\n            \"hts_ints_vltl\"\
+    : \"60.72\",\r\n            \"stck_cnvr_rate\": \"0.010000\",\r\n            \"lp_hvol\": \"17298270\",\r\n          \
+    \  \"lp_rlim\": \"99.99\",\r\n            \"lvrg_val\": \"-9.448319\",\r\n            \"gear\": \"77.7000\",\r\n     \
+    \       \"delta_val\": \"-0.121600\",\r\n            \"gama\": \"0.0000\",\r\n            \"vega\": \"0.5078\",\r\n  \
+    \          \"theta\": \"0.5759\",\r\n            \"prls_qryr_rate\": \"-19.8100\",\r\n            \"cfp\": \"-19.5600\"\
+    ,\r\n            \"prit\": \"81.46\",\r\n            \"invl_val\": \"0.00\",\r\n            \"tmvl_val\": \"10.00\",\r\
+    \n            \"hts_thpr\": \"0.18\",\r\n            \"stck_lstn_date\": \"20231018\",\r\n            \"stck_last_tr_date\"\
+    : \"20240613\",\r\n            \"lp_ntby_qty\": \"0\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"\
+    57JAML\",\r\n            \"hts_kor_isnm\": \"한국JAML삼성전자콜\",\r\n            \"elw_prpr\": \"120\",\r\n            \"prdy_vrss\"\
+    : \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n            \"acml_vol\"\
+    : \"0\",\r\n            \"acpr\": \"64700.00\",\r\n            \"prls_qryr_stpr_prc\": \"76700.00\",\r\n            \"\
+    hts_rmnn_dynu\": \"7\",\r\n            \"hts_ints_vltl\": \"0.00\",\r\n            \"stck_cnvr_rate\": \"0.010000\",\r\
+    \n            \"lp_hvol\": \"11995780\",\r\n            \"lp_rlim\": \"99.96\",\r\n            \"lvrg_val\": \"5.184000\"\
+    ,\r\n            \"gear\": \"6.4800\",\r\n            \"delta_val\": \"0.800000\",\r\n            \"gama\": \"0.0000\"\
+    ,\r\n            \"vega\": \"0.0000\",\r\n            \"theta\": \"0.0669\",\r\n            \"prls_qryr_rate\": \"-1.4100\"\
+    ,\r\n            \"cfp\": \"-1.6700\",\r\n            \"prit\": \"120.24\",\r\n            \"invl_val\": \"132.00\",\r\
+    \n            \"tmvl_val\": \"-12.00\",\r\n            \"hts_thpr\": \"131.60\",\r\n            \"stck_lstn_date\": \"\
+    20231116\",\r\n            \"stck_last_tr_date\": \"20240509\",\r\n            \"lp_ntby_qty\": \"0\"\r\n        },\r\n\
+    \        {\r\n            \"elw_shrn_iscd\": \"57JAMM\",\r\n            \"hts_kor_isnm\": \"한국JAMM삼성전자콜\",\r\n       \
+    \     \"elw_prpr\": \"115\",\r\n            \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n      \
+    \      \"prdy_ctrt\": \"0.00\",\r\n            \"acml_vol\": \"0\",\r\n            \"acpr\": \"67300.00\",\r\n       \
+    \     \"prls_qryr_stpr_prc\": \"78800.00\",\r\n            \"hts_rmnn_dynu\": \"42\",\r\n            \"hts_ints_vltl\"\
+    : \"32.23\",\r\n            \"stck_cnvr_rate\": \"0.010000\",\r\n            \"lp_hvol\": \"12499500\",\r\n          \
+    \  \"lp_rlim\": \"100.00\",\r\n            \"lvrg_val\": \"6.288443\",\r\n            \"gear\": \"6.7600\",\r\n      \
+    \      \"delta_val\": \"0.930243\",\r\n            \"gama\": \"0.0000\",\r\n            \"vega\": \"0.3368\",\r\n    \
+    \        \"theta\": \"0.2915\",\r\n            \"prls_qryr_rate\": \"1.2800\",\r\n            \"cfp\": \"1.5000\",\r\n\
+    \            \"prit\": \"115.60\",\r\n            \"invl_val\": \"105.00\",\r\n            \"tmvl_val\": \"10.00\",\r\n\
+    \            \"hts_thpr\": \"108.09\",\r\n            \"stck_lstn_date\": \"20231116\",\r\n            \"stck_last_tr_date\"\
+    : \"20240613\",\r\n            \"lp_ntby_qty\": \"0\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"\
+    57JAMN\",\r\n            \"hts_kor_isnm\": \"한국JAMN삼성전자콜\",\r\n            \"elw_prpr\": \"120\",\r\n            \"prdy_vrss\"\
+    : \"5\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"4.35\",\r\n            \"acml_vol\"\
+    : \"10\",\r\n            \"acpr\": \"68700.00\",\r\n            \"prls_qryr_stpr_prc\": \"80700.00\",\r\n            \"\
+    hts_rmnn_dynu\": \"161\",\r\n            \"hts_ints_vltl\": \"27.90\",\r\n            \"stck_cnvr_rate\": \"0.010000\"\
+    ,\r\n            \"lp_hvol\": \"8800820\",\r\n            \"lp_rlim\": \"84.62\",\r\n            \"lvrg_val\": \"5.212408\"\
+    ,\r\n            \"gear\": \"6.4800\",\r\n            \"delta_val\": \"0.804384\",\r\n            \"gama\": \"0.0000\"\
+    ,\r\n            \"vega\": \"1.3937\",\r\n            \"theta\": \"0.2545\",\r\n            \"prls_qryr_rate\": \"3.7200\"\
+    ,\r\n            \"cfp\": \"4.4000\",\r\n            \"prit\": \"113.24\",\r\n            \"invl_val\": \"91.00\",\r\n\
+    \            \"tmvl_val\": \"29.00\",\r\n            \"hts_thpr\": \"111.27\",\r\n            \"stck_lstn_date\": \"20231116\"\
+    ,\r\n            \"stck_last_tr_date\": \"20241010\",\r\n            \"lp_ntby_qty\": \"0\"\r\n        },\r\n        {\r\
+    \n            \"elw_shrn_iscd\": \"57JAMP\",\r\n            \"hts_kor_isnm\": \"한국JAMP삼성전자콜\",\r\n            \"elw_prpr\"\
+    : \"90\",\r\n            \"prdy_vrss\": \"-10\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\"\
+    : \"-10.00\",\r\n            \"acml_vol\": \"20\",\r\n            \"acpr\": \"70200.00\",\r\n            \"prls_qryr_stpr_prc\"\
+    : \"79200.00\",\r\n            \"hts_rmnn_dynu\": \"70\",\r\n            \"hts_ints_vltl\": \"28.96\",\r\n           \
+    \ \"stck_cnvr_rate\": \"0.010000\",\r\n            \"lp_hvol\": \"12997850\",\r\n            \"lp_rlim\": \"99.98\",\r\
+    \n            \"lvrg_val\": \"7.137444\",\r\n            \"gear\": \"8.6400\",\r\n            \"delta_val\": \"0.826093\"\
+    ,\r\n            \"gama\": \"0.0000\",\r\n            \"vega\": \"0.8580\",\r\n            \"theta\": \"0.3448\",\r\n\
+    \            \"prls_qryr_rate\": \"1.7900\",\r\n            \"cfp\": \"2.0300\",\r\n            \"prit\": \"110.82\",\r\
+    \n            \"invl_val\": \"76.00\",\r\n            \"tmvl_val\": \"14.00\",\r\n            \"hts_thpr\": \"86.23\"\
+    ,\r\n            \"stck_lstn_date\": \"20231116\",\r\n            \"stck_last_tr_date\": \"20240711\",\r\n           \
+    \ \"lp_ntby_qty\": \"-20\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"57JAMR\",\r\n            \"\
+    hts_kor_isnm\": \"한국JAMR삼성전자콜\",\r\n            \"elw_prpr\": \"75\",\r\n            \"prdy_vrss\": \"0\",\r\n       \
+    \     \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n            \"acml_vol\": \"0\",\r\n     \
+    \       \"acpr\": \"73300.00\",\r\n            \"prls_qryr_stpr_prc\": \"80800.00\",\r\n            \"hts_rmnn_dynu\"\
+    : \"98\",\r\n            \"hts_ints_vltl\": \"27.07\",\r\n            \"stck_cnvr_rate\": \"0.010000\",\r\n          \
+    \  \"lp_hvol\": \"13926710\",\r\n            \"lp_rlim\": \"98.77\",\r\n            \"lvrg_val\": \"7.394173\",\r\n  \
+    \          \"gear\": \"10.3700\",\r\n            \"delta_val\": \"0.713035\",\r\n            \"gama\": \"0.0000\",\r\n\
+    \            \"vega\": \"1.3629\",\r\n            \"theta\": \"0.3448\",\r\n            \"prls_qryr_rate\": \"3.8500\"\
+    ,\r\n            \"cfp\": \"4.2600\",\r\n            \"prit\": \"106.13\",\r\n            \"invl_val\": \"45.00\",\r\n\
+    \            \"tmvl_val\": \"30.00\",\r\n            \"hts_thpr\": \"68.15\",\r\n            \"stck_lstn_date\": \"20231116\"\
+    ,\r\n            \"stck_last_tr_date\": \"20240808\",\r\n            \"lp_ntby_qty\": \"0\"\r\n        },\r\n        {\r\
+    \n            \"elw_shrn_iscd\": \"57JAMS\",\r\n            \"hts_kor_isnm\": \"한국JAMS삼성전자콜\",\r\n            \"elw_prpr\"\
+    : \"120\",\r\n            \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\"\
+    : \"0.00\",\r\n            \"acml_vol\": \"0\",\r\n            \"acpr\": \"73300.00\",\r\n            \"prls_qryr_stpr_prc\"\
+    : \"85300.00\",\r\n            \"hts_rmnn_dynu\": \"133\",\r\n            \"hts_ints_vltl\": \"26.88\",\r\n          \
+    \  \"stck_cnvr_rate\": \"0.010000\",\r\n            \"lp_hvol\": \"13399930\",\r\n            \"lp_rlim\": \"100.00\"\
+    ,\r\n            \"lvrg_val\": \"4.540122\",\r\n            \"gear\": \"6.4800\",\r\n            \"delta_val\": \"0.700636\"\
+    ,\r\n            \"gama\": \"0.0000\",\r\n            \"vega\": \"1.6226\",\r\n            \"theta\": \"0.3056\",\r\n\
+    \            \"prls_qryr_rate\": \"9.6400\",\r\n            \"cfp\": \"11.3900\",\r\n            \"prit\": \"106.13\"\
+    ,\r\n            \"invl_val\": \"45.00\",\r\n            \"tmvl_val\": \"75.00\",\r\n            \"hts_thpr\": \"74.43\"\
+    ,\r\n            \"stck_lstn_date\": \"20231116\",\r\n            \"stck_last_tr_date\": \"20240912\",\r\n           \
+    \ \"lp_ntby_qty\": \"0\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"57JAPS\",\r\n            \"hts_kor_isnm\"\
+    : \"한국JAPS삼성전자풋\",\r\n            \"elw_prpr\": \"10\",\r\n            \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\"\
+    : \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n            \"acml_vol\": \"0\",\r\n            \"acpr\": \"70000.00\"\
+    ,\r\n            \"prls_qryr_stpr_prc\": \"69000.00\",\r\n            \"hts_rmnn_dynu\": \"42\",\r\n            \"hts_ints_vltl\"\
+    : \"39.14\",\r\n            \"stck_cnvr_rate\": \"0.010000\",\r\n            \"lp_hvol\": \"8789750\",\r\n           \
+    \ \"lp_rlim\": \"99.88\",\r\n            \"lvrg_val\": \"-13.763233\",\r\n            \"gear\": \"77.7000\",\r\n     \
+    \       \"delta_val\": \"-0.177133\",\r\n            \"gama\": \"0.0000\",\r\n            \"vega\": \"0.6533\",\r\n  \
+    \          \"theta\": \"0.4692\",\r\n            \"prls_qryr_rate\": \"-11.1900\",\r\n            \"cfp\": \"-11.0500\"\
+    ,\r\n            \"prit\": \"90.09\",\r\n            \"invl_val\": \"0.00\",\r\n            \"tmvl_val\": \"10.00\",\r\
+    \n            \"hts_thpr\": \"3.39\",\r\n            \"stck_lstn_date\": \"20231116\",\r\n            \"stck_last_tr_date\"\
+    : \"20240613\",\r\n            \"lp_ntby_qty\": \"0\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"\
+    57JAPT\",\r\n            \"hts_kor_isnm\": \"한국JAPT삼성전자풋\",\r\n            \"elw_prpr\": \"20\",\r\n            \"prdy_vrss\"\
+    : \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n            \"acml_vol\"\
+    : \"0\",\r\n            \"acpr\": \"70000.00\",\r\n            \"prls_qryr_stpr_prc\": \"68000.00\",\r\n            \"\
+    hts_rmnn_dynu\": \"133\",\r\n            \"hts_ints_vltl\": \"31.53\",\r\n            \"stck_cnvr_rate\": \"0.010000\"\
+    ,\r\n            \"lp_hvol\": \"7593700\",\r\n            \"lp_rlim\": \"99.92\",\r\n            \"lvrg_val\": \"-9.186005\"\
+    ,\r\n            \"gear\": \"38.8500\",\r\n            \"delta_val\": \"-0.236448\",\r\n            \"gama\": \"0.0000\"\
+    ,\r\n            \"vega\": \"1.4404\",\r\n            \"theta\": \"0.2237\",\r\n            \"prls_qryr_rate\": \"-12.4800\"\
+    ,\r\n            \"cfp\": \"-12.1700\",\r\n            \"prit\": \"90.09\",\r\n            \"invl_val\": \"0.00\",\r\n\
+    \            \"tmvl_val\": \"20.00\",\r\n            \"hts_thpr\": \"13.97\",\r\n            \"stck_lstn_date\": \"20231116\"\
+    ,\r\n            \"stck_last_tr_date\": \"20240912\",\r\n            \"lp_ntby_qty\": \"0\"\r\n        },\r\n        {\r\
+    \n            \"elw_shrn_iscd\": \"57JAZR\",\r\n            \"hts_kor_isnm\": \"한국JAZR삼성전자콜\",\r\n            \"elw_prpr\"\
+    : \"70\",\r\n            \"prdy_vrss\": \"-10\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\"\
+    : \"-12.50\",\r\n            \"acml_vol\": \"5130\",\r\n            \"acpr\": \"77300.00\",\r\n            \"prls_qryr_stpr_prc\"\
+    : \"84300.00\",\r\n            \"hts_rmnn_dynu\": \"196\",\r\n            \"hts_ints_vltl\": \"26.13\",\r\n          \
+    \  \"stck_cnvr_rate\": \"0.010000\",\r\n            \"lp_hvol\": \"13970240\",\r\n            \"lp_rlim\": \"97.69\",\r\
+    \n            \"lvrg_val\": \"6.527688\",\r\n            \"gear\": \"11.1000\",\r\n            \"delta_val\": \"0.588080\"\
+    ,\r\n            \"gama\": \"0.0000\",\r\n            \"vega\": \"2.1844\",\r\n            \"theta\": \"0.2725\",\r\n\
+    \            \"prls_qryr_rate\": \"8.4900\",\r\n            \"cfp\": \"9.3300\",\r\n            \"prit\": \"100.51\",\r\
+    \n            \"invl_val\": \"6.00\",\r\n            \"tmvl_val\": \"64.00\",\r\n            \"hts_thpr\": \"60.18\",\r\
+    \n            \"stck_lstn_date\": \"20231220\",\r\n            \"stck_last_tr_date\": \"20241114\",\r\n            \"\
+    lp_ntby_qty\": \"5020\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"57JAZS\",\r\n            \"hts_kor_isnm\"\
+    : \"한국JAZS삼성전자콜\",\r\n            \"elw_prpr\": \"55\",\r\n            \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\"\
+    : \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n            \"acml_vol\": \"504200\",\r\n            \"acpr\": \"\
+    75600.00\",\r\n            \"prls_qryr_stpr_prc\": \"81100.00\",\r\n            \"hts_rmnn_dynu\": \"70\",\r\n       \
+    \     \"hts_ints_vltl\": \"28.73\",\r\n            \"stck_cnvr_rate\": \"0.010000\",\r\n            \"lp_hvol\": \"15421560\"\
+    ,\r\n            \"lp_rlim\": \"98.23\",\r\n            \"lvrg_val\": \"8.965918\",\r\n            \"gear\": \"14.1200\"\
+    ,\r\n            \"delta_val\": \"0.634980\",\r\n            \"gama\": \"0.0000\",\r\n            \"vega\": \"1.2562\"\
+    ,\r\n            \"theta\": \"0.4515\",\r\n            \"prls_qryr_rate\": \"4.3700\",\r\n            \"cfp\": \"4.7000\"\
+    ,\r\n            \"prit\": \"102.77\",\r\n            \"invl_val\": \"23.00\",\r\n            \"tmvl_val\": \"32.00\"\
+    ,\r\n            \"hts_thpr\": \"46.86\",\r\n            \"stck_lstn_date\": \"20231220\",\r\n            \"stck_last_tr_date\"\
+    : \"20240711\",\r\n            \"lp_ntby_qty\": \"45700\"\r\n        },...\r\n        {\r\n            \"elw_shrn_iscd\"\
+    : \"57KA61\",\r\n            \"hts_kor_isnm\": \"한국KA61삼성전자콜\",\r\n            \"elw_prpr\": \"40\",\r\n            \"\
+    prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n            \"\
+    acml_vol\": \"331400\",\r\n            \"acpr\": \"78300.00\",\r\n            \"prls_qryr_stpr_prc\": \"82300.00\",\r\n\
+    \            \"hts_rmnn_dynu\": \"70\",\r\n            \"hts_ints_vltl\": \"28.17\",\r\n            \"stck_cnvr_rate\"\
+    : \"0.010000\",\r\n            \"lp_hvol\": \"23296960\",\r\n            \"lp_rlim\": \"99.99\",\r\n            \"lvrg_val\"\
+    : \"10.171226\",\r\n            \"gear\": \"19.4200\",\r\n            \"delta_val\": \"0.523750\",\r\n            \"gama\"\
+    : \"0.0000\",\r\n            \"vega\": \"1.3308\",\r\n            \"theta\": \"0.4570\",\r\n            \"prls_qryr_rate\"\
+    : \"5.9200\",\r\n            \"cfp\": \"6.2400\",\r\n            \"prit\": \"99.23\",\r\n            \"invl_val\": \"\
+    0.00\",\r\n            \"tmvl_val\": \"40.00\",\r\n            \"hts_thpr\": \"32.21\",\r\n            \"stck_lstn_date\"\
+    : \"20240320\",\r\n            \"stck_last_tr_date\": \"20240711\",\r\n            \"lp_ntby_qty\": \"0\"\r\n        }\r\
+    \n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"MCA00000\",\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

@@ -1,0 +1,456 @@
+id: 147d1d34-3001-4958-b970-106935a19fe7
+name: 해외주식 기간손익[v1_해외주식-032]
+section: '[해외주식] 주문/계좌'
+category: 해외주식
+subcategory: 주문/계좌
+method: GET
+url: /uapi/overseas-stock/v1/trading/inquire-period-profit
+content_type: application/json; charset=utf-8
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- TTTS3039R
+- 모의투자 미지원
+real_tr_id: TTTS3039R
+virtual_tr_id: 모의투자 미지원
+summary: "해외주식 기간손익 API입니다.\n한국투자 HTS(eFriend Plus) > [7717] 해외 기간손익 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\n\
+  * 해외주식 서비스 신청 후 이용 가능합니다. (아래 링크 3번 해외증권 거래신청 참고)\nhttps://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.jsp\n\
+  \n[해외 기간손익 유의 사항]\n■ 단순 매체결내역을 기초로 만든 화면으로 매도체결시점의 체결기준 매입단가와 비교하여 손익이 계산됩니다.\n  결제일의 환율과 금액을 기준으로 산출하는 해외주식 양도소득세 계산방식과는\
+  \ 상이하오니, 참고용으로만 활용하여 주시기 바랍니다.\n■ 기간손익은 매매일 익일부터 조회가능합니다.\n\uFEFF\uFEFF■ 매입금액/매도금액 원화 환산 시 매도일의 환율이 적용되어있습니다.\n\uFEFF\uFEFF\
+  ■ 손익금액의 비용은 \"매도비용\" 만 포함되어있습니다. 단, 동일 종목의 매수/매도가 동시에 있는 경우에는 해당일 발생한 매수비용도 함께 계산됩니다.\n\uFEFF\uFEFF■ 담보상환내역은 기간손익화면에 표시되지\
+  \ 많으니 참고하여 주시기 바랍니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2023-06-02T08:17:06+09:00'
+  last_modified_date: '2025-04-30T10:52:02+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: '[실전투자]
+
+      TTTS3039R'
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '공백 : 초기 조회
+
+      N : 다음 데이터 조회 (output header의 tr_cont가 M일 경우)'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 계좌번호 체계(8-2)의 앞 8자리
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 계좌번호 체계(8-2)의 뒤 2자리
+  - code: OVRS_EXCG_CD
+    name: 해외거래소코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: "공란 : 전체, \nNASD : 미국, SEHK : 홍콩,\nSHAA : 중국, TKSE : 일본, HASE : 베트남"
+  - code: NATN_CD
+    name: 국가코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 공란(Default)
+  - code: CRCY_CD
+    name: 통화코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '공란 : 전체
+
+      USD : 미국달러, HKD : 홍콩달러,
+
+      CNY : 중국위안화,  JPY : 일본엔화, VND : 베트남동'
+  - code: PDNO
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '공란 : 전체'
+  - code: INQR_STRT_DT
+    name: 조회시작일자
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: YYYYMMDD
+  - code: INQR_END_DT
+    name: 조회종료일자
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: YYYYMMDD
+  - code: WCRC_FRCR_DVSN_CD
+    name: 원화외화구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '01 : 외화, 02 : 원화'
+  - code: CTX_AREA_FK200
+    name: 연속조회검색조건200
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: CTX_AREA_NK200
+    name: 연속조회키200
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  example: null
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'F or M : 다음 데이터 있음
+
+      D or E : 마지막 데이터'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: Output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: trad_day
+    name: 매매일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ovrs_pdno
+    name: 해외상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ovrs_item_name
+    name: 해외종목명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: slcl_qty
+    name: 매도청산수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: pchs_avg_pric
+    name: 매입평균가격
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: frcr_pchs_amt1
+    name: 외화매입금액1
+    type: A0001
+    type_name: String
+    length: '185'
+    required: true
+    description: ''
+  - code: avg_sll_unpr
+    name: 평균매도단가
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: frcr_sll_amt_smtl1
+    name: 외화매도금액합계1
+    type: A0001
+    type_name: String
+    length: '186'
+    required: true
+    description: ''
+  - code: stck_sll_tlex
+    name: 주식매도제비용
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: ovrs_rlzt_pfls_amt
+    name: 해외실현손익금액
+    type: A0001
+    type_name: String
+    length: '145'
+    required: true
+    description: ''
+  - code: pftrt
+    name: 수익률
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: exrt
+    name: 환율
+    type: A0001
+    type_name: String
+    length: '201'
+    required: true
+    description: ''
+  - code: ovrs_excg_cd
+    name: 해외거래소코드
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: frst_bltn_exrt
+    name: 최초고시환율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: Output2
+    name: 응답상세2
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: stck_sll_amt_smtl
+    name: 주식매도금액합계
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: 'WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고
+
+      OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우
+
+      출력값 무시'
+  - code: stck_buy_amt_smtl
+    name: 주식매수금액합계
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: 'WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고
+
+      OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우
+
+      출력값 무시'
+  - code: smtl_fee1
+    name: 합계수수료1
+    type: A0001
+    type_name: String
+    length: '138'
+    required: true
+    description: 'WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고
+
+      OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우
+
+      출력값 무시'
+  - code: excc_dfrm_amt
+    name: 정산지급금액
+    type: A0001
+    type_name: String
+    length: '205'
+    required: true
+    description: 'WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고
+
+      OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우
+
+      출력값 무시'
+  - code: ovrs_rlzt_pfls_tot_amt
+    name: 해외실현손익총금액
+    type: A0001
+    type_name: String
+    length: '145'
+    required: true
+    description: 'WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고
+
+      OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우
+
+      출력값 무시'
+  - code: tot_pftrt
+    name: 총수익률
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: bass_dt
+    name: 기준일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: exrt
+    name: 환율
+    type: A0001
+    type_name: String
+    length: '201'
+    required: true
+    description: ''
+  example: null
+errors: []

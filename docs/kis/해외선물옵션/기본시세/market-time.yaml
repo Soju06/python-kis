@@ -1,0 +1,447 @@
+id: 3acd4025-6e95-46dc-a90d-b38215912d11
+name: 해외선물옵션 장운영시간 [해외선물-030]
+section: '[해외선물옵션] 기본시세'
+category: 해외선물옵션
+subcategory: 기본시세
+method: GET
+url: /uapi/overseas-futureoption/v1/quotations/market-time
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- OTFM2229R
+- 모의투자 미지원
+real_tr_id: OTFM2229R
+virtual_tr_id: 모의투자 미지원
+summary: '해외선물 장운영시간 API입니다.
+
+  한국투자 HTS(eFriend Force) > [6773] 해외선물 장운영시간 화면 의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-10T10:25:21+09:00'
+  last_modified_date: '2025-04-30T12:58:20+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: OTFM2229R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FM_PDGR_CD
+    name: FM상품군코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 공백
+  - code: FM_CLAS_CD
+    name: FM클래스코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: '''공백(전체), 001(통화), 002(금리), 003(지수),
+
+      004(농산물),005(축산물),006(금속),007(에너지)'''
+  - code: FM_EXCG_CD
+    name: FM거래소코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: '''CME(CME), EUREX(EUREX), HKEx(HKEx),
+
+      ICE(ICE), SGX(SGX), OSE(OSE), ASX(ASX),
+
+      CBOE(CBOE), MDEX(MDEX), NYSE(NYSE),
+
+      BMF(BMF),FTX(FTX), HNX(HNX), ETC(기타)'''
+  - code: OPT_YN
+    name: 옵션여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '%(전체), N(선물), Y(옵션)'
+  - code: CTX_AREA_NK200
+    name: 연속조회키200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: ''
+  - code: CTX_AREA_FK200
+    name: 연속조회검색조건200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: ''
+  example: "FM_PDGR_CD:\r\nFM_CLAS_CD:\r\nFM_EXCG_CD:CME\r\nOPT_YN:%\r\nCTX_AREA_NK200:\r\nCTX_AREA_FK200:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: ''
+  - code: fm_pdgr_cd
+    name: FM상품군코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: fm_pdgr_name
+    name: FM상품군명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: fm_excg_cd
+    name: FM거래소코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: fm_excg_name
+    name: FM거래소명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: fuop_dvsn_name
+    name: 선물옵션구분명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: fm_clas_cd
+    name: FM클래스코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: fm_clas_name
+    name: FM클래스명
+    type: A0001
+    type_name: String
+    length: '30'
+    required: true
+    description: ''
+  - code: am_mkmn_strt_tmd
+    name: 오전장운영시작시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: am_mkmn_end_tmd
+    name: 오전장운영종료시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: pm_mkmn_strt_tmd
+    name: 오후장운영시작시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: pm_mkmn_end_tmd
+    name: 오후장운영종료시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: mkmn_nxdy_strt_tmd
+    name: 장운영익일시작시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: mkmn_nxdy_end_tmd
+    name: 장운영익일종료시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: base_mket_strt_tmd
+    name: 기본시장시작시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: base_mket_end_tmd
+    name: 기본시장종료시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  example: "{\r\n    \"ctx_area_nk200\": \"CME^003^2ES^                                                                  \
+    \                                                                                                                    \
+    \      \",\r\n    \"ctx_area_fk200\": \"^CME^%^                                                                      \
+    \                                                                                                                    \
+    \       \",\r\n    \"output\": [\r\n        {\r\n            \"fm_pdgr_cd\": \"6A\",\r\n            \"fm_pdgr_name\":\
+    \ \"Australian Dollar\",\r\n            \"fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile\
+    \ Exchange\",\r\n            \"fuop_dvsn_name\": \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\"\
+    : \"통화\",\r\n            \"am_mkmn_strt_tmd\": \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n       \
+    \     \"pm_mkmn_strt_tmd\": \"\",\r\n            \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\"\
+    ,\r\n            \"mkmn_nxdy_end_tmd\": \"\",\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\"\
+    : \"060000\"\r\n        },\r\n        {\r\n            \"fm_pdgr_cd\": \"6B\",\r\n            \"fm_pdgr_name\": \"British\
+    \ pounds\",\r\n            \"fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\
+    \n            \"fuop_dvsn_name\": \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"\
+    통화\",\r\n            \"am_mkmn_strt_tmd\": \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n           \
+    \ \"pm_mkmn_strt_tmd\": \"\",\r\n            \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\
+    \n            \"mkmn_nxdy_end_tmd\": \"\",\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\"\
+    : \"060000\"\r\n        },\r\n        {\r\n            \"fm_pdgr_cd\": \"6C\",\r\n            \"fm_pdgr_name\": \"Canadian\
+    \ Dollar\",\r\n            \"fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\
+    \n            \"fuop_dvsn_name\": \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"\
+    통화\",\r\n            \"am_mkmn_strt_tmd\": \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n           \
+    \ \"pm_mkmn_strt_tmd\": \"\",\r\n            \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\
+    \n            \"mkmn_nxdy_end_tmd\": \"\",\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\"\
+    : \"060000\"\r\n        },\r\n        {\r\n            \"fm_pdgr_cd\": \"6E\",\r\n            \"fm_pdgr_name\": \"Euro\
+    \ FX\",\r\n            \"fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n\
+    \            \"fuop_dvsn_name\": \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\"\
+    ,\r\n            \"am_mkmn_strt_tmd\": \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\"\
+    : \"\",\r\n            \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\"\
+    : \"\",\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n      \
+    \  },\r\n        {\r\n            \"fm_pdgr_cd\": \"6J\",\r\n            \"fm_pdgr_name\": \"Japanese Yen\",\r\n     \
+    \       \"fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n            \"fuop_dvsn_name\"\
+    : \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\",\r\n            \"am_mkmn_strt_tmd\"\
+    : \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\": \"\",\r\n         \
+    \   \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\": \"\"\
+    ,\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n        },\r\n\
+    \        {\r\n            \"fm_pdgr_cd\": \"6L\",\r\n            \"fm_pdgr_name\": \"Brazilian Real\",\r\n           \
+    \ \"fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n            \"fuop_dvsn_name\"\
+    : \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\",\r\n            \"am_mkmn_strt_tmd\"\
+    : \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\": \"\",\r\n         \
+    \   \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\": \"\"\
+    ,\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n        },\r\n\
+    \        {\r\n            \"fm_pdgr_cd\": \"6M\",\r\n            \"fm_pdgr_name\": \"Mexican PESO\",\r\n            \"\
+    fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n            \"fuop_dvsn_name\"\
+    : \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\",\r\n            \"am_mkmn_strt_tmd\"\
+    : \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\": \"\",\r\n         \
+    \   \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\": \"\"\
+    ,\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n        },\r\n\
+    \        {\r\n            \"fm_pdgr_cd\": \"6N\",\r\n            \"fm_pdgr_name\": \"NewZealand Dollars\",\r\n       \
+    \     \"fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n            \"fuop_dvsn_name\"\
+    : \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\",\r\n            \"am_mkmn_strt_tmd\"\
+    : \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\": \"\",\r\n         \
+    \   \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\": \"\"\
+    ,\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n        },\r\n\
+    \        {\r\n            \"fm_pdgr_cd\": \"6S\",\r\n            \"fm_pdgr_name\": \"Swiss Franc\",\r\n            \"\
+    fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n            \"fuop_dvsn_name\"\
+    : \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\",\r\n            \"am_mkmn_strt_tmd\"\
+    : \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\": \"\",\r\n         \
+    \   \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\": \"\"\
+    ,\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n        },\r\n\
+    \        {\r\n            \"fm_pdgr_cd\": \"6Z\",\r\n            \"fm_pdgr_name\": \"South African Rand\",\r\n       \
+    \     \"fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n            \"fuop_dvsn_name\"\
+    : \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\",\r\n            \"am_mkmn_strt_tmd\"\
+    : \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\": \"\",\r\n         \
+    \   \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\": \"\"\
+    ,\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n        },\r\n\
+    \        {\r\n            \"fm_pdgr_cd\": \"E7\",\r\n            \"fm_pdgr_name\": \"E-mini Euro FX\",\r\n           \
+    \ \"fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n            \"fuop_dvsn_name\"\
+    : \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\",\r\n            \"am_mkmn_strt_tmd\"\
+    : \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\": \"\",\r\n         \
+    \   \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\": \"\"\
+    ,\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n        },\r\n\
+    \        {\r\n            \"fm_pdgr_cd\": \"J7\",\r\n            \"fm_pdgr_name\": \"E-Mini YEN\",\r\n            \"fm_excg_cd\"\
+    : \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n            \"fuop_dvsn_name\": \"선물\"\
+    ,\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\",\r\n            \"am_mkmn_strt_tmd\"\
+    : \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\": \"\",\r\n         \
+    \   \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\": \"\"\
+    ,\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n        },\r\n\
+    \        {\r\n            \"fm_pdgr_cd\": \"M6A\",\r\n            \"fm_pdgr_name\": \"E-micro AUD\",\r\n            \"\
+    fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n            \"fuop_dvsn_name\"\
+    : \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\",\r\n            \"am_mkmn_strt_tmd\"\
+    : \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\": \"\",\r\n         \
+    \   \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\": \"\"\
+    ,\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n        },\r\n\
+    \        {\r\n            \"fm_pdgr_cd\": \"M6B\",\r\n            \"fm_pdgr_name\": \"E-micro GBP\",\r\n            \"\
+    fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n            \"fuop_dvsn_name\"\
+    : \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\",\r\n            \"am_mkmn_strt_tmd\"\
+    : \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\": \"\",\r\n         \
+    \   \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\": \"\"\
+    ,\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n        },\r\n\
+    \        {\r\n            \"fm_pdgr_cd\": \"M6E\",\r\n            \"fm_pdgr_name\": \"E-micro EUR\",\r\n            \"\
+    fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n            \"fuop_dvsn_name\"\
+    : \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\",\r\n            \"am_mkmn_strt_tmd\"\
+    : \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\": \"\",\r\n         \
+    \   \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\": \"\"\
+    ,\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n        },\r\n\
+    \        {\r\n            \"fm_pdgr_cd\": \"MCD\",\r\n            \"fm_pdgr_name\": \"E-micro CAD\",\r\n            \"\
+    fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n            \"fuop_dvsn_name\"\
+    : \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\",\r\n            \"am_mkmn_strt_tmd\"\
+    : \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\": \"\",\r\n         \
+    \   \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\": \"\"\
+    ,\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n        },\r\n\
+    \        {\r\n            \"fm_pdgr_cd\": \"MJY\",\r\n            \"fm_pdgr_name\": \"E-micro JPY\",\r\n            \"\
+    fm_excg_cd\": \"CME\",\r\n            \"fm_excg_name\": \"Chicago Mercantile Exchange\",\r\n            \"fuop_dvsn_name\"\
+    : \"선물\",\r\n            \"fm_clas_cd\": \"001\",\r\n            \"fm_clas_name\": \"통화\",\r\n            \"am_mkmn_strt_tmd\"\
+    : \"070000\",\r\n            \"am_mkmn_end_tmd\": \"060000\",\r\n            \"pm_mkmn_strt_tmd\": \"\",\r\n         \
+    \   \"pm_mkmn_end_tmd\": \"\",\r\n            \"mkmn_nxdy_strt_tmd\": \"\",\r\n            \"mkmn_nxdy_end_tmd\": \"\"\
+    ,\r\n            \"base_mket_strt_tmd\": \"070000\",\r\n            \"base_mket_end_tmd\": \"060000\"\r\n        },...\r\
+    \n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"KIOK0500\",\r\n    \"msg1\": \"조회가 계속됩니다..다음버튼을 Click 하십시오.   \
+    \                                \"\r\n}"
+errors: []

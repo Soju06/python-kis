@@ -1,0 +1,1068 @@
+id: 3b0af8ef-13b4-4514-a07a-1bc718d07005
+name: 프로그램매매 종합현황(일별)[국내주식-115]
+section: '[국내주식] 시세분석'
+category: 국내주식
+subcategory: 시세분석
+method: GET
+url: /uapi/domestic-stock/v1/quotations/comp-program-trade-daily
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- FHPPG04600001
+- 모의투자 미지원
+real_tr_id: FHPPG04600001
+virtual_tr_id: 모의투자 미지원
+summary: "프로그램매매 종합현황(일별) API입니다. \n한국투자 HTS(eFriend Plus) > [0460] 프로그램매매 종합현황 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기\
+  \ 쉽습니다.\n\n* 8개월 이상 과거 조회는 불가하며 에러메시지가 발생합니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-05T13:25:19+09:00'
+  last_modified_date: '2025-06-17T13:48:14+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: '''※ 구TR은 사전고지 없이 막힐 수 있으므로 반드시 신TR로 변경이용 부탁드립니다.
+
+      [실전투자]
+
+      (구)FHPPG04600000 → (신)FHPPG04600001'''
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 'J : KRX, NX : NXT, UN : 통합'
+  - code: FID_MRKT_CLS_CODE
+    name: 시장 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: K:코스피, Q:코스닥
+  - code: FID_INPUT_DATE_1
+    name: 검색시작일
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: '공백 입력, 입력 시 ~ 입력일자까지 조회됨
+
+      * 8개월 이상 과거 조회 불가'
+  - code: FID_INPUT_DATE_2
+    name: 검색종료일
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 공백 입력
+  example: "FID_COND_MRKT_DIV_CODE:UN\r\nFID_MRKT_CLS_CODE:K\r\nFID_INPUT_DATE_1:\r\nFID_INPUT_DATE_2:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: stck_bsop_date
+    name: 주식 영업 일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: nabt_entm_seln_tr_pbmn
+    name: 비차익 위탁 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_onsl_seln_vol
+    name: 비차익 자기 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_onsl_seln_tr_pbmn
+    name: 전체 자기 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_smtn_shnu_vol
+    name: 차익 합계 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_smtn_shnu_tr_pbmn
+    name: 비차익 합계 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_entm_ntby_qty
+    name: 차익 위탁 순매수 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_entm_ntby_tr_pbmn
+    name: 비차익 위탁 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_entm_seln_vol
+    name: 차익 위탁 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_entm_seln_vol_rate
+    name: 비차익 위탁 매도 거래량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nabt_onsl_seln_vol_rate
+    name: 비차익 자기 매도 거래량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: whol_onsl_seln_tr_pbmn_rate
+    name: 전체 자기 매도 거래 대금 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: arbt_smtm_shun_vol_rate
+    name: 차익 합계 매수 거래량 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: nabt_smtm_shun_tr_pbmn_rate
+    name: 비차익 합계 매수 거래대금 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: arbt_entm_ntby_qty_rate
+    name: 차익 위탁 순매수 수량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nabt_entm_ntby_tr_pbmn_rate
+    name: 비차익 위탁 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: arbt_entm_seln_vol_rate
+    name: 차익 위탁 매도 거래량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nabt_entm_seln_tr_pbmn_rate
+    name: 비차익 위탁 매도 거래 대금 비
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nabt_onsl_seln_tr_pbmn
+    name: 비차익 자기 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_smtn_seln_vol
+    name: 전체 합계 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_smtn_shnu_tr_pbmn
+    name: 차익 합계 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_entm_shnu_vol
+    name: 전체 위탁 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_entm_ntby_tr_pbmn
+    name: 차익 위탁 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_onsl_ntby_qty
+    name: 비차익 자기 순매수 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_entm_seln_tr_pbmn
+    name: 차익 위탁 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_onsl_seln_tr_pbmn_rate
+    name: 비차익 자기 매도 거래 대금 비
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: whol_seln_vol_rate
+    name: 전체 매도 거래량 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: arbt_smtm_shun_tr_pbmn_rate
+    name: 차익 합계 매수 거래대금 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: whol_entm_shnu_vol_rate
+    name: 전체 위탁 매수 거래량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: arbt_entm_ntby_tr_pbmn_rate
+    name: 차익 위탁 순매수 거래 대금 비
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nabt_onsl_ntby_qty_rate
+    name: 비차익 자기 순매수 수량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: arbt_entm_seln_tr_pbmn_rate
+    name: 차익 위탁 매도 거래 대금 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nabt_smtn_seln_vol
+    name: 비차익 합계 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_smtn_seln_tr_pbmn
+    name: 전체 합계 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_entm_shnu_vol
+    name: 비차익 위탁 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_entm_shnu_tr_pbmn
+    name: 전체 위탁 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_onsl_ntby_qty
+    name: 차익 자기 순매수 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_onsl_ntby_tr_pbmn
+    name: 비차익 자기 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_onsl_seln_tr_pbmn
+    name: 차익 자기 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_smtm_seln_vol_rate
+    name: 비차익 합계 매도 거래량 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: whol_seln_tr_pbmn_rate
+    name: 전체 매도 거래대금 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: nabt_entm_shnu_vol_rate
+    name: 비차익 위탁 매수 거래량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: whol_entm_shnu_tr_pbmn_rate
+    name: 전체 위탁 매수 거래 대금 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: arbt_onsl_ntby_qty_rate
+    name: 차익 자기 순매수 수량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nabt_onsl_ntby_tr_pbmn_rate
+    name: 비차익 자기 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: arbt_onsl_seln_tr_pbmn_rate
+    name: 차익 자기 매도 거래 대금 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nabt_smtn_seln_tr_pbmn
+    name: 비차익 합계 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_entm_shnu_vol
+    name: 차익 위탁 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_entm_shnu_tr_pbmn
+    name: 비차익 위탁 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_onsl_shnu_vol
+    name: 전체 자기 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_onsl_ntby_tr_pbmn
+    name: 차익 자기 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_smtn_ntby_qty
+    name: 비차익 합계 순매수 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_onsl_seln_vol
+    name: 차익 자기 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_smtm_seln_tr_pbmn_rate
+    name: 비차익 합계 매도 거래대금 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: arbt_entm_shnu_vol_rate
+    name: 차익 위탁 매수 거래량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nabt_entm_shnu_tr_pbmn_rate
+    name: 비차익 위탁 매수 거래 대금 비
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: whol_onsl_shnu_tr_pbmn
+    name: 전체 자기 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_onsl_ntby_tr_pbmn_rate
+    name: 차익 자기 순매수 거래 대금 비
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nabt_smtm_ntby_qty_rate
+    name: 비차익 합계 순매수 수량 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: arbt_onsl_seln_vol_rate
+    name: 차익 자기 매도 거래량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: whol_entm_seln_vol
+    name: 전체 위탁 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_entm_shnu_tr_pbmn
+    name: 차익 위탁 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_onsl_shnu_vol
+    name: 비차익 자기 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_onsl_shnu_tr_pbmn_rate
+    name: 전체 자기 매수 거래 대금 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: arbt_smtn_ntby_qty
+    name: 차익 합계 순매수 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_smtn_ntby_tr_pbmn
+    name: 비차익 합계 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_smtn_seln_vol
+    name: 차익 합계 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_entm_seln_tr_pbmn
+    name: 전체 위탁 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_entm_shnu_tr_pbmn_rate
+    name: 차익 위탁 매수 거래 대금 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nabt_onsl_shnu_vol_rate
+    name: 비차익 자기 매수 거래량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: whol_onsl_shnu_vol_rate
+    name: 전체 자기 매수 거래량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: arbt_smtm_ntby_qty_rate
+    name: 차익 합계 순매수 수량 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: nabt_smtm_ntby_tr_pbmn_rate
+    name: 비차익 합계 순매수 거래대금 비
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: arbt_smtm_seln_vol_rate
+    name: 차익 합계 매도 거래량 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: whol_entm_seln_vol_rate
+    name: 전체 위탁 매도 거래량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: arbt_onsl_shnu_vol
+    name: 차익 자기 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_onsl_shnu_tr_pbmn
+    name: 비차익 자기 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_smtn_shnu_vol
+    name: 전체 합계 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_smtn_ntby_tr_pbmn
+    name: 차익 합계 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_entm_ntby_qty
+    name: 전체 위탁 순매수 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_smtn_seln_tr_pbmn
+    name: 차익 합계 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_entm_seln_tr_pbmn_rate
+    name: 전체 위탁 매도 거래 대금 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: arbt_onsl_shnu_vol_rate
+    name: 차익 자기 매수 거래량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nabt_onsl_shnu_tr_pbmn_rate
+    name: 비차익 자기 매수 거래 대금 비
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: whol_shun_vol_rate
+    name: 전체 매수 거래량 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: arbt_smtm_ntby_tr_pbmn_rate
+    name: 차익 합계 순매수 거래대금 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: whol_entm_ntby_qty_rate
+    name: 전체 위탁 순매수 수량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: arbt_smtm_seln_tr_pbmn_rate
+    name: 차익 합계 매도 거래대금 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: whol_onsl_seln_vol
+    name: 전체 자기 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: arbt_onsl_shnu_tr_pbmn
+    name: 차익 자기 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_smtn_shnu_vol
+    name: 비차익 합계 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_smtn_shnu_tr_pbmn
+    name: 전체 합계 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_entm_ntby_qty
+    name: 비차익 위탁 순매수 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_entm_ntby_tr_pbmn
+    name: 전체 위탁 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: nabt_entm_seln_vol
+    name: 비차익 위탁 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_onsl_seln_vol_rate
+    name: 전체 자기 매도 거래량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: arbt_onsl_shnu_tr_pbmn_rate
+    name: 차익 자기 매수 거래 대금 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nabt_smtm_shun_vol_rate
+    name: 비차익 합계 매수 거래량 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: whol_shun_tr_pbmn_rate
+    name: 전체 매수 거래대금 비율
+    type: A0001
+    type_name: String
+    length: '72'
+    required: true
+    description: ''
+  - code: nabt_entm_ntby_qty_rate
+    name: 비차익 위탁 순매수 수량 비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  example: "{\r\n    \"output\": [\r\n        {\r\n            \"stck_bsop_date\": \"20240404\",\r\n            \"arbt_entm_seln_vol\"\
+    : \"945\",\r\n            \"arbt_entm_seln_vol_rate\": \"0.20\",\r\n            \"arbt_entm_seln_tr_pbmn\": \"60184\"\
+    ,\r\n            \"arbt_entm_seln_tr_pbmn_rate\": \"0.50\",\r\n            \"arbt_onsl_seln_tr_pbmn\": \"116742\",\r\n\
+    \            \"arbt_onsl_seln_tr_pbmn_rate\": \"0.97\",\r\n            \"arbt_onsl_seln_vol\": \"1893\",\r\n         \
+    \   \"arbt_onsl_seln_vol_rate\": \"0.40\",\r\n            \"arbt_smtn_seln_vol\": \"2839\",\r\n            \"arbt_smtm_seln_vol_rate\"\
+    : \"0.59\",\r\n            \"arbt_smtn_seln_tr_pbmn\": \"176926\",\r\n            \"arbt_smtm_seln_tr_pbmn_rate\": \"\
+    1.48\",\r\n            \"nabt_entm_seln_vol\": \"72995\",\r\n            \"nabt_entm_seln_tr_pbmn\": \"2335987\",\r\n\
+    \            \"nabt_entm_seln_vol_rate\": \"15.27\",\r\n            \"nabt_entm_seln_tr_pbmn_rate\": \"19.50\",\r\n  \
+    \          \"nabt_onsl_seln_vol\": \"335\",\r\n            \"nabt_onsl_seln_vol_rate\": \"0.07\",\r\n            \"nabt_onsl_seln_tr_pbmn\"\
+    : \"18428\",\r\n            \"nabt_onsl_seln_tr_pbmn_rate\": \"0.15\",\r\n            \"nabt_smtn_seln_vol\": \"73331\"\
+    ,\r\n            \"nabt_smtm_seln_vol_rate\": \"15.34\",\r\n            \"nabt_smtn_seln_tr_pbmn\": \"2354415\",\r\n \
+    \           \"nabt_smtm_seln_tr_pbmn_rate\": \"19.66\",\r\n            \"whol_entm_seln_vol\": \"73940\",\r\n        \
+    \    \"whol_entm_seln_tr_pbmn\": \"2396171\",\r\n            \"whol_entm_seln_vol_rate\": \"15.47\",\r\n            \"\
+    whol_entm_seln_tr_pbmn_rate\": \"20.00\",\r\n            \"whol_onsl_seln_vol\": \"2229\",\r\n            \"whol_onsl_seln_vol_rate\"\
+    : \"0.47\",\r\n            \"whol_onsl_seln_tr_pbmn\": \"135170\",\r\n            \"whol_onsl_seln_tr_pbmn_rate\": \"\
+    1.13\",\r\n            \"whol_smtn_seln_vol\": \"76169\",\r\n            \"whol_seln_vol_rate\": \"15.94\",\r\n      \
+    \      \"whol_smtn_seln_tr_pbmn\": \"2531340\",\r\n            \"whol_seln_tr_pbmn_rate\": \"21.13\",\r\n            \"\
+    arbt_entm_shnu_vol\": \"798\",\r\n            \"arbt_entm_shnu_vol_rate\": \"0.17\",\r\n            \"arbt_entm_shnu_tr_pbmn\"\
+    : \"50818\",\r\n            \"arbt_entm_shnu_tr_pbmn_rate\": \"0.42\",\r\n            \"arbt_onsl_shnu_vol\": \"247\"\
+    ,\r\n            \"arbt_onsl_shnu_vol_rate\": \"0.05\",\r\n            \"arbt_onsl_shnu_tr_pbmn\": \"15309\",\r\n    \
+    \        \"arbt_onsl_shnu_tr_pbmn_rate\": \"0.13\",\r\n            \"arbt_smtn_shnu_vol\": \"1045\",\r\n            \"\
+    arbt_smtm_shun_vol_rate\": \"0.22\",\r\n            \"arbt_smtn_shnu_tr_pbmn\": \"66127\",\r\n            \"arbt_smtm_shun_tr_pbmn_rate\"\
+    : \"0.55\",\r\n            \"nabt_entm_shnu_vol\": \"73441\",\r\n            \"nabt_entm_shnu_vol_rate\": \"15.37\",\r\
+    \n            \"nabt_entm_shnu_tr_pbmn\": \"2581806\",\r\n            \"nabt_entm_shnu_tr_pbmn_rate\": \"21.55\",\r\n\
+    \            \"nabt_onsl_shnu_vol\": \"250\",\r\n            \"nabt_onsl_shnu_vol_rate\": \"0.05\",\r\n            \"\
+    nabt_onsl_shnu_tr_pbmn\": \"11652\",\r\n            \"nabt_onsl_shnu_tr_pbmn_rate\": \"0.10\",\r\n            \"nabt_smtn_shnu_vol\"\
+    : \"73691\",\r\n            \"nabt_smtm_shun_vol_rate\": \"15.42\",\r\n            \"nabt_smtn_shnu_tr_pbmn\": \"2593458\"\
+    ,\r\n            \"nabt_smtm_shun_tr_pbmn_rate\": \"21.65\",\r\n            \"whol_entm_shnu_vol\": \"74239\",\r\n   \
+    \         \"whol_entm_shnu_vol_rate\": \"15.53\",\r\n            \"whol_entm_shnu_tr_pbmn\": \"2632624\",\r\n        \
+    \    \"whol_entm_shnu_tr_pbmn_rate\": \"21.98\",\r\n            \"whol_onsl_shnu_vol\": \"497\",\r\n            \"whol_onsl_shnu_tr_pbmn\"\
+    : \"26961\",\r\n            \"whol_onsl_shnu_tr_pbmn_rate\": \"0.23\",\r\n            \"whol_onsl_shnu_vol_rate\": \"\
+    0.10\",\r\n            \"whol_smtn_shnu_vol\": \"74736\",\r\n            \"whol_shun_vol_rate\": \"15.64\",\r\n      \
+    \      \"whol_smtn_shnu_tr_pbmn\": \"2659585\",\r\n            \"whol_shun_tr_pbmn_rate\": \"22.20\",\r\n            \"\
+    arbt_entm_ntby_qty\": \"-147\",\r\n            \"arbt_entm_ntby_qty_rate\": \"-0.03\",\r\n            \"arbt_entm_ntby_tr_pbmn\"\
+    : \"-9366\",\r\n            \"arbt_entm_ntby_tr_pbmn_rate\": \"-0.08\",\r\n            \"arbt_onsl_ntby_qty\": \"-1646\"\
+    ,\r\n            \"arbt_onsl_ntby_qty_rate\": \"-0.34\",\r\n            \"arbt_onsl_ntby_tr_pbmn\": \"-101433\",\r\n \
+    \           \"arbt_onsl_ntby_tr_pbmn_rate\": \"-0.85\",\r\n            \"arbt_smtn_ntby_qty\": \"-1793\",\r\n        \
+    \    \"arbt_smtm_ntby_qty_rate\": \"-0.38\",\r\n            \"arbt_smtn_ntby_tr_pbmn\": \"-110799\",\r\n            \"\
+    arbt_smtm_ntby_tr_pbmn_rate\": \"-0.93\",\r\n            \"nabt_entm_ntby_qty\": \"446\",\r\n            \"nabt_entm_ntby_qty_rate\"\
+    : \"0.09\",\r\n            \"nabt_entm_ntby_tr_pbmn\": \"245819\",\r\n            \"nabt_entm_ntby_tr_pbmn_rate\": \"\
+    2.05\",\r\n            \"nabt_onsl_ntby_qty\": \"-85\",\r\n            \"nabt_onsl_ntby_qty_rate\": \"-0.02\",\r\n   \
+    \         \"nabt_onsl_ntby_tr_pbmn\": \"-6776\",\r\n            \"nabt_onsl_ntby_tr_pbmn_rate\": \"-0.06\",\r\n      \
+    \      \"nabt_smtn_ntby_qty\": \"361\",\r\n            \"nabt_smtm_ntby_qty_rate\": \"0.08\",\r\n            \"nabt_smtn_ntby_tr_pbmn\"\
+    : \"239043\",\r\n            \"nabt_smtm_ntby_tr_pbmn_rate\": \"2.00\",\r\n            \"whol_entm_ntby_qty\": \"299\"\
+    ,\r\n            \"whol_entm_ntby_qty_rate\": \"0.06\",\r\n            \"whol_entm_ntby_tr_pbmn\": \"236453\",\r\n   \
+    \         \"whol_entm_ntby_tr_pbmn_rate\": \"1.97\",\r\n            \"whol_onsl_ntby_qty\": \"-1732\",\r\n           \
+    \ \"whol_onsl_ntby_qty_rate\": \"-0.36\",\r\n            \"whol_onsl_ntby_tr_pbmn\": \"-108209\",\r\n            \"whol_onsl_ntby_tr_pbmn_rate\"\
+    : \"-0.90\",\r\n            \"whol_smtn_ntby_qty\": \"-1433\",\r\n            \"whol_ntby_qty_rate\": \"-0.30\",\r\n \
+    \           \"whol_smtn_ntby_tr_pbmn\": \"128245\",\r\n            \"whol_ntby_tr_pbmn_rate\": \"1.07\",\r\n         \
+    \   \"bstp_nmix_prpr\": \"\",\r\n            \"bstp_nmix_prdy_vrss\": \"\",\r\n            \"prdy_vrss_sign\": \"\"\r\n\
+    \        },\r\n        {\r\n            \"stck_bsop_date\": \"20240403\",\r\n            \"arbt_entm_seln_vol\": \"769\"\
+    ,\r\n            \"arbt_entm_seln_vol_rate\": \"0.12\",\r\n            \"arbt_entm_seln_tr_pbmn\": \"48480\",\r\n    \
+    \        \"arbt_entm_seln_tr_pbmn_rate\": \"0.37\",\r\n            \"arbt_onsl_seln_tr_pbmn\": \"192333\",\r\n       \
+    \     \"arbt_onsl_seln_tr_pbmn_rate\": \"1.45\",\r\n            \"arbt_onsl_seln_vol\": \"3118\",\r\n            \"arbt_onsl_seln_vol_rate\"\
+    : \"0.49\",\r\n            \"arbt_smtn_seln_vol\": \"3887\",\r\n            \"arbt_smtm_seln_vol_rate\": \"0.61\",\r\n\
+    \            \"arbt_smtn_seln_tr_pbmn\": \"240813\",\r\n            \"arbt_smtm_seln_tr_pbmn_rate\": \"1.82\",\r\n   \
+    \         \"nabt_entm_seln_vol\": \"94356\",\r\n            \"nabt_entm_seln_tr_pbmn\": \"3076931\",\r\n            \"\
+    nabt_entm_seln_vol_rate\": \"14.72\",\r\n            \"nabt_entm_seln_tr_pbmn_rate\": \"23.21\",\r\n            \"nabt_onsl_seln_vol\"\
+    : \"3323\",\r\n            \"nabt_onsl_seln_vol_rate\": \"0.52\",\r\n            \"nabt_onsl_seln_tr_pbmn\": \"207163\"\
+    ,\r\n            \"nabt_onsl_seln_tr_pbmn_rate\": \"1.56\",\r\n            \"nabt_smtn_seln_vol\": \"97679\",\r\n    \
+    \        \"nabt_smtm_seln_vol_rate\": \"15.24\",\r\n            \"nabt_smtn_seln_tr_pbmn\": \"3284094\",\r\n         \
+    \   \"nabt_smtm_seln_tr_pbmn_rate\": \"24.77\",\r\n            \"whol_entm_seln_vol\": \"95125\",\r\n            \"whol_entm_seln_tr_pbmn\"\
+    : \"3125411\",\r\n            \"whol_entm_seln_vol_rate\": \"14.84\",\r\n            \"whol_entm_seln_tr_pbmn_rate\":\
+    \ \"23.58\",\r\n            \"whol_onsl_seln_vol\": \"6440\",\r\n            \"whol_onsl_seln_vol_rate\": \"1.01\",\r\n\
+    \            \"whol_onsl_seln_tr_pbmn\": \"399496\",\r\n            \"whol_onsl_seln_tr_pbmn_rate\": \"3.01\",\r\n   \
+    \         \"whol_smtn_seln_vol\": \"101566\",\r\n            \"whol_seln_vol_rate\": \"15.85\",\r\n            \"whol_smtn_seln_tr_pbmn\"\
+    : \"3524908\",\r\n            \"whol_seln_tr_pbmn_rate\": \"26.59\",\r\n            \"arbt_entm_shnu_vol\": \"916\",\r\
+    \n            \"arbt_entm_shnu_vol_rate\": \"0.14\",\r\n            \"arbt_entm_shnu_tr_pbmn\": \"57765\",\r\n       \
+    \     \"arbt_entm_shnu_tr_pbmn_rate\": \"0.44\",\r\n            \"arbt_onsl_shnu_vol\": \"151\",\r\n            \"arbt_onsl_shnu_vol_rate\"\
+    : \"0.02\",\r\n            \"arbt_onsl_shnu_tr_pbmn\": \"9682\",\r\n            \"arbt_onsl_shnu_tr_pbmn_rate\": \"0.07\"\
+    ,\r\n            \"arbt_smtn_shnu_vol\": \"1067\",\r\n            \"arbt_smtm_shun_vol_rate\": \"0.17\",\r\n         \
+    \   \"arbt_smtn_shnu_tr_pbmn\": \"67446\",\r\n            \"arbt_smtm_shun_tr_pbmn_rate\": \"0.51\",\r\n            \"\
+    nabt_entm_shnu_vol\": \"88098\",\r\n            \"nabt_entm_shnu_vol_rate\": \"13.75\",\r\n            \"nabt_entm_shnu_tr_pbmn\"\
+    : \"2576437\",\r\n            \"nabt_entm_shnu_tr_pbmn_rate\": \"19.43\",\r\n            \"nabt_onsl_shnu_vol\": \"206\"\
+    ,\r\n            \"nabt_onsl_shnu_vol_rate\": \"0.03\",\r\n            \"nabt_onsl_shnu_tr_pbmn\": \"8168\",\r\n     \
+    \       \"nabt_onsl_shnu_tr_pbmn_rate\": \"0.06\",\r\n            \"nabt_smtn_shnu_vol\": \"88304\",\r\n            \"\
+    nabt_smtm_shun_vol_rate\": \"13.78\",\r\n            \"nabt_smtn_shnu_tr_pbmn\": \"2584605\",\r\n            \"nabt_smtm_shun_tr_pbmn_rate\"\
+    : \"19.50\",\r\n            \"whol_entm_shnu_vol\": \"89014\",\r\n            \"whol_entm_shnu_vol_rate\": \"13.89\",\r\
+    \n            \"whol_entm_shnu_tr_pbmn\": \"2634202\",\r\n            \"whol_entm_shnu_tr_pbmn_rate\": \"19.87\",\r\n\
+    \            \"whol_onsl_shnu_vol\": \"357\",\r\n            \"whol_onsl_shnu_tr_pbmn\": \"17849\",\r\n            \"\
+    whol_onsl_shnu_tr_pbmn_rate\": \"0.13\",\r\n            \"whol_onsl_shnu_vol_rate\": \"0.06\",\r\n            \"whol_smtn_shnu_vol\"\
+    : \"89371\",\r\n            \"whol_shun_vol_rate\": \"13.95\",\r\n            \"whol_smtn_shnu_tr_pbmn\": \"2652051\"\
+    ,\r\n            \"whol_shun_tr_pbmn_rate\": \"20.00\",\r\n            \"arbt_entm_ntby_qty\": \"147\",\r\n          \
+    \  \"arbt_entm_ntby_qty_rate\": \"0.02\",\r\n            \"arbt_entm_ntby_tr_pbmn\": \"9284\",\r\n            \"arbt_entm_ntby_tr_pbmn_rate\"\
+    : \"0.07\",\r\n            \"arbt_onsl_ntby_qty\": \"-2967\",\r\n            \"arbt_onsl_ntby_qty_rate\": \"-0.46\",\r\
+    \n            \"arbt_onsl_ntby_tr_pbmn\": \"-182651\",\r\n            \"arbt_onsl_ntby_tr_pbmn_rate\": \"-1.38\",\r\n\
+    \            \"arbt_smtn_ntby_qty\": \"-2819\",\r\n            \"arbt_smtm_ntby_qty_rate\": \"-0.44\",\r\n           \
+    \ \"arbt_smtn_ntby_tr_pbmn\": \"-173367\",\r\n            \"arbt_smtm_ntby_tr_pbmn_rate\": \"-1.31\",\r\n            \"\
+    nabt_entm_ntby_qty\": \"-6259\",\r\n            \"nabt_entm_ntby_qty_rate\": \"-0.98\",\r\n            \"nabt_entm_ntby_tr_pbmn\"\
+    : \"-500494\",\r\n            \"nabt_entm_ntby_tr_pbmn_rate\": \"-3.78\",\r\n            \"nabt_onsl_ntby_qty\": \"-3116\"\
+    ,\r\n            \"nabt_onsl_ntby_qty_rate\": \"-0.49\",\r\n            \"nabt_onsl_ntby_tr_pbmn\": \"-198996\",\r\n \
+    \           \"nabt_onsl_ntby_tr_pbmn_rate\": \"-1.50\",\r\n            \"nabt_smtn_ntby_qty\": \"-9375\",\r\n        \
+    \    \"nabt_smtm_ntby_qty_rate\": \"-1.46\",\r\n            \"nabt_smtn_ntby_tr_pbmn\": \"-699489\",\r\n            \"\
+    nabt_smtm_ntby_tr_pbmn_rate\": \"-5.28\",\r\n            \"whol_entm_ntby_qty\": \"-6112\",\r\n            \"whol_entm_ntby_qty_rate\"\
+    : \"-0.95\",\r\n            \"whol_entm_ntby_tr_pbmn\": \"-491210\",\r\n            \"whol_entm_ntby_tr_pbmn_rate\": \"\
+    -3.71\",\r\n            \"whol_onsl_ntby_qty\": \"-6083\",\r\n            \"whol_onsl_ntby_qty_rate\": \"-0.95\",\r\n\
+    \            \"whol_onsl_ntby_tr_pbmn\": \"-381647\",\r\n            \"whol_onsl_ntby_tr_pbmn_rate\": \"-2.88\",\r\n \
+    \           \"whol_smtn_ntby_qty\": \"-12195\",\r\n            \"whol_ntby_qty_rate\": \"-1.90\",\r\n            \"whol_smtn_ntby_tr_pbmn\"\
+    : \"-872856\",\r\n            \"whol_ntby_tr_pbmn_rate\": \"-6.58\",\r\n            \"bstp_nmix_prpr\": \"\",\r\n    \
+    \        \"bstp_nmix_prdy_vrss\": \"\",\r\n            \"prdy_vrss_sign\": \"\"\r\n        },\r\n        {\r\n       \
+    \     \"stck_bsop_date\": \"20240402\",\r\n            \"arbt_entm_seln_vol\": \"857\",\r\n            \"arbt_entm_seln_vol_rate\"\
+    : \"0.14\",\r\n            \"arbt_entm_seln_tr_pbmn\": \"54673\",\r\n            \"arbt_entm_seln_tr_pbmn_rate\": \"0.42\"\
+    ,\r\n            \"arbt_onsl_seln_tr_pbmn\": \"78907\",\r\n            \"arbt_onsl_seln_tr_pbmn_rate\": \"0.60\",\r\n\
+    \            \"arbt_onsl_seln_vol\": \"1282\",\r\n            \"arbt_onsl_seln_vol_rate\": \"0.20\",\r\n            \"\
+    arbt_smtn_seln_vol\": \"2138\",\r\n            \"arbt_smtm_seln_vol_rate\": \"0.34\",\r\n            \"arbt_smtn_seln_tr_pbmn\"\
+    : \"133579\",\r\n            \"arbt_smtm_seln_tr_pbmn_rate\": \"1.02\",\r\n            \"nabt_entm_seln_vol\": \"78391\"\
+    ,\r\n            \"nabt_entm_seln_tr_pbmn\": \"2385531\",\r\n            \"nabt_entm_seln_vol_rate\": \"12.44\",\r\n \
+    \           \"nabt_entm_seln_tr_pbmn_rate\": \"18.19\",\r\n            \"nabt_onsl_seln_vol\": \"893\",\r\n          \
+    \  \"nabt_onsl_seln_vol_rate\": \"0.14\",\r\n            \"nabt_onsl_seln_tr_pbmn\": \"54722\",\r\n            \"nabt_onsl_seln_tr_pbmn_rate\"\
+    : \"0.42\",\r\n            \"nabt_smtn_seln_vol\": \"79284\",\r\n            \"nabt_smtm_seln_vol_rate\": \"12.58\",\r\
+    \n            \"nabt_smtn_seln_tr_pbmn\": \"2440253\",\r\n            \"nabt_smtm_seln_tr_pbmn_rate\": \"18.60\",\r\n\
+    \            \"whol_entm_seln_vol\": \"79247\",\r\n            \"whol_entm_seln_tr_pbmn\": \"2440203\",\r\n          \
+    \  \"whol_entm_seln_vol_rate\": \"12.57\",\r\n            \"whol_entm_seln_tr_pbmn_rate\": \"18.60\",\r\n            \"\
+    whol_onsl_seln_vol\": \"2175\",\r\n            \"whol_onsl_seln_vol_rate\": \"0.35\",\r\n            \"whol_onsl_seln_tr_pbmn\"\
+    : \"133628\",\r\n            \"whol_onsl_seln_tr_pbmn_rate\": \"1.02\",\r\n            \"whol_smtn_seln_vol\": \"81422\"\
+    ,\r\n            \"whol_seln_vol_rate\": \"12.92\",\r\n            \"whol_smtn_seln_tr_pbmn\": \"2573832\",\r\n      \
+    \      \"whol_seln_tr_pbmn_rate\": \"19.62\",\r\n            \"arbt_entm_shnu_vol\": \"760\",\r\n            \"arbt_entm_shnu_vol_rate\"\
+    : \"0.12\",\r\n            \"arbt_entm_shnu_tr_pbmn\": \"48775\",\r\n            \"arbt_entm_shnu_tr_pbmn_rate\": \"0.37\"\
+    ,\r\n            \"arbt_onsl_shnu_vol\": \"3\",\r\n            \"arbt_onsl_shnu_vol_rate\": \"0.00\",\r\n            \"\
+    arbt_onsl_shnu_tr_pbmn\": \"657\",\r\n            \"arbt_onsl_shnu_tr_pbmn_rate\": \"0.01\",\r\n            \"arbt_smtn_shnu_vol\"\
+    : \"762\",\r\n            \"arbt_smtm_shun_vol_rate\": \"0.12\",\r\n            \"arbt_smtn_shnu_tr_pbmn\": \"49432\"\
+    ,\r\n            \"arbt_smtm_shun_tr_pbmn_rate\": \"0.38\",\r\n            \"nabt_entm_shnu_vol\": \"74157\",\r\n    \
+    \        \"nabt_entm_shnu_vol_rate\": \"11.76\",\r\n            \"nabt_entm_shnu_tr_pbmn\": \"3086213\",\r\n         \
+    \   \"nabt_entm_shnu_tr_pbmn_rate\": \"23.53\",\r\n            \"nabt_onsl_shnu_vol\": \"187\",\r\n            \"nabt_onsl_shnu_vol_rate\"\
+    : \"0.03\",\r\n            \"nabt_onsl_shnu_tr_pbmn\": \"8119\",\r\n            \"nabt_onsl_shnu_tr_pbmn_rate\": \"0.06\"\
+    ,\r\n            \"nabt_smtn_shnu_vol\": \"74344\",\r\n            \"nabt_smtm_shun_vol_rate\": \"11.79\",\r\n       \
+    \     \"nabt_smtn_shnu_tr_pbmn\": \"3094332\",\r\n            \"nabt_smtm_shun_tr_pbmn_rate\": \"23.59\",\r\n        \
+    \    \"whol_entm_shnu_vol\": \"74916\",\r\n            \"whol_entm_shnu_vol_rate\": \"11.88\",\r\n            \"whol_entm_shnu_tr_pbmn\"\
+    : \"3134988\",\r\n            \"whol_entm_shnu_tr_pbmn_rate\": \"23.90\",\r\n            \"whol_onsl_shnu_vol\": \"190\"\
+    ,\r\n            \"whol_onsl_shnu_tr_pbmn\": \"8775\",\r\n            \"whol_onsl_shnu_tr_pbmn_rate\": \"0.07\",\r\n \
+    \           \"whol_onsl_shnu_vol_rate\": \"0.03\",\r\n            \"whol_smtn_shnu_vol\": \"75107\",\r\n            \"\
+    whol_shun_vol_rate\": \"11.91\",\r\n            \"whol_smtn_shnu_tr_pbmn\": \"3143764\",\r\n            \"whol_shun_tr_pbmn_rate\"\
+    : \"23.97\",\r\n            \"arbt_entm_ntby_qty\": \"-97\",\r\n            \"arbt_entm_ntby_qty_rate\": \"-0.02\",\r\n\
+    \            \"arbt_entm_ntby_tr_pbmn\": \"-5897\",\r\n            \"arbt_entm_ntby_tr_pbmn_rate\": \"-0.04\",\r\n   \
+    \         \"arbt_onsl_ntby_qty\": \"-1279\",\r\n            \"arbt_onsl_ntby_qty_rate\": \"-0.20\",\r\n            \"\
+    arbt_onsl_ntby_tr_pbmn\": \"-78250\",\r\n            \"arbt_onsl_ntby_tr_pbmn_rate\": \"-0.60\",\r\n            \"arbt_smtn_ntby_qty\"\
+    : \"-1376\",\r\n            \"arbt_smtm_ntby_qty_rate\": \"-0.22\",\r\n            \"arbt_smtn_ntby_tr_pbmn\": \"-84147\"\
+    ,\r\n            \"arbt_smtm_ntby_tr_pbmn_rate\": \"-0.64\",\r\n            \"nabt_entm_ntby_qty\": \"-4234\",\r\n   \
+    \         \"nabt_entm_ntby_qty_rate\": \"-0.67\",\r\n            \"nabt_entm_ntby_tr_pbmn\": \"700682\",\r\n         \
+    \   \"nabt_entm_ntby_tr_pbmn_rate\": \"5.34\",\r\n            \"nabt_onsl_ntby_qty\": \"-706\",\r\n            \"nabt_onsl_ntby_qty_rate\"\
+    : \"-0.11\",\r\n            \"nabt_onsl_ntby_tr_pbmn\": \"-46603\",\r\n            \"nabt_onsl_ntby_tr_pbmn_rate\": \"\
+    -0.36\",\r\n            \"nabt_smtn_ntby_qty\": \"-4940\",\r\n            \"nabt_smtm_ntby_qty_rate\": \"-0.78\",\r\n\
+    \            \"nabt_smtn_ntby_tr_pbmn\": \"654079\",\r\n            \"nabt_smtm_ntby_tr_pbmn_rate\": \"4.99\",\r\n   \
+    \         \"whol_entm_ntby_qty\": \"-4331\",\r\n            \"whol_entm_ntby_qty_rate\": \"-0.69\",\r\n            \"\
+    whol_entm_ntby_tr_pbmn\": \"694785\",\r\n            \"whol_entm_ntby_tr_pbmn_rate\": \"5.30\",\r\n            \"whol_onsl_ntby_qty\"\
+    : \"-1985\",\r\n            \"whol_onsl_ntby_qty_rate\": \"-0.31\",\r\n            \"whol_onsl_ntby_tr_pbmn\": \"-124853\"\
+    ,\r\n            \"whol_onsl_ntby_tr_pbmn_rate\": \"-0.95\",\r\n            \"whol_smtn_ntby_qty\": \"-6316\",\r\n   \
+    \         \"whol_ntby_qty_rate\": \"-1.00\",\r\n            \"whol_smtn_ntby_tr_pbmn\": \"569932\",\r\n            \"\
+    whol_ntby_tr_pbmn_rate\": \"4.35\",\r\n            \"bstp_nmix_prpr\": \"\",\r\n            \"bstp_nmix_prdy_vrss\": \"\
+    \",\r\n            \"prdy_vrss_sign\": \"\"\r\n        },...\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"\
+    MCA00000\",\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

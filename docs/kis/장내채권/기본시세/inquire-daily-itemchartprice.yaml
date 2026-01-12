@@ -1,0 +1,424 @@
+id: f5dcbbc3-bee6-4b83-a236-5f3a5bb59d72
+name: 장내채권 기간별시세(일) [국내주식-159]
+section: '[장내채권] 기본시세'
+category: 장내채권
+subcategory: 기본시세
+method: GET
+url: /uapi/domestic-bond/v1/quotations/inquire-daily-itemchartprice
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- FHKBJ773701C0
+- 모의투자 미지원
+real_tr_id: FHKBJ773701C0
+virtual_tr_id: 모의투자 미지원
+summary: "장내채권 기간별시세(일) API입니다. \n한국투자 HTS(eFriend Plus) > [0979] 장내채권종합주문 화면 가운데 \"일별\" 클릭 시 시세 기능을 API로 개발한 사항으로, 해당 화면을\
+  \ 참고하시면 기능을 이해하기 쉽습니다. \n\n최근 30건까지 데이터 확인이 가능합니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-26T09:25:35+09:00'
+  last_modified_date: '2025-04-30T13:08:51+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKBJ773701C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: '조건 시장 구분 코드 '
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: Unique key(B)
+  - code: FID_INPUT_ISCD
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목코드
+  example: "FID_COND_MRKT_DIV_CODE:B\r\nFID_INPUT_ISCD:KR101501D967"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: stck_bsop_date
+    name: 주식영업일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: bond_oprc
+    name: 채권시가2
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_hgpr
+    name: 채권고가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_lwpr
+    name: 채권저가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_prpr
+    name: 채권현재가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  example:
+    output:
+    - stck_bsop_date: '20240610'
+      bond_oprc: '0.00'
+      bond_hgpr: '0.00'
+      bond_lwpr: '0.00'
+      bond_prpr: '10997.10'
+      acml_vol: '0'
+    - stck_bsop_date: '20240607'
+      bond_oprc: '10997.10'
+      bond_hgpr: '10997.10'
+      bond_lwpr: '10997.10'
+      bond_prpr: '10997.10'
+      acml_vol: '119'
+    - stck_bsop_date: '20240605'
+      bond_oprc: '10997.50'
+      bond_hgpr: '10997.50'
+      bond_lwpr: '10997.50'
+      bond_prpr: '10997.50'
+      acml_vol: '97'
+    - stck_bsop_date: '20240530'
+      bond_oprc: '10860.00'
+      bond_hgpr: '10860.00'
+      bond_lwpr: '10860.00'
+      bond_prpr: '10860.00'
+      acml_vol: '46'
+    - stck_bsop_date: '20240529'
+      bond_oprc: '10873.00'
+      bond_hgpr: '10873.00'
+      bond_lwpr: '10873.00'
+      bond_prpr: '10873.00'
+      acml_vol: '3'
+    - stck_bsop_date: '20240528'
+      bond_oprc: '8540.00'
+      bond_hgpr: '10700.00'
+      bond_lwpr: '8540.00'
+      bond_prpr: '10700.00'
+      acml_vol: '49'
+    - stck_bsop_date: '20240520'
+      bond_oprc: '10867.70'
+      bond_hgpr: '10867.70'
+      bond_lwpr: '10867.70'
+      bond_prpr: '10867.70'
+      acml_vol: '14'
+    - stck_bsop_date: '20240517'
+      bond_oprc: '10850.40'
+      bond_hgpr: '10850.40'
+      bond_lwpr: '10850.40'
+      bond_prpr: '10850.40'
+      acml_vol: '1015'
+    - stck_bsop_date: '20240514'
+      bond_oprc: '10861.80'
+      bond_hgpr: '10863.50'
+      bond_lwpr: '10861.80'
+      bond_prpr: '10863.50'
+      acml_vol: '17549'
+    - stck_bsop_date: '20240513'
+      bond_oprc: '10844.30'
+      bond_hgpr: '10861.10'
+      bond_lwpr: '10844.30'
+      bond_prpr: '10861.10'
+      acml_vol: '1963'
+    - stck_bsop_date: '20240510'
+      bond_oprc: '10858.00'
+      bond_hgpr: '10858.00'
+      bond_lwpr: '10858.00'
+      bond_prpr: '10858.00'
+      acml_vol: '12'
+    - stck_bsop_date: '20240509'
+      bond_oprc: '10857.00'
+      bond_hgpr: '10857.00'
+      bond_lwpr: '10857.00'
+      bond_prpr: '10857.00'
+      acml_vol: '2'
+    - stck_bsop_date: '20240508'
+      bond_oprc: '10856.20'
+      bond_hgpr: '10856.20'
+      bond_lwpr: '10856.20'
+      bond_prpr: '10856.20'
+      acml_vol: '11'
+    - stck_bsop_date: '20240424'
+      bond_oprc: '10820.70'
+      bond_hgpr: '10820.70'
+      bond_lwpr: '10820.70'
+      bond_prpr: '10820.70'
+      acml_vol: '931'
+    - stck_bsop_date: '20240423'
+      bond_oprc: '10818.60'
+      bond_hgpr: '10819.00'
+      bond_lwpr: '10818.60'
+      bond_prpr: '10819.00'
+      acml_vol: '3708'
+    - stck_bsop_date: '20240422'
+      bond_oprc: '10817.60'
+      bond_hgpr: '10823.00'
+      bond_lwpr: '10817.60'
+      bond_prpr: '10823.00'
+      acml_vol: '13959'
+    - stck_bsop_date: '20240308'
+      bond_oprc: '10756.00'
+      bond_hgpr: '10788.00'
+      bond_lwpr: '10756.00'
+      bond_prpr: '10788.00'
+      acml_vol: '20'
+    - stck_bsop_date: '20231108'
+      bond_oprc: '10600.00'
+      bond_hgpr: '10600.00'
+      bond_lwpr: '10600.00'
+      bond_prpr: '10600.00'
+      acml_vol: '949'
+    - stck_bsop_date: '20231018'
+      bond_oprc: '10570.00'
+      bond_hgpr: '10620.00'
+      bond_lwpr: '10570.00'
+      bond_prpr: '10620.00'
+      acml_vol: '1890'
+    - stck_bsop_date: '20231013'
+      bond_oprc: '10592.00'
+      bond_hgpr: '10630.00'
+      bond_lwpr: '10592.00'
+      bond_prpr: '10630.00'
+      acml_vol: '10714'
+    - stck_bsop_date: '20231012'
+      bond_oprc: '10541.00'
+      bond_hgpr: '10592.00'
+      bond_lwpr: '10541.00'
+      bond_prpr: '10592.00'
+      acml_vol: '5691'
+    - stck_bsop_date: '20230926'
+      bond_oprc: '10615.70'
+      bond_hgpr: '10615.70'
+      bond_lwpr: '10615.70'
+      bond_prpr: '10615.70'
+      acml_vol: '4731'
+    - stck_bsop_date: '20230914'
+      bond_oprc: '10579.00'
+      bond_hgpr: '10579.00'
+      bond_lwpr: '10579.00'
+      bond_prpr: '10579.00'
+      acml_vol: '10'
+    - stck_bsop_date: '20230913'
+      bond_oprc: '10501.00'
+      bond_hgpr: '10501.00'
+      bond_lwpr: '10501.00'
+      bond_prpr: '10501.00'
+      acml_vol: '9'
+    - stck_bsop_date: '20230912'
+      bond_oprc: '10499.10'
+      bond_hgpr: '10540.00'
+      bond_lwpr: '10499.10'
+      bond_prpr: '10499.10'
+      acml_vol: '30'
+    - stck_bsop_date: '20230829'
+      bond_oprc: '10389.00'
+      bond_hgpr: '10389.00'
+      bond_lwpr: '10389.00'
+      bond_prpr: '10389.00'
+      acml_vol: '4761'
+    - stck_bsop_date: '20230825'
+      bond_oprc: '10550.00'
+      bond_hgpr: '10550.00'
+      bond_lwpr: '10550.00'
+      bond_prpr: '10550.00'
+      acml_vol: '12555'
+    - stck_bsop_date: '20230818'
+      bond_oprc: '10299.20'
+      bond_hgpr: '10299.20'
+      bond_lwpr: '10299.20'
+      bond_prpr: '10299.20'
+      acml_vol: '2838'
+    - stck_bsop_date: '20230814'
+      bond_oprc: '10350.00'
+      bond_hgpr: '10450.00'
+      bond_lwpr: '10350.00'
+      bond_prpr: '10450.00'
+      acml_vol: '2838'
+    - stck_bsop_date: '20230720'
+      bond_oprc: '10527.00'
+      bond_hgpr: '10527.00'
+      bond_lwpr: '10527.00'
+      bond_prpr: '10527.00'
+      acml_vol: '18'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

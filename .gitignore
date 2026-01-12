@@ -27,6 +27,12 @@ dummy/
 .env
 
 .DS_Store
+.venv/
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+.cache/
+tmp/
 
 real_secret.json
-virtual_secret.json
+demo_secret.json

@@ -1,0 +1,291 @@
+id: 4812f155-bdb5-47ac-a35b-a70d3d8f14c9
+name: 해외주식 정정취소주문[v1_해외주식-003]
+section: '[해외주식] 주문/계좌'
+category: 해외주식
+subcategory: 주문/계좌
+method: POST
+url: /uapi/overseas-stock/v1/trading/order-rvsecncl
+content_type: application/json; charset=UTF-8
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: https://openapivts.koreainvestment.com:29443
+tr_ids:
+- (미국 정정·취소) TTTT1004U (아시아 국가 하단 규격서 참고)
+- (미국 정정·취소) VTTT1004U (아시아 국가 하단 규격서 참고)
+real_tr_id: (미국 정정·취소) TTTT1004U (아시아 국가 하단 규격서 참고)
+virtual_tr_id: (미국 정정·취소) VTTT1004U (아시아 국가 하단 규격서 참고)
+summary: "접수된 해외주식 주문을 정정하거나 취소하기 위한 API입니다.\n(해외주식주문 시 Return 받은 ODNO를 참고하여 API를 호출하세요.)\n\n* 해외주식 서비스 신청 후 이용 가능합니다. (아래\
+  \ 링크 3번 해외증권 거래신청 참고)\nhttps://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.jsp\n\n* 해외 거래소 운영시간\
+  \ 외 API 호출 시 에러가 발생하오니 운영시간을 확인해주세요.\n* 해외 거래소 운영시간(한국시간 기준)\n1) 미국 : 23:30 ~ 06:00 (썸머타임 적용 시 22:30 ~ 05:00) \n   * 프리마켓(18:00\
+  \ ~ 23:30, Summer Time : 17:00 ~ 22:30), 애프터마켓(06:00 ~ 07:00, Summer Time : 05:00 ~ 07:00) 시간대에도 주문 가능\n2) 일본 : (오전) 09:00\
+  \ ~ 11:30, (오후) 12:30 ~ 15:00\n3) 상해 : 10:30 ~ 16:00\n4) 홍콩 : (오전) 10:30 ~ 13:00, (오후) 14:00 ~ 17:00\n\n※ POST API의 경우 BODY값의\
+  \ key값들을 대문자로 작성하셔야 합니다.\n   (EX. \"CANO\" : \"12345678\", \"ACNT_PRDT_CD\": \"01\",...)"
+description: '[해외주식-003 v1] 해외주식 정정취소주문'
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2021-12-15T13:08:14+09:00'
+  last_modified_date: '2025-04-30T10:46:53+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: false
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: 'OAuth 토큰이 필요한 API 경우 발급한 Access token
+
+      일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)
+
+      법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)
+
+
+      ※ 토큰 지정시 토큰 타입("Bearer") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 "Bearer" 붙여서 호출
+
+      EX) "Bearer eyJ..........8GA"'
+  - code: appkey
+    name: '앱키 '
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: "[실전투자]\nTTTT1004U : 미국 정정 취소 주문\nTTTS1003U : 홍콩 정정 취소 주문\nTTTS0309U : 일본 정정 취소 주문\nTTTS0302U : 상해 취소 주문\n\
+      TTTS0306U : 심천 취소 주문\nTTTS0312U : 베트남 취소 주문 \n\n[모의투자]\nVTTT1004U : 미국 정정 취소 주문\nVTTS1003U : 홍콩 정정 취소 주문\nVTTS0309U\
+      \ : 일본 정정 취소 주문\nVTTS0302U : 상해 취소 주문\nVTTS0306U : 심천 취소 주문\nVTTS0312U : 베트남 취소 주문"
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'B : 법인
+
+      P : 개인'
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호
+
+      ex) 01011112222 (하이픈 등 구분값 제거)'
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 계좌번호 체계(8-2)의 앞 8자리
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 계좌번호 체계(8-2)의 뒤 2자리
+  - code: OVRS_EXCG_CD
+    name: 해외거래소코드
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: "NASD : 나스닥 \nNYSE : 뉴욕 \nAMEX : 아멕스\nSEHK : 홍콩\nSHAA : 중국상해\nSZAA : 중국심천\nTKSE : 일본\nHASE : 베트남 하노이\nVNSE\
+      \ : 베트남 호치민"
+  - code: PDNO
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ORGN_ODNO
+    name: 원주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: "정정 또는 취소할 원주문번호\n(해외주식_주문 API ouput ODNO \nor 해외주식 미체결내역 API output ODNO 참고)"
+  - code: RVSE_CNCL_DVSN_CD
+    name: 정정취소구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: "01 : 정정 \n02 : 취소"
+  - code: ORD_QTY
+    name: 주문수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: OVRS_ORD_UNPR
+    name: 해외주문단가
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 취소주문 시, "0" 입력
+  - code: MGCO_APTM_ODNO
+    name: 운용사지정주문번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: ''
+  - code: ORD_SVR_DVSN_CD
+    name: 주문서버구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '"0"(Default)'
+  example:
+    CANO: 810XXXXX
+    ACNT_PRDT_CD: '01'
+    OVRS_EXCG_CD: NYSE
+    PDNO: BA
+    ORGN_ODNO: '30135009'
+    RVSE_CNCL_DVSN_CD: '01'
+    ORD_QTY: '1'
+    OVRS_ORD_UNPR: '226.00'
+    CTAC_TLNO: ''
+    MGCO_APTM_ODNO: ''
+    ORD_SVR_DVSN_CD: '0'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "0 : 성공 \n0 이외의 값 : 실패"
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 응답코드
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: 응답메세지
+  - code: output
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ''
+    required: true
+    description: ''
+  - code: KRX_FWDG_ORD_ORGNO
+    name: 한국거래소전송주문조직번호
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 주문시 한국투자증권 시스템에서 지정된 영업점코드
+  - code: ODNO
+    name: 주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 주문시 한국투자증권 시스템에서 채번된 주문번호
+  - code: ORD_TMD
+    name: 주문시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 주문시각(시분초HHMMSS)
+  example:
+    rt_cd: '0'
+    msg_cd: APBK0013
+    msg1: 주문 전송 완료 되었습니다.
+    output:
+      KRX_FWDG_ORD_ORGNO: 01790
+      ODNO: 0000004338
+      ORD_TMD: '160710'
+errors: []

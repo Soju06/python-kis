@@ -1,0 +1,391 @@
+id: 967e60c7-f1eb-4f23-b893-71747556ad49
+name: 당사 해외주식담보대출 가능 종목 [해외주식-051]
+section: '[해외주식] 시세분석'
+category: 해외주식
+subcategory: 시세분석
+method: GET
+url: /uapi/overseas-price/v1/quotations/colable-by-company
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 미지원
+tr_ids:
+- 모의투자 미지원
+- CTLN4050R
+real_tr_id: CTLN4050R
+virtual_tr_id: 모의투자 미지원
+summary: '당사 해외주식담보대출 가능 종목 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0497] 당사 해외주식담보대출 가능 종목 화면 의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
+
+
+  한 번의 호출에 20건까지 조회가 가능하며 다음조회가 불가하기에, PDNO에 데이터 확인하고자 하는 종목코드를 입력하여 단건조회용으로 사용하시기 바랍니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-17T10:27:46+09:00'
+  last_modified_date: '2025-05-15T10:33:31+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTLN4050R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: PDNO
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ex)AMD
+  - code: PRDT_TYPE_CD
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: 공백
+  - code: INQR_STRT_DT
+    name: 조회시작일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 공백
+  - code: INQR_END_DT
+    name: 조회종료일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 공백
+  - code: INQR_DVSN
+    name: 조회구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 공백
+  - code: NATN_CD
+    name: 국가코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: 840(미국), 344(홍콩), 156(중국)
+  - code: INQR_SQN_DVSN
+    name: 조회순서구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 01(이름순), 02(코드순)
+  - code: RT_DVSN_CD
+    name: 비율구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 공백
+  - code: RT
+    name: 비율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: 공백
+  - code: LOAN_PSBL_YN
+    name: 대출가능여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 공백
+  - code: CTX_AREA_FK100
+    name: 연속조회검색조건100
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: 공백
+  - code: CTX_AREA_NK100
+    name: 연속조회키100
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: 공백
+  example: "PDNO:AMD\r\nPRDT_TYPE_CD:\r\nINQR_STRT_DT:\r\nINQR_END_DT:\r\nINQR_DVSN:\r\nNATN_CD:840\r\nINQR_SQN_DVSN:02\r\n\
+    RT_DVSN_CD:\r\nRT:\r\nLOAN_PSBL_YN:\r\nCTX_AREA_FK100:\r\nCTX_AREA_NK100:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0002
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: pdno
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ovrs_item_name
+    name: 해외종목명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: loan_rt
+    name: 대출비율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: mgge_mntn_rt
+    name: 담보유지비율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: mgge_ensu_rt
+    name: 담보확보비율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: loan_exec_psbl_yn
+    name: 대출실행가능여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: stff_name
+    name: 직원명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: erlm_dt
+    name: 등록일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: tr_mket_name
+    name: 거래시장명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: crcy_cd
+    name: 통화코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: natn_kor_name
+    name: 국가한글명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: ovrs_excg_cd
+    name: 해외거래소코드
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: array
+  - code: loan_psbl_item_num
+    name: 대출가능종목수
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  example:
+    ctx_area_fk100: 'AMD!^!^!^!^!^840!^02                                                                                '
+    ctx_area_nk100: '                                                                                                    '
+    output1:
+    - pdno: AMD
+      ovrs_item_name: AMD
+      loan_rt: '50.00000000'
+      mgge_mntn_rt: '170.00000000'
+      mgge_ensu_rt: '170.00000000'
+      loan_exec_psbl_yn: Y
+      stff_name: 109477.석재민
+      erlm_dt: '20221230'
+      tr_mket_name: 나스닥
+      crcy_cd: USD
+      natn_kor_name: 미국
+      ovrs_excg_cd: NASD
+    output2:
+      loan_psbl_item_num: '403'
+    rt_cd: '0'
+    msg_cd: KIOK0460
+    msg1: '조회 되었습니다. (마지막 자료)                                                  '
+errors: []

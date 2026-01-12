@@ -1,0 +1,159 @@
+id: e77ce3c3-4786-4500-bba2-0c02d6d1e1a8
+name: 국내ETF NAV추이 [실시간-051]
+section: '[국내주식] 실시간시세'
+category: 국내주식
+subcategory: 실시간시세
+method: POST
+url: /tryitout/H0STNAV0
+content_type: ''
+req_format: ''
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- H0STNAV0
+real_tr_id: H0STNAV0
+virtual_tr_id: 모의투자 미지원
+summary: '[참고자료]
+
+  실시간시세(웹소켓) 파이썬 샘플코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/ws_domestic_overseas_all.py
+
+
+  실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.
+
+  https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션 업데이트 예정)
+
+
+  종목코드 마스터파일 파이썬 정제코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-17T10:20:09+09:00'
+  last_modified_date: '2025-04-30T13:15:45+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'B : 법인 / P : 개인'
+  - code: tr_type
+    name: 등록/해제
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '1: 등록, 2:해제'
+  - code: content-type
+    name: '컨텐츠타입 '
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: H0STNAV0
+  - code: tr_key
+    name: 구분값
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목코드 (ex. 005930 삼성전자)
+  example:
+    header:
+      approval_key: 35xxxxxa-bxxa-4xxb-87xxx-f56xxxxxxxxxx
+      custtype: P
+      tr_type: '1'
+      content-type: utf-8
+    body:
+      input:
+        tr_id: H0STNAV0
+        tr_key: 069500
+response:
+  headers: []
+  body:
+  - code: MKSC_SHRN_ISCD
+    name: 유가증권단축종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: NAV
+    name: NAV
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: NAV_PRDY_VRSS_SIGN
+    name: NAV전일대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: NAV_PRDY_VRSS
+    name: NAV전일대비
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: NAV_PRDY_CTRT
+    name: NAV전일대비율
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPRC_NAV
+    name: NAV시가
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: HPRC_NAV
+    name: NAV고가
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: LPRC_NAV
+    name: NAV저가
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  example: "# 연결 확인\r\n{\r\n    \"header\": {\r\n        \"tr_id\": \"H0STNAV0\", \r\n        \"tr_key\": \"069500\", \r\n\
+    \        \"encrypt\": \"N\"\r\n        }, \r\n    \"body\": {\r\n        \"rt_cd\": \"0\", \r\n        \"msg_cd\": \"\
+    OPSP0000\",\r\n        \"msg1\": \"SUBSCRIBE SUCCESS\", \r\n        \"output\": {\r\n            \"iv\": \"0123456789abcdef\"\
+    , \r\n            \"key\": \"abcdefghijklmnopabcdefghijklmnop\"}\r\n        }\r\n}\r\n\r\n# output\r\n0|H0STNAV0|001|069500^37235.46^5^-381.26^-1.01^37646.25^37646.25^37202.10"
+errors: []

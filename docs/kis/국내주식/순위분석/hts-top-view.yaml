@@ -1,0 +1,242 @@
+id: 636e216a-f3bb-4dc6-8bc3-e6d9babca5f1
+name: HTS조회상위20종목 [국내주식-214]
+section: '[국내주식] 순위분석'
+category: 국내주식
+subcategory: 순위분석
+method: GET
+url: /uapi/domestic-stock/v1/ranking/hts-top-view
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- HHMCM000100C0
+real_tr_id: HHMCM000100C0
+virtual_tr_id: 모의투자 미지원
+summary: "HTS조회상위20종목 API입니다. \n한국투자 HTS(eFriend Plus) > [0158] 조회종목상위 화면의 \"종목명\", \"종목코드\" 표시 기능을 API로 개발한 사항으로, 해당 화면을\
+  \ 참고하시면 기능을 이해하기 쉽습니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-11-08T13:38:25+09:00'
+  last_modified_date: '2025-06-24T14:07:50+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHMCM000100C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body: []
+  example: 없음
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: mrkt_div_cls_code
+    name: 시장구분
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: 'J : 코스피, Q : 코스닥'
+  - code: mksc_shrn_iscd
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 종목코드
+  example:
+    output1:
+    - mrkt_div_cls_code: J
+      mksc_shrn_iscd: 005930
+    - mrkt_div_cls_code: J
+      mksc_shrn_iscd: '233740'
+    - mrkt_div_cls_code: Q
+      mksc_shrn_iscd: '458650'
+    - mrkt_div_cls_code: J
+      mksc_shrn_iscd: '042660'
+    - mrkt_div_cls_code: J
+      mksc_shrn_iscd: '251340'
+    - mrkt_div_cls_code: J
+      mksc_shrn_iscd: '000660'
+    - mrkt_div_cls_code: Q
+      mksc_shrn_iscd: '196170'
+    - mrkt_div_cls_code: J
+      mksc_shrn_iscd: '475560'
+    - mrkt_div_cls_code: Q
+      mksc_shrn_iscd: '163280'
+    - mrkt_div_cls_code: J
+      mksc_shrn_iscd: '001470'
+    - mrkt_div_cls_code: J
+      mksc_shrn_iscd: '272210'
+    - mrkt_div_cls_code: J
+      mksc_shrn_iscd: 017860
+    - mrkt_div_cls_code: Q
+      mksc_shrn_iscd: '475960'
+    - mrkt_div_cls_code: J
+      mksc_shrn_iscd: '000100'
+    - mrkt_div_cls_code: J
+      mksc_shrn_iscd: '035420'
+    - mrkt_div_cls_code: Q
+      mksc_shrn_iscd: '460930'
+    - mrkt_div_cls_code: J
+      mksc_shrn_iscd: 066970
+    - mrkt_div_cls_code: Q
+      mksc_shrn_iscd: '378800'
+    - mrkt_div_cls_code: J
+      mksc_shrn_iscd: '373220'
+    - mrkt_div_cls_code: Q
+      mksc_shrn_iscd: '255220'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

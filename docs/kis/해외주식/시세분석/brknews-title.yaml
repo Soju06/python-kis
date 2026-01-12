@@ -1,0 +1,495 @@
+id: b73a4cdf-402b-4e11-a161-609ea9451835
+name: 해외속보(제목) [해외주식-055]
+section: '[해외주식] 시세분석'
+category: 해외주식
+subcategory: 시세분석
+method: GET
+url: /uapi/overseas-price/v1/quotations/brknews-title
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 미지원
+tr_ids:
+- FHKST01011801
+- 모의투자 미지원
+real_tr_id: FHKST01011801
+virtual_tr_id: 모의투자 미지원
+summary: '해외속보(제목) API입니다.
+
+  한국투자 HTS(eFriend Plus) > [7704] 해외속보 화면 의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
+
+
+  최대 100건까지 조회 가능합니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-17T10:28:33+09:00'
+  last_modified_date: '2025-05-15T10:33:21+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKST01011801
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_NEWS_OFER_ENTP_CODE
+    name: 뉴스제공업체코드
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: 뉴스제공업체구분=>0:전체조회
+  - code: FID_COND_MRKT_CLS_CODE
+    name: 조건시장구분코드
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 공백
+  - code: FID_INPUT_ISCD
+    name: 입력종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 공백
+  - code: FID_TITL_CNTT
+    name: 제목내용
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: 공백
+  - code: FID_INPUT_DATE_1
+    name: 입력날짜1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 공백
+  - code: FID_INPUT_HOUR_1
+    name: 입력시간1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 공백
+  - code: FID_RANK_SORT_CLS_CODE
+    name: 순위정렬구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 공백
+  - code: FID_INPUT_SRNO
+    name: 입력일련번호
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: 공백
+  - code: FID_COND_SCR_DIV_CODE
+    name: 조건화면분류코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 화면번호:11801
+  example: "FID_NEWS_OFER_ENTP_CODE:0\r\nFID_COND_MRKT_CLS_CODE:00\r\nFID_INPUT_ISCD:\r\nFID_TITL_CNTT:\r\nFID_INPUT_DATE_1:\r\
+    \nFID_INPUT_HOUR_1:\r\nFID_RANK_SORT_CLS_CODE:\r\nFID_INPUT_SRNO:\r\nFID_COND_SCR_DIV_CODE:11801"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: cntt_usiq_srno
+    name: 내용조회용일련번호
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: news_ofer_entp_code
+    name: 뉴스제공업체코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: data_dt
+    name: 작성일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: data_tm
+    name: 작성시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: hts_pbnt_titl_cntt
+    name: HTS공시제목내용
+    type: A0001
+    type_name: String
+    length: '400'
+    required: true
+    description: ''
+  - code: news_lrdv_code
+    name: 뉴스대구분
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: dorg
+    name: 자료원
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: iscd1
+    name: 종목코드1
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: iscd2
+    name: 종목코드2
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: iscd3
+    name: 종목코드3
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: iscd4
+    name: 종목코드4
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: iscd5
+    name: 종목코드5
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: iscd6
+    name: 종목코드6
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: iscd7
+    name: 종목코드7
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: iscd8
+    name: 종목코드8
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: iscd9
+    name: 종목코드9
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: iscd10
+    name: 종목코드10
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: kor_isnm1
+    name: 한글종목명1
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: kor_isnm2
+    name: 한글종목명2
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: kor_isnm3
+    name: 한글종목명3
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: kor_isnm4
+    name: 한글종목명4
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: kor_isnm5
+    name: 한글종목명5
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: kor_isnm6
+    name: 한글종목명6
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: kor_isnm7
+    name: 한글종목명7
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: kor_isnm8
+    name: 한글종목명8
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: kor_isnm9
+    name: 한글종목명9
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: kor_isnm10
+    name: 한글종목명10
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  example: "{\r\n    \"output\": [\r\n        {\r\n            \"cntt_usiq_srno\": \"2024052817340622954\",\r\n          \
+    \  \"news_ofer_entp_code\": \"U\",\r\n            \"data_dt\": \"20240528\",\r\n            \"data_tm\": \"173406\",\r\
+    \n            \"hts_pbnt_titl_cntt\": \"“시진핑, 기업인들 만나 신에너지 분야 과잉투자 경고”\",\r\n            \"news_lrdv_code\": \"38\",\r\
+    \n            \"dorg\": \"서울경제\",\r\n            \"iscd1\": \"\",\r\n            \"iscd2\": \"\",\r\n            \"iscd3\"\
+    : \"\",\r\n            \"iscd4\": \"\",\r\n            \"iscd5\": \"\",\r\n            \"iscd6\": \"\",\r\n          \
+    \  \"iscd7\": \"\",\r\n            \"iscd8\": \"\",\r\n            \"iscd9\": \"\",\r\n            \"iscd10\": \"\",\r\
+    \n            \"kor_isnm1\": \" \",\r\n            \"kor_isnm2\": \"\",\r\n            \"kor_isnm3\": \"\",\r\n      \
+    \      \"kor_isnm4\": \"\",\r\n            \"kor_isnm5\": \"\",\r\n            \"kor_isnm6\": \"\",\r\n            \"\
+    kor_isnm7\": \"\",\r\n            \"kor_isnm8\": \"\",\r\n            \"kor_isnm9\": \"\",\r\n            \"kor_isnm10\"\
+    : \"\"\r\n        },\r\n        {\r\n            \"cntt_usiq_srno\": \"2024052817332725534\",\r\n            \"news_ofer_entp_code\"\
+    : \"6\",\r\n            \"data_dt\": \"20240528\",\r\n            \"data_tm\": \"173327\",\r\n            \"hts_pbnt_titl_cntt\"\
+    : \"군부대 찾은 라이칭더, 中포위훈련 언급하며 \\\"모두 잘 대응\\\"\",\r\n            \"news_lrdv_code\": \"11\",\r\n            \"dorg\": \"\
+    연합뉴스\",\r\n            \"iscd1\": \"\",\r\n            \"iscd2\": \"\",\r\n            \"iscd3\": \"\",\r\n          \
+    \  \"iscd4\": \"\",\r\n            \"iscd5\": \"\",\r\n            \"iscd6\": \"\",\r\n            \"iscd7\": \"\",\r\n\
+    \            \"iscd8\": \"\",\r\n            \"iscd9\": \"\",\r\n            \"iscd10\": \"\",\r\n            \"kor_isnm1\"\
+    : \" \",\r\n            \"kor_isnm2\": \"\",\r\n            \"kor_isnm3\": \"\",\r\n            \"kor_isnm4\": \"\",\r\
+    \n            \"kor_isnm5\": \"\",\r\n            \"kor_isnm6\": \"\",\r\n            \"kor_isnm7\": \"\",\r\n       \
+    \     \"kor_isnm8\": \"\",\r\n            \"kor_isnm9\": \"\",\r\n            \"kor_isnm10\": \"\"\r\n        },\r\n \
+    \       {\r\n            \"cntt_usiq_srno\": \"2024052817332721133\",\r\n            \"news_ofer_entp_code\": \"6\",\r\
+    \n            \"data_dt\": \"20240528\",\r\n            \"data_tm\": \"173327\",\r\n            \"hts_pbnt_titl_cntt\"\
+    : \"적십자 \\\"기후변화로 '극단적 더위' 일수 1년 새 26일 증가\\\"\",\r\n            \"news_lrdv_code\": \"11\",\r\n            \"dorg\": \"\
+    연합뉴스\",\r\n            \"iscd1\": \"\",\r\n            \"iscd2\": \"\",\r\n            \"iscd3\": \"\",\r\n          \
+    \  \"iscd4\": \"\",\r\n            \"iscd5\": \"\",\r\n            \"iscd6\": \"\",\r\n            \"iscd7\": \"\",\r\n\
+    \            \"iscd8\": \"\",\r\n            \"iscd9\": \"\",\r\n            \"iscd10\": \"\",\r\n            \"kor_isnm1\"\
+    : \" \",\r\n            \"kor_isnm2\": \"\",\r\n            \"kor_isnm3\": \"\",\r\n            \"kor_isnm4\": \"\",\r\
+    \n            \"kor_isnm5\": \"\",\r\n            \"kor_isnm6\": \"\",\r\n            \"kor_isnm7\": \"\",\r\n       \
+    \     \"kor_isnm8\": \"\",\r\n            \"kor_isnm9\": \"\",\r\n            \"kor_isnm10\": \"\"\r\n        },\r\n \
+    \       {\r\n            \"cntt_usiq_srno\": \"2024052817312094823\",\r\n            \"news_ofer_entp_code\": \"6\",\r\
+    \n            \"data_dt\": \"20240528\",\r\n            \"data_tm\": \"173120\",\r\n            \"hts_pbnt_titl_cntt\"\
+    : \"미국제재 우려했나…중국 하이크비전, 러시아 사업 중단설\",\r\n            \"news_lrdv_code\": \"11\",\r\n            \"dorg\": \"연합뉴스\",\r\n\
+    \            \"iscd1\": \"\",\r\n            \"iscd2\": \"\",\r\n            \"iscd3\": \"\",\r\n            \"iscd4\"\
+    : \"\",\r\n            \"iscd5\": \"\",\r\n            \"iscd6\": \"\",\r\n            \"iscd7\": \"\",\r\n          \
+    \  \"iscd8\": \"\",\r\n            \"iscd9\": \"\",\r\n            \"iscd10\": \"\",\r\n            \"kor_isnm1\": \"\
+    \ \",\r\n            \"kor_isnm2\": \"\",\r\n            \"kor_isnm3\": \"\",\r\n            \"kor_isnm4\": \"\",\r\n\
+    \            \"kor_isnm5\": \"\",\r\n            \"kor_isnm6\": \"\",\r\n            \"kor_isnm7\": \"\",\r\n        \
+    \    \"kor_isnm8\": \"\",\r\n            \"kor_isnm9\": \"\",\r\n            \"kor_isnm10\": \"\"\r\n        },\r\n  \
+    \      {\r\n            \"cntt_usiq_srno\": \"2024052817304250020\",\r\n            \"news_ofer_entp_code\": \"8\",\r\n\
+    \            \"data_dt\": \"20240528\",\r\n            \"data_tm\": \"173042\",\r\n            \"hts_pbnt_titl_cntt\"\
+    : \"[유럽개장]장 초반 혼조세…獨 0.25%↑\",\r\n            \"news_lrdv_code\": \"10\",\r\n            \"dorg\": \"아시아 경제\",\r\n   \
+    \         \"iscd1\": \"\",\r\n            \"iscd2\": \"\",\r\n            \"iscd3\": \"\",\r\n            \"iscd4\": \"\
+    \",\r\n            \"iscd5\": \"\",\r\n            \"iscd6\": \"\",\r\n            \"iscd7\": \"\",\r\n            \"\
+    iscd8\": \"\",\r\n            \"iscd9\": \"\",\r\n            \"iscd10\": \"\",\r\n            \"kor_isnm1\": \" \",\r\
+    \n            \"kor_isnm2\": \"\",\r\n            \"kor_isnm3\": \"\",\r\n            \"kor_isnm4\": \"\",\r\n       \
+    \     \"kor_isnm5\": \"\",\r\n            \"kor_isnm6\": \"\",\r\n            \"kor_isnm7\": \"\",\r\n            \"kor_isnm8\"\
+    : \"\",\r\n            \"kor_isnm9\": \"\",\r\n            \"kor_isnm10\": \"\"\r\n        },\r\n        {\r\n       \
+    \     \"cntt_usiq_srno\": \"2024052817264510344\",\r\n            \"news_ofer_entp_code\": \"A\",\r\n            \"data_dt\"\
+    : \"20240528\",\r\n            \"data_tm\": \"172645\",\r\n            \"hts_pbnt_titl_cntt\": \"122m 협곡 아래로 떨어졌는데 멀쩡하디니…기적\
+    \ 일어난 美 10대\",\r\n            \"news_lrdv_code\": \"10\",\r\n            \"dorg\": \"매일경제\",\r\n            \"iscd1\"\
+    : \"\",\r\n            \"iscd2\": \"\",\r\n            \"iscd3\": \"\",\r\n            \"iscd4\": \"\",\r\n          \
+    \  \"iscd5\": \"\",\r\n            \"iscd6\": \"\",\r\n            \"iscd7\": \"\",\r\n            \"iscd8\": \"\",\r\n\
+    \            \"iscd9\": \"\",\r\n            \"iscd10\": \"\",\r\n            \"kor_isnm1\": \" \",\r\n            \"\
+    kor_isnm2\": \"\",\r\n            \"kor_isnm3\": \"\",\r\n            \"kor_isnm4\": \"\",\r\n            \"kor_isnm5\"\
+    : \"\",\r\n            \"kor_isnm6\": \"\",\r\n            \"kor_isnm7\": \"\",\r\n            \"kor_isnm8\": \"\",\r\n\
+    \            \"kor_isnm9\": \"\",\r\n            \"kor_isnm10\": \"\"\r\n        },...\r\n    ],\r\n    \"rt_cd\": \"\
+    0\",\r\n    \"msg_cd\": \"MCA00000\",\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

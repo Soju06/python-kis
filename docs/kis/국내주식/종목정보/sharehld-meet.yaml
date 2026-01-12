@@ -1,0 +1,405 @@
+id: e2633b78-811f-40b8-a933-dcba64c3e0e8
+name: 예탁원정보(주주총회일정) [국내주식-154]
+section: '[국내주식] 종목정보'
+category: 국내주식
+subcategory: 종목정보
+method: GET
+url: /uapi/domestic-stock/v1/ksdinfo/sharehld-meet
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- HHKDB669111C0
+- 모의투자 미지원
+real_tr_id: HHKDB669111C0
+virtual_tr_id: 모의투자 미지원
+summary: "예탁원정보(주주총회일정) API입니다. \n한국투자 HTS(eFriend Plus) > [0759] 주주총회 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\
+  \n※ 예탁원에서 제공한 자료이므로 정보용으로만 사용하시기 바랍니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-12T12:44:16+09:00'
+  last_modified_date: '2025-05-14T13:22:22+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHKDB669111C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CTS
+    name: CTS
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: 공백
+  - code: F_DT
+    name: 조회일자From
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 일자 ~
+  - code: T_DT
+    name: 조회일자To
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ~ 일자
+  - code: SHT_CD
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: '공백: 전체,  특정종목 조회시 : 종목코드'
+  example: "cts:\r\nf_dt:20230101\r\nt_dt:20240326\r\nsht_cd:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: record_date
+    name: 기준일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: sht_cd
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: isin_name
+    name: 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: gen_meet_dt
+    name: 주총일자
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: gen_meet_type
+    name: 주총사유
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: agenda
+    name: 주총의안
+    type: A0001
+    type_name: String
+    length: '71'
+    required: true
+    description: ''
+  - code: vote_tot_qty
+    name: 의결권주식총수
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  example:
+    output1:
+    - record_date: '20240322'
+      sht_cd: '388370'
+      isin_name: (주)우앤컴퍼니
+      gen_meet_dt: 2024/04/18
+      gen_meet_type: 임시총회
+      agenda: 정관변경
+      vote_tot_qty: '      959800'
+    - record_date: '20240322'
+      sht_cd: '388370'
+      isin_name: (주)우앤컴퍼니
+      gen_meet_dt: 2024/04/18
+      gen_meet_type: 임시총회
+      agenda: 이사선임
+      vote_tot_qty: '      959800'
+    - record_date: '20240321'
+      sht_cd: '323530'
+      isin_name: (주)아이월드제약
+      gen_meet_dt: 2024/04/25
+      gen_meet_type: 임시총회
+      agenda: 사내이사 선임
+      vote_tot_qty: '    25721999'
+    - record_date: '20240321'
+      sht_cd: '323530'
+      isin_name: (주)아이월드제약
+      gen_meet_dt: 2024/04/25
+      gen_meet_type: 임시총회
+      agenda: 정관변경
+      vote_tot_qty: '    25721999'
+    - record_date: '20240321'
+      sht_cd: '323530'
+      isin_name: (주)아이월드제약
+      gen_meet_dt: 2024/04/25
+      gen_meet_type: 임시총회
+      agenda: 사외이사 선임
+      vote_tot_qty: '    25721999'
+    - record_date: '20240315'
+      sht_cd: 091090
+      isin_name: 세원이앤씨(주)
+      gen_meet_dt: 2024/04/12
+      gen_meet_type: 임시총회
+      agenda: 이사해임(주주제안)
+      vote_tot_qty: '    52754723'
+    - record_date: '20240315'
+      sht_cd: 091090
+      isin_name: 세원이앤씨(주)
+      gen_meet_dt: 2024/04/12
+      gen_meet_type: 임시총회
+      agenda: 정관변경(주주제안)
+      vote_tot_qty: '    52754723'
+    - record_date: '20240315'
+      sht_cd: 091090
+      isin_name: 세원이앤씨(주)
+      gen_meet_dt: 2024/04/12
+      gen_meet_type: 임시총회
+      agenda: 이사해임(주주제안)
+      vote_tot_qty: '    52754723'
+    - record_date: '20240315'
+      sht_cd: 091090
+      isin_name: 세원이앤씨(주)
+      gen_meet_dt: 2024/04/12
+      gen_meet_type: 임시총회
+      agenda: 사외이사 선임(주주제안)
+      vote_tot_qty: '    52754723'
+    - record_date: '20240315'
+      sht_cd: 091090
+      isin_name: 세원이앤씨(주)
+      gen_meet_dt: 2024/04/12
+      gen_meet_type: 임시총회
+      agenda: 사내이사 선임(주주제안)
+      vote_tot_qty: '    52754723'
+    - record_date: '20240312'
+      sht_cd: '380440'
+      isin_name: 엔에이치기업인수목적19호(주)
+      gen_meet_dt: 2024/04/19
+      gen_meet_type: 임시총회
+      agenda: 청산결산보고서승인
+      vote_tot_qty: '    10258000'
+    - record_date: '20240308'
+      sht_cd: '263540'
+      isin_name: (주)어스앤에어로스페이스
+      gen_meet_dt: 2024/04/03
+      gen_meet_type: 임시총회
+      agenda: 사내이사 선임
+      vote_tot_qty: '    14294091'
+    - record_date: '20240308'
+      sht_cd: '263540'
+      isin_name: (주)어스앤에어로스페이스
+      gen_meet_dt: 2024/04/03
+      gen_meet_type: 임시총회
+      agenda: 사내이사 선임
+      vote_tot_qty: '    14294091'
+    - record_date: '20240308'
+      sht_cd: '263540'
+      isin_name: (주)어스앤에어로스페이스
+      gen_meet_dt: 2024/04/03
+      gen_meet_type: 임시총회
+      agenda: 정관변경
+      vote_tot_qty: '    14294091'
+    - record_date: '20240308'
+      sht_cd: '263540'
+      isin_name: (주)어스앤에어로스페이스
+      gen_meet_dt: 2024/04/03
+      gen_meet_type: 임시총회
+      agenda: 사내이사 선임
+      vote_tot_qty: '    14294091'
+    - record_date: '20240308'
+      sht_cd: '263540'
+      isin_name: (주)어스앤에어로스페이스
+      gen_meet_dt: 2024/04/03
+      gen_meet_type: 임시총회
+      agenda: 사외이사 선임
+      vote_tot_qty: '    14294091'
+    - record_date: '20240308'
+      sht_cd: '343990'
+      isin_name: 비즈플레이(주)
+      gen_meet_dt: 2024/03/27
+      gen_meet_type: 종류총회
+      agenda: 정관변경
+      vote_tot_qty: '    21751896'
+    - record_date: '20240307'
+      sht_cd: '001140'
+      isin_name: (주)국보
+      gen_meet_dt: 2024/04/26
+      gen_meet_type: 정기총회
+      agenda: 사내이사 선임
+      vote_tot_qty: '    13691728'
+    - record_date: '20240307'
+      sht_cd: '001140'
+      isin_name: (주)국보
+      gen_meet_dt: 2024/04/26
+      gen_meet_type: 정기총회
+      agenda: 감사선임
+      vote_tot_qty: '    13691728'
+    - record_date: '20240307'
+      sht_cd: '001140'
+      isin_name: (주)국보
+      gen_meet_dt: 2024/04/26
+      gen_meet_type: 정기총회
+      agenda: 이사 보수한도액 승인
+      vote_tot_qty: '    13691728'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

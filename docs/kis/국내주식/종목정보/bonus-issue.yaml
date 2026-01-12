@@ -1,0 +1,311 @@
+id: 281cea6a-ae69-4837-99dd-e7e6ba1ff442
+name: 예탁원정보(무상증자일정) [국내주식-144]
+section: '[국내주식] 종목정보'
+category: 국내주식
+subcategory: 종목정보
+method: GET
+url: /uapi/domestic-stock/v1/ksdinfo/bonus-issue
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- HHKDB669101C0
+- 모의투자 미지원
+real_tr_id: HHKDB669101C0
+virtual_tr_id: 모의투자 미지원
+summary: "예탁원정보(무상증자일정) API입니다. \n한국투자 HTS(eFriend Plus) > [0656] 무상증자 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\
+  \n※ 예탁원에서 제공한 자료이므로 정보용으로만 사용하시기 바랍니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-12T12:43:32+09:00'
+  last_modified_date: '2025-05-14T13:22:06+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHKDB669101C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CTS
+    name: CTS
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: 공백
+  - code: F_DT
+    name: 조회일자From
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 일자 ~
+  - code: T_DT
+    name: 조회일자To
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ~ 일자
+  - code: SHT_CD
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: '공백: 전체,  특정종목 조회시 : 종목코드'
+  example: "cts:\r\nf_dt:20230301\r\nt_dt:20240326\r\nsht_cd:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: record_date
+    name: 기준일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: sht_cd
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: isin_name
+    name: 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: fix_rate
+    name: 확정배정율
+    type: A0001
+    type_name: String
+    length: '152'
+    required: true
+    description: ''
+  - code: odd_rec_price
+    name: 단주기준가
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: right_dt
+    name: 권리락일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: odd_pay_dt
+    name: 단주대금지급일
+    type: A0001
+    type_name: String
+    length: '23'
+    required: true
+    description: ''
+  - code: list_date
+    name: 상장/등록일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: tot_issue_stk_qty
+    name: 발행주식
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: issue_stk_qty
+    name: 발행할주식
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: stk_kind
+    name: 주식종류
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  example: "{\r\n    \"output1\": [\r\n        {\r\n            \"record_date\": \"20240326\",\r\n            \"sht_cd\":\
+    \ \"466100\",\r\n            \"isin_name\": \"클로봇\",\r\n            \"fix_rate\": \"1000.0\",\r\n            \"odd_rec_price\"\
+    : \"000000000\",\r\n            \"right_dt\": \"20240325\",\r\n            \"odd_pay_dt\": \"\",\r\n            \"list_date\"\
+    : \"\",\r\n            \"tot_issue_stk_qty\": \"     1885394\",\r\n            \"issue_stk_qty\": \"    18853940\",\r\n\
+    \            \"stk_kind\": \"01\"\r\n        },\r\n        {\r\n            \"record_date\": \"20240315\",\r\n       \
+    \     \"sht_cd\": \"473980\",\r\n            \"isin_name\": \"노머스\",\r\n            \"fix_rate\": \"3900.0\",\r\n    \
+    \        \"odd_rec_price\": \"000000000\",\r\n            \"right_dt\": \"20240314\",\r\n            \"odd_pay_dt\": \"\
+    \",\r\n            \"list_date\": \"\",\r\n            \"tot_issue_stk_qty\": \"      234220\",\r\n            \"issue_stk_qty\"\
+    : \"     9134580\",\r\n            \"stk_kind\": \"01\"\r\n        },\r\n        {\r\n            \"record_date\": \"\
+    20240314\",\r\n            \"sht_cd\": \"377220\",\r\n            \"isin_name\": \"프롬바이오\",\r\n            \"fix_rate\"\
+    : \"100.00\",\r\n            \"odd_rec_price\": \"000000000\",\r\n            \"right_dt\": \"20240313\",\r\n        \
+    \    \"odd_pay_dt\": \"\",\r\n            \"list_date\": \"20240405\",\r\n            \"tot_issue_stk_qty\": \"    14155000\"\
+    ,\r\n            \"issue_stk_qty\": \"    14155000\",\r\n            \"stk_kind\": \"01\"\r\n        },\r\n        {\r\
+    \n            \"record_date\": \"20240307\",\r\n            \"sht_cd\": \"357230\",\r\n            \"isin_name\": \"에이치피오\"\
+    ,\r\n            \"fix_rate\": \"100.00\",\r\n            \"odd_rec_price\": \"000000000\",\r\n            \"right_dt\"\
+    : \"20240306\",\r\n            \"odd_pay_dt\": \"\",\r\n            \"list_date\": \"20240329\",\r\n            \"tot_issue_stk_qty\"\
+    : \"    21149725\",\r\n            \"issue_stk_qty\": \"    20337240\",\r\n            \"stk_kind\": \"01\"\r\n      \
+    \  },\r\n        {\r\n            \"record_date\": \"20240305\",\r\n            \"sht_cd\": \"005810\",\r\n          \
+    \  \"isin_name\": \"풍산홀딩스\",\r\n            \"fix_rate\": \" 50.00\",\r\n            \"odd_rec_price\": \"000029850\"\
+    ,\r\n            \"right_dt\": \"20240304\",\r\n            \"odd_pay_dt\": \"2024/03/29 ~ 2024/03/29\",\r\n         \
+    \   \"list_date\": \"20240322\",\r\n            \"tot_issue_stk_qty\": \"     9748528\",\r\n            \"issue_stk_qty\"\
+    : \"     4668764\",\r\n            \"stk_kind\": \"01\"\r\n        },...\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"\
+    msg_cd\": \"MCA00000\",\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

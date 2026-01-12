@@ -1,0 +1,156 @@
+id: e3e7dc3e-4989-4d85-9ac0-f25c805f3c7c
+name: 국내주식 장운영정보 (NXT)
+section: '[국내주식] 실시간시세'
+category: 국내주식
+subcategory: 실시간시세
+method: POST
+url: /tryitout/H0NXMKO0
+content_type: ''
+req_format: ''
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- H0NXMKO0
+real_tr_id: H0NXMKO0
+virtual_tr_id: 모의투자 미지원
+summary: ''
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2025-03-06T17:48:15+09:00'
+  last_modified_date: '2025-04-30T13:19:26+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '286'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: tr_type
+    name: 거래타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '1 : 등록
+
+      2 : 해제'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 'H0NXMKO0 : 국내주식 장운영정보 (NXT)'
+  - code: tr_key
+    name: 구분값
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목코드 (ex 005930 삼성전자)
+  example: null
+response:
+  headers: []
+  body:
+  - code: MKSC_SHRN_ISCD
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: TRHT_YN
+    name: 거래정지 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: TR_SUSP_REAS_CNTT
+    name: 거래 정지 사유 내용
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: ''
+  - code: MKOP_CLS_CODE
+    name: 장운영 구분 코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: ANTC_MKOP_CLS_CODE
+    name: 예상 장운영 구분 코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: MRKT_TRTM_CLS_CODE
+    name: 임의연장구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: DIVI_APP_CLS_CODE
+    name: 동시호가배분처리구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: ISCD_STAT_CLS_CODE
+    name: 종목상태구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: VI_CLS_CODE
+    name: VI적용구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OVTM_VI_CLS_CODE
+    name: 시간외단일가VI적용구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: EXCH_CLS_CODE
+    name: 거래소 구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  example: null
+errors: []

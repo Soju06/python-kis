@@ -1,0 +1,323 @@
+id: f1ce6099-5bf2-4b4e-915e-e0c7020af4bf
+name: ELW 변동성 추이(틱) [국내주식-180]
+section: '[국내주식] ELW 시세'
+category: 국내주식
+subcategory: ELW 시세
+method: GET
+url: /uapi/elw/v1/quotations/volatility-trend-tick
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 미지원
+tr_ids:
+- FHPEW02840400
+- 모의투자 미지원
+real_tr_id: FHPEW02840400
+virtual_tr_id: 모의투자 미지원
+summary: 'ELW 변동성 추이(틱) API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0284] ELW 변동성 추이 화면의 "틱 차트" 변동성 추이 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-03T12:45:26+09:00'
+  last_modified_date: '2025-05-07T09:37:38+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPEW02840400
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건시장분류코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: W(Unique key)
+  - code: FID_INPUT_ISCD
+    name: 입력종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ex) 58J297(KBJ297삼성전자콜)
+  example: "FID_COND_MRKT_DIV_CODE:W\r\nFID_INPUT_ISCD:57K281"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: bsop_date
+    name: 주식영업일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: stck_cntg_hour
+    name: ELW현재가
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: elw_prpr
+    name: 전일대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: hts_ints_vltl
+    name: 전일대비부호
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  example:
+    output:
+    - bsop_date: '20240507'
+      stck_cntg_hour: '150619'
+      elw_prpr: '25'
+      hts_ints_vltl: '33.03'
+    - bsop_date: '20240507'
+      stck_cntg_hour: '150032'
+      elw_prpr: '25'
+      hts_ints_vltl: '28.44'
+    - bsop_date: '20240507'
+      stck_cntg_hour: '150031'
+      elw_prpr: '25'
+      hts_ints_vltl: '28.44'
+    - bsop_date: '20240507'
+      stck_cntg_hour: '145743'
+      elw_prpr: '25'
+      hts_ints_vltl: '33.44'
+    - bsop_date: '20240507'
+      stck_cntg_hour: '145743'
+      elw_prpr: '25'
+      hts_ints_vltl: '33.44'
+    - bsop_date: '20240507'
+      stck_cntg_hour: '133437'
+      elw_prpr: '25'
+      hts_ints_vltl: '32.47'
+    - bsop_date: '20240507'
+      stck_cntg_hour: '133434'
+      elw_prpr: '25'
+      hts_ints_vltl: '32.47'
+    - bsop_date: '20240507'
+      stck_cntg_hour: '132342'
+      elw_prpr: '25'
+      hts_ints_vltl: '31.60'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 093016
+      elw_prpr: '30'
+      hts_ints_vltl: '28.62'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 092952
+      elw_prpr: '25'
+      hts_ints_vltl: '28.62'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 091704
+      elw_prpr: '30'
+      hts_ints_vltl: '33.03'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 090900
+      elw_prpr: '30'
+      hts_ints_vltl: '33.02'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 090735
+      elw_prpr: '30'
+      hts_ints_vltl: '28.59'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 090712
+      elw_prpr: '30'
+      hts_ints_vltl: '28.59'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 090710
+      elw_prpr: '30'
+      hts_ints_vltl: '28.59'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 090555
+      elw_prpr: '30'
+      hts_ints_vltl: '33.46'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 090553
+      elw_prpr: '30'
+      hts_ints_vltl: '33.46'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 090511
+      elw_prpr: '30'
+      hts_ints_vltl: '33.46'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 090445
+      elw_prpr: '30'
+      hts_ints_vltl: '36.51'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 090445
+      elw_prpr: '30'
+      hts_ints_vltl: '36.51'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 090445
+      elw_prpr: '30'
+      hts_ints_vltl: '36.51'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 090320
+      elw_prpr: '35'
+      hts_ints_vltl: '36.51'
+    - bsop_date: '20240507'
+      stck_cntg_hour: 090030
+      elw_prpr: '40'
+      hts_ints_vltl: '32.97'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

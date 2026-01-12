@@ -1,0 +1,332 @@
+id: a64dc948-de6c-4e7a-988b-9769ac8fd5b2
+name: ELW 민감도 추이(일별) [국내주식-176]
+section: '[국내주식] ELW 시세'
+category: 국내주식
+subcategory: ELW 시세
+method: GET
+url: /uapi/elw/v1/quotations/sensitivity-trend-daily
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 미지원
+tr_ids:
+- FHPEW02830200
+- 모의투자 미지원
+real_tr_id: FHPEW02830200
+virtual_tr_id: 모의투자 미지원
+summary: 'ELW 민감도 추이(일별) API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0283] ELW 민감도 추이 화면의 "일자별" 민감도추이 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-03T12:44:49+09:00'
+  last_modified_date: '2025-05-07T09:37:20+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPEW02830200
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건시장분류코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 시장구분코드 (W)
+  - code: FID_INPUT_ISCD
+    name: 입력종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ex)(58J438(KBJ438삼성전자풋)
+  example: "FID_COND_MRKT_DIV_CODE:W\r\nFID_INPUT_ISCD:57K281"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: stck_bsop_date
+    name: 주식영업일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: elw_prpr
+    name: ELW현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: hts_thpr
+    name: HTS이론가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: delta_val
+    name: 델타값
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: gama
+    name: 감마
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: theta
+    name: 세타
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: vega
+    name: 베가
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: rho
+    name: 로우
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  example: "{\r\n    \"output\": [\r\n        {\r\n            \"stck_bsop_date\": \"20240507\",\r\n            \"elw_prpr\"\
+    : \"25\",\r\n            \"prdy_vrss\": \"-20\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\"\
+    : \"-44.44\",\r\n            \"hts_thpr\": \"20.39\",\r\n            \"delta_val\": \"-0.4034\",\r\n            \"gama\"\
+    : \"0.0000\",\r\n            \"theta\": \"0.5843\",\r\n            \"vega\": \"0.9954\",\r\n            \"rho\": \"-0.3529\"\
+    \r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240503\",\r\n            \"elw_prpr\": \"45\",\r\n\
+    \            \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\
+    \n            \"hts_thpr\": \"39.43\",\r\n            \"delta_val\": \"-0.5792\",\r\n            \"gama\": \"0.0000\"\
+    ,\r\n            \"theta\": \"0.5531\",\r\n            \"vega\": \"0.9786\",\r\n            \"rho\": \"-0.5143\"\r\n \
+    \       },\r\n        {\r\n            \"stck_bsop_date\": \"20240502\",\r\n            \"elw_prpr\": \"45\",\r\n    \
+    \        \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n \
+    \           \"hts_thpr\": \"37.16\",\r\n            \"delta_val\": \"-0.5529\",\r\n            \"gama\": \"0.0000\",\r\
+    \n            \"theta\": \"0.5859\",\r\n            \"vega\": \"1.0136\",\r\n            \"rho\": \"-0.5143\"\r\n    \
+    \    },\r\n        {\r\n            \"stck_bsop_date\": \"20240430\",\r\n            \"elw_prpr\": \"45\",\r\n       \
+    \     \"prdy_vrss\": \"-5\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-10.00\",\r\n \
+    \           \"hts_thpr\": \"39.30\",\r\n            \"delta_val\": \"-0.5847\",\r\n            \"gama\": \"0.0000\",\r\
+    \n            \"theta\": \"0.4979\",\r\n            \"vega\": \"1.0113\",\r\n            \"rho\": \"-0.5579\"\r\n    \
+    \    },\r\n        {\r\n            \"stck_bsop_date\": \"20240429\",\r\n            \"elw_prpr\": \"50\",\r\n       \
+    \     \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n    \
+    \        \"hts_thpr\": \"44.66\",\r\n            \"delta_val\": \"-0.6211\",\r\n            \"gama\": \"0.0000\",\r\n\
+    \            \"theta\": \"0.4599\",\r\n            \"vega\": \"0.9938\",\r\n            \"rho\": \"-0.6106\"\r\n     \
+    \   },\r\n        {\r\n            \"stck_bsop_date\": \"20240426\",\r\n            \"elw_prpr\": \"50\",\r\n        \
+    \    \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n     \
+    \       \"hts_thpr\": \"44.96\",\r\n            \"delta_val\": \"-0.6202\",\r\n            \"gama\": \"0.0000\",\r\n \
+    \           \"theta\": \"0.4439\",\r\n            \"vega\": \"1.0115\",\r\n            \"rho\": \"-0.6308\"\r\n      \
+    \  },\r\n        {\r\n            \"stck_bsop_date\": \"20240425\",\r\n            \"elw_prpr\": \"50\",\r\n         \
+    \   \"prdy_vrss\": \"5\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"11.11\",\r\n     \
+    \       \"hts_thpr\": \"47.92\",\r\n            \"delta_val\": \"-0.6534\",\r\n            \"gama\": \"0.0000\",\r\n \
+    \           \"theta\": \"0.3673\",\r\n            \"vega\": \"0.9917\",\r\n            \"rho\": \"-0.6802\"\r\n      \
+    \  },\r\n        {\r\n            \"stck_bsop_date\": \"20240424\",\r\n            \"elw_prpr\": \"45\",\r\n         \
+    \   \"prdy_vrss\": \"-10\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-18.18\",\r\n  \
+    \          \"hts_thpr\": \"33.74\",\r\n            \"delta_val\": \"-0.5173\",\r\n            \"gama\": \"0.0000\",\r\n\
+    \            \"theta\": \"0.5516\",\r\n            \"vega\": \"1.1208\",\r\n            \"rho\": \"-0.5781\"\r\n     \
+    \   },\r\n        {\r\n            \"stck_bsop_date\": \"20240423\",\r\n            \"elw_prpr\": \"55\",\r\n        \
+    \    \"prdy_vrss\": \"-5\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-8.33\",\r\n   \
+    \         \"hts_thpr\": \"53.36\",\r\n            \"delta_val\": \"-0.6933\",\r\n            \"gama\": \"0.0000\",\r\n\
+    \            \"theta\": \"0.3086\",\r\n            \"vega\": \"0.9632\",\r\n            \"rho\": \"-0.7635\"\r\n     \
+    \   },\r\n        {\r\n            \"stck_bsop_date\": \"20240422\",\r\n            \"elw_prpr\": \"60\",\r\n        \
+    \    \"prdy_vrss\": \"15\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"33.33\",\r\n   \
+    \         \"hts_thpr\": \"49.10\",\r\n            \"delta_val\": \"-0.6135\",\r\n            \"gama\": \"0.0000\",\r\n\
+    \            \"theta\": \"0.4786\",\r\n            \"vega\": \"1.0740\",\r\n            \"rho\": \"-0.7166\"\r\n     \
+    \   },\r\n        {\r\n            \"stck_bsop_date\": \"20240419\",\r\n            \"elw_prpr\": \"45\",\r\n        \
+    \    \"prdy_vrss\": \"10\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"28.57\",\r\n   \
+    \         \"hts_thpr\": \"38.76\",\r\n            \"delta_val\": \"-0.5727\",\r\n            \"gama\": \"0.0000\",\r\n\
+    \            \"theta\": \"0.4045\",\r\n            \"vega\": \"1.1391\",\r\n            \"rho\": \"-0.6851\"\r\n     \
+    \   },\r\n        {\r\n            \"stck_bsop_date\": \"20240418\",\r\n            \"elw_prpr\": \"35\",\r\n        \
+    \    \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n     \
+    \       \"hts_thpr\": \"28.22\",\r\n            \"delta_val\": \"-0.4785\",\r\n            \"gama\": \"0.0000\",\r\n \
+    \           \"theta\": \"0.4284\",\r\n            \"vega\": \"1.2033\",\r\n            \"rho\": \"-0.5988\"\r\n      \
+    \  },\r\n        {\r\n            \"stck_bsop_date\": \"20240417\",\r\n            \"elw_prpr\": \"35\",\r\n         \
+    \   \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n      \
+    \      \"hts_thpr\": \"31.87\",\r\n            \"delta_val\": \"-0.5156\",\r\n            \"gama\": \"0.0000\",\r\n  \
+    \          \"theta\": \"0.3620\",\r\n            \"vega\": \"1.2100\",\r\n            \"rho\": \"-0.6539\"\r\n       \
+    \ },\r\n        {\r\n            \"stck_bsop_date\": \"20240416\",\r\n            \"elw_prpr\": \"35\",\r\n          \
+    \  \"prdy_vrss\": \"10\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"40.00\",\r\n     \
+    \       \"hts_thpr\": \"26.58\",\r\n            \"delta_val\": \"-0.4591\",\r\n            \"gama\": \"0.0000\",\r\n \
+    \           \"theta\": \"0.4314\",\r\n            \"vega\": \"1.2378\",\r\n            \"rho\": \"-0.6115\"\r\n      \
+    \  },...\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"MCA00000\",\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

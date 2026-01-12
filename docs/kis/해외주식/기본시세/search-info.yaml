@@ -1,0 +1,695 @@
+id: 7f77a12b-b23c-4605-93ea-4e1b3c0356fb
+name: 해외주식 상품기본정보[v1_해외주식-034]
+section: '[해외주식] 기본시세'
+category: 해외주식
+subcategory: 기본시세
+method: GET
+url: /uapi/overseas-price/v1/quotations/search-info
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- CTPF1702R
+- 모의투자 미지원
+real_tr_id: CTPF1702R
+virtual_tr_id: 모의투자 미지원
+summary: '해외주식 상품기본정보 API입니다.
+
+  시세제공기관(연합)에서 제공하는 해외주식 상품기본정보 데이터를 확인하실 수 있습니다.
+
+
+  ※ 해당자료는 시세제공기관(연합)의 자료를 제공하고 있으며, 오류와 지연이 발생할 수 있습니다.
+
+  ※ 위 정보에 의한 투자판단의 최종책임은 정보이용자에게 있으며, 당사와 시세제공기관(연합)는 어떠한 법적인 책임도 지지 않사오니 투자에 참고로만 이용하시기 바랍니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-02-16T16:45:15+09:00'
+  last_modified_date: '2025-04-30T12:14:29+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTPF1702R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: PRDT_TYPE_CD
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: "512  미국 나스닥 / 513  미국 뉴욕 / 529  미국 아멕스 \n515  일본\n501  홍콩 / 543  홍콩CNY / 558  홍콩USD\n507  베트남 하노이 / 508\
+      \  베트남 호치민\n551  중국 상해A / 552  중국 심천A"
+  - code: PDNO
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 예) AAPL (애플)
+  example:
+    PDNO: AAPL
+    PRDT_TYPE_CD: '512'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세1
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: std_pdno
+    name: 표준상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_eng_name
+    name: 상품영문명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: natn_cd
+    name: 국가코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: natn_name
+    name: 국가명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: tr_mket_cd
+    name: 거래시장코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: tr_mket_name
+    name: 거래시장명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: ovrs_excg_cd
+    name: 해외거래소코드
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: ovrs_excg_name
+    name: 해외거래소명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: tr_crcy_cd
+    name: 거래통화코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: ovrs_papr
+    name: 해외액면가
+    type: A0001
+    type_name: String
+    length: '195'
+    required: true
+    description: ''
+  - code: crcy_name
+    name: 통화명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: ovrs_stck_dvsn_cd
+    name: 해외주식구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '01.주식
+
+      02.WARRANT
+
+      03.ETF
+
+      04.우선주'
+  - code: prdt_clsf_cd
+    name: 상품분류코드
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: prdt_clsf_name
+    name: 상품분류명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: sll_unit_qty
+    name: 매도단위수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: buy_unit_qty
+    name: 매수단위수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: tr_unit_amt
+    name: 거래단위금액
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: lstg_stck_num
+    name: 상장주식수
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: lstg_dt
+    name: 상장일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ovrs_stck_tr_stop_dvsn_cd
+    name: 해외주식거래정지구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '※ 해당 값 지연 반영될 수 있는 점 유의 부탁드립니다.
+
+
+      01.정상
+
+      02.거래정지(ALL)
+
+      03.거래중단
+
+      04.매도정지
+
+      05.거래정지(위탁)
+
+      06.매수정지'
+  - code: lstg_abol_item_yn
+    name: 상장폐지종목여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ovrs_stck_prdt_grp_no
+    name: 해외주식상품그룹번호
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: lstg_yn
+    name: 상장여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: tax_levy_yn
+    name: 세금징수여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ovrs_stck_erlm_rosn_cd
+    name: 해외주식등록사유코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: ovrs_stck_hist_rght_dvsn_cd
+    name: 해외주식이력권리구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: chng_bf_pdno
+    name: 변경전상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_type_cd_2
+    name: 상품유형코드2
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: ovrs_item_name
+    name: 해외종목명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: sedol_no
+    name: SEDOL번호
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: blbg_tckr_text
+    name: 블름버그티커내용
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: ''
+  - code: ovrs_stck_etf_risk_drtp_cd
+    name: 해외주식ETF위험지표코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: '001.ETF
+
+      002.ETN
+
+      003.ETC(Exchage Traded Commodity)
+
+      004.Others(REIT''s, Mutual Fund)
+
+      005.VIX Underlying ETF
+
+      006.VIX Underlying ETN'
+  - code: etp_chas_erng_rt_dbnb
+    name: ETP추적수익율배수
+    type: A0001
+    type_name: String
+    length: '236'
+    required: true
+    description: ''
+  - code: istt_usge_isin_cd
+    name: 기관용도ISIN코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: mint_svc_yn
+    name: MINT서비스여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: mint_svc_yn_chng_dt
+    name: MINT서비스여부변경일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: prdt_name
+    name: 상품명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: lei_cd
+    name: LEI코드
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: ovrs_stck_stop_rson_cd
+    name: 해외주식정지사유코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '01.권리발생
+
+      02.ISIN상이
+
+      03.기타
+
+      04.급등락종목
+
+      05.상장폐지(예정)
+
+      06.종목코드,거래소변경
+
+      07.PTP종목'
+  - code: lstg_abol_dt
+    name: 상장폐지일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: mini_stk_tr_stat_dvsn_cd
+    name: 미니스탁거래상태구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '01.정상
+
+      02.매매 불가
+
+      03.매수 불가
+
+      04.매도 불가'
+  - code: mint_frst_svc_erlm_dt
+    name: MINT최초서비스등록일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: mint_dcpt_trad_psbl_yn
+    name: MINT소수점매매가능여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: mint_fnum_trad_psbl_yn
+    name: MINT정수매매가능여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: mint_cblc_cvsn_ipsb_yn
+    name: MINT잔고전환불가여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ptp_item_yn
+    name: PTP종목여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ptp_item_trfx_exmt_yn
+    name: PTP종목양도세면제여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ptp_item_trfx_exmt_strt_dt
+    name: PTP종목양도세면제시작일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ptp_item_trfx_exmt_end_dt
+    name: PTP종목양도세면제종료일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: dtm_tr_psbl_yn
+    name: 주간거래가능여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: sdrf_stop_ecls_yn
+    name: 급등락정지제외여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: sdrf_stop_ecls_erlm_dt
+    name: 급등락정지제외등록일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: memo_text1
+    name: 메모내용1
+    type: A0001
+    type_name: String
+    length: '500'
+    required: true
+    description: ''
+  - code: ovrs_now_pric1
+    name: 해외현재가격1
+    type: A0001
+    type_name: String
+    length: '23'
+    required: true
+    description: '23.5'
+  - code: last_rcvg_dtime
+    name: 최종수신일시
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  example:
+    output:
+      std_pdno: US0378331005
+      prdt_eng_name: APPLE INC
+      natn_cd: '840'
+      natn_name: 미국
+      tr_mket_cd: '01'
+      tr_mket_name: 나스닥
+      ovrs_excg_cd: NASD
+      ovrs_excg_name: 나스닥
+      tr_crcy_cd: USD
+      ovrs_papr: '0.00000'
+      crcy_name: 미국달러
+      ovrs_stck_dvsn_cd: '01'
+      prdt_clsf_cd: '101210'
+      prdt_clsf_name: 해외주식
+      sll_unit_qty: '1'
+      buy_unit_qty: '1'
+      tr_unit_amt: '0'
+      lstg_stck_num: '15441900000'
+      lstg_dt: ''
+      ovrs_stck_tr_stop_dvsn_cd: '01'
+      lstg_abol_item_yn: N
+      ovrs_stck_prdt_grp_no: '4621'
+      lstg_yn: Y
+      tax_levy_yn: N
+      ovrs_stck_erlm_rosn_cd: '00'
+      ovrs_stck_hist_rght_dvsn_cd: '00'
+      chng_bf_pdno: ''
+      prdt_type_cd_2: ''
+      ovrs_item_name: ''
+      sedol_no: '2046251'
+      blbg_tckr_text: AAPL US
+      ovrs_stck_etf_risk_drtp_cd: ''
+      etp_chas_erng_rt_dbnb: '0.000000'
+      istt_usge_isin_cd: US0378331005
+      mint_svc_yn: Y
+      mint_svc_yn_chng_dt: '20220711'
+      prdt_name: 애플
+      lei_cd: HWUPKR0MPOU8FGXBT394
+      ovrs_stck_stop_rson_cd: ''
+      lstg_abol_dt: ''
+      mini_stk_tr_stat_dvsn_cd: '01'
+      mint_frst_svc_erlm_dt: '20220711'
+      mint_dcpt_trad_psbl_yn: Y
+      mint_fnum_trad_psbl_yn: Y
+      mint_cblc_cvsn_ipsb_yn: N
+      ptp_item_yn: N
+      ptp_item_trfx_exmt_yn: N
+      ptp_item_trfx_exmt_strt_dt: ''
+      ptp_item_trfx_exmt_end_dt: ''
+      dtm_tr_psbl_yn: Y
+      sdrf_stop_ecls_yn: N
+      sdrf_stop_ecls_erlm_dt: '00000000'
+    rt_cd: '0'
+    msg_cd: KIOK0530
+    msg1: '조회되었습니다                                                                  '
+errors: []

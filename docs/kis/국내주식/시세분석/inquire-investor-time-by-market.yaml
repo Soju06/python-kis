@@ -1,0 +1,787 @@
+id: e5c6c050-e63f-4ab7-b339-d1a645d3239b
+name: 시장별 투자자매매동향(시세)[v1_국내주식-074]
+section: '[국내주식] 시세분석'
+category: 국내주식
+subcategory: 시세분석
+method: GET
+url: /uapi/domestic-stock/v1/quotations/inquire-investor-time-by-market
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- FHPTJ04030000
+real_tr_id: FHPTJ04030000
+virtual_tr_id: 모의투자 미지원
+summary: '시장별 투자자매매동향(시세성) API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0403] 시장별 시간동향 의 상단 표 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-02-23T09:51:23+09:00'
+  last_modified_date: '2025-05-14T14:30:04+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPTJ04030000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: fid_input_iscd
+    name: 시장구분
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: "코스피: KSP, 코스닥:KSQ,\n선물,콜옵션,풋옵션 : K2I, 주식선물:999,\nETF: ETF, ELW:ELW, ETN: ETN, \n미니: MKI, 위클리월 : WKM, 위클리목:\
+      \ WKI\n코스닥150: KQI"
+  - code: fid_input_iscd_2
+    name: 업종구분
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: "- fid_input_iscd: KSP(코스피) 혹은 KSQ(코스닥)인 경우\n코스피(0001_종합, .…0027_제조업 )\n코스닥(1001_종합, …. 1041_IT부품)\n...\n\
+      포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)\n\n- fid_input_iscd가 K2I인 경우\nF001(선물)\nOC01(콜옵션)\nOP01(풋옵션)\n\n- fid_input_iscd가\
+      \ 999인 경우\nS001(주식선물)\n\n- fid_input_iscd가 ETF인 경우\nT000(ETF)\n\n- fid_input_iscd가 ELW인 경우\nW000(ELW)\n\n- fid_input_iscd가\
+      \ ETN인 경우\nE199(ETN)\n\n- fid_input_iscd가 MKI인 경우\nF004(미니선물)\nOC02(미니콜옵션)\nOP02(미니풋옵션)\n\n- fid_input_iscd가 WKM인 경우\n\
+      OC05(위클리콜(월))\nOP05(위클리풋(월))\n\n- fid_input_iscd가 WKI인 경우\nOC04(위클리콜(목))\nOP04(위클리풋(목))   \n\n- fid_input_iscd가 KQI인\
+      \ 경우\nF002(코스닥150선물)\nOC03(코스닥150콜옵션)\nOP03(코스닥150풋옵션)"
+  example:
+    FID_INPUT_ISCD: KSP
+    FID_INPUT_ISCD_2: '0001'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: frgn_seln_vol
+    name: 외국인 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: frgn_shnu_vol
+    name: 외국인 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: frgn_ntby_qty
+    name: 외국인 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: frgn_seln_tr_pbmn
+    name: 외국인 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: frgn_shnu_tr_pbmn
+    name: 외국인 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: frgn_ntby_tr_pbmn
+    name: 외국인 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: prsn_seln_vol
+    name: 개인 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: prsn_shnu_vol
+    name: 개인 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: prsn_ntby_qty
+    name: 개인 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prsn_seln_tr_pbmn
+    name: 개인 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: prsn_shnu_tr_pbmn
+    name: 개인 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: prsn_ntby_tr_pbmn
+    name: 개인 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: orgn_seln_vol
+    name: 기관계 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: orgn_shnu_vol
+    name: 기관계 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: orgn_ntby_qty
+    name: 기관계 순매수 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: orgn_seln_tr_pbmn
+    name: 기관계 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: orgn_shnu_tr_pbmn
+    name: 기관계 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: orgn_ntby_tr_pbmn
+    name: 기관계 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: scrt_seln_vol
+    name: 증권 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: scrt_shnu_vol
+    name: 증권 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: scrt_ntby_qty
+    name: 증권 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: scrt_seln_tr_pbmn
+    name: 증권 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: scrt_shnu_tr_pbmn
+    name: 증권 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: scrt_ntby_tr_pbmn
+    name: 증권 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: ivtr_seln_vol
+    name: 투자신탁 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: ivtr_shnu_vol
+    name: 투자신탁 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: ivtr_ntby_qty
+    name: 투자신탁 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ivtr_seln_tr_pbmn
+    name: 투자신탁 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: ivtr_shnu_tr_pbmn
+    name: 투자신탁 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: ivtr_ntby_tr_pbmn
+    name: 투자신탁 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: pe_fund_seln_tr_pbmn
+    name: 사모 펀드 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: pe_fund_seln_vol
+    name: 사모 펀드 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: pe_fund_ntby_vol
+    name: 사모 펀드 순매수 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: pe_fund_shnu_tr_pbmn
+    name: 사모 펀드 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: pe_fund_shnu_vol
+    name: 사모 펀드 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: pe_fund_ntby_tr_pbmn
+    name: 사모 펀드 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: bank_seln_vol
+    name: 은행 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: bank_shnu_vol
+    name: 은행 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: bank_ntby_qty
+    name: 은행 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bank_seln_tr_pbmn
+    name: 은행 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: bank_shnu_tr_pbmn
+    name: 은행 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: bank_ntby_tr_pbmn
+    name: 은행 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: insu_seln_vol
+    name: 보험 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: insu_shnu_vol
+    name: 보험 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: insu_ntby_qty
+    name: 보험 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: insu_seln_tr_pbmn
+    name: 보험 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: insu_shnu_tr_pbmn
+    name: 보험 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: insu_ntby_tr_pbmn
+    name: 보험 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: mrbn_seln_vol
+    name: 종금 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: mrbn_shnu_vol
+    name: 종금 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: mrbn_ntby_qty
+    name: 종금 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: mrbn_seln_tr_pbmn
+    name: 종금 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: mrbn_shnu_tr_pbmn
+    name: 종금 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: mrbn_ntby_tr_pbmn
+    name: 종금 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: fund_seln_vol
+    name: 기금 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: fund_shnu_vol
+    name: 기금 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: fund_ntby_qty
+    name: 기금 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: fund_seln_tr_pbmn
+    name: 기금 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: fund_shnu_tr_pbmn
+    name: 기금 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: fund_ntby_tr_pbmn
+    name: 기금 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_orgt_seln_vol
+    name: 기타 단체 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_orgt_shnu_vol
+    name: 기타 단체 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_orgt_ntby_vol
+    name: 기타 단체 순매수 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_orgt_seln_tr_pbmn
+    name: 기타 단체 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_orgt_shnu_tr_pbmn
+    name: 기타 단체 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_orgt_ntby_tr_pbmn
+    name: 기타 단체 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_corp_seln_vol
+    name: 기타 법인 매도 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_corp_shnu_vol
+    name: 기타 법인 매수2 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_corp_ntby_vol
+    name: 기타 법인 순매수 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_corp_seln_tr_pbmn
+    name: 기타 법인 매도 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_corp_shnu_tr_pbmn
+    name: 기타 법인 매수2 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_corp_ntby_tr_pbmn
+    name: 기타 법인 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  example:
+    output:
+    - frgn_seln_vol: '75588'
+      frgn_shnu_vol: '70298'
+      frgn_ntby_qty: '-5290'
+      frgn_seln_tr_pbmn: '2818983'
+      frgn_shnu_tr_pbmn: '2967639'
+      frgn_ntby_tr_pbmn: '148656'
+      prsn_seln_vol: '294375'
+      prsn_shnu_vol: '300449'
+      prsn_ntby_qty: '6074'
+      prsn_seln_tr_pbmn: '5131230'
+      prsn_shnu_tr_pbmn: '5020361'
+      prsn_ntby_tr_pbmn: '-110869'
+      orgn_seln_vol: '36911'
+      orgn_shnu_vol: '37631'
+      orgn_ntby_qty: '720'
+      orgn_seln_tr_pbmn: '2110371'
+      orgn_shnu_tr_pbmn: '2054839'
+      orgn_ntby_tr_pbmn: '-55532'
+      scrt_seln_vol: '8493'
+      scrt_shnu_vol: '12126'
+      scrt_ntby_qty: '3633'
+      scrt_seln_tr_pbmn: '384357'
+      scrt_shnu_tr_pbmn: '472598'
+      scrt_ntby_tr_pbmn: '88241'
+      ivtr_seln_vol: '4086'
+      ivtr_shnu_vol: '3964'
+      ivtr_ntby_qty: '-122'
+      ivtr_seln_tr_pbmn: '177374'
+      ivtr_shnu_tr_pbmn: '165434'
+      ivtr_ntby_tr_pbmn: '-11940'
+      pe_fund_seln_tr_pbmn: '213413'
+      pe_fund_seln_vol: '4833'
+      pe_fund_ntby_vol: '-1804'
+      pe_fund_shnu_tr_pbmn: '115551'
+      pe_fund_shnu_vol: '3029'
+      pe_fund_ntby_tr_pbmn: '-97861'
+      bank_seln_vol: '245'
+      bank_shnu_vol: '51'
+      bank_ntby_qty: '-193'
+      bank_seln_tr_pbmn: '13382'
+      bank_shnu_tr_pbmn: '2873'
+      bank_ntby_tr_pbmn: '-10509'
+      insu_seln_vol: '1653'
+      insu_shnu_vol: '1050'
+      insu_ntby_qty: '-603'
+      insu_seln_tr_pbmn: '79782'
+      insu_shnu_tr_pbmn: '50378'
+      insu_ntby_tr_pbmn: '-29404'
+      mrbn_seln_vol: '230'
+      mrbn_shnu_vol: '310'
+      mrbn_ntby_qty: '80'
+      mrbn_seln_tr_pbmn: '10393'
+      mrbn_shnu_tr_pbmn: '11896'
+      mrbn_ntby_tr_pbmn: '1502'
+      fund_seln_vol: '17372'
+      fund_shnu_vol: '17101'
+      fund_ntby_qty: '-271'
+      fund_seln_tr_pbmn: '1231671'
+      fund_shnu_tr_pbmn: '1236109'
+      fund_ntby_tr_pbmn: '4439'
+      etc_orgt_seln_vol: '0'
+      etc_orgt_shnu_vol: '0'
+      etc_orgt_ntby_vol: '0'
+      etc_orgt_seln_tr_pbmn: '0'
+      etc_orgt_shnu_tr_pbmn: '0'
+      etc_orgt_ntby_tr_pbmn: '0'
+      etc_corp_seln_vol: '5061'
+      etc_corp_shnu_vol: '3558'
+      etc_corp_ntby_vol: '-1503'
+      etc_corp_seln_tr_pbmn: '95856'
+      etc_corp_shnu_tr_pbmn: '113601'
+      etc_corp_ntby_tr_pbmn: '17745'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

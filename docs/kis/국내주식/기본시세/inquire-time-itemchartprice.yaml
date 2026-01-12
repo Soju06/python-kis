@@ -1,0 +1,356 @@
+id: eddbb36a-1d55-461a-b242-3067ba1e5640
+name: 주식당일분봉조회[v1_국내주식-022]
+section: '[국내주식] 기본시세'
+category: 국내주식
+subcategory: 기본시세
+method: GET
+url: /uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice
+content_type: application/json; charset=UTF-8
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: https://openapivts.koreainvestment.com:29443
+tr_ids:
+- FHKST03010200
+real_tr_id: FHKST03010200
+virtual_tr_id: FHKST03010200
+summary: "주식당일분봉조회 API입니다. \n실전계좌/모의계좌의 경우, 한 번의 호출에 최대 30건까지 확인 가능합니다.\n\n※ 당일 분봉 데이터만 제공됩니다. (전일자 분봉 미제공)\n\n※ input > FID_INPUT_HOUR_1\
+  \ 에 미래일시 입력 시에 현재가로 조회됩니다.\nex) 오전 10시에 113000 입력 시에 오전 10시~11시30분 사이의 데이터가 오전 10시 값으로 조회됨\n\n※ output2의 첫번째 배열의 체결량(cntg_vol)은\
+  \ 첫체결이 발생되기 전까지는 이전 분봉의 체결량이 해당 위치에 표시됩니다. \n해당 분봉의 첫 체결이 발생되면 해당 이전분 체결량이 두번째 배열로 이동되면서 새로운 체결량으로 업데이트됩니다."
+description: 주식당일분봉조회[v1_국내주식-022]
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2022-09-02T14:23:41+09:00'
+  last_modified_date: '2025-04-30T10:14:31+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKST03010200
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: J:KRX, NX:NXT, UN:통합
+  - code: FID_INPUT_ISCD
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목코드 (ex 005930 삼성전자)
+  - code: FID_INPUT_HOUR_1
+    name: 입력 시간1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 입력시간
+  - code: FID_PW_DATA_INCU_YN
+    name: '과거 데이터 포함 여부 '
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: FID_ETC_CLS_CODE
+    name: 기타 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  example:
+    fid_cond_mrkt_div_code: J
+    fid_etc_cls_code: ''
+    fid_input_hour_1: '100000'
+    fid_input_iscd: '000660'
+    fid_pw_data_incu_yn: Y
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일 대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 전일 대비 변동 (+-변동차이)
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 전일 대비 부호
+  - code: prdy_ctrt
+    name: 전일 대비율
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 소수점 두자리까지 제공
+  - code: stck_prdy_clpr
+    name: 전일대비 종가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 전일대비 종가
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 누적 거래량
+  - code: acml_tr_pbmn
+    name: 누적 거래대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 누적 거래대금
+  - code: hts_kor_isnm
+    name: 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: 한글 종목명 (HTS 기준)
+  - code: stck_prpr
+    name: 주식 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 주식 현재가
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: Array
+  - code: stck_bsop_date
+    name: 주식 영업일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 주식 영업일자
+  - code: stck_cntg_hour
+    name: 주식 체결시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 주식 체결시간
+  - code: stck_prpr
+    name: 주식 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 주식 현재가
+  - code: stck_oprc
+    name: 주식 시가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 주식 시가
+  - code: stck_hgpr
+    name: 주식 최고가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 주식 최고가
+  - code: stck_lwpr
+    name: 주식 최저가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 주식 최저가
+  - code: cntg_vol
+    name: 체결 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: acml_tr_pbmn
+    name: 누적 거래대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  example: "{\r\n        \"output1\": {\r\n            \"acml_tr_pbmn\": \"96910660000\",\r\n            \"acml_vol\": \"\
+    1046883\",\r\n            \"hts_kor_isnm\": \"SK하이닉스\",\r\n            \"prdy_ctrt\": \"-0.11\",\r\n            \"prdy_vrss\"\
+    : \"-100\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"stck_prdy_clpr\": \"92400\",\r\n            \"\
+    stck_prpr\": \"92300\"\r\n        },\r\n        \"output2\": [\r\n            {\r\n                \"acml_tr_pbmn\": \"\
+    55858827400\",\r\n                \"cntg_vol\": \"1383\",\r\n                \"stck_bsop_date\": \"20220902\",\r\n   \
+    \             \"stck_cntg_hour\": \"100000\",\r\n                \"stck_hgpr\": \"92500\",\r\n                \"stck_lwpr\"\
+    : \"92400\",\r\n                \"stck_oprc\": \"92400\",\r\n                \"stck_prpr\": \"92500\"\r\n            },\r\
+    \n            {\r\n                \"acml_tr_pbmn\": \"55731000300\",\r\n                \"cntg_vol\": \"1564\",\r\n \
+    \               \"stck_bsop_date\": \"20220902\",\r\n                \"stck_cntg_hour\": \"095900\",\r\n             \
+    \   \"stck_hgpr\": \"92500\",\r\n                \"stck_lwpr\": \"92400\",\r\n                \"stck_oprc\": \"92500\"\
+    ,\r\n                \"stck_prpr\": \"92400\"\r\n                              \"stck_hgpr\": \"93300\",\r\n         \
+    \       \"stck_lwpr\": \"93100\",\r\n                \"stck_oprc\": \"93100\",\r\n                \"stck_prpr\": \"93200\"\
+    \r\n            }\r\n            ......\r\n        ],\r\n        \"rt_cd\": \"0\",\r\n         \"msg_cd\": \"MCA00000\"\
+    ,\r\n         \"msg1\": \"정상처리 되었습니다!\"\r\n }"
+errors: []

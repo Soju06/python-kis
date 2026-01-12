@@ -1,0 +1,317 @@
+id: 7d6d8ba7-bcae-4d7c-8d5b-4b51cd42a94a
+name: 장내채권현재가(일별) [국내주식-202]
+section: '[장내채권] 기본시세'
+category: 장내채권
+subcategory: 기본시세
+method: GET
+url: /uapi/domestic-bond/v1/quotations/inquire-daily-price
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- FHKBJ773404C0
+- 모의투자 미지원
+real_tr_id: FHKBJ773404C0
+virtual_tr_id: 모의투자 미지원
+summary: "장내채권현재가(일별) API입니다. \n장내채권의 일별 시세데이터를 최근 100건까지 확인할 수 있습니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-26T09:31:48+09:00'
+  last_modified_date: '2025-04-30T13:08:39+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKBJ773404C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건시장분류코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: B (업종코드)
+  - code: FID_INPUT_ISCD
+    name: 입력종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 채권종목코드(ex KR2033022D33)
+  example: "FID_COND_MRKT_DIV_CODE:B\r\nFID_INPUT_ISCD:KR6095572D81"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: stck_bsop_date
+    name: 주식영업일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: bond_prpr
+    name: 채권현재가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_prdy_vrss
+    name: 채권전일대비
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: bond_oprc
+    name: 채권시가2
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_hgpr
+    name: 채권고가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_lwpr
+    name: 채권저가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  example: "{\r\n    \"output\": [\r\n        {\r\n            \"stck_bsop_date\": \"20240503\",\r\n            \"bond_prpr\"\
+    : \"10265.00\",\r\n            \"bond_prdy_vrss\": \"-15.00\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n         \
+    \   \"prdy_ctrt\": \"-0.15\",\r\n            \"acml_vol\": \"110000\",\r\n            \"bond_oprc\": \"10265.00\",\r\n\
+    \            \"bond_hgpr\": \"10265.00\",\r\n            \"bond_lwpr\": \"10265.00\"\r\n        },\r\n        {\r\n  \
+    \          \"stck_bsop_date\": \"20240502\",\r\n            \"bond_prpr\": \"10280.00\",\r\n            \"bond_prdy_vrss\"\
+    : \"-145.00\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-1.39\",\r\n            \"acml_vol\"\
+    : \"61278\",\r\n            \"bond_oprc\": \"10280.00\",\r\n            \"bond_hgpr\": \"10280.00\",\r\n            \"\
+    bond_lwpr\": \"10280.00\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240430\",\r\n            \"\
+    bond_prpr\": \"10425.00\",\r\n            \"bond_prdy_vrss\": \"5.00\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n\
+    \            \"prdy_ctrt\": \"0.05\",\r\n            \"acml_vol\": \"5012\",\r\n            \"bond_oprc\": \"10425.00\"\
+    ,\r\n            \"bond_hgpr\": \"10425.00\",\r\n            \"bond_lwpr\": \"10425.00\"\r\n        },\r\n        {\r\n\
+    \            \"stck_bsop_date\": \"20240429\",\r\n            \"bond_prpr\": \"10420.00\",\r\n            \"bond_prdy_vrss\"\
+    : \"-30.00\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-0.29\",\r\n            \"acml_vol\"\
+    : \"9999\",\r\n            \"bond_oprc\": \"10420.00\",\r\n            \"bond_hgpr\": \"10420.00\",\r\n            \"\
+    bond_lwpr\": \"10420.00\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240426\",\r\n            \"\
+    bond_prpr\": \"10450.00\",\r\n            \"bond_prdy_vrss\": \"10.30\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n\
+    \            \"prdy_ctrt\": \"0.10\",\r\n            \"acml_vol\": \"102001\",\r\n            \"bond_oprc\": \"10430.00\"\
+    ,\r\n            \"bond_hgpr\": \"10450.00\",\r\n            \"bond_lwpr\": \"10430.00\"\r\n        },\r\n        {\r\n\
+    \            \"stck_bsop_date\": \"20240425\",\r\n            \"bond_prpr\": \"10439.70\",\r\n            \"bond_prdy_vrss\"\
+    : \"39.70\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"0.38\",\r\n            \"acml_vol\"\
+    : \"5718\",\r\n            \"bond_oprc\": \"10290.00\",\r\n            \"bond_hgpr\": \"10439.70\",\r\n            \"\
+    bond_lwpr\": \"10290.00\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240424\",\r\n            \"\
+    bond_prpr\": \"10400.00\",\r\n            \"bond_prdy_vrss\": \"-100.00\",\r\n            \"prdy_vrss_sign\": \"5\",\r\
+    \n            \"prdy_ctrt\": \"-0.95\",\r\n            \"acml_vol\": \"3000\",\r\n            \"bond_oprc\": \"10400.00\"\
+    ,\r\n            \"bond_hgpr\": \"10400.00\",\r\n            \"bond_lwpr\": \"10400.00\"\r\n        },\r\n        {\r\n\
+    \            \"stck_bsop_date\": \"20240423\",\r\n            \"bond_prpr\": \"10500.00\",\r\n            \"bond_prdy_vrss\"\
+    : \"50.00\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"0.48\",\r\n            \"acml_vol\"\
+    : \"10023\",\r\n            \"bond_oprc\": \"10400.00\",\r\n            \"bond_hgpr\": \"10500.00\",\r\n            \"\
+    bond_lwpr\": \"10400.00\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240422\",\r\n            \"\
+    bond_prpr\": \"10450.00\",\r\n            \"bond_prdy_vrss\": \"50.00\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n\
+    \            \"prdy_ctrt\": \"0.48\",\r\n            \"acml_vol\": \"185887\",\r\n            \"bond_oprc\": \"10450.00\"\
+    ,\r\n            \"bond_hgpr\": \"10500.00\",\r\n            \"bond_lwpr\": \"10449.90\"\r\n        },\r\n        {\r\n\
+    \            \"stck_bsop_date\": \"20240416\",\r\n            \"bond_prpr\": \"10400.00\",\r\n            \"bond_prdy_vrss\"\
+    : \"41.00\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"0.40\",\r\n            \"acml_vol\"\
+    : \"16204\",\r\n            \"bond_oprc\": \"10270.10\",\r\n            \"bond_hgpr\": \"10400.00\",\r\n            \"\
+    bond_lwpr\": \"10270.10\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240409\",\r\n            \"\
+    bond_prpr\": \"10359.00\",\r\n            \"bond_prdy_vrss\": \"0.00\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n\
+    \            \"prdy_ctrt\": \"0.00\",\r\n            \"acml_vol\": \"25500\",\r\n            \"bond_oprc\": \"10270.00\"\
+    ,\r\n            \"bond_hgpr\": \"10359.00\",\r\n            \"bond_lwpr\": \"10270.00\"\r\n        },\r\n        {\r\n\
+    \            \"stck_bsop_date\": \"20240408\",\r\n            \"bond_prpr\": \"10359.00\",\r\n            \"bond_prdy_vrss\"\
+    : \"98.90\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"0.96\",\r\n            \"acml_vol\"\
+    : \"3908\",\r\n            \"bond_oprc\": \"10270.00\",\r\n            \"bond_hgpr\": \"10359.00\",\r\n            \"\
+    bond_lwpr\": \"10201.40\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240405\",\r\n            \"\
+    bond_prpr\": \"10260.10\",\r\n            \"bond_prdy_vrss\": \"10.10\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n\
+    \            \"prdy_ctrt\": \"0.10\",\r\n            \"acml_vol\": \"86102\",\r\n            \"bond_oprc\": \"10260.00\"\
+    ,\r\n            \"bond_hgpr\": \"10369.70\",\r\n            \"bond_lwpr\": \"10260.00\"\r\n        },\r\n        {\r\n\
+    \            \"stck_bsop_date\": \"20240404\",\r\n            \"bond_prpr\": \"10250.00\",\r\n            \"bond_prdy_vrss\"\
+    : \"0.00\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n            \"acml_vol\"\
+    : \"160002\",\r\n            \"bond_oprc\": \"10370.00\",\r\n            \"bond_hgpr\": \"10370.00\",\r\n            \"\
+    bond_lwpr\": \"10250.00\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240403\",\r\n            \"\
+    bond_prpr\": \"10250.00\",\r\n            \"bond_prdy_vrss\": \"-10.00\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n\
+    \            \"prdy_ctrt\": \"-0.10\",\r\n            \"acml_vol\": \"15003\",\r\n            \"bond_oprc\": \"10200.00\"\
+    ,\r\n            \"bond_hgpr\": \"10250.00\",\r\n            \"bond_lwpr\": \"10200.00\"\r\n        },\r\n        {\r\n\
+    \            \"stck_bsop_date\": \"20240402\",\r\n            \"bond_prpr\": \"10260.00\",\r\n            \"bond_prdy_vrss\"\
+    : \"120.00\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"1.18\",\r\n            \"acml_vol\"\
+    : \"50000\",\r\n            \"bond_oprc\": \"10260.00\",\r\n            \"bond_hgpr\": \"10260.00\",\r\n            \"\
+    bond_lwpr\": \"10260.00\"\r\n        },\r\n\t\t...\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"MCA00000\"\
+    ,\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

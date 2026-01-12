@@ -1,0 +1,1056 @@
+id: fa9583fd-0340-4f24-a755-45fdfb5e5bab
+name: 예탁원정보(합병/분할일정)[국내주식-147]
+section: '[국내주식] 종목정보'
+category: 국내주식
+subcategory: 종목정보
+method: GET
+url: /uapi/domestic-stock/v1/ksdinfo/merger-split
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 미지원
+tr_ids:
+- HHKDB669104C0
+- 모의투자 미지원
+real_tr_id: HHKDB669104C0
+virtual_tr_id: 모의투자 미지원
+summary: "예탁원정보(합병/분할일정) API입니다. \n한국투자 HTS(eFriend Plus) > [0664] 합병/분할 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\
+  \n※ 예탁원에서 제공한 자료이므로 정보용으로만 사용하시기 바랍니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-03-27T10:17:46+09:00'
+  last_modified_date: '2025-05-14T13:20:40+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHKDB669104C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CTS
+    name: CTS
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: 공백
+  - code: F_DT
+    name: 조회일자From
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 일자 ~
+  - code: T_DT
+    name: 조회일자To
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ~ 일자
+  - code: SHT_CD
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: '공백: 전체,  특정종목 조회시 : 종목코드'
+  example: "cts:\r\nf_dt:20230301\r\nt_dt:20240326\r\nsht_cd:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: record_date
+    name: 기준일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: sht_cd
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: opp_cust_cd
+    name: 피합병(피분할)회사코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: opp_cust_nm
+    name: 피합병(피분할)회사명
+    type: A0001
+    type_name: String
+    length: '37'
+    required: true
+    description: ''
+  - code: cust_cd
+    name: 합병(분할)회사코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: cust_nm
+    name: 합병(분할)회사명
+    type: A0001
+    type_name: String
+    length: '37'
+    required: true
+    description: ''
+  - code: merge_type
+    name: 합병사유
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: merge_rate
+    name: 비율
+    type: A0001
+    type_name: String
+    length: '142'
+    required: true
+    description: ''
+  - code: td_stop_dt
+    name: 매매거래정지기간
+    type: A0001
+    type_name: String
+    length: '23'
+    required: true
+    description: ''
+  - code: list_dt
+    name: 상장/등록일
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: odd_amt_pay_dt
+    name: 단주대금지급일
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: tot_issue_stk_qty
+    name: 발행주식
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: issue_stk_qty
+    name: 발행할주식
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: seq
+    name: 연번
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  example:
+    output1:
+    - record_date: '20240311'
+      sht_cd: '224020'
+      opp_cust_cd: '22402'
+      opp_cust_nm: 에스케이씨에스
+      cust_cd: '17735'
+      cust_nm: 베셀
+      merge_type: 흡수합병
+      merge_rate: ' 0.66'
+      td_stop_dt: 2024/03/08 ~ 2024/03/28
+      list_dt: '20240329'
+      odd_amt_pay_dt: 2024/04/05
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240305'
+      sht_cd: '397880'
+      opp_cust_cd: '39788'
+      opp_cust_nm: 교보11호기업인수목적
+      cust_cd: '42057'
+      cust_nm: 제이투케이바이오
+      merge_type: 흡수합병
+      merge_rate: ' 0.12'
+      td_stop_dt: 2024/03/04 ~
+      list_dt: '20240325'
+      odd_amt_pay_dt: 2024/04/01
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240229'
+      sht_cd: '210980'
+      opp_cust_cd: '21098'
+      opp_cust_nm: 에스케이디앤디
+      cust_cd: '47515'
+      cust_nm: 에스케이이터닉스
+      merge_type: 회사분할
+      merge_rate: ' 1.15'
+      td_stop_dt: 2024/02/28 ~ 2024/03/28
+      list_dt: '20240329'
+      odd_amt_pay_dt: 2024/04/05
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240229'
+      sht_cd: 21098L
+      opp_cust_cd: '21098'
+      opp_cust_nm: 에스케이디앤디
+      cust_cd: '21098'
+      cust_nm: 에스케이디앤디
+      merge_type: 회사분할
+      merge_rate: ' 0.77'
+      td_stop_dt: 2024/02/28 ~ 2024/03/28
+      list_dt: '20240329'
+      odd_amt_pay_dt: 2024/04/05
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240228'
+      sht_cd: '072700'
+      opp_cust_cd: '07270'
+      opp_cust_nm: 더존홀딩스
+      cust_cd: '01251'
+      cust_nm: 더존비즈온
+      merge_type: 흡수합병
+      merge_rate: '834.0'
+      td_stop_dt: 2024/02/27 ~ 2024/03/21
+      list_dt: '20240322'
+      odd_amt_pay_dt: 2024/03/29
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240228'
+      sht_cd: '452240'
+      opp_cust_cd: '45224'
+      opp_cust_nm: 뉴온
+      cust_cd: '12384'
+      cust_nm: 뉴온
+      merge_type: 흡수합병
+      merge_rate: '24.52'
+      td_stop_dt: ''
+      list_dt: '20240325'
+      odd_amt_pay_dt: 2024/04/02
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240213'
+      sht_cd: 001880
+      opp_cust_cd: 00188
+      opp_cust_nm: 디엘건설
+      cust_cd: '37550'
+      cust_nm: 디엘이앤씨
+      merge_type: 주식교환
+      merge_rate: ' 0.37'
+      td_stop_dt: 2024/02/08 ~ 2024/03/03
+      list_dt: '20240304'
+      odd_amt_pay_dt: 2024/03/12
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240213'
+      sht_cd: 00188K
+      opp_cust_cd: 00188
+      opp_cust_nm: 디엘건설
+      cust_cd: 00188
+      cust_nm: 디엘건설
+      merge_type: 주식교환
+      merge_rate: ' 1.00'
+      td_stop_dt: 2024/02/08 ~ 2024/03/03
+      list_dt: ''
+      odd_amt_pay_dt: ''
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240213'
+      sht_cd: '115960'
+      opp_cust_cd: '11596'
+      opp_cust_nm: 연우
+      cust_cd: '16189'
+      cust_nm: 한국콜마
+      merge_type: 주식교환
+      merge_rate: ' 0.29'
+      td_stop_dt: 2024/02/08 ~ 2024/03/05
+      list_dt: '20240306'
+      odd_amt_pay_dt: 2024/03/13
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240130'
+      sht_cd: '183410'
+      opp_cust_cd: '18341'
+      opp_cust_nm: 골프존데카
+      cust_cd: '21500'
+      cust_nm: 골프존
+      merge_type: 주식교환
+      merge_rate: ' 0.01'
+      td_stop_dt: 2024/01/29 ~ 2024/02/21
+      list_dt: '20240222'
+      odd_amt_pay_dt: 2024/02/28
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240123'
+      sht_cd: '372290'
+      opp_cust_cd: '37229'
+      opp_cust_nm: 하나머스트7호기업인수목적
+      cust_cd: '45243'
+      cust_nm: 사피엔반도체
+      merge_type: 흡수합병
+      merge_rate: ' 0.13'
+      td_stop_dt: 2024/01/22 ~
+      list_dt: '20240219'
+      odd_amt_pay_dt: 2024/02/23
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240122'
+      sht_cd: '426550'
+      opp_cust_cd: '42655'
+      opp_cust_nm: 아이비케이에스제19호기업인수목적
+      cust_cd: '44367'
+      cust_nm: 에스피소프트
+      merge_type: 흡수합병
+      merge_rate: ' 0.62'
+      td_stop_dt: 2024/01/19 ~
+      list_dt: '20240215'
+      odd_amt_pay_dt: 2024/02/22
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240115'
+      sht_cd: 068400
+      opp_cust_cd: 06840
+      opp_cust_nm: 에스케이렌터카
+      cust_cd: 06840
+      cust_nm: 에스케이렌터카
+      merge_type: 주식교환
+      merge_rate: ' 1.00'
+      td_stop_dt: 2024/01/12 ~ 2024/01/30
+      list_dt: '20240131'
+      odd_amt_pay_dt: ''
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240115'
+      sht_cd: '427950'
+      opp_cust_cd: '42795'
+      opp_cust_nm: 하나금융23호기업인수목적
+      cust_cd: '19955'
+      cust_nm: 레이저옵텍
+      merge_type: 흡수합병
+      merge_rate: ' 0.23'
+      td_stop_dt: 2024/01/12 ~
+      list_dt: '20240201'
+      odd_amt_pay_dt: 2024/02/07
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20240108'
+      sht_cd: '377400'
+      opp_cust_cd: '37740'
+      opp_cust_nm: 하이제6호기업인수목적
+      cust_cd: '36299'
+      cust_nm: 드림인사이트
+      merge_type: 흡수합병
+      merge_rate: ' 0.37'
+      td_stop_dt: 2024/01/05 ~
+      list_dt: '20240125'
+      odd_amt_pay_dt: 2024/02/02
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20231227'
+      sht_cd: 033290
+      opp_cust_cd: 03329
+      opp_cust_nm: 코웰패션
+      cust_cd: '47285'
+      cust_nm: 폰드그룹
+      merge_type: 회사분할
+      merge_rate: ' 0.37'
+      td_stop_dt: 2023/12/26 ~ 2024/02/01
+      list_dt: '20240202'
+      odd_amt_pay_dt: 2024/02/08
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20231219'
+      sht_cd: 091990
+      opp_cust_cd: 09199
+      opp_cust_nm: 셀트리온헬스케어
+      cust_cd: 06827
+      cust_nm: 셀트리온
+      merge_type: 흡수합병
+      merge_rate: ' 0.45'
+      td_stop_dt: 2023/12/18 ~ 2024/01/11
+      list_dt: '20240112'
+      odd_amt_pay_dt: 2024/02/08
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20231211'
+      sht_cd: '404950'
+      opp_cust_cd: '40495'
+      opp_cust_nm: 디비금융제10호기업인수목적
+      cust_cd: '45219'
+      cust_nm: 한빛레이저
+      merge_type: 흡수합병
+      merge_rate: ' 0.65'
+      td_stop_dt: 2023/12/08 ~
+      list_dt: '20240104'
+      odd_amt_pay_dt: 2024/01/11
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20231204'
+      sht_cd: '450410'
+      opp_cust_cd: '45041'
+      opp_cust_nm: 엔에이치기업인수목적28호
+      cust_cd: '10967'
+      cust_nm: 씨싸이트
+      merge_type: 흡수합병
+      merge_rate: ' 0.18'
+      td_stop_dt: 2023/12/01 ~
+      list_dt: '20231221'
+      odd_amt_pay_dt: 2023/12/28
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20231203'
+      sht_cd: '046140'
+      opp_cust_cd: '04614'
+      opp_cust_nm: 에스비에스콘텐츠허브
+      cust_cd: '04614'
+      cust_nm: 에스비에스콘텐츠허브
+      merge_type: 주식교환
+      merge_rate: ' 1.00'
+      td_stop_dt: 2023/11/30 ~ 2023/12/17
+      list_dt: ''
+      odd_amt_pay_dt: 2023/12/26
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20231107'
+      sht_cd: '173200'
+      opp_cust_cd: '17320'
+      opp_cust_nm: 아센텍
+      cust_cd: '47196'
+      cust_nm: 세종에이앤에프
+      merge_type: 회사분할
+      merge_rate: ' 0.14'
+      td_stop_dt: ''
+      list_dt: ''
+      odd_amt_pay_dt: ''
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20231107'
+      sht_cd: '367360'
+      opp_cust_cd: '36736'
+      opp_cust_nm: 디비금융제9호기업인수목적
+      cust_cd: '45216'
+      cust_nm: 제이엔비
+      merge_type: 흡수합병
+      merge_rate: ' 0.35'
+      td_stop_dt: 2023/11/06 ~
+      list_dt: '20231124'
+      odd_amt_pay_dt: 2023/12/01
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20231017'
+      sht_cd: '440200'
+      opp_cust_cd: '44020'
+      opp_cust_nm: 케이비제23호기업인수목적
+      cust_cd: '18826'
+      cust_nm: 세니젠
+      merge_type: 흡수합병
+      merge_rate: ' 0.24'
+      td_stop_dt: 2023/10/16 ~
+      list_dt: '20231103'
+      odd_amt_pay_dt: 2023/11/10
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20231012'
+      sht_cd: 085370
+      opp_cust_cd: 08537
+      opp_cust_nm: 루트로닉
+      cust_cd: 08537
+      cust_nm: 루트로닉
+      merge_type: 주식교환
+      merge_rate: ' 1.00'
+      td_stop_dt: 2023/10/11 ~
+      list_dt: ''
+      odd_amt_pay_dt: ''
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20231012'
+      sht_cd: 08537M
+      opp_cust_cd: 08537
+      opp_cust_nm: 루트로닉
+      cust_cd: 08537
+      cust_nm: 루트로닉
+      merge_type: 주식교환
+      merge_rate: ' 1.00'
+      td_stop_dt: 2023/10/11 ~
+      list_dt: ''
+      odd_amt_pay_dt: ''
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20231011'
+      sht_cd: '284100'
+      opp_cust_cd: '28410'
+      opp_cust_nm: 이안프론티어
+      cust_cd: '46939'
+      cust_nm: 퍼스트온파트너스
+      merge_type: 회사분할
+      merge_rate: ' 0.11'
+      td_stop_dt: ''
+      list_dt: ''
+      odd_amt_pay_dt: ''
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20231011'
+      sht_cd: '405350'
+      opp_cust_cd: '40535'
+      opp_cust_nm: 아이비케이에스제17호기업인수목적
+      cust_cd: '29056'
+      cust_nm: 신시웨이
+      merge_type: 흡수합병
+      merge_rate: ' 0.23'
+      td_stop_dt: 2023/10/10 ~
+      list_dt: '20231103'
+      odd_amt_pay_dt: 2023/11/08
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20231010'
+      sht_cd: '177900'
+      opp_cust_cd: '17790'
+      opp_cust_nm: 쓰리에이로직스
+      cust_cd: '46933'
+      cust_nm: 쓰리에이솔루션
+      merge_type: 회사분할
+      merge_rate: ' 0.20'
+      td_stop_dt: ''
+      list_dt: ''
+      odd_amt_pay_dt: 2023/11/29
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230927'
+      sht_cd: '077500'
+      opp_cust_cd: '07750'
+      opp_cust_nm: 유니퀘스트
+      cust_cd: '19265'
+      cust_nm: 드림텍
+      merge_type: 분할합병
+      merge_rate: ' 0.92'
+      td_stop_dt: 2023/09/26 ~ 2023/10/22
+      list_dt: '20231023'
+      odd_amt_pay_dt: 2023/11/01
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230919'
+      sht_cd: 019360
+      opp_cust_cd: 01936
+      opp_cust_nm: 한국신소재
+      cust_cd: 01796
+      cust_nm: 한국카본
+      merge_type: 흡수합병
+      merge_rate: '39.74'
+      td_stop_dt: ''
+      list_dt: '20231020'
+      odd_amt_pay_dt: 2023/10/27
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230904'
+      sht_cd: '366330'
+      opp_cust_cd: '36633'
+      opp_cust_nm: 신한제7호기업인수목적
+      cust_cd: '38447'
+      cust_nm: 코어라인소프트
+      merge_type: 흡수합병
+      merge_rate: ' 0.19'
+      td_stop_dt: 2023/09/01 ~
+      list_dt: '20230918'
+      odd_amt_pay_dt: 2023/09/26
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230831'
+      sht_cd: 011810
+      opp_cust_cd: 01181
+      opp_cust_nm: STX
+      cust_cd: '46577'
+      cust_nm: STX 그린로지스
+      merge_type: 회사분할
+      merge_rate: ' 0.23'
+      td_stop_dt: 2023/08/30 ~ 2023/09/14
+      list_dt: '20230915'
+      odd_amt_pay_dt: 2023/10/31
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230824'
+      sht_cd: 048120
+      opp_cust_cd: 04812
+      opp_cust_nm: 원옥
+      cust_cd: '16857'
+      cust_nm: 포겟
+      merge_type: 흡수합병
+      merge_rate: '12.00'
+      td_stop_dt: ''
+      list_dt: '20230912'
+      odd_amt_pay_dt: ''
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230822'
+      sht_cd: '400560'
+      opp_cust_cd: '40056'
+      opp_cust_nm: 하나금융20호기업인수목적
+      cust_cd: '40349'
+      cust_nm: 농업회사법인 우듬지팜
+      merge_type: 흡수합병
+      merge_rate: ' 0.74'
+      td_stop_dt: 2023/08/21 ~
+      list_dt: '20230919'
+      odd_amt_pay_dt: 2023/09/26
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230821'
+      sht_cd: '259210'
+      opp_cust_cd: '25921'
+      opp_cust_nm: 글람
+      cust_cd: '25921'
+      cust_nm: 글람
+      merge_type: 주식교환
+      merge_rate: ' 0.00'
+      td_stop_dt: ''
+      list_dt: ''
+      odd_amt_pay_dt: ''
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230821'
+      sht_cd: '367480'
+      opp_cust_cd: '36748'
+      opp_cust_nm: 유안타제8호기업인수목적
+      cust_cd: '14606'
+      cust_nm: 율촌
+      merge_type: 흡수합병
+      merge_rate: ' 0.87'
+      td_stop_dt: 2023/08/18 ~
+      list_dt: '20230908'
+      odd_amt_pay_dt: 2023/09/14
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230808'
+      sht_cd: '409570'
+      opp_cust_cd: '40957'
+      opp_cust_nm: 한국제10호기업인수목적
+      cust_cd: '35539'
+      cust_nm: 크라우드웍스
+      merge_type: 흡수합병
+      merge_rate: ' 0.09'
+      td_stop_dt: ''
+      list_dt: '20230831'
+      odd_amt_pay_dt: 2023/09/07
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230807'
+      sht_cd: '010050'
+      opp_cust_cd: '01005'
+      opp_cust_nm: 우리종합금융
+      cust_cd: '31614'
+      cust_nm: 우리금융지주
+      merge_type: 주식교환
+      merge_rate: ' 0.06'
+      td_stop_dt: 2023/08/04 ~ 2023/08/27
+      list_dt: '20230828'
+      odd_amt_pay_dt: 2023/08/31
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230807'
+      sht_cd: '298870'
+      opp_cust_cd: '29887'
+      opp_cust_nm: 우리벤처파트너스
+      cust_cd: '31614'
+      cust_nm: 우리금융지주
+      merge_type: 주식교환
+      merge_rate: ' 0.22'
+      td_stop_dt: 2023/08/04 ~ 2023/08/27
+      list_dt: '20230828'
+      odd_amt_pay_dt: 2023/08/31
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230702'
+      sht_cd: '390620'
+      opp_cust_cd: '39062'
+      opp_cust_nm: 엠리테일
+      cust_cd: 05788
+      cust_nm: 피에이치씨
+      merge_type: 흡수합병
+      merge_rate: ' 0.00'
+      td_stop_dt: ''
+      list_dt: ''
+      odd_amt_pay_dt: ''
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230630'
+      sht_cd: 000480
+      opp_cust_cd: 00048
+      opp_cust_nm: 시알홀딩스
+      cust_cd: '46252'
+      cust_nm: 조선내화
+      merge_type: 회사분할
+      merge_rate: ' 0.30'
+      td_stop_dt: 2023/06/29 ~ 2023/07/27
+      list_dt: '20230728'
+      odd_amt_pay_dt: 2023/08/04
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230630'
+      sht_cd: 011870
+      opp_cust_cd: 01187
+      opp_cust_nm: 엘티삼보
+      cust_cd: '46220'
+      cust_nm: 엘티
+      merge_type: 회사분할
+      merge_rate: ' 0.33'
+      td_stop_dt: 2023/06/29 ~ 2023/07/30
+      list_dt: ''
+      odd_amt_pay_dt: ''
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230626'
+      sht_cd: '046110'
+      opp_cust_cd: '04611'
+      opp_cust_nm: 한일네트웍스
+      cust_cd: 03787
+      cust_nm: 유베이스
+      merge_type: 주식교환
+      merge_rate: ' 0.00'
+      td_stop_dt: ''
+      list_dt: ''
+      odd_amt_pay_dt: ''
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230531'
+      sht_cd: '001230'
+      opp_cust_cd: '00123'
+      opp_cust_nm: 동국홀딩스
+      cust_cd: '46086'
+      cust_nm: 동국제강
+      merge_type: 회사분할
+      merge_rate: ' 0.52'
+      td_stop_dt: 2023/05/30 ~ 2023/06/15
+      list_dt: '20230616'
+      odd_amt_pay_dt: 2023/06/23
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230501'
+      sht_cd: '388220'
+      opp_cust_cd: '38822'
+      opp_cust_nm: 하나금융19호기업인수목적
+      cust_cd: '27183'
+      cust_nm: 팸텍
+      merge_type: 흡수합병
+      merge_rate: ' 0.41'
+      td_stop_dt: 2023/04/27 ~
+      list_dt: '20230523'
+      odd_amt_pay_dt: 2023/05/30
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230428'
+      sht_cd: 005950
+      opp_cust_cd: 00595
+      opp_cust_nm: 이수화학
+      cust_cd: '45719'
+      cust_nm: 이수스페셜티케미컬
+      merge_type: 회사분할
+      merge_rate: ' 0.20'
+      td_stop_dt: 2023/04/27 ~ 2023/05/30
+      list_dt: '20230531'
+      odd_amt_pay_dt: 2023/06/14
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230428'
+      sht_cd: '010060'
+      opp_cust_cd: '01006'
+      opp_cust_nm: OCI홀딩스
+      cust_cd: '45604'
+      cust_nm: OCI
+      merge_type: 회사분할
+      merge_rate: ' 0.31'
+      td_stop_dt: 2023/04/27 ~ 2023/05/29
+      list_dt: '20230530'
+      odd_amt_pay_dt: 2023/06/05
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230411'
+      sht_cd: '246070'
+      opp_cust_cd: '24607'
+      opp_cust_nm: 딤채홀딩스
+      cust_cd: 00288
+      cust_nm: 대유에이텍
+      merge_type: 흡수합병
+      merge_rate: ' 0.00'
+      td_stop_dt: ''
+      list_dt: ''
+      odd_amt_pay_dt: ''
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230410'
+      sht_cd: '396770'
+      opp_cust_cd: '39677'
+      opp_cust_nm: 엔에이치기업인수목적22호
+      cust_cd: '29883'
+      cust_nm: 슈어소프트테크
+      merge_type: 흡수합병
+      merge_rate: ' 0.37'
+      td_stop_dt: 2023/04/07 ~
+      list_dt: '20230428'
+      odd_amt_pay_dt: 2023/05/04
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230410'
+      sht_cd: '421750'
+      opp_cust_cd: '42175'
+      opp_cust_nm: 벨로크
+      cust_cd: '42476'
+      cust_nm: 벨로크
+      merge_type: 흡수합병
+      merge_rate: ' 5.12'
+      td_stop_dt: ''
+      list_dt: '20230428'
+      odd_amt_pay_dt: 2023/05/04
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230404'
+      sht_cd: 008560
+      opp_cust_cd: 00856
+      opp_cust_nm: 메리츠증권
+      cust_cd: '13804'
+      cust_nm: 메리츠금융지주
+      merge_type: 주식교환
+      merge_rate: ' 0.16'
+      td_stop_dt: 2023/04/03 ~ 2023/04/24
+      list_dt: '20230425'
+      odd_amt_pay_dt: 2023/04/28
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230403'
+      sht_cd: '426670'
+      opp_cust_cd: '42667'
+      opp_cust_nm: 대신밸런스제12호기업인수목적
+      cust_cd: '31816'
+      cust_nm: 셀바이오휴먼텍
+      merge_type: 흡수합병
+      merge_rate: ' 0.33'
+      td_stop_dt: 2023/03/31 ~
+      list_dt: '20230420'
+      odd_amt_pay_dt: 2023/04/26
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    - record_date: '20230317'
+      sht_cd: '062760'
+      opp_cust_cd: '06276'
+      opp_cust_nm: 코스텍시스
+      cust_cd: '35515'
+      cust_nm: 코스텍시스
+      merge_type: 흡수합병
+      merge_rate: ' 6.42'
+      td_stop_dt: 2023/03/16 ~ 2023/04/02
+      list_dt: '20230403'
+      odd_amt_pay_dt: 2023/04/10
+      tot_issue_stk_qty: '           0'
+      issue_stk_qty: '           0'
+      seq: '00'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

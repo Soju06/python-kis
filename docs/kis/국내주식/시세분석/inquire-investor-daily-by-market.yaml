@@ -1,0 +1,532 @@
+id: 0cc848c0-4928-4b89-bca4-62df430e4a45
+name: 시장별 투자자매매동향(일별) [국내주식-075]
+section: '[국내주식] 시세분석'
+category: 국내주식
+subcategory: 시세분석
+method: GET
+url: /uapi/domestic-stock/v1/quotations/inquire-investor-daily-by-market
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 미지원
+tr_ids:
+- FHPTJ04040000
+- 모의투자 미지원
+real_tr_id: FHPTJ04040000
+virtual_tr_id: 모의투자 미지원
+summary: '시장별 투자자매매동향(일별) API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0404] 시장별 일별동향 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-10T10:08:52+09:00'
+  last_modified_date: '2025-05-14T14:36:40+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPTJ04040000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 시장구분코드 (업종 U)
+  - code: FID_INPUT_ISCD
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '코스피, 코스닥 : 업종분류코드 (종목정보파일 - 업종코드 참조)'
+  - code: FID_INPUT_DATE_1
+    name: 입력 날짜1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ex. 20240517
+  - code: FID_INPUT_ISCD_1
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 코스피(KSP), 코스닥(KSQ)
+  - code: FID_INPUT_DATE_2
+    name: 입력 날짜2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 입력 날짜1과 동일날짜 입력
+  - code: FID_INPUT_ISCD_2
+    name: 하위 분류코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: '코스피, 코스닥 : 업종분류코드 (종목정보파일 - 업종코드 참조)'
+  example: "FID_COND_MRKT_DIV_CODE:U\r\nFID_INPUT_ISCD:0001\r\nFID_INPUT_DATE_1:20240517\r\nFID_INPUT_ISCD_1:KSP"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: stck_bsop_date
+    name: 주식 영업 일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: bstp_nmix_prpr
+    name: 업종 지수 현재가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bstp_nmix_prdy_vrss
+    name: 업종 지수 전일 대비
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: bstp_nmix_prdy_ctrt
+    name: 업종 지수 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: bstp_nmix_oprc
+    name: 업종 지수 시가2
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bstp_nmix_hgpr
+    name: 업종 지수 최고가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bstp_nmix_lwpr
+    name: 업종 지수 최저가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: stck_prdy_clpr
+    name: 주식 전일 종가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: frgn_ntby_qty
+    name: 외국인 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: frgn_reg_ntby_qty
+    name: 외국인 등록 순매수 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: frgn_nreg_ntby_qty
+    name: 외국인 비등록 순매수 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: prsn_ntby_qty
+    name: 개인 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: orgn_ntby_qty
+    name: 기관계 순매수 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: scrt_ntby_qty
+    name: 증권 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ivtr_ntby_qty
+    name: 투자신탁 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: pe_fund_ntby_vol
+    name: 사모 펀드 순매수 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: bank_ntby_qty
+    name: 은행 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: insu_ntby_qty
+    name: 보험 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: mrbn_ntby_qty
+    name: 종금 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: fund_ntby_qty
+    name: 기금 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: etc_ntby_qty
+    name: 기타 순매수 수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: etc_orgt_ntby_vol
+    name: 기타 단체 순매수 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_corp_ntby_vol
+    name: 기타 법인 순매수 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: frgn_ntby_tr_pbmn
+    name: 외국인 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: frgn_reg_ntby_pbmn
+    name: 외국인 등록 순매수 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: frgn_nreg_ntby_pbmn
+    name: 외국인 비등록 순매수 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: prsn_ntby_tr_pbmn
+    name: 개인 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: orgn_ntby_tr_pbmn
+    name: 기관계 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: scrt_ntby_tr_pbmn
+    name: 증권 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: ivtr_ntby_tr_pbmn
+    name: 투자신탁 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: pe_fund_ntby_tr_pbmn
+    name: 사모 펀드 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: bank_ntby_tr_pbmn
+    name: 은행 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: insu_ntby_tr_pbmn
+    name: 보험 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: mrbn_ntby_tr_pbmn
+    name: 종금 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: fund_ntby_tr_pbmn
+    name: 기금 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_ntby_tr_pbmn
+    name: 기타 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_orgt_ntby_tr_pbmn
+    name: 기타 단체 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: etc_corp_ntby_tr_pbmn
+    name: 기타 법인 순매수 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  example: "{\r\n    \"output\": [\r\n        {\r\n            \"stck_bsop_date\": \"20240517\",\r\n            \"bstp_nmix_prpr\"\
+    : \"2724.62\",\r\n            \"bstp_nmix_prdy_vrss\": \"-28.38\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n     \
+    \       \"bstp_nmix_prdy_ctrt\": \"-1.03\",\r\n            \"bstp_nmix_oprc\": \"2751.47\",\r\n            \"bstp_nmix_hgpr\"\
+    : \"2752.17\",\r\n            \"bstp_nmix_lwpr\": \"2724.62\",\r\n            \"stck_prdy_clpr\": \"2753.00\",\r\n   \
+    \         \"frgn_ntby_qty\": \"-18565\",\r\n            \"frgn_reg_ntby_qty\": \"-18009\",\r\n            \"frgn_nreg_ntby_qty\"\
+    : \"-557\",\r\n            \"prsn_ntby_qty\": \"22524\",\r\n            \"orgn_ntby_qty\": \"-4738\",\r\n            \"\
+    scrt_ntby_qty\": \"-1148\",\r\n            \"ivtr_ntby_qty\": \"-609\",\r\n            \"pe_fund_ntby_vol\": \"-431\"\
+    ,\r\n            \"bank_ntby_qty\": \"103\",\r\n            \"insu_ntby_qty\": \"-156\",\r\n            \"mrbn_ntby_qty\"\
+    : \"-175\",\r\n            \"fund_ntby_qty\": \"-2322\",\r\n            \"etc_ntby_qty\": \"779\",\r\n            \"etc_orgt_ntby_vol\"\
+    : \"0\",\r\n            \"etc_corp_ntby_vol\": \"779\",\r\n            \"frgn_ntby_tr_pbmn\": \"-597490\",\r\n       \
+    \     \"frgn_reg_ntby_pbmn\": \"-597676\",\r\n            \"frgn_nreg_ntby_pbmn\": \"186\",\r\n            \"prsn_ntby_tr_pbmn\"\
+    : \"720787\",\r\n            \"orgn_ntby_tr_pbmn\": \"-150685\",\r\n            \"scrt_ntby_tr_pbmn\": \"-18893\",\r\n\
+    \            \"ivtr_ntby_tr_pbmn\": \"-7246\",\r\n            \"pe_fund_ntby_tr_pbmn\": \"-25668\",\r\n            \"\
+    bank_ntby_tr_pbmn\": \"3326\",\r\n            \"insu_ntby_tr_pbmn\": \"-13791\",\r\n            \"mrbn_ntby_tr_pbmn\"\
+    : \"-2742\",\r\n            \"fund_ntby_tr_pbmn\": \"-85671\",\r\n            \"etc_ntby_tr_pbmn\": \"27388\",\r\n   \
+    \         \"etc_orgt_ntby_tr_pbmn\": \"0\",\r\n            \"etc_corp_ntby_tr_pbmn\": \"27388\"\r\n        },\r\n    \
+    \    {\r\n            \"stck_bsop_date\": \"20240516\",\r\n            \"bstp_nmix_prpr\": \"2753.00\",\r\n          \
+    \  \"bstp_nmix_prdy_vrss\": \"22.66\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"bstp_nmix_prdy_ctrt\"\
+    : \"0.83\",\r\n            \"bstp_nmix_oprc\": \"2770.27\",\r\n            \"bstp_nmix_hgpr\": \"2773.46\",\r\n      \
+    \      \"bstp_nmix_lwpr\": \"2748.22\",\r\n            \"stck_prdy_clpr\": \"2730.34\",\r\n            \"frgn_ntby_qty\"\
+    : \"5326\",\r\n            \"frgn_reg_ntby_qty\": \"5287\",\r\n            \"frgn_nreg_ntby_qty\": \"38\",\r\n       \
+    \     \"prsn_ntby_qty\": \"-14059\",\r\n            \"orgn_ntby_qty\": \"8886\",\r\n            \"scrt_ntby_qty\": \"\
+    11036\",\r\n            \"ivtr_ntby_qty\": \"359\",\r\n            \"pe_fund_ntby_vol\": \"850\",\r\n            \"bank_ntby_qty\"\
+    : \"41\",\r\n            \"insu_ntby_qty\": \"-989\",\r\n            \"mrbn_ntby_qty\": \"-341\",\r\n            \"fund_ntby_qty\"\
+    : \"-2070\",\r\n            \"etc_ntby_qty\": \"-153\",\r\n            \"etc_orgt_ntby_vol\": \"0\",\r\n            \"\
+    etc_corp_ntby_vol\": \"-153\",\r\n            \"frgn_ntby_tr_pbmn\": \"425869\",\r\n            \"frgn_reg_ntby_pbmn\"\
+    : \"425686\",\r\n            \"frgn_nreg_ntby_pbmn\": \"183\",\r\n            \"prsn_ntby_tr_pbmn\": \"-964779\",\r\n\
+    \            \"orgn_ntby_tr_pbmn\": \"593789\",\r\n            \"scrt_ntby_tr_pbmn\": \"680881\",\r\n            \"ivtr_ntby_tr_pbmn\"\
+    : \"20139\",\r\n            \"pe_fund_ntby_tr_pbmn\": \"11277\",\r\n            \"bank_ntby_tr_pbmn\": \"-589\",\r\n \
+    \           \"insu_ntby_tr_pbmn\": \"-29395\",\r\n            \"mrbn_ntby_tr_pbmn\": \"-19913\",\r\n            \"fund_ntby_tr_pbmn\"\
+    : \"-68611\",\r\n            \"etc_ntby_tr_pbmn\": \"-54879\",\r\n            \"etc_orgt_ntby_tr_pbmn\": \"0\",\r\n  \
+    \          \"etc_corp_ntby_tr_pbmn\": \"-54879\"\r\n        },...\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\"\
+    : \"MCA00000\",\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

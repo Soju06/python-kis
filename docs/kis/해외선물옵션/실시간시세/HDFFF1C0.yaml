@@ -1,0 +1,325 @@
+id: 82aef9c2-4f88-4bdf-861d-7c5c9fa69a5b
+name: 해외선물옵션 실시간주문내역통보[실시간-019]
+section: '[해외선물옵션]실시간시세'
+category: 해외선물옵션
+subcategory: 실시간시세
+method: POST
+url: /tryitout/HDFFF1C0
+content_type: utf-8
+req_format: ''
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- HDFFF1C0
+real_tr_id: HDFFF1C0
+virtual_tr_id: 모의투자 미지원
+summary: '[참고자료]
+
+
+  실시간시세(웹소켓) 파이썬 샘플코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/ws_domestic_overseas_all.py
+
+
+  실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.
+
+  https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션 업데이트 예정)
+
+
+  종목코드 마스터파일 파이썬 정제코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2022-12-27T12:38:01+09:00'
+  last_modified_date: '2025-04-30T13:21:58+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓접속키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: tr_type
+    name: 등록/해제
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '"1: 등록, 2:해제"'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'B : 법인 / P : 개인'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '7'
+    required: true
+    description: HDFFF1C0
+  - code: tr_key
+    name: HTSID
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: HTSID
+  example: null
+response:
+  headers: []
+  body:
+  - code: USER_ID
+    name: 유저ID
+    type: A0003
+    type_name: String
+    length: '8'
+    required: true
+    description: '''각 항목사이에는 구분자로 ^ 사용,
+
+      모든 데이터타입은 String으로 변환되어 push 처리됨'''
+  - code: ACCT_NO
+    name: 계좌번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ORD_DT
+    name: 주문일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ODNO
+    name: 주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ORGN_ORD_DT
+    name: 원주문일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ORGN_ODNO
+    name: 원주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: SERIES
+    name: 종목명
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: ''
+  - code: RVSE_CNCL_DVSN_CD
+    name: 정정취소구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '해당없음 : 00 , 정정 : 01 , 취소 : 02'
+  - code: SLL_BUY_DVSN_CD
+    name: 매도매수구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '01 : 매도,  02 : 매수'
+  - code: CPLX_ORD_DVSN_CD
+    name: 복합주문구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 0 (hedge청산만 이용)
+  - code: PRCE_TP
+    name: 가격구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 1:Limit, 2:Market, 3:Stop(Stop가격시 시장가)
+  - code: FM_EXCG_RCIT_DVSN_CD
+    name: FM거래소접수구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 01:접수전, 02:응답, 03:거부
+  - code: ORD_QTY
+    name: 주문수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: FM_LMT_PRIC
+    name: FMLIMIT가격
+    type: A0001
+    type_name: String
+    length: '21'
+    required: true
+    description: ''
+  - code: FM_STOP_ORD_PRIC
+    name: FMSTOP주문가격
+    type: A0001
+    type_name: String
+    length: '21'
+    required: true
+    description: ''
+  - code: TOT_CCLD_QTY
+    name: 총체결수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: TOT_CCLD_UV
+    name: 총체결단가
+    type: A0001
+    type_name: String
+    length: '21'
+    required: true
+    description: ''
+  - code: ORD_REMQ
+    name: 잔량
+    type: A0001
+    type_name: String
+    length: '21'
+    required: true
+    description: ''
+  - code: FM_ORD_GRP_DT
+    name: FM주문그룹일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 주문일자(ORD_DT)와 동일
+  - code: ORD_GRP_STNO
+    name: 주문그룹번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ORD_DTL_DTIME
+    name: 주문상세일시
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: ''
+  - code: OPRT_DTL_DTIME
+    name: 조작상세일시
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: ''
+  - code: WORK_EMPL
+    name: 주문자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: CRCY_CD
+    name: 통화코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: LQD_YN
+    name: 청산여부(Y/N)
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: LQD_LMT_PRIC
+    name: 청산LIMIT가격
+    type: A0001
+    type_name: String
+    length: '21'
+    required: true
+    description: ''
+  - code: LQD_STOP_PRIC
+    name: 청산STOP가격
+    type: A0001
+    type_name: String
+    length: '21'
+    required: true
+    description: ''
+  - code: TRD_COND
+    name: 체결조건코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: TERM_ORD_VALD_DTIME
+    name: 기간주문유효상세일시
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: ''
+  - code: SPEC_TP
+    name: 계좌청산유형구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ECIS_RSVN_ORD_YN
+    name: 행사예약주문여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: FUOP_ITEM_DVSN_CD
+    name: 선물옵션종목구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: AUTO_ORD_DVSN_CD
+    name: 자동주문 전략구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  example: null
+errors: []

@@ -1,0 +1,602 @@
+id: 2bb020d7-ae3f-4f65-88ac-e9f598544825
+name: 선물옵션기간약정수수료일별[v1_국내선물-017]
+section: '[국내선물옵션] 주문/계좌'
+category: 국내선물옵션
+subcategory: 주문/계좌
+method: GET
+url: /uapi/domestic-futureoption/v1/trading/inquire-daily-amount-fee
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- 모의투자 미지원
+- CTFO6119R
+real_tr_id: CTFO6119R
+virtual_tr_id: 모의투자 미지원
+summary: 선물옵션기간약정수수료일별 API입니다.
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2023-09-22T07:54:08+09:00'
+  last_modified_date: '2025-04-30T12:23:41+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTFO6119R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '공백 : 초기 조회
+
+      N : 다음 데이터 조회 (output header의 tr_cont가 M일 경우)'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 계좌번호 체계(8-2)의 앞 8자리
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 계좌번호 체계(8-2)의 뒤 2자리
+  - code: INQR_STRT_DAY
+    name: 조회시작일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 조회시작일(YYYYMMDD)
+  - code: INQR_END_DAY
+    name: 조회종료일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 조회종료일(YYYYMMDD)
+  - code: CTX_AREA_FK200
+    name: 연속조회검색조건200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: 연속조회검색조건200
+  - code: CTX_AREA_NK200
+    name: 연속조회키200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: 연속조회키200
+  example:
+    CANO: '12345678'
+    ACNT_PRDT_CD: '03'
+    INQR_STRT_DAY: '20230901'
+    INQR_END_DAY: '20230920'
+    CTX_AREA_FK200: ''
+    CTX_AREA_NK200: ''
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'F or M : 다음 데이터 있음
+
+      D or E : 마지막 데이터'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0002
+    type_name: String
+    length: ' '
+    required: true
+    description: array
+  - code: ord_dt
+    name: 주문일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: pdno
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: item_name
+    name: 종목명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: sll_agrm_amt
+    name: 매도약정금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: sll_fee
+    name: 매도수수료
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: buy_agrm_amt
+    name: 매수약정금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: buy_fee
+    name: 매수수수료
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tot_fee_smtl
+    name: 총수수료합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: trad_pfls
+    name: 매매손익
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세2
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: futr_agrm
+    name: 선물약정
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: futr_agrm_amt
+    name: 선물약정금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: futr_agrm_amt_smtl
+    name: 선물약정금액합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: futr_sll_fee_smtl
+    name: 선물매도수수료합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: futr_buy_fee_smtl
+    name: 선물매수수수료합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: futr_fee_smtl
+    name: 선물수수료합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: opt_agrm
+    name: 옵션약정
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: opt_agrm_amt
+    name: 옵션약정금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: opt_agrm_amt_smtl
+    name: 옵션약정금액합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: opt_sll_fee_smtl
+    name: 옵션매도수수료합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: opt_buy_fee_smtl
+    name: 옵션매수수수료합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: opt_fee_smtl
+    name: 옵션수수료합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: prdt_futr_agrm
+    name: 상품선물약정
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: prdt_fuop
+    name: 상품선물옵션
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: prdt_futr_evlu_amt
+    name: 상품선물평가금액
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: futr_fee
+    name: 선물수수료
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: opt_fee
+    name: 옵션수수료
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: fee
+    name: 수수료
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: sll_agrm_amt
+    name: 매도약정금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: buy_agrm_amt
+    name: 매수약정금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: agrm_amt_smtl
+    name: 약정금액합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: sll_fee
+    name: 매도수수료
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: buy_fee
+    name: 매수수수료
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: fee_smtl
+    name: 수수료합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: trad_pfls_smtl
+    name: 매매손익합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  example:
+    ctx_area_fk200: '12345678!^03!^20230901!^20230920                                                                                                                                                                        '
+    ctx_area_nk200: ' !^                                                                                                                                                                                                     '
+    output1:
+    - ord_dt: '20230901'
+      pdno: KR4101T90003
+      item_name: F 202309
+      sll_agrm_amt: '0'
+      sll_fee: '0'
+      buy_agrm_amt: '0'
+      buy_fee: '0'
+      tot_fee_smtl: '0'
+      trad_pfls: '0'
+    - ord_dt: '20230904'
+      pdno: KR4101T90003
+      item_name: F 202309
+      sll_agrm_amt: '0'
+      sll_fee: '0'
+      buy_agrm_amt: '0'
+      buy_fee: '0'
+      tot_fee_smtl: '0'
+      trad_pfls: '0'
+    - ord_dt: '20230905'
+      pdno: KR4101T90003
+      item_name: F 202309
+      sll_agrm_amt: '0'
+      sll_fee: '0'
+      buy_agrm_amt: '0'
+      buy_fee: '0'
+      tot_fee_smtl: '0'
+      trad_pfls: '0'
+    - ord_dt: '20230906'
+      pdno: KR4101T90003
+      item_name: F 202309
+      sll_agrm_amt: '0'
+      sll_fee: '0'
+      buy_agrm_amt: '0'
+      buy_fee: '0'
+      tot_fee_smtl: '0'
+      trad_pfls: '0'
+    - ord_dt: '20230907'
+      pdno: KR4101T90003
+      item_name: F 202309
+      sll_agrm_amt: '0'
+      sll_fee: '0'
+      buy_agrm_amt: '0'
+      buy_fee: '0'
+      tot_fee_smtl: '0'
+      trad_pfls: '0'
+    - ord_dt: '20230908'
+      pdno: KR4101T90003
+      item_name: F 202309
+      sll_agrm_amt: '0'
+      sll_fee: '0'
+      buy_agrm_amt: '0'
+      buy_fee: '0'
+      tot_fee_smtl: '0'
+      trad_pfls: '0'
+    - ord_dt: '20230911'
+      pdno: KR4101T90003
+      item_name: F 202309
+      sll_agrm_amt: '0'
+      sll_fee: '0'
+      buy_agrm_amt: '0'
+      buy_fee: '0'
+      tot_fee_smtl: '0'
+      trad_pfls: '0'
+    - ord_dt: '20230914'
+      pdno: KR4101T90003
+      item_name: F 202309
+      sll_agrm_amt: '0'
+      sll_fee: '0'
+      buy_agrm_amt: '0'
+      buy_fee: '0'
+      tot_fee_smtl: '0'
+      trad_pfls: '0'
+    - ord_dt: '20230920'
+      pdno: KR4101TC0008
+      item_name: F 202312
+      sll_agrm_amt: '0'
+      sll_fee: '0'
+      buy_agrm_amt: '419375000'
+      buy_fee: '41140'
+      tot_fee_smtl: '41140'
+      trad_pfls: '0'
+    - ord_dt: '20230920'
+      pdno: KR4201TA3409
+      item_name: C 202310 340.0
+      sll_agrm_amt: '0'
+      sll_fee: '0'
+      buy_agrm_amt: '700000'
+      buy_fee: '2750'
+      tot_fee_smtl: '2750'
+      trad_pfls: '0'
+    output2:
+      futr_agrm: '0'
+      futr_agrm_amt: '419375000'
+      futr_agrm_amt_smtl: '419375000'
+      futr_sll_fee_smtl: '0'
+      futr_buy_fee_smtl: '41140'
+      futr_fee_smtl: '41140'
+      opt_agrm: '0'
+      opt_agrm_amt: '700000'
+      opt_agrm_amt_smtl: '700000'
+      opt_sll_fee_smtl: '0'
+      opt_buy_fee_smtl: '2750'
+      opt_fee_smtl: '2750'
+      prdt_futr_agrm: '0'
+      prdt_fuop: '0'
+      prdt_futr_evlu_amt: '0'
+      futr_fee: '0'
+      opt_fee: '0'
+      fee: '0'
+      sll_agrm_amt: '0'
+      buy_agrm_amt: '420075000'
+      agrm_amt_smtl: '420075000'
+      sll_fee: '0'
+      buy_fee: '43890'
+      fee_smtl: '43890'
+      trad_pfls_smtl: '0'
+    rt_cd: '0'
+    msg_cd: KIOK0460
+    msg1: '조회 되었습니다. (마지막 자료)                                                  '
+errors: []

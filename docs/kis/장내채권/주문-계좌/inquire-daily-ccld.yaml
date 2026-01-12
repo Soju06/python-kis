@@ -1,0 +1,704 @@
+id: 4803d486-0b85-4d6f-9bc1-164fef860905
+name: 장내채권 주문체결내역 [국내주식-127]
+section: '[장내채권] 주문/계좌'
+category: 장내채권
+subcategory: 주문/계좌
+method: GET
+url: /uapi/domestic-bond/v1/trading/inquire-daily-ccld
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- CTSC8013R
+- 모의투자 미지원
+real_tr_id: CTSC8013R
+virtual_tr_id: 모의투자 미지원
+summary: "장내채권 주문체결내역 API입니다. \n한국투자 HTS(eFriend Plus) > [0978] 장내채권주문 '채권주문체결' 탭의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기\
+  \ 쉽습니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-26T09:22:31+09:00'
+  last_modified_date: '2025-04-30T13:05:20+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTSC8013R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '공백 : 초기 조회
+
+      N : 다음 데이터 조회 (output header의 tr_cont가 M일 경우)'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 종합계좌번호
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 계좌상품코드
+  - code: INQR_STRT_DT
+    name: 조회시작일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 일자 ~ (1주일 이내)
+  - code: INQR_END_DT
+    name: 조회종료일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ~ 일자 (조회 당일)
+  - code: SLL_BUY_DVSN_CD
+    name: 매도매수구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '%(전체), 01(매도), 02(매수)'
+  - code: SORT_SQN_DVSN
+    name: 정렬순서구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 01(주문순서), 02(주문역순)
+  - code: PDNO
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: NCCS_YN
+    name: 미체결여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: N(전체), C(체결), Y(미체결)
+  - code: CTX_AREA_NK200
+    name: 연속조회키200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: ''
+  - code: CTX_AREA_FK200
+    name: 연속조회검색조건200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: ''
+  example: "CANO:12345678\r\nACNT_PRDT_CD:01\r\nINQR_STRT_DT:20240401\r\nINQR_END_DT:20240425\r\nSLL_BUY_DVSN_CD:%\r\nSORT_SQN_DVSN:01\r\
+    \nPDNO:\r\nNCCS_YN:N\r\nCTX_AREA_FK200:\r\nCTX_AREA_NK200:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'F or M : 다음 데이터 있음
+
+      D or E : 마지막 데이터'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ''
+    required: true
+    description: ''
+  - code: tot_ord_qty
+    name: 총주문수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: tot_ccld_qty_smtl
+    name: 총체결수량합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tot_bond_ccld_avg_unpr
+    name: 총채권체결평균단가
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: tot_ccld_amt_smtl
+    name: 총체결금액합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: array
+  - code: ord_dt
+    name: 주문일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: odno
+    name: 주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: orgn_odno
+    name: 원주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ord_dvsn_name
+    name: 주문구분명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: sll_buy_dvsn_cd_name
+    name: 매도매수구분코드명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: shtn_pdno
+    name: 단축상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_abrv_name
+    name: 상품약어명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: ord_qty
+    name: 주문수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bond_ord_unpr
+    name: 채권주문단가
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: ord_tmd
+    name: 주문시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: tot_ccld_qty
+    name: 총체결수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bond_avg_unpr
+    name: 채권평균단가
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: tot_ccld_amt
+    name: 총체결금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: loan_dt
+    name: 대출일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: buy_dt
+    name: 매수일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: samt_mket_ptci_yn_name
+    name: 소액시장참여여부명
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: sprx_psbl_yn_ifom
+    name: 분리과세가능여부알림
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: ord_mdia_dvsn_name
+    name: 주문매체구분명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: sll_buy_dvsn_cd
+    name: 매도매수구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: nccs_qty
+    name: 미체결수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ord_gno_brno
+    name: 주문채번지점번호
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  example:
+    ctx_area_nk200: ' !^                                                                                                                                                                                                     '
+    ctx_area_fk200: 'null!^null!^null!^null!^null!^null!^null!^null!^null!^null!^null!^null!^null!^null!^null!^null!^null!^null!^%!^null                                                                                     '
+    output1:
+    - ord_dt: '20240425'
+      odno: '0000015201'
+      orgn_odno: ''
+      ord_dvsn_name: 보통
+      sll_buy_dvsn_cd_name: 현금매수
+      shtn_pdno: KR6095572D81
+      prdt_abrv_name: AJ네트웍스63-2
+      ord_qty: '1'
+      bond_ord_unpr: '10450.00'
+      ord_tmd: '102033'
+      tot_ccld_qty: '1'
+      bond_avg_unpr: '10250.00'
+      tot_ccld_amt: '1025'
+      loan_dt: ''
+      buy_dt: ''
+      samt_mket_ptci_yn_name: 일반시장
+      sprx_psbl_yn_ifom: 종합과세
+      ord_mdia_dvsn_name: '33'
+      sll_buy_dvsn_cd: '02'
+      nccs_qty: '0'
+      ord_gno_brno: 01790
+    - ord_dt: '20240425'
+      odno: '0000015202'
+      orgn_odno: ''
+      ord_dvsn_name: 보통
+      sll_buy_dvsn_cd_name: 현금매수
+      shtn_pdno: KR6095572D81
+      prdt_abrv_name: AJ네트웍스63-2
+      ord_qty: '1'
+      bond_ord_unpr: '10450.00'
+      ord_tmd: '135029'
+      tot_ccld_qty: '0'
+      bond_avg_unpr: '0.00'
+      tot_ccld_amt: '0'
+      loan_dt: ''
+      buy_dt: ''
+      samt_mket_ptci_yn_name: 일반시장
+      sprx_psbl_yn_ifom: 종합과세
+      ord_mdia_dvsn_name: '33'
+      sll_buy_dvsn_cd: '02'
+      nccs_qty: '0'
+      ord_gno_brno: 01790
+    - ord_dt: '20240425'
+      odno: '0000015203'
+      orgn_odno: '0000015202'
+      ord_dvsn_name: 보통
+      sll_buy_dvsn_cd_name: 매수취소*
+      shtn_pdno: KR6095572D81
+      prdt_abrv_name: AJ네트웍스63-2
+      ord_qty: '1'
+      bond_ord_unpr: '0.00'
+      ord_tmd: '135108'
+      tot_ccld_qty: '0'
+      bond_avg_unpr: '0.00'
+      tot_ccld_amt: '0'
+      loan_dt: ''
+      buy_dt: ''
+      samt_mket_ptci_yn_name: 일반시장
+      sprx_psbl_yn_ifom: 종합과세
+      ord_mdia_dvsn_name: '33'
+      sll_buy_dvsn_cd: '02'
+      nccs_qty: '0'
+      ord_gno_brno: 01790
+    - ord_dt: '20240425'
+      odno: '0000015204'
+      orgn_odno: ''
+      ord_dvsn_name: 보통
+      sll_buy_dvsn_cd_name: 현금매수
+      shtn_pdno: KR101501D942
+      prdt_abrv_name: 국민주택1종19-04
+      ord_qty: '1'
+      bond_ord_unpr: '10929.90'
+      ord_tmd: '163441'
+      tot_ccld_qty: '0'
+      bond_avg_unpr: '0.00'
+      tot_ccld_amt: '0'
+      loan_dt: ''
+      buy_dt: ''
+      samt_mket_ptci_yn_name: 일반시장
+      sprx_psbl_yn_ifom: 종합과세
+      ord_mdia_dvsn_name: '33'
+      sll_buy_dvsn_cd: '02'
+      nccs_qty: '1'
+      ord_gno_brno: 01790
+    - ord_dt: '20240425'
+      odno: '0000015205'
+      orgn_odno: ''
+      ord_dvsn_name: 보통
+      sll_buy_dvsn_cd_name: 현금매수
+      shtn_pdno: KR103502G990
+      prdt_abrv_name: 국고01125-3909(19-6)
+      ord_qty: '1'
+      bond_ord_unpr: '7299.00'
+      ord_tmd: '163612'
+      tot_ccld_qty: '0'
+      bond_avg_unpr: '0.00'
+      tot_ccld_amt: '0'
+      loan_dt: ''
+      buy_dt: ''
+      samt_mket_ptci_yn_name: 일반시장
+      sprx_psbl_yn_ifom: 종합과세
+      ord_mdia_dvsn_name: '33'
+      sll_buy_dvsn_cd: '02'
+      nccs_qty: '1'
+      ord_gno_brno: 01790
+    - ord_dt: '20240425'
+      odno: '0000015206'
+      orgn_odno: ''
+      ord_dvsn_name: 보통
+      sll_buy_dvsn_cd_name: 현금매수
+      shtn_pdno: KR103502G990
+      prdt_abrv_name: 국고01125-3909(19-6)
+      ord_qty: '1'
+      bond_ord_unpr: '7299.00'
+      ord_tmd: '163618'
+      tot_ccld_qty: '0'
+      bond_avg_unpr: '0.00'
+      tot_ccld_amt: '0'
+      loan_dt: ''
+      buy_dt: ''
+      samt_mket_ptci_yn_name: 일반시장
+      sprx_psbl_yn_ifom: 종합과세
+      ord_mdia_dvsn_name: '33'
+      sll_buy_dvsn_cd: '02'
+      nccs_qty: '1'
+      ord_gno_brno: 01790
+    - ord_dt: '20240425'
+      odno: '0000015207'
+      orgn_odno: ''
+      ord_dvsn_name: 보통
+      sll_buy_dvsn_cd_name: 현금매수
+      shtn_pdno: KR2088012A16
+      prdt_abrv_name: 경남지역개발20-01
+      ord_qty: '1'
+      bond_ord_unpr: '10206.60'
+      ord_tmd: '163922'
+      tot_ccld_qty: '0'
+      bond_avg_unpr: '0.00'
+      tot_ccld_amt: '0'
+      loan_dt: ''
+      buy_dt: ''
+      samt_mket_ptci_yn_name: 일반시장
+      sprx_psbl_yn_ifom: 종합과세
+      ord_mdia_dvsn_name: '33'
+      sll_buy_dvsn_cd: '02'
+      nccs_qty: '1'
+      ord_gno_brno: 01790
+    - ord_dt: '20240425'
+      odno: 0000015208
+      orgn_odno: ''
+      ord_dvsn_name: 보통
+      sll_buy_dvsn_cd_name: 현금매수
+      shtn_pdno: KR2088012A16
+      prdt_abrv_name: 경남지역개발20-01
+      ord_qty: '1'
+      bond_ord_unpr: '10206.60'
+      ord_tmd: '164006'
+      tot_ccld_qty: '0'
+      bond_avg_unpr: '0.00'
+      tot_ccld_amt: '0'
+      loan_dt: ''
+      buy_dt: ''
+      samt_mket_ptci_yn_name: 일반시장
+      sprx_psbl_yn_ifom: 종합과세
+      ord_mdia_dvsn_name: '33'
+      sll_buy_dvsn_cd: '02'
+      nccs_qty: '1'
+      ord_gno_brno: 01790
+    - ord_dt: '20240425'
+      odno: 0000015209
+      orgn_odno: ''
+      ord_dvsn_name: 보통
+      sll_buy_dvsn_cd_name: 현금매수거부
+      shtn_pdno: KR6095572D81
+      prdt_abrv_name: AJ네트웍스63-2
+      ord_qty: '2'
+      bond_ord_unpr: '10450.00'
+      ord_tmd: '170002'
+      tot_ccld_qty: '0'
+      bond_avg_unpr: '0.00'
+      tot_ccld_amt: '0'
+      loan_dt: ''
+      buy_dt: ''
+      samt_mket_ptci_yn_name: 일반시장
+      sprx_psbl_yn_ifom: 종합과세
+      ord_mdia_dvsn_name: '33'
+      sll_buy_dvsn_cd: '02'
+      nccs_qty: '0'
+      ord_gno_brno: 01790
+    - ord_dt: '20240425'
+      odno: '0000015210'
+      orgn_odno: ''
+      ord_dvsn_name: 보통
+      sll_buy_dvsn_cd_name: 현금매수거부
+      shtn_pdno: KR6095572D81
+      prdt_abrv_name: AJ네트웍스63-2
+      ord_qty: '1'
+      bond_ord_unpr: '10400.00'
+      ord_tmd: '170010'
+      tot_ccld_qty: '0'
+      bond_avg_unpr: '0.00'
+      tot_ccld_amt: '0'
+      loan_dt: ''
+      buy_dt: ''
+      samt_mket_ptci_yn_name: 일반시장
+      sprx_psbl_yn_ifom: 종합과세
+      ord_mdia_dvsn_name: '33'
+      sll_buy_dvsn_cd: '02'
+      nccs_qty: '0'
+      ord_gno_brno: 01790
+    - ord_dt: '20240425'
+      odno: '0000015211'
+      orgn_odno: ''
+      ord_dvsn_name: 보통
+      sll_buy_dvsn_cd_name: 현금매수거부
+      shtn_pdno: KR6095572D81
+      prdt_abrv_name: AJ네트웍스63-2
+      ord_qty: '5'
+      bond_ord_unpr: '10400.00'
+      ord_tmd: '170015'
+      tot_ccld_qty: '0'
+      bond_avg_unpr: '0.00'
+      tot_ccld_amt: '0'
+      loan_dt: ''
+      buy_dt: ''
+      samt_mket_ptci_yn_name: 일반시장
+      sprx_psbl_yn_ifom: 종합과세
+      ord_mdia_dvsn_name: '33'
+      sll_buy_dvsn_cd: '02'
+      nccs_qty: '0'
+      ord_gno_brno: 01790
+    - ord_dt: '20240425'
+      odno: '0000015212'
+      orgn_odno: ''
+      ord_dvsn_name: 보통
+      sll_buy_dvsn_cd_name: 현금매수거부
+      shtn_pdno: KR6095572D81
+      prdt_abrv_name: AJ네트웍스63-2
+      ord_qty: '5'
+      bond_ord_unpr: '10200.00'
+      ord_tmd: '170019'
+      tot_ccld_qty: '0'
+      bond_avg_unpr: '0.00'
+      tot_ccld_amt: '0'
+      loan_dt: ''
+      buy_dt: ''
+      samt_mket_ptci_yn_name: 일반시장
+      sprx_psbl_yn_ifom: 종합과세
+      ord_mdia_dvsn_name: '33'
+      sll_buy_dvsn_cd: '02'
+      nccs_qty: '0'
+      ord_gno_brno: 01790
+    output2:
+      tot_ord_qty: '6'
+      tot_ccld_qty_smtl: '1'
+      tot_bond_ccld_avg_unpr: '10250.00'
+      tot_ccld_amt_smtl: '1025'
+    rt_cd: '0'
+    msg_cd: KIOK0460
+    msg1: '조회 되었습니다. (마지막 자료)                                                  '
+errors: []

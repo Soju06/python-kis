@@ -1,0 +1,1871 @@
+id: 0c2760ca-7fc9-4f41-9abd-33b2f5ff3b3b
+name: 국내주식 신용잔고 상위[국내주식-109]
+section: '[국내주식] 순위분석'
+category: 국내주식
+subcategory: 순위분석
+method: GET
+url: /uapi/domestic-stock/v1/ranking/credit-balance
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- FHKST17010000
+- 모의투자 미지원
+real_tr_id: FHKST17010000
+virtual_tr_id: 모의투자 미지원
+summary: "국내주식 신용잔고 상위 API입니다. \n한국투자 HTS(eFriend Plus) > [0475] 신용잔고 상위 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\
+  최대 30건 확인 가능하며, 다음 조회가 불가합니다.\n\n※ 30건 이상의 목록 조회가 필요한 경우, 대안으로 종목조건검색 API를 이용해서 원하는 종목 100개까지 검색할 수 있는 기능을 제공하고 있습니다.\n\
+  종목조건검색 API는 HTS(efriend Plus) [0110] 조건검색에서 등록 및 서버저장한 나의 조건 목록을 확인할 수 있는 API로,\n자세한 사용 방법은 공지사항 - [조건검색 필독] 조건검색 API 이용안내\
+  \ 참고 부탁드립니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-05T13:15:00+09:00'
+  last_modified_date: '2025-05-14T14:43:53+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKST17010000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_SCR_DIV_CODE
+    name: 조건 화면 분류 코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: Unique key(11701)
+  - code: FID_INPUT_ISCD
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
+  - code: FID_OPTION
+    name: 증가율기간
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 2~999
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 시장구분코드 (주식 J)
+  - code: FID_RANK_SORT_CLS_CODE
+    name: 순위 정렬 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: "'(융자)0:잔고비율 상위, 1: 잔고수량 상위, 2: 잔고금액 상위, 3: 잔고비율 증가상위, 4: 잔고비율 감소상위 \n(대주)5:잔고비율 상위, 6: 잔고수량 상위, 7: 잔고금액\
+      \ 상위, 8: 잔고비율 증가상위, 9: 잔고비율 감소상위 '"
+  example: "fid_cond_scr_div_code:11701\r\nfid_input_iscd:0000\r\nfid_option:2\r\nfid_cond_mrkt_div_code:J\r\nfid_rank_sort_cls_code:0"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: bstp_cls_code
+    name: 업종 구분 코드
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: stnd_date1
+    name: 기준 일자1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: stnd_date2
+    name: 기준 일자2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: mksc_shrn_iscd
+    name: 유가증권 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: stck_prpr
+    name: 주식 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일 대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_loan_rmnd_stcn
+    name: 전체 융자 잔고 주수
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_loan_rmnd_amt
+    name: 전체 융자 잔고 금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_loan_rmnd_rate
+    name: 전체 융자 잔고 비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: whol_stln_rmnd_stcn
+    name: 전체 대주 잔고 주수
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_stln_rmnd_amt
+    name: 전체 대주 잔고 금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: whol_stln_rmnd_rate
+    name: 전체 대주 잔고 비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: nday_vrss_loan_rmnd_inrt
+    name: N일 대비 융자 잔고 증가율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: nday_vrss_stln_rmnd_inrt
+    name: N일 대비 대주 잔고 증가율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  example:
+    output1:
+    - bstp_cls_code: '1001'
+      hts_kor_isnm: 종합
+      stnd_date1: '20240409'
+      stnd_date2: '20240411'
+    output2:
+    - mksc_shrn_iscd: 089010
+      hts_kor_isnm: 켐트로닉스
+      stck_prpr: '28200'
+      prdy_vrss: '-300'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-1.05'
+      acml_vol: '2854589'
+      whol_loan_rmnd_stcn: '1470604'
+      whol_loan_rmnd_amt: '3312604'
+      whol_loan_rmnd_rate: '9.68'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '2.61'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 083500
+      hts_kor_isnm: 에프엔에스테크
+      stck_prpr: '12770'
+      prdy_vrss: '-390'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-2.96'
+      acml_vol: '640177'
+      whol_loan_rmnd_stcn: '830732'
+      whol_loan_rmnd_amt: '919030'
+      whol_loan_rmnd_rate: '9.68'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.98'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '251340'
+      hts_kor_isnm: KODEX 코스닥150선물인버스
+      stck_prpr: '3485'
+      prdy_vrss: '10'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.29'
+      acml_vol: '35592555'
+      whol_loan_rmnd_stcn: '13685692'
+      whol_loan_rmnd_amt: '4699136'
+      whol_loan_rmnd_rate: '9.54'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.46'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '054450'
+      hts_kor_isnm: 텔레칩스
+      stck_prpr: '26350'
+      prdy_vrss: '0'
+      prdy_vrss_sign: '3'
+      prdy_ctrt: '0.00'
+      acml_vol: '158467'
+      whol_loan_rmnd_stcn: '1382693'
+      whol_loan_rmnd_amt: '3550014'
+      whol_loan_rmnd_rate: '9.12'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.00'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '278650'
+      hts_kor_isnm: HLB바이오스텝
+      stck_prpr: '3815'
+      prdy_vrss: '60'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '1.60'
+      acml_vol: '871174'
+      whol_loan_rmnd_stcn: '7597070'
+      whol_loan_rmnd_amt: '3006994'
+      whol_loan_rmnd_rate: '8.87'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.04'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '297890'
+      hts_kor_isnm: HB솔루션
+      stck_prpr: '5260'
+      prdy_vrss: '30'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.57'
+      acml_vol: '2140840'
+      whol_loan_rmnd_stcn: '6471546'
+      whol_loan_rmnd_amt: '2874725'
+      whol_loan_rmnd_rate: '8.84'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.06'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 032680
+      hts_kor_isnm: 소프트센
+      stck_prpr: '647'
+      prdy_vrss: '-2'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.31'
+      acml_vol: '681480'
+      whol_loan_rmnd_stcn: '8995737'
+      whol_loan_rmnd_amt: '633909'
+      whol_loan_rmnd_rate: '8.51'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.03'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 078150
+      hts_kor_isnm: HB테크놀러지
+      stck_prpr: '3780'
+      prdy_vrss: '90'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '2.44'
+      acml_vol: '29649130'
+      whol_loan_rmnd_stcn: '7819411'
+      whol_loan_rmnd_amt: '2206799'
+      whol_loan_rmnd_rate: '8.43'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.44'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 099430
+      hts_kor_isnm: 바이오플러스
+      stck_prpr: '6700'
+      prdy_vrss: '0'
+      prdy_vrss_sign: '3'
+      prdy_ctrt: '0.00'
+      acml_vol: '118929'
+      whol_loan_rmnd_stcn: '4772558'
+      whol_loan_rmnd_amt: '3391432'
+      whol_loan_rmnd_rate: '8.23'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.07'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 032850
+      hts_kor_isnm: 비트컴퓨터
+      stck_prpr: '5940'
+      prdy_vrss: '10'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.17'
+      acml_vol: '281559'
+      whol_loan_rmnd_stcn: '1367824'
+      whol_loan_rmnd_amt: '950448'
+      whol_loan_rmnd_rate: '8.22'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.13'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '065450'
+      hts_kor_isnm: 빅텍
+      stck_prpr: '5120'
+      prdy_vrss: '120'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '2.40'
+      acml_vol: '1379901'
+      whol_loan_rmnd_stcn: '2352791'
+      whol_loan_rmnd_amt: '1054776'
+      whol_loan_rmnd_rate: '8.20'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.63'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 085670
+      hts_kor_isnm: 뉴프렉스
+      stck_prpr: '7310'
+      prdy_vrss: '110'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '1.53'
+      acml_vol: '483355'
+      whol_loan_rmnd_stcn: '1993717'
+      whol_loan_rmnd_amt: '1368148'
+      whol_loan_rmnd_rate: '8.14'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.24'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '067310'
+      hts_kor_isnm: 하나마이크론
+      stck_prpr: '31000'
+      prdy_vrss: '-500'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-1.59'
+      acml_vol: '2845444'
+      whol_loan_rmnd_stcn: '4197874'
+      whol_loan_rmnd_amt: '10546224'
+      whol_loan_rmnd_rate: '8.04'
+      whol_stln_rmnd_stcn: '8766'
+      whol_stln_rmnd_amt: '22042'
+      whol_stln_rmnd_rate: '0.01'
+      nday_vrss_loan_rmnd_inrt: '0.54'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 032580
+      hts_kor_isnm: 피델릭스
+      stck_prpr: '1664'
+      prdy_vrss: '-13'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.78'
+      acml_vol: '673012'
+      whol_loan_rmnd_stcn: '2660198'
+      whol_loan_rmnd_amt: '417362'
+      whol_loan_rmnd_rate: '8.02'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.76'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '119850'
+      hts_kor_isnm: 지엔씨에너지
+      stck_prpr: '8300'
+      prdy_vrss: '330'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '4.14'
+      acml_vol: '2745093'
+      whol_loan_rmnd_stcn: '1319084'
+      whol_loan_rmnd_amt: '673602'
+      whol_loan_rmnd_rate: '8.01'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.19'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '045660'
+      hts_kor_isnm: 에이텍
+      stck_prpr: '14870'
+      prdy_vrss: '1500'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '11.22'
+      acml_vol: '2077762'
+      whol_loan_rmnd_stcn: '658980'
+      whol_loan_rmnd_amt: '995291'
+      whol_loan_rmnd_rate: '7.97'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.68'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 059120
+      hts_kor_isnm: 아진엑스텍
+      stck_prpr: '11330'
+      prdy_vrss: '-30'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.26'
+      acml_vol: '125062'
+      whol_loan_rmnd_stcn: '774940'
+      whol_loan_rmnd_amt: '842527'
+      whol_loan_rmnd_rate: '7.94'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.09'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '060310'
+      hts_kor_isnm: 3S
+      stck_prpr: '2870'
+      prdy_vrss: '55'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '1.95'
+      acml_vol: '2095206'
+      whol_loan_rmnd_stcn: '3849904'
+      whol_loan_rmnd_amt: '1168005'
+      whol_loan_rmnd_rate: '7.92'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.32'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 013990
+      hts_kor_isnm: 아가방컴퍼니
+      stck_prpr: '5010'
+      prdy_vrss: '15'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.30'
+      acml_vol: '709707'
+      whol_loan_rmnd_stcn: '2607393'
+      whol_loan_rmnd_amt: '1326597'
+      whol_loan_rmnd_rate: '7.92'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.03'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 084650
+      hts_kor_isnm: 랩지노믹스
+      stck_prpr: '2645'
+      prdy_vrss: '-15'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.56'
+      acml_vol: '386632'
+      whol_loan_rmnd_stcn: '5866700'
+      whol_loan_rmnd_amt: '2248239'
+      whol_loan_rmnd_rate: '7.89'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.04'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '017040'
+      hts_kor_isnm: 광명전기
+      stck_prpr: '2735'
+      prdy_vrss: '55'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '2.05'
+      acml_vol: '14782305'
+      whol_loan_rmnd_stcn: '3396695'
+      whol_loan_rmnd_amt: '797496'
+      whol_loan_rmnd_rate: '7.82'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.28'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '053050'
+      hts_kor_isnm: 지에스이
+      stck_prpr: '3630'
+      prdy_vrss: '-20'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.55'
+      acml_vol: '1063396'
+      whol_loan_rmnd_stcn: '2335946'
+      whol_loan_rmnd_amt: '852637'
+      whol_loan_rmnd_rate: '7.78'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.21'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '123410'
+      hts_kor_isnm: 코리아에프티
+      stck_prpr: '6550'
+      prdy_vrss: '-50'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.76'
+      acml_vol: '1739694'
+      whol_loan_rmnd_stcn: '2168343'
+      whol_loan_rmnd_amt: '1069541'
+      whol_loan_rmnd_rate: '7.78'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.17'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 027580
+      hts_kor_isnm: 상보
+      stck_prpr: '1715'
+      prdy_vrss: '14'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.82'
+      acml_vol: '481651'
+      whol_loan_rmnd_stcn: '4610038'
+      whol_loan_rmnd_amt: '799793'
+      whol_loan_rmnd_rate: '7.78'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.04'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 069410
+      hts_kor_isnm: 엔텔스
+      stck_prpr: '4840'
+      prdy_vrss: '-20'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.41'
+      acml_vol: '11108'
+      whol_loan_rmnd_stcn: '792894'
+      whol_loan_rmnd_amt: '445356'
+      whol_loan_rmnd_rate: '7.73'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.01'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '011700'
+      hts_kor_isnm: 한신기계
+      stck_prpr: '4325'
+      prdy_vrss: '40'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.93'
+      acml_vol: '234574'
+      whol_loan_rmnd_stcn: '2506499'
+      whol_loan_rmnd_amt: '1243551'
+      whol_loan_rmnd_rate: '7.71'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.08'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '441270'
+      hts_kor_isnm: 파인엠텍
+      stck_prpr: '8290'
+      prdy_vrss: '40'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.48'
+      acml_vol: '120184'
+      whol_loan_rmnd_stcn: '2808021'
+      whol_loan_rmnd_amt: '2237689'
+      whol_loan_rmnd_rate: '7.60'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.03'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 058850
+      hts_kor_isnm: KTcs
+      stck_prpr: '3255'
+      prdy_vrss: '-30'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.91'
+      acml_vol: '315560'
+      whol_loan_rmnd_stcn: '3240142'
+      whol_loan_rmnd_amt: '1142392'
+      whol_loan_rmnd_rate: '7.58'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.03'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 091580
+      hts_kor_isnm: 상신이디피
+      stck_prpr: '16320'
+      prdy_vrss: '-290'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-1.75'
+      acml_vol: '116376'
+      whol_loan_rmnd_stcn: '1013775'
+      whol_loan_rmnd_amt: '1820763'
+      whol_loan_rmnd_rate: '7.54'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.12'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '200710'
+      hts_kor_isnm: 에이디테크놀로지
+      stck_prpr: '43200'
+      prdy_vrss: '1400'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '3.35'
+      acml_vol: '768752'
+      whol_loan_rmnd_stcn: '1005663'
+      whol_loan_rmnd_amt: '3141897'
+      whol_loan_rmnd_rate: '7.48'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.02'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '033170'
+      hts_kor_isnm: 시그네틱스
+      stck_prpr: '1768'
+      prdy_vrss: '-14'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.79'
+      acml_vol: '1353436'
+      whol_loan_rmnd_stcn: '6362245'
+      whol_loan_rmnd_amt: '1042181'
+      whol_loan_rmnd_rate: '7.41'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.05'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '272110'
+      hts_kor_isnm: 케이엔제이
+      stck_prpr: '19920'
+      prdy_vrss: '-380'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-1.87'
+      acml_vol: '526814'
+      whol_loan_rmnd_stcn: '587700'
+      whol_loan_rmnd_amt: '1035337'
+      whol_loan_rmnd_rate: '7.36'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '2.89'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '126700'
+      hts_kor_isnm: 하이비젼시스템
+      stck_prpr: '21750'
+      prdy_vrss: '450'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '2.11'
+      acml_vol: '250245'
+      whol_loan_rmnd_stcn: '1081067'
+      whol_loan_rmnd_amt: '2198402'
+      whol_loan_rmnd_rate: '7.23'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.06'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 064480
+      hts_kor_isnm: 브리지텍
+      stck_prpr: '7080'
+      prdy_vrss: '0'
+      prdy_vrss_sign: '3'
+      prdy_ctrt: '0.00'
+      acml_vol: '70003'
+      whol_loan_rmnd_stcn: '862374'
+      whol_loan_rmnd_amt: '674845'
+      whol_loan_rmnd_rate: '7.20'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.13'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 049070
+      hts_kor_isnm: 인탑스
+      stck_prpr: '27900'
+      prdy_vrss: '100'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.36'
+      acml_vol: '120198'
+      whol_loan_rmnd_stcn: '1240516'
+      whol_loan_rmnd_amt: '3631525'
+      whol_loan_rmnd_rate: '7.20'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.08'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '102120'
+      hts_kor_isnm: 어보브반도체
+      stck_prpr: '16450'
+      prdy_vrss: '430'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '2.68'
+      acml_vol: '1247402'
+      whol_loan_rmnd_stcn: '1274613'
+      whol_loan_rmnd_amt: '1945592'
+      whol_loan_rmnd_rate: '7.16'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.09'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '242040'
+      hts_kor_isnm: 나무기술
+      stck_prpr: '2270'
+      prdy_vrss: '45'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '2.02'
+      acml_vol: '294303'
+      whol_loan_rmnd_stcn: '2464083'
+      whol_loan_rmnd_amt: '521855'
+      whol_loan_rmnd_rate: '7.11'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.05'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 092870
+      hts_kor_isnm: 엑시콘
+      stck_prpr: '28450'
+      prdy_vrss: '200'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.71'
+      acml_vol: '1115639'
+      whol_loan_rmnd_stcn: '771959'
+      whol_loan_rmnd_amt: '1866596'
+      whol_loan_rmnd_rate: '7.10'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.29'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '173130'
+      hts_kor_isnm: 오파스넷
+      stck_prpr: '7450'
+      prdy_vrss: '-90'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-1.19'
+      acml_vol: '190126'
+      whol_loan_rmnd_stcn: '841989'
+      whol_loan_rmnd_amt: '874835'
+      whol_loan_rmnd_rate: '7.08'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.16'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '036010'
+      hts_kor_isnm: 아비코전자
+      stck_prpr: '12240'
+      prdy_vrss: '-70'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.57'
+      acml_vol: '87854'
+      whol_loan_rmnd_stcn: '942948'
+      whol_loan_rmnd_amt: '1134247'
+      whol_loan_rmnd_rate: '7.08'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.04'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '317850'
+      hts_kor_isnm: 대모
+      stck_prpr: '8930'
+      prdy_vrss: '-10'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.11'
+      acml_vol: '39218'
+      whol_loan_rmnd_stcn: '587385'
+      whol_loan_rmnd_amt: '537776'
+      whol_loan_rmnd_rate: '7.05'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.06'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '356860'
+      hts_kor_isnm: 티엘비
+      stck_prpr: '28100'
+      prdy_vrss: '-50'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.18'
+      acml_vol: '768183'
+      whol_loan_rmnd_stcn: '691435'
+      whol_loan_rmnd_amt: '1698227'
+      whol_loan_rmnd_rate: '7.02'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.13'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 053690
+      hts_kor_isnm: 한미글로벌
+      stck_prpr: '15970'
+      prdy_vrss: '460'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '2.97'
+      acml_vol: '114724'
+      whol_loan_rmnd_stcn: '768802'
+      whol_loan_rmnd_amt: '1565129'
+      whol_loan_rmnd_rate: '7.01'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.00'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '119830'
+      hts_kor_isnm: 아이텍
+      stck_prpr: '7800'
+      prdy_vrss: '-20'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.26'
+      acml_vol: '275384'
+      whol_loan_rmnd_stcn: '1503355'
+      whol_loan_rmnd_amt: '1210314'
+      whol_loan_rmnd_rate: '7.00'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.12'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 079370
+      hts_kor_isnm: 제우스
+      stck_prpr: '17070'
+      prdy_vrss: '50'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.29'
+      acml_vol: '486845'
+      whol_loan_rmnd_stcn: '2170538'
+      whol_loan_rmnd_amt: '3909085'
+      whol_loan_rmnd_rate: '6.99'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.06'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 013810
+      hts_kor_isnm: 스페코
+      stck_prpr: '4250'
+      prdy_vrss: '20'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.47'
+      acml_vol: '1117693'
+      whol_loan_rmnd_stcn: '1024951'
+      whol_loan_rmnd_amt: '457257'
+      whol_loan_rmnd_rate: '6.98'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.53'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '170030'
+      hts_kor_isnm: 현대공업
+      stck_prpr: '7160'
+      prdy_vrss: '-40'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.56'
+      acml_vol: '62752'
+      whol_loan_rmnd_stcn: '1070944'
+      whol_loan_rmnd_amt: '791679'
+      whol_loan_rmnd_rate: '6.97'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.07'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '105840'
+      hts_kor_isnm: 우진
+      stck_prpr: '8040'
+      prdy_vrss: '20'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.25'
+      acml_vol: '213279'
+      whol_loan_rmnd_stcn: '1414634'
+      whol_loan_rmnd_amt: '1194554'
+      whol_loan_rmnd_rate: '6.95'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.12'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 005870
+      hts_kor_isnm: 휴니드
+      stck_prpr: '7890'
+      prdy_vrss: '260'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '3.41'
+      acml_vol: '867287'
+      whol_loan_rmnd_stcn: '970639'
+      whol_loan_rmnd_amt: '596254'
+      whol_loan_rmnd_rate: '6.86'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.21'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 058610
+      hts_kor_isnm: 에스피지
+      stck_prpr: '27900'
+      prdy_vrss: '-50'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.18'
+      acml_vol: '123557'
+      whol_loan_rmnd_stcn: '1508594'
+      whol_loan_rmnd_amt: '4449364'
+      whol_loan_rmnd_rate: '6.80'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.03'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 089890
+      hts_kor_isnm: 코세스
+      stck_prpr: '14770'
+      prdy_vrss: '460'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '3.21'
+      acml_vol: '246072'
+      whol_loan_rmnd_stcn: '1117343'
+      whol_loan_rmnd_amt: '1591385'
+      whol_loan_rmnd_rate: '6.73'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.31'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '417840'
+      hts_kor_isnm: 저스템
+      stck_prpr: '14750'
+      prdy_vrss: '50'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.34'
+      acml_vol: '101548'
+      whol_loan_rmnd_stcn: '486317'
+      whol_loan_rmnd_amt: '691578'
+      whol_loan_rmnd_rate: '6.70'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.01'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '330860'
+      hts_kor_isnm: 네패스아크
+      stck_prpr: '31300'
+      prdy_vrss: '-100'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.32'
+      acml_vol: '205892'
+      whol_loan_rmnd_stcn: '813558'
+      whol_loan_rmnd_amt: '2564499'
+      whol_loan_rmnd_rate: '6.67'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.09'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 094940
+      hts_kor_isnm: 푸른기술
+      stck_prpr: '7960'
+      prdy_vrss: '-30'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.38'
+      acml_vol: '36883'
+      whol_loan_rmnd_stcn: '558956'
+      whol_loan_rmnd_amt: '458942'
+      whol_loan_rmnd_rate: '6.67'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.03'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '190510'
+      hts_kor_isnm: 나무가
+      stck_prpr: '14400'
+      prdy_vrss: '170'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '1.19'
+      acml_vol: '76736'
+      whol_loan_rmnd_stcn: '1080318'
+      whol_loan_rmnd_amt: '1620263'
+      whol_loan_rmnd_rate: '6.63'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.05'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '388050'
+      hts_kor_isnm: 지투파워
+      stck_prpr: '8320'
+      prdy_vrss: '360'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '4.52'
+      acml_vol: '388506'
+      whol_loan_rmnd_stcn: '1237161'
+      whol_loan_rmnd_amt: '1084612'
+      whol_loan_rmnd_rate: '6.61'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.16'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 083450
+      hts_kor_isnm: GST
+      stck_prpr: '45550'
+      prdy_vrss: '-750'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-1.62'
+      acml_vol: '384176'
+      whol_loan_rmnd_stcn: '617379'
+      whol_loan_rmnd_amt: '2733486'
+      whol_loan_rmnd_rate: '6.61'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.09'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '001200'
+      hts_kor_isnm: 유진투자증권
+      stck_prpr: '4480'
+      prdy_vrss: '45'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '1.01'
+      acml_vol: '1233478'
+      whol_loan_rmnd_stcn: '6390416'
+      whol_loan_rmnd_amt: '2008968'
+      whol_loan_rmnd_rate: '6.59'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.05'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 009470
+      hts_kor_isnm: 삼화전기
+      stck_prpr: '42100'
+      prdy_vrss: '-600'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-1.41'
+      acml_vol: '683124'
+      whol_loan_rmnd_stcn: '433894'
+      whol_loan_rmnd_amt: '1027829'
+      whol_loan_rmnd_rate: '6.55'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.23'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '211270'
+      hts_kor_isnm: AP위성
+      stck_prpr: '18050'
+      prdy_vrss: '1070'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '6.30'
+      acml_vol: '3756221'
+      whol_loan_rmnd_stcn: '984104'
+      whol_loan_rmnd_amt: '1467605'
+      whol_loan_rmnd_rate: '6.52'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.09'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 007810
+      hts_kor_isnm: 코리아써키트
+      stck_prpr: '16500'
+      prdy_vrss: '-200'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-1.20'
+      acml_vol: '184898'
+      whol_loan_rmnd_stcn: '1541603'
+      whol_loan_rmnd_amt: '2721485'
+      whol_loan_rmnd_rate: '6.52'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.06'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '205100'
+      hts_kor_isnm: 엑셈
+      stck_prpr: '2340'
+      prdy_vrss: '95'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '4.23'
+      acml_vol: '876663'
+      whol_loan_rmnd_stcn: '4683303'
+      whol_loan_rmnd_amt: '1323790'
+      whol_loan_rmnd_rate: '6.49'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.06'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '419530'
+      hts_kor_isnm: SAMG엔터
+      stck_prpr: '13620'
+      prdy_vrss: '200'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '1.49'
+      acml_vol: '59201'
+      whol_loan_rmnd_stcn: '555857'
+      whol_loan_rmnd_amt: '997852'
+      whol_loan_rmnd_rate: '6.46'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.09'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '025320'
+      hts_kor_isnm: 시노펙스
+      stck_prpr: '9080'
+      prdy_vrss: '-290'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-3.09'
+      acml_vol: '1711765'
+      whol_loan_rmnd_stcn: '5399872'
+      whol_loan_rmnd_amt: '3812492'
+      whol_loan_rmnd_rate: '6.43'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.07'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '037440'
+      hts_kor_isnm: 희림
+      stck_prpr: '6400'
+      prdy_vrss: '-60'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.93'
+      acml_vol: '56354'
+      whol_loan_rmnd_stcn: '896058'
+      whol_loan_rmnd_amt: '645536'
+      whol_loan_rmnd_rate: '6.43'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.03'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '133750'
+      hts_kor_isnm: 메가엠디
+      stck_prpr: '2410'
+      prdy_vrss: '-50'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-2.03'
+      acml_vol: '166600'
+      whol_loan_rmnd_stcn: '1505219'
+      whol_loan_rmnd_amt: '441891'
+      whol_loan_rmnd_rate: '6.42'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.08'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '131030'
+      hts_kor_isnm: 옵투스제약
+      stck_prpr: '6130'
+      prdy_vrss: '210'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '3.55'
+      acml_vol: '450441'
+      whol_loan_rmnd_stcn: '1034261'
+      whol_loan_rmnd_amt: '694025'
+      whol_loan_rmnd_rate: '6.39'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.13'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 098120
+      hts_kor_isnm: 마이크로컨텍솔
+      stck_prpr: '9450'
+      prdy_vrss: '170'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '1.83'
+      acml_vol: '85076'
+      whol_loan_rmnd_stcn: '530155'
+      whol_loan_rmnd_amt: '500738'
+      whol_loan_rmnd_rate: '6.37'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.22'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '182360'
+      hts_kor_isnm: 큐브엔터
+      stck_prpr: '15540'
+      prdy_vrss: '-400'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-2.51'
+      acml_vol: '63162'
+      whol_loan_rmnd_stcn: '872814'
+      whol_loan_rmnd_amt: '1424695'
+      whol_loan_rmnd_rate: '6.31'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.13'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '151860'
+      hts_kor_isnm: KG ETS
+      stck_prpr: '8880'
+      prdy_vrss: '-230'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-2.52'
+      acml_vol: '104386'
+      whol_loan_rmnd_stcn: '2267472'
+      whol_loan_rmnd_amt: '2615797'
+      whol_loan_rmnd_rate: '6.29'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.04'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '027050'
+      hts_kor_isnm: 코리아나
+      stck_prpr: '2910'
+      prdy_vrss: '-5'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.17'
+      acml_vol: '769994'
+      whol_loan_rmnd_stcn: '2504618'
+      whol_loan_rmnd_amt: '779004'
+      whol_loan_rmnd_rate: '6.25'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.12'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '004560'
+      hts_kor_isnm: 현대비앤지스틸
+      stck_prpr: '21000'
+      prdy_vrss: '450'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '2.19'
+      acml_vol: '147828'
+      whol_loan_rmnd_stcn: '942853'
+      whol_loan_rmnd_amt: '1618795'
+      whol_loan_rmnd_rate: '6.24'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.17'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '230240'
+      hts_kor_isnm: 에치에프알
+      stck_prpr: '13420'
+      prdy_vrss: '-60'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-0.45'
+      acml_vol: '55089'
+      whol_loan_rmnd_stcn: '838985'
+      whol_loan_rmnd_amt: '1565881'
+      whol_loan_rmnd_rate: '6.21'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.05'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 059210
+      hts_kor_isnm: 메타바이오메드
+      stck_prpr: '4295'
+      prdy_vrss: '195'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '4.76'
+      acml_vol: '494936'
+      whol_loan_rmnd_stcn: '1484642'
+      whol_loan_rmnd_amt: '607071'
+      whol_loan_rmnd_rate: '6.21'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.01'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '220260'
+      hts_kor_isnm: 켐트로스
+      stck_prpr: '7000'
+      prdy_vrss: '0'
+      prdy_vrss_sign: '3'
+      prdy_ctrt: '0.00'
+      acml_vol: '230100'
+      whol_loan_rmnd_stcn: '1640807'
+      whol_loan_rmnd_amt: '1332420'
+      whol_loan_rmnd_rate: '6.17'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.10'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '163730'
+      hts_kor_isnm: 핑거
+      stck_prpr: '8590'
+      prdy_vrss: '70'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.82'
+      acml_vol: '19575'
+      whol_loan_rmnd_stcn: '576898'
+      whol_loan_rmnd_amt: '662547'
+      whol_loan_rmnd_rate: '6.16'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.04'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '263810'
+      hts_kor_isnm: 상신전자
+      stck_prpr: '4140'
+      prdy_vrss: '50'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '1.22'
+      acml_vol: '88189'
+      whol_loan_rmnd_stcn: '877304'
+      whol_loan_rmnd_amt: '405633'
+      whol_loan_rmnd_rate: '6.15'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.03'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '189690'
+      hts_kor_isnm: 포시에스
+      stck_prpr: '2840'
+      prdy_vrss: '15'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.53'
+      acml_vol: '172957'
+      whol_loan_rmnd_stcn: '1683864'
+      whol_loan_rmnd_amt: '496865'
+      whol_loan_rmnd_rate: '6.15'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.13'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 037950
+      hts_kor_isnm: 엘컴텍
+      stck_prpr: '1565'
+      prdy_vrss: '-24'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-1.51'
+      acml_vol: '8547977'
+      whol_loan_rmnd_stcn: '5175612'
+      whol_loan_rmnd_amt: '724012'
+      whol_loan_rmnd_rate: '6.12'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.24'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '200470'
+      hts_kor_isnm: 에이팩트
+      stck_prpr: '5150'
+      prdy_vrss: '-70'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-1.34'
+      acml_vol: '970817'
+      whol_loan_rmnd_stcn: '2586717'
+      whol_loan_rmnd_amt: '1227462'
+      whol_loan_rmnd_rate: '6.10'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.07'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '263600'
+      hts_kor_isnm: 덕우전자
+      stck_prpr: '8430'
+      prdy_vrss: '-320'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-3.66'
+      acml_vol: '423952'
+      whol_loan_rmnd_stcn: '972400'
+      whol_loan_rmnd_amt: '815829'
+      whol_loan_rmnd_rate: '6.10'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.06'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '036200'
+      hts_kor_isnm: 유니셈
+      stck_prpr: '9380'
+      prdy_vrss: '170'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '1.85'
+      acml_vol: '1684457'
+      whol_loan_rmnd_stcn: '1867730'
+      whol_loan_rmnd_amt: '1467677'
+      whol_loan_rmnd_rate: '6.08'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.12'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '060540'
+      hts_kor_isnm: 에스에이티
+      stck_prpr: '2325'
+      prdy_vrss: '45'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '1.97'
+      acml_vol: '682548'
+      whol_loan_rmnd_stcn: '1581922'
+      whol_loan_rmnd_amt: '379179'
+      whol_loan_rmnd_rate: '6.04'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.23'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '205470'
+      hts_kor_isnm: 휴마시스
+      stck_prpr: '1905'
+      prdy_vrss: '0'
+      prdy_vrss_sign: '3'
+      prdy_ctrt: '0.00'
+      acml_vol: '1317440'
+      whol_loan_rmnd_stcn: '7800621'
+      whol_loan_rmnd_amt: '2190249'
+      whol_loan_rmnd_rate: '6.02'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.07'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '218150'
+      hts_kor_isnm: 미래생명자원
+      stck_prpr: '4950'
+      prdy_vrss: '-60'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-1.20'
+      acml_vol: '422741'
+      whol_loan_rmnd_stcn: '1229435'
+      whol_loan_rmnd_amt: '628985'
+      whol_loan_rmnd_rate: '6.01'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.03'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 090410
+      hts_kor_isnm: 덕신하우징
+      stck_prpr: '1788'
+      prdy_vrss: '28'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '1.59'
+      acml_vol: '123642'
+      whol_loan_rmnd_stcn: '2770681'
+      whol_loan_rmnd_amt: '540342'
+      whol_loan_rmnd_rate: '6.00'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.02'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 058630
+      hts_kor_isnm: 엠게임
+      stck_prpr: '5460'
+      prdy_vrss: '10'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.18'
+      acml_vol: '49145'
+      whol_loan_rmnd_stcn: '1173440'
+      whol_loan_rmnd_amt: '737871'
+      whol_loan_rmnd_rate: '6.00'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.02'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '201490'
+      hts_kor_isnm: 미투온
+      stck_prpr: '2655'
+      prdy_vrss: '10'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.38'
+      acml_vol: '64881'
+      whol_loan_rmnd_stcn: '1875620'
+      whol_loan_rmnd_amt: '672734'
+      whol_loan_rmnd_rate: '5.99'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.01'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '171010'
+      hts_kor_isnm: 램테크놀러지
+      stck_prpr: '6310'
+      prdy_vrss: '130'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '2.10'
+      acml_vol: '11578890'
+      whol_loan_rmnd_stcn: '851142'
+      whol_loan_rmnd_amt: '505847'
+      whol_loan_rmnd_rate: '5.98'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.38'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '053030'
+      hts_kor_isnm: 바이넥스
+      stck_prpr: '13600'
+      prdy_vrss: '1410'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '11.57'
+      acml_vol: '1566467'
+      whol_loan_rmnd_stcn: '1894439'
+      whol_loan_rmnd_amt: '2558217'
+      whol_loan_rmnd_rate: '5.96'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.13'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '318000'
+      hts_kor_isnm: KBG
+      stck_prpr: '7710'
+      prdy_vrss: '160'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '2.12'
+      acml_vol: '67145'
+      whol_loan_rmnd_stcn: '521071'
+      whol_loan_rmnd_amt: '448832'
+      whol_loan_rmnd_rate: '5.95'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.00'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '290550'
+      hts_kor_isnm: 디케이티
+      stck_prpr: '9190'
+      prdy_vrss: '80'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.88'
+      acml_vol: '21953'
+      whol_loan_rmnd_stcn: '1113701'
+      whol_loan_rmnd_amt: '1072805'
+      whol_loan_rmnd_rate: '5.95'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.04'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '351330'
+      hts_kor_isnm: 이삭엔지니어링
+      stck_prpr: '12290'
+      prdy_vrss: '540'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '4.60'
+      acml_vol: '260773'
+      whol_loan_rmnd_stcn: '490147'
+      whol_loan_rmnd_amt: '552994'
+      whol_loan_rmnd_rate: '5.91'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.14'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '046210'
+      hts_kor_isnm: HLB파나진
+      stck_prpr: '4435'
+      prdy_vrss: '25'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.57'
+      acml_vol: '321919'
+      whol_loan_rmnd_stcn: '2428843'
+      whol_loan_rmnd_amt: '1090733'
+      whol_loan_rmnd_rate: '5.91'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.03'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '224110'
+      hts_kor_isnm: 에이텍모빌리티
+      stck_prpr: '14010'
+      prdy_vrss: '280'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '2.04'
+      acml_vol: '266427'
+      whol_loan_rmnd_stcn: '314930'
+      whol_loan_rmnd_amt: '505571'
+      whol_loan_rmnd_rate: '5.89'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.06'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '219130'
+      hts_kor_isnm: 타이거일렉
+      stck_prpr: '28900'
+      prdy_vrss: '-650'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-2.20'
+      acml_vol: '124570'
+      whol_loan_rmnd_stcn: '371941'
+      whol_loan_rmnd_amt: '1020782'
+      whol_loan_rmnd_rate: '5.88'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.45'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '024060'
+      hts_kor_isnm: 흥구석유
+      stck_prpr: '15550'
+      prdy_vrss: '140'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.91'
+      acml_vol: '7429882'
+      whol_loan_rmnd_stcn: '879083'
+      whol_loan_rmnd_amt: '1045599'
+      whol_loan_rmnd_rate: '5.85'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '1.46'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '033320'
+      hts_kor_isnm: 제이씨현시스템
+      stck_prpr: '4070'
+      prdy_vrss: '40'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '0.99'
+      acml_vol: '58169'
+      whol_loan_rmnd_stcn: '1117574'
+      whol_loan_rmnd_amt: '564095'
+      whol_loan_rmnd_rate: '5.84'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.11'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: 008700
+      hts_kor_isnm: 아남전자
+      stck_prpr: '1908'
+      prdy_vrss: '-20'
+      prdy_vrss_sign: '5'
+      prdy_ctrt: '-1.04'
+      acml_vol: '296451'
+      whol_loan_rmnd_stcn: '4516232'
+      whol_loan_rmnd_amt: '913342'
+      whol_loan_rmnd_rate: '5.84'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '-0.03'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    - mksc_shrn_iscd: '187270'
+      hts_kor_isnm: 신화콘텍
+      stck_prpr: '4445'
+      prdy_vrss: '85'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '1.95'
+      acml_vol: '108191'
+      whol_loan_rmnd_stcn: '591576'
+      whol_loan_rmnd_amt: '256838'
+      whol_loan_rmnd_rate: '5.82'
+      whol_stln_rmnd_stcn: '0'
+      whol_stln_rmnd_amt: '0'
+      whol_stln_rmnd_rate: '0.00'
+      nday_vrss_loan_rmnd_inrt: '0.09'
+      nday_vrss_stln_rmnd_inrt: '0.00'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

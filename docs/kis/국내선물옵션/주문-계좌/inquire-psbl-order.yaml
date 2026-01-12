@@ -1,0 +1,295 @@
+id: d66ffd69-8d60-4490-99d0-becf63aabf41
+name: 선물옵션 주문가능[v1_국내선물-005]
+section: '[국내선물옵션] 주문/계좌'
+category: 국내선물옵션
+subcategory: 주문/계좌
+method: GET
+url: /uapi/domestic-futureoption/v1/trading/inquire-psbl-order
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: https://openapivts.koreainvestment.com:29443
+tr_ids:
+- TTTO5105R
+- VTTO5105R
+real_tr_id: TTTO5105R
+virtual_tr_id: VTTO5105R
+summary: 선물옵션 주문가능 API입니다. 주문가능 내역과 수량을 확인하실 수 있습니다.
+description: '[국내선물-005 v1] 선물옵션 주문가능'
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2021-12-15T13:06:32+09:00'
+  last_modified_date: '2025-04-30T12:22:02+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: false
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access Token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Credentials Grant 절차를 준용)\
+      \ \n제휴사(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: '앱키 '
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: "[실전투자] \nTTTO5105R : 선물 옵션 주문 가능\n\n[모의투자] \nVTTO5105R : 선물 옵션 주문 가능"
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 제휴사 APP을 사용하는 경우 사용자(회원) 핸드폰번호
+
+      ex) 01011112222 (하이픈 등 구분값 제거)'
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 제휴사는 사용자(회원)의 IP Address 필수이며 일반고객은 제외
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: false
+    description: 계좌번호 체계(8-2)의 앞 8자리
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: 계좌번호 체계(8-2)의 뒤 2자리
+  - code: PDNO
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '선물옵션종목코드
+
+      선물 6자리 (예: 101S03)
+
+      옵션 9자리 (예: 201S03370)'
+  - code: SLL_BUY_DVSN_CD
+    name: 매도매수구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '01 : 매도
+
+      02 : 매수'
+  - code: UNIT_PRICE
+    name: 주문가격1
+    type: A0001
+    type_name: String
+    length: '23'
+    required: false
+    description: "주문가격\n※ 주문가격 '0'일 경우\n - 옵션매수 : 현재가\n - 그 이외   : 기준가"
+  - code: ORD_DVSN_CD
+    name: 주문구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '01 : 지정가
+
+      02 : 시장가
+
+      03 : 조건부
+
+      04 : 최유리,
+
+      10 : 지정가(IOC)
+
+      11 : 지정가(FOK)
+
+      12 : 시장가(IOC)
+
+      13 : 시장가(FOK)
+
+      14 : 최유리(IOC)
+
+      15 : 최유리(FOK)'
+  example:
+    CANO: 810XXXXX
+    ACNT_PRDT_CD: '03'
+    PDNO: 101R12
+    SLL_BUY_DVSN_CD: '02'
+    UNIT_PRICE: '397.95'
+    ORD_DVSN_CD: '01'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '0 : 성공
+
+      0 이외의 값 : 실패'
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 응답코드
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: 응답메세지
+  - code: output
+    name: 응답상세
+    type: A0002
+    type_name: String
+    length: ''
+    required: true
+    description: ''
+  - code: tot_psbl_qty
+    name: 총가능수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 총가능수량
+  - code: lqd_psbl_qty1
+    name: 청산가능수량1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 청산가능수량
+  - code: ord_psbl_qty
+    name: 주문가능수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 주문가능수량
+  - code: bass_idx
+    name: 기준지수
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 기준지수
+  example:
+    output:
+      tot_psbl_qty: '11679'
+      lqd_psbl_qty1: '0'
+      ord_psbl_qty: '11665'
+      bass_idx: '379.67000000'
+    rt_cd: '0'
+    msg_cd: KIOK0510
+    msg1: '조회가 완료되었습니다                                                           '
+errors: []

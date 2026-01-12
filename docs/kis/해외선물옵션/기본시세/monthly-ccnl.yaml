@@ -1,0 +1,503 @@
+id: 8702dab4-008d-4849-8f24-a91b57872a80
+name: 해외선물 체결추이(월간)[해외선물-020]
+section: '[해외선물옵션] 기본시세'
+category: 해외선물옵션
+subcategory: 기본시세
+method: GET
+url: /uapi/overseas-futureoption/v1/quotations/monthly-ccnl
+content_type: ''
+req_format: ''
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  virtual: 모의투자 미지원
+tr_ids:
+- HHDFC55020300
+- 모의투자 미지원
+real_tr_id: HHDFC55020300
+virtual_tr_id: 모의투자 미지원
+summary: "해외선물옵션 체결추이(월간) API입니다. \n한국투자 HTS(eFriend Force) > [5502] 해외선물옵션 체결추이 화면에서 \"월간\" 선택 시 기능을 API로 개발한 사항으로, 해당 화면을\
+  \ 참고하시면 기능을 이해하기 쉽습니다.\n\n(중요) 해외선물시세 출력값을 해석하실 때 ffcode.mst(해외선물종목마스터 파일)에 있는 sCalcDesz(계산 소수점) 값을 활용하셔야 정확한 값을 받아오실 수\
+  \ 있습니다.\n\n- ffcode.mst(해외선물종목마스터 파일) 다운로드 방법 2가지\n  1) 한국투자증권 Github의 파이썬 샘플코드를 사용하여 mst 파일 다운로드 및 excel 파일로 정제   \n  \
+  \   https://github.com/koreainvestment/open-trading-api/blob/main/stocks_info/overseas_future_code.py\n   \n  2) 혹은 포럼 -\
+  \ FAQ - 종목정보 다운로드(해외) - 해외지수선물 클릭하셔서 ffcode.mst(해외선물종목마스터 파일)을 다운로드 후\n     Github의 헤더정보(https://github.com/koreainvestment/open-trading-api/blob/main/stocks_info/해외선물정보.h)를\
+  \ 참고하여 해석\n\n- 소수점 계산 시, ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고\n  EX) ffcode.mst 파일의 sCalcDesz(계산 소수점) 값\n  \
+  \     품목코드 6A 계산소수점 -4 → 시세 6882.5 수신 시 0.68825 로 해석\n       품목코드 GC 계산소수점 -1 → 시세 19225 수신 시 1922.5 로 해석\n\n※ CME, SGX\
+  \ 거래소 API시세는 유료시세로 HTS/MTS에서 유료가입 후 익일부터 시세 이용 가능합니다.\n포럼 > FAQ > 해외선물옵션 API 유료시세 신청방법(CME, SGX 거래소)"
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-05T13:35:22+09:00'
+  last_modified_date: '2025-04-30T12:57:42+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHDFC55020300
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: SRS_CD
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 예) 6AM24
+  - code: EXCH_CD
+    name: 거래소코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 예) CME
+  - code: START_DATE_TIME
+    name: 조회시작일시
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 공백
+  - code: CLOSE_DATE_TIME
+    name: 조회종료일시
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 예) 20240402
+  - code: QRY_TP
+    name: 조회구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시'
+  - code: QRY_CNT
+    name: 요청개수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: 예) 30 (최대 40)
+  - code: QRY_GAP
+    name: 묶음개수
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: 공백 (분만 사용)
+  - code: INDEX_KEY
+    name: 이전조회KEY
+    type: A0001
+    type_name: String
+    length: '30'
+    required: true
+    description: 공백
+  example: "SRS_CD:6AM24\r\nEXCH_CD:CME\r\nSTART_DATE_TIME:\r\nCLOSE_DATE_TIME:20240423\r\nQRY_TP:\r\nQRY_CNT:30\r\nQRY_GAP:\r\
+    \nINDEX_KEY:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: tret_cnt
+    name: 자료개수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: last_n_cnt
+    name: N틱최종개수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: index_key
+    name: 이전조회KEY
+    type: A0001
+    type_name: String
+    length: '30'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: data_date
+    name: 일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: data_time
+    name: 시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: open_price
+    name: 시가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: high_price
+    name: 고가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: low_price
+    name: 저가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: last_price
+    name: 체결가격
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: last_qntt
+    name: 체결수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: vol
+    name: 누적거래수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prev_diff_flag
+    name: 전일대비구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prev_diff_price
+    name: 전일대비가격
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: prev_diff_rate
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example:
+    output1:
+      ret_cnt: '0013'
+      last_n_cnt: ''
+      index_key: ''
+    output2:
+    - data_date: '20230401'
+      data_time: ''
+      open_price: '         6770.0'
+      high_price: '         6770.0'
+      low_price: '         6770.0'
+      last_price: '         6770.0'
+      last_qntt: ''
+      vol: '3'
+      prev_diff_flag: '3'
+      prev_diff_price: '      0.0000000'
+      prev_diff_rate: '      0.00'
+    - data_date: '20230501'
+      data_time: ''
+      open_price: '         6795.0'
+      high_price: '         6800.0'
+      low_price: '         6620.0'
+      last_price: '         6620.0'
+      last_qntt: ''
+      vol: '        16'
+      prev_diff_flag: '5'
+      prev_diff_price: '    150.0000000'
+      prev_diff_rate: '     -2.22'
+    - data_date: '20230601'
+      data_time: ''
+      open_price: '         6809.5'
+      high_price: '         6817.0'
+      low_price: '         6692.0'
+      last_price: '         6692.0'
+      last_qntt: ''
+      vol: '        25'
+      prev_diff_flag: '2'
+      prev_diff_price: '     72.0000000'
+      prev_diff_rate: '      1.09'
+    - data_date: '20230701'
+      data_time: ''
+      open_price: '         6840.5'
+      high_price: '         6840.5'
+      low_price: '         6840.0'
+      last_price: '         6840.0'
+      last_qntt: ''
+      vol: '5'
+      prev_diff_flag: '2'
+      prev_diff_price: '    148.0000000'
+      prev_diff_rate: '      2.21'
+    - data_date: '20230801'
+      data_time: ''
+      open_price: '         6702.0'
+      high_price: '         6702.0'
+      low_price: '         6594.5'
+      last_price: '         6594.5'
+      last_qntt: ''
+      vol: '        16'
+      prev_diff_flag: '5'
+      prev_diff_price: '    245.5000000'
+      prev_diff_rate: '     -3.59'
+    - data_date: '20230901'
+      data_time: ''
+      open_price: '         6535.0'
+      high_price: '         6558.5'
+      low_price: '         6430.0'
+      last_price: '         6450.5'
+      last_qntt: ''
+      vol: '        55'
+      prev_diff_flag: '5'
+      prev_diff_price: '    144.0000000'
+      prev_diff_rate: '     -2.18'
+    - data_date: '20231001'
+      data_time: ''
+      open_price: '         6480.5'
+      high_price: '         6480.5'
+      low_price: '         6345.0'
+      last_price: '         6366.0'
+      last_qntt: ''
+      vol: '        83'
+      prev_diff_flag: '5'
+      prev_diff_price: '     84.5000000'
+      prev_diff_rate: '     -1.31'
+    - data_date: '20231101'
+      data_time: ''
+      open_price: '         6460.5'
+      high_price: '         6675.0'
+      low_price: '         6395.0'
+      last_price: '         6640.0'
+      last_qntt: ''
+      vol: '       532'
+      prev_diff_flag: '2'
+      prev_diff_price: '    274.0000000'
+      prev_diff_rate: '      4.30'
+    - data_date: '20231201'
+      data_time: ''
+      open_price: '         6642.0'
+      high_price: '         6900.0'
+      low_price: '         6565.0'
+      last_price: '         6858.5'
+      last_qntt: ''
+      vol: '      1914'
+      prev_diff_flag: '2'
+      prev_diff_price: '    218.5000000'
+      prev_diff_rate: '      3.29'
+    - data_date: '20240101'
+      data_time: ''
+      open_price: '         6841.0'
+      high_price: '         6864.5'
+      low_price: '         6556.0'
+      last_price: '         6591.0'
+      last_qntt: ''
+      vol: '      2302'
+      prev_diff_flag: '5'
+      prev_diff_price: '    267.5000000'
+      prev_diff_rate: '     -3.90'
+    - data_date: '20240201'
+      data_time: ''
+      open_price: '         6588.0'
+      high_price: '         6629.0'
+      low_price: '         6469.0'
+      last_price: '         6519.0'
+      last_qntt: ''
+      vol: '      6753'
+      prev_diff_flag: '5'
+      prev_diff_price: '     72.0000000'
+      prev_diff_rate: '     -1.09'
+    - data_date: '20240301'
+      data_time: ''
+      open_price: '         6517.5'
+      high_price: '         6686.5'
+      low_price: '        0.66235'
+      last_price: '           6530'
+      last_qntt: ''
+      vol: '    781551'
+      prev_diff_flag: '2'
+      prev_diff_price: '     11.0000000'
+      prev_diff_rate: '      0.17'
+    - data_date: '20240401'
+      data_time: ''
+      open_price: '         6531.5'
+      high_price: '         6657.5'
+      low_price: '         6373.0'
+      last_price: '         6460.0'
+      last_qntt: ''
+      vol: '   1692383'
+      prev_diff_flag: '5'
+      prev_diff_price: '     70.0000000'
+      prev_diff_rate: '     -1.07'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []
