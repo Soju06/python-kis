@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: ws://ops.koreainvestment.com:21000
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- HDFSCNT0
 real_tr_id: HDFSCNT0
 demo_tr_id: 모의투자 미지원
 summary: "해외주식 실시간지연체결가의 경우 기본적으로 무료시세(지연체결가)가 제공되며, \n아시아 국가의 경우 HTS(efriend Plus) [7781] 시세신청(실시간) 화면에서 유료 서비스 신청 시 API로도\

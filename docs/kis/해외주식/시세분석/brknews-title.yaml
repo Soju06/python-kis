@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 미지원
-tr_ids:
-- FHKST01011801
-- 모의투자 미지원
 real_tr_id: FHKST01011801
 demo_tr_id: 모의투자 미지원
 summary: '해외속보(제목) API입니다.

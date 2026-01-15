@@ -30,7 +30,8 @@
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
-| **TR ID** | `(매도) VTTC0011U (매수) VTTC0012U`, `(매도) TTTC0011U (매수) TTTC0012U` |
+| **TR ID (실전)** | `(매도) TTTC0011U (매수) TTTC0012U` |
+| **TR ID (모의)** | `(매도) VTTC0011U (매수) VTTC0012U` |
 
 ## 메타 정보
 
@@ -40,7 +41,7 @@
 - **생성일**: 2021-12-15
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -87,7 +88,7 @@
 }
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -121,3 +122,4 @@
   }
 }
 ```
+

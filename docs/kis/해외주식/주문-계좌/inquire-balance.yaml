@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- TTTS3012R
-- VTTS3012R
 real_tr_id: TTTS3012R
 demo_tr_id: VTTS3012R
 summary: "해외주식 잔고를 조회하는 API 입니다.\n한국투자 HTS(eFriend Plus) > [7600] 해외주식 종합주문 화면의 좌측 하단 '실시간잔고' 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면\

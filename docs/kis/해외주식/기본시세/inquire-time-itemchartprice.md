@@ -42,6 +42,7 @@ params
 해지 시 해지한 달의 말일까지 시세 제공 후 남은 기간 해당 금액이 환급되니 유의하시기 바랍니다.
 (출처: 한국투자증권 외화증권 거래설명서 - https://www.truefriend.com/main/customer/guide/Guide.jsp?&cmd=TF04ag010002&currentPage=1&num=64)
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -53,7 +54,8 @@ params
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `HHDFS76950200` |
+| **TR ID (실전)** | `HHDFS76950200` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -63,7 +65,7 @@ params
 - **생성일**: 2023-07-21
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -113,7 +115,7 @@ params
 }
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -1736,3 +1738,4 @@ params
   "msg1": "정상처리 되었습니다."
 }
 ```
+

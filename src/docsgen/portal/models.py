@@ -67,7 +67,6 @@ class ApiDetail:
     req_format: str
 
     # TR ID
-    tr_ids: dict[str, list[str]] = field(default_factory=dict)  # {"real": [...], "demo": [...]}
     real_tr_id: str = ""
     demo_tr_id: str = ""
 

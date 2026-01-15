@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- CTFO6119R
-- 모의투자 미지원
 real_tr_id: CTFO6119R
 demo_tr_id: 모의투자 미지원
 summary: 선물옵션기간약정수수료일별 API입니다.

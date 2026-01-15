@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: ws://ops.koreainvestment.com:21000
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- H0CFASP0
 real_tr_id: H0CFASP0
 demo_tr_id: 모의투자 미지원
 summary: "※ 선물옵션 호가 데이터는 0.2초 필터링 옵션이 있습니다.\n  필터링 사유는 순간적으로 데이터가 폭증할 경우 서버 뿐만아니라 클라이언트 환경에도 부하를 줄 수 있어 적용된 사항인 점 양해 부탁드립니다."

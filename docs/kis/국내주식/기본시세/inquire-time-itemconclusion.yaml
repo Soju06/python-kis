@@ -10,8 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- FHPST01060000
 real_tr_id: FHPST01060000
 demo_tr_id: FHPST01060000
 summary: 주식현재가 당일시간대별체결 API입니다.

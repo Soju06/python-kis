@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- FHKBJ773400C0
-- 모의투자 미지원
 real_tr_id: FHKBJ773400C0
 demo_tr_id: 모의투자 미지원
 summary: '장내채권현재가(시세) API입니다.

@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- (구) JTCE1004R (신) STTN5105R
-- 모의투자 미지원
 real_tr_id: (구) JTCE1004R (신) STTN5105R
 demo_tr_id: 모의투자 미지원
 summary: (야간)선물옵션 주문가능 조회 API입니다.

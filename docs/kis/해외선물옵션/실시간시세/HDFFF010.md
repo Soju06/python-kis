@@ -34,6 +34,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 종목코드 마스터파일 파이썬 정제코드는 한국투자증권 Github 참고 부탁드립니다.
 https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -45,7 +46,8 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `HDFFF010`, `모의투자 미지원` |
+| **TR ID (실전)** | `HDFFF010` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -55,7 +57,7 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 - **생성일**: 2022-12-27
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -73,7 +75,7 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | `tr_id` | 거래ID | String | 7 | Y | HDFFF010 |
 | `tr_key` | 종목코드 | String | 6 | Y | 종목코드  ※ CME, SGX 실시간시세 유료시세 신청 필수  "포럼 > FAQ > 해외선물옵션 API 유료시세 신청방법(CME, SGX 거래소)" |
 
-## 응답 (Response)
+## 응답
 
 ### Body
 
@@ -114,3 +116,4 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | `ASK_NUM_5` | 매도5번호 | String | 10 | Y |  |
 | `ASK_PRICE_5` | 매도5호가 | String | 15 | Y |  |
 | `STTL_PRICE` | 전일정산가 | String | 15 | Y |  |
+

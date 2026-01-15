@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- (매도) TTTC0051U (매수) TTTC0052U
-- 모의투자 미지원
 real_tr_id: (매도) TTTC0051U (매수) TTTC0052U
 demo_tr_id: 모의투자 미지원
 summary: "국내주식주문(신용) API입니다. \n※ 모의투자는 사용 불가합니다.\n\n※ POST API의 경우 BODY값의 key값들을 대문자로 작성하셔야 합니다.\n   (EX. \"CANO\" : \"12345678\"\

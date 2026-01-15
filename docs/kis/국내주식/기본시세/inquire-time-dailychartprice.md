@@ -9,6 +9,7 @@ FID_INPUT_DATE_1, FID_INPUT_HOUR_1 이용하여 과거일자 분봉조회 가능
 
 ※ 과거 분봉 조회 시, 당사 서버에서 보관하고 있는 만큼의 데이터만 확인이 가능합니다. (최대 1년 분봉 보관)
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -20,7 +21,8 @@ FID_INPUT_DATE_1, FID_INPUT_HOUR_1 이용하여 과거일자 분봉조회 가능
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `FHKST03010230`, `모의투자 미지원` |
+| **TR ID (실전)** | `FHKST03010230` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -30,7 +32,7 @@ FID_INPUT_DATE_1, FID_INPUT_HOUR_1 이용하여 과거일자 분봉조회 가능
 - **생성일**: 2024-11-01
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -72,7 +74,7 @@ FID_PW_DATA_INCU_YN:Y
 FID_FAKE_TICK_INCU_YN:N
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -161,3 +163,4 @@ FID_FAKE_TICK_INCU_YN:N
     "msg1": "정상처리 되었습니다."
 }
 ```
+

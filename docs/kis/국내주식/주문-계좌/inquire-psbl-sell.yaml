@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- TTTC8408R
-- 모의투자 미지원
 real_tr_id: TTTC8408R
 demo_tr_id: 모의투자 미지원
 summary: "매도가능수량조회 API입니다. \n한국투자 HTS(eFriend Plus) > [0971] 주식 매도 화면에서 종목코드 입력 후 \"가능\" 클릭 시 매도가능수량이 확인되는 기능을 API로 개발한 사항으로,\

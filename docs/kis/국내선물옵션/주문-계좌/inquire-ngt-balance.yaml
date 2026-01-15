@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- (구) JTCE6001R (신) CTFN6118R
 real_tr_id: (구) JTCE6001R (신) CTFN6118R
 demo_tr_id: 모의투자 미지원
 summary: (야간)선물옵션 잔고현황 API입니다.

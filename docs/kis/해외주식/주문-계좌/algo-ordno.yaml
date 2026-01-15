@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 미지원
-tr_ids:
-- TTTS6058R
-- 모의투자 미지원
 real_tr_id: TTTS6058R
 demo_tr_id: 모의투자 미지원
 summary: TWAP, VWAP 주문에 대한 주문번호를 조회하는 API

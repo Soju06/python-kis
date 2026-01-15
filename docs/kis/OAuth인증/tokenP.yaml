@@ -10,7 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids: []
 real_tr_id: ''
 demo_tr_id: ''
 summary: "본인 계좌에 필요한 인증 절차로, 인증을 통해 접근 토큰을 부여받아 오픈API 활용이 가능합니다.\n\n1. 접근토큰(access_token)의 유효기간은 24시간 이며(1일 1회발급 원칙) \n  \

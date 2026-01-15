@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import importlib
 import io
 import os
 import time
@@ -8,13 +9,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from types import ModuleType
 
-_fcntl: ModuleType | None
+fcntl_module: ModuleType | None
 try:
-    import fcntl as _fcntl
+    fcntl_module = importlib.import_module("fcntl")
 except ImportError:  # pragma: no cover - non-POSIX fallback
-    _fcntl = None
+    fcntl_module = None
 
-fcntl: ModuleType | None = _fcntl
+fcntl: ModuleType | None = fcntl_module
 
 
 @dataclass(slots=True)

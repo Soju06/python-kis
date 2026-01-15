@@ -10,8 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- FHKST01010300
 real_tr_id: FHKST01010300
 demo_tr_id: FHKST01010300
 summary: 국내현재가 체결 API 입니다. 종목의 체결 정보를 확인할 수 있습니다.

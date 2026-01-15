@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- (주간 매수/매도) TTTO1101U (야간 매수/매도) (구) JTCE1001U (신) STTN1101U
-- (주간 매수/매도) VTTO1101U (야간은 모의투자 미제공)
 real_tr_id: (주간 매수/매도) TTTO1101U (야간 매수/매도) (구) JTCE1001U (신) STTN1101U
 demo_tr_id: (주간 매수/매도) VTTO1101U (야간은 모의투자 미제공)
 summary: "​선물옵션 주문 API입니다.\n* 선물옵션 운영시간 외 API 호출 시 애러가 발생하오니 운영시간을 확인해주세요.\n\n※ POST API의 경우 BODY값의 key값들을 대문자로 작성하셔야 합니다.\n\

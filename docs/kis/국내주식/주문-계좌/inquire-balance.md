@@ -20,7 +20,8 @@ KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API �
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `TTTC2208R` |
+| **TR ID (실전)** | `TTTC2208R` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -30,7 +31,7 @@ KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API �
 - **생성일**: 2022-10-28
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -74,7 +75,7 @@ KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API �
 }
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -156,3 +157,4 @@ KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API �
   "msg1": "조회가 완료되었습니다                                                           "
 }
 ```
+

@@ -77,7 +77,7 @@ def _expand_fields(expand: FieldExpandSpec) -> list[DocField]:
             DocField(
                 code=code,
                 name=field_name,
-                type_code=type_code,
+                type=type_code,
                 type_name=type_name,
                 length=str(length) if length is not None else None,
                 required=bool(required),
@@ -100,7 +100,7 @@ def _doc_field_from_override(field: FieldSpecOverride, *, code: str | None = Non
     return DocField(
         code=field_code,
         name=name,
-        type_code=type_code,
+        type=type_code,
         type_name=type_name,
         length=length,
         required=bool(required),

@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- (매도) VTTC0011U (매수) VTTC0012U
-- (매도) TTTC0011U (매수) TTTC0012U
 real_tr_id: (매도) TTTC0011U (매수) TTTC0012U
 demo_tr_id: (매도) VTTC0011U (매수) VTTC0012U
 summary: "국내주식주문(현금) API 입니다. \n\n※ TTC0802U(현금매수) 사용하셔서 미수매수 가능합니다. 단, 거래하시는 계좌가 증거금40%계좌로 신청이 되어있어야 가능합니다. \n※ 신용매수는 별도의\

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from docsgen.parsers.master_sources import normalize_header_url, parse_master_contents_body
 
-
 SAMPLE_HTML = """
 <div class="conts-area-item">
   <h2 class="cont-tit">국내</h2>

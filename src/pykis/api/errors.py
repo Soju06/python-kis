@@ -69,7 +69,13 @@ class KisResponseError(KisApiError):
 
     __slots__ = ("context", "payload")
 
-    def __init__(self, message: str, *, context: KisErrorContext | None = None, payload: Mapping[str, object] | None = None) -> None:
+    def __init__(
+        self,
+        message: str,
+        *,
+        context: KisErrorContext | None = None,
+        payload: Mapping[str, object] | None = None,
+    ) -> None:
         super().__init__(message)
         self.context = context
         self.payload = payload

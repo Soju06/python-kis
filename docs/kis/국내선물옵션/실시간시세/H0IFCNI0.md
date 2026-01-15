@@ -23,7 +23,8 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `ws://ops.koreainvestment.com:31000` |
-| **TR ID** | `H0IFCNI0`, `H0IFCNI9` |
+| **TR ID (실전)** | `H0IFCNI0` |
+| **TR ID (모의)** | `H0IFCNI9` |
 
 ## 메타 정보
 
@@ -33,7 +34,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 - **생성일**: 2022-11-25
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -70,7 +71,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 }
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Body
 
@@ -147,3 +148,4 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 주문그룹SEQ  []
 주문가격  [000000000]
 ```
+

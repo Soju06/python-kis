@@ -10,8 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- FHKST03010100
 real_tr_id: FHKST03010100
 demo_tr_id: FHKST03010100
 summary: '국내주식기간별시세(일/주/월/년) API입니다.

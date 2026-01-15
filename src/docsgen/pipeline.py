@@ -13,12 +13,12 @@ from docsgen.parsers.error_codes import parse_error_code_contents_body
 from docsgen.parsers.faq_posts import forum_post_from_detail_json
 from docsgen.parsers.master_headers import decode_header_bytes, merge_structs, parse_header_structs
 from docsgen.parsers.master_sources import compare_sources, parse_master_contents_body, parse_reference_markdown
+from docsgen.portal import KisPortalClient
 from docsgen.renderers.api_docs import normalize_section_folder
 from docsgen.sinks.api_docs import save_api_docs
 from docsgen.sinks.error_codes import save_error_codes_docs
 from docsgen.sinks.faq_posts import save_faq_pinned_posts_docs
 from docsgen.sinks.masters import save_master_docs
-from docsgen.portal import KisPortalClient
 
 
 @dataclass(frozen=True, slots=True)

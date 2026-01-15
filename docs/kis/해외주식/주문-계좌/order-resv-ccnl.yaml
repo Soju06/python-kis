@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- (미국 예약주문 취소접수) VTTT3017U (아시아국가 미제공)
-- (미국 예약주문 취소접수) TTTT3017U (아시아국가 미제공)
 real_tr_id: (미국 예약주문 취소접수) TTTT3017U (아시아국가 미제공)
 demo_tr_id: (미국 예약주문 취소접수) VTTT3017U (아시아국가 미제공)
 summary: "접수된 미국주식 예약주문을 취소하기 위한 API입니다.\n(해외주식 예약주문접수 시 Return 받은 ODNO를 참고하여 API를 호출하세요.)\n\n* 해외주식 서비스 신청 후 이용 가능합니다. (아래\

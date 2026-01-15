@@ -10,7 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids: []
 real_tr_id: ''
 demo_tr_id: ''
 summary: '실시간 (웹소켓) 접속키 발급받으실 수 있는 API 입니다.

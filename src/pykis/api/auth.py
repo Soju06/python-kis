@@ -34,14 +34,11 @@ class KisAuth:
     @classmethod
     def load(cls, path: str | Path) -> "KisAuth":
         data = json.loads(Path(path).read_text(encoding="utf-8"))
-        appsecret = data.get("appsecret") or data.get("secretkey") or data.get("app_secret")
-        demo_flag = data.get("demo")
-        legacy_virtual_flag = data.get("virtual")
         return cls(
             id=data.get("id"),
             appkey=data["appkey"],
-            appsecret=appsecret,
-            account=data.get("account") or data.get("account_number"),
-            demo=bool(demo_flag) if demo_flag is not None else bool(legacy_virtual_flag),
+            appsecret=data["appsecret"],
+            account=data.get("account"),
+            demo=bool(data.get("demo", False)),
             custtype=data.get("custtype", "P"),
         )

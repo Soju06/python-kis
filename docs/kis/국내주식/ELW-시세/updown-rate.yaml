@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- FHPEW02770000
-- 모의투자 미지원
 real_tr_id: FHPEW02770000
 demo_tr_id: 모의투자 미지원
 summary: "ELW 상승률순위 API입니다. \n한국투자 HTS(eFriend Plus) > [0277] ELW 상승률순위 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다."

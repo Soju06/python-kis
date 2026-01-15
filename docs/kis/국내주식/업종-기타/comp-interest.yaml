@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- FHPST07020000
 real_tr_id: FHPST07020000
 demo_tr_id: 모의투자 미지원
 summary: '금리 종합(국내채권/금리) API입니다.

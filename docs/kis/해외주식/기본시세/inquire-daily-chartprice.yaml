@@ -10,8 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- FHKST03030100
 real_tr_id: FHKST03030100
 demo_tr_id: FHKST03030100
 summary: "해외주식 종목/지수/환율기간별시세(일/주/월/년) API입니다.\n\n해외지수 당일 시세의 경우 지연시세 or 종가시세가 제공됩니다.\n\n※ 해당 API로 미국주식 조회 시, 다우30, 나스닥100,\

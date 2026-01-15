@@ -5,7 +5,7 @@ import logging
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Literal
+from typing import Literal, cast
 
 from codegen.api.models import EndpointSpec
 from codegen.api.overrides import load_doc_overrides, load_type_overrides
@@ -401,26 +401,6 @@ def _clean_generated_dirs() -> None:
             if sub.is_dir():
                 sub.rmdir()
 
-    legacy_artifacts = [
-        ROOT / "src" / "docs" / "normalized",
-        ROOT / "src" / "docs" / "reports",
-        ROOT / "src" / "docs" / "augment",
-    ]
-    for legacy in legacy_artifacts:
-        if not legacy.exists():
-            continue
-        for child in legacy.rglob("*"):
-            if child.is_file():
-                child.unlink()
-        for sub in sorted(legacy.rglob("*"), reverse=True):
-            if sub.is_dir():
-                sub.rmdir()
-        legacy.rmdir()
-
-    legacy_models = GENERATED_RAW_DIR / "models.py"
-    if legacy_models.exists():
-        legacy_models.unlink()
-
     if GENERATED_RAW_DIR.exists():
         keep_files = {"base.py", "registry.py", "types.py", "__init__.py"}
         for child in GENERATED_RAW_DIR.iterdir():
@@ -437,25 +417,6 @@ def _clean_generated_dirs() -> None:
                         sub.rmdir()
                 child.rmdir()
 
-    legacy_raw_dir = ROOT / "src" / "pykis" / "raw" / "api"
-    if legacy_raw_dir.exists():
-        for child in legacy_raw_dir.rglob("*"):
-            if child.is_file():
-                child.unlink()
-        for sub in sorted(legacy_raw_dir.rglob("*"), reverse=True):
-            if sub.is_dir():
-                sub.rmdir()
-        legacy_raw_dir.rmdir()
-
-    legacy_generated = ROOT / "src" / "pykis" / "_generated"
-    if legacy_generated.exists():
-        for child in legacy_generated.rglob("*"):
-            if child.is_file():
-                child.unlink()
-        for sub in sorted(legacy_generated.rglob("*"), reverse=True):
-            if sub.is_dir():
-                sub.rmdir()
-        legacy_generated.rmdir()
 
 
 def _reload_registry() -> dict[str, Endpoint]:
@@ -467,4 +428,4 @@ def _reload_registry() -> dict[str, Endpoint]:
     import pykis.api.raw.registry as registry
 
     importlib.reload(registry)
-    return registry.ENDPOINTS
+    return cast(dict[str, Endpoint], registry.ENDPOINTS)

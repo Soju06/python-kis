@@ -34,16 +34,6 @@ class KisTokenCache:
     def load(self, base_url: str) -> KisAccessToken | None:
         path = self.token_path(base_url)
         if not path.exists():
-            legacy = self._legacy_token_path(base_url)
-            if legacy and legacy.exists():
-                try:
-                    payload = json.loads(legacy.read_text(encoding="utf-8"))
-                    token = KisAccessToken.from_cache(payload)
-                    self.save(base_url, token)
-                    legacy.unlink(missing_ok=True)
-                    return token
-                except Exception:
-                    return None
             return None
         try:
             payload = json.loads(path.read_text(encoding="utf-8"))
@@ -70,16 +60,6 @@ class KisTokenCache:
             return
         except Exception:
             return
-
-    def _legacy_token_path(self, base_url: str) -> Path | None:
-        if base_url != DEMO_DOMAIN:
-            return None
-        safe_id = _SAFE_ID_RE.sub("_", self.auth.id or "anon")
-        key = sha256(
-            f"pykis{self.auth.id or ''}{self.auth.appkey}{self.auth.appsecret}{base_url}token".encode()
-        ).hexdigest()
-        return self.root / f"token_virtual_{safe_id}_{key}.json"
-
 
 def _domain_label(base_url: str) -> str:
     if base_url == DEMO_DOMAIN:

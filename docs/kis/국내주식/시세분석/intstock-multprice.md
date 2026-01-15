@@ -14,6 +14,7 @@
 한국투자증권 Github 에서 관심종목 복수시세조회 파이썬 샘플코드를 참고하실 수 있습니다.
 https://github.com/koreainvestment/open-trading-api/blob/main/rest/get_interest_stocks_price.py
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -25,7 +26,8 @@ https://github.com/koreainvestment/open-trading-api/blob/main/rest/get_interest_
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `FHKST11300006`, `모의투자 미지원` |
+| **TR ID (실전)** | `FHKST11300006` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -35,7 +37,7 @@ https://github.com/koreainvestment/open-trading-api/blob/main/rest/get_interest_
 - **생성일**: 2024-05-10
 - **최종 수정일**: 2025-05-14
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -131,7 +133,7 @@ FID_COND_MRKT_DIV_CODE_3:U
 FID_INPUT_ISCD_3:0001
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -284,3 +286,4 @@ FID_INPUT_ISCD_3:0001
   "msg1": "정상처리 되었습니다."
 }
 ```
+

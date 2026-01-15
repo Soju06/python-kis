@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- FHKST66430100
-- 모의투자 미지원
 real_tr_id: FHKST66430100
 demo_tr_id: 모의투자 미지원
 summary: '국내주식 대차대조표 API입니다.

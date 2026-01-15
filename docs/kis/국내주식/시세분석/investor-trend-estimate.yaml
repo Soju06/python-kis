@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- HHPTJ04160200
-- 모의투자 미지원
 real_tr_id: HHPTJ04160200
 demo_tr_id: 모의투자 미지원
 summary: '국내주식 종목별 외국인, 기관 추정가집계 API입니다.

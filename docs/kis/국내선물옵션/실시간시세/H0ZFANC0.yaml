@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: ws://ops.koreainvestment.com:21000
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- H0ZFANC0
 real_tr_id: H0ZFANC0
 demo_tr_id: 모의투자 미지원
 summary: '[참고자료]

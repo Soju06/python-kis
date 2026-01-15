@@ -6,6 +6,7 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
+from codegen.core.render import render_template
 from codegen.core.report_models import (
     AugmentCounts,
     AugmentQualityCounts,
@@ -47,13 +48,19 @@ def _pick(report: dict[str, object] | None, keys: tuple[str, ...]) -> dict[str, 
     return result
 
 
-def _write_summary(report_dir: Path, summary: BaseModel | dict[str, object], lines: list[str]) -> None:
-    payload = summary.model_dump() if isinstance(summary, BaseModel) else summary
+def _write_summary(
+    report_dir: Path,
+    report: BaseModel | dict[str, object],
+    template_name: str,
+    **context: object,
+) -> None:
+    payload = report.model_dump() if isinstance(report, BaseModel) else report
     (report_dir / "summary.json").write_text(
         json.dumps(payload, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
-    (report_dir / "summary.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    markdown = render_template(template_name, **context)
+    (report_dir / "summary.md").write_text(markdown, encoding="utf-8")
 
 
 def write_docs_summary(report_dir: Path) -> DocsSummary | dict[str, object]:
@@ -86,24 +93,18 @@ def write_docs_summary(report_dir: Path) -> DocsSummary | dict[str, object]:
         smoke=smoke_counts,
     )
 
-    lines = [
-        "Codegen Report Summary",
-        f"timestamp: {summary.timestamp}",
-        f"generated: {summary.generated}",
-        "",
-        f"scan: total_issues={scan_counts.total_issues} errors={scan_counts.errors} warnings={scan_counts.warnings}",
-        f"normalize: total_issues={normalize_counts.total_issues} errors={normalize_counts.errors} warnings={normalize_counts.warnings}",
-        (
-            "augment: total="
-            f"{augment_counts.total} processed={augment_counts.processed} "
-            f"ok={augment_counts.ok} cached={augment_counts.cached} "
-            f"skipped={augment_counts.skipped} errors={augment_counts.errors}"
-        ),
-        f"augment_quality: total_calls={augment_quality_counts.total_calls} http_ok={augment_quality_counts.http_ok}",
-        f"validation: total={validation_counts.total} errors={validation_counts.errors}",
-        f"smoke: total={smoke_counts.total} errors={smoke_counts.errors}",
-    ]
-    _write_summary(report_dir, summary, lines)
+    _write_summary(
+        report_dir,
+        summary,
+        "summary_docs.md.jinja",
+        summary=summary,
+        scan_counts=scan_counts,
+        normalize_counts=normalize_counts,
+        augment_counts=augment_counts,
+        augment_quality_counts=augment_quality_counts,
+        validation_counts=validation_counts,
+        smoke_counts=smoke_counts,
+    )
     return summary
 
 
@@ -155,16 +156,12 @@ def write_store_summary(report_dir: Path) -> StoreSummary | dict[str, object]:
         validation=validation_summary,
     )
 
-    lines = [
-        "Store Codegen Report Summary",
-        f"timestamp: {summary.timestamp}",
-        "",
-        f"scan: total_issues={scan_counts.total_issues} errors={scan_counts.errors} warnings={scan_counts.warnings}",
-        (
-            "validation: total_errors="
-            f"{validation_summary.total_errors} sources={validation_summary.sources} "
-            f"records={validation_summary.records} enum_mismatches={validation_summary.enum_mismatches}"
-        ),
-    ]
-    _write_summary(report_dir, summary, lines)
+    _write_summary(
+        report_dir,
+        summary,
+        "summary_store.md.jinja",
+        summary=summary,
+        scan_counts=scan_counts,
+        validation_summary=validation_summary,
+    )
     return summary

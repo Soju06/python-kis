@@ -13,6 +13,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 종목코드 마스터파일 파이썬 정제코드는 한국투자증권 Github 참고 부탁드립니다.
 https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -24,7 +25,8 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `H0MFCNT0` |
+| **TR ID (실전)** | `H0MFCNT0` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -34,7 +36,7 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 - **생성일**: 2024-05-24
 - **최종 수정일**: 2025-06-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -71,7 +73,7 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 }
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Body
 
@@ -152,3 +154,4 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 87^366.08^1.22^0.33^0.00^0.00^0.00^268223^0^000000^2^0.20^000000^5^-0.30^000000^2^0.25^0.49^96.31^1.2
 2^0^0.00^367.35^367.30^0^0^345^358^13^813^783^0^0^0.00
 ```
+

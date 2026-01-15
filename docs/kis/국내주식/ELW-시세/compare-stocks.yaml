@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 미지원
-tr_ids:
-- FHKEW151701C0
-- 모의투자 미지원
 real_tr_id: FHKEW151701C0
 demo_tr_id: 모의투자 미지원
 summary: 'ELW 비교대상종목조회 API입니다.

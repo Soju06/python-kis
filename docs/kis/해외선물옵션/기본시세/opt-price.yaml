@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- HHDFO55010000
 real_tr_id: HHDFO55010000
 demo_tr_id: 모의투자 미지원
 summary: "해외옵션종목현재가 API입니다.\n\n(중요) 해외옵션시세 출력값을 해석하실 때 focode.mst(해외지수옵션 종목마스터파일), fostkcode.mst(해외주식옵션 종목마스터파일)에 있는 sCalcDesz(계산\

@@ -3,7 +3,6 @@ from __future__ import annotations
 import logging
 from typing import Iterable
 
-
 DEFAULT_LOGGER_NAME = "pykis"
 
 

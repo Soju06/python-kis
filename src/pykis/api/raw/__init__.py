@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from pykis.api.raw.types import Endpoint
-ENDPOINTS: dict[str, Endpoint]
+ENDPOINTS: dict[str, object]
 _REGISTRY_IMPORT_ERROR: Exception | None
 
 try:
@@ -15,7 +15,7 @@ except Exception as exc:
     ENDPOINTS = {}
     _REGISTRY_IMPORT_ERROR = exc
 
-def ensure_registry() -> dict[str, Endpoint]:
+def ensure_registry() -> dict[str, object]:
     if _REGISTRY_IMPORT_ERROR is not None:
         raise RuntimeError("pykis.api.raw registry unavailable; generate endpoints first") from _REGISTRY_IMPORT_ERROR
     return ENDPOINTS

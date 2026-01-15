@@ -1,19 +1,18 @@
 from __future__ import annotations
 
+import os
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Iterator, Mapping
-import os
 
 from pykis.store.raw.models import RawRecord, RawSource
 from pykis.store.raw.parser import FixedWidthParser
 from pykis.store.raw.reader import FixedWidthReader
 from pykis.store.raw.spec import RecordSpec
+from pykis.store.service.index import InMemoryIndex
 from pykis.store.translate.models import Instrument
 from pykis.store.translate.normalizer import Normalizer
-
-from pykis.store.service.index import InMemoryIndex
 
 
 @dataclass(frozen=True, slots=True)

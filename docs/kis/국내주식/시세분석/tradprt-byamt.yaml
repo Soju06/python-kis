@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 미지원
-tr_ids:
-- FHKST111900C0
-- 모의투자 미지원
 real_tr_id: FHKST111900C0
 demo_tr_id: 모의투자 미지원
 summary: '국내주식 체결금액별 매매비중 API입니다.

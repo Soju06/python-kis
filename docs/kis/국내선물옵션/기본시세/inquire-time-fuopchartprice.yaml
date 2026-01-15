@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- FHKIF03020200
-- 모의투자 미지원
 real_tr_id: FHKIF03020200
 demo_tr_id: 모의투자 미지원
 summary: "선물옵션 분봉조회 API입니다.\n실전계좌의 경우, 한 번의 호출에 최대 102건까지 확인 가능하며, \nFID_INPUT_DATE_1(입력날짜), FID_INPUT_HOUR_1(입력시간)을 이용하여\

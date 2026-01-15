@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- FHPST04770000
 real_tr_id: FHPST04770000
 demo_tr_id: 모의투자 미지원
 summary: '국내주식 당사 신용가능종목 API입니다.

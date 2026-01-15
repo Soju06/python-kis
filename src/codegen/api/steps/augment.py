@@ -85,9 +85,6 @@ def _select_tr_id(endpoint: EndpointSpec, domain: str) -> str | None:
         return endpoint.demo_tr_id
     if domain == "real" and endpoint.real_tr_id:
         return endpoint.real_tr_id
-    for tr_id in endpoint.tr_ids:
-        if isinstance(tr_id, str) and "미지원" not in tr_id:
-            return tr_id
     return None
 
 

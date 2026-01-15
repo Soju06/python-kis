@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- HHDFS76200300
-- 모의투자 미지원
 real_tr_id: HHDFS76200300
 demo_tr_id: 모의투자 미지원
 summary: 해외주식 체결추이 API입니다.

@@ -22,7 +22,8 @@
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
-| **TR ID** | `FHKST03030100` |
+| **TR ID (실전)** | `FHKST03030100` |
+| **TR ID (모의)** | `FHKST03030100` |
 
 ## 메타 정보
 
@@ -32,7 +33,7 @@
 - **생성일**: 2022-07-01
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -74,7 +75,7 @@
         }
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -151,3 +152,4 @@
                 "stck_bsop_date": "20220401"
             }
 ```
+

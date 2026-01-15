@@ -2,7 +2,7 @@
 
 from pykis.store.service.config import StoreConfig
 from pykis.store.service.errors import RecordNotFound, SnapshotNotFound, StoreError
-from pykis.store.service.index import InMemoryIndex, Index
+from pykis.store.service.index import Index, InMemoryIndex
 from pykis.store.service.ingest import IngestPlan, StoreBuilder
 from pykis.store.service.loader import (
     LoadResult,
@@ -11,7 +11,13 @@ from pykis.store.service.loader import (
     load_source_into_sqlite,
 )
 from pykis.store.service.paths import StorePaths, default_store_root, today_key
-from pykis.store.service.pipeline import SnapshotResult, build_snapshot, build_snapshot_async, ensure_daily_snapshot, ensure_daily_snapshot_async
+from pykis.store.service.pipeline import (
+    SnapshotResult,
+    build_snapshot,
+    build_snapshot_async,
+    ensure_daily_snapshot,
+    ensure_daily_snapshot_async,
+)
 from pykis.store.service.sqlite import StoreDb, TableDef
 from pykis.store.service.store import Store
 

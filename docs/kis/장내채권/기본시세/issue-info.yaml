@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- CTPF1101R
 real_tr_id: CTPF1101R
 demo_tr_id: 모의투자 미지원
 summary: '장내채권 발행정보 API입니다.

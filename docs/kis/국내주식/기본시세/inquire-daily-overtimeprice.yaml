@@ -10,8 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- FHPST02320000
 real_tr_id: FHPST02320000
 demo_tr_id: FHPST02320000
 summary: 주식현재가 시간외일자별주가 API입니다.  (최근일 30건만 조회 가능)

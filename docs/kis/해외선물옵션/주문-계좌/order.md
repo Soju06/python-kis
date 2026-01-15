@@ -10,6 +10,7 @@
 ※ 종목코드 마스터파일 파이썬 정제코드는 한국투자증권 Github 참고 부탁드립니다.
    https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -21,7 +22,8 @@
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `OTFM3001U ` |
+| **TR ID (실전)** | `OTFM3001U` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -31,7 +33,7 @@
 - **생성일**: 2022-08-05
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -95,7 +97,7 @@
 }
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -127,3 +129,4 @@
   }
 }
 ```
+

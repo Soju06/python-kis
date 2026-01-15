@@ -17,6 +17,7 @@ https://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/w
 실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.
 https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션 업데이트 예정)
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -28,7 +29,8 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `제공 안함` |
-| **TR ID** | `HDFSASP1`, `모의투자 미지원` |
+| **TR ID (실전)** | `HDFSASP1` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -38,7 +40,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 - **생성일**: 2022-09-05
 - **최종 수정일**: 2025-06-11
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -56,7 +58,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | `tr_id` | 거래ID | String | 7 | Y | HDFSASP1 |
 | `tr_key` | D거래소명종목코드 | String | 6 | Y | D+시장구분(3자리)+종목코드 예) DHKS00003 : D+HKS(홍콩)+00003(홍콩중화가스) [시장구분] TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS ... |
 
-## 응답 (Response)
+## 응답
 
 ### Body
 
@@ -79,3 +81,4 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | `VASK1` | 매도잔량1 | String | 10 | Y |  |
 | `DBID1` | 매수잔량대비1 | String | 10 | Y |  |
 | `DASK1` | 매도잔량대비1 | String | 10 | Y |  |
+

@@ -26,7 +26,8 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `H0IFCNT0` |
+| **TR ID (실전)** | `H0IFCNT0` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -36,7 +37,7 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 - **생성일**: 2022-11-25
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -54,7 +55,7 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | `tr_id` | 거래ID | String | 7 | Y | H0IFCNT0 |
 | `tr_key` | 코드 | String | 6 | Y | 예:101S12 |
 
-## 응답 (Response)
+## 응답
 
 ### Body
 
@@ -110,3 +111,4 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | `DYNM_MXPR` | 실시간상한가 | String | 8 | Y |  |
 | `DYNM_LLAM` | 실시간하한가 | String | 6 | Y |  |
 | `DYNM_PRC_LIMT_YN` | 실시간가격제한구분 | String | 10 | Y |  |
+

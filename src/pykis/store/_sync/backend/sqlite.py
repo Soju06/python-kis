@@ -1,10 +1,10 @@
 from __future__ import annotations
 
+import pathlib
+import sqlite3
 from pathlib import Path
 from sqlite3 import Row
 
-import sqlite3
-import pathlib
 from pydantic import BaseModel
 
 from pykis.store.raw.structs import STRUCT_DEFS

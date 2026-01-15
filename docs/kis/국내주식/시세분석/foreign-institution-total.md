@@ -23,7 +23,8 @@ HTS(efriend Plus) [0440] 외국인/기관 매매종목 가집계 화면을 API�
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `FHPTJ04400000` |
+| **TR ID (실전)** | `FHPTJ04400000` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -33,7 +34,7 @@ HTS(efriend Plus) [0440] 외국인/기관 매매종목 가집계 화면을 API�
 - **생성일**: 2023-01-06
 - **최종 수정일**: 2025-05-14
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -64,7 +65,7 @@ HTS(efriend Plus) [0440] 외국인/기관 매매종목 가집계 화면을 API�
 | `FID_RANK_SORT_CLS_CODE` | 순위 정렬 구분 코드 | String | 2 | Y | 0: 순매수상위, 1: 순매도상위 |
 | `FID_ETC_CLS_CODE` | 기타 구분  정렬 | String | 2 | Y | 0:전체 1:외국인 2:기관계 3:기타 |
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -109,3 +110,4 @@ HTS(efriend Plus) [0440] 외국인/기관 매매종목 가집계 화면을 API�
 | `fund_ntby_tr_pbmn` | 기금 순매수 거래 대금 | String | 18 | Y |  |
 | `etc_orgt_ntby_tr_pbmn` | 기타 단체 순매수 거래 대금 | String | 18 | Y |  |
 | `etc_corp_ntby_tr_pbmn` | 기타 법인 순매수 거래 대금 | String | 18 | Y |  |
+

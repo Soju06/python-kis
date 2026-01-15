@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pytest
 
-from pykis.store.raw.masters import SOURCE_DEFS
 from pykis.store import StoreConfig, SyncMasterStore
+from pykis.store.raw.masters import SOURCE_DEFS
 from pykis.store.service.pipeline import build_snapshot
 from pykis.store.service.sqlite import StoreDb
 

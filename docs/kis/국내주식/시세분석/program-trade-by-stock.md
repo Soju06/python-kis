@@ -6,6 +6,7 @@
 
 한국투자 HTS(eFriend Plus) > [0465] 종목별 프로그램 매매추이 화면(혹은 한국투자 MTS > 국내 현재가 > 기타수급 > 프로그램) 의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -17,7 +18,8 @@
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `FHPPG04650101` |
+| **TR ID (실전)** | `FHPPG04650101` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -27,7 +29,7 @@
 - **생성일**: 2023-03-31
 - **최종 수정일**: 2025-06-09
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -54,7 +56,7 @@
 | `FID_COND_MRKT_DIV_CODE` | 조건 시장 분류 코드 | String | 2 | Y | KRX : J , NXT : NX, 통합 : UN |
 | `FID_INPUT_ISCD` | 입력 종목코드 | String | 12 | Y | 종목코드 |
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -87,3 +89,4 @@
 | `whol_smtn_ntby_tr_pbmn` | 전체 합계 순매수 거래 대금 | String | 18 | Y |  |
 | `whol_ntby_vol_icdc` | 전체 순매수 거래량 증감 | String | 10 | Y |  |
 | `whol_ntby_tr_pbmn_icdc` | 전체 순매수 거래 대금 증감 | String | 10 | Y |  |
+

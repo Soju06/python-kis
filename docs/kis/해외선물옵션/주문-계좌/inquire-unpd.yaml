@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- OTFM1412R
 real_tr_id: OTFM1412R
 demo_tr_id: 모의투자 미지원
 summary: 해외선물옵션 미결제내역조회(잔고) API입니다.

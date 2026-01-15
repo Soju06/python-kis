@@ -5,6 +5,7 @@ from pathlib import Path
 
 from pykis.store.service.paths import StorePaths, default_store_root, read_text
 
+
 @dataclass(frozen=True, slots=True)
 class StoreConfig:
     root: Path = field(default_factory=default_store_root)

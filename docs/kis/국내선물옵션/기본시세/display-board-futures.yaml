@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- FHPIF05030200
-- 모의투자 미지원
 real_tr_id: FHPIF05030200
 demo_tr_id: 모의투자 미지원
 summary: "국내옵션전광판_선물 API입니다. \n한국투자 HTS(eFriend Plus) > [0503] 선물옵션 종합시세(Ⅰ) 화면의 \"하단\" 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을\

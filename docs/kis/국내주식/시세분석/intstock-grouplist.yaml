@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 미지원
-tr_ids:
-- 모의투자 미지원
-- HHKCM113004C7
 real_tr_id: HHKCM113004C7
 demo_tr_id: 모의투자 미지원
 summary: '관심종목 그룹조회 API입니다.

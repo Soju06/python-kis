@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- FHPUP02140000
 real_tr_id: FHPUP02140000
 demo_tr_id: 모의투자 미지원
 summary: '국내업종 구분별전체시세 API입니다.

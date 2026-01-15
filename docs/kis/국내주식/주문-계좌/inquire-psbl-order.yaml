@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- TTTC0503R
-- 모의투자 미지원
 real_tr_id: TTTC0503R
 demo_tr_id: 모의투자 미지원
 summary: '​※ 55번 계좌(DC가입자계좌)의 경우 해당 API 이용이 불가합니다.

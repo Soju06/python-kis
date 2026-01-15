@@ -10,8 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- FHMIF10010000
 real_tr_id: FHMIF10010000
 demo_tr_id: FHMIF10010000
 summary: 선물옵션 시세호가 API입니다.

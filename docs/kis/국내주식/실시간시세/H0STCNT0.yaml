@@ -10,8 +10,6 @@ req_format: JSON
 domains:
   real: ' ws://ops.koreainvestment.com:21000'
   demo: ' ws://ops.koreainvestment.com:31000'
-tr_ids:
-- H0STCNT0
 real_tr_id: H0STCNT0
 demo_tr_id: H0STCNT0
 summary: '[참고자료]

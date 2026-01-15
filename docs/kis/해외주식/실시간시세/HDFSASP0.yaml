@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: ws://ops.koreainvestment.com:21000
   demo: 모의투자 미지원
-tr_ids:
-- HDFSASP0
-- 모의투자 미지원
 real_tr_id: HDFSASP0
 demo_tr_id: 모의투자 미지원
 summary: "해외주식 실시간호가 API를 이용하여 미국 실시간 10호가(매수/매도) 시세가 무료로 제공됩니다. (미국은 유료시세 제공 X)\n\n아시아 국가의 경우, HTS(efriend Plus) [7781] 시세신청(실시간)\

@@ -19,6 +19,56 @@ class {{ enum.name }}(KisStrEnum):
 
 {% endfor %}
 {% endif %}
+{% macro doc_field_line(field, indent) -%}
+{%- if field.desc -%}
+{{ indent }}{{ field.code }} ({{ field.type }}): {{ field.desc }}{% if not field.required %} optional{% endif %}
+{%- else -%}
+{{ indent }}{{ field.code }} ({{ field.type }}){% if not field.required %} optional{% endif %}
+{%- endif -%}
+{%- endmacro %}
+
+{% macro render_request_doc(description_lines, doc_fields) -%}
+{%- set lines = [] -%}
+{%- for line in description_lines or [] -%}
+{%- set _ = lines.append(line) -%}
+{%- endfor -%}
+{%- if doc_fields -%}
+{%- if lines -%}
+{%- set _ = lines.append('') -%}
+{%- endif -%}
+{%- set _ = lines.append('Request fields:') -%}
+{%- for field in doc_fields -%}
+{%- set _ = lines.append(doc_field_line(field, '    ')) -%}
+{%- endfor -%}
+{%- endif -%}
+{{ lines | join('\n') }}
+{%- endmacro %}
+
+{% macro render_call_doc(description_lines, doc_fields, request_model_name, request_dict_name, response_name) -%}
+{%- set lines = [] -%}
+{%- for line in description_lines or [] -%}
+{%- set _ = lines.append(line) -%}
+{%- endfor -%}
+{%- if lines -%}
+{%- set _ = lines.append('') -%}
+{%- endif -%}
+{%- set _ = lines.append('Args:') -%}
+{%- set _ = lines.append('    client (SyncKisRawClient): API client.') -%}
+{%- set _ = lines.append('    request (' ~ request_model_name ~ ' | ' ~ request_dict_name ~ ' | None): 요청 파라미터. request 또는 kwargs 중 하나만 사용하세요.') -%}
+{%- set _ = lines.append('    **kwargs (' ~ request_dict_name ~ '): 요청 파라미터 키워드 입력.') -%}
+{%- set _ = lines.append('    headers (Mapping[str, str] | None): 추가 헤더.') -%}
+{%- if doc_fields -%}
+{%- set _ = lines.append('        Request fields:') -%}
+{%- for field in doc_fields -%}
+{%- set _ = lines.append(doc_field_line(field, '            ')) -%}
+{%- endfor -%}
+{%- endif -%}
+{%- set _ = lines.append('') -%}
+{%- set _ = lines.append('Returns:') -%}
+{%- set _ = lines.append('    tuple[' ~ response_name ~ ', KisResponse]: 응답 모델과 원시 응답') -%}
+{{ lines | join('\n') }}
+{%- endmacro %}
+
 {% macro render_model(model) %}
 class {{ model.name }}(RawModel):
 {% if model.fields %}
@@ -40,9 +90,9 @@ class {{ model.name }}(RawModel):
 {{ render_model(request_model) }}
 
 class {{ request_dict.name }}(TypedDict):
-{% if request_doc_lines %}
+{% if endpoint.description_lines or endpoint.request_doc_fields %}
     """
-{{ request_doc_lines | join('\n') | indent(4, true, false) }}
+{{ render_request_doc(endpoint.description_lines, endpoint.request_doc_fields) | indent(4, true, false) }}
     """
 {% endif %}
 {% if request_dict.fields %}
@@ -88,7 +138,7 @@ if TYPE_CHECKING:
             **kwargs: Unpack[{{ endpoint.request_dict_name }}],
         ) -> tuple[{{ endpoint.response_name }}, KisResponse]:
             """
-{{ endpoint.call_doc_lines | join('\n') | indent(12, true, false) }}
+{{ render_call_doc(endpoint.description_lines, endpoint.request_doc_fields, endpoint.request_name, endpoint.request_dict_name, endpoint.response_name) | indent(12, true, false) }}
             """
             ...
     ENDPOINT: _EndpointWithCall = _ENDPOINT

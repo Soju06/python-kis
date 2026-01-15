@@ -24,6 +24,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 ※ 종목코드 마스터파일 파이썬 정제코드는 한국투자증권 Github 참고 부탁드립니다.
    https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -35,7 +36,8 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `(주간매수) TTTS6036U (주간매도) TTTS6037U`, `모의투자 미지원` |
+| **TR ID (실전)** | `(주간매수) TTTS6036U (주간매도) TTTS6037U` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -45,7 +47,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 - **생성일**: 2023-03-17
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -80,7 +82,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | `ORD_SVR_DVSN_CD` | 주문서버구분코드 | String | 1 | Y | "0" |
 | `ORD_DVSN` | 주문구분 | String | 2 | Y | [미국 매수/매도 주문]  00 : 지정가  * 주간거래는 지정가만 가능 |
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -99,3 +101,4 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | `KRX_FWDG_ORD_ORGNO` | 한국거래소전송주문조직번호 | String | 5 | Y | 주문시 한국투자증권 시스템에서 지정된 영업점코드 |
 | `ODNO` | 주문번호 | String | 10 | Y | 주문시 한국투자증권 시스템에서 채번된 주문번호 |
 | `ORD_TMD` | 주문시각 | String | 6 | Y | 주문시각(시분초HHMMSS) |
+

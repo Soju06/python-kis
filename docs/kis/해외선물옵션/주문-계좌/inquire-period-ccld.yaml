@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- OTFM3118R
-- 모의투자 미지원
 real_tr_id: OTFM3118R
 demo_tr_id: 모의투자 미지원
 summary: 해외선물옵션 기간계좌손익 일별 API입니다.

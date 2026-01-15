@@ -27,7 +27,8 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
-| **TR ID** | `TTTS3012R`, `VTTS3012R` |
+| **TR ID (실전)** | `TTTS3012R` |
+| **TR ID (모의)** | `VTTS3012R` |
 
 ## 메타 정보
 
@@ -37,7 +38,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 - **생성일**: 2021-12-15
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -81,7 +82,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 }
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -195,3 +196,4 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
   "msg1": "조회가 완료되었습니다                                                           "
 }
 ```
+

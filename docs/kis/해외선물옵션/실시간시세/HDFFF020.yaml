@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: ws://ops.koreainvestment.com:21000
   demo: 모의투자 미지원
-tr_ids:
-- HDFFF020
-- 모의투자 미지원
 real_tr_id: HDFFF020
 demo_tr_id: 모의투자 미지원
 summary: "※ CME, SGX 실시간시세 유료시세 신청 필수 (포럼 > FAQ > 해외선물옵션 API 유료시세 신청방법(CME, SGX 거래소))\n- CME, SGX 거래소 실시간시세는 유료시세 신청 후 이용하시는\

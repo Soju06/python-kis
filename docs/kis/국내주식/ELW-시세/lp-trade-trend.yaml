@@ -10,8 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 미지원
-tr_ids:
-- FHPEW03760000
 real_tr_id: FHPEW03760000
 demo_tr_id: ''
 summary: 'ELW LP매매추이 API입니다.

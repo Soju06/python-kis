@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 미지원
-tr_ids:
-- 모의투자 미지원
-- HHPST074500C0
 real_tr_id: HHPST074500C0
 demo_tr_id: 모의투자 미지원
 summary: '종목별 일별 대차거래추이 API입니다.

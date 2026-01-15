@@ -9,12 +9,6 @@ from docsgen.renderers.error_codes import generate_error_codes_markdown
 def save_error_codes_docs(entries: list[ErrorCodeEntry], base_dir: Path) -> Path:
     """Save portal error codes markdown under docs/kis."""
 
-    # New canonical location requested: docs/kis/오류코드.md
-    # Clean up legacy location if it exists.
-    legacy = base_dir / "FAQ" / "오류코드.md"
-    if legacy.exists():
-        legacy.unlink()
-
     md_path = base_dir / "오류코드.md"
     md_path.write_text(
         generate_error_codes_markdown(entries, source_url="https://apiportal.koreainvestment.com/faq-error-code"),

@@ -119,6 +119,13 @@ def format_json_example(json_str: str) -> str:
         return json_str.strip()
 
 
+def _normalize_tr_id(value: str | None) -> str | None:
+    if not value:
+        return None
+    text = value.strip()
+    return text or None
+
+
 def generate_markdown(api: ApiDetail, section: Section) -> str:
     """Generate markdown documentation for an API."""
     summary_text = html_to_text(api.summary) if api.summary else ""
@@ -126,40 +133,35 @@ def generate_markdown(api: ApiDetail, section: Section) -> str:
     if api.description and api.description != api.summary:
         description_text = html_to_text(api.description)
 
-    # TR IDs in table
-    all_tr_ids = list(set(api.tr_ids.get("real", []) + api.tr_ids.get("demo", [])))
-    if api.real_tr_id and api.real_tr_id not in all_tr_ids:
-        all_tr_ids.append(api.real_tr_id)
-    if api.demo_tr_id and api.demo_tr_id not in all_tr_ids:
-        all_tr_ids.append(api.demo_tr_id)
-    tr_str = ", ".join(f"`{tr}`" for tr in all_tr_ids) if all_tr_ids else ""
-
-    metadata_lines: list[str] = []
+    metadata_items: list[dict[str, str]] = []
     if api.organization:
-        metadata_lines.append(f"- **제공 기관**: {api.organization}")
+        metadata_items.append({"label": "제공 기관", "value": api.organization})
     if api.billing_policy:
-        metadata_lines.append(f"- **과금 정책**: {api.billing_policy}")
+        metadata_items.append({"label": "과금 정책", "value": api.billing_policy})
     if api.status:
-        metadata_lines.append(f"- **상태**: {api.status}")
+        metadata_items.append({"label": "상태", "value": api.status})
     if api.created_date:
         date_str = api.created_date[:10] if len(api.created_date) >= 10 else api.created_date
-        metadata_lines.append(f"- **생성일**: {date_str}")
+        metadata_items.append({"label": "생성일", "value": date_str})
     if api.last_modified_date:
         date_str = api.last_modified_date[:10] if len(api.last_modified_date) >= 10 else api.last_modified_date
-        metadata_lines.append(f"- **최종 수정일**: {date_str}")
+        metadata_items.append({"label": "최종 수정일", "value": date_str})
+
+    real_tr_id = _normalize_tr_id(api.real_tr_id)
+    demo_tr_id = _normalize_tr_id(api.demo_tr_id)
 
     request_tables = [
         generate_property_table(api.request_headers, "Headers"),
         generate_property_table(api.request_params, "Query Parameters"),
         generate_property_table(api.request_body, "Body"),
     ]
-    request_tables = [table for table in request_tables if table]
+    request_tables = [table.rstrip() for table in request_tables if table]
 
     response_tables = [
         generate_property_table(api.response_headers, "Headers"),
         generate_property_table(api.response_body, "Body"),
     ]
-    response_tables = [table for table in response_tables if table]
+    response_tables = [table.rstrip() for table in response_tables if table]
 
     errors = [
         {
@@ -176,8 +178,9 @@ def generate_markdown(api: ApiDetail, section: Section) -> str:
         section=section,
         summary=summary_text,
         description=description_text,
-        tr_ids=tr_str,
-        metadata_lines=metadata_lines,
+        real_tr_id=real_tr_id,
+        demo_tr_id=demo_tr_id,
+        metadata_items=metadata_items,
         request_tables=request_tables,
         response_tables=response_tables,
         request_example=format_json_example(api.request_example) if api.request_example else "",
@@ -206,13 +209,6 @@ def generate_yaml(api: ApiDetail, section: Section) -> dict:
             "message": err.message,
             "description": html_to_text(err.description),
         }
-
-    # Collect all TR IDs
-    all_tr_ids = list(set(api.tr_ids.get("real", []) + api.tr_ids.get("demo", [])))
-    if api.real_tr_id and api.real_tr_id not in all_tr_ids:
-        all_tr_ids.append(api.real_tr_id)
-    if api.demo_tr_id and api.demo_tr_id not in all_tr_ids:
-        all_tr_ids.append(api.demo_tr_id)
 
     # Parse examples as JSON if possible
     req_example_data = None
@@ -246,8 +242,6 @@ def generate_yaml(api: ApiDetail, section: Section) -> dict:
             "real": api.real_domain,
             "demo": api.demo_domain,
         },
-        # TR ID
-        "tr_ids": all_tr_ids,
         "real_tr_id": api.real_tr_id,
         "demo_tr_id": api.demo_tr_id,
         # 설명

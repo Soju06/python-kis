@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443    (output3만 이용 가능)
-tr_ids:
-- CTRP6504R
-- VTRP6504R
 real_tr_id: CTRP6504R
 demo_tr_id: VTRP6504R
 summary: "해외주식 잔고를 체결 기준으로 확인하는 API 입니다. \n\nHTS(eFriend Plus) [0839] 해외 체결기준잔고 화면을 API로 구현한 사항으로 화면을 함께 보시면 기능 이해가 쉽습니다.\n\

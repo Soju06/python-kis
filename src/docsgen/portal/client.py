@@ -84,7 +84,12 @@ class KisPortalClient:
     def _url(self, path: str) -> str:
         return f"{self.base_url}{path}"
 
-    async def _get(self, url: str, *, params: Mapping[str, object] | None = None) -> httpx.Response:
+    async def _get(
+        self,
+        url: str,
+        *,
+        params: Mapping[str, str | int | float | None] | None = None,
+    ) -> httpx.Response:
         """Make GET request with delay."""
         if self._closed:
             raise RuntimeError("KisPortalClient is closed")
@@ -234,22 +239,11 @@ class KisPortalClient:
 
         return "GET"
 
-    def _parse_tr_ids(self, detail: dict[str, object], name: str, description: str) -> dict[str, list[str]]:
-        """Parse TR IDs from detail response."""
-        tr_ids: dict[str, list[str]] = {"real": [], "demo": []}
-
-        if detail.get("realTrId"):
-            tr_ids["real"].append(str(detail["realTrId"]))
-        if detail.get("virtualTrId"):
-            tr_ids["demo"].append(str(detail["virtualTrId"]))
-
+    def _infer_real_tr_id(self, name: str, description: str) -> str:
+        """Infer real TR ID from name/description when missing."""
         tr_pattern = r"([A-Z]{4}\d{4}[A-Z])"
-        tr_matches = re.findall(tr_pattern, description + " " + name)
-        for tr_id in tr_matches:
-            if tr_id not in tr_ids["real"]:
-                tr_ids["real"].append(tr_id)
-
-        return tr_ids
+        match = re.search(tr_pattern, f"{description} {name}")
+        return match.group(1) if match else ""
 
     def _parse_properties(self, raw_props: list[dict[str, object]]) -> tuple[
         list[ApiProperty],
@@ -322,9 +316,10 @@ class KisPortalClient:
         content_type = str(detail.get("contentType", "application/json") or "application/json")
         req_format = str(detail.get("reqFormat", "JSON") or "JSON")
 
-        tr_ids = self._parse_tr_ids(detail, name, description)
         real_tr_id = str(detail.get("realTrId", "") or "")
         demo_tr_id = str(detail.get("virtualTrId", "") or "")
+        if not real_tr_id:
+            real_tr_id = self._infer_real_tr_id(name, description)
 
         request_example = str(detail.get("reqExample", "") or "")
         response_example = str(detail.get("resAuth", "") or detail.get("resNoAuth", "") or "")
@@ -332,12 +327,14 @@ class KisPortalClient:
         organization = ""
         organization_payload = detail.get("organization")
         if isinstance(organization_payload, dict):
-            organization = str(organization_payload.get("name", "") or "")
+            organization_map = {str(key): value for key, value in organization_payload.items()}
+            organization = str(organization_map.get("name", "") or "")
 
         billing_policy = ""
         billing_payload = detail.get("billingPolicy")
         if isinstance(billing_payload, dict):
-            billing_policy = str(billing_payload.get("name", "") or "")
+            billing_map = {str(key): value for key, value in billing_payload.items()}
+            billing_policy = str(billing_map.get("name", "") or "")
 
         status = str(detail.get("status", "") or "")
         created_date = str(detail.get("createdDate", "") or "")
@@ -346,7 +343,11 @@ class KisPortalClient:
         raw_props = detail.get("apiPropertys")
         if not isinstance(raw_props, list) or not raw_props:
             raw_props = await self.fetch_api_properties(api_info.id)
-        raw_props = [item for item in raw_props if isinstance(item, dict)]
+        raw_props = [
+            {str(key): value for key, value in item.items()}
+            for item in raw_props
+            if isinstance(item, dict)
+        ]
 
         (
             properties,
@@ -358,7 +359,11 @@ class KisPortalClient:
         ) = self._parse_properties(raw_props)
 
         api_errors = detail.get("apiErrors")
-        error_list = [item for item in api_errors if isinstance(item, dict)] if isinstance(api_errors, list) else []
+        error_list = (
+            [{str(key): value for key, value in item.items()} for item in api_errors if isinstance(item, dict)]
+            if isinstance(api_errors, list)
+            else []
+        )
         errors = self._parse_errors(error_list)
 
         return ApiDetail(
@@ -372,7 +377,6 @@ class KisPortalClient:
             http_method=http_method,
             content_type=content_type,
             req_format=req_format,
-            tr_ids=tr_ids,
             real_tr_id=real_tr_id,
             demo_tr_id=demo_tr_id,
             request_example=request_example,

@@ -8,6 +8,8 @@ from pykis.api.raw.types import Endpoint
 
 ENDPOINTS: dict[str, Endpoint] = {}
 
-{% for line in registry_entries %}
-{{ line }}
+{% for entry in registry_entries %}
+from {{ entry.module_import }} import ENDPOINT as {{ entry.endpoint_alias }}
+ENDPOINTS[{{ entry.endpoint_id | repr }}] = {{ entry.endpoint_alias }}
+
 {% endfor %}

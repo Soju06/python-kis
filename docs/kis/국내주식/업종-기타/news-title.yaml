@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- FHKST01011800
-- 모의투자 미지원
 real_tr_id: FHKST01011800
 demo_tr_id: 모의투자 미지원
 summary: "종합 시황/공시(제목) API입니다. \n한국투자 HTS(eFriend Plus) > [0601] 종합 시황/공시 화면의 \"우측 상단 리스트\" 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면\

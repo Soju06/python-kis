@@ -1,11 +1,10 @@
 from __future__ import annotations
 
+import os
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Type
-
-from concurrent.futures import ProcessPoolExecutor, as_completed
-import os
+from typing import Type
 
 from pydantic import BaseModel
 

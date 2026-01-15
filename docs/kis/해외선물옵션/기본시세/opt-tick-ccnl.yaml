@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- HHDFO55020200
-- 모의투자 미지원
 real_tr_id: HHDFO55020200
 demo_tr_id: 모의투자 미지원
 summary: "해외옵션 체결추이(틱) API입니다. \n한 번의 호출에 40건까지 확인 가능하며, QRY_TP, INDEX_KEY 를 이용하여 다음조회 가능합니다.\n\n※ 다음조회 방법\n(처음조회) \"QRY_TP\"\

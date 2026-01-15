@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- TTTC0953U
-- 모의투자 미지원
 real_tr_id: TTTC0953U
 demo_tr_id: 모의투자 미지원
 summary: "장내채권 정정취소주문 API입니다. \n한국투자 HTS(eFriend Plus) > [0978] 장내채권주문 '채권정정/취소' 탭의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기\

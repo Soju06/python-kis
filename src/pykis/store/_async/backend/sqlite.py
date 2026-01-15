@@ -3,8 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 from sqlite3 import Row
 
-import aiosqlite
 import aiopath
+import aiosqlite
 from pydantic import BaseModel
 
 from pykis.store.raw.structs import STRUCT_DEFS

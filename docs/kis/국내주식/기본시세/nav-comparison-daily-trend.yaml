@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: ''
   demo: ''
-tr_ids:
-- 모의투자 미지원
-- FHPST02440200
 real_tr_id: FHPST02440200
 demo_tr_id: 모의투자 미지원
 summary: 'NAV 비교추이(일) API입니다.

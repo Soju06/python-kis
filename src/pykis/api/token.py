@@ -84,16 +84,24 @@ class KisAccessToken:
         }
 
 
-def _parse_datetime(value: str | None, *, default_tz: timezone | ZoneInfo = timezone.utc) -> datetime | None:
+def _parse_datetime(value: object | None, *, default_tz: timezone | ZoneInfo = timezone.utc) -> datetime | None:
     if not value:
         return None
-    if value.endswith("Z"):
-        value = f"{value[:-1]}+00:00"
+    if isinstance(value, datetime):
+        parsed = value
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=default_tz)
+        return parsed.astimezone(timezone.utc)
+    text = str(value).strip()
+    if not text:
+        return None
+    if text.endswith("Z"):
+        text = f"{text[:-1]}+00:00"
     try:
-        parsed = datetime.fromisoformat(value)
+        parsed = datetime.fromisoformat(text)
     except ValueError:
         try:
-            parsed = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+            parsed = datetime.strptime(text, "%Y-%m-%d %H:%M:%S")
         except ValueError:
             return None
     if parsed.tzinfo is None:

@@ -5,6 +5,7 @@
 ​※ 55번 계좌(DC가입자계좌)의 경우 해당 API 이용이 불가합니다.
 KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API 신청 및 앱정보 발급이 가능한 서비스로 개발되어서 실물계좌가 아닌 55번 계좌는 API 이용이 불가능한 점 양해 부탁드립니다.
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -16,7 +17,8 @@ KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API �
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `TTTC0506R` |
+| **TR ID (실전)** | `TTTC0506R` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -26,7 +28,7 @@ KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API �
 - **생성일**: 2022-10-28
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -64,7 +66,7 @@ KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API �
 }
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -103,3 +105,4 @@ KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API �
   "msg1": "조회가 완료되었습니다                                                           "
 }
 ```
+

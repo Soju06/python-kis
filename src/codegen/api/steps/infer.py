@@ -78,7 +78,20 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
     if _is_code_like(text):
         return FieldHint(kind="str")
 
-    price_tokens = ("가격", "주가", "현재가", "시가", "고가", "저가", "지수", "금액", "대금", "amount", "price", "단일가")
+    price_tokens = (
+        "가격",
+        "주가",
+        "현재가",
+        "시가",
+        "고가",
+        "저가",
+        "지수",
+        "금액",
+        "대금",
+        "amount",
+        "price",
+        "단일가",
+    )
     rate_tokens = ("비율", "율", "rate", "ratio", "percent", "pct", "ctrt")
     volume_tokens = ("수량", "거래량", "건수", "횟수", "volume", "count")
 

@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- FHKUP11750000
 real_tr_id: FHKUP11750000
 demo_tr_id: 모의투자 미지원
 summary: '국내주식 예상체결 전체지수 API입니다.

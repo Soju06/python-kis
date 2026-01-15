@@ -6,6 +6,7 @@
 실전계좌의 경우, 한 번의 호출에 최대 102건까지 확인 가능하며, 
 FID_INPUT_DATE_1(입력날짜), FID_INPUT_HOUR_1(입력시간)을 이용하여 다음조회 가능합니다.
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -17,7 +18,8 @@ FID_INPUT_DATE_1(입력날짜), FID_INPUT_HOUR_1(입력시간)을 이용하여 �
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `FHKIF03020200`, `모의투자 미지원` |
+| **TR ID (실전)** | `FHKIF03020200` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -27,7 +29,7 @@ FID_INPUT_DATE_1(입력날짜), FID_INPUT_HOUR_1(입력시간)을 이용하여 �
 - **생성일**: 2023-08-18
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -71,7 +73,7 @@ fid_input_date_1:
 fid_input_hour_1:
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -212,3 +214,4 @@ fid_input_hour_1:
     "msg1": "정상처리 되었습니다."
 }
 ```
+

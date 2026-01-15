@@ -42,14 +42,14 @@ def save_master_docs(
     expected_files: set[Path] = {readme_path, index_path}
     expected_dirs: set[Path] = {output_dir}
 
-    for group, group_sources in grouped.items():
+    for group, sources_in_group in grouped.items():
         folder = output_dir / folder_map[group]
         folder.mkdir(parents=True, exist_ok=True)
         expected_dirs.add(folder)
 
         group_structs: list[MasterStruct] = []
         seen: set[str] = set()
-        for source in group_sources:
+        for source in sources_in_group:
             for struct in structs_by_header.get(source.header_url, []):
                 if struct.name in seen:
                     continue

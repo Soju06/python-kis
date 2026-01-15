@@ -71,6 +71,7 @@ class EndpointContext:
     method: str
     path: str
     description: str | None
+    description_lines: list[str]
     real_tr_id: str | None
     demo_tr_id: str | None
     auth_required: bool
@@ -78,7 +79,14 @@ class EndpointContext:
     request_name: str
     response_name: str
     request_dict_name: str
-    call_doc_lines: list[str]
+    request_doc_fields: list[DocFieldInfo]
+
+
+@dataclass(slots=True)
+class RegistryEntry:
+    module_import: str
+    endpoint_id: str
+    endpoint_alias: str
 
 
 def normalize_filename(name: str) -> str:
@@ -179,7 +187,8 @@ def _register_enum(
                 candidate = f"{name}_{suffix}"
             name = candidate
         seen_names.add(name)
-        members.append(EnumMember(name=name, value=value_str, desc=str(enum_desc.get(value_str, "")) if enum_desc else ""))
+        desc = str(enum_desc.get(value_str, "")) if enum_desc else ""
+        members.append(EnumMember(name=name, value=value_str, desc=desc))
 
 
 def _field_type(field: SpecField, hint: FieldHint | None) -> tuple[str, set[str], list[str]]:
@@ -350,49 +359,6 @@ def _build_doc_fields(
     return items
 
 
-def _format_doc_field_line(field: DocFieldInfo, indent: str) -> str:
-    code = field.code
-    type_name = field.type
-    desc = field.desc or ""
-    optional = "" if field.required else " optional"
-    if desc:
-        return f"{indent}{code} ({type_name}): {desc}{optional}"
-    return f"{indent}{code} ({type_name}){optional}"
-
-
-def _build_request_doc_lines(description_lines: list[str], doc_fields: list[DocFieldInfo]) -> list[str]:
-    header = ["Request fields:"] if doc_fields else []
-    field_lines = [_format_doc_field_line(field, "    ") for field in doc_fields]
-    if description_lines and header:
-        return [*description_lines, "", *header, *field_lines]
-    return [*description_lines, *header, *field_lines]
-
-
-def _build_call_doc_lines(
-    description_lines: list[str],
-    doc_fields: list[DocFieldInfo],
-    request_model_name: str,
-    request_dict_name: str,
-    response_name: str,
-) -> list[str]:
-    lines = [*description_lines, ""] if description_lines else []
-    lines += [
-        "Args:",
-        "    client (SyncKisRawClient): API client.",
-        (
-            f"    request ({request_model_name} | {request_dict_name} | None): "
-            "요청 파라미터. request 또는 kwargs 중 하나만 사용하세요."
-        ),
-        f"    **kwargs ({request_dict_name}): 요청 파라미터 키워드 입력.",
-        "    headers (Mapping[str, str] | None): 추가 헤더.",
-    ]
-    if doc_fields:
-        field_lines = [_format_doc_field_line(field, "            ") for field in doc_fields]
-        lines += ["        Request fields:", *field_lines]
-    lines += ["", "Returns:", f"    tuple[{response_name}, KisResponse]: 응답 모델과 원시 응답"]
-    return lines
-
-
 def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeOverrides | None = None) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     keep_files = {"base.py", "types.py", "registry.py", "__init__.py"}
@@ -407,7 +373,7 @@ def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeO
         if not (out_dir / filename).exists():
             raise RuntimeError(f"Static raw api file missing: {out_dir / filename}")
 
-    registry_entries: list[str] = []
+    registry_entries: list[RegistryEntry] = []
     used_names: dict[Path, dict[str, int]] = {}
 
     for spec in specs:
@@ -445,12 +411,14 @@ def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeO
 
         description_lines = _clean_doc_lines(spec.description or spec.name or "")
         request_doc_fields = _build_doc_fields(request_fields, request_hint)
-        request_doc_lines = _build_request_doc_lines(description_lines, request_doc_fields)
         _collect_enums(request_fields, request_hint, enum_defs)
         request_model = ModelDef(name=req_name, fields=_build_model_fields(request_fields, request_hint))
 
         request_dict_name = f"{req_name}Dict"
-        request_dict = TypedDictDef(name=request_dict_name, fields=_build_typed_dict_fields(request_fields, request_hint))
+        request_dict = TypedDictDef(
+            name=request_dict_name,
+            fields=_build_typed_dict_fields(request_fields, request_hint),
+        )
         output_models: list[ModelDef] = []
         output_class_names: list[str] = []
         output_fields: list[ModelField] = []
@@ -505,7 +473,10 @@ def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeO
             "",
             "from pydantic import Field",
             "",
-            "from pykis.api.raw.base import RawModel, KisBool, KisDate, KisTime, KisDateTime, KisDateOptional, KisTimeOptional, KisDateTimeOptional",
+            (
+                "from pykis.api.raw.base import RawModel, KisBool, KisDate, KisTime, KisDateTime, "
+                "KisDateOptional, KisTimeOptional, KisDateTimeOptional"
+            ),
             "from pykis.api.raw.types import Endpoint, KisResponse",
             "",
         ]
@@ -521,6 +492,7 @@ def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeO
             method=spec.method,
             path=spec.path,
             description=spec.description,
+            description_lines=description_lines,
             real_tr_id=spec.real_tr_id,
             demo_tr_id=spec.demo_tr_id,
             auth_required=_has_header(spec.request.headers, "authorization"),
@@ -528,20 +500,13 @@ def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeO
             request_name=req_name,
             response_name=res_name,
             request_dict_name=request_dict_name,
-            call_doc_lines=_build_call_doc_lines(
-                description_lines,
-                request_doc_fields,
-                req_name,
-                request_dict_name,
-                res_name,
-            ),
+            request_doc_fields=request_doc_fields,
         )
         module_text = render_template(
             "api/raw_module.py.jinja",
             imports=import_lines,
             request_model=request_model,
             request_dict=request_dict,
-            request_doc_lines=request_doc_lines,
             output_models=output_models,
             response_model=response_model,
             endpoint=endpoint_ctx,
@@ -551,9 +516,14 @@ def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeO
         module_path.write_text(module_text, encoding="utf-8")
 
         module_import = _module_import(out_dir, module_path)
-        registry_entries.append(f"from {module_import} import ENDPOINT as ENDPOINT_{spec.id.replace('-', '_')}")
-        registry_entries.append(f"ENDPOINTS[{spec.id!r}] = ENDPOINT_{spec.id.replace('-', '_')}")
-        registry_entries.append("")
+        endpoint_alias = f"ENDPOINT_{spec.id.replace('-', '_')}"
+        registry_entries.append(
+            RegistryEntry(
+                module_import=module_import,
+                endpoint_id=spec.id,
+                endpoint_alias=endpoint_alias,
+            )
+        )
 
     registry_text = render_template("api/registry.py.jinja", registry_entries=registry_entries)
     (out_dir / "registry.py").write_text(registry_text, encoding="utf-8")

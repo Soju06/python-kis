@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-import atexit
 import asyncio
-from datetime import date, datetime, time as time_value
+import atexit
+from datetime import date, datetime
+from datetime import time as time_value
 from decimal import Decimal
 from pathlib import Path
 from typing import Literal, Mapping, TypeVar
@@ -84,6 +85,18 @@ def _encode_request_value(value: object) -> object:
     if isinstance(value, list):
         return [_encode_request_value(val) for val in value]
     return value
+
+
+def _coerce_query_params(payload: Mapping[str, object]) -> dict[str, str | int | float | None]:
+    params: dict[str, str | int | float | None] = {}
+    for key, value in payload.items():
+        if value is None:
+            params[str(key)] = None
+        elif isinstance(value, (str, int, float)):
+            params[str(key)] = value
+        else:
+            params[str(key)] = str(value)
+    return params
 
 
 class KisRawClient:
@@ -299,11 +312,11 @@ class KisRawClient:
     async def request(
         self,
         *,
-        method: Literal["GET", "POST"],
+        method: str,
         base_url: str,
         path: str,
         headers: Mapping[str, str] | None,
-        params: Mapping[str, object] | None,
+        params: Mapping[str, str | int | float | None] | None,
         body: Mapping[str, object] | None,
         auth_required: bool,
         hashkey_required: bool,
@@ -347,7 +360,7 @@ class KisRawClient:
         payload: Mapping[str, object] = model.model_dump(by_alias=True, exclude_none=True)
         request_payload = {key: _encode_request_value(value) for key, value in payload.items()}
         if endpoint.method == "GET":
-            query = request_payload
+            query = _coerce_query_params(request_payload)
             body = {}
         else:
             query = {}
@@ -406,18 +419,21 @@ class KisRawClient:
                         message=snippet,
                     ),
                 ) from exc
-            if isinstance(data, dict) and str(data.get("rt_cd")) not in ("0", "OK"):
-                raise KisResponseError(
-                    f"API error for {endpoint.id}: {data.get('msg_cd')} {data.get('msg1')}".strip(),
-                    context=_error_context(
-                        endpoint_id=endpoint.id,
-                        method=endpoint.method,
-                        path=endpoint.path,
-                        status_code=response.status_code,
-                        message=str(data.get("msg1") or ""),
-                    ),
-                    payload=data,
-                )
+            if isinstance(data, dict):
+                data_map = {str(key): value for key, value in data.items()}
+                if str(data_map.get("rt_cd")) not in ("0", "OK"):
+                    raise KisResponseError(
+                        f"API error for {endpoint.id}: {data_map.get('msg_cd')} {data_map.get('msg1')}".strip(),
+                        context=_error_context(
+                            endpoint_id=endpoint.id,
+                            method=endpoint.method,
+                            path=endpoint.path,
+                            status_code=response.status_code,
+                            message=str(data_map.get("msg1") or ""),
+                        ),
+                        payload=data_map,
+                    )
+                return endpoint.response_model.model_validate(data_map), response
             return endpoint.response_model.model_validate(data), response
         raise KisHttpError(
             f"HTTP {response.status_code} for {endpoint.id}",

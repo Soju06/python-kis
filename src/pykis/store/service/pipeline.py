@@ -67,9 +67,19 @@ def ensure_daily_snapshot(
     with lock:
         latest = read_text(paths.latest_file)
         if latest == date_key and snapshot_dir.exists() and done_path.exists() and db_path.exists():
-            return SnapshotResult(date_key=date_key, snapshot_dir=snapshot_dir, db_path=db_path, manifest_path=manifest_path)
+            return SnapshotResult(
+                date_key=date_key,
+                snapshot_dir=snapshot_dir,
+                db_path=db_path,
+                manifest_path=manifest_path,
+            )
         if not refresh and snapshot_dir.exists() and done_path.exists():
-            return SnapshotResult(date_key=date_key, snapshot_dir=snapshot_dir, db_path=db_path, manifest_path=manifest_path)
+            return SnapshotResult(
+                date_key=date_key,
+                snapshot_dir=snapshot_dir,
+                db_path=db_path,
+                manifest_path=manifest_path,
+            )
 
         return build_snapshot(
             root=root_path,
@@ -143,9 +153,19 @@ async def ensure_daily_snapshot_async(
         latest = await _read_text_async(paths.latest_file)
         snapshot_ready = await _snapshot_ready(snapshot_dir, done_path, db_path)
         if latest == date_key and snapshot_ready:
-            return SnapshotResult(date_key=date_key, snapshot_dir=snapshot_dir, db_path=db_path, manifest_path=manifest_path)
+            return SnapshotResult(
+                date_key=date_key,
+                snapshot_dir=snapshot_dir,
+                db_path=db_path,
+                manifest_path=manifest_path,
+            )
         if not refresh and snapshot_ready:
-            return SnapshotResult(date_key=date_key, snapshot_dir=snapshot_dir, db_path=db_path, manifest_path=manifest_path)
+            return SnapshotResult(
+                date_key=date_key,
+                snapshot_dir=snapshot_dir,
+                db_path=db_path,
+                manifest_path=manifest_path,
+            )
 
         return await build_snapshot_async(
             root=root_path,
@@ -244,7 +264,12 @@ def _build_snapshot_locked(
     (tmp_dir / "DONE").write_text("ok", encoding="utf-8")
 
     _publish_snapshot(paths, date_key, tmp_dir)
-    return SnapshotResult(date_key=date_key, snapshot_dir=snapshot_dir, db_path=paths.snapshot_db_path(date_key), manifest_path=paths.snapshot_manifest_path(date_key))
+    return SnapshotResult(
+        date_key=date_key,
+        snapshot_dir=snapshot_dir,
+        db_path=paths.snapshot_db_path(date_key),
+        manifest_path=paths.snapshot_manifest_path(date_key),
+    )
 
 
 def _populate_db_from_extracts(
@@ -347,7 +372,10 @@ async def _build_snapshot_locked_async(
     )
 
     manifest_path = tmp_dir / "manifest.json"
-    await aiopath.AsyncPath(manifest_path).write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    await aiopath.AsyncPath(manifest_path).write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
     await aiopath.AsyncPath(tmp_dir / "DONE").write_text("ok", encoding="utf-8")
 
     await asyncio.to_thread(_publish_snapshot, paths, date_key, tmp_dir)
@@ -390,7 +418,13 @@ def download_sources(sources: Iterable[SourceDef], downloads_dir: Path, *, worke
     return [result_map[source.source_id] for source in source_list]
 
 
-def extract_source(source: SourceDef, download_path: Path, extracted_dir: Path, *, refresh: bool = False) -> ExtractResult:
+def extract_source(
+    source: SourceDef,
+    download_path: Path,
+    extracted_dir: Path,
+    *,
+    refresh: bool = False,
+) -> ExtractResult:
     if download_path.suffix.lower() == ".zip":
         target = _resolve_extracted_path(extracted_dir, source)
         if target.exists() and not refresh:

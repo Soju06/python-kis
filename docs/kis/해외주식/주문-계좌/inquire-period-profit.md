@@ -16,6 +16,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 ﻿﻿■ 손익금액의 비용은 "매도비용" 만 포함되어있습니다. 단, 동일 종목의 매수/매도가 동시에 있는 경우에는 해당일 발생한 매수비용도 함께 계산됩니다.
 ﻿﻿■ 담보상환내역은 기간손익화면에 표시되지 많으니 참고하여 주시기 바랍니다.
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -27,7 +28,8 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `TTTS3039R`, `모의투자 미지원` |
+| **TR ID (실전)** | `TTTS3039R` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -37,7 +39,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 - **생성일**: 2023-06-02
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -73,7 +75,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | `CTX_AREA_FK200` | 연속조회검색조건200 | String | 2 | Y |  |
 | `CTX_AREA_NK200` | 연속조회키200 | String | 2 | Y |  |
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -115,3 +117,4 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | `tot_pftrt` | 총수익률 | String | 238 | Y |  |
 | `bass_dt` | 기준일자 | String | 8 | Y |  |
 | `exrt` | 환율 | String | 201 | Y |  |
+

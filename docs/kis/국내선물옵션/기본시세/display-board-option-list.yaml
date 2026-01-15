@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- FHPIO056104C0
-- 모의투자 미지원
 real_tr_id: FHPIO056104C0
 demo_tr_id: 모의투자 미지원
 summary: "국내업종 국내옵션전광판_옵션월물리스트 API입니다. \n한국투자 HTS(eFriend Plus) > [0503] 선물옵션 종합시세(Ⅰ) 화면의 \"월물리스트 목록 확인\" 기능을 API로 개발한 사항으로,\

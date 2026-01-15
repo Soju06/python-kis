@@ -24,6 +24,7 @@ ex) "START_DATE_TIME":"","CLOSE_DATE_TIME":"","QRY_CNT":"119" → 최근 120건 
        품목코드 OES 계산소수점 -2 → 시세 7525 수신 시 75.25 로 해석
        품목코드 O6E 계산소수점 -4 → 시세 54.0 수신 시 0.0054 로 해석
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -35,7 +36,8 @@ ex) "START_DATE_TIME":"","CLOSE_DATE_TIME":"","QRY_CNT":"119" → 최근 120건 
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `HHDFO55020100` |
+| **TR ID (실전)** | `HHDFO55020100` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -45,7 +47,7 @@ ex) "START_DATE_TIME":"","CLOSE_DATE_TIME":"","QRY_CNT":"119" → 최근 120건 
 - **생성일**: 2024-08-23
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -91,7 +93,7 @@ QRY_GAP:
 INDEX_KEY:
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -182,3 +184,4 @@ INDEX_KEY:
     "msg1": "정상처리 되었습니다."
 }
 ```
+

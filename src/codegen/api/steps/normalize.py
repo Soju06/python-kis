@@ -50,9 +50,6 @@ def _normalize_domains(doc: DocEndpoint, report: IssueReport) -> SpecDomains:
 def _demo_disabled(doc: DocEndpoint) -> bool:
     if is_demo_unavailable(doc.demo_tr_id):
         return True
-    for tr_id in doc.tr_ids:
-        if isinstance(tr_id, str) and is_demo_unavailable(tr_id):
-            return True
     if is_demo_unavailable(doc.domains.demo):
         return True
     return False
@@ -227,7 +224,6 @@ def normalize_doc(doc: DocEndpoint, source_path: str) -> tuple[EndpointSpec | No
         content_type=content_type,
         req_format=req_format,
         domains=_normalize_domains(doc, report),
-        tr_ids=doc.tr_ids,
         real_tr_id=_clean_tr_id(doc.real_tr_id),
         demo_tr_id=_clean_tr_id(doc.demo_tr_id),
         description=description,

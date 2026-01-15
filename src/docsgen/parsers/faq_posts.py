@@ -6,7 +6,6 @@ from dataclasses import dataclass
 
 from bs4 import BeautifulSoup
 
-
 FAQ_FORUM_ID = "10000000-0000-0011-0000-000000000002"
 
 

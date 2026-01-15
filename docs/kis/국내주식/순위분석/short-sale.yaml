@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 미지원
-tr_ids:
-- 모의투자 미지원
-- FHPST04820000
 real_tr_id: FHPST04820000
 demo_tr_id: 모의투자 미지원
 summary: "공매도 상위종목 API입니다. \n한국투자 HTS(eFriend Plus) > [0482] 공매도 상위 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n최대\

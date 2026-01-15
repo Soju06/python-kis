@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- TTTS3035R
-- VTTS3035R
 real_tr_id: TTTS3035R
 demo_tr_id: VTTS3035R
 summary: "일정 기간의 해외주식 주문 체결 내역을 확인하는 API입니다.\n실전계좌의 경우, 한 번의 호출에 최대 20건까지 확인 가능하며, 이후의 값은 연속조회를 통해 확인하실 수 있습니다. \n모의계좌의 경우,\

@@ -24,6 +24,7 @@
 
 (출처: 한국투자증권 외화증권 거래설명서 - https://www.truefriend.com/main/customer/guide/Guide.jsp?&cmd=TF04ag010002¤tPage=1&num=64)
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -35,7 +36,8 @@
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `HHDFS76200100` |
+| **TR ID (실전)** | `HHDFS76200100` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -45,7 +47,7 @@
 - **생성일**: 2024-04-19
 - **최종 수정일**: 2025-12-05
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -81,7 +83,7 @@ EXCD:NAS
 SYMB:TSLA
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -290,3 +292,4 @@ SYMB:TSLA
   "msg1": "정상처리 되었습니다."
 }
 ```
+

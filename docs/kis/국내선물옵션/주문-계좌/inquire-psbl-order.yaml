@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- VTTO5105R
-- TTTO5105R
 real_tr_id: TTTO5105R
 demo_tr_id: VTTO5105R
 summary: 선물옵션 주문가능 API입니다. 주문가능 내역과 수량을 확인하실 수 있습니다.

@@ -35,7 +35,8 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `HDFSCNT0` |
+| **TR ID (실전)** | `HDFSCNT0` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -45,7 +46,7 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 - **생성일**: 2022-09-05
 - **최종 수정일**: 2025-07-29
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -63,7 +64,7 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | `tr_id` | 거래ID | String | 7 | Y | HDFSCNT0 |
 | `tr_key` | D거래소명종목코드 | String | 6 | Y | D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : ... |
 
-## 응답 (Response)
+## 응답
 
 ### Body
 
@@ -95,3 +96,4 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | `ASVL` | 매수체결량 | String | 10 | Y | 매도호가가 매수주문 수량을 따라가서 체결된것을 표현하여 ASVL 이라는 표현을 사용 |
 | `STRN` | 체결강도 | String | 10 | Y |  |
 | `MTYP` | 시장구분 1:장중,2:장전,3:장후 | String | 10 | Y |  |
+

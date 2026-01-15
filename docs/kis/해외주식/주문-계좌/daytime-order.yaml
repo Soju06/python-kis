@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- (주간매수) TTTS6036U (주간매도) TTTS6037U
-- 모의투자 미지원
 real_tr_id: (주간매수) TTTS6036U (주간매도) TTTS6037U
 demo_tr_id: 모의투자 미지원
 summary: "해외주식 미국주간주문 API입니다.\n\n* 미국주식 주간거래 시 아래 참고 부탁드립니다.\n. 포럼 > FAQ > 미국주식 주간거래 시 어떤 API를 사용해야 하나요?\n\n* 미국주간거래의 경우,\

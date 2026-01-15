@@ -26,7 +26,8 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `H0IFASP0` |
+| **TR ID (실전)** | `H0IFASP0` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -36,7 +37,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 - **생성일**: 2022-11-25
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -54,7 +55,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | `tr_id` | 거래ID | String | 7 | Y | H0IFASP0 |
 | `tr_key` | 코드 | String | 6 | Y | 예:101S12 |
 
-## 응답 (Response)
+## 응답
 
 ### Body
 
@@ -98,3 +99,4 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | `TOTAL_BIDP_RSQN` | 총 매수호가 잔량 | String | 8 | Y |  |
 | `TOTAL_ASKP_RSQN_ICDC` | 총 매도호가 잔량 증감 | String | 8 | Y |  |
 | `TOTAL_BIDP_RSQN_ICDC` | 총 매수호가 잔량 증감 | String | 8 | Y |  |
+

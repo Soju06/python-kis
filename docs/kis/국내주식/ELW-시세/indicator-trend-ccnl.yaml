@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 미지원
-tr_ids:
-- 모의투자 미지원
-- FHPEW02740100
 real_tr_id: FHPEW02740100
 demo_tr_id: 모의투자 미지원
 summary: 'ELW 투자지표추이(체결) API입니다.

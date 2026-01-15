@@ -17,7 +17,8 @@ ELW 현재가 시세
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
-| **TR ID** | `FHKEW15010000` |
+| **TR ID (실전)** | `FHKEW15010000` |
+| **TR ID (모의)** | `FHKEW15010000` |
 
 ## 메타 정보
 
@@ -27,7 +28,7 @@ ELW 현재가 시세
 - **생성일**: 2024-04-19
 - **최종 수정일**: 2025-06-19
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -63,7 +64,7 @@ ELW 현재가 시세
 }
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -165,3 +166,4 @@ ELW 현재가 시세
   "msg1": "정상처리 되었습니다!"
 }
 ```
+

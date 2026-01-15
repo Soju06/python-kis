@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from datetime import date, datetime, time
 from decimal import Decimal
-from typing import Annotated, get_args, get_origin
+from typing import Annotated, cast, get_args, get_origin
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.functional_validators import BeforeValidator
@@ -94,12 +94,15 @@ def _is_optional(tp: object) -> bool:
 
 
 class RawModel(BaseModel):
-    model_config = ConfigDict(
-        extra="ignore",
-        populate_by_name=True,
-        union_mode="left_to_right",
-        use_attribute_docstrings=True,
-        use_enum_values=True,
+    model_config = cast(
+        ConfigDict,
+        {
+            "extra": "ignore",
+            "populate_by_name": True,
+            "union_mode": "left_to_right",
+            "use_attribute_docstrings": True,
+            "use_enum_values": True,
+        },
     )
 
     @field_validator('*', mode='before')

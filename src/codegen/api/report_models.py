@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from codegen.api.types import TypeOverrides
 from codegen.core.report_models import IssueItem, ParseError
-from codegen.core.types import JsonObject, JsonValue
+from codegen.core.types import JsonObject
 
 AugmentStatus = Literal["ok", "cached", "skipped", "error"]
 

@@ -20,8 +20,9 @@
    1. **Code Hygiene**: Aggressively remove legacy, unused, orphan code, and models. Do not leave dead code in the codebase.
    2. **Refactoring Policy**: Do not prioritize legacy structure or backward compatibility during refactoring. Embrace breaking changes to maximize impact and improvement.
    3. **Network Assumption**: Do not consider environments without internet access; assume connectivity is available.
-   4. **No Meta-Comments**: Do not add comments about user requests or conversation history (e.g., "Reflecting user requirements..."). Comments must focus strictly on technical context and code logic.
-   5. **Enforcement**: If you encounter code that violates these conventions, **do not ignore it**; you must fix it to align with the standards.
+   4. **Quality Assurance**: Upon task completion, run `ruff` and `ty` for formatting and type checking. Never use `type: ignore` (or `ty: ignore`) without explicit user approval.
+   5. **No Meta-Comments**: Do not add comments about user requests or conversation history (e.g., "Reflecting user requirements..."). Comments must focus strictly on technical context and code logic.
+   6. **Enforcement**: If you encounter code that violates these conventions, **do not ignore it**; you must fix it to align with the standards.
 
 ## Responsibility & Layering
 1. Each module/class should have **one reason to change** and a narrow public surface.

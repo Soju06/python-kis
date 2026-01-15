@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- TTTC8909R
 real_tr_id: TTTC8909R
 demo_tr_id: 모의투자 미지원
 summary: '신용매수가능조회 API입니다.

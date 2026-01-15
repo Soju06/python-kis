@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- CTSC0008U
 real_tr_id: CTSC0008U
 demo_tr_id: 모의투자 미지원
 summary: "국내주식 예약주문 매수/매도 API 입니다.\n\n※ POST API의 경우 BODY값의 key값들을 대문자로 작성하셔야 합니다.\n   (EX. \"CANO\" : \"12345678\", \"ACNT_PRDT_CD\"\

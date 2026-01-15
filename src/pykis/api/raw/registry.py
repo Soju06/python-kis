@@ -4,9 +4,7 @@
 
 from __future__ import annotations
 
-from pykis.api.raw.types import Endpoint
-
-ENDPOINTS: dict[str, Endpoint] = {}
+ENDPOINTS: dict[str, object] = {}
 
 from pykis.api.raw.해외주식.기본시세.countries_holiday import ENDPOINT as ENDPOINT_1394ba1d_e17d_42c8_8e53_6bed5dce7588
 ENDPOINTS['1394ba1d-e17d-42c8-8e53-6bed5dce7588'] = ENDPOINT_1394ba1d_e17d_42c8_8e53_6bed5dce7588

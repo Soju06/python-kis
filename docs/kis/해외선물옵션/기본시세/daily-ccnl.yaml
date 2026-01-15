@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- HHDFC55020100
-- 모의투자 미지원
 real_tr_id: HHDFC55020100
 demo_tr_id: 모의투자 미지원
 summary: "해외선물옵션 체결추이(일간) API입니다. \n한국투자 HTS(eFriend Force) > [5502] 해외선물옵션 체결추이 화면에서 \"일간\" 선택 시 기능을 API로 개발한 사항으로, 해당 화면을\

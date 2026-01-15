@@ -10,6 +10,7 @@ https://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/w
 실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.
 https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션 업데이트 예정)
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -21,7 +22,8 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `H0ZOANC0`, `모의투자 미지원` |
+| **TR ID (실전)** | `H0ZOANC0` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -31,7 +33,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 - **생성일**: 2024-05-24
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -49,7 +51,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | `tr_id` | 거래ID | String | 2 | Y | H0ZOANC0 |
 | `tr_key` | 구분값 | String | 12 | Y | 주식옵션 종목코드 |
 
-## 응답 (Response)
+## 응답
 
 ### Body
 
@@ -62,3 +64,4 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | `ANTC_CNTG_VRSS_SIGN` | 예상체결대비부호 | String | 1 | Y |  |
 | `ANTC_CNTG_PRDY_CTRT` | 예상체결전일대비율 | String | 8 | Y |  |
 | `ANTC_MKOP_CLS_CODE` | 예상장운영구분코드 | String | 3 | Y |  |
+

@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- HHDFS76200100
 real_tr_id: HHDFS76200100
 demo_tr_id: 모의투자 미지원
 summary: "해외주식 현재가 호가 API입니다.\n미국 거래소는 10호가, 그 외 국가 거래소는 1호가만 제공됩니다.  \n한국투자 HTS(eFriend Plus) > [7620] 해외주식 현재가 화면에서 \"왼쪽\

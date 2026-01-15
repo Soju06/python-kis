@@ -10,8 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- FHKST01010600
 real_tr_id: FHKST01010600
 demo_tr_id: FHKST01010600
 summary: 주식 현재가 회원사 API입니다. 회원사의 투자 정보를 확인할 수 있습니다.

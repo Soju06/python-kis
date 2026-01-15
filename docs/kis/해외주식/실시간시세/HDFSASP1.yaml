@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: ws://ops.koreainvestment.com:21000
   demo: 제공 안함
-tr_ids:
-- HDFSASP1
-- 모의투자 미지원
 real_tr_id: HDFSASP1
 demo_tr_id: 모의투자 미지원
 summary: "해외주식 지연호가(아시아)의 경우 아시아 무료시세(지연호가)가 제공됩니다.\n\nHTS(efriend Plus) [7781] 시세신청(실시간) 화면에서 유료 서비스 신청 시, \n\"해외주식 실시간호가\

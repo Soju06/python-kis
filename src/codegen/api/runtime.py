@@ -61,8 +61,6 @@ class ValueResolver:
         code: str,
     ) -> JsonValue | None:
         key = code.lower()
-        if key in ("secretkey", "secret_key"):
-            return self._defaults.get("appsecret")
         if key == "grant_type":
             return "client_credentials"
         if key in ("user_id", "userid"):
@@ -178,7 +176,22 @@ def _heuristic_value(code: str) -> JsonValue | None:
         return "N"
     if any(token in code for token in ("qty", "cnt", "count", "vol")):
         return "1"
-    if any(token in code for token in ("price", "prc", "amt", "rate", "rt", "ratio", "val", "delta", "gear", "prmm", "vltl")):
+    if any(
+        token in code
+        for token in (
+            "price",
+            "prc",
+            "amt",
+            "rate",
+            "rt",
+            "ratio",
+            "val",
+            "delta",
+            "gear",
+            "prmm",
+            "vltl",
+        )
+    ):
         return "0"
     if code.startswith("fid_") and re.search(r"\d+$", code):
         return "0"

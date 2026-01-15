@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- FHPST01390000
-- 모의투자 미지원
 real_tr_id: FHPST01390000
 demo_tr_id: 모의투자 미지원
 summary: 'HTS(eFriend Plus) [0139] 변동성 완화장치(VI) 현황 데이터를 확인할 수 있는 API입니다.

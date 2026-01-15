@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 미지원
-tr_ids:
-- 모의투자 미지원
-- HHPPG046600C1
 real_tr_id: HHPPG046600C1
 demo_tr_id: 모의투자 미지원
 summary: '프로그램매매 투자자매매동향(당일) API입니다.

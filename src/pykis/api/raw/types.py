@@ -17,6 +17,7 @@ class KisResponse(Protocol):
     status_code: int
     headers: Mapping[str, str]
     text: str
+    is_success: bool
 
     def json(self) -> object: ...
 

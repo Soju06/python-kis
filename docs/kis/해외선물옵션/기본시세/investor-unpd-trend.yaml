@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- HHDDB95030000
-- 모의투자 미지원
 real_tr_id: HHDDB95030000
 demo_tr_id: 모의투자 미지원
 summary: "해외선물 미결제추이 API입니다.\n한국투자 HTS(eFriend Force) > [5503] 해외선물 미결제약정추이 화면 의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기\

@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: ' ws://ops.koreainvestment.com:21000'
   demo: ' ws://ops.koreainvestment.com:31000'
-tr_ids:
-- H0STCNI9
-- H0STCNI0
 real_tr_id: H0STCNI0
 demo_tr_id: H0STCNI9
 summary: '국내주식 실시간 체결통보 수신 시에 (1) 주문·정정·취소·거부 접수 통보 와 (2) 체결 통보 가 모두 수신됩니다.

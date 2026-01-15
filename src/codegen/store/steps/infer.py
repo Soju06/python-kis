@@ -3,7 +3,8 @@ from __future__ import annotations
 import json
 import re
 from collections import Counter
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field as dataclass_field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
@@ -49,7 +50,7 @@ class FieldStats:
     zero_date_count: int = 0
     zero_time_count: int = 0
     zero_datetime_count: int = 0
-    distinct: Counter[str] = field(default_factory=Counter)
+    distinct: Counter[str] = dataclass_field(default_factory=Counter)
     distinct_overflow: bool = False
     has_alpha: bool = False
     has_leading_zero: bool = False

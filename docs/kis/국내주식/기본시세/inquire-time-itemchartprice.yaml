@@ -10,8 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- FHKST03010200
 real_tr_id: FHKST03010200
 demo_tr_id: FHKST03010200
 summary: "주식당일분봉조회 API입니다. \n실전계좌/모의계좌의 경우, 한 번의 호출에 최대 30건까지 확인 가능합니다.\n\n※ 당일 분봉 데이터만 제공됩니다. (전일자 분봉 미제공)\n\n※ input > FID_INPUT_HOUR_1\

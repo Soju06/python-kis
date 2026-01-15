@@ -10,6 +10,7 @@ https://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/w
 실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.
 https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션 업데이트 예정)
 
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -21,7 +22,8 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `ws://ops.koreainvestment.com:31000` |
-| **TR ID** | `H0GSCNI9`, `H0GSCNI0` |
+| **TR ID (실전)** | `H0GSCNI0` |
+| **TR ID (모의)** | `H0GSCNI9` |
 
 ## 메타 정보
 
@@ -31,7 +33,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 - **생성일**: 2022-09-05
 - **최종 수정일**: 2025-05-23
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -68,7 +70,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 }
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Body
 
@@ -150,3 +152,4 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 분할매수매도종료시간  []
 시간분할타입유형  []
 ```
+

@@ -10,8 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- FHMIF10000000
 real_tr_id: FHMIF10000000
 demo_tr_id: FHMIF10000000
 summary: "선물옵션 시세 API입니다. \n\n※ 종목코드 마스터파일 파이썬 정제코드는 한국투자증권 Github 참고 부탁드립니다.\n   https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info"

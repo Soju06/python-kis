@@ -46,7 +46,8 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443    (output3만 이용 가능)` |
-| **TR ID** | `CTRP6504R`, `VTRP6504R` |
+| **TR ID (실전)** | `CTRP6504R` |
+| **TR ID (모의)** | `VTRP6504R` |
 
 ## 메타 정보
 
@@ -56,7 +57,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 - **생성일**: 2021-12-15
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -100,7 +101,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 }
 ```
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -375,3 +376,4 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
       "ovrs_excg_cd": "SZAA",
       "item_lnkg_excg_c
 ```
+

@@ -10,8 +10,8 @@ from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.prompt import Prompt
 from rich.table import Table
 
-from codegen.core.paths import project_root
 from codegen.api.pipeline import run_pipeline as run_api_codegen
+from codegen.core.paths import project_root
 from codegen.store.pipeline import run_pipeline as run_store_codegen
 from docsgen.cli import run as run_docs_sync
 from pykis.logging import configure_logging

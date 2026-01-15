@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- (미국 정정·취소) TTTT1004U (아시아 국가 하단 규격서 참고)
-- (미국 정정·취소) VTTT1004U (아시아 국가 하단 규격서 참고)
 real_tr_id: (미국 정정·취소) TTTT1004U (아시아 국가 하단 규격서 참고)
 demo_tr_id: (미국 정정·취소) VTTT1004U (아시아 국가 하단 규격서 참고)
 summary: "접수된 해외주식 주문을 정정하거나 취소하기 위한 API입니다.\n(해외주식주문 시 Return 받은 ODNO를 참고하여 API를 호출하세요.)\n\n* 해외주식 서비스 신청 후 이용 가능합니다. (아래\

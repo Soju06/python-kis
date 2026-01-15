@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- CTSC0004R
 real_tr_id: CTSC0004R
 demo_tr_id: 모의투자 미지원
 summary: '국내예약주문 처리내역 조회 API 입니다.

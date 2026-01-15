@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- HHMCM000100C0
-- 모의투자 미지원
 real_tr_id: HHMCM000100C0
 demo_tr_id: 모의투자 미지원
 summary: "HTS조회상위20종목 API입니다. \n한국투자 HTS(eFriend Plus) > [0158] 조회종목상위 화면의 \"종목명\", \"종목코드\" 표시 기능을 API로 개발한 사항으로, 해당 화면을\

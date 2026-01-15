@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- CTPF1002R
 real_tr_id: CTPF1002R
 demo_tr_id: 모의투자 미지원
 summary: '주식기본조회 API입니다.

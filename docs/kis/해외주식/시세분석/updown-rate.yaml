@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 미지원
-tr_ids:
-- HHDFS76290000
-- 모의투자 미지원
 real_tr_id: HHDFS76290000
 demo_tr_id: 모의투자 미지원
 summary: ''

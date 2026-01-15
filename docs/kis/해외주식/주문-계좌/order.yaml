@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: https://openapivts.koreainvestment.com:29443
-tr_ids:
-- (미국매수) TTTT1002U  (미국매도) TTTT1006U (아시아 국가 하단 규격서 참고)
-- (미국매수) VTTT1002U  (미국매도) VTTT1001U  (아시아 국가 하단 규격서 참고)
 real_tr_id: (미국매수) TTTT1002U  (미국매도) TTTT1006U (아시아 국가 하단 규격서 참고)
 demo_tr_id: (미국매수) VTTT1002U  (미국매도) VTTT1001U  (아시아 국가 하단 규격서 참고)
 summary: "해외주식 주문 API입니다.\n\n* 모의투자의 경우, 모든 해외 종목 매매가 지원되지 않습니다. 일부 종목만 매매 가능한 점 유의 부탁드립니다.\n\n* 해외주식 서비스 신청 후 이용 가능합니다. (아래\

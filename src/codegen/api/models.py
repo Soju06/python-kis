@@ -74,7 +74,6 @@ class DocEndpoint(BaseModel):
     content_type: str | None = ""
     req_format: str | None = ""
     domains: DocDomains
-    tr_ids: list[str] = Field(default_factory=list)
     real_tr_id: str | None = None
     demo_tr_id: str | None = None
     summary: str | None = ""
@@ -144,7 +143,6 @@ class EndpointSpec(BaseModel):
     content_type: str | None = ""
     req_format: str | None = ""
     domains: SpecDomains
-    tr_ids: list[str] = Field(default_factory=list)
     real_tr_id: str | None = None
     demo_tr_id: str | None = None
     description: str | None = ""

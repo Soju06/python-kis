@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- FHPEW02840300
 real_tr_id: FHPEW02840300
 demo_tr_id: 모의투자 미지원
 summary: "ELW 변동성 추이(분별) API입니다. \n한국투자 HTS(eFriend Plus) > [0284] ELW 변동성 추이 화면의 \"분별\" 변동성 추이 기능을 API로 개발한 사항으로, 해당 화면을\

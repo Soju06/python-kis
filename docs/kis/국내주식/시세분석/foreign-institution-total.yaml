@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- 모의투자 미지원
-- FHPTJ04400000
 real_tr_id: FHPTJ04400000
 demo_tr_id: 모의투자 미지원
 summary: "국내기관_외국인 매매종목가집계 API입니다.\n\nHTS(efriend Plus) [0440] 외국인/기관 매매종목 가집계 화면을 API로 구현한 사항으로 화면을 함께 보시면 기능 이해가 쉽습니다.\n\

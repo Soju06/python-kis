@@ -2,6 +2,7 @@
 
 > [해외선물옵션]실시간시세
 
+
 해외선물옵션체결내역통보[실시간-020]
 
 ## 기본 정보
@@ -15,7 +16,8 @@
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `HDFFF2C0` |
+| **TR ID (실전)** | `HDFFF2C0` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -25,7 +27,7 @@
 - **생성일**: 2023-01-06
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -43,7 +45,7 @@
 | `tr_id` | 거래ID | String | 7 | Y | HDFFF2C0 |
 | `tr_key` | HTSID | String | 8 | Y | HTSID |
 
-## 응답 (Response)
+## 응답
 
 ### Body
 
@@ -82,3 +84,4 @@
 | `ORD_MDIA_ONLINE_YN` | 주문매체온라인여부 | String | 1 | Y |  |
 | `FM_CCLD_AMT` | FM체결금액 | String | 21 | Y |  |
 | `FUOP_ITEM_DVSN_CD` | 선물옵션종목구분코드 | String | 2 | Y |  |
+

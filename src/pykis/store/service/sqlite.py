@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import sqlite3
+from dataclasses import dataclass
 from datetime import date, datetime, time
 from decimal import Decimal
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Mapping
 
@@ -122,7 +122,17 @@ class StoreDb:
         self.conn.execute("CREATE INDEX IF NOT EXISTS idx_instrument_isin ON instrument_index(isin)")
         self.conn.execute("CREATE INDEX IF NOT EXISTS idx_instrument_source ON instrument_index(source_id, line_no)")
 
-    def upsert_source(self, *, source_id: str, group: str, label: str, download_url: str, header_url: str, struct_name: str, loaded_at: str | None = None) -> None:
+    def upsert_source(
+        self,
+        *,
+        source_id: str,
+        group: str,
+        label: str,
+        download_url: str,
+        header_url: str,
+        struct_name: str,
+        loaded_at: str | None = None,
+    ) -> None:
         self.create_meta_tables()
         self.conn.execute(
             """

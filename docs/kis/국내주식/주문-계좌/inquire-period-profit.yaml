@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- TTTC8708R
-- 모의투자 미지원
 real_tr_id: TTTC8708R
 demo_tr_id: 모의투자 미지원
 summary: '기간별손익일별합산조회 API입니다.

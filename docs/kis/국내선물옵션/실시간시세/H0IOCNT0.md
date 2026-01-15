@@ -23,7 +23,8 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `H0IOCNT0`, `모의투자 미지원` |
+| **TR ID (실전)** | `H0IOCNT0` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -33,7 +34,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 - **생성일**: 2022-11-25
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -51,7 +52,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | `tr_id` | 거래ID | String | 7 | Y | H0IOCNT0 |
 | `tr_key` | 코드 | String | 6 | Y | 예:201S11305 |
 
-## 응답 (Response)
+## 응답
 
 ### Body
 
@@ -115,3 +116,4 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | `DYNM_MXPR` | 실시간상한가 | String | 6 | Y |  |
 | `DYNM_LLAM` | 실시간하한가 | String | 6 | Y |  |
 | `DYNM_PRC_LIMT_YN` | 실시간가격제한구분 | String | 6 | Y |  |
+

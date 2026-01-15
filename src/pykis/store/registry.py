@@ -1,14 +1,13 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Type
 
 from pydantic import BaseModel
 
-from pathlib import Path
-
 from pykis.store.raw.masters import SOURCE_DEFS
-from pykis.store.raw.structs import STRUCT_DEFS, STRUCT_MODELS
 from pykis.store.raw.models import RawSource
+from pykis.store.raw.structs import STRUCT_DEFS, STRUCT_MODELS
 
 
 def list_sources():

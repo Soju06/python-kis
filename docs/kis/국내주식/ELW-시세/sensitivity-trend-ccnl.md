@@ -2,6 +2,8 @@
 
 > [국내주식] ELW 시세
 
+
+
 ## 기본 정보
 
 | 항목 | 상세 내용 |
@@ -13,7 +15,8 @@
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `FHPEW02830100`, `모의투자 미지원` |
+| **TR ID (실전)** | `FHPEW02830100` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -23,7 +26,7 @@
 - **생성일**: 2024-04-26
 - **최종 수정일**: 2025-05-07
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -50,7 +53,7 @@
 | `FID_COND_MRKT_DIV_CODE` | 조건시장분류코드 | String | 2 | Y | 시장구분코드 (W) |
 | `FID_INPUT_ISCD` | 입력종목코드 | String | 12 | Y | ex) 58J297(KBJ297삼성전자콜) |
 
-## 응답 (Response)
+## 응답
 
 ### Headers
 
@@ -80,3 +83,4 @@
 | `theta` | 세타 | String | 84 | Y |  |
 | `vega` | 베가 | String | 84 | Y |  |
 | `rho` | 로우 | String | 84 | Y |  |
+

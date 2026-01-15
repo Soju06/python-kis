@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 모의투자 미지원
-tr_ids:
-- HHDFO55020300
-- 모의투자 미지원
 real_tr_id: HHDFO55020300
 demo_tr_id: 모의투자 미지원
 summary: "해외옵션 체결추이(월간) API입니다. \n최근 120건까지 데이터 확인이 가능합니다. (START_DATE_TIME, CLOSE_DATE_TIME은 공란 입력)\n\n(중요) 해외옵션시세 출력값을 해석하실\

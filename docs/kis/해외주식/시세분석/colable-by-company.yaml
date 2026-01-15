@@ -10,9 +10,6 @@ req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
   demo: 미지원
-tr_ids:
-- CTLN4050R
-- 모의투자 미지원
 real_tr_id: CTLN4050R
 demo_tr_id: 모의투자 미지원
 summary: '당사 해외주식담보대출 가능 종목 API입니다.

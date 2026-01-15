@@ -48,7 +48,8 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `HDFFF020`, `모의투자 미지원` |
+| **TR ID (실전)** | `HDFFF020` |
+| **TR ID (모의)** | `모의투자 미지원` |
 
 ## 메타 정보
 
@@ -58,7 +59,7 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 - **생성일**: 2022-12-27
 - **최종 수정일**: 2025-04-30
 
-## 요청 (Request)
+## 요청
 
 ### Headers
 
@@ -76,7 +77,7 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | `tr_id` | 거래ID | String | 7 | Y | HDFFF020 |
 | `tr_key` | 종목코드 | String | 6 | Y | 종목코드  ※ CME, SGX 실시간시세 유료시세 신청 필수  "포럼 > FAQ > 해외선물옵션 API 유료시세 신청방법(CME, SGX 거래소)" |
 
-## 응답 (Response)
+## 응답
 
 ### Body
 
@@ -107,3 +108,4 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | `PSTTL_SIGN` | 전일정산가대비 | String | 1 | Y |  |
 | `PSTTL_DIFF_PRICE` | 전일정산가대비가격 | String | 15 | Y |  |
 | `PSTTL_DIFF_RATE` | 전일정산가대비율 | String | 10 | Y |  |
+

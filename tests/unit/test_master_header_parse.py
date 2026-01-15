@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from docsgen.parsers.master_headers import parse_header_structs
 
-
 HEADER_TEXT = """
 /* header */
 #define IGNORED 1
