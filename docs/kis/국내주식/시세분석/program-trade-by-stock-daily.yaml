@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 시세분석
 method: GET
 url: /uapi/domestic-stock/v1/quotations/program-trade-by-stock-daily
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
 - FHPPG04650201
 - 모의투자 미지원
 real_tr_id: FHPPG04650201
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '국내주식 종목별 프로그램매매추이(일별) API입니다.
 
   한국투자 HTS(eFriend Plus) > [0465] 종목별 프로그램 매매추이 화면(혹은 한국투자 MTS > 국내 현재가 > 기타수급 > 프로그램) 의 "일자별" 클릭 시 기능을 API로 개발한 사항으로, 해당

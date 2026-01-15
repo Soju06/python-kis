@@ -27,7 +27,7 @@ def read_text(path: Path) -> str | None:
     return path.read_text(encoding="utf-8").strip() or None
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class StorePaths:
     root: Path
 
@@ -38,6 +38,10 @@ class StorePaths:
     @property
     def snapshot_dir(self) -> Path:
         return self.root / "snapshots"
+
+    @property
+    def lock_dir(self) -> Path:
+        return self.root / "locks"
 
     @property
     def latest_file(self) -> Path:
@@ -57,3 +61,6 @@ class StorePaths:
 
     def snapshot_done_path(self, date_key: str) -> Path:
         return self.snapshot_date_dir(date_key) / "DONE"
+
+    def snapshot_lock_path(self, date_key: str) -> Path:
+        return self.lock_dir / f"snapshot-{date_key}.lock"

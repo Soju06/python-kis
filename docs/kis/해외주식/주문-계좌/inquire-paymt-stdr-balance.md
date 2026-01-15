@@ -17,11 +17,11 @@
 | **API ID** | `8e78ed2f-8c3d-424e-b400-82fc94ca4a6b` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-stock/v1/trading/inquire-paymt-stdr-balance` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `CTRP6010R`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `CTRP6010R` |
 
 ## 메타 정보
 

@@ -5,14 +5,14 @@ category: ''
 subcategory: OAuth인증
 method: POST
 url: /oauth2/Approval
-content_type: ''
+content_type: application/json
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids: []
-real_tr_id: null
-virtual_tr_id: null
+real_tr_id: ''
+demo_tr_id: ''
 summary: '실시간 (웹소켓) 접속키 발급받으실 수 있는 API 입니다.
 
   웹소켓 이용 시 해당 키를 appkey와 appsecret 대신 헤더에 넣어 API를 호출합니다.

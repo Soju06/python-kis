@@ -32,35 +32,42 @@ classifiers = [
 ]
 requires-python = ">=3.13"
 dependencies = [
+    "aiosqlite>=0.20.0",
+    "aiopath>=0.6.11",
     "pydantic==2.12.5",
-    "requests>=2.32.3",
-    "beautifulsoup4>=4.12.3",
-    "pyyaml>=6.0.1",
+    "httpx>=0.28.1",
+    "httpx-retries>=0.2.0",
+    "rich>=13.8.0",
 ]
 
 [dependency-groups]
 dev = [
+    "beautifulsoup4>=4.12.3",
+    "hatchling>=1.27.0",
+    "jinja2>=3.1.4",
     "pre-commit>=4.5.1",
     "pytest>=9.0.2",
     "pytest-asyncio>=1.3.0",
-    "httpx>=0.28.1",
+    "pyyaml>=6.0.1",
     "ruff>=0.14.10",
+    "ty",
+    "unasync>=0.6.0",
 ]
+
+[tool.uv]
+managed = true
 
 [project.urls]
 "Bug Tracker" = "https://github.com/Soju06/python-kis/issues"
 "Documentation" = "https://github.com/Soju06/python-kis/wiki/Tutorial"
 "Source Code" = "https://github.com/Soju06/python-kis"
 
-[project.scripts]
-kis-docs-fetch = "docs.cli:main"
-kis-codegen = "codegen.cli:main"
-
 [tool.pytest.ini_options]
 addopts = "-ra"
 asyncio_mode = "auto"
 markers = [
     "integration: tests that exercise multiple layers together",
+    "perf: performance benchmarks",
     "unit: fast isolated tests",
 ]
 testpaths = ["tests"]
@@ -73,8 +80,11 @@ target-version = "py313"
 select = ["E", "F", "I"]
 
 [build-system]
-requires = ["hatchling>=1.27.0"]
+requires = ["hatchling>=1.27.0", "unasync>=0.6.0"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/docs"]
+packages = ["src/pykis"]
+
+[tool.hatch.build.targets.wheel.hooks.custom]
+path = "scripts/build_unasync.py"

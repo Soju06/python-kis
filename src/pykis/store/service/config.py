@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .paths import default_store_root, read_text, StorePaths
+from pykis.store.service.paths import StorePaths, default_store_root, read_text
 
 @dataclass(frozen=True, slots=True)
 class StoreConfig:

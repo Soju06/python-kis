@@ -14,7 +14,7 @@
 | **API ID** | `141f0f11-ef30-4e52-9388-a6e78502d5c2` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/investor-trade-by-stock-daily` |
-| **Content-Type** | `` |
+| **Content-Type** | `application/json` |
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |

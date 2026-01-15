@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 주문/계좌
 method: GET
 url: /uapi/domestic-stock/v1/trading/pension/inquire-balance
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - 모의투자 미지원
 - TTTC2208R
 real_tr_id: TTTC2208R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '주식, ETF, ETN만 조회 가능하며 펀드는 조회 불가합니다.
 
 

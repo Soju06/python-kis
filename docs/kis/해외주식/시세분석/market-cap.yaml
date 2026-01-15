@@ -5,16 +5,16 @@ category: 해외주식
 subcategory: 시세분석
 method: GET
 url: /uapi/overseas-stock/v1/ranking/market-cap
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
-- 모의투자 미지원
 - HHDFS76350100
+- 모의투자 미지원
 real_tr_id: HHDFS76350100
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: ''
 description: ''
 metadata:

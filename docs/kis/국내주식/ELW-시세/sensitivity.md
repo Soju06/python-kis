@@ -12,11 +12,11 @@ ELW 민감도 순위 API입니다.
 | **API ID** | `246842f0-450e-464b-8dbc-356133d12b42` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/ranking/sensitivity` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `FHPEW02850000` |
+| **TR ID** | `FHPEW02850000`, `모의투자 미지원` |
 
 ## 메타 정보
 

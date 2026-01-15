@@ -9,12 +9,12 @@ content_type: application/json; charset=UTF-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - (정정) OTFM3002U (취소) OTFM3003U
 - 모의투자 미지원
 real_tr_id: (정정) OTFM3002U (취소) OTFM3003U
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "해외선물옵션 정정취소주문 API 입니다.\n\n※ POST API의 경우 BODY값의 key값들을 대문자로 작성하셔야 합니다.\n   (EX. \"CANO\" : \"12345678\", \"ACNT_PRDT_CD\"\
   : \"01\",...)"
 description: ''

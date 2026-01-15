@@ -1,0 +1,18 @@
+<!-- generated: kis-docs-fetch -->
+# {{ post.title }}
+
+- 출처: [{{ post.source_url }}]({{ post.source_url }})
+- 작성일: `{{ post.created_date }}`
+
+## 내용
+
+{{ content }}
+{% if post.attachments %}
+
+## 첨부파일
+
+{% for attachment in post.attachments %}
+- [{{ attachment.name }}]({{ attachment.url }})
+{% endfor %}
+{% endif %}
+

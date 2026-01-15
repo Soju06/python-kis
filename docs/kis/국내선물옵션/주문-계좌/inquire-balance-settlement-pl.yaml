@@ -5,16 +5,16 @@ category: 국내선물옵션
 subcategory: 주문/계좌
 method: GET
 url: /uapi/domestic-futureoption/v1/trading/inquire-balance-settlement-pl
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- 모의투자 미지원
 - CTFO6117R
+- 모의투자 미지원
 real_tr_id: CTFO6117R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: 선물옵션 잔고정산손익내역 API입니다.
 description: ''
 metadata:

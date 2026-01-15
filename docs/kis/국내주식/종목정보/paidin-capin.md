@@ -14,11 +14,11 @@
 | **API ID** | `e0f9b38e-774a-441e-8dbd-27ab5f5ebb8b` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/ksdinfo/paidin-capin` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `HHKDB669100C0` |
+| **TR ID** | `HHKDB669100C0`, `모의투자 미지원` |
 
 ## 메타 정보
 

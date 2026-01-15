@@ -5,16 +5,16 @@ category: 국내선물옵션
 subcategory: 주문/계좌
 method: GET
 url: /uapi/domestic-futureoption/v1/trading/inquire-ngt-balance
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- (구) JTCE6001R (신) CTFN6118R
 - 모의투자 미지원
+- (구) JTCE6001R (신) CTFN6118R
 real_tr_id: (구) JTCE6001R (신) CTFN6118R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: (야간)선물옵션 잔고현황 API입니다.
 description: (야간)선물옵션 잔고현황 [국내선물-010]
 metadata:

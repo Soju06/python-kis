@@ -12,8 +12,8 @@
 | **API ID** | `2261a45e-8e04-4cdf-8f4d-d52a45a0380d` |
 | **HTTP Method** | `POST` |
 | **URL** | `/uapi/domestic-bond/v1/trading/sell` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `TTTC0958U`, `모의투자 미지원` |

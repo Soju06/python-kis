@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 시세분석
 method: GET
 url: /uapi/domestic-stock/v1/quotations/intstock-grouplist
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
 - 모의투자 미지원
 - HHKCM113004C7
 real_tr_id: HHKCM113004C7
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '관심종목 그룹조회 API입니다.
 
   ① 관심종목 그룹조회 → ② 관심종목 그룹별 종목조회 → ③ 관심종목(멀티종목) 시세조회 순서대로 호출하셔서 관심종목 시세 조회 가능합니다.

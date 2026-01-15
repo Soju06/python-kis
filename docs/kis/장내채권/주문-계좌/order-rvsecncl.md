@@ -12,11 +12,11 @@
 | **API ID** | `e48e54a7-f72b-4282-a18b-8d5e52b725fb` |
 | **HTTP Method** | `POST` |
 | **URL** | `/uapi/domestic-bond/v1/trading/order-rvsecncl` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `TTTC0953U` |
+| **TR ID** | `TTTC0953U`, `모의투자 미지원` |
 
 ## 메타 정보
 

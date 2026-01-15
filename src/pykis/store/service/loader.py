@@ -9,13 +9,13 @@ import os
 
 from pydantic import BaseModel
 
-from ..raw.models import RawSource
-from ..raw.reader import FixedWidthReader
-from ..raw.parser import FixedWidthParser
-from ..registry import get_model, get_struct
-from ..generated.specs import SourceDef
-from .indexing import IndexFields, build_index_row, detect_index_fields
-from .sqlite import StoreDb, TableDef
+from pykis.store.raw.definitions import SourceDef
+from pykis.store.raw.models import RawSource
+from pykis.store.raw.parser import FixedWidthParser
+from pykis.store.raw.reader import RecordReader, is_delimited_file, is_line_fixed_file
+from pykis.store.registry import get_model, get_struct
+from pykis.store.service.indexing import IndexFields, build_index_row, detect_index_fields
+from pykis.store.service.sqlite import StoreDb, TableDef
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,11 +33,10 @@ def load_source_into_sqlite(
     model: Type[BaseModel],
     table_name: str,
     batch_size: int = 1000,
-    *,
     index_fields: IndexFields | None = None,
 ) -> LoadResult:
     raw_source = RawSource(source_id=source_id, kind=table_name, path=file_path, spec=record_spec)
-    reader = FixedWidthReader(raw_source)
+    reader = RecordReader(raw_source)
     db.create_table(TableDef(name=table_name, record_spec=record_spec))
     db.create_index_table()
 
@@ -88,6 +87,7 @@ def load_source_def_into_sqlite(
     struct_def = get_struct(source.struct_name)
     if struct_def is None:
         raise KeyError(f"struct not found: {source.struct_name}")
+    model = get_model(source.struct_name)
     index_fields = detect_index_fields(source.struct_name, struct_def.record_spec)
     db.upsert_source(
         source_id=source.source_id,
@@ -121,7 +121,15 @@ def load_source_def_into_sqlite_parallel(
     struct_def = get_struct(source.struct_name)
     if struct_def is None:
         raise KeyError(f"struct not found: {source.struct_name}")
-    model = get_model(source.struct_name)
+    if is_delimited_file(file_path, len(struct_def.record_spec.fields)) or is_line_fixed_file(
+        file_path, struct_def.record_spec.record_length
+    ):
+        return load_source_def_into_sqlite(
+            db,
+            source=source,
+            file_path=file_path,
+            batch_size=batch_size,
+        )
     index_fields = detect_index_fields(source.struct_name, struct_def.record_spec)
     db.upsert_source(
         source_id=source.source_id,
@@ -171,6 +179,9 @@ def load_source_def_into_sqlite_parallel(
                     batch.clear()
             if index_rows:
                 index_batch.extend(index_rows)
+                if len(index_batch) >= batch_size:
+                    db.insert_index_rows(index_batch)
+                    index_batch.clear()
 
     if batch:
         db.insert_rows(source.struct_name.lower(), batch)

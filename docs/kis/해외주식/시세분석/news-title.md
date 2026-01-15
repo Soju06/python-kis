@@ -12,11 +12,11 @@
 | **API ID** | `9064a50c-0545-4b6c-8eb2-034f5214974b` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-price/v1/quotations/news-title` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `모의투자 미지원`, `HHPSTH60100C1` |
+| **TR ID** | `HHPSTH60100C1`, `모의투자 미지원` |
 
 ## 메타 정보
 

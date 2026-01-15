@@ -12,11 +12,11 @@
 | **API ID** | `7d6d8ba7-bcae-4d7c-8d5b-4b51cd42a94a` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-bond/v1/quotations/inquire-daily-price` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `FHKBJ773404C0`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHKBJ773404C0` |
 
 ## 메타 정보
 

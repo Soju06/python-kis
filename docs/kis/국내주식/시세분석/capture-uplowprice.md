@@ -12,8 +12,8 @@
 | **API ID** | `30654e7a-8eda-42ac-8b54-9f0287bde15d` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/capture-uplowprice` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `모의투자 미지원`, `FHKST130000C0` |

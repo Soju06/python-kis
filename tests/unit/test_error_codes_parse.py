@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from docs.error_codes import parse_error_code_contents_body
+from docsgen.parsers.error_codes import parse_error_code_contents_body
 
 
 def test_parse_error_code_contents_body_pairs() -> None:

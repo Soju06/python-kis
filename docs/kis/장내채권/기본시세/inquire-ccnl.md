@@ -12,11 +12,11 @@
 | **API ID** | `34d1b922-ab20-4839-9f15-ab1fe242a81f` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-bond/v1/quotations/inquire-ccnl` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `FHKBJ773403C0`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHKBJ773403C0` |
 
 ## 메타 정보
 

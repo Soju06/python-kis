@@ -5,16 +5,16 @@ category: 해외선물옵션
 subcategory: 기본시세
 method: GET
 url: /uapi/overseas-futureoption/v1/quotations/inquire-price
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- HHDFC55010000
 - 모의투자 미지원
+- HHDFC55010000
 real_tr_id: HHDFC55010000
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "(중요) 해외선물시세 출력값을 해석하실 때 ffcode.mst(해외선물종목마스터 파일)에 있는 sCalcDesz(계산 소수점) 값을 활용하셔야 정확한 값을 받아오실 수 있습니다.\n\n- ffcode.mst(해외선물종목마스터\
   \ 파일) 다운로드 방법 2가지\n  1) 한국투자증권 Github의 파이썬 샘플코드를 사용하여 mst 파일 다운로드 및 excel 파일로 정제   \n     https://github.com/koreainvestment/open-trading-api/blob/main/stocks_info/overseas_future_code.py\n\
   \   \n  2) 혹은 포럼 - FAQ - 종목정보 다운로드(해외) - 해외지수선물 클릭하셔서 ffcode.mst(해외선물종목마스터 파일)을 다운로드 후\n     Github의 헤더정보(https://github.com/koreainvestment/open-trading-api/blob/main/stocks_info/해외선물정보.h)를\

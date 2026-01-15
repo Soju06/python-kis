@@ -12,11 +12,11 @@ ELW 기초자산별 종목시세  API입니다.
 | **API ID** | `263ef907-db8c-4bf6-8da9-388c8fb4cf10` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/quotations/udrl-asset-price` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `FHKEW154101C0`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHKEW154101C0` |
 
 ## 메타 정보
 

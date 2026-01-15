@@ -5,16 +5,16 @@ category: 해외선물옵션
 subcategory: 기본시세
 method: GET
 url: /uapi/overseas-futureoption/v1/quotations/inquire-time-optchartprice
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - HHDFO55020400
 - 모의투자 미지원
 real_tr_id: HHDFO55020400
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "해외옵션 분봉조회 API입니다. \n한 번의 호출에 120건까지 확인 가능하며, QRY_TP, INDEX_KEY 를 이용하여 다음조회 가능합니다.\n\n※ 다음조회 방법\n(처음조회) \"QRY_TP\"\
   :\"Q\", \"QRY_CNT\":\"120\", \"INDEX_KEY\":\"\"\n(다음조회) \"QRY_TP\":\"P\", \"QRY_CNT\":\"120\", \"INDEX_KEY\":\"20240902\
   \         5\"  ◀ 이전 호출의 \"output1 > index_key\" 기입\n\n(중요) 해외옵션시세 출력값을 해석하실 때 focode.mst(해외지수옵션 종목마스터파일), fostkcode.mst(해외주식옵션\

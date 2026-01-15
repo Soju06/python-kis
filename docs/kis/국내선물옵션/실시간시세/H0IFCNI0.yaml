@@ -5,16 +5,16 @@ category: 국내선물옵션
 subcategory: 실시간시세
 method: POST
 url: /tryitout/H0IFCNI0
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: ws://ops.koreainvestment.com:21000
-  virtual: ws://ops.koreainvestment.com:31000
+  demo: ws://ops.koreainvestment.com:31000
 tr_ids:
-- H0IFCNI9
 - H0IFCNI0
+- H0IFCNI9
 real_tr_id: H0IFCNI0
-virtual_tr_id: H0IFCNI9
+demo_tr_id: H0IFCNI9
 summary: '[참고자료]
 
 

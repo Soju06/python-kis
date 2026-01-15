@@ -1,0 +1,74 @@
+name: ST_FO_COM_CODE
+header_url: https://raw.githubusercontent.com/koreainvestment/open-trading-api/main/stocks_info/%EC%A2%85%EB%AA%A9%EB%A7%88%EC%8A%A4%ED%84%B0%EC%A0%95%EB%B3%B4%28%EC%83%81%ED%92%88%EC%84%A0%EB%AC%BC%EC%98%B5%EC%85%98%29.h
+record_length: 116
+fields:
+- name: com_type
+  type_code: char
+  length: 1
+  description: '상품구분
+
+    1:금리 2:통화 3:상품'
+  length_source: null
+- name: info_type
+  type_code: char
+  length: 1
+  description: '1:선물 2:SP선물
+
+    5:콜옵션 6:풋옵션'
+  length_source: null
+- name: shrn_iscd
+  type_code: char
+  length: 9
+  description: 단축코드 (SZ_SHRNCODE=9)
+  length_source: SZ_SHRNCODE
+- name: stnd_iscd
+  type_code: char
+  length: 12
+  description: 표준코드 (SZ_STNDCODE=12)
+  length_source: SZ_STNDCODE
+- name: kor_name
+  type_code: char
+  length: 40
+  description: 한글종목명 (SZ_KORNAME=40)
+  length_source: SZ_KORNAME
+- name: atm_cls_code
+  type_code: char
+  length: 1
+  description: ATM구분(1:ATM,2:ITM,3:OTM)
+  length_source: null
+- name: acpr
+  type_code: char
+  length: 8
+  description: 행사가
+  length_source: null
+- name: mmsc_cls_code
+  type_code: char
+  length: 1
+  description: '월물구분코드 (0:연결선물, 1:최근월물
+
+    2:차근월물 3:차차근월물 4:차차차근월물
+
+    SP 는 무조건 1'
+  length_source: null
+- name: prod_no
+  type_code: char
+  length: 3
+  description: '기초자산 단축코드
+
+    B03 : 3년국채 B05 : 5년국채
+
+    B10 : 10년국채 MSB : 통안증권
+
+    USD : 미국달러 JPY : 엔
+
+    EUR : 유로 GLD : 금
+
+    LHG : 돈육 CMU : CME미국달러
+
+    RFR : 3개월무위험금리'
+  length_source: null
+- name: prod_name
+  type_code: char
+  length: 40
+  description: 기초자산 명 (SZ_KORNAME=40)
+  length_source: SZ_KORNAME

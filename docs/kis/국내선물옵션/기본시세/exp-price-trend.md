@@ -12,8 +12,8 @@
 | **API ID** | `498e6384-f887-4fb2-9055-2cbc95790087` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-futureoption/v1/quotations/exp-price-trend` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `모의투자 미지원`, `FHPIF05110100` |

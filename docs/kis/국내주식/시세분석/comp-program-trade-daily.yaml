@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 시세분석
 method: GET
 url: /uapi/domestic-stock/v1/quotations/comp-program-trade-daily
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- FHPPG04600001
 - 모의투자 미지원
+- FHPPG04600001
 real_tr_id: FHPPG04600001
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "프로그램매매 종합현황(일별) API입니다. \n한국투자 HTS(eFriend Plus) > [0460] 프로그램매매 종합현황 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기\
   \ 쉽습니다.\n\n* 8개월 이상 과거 조회는 불가하며 에러메시지가 발생합니다."
 description: ''

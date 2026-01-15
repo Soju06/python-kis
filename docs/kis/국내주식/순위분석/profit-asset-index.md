@@ -17,11 +17,11 @@
 | **API ID** | `7185c44d-0bc5-4c0f-b64d-71ac9ea796f1` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/ranking/profit-asset-index` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `FHPST01730000` |
+| **TR ID** | `FHPST01730000`, `모의투자 미지원` |
 
 ## 메타 정보
 

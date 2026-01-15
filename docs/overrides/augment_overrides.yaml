@@ -1,0 +1,14 @@
+version: 1
+notes: |
+  Deterministic request overrides for augmentation/smoke.
+  - Use for fixed values or when docs require upstream lookups.
+defaults:
+  icod: "000"
+  prdt_type_cd: "512"
+  pdno: "AAPL"
+  symb: "AAPL"
+  keyb: ""
+endpoints:
+  81269474-9c66-404f-bdfe-4bb472975330:
+    query:
+      fid_cond_mrkt_div_code: "N"

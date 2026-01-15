@@ -5,16 +5,16 @@ category: 국내선물옵션
 subcategory: 실시간시세
 method: POST
 url: /tryitout/H0ZOCNT0
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: ws://ops.koreainvestment.com:21000
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - 모의투자 미지원
 - H0ZOCNT0
 real_tr_id: H0ZOCNT0
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: ''
 description: ''
 metadata:

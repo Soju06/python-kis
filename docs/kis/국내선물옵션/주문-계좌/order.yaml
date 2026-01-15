@@ -9,12 +9,12 @@ content_type: application/json; charset=UTF-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids:
 - (주간 매수/매도) TTTO1101U (야간 매수/매도) (구) JTCE1001U (신) STTN1101U
 - (주간 매수/매도) VTTO1101U (야간은 모의투자 미제공)
 real_tr_id: (주간 매수/매도) TTTO1101U (야간 매수/매도) (구) JTCE1001U (신) STTN1101U
-virtual_tr_id: (주간 매수/매도) VTTO1101U (야간은 모의투자 미제공)
+demo_tr_id: (주간 매수/매도) VTTO1101U (야간은 모의투자 미제공)
 summary: "​선물옵션 주문 API입니다.\n* 선물옵션 운영시간 외 API 호출 시 애러가 발생하오니 운영시간을 확인해주세요.\n\n※ POST API의 경우 BODY값의 key값들을 대문자로 작성하셔야 합니다.\n\
   \   (EX. \"CANO\" : \"12345678\", \"ACNT_PRDT_CD\": \"01\",...)\n\n※ 종목코드 마스터파일 파이썬 정제코드는 한국투자증권 Github 참고 부탁드립니다.\n   https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info"
 description: '[국내선물-001 v1] 선물옵션주문'

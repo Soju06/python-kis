@@ -13,11 +13,11 @@ HTS(eFriend Plus) [0139] 변동성 완화장치(VI) 현황 데이터를 확인�
 | **API ID** | `f54caf9c-65db-42ee-aa7e-a337c5a41778` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/inquire-vi-status` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `FHPST01390000` |
+| **TR ID** | `FHPST01390000`, `모의투자 미지원` |
 
 ## 메타 정보
 

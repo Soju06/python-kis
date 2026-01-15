@@ -19,11 +19,11 @@ HTS(efriend Plus) [0440] 외국인/기관 매매종목 가집계 화면을 API�
 | **API ID** | `4a077f43-7053-47be-b811-8e35be4ea745` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/foreign-institution-total` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `FHPTJ04400000`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHPTJ04400000` |
 
 ## 메타 정보
 

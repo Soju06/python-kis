@@ -13,8 +13,8 @@
 | **API ID** | `af3d3794-92c0-4f3b-8041-4ca4ddcda5de` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/inquire-asking-price-exp-ccn` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
 | **TR ID** | `FHKST01010200` |

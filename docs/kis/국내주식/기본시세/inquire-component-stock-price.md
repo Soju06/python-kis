@@ -12,11 +12,11 @@ ETF 구성종목시세 API입니다.
 | **API ID** | `3871dd9b-e9a5-471b-a0ce-d9ceb207ac5b` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/etfetn/v1/quotations/inquire-component-stock-price` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `FHKST121600C0`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHKST121600C0` |
 
 ## 메타 정보
 

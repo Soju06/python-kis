@@ -12,8 +12,8 @@ ELW 지표순위 API입니다.
 | **API ID** | `8869c0c3-efd8-461b-ba87-5ab468afeea2` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/ranking/indicator` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `FHPEW02790000`, `모의투자 미지원` |

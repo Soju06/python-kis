@@ -12,11 +12,11 @@
 | **API ID** | `81269474-9c66-404f-bdfe-4bb472975330` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-price/v1/quotations/inquire-time-indexchartprice` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `FHKST03030200`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHKST03030200` |
 
 ## 메타 정보
 

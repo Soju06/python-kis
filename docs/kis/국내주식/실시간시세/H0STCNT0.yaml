@@ -9,11 +9,11 @@ content_type: text/plain
 req_format: JSON
 domains:
   real: ' ws://ops.koreainvestment.com:21000'
-  virtual: ' ws://ops.koreainvestment.com:31000'
+  demo: ' ws://ops.koreainvestment.com:31000'
 tr_ids:
 - H0STCNT0
 real_tr_id: H0STCNT0
-virtual_tr_id: H0STCNT0
+demo_tr_id: H0STCNT0
 summary: '[참고자료]
 
   실시간시세(웹소켓) 파이썬 샘플코드는 한국투자증권 Github 참고 부탁드립니다.

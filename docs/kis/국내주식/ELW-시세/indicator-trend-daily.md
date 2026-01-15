@@ -12,8 +12,8 @@ ELW 투자지표추이(일별) API입니다.
 | **API ID** | `1e0869f4-5639-4f22-be71-a28897242457` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/quotations/indicator-trend-daily` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `FHPEW02740200`, `모의투자 미지원` |

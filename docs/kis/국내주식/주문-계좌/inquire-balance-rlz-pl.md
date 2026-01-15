@@ -13,8 +13,8 @@
 | **API ID** | `ff79302e-6014-495e-a188-6dca69fc952e` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/trading/inquire-balance-rlz-pl` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `TTTC8494R`, `모의투자 미지원` |

@@ -3,9 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Mapping, Protocol
 
-from ..raw.models import RawRecord
-
-from .models import Instrument, InstrumentKey
+from pykis.store.raw.models import RawRecord
+from pykis.store.translate.models import Instrument, InstrumentKey
 
 
 class Normalizer(Protocol):

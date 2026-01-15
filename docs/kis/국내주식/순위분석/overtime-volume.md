@@ -13,8 +13,8 @@
 | **API ID** | `16958dd0-0304-4554-b12d-ec56e7874e71` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/ranking/overtime-volume` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `FHPST02350000`, `모의투자 미지원` |

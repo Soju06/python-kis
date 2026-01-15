@@ -9,11 +9,11 @@
 | **API ID** | `ae084fcd-7a30-4a14-8483-91a7fc918d23` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-stock/v1/ranking/market-cap` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `모의투자 미지원`, `HHDFS76350100` |
+| **TR ID** | `HHDFS76350100`, `모의투자 미지원` |
 
 ## 메타 정보
 

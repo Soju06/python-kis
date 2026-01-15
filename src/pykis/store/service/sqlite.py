@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import sqlite3
+from datetime import date, datetime, time
+from decimal import Decimal
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Mapping
@@ -14,11 +16,24 @@ class TableDef:
     record_spec: RecordSpec
 
 
+def _normalize_value(value: object) -> object:
+    if isinstance(value, Decimal):
+        return format(value, "f")
+    if isinstance(value, (date, datetime, time)):
+        return value.isoformat()
+    return value
+
+
 class StoreDb:
-    __slots__ = ("path", "conn")
+    path: Path
+    conn: sqlite3.Connection
+    _read_only: bool
+
+    __slots__ = ("path", "conn", "_read_only")
 
     def __init__(self, path: Path, *, read_only: bool = False) -> None:
         self.path = path
+        self._read_only = read_only
         if read_only:
             uri = f"file:{path}?mode=ro"
             self.conn = sqlite3.connect(uri, uri=True)
@@ -33,7 +48,8 @@ class StoreDb:
         self.conn.commit()
 
     def apply_fast_pragmas(self) -> None:
-        self.conn.execute("PRAGMA journal_mode=WAL")
+        if not self._read_only:
+            self.conn.execute("PRAGMA journal_mode=WAL")
         self.conn.execute("PRAGMA synchronous=NORMAL")
         self.conn.execute("PRAGMA temp_store=MEMORY")
         self.conn.execute("PRAGMA cache_size=-200000")
@@ -48,7 +64,7 @@ class StoreDb:
 
     def create_meta_tables(self) -> None:
         self.conn.execute(
-            \"\"\"
+            """
             CREATE TABLE IF NOT EXISTS store_sources (
                 source_id TEXT PRIMARY KEY,
                 group_name TEXT NOT NULL,
@@ -58,7 +74,7 @@ class StoreDb:
                 struct_name TEXT NOT NULL,
                 loaded_at TEXT
             )
-            \"\"\"
+            """
         )
 
     def create_table(self, table: TableDef) -> None:
@@ -71,7 +87,7 @@ class StoreDb:
 
     def create_index_table(self) -> None:
         self.conn.execute(
-            \"\"\"
+            """
             CREATE TABLE IF NOT EXISTS instrument_index (
                 symbol TEXT,
                 standard_code TEXT,
@@ -80,7 +96,7 @@ class StoreDb:
                 line_no INTEGER NOT NULL,
                 table_name TEXT NOT NULL
             )
-            \"\"\"
+            """
         )
 
     def insert_index_rows(self, rows: Iterable[Mapping[str, object]]) -> None:
@@ -91,7 +107,7 @@ class StoreDb:
         col_names = ", ".join(f'\"{name}\"' for name in columns)
         placeholders = ", ".join("?" for _ in columns)
         sql = f"INSERT INTO instrument_index ({col_names}) VALUES ({placeholders})"
-        values = [[row.get(col) for col in columns] for row in rows_list]
+        values = [[_normalize_value(row.get(col)) for col in columns] for row in rows_list]
         self.conn.executemany(sql, values)
 
     def create_indexes_for_table(self, table_name: str, columns: Iterable[str]) -> None:
@@ -109,7 +125,7 @@ class StoreDb:
     def upsert_source(self, *, source_id: str, group: str, label: str, download_url: str, header_url: str, struct_name: str, loaded_at: str | None = None) -> None:
         self.create_meta_tables()
         self.conn.execute(
-            \"\"\"
+            """
             INSERT INTO store_sources (source_id, group_name, label, download_url, header_url, struct_name, loaded_at)
             VALUES (?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(source_id) DO UPDATE SET
@@ -119,7 +135,7 @@ class StoreDb:
                 header_url=excluded.header_url,
                 struct_name=excluded.struct_name,
                 loaded_at=excluded.loaded_at
-            \"\"\",
+            """,
             (source_id, group, label, download_url, header_url, struct_name, loaded_at),
         )
         self.conn.commit()
@@ -132,5 +148,5 @@ class StoreDb:
         col_names = ", ".join(f'"{name}"' for name in columns)
         placeholders = ", ".join("?" for _ in columns)
         sql = f"INSERT OR REPLACE INTO {table_name} ({col_names}) VALUES ({placeholders})"
-        values = [[row.get(col) for col in columns] for row in rows_list]
+        values = [[_normalize_value(row.get(col)) for col in columns] for row in rows_list]
         self.conn.executemany(sql, values)

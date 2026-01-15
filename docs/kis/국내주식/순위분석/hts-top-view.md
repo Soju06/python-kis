@@ -12,11 +12,11 @@ HTS조회상위20종목 API입니다.
 | **API ID** | `636e216a-f3bb-4dc6-8bc3-e6d9babca5f1` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/ranking/hts-top-view` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `HHMCM000100C0` |
+| **TR ID** | `HHMCM000100C0`, `모의투자 미지원` |
 
 ## 메타 정보
 

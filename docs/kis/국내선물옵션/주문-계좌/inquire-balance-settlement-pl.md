@@ -11,11 +11,11 @@
 | **API ID** | `d352ed8c-30eb-4de2-83b4-62f6830b6208` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-futureoption/v1/trading/inquire-balance-settlement-pl` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `CTFO6117R` |
+| **TR ID** | `CTFO6117R`, `모의투자 미지원` |
 
 ## 메타 정보
 

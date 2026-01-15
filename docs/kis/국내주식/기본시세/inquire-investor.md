@@ -17,8 +17,8 @@
 | **API ID** | `e27baf2f-6ec0-4029-b4fd-4c873f340478` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/inquire-investor` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
 | **TR ID** | `FHKST01010900` |

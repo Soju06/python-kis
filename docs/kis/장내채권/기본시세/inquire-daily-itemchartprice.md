@@ -14,8 +14,8 @@
 | **API ID** | `f5dcbbc3-bee6-4b83-a236-5f3a5bb59d72` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-bond/v1/quotations/inquire-daily-itemchartprice` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `FHKBJ773701C0`, `모의투자 미지원` |

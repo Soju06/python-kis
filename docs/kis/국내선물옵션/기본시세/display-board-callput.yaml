@@ -5,16 +5,16 @@ category: 국내선물옵션
 subcategory: 기본시세
 method: GET
 url: /uapi/domestic-futureoption/v1/quotations/display-board-callput
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- 모의투자 미지원
 - FHPIF05030100
+- 모의투자 미지원
 real_tr_id: FHPIF05030100
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '국내옵션전광판_콜풋 API입니다.
 
   한국투자 HTS(eFriend Plus) > [0503] 선물옵션 종합시세(Ⅰ) 화면의 "중앙" 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.

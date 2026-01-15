@@ -1,3 +1,3 @@
-from pykis.api.client import KisRawClient
+from pykis.api.client import KisRawClient, SyncKisRawClient
 
-__all__ = ["KisRawClient"]
+__all__ = ["KisRawClient", "SyncKisRawClient"]

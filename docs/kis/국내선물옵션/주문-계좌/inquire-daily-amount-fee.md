@@ -11,11 +11,11 @@
 | **API ID** | `2bb020d7-ae3f-4f65-88ac-e9f598544825` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-futureoption/v1/trading/inquire-daily-amount-fee` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `CTFO6119R` |
+| **TR ID** | `CTFO6119R`, `모의투자 미지원` |
 
 ## 메타 정보
 

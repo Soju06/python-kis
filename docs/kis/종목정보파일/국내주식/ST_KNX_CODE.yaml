@@ -1,0 +1,227 @@
+name: ST_KNX_CODE
+header_url: https://raw.githubusercontent.com/koreainvestment/open-trading-api/main/stocks_info/%EC%A2%85%EB%AA%A9%EB%A7%88%EC%8A%A4%ED%84%B0%EC%A0%95%EB%B3%B4%28%EC%BD%94%EB%84%A5%EC%8A%A4%29.h
+record_length: 245
+fields:
+- name: mksc_shrn_iscd
+  type_code: char
+  length: 9
+  description: 단축코드
+  length_source: SZ_SHRNCODE
+- name: stnd_iscd
+  type_code: char
+  length: 12
+  description: 표준코드
+  length_source: SZ_STNDCODE
+- name: hts_kor_isnm
+  type_code: char
+  length: 40
+  description: 한글종목명
+  length_source: SZ_KORNAME
+- name: scrt_grp_cls_code
+  type_code: char
+  length: 2
+  description: '증권그룹구분코드
+
+    KN:코넥스'
+  length_source: null
+- name: stck_sdpr
+  type_code: char
+  length: 9
+  description: 주식 기준가
+  length_source: null
+- name: frml_mrkt_deal_qty_unit
+  type_code: char
+  length: 5
+  description: 정규 시장 매매 수량 단위
+  length_source: null
+- name: ovtm_mrkt_deal_qty_unit
+  type_code: char
+  length: 5
+  description: 시간외 시장 매매 수량 단위
+  length_source: null
+- name: trht_yn
+  type_code: char
+  length: 1
+  description: 거래정지 여부
+  length_source: null
+- name: sltr_yn
+  type_code: char
+  length: 1
+  description: 정리매매 여부
+  length_source: null
+- name: mang_issu_yn
+  type_code: char
+  length: 1
+  description: 관리 종목 여부
+  length_source: null
+- name: mrkt_alrm_cls_code
+  type_code: char
+  length: 2
+  description: '시장 경고 구분 코드 (00:해당없음 01:투자주의
+
+    02:투자경고 03:투자위험'
+  length_source: null
+- name: mrkt_alrm_risk_adnt_yn
+  type_code: char
+  length: 1
+  description: 시장 경고위험 예고 여부
+  length_source: null
+- name: insn_pbnt_yn
+  type_code: char
+  length: 1
+  description: 불성실 공시 여부
+  length_source: null
+- name: byps_lstn_yn
+  type_code: char
+  length: 1
+  description: 우회 상장 여부
+  length_source: null
+- name: flng_cls_code
+  type_code: char
+  length: 2
+  description: '락구분 코드
+
+    00:해당사항없음 01:권리락
+
+    02:배당락 03:분배락 04:권배락 05:중간배당락
+
+    06:권리중간배당락 99:기타
+
+    SW,SR,EW는 미해당(미해당의경우 SPACE)'
+  length_source: null
+- name: fcam_mod_cls_code
+  type_code: char
+  length: 2
+  description: '액면가 변경 구분 코드 (00:해당없음
+
+    01:액면분할 02:액면병합 99:기타)'
+  length_source: null
+- name: icic_cls_code
+  type_code: char
+  length: 2
+  description: '증자 구분 코드 (00:해당없음 01:유상증자
+
+    02:무상증자 03:유무상증자 99:기타)'
+  length_source: null
+- name: marg_rate
+  type_code: char
+  length: 3
+  description: 증거금 비율
+  length_source: null
+- name: crdt_able
+  type_code: char
+  length: 1
+  description: 신용주문 가능 여부
+  length_source: null
+- name: crdt_days
+  type_code: char
+  length: 3
+  description: 신용기간
+  length_source: null
+- name: prdy_vol
+  type_code: char
+  length: 12
+  description: 전일 거래량
+  length_source: null
+- name: stck_fcam
+  type_code: char
+  length: 12
+  description: 주식 액면가
+  length_source: null
+- name: stck_lstn_date
+  type_code: char
+  length: 8
+  description: 주식 상장 일자
+  length_source: null
+- name: lstn_stcn
+  type_code: char
+  length: 15
+  description: 상장 주수(천)
+  length_source: null
+- name: cpfn
+  type_code: char
+  length: 21
+  description: 자본금
+  length_source: null
+- name: stac_month
+  type_code: char
+  length: 2
+  description: 결산 월
+  length_source: null
+- name: po_prc
+  type_code: char
+  length: 7
+  description: 공모 가격
+  length_source: null
+- name: prst_cls_code
+  type_code: char
+  length: 1
+  description: '우선주 구분 코드 (0:해당없음(보통주)
+
+    1:구형우선주 2:신형우선주)'
+  length_source: null
+- name: ssts_hot_yn
+  type_code: char
+  length: 1
+  description: 공매도과열종목여부
+  length_source: null
+- name: stange_runup_yn
+  type_code: char
+  length: 1
+  description: 이상급등종목여부
+  length_source: null
+- name: krx300_issu_yn
+  type_code: char
+  length: 1
+  description: KRX300 종목 여부 (Y/N) (실제적으로 필러)
+  length_source: null
+- name: sale_account
+  type_code: char
+  length: 9
+  description: 매출액
+  length_source: null
+- name: bsop_prfi
+  type_code: char
+  length: 9
+  description: 영업이익
+  length_source: null
+- name: op_prfi
+  type_code: char
+  length: 9
+  description: 경상이익
+  length_source: null
+- name: thtr_ntin
+  type_code: char
+  length: 5
+  description: 단기순이익
+  length_source: null
+- name: roe
+  type_code: char
+  length: 9
+  description: ROE(자기자본이익률)
+  length_source: null
+- name: base_date
+  type_code: char
+  length: 8
+  description: 기준년월
+  length_source: null
+- name: prdy_avls_scal
+  type_code: char
+  length: 9
+  description: 전일기준 시가총액 (억)
+  length_source: null
+- name: co_crdt_limt_over_yn
+  type_code: char
+  length: 1
+  description: 회사신용한도초과여부
+  length_source: null
+- name: secu_lend_able_yn
+  type_code: char
+  length: 1
+  description: 담보대출가능여부
+  length_source: null
+- name: stln_able_yn
+  type_code: char
+  length: 1
+  description: 대주가능여부
+  length_source: null

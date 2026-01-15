@@ -5,16 +5,16 @@ category: 장내채권
 subcategory: 주문/계좌
 method: GET
 url: /uapi/domestic-bond/v1/trading/inquire-psbl-order
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- 모의투자 미지원
 - TTTC8910R
+- 모의투자 미지원
 real_tr_id: TTTC8910R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "장내채권 매수가능조회 API입니다. \n한국투자 HTS(eFriend Plus) > [0978] 장내채권주문 화면의 \"왼쪽 하단 증거금 사용가능 내역 / 주문가능금액 및 수량\" 기능을 API로 개발한\
   \ 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다. \n\n※ (중요) 채권의 경우 주식과 달리, 매수가능수량(buy_psbl_qty) = 매수가능금액(buy_psbl_amt) / 채권주문단가2(bond_ord_unpr2)\
   \ * 10 인 점 유의하시기 바랍니다."

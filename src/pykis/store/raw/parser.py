@@ -2,11 +2,15 @@ from __future__ import annotations
 
 from typing import Mapping
 
-from .spec import FieldSpec, RecordSpec
+from pykis.store.raw.spec import FieldSpec, RecordSpec
 
 
 class FixedWidthParser:
     """Parse fixed-width byte records into a field mapping."""
+
+    _spec: RecordSpec
+    _fields: tuple[FieldSpec, ...]
+    _encoding: str
 
     __slots__ = ("_spec", "_fields", "_encoding")
 

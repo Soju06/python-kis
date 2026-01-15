@@ -29,11 +29,11 @@
 | **API ID** | `cd2e4d9a-7e3d-44ff-9b68-36d971655c24` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-futureoption/v1/quotations/weekly-ccnl` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `HHDFC55020000`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `HHDFC55020000` |
 
 ## 메타 정보
 

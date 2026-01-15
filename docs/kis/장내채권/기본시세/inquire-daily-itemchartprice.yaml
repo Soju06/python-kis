@@ -5,16 +5,16 @@ category: 장내채권
 subcategory: 기본시세
 method: GET
 url: /uapi/domestic-bond/v1/quotations/inquire-daily-itemchartprice
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - FHKBJ773701C0
 - 모의투자 미지원
 real_tr_id: FHKBJ773701C0
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "장내채권 기간별시세(일) API입니다. \n한국투자 HTS(eFriend Plus) > [0979] 장내채권종합주문 화면 가운데 \"일별\" 클릭 시 시세 기능을 API로 개발한 사항으로, 해당 화면을\
   \ 참고하시면 기능을 이해하기 쉽습니다. \n\n최근 30건까지 데이터 확인이 가능합니다."
 description: ''

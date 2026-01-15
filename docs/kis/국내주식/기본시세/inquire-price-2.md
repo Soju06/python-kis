@@ -11,11 +11,11 @@
 | **API ID** | `995f745a-aa8a-491b-85ef-0d4697094b58` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/inquire-price-2` |
-| **Content-Type** | `` |
+| **Content-Type** | `application/json` |
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `FHPST01010000`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHPST01010000` |
 
 ## 메타 정보
 

@@ -12,11 +12,11 @@ ELW 변동성 추이(체결) API입니다.
 | **API ID** | `40403e7f-bd31-4e12-ae87-553e7be28b12` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/quotations/volatility-trend-ccnl` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `FHPEW02840100` |
+| **TR ID** | `FHPEW02840100`, `모의투자 미지원` |
 
 ## 메타 정보
 

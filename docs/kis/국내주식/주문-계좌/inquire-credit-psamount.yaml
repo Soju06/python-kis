@@ -6,15 +6,15 @@ subcategory: 주문/계좌
 method: GET
 url: /uapi/domestic-stock/v1/trading/inquire-credit-psamount
 content_type: application/json; charset=utf-8
-req_format: ''
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- TTTC8909R
 - 모의투자 미지원
+- TTTC8909R
 real_tr_id: TTTC8909R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '신용매수가능조회 API입니다.
 
   신용매수주문 시 주문가능수량과 금액을 확인하실 수 있습니다.'

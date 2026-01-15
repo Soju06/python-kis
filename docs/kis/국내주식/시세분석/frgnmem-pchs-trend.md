@@ -12,8 +12,8 @@
 | **API ID** | `fdecab0c-4c48-499b-9436-4ac3d32dbd09` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/frgnmem-pchs-trend` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `FHKST644400C0`, `모의투자 미지원` |

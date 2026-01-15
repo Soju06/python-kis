@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 업종/기타
 method: GET
 url: /uapi/domestic-stock/v1/quotations/inquire-index-tickprice
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
 - FHPUP02110100
 - 모의투자 미지원
 real_tr_id: FHPUP02110100
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "국내업종 시간별지수(초) API입니다. \n한국투자 HTS(eFriend Plus) > [0211] 업종 시간별지수 화면에서 우측 '10초' 선택 시의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면\
   \ 기능을 이해하기 쉽습니다."
 description: ''

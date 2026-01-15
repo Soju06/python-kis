@@ -5,16 +5,16 @@ category: 해외주식
 subcategory: 주문/계좌
 method: GET
 url: /uapi/overseas-stock/v1/trading/inquire-balance
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids:
 - TTTS3012R
 - VTTS3012R
 real_tr_id: TTTS3012R
-virtual_tr_id: VTTS3012R
+demo_tr_id: VTTS3012R
 summary: "해외주식 잔고를 조회하는 API 입니다.\n한국투자 HTS(eFriend Plus) > [7600] 해외주식 종합주문 화면의 좌측 하단 '실시간잔고' 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면\
   \ 기능을 이해하기 쉽습니다. \n다만 미국주간거래 가능종목에 대해서는 frcr_evlu_pfls_amt(외화평가손익금액), evlu_pfls_rt(평가손익율), ovrs_stck_evlu_amt(해외주식평가금액),\
   \ now_pric2(현재가격2) 값이 HTS와는 상이하게 표출될 수 있습니다.\n(주간시간 시간대에 HTS는 주간시세로 노출, API로는 야간시세로 노출)\n\n실전계좌의 경우, 한 번의 호출에 최대 100건까지\

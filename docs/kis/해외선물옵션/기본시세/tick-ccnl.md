@@ -29,11 +29,11 @@
 | **API ID** | `c7be7c01-6f43-4576-b1fd-84d0102ce4c3` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-futureoption/v1/quotations/tick-ccnl` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `HHDFC55020200`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `HHDFC55020200` |
 
 ## 메타 정보
 

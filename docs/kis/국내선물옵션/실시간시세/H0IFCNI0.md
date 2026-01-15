@@ -19,11 +19,11 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | **API ID** | `1d9a993b-18ff-40f6-891f-8a450e68f15a` |
 | **HTTP Method** | `POST` |
 | **URL** | `/tryitout/H0IFCNI0` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `ws://ops.koreainvestment.com:31000` |
-| **TR ID** | `H0IFCNI9`, `H0IFCNI0` |
+| **TR ID** | `H0IFCNI0`, `H0IFCNI9` |
 
 ## 메타 정보
 

@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 시세분석
 method: GET
 url: /uapi/domestic-stock/v1/quotations/foreign-institution-total
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- FHPTJ04400000
 - 모의투자 미지원
+- FHPTJ04400000
 real_tr_id: FHPTJ04400000
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "국내기관_외국인 매매종목가집계 API입니다.\n\nHTS(efriend Plus) [0440] 외국인/기관 매매종목 가집계 화면을 API로 구현한 사항으로 화면을 함께 보시면 기능 이해가 쉽습니다.\n\
   \n증권사 직원이 장중에 집계/입력한 자료를 단순 누계한 수치로서, \n입력시간은 외국인 09:30, 11:20, 13:20, 14:30 / 기관종합 10:00, 11:20, 13:20, 14:30 이며, \n입력한\
   \ 시간은 ±10분정도 차이가 발생할 수 있으며, 장운영 사정에 다라 변동될 수 있습니다."

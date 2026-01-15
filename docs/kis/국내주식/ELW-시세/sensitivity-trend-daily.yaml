@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: ELW 시세
 method: GET
 url: /uapi/elw/v1/quotations/sensitivity-trend-daily
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
-- FHPEW02830200
 - 모의투자 미지원
+- FHPEW02830200
 real_tr_id: FHPEW02830200
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: 'ELW 민감도 추이(일별) API입니다.
 
   한국투자 HTS(eFriend Plus) > [0283] ELW 민감도 추이 화면의 "일자별" 민감도추이 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'

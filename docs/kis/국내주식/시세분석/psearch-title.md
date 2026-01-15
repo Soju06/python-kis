@@ -19,11 +19,11 @@ HTS(efriend Plus) [0110] 조건검색에서 등록 및 서버저장한 나의 �
 | **API ID** | `24413e7f-cca6-4ab4-8598-b9d4e2d4305d` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/psearch-title` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `HHKST03900300` |
+| **TR ID** | `HHKST03900300`, `모의투자 미지원` |
 
 ## 메타 정보
 

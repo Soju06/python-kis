@@ -5,15 +5,15 @@ category: 해외주식
 subcategory: 기본시세
 method: GET
 url: /uapi/overseas-price/v1/quotations/dailyprice
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids:
 - HHDFS76240000
 real_tr_id: HHDFS76240000
-virtual_tr_id: HHDFS76240000
+demo_tr_id: HHDFS76240000
 summary: "해외주식의 기간별시세를 확인하는 API 입니다.\n실전계좌/모의계좌의 경우, 한 번의 호출에 최대 100건까지 확인 가능합니다.\n\n해외주식 시세는 무료시세(지연체결가)만이 제공되며, API로는 유료시세(실시간체결가)를\
   \ 받아보실 수 없습니다.\n\n※ 지연시세 지연시간 : 미국 - 실시간무료(0분지연) / 홍콩, 베트남, 중국, 일본 - 15분지연 (중국은 실시간시세 신청 시 무료실시간시세 제공)\n   미국의 경우 0분지연시세로\
   \ 제공되나, 장중 당일 시가는 상이할 수 있으며, 익일 정정 표시됩니다.\n\n※ 2024년 12월 13일(금) 오후 5시부터 HTS(efriend Plus) [7781] 시세신청(실시간) 화면에서 유료 서비스 신청\

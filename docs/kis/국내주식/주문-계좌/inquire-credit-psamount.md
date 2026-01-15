@@ -13,10 +13,10 @@
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/trading/inquire-credit-psamount` |
 | **Content-Type** | `application/json; charset=utf-8` |
-| **요청 포맷** | `` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `TTTC8909R`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `TTTC8909R` |
 
 ## 메타 정보
 

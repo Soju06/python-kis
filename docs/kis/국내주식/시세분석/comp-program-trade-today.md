@@ -15,8 +15,8 @@
 | **API ID** | `0843477a-156b-4ac5-bf65-199b124b072f` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/comp-program-trade-today` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `FHPPG04600101`, `모의투자 미지원` |

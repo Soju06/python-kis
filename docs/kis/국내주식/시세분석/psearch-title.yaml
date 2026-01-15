@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 시세분석
 method: GET
 url: /uapi/domestic-stock/v1/quotations/psearch-title
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- 모의투자 미지원
 - HHKST03900300
+- 모의투자 미지원
 real_tr_id: HHKST03900300
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: 'HTS(efriend Plus) [0110] 조건검색에서 등록 및 서버저장한 나의 조건 목록을 확인할 수 있는 API입니다.
 
   종목조건검색 목록조회 API(/uapi/domestic-stock/v1/quotations/psearch-title)의 output인 ''seq''을 종목조건검색조회 API(/uapi/domestic-stock/v1/quotations/psearch-result)의

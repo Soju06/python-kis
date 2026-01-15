@@ -12,11 +12,11 @@ ELW 민감도 추이(일별) API입니다.
 | **API ID** | `a64dc948-de6c-4e7a-988b-9769ac8fd5b2` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/quotations/sensitivity-trend-daily` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `FHPEW02830200`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHPEW02830200` |
 
 ## 메타 정보
 

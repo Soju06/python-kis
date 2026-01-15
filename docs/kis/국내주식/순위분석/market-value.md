@@ -17,11 +17,11 @@
 | **API ID** | `dfd2502e-0d5c-4999-8a24-84ff15a74696` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/ranking/market-value` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `FHPST01790000` |
+| **TR ID** | `FHPST01790000`, `모의투자 미지원` |
 
 ## 메타 정보
 

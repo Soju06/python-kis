@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 종목정보
 method: GET
 url: /uapi/domestic-stock/v1/ksdinfo/mand-deposit
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
-- HHKDB669110C0
 - 모의투자 미지원
+- HHKDB669110C0
 real_tr_id: HHKDB669110C0
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "예탁원정보(의무예치일정) API입니다. \n한국투자 HTS(eFriend Plus) > [0758] 의무예치 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\
   \n※ 예탁원에서 제공한 자료이므로 정보용으로만 사용하시기 바랍니다."
 description: ''

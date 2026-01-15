@@ -12,8 +12,8 @@ ELW LP매매추이 API입니다.
 | **API ID** | `e5f413ec-3e68-47d7-931f-d7eb263990d9` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/quotations/lp-trade-trend` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `FHPEW03760000` |

@@ -12,8 +12,8 @@ ELW 비교대상종목조회 API입니다.
 | **API ID** | `ca2e71e1-5ef4-4489-b4c4-118e10588690` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/quotations/compare-stocks` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `FHKEW151701C0`, `모의투자 미지원` |

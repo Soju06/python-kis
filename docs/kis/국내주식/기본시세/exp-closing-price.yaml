@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 기본시세
 method: GET
 url: /uapi/domestic-stock/v1/quotations/exp-closing-price
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
-- FHKST117300C0
 - 모의투자 미지원
+- FHKST117300C0
 real_tr_id: FHKST117300C0
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "국내주식 장마감 예상체결가 API입니다. \n한국투자 HTS(eFriend Plus) > [0183] 장마감 예상체결가 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기\
   \ 쉽습니다."
 description: ''

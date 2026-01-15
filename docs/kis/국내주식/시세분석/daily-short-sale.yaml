@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 시세분석
 method: GET
 url: /uapi/domestic-stock/v1/quotations/daily-short-sale
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지
+  demo: 미지
 tr_ids:
 - FHPST04830000
 - 모의투자 미지원
 real_tr_id: FHPST04830000
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: ''
 description: ''
 metadata:

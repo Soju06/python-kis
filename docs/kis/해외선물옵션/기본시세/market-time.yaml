@@ -5,16 +5,16 @@ category: 해외선물옵션
 subcategory: 기본시세
 method: GET
 url: /uapi/overseas-futureoption/v1/quotations/market-time
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - OTFM2229R
 - 모의투자 미지원
 real_tr_id: OTFM2229R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '해외선물 장운영시간 API입니다.
 
   한국투자 HTS(eFriend Force) > [6773] 해외선물 장운영시간 화면 의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'

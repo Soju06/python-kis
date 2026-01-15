@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-from ..translate.models import Instrument, InstrumentKey
-
-from .index import Index
+from pykis.store.service.index import Index
+from pykis.store.translate.models import Instrument, InstrumentKey
 
 
 class Store:
     """Lookup/search facade backed by an index implementation."""
+
+    _index: Index
 
     __slots__ = ("_index",)
 

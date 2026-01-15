@@ -9,12 +9,12 @@ content_type: application/json; charset=utf-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - (미국) TTTT3039R (일본/중국/홍콩/베트남) TTTS3014R
 - 모의투자 미지원
 real_tr_id: (미국) TTTT3039R (일본/중국/홍콩/베트남) TTTS3014R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '해외주식 예약주문 조회 API입니다.
 
   ※ 모의투자는 사용 불가합니다.

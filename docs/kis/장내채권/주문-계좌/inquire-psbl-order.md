@@ -14,11 +14,11 @@
 | **API ID** | `75fdcac1-6dfc-439c-a9f0-176dc27abb4f` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-bond/v1/trading/inquire-psbl-order` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `TTTC8910R` |
+| **TR ID** | `TTTC8910R`, `모의투자 미지원` |
 
 ## 메타 정보
 

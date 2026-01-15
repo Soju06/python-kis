@@ -6,14 +6,14 @@ from pathlib import Path
 from typing import Iterable, Iterator, Mapping
 import os
 
-from ..raw.models import RawRecord, RawSource
-from ..raw.parser import FixedWidthParser
-from ..raw.reader import FixedWidthReader
-from ..raw.spec import RecordSpec
-from ..translate.models import Instrument
-from ..translate.normalizer import Normalizer
+from pykis.store.raw.models import RawRecord, RawSource
+from pykis.store.raw.parser import FixedWidthParser
+from pykis.store.raw.reader import FixedWidthReader
+from pykis.store.raw.spec import RecordSpec
+from pykis.store.translate.models import Instrument
+from pykis.store.translate.normalizer import Normalizer
 
-from .index import InMemoryIndex
+from pykis.store.service.index import InMemoryIndex
 
 
 @dataclass(frozen=True, slots=True)
@@ -28,6 +28,8 @@ class StoreBuilder:
     This builder keeps I/O in the raw layer and normalization in the translation
     layer, then assembles service-layer indexes.
     """
+
+    _normalizers: Mapping[str, Normalizer]
 
     __slots__ = ("_normalizers",)
 

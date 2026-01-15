@@ -9,12 +9,12 @@ content_type: application/json; charset=UTF-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
 - 모의투자 미지원
 - TTTS6059R
 real_tr_id: TTTS6059R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: 해외주식 TWAP, VWAP 주문에 대한 체결내역 조회 API로 지정가 주문번호조회 API를 수행 후 조회해야합니다
 description: ''
 metadata:

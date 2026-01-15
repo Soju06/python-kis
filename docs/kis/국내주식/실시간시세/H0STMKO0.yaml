@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 실시간시세
 method: POST
 url: /tryitout/H0STMKO0
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: ws://ops.koreainvestment.com:21000
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- H0STMKO0
 - 모의투자 미지원
+- H0STMKO0
 real_tr_id: H0STMKO0
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "국내주식 장운영정보 연결 시, 연결종목의 VI 발동 시와 VI 해제 시에 데이터 수신됩니다. \n\n[참고자료]\n실시간시세(웹소켓) 파이썬 샘플코드는 한국투자증권 Github 참고 부탁드립니다.\n\
   https://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/ws_domestic_overseas_all.py\n\n실시간시세(웹소켓)\
   \ API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.\nhttps://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션 업데이트 예정)\n\

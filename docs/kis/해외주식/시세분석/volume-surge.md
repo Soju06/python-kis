@@ -9,11 +9,11 @@
 | **API ID** | `40409c43-9bc7-447a-b09a-171d14b437f9` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-stock/v1/ranking/volume-surge` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `HHDFS76270000`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `HHDFS76270000` |
 
 ## 메타 정보
 

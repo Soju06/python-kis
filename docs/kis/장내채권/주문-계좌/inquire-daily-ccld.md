@@ -12,8 +12,8 @@
 | **API ID** | `4803d486-0b85-4d6f-9bc1-164fef860905` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-bond/v1/trading/inquire-daily-ccld` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `CTSC8013R`, `모의투자 미지원` |

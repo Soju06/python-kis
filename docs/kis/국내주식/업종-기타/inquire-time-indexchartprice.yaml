@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 업종/기타
 method: GET
 url: /uapi/domestic-stock/v1/quotations/inquire-time-indexchartprice
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- FHKUP03500200
 - 모의투자 미지원
+- FHKUP03500200
 real_tr_id: FHKUP03500200
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '업종분봉조회 API입니다.
 
   실전계좌의 경우, 한 번의 호출에 최대 102건까지 확인 가능합니다.'

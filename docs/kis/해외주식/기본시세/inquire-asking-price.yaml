@@ -5,16 +5,16 @@ category: 해외주식
 subcategory: 기본시세
 method: GET
 url: /uapi/overseas-price/v1/quotations/inquire-asking-price
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - 모의투자 미지원
 - HHDFS76200100
 real_tr_id: HHDFS76200100
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "해외주식 현재가 호가 API입니다.\n미국 거래소는 10호가, 그 외 국가 거래소는 1호가만 제공됩니다.  \n한국투자 HTS(eFriend Plus) > [7620] 해외주식 현재가 화면에서 \"왼쪽\
   \ 호가 창\" 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\n※ 지연시세 지연시간 : 미국 - 실시간무료(0분 지연, 나스닥 마켓센터에서 거래되는 호가 및 호가 잔량 정보)\n\
   \                                홍콩, 베트남, 중국, 일본 - 15분지연\n   미국의 경우 0분 지연 시세로 제공되나, 장중 당일 시가는 상이할 수 있으며, 익일 정정 표시됩니다.\n\n\

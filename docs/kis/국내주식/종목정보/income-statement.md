@@ -12,8 +12,8 @@
 | **API ID** | `c5933de1-4016-485a-a9ff-729818881d28` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/finance/income-statement` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `` |
 | **TR ID** | `FHKST66430200`, `모의투자 미지원` |

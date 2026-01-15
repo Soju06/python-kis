@@ -95,11 +95,11 @@ def _is_optional(tp: object) -> bool:
 
 class RawModel(BaseModel):
     model_config = ConfigDict(
-        extra='ignore',
+        extra="ignore",
         populate_by_name=True,
-        union_mode='left_to_right',
+        union_mode="left_to_right",
         use_attribute_docstrings=True,
-        slots=True,
+        use_enum_values=True,
     )
 
     @field_validator('*', mode='before')

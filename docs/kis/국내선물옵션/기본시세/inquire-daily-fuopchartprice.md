@@ -15,8 +15,8 @@
 | **API ID** | `77de2a74-b26c-40ca-a5b7-f87e2ef64f9f` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-futureoption/v1/quotations/inquire-daily-fuopchartprice` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
 | **TR ID** | `FHKIF03020100` |

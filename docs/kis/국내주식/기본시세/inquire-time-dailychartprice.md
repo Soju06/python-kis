@@ -16,7 +16,7 @@ FID_INPUT_DATE_1, FID_INPUT_HOUR_1 이용하여 과거일자 분봉조회 가능
 | **API ID** | `9fece97b-401f-4379-9e9d-4365b63c1126` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/inquire-time-dailychartprice` |
-| **Content-Type** | `` |
+| **Content-Type** | `application/json` |
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |

@@ -9,8 +9,8 @@
 | **API ID** | `ec944971-3694-4692-8a17-761c2b549cd9` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-stock/v1/ranking/trade-vol` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `모의투자 미지원`, `HHDFS76310010` |

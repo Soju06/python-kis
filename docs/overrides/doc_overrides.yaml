@@ -1,0 +1,49 @@
+version: 2
+notes: |
+  Doc-level overrides for placeholder/templated fields in source docs.
+  Structure is designed to be extensible per request/response section.
+overrides:
+  - id: 48c30d93-ffc0-47c7-a6ba-da728b0b3d5d
+    reason: "Templated SRS_CD_02… fields must be expanded to explicit range."
+    request:
+      body:
+        remove:
+          - SRS_CD_02…
+          - SRS_CD_02...
+          - SRS_CD_32
+        expand:
+          - code_prefix: SRS_CD_
+            range:
+              start: 2
+              end: 32
+              pad: 2
+            template:
+              name: 품목종류
+              description: 최대 32개 까지 가능
+            field:
+              type: A0001
+              type_name: String
+              length: "32"
+              required: true
+  - id: 42e2e7bd-c2ad-469b-91b2-3962c9931b79
+    reason: "Templated SRS_CD_02... fields must be expanded to explicit range."
+    request:
+      body:
+        remove:
+          - SRS_CD_02…
+          - SRS_CD_02...
+          - SRS_CD_30
+        expand:
+          - code_prefix: SRS_CD_
+            range:
+              start: 2
+              end: 30
+              pad: 2
+            template:
+              name: 종목코드{index}
+              description: "SRS_CD_01부터 차례로 입력\n최대 30개 까지 가능"
+            field:
+              type: A0001
+              type_name: String
+              length: "32"
+              required: true

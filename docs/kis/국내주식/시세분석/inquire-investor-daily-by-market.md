@@ -12,8 +12,8 @@
 | **API ID** | `0cc848c0-4928-4b89-bca4-62df430e4a45` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/inquire-investor-daily-by-market` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `FHPTJ04040000`, `모의투자 미지원` |

@@ -55,7 +55,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | **HTTP Method** | `POST` |
 | **URL** | `/uapi/overseas-stock/v1/trading/order-resv` |
 | **Content-Type** | `application/json; charset=UTF-8` |
-| **요청 포맷** | `` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
 | **TR ID** | `(미국예약매수) VTTT3014U  (미국예약매도) VTTT3016U   (중국/홍콩/일본/베트남 예약주문) VTTS3013U`, `(미국예약매수) TTTT3014U  (미국예약매도) TTTT3016U   (중국/홍콩/일본/베트남 예약주문) TTTS3013U` |

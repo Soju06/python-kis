@@ -17,8 +17,8 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | **API ID** | `a2b6b401-1534-4f0e-9b59-1bf2349434f4` |
 | **HTTP Method** | `POST` |
 | **URL** | `/tryitout/H0ZOANC0` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `H0ZOANC0`, `모의투자 미지원` |

@@ -14,11 +14,11 @@
 | **API ID** | `2151d14c-0fae-44a5-be38-c3f5ab8354bb` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-price/v1/quotations/period-rights` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `CTRGT011R`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `CTRGT011R` |
 
 ## 메타 정보
 

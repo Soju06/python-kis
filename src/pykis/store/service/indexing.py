@@ -6,7 +6,7 @@ from typing import Mapping
 from pykis.store.raw.spec import RecordSpec
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class IndexFields:
     symbol: str | None = None
     standard: str | None = None
@@ -68,9 +68,9 @@ def build_index_row(
     standard = fields.get(index_fields.standard) if index_fields.standard else None
     isin = fields.get(index_fields.isin) if index_fields.isin else None
 
-    symbol = symbol.strip() if isinstance(symbol, str) else None
-    standard = standard.strip() if isinstance(standard, str) else None
-    isin = isin.strip() if isinstance(isin, str) else None
+    symbol = symbol.strip().upper() if isinstance(symbol, str) else None
+    standard = standard.strip().upper() if isinstance(standard, str) else None
+    isin = isin.strip().upper() if isinstance(isin, str) else None
 
     if not symbol and not standard and not isin:
         return None

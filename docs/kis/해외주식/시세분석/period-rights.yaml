@@ -5,16 +5,16 @@ category: 해외주식
 subcategory: 시세분석
 method: GET
 url: /uapi/overseas-price/v1/quotations/period-rights
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- CTRGT011R
 - 모의투자 미지원
+- CTRGT011R
 real_tr_id: CTRGT011R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '해외주식 기간별권리조회 API입니다.
 
   한국투자 HTS(eFriend Plus) > [7520] 기간별해외증권권리조회 화면을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.

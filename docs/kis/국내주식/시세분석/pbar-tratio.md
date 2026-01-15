@@ -12,8 +12,8 @@
 | **API ID** | `49cc5311-ae48-44e5-bc5c-7618f1ee61cd` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/pbar-tratio` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `FHPST01130000`, `모의투자 미지원` |

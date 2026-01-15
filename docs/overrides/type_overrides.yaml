@@ -1,0 +1,117 @@
+version: 1
+notes: |
+  Type overrides for deterministic model generation.
+  - Use when docs and live responses diverge.
+  - Keep each override scoped and documented with a reason.
+  - "changes" mirrors the inferred schema structure:
+      output_aliases: {output1: output}
+      outputs: {output1: {field: {required: false}}}
+      response: {field: {required: false}}
+
+overrides:
+  - id: ebf1dc17-7b48-4192-841d-0ccb6ce3f016
+    reason: "Live response uses key 'output' while docs specify 'output1'."
+    source: "augment/raw mismatch"
+    changes:
+      output_aliases:
+        output1: output
+  - id: 6b0b388e-f815-4009-b46d-e08e47575ca7
+    reason: "Live response uses key 'output' while docs specify 'output1'."
+    source: "augment/raw mismatch"
+    changes:
+      output_aliases:
+        output1: output
+      outputs:
+        output1:
+          ovtm_untp_askp_icdc4:
+            required: false
+          ovtm_untp_askp_icdc5:
+            required: false
+          ovtm_untp_askp_icdc6:
+            required: false
+          ovtm_untp_askp_icdc7:
+            required: false
+          ovtm_untp_askp_icdc8:
+            required: false
+          ovtm_untp_askp_icdc9:
+            required: false
+          ovtm_untp_askp_icdc10:
+            required: false
+          ovtm_untp_bidp_icdc4:
+            required: false
+          ovtm_untp_bidp_icdc5:
+            required: false
+          ovtm_untp_bidp_icdc6:
+            required: false
+          ovtm_untp_bidp_icdc7:
+            required: false
+          ovtm_untp_bidp_icdc8:
+            required: false
+          ovtm_untp_bidp_icdc9:
+            required: false
+          ovtm_untp_bidp_icdc10:
+            required: false
+  - id: 1e375270-7d8d-4e4b-bcac-d11cb41542cb
+    reason: "Fields are required in docs but omitted in live responses."
+    source: "augment/raw mismatch"
+    changes:
+      outputs:
+        output:
+          mang_issu_cls_name:
+            required: false
+          mrkt_warn_cls_name:
+            required: false
+          revl_issu_reas_name:
+            required: false
+          flng_cls_name:
+            required: false
+  - id: e53eb2e6-b292-4e2b-b150-22d92b401453
+    reason: "Fields are required in docs but omitted in live responses."
+    source: "augment/raw mismatch"
+    changes:
+      outputs:
+        output:
+          nmix_ctrt:
+            required: false
+          mbcr_name:
+            required: false
+  - id: 81b30d9e-1bce-439f-9cf0-56f0ea1a4f95
+    reason: "Field is required in docs but omitted in live responses."
+    source: "augment/raw mismatch"
+    changes:
+      outputs:
+        output2:
+          stck_pbpr:
+            required: false
+  - id: a08c3421-e50f-4f24-b1fe-64c12f723c77
+    reason: "Field is required in docs but omitted in live responses."
+    source: "augment/raw mismatch"
+    changes:
+      outputs:
+        output1:
+          itewhol_loan_rmnd_ratem:
+            required: false
+  - id: 1394ba1d-e17d-42c8-8e53-6bed5dce7588
+    reason: "Live response returns an array under output."
+    source: "augment/raw mismatch"
+    changes:
+      output_kinds:
+        output: array
+  - id: 7f77a12b-b23c-4605-93ea-4e1b3c0356fb
+    reason: "Datetime field provided as YYYYMMDDHHMMSS."
+    source: "augment/raw mismatch"
+    changes:
+      outputs:
+        output:
+          last_rcvg_dtime:
+            kind: datetime
+  - id: 81269474-9c66-404f-bdfe-4bb472975330
+    reason: "Fields are required in docs but omitted in live responses."
+    source: "augment/raw mismatch"
+    changes:
+      outputs:
+        output1:
+          hts_kor_isnm:
+            required: false
+          stck_shrn_iscd:
+            required: false

@@ -12,10 +12,10 @@
 | **HTTP Method** | `POST` |
 | **URL** | `/tryitout/HDFFF2C0` |
 | **Content-Type** | `application/json; charset=utf-8` |
-| **요청 포맷** | `` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `HDFFF2C0`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `HDFFF2C0` |
 
 ## 메타 정보
 

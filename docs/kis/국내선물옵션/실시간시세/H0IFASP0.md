@@ -22,11 +22,11 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | **API ID** | `851da7d1-fdf2-4693-bab3-ad1234daca02` |
 | **HTTP Method** | `POST` |
 | **URL** | `/tryitout/H0IFASP0` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `H0IFASP0`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `H0IFASP0` |
 
 ## 메타 정보
 

@@ -12,8 +12,8 @@
 | **API ID** | `aacab59c-7559-414b-bf73-b0d15f3d62f1` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-bond/v1/quotations/avg-unit` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `모의투자 미지원`, `CTPF2005R` |

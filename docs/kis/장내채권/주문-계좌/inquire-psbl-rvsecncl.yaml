@@ -5,16 +5,16 @@ category: 장내채권
 subcategory: 주문/계좌
 method: GET
 url: /uapi/domestic-bond/v1/trading/inquire-psbl-rvsecncl
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - 모의투자 미지원
 - CTSC8035R
 real_tr_id: CTSC8035R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "채권정정취소가능주문조회 API입니다. \n정정취소가능한 채권주문 목록을 확인할 수 있습니다."
 description: ''
 metadata:

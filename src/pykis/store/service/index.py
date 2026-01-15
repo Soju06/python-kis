@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Iterable, Sequence
 from typing import Protocol
 
-from ..translate.models import Instrument, InstrumentKey
+from pykis.store.translate.models import Instrument, InstrumentKey
 
 
 class Index(Protocol):
@@ -14,6 +14,9 @@ class Index(Protocol):
 
 class InMemoryIndex:
     """Reference index implementation (fast for small datasets)."""
+
+    _by_key: dict[InstrumentKey, Instrument]
+    _by_name: dict[str, list[Instrument]]
 
     __slots__ = ("_by_key", "_by_name")
 

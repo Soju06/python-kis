@@ -13,8 +13,8 @@
 | **API ID** | `bec98736-8f5a-49a0-b325-5f6c40ff13b3` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-futureoption/v1/quotations/inquire-asking-price` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
 | **TR ID** | `FHMIF10010000` |

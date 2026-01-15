@@ -21,7 +21,7 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | **HTTP Method** | `POST` |
 | **URL** | `/tryitout/HDFFF1C0` |
 | **Content-Type** | `utf-8` |
-| **요청 포맷** | `` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `모의투자 미지원`, `HDFFF1C0` |

@@ -14,11 +14,11 @@ ELW 만기예정/만기종목 API입니다.
 | **API ID** | `d99d058d-4319-41ce-bce0-53c44a894ddb` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/quotations/expiration-stocks` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `FHKEW154700C0`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHKEW154700C0` |
 
 ## 메타 정보
 

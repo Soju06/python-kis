@@ -5,13 +5,20 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Generic, Mapping, Protocol, Type, TypeVar
+from typing import Awaitable, Generic, Mapping, Protocol, Type, TypeVar
 
 from pydantic import BaseModel
-import requests
 
 RequestT = TypeVar("RequestT", bound=BaseModel)
 ResponseT = TypeVar("ResponseT", bound=BaseModel)
+
+
+class KisResponse(Protocol):
+    status_code: int
+    headers: Mapping[str, str]
+    text: str
+
+    def json(self) -> object: ...
 
 
 @dataclass(frozen=True, slots=True)
@@ -22,7 +29,6 @@ class Endpoint(Generic[RequestT, ResponseT]):
     path: str
     request_model: Type[RequestT]
     response_model: Type[ResponseT]
-    summary: str | None
     description: str | None
     real_tr_id: str | None
     demo_tr_id: str | None
@@ -31,7 +37,7 @@ class Endpoint(Generic[RequestT, ResponseT]):
 
     @property
     def docs(self) -> str | None:
-        text = (self.description or self.summary or "").strip()
+        text = (self.description or "").strip()
         return text or None
 
     def call(
@@ -40,12 +46,25 @@ class Endpoint(Generic[RequestT, ResponseT]):
         request: RequestT | Mapping[str, object] | None = None,
         headers: Mapping[str, str] | None = None,
         **kwargs: object,
-    ) -> tuple[ResponseT, requests.Response]:
+    ) -> tuple[ResponseT, KisResponse]:
         if request is None:
             request = kwargs
         elif kwargs:
             raise ValueError("Provide either request or kwargs, not both.")
         return client.call(self, request, headers=headers)
+
+    async def acall(
+        self,
+        client: "EndpointAsyncClient[RequestT, ResponseT]",
+        request: RequestT | Mapping[str, object] | None = None,
+        headers: Mapping[str, str] | None = None,
+        **kwargs: object,
+    ) -> tuple[ResponseT, KisResponse]:
+        if request is None:
+            request = kwargs
+        elif kwargs:
+            raise ValueError("Provide either request or kwargs, not both.")
+        return await client.call(self, request, headers=headers)
 
 
 class EndpointClient(Protocol[RequestT, ResponseT]):
@@ -54,4 +73,13 @@ class EndpointClient(Protocol[RequestT, ResponseT]):
         endpoint: Endpoint[RequestT, ResponseT],
         request: RequestT | Mapping[str, object],
         headers: Mapping[str, str] | None = None,
-    ) -> tuple[ResponseT, requests.Response]: ...
+    ) -> tuple[ResponseT, KisResponse]: ...
+
+
+class EndpointAsyncClient(Protocol[RequestT, ResponseT]):
+    def call(
+        self,
+        endpoint: Endpoint[RequestT, ResponseT],
+        request: RequestT | Mapping[str, object],
+        headers: Mapping[str, str] | None = None,
+    ) -> Awaitable[tuple[ResponseT, KisResponse]]: ...

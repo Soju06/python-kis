@@ -6,15 +6,15 @@ subcategory: 실시간시세
 method: POST
 url: /tryitout/HDFFF010
 content_type: utf-8
-req_format: ''
+req_format: JSON
 domains:
   real: ws://ops.koreainvestment.com:21000
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - HDFFF010
 - 모의투자 미지원
 real_tr_id: HDFFF010
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "※ CME, SGX 실시간시세 유료시세 신청 필수 (포럼 > FAQ > 해외선물옵션 API 유료시세 신청방법(CME, SGX 거래소))\n- CME, SGX 거래소 실시간시세는 유료시세 신청 후 이용하시는\
   \ 모든 계좌에 대해서 접근토큰발급 API 호출하셔야 하며, \n  접근토큰발급 이후 2시간 이내로 신청정보가 동기화되어 유료시세 수신이 가능해집니다.\n- CME, SGX 거래소 종목은 유료시세 신청되어 있지 않으면\
   \ 실시간시세 종목등록이 불가하며, \n  등록 시도 시 \"SUBSCRIBE ERROR : mci send failed\" 에러가 발생합니다.\n\n(중요) 해외선물옵션시세 출력값을 해석하실 때 ffcode.mst(해외선물종목마스터\

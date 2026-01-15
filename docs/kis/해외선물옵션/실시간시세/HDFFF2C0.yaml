@@ -6,15 +6,15 @@ subcategory: 실시간시세
 method: POST
 url: /tryitout/HDFFF2C0
 content_type: application/json; charset=utf-8
-req_format: ''
+req_format: JSON
 domains:
   real: ws://ops.koreainvestment.com:21000
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- HDFFF2C0
 - 모의투자 미지원
+- HDFFF2C0
 real_tr_id: HDFFF2C0
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: ''
 description: 해외선물옵션체결내역통보[실시간-020]
 metadata:

@@ -9,11 +9,11 @@
 | **API ID** | `bac2f657-36b1-4538-aabc-0bee8ba77229` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-stock/v1/ranking/updown-rate` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `모의투자 미지원`, `HHDFS76290000` |
+| **TR ID** | `HHDFS76290000`, `모의투자 미지원` |
 
 ## 메타 정보
 

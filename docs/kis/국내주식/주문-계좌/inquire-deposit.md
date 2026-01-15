@@ -12,11 +12,11 @@ KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API �
 | **API ID** | `095877d8-43c9-45cd-998b-114598e0c812` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/trading/pension/inquire-deposit` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `TTTC0506R`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `TTTC0506R` |
 
 ## 메타 정보
 

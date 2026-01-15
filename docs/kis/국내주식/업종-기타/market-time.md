@@ -12,8 +12,8 @@ API호출 시 body 혹은 params로 입력하는 사항이 없습니다.
 | **API ID** | `8eab76ff-a534-4d31-afe1-0fef1ff46682` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/market-time` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `HHMCM000002C0`, `모의투자 미지원` |

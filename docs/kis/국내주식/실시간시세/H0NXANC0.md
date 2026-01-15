@@ -9,8 +9,8 @@
 | **API ID** | `dba2c184-cd93-4d3b-b039-cf6e5b4264a1` |
 | **HTTP Method** | `POST` |
 | **URL** | `/tryitout/H0NXANC0` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `모의투자 미지원`, `H0NXANC0` |

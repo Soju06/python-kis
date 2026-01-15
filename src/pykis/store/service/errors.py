@@ -1,4 +1,7 @@
-class StoreError(RuntimeError):
+from pykis.errors import PykisError
+
+
+class StoreError(PykisError):
     """Base error for store failures."""
 
     __slots__ = ()

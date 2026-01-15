@@ -5,16 +5,16 @@ category: 해외선물옵션
 subcategory: 기본시세
 method: GET
 url: /uapi/overseas-futureoption/v1/quotations/opt-daily-ccnl
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- HHDFO55020100
 - 모의투자 미지원
+- HHDFO55020100
 real_tr_id: HHDFO55020100
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "해외옵션 체결추이(일간) API입니다.\n최근 120건까지 데이터 확인이 가능합니다. (\"QRY_CNT: 119 입력\", START_DATE_TIME, CLOSE_DATE_TIME은 공란)\n\n\
   ※ 호출 시 유의사항\n : START_DATE_TIME, CLOSE_DATE_TIME은 공란 입력, QRY_CNT는 확인 데이터 개수의 -1 개 입력\nex) \"START_DATE_TIME\":\"\",\"CLOSE_DATE_TIME\"\
   :\"\",\"QRY_CNT\":\"119\" → 최근 120건 데이터 조회\n\n(중요) 해외옵션시세 출력값을 해석하실 때 focode.mst(해외지수옵션 종목마스터파일), fostkcode.mst(해외주식옵션 종목마스터파일)에\

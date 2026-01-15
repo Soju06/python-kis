@@ -9,11 +9,11 @@
 | **API ID** | `3cb7e131-7e44-4f34-831f-e6720b4a299a` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-stock/v1/ranking/trade-pbmn` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `HHDFS76320010`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `HHDFS76320010` |
 
 ## 메타 정보
 

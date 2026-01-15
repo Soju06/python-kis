@@ -12,8 +12,8 @@ ELW 신규상장종목 API입니다.
 | **API ID** | `147e81db-e0d2-40cd-95f5-d8da90c2d998` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/quotations/newly-listed` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `FHKEW154800C0`, `모의투자 미지원` |

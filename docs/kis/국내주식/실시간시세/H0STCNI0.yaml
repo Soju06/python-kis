@@ -6,15 +6,15 @@ subcategory: 실시간시세
 method: POST
 url: /tryitout/H0STCNI0
 content_type: test/plain
-req_format: ''
+req_format: JSON
 domains:
   real: ' ws://ops.koreainvestment.com:21000'
-  virtual: ' ws://ops.koreainvestment.com:31000'
+  demo: ' ws://ops.koreainvestment.com:31000'
 tr_ids:
-- H0STCNI0
 - H0STCNI9
+- H0STCNI0
 real_tr_id: H0STCNI0
-virtual_tr_id: H0STCNI9
+demo_tr_id: H0STCNI9
 summary: '국내주식 실시간 체결통보 수신 시에 (1) 주문·정정·취소·거부 접수 통보 와 (2) 체결 통보 가 모두 수신됩니다.
 
   (14번째 값(CNTG_YN;체결여부)가 2이면 체결통보, 1이면 주문·정정·취소·거부 접수 통보입니다.)

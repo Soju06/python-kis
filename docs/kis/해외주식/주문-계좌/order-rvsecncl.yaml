@@ -9,12 +9,12 @@ content_type: application/json; charset=UTF-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids:
 - (미국 정정·취소) TTTT1004U (아시아 국가 하단 규격서 참고)
 - (미국 정정·취소) VTTT1004U (아시아 국가 하단 규격서 참고)
 real_tr_id: (미국 정정·취소) TTTT1004U (아시아 국가 하단 규격서 참고)
-virtual_tr_id: (미국 정정·취소) VTTT1004U (아시아 국가 하단 규격서 참고)
+demo_tr_id: (미국 정정·취소) VTTT1004U (아시아 국가 하단 규격서 참고)
 summary: "접수된 해외주식 주문을 정정하거나 취소하기 위한 API입니다.\n(해외주식주문 시 Return 받은 ODNO를 참고하여 API를 호출하세요.)\n\n* 해외주식 서비스 신청 후 이용 가능합니다. (아래\
   \ 링크 3번 해외증권 거래신청 참고)\nhttps://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.jsp\n\n* 해외 거래소 운영시간\
   \ 외 API 호출 시 에러가 발생하오니 운영시간을 확인해주세요.\n* 해외 거래소 운영시간(한국시간 기준)\n1) 미국 : 23:30 ~ 06:00 (썸머타임 적용 시 22:30 ~ 05:00) \n   * 프리마켓(18:00\

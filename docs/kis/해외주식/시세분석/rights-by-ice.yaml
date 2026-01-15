@@ -5,16 +5,16 @@ category: 해외주식
 subcategory: 시세분석
 method: GET
 url: /uapi/overseas-price/v1/quotations/rights-by-ice
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
 - HHDFS78330900
 - 모의투자 미지원
 real_tr_id: HHDFS78330900
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '해외주식 권리종합 API입니다.
 
   한국투자 HTS(eFriend Plus) > [7833] 해외주식 권리(ICE제공) 화면의 "전체" 탭 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.

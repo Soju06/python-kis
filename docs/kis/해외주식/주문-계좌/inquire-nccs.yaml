@@ -5,16 +5,16 @@ category: 해외주식
 subcategory: 주문/계좌
 method: GET
 url: /uapi/overseas-stock/v1/trading/inquire-nccs
-content_type: ''
+content_type: application/json
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
 - TTTS3018R
 - 모의투자 미지원
 real_tr_id: TTTS3018R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "접수된 해외주식 주문 중 체결되지 않은 미체결 내역을 조회하는 API입니다.\n실전계좌의 경우, 한 번의 호출에 최대 40건까지 확인 가능하며, 이후의 값은 연속조회를 통해 확인하실 수 있습니다. \n\
   \n※ 해외주식 미체결내역 API 모의투자에서는 사용이 불가합니다. \n   모의투자로 해외주식 미체결내역 확인시에는 해외주식 주문체결내역[v1_해외주식-007] API 조회하셔서 nccs_qty(미체결수량)으로 해외주식\
   \ 미체결수량을 조회하실 수 있습니다.\n\n\n* 해외주식 서비스 신청 후 이용 가능합니다. (아래 링크 3번 해외증권 거래신청 참고)\nhttps://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.jsp\n\

@@ -14,8 +14,8 @@
 | **API ID** | `e2633b78-811f-40b8-a933-dcba64c3e0e8` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/ksdinfo/sharehld-meet` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `HHKDB669111C0`, `모의투자 미지원` |

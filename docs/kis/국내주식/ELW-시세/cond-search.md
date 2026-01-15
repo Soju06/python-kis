@@ -13,11 +13,11 @@ ELW 종목검색 API입니다.
 | **API ID** | `264533d3-00eb-4794-984a-fecb84350f39` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/quotations/cond-search` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `FHKEW15100000`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHKEW15100000` |
 
 ## 메타 정보
 

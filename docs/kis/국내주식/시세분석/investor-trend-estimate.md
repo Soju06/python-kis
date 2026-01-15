@@ -16,11 +16,11 @@
 | **API ID** | `7fcf90d5-5e84-484a-8000-9121fb0a81d7` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/investor-trend-estimate` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `HHPTJ04160200` |
+| **TR ID** | `HHPTJ04160200`, `모의투자 미지원` |
 
 ## 메타 정보
 

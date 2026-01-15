@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 순위분석
 method: GET
 url: /uapi/domestic-stock/v1/ranking/exp-trans-updown
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- FHPST01820000
 - 모의투자 미지원
+- FHPST01820000
 real_tr_id: FHPST01820000
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '국내주식 예상체결 상승/하락상위 API입니다.
 
   한국투자 HTS(eFriend Plus) > [0182] 예상체결 상승/하락상위 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.

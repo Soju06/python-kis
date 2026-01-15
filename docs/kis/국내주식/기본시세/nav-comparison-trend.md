@@ -12,8 +12,8 @@ NAV 비교추이(종목) API입니다.
 | **API ID** | `46eea904-3984-4354-b4e9-8918f503fd79` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/etfetn/v1/quotations/nav-comparison-trend` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `FHPST02440000`, `모의투자 미지원` |

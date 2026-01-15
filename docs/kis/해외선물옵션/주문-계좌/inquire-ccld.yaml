@@ -5,16 +5,16 @@ category: 해외선물옵션
 subcategory: 주문/계좌
 method: GET
 url: /uapi/overseas-futureoption/v1/trading/inquire-ccld
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - 모의투자 미지원
 - OTFM3116R
 real_tr_id: OTFM3116R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: 해외선물옵션 당일주문내역조회 API입니다.
 description: 해외선물옵션 당일주문내역조회 [v1_해외선물-004]
 metadata:

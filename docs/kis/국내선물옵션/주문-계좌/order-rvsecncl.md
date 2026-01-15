@@ -20,7 +20,7 @@
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
-| **TR ID** | `(주간 정정/취소) TTTO1103U (야간 정정/취소) (구) JTCE1002U (신) STTN1103U`, `(주간 정정/취소) VTTO1103U (야간은 모의투자 미제공)` |
+| **TR ID** | `(주간 정정/취소) VTTO1103U (야간은 모의투자 미제공)`, `(주간 정정/취소) TTTO1103U (야간 정정/취소) (구) JTCE1002U (신) STTN1103U` |
 
 ## 메타 정보
 

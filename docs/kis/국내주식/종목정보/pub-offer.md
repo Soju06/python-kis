@@ -14,11 +14,11 @@
 | **API ID** | `03997d2f-6145-4a84-88fe-5a63fe4374fb` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/ksdinfo/pub-offer` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `HHKDB669108C0`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `HHKDB669108C0` |
 
 ## 메타 정보
 

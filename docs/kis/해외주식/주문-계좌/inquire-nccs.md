@@ -28,7 +28,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | **API ID** | `60cae69d-c121-4dd9-902c-1112567fd88e` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-stock/v1/trading/inquire-nccs` |
-| **Content-Type** | `` |
+| **Content-Type** | `application/json` |
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |

@@ -12,11 +12,11 @@
 | **API ID** | `07126b90-256e-4b93-b0be-e1e59dfc89f0` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-futureoption/v1/trading/ngt-margin-detail` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `(구) JTCE6003R (신) CTFN7107R` |
+| **TR ID** | `(구) JTCE6003R (신) CTFN7107R`, `모의투자 미지원` |
 
 ## 메타 정보
 

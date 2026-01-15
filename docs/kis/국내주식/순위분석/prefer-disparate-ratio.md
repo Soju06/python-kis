@@ -17,8 +17,8 @@
 | **API ID** | `798040e2-7ae9-410c-80ce-4fa7de012046` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/ranking/prefer-disparate-ratio` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `FHPST01770000`, `모의투자 미지원` |

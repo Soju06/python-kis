@@ -12,8 +12,8 @@ ELW 변동성 추이(틱) API입니다.
 | **API ID** | `f1ce6099-5bf2-4b4e-915e-e0c7020af4bf` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/quotations/volatility-trend-tick` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `FHPEW02840400`, `모의투자 미지원` |

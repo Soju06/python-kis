@@ -5,16 +5,16 @@ category: 해외선물옵션
 subcategory: 기본시세
 method: GET
 url: /uapi/overseas-futureoption/v1/quotations/monthly-ccnl
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - HHDFC55020300
 - 모의투자 미지원
 real_tr_id: HHDFC55020300
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "해외선물옵션 체결추이(월간) API입니다. \n한국투자 HTS(eFriend Force) > [5502] 해외선물옵션 체결추이 화면에서 \"월간\" 선택 시 기능을 API로 개발한 사항으로, 해당 화면을\
   \ 참고하시면 기능을 이해하기 쉽습니다.\n\n(중요) 해외선물시세 출력값을 해석하실 때 ffcode.mst(해외선물종목마스터 파일)에 있는 sCalcDesz(계산 소수점) 값을 활용하셔야 정확한 값을 받아오실 수\
   \ 있습니다.\n\n- ffcode.mst(해외선물종목마스터 파일) 다운로드 방법 2가지\n  1) 한국투자증권 Github의 파이썬 샘플코드를 사용하여 mst 파일 다운로드 및 excel 파일로 정제   \n  \

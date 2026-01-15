@@ -40,8 +40,8 @@
 | **API ID** | `5ff633c1-c50d-4494-9456-0c558031c678` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-futureoption/v1/trading/margin-detail` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `OTFM3115R`, `모의투자 미지원` |

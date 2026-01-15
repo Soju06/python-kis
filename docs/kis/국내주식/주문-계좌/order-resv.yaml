@@ -9,12 +9,12 @@ content_type: application/json; charset=utf-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - 모의투자 미지원
 - CTSC0008U
 real_tr_id: CTSC0008U
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "국내주식 예약주문 매수/매도 API 입니다.\n\n※ POST API의 경우 BODY값의 key값들을 대문자로 작성하셔야 합니다.\n   (EX. \"CANO\" : \"12345678\", \"ACNT_PRDT_CD\"\
   : \"01\",...)\n\n※ 유의사항\n 1. 예약주문 가능시간 : 15시 40분 ~ 다음 영업일 7시 30분 \n    (단, 서버 초기화 작업 시 예약주문 불가 : 23시 40분 ~ 00시 10분)\n  \
   \  ※ 예약주문 처리내역은 통보되지 않으므로 주문처리일 장 시작전에 반드시 주문처리 결과를 확인하시기 바랍니다.\n\n 2. 예약주문 안내\n   - 예약종료일 미입력 시 일반예약주문으로 최초 도래하는 영업일에 주문\

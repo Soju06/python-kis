@@ -15,11 +15,11 @@
 | **API ID** | `32b7ac44-2d64-466d-9343-7e9d4e7ab0e4` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/trading/intgr-margin` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `TTTC0869R` |
+| **TR ID** | `TTTC0869R`, `모의투자 미지원` |
 
 ## 메타 정보
 

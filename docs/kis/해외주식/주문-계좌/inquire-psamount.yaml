@@ -9,12 +9,12 @@ content_type: application/json; charset=utf-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids:
 - VTTS3007R
 - TTTS3007R
 real_tr_id: TTTS3007R
-virtual_tr_id: VTTS3007R
+demo_tr_id: VTTS3007R
 summary: '해외주식 매수가능금액조회 API입니다.
 
 

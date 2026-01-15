@@ -5,16 +5,16 @@ category: 장내채권
 subcategory: 기본시세
 method: GET
 url: /uapi/domestic-bond/v1/quotations/search-bond-info
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- CTPF1114R
 - 모의투자 미지원
+- CTPF1114R
 real_tr_id: CTPF1114R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "장내채권 기본조회 API입니다. \n장내채권의 상품정보를 확인 가능합니다."
 description: ''
 metadata:

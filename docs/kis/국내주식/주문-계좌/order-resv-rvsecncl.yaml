@@ -9,12 +9,12 @@ content_type: application/json; charset=utf-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - (예약취소) CTSC0009U (예약정정) CTSC0013U
 - 모의투자 미지원
 real_tr_id: (예약취소) CTSC0009U (예약정정) CTSC0013U
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "국내주식 예약주문 정정/취소 API 입니다.\n*  정정주문은 취소주문에 비해 필수 입력값이 추가 됩니다. \n   하단의 입력값을 참조하시기 바랍니다.\n\n※ POST API의 경우 BODY값의 key값들을\
   \ 대문자로 작성하셔야 합니다.\n   (EX. \"CANO\" : \"12345678\", \"ACNT_PRDT_CD\": \"01\",...)"
 description: '[국내주식-018,019 v1] 주식예약주문정정취소'

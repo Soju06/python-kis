@@ -9,12 +9,12 @@ content_type: application/json; charset=UTF-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids:
-- (미국매수) VTTT1002U  (미국매도) VTTT1001U  (아시아 국가 하단 규격서 참고)
 - (미국매수) TTTT1002U  (미국매도) TTTT1006U (아시아 국가 하단 규격서 참고)
+- (미국매수) VTTT1002U  (미국매도) VTTT1001U  (아시아 국가 하단 규격서 참고)
 real_tr_id: (미국매수) TTTT1002U  (미국매도) TTTT1006U (아시아 국가 하단 규격서 참고)
-virtual_tr_id: (미국매수) VTTT1002U  (미국매도) VTTT1001U  (아시아 국가 하단 규격서 참고)
+demo_tr_id: (미국매수) VTTT1002U  (미국매도) VTTT1001U  (아시아 국가 하단 규격서 참고)
 summary: "해외주식 주문 API입니다.\n\n* 모의투자의 경우, 모든 해외 종목 매매가 지원되지 않습니다. 일부 종목만 매매 가능한 점 유의 부탁드립니다.\n\n* 해외주식 서비스 신청 후 이용 가능합니다. (아래\
   \ 링크 3번 해외증권 거래신청 참고)\nhttps://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.jsp\n\n* 해외 거래소 운영시간\
   \ 외 API 호출 시 에러가 발생하오니 운영시간을 확인해주세요. (미국주식 주간주문은 \"해외주식 미국주간주문\"을 이용)\n* 해외 거래소 운영시간(한국시간 기준)\n1) 미국 : 23:30 ~ 06:00 (썸머타임\

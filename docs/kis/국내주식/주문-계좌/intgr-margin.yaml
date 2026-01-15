@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 주문/계좌
 method: GET
 url: /uapi/domestic-stock/v1/trading/intgr-margin
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- 모의투자 미지원
 - TTTC0869R
+- 모의투자 미지원
 real_tr_id: TTTC0869R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '주식통합증거금 현황 API입니다.
 
   한국투자 HTS(eFriend Plus) > [0867] 통합증거금조회 화면 의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.

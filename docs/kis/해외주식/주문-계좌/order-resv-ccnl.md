@@ -24,7 +24,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
-| **TR ID** | `(미국 예약주문 취소접수) TTTT3017U (아시아국가 미제공)`, `(미국 예약주문 취소접수) VTTT3017U (아시아국가 미제공)` |
+| **TR ID** | `(미국 예약주문 취소접수) VTTT3017U (아시아국가 미제공)`, `(미국 예약주문 취소접수) TTTT3017U (아시아국가 미제공)` |
 
 ## 메타 정보
 

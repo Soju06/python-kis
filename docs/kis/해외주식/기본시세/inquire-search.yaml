@@ -9,11 +9,11 @@ content_type: application/json; charset=utf-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids:
 - HHDFS76410000
 real_tr_id: HHDFS76410000
-virtual_tr_id: HHDFS76410000
+demo_tr_id: HHDFS76410000
 summary: "해외주식 조건검색 API입니다.\n한국투자 HTS(eFriend Plus) > [7641] 해외주식 조건검색 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\
   \  \n현재 조건검색 결과값은 최대 100개까지 조회 가능합니다. 다음 조회(100개 이후의 값) 기능에 대해서는 개선검토 중에 있습니다.\n\n※ 지연시세 지연시간 : 미국 - 실시간무료(0분지연) / 홍콩, 베트남,\
   \ 중국, 일본 - 15분지연 (중국은 실시간시세 신청 시 무료실시간시세 제공)\n   미국의 경우 0분지연시세로 제공되나, 장중 당일 시가는 상이할 수 있으며, 익일 정정 표시됩니다.\n\n※ 2024년 12월 13일(금)\

@@ -12,11 +12,11 @@ ELW 투자지표추이(체결) API입니다.
 | **API ID** | `937eb413-9db9-4479-887d-4cf172dcf344` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/quotations/indicator-trend-ccnl` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `FHPEW02740100`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHPEW02740100` |
 
 ## 메타 정보
 

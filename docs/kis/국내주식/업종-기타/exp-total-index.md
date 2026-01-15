@@ -12,11 +12,11 @@
 | **API ID** | `7d1b2345-32f8-463b-9f41-8b4602387d52` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/exp-total-index` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `FHKUP11750000`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHKUP11750000` |
 
 ## 메타 정보
 

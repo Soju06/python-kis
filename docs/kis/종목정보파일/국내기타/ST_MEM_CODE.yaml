@@ -1,0 +1,19 @@
+name: ST_MEM_CODE
+header_url: https://raw.githubusercontent.com/koreainvestment/open-trading-api/main/stocks_info/%EC%A2%85%EB%AA%A9%EB%A7%88%EC%8A%A4%ED%84%B0%EC%A0%95%EB%B3%B4%28%ED%9A%8C%EC%9B%90%EC%82%AC%29.h
+record_length: 26
+fields:
+- name: mbcr_no
+  type_code: char
+  length: 5
+  description: 회원사코드
+  length_source: null
+- name: mbcr_name
+  type_code: char
+  length: 20
+  description: 회원사명
+  length_source: SZ_KORNAME20
+- name: glob_yn
+  type_code: char
+  length: 1
+  description: 구분 0=국내, 1=외국
+  length_source: null

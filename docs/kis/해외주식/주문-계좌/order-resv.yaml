@@ -6,15 +6,15 @@ subcategory: 주문/계좌
 method: POST
 url: /uapi/overseas-stock/v1/trading/order-resv
 content_type: application/json; charset=UTF-8
-req_format: ''
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids:
 - (미국예약매수) VTTT3014U  (미국예약매도) VTTT3016U   (중국/홍콩/일본/베트남 예약주문) VTTS3013U
 - (미국예약매수) TTTT3014U  (미국예약매도) TTTT3016U   (중국/홍콩/일본/베트남 예약주문) TTTS3013U
 real_tr_id: (미국예약매수) TTTT3014U  (미국예약매도) TTTT3016U   (중국/홍콩/일본/베트남 예약주문) TTTS3013U
-virtual_tr_id: (미국예약매수) VTTT3014U  (미국예약매도) VTTT3016U   (중국/홍콩/일본/베트남 예약주문) VTTS3013U
+demo_tr_id: (미국예약매수) VTTT3014U  (미국예약매도) VTTT3016U   (중국/홍콩/일본/베트남 예약주문) VTTS3013U
 summary: "미국거래소 운영시간 외 미국주식을 예약 매매하기 위한 API입니다.\n\n* 해외주식 서비스 신청 후 이용 가능합니다. (아래 링크 3번 해외증권 거래신청 참고)\nhttps://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.jsp\n\
   \n※ POST API의 경우 BODY값의 key값들을 대문자로 작성하셔야 합니다.\n   (EX. \"CANO\" : \"12345678\", \"ACNT_PRDT_CD\": \"01\",...)\n\n* 아래 각\
   \ 국가의 시장별 예약주문 접수 가능 시간을 확인하시길 바랍니다.\n\n미국 예약주문 접수시간\n1) 10:00 ~ 23:20 / 10:00 ~ 22:20 (서머타임 시)\n2) 주문제한 : 16:30 ~ 16:45\

@@ -17,11 +17,11 @@
 | **API ID** | `5b33c1b2-bd6b-449d-9923-3f0439912c87` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/ranking/disparity` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `FHPST01780000` |
+| **TR ID** | `FHPST01780000`, `모의투자 미지원` |
 
 ## 메타 정보
 

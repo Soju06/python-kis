@@ -42,8 +42,8 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | **API ID** | `09baff2a-6e9d-4502-ba66-d7bb94094b67` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-stock/v1/trading/inquire-present-balance` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443    (output3만 이용 가능)` |
 | **TR ID** | `CTRP6504R`, `VTRP6504R` |

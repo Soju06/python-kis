@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 기본시세
 method: GET
 url: /uapi/domestic-stock/v1/quotations/inquire-price-2
-content_type: ''
+content_type: application/json
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- FHPST01010000
 - 모의투자 미지원
+- FHPST01010000
 real_tr_id: FHPST01010000
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: 주식현재가 시세2 API입니다.
 description: ''
 metadata:

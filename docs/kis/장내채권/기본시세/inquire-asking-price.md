@@ -12,11 +12,11 @@
 | **API ID** | `0a5782f0-0c05-4feb-90f4-b86f09b45327` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-bond/v1/quotations/inquire-asking-price` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `FHKBJ773401C0`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHKBJ773401C0` |
 
 ## 메타 정보
 

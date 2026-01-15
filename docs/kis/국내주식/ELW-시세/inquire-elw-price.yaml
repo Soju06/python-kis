@@ -5,15 +5,15 @@ category: 국내주식
 subcategory: ELW 시세
 method: GET
 url: /uapi/domestic-stock/v1/quotations/inquire-elw-price
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids:
 - FHKEW15010000
 real_tr_id: FHKEW15010000
-virtual_tr_id: FHKEW15010000
+demo_tr_id: FHKEW15010000
 summary: ELW 현재가 시세 API입니다. ELW 관련 정보를 얻을 수 있습니다.
 description: ELW 현재가 시세
 metadata:

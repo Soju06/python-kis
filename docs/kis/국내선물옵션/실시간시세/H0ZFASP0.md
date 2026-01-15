@@ -12,8 +12,8 @@
 | **API ID** | `c4ded44e-26fe-4b9f-b8d7-10e1ba4020a4` |
 | **HTTP Method** | `POST` |
 | **URL** | `/tryitout/H0ZFASP0` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `H0ZFASP0`, `모의투자 미지원` |

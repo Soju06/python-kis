@@ -9,8 +9,8 @@
 | **API ID** | `e9be5d05-448e-4222-bb05-7f0e27a91d69` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/quotations/sensitivity-trend-ccnl` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `FHPEW02830100`, `모의투자 미지원` |

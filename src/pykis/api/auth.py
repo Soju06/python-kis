@@ -16,10 +16,6 @@ class KisAuth:
     custtype: Literal["P", "B"] = "P"
 
     @property
-    def virtual(self) -> bool:
-        return self.demo
-
-    @property
     def account_number(self) -> tuple[str | None, str | None]:
         if not self.account:
             return None, None
@@ -40,12 +36,12 @@ class KisAuth:
         data = json.loads(Path(path).read_text(encoding="utf-8"))
         appsecret = data.get("appsecret") or data.get("secretkey") or data.get("app_secret")
         demo_flag = data.get("demo")
-        virtual_flag = data.get("virtual")
+        legacy_virtual_flag = data.get("virtual")
         return cls(
             id=data.get("id"),
             appkey=data["appkey"],
             appsecret=appsecret,
             account=data.get("account") or data.get("account_number"),
-            demo=bool(demo_flag) if demo_flag is not None else bool(virtual_flag),
+            demo=bool(demo_flag) if demo_flag is not None else bool(legacy_virtual_flag),
             custtype=data.get("custtype", "P"),
         )

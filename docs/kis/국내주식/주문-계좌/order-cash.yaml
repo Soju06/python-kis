@@ -9,12 +9,12 @@ content_type: application/json; charset=UTF-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids:
 - (매도) VTTC0011U (매수) VTTC0012U
 - (매도) TTTC0011U (매수) TTTC0012U
 real_tr_id: (매도) TTTC0011U (매수) TTTC0012U
-virtual_tr_id: (매도) VTTC0011U (매수) VTTC0012U
+demo_tr_id: (매도) VTTC0011U (매수) VTTC0012U
 summary: "국내주식주문(현금) API 입니다. \n\n※ TTC0802U(현금매수) 사용하셔서 미수매수 가능합니다. 단, 거래하시는 계좌가 증거금40%계좌로 신청이 되어있어야 가능합니다. \n※ 신용매수는 별도의\
   \ API가 준비되어 있습니다.\n\n※ ORD_QTY(주문수량), ORD_UNPR(주문단가) 등을 String으로 전달해야 함에 유의 부탁드립니다.\n\n※ ORD_UNPR(주문단가)가 없는 주문은 상한가로 주문금액을\
   \ 선정하고 이후 체결이되면 체결금액로 정산됩니다.\n\n※ POST API의 경우 BODY값의 key값들을 대문자로 작성하셔야 합니다.\n   (EX. \"CANO\" : \"12345678\", \"ACNT_PRDT_CD\"\

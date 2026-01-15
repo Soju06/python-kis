@@ -9,12 +9,12 @@ content_type: application/json; charset=utf-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- 모의투자 미지원
 - TTTS6038U
+- 모의투자 미지원
 real_tr_id: TTTS6038U
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "해외주식 미국주간정정취소 API입니다.\n\n* 미국주식 주간거래 시 아래 참고 부탁드립니다.\n. 포럼 > FAQ > 미국주식 주간거래 시 어떤 API를 사용해야 하나요?\n\n* 미국주간거래의 경우,\
   \ 모든 미국 종목 매매가 지원되지 않습니다. 일부 종목만 매매 가능한 점 유의 부탁드립니다.\n\n* 해외주식 서비스 신청 후 이용 가능합니다. (아래 링크 3번 해외증권 거래신청 참고)\nhttps://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.jsp\n\
   \n* 미국주간거래시간 외 API 호출 시 에러가 발생하오니 운영시간을 확인해주세요.\n. 주간거래(장전거래)(한국시간 기준) : 10:00 ~ 18:00 (Summer Time 동일)\n\n* 한국투자증권 해외주식\

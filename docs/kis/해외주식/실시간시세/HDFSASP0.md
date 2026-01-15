@@ -43,11 +43,11 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | **API ID** | `19f840e8-d6be-4b68-94f5-9448a0c4f10b` |
 | **HTTP Method** | `POST` |
 | **URL** | `/tryitout/HDFSASP0` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `HDFSASP0` |
+| **TR ID** | `HDFSASP0`, `모의투자 미지원` |
 
 ## 메타 정보
 

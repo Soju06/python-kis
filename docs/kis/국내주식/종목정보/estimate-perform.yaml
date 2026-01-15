@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 종목정보
 method: GET
 url: /uapi/domestic-stock/v1/quotations/estimate-perform
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
 - 모의투자 미지원
 - HHKST668300C0
 real_tr_id: HHKST668300C0
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "국내주식 종목추정실적 API입니다.\n한국투자 HTS(eFriend Plus) > [0613] 종목추정실적 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다. \n\
   \ \n※ 본 화면의 추정실적 및 투자의견은 당월 초의 애널리스트의 의견사항이므로 월중 변동 사항이 있을 수 있음을 유의하시기 바랍니다.\n※ 종목별 수익추정은 리서치본부에서 매월 발표되는 거래소, 코스닥 160여개\
   \ 기업에 한정합니다. 구체적인 종목 리스트는 추정종목리스트를 참고하기 바랍니다."

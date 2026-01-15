@@ -2,11 +2,15 @@ from __future__ import annotations
 
 from typing import Iterable
 
+_REGISTRY_IMPORT_ERROR: Exception | None
+
 try:
     from pykis.api.raw.registry import ENDPOINTS as _GENERATED
 except Exception as exc:
     _GENERATED = {}
-    print(f"[pykis.api] registry import failed: {exc}")
+    _REGISTRY_IMPORT_ERROR = exc
+else:
+    _REGISTRY_IMPORT_ERROR = None
 
 ENDPOINTS = dict(_GENERATED)
 

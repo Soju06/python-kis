@@ -34,7 +34,7 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | **HTTP Method** | `POST` |
 | **URL** | `/tryitout/H0STASP0` |
 | **Content-Type** | `text/plain` |
-| **요청 포맷** | `` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | ` ws://ops.koreainvestment.com:31000` |
 | **TR ID** | `H0STASP0` |

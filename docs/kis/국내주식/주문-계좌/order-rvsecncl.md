@@ -24,7 +24,7 @@
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
-| **TR ID** | `TTTC0013U`, `VTTC0013U` |
+| **TR ID** | `VTTC0013U`, `TTTC0013U` |
 
 ## 메타 정보
 

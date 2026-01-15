@@ -6,9 +6,9 @@ from pydantic import BaseModel
 
 from pathlib import Path
 
-from .generated import SOURCE_DEFS, STRUCT_DEFS
-from .raw.models import RawSource
-from .generated import models as _models
+from pykis.store.raw.masters import SOURCE_DEFS
+from pykis.store.raw.structs import STRUCT_DEFS, STRUCT_MODELS
+from pykis.store.raw.models import RawSource
 
 
 def list_sources():
@@ -28,7 +28,7 @@ def get_struct(struct_name: str):
 
 
 def get_model(struct_name: str) -> Type[BaseModel]:
-    model = getattr(_models, struct_name, None)
+    model = STRUCT_MODELS.get(struct_name)
     if model is None:
         raise KeyError(f"model not found: {struct_name}")
     return model

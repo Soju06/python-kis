@@ -39,11 +39,11 @@ ex) 0|H0STCNT0|004|005930^123929^73100^5^...
 | **API ID** | `f1e3afa7-ed25-41a9-9130-aa8b53cd77d0` |
 | **HTTP Method** | `POST` |
 | **URL** | `/tryitout/H0STOUP0` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `H0STOUP0` |
+| **TR ID** | `H0STOUP0`, `모의투자 미지원` |
 
 ## 메타 정보
 

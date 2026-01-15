@@ -12,8 +12,8 @@
 | **API ID** | `13a96552-4b77-411c-9ef6-5eed7192a76a` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-bond/v1/trading/inquire-balance` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `모의투자 미지원`, `CTSC8407R` |

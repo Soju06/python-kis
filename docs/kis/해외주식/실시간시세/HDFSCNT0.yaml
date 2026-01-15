@@ -5,16 +5,16 @@ category: 해외주식
 subcategory: 실시간시세
 method: POST
 url: /tryitout/HDFSCNT0
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: ws://ops.koreainvestment.com:21000
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- HDFSCNT0
 - 모의투자 미지원
+- HDFSCNT0
 real_tr_id: HDFSCNT0
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "해외주식 실시간지연체결가의 경우 기본적으로 무료시세(지연체결가)가 제공되며, \n아시아 국가의 경우 HTS(efriend Plus) [7781] 시세신청(실시간) 화면에서 유료 서비스 신청 시 API로도\
   \ 유료시세(실시간체결가)를 받아보실 수 있습니다. (24.11.29 반영)\n\n※ 지연시세 지연시간 : 미국 - 실시간무료(0분지연) / 홍콩, 베트남, 중국, 일본 - 15분지연 (중국은 실시간시세 신청 시 무료실시간시세\
   \ 제공)\n   미국의 경우 0분지연시세로 제공되나, 장중 당일 시가는 상이할 수 있으며, 익일 정정 표시됩니다.\n\n해당 API로 미국주간거래(10:00~16:00) 시세 조회도 가능합니다. \n※ 미국주간거래\

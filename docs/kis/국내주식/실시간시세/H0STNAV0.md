@@ -19,8 +19,8 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | **API ID** | `e77ce3c3-4786-4500-bba2-0c02d6d1e1a8` |
 | **HTTP Method** | `POST` |
 | **URL** | `/tryitout/H0STNAV0` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `모의투자 미지원`, `H0STNAV0` |

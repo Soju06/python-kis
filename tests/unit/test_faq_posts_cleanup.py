@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from docs.faq_posts import ForumPost
-from docs.generator import save_faq_pinned_posts_docs
+from docsgen.parsers.faq_posts import ForumPost
+from docsgen.sinks.faq_posts import save_faq_pinned_posts_docs
 
 
 def test_save_faq_pinned_posts_docs_deletes_stale_files(tmp_path) -> None:

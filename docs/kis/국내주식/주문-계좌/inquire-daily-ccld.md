@@ -12,11 +12,11 @@ KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API �
 | **API ID** | `380e7913-c8dc-4bea-9ceb-b200f16b3a09` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/trading/pension/inquire-daily-ccld` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `TTTC2201R(기존 KRX만 가능), TTTC2210R (KRX,NXT/SOR)`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `TTTC2201R(기존 KRX만 가능), TTTC2210R (KRX,NXT/SOR)` |
 
 ## 메타 정보
 

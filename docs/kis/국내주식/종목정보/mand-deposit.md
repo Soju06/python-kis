@@ -14,11 +14,11 @@
 | **API ID** | `b742d5ef-6d97-4e75-ae25-52daf2f08021` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/ksdinfo/mand-deposit` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `HHKDB669110C0`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `HHKDB669110C0` |
 
 ## 메타 정보
 

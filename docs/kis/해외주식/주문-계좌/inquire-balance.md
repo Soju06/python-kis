@@ -23,8 +23,8 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | **API ID** | `0482dfb1-154c-476c-8a3b-6fc1da498dbf` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-stock/v1/trading/inquire-balance` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
 | **TR ID** | `TTTS3012R`, `VTTS3012R` |

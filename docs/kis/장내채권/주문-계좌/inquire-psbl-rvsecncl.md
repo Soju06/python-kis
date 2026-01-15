@@ -12,8 +12,8 @@
 | **API ID** | `daf83679-be80-4ce8-9f1d-88e123a9ee0c` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-bond/v1/trading/inquire-psbl-rvsecncl` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `모의투자 미지원`, `CTSC8035R` |

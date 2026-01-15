@@ -12,8 +12,8 @@ ELW 거래량순위 API입니다.
 | **API ID** | `6bd62480-d165-415e-9d82-bffe2f43aa7e` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/elw/v1/ranking/volume-rank` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `FHPEW02780000`, `모의투자 미지원` |

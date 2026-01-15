@@ -12,11 +12,11 @@
 | **API ID** | `abc1a594-7f67-4a6b-9f02-67310c435b61` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/inquire-daily-trade-volume` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `FHKST03010800` |
+| **TR ID** | `FHKST03010800`, `모의투자 미지원` |
 
 ## 메타 정보
 

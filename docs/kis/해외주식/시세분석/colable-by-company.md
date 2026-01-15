@@ -14,11 +14,11 @@
 | **API ID** | `967e60c7-f1eb-4f23-b893-71747556ad49` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-price/v1/quotations/colable-by-company` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `모의투자 미지원`, `CTLN4050R` |
+| **TR ID** | `CTLN4050R`, `모의투자 미지원` |
 
 ## 메타 정보
 

@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: ELW 시세
 method: GET
 url: /uapi/elw/v1/quotations/sensitivity-trend-ccnl
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
 - FHPEW02830100
 - 모의투자 미지원
 real_tr_id: FHPEW02830100
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: ''
 description: ''
 metadata:

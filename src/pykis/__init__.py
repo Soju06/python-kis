@@ -1,3 +1,3 @@
-from .api import KisAccessToken, KisAuth, KisRawClient
+from pykis.api import KisAccessToken, KisAuth, KisRawClient, SyncKisRawClient
 
-__all__ = ["KisAuth", "KisRawClient", "KisAccessToken"]
+__all__ = ["KisAuth", "KisRawClient", "SyncKisRawClient", "KisAccessToken"]

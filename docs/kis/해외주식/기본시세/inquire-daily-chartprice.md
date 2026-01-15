@@ -18,8 +18,8 @@
 | **API ID** | `da63a88a-e288-426f-9498-42db0b537bf3` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-price/v1/quotations/inquire-daily-chartprice` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
 | **TR ID** | `FHKST03030100` |

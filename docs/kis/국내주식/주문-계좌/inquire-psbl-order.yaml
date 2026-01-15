@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 주문/계좌
 method: GET
 url: /uapi/domestic-stock/v1/trading/pension/inquire-psbl-order
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - TTTC0503R
 - 모의투자 미지원
 real_tr_id: TTTC0503R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '​※ 55번 계좌(DC가입자계좌)의 경우 해당 API 이용이 불가합니다.
 
   KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API 신청 및 앱정보 발급이 가능한 서비스로 개발되어서 실물계좌가 아닌 55번 계좌는 API 이용이 불가능한 점 양해 부탁드립니다.'

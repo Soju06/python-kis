@@ -5,15 +5,15 @@ category: 국내주식
 subcategory: 기본시세
 method: GET
 url: /uapi/domestic-stock/v1/quotations/inquire-daily-overtimeprice
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids:
 - FHPST02320000
 real_tr_id: FHPST02320000
-virtual_tr_id: FHPST02320000
+demo_tr_id: FHPST02320000
 summary: 주식현재가 시간외일자별주가 API입니다.  (최근일 30건만 조회 가능)
 description: 주식현재가 시간외일자별주가[v1_국내주식-026]
 metadata:

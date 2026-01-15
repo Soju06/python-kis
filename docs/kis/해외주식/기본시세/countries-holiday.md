@@ -11,8 +11,8 @@
 | **API ID** | `1394ba1d-e17d-42c8-8e53-6bed5dce7588` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-stock/v1/quotations/countries-holiday` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `CTOS5011R`, `모의투자 미지원` |

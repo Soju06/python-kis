@@ -9,11 +9,11 @@
 | **API ID** | `2549b1c6-2c8c-4826-b632-74c0b68c24e9` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-stock/v1/ranking/price-fluct` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `HHDFS76260000`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `HHDFS76260000` |
 
 ## 메타 정보
 

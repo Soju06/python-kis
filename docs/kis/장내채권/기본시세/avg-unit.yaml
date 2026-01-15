@@ -5,16 +5,16 @@ category: 장내채권
 subcategory: 기본시세
 method: GET
 url: /uapi/domestic-bond/v1/quotations/avg-unit
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - 모의투자 미지원
 - CTPF2005R
 real_tr_id: CTPF2005R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "장내채권 평균단가조회 API입니다. \n한국투자 HTS(eFriend Plus) > [7216] 채권 발행정보 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다."
 description: ''
 metadata:

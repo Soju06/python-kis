@@ -14,11 +14,11 @@
 | **API ID** | `9de56f62-938c-40df-970e-8fd13a59b445` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/invest-opinion` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `FHKST663300C0`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHKST663300C0` |
 
 ## 메타 정보
 

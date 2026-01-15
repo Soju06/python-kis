@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 주문/계좌
 method: GET
 url: /uapi/domestic-stock/v1/trading/inquire-period-trade-profit
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - TTTC8715R
 - 모의투자 미지원
 real_tr_id: TTTC8715R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '기간별매매손익현황조회 API입니다.
 
   한국투자 HTS(eFriend Plus) > [0856] 기간별 매매손익 화면 에서 "종목별" 클릭 시의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'

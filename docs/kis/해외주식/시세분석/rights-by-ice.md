@@ -14,8 +14,8 @@
 | **API ID** | `cd4be4fc-4545-4147-ab9a-e5b0ccede0de` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-price/v1/quotations/rights-by-ice` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `HHDFS78330900`, `모의투자 미지원` |

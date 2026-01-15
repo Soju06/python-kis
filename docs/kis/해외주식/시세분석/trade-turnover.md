@@ -9,11 +9,11 @@
 | **API ID** | `7d30b578-018d-4250-852a-7599211ff988` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-stock/v1/ranking/trade-turnover` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
-| **TR ID** | `HHDFS76340000`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `HHDFS76340000` |
 
 ## 메타 정보
 

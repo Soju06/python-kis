@@ -15,8 +15,8 @@ output > ord_psbl_qty(주문가능수량) 확인하실 수 있습니다.
 | **API ID** | `b71fba6a-5759-4efa-a7e0-5e93e7e0e02d` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/trading/inquire-psbl-sell` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `TTTC8408R`, `모의투자 미지원` |

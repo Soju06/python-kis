@@ -12,11 +12,11 @@
 | **API ID** | `51c1a249-5fde-412d-9c8f-be5ef2f8dc3b` |
 | **HTTP Method** | `POST` |
 | **URL** | `/uapi/domestic-bond/v1/trading/buy` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `TTTC0952U`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `TTTC0952U` |
 
 ## 메타 정보
 

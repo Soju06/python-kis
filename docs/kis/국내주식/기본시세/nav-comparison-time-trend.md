@@ -13,8 +13,8 @@ NAV 비교추이(분) API입니다.
 | **API ID** | `dd867a76-745d-4268-8ff8-b3e7f71e6e83` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/etfetn/v1/quotations/nav-comparison-time-trend` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `모의투자 미지원`, `FHPST02440100` |

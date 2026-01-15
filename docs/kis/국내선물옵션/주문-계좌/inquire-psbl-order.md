@@ -13,11 +13,11 @@
 | **API ID** | `d66ffd69-8d60-4490-99d0-becf63aabf41` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-futureoption/v1/trading/inquire-psbl-order` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
-| **TR ID** | `TTTO5105R`, `VTTO5105R` |
+| **TR ID** | `VTTO5105R`, `TTTO5105R` |
 
 ## 메타 정보
 

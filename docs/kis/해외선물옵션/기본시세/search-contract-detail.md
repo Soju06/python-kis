@@ -12,11 +12,11 @@ QRY_CNT에 SRS_CD 요청 개수 입력, SRS_CD_01 ~SRS_CD_32 까지 최대 32건
 | **API ID** | `48c30d93-ffc0-47c7-a6ba-da728b0b3d5d` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-futureoption/v1/quotations/search-contract-detail` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `HHDFC55200000` |
+| **TR ID** | `HHDFC55200000`, `모의투자 미지원` |
 
 ## 메타 정보
 

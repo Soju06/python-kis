@@ -13,11 +13,11 @@ FID_INPUT_DATE_1(입력날짜), FID_INPUT_HOUR_1(입력시간)을 이용하여 �
 | **API ID** | `86194480-c8f0-4b0b-9d3d-001c2fc33422` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-futureoption/v1/quotations/inquire-time-fuopchartprice` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `FHKIF03020200` |
+| **TR ID** | `FHKIF03020200`, `모의투자 미지원` |
 
 ## 메타 정보
 

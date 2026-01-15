@@ -35,11 +35,11 @@
 | **API ID** | `3d3ad086-7c1b-41cb-9b76-ba05ccf6ba95` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-futureoption/v1/quotations/inquire-price` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `HHDFC55010000`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `HHDFC55010000` |
 
 ## 메타 정보
 

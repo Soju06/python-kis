@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: ELW 시세
 method: GET
 url: /uapi/elw/v1/quotations/volatility-trend-tick
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
 - FHPEW02840400
 - 모의투자 미지원
 real_tr_id: FHPEW02840400
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: 'ELW 변동성 추이(틱) API입니다.
 
   한국투자 HTS(eFriend Plus) > [0284] ELW 변동성 추이 화면의 "틱 차트" 변동성 추이 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'

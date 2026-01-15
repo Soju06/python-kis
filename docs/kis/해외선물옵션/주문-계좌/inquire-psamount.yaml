@@ -5,16 +5,16 @@ category: 해외선물옵션
 subcategory: 주문/계좌
 method: GET
 url: /uapi/overseas-futureoption/v1/trading/inquire-psamount
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- 모의투자 미지원
 - OTFM3304R
+- 모의투자 미지원
 real_tr_id: OTFM3304R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: 해외선물옵션 주문가능조회 API입니다.
 description: 해외선물옵션 주문가능조회 [v1_해외선물-006]
 metadata:

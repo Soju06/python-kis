@@ -1,0 +1,19 @@
+name: IDX_CODE
+header_url: https://raw.githubusercontent.com/koreainvestment/open-trading-api/main/stocks_info/%EC%97%85%EC%A2%85%EC%BD%94%EB%93%9C%EC%A0%95%EB%B3%B4.h
+record_length: 45
+fields:
+- name: idx_div
+  type_code: char
+  length: 1
+  description: 시장구분값 ex) 00002(대형주)일 경우 맨 앞자리 0
+  length_source: null
+- name: idx_code
+  type_code: char
+  length: 4
+  description: 업종코드 ex) 00002(대형주)일 경우 맨 앞자리를 제외한 0002
+  length_source: null
+- name: idx_name
+  type_code: char
+  length: 40
+  description: 업종명
+  length_source: null

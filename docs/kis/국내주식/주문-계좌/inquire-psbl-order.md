@@ -12,8 +12,8 @@ KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API �
 | **API ID** | `64e81099-cb25-4f86-86d9-b53e6ed7d1a8` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/trading/pension/inquire-psbl-order` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `TTTC0503R`, `모의투자 미지원` |

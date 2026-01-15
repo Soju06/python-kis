@@ -6,14 +6,14 @@ subcategory: 기본시세
 method: GET
 url: /uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice
 content_type: application/json; charset=UTF-8
-req_format: ''
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids:
 - FHKST03010200
 real_tr_id: FHKST03010200
-virtual_tr_id: FHKST03010200
+demo_tr_id: FHKST03010200
 summary: "주식당일분봉조회 API입니다. \n실전계좌/모의계좌의 경우, 한 번의 호출에 최대 30건까지 확인 가능합니다.\n\n※ 당일 분봉 데이터만 제공됩니다. (전일자 분봉 미제공)\n\n※ input > FID_INPUT_HOUR_1\
   \ 에 미래일시 입력 시에 현재가로 조회됩니다.\nex) 오전 10시에 113000 입력 시에 오전 10시~11시30분 사이의 데이터가 오전 10시 값으로 조회됨\n\n※ output2의 첫번째 배열의 체결량(cntg_vol)은\
   \ 첫체결이 발생되기 전까지는 이전 분봉의 체결량이 해당 위치에 표시됩니다. \n해당 분봉의 첫 체결이 발생되면 해당 이전분 체결량이 두번째 배열로 이동되면서 새로운 체결량으로 업데이트됩니다."

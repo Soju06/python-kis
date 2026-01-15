@@ -17,8 +17,8 @@ https://github.com/koreainvestment/open-trading-api/blob/main/rest/get_interest_
 | **API ID** | `4d8c6e7a-a026-4f8d-8c64-9e7ecbc3d97e` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/intstock-stocklist-by-group` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `HHKCM113004C6`, `모의투자 미지원` |

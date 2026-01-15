@@ -5,16 +5,16 @@ category: 국내선물옵션
 subcategory: 주문/계좌
 method: GET
 url: /uapi/domestic-futureoption/v1/trading/inquire-deposit
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- CTRP6550R
 - 모의투자 미지원
+- CTRP6550R
 real_tr_id: CTRP6550R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: 선물옵션 총자산현황 API 입니다.
 description: ''
 metadata:

@@ -17,11 +17,11 @@
 | **API ID** | `4490b65c-3c6e-4e8b-b525-f5b48fe88710` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/ranking/after-hour-balance` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `FHPST01760000` |
+| **TR ID** | `FHPST01760000`, `모의투자 미지원` |
 
 ## 메타 정보
 

@@ -13,11 +13,11 @@
 | **API ID** | `bca48008-6f73-4753-ab4b-aa8506145340` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-futureoption/v1/trading/inquire-psbl-ngt-order` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `(구) JTCE1004R (신) STTN5105R` |
+| **TR ID** | `(구) JTCE1004R (신) STTN5105R`, `모의투자 미지원` |
 
 ## 메타 정보
 

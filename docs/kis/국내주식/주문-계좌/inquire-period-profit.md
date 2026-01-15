@@ -12,8 +12,8 @@
 | **API ID** | `9748985e-43bc-4b8f-be73-cd9434666099` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/trading/inquire-period-profit` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `TTTC8708R`, `모의투자 미지원` |

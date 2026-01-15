@@ -5,16 +5,16 @@ category: 해외주식
 subcategory: 기본시세
 method: GET
 url: /uapi/overseas-price/v1/quotations/inquire-time-indexchartprice
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- FHKST03030200
 - 모의투자 미지원
+- FHKST03030200
 real_tr_id: FHKST03030200
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '해외지수분봉조회 API입니다.
 
   실전계좌의 경우, 최근 102건까지 확인 가능합니다.'

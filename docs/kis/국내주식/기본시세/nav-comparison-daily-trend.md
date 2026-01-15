@@ -13,11 +13,11 @@ NAV 비교추이(일) API입니다.
 | **API ID** | `ade0f812-3677-48c0-9cce-ddfb4a689add` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/etfetn/v1/quotations/nav-comparison-daily-trend` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `` |
 | **모의 도메인** | `` |
-| **TR ID** | `FHPST02440200`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `FHPST02440200` |
 
 ## 메타 정보
 

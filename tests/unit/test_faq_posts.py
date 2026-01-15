@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from docs.faq_posts import forum_post_from_detail_json, html_to_markdown, rewrite_portal_relative_urls
+from docsgen.parsers.faq_posts import forum_post_from_detail_json, rewrite_portal_relative_urls
+from docsgen.renderers.faq_posts import html_to_markdown
 
 
 def test_rewrite_portal_relative_urls() -> None:

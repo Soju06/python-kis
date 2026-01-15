@@ -12,11 +12,11 @@
 | **API ID** | `cf45db98-43d0-476a-8774-d9690365300a` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-bond/v1/quotations/issue-info` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `CTPF1101R`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `CTPF1101R` |
 
 ## 메타 정보
 

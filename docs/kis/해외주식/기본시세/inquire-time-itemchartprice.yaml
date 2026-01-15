@@ -5,16 +5,16 @@ category: 해외주식
 subcategory: 기본시세
 method: GET
 url: /uapi/overseas-price/v1/quotations/inquire-time-itemchartprice
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - 모의투자 미지원
 - HHDFS76950200
 real_tr_id: HHDFS76950200
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "해외주식분봉조회 API입니다. 실전계좌의 경우, 한 번의 호출에 최근 120건까지 확인 가능합니다.\nNEXT 및 KEYB 값을 사용하여 데이터를 계속해서 다음 조회할 수 있으며, 최대 다음조회 가능\
   \ 기간은 약 1개월입니다. \n\n※ 해외주식분봉조회 조회 방법\nparams\n. 초기 조회: \n - PINC: \"1\" 입력\n - NEXT: 처음 조회 시, \"\" 공백 입력\n - KEYB: 처음 조회\
   \ 시, \"\" 공백 입력\n. 다음 조회:\n - PINC: \"1\" 입력\n - NEXT: \"1\" 입력\n - KEYB: 이전 조회 결과의 마지막 분봉 데이터를 이용하여, 1분 전 혹은 n분 전의 시간을\

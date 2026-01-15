@@ -15,8 +15,8 @@
 | **API ID** | `99ac7df4-132a-4458-8b07-4dab240d9896` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/ksdinfo/dividend` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `HHKDB669102C0`, `모의투자 미지원` |

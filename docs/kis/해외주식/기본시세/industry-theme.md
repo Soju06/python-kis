@@ -11,11 +11,11 @@
 | **API ID** | `e8fcb701-6f36-4ba5-bbc7-84a577beec50` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-price/v1/quotations/industry-theme` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `HHDFS76370000` |
+| **TR ID** | `HHDFS76370000`, `모의투자 미지원` |
 
 ## 메타 정보
 

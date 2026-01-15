@@ -14,8 +14,8 @@
 | **API ID** | `3a588de4-df48-49ac-88ca-9765998c00e1` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/invest-opbysec` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `FHKST663400C0`, `모의투자 미지원` |

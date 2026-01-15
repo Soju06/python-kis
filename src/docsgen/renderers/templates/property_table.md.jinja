@@ -1,0 +1,8 @@
+### {{ title }}
+
+| 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
+|--------|--------|------|------|------|------|
+{% for row in rows %}
+| `{{ row.code }}` | {{ row.name }} | {{ row.type_name }} | {{ row.length }} | {{ row.required }} | {{ row.desc }} |
+{% endfor %}
+

@@ -9,12 +9,12 @@ content_type: application/json; charset=UTF-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: https://openapivts.koreainvestment.com:29443
+  demo: https://openapivts.koreainvestment.com:29443
 tr_ids:
-- (주간 정정/취소) TTTO1103U (야간 정정/취소) (구) JTCE1002U (신) STTN1103U
 - (주간 정정/취소) VTTO1103U (야간은 모의투자 미제공)
+- (주간 정정/취소) TTTO1103U (야간 정정/취소) (구) JTCE1002U (신) STTN1103U
 real_tr_id: (주간 정정/취소) TTTO1103U (야간 정정/취소) (구) JTCE1002U (신) STTN1103U
-virtual_tr_id: (주간 정정/취소) VTTO1103U (야간은 모의투자 미제공)
+demo_tr_id: (주간 정정/취소) VTTO1103U (야간은 모의투자 미제공)
 summary: "선물옵션 주문 건에 대하여 정정 및 취소하는 API입니다. 단, 이미 체결된 건은 정정 및 취소가 불가합니다.\n\n※ POST API의 경우 BODY값의 key값들을 대문자로 작성하셔야 합니다.\n\
   \   (EX. \"CANO\" : \"12345678\", \"ACNT_PRDT_CD\": \"01\",...)"
 description: '[국내선물-002 v1] 선물옵션정정취소주문'

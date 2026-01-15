@@ -13,11 +13,11 @@
 | **API ID** | `3af368ec-3627-4fdc-9bb9-4e4ff1a1968f` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-futureoption/v1/trading/inquire-ngt-balance` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `(구) JTCE6001R (신) CTFN6118R`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `(구) JTCE6001R (신) CTFN6118R` |
 
 ## 메타 정보
 

@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 종목정보
 method: GET
 url: /uapi/domestic-stock/v1/quotations/search-stock-info
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - 모의투자 미지원
 - CTPF1002R
 real_tr_id: CTPF1002R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '주식기본조회 API입니다.
 
   국내주식 종목의 종목상세정보를 확인할 수 있습니다.'

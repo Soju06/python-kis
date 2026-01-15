@@ -13,11 +13,11 @@
 | **API ID** | `b5f12325-af4e-4fcd-a8b2-c8047dd317d2` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-futureoption/v1/trading/inquire-ngt-ccnl` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `(구) JTCE5005R (신) STTN5201R`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `(구) JTCE5005R (신) STTN5201R` |
 
 ## 메타 정보
 

@@ -31,11 +31,11 @@ ex) "START_DATE_TIME":"","CLOSE_DATE_TIME":"","QRY_CNT":"119" → 최근 120건 
 | **API ID** | `1ecba681-1f73-4fb7-98b0-b7feef13b354` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-futureoption/v1/quotations/opt-daily-ccnl` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `HHDFO55020100`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `HHDFO55020100` |
 
 ## 메타 정보
 

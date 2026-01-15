@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 종목정보
 method: GET
 url: /uapi/domestic-stock/v1/finance/other-major-ratios
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - FHKST66430500
 - 모의투자 미지원
 real_tr_id: FHKST66430500
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '국내주식 기타주요비율 API입니다.
 
   한국투자 HTS(eFriend Plus) > [0635] 재무분석종합 화면의 하단 ''9. 기타주요비율'' 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'

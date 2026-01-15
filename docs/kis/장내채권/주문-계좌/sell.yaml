@@ -5,16 +5,16 @@ category: 장내채권
 subcategory: 주문/계좌
 method: POST
 url: /uapi/domestic-bond/v1/trading/sell
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - TTTC0958U
 - 모의투자 미지원
 real_tr_id: TTTC0958U
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "장내채권 매도주문 API입니다. \n한국투자 HTS(eFriend Plus) > [0978] 장내채권주문 '채권매도' 탭의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다."
 description: ''
 metadata:

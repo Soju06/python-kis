@@ -4,18 +4,16 @@
 
 from __future__ import annotations
 
-from .types import Endpoint
-
+from pykis.api.raw.types import Endpoint
 ENDPOINTS: dict[str, Endpoint]
 _REGISTRY_IMPORT_ERROR: Exception | None
 
 try:
-    from .registry import ENDPOINTS
+    from pykis.api.raw.registry import ENDPOINTS
     _REGISTRY_IMPORT_ERROR = None
 except Exception as exc:
     ENDPOINTS = {}
     _REGISTRY_IMPORT_ERROR = exc
-    print(f"[pykis.api.raw] registry import failed: {exc}")
 
 def ensure_registry() -> dict[str, Endpoint]:
     if _REGISTRY_IMPORT_ERROR is not None:

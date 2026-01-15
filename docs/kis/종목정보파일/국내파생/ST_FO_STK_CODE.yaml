@@ -1,0 +1,55 @@
+name: ST_FO_STK_CODE
+header_url: https://raw.githubusercontent.com/koreainvestment/open-trading-api/main/stocks_info/%EC%A2%85%EB%AA%A9%EB%A7%88%EC%8A%A4%ED%84%B0%EC%A0%95%EB%B3%B4%28%EC%A3%BC%EC%8B%9D%EC%84%A0%EB%AC%BC%EC%98%B5%EC%85%98%29.h
+record_length: 121
+fields:
+- name: info_type
+  type_code: char
+  length: 1
+  description: '1:코스피 주식선물 2:코스피 주식선물 SP
+
+    3:코스닥 주식선물 4:코스닥 주식선물 SP
+
+    5:주식 콜옵션 6:주식 풋옵션'
+  length_source: null
+- name: shrn_iscd
+  type_code: char
+  length: 9
+  description: 단축코드
+  length_source: SZ_SHRNCODE
+- name: stnd_iscd
+  type_code: char
+  length: 12
+  description: 표준코드
+  length_source: SZ_STNDCODE
+- name: kor_name
+  type_code: char
+  length: 40
+  description: 한글종목명
+  length_source: SZ_KORNAME
+- name: atm_cls_code
+  type_code: char
+  length: 1
+  description: ATM구분(1:ATM,2:ITM,3:OTM)
+  length_source: null
+- name: acpr
+  type_code: char
+  length: 8
+  description: 행사가
+  length_source: null
+- name: mmsc_cls_code
+  type_code: char
+  length: 1
+  description: '월물구분코드 (0:연결선물, 1:최근월물
+
+    2:차근월물 3:차차근월물 4:차차차근월물'
+  length_source: null
+- name: unas_shrn_iscd
+  type_code: char
+  length: 9
+  description: 기초자산 단축코드
+  length_source: SZ_SHRNCODE
+- name: unas_kor_name
+  type_code: char
+  length: 40
+  description: 기초자산 명
+  length_source: SZ_KORNAME

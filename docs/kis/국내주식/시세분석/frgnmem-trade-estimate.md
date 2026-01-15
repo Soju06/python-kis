@@ -12,8 +12,8 @@
 | **API ID** | `f13f5e30-1065-451b-bcd3-06543b840a2e` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/frgnmem-trade-estimate` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `FHKST644100C0`, `모의투자 미지원` |

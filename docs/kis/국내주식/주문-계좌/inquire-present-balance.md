@@ -14,11 +14,11 @@ KIS Developers API의 경우 HTS ID에 반드시 연결되어있어야만 API �
 | **API ID** | `6e8dc8ed-f026-497c-a40c-098448a94241` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/trading/pension/inquire-present-balance` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `TTTC2202R`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `TTTC2202R` |
 
 ## 메타 정보
 

@@ -23,11 +23,11 @@
 | **API ID** | `d5dc7247-6f82-4cd7-8133-afabd8f003f7` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-futureoption/v1/quotations/investor-unpd-trend` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `HHDDB95030000` |
+| **TR ID** | `HHDDB95030000`, `모의투자 미지원` |
 
 ## 메타 정보
 

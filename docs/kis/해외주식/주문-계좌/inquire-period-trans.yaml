@@ -5,16 +5,16 @@ category: 해외주식
 subcategory: 주문/계좌
 method: GET
 url: /uapi/overseas-stock/v1/trading/inquire-period-trans
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- CTOS4001R
 - 모의투자 미지원
+- CTOS4001R
 real_tr_id: CTOS4001R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '해외주식 일별거래내역 API입니다.
 
   한국투자 HTS(eFriend Plus) > [0828] 해외증권 일별거래내역 화면 의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.

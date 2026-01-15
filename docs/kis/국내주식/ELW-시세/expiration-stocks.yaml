@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: ELW 시세
 method: GET
 url: /uapi/elw/v1/quotations/expiration-stocks
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 미지원
+  demo: 미지원
 tr_ids:
-- FHKEW154700C0
 - 모의투자 미지원
+- FHKEW154700C0
 real_tr_id: FHKEW154700C0
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "ELW 만기예정/만기종목 API입니다. \n한국투자 HTS(eFriend Plus) > [0290] ELW 만기예정/만기종목 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기\
   \ 쉽습니다.\n\n최근 100건까지 데이터 조회 가능합니다."
 description: ''

@@ -7,9 +7,9 @@ from dataclasses import dataclass
 from hashlib import sha256
 from pathlib import Path
 
-from .auth import KisAuth
-from .token import KisAccessToken
-from .constants import DEMO_DOMAIN, REAL_DOMAIN
+from pykis.api.auth import KisAuth
+from pykis.api.constants import DEMO_DOMAIN, REAL_DOMAIN
+from pykis.api.token import KisAccessToken
 
 _SAFE_ID_RE = re.compile(r"[^A-Za-z0-9_.-]+")
 

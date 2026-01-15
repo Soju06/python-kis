@@ -24,8 +24,8 @@ https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외�
 | **API ID** | `22cadc7e-10e1-4b97-a0e0-f1f41b0b67ac` |
 | **HTTP Method** | `POST` |
 | **URL** | `/tryitout/HDFSASP1` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `제공 안함` |
 | **TR ID** | `HDFSASP1`, `모의투자 미지원` |

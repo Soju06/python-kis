@@ -9,12 +9,12 @@ content_type: application/json; charset=utf-8
 req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
-- OTFM3122R
 - 모의투자 미지원
+- OTFM3122R
 real_tr_id: OTFM3122R
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: 해외선물옵션 일별 체결내역 API입니다.
 description: ''
 metadata:

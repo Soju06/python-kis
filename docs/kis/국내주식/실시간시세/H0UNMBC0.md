@@ -9,8 +9,8 @@
 | **API ID** | `8e1f270a-98d0-4b2a-8b5e-15ff6db6b5db` |
 | **HTTP Method** | `POST` |
 | **URL** | `/tryitout/H0UNMBC0` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `ws://ops.koreainvestment.com:21000` |
 | **모의 도메인** | `모의투자 미지원` |
 | **TR ID** | `H0UNMBC0`, `모의투자 미지원` |

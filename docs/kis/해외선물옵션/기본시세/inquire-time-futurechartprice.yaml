@@ -5,16 +5,16 @@ category: 해외선물옵션
 subcategory: 기본시세
 method: GET
 url: /uapi/overseas-futureoption/v1/quotations/inquire-time-futurechartprice
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - 모의투자 미지원
 - HHDFC55020400
 real_tr_id: HHDFC55020400
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: "해외선물분봉조회 API입니다. ★ 반드시 아래 호출방법을 확인하시고 호출 사용하시기 바랍니다.\n한국투자 HTS(eFriend Force) > [5502] 해외선물옵션 체결추이 화면에서 \"분\" 선택\
   \ 시 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\n\n※ 해외선물분봉조회 조회 방법\nparams\n. START_DATE_TIME: 공란 입력 (\"\")\n. CLOSE_DATE_TIME:\
   \ 조회일자 입력 (\"20231214\")\n. QRY_CNT: 120 입력 시, 가장 최근 분봉 120건 조회( 한번에 최대 120건 조회 가능)\n                240 입력 시, 240 이전 분봉\

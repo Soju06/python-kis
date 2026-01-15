@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 실시간시세
 method: POST
 url: /tryitout/H0STOAC0
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: ws://ops.koreainvestment.com:21000
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - 모의투자 미지원
 - H0STOAC0
 real_tr_id: H0STOAC0
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: '국내주식 시간외 실시간예상체결 API입니다.
 
   국내주식 시간외 단일가(16:00~18:00) 시간대에 실시간예상체결 데이터 확인 가능합니다.

@@ -13,11 +13,11 @@ output1은 한국투자 HTS(eFriend Plus) > [0891] 계좌 자산비중(결제기
 | **API ID** | `052c663e-73db-43ee-b1a0-702a14de31fc` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/trading/inquire-account-balance` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `모의투자 미지원`, `CTRP6548R` |
+| **TR ID** | `CTRP6548R`, `모의투자 미지원` |
 
 ## 메타 정보
 

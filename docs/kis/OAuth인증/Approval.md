@@ -14,7 +14,7 @@
 | **API ID** | `5c87ba63-740a-4166-93ac-803510bb9c02` |
 | **HTTP Method** | `POST` |
 | **URL** | `/oauth2/Approval` |
-| **Content-Type** | `` |
+| **Content-Type** | `application/json` |
 | **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |

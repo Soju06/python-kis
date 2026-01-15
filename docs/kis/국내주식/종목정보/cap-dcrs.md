@@ -14,8 +14,8 @@
 | **API ID** | `27e843a3-826a-4a92-95f1-12be4c111898` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/ksdinfo/cap-dcrs` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `미지원` |
 | **TR ID** | `HHKDB669106C0`, `모의투자 미지원` |

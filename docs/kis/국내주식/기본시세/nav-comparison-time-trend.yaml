@@ -5,16 +5,16 @@ category: 국내주식
 subcategory: 기본시세
 method: GET
 url: /uapi/etfetn/v1/quotations/nav-comparison-time-trend
-content_type: ''
-req_format: ''
+content_type: application/json
+req_format: JSON
 domains:
   real: https://openapi.koreainvestment.com:9443
-  virtual: 모의투자 미지원
+  demo: 모의투자 미지원
 tr_ids:
 - 모의투자 미지원
 - FHPST02440100
 real_tr_id: FHPST02440100
-virtual_tr_id: 모의투자 미지원
+demo_tr_id: 모의투자 미지원
 summary: 'NAV 비교추이(분) API입니다.
 
   한국투자 HTS(eFriend Plus) > [0244] ETF/ETN 비교추이(NAV/IIV) 좌측 화면 "분별" 비교추이 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.

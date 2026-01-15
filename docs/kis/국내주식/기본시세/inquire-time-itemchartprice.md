@@ -23,7 +23,7 @@ ex) 오전 10시에 113000 입력 시에 오전 10시~11시30분 사이의 데�
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice` |
 | **Content-Type** | `application/json; charset=UTF-8` |
-| **요청 포맷** | `` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `https://openapivts.koreainvestment.com:29443` |
 | **TR ID** | `FHKST03010200` |

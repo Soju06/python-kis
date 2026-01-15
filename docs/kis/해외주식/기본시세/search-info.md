@@ -15,11 +15,11 @@
 | **API ID** | `7f77a12b-b23c-4605-93ea-4e1b3c0356fb` |
 | **HTTP Method** | `GET` |
 | **URL** | `/uapi/overseas-price/v1/quotations/search-info` |
-| **Content-Type** | `` |
-| **요청 포맷** | `` |
+| **Content-Type** | `application/json` |
+| **요청 포맷** | `JSON` |
 | **실전 도메인** | `https://openapi.koreainvestment.com:9443` |
 | **모의 도메인** | `모의투자 미지원` |
-| **TR ID** | `CTPF1702R`, `모의투자 미지원` |
+| **TR ID** | `모의투자 미지원`, `CTPF1702R` |
 
 ## 메타 정보
 

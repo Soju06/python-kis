@@ -1,1 +1,1 @@
-"""Layer1 codegen utilities for python-kis v3."""
+"""Codegen tooling for python-kis (API + store pipelines)."""

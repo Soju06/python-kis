@@ -1,0 +1,69 @@
+name: ST_BOND_CODE
+header_url: https://raw.githubusercontent.com/koreainvestment/open-trading-api/main/stocks_info/%EC%A2%85%EB%AA%A9%EB%A7%88%EC%8A%A4%ED%84%B0%EC%A0%95%EB%B3%B4%28%EC%B1%84%EA%B6%8C%29.h
+record_length: 106
+fields:
+- name: type
+  type_code: char
+  length: 2
+  description: A0:장내소매채권, F9:(주식관련사채, 소액채권), C0:국고채권
+  length_source: null
+- name: bond_cls_code
+  type_code: char
+  length: 2
+  description: 'A0: GA:국고채 MA:통안채 BA:금융채 SA:비금융특수채 CA:회사채
+
+    F9: 03:장내소액채권 02:기타채권 04:장내주식관련사채 MM:매매종류별
+
+    C0: GA:국고채 MA:통안채 BA:금융채 SA:비금융특수채 MB:지방채 99:기타'
+  length_source: null
+- name: stnd_iscd
+  type_code: char
+  length: 12
+  description: ''
+  length_source: null
+- name: sname
+  type_code: char
+  length: 40
+  description: ''
+  length_source: null
+- name: bond_int_cls_code
+  type_code: char
+  length: 2
+  description: 'F9/C0 : 01:할인 02:복리 03:이표 04:금리연동 05:분할상환(거리복리)
+
+    06:분할(거치단리) 07:단리 08:FRN 09:복5단2
+
+    A0 : 고정금리형 11:할인채 12:복리채 13:이표채 14:단리채 15:복5단2 19:기타
+
+    A0 : 변동금리형 21:이표채 22:복리채 23:단리채 29:기타'
+  length_source: null
+- name: lstn_date
+  type_code: char
+  length: 8
+  description: 상장일
+  length_source: null
+- name: pblc_date
+  type_code: char
+  length: 8
+  description: 발행 일자
+  length_source: null
+- name: rdmp_date
+  type_code: char
+  length: 8
+  description: 상환 일자
+  length_source: null
+- name: sale_date
+  type_code: char
+  length: 8
+  description: 매출 일자
+  length_source: null
+- name: srfc_intrt
+  type_code: char
+  length: 8
+  description: 표면 이자율(사용안함)
+  length_source: null
+- name: rdmt_rate
+  type_code: char
+  length: 8
+  description: 만기 상환 비율(사용안함)
+  length_source: null
