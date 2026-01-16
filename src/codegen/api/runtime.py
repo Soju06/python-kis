@@ -34,10 +34,10 @@ class ValueResolver:
     def __init__(self, client: SyncKisRawClient, overrides: AugmentOverrides) -> None:
         account_number, account_product = client.auth.account_number
         self._defaults = {
-            "appkey": client.auth.appkey,
-            "appsecret": client.auth.appsecret,
+            "appkey": client.auth.app_key,
+            "appsecret": client.auth.secret_key,
             "id": client.auth.id,
-            "custtype": client.auth.custtype,
+            "custtype": "P",
             "cano": account_number,
             "acnt_prdt_cd": account_product,
             "acca_dvsn_cd": "00",

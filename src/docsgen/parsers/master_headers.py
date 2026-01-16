@@ -25,9 +25,7 @@ class MasterStruct:
     record_length: int
 
 
-_FIELD_RE = re.compile(
-    r"^\s*(?P<type>[A-Za-z_][\w\s\*]*?)\s+(?P<name>[A-Za-z_]\w*)\s*\[(?P<size>[^\]]+)\]\s*;"
-)
+_FIELD_RE = re.compile(r"^\s*(?P<type>[A-Za-z_][\w\s\*]*?)\s+(?P<name>[A-Za-z_]\w*)\s*\[(?P<size>[^\]]+)\]\s*;")
 
 _STRUCT_START_RE = re.compile(r"^\s*typedef\s+struct\b")
 _STRUCT_NAMED_RE = re.compile(r"^\s*struct\s+(?P<name>[A-Za-z_]\w*)\b")

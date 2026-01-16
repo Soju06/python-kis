@@ -6,6 +6,8 @@ from typing import Any
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
+from codegen.core.text import wrap_display_text
+
 
 def _template_dir() -> Path:
     return Path(__file__).resolve().parents[1] / "templates"
@@ -22,7 +24,12 @@ def _env() -> Environment:
         undefined=StrictUndefined,
     )
     env.filters["repr"] = repr
+    env.filters["wrap_text"] = _wrap_text
     return env
+
+
+def _wrap_text(value: str, width: int = 100) -> str:
+    return wrap_display_text(value, width=width)
 
 
 def render_template(name: str, **context: Any) -> str:

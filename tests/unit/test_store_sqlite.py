@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from pykis.store import StoreConfig, SyncMasterStore
-from pykis.store.raw.reader import FixedWidthReader
+from pykis.store.parser.reader import FixedWidthReader
 from pykis.store.registry import build_raw_source, get_source
 from pykis.store.service.loader import load_source_def_into_sqlite
 from pykis.store.service.sqlite import StoreDb

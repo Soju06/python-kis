@@ -11,6 +11,7 @@ from docsgen.renderers.jinja_env import render_template
 if TYPE_CHECKING:
     from docsgen.portal.models import ApiDetail, ApiError, ApiProperty, Section
 
+
 def normalize_filename(name: str) -> str:
     """Normalize API name to valid filename."""
     # Remove [category] prefix if present

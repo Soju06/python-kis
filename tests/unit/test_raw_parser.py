@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pytest
 
-from pykis.store.raw.parser import FixedWidthParser
-from pykis.store.raw.spec import RecordSpec
+from pykis.store.parser.parser import FixedWidthParser
+from pykis.store.parser.spec import RecordSpec
 
 pytestmark = pytest.mark.unit
 

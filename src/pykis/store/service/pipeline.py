@@ -15,7 +15,7 @@ from typing import Iterable, cast
 import aiopath
 import httpx
 
-from pykis.store.raw.definitions import SourceDef
+from pykis.store.parser.definitions import SourceDef
 from pykis.store.raw.masters import SOURCE_DEFS
 from pykis.store.registry import get_struct
 from pykis.store.service.indexing import detect_index_fields

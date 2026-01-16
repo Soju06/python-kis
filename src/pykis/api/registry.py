@@ -5,7 +5,7 @@ from typing import Iterable
 _REGISTRY_IMPORT_ERROR: Exception | None
 
 try:
-    from pykis.api.raw.registry import ENDPOINTS as _GENERATED
+    from pykis.raw.registry import ENDPOINTS as _GENERATED
 except Exception as exc:
     _GENERATED = {}
     _REGISTRY_IMPORT_ERROR = exc

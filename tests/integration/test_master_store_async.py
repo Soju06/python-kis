@@ -19,9 +19,7 @@ async def test_master_store_async_lookup(tmp_path) -> None:
 
     db = StoreDb(result.db_path, read_only=True)
     try:
-        row = db.conn.execute(
-            "SELECT symbol FROM instrument_index WHERE symbol IS NOT NULL LIMIT 1"
-        ).fetchone()
+        row = db.conn.execute("SELECT symbol FROM instrument_index WHERE symbol IS NOT NULL LIMIT 1").fetchone()
         assert row is not None
         symbol = row["symbol"]
     finally:

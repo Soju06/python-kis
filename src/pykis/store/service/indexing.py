@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Mapping
 
-from pykis.store.raw.spec import RecordSpec
+from pykis.store.parser.spec import RecordSpec
 
 
 @dataclass(frozen=True, slots=True)

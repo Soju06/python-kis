@@ -7,7 +7,7 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Iterable, Mapping
 
-from pykis.store.raw.spec import RecordSpec
+from pykis.store.parser.spec import RecordSpec
 
 
 @dataclass(frozen=True, slots=True)
@@ -104,7 +104,7 @@ class StoreDb:
         if not rows_list:
             return
         columns = list(rows_list[0].keys())
-        col_names = ", ".join(f'\"{name}\"' for name in columns)
+        col_names = ", ".join(f'"{name}"' for name in columns)
         placeholders = ", ".join("?" for _ in columns)
         sql = f"INSERT INTO instrument_index ({col_names}) VALUES ({placeholders})"
         values = [[_normalize_value(row.get(col)) for col in columns] for row in rows_list]
@@ -113,7 +113,7 @@ class StoreDb:
     def create_indexes_for_table(self, table_name: str, columns: Iterable[str]) -> None:
         for column in columns:
             index_name = f"idx_{table_name}_{column}"
-            self.conn.execute(f'CREATE INDEX IF NOT EXISTS {index_name} ON {table_name} (\"{column}\")')
+            self.conn.execute(f'CREATE INDEX IF NOT EXISTS {index_name} ON {table_name} ("{column}")')
 
     def create_global_indexes(self) -> None:
         self.create_index_table()

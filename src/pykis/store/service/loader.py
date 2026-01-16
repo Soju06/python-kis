@@ -8,10 +8,10 @@ from typing import Type
 
 from pydantic import BaseModel
 
-from pykis.store.raw.definitions import SourceDef
-from pykis.store.raw.models import RawSource
-from pykis.store.raw.parser import FixedWidthParser
-from pykis.store.raw.reader import RecordReader, is_delimited_file, is_line_fixed_file
+from pykis.store.parser.definitions import SourceDef
+from pykis.store.parser.models import RawSource
+from pykis.store.parser.parser import FixedWidthParser
+from pykis.store.parser.reader import RecordReader, is_delimited_file, is_line_fixed_file
 from pykis.store.registry import get_model, get_struct
 from pykis.store.service.indexing import IndexFields, build_index_row, detect_index_fields
 from pykis.store.service.sqlite import StoreDb, TableDef
@@ -224,7 +224,7 @@ def _parse_validate_range(
     if end <= start:
         return [], []
     start_line = start // record_length
-    with path.open('rb') as stream:
+    with path.open("rb") as stream:
         stream.seek(start)
         data = stream.read(end - start)
     view = memoryview(data)
@@ -237,8 +237,8 @@ def _parse_validate_range(
         record = parser.parse(block)
         parsed = model.model_validate(record)
         payload = parsed.model_dump()
-        payload['source_id'] = source_id
-        payload['line_no'] = line_no
+        payload["source_id"] = source_id
+        payload["line_no"] = line_no
         rows.append(payload)
         idx_row = build_index_row(
             fields=record,

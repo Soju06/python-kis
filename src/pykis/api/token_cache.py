@@ -27,7 +27,7 @@ class KisTokenCache:
         domain = _domain_label(base_url)
         safe_id = _SAFE_ID_RE.sub("_", self.auth.id or "anon")
         key = sha256(
-            f"pykis{self.auth.id or ''}{self.auth.appkey}{self.auth.appsecret}{base_url}token".encode()
+            f"pykis{self.auth.id or ''}{self.auth.app_key}{self.auth.secret_key}{base_url}token".encode()
         ).hexdigest()
         return self.root / f"token_{domain}_{safe_id}_{key}.json"
 
@@ -60,6 +60,7 @@ class KisTokenCache:
             return
         except Exception:
             return
+
 
 def _domain_label(base_url: str) -> str:
     if base_url == DEMO_DOMAIN:

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from pykis.store.raw.models import RawRecord
+from pykis.store.parser.models import RawRecord
 from pykis.store.translate.normalizer import FieldMap, FieldMapNormalizer
 
 pytestmark = pytest.mark.unit

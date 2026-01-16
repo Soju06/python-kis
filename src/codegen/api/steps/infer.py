@@ -9,7 +9,7 @@ from codegen.api.report_models import ValidationReport, ValidationSampleResult
 from codegen.api.types import EndpointHints, ExtraFields, FieldHint, TypeOverrides
 from codegen.core.enums import parse_enum_entries
 from codegen.core.types import JsonObject, JsonValue
-from pykis.api.raw.types import Endpoint
+from pykis.raw.types import Endpoint
 
 
 def _text_flags(field: SpecField) -> str:
@@ -41,8 +41,33 @@ def _decimal_spec(text: str) -> tuple[int, int] | None:
     return None
 
 
+def _enum_sample_values(sample: JsonValue | None) -> list[str]:
+    values: list[str] = []
+    seen: set[str] = set()
+    items = sample if isinstance(sample, list) else [sample]
+    for item in items:
+        if item is None:
+            continue
+        if isinstance(item, str):
+            text = item.strip()
+        else:
+            text = str(item)
+        if not text or text in seen:
+            continue
+        seen.add(text)
+        values.append(text)
+    return values
+
+
+def _values_numeric(values: list[str]) -> bool:
+    return all(value.isdigit() for value in values)
+
+
 def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
     text = _text_flags(field)
+    sample_values = _enum_sample_values(sample)
+    if isinstance(sample, list):
+        sample = sample_values[0] if sample_values else None
     if field.code.lower() == "keyb":
         return FieldHint(kind="str")
     if "y/n" in text or field.code.lower().endswith("_yn") or "여부" in text:
@@ -58,6 +83,13 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
         if normalized.issubset({"Y", "N"}):
             return FieldHint(kind="bool")
         if len(enum_values) >= 2:
+            if sample_values and any(value not in enum_values for value in sample_values):
+                if _values_numeric(enum_values) and _values_numeric(sample_values):
+                    for value in sample_values:
+                        if value not in enum_values:
+                            enum_values.append(value)
+                else:
+                    return FieldHint(kind="str")
             return FieldHint(kind="enum", enum=enum_values, enum_desc=enum_desc or None)
 
     spec = _decimal_spec(text)
@@ -107,8 +139,10 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
             if re.fullmatch(r"-?\d+", value):
                 if len(value) == 8 and any(token in text for token in ("일자", "날짜", "date", "ymd")):
                     return FieldHint(kind="date")
-                if len(value) == 6 and "시간외" not in text and any(
-                    token in text for token in ("시간", "시각", "time", "hhmmss", "hhmm")
+                if (
+                    len(value) == 6
+                    and "시간외" not in text
+                    and any(token in text for token in ("시간", "시각", "time", "hhmmss", "hhmm"))
                 ):
                     return FieldHint(kind="time")
                 if any(token in text for token in price_tokens + rate_tokens):
@@ -162,11 +196,17 @@ def _as_object(payload: JsonValue | None) -> JsonObject | None:
 
 def _sample_from_container(container: JsonValue | None, field: SpecField) -> tuple[JsonValue | None, bool]:
     if isinstance(container, list):
-        if container:
-            first = container[0]
-            first_dict = _as_object(first)
-            if first_dict is not None:
-                return first_dict.get(field.code), field.code in first_dict
+        values: list[JsonValue] = []
+        found = False
+        for item in container:
+            item_dict = _as_object(item)
+            if item_dict is None:
+                continue
+            if field.code in item_dict:
+                found = True
+                values.append(item_dict.get(field.code))
+        if found:
+            return values, True
     else:
         container_dict = _as_object(container)
         if container_dict is not None:
@@ -276,10 +316,14 @@ def infer_types(specs: list[EndpointSpec], augment_dir: Path) -> TypeOverrides:
                 if field.required and isinstance(container, (dict, list)) and sample is None:
                     hint.required = False
                 if field.required and isinstance(container, list):
-                    missing_in_list = any(
-                        isinstance(item, dict) and field.code not in item for item in container
-                    )
+                    missing_in_list = any(isinstance(item, dict) and field.code not in item for item in container)
                     if missing_in_list:
+                        hint.required = False
+                    blank_in_list = any(
+                        isinstance(item, dict) and field.code in item and _is_blank(item.get(field.code))
+                        for item in container
+                    )
+                    if blank_in_list:
                         hint.required = False
                 output_map[field.code] = hint
             if isinstance(container, dict):

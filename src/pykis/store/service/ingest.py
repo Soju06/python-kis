@@ -6,10 +6,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Iterator, Mapping
 
-from pykis.store.raw.models import RawRecord, RawSource
-from pykis.store.raw.parser import FixedWidthParser
-from pykis.store.raw.reader import FixedWidthReader
-from pykis.store.raw.spec import RecordSpec
+from pykis.store.parser.models import RawRecord, RawSource
+from pykis.store.parser.parser import FixedWidthParser
+from pykis.store.parser.reader import FixedWidthReader
+from pykis.store.parser.spec import RecordSpec
 from pykis.store.service.index import InMemoryIndex
 from pykis.store.translate.models import Instrument
 from pykis.store.translate.normalizer import Normalizer
@@ -63,10 +63,7 @@ class StoreBuilder:
             return
 
         with ProcessPoolExecutor(max_workers=workers or _default_workers()) as executor:
-            futures = [
-                executor.submit(_parse_range, source.path, source.spec, start, end)
-                for start, end in ranges
-            ]
+            futures = [executor.submit(_parse_range, source.path, source.spec, start, end) for start, end in ranges]
             for future in as_completed(futures):
                 for line_no, fields in future.result():
                     record = RawRecord(source_id=source.source_id, line_no=line_no, fields=fields)

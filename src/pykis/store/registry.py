@@ -5,8 +5,8 @@ from typing import Type
 
 from pydantic import BaseModel
 
+from pykis.store.parser.models import RawSource
 from pykis.store.raw.masters import SOURCE_DEFS
-from pykis.store.raw.models import RawSource
 from pykis.store.raw.structs import STRUCT_DEFS, STRUCT_MODELS
 
 

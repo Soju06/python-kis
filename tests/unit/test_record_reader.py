@@ -4,9 +4,9 @@ from pathlib import Path
 
 import pytest
 
-from pykis.store.raw.models import RawSource
-from pykis.store.raw.reader import RecordReader, is_delimited_file
-from pykis.store.raw.spec import RecordSpec
+from pykis.store.parser.models import RawSource
+from pykis.store.parser.reader import RecordReader, is_delimited_file
+from pykis.store.parser.spec import RecordSpec
 
 pytestmark = pytest.mark.unit
 

@@ -14,11 +14,7 @@ from codegen.core.types import JsonObject
 
 
 def iter_yaml_files(root: Path) -> list[Path]:
-    return sorted(
-        p
-        for p in root.rglob("*.yaml")
-        if p.is_file() and "종목정보파일" not in p.parts
-    )
+    return sorted(p for p in root.rglob("*.yaml") if p.is_file() and "종목정보파일" not in p.parts)
 
 
 def _format_template(value: str, index: int, pad: int) -> str:
@@ -43,23 +39,14 @@ def _expand_fields(expand: FieldExpandSpec) -> list[DocField]:
 
     template = expand.template
     field_spec = expand.field
-    name = (
-        expand.name
-        or (template.name if template else None)
-        or (field_spec.name if field_spec else None)
-        or ""
-    )
+    name = expand.name or (template.name if template else None) or (field_spec.name if field_spec else None) or ""
     description = (
         expand.description
         or (template.description if template else None)
         or (field_spec.description if field_spec else None)
         or ""
     )
-    type_code = str(
-        expand.type_code
-        or (field_spec.type_code if field_spec else None)
-        or ""
-    )
+    type_code = str(expand.type_code or (field_spec.type_code if field_spec else None) or "")
     type_name = str(expand.type_name or (field_spec.type_name if field_spec else None) or "")
     length = expand.length if expand.length is not None else (field_spec.length if field_spec else None)
     required = (

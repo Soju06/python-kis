@@ -5,4 +5,3 @@ class PykisError(Exception):
     """Base exception for pykis errors."""
 
     __slots__ = ()
-

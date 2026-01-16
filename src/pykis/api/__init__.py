@@ -10,9 +10,9 @@ from pykis.api.errors import (
     KisTransportError,
     KisUnsupportedEndpointError,
 )
-from pykis.api.raw import ENDPOINTS, Endpoint, ensure_registry
 from pykis.api.registry import get_endpoint, list_endpoints, register, register_many
 from pykis.api.token import KisAccessToken
+from pykis.raw import ENDPOINTS, Endpoint, ensure_registry
 
 __all__ = [
     "KisAuth",

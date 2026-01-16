@@ -40,5 +40,3 @@ def test_parse_error_code_contents_body_pairs() -> None:
         ("OPSQ서버", "OPSQ0001", "호출 전처리 오류"),
         ("OPSQ서버", "OPSQ0002", "없는 서비스 코드"),
     ]
-
-

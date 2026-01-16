@@ -7,15 +7,12 @@ from dataclasses import dataclass
 from dataclasses import field as dataclass_field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterable
+from typing import TYPE_CHECKING, Iterable
 
 from pydantic import BaseModel, ConfigDict
 
 from codegen.core.enums import parse_enum_entries
 from codegen.store.models import MasterCatalog, MasterField, MasterStructSpec
-from pykis.store.raw.models import RawSource
-from pykis.store.raw.reader import RecordReader
-from pykis.store.raw.spec import RecordSpec
 
 _INT_RE = re.compile(r"^-?\d+$")
 _DECIMAL_RE = re.compile(r"^-?\d+\.\d+$")
@@ -25,6 +22,9 @@ _TIME_TOKENS = ("시각", "시간", "hhmm", "hhmmss", "time", "_tm", "hour")
 _DATETIME_TOKENS = ("일시", "datetime", "timestamp", "_dttm")
 _CODE_TOKENS = ("코드", "code", "iscd", "isin", "symbol", "sym", "id", "번호", "종목")
 _DECIMAL_HINTS = ("가격", "주가", "금액", "지수", "rate", "ratio", "percent", "pct", "amount", "price", "비율", "률")
+
+if TYPE_CHECKING:
+    from pykis.store.parser.spec import RecordSpec
 
 
 @dataclass(frozen=True, slots=True)
@@ -132,8 +132,8 @@ class FieldInference(BaseModel):
     name: str
     kind: str
     nullable: bool
-    enum: list[str] | None
-    enum_desc: dict[str, str] | None
+    enum: list[str] | None = None
+    enum_desc: dict[str, str] | None = None
     stats: FieldStatsSummary
 
 
@@ -224,6 +224,9 @@ def _infer_from_file(
     field_stats: dict[str, FieldStats],
     config: InferConfig,
 ) -> None:
+    from pykis.store.parser.models import RawSource
+    from pykis.store.parser.reader import RecordReader
+
     record_spec = _build_record_spec(struct)
     raw_source = RawSource(source_id=struct.name, kind=struct.name, path=path, spec=record_spec)
     reader = RecordReader(raw_source)
@@ -234,6 +237,8 @@ def _infer_from_file(
 
 
 def _build_record_spec(struct: MasterStructSpec) -> RecordSpec:
+    from pykis.store.parser.spec import RecordSpec
+
     names = [field.name for field in struct.fields]
     lengths = [field.length for field in struct.fields]
     total_length = struct.record_length or sum(lengths)

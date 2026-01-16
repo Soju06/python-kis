@@ -245,7 +245,9 @@ class KisPortalClient:
         match = re.search(tr_pattern, f"{description} {name}")
         return match.group(1) if match else ""
 
-    def _parse_properties(self, raw_props: list[dict[str, object]]) -> tuple[
+    def _parse_properties(
+        self, raw_props: list[dict[str, object]]
+    ) -> tuple[
         list[ApiProperty],
         list[ApiProperty],
         list[ApiProperty],
@@ -343,11 +345,7 @@ class KisPortalClient:
         raw_props = detail.get("apiPropertys")
         if not isinstance(raw_props, list) or not raw_props:
             raw_props = await self.fetch_api_properties(api_info.id)
-        raw_props = [
-            {str(key): value for key, value in item.items()}
-            for item in raw_props
-            if isinstance(item, dict)
-        ]
+        raw_props = [{str(key): value for key, value in item.items()} for item in raw_props if isinstance(item, dict)]
 
         (
             properties,

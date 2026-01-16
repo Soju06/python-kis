@@ -17,22 +17,30 @@ from codegen.api.runtime import (
 from codegen.core.types import JsonObject, JsonValue
 from pykis.api.client import SyncKisRawClient
 from pykis.api.errors import KisResponseError
-from pykis.api.raw.types import Endpoint
+from pykis.raw.types import Endpoint
 
 
 def _is_read_only(spec: EndpointSpec) -> bool:
     if spec.method != "GET":
         return False
-    haystack = " ".join(
-        filter(None, [spec.name, spec.section, spec.category, spec.subcategory, spec.path])
-    ).lower()
+    haystack = " ".join(filter(None, [spec.name, spec.section, spec.category, spec.subcategory, spec.path])).lower()
     return not any(keyword.lower() in haystack for keyword in UNSAFE_KEYWORDS)
 
 
-def _coerce_payload(payload: JsonValue | None) -> JsonObject | None:
+def _coerce_json_value(value: object) -> JsonValue:
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    if isinstance(value, list):
+        return [_coerce_json_value(item) for item in value]
+    if isinstance(value, dict):
+        return {str(key): _coerce_json_value(item) for key, item in value.items()}
+    return str(value)
+
+
+def _coerce_payload(payload: object | None) -> JsonObject | None:
     if not isinstance(payload, dict):
         return None
-    return {str(key): value for key, value in payload.items()}
+    return {str(key): _coerce_json_value(value) for key, value in payload.items()}
 
 
 def run_smoke(

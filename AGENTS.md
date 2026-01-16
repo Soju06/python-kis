@@ -41,6 +41,7 @@
       - **dataclass**: Use for **Internal System** logic and complex type parameters.
       - **TypedDict**: Use sparingly for **Public API** input options where convenience is paramount.
    3. **Strict Typing**: Prefer strict typing end-to-end. Avoid `Any`, `object`, `dict`, and `Mapping` when the shape is known.
+   4. **Developer Experience**: The primary goal of typing is to ensure IDE auto-completion, linting, and type safety for SDK users. Optimize for external developer experience.
 2. **Implementation Patterns**
    1. **Class Structure**: Define instance variables with type annotations in the class body and ensure all of them are initialized in `__init__`.
       ```python
@@ -64,7 +65,7 @@
 3. Keep `__init__` exports intentional; do not re-export large dependency graphs by default.
 
 ## Async / Sync Strategy
-1. **Async Default**: The primary implementation is **async**. Sync clients must be prefixed with `Sync` (e.g. `SyncClient`).
+1. **Async Default**: The primary implementation is **async**. Public naming uses `AsyncClient` for async and `Client` for sync.
 2. **Automated Generation**: Use `unasync` to generate synchronous wrappers automatically.
 3. **Directory Structure**: Separate implementations into `/_async` (source) and `/_sync` (generated).
 4. **Immutable Sync Code**: **Never manually edit sync code**. All logic resides in async source; sync code is a build artifact.

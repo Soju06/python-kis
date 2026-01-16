@@ -60,9 +60,7 @@ async def run_pipeline(config: DocsGenConfig, *, logger: logging.Logger | None =
             for api_info in apis:
                 try:
                     api_detail = await fetch_complete_api(client, api_info)
-                    md_path, _yaml_path = await asyncio.to_thread(
-                        save_api_docs, api_detail, section, config.output_dir
-                    )
+                    md_path, _yaml_path = await asyncio.to_thread(save_api_docs, api_detail, section, config.output_dir)
                     total_apis += 1
                     log.info("Saved %s -> %s", api_info.name, md_path.relative_to(config.project_root))
                 except Exception as exc:

@@ -27,7 +27,7 @@ from codegen.api.runtime import (
 )
 from codegen.core.types import JsonObject, JsonValue
 from pykis.api.client import SyncKisRawClient
-from pykis.api.raw.types import Endpoint
+from pykis.raw.types import Endpoint
 
 logger = logging.getLogger("pykis.codegen.augment")
 
@@ -71,13 +71,35 @@ def _dump_json(path: Path, payload: object) -> None:
     )
 
 
-def _coerce_payload(payload: JsonValue) -> JsonObject | None:
+def _coerce_json_value(value: object) -> JsonValue:
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    if isinstance(value, list):
+        return [_coerce_json_value(item) for item in value]
+    if isinstance(value, dict):
+        return {str(key): _coerce_json_value(item) for key, item in value.items()}
+    return str(value)
+
+
+def _coerce_payload(payload: object | None) -> JsonObject | None:
     if not isinstance(payload, dict):
         return None
     normalized: JsonObject = {}
     for key, value in payload.items():
-        normalized[str(key)] = value
+        normalized[str(key)] = _coerce_json_value(value)
     return normalized
+
+
+def _coerce_query_params(payload: JsonObject) -> dict[str, str | int | float | None]:
+    params: dict[str, str | int | float | None] = {}
+    for key, value in payload.items():
+        if value is None:
+            params[str(key)] = None
+        elif isinstance(value, (str, int, float)):
+            params[str(key)] = value
+        else:
+            params[str(key)] = str(value)
+    return params
 
 
 def _select_tr_id(endpoint: EndpointSpec, domain: str) -> str | None:
@@ -181,9 +203,9 @@ def augment_endpoint(
             reason=f"missing_required_headers: {header_missing}",
         )
 
-    request_payload: JsonObject = {**query, **body}
+    request_payload_data: JsonObject = {**query, **body}
     try:
-        endpoint_def.request_model.model_validate(request_payload)
+        endpoint_def.request_model.model_validate(request_payload_data)
     except ValidationError as exc:
         logger.error("augment request validation failed: %s -> %s", endpoint.id, exc)
         raise
@@ -193,7 +215,7 @@ def augment_endpoint(
         base_url=base_url,
         path=endpoint.path,
         headers=headers,
-        params=query if query else None,
+        params=_coerce_query_params(query) if query else None,
         body=body if body else None,
         auth_required=endpoint_def.auth_required,
         hashkey_required=endpoint_def.hashkey_required,
@@ -312,7 +334,7 @@ def _probe_error(
         base_url=base_url,
         path=endpoint.path,
         headers=dict(headers),
-        params=query_copy if query_copy else None,
+        params=_coerce_query_params(query_copy) if query_copy else None,
         body=body_copy if body_copy else None,
         auth_required="authorization" in {h.code.lower() for h in endpoint.request.headers},
         hashkey_required="hashkey" in {h.code.lower() for h in endpoint.request.headers},
@@ -323,7 +345,8 @@ def _probe_error(
         return {"raw": response.text}
     payload = _coerce_payload(raw_payload)
     if payload is None:
-        return {"raw": raw_payload if raw_payload is not None else response.text}
+        raw_value = _coerce_json_value(raw_payload) if raw_payload is not None else response.text
+        return {"raw": raw_value}
     return payload
 
 
@@ -392,9 +415,7 @@ def run_augmentation(
 
         if client is None or resolver is None:
             skipped += 1
-            results.append(
-                AugmentEndpointResult(id=spec.id, status="skipped", reason=f"{domain}_client_unavailable")
-            )
+            results.append(AugmentEndpointResult(id=spec.id, status="skipped", reason=f"{domain}_client_unavailable"))
             continue
 
         if endpoint_def.auth_required:

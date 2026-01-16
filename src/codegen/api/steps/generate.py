@@ -7,7 +7,9 @@ from pathlib import Path
 
 from codegen.api.models import EndpointSpec, SpecField
 from codegen.api.types import EndpointHints, FieldHint, TypeOverrides
+from codegen.core.format import run_ruff_fix, run_ruff_format
 from codegen.core.render import render_template
+from codegen.core.text import wrap_display_lines
 
 __all__ = ["generate_raw", "normalize_filename", "section_path"]
 
@@ -34,6 +36,26 @@ class ModelField:
     desc: str
     field_args: list[str]
 
+    @property
+    def init_args(self) -> list[str]:
+        args: list[str] = []
+        if not self.required:
+            args.append("default=None")
+        args.append(f"alias={self.alias!r}")
+        args.extend(self.field_args)
+        return args
+
+    @property
+    def desc_lines(self) -> list[str]:
+        if not self.desc:
+            return []
+        lines = wrap_display_lines(self.desc, width=96)
+        if not lines:
+            return []
+        if len(lines) == 1:
+            return lines
+        return [f"{line} " for line in lines[:-1]] + [lines[-1]]
+
 
 @dataclass(slots=True)
 class ModelDef:
@@ -44,7 +66,7 @@ class ModelDef:
 @dataclass(slots=True)
 class TypedDictField:
     code: str
-    type: str
+    type_lines: list[str]
     required: bool
     desc: str
     doc_type: str
@@ -72,6 +94,7 @@ class EndpointContext:
     path: str
     description: str | None
     description_lines: list[str]
+    description_literal_lines: list[str] | None
     real_tr_id: str | None
     demo_tr_id: str | None
     auth_required: bool
@@ -125,16 +148,15 @@ def section_path(category: str | None, subcategory: str | None) -> Path:
     return Path(_slug(subcategory or "misc"))
 
 
-def _class_name(name: str, suffix: str) -> str:
-    base = re.sub(r"\[v\d+_[^\]]+\]", "", name).strip()
-    base = re.sub(r"\([^)]*\)", "", base).strip()
-    base = re.sub(r"[^0-9A-Za-z가-힣_]", "_", base)
-    base = re.sub(r"_+", "_", base).strip("_")
-    if not base:
-        base = "Endpoint"
-    if base[0].isdigit():
-        base = f"_{base}"
-    return f"{base}{suffix}"
+def _class_base_name(spec: EndpointSpec) -> str:
+    base = _spec_basename(spec)
+    parts = [part for part in base.split("_") if part]
+    if not parts:
+        return "Endpoint"
+    value = "".join(part[:1].upper() + part[1:] for part in parts)
+    if value[0].isdigit():
+        return f"_{value}"
+    return value
 
 
 def _field_name(code: str) -> str:
@@ -156,6 +178,8 @@ def _enum_member_name(value: str) -> str:
     cleaned = re.sub(r"[^A-Za-z0-9]+", "_", value).upper().strip("_")
     if not cleaned:
         cleaned = "VALUE"
+    if cleaned in {"I", "O", "L"}:
+        cleaned = f"VALUE_{cleaned}"
     if cleaned[0].isdigit():
         cleaned = f"VALUE_{cleaned}"
     return cleaned
@@ -169,7 +193,10 @@ def _register_enum(
 ) -> None:
     enum_def = enum_defs.get(enum_name)
     if enum_def is None:
-        enum_def = EnumDef(name=enum_name, members=[])
+        enum_def = EnumDef(
+            name=enum_name,
+            members=[],
+        )
         enum_defs[enum_name] = enum_def
     members = enum_def.members
     existing = {member.value for member in members}
@@ -188,7 +215,7 @@ def _register_enum(
             name = candidate
         seen_names.add(name)
         desc = str(enum_desc.get(value_str, "")) if enum_desc else ""
-        members.append(EnumMember(name=name, value=value_str, desc=desc))
+        members.append(EnumMember(name=name, value=value_str, desc=desc.strip()))
 
 
 def _field_type(field: SpecField, hint: FieldHint | None) -> tuple[str, set[str], list[str]]:
@@ -196,7 +223,7 @@ def _field_type(field: SpecField, hint: FieldHint | None) -> tuple[str, set[str]
     if hint:
         if hint.enum:
             enum_name = _enum_class_name(field.code)
-            return f"{enum_name} | str", set(), field_args
+            return enum_name, set(), field_args
         kind = hint.kind
         if kind == "int":
             return "int", set(), field_args
@@ -243,7 +270,7 @@ def _optional_type(py_type: str, imports: set[str]) -> str:
 
 
 def _inline_doc(text: str) -> str:
-    text = (text or "").replace('"""', "\\\"\\\"\\\"")
+    text = (text or "").replace('"""', '\\"\\"\\"')
     return " ".join(text.split()).strip()
 
 
@@ -268,13 +295,58 @@ def _collect_enums(
 
 
 def _clean_doc_lines(text: str) -> list[str]:
-    text = (text or "").replace('"""', "\\\"\\\"\\\"")
+    text = (text or "").replace('"""', '\\"\\"\\"')
     lines = [line.rstrip() for line in text.splitlines()]
     while lines and not lines[0].strip():
         lines.pop(0)
     while lines and not lines[-1].strip():
         lines.pop()
     return lines
+
+
+def _literal_pieces(text: str, *, width: int = 96) -> list[str]:
+    lines = wrap_display_lines(text, width=width)
+    if len(lines) <= 1:
+        return lines
+    return [f"{line} " for line in lines[:-1]] + [lines[-1]]
+
+
+def _multiline_literal_pieces(text: str | None, *, width: int = 96) -> list[str] | None:
+    if text is None:
+        return None
+    raw_lines = text.splitlines()
+    if not raw_lines:
+        return [""]
+    pieces: list[str] = []
+    for index, raw in enumerate(raw_lines):
+        if not raw:
+            wrapped = [""]
+        else:
+            wrapped = wrap_display_lines(raw, width=width)
+        if len(wrapped) > 1:
+            wrapped = [f"{line} " for line in wrapped[:-1]] + [wrapped[-1]]
+        if index < len(raw_lines) - 1:
+            wrapped[-1] = f"{wrapped[-1]}\\n"
+        pieces.extend(wrapped)
+    return pieces
+
+
+def _render_typed_dict_type(py_type: str, desc: str, required: bool) -> list[str]:
+    if not desc:
+        return [py_type] if required else [f"NotRequired[{py_type}]"]
+
+    desc_pieces = [repr(piece) for piece in _literal_pieces(desc, width=96)]
+    desc_pieces[-1] = f"{desc_pieces[-1]},"
+    annotated_lines = [
+        "Annotated[",
+        f"    {py_type},",
+        *[f"    {piece}" for piece in desc_pieces],
+        "]",
+    ]
+    if required:
+        return annotated_lines
+    indented = [f"    {line}" for line in annotated_lines]
+    return ["NotRequired[", *indented, "]"]
 
 
 def _build_model_fields(
@@ -327,12 +399,11 @@ def _build_typed_dict_fields(
         base_type, _, _ = _field_type(field, hint)
         py_type = base_type if required else _optional_type(base_type, set())
         desc = _inline_doc(field.description or field.name or "")
-        if desc:
-            py_type = f"Annotated[{py_type}, {desc!r}]"
+        type_lines = _render_typed_dict_type(py_type, desc, required)
         items.append(
             TypedDictField(
                 code=field.code,
-                type=py_type,
+                type_lines=type_lines,
                 required=required,
                 desc=desc,
                 doc_type=base_type,
@@ -353,20 +424,27 @@ def _build_doc_fields(
             required = hint.required
         base_type, _, _ = _field_type(field, hint)
         desc = _inline_doc(field.description or field.name or "")
-        items.append(
-            DocFieldInfo(code=field.code, type=base_type, required=required, desc=desc)
-        )
+        items.append(DocFieldInfo(code=field.code, type=base_type, required=required, desc=desc))
     return items
 
 
-def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeOverrides | None = None) -> None:
+def generate_raw(
+    specs: list[EndpointSpec],
+    out_dir: Path,
+    type_overrides: TypeOverrides | None = None,
+    *,
+    module_prefix: str = "pykis.api.raw",
+    keep_existing: bool = False,
+    update_registry: bool = True,
+) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     keep_files = {"base.py", "types.py", "registry.py", "__init__.py"}
-    for child in out_dir.iterdir():
-        if child.is_dir():
-            shutil.rmtree(child)
-        elif child.is_file() and child.name not in keep_files:
-            child.unlink()
+    if not keep_existing:
+        for child in out_dir.iterdir():
+            if child.is_dir():
+                shutil.rmtree(child)
+            elif child.is_file() and child.name not in keep_files:
+                child.unlink()
 
     static_files: list[str] = ["base.py", "types.py", "__init__.py"]
     for filename in static_files:
@@ -389,8 +467,9 @@ def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeO
         filename = f"{base_name}{suffix}.py"
         module_path = folder / filename
 
-        req_name = _class_name(spec.name, "Request")
-        res_name = _class_name(spec.name, "Response")
+        base_class = _class_base_name(spec)
+        req_name = f"{base_class}Request"
+        res_name = f"{base_class}Response"
 
         endpoint_hint = type_overrides.endpoints.get(spec.id) if type_overrides else None
         hints = endpoint_hint or EndpointHints()
@@ -410,6 +489,7 @@ def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeO
         enum_defs: dict[str, EnumDef] = {}
 
         description_lines = _clean_doc_lines(spec.description or spec.name or "")
+        description_literal_lines = _multiline_literal_pieces(spec.description, width=96)
         request_doc_fields = _build_doc_fields(request_fields, request_hint)
         _collect_enums(request_fields, request_hint, enum_defs)
         request_model = ModelDef(name=req_name, fields=_build_model_fields(request_fields, request_hint))
@@ -421,11 +501,16 @@ def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeO
         )
         output_models: list[ModelDef] = []
         output_class_names: list[str] = []
+        used_output_names: dict[str, int] = {}
         output_fields: list[ModelField] = []
         for output in spec.response.outputs:
             output_code = output.code
             class_suffix = re.sub(r"[^0-9A-Za-z]+", "_", output_code).title().replace("_", "")
-            output_class = _class_name(spec.name, class_suffix)
+            output_class = f"{base_class}{class_suffix}"
+            count = used_output_names.get(output_class, 0) + 1
+            used_output_names[output_class] = count
+            if count > 1:
+                output_class = f"{output_class}_{count}"
             output_class_names.append(output_class)
             field_hints = output_hint.get(output_code, {})
             output_fields_list = list(output.fields)
@@ -459,29 +544,52 @@ def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeO
         response_model = ModelDef(name=res_name, fields=[*envelope_fields, *output_fields])
 
         enum_list = list(enum_defs.values())
+        enum_export_names: list[str] = []
+        for enum_def in enum_list:
+            if enum_def.name not in enum_export_names:
+                enum_export_names.append(enum_def.name)
         all_names = [
             "ENDPOINT",
             req_name,
             request_dict_name,
             res_name,
             *output_class_names,
-            *[enum_def.name for enum_def in enum_list],
+            *enum_export_names,
+        ]
+        typing_items = [
+            "Annotated",
+            "Mapping",
+            "NotRequired",
+            "Protocol",
+            "TYPE_CHECKING",
+            "TypedDict",
+            "Unpack",
+            "overload",
         ]
         import_lines = [
-            "from typing import Annotated, Mapping, NotRequired, Protocol, TYPE_CHECKING, TypedDict, Unpack, overload",
+            "from typing import (",
+            *[f"    {item}," for item in typing_items],
+            ")",
             "from decimal import Decimal",
             "",
             "from pydantic import Field",
             "",
-            (
-                "from pykis.api.raw.base import RawModel, KisBool, KisDate, KisTime, KisDateTime, "
-                "KisDateOptional, KisTimeOptional, KisDateTimeOptional"
-            ),
-            "from pykis.api.raw.types import Endpoint, KisResponse",
+            "from pykis.raw.base import (",
+            "    RawModel,",
+            "    KisBool,",
+            "    KisDate,",
+            "    KisTime,",
+            "    KisDateTime,",
+            "    KisDateOptional,",
+            "    KisTimeOptional,",
+            "    KisDateTimeOptional,",
+            ")",
+            "from pykis.raw.types import Endpoint, KisResponse",
             "",
         ]
         if enum_list:
-            import_lines.insert(3, "from pykis.common.enums import KisStrEnum")
+            insert_at = import_lines.index("from pykis.raw.base import (")
+            import_lines.insert(insert_at, "from pykis.common.enums import KisStrEnum")
         import_lines += [
             "if TYPE_CHECKING:",
             "    from pykis.api.client import SyncKisRawClient",
@@ -493,6 +601,7 @@ def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeO
             path=spec.path,
             description=spec.description,
             description_lines=description_lines,
+            description_literal_lines=description_literal_lines,
             real_tr_id=spec.real_tr_id,
             demo_tr_id=spec.demo_tr_id,
             auth_required=_has_header(spec.request.headers, "authorization"),
@@ -515,7 +624,7 @@ def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeO
         )
         module_path.write_text(module_text, encoding="utf-8")
 
-        module_import = _module_import(out_dir, module_path)
+        module_import = _module_import(module_prefix, out_dir, module_path)
         endpoint_alias = f"ENDPOINT_{spec.id.replace('-', '_')}"
         registry_entries.append(
             RegistryEntry(
@@ -525,13 +634,16 @@ def generate_raw(specs: list[EndpointSpec], out_dir: Path, type_overrides: TypeO
             )
         )
 
-    registry_text = render_template("api/registry.py.jinja", registry_entries=registry_entries)
-    (out_dir / "registry.py").write_text(registry_text, encoding="utf-8")
+    if update_registry:
+        registry_text = render_template("api/registry.py.jinja", registry_entries=registry_entries)
+        (out_dir / "registry.py").write_text(registry_text, encoding="utf-8")
+    run_ruff_fix([out_dir])
+    run_ruff_format([out_dir])
 
 
-def _module_import(root: Path, module_path: Path) -> str:
+def _module_import(module_prefix: str, root: Path, module_path: Path) -> str:
     rel = module_path.relative_to(root).with_suffix("")
-    parts = ["pykis", "api", "raw", *rel.parts]
+    parts = [*module_prefix.split("."), *rel.parts]
     return ".".join(parts)
 
 

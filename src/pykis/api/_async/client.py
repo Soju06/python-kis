@@ -24,10 +24,10 @@ from pykis.api.errors import (
     KisTransportError,
     KisUnsupportedEndpointError,
 )
-from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.api.token import KisAccessToken
 from pykis.api.token_cache import KisTokenCache, default_token_cache_dir
 from pykis.logging import get_logger
+from pykis.raw.types import Endpoint, KisResponse
 
 RequestT = TypeVar("RequestT", bound=BaseModel)
 ResponseT = TypeVar("ResponseT", bound=BaseModel)
@@ -183,8 +183,8 @@ class KisRawClient:
                     headers={"content-type": "application/json; charset=UTF-8"},
                     json={
                         "grant_type": "client_credentials",
-                        "appkey": self.auth.appkey,
-                        "appsecret": self.auth.appsecret,
+                        "appkey": self.auth.app_key,
+                        "appsecret": self.auth.secret_key,
                     },
                 )
             except httpx.HTTPError as exc:
@@ -276,8 +276,8 @@ class KisRawClient:
                 urljoin(base_url, "/uapi/hashkey"),
                 headers={
                     "content-type": "application/json",
-                    "appkey": self.auth.appkey,
-                    "appsecret": self.auth.appsecret,
+                    "appkey": self.auth.app_key,
+                    "appsecret": self.auth.secret_key,
                 },
                 json=body,
             )
@@ -303,7 +303,7 @@ class KisRawClient:
             resp = await self._client.post(
                 urljoin(base_url, "/oauth2/revokeP"),
                 headers={"content-type": "application/json; charset=UTF-8"},
-                json=token.revoke_payload(self.auth.appkey, self.auth.appsecret),
+                json=token.revoke_payload(self.auth.app_key, self.auth.secret_key),
             )
             resp.raise_for_status()
         except Exception as exc:  # pragma: no cover - best effort on shutdown
@@ -368,9 +368,9 @@ class KisRawClient:
 
         built_headers: dict[str, str] = dict(headers or {})
         built_headers.setdefault("content-type", "application/json; charset=utf-8")
-        built_headers.setdefault("appkey", self.auth.appkey)
-        built_headers.setdefault("appsecret", self.auth.appsecret)
-        built_headers.setdefault("custtype", self.auth.custtype)
+        built_headers.setdefault("appkey", self.auth.app_key)
+        built_headers.setdefault("appsecret", self.auth.secret_key)
+        built_headers.setdefault("custtype", "P")
         tr_id = endpoint.real_tr_id if self.domain == "real" else endpoint.demo_tr_id
         has_tr_id = endpoint.real_tr_id is not None or endpoint.demo_tr_id is not None
         if has_tr_id:

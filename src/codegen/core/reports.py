@@ -48,6 +48,24 @@ def _pick(report: dict[str, object] | None, keys: tuple[str, ...]) -> dict[str, 
     return result
 
 
+def _coerce_int(value: object, default: int = 0) -> int:
+    if isinstance(value, bool):
+        return int(value)
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float):
+        return int(value)
+    if isinstance(value, str):
+        text = value.strip()
+        if not text:
+            return default
+        try:
+            return int(text)
+        except ValueError:
+            return default
+    return default
+
+
 def _write_summary(
     report_dir: Path,
     report: BaseModel | dict[str, object],
@@ -84,7 +102,7 @@ def write_docs_summary(report_dir: Path) -> DocsSummary | dict[str, object]:
 
     summary = DocsSummary(
         timestamp=_iso_timestamp(),
-        generated=int(pipeline.get("generated", 0)),
+        generated=_coerce_int(pipeline.get("generated", 0)),
         scan=scan_counts,
         normalize=normalize_counts,
         augment=augment_counts,
@@ -145,7 +163,7 @@ def write_store_summary(report_dir: Path) -> StoreSummary | dict[str, object]:
 
     scan_counts = ScanCounts(**_pick(scan, ("total_issues", "errors", "warnings")))
     validation_summary = StoreValidationSummary(
-        total_errors=int(validation.get("total_errors", 0)) if isinstance(validation, dict) else 0,
+        total_errors=_coerce_int(validation.get("total_errors", 0)) if isinstance(validation, dict) else 0,
         sources=total_sources,
         records=total_records,
         enum_mismatches=enum_mismatch_count,

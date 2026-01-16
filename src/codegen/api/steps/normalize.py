@@ -247,9 +247,7 @@ def normalize_doc(doc: DocEndpoint, source_path: str) -> tuple[EndpointSpec | No
     return spec, report
 
 
-def normalize_all(
-    docs: Iterable[tuple[DocEndpoint, str]]
-) -> tuple[list[EndpointSpec], IssueReport]:
+def normalize_all(docs: Iterable[tuple[DocEndpoint, str]]) -> tuple[list[EndpointSpec], IssueReport]:
     report = IssueReport()
     specs: list[EndpointSpec] = []
     for doc, source_path in docs:

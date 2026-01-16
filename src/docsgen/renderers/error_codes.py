@@ -19,10 +19,7 @@ def generate_error_codes_markdown(entries: list[ErrorCodeEntry], *, source_url: 
     category_rows = [
         {
             "name": category,
-            "entries": [
-                {"code": entry.code, "message": entry.message.replace("|", "\\|")}
-                for entry in cat_entries
-            ],
+            "entries": [{"code": entry.code, "message": entry.message.replace("|", "\\|")} for entry in cat_entries],
         }
         for category, cat_entries in categories.items()
     ]

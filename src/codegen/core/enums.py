@@ -34,7 +34,24 @@ def _normalize_description(text: str) -> str:
 def _clean_desc(text: str) -> str:
     cleaned = " ".join(text.split())
     cleaned = cleaned.strip(" ,;")
+    cleaned = _strip_unbalanced_trailing_paren(cleaned)
+    cleaned = cleaned.strip(" ,;")
     return cleaned
+
+
+def _strip_unbalanced_trailing_paren(text: str) -> str:
+    if not text or not text.endswith(")"):
+        return text
+    open_count = text.count("(")
+    close_count = text.count(")")
+    if close_count <= open_count:
+        return text
+    extra = close_count - open_count
+    trimmed = text
+    while extra > 0 and trimmed.endswith(")"):
+        trimmed = trimmed[:-1].rstrip()
+        extra -= 1
+    return trimmed
 
 
 def _clean_code(token: str) -> str:

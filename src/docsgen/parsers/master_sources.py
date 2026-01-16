@@ -200,13 +200,9 @@ def compare_sources(expected: list[MasterSource], actual: list[MasterSource]) ->
         if actual_entry is None:
             continue
         if expected_entry.group != actual_entry.group:
-            errors.append(
-                f"Group mismatch for {source_id}: {expected_entry.group} != {actual_entry.group}"
-            )
+            errors.append(f"Group mismatch for {source_id}: {expected_entry.group} != {actual_entry.group}")
         if expected_entry.label != actual_entry.label:
-            errors.append(
-                f"Label mismatch for {source_id}: {expected_entry.label} != {actual_entry.label}"
-            )
+            errors.append(f"Label mismatch for {source_id}: {expected_entry.label} != {actual_entry.label}")
         if expected_entry.download_url != actual_entry.download_url:
             errors.append(
                 f"Download URL mismatch for {source_id}: {expected_entry.download_url} != {actual_entry.download_url}"

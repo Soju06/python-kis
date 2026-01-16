@@ -12,6 +12,7 @@ from codegen.api.overrides import load_doc_overrides, load_type_overrides
 from codegen.api.report_models import (
     ApiPipelineReport,
     AugmentQualityReport,
+    AugmentSummary,
     ScanReport,
 )
 from codegen.api.steps.augment import run_augmentation
@@ -34,7 +35,7 @@ from codegen.core.reports import write_docs_summary
 from codegen.core.types import JsonObject
 from pykis.api.auth import KisAuth
 from pykis.api.client import SyncKisRawClient
-from pykis.api.raw.types import Endpoint
+from pykis.raw.types import Endpoint
 
 ROOT = project_root()
 DOCS_BASE = ROOT / "docs"
@@ -42,25 +43,29 @@ DOCS_ROOT = docs_root(ROOT)
 ARTIFACTS_ROOT = ROOT / "tmp" / "docs"
 NORMALIZED_DIR = ARTIFACTS_ROOT / "normalized"
 REPORT_DIR = ARTIFACTS_ROOT / "reports"
-GENERATED_RAW_DIR = ROOT / "src" / "pykis" / "api" / "raw"
+GENERATED_API_RAW_DIR = ROOT / "src" / "pykis" / "api" / "raw"
+GENERATED_RAW_DIR = ROOT / "src" / "pykis" / "raw"
+RAW_REGISTRY_PREFIX = "pykis.api.raw"
 AUGMENT_DIR = ARTIFACTS_ROOT / "augment"
 OVERRIDES_PATH = DOCS_BASE / "overrides" / "augment_overrides.yaml"
 TYPE_OVERRIDES_PATH = DOCS_BASE / "overrides" / "type_overrides.yaml"
 DOC_OVERRIDES_PATH = DOCS_BASE / "overrides" / "doc_overrides.yaml"
 DEMO_SECRET = ROOT / "demo_secret.json"
 REAL_SECRET = ROOT / "real_secret.json"
-TARGET_SECTION = "[해외주식] 기본시세"
+TARGET_SECTIONS = ("[국내주식] 기본시세", "[해외주식] 기본시세")
 SAMPLE_COUNT = 5
+DEMO_RATE_LIMIT = 0.5
+REAL_RATE_LIMIT = 0.2
 
 logger = logging.getLogger("pykis.codegen.pipeline")
 
 
 @dataclass(frozen=True, slots=True)
 class PipelineResult:
-    scan_report: JsonObject
-    normalize_report: JsonObject
-    augment_summary: JsonObject
-    augment_quality: JsonObject
+    scan_report: ScanReport
+    normalize_report: ScanReport
+    augment_summary: AugmentSummary
+    augment_quality: AugmentQualityReport
     generated: int
 
 
@@ -246,8 +251,8 @@ def run_pipeline() -> PipelineResult:
 
     type_overrides = load_type_overrides(TYPE_OVERRIDES_PATH)
 
-    section_specs = [spec for spec in specs if spec.section == TARGET_SECTION]
-    logger.info("scope target_section=%s endpoints=%s", TARGET_SECTION, len(section_specs))
+    section_specs = [spec for spec in specs if spec.section in TARGET_SECTIONS]
+    logger.info("scope target_sections=%s endpoints=%s", ", ".join(TARGET_SECTIONS), len(section_specs))
 
     def _sort_key(item: EndpointSpec) -> str:
         return item.id
@@ -261,7 +266,8 @@ def run_pipeline() -> PipelineResult:
     logger.info("sample endpoints=%s", len(sample_specs))
 
     # Generate raw models/registry for sample
-    generate_raw(sample_specs, GENERATED_RAW_DIR, type_overrides)
+    generate_raw(sample_specs, GENERATED_API_RAW_DIR, type_overrides, module_prefix="pykis.api.raw")
+    generate_raw(sample_specs, GENERATED_RAW_DIR, type_overrides, module_prefix="pykis.raw")
 
     if not DEMO_SECRET.exists():
         raise SystemExit("Missing demo_secret.json required for demo augmentation.")
@@ -271,10 +277,10 @@ def run_pipeline() -> PipelineResult:
     demo_auth = _load_auth(DEMO_SECRET)
     real_auth = _load_auth(REAL_SECRET)
 
-    demo_client, demo_error = _prepare_client(demo_auth, "demo", 0.2, True)
+    demo_client, demo_error = _prepare_client(demo_auth, "demo", DEMO_RATE_LIMIT, True)
     if demo_client is None:
         raise SystemExit(f"Unable to obtain demo token: {demo_error}")
-    real_client, real_error = _prepare_client(real_auth, "real", 0.05, True)
+    real_client, real_error = _prepare_client(real_auth, "real", REAL_RATE_LIMIT, True)
     if real_client is None:
         raise SystemExit(f"Unable to obtain real token: {real_error}")
 
@@ -308,7 +314,8 @@ def run_pipeline() -> PipelineResult:
 
     inference_sample = _apply_type_overrides(infer_types(sample_specs, AUGMENT_DIR), type_overrides)
     write_report(REPORT_DIR / "inference_sample.json", inference_sample)
-    generate_raw(section_specs, GENERATED_RAW_DIR, inference_sample)
+    generate_raw(section_specs, GENERATED_API_RAW_DIR, inference_sample, module_prefix="pykis.api.raw")
+    generate_raw(section_specs, GENERATED_RAW_DIR, inference_sample, module_prefix="pykis.raw")
 
     FULL_ENDPOINTS = _reload_registry()
 
@@ -341,7 +348,8 @@ def run_pipeline() -> PipelineResult:
 
     inference = _apply_type_overrides(infer_types(section_specs, AUGMENT_DIR), type_overrides)
     write_report(REPORT_DIR / "inference.json", inference)
-    generate_raw(section_specs, GENERATED_RAW_DIR, inference)
+    generate_raw(section_specs, GENERATED_API_RAW_DIR, inference, module_prefix="pykis.api.raw")
+    generate_raw(section_specs, GENERATED_RAW_DIR, inference, module_prefix="pykis.raw")
 
     validation = validate_samples(section_specs, AUGMENT_DIR, _reload_registry())
     write_report(REPORT_DIR / "validation.json", validation)
@@ -401,9 +409,11 @@ def _clean_generated_dirs() -> None:
             if sub.is_dir():
                 sub.rmdir()
 
-    if GENERATED_RAW_DIR.exists():
-        keep_files = {"base.py", "registry.py", "types.py", "__init__.py"}
-        for child in GENERATED_RAW_DIR.iterdir():
+    keep_files = {"base.py", "registry.py", "types.py", "__init__.py"}
+    for raw_dir in (GENERATED_API_RAW_DIR, GENERATED_RAW_DIR):
+        if not raw_dir.exists():
+            continue
+        for child in raw_dir.iterdir():
             if child.is_file() and child.name in keep_files:
                 continue
             if child.is_file():
@@ -418,9 +428,8 @@ def _clean_generated_dirs() -> None:
                 child.rmdir()
 
 
-
 def _reload_registry() -> dict[str, Endpoint]:
-    to_delete = [name for name in sys.modules if name.startswith("pykis.api.raw")]
+    to_delete = [name for name in sys.modules if name.startswith(RAW_REGISTRY_PREFIX)]
     for name in to_delete:
         sys.modules.pop(name, None)
     import importlib

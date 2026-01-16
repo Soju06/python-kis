@@ -12,6 +12,7 @@ else:
     try:
         from hatchling.builders.hooks.plugin.interface import BuildHookInterface
     except ImportError:  # pragma: no cover - optional for local script runs
+
         class BuildHookInterface:
             pass
 
@@ -29,6 +30,10 @@ class UnasyncTarget:
     sync_dir: pathlib.Path
     replacements: dict[str, str]
     postprocess: PostProcessor | None = None
+
+
+def _has_import_line(text: str, module: str) -> bool:
+    return any(line.strip() == f"import {module}" for line in text.splitlines())
 
 
 def _build_target(target: UnasyncTarget) -> None:
@@ -70,8 +75,41 @@ def _postprocess_api_sync(sync_dir: pathlib.Path) -> None:
         updated = text
         for before, after in replacements.items():
             updated = updated.replace(before, after)
-        if "time.sleep" in updated and "import time" not in updated:
-            updated = updated.replace("import asyncio", "import asyncio\nimport time")
+        if "time.sleep" in updated and not _has_import_line(updated, "time"):
+            if "import atexit" in updated:
+                updated = updated.replace("import atexit", "import atexit\nimport time")
+            else:
+                updated = updated.replace("import asyncio", "import asyncio\nimport time")
+        if updated != text:
+            path.write_text(updated, encoding="utf-8")
+
+
+def _postprocess_store_sync(sync_dir: pathlib.Path) -> None:
+    block = "\n".join(
+        [
+            "from pathlib import Path",
+            "from sqlite3 import Row",
+            "",
+            "import pathlib",
+            "import sqlite3",
+            "from pydantic import BaseModel",
+        ]
+    )
+    replacement = "\n".join(
+        [
+            "import pathlib",
+            "import sqlite3",
+            "from pathlib import Path",
+            "from sqlite3 import Row",
+            "",
+            "from pydantic import BaseModel",
+        ]
+    )
+    for path in sync_dir.rglob("*.py"):
+        text = path.read_text(encoding="utf-8")
+        if block not in text:
+            continue
+        updated = text.replace(block, replacement)
         if updated != text:
             path.write_text(updated, encoding="utf-8")
 
@@ -94,6 +132,7 @@ def _targets(root: pathlib.Path) -> list[UnasyncTarget]:
                 "MasterStore": "SyncMasterStore",
                 "aclose": "close",
             },
+            postprocess=_postprocess_store_sync,
         ),
         UnasyncTarget(
             name="api",

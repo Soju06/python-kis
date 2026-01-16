@@ -4,7 +4,7 @@ Raw layer handles bytes, fixed-width parsing, and source metadata. It must not
 import translation or service layers.
 """
 
-from pykis.store.raw.base import (
+from pykis.store.parser.base import (
     StoreBool,
     StoreBoolOptional,
     StoreDate,
@@ -19,17 +19,17 @@ from pykis.store.raw.base import (
     StoreTime,
     StoreTimeOptional,
 )
-from pykis.store.raw.io import iter_fixed_width_blocks
-from pykis.store.raw.models import RawRecord, RawSource
-from pykis.store.raw.parser import FixedWidthParser
-from pykis.store.raw.reader import (
+from pykis.store.parser.io import iter_fixed_width_blocks
+from pykis.store.parser.models import RawRecord, RawSource
+from pykis.store.parser.parser import FixedWidthParser
+from pykis.store.parser.reader import (
     DelimitedReader,
     FixedWidthReader,
     RecordReader,
     is_delimited_file,
     is_line_fixed_file,
 )
-from pykis.store.raw.spec import FieldSpec, RecordSpec
+from pykis.store.parser.spec import FieldSpec, RecordSpec
 
 __all__ = [
     "FieldSpec",

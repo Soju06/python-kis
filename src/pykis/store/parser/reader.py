@@ -4,9 +4,9 @@ from collections.abc import Iterator
 from pathlib import Path
 from typing import BinaryIO
 
-from pykis.store.raw.io import iter_fixed_width_blocks
-from pykis.store.raw.models import RawRecord, RawSource
-from pykis.store.raw.parser import FixedWidthParser
+from pykis.store.parser.io import iter_fixed_width_blocks
+from pykis.store.parser.models import RawRecord, RawSource
+from pykis.store.parser.parser import FixedWidthParser
 
 
 class FixedWidthReader:

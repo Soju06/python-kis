@@ -32,5 +32,3 @@ def test_save_faq_pinned_posts_docs_deletes_stale_files(tmp_path) -> None:
     assert len(written) == 1
     assert written[0].exists()
     assert not stale.exists()
-
-

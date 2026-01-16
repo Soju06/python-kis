@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Mapping
 
-from pykis.store.raw.spec import FieldSpec, RecordSpec
+from pykis.store.parser.spec import FieldSpec, RecordSpec
 
 
 class FixedWidthParser:

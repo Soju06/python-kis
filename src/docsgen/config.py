@@ -17,9 +17,7 @@ class DocsGenConfig:
     header_timeout: float = 10.0
     faq_forum_id: str = FAQ_FORUM_ID
     master_reference_path: Path | None = None
-    master_source_url: str = (
-        "https://apiportal.koreainvestment.com/api/contents/kind?title=CATEGORY&kind=CONTENTS"
-    )
+    master_source_url: str = "https://apiportal.koreainvestment.com/api/contents/kind?title=CATEGORY&kind=CONTENTS"
 
     @classmethod
     def from_project_root(cls, project_root: Path) -> DocsGenConfig:

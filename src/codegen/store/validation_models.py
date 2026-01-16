@@ -19,7 +19,7 @@ class ValidationErrorEntry(BaseModel):
 
 
 class EnumMismatchMap(RootModel[dict[str, dict[str, dict[str, int]]]]):
-    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True)
 
     root: dict[str, dict[str, dict[str, int]]] = Field(default_factory=dict)
 

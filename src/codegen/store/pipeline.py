@@ -31,7 +31,7 @@ from codegen.store.validation_models import (
     ValidationSourceSummary,
     ValidationSplitResult,
 )
-from pykis.store.raw.definitions import SourceDef
+from pykis.store.parser.definitions import SourceDef
 
 ROOT = project_root()
 DOCS_ROOT = store_docs_root(ROOT)
@@ -39,6 +39,7 @@ SPEC_PATH = DOCS_ROOT
 RAW_DIR = ROOT / "src" / "pykis" / "store" / "raw"
 REPORT_DIR = ROOT / "tmp" / "store_codegen"
 CACHE_DIR = REPORT_DIR / "cache"
+ENUM_OVERRIDE_PATH = ROOT / "docs" / "overrides" / "store_enum_overrides.yaml"
 
 
 @dataclass(frozen=True, slots=True)
@@ -108,7 +109,11 @@ def run_pipeline(
         inference_path = REPORT_DIR / "inference.json"
         write_inference(inference_path, inference)
 
-    generate_store(catalog, target_raw, inference)
+    enum_conflicts = generate_store(catalog, target_raw, inference, enum_override_path=ENUM_OVERRIDE_PATH)
+    if enum_conflicts:
+        conflicts_path = REPORT_DIR / "enum_conflicts.json"
+        with conflicts_path.open("w", encoding="utf-8") as handle:
+            json.dump([asdict(conflict) for conflict in enum_conflicts], handle, ensure_ascii=False, indent=2)
 
     if infer and validate_models and data_paths and inference:
         max_loops = 2
@@ -127,7 +132,7 @@ def run_pipeline(
             if attempt >= max_loops - 1:
                 raise SystemExit(f"Validation failed. See {result.report_path}.")
             _downgrade_inference(inference, result.invalid_fields)
-            generate_store(catalog, target_raw, inference)
+            generate_store(catalog, target_raw, inference, enum_override_path=ENUM_OVERRIDE_PATH)
         if inference_path:
             write_inference(inference_path, inference)
 
@@ -198,8 +203,8 @@ def _validate_generated_models(
     import importlib
     import sys
 
-    from pykis.store.raw.models import RawSource
-    from pykis.store.raw.reader import RecordReader
+    from pykis.store.parser.models import RawSource
+    from pykis.store.parser.reader import RecordReader
 
     for name in list(sys.modules):
         if name == "pykis.store.raw.structs" or name.startswith("pykis.store.raw.structs."):
@@ -290,7 +295,7 @@ def _extract_error_fields(errors: list[ValidationErrorEntry]) -> set[str]:
 def _enum_field_map(inference: CatalogInference) -> dict[str, set[str]]:
     result: dict[str, set[str]] = {}
     for struct_name, struct in inference.structs.items():
-        enum_fields = {name for name, field in struct.fields.items() if field.kind == "enum"}
+        enum_fields = {name for name, field in struct.fields.items() if field.enum}
         if enum_fields:
             result[struct_name] = enum_fields
     return result
@@ -299,11 +304,7 @@ def _enum_field_map(inference: CatalogInference) -> dict[str, set[str]]:
 def _enum_value_map(inference: CatalogInference) -> dict[str, dict[str, list[str]]]:
     result: dict[str, dict[str, list[str]]] = {}
     for struct_name, struct in inference.structs.items():
-        enum_map = {
-            field_name: list(field.enum)
-            for field_name, field in struct.fields.items()
-            if field.kind == "enum" and field.enum
-        }
+        enum_map = {field_name: list(field.enum) for field_name, field in struct.fields.items() if field.enum}
         if enum_map:
             result[struct_name] = enum_map
     return result
@@ -364,8 +365,6 @@ def _downgrade_inference(inference: CatalogInference, invalid_fields: dict[str, 
             if field is None:
                 continue
             field.kind = "str"
-            field.enum = None
-            field.enum_desc = None
 
 
 def _download_sources(
@@ -384,8 +383,7 @@ def _download_sources(
     results: list[DownloadResult] = []
     with ThreadPoolExecutor(max_workers=workers) as executor:
         futures = {
-            executor.submit(_download_source, source, downloads_dir, refresh=refresh): source
-            for source in sources
+            executor.submit(_download_source, source, downloads_dir, refresh=refresh): source for source in sources
         }
         for future in as_completed(futures):
             results.append(future.result())

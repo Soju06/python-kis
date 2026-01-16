@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Mapping, Protocol
 
-from pykis.store.raw.models import RawRecord
+from pykis.store.parser.models import RawRecord
 from pykis.store.translate.models import Instrument, InstrumentKey
 
 
