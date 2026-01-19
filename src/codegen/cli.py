@@ -13,6 +13,7 @@ from rich.table import Table
 from codegen.api.pipeline import run_pipeline as run_api_codegen
 from codegen.core.paths import project_root
 from codegen.store.pipeline import run_pipeline as run_store_codegen
+from codegen.streaming.pipeline import run_pipeline as run_streaming_codegen
 from docsgen.cli import run as run_docs_sync
 from pykis.logging import configure_logging
 
@@ -39,11 +40,17 @@ def _run_store() -> int:
     return 0
 
 
+def _run_streaming() -> int:
+    run_streaming_codegen()
+    return 0
+
+
 def _build_actions() -> list[Action]:
     return [
         Action("1", "Docs sync (API docs + master docs)", _run_docs),
         Action("2", "API codegen (raw models)", _run_api),
         Action("3", "Store codegen (masters/raw structs)", _run_store),
+        Action("4", "Streaming codegen (realtime raw models)", _run_streaming),
     ]
 
 

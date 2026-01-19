@@ -1,0 +1,1 @@
+"""Streaming realtime codegen pipeline."""
