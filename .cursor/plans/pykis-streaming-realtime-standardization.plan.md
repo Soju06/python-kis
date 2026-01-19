@@ -4,22 +4,22 @@ overview: Define a concrete, runnable plan to standardize streaming realtime par
 todos:
   - id: rt-scope-inventory
     content: "[P0] Inventory target TRs (domestic/overseas realtime) and extract response field order from docs"
-    status: pending
+    status: completed
   - id: rt-time-policy
     content: "[P0] Specify business_date inference using local NTP-synced time and market timezone rules"
-    status: pending
+    status: completed
   - id: rt-fieldspec
     content: "[P1] Draft FieldSpec set per TR (field order, types, Decimal rules, datetime rules)"
-    status: pending
+    status: completed
   - id: rt-parse-context
     content: "[P1] Define StreamingParseContext contract and lifecycle for date/time inference"
-    status: pending
+    status: completed
   - id: rt-override-report
     content: "[P1] Design override candidate report format and logging hooks for edge cases"
-    status: pending
+    status: completed
   - id: rt-codegen-ready
     content: "[P2] Prepare codegen input schema (streaming spec + FieldSpec + rules) for implementation"
-    status: pending
+    status: completed
 ---
 
 # Realtime Streaming Standardization Plan (Domestic + Overseas)
@@ -82,6 +82,10 @@ todos:
   - [`/var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/docs/kis/해외주식/실시간시세`](file:///var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/docs/kis/해외주식/실시간시세)
 - Produce a TR inventory list with:
   - `endpoint_uuid`, `tr_id`, `field_count`, field order.
+- Output:
+  - [`/var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/tmp/docs/reports/streaming_tr_inventory.json`](file:///var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/tmp/docs/reports/streaming_tr_inventory.json)
+- Notes:
+  - Found duplicate field codes in overseas `HDFSASP0` (PBID3/PASK3/VBID3/VASK3/DBID3/DASK3 repeated).
 
 ### 2) Business Date Inference Policy
 - Specify `TimeProvider` behavior:
@@ -90,6 +94,13 @@ todos:
 - Define a rule matrix for:
   - Domestic TRs missing date fields.
   - Overseas TRs with `XYMD/XHMS` and `KYMD/KHMS` precedence.
+- Output:
+  - [`/var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/tmp/docs/reports/streaming_parse_context_spec.yaml`](file:///var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/tmp/docs/reports/streaming_parse_context_spec.yaml)
+- Decisions:
+  - **Local-time (NTP-synced) policy**: business_date defaults to `now_utc().astimezone(market_tz).date()` when payload lacks a date field.
+  - **Explicit date wins**: BSOP_DATE / XYMD / KYMD / TYMD / DEBT_DATE override local inference.
+  - **Clock regression**: keep last inferred date and emit anomaly log.
+  - **YYMMDD policy**: infer century from local date in the field timezone (`year_policy: century_from_local`).
 
 ### 3) TR-level FieldSpec Draft (L0)
 - For each TR:
@@ -98,6 +109,12 @@ todos:
   - Specify `datetime_rule` (field pair + timezone).
   - Specify `decimal_rule` (ZDIV scaling or direct).
 - Output format designed for codegen input (see “Codegen Readiness”).
+- Output:
+  - [`/var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/tmp/docs/reports/streaming_fieldspec_draft.yaml`](file:///var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/tmp/docs/reports/streaming_fieldspec_draft.yaml)
+- Decisions:
+  - Duplicate fields are preserved in order and **aliased by index** (suffix `_2`).
+  - Overseas `ZDIV` is parsed as int; price fields with scale apply `Decimal(value) / 10**ZDIV`.
+  - `XYMD/KYMD` length 6 uses `year_policy: century_from_local`.
 
 ### 4) StreamingParseContext Contract
 - Define inputs:
@@ -108,6 +125,8 @@ todos:
 - Define update rules:
   - Update `business_date` on explicit date field.
   - Otherwise use local date in market timezone.
+- Output:
+  - [`/var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/tmp/docs/reports/streaming_parse_context_spec.yaml`](file:///var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/tmp/docs/reports/streaming_parse_context_spec.yaml)
 
 ### 5) Override Candidate Report
 - Define JSON schema for override candidates.
@@ -116,6 +135,8 @@ todos:
   - heuristic-only decisions
   - ZDIV anomalies
 - Ensure report is deterministic and reproducible for review.
+- Output:
+  - [`/var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/tmp/docs/reports/streaming_override_report_schema.json`](file:///var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/tmp/docs/reports/streaming_override_report_schema.json)
 
 ### 6) Codegen Readiness
 - Draft a unified “Streaming Spec” schema:
@@ -124,4 +145,5 @@ todos:
   - Domestic + overseas differences
   - Date inference
   - Edge-case overrides
-
+- Output:
+  - [`/var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/tmp/docs/reports/streaming_codegen_input_schema.yaml`](file:///var/folders/k3/zdqbl1mj297_19vj6rrb9ch00000gn/T/vibe-kanban/worktrees/daf3-/python-kis/tmp/docs/reports/streaming_codegen_input_schema.yaml)
