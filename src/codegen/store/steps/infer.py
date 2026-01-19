@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from dataclasses import field as dataclass_field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -20,8 +20,57 @@ _BOOL_VALUES = {"Y", "N", "YES", "NO", "TRUE", "FALSE", "1", "0"}
 _DATE_TOKENS = ("일자", "날짜", "기준일", "date", "ymd", "_dt")
 _TIME_TOKENS = ("시각", "시간", "hhmm", "hhmmss", "time", "_tm", "hour")
 _DATETIME_TOKENS = ("일시", "datetime", "timestamp", "_dttm")
-_CODE_TOKENS = ("코드", "code", "iscd", "isin", "symbol", "sym", "id", "번호", "종목")
-_DECIMAL_HINTS = ("가격", "주가", "금액", "지수", "rate", "ratio", "percent", "pct", "amount", "price", "비율", "률")
+_CODE_TOKENS = ("코드", "code", "iscd", "isin", "symbol", "symb", "sym", "id", "번호", "종목", "구분값")
+_CODE_BOUNDARY_TOKENS = ("id", "sym")
+_CODE_BOUNDARY_RE = re.compile(
+    r"(?:^|[^0-9a-z])(" + "|".join(re.escape(token) for token in _CODE_BOUNDARY_TOKENS) + r")(?:$|[^0-9a-z])"
+)
+_DECIMAL_HINTS = (
+    "가격",
+    "주가",
+    "현재가",
+    "시가",
+    "고가",
+    "저가",
+    "지수",
+    "금액",
+    "대금",
+    "rate",
+    "ratio",
+    "percent",
+    "pct",
+    "amount",
+    "price",
+    "단일가",
+    "비율",
+    "율",
+    "ctrt",
+)
+_INT_HINTS = (
+    "수량",
+    "거래량",
+    "건수",
+    "횟수",
+    "volume",
+    "count",
+    "digit",
+    "진법",
+    "표시진법",
+    "자리",
+    "자릿수",
+    "disp",
+)
+_DECIMAL_BLOCK_TOKENS = (
+    "지수명",
+    "index name",
+    "자산명",
+    "참조자산",
+    "관련선물",
+    "관련 선물",
+    "종목코드",
+    "ticker",
+)
+_DISABLED_TOKENS = ("사용안함", "사용 안함", "미사용", "사용하지 않음", "deprecated", "obsolete")
 
 if TYPE_CHECKING:
     from pykis.store.parser.spec import RecordSpec
@@ -31,9 +80,12 @@ if TYPE_CHECKING:
 class InferConfig:
     max_enum_values: int = 64
     numeric_threshold: float = 0.95
+    numeric_hint_threshold: float = 0.6
     date_threshold: float = 0.95
     time_threshold: float = 0.95
     datetime_threshold: float = 0.95
+    numeric_sample_size: int = 5000
+    conflict_examples: int = 5
 
 
 @dataclass(slots=True)
@@ -54,6 +106,7 @@ class FieldStats:
     distinct_overflow: bool = False
     has_alpha: bool = False
     has_leading_zero: bool = False
+    numeric_samples: list[str] = dataclass_field(default_factory=list)
 
     def observe(self, raw: str, config: InferConfig) -> None:
         self.total += 1
@@ -62,6 +115,8 @@ class FieldStats:
             self.empty += 1
             return
         self.non_empty += 1
+        if len(self.numeric_samples) < config.numeric_sample_size:
+            self.numeric_samples.append(value)
 
         if any(ch.isalpha() for ch in value):
             self.has_alpha = True
@@ -137,6 +192,48 @@ class FieldInference(BaseModel):
     stats: FieldStatsSummary
 
 
+@dataclass(frozen=True, slots=True)
+class NumericStats:
+    sample_size: int
+    numeric_count: int
+    numeric_ratio: float
+    decimal_count: int
+    decimal_ratio: float
+
+
+@dataclass(frozen=True, slots=True)
+class NumericConflict:
+    struct_name: str
+    field_name: str
+    heuristic_kind: str
+    data_kind: str
+    inferred_kind: str
+    numeric_ratio: float
+    decimal_ratio: float
+    sample_size: int
+    has_alpha: bool
+    has_leading_zero: bool
+    description: str | None
+    examples: list[str]
+
+
+@dataclass(frozen=True, slots=True)
+class NumericWarning:
+    struct_name: str
+    field_name: str
+    heuristic_kind: str | None
+    inferred_kind: str
+    numeric_ratio: float
+    decimal_ratio: float
+    sample_size: int
+    has_alpha: bool
+    has_leading_zero: bool
+    description: str | None
+    examples: list[str]
+    reasons: list[str]
+    expected: bool
+
+
 class StructInference(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
@@ -158,7 +255,7 @@ def infer_catalog_types(
     data_paths: dict[str, Path],
     *,
     config: InferConfig | None = None,
-) -> CatalogInference:
+) -> tuple[CatalogInference, list[NumericConflict], list[NumericWarning]]:
     config = config or InferConfig()
     struct_map = {struct.name: struct for struct in catalog.structs}
     struct_sources: dict[str, list[str]] = {}
@@ -179,21 +276,34 @@ def infer_catalog_types(
         _infer_from_file(struct, data_path, stats_map[struct.name], config)
 
     inference: dict[str, StructInference] = {}
+    conflicts: list[NumericConflict] = []
+    warnings: list[NumericWarning] = []
     for struct in catalog.structs:
         fields = {}
         for field in struct.fields:
             stats = stats_map[struct.name][field.name]
-            fields[field.name] = _finalize_field(field, stats, config)
+            fields[field.name] = _finalize_field(
+                field,
+                stats,
+                config,
+                struct_name=struct.name,
+                conflicts=conflicts,
+                warnings=warnings,
+            )
         inference[struct.name] = StructInference(
             name=struct.name,
             sources=sorted(struct_sources.get(struct.name, [])),
             fields=fields,
         )
 
-    return CatalogInference(
-        version="1",
-        generated_at=datetime.now(timezone.utc).isoformat(),
-        structs=inference,
+    return (
+        CatalogInference(
+            version="1",
+            generated_at=datetime.now(timezone.utc).isoformat(),
+            structs=inference,
+        ),
+        conflicts,
+        warnings,
     )
 
 
@@ -216,6 +326,22 @@ def write_inference(path: Path, inference: CatalogInference) -> None:
         json.dumps(inference.model_dump(exclude_none=True), ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
+
+
+def write_numeric_conflicts(path: Path, conflicts: list[NumericConflict]) -> None:
+    if not conflicts:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = [asdict(conflict) for conflict in conflicts]
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def write_numeric_warnings(path: Path, warnings: list[NumericWarning]) -> None:
+    if not warnings:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = [asdict(warning) for warning in warnings]
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def _infer_from_file(
@@ -245,7 +371,15 @@ def _build_record_spec(struct: MasterStructSpec) -> RecordSpec:
     return RecordSpec.from_lengths(names, lengths, record_length=total_length)
 
 
-def _finalize_field(field: MasterField, stats: FieldStats, config: InferConfig) -> FieldInference:
+def _finalize_field(
+    field: MasterField,
+    stats: FieldStats,
+    config: InferConfig,
+    *,
+    struct_name: str | None = None,
+    conflicts: list[NumericConflict] | None = None,
+    warnings: list[NumericWarning] | None = None,
+) -> FieldInference:
     text = _text_flags(field)
     non_empty = stats.non_empty
     nullable = stats.empty > 0
@@ -332,7 +466,7 @@ def _finalize_field(field: MasterField, stats: FieldStats, config: InferConfig) 
                 stats=_stats_summary(stats),
             )
 
-    if _is_code_like(text):
+    if _has_disabled_hint(text):
         return FieldInference(
             name=field.name,
             kind="str",
@@ -342,26 +476,70 @@ def _finalize_field(field: MasterField, stats: FieldStats, config: InferConfig) 
             stats=_stats_summary(stats),
         )
 
-    numeric_ratio = (stats.int_count + stats.decimal_count) / non_empty
-    if numeric_ratio >= config.numeric_threshold and not stats.has_alpha:
-        if stats.decimal_count > 0 or _has_decimal_hint(text):
-            return FieldInference(
-                name=field.name,
-                kind="decimal",
-                nullable=nullable,
-                enum=None,
-                enum_desc=None,
-                stats=_stats_summary(stats),
+    numeric_stats = _numeric_stats(stats.numeric_samples, stats)
+    heuristic_kind = _heuristic_numeric_kind(text)
+    data_kind = _data_numeric_kind(numeric_stats, stats, config, heuristic_kind=heuristic_kind)
+    inferred_kind = _pick_numeric_kind(data_kind, heuristic_kind, numeric_stats, stats, config)
+    if inferred_kind:
+        if warnings is not None and struct_name is not None:
+            warnings.extend(
+                _numeric_warnings(
+                    struct_name,
+                    field,
+                    stats,
+                    numeric_stats,
+                    heuristic_kind,
+                    inferred_kind,
+                    config,
+                )
             )
-        if not stats.has_leading_zero:
-            return FieldInference(
-                name=field.name,
-                kind="int",
-                nullable=nullable,
-                enum=None,
-                enum_desc=None,
-                stats=_stats_summary(stats),
+        if conflicts is not None and struct_name is not None:
+            conflict = _numeric_conflict(
+                struct_name,
+                field,
+                stats,
+                numeric_stats,
+                data_kind,
+                heuristic_kind,
+                inferred_kind,
+                config,
             )
+            if conflict is not None:
+                conflicts.append(conflict)
+        return FieldInference(
+            name=field.name,
+            kind=inferred_kind,
+            nullable=nullable,
+            enum=None,
+            enum_desc=None,
+            stats=_stats_summary(stats),
+        )
+
+    if warnings is not None and struct_name is not None:
+        warnings.extend(
+            _numeric_warnings(
+                struct_name,
+                field,
+                stats,
+                numeric_stats,
+                heuristic_kind,
+                "str",
+                config,
+            )
+        )
+    if conflicts is not None and struct_name is not None:
+        conflict = _numeric_conflict(
+            struct_name,
+            field,
+            stats,
+            numeric_stats,
+            data_kind,
+            heuristic_kind,
+            "str",
+            config,
+        )
+        if conflict is not None:
+            conflicts.append(conflict)
 
     return FieldInference(
         name=field.name,
@@ -379,7 +557,9 @@ def _text_flags(field: MasterField) -> str:
 
 
 def _is_code_like(text: str) -> bool:
-    return any(token in text for token in _CODE_TOKENS)
+    if _CODE_BOUNDARY_RE.search(text):
+        return True
+    return any(token in text for token in _CODE_TOKENS if token not in _CODE_BOUNDARY_TOKENS)
 
 
 def _has_date_hint(text: str) -> bool:
@@ -387,12 +567,22 @@ def _has_date_hint(text: str) -> bool:
 
 
 def _has_decimal_hint(text: str) -> bool:
+    if any(token in text for token in _DECIMAL_BLOCK_TOKENS):
+        return False
     return any(token in text for token in _DECIMAL_HINTS)
+
+
+def _has_int_hint(text: str) -> bool:
+    return any(token in text for token in _INT_HINTS)
 
 
 def _has_bool_hint(text: str) -> bool:
     tokens = ("y/n", "_yn", "여부", "flag", "yn")
     return any(token in text for token in tokens)
+
+
+def _has_disabled_hint(text: str) -> bool:
+    return any(token in text for token in _DISABLED_TOKENS)
 
 
 def _has_time_hint(text: str) -> bool:
@@ -455,12 +645,204 @@ def _stats_summary(stats: FieldStats) -> FieldStatsSummary:
     )
 
 
+def _normalize_numeric_text(value: str) -> str:
+    text = value.strip()
+    if not text:
+        return text
+    text = text.replace(",", "")
+    if text.startswith("+"):
+        text = text[1:]
+    return text
+
+
+def _numeric_stats(samples: list[str], field_stats: FieldStats) -> NumericStats:
+    normalized: list[str] = []
+    for value in samples:
+        text = value.strip()
+        if not text or text in {".", "-", ","}:
+            continue
+        normalized.append(_normalize_numeric_text(text))
+
+    sample_size = len(normalized)
+    if sample_size == 0:
+        return NumericStats(sample_size=0, numeric_count=0, numeric_ratio=0.0, decimal_count=0, decimal_ratio=0.0)
+
+    import pandas as pd
+
+    series = pd.Series(normalized, dtype="string")
+    numeric = pd.to_numeric(series, errors="coerce")
+    numeric_mask = numeric.notna()
+    numeric_count = int(numeric_mask.sum())
+    numeric_ratio = 0.0
+    if field_stats.non_empty:
+        numeric_ratio = (field_stats.int_count + field_stats.decimal_count) / field_stats.non_empty
+    decimal_markers = series[numeric_mask].str.contains(r"[.eE]", regex=True)
+    decimal_count = int(decimal_markers.sum()) if numeric_count else 0
+    decimal_ratio = decimal_count / numeric_count if numeric_count else 0.0
+    return NumericStats(
+        sample_size=sample_size,
+        numeric_count=numeric_count,
+        numeric_ratio=numeric_ratio,
+        decimal_count=decimal_count,
+        decimal_ratio=decimal_ratio,
+    )
+
+
+def _heuristic_numeric_kind(text: str) -> str | None:
+    if _is_code_like(text):
+        return "non_numeric"
+    if _has_disabled_hint(text):
+        return None
+    if _has_int_hint(text):
+        return "int"
+    if _has_decimal_hint(text):
+        return "decimal"
+    return None
+
+
+def _data_numeric_kind(
+    stats: NumericStats,
+    field_stats: FieldStats,
+    config: InferConfig,
+    *,
+    heuristic_kind: str | None,
+) -> str | None:
+    if heuristic_kind in {"decimal", "int", "non_numeric"}:
+        return heuristic_kind
+    if stats.sample_size == 0:
+        return None
+    if stats.numeric_ratio < config.numeric_threshold:
+        return "non_numeric"
+    if field_stats.has_alpha:
+        return "non_numeric"
+    if field_stats.decimal_count > 0 or stats.decimal_count > 0:
+        return "decimal"
+    return "int"
+
+
+def _pick_numeric_kind(
+    data_kind: str | None,
+    heuristic_kind: str | None,
+    stats: NumericStats,
+    field_stats: FieldStats,
+    config: InferConfig,
+) -> str | None:
+    if heuristic_kind == "non_numeric":
+        return None
+    if heuristic_kind == "decimal":
+        if stats.numeric_ratio >= config.numeric_hint_threshold and not field_stats.has_alpha:
+            return "decimal"
+        return None
+    if heuristic_kind == "int":
+        if field_stats.decimal_count > 0 or stats.decimal_count > 0:
+            if stats.numeric_ratio >= config.numeric_hint_threshold and not field_stats.has_alpha:
+                return "decimal"
+            return None
+        if stats.numeric_ratio >= config.numeric_hint_threshold and not field_stats.has_alpha:
+            return "int"
+        return None
+    if data_kind == "decimal":
+        if stats.numeric_ratio >= config.numeric_threshold and not field_stats.has_alpha:
+            return "decimal"
+        return None
+    if data_kind == "int":
+        if stats.numeric_ratio >= config.numeric_threshold and not field_stats.has_alpha:
+            return "int"
+        return None
+    if data_kind == "non_numeric":
+        return None
+    return None
+
+
+def _numeric_warnings(
+    struct_name: str,
+    field: MasterField,
+    stats: FieldStats,
+    numeric_stats: NumericStats,
+    heuristic_kind: str | None,
+    inferred_kind: str,
+    config: InferConfig,
+) -> list[NumericWarning]:
+    if heuristic_kind is None:
+        return []
+    reasons: list[str] = []
+    numeric_ratio = numeric_stats.numeric_ratio
+    if heuristic_kind in {"decimal", "int"}:
+        if stats.has_alpha:
+            reasons.append("numeric_hint_has_alpha")
+        if numeric_ratio < config.numeric_hint_threshold:
+            reasons.append("numeric_hint_low_ratio")
+        if heuristic_kind == "int" and (stats.decimal_count > 0 or numeric_stats.decimal_count > 0):
+            reasons.append("int_hint_has_decimal_values")
+    if heuristic_kind == "non_numeric":
+        if numeric_ratio >= config.numeric_threshold and not stats.has_alpha:
+            reasons.append("code_like_numeric_data")
+    if heuristic_kind in {"decimal", "int"} and inferred_kind != heuristic_kind:
+        reasons.append("numeric_hint_overridden")
+    if not reasons:
+        return []
+    examples = list(stats.distinct.keys())[: config.conflict_examples]
+    expected = all(reason == "code_like_numeric_data" for reason in reasons)
+    return [
+        NumericWarning(
+            struct_name=struct_name,
+            field_name=field.name,
+            heuristic_kind=heuristic_kind,
+            inferred_kind=inferred_kind,
+            numeric_ratio=round(numeric_ratio, 4),
+            decimal_ratio=round(numeric_stats.decimal_ratio, 4),
+            sample_size=numeric_stats.sample_size,
+            has_alpha=stats.has_alpha,
+            has_leading_zero=stats.has_leading_zero,
+            description=field.description or None,
+            examples=examples,
+            reasons=reasons,
+            expected=expected,
+        )
+    ]
+
+
+def _numeric_conflict(
+    struct_name: str,
+    field: MasterField,
+    stats: FieldStats,
+    numeric_stats: NumericStats,
+    data_kind: str | None,
+    heuristic_kind: str | None,
+    inferred_kind: str,
+    config: InferConfig,
+) -> NumericConflict | None:
+    if not data_kind or heuristic_kind not in {"decimal", "int", "non_numeric"}:
+        return None
+    if data_kind == heuristic_kind:
+        return None
+    examples = list(stats.distinct.keys())[: config.conflict_examples]
+    return NumericConflict(
+        struct_name=struct_name,
+        field_name=field.name,
+        heuristic_kind=heuristic_kind,
+        data_kind=data_kind,
+        inferred_kind=inferred_kind,
+        numeric_ratio=round(numeric_stats.numeric_ratio, 4),
+        decimal_ratio=round(numeric_stats.decimal_ratio, 4),
+        sample_size=numeric_stats.sample_size,
+        has_alpha=stats.has_alpha,
+        has_leading_zero=stats.has_leading_zero,
+        description=field.description or None,
+        examples=examples,
+    )
+
+
 __all__ = [
     "CatalogInference",
     "FieldInference",
     "InferConfig",
+    "NumericConflict",
+    "NumericWarning",
     "StructInference",
     "infer_catalog_types",
     "infer_field_from_values",
     "write_inference",
+    "write_numeric_conflicts",
+    "write_numeric_warnings",
 ]

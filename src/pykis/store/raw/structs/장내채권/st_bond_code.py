@@ -29,8 +29,7 @@ class ST_BOND_CODE(StoreModel):
         default=None,
         json_schema_extra={"length": 12},
     )
-    sname: str | None = Field(
-        default=None,
+    sname: str = Field(
         json_schema_extra={"length": 40},
     )
     bond_int_cls_code: str | None = Field(

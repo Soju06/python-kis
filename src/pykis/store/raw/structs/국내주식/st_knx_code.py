@@ -7,6 +7,7 @@ from pykis.store.parser.base import (
     StoreBool,
     StoreDate,
     StoreDecimal,
+    StoreInt,
     StoreModel,
 )
 from pykis.store.parser.definitions import StructDef
@@ -37,15 +38,15 @@ class ST_KNX_CODE(StoreModel):
         json_schema_extra={"length": 2},
     )
     ("증권그룹구분코드 KN:코넥스")
-    stck_sdpr: str = Field(
+    stck_sdpr: StoreInt = Field(
         json_schema_extra={"length": 9},
     )
     ("주식 기준가")
-    frml_mrkt_deal_qty_unit: str = Field(
+    frml_mrkt_deal_qty_unit: StoreInt = Field(
         json_schema_extra={"length": 5},
     )
     ("정규 시장 매매 수량 단위")
-    ovtm_mrkt_deal_qty_unit: str = Field(
+    ovtm_mrkt_deal_qty_unit: StoreInt = Field(
         json_schema_extra={"length": 5},
     )
     ("시간외 시장 매매 수량 단위")
@@ -128,15 +129,15 @@ class ST_KNX_CODE(StoreModel):
         json_schema_extra={"length": 1},
     )
     ("신용주문 가능 여부")
-    crdt_days: str = Field(
+    crdt_days: StoreInt = Field(
         json_schema_extra={"length": 3},
     )
     ("신용기간")
-    prdy_vol: str = Field(
+    prdy_vol: StoreInt = Field(
         json_schema_extra={"length": 12},
     )
     ("전일 거래량")
-    stck_fcam: str = Field(
+    stck_fcam: StoreInt = Field(
         json_schema_extra={"length": 12},
     )
     ("주식 액면가")
@@ -144,15 +145,15 @@ class ST_KNX_CODE(StoreModel):
         json_schema_extra={"length": 8},
     )
     ("주식 상장 일자")
-    lstn_stcn: str = Field(
+    lstn_stcn: StoreInt = Field(
         json_schema_extra={"length": 15},
     )
     ("상장 주수(천)")
-    cpfn: str = Field(
+    cpfn: StoreInt = Field(
         json_schema_extra={"length": 21},
     )
     ("자본금")
-    stac_month: str = Field(
+    stac_month: StoreInt = Field(
         json_schema_extra={"length": 2},
     )
     ("결산 월")
@@ -183,23 +184,23 @@ class ST_KNX_CODE(StoreModel):
         json_schema_extra={"length": 1},
     )
     ("KRX300 종목 여부 (Y/N) (실제적으로 필러)")
-    sale_account: str = Field(
+    sale_account: StoreInt = Field(
         json_schema_extra={"length": 9},
     )
     ("매출액")
-    bsop_prfi: str = Field(
+    bsop_prfi: StoreInt = Field(
         json_schema_extra={"length": 9},
     )
     ("영업이익")
-    op_prfi: str = Field(
+    op_prfi: StoreInt = Field(
         json_schema_extra={"length": 9},
     )
     ("경상이익")
-    thtr_ntin: str = Field(
+    thtr_ntin: StoreInt = Field(
         json_schema_extra={"length": 5},
     )
     ("단기순이익")
-    roe: StoreDecimal = Field(
+    roe: StoreInt = Field(
         json_schema_extra={"length": 9},
     )
     ("ROE(자기자본이익률)")
@@ -207,7 +208,7 @@ class ST_KNX_CODE(StoreModel):
         json_schema_extra={"length": 8},
     )
     ("기준년월")
-    prdy_avls_scal: str = Field(
+    prdy_avls_scal: StoreDecimal = Field(
         json_schema_extra={"length": 9},
     )
     ("전일기준 시가총액 (억)")

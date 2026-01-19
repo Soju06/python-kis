@@ -29,26 +29,31 @@ class FixedWidthReader:
             line_no += 1
 
 
-def _detect_delimited(
+def _detect_delimiter(
     stream: BinaryIO,
     field_count: int,
     *,
-    delimiter: bytes = b"|",
+    delimiters: tuple[bytes, ...],
     sample_bytes: int = 4096,
-) -> bool:
+) -> bytes | None:
     pos = stream.tell()
     chunk = stream.read(sample_bytes)
     stream.seek(pos)
     if not chunk:
-        return False
+        return None
     line = chunk.splitlines()[0] if b"\n" in chunk else chunk
-    line = line.strip()
-    if not line or delimiter not in line:
-        return False
-    parts = line.split(delimiter)
-    if parts and parts[-1] == b"":
-        parts = parts[:-1]
-    return len(parts) == field_count
+    line = line.rstrip(b"\r\n")
+    if not line:
+        return None
+    for delimiter in delimiters:
+        if delimiter not in line:
+            continue
+        parts = line.split(delimiter)
+        while parts and parts[-1] == b"" and len(parts) > field_count:
+            parts = parts[:-1]
+        if len(parts) == field_count:
+            return delimiter
+    return None
 
 
 def _detect_line_fixed(stream: BinaryIO, record_length: int, *, sample_bytes: int = 4096) -> bool:
@@ -63,7 +68,12 @@ def _detect_line_fixed(stream: BinaryIO, record_length: int, *, sample_bytes: in
 
 def is_delimited_file(path: Path, field_count: int, *, delimiter: bytes = b"|", sample_bytes: int = 4096) -> bool:
     with path.open("rb") as stream:
-        return _detect_delimited(stream, field_count, delimiter=delimiter, sample_bytes=sample_bytes)
+        if delimiter == b"|":
+            delimiters = (delimiter, b"\t")
+        else:
+            delimiters = (delimiter,)
+        detected = _detect_delimiter(stream, field_count, delimiters=delimiters, sample_bytes=sample_bytes)
+        return detected is not None
 
 
 def is_line_fixed_file(path: Path, record_length: int, *, sample_bytes: int = 4096) -> bool:
@@ -92,7 +102,7 @@ class DelimitedReader:
         for line_no, raw in enumerate(stream):
             if line_no < start_line:
                 continue
-            raw = raw.strip()
+            raw = raw.rstrip(b"\r\n")
             if not raw:
                 continue
             parts = raw.split(self._delimiter)
@@ -113,18 +123,27 @@ class RecordReader:
     _source: RawSource
     _fixed: FixedWidthReader
     _delimited: DelimitedReader
+    _tab_delimited: DelimitedReader
 
-    __slots__ = ("_source", "_fixed", "_delimited")
+    __slots__ = ("_source", "_fixed", "_delimited", "_tab_delimited")
 
     def __init__(self, source: RawSource, *, delimiter: str = "|") -> None:
         self._source = source
         self._fixed = FixedWidthReader(source)
         self._delimited = DelimitedReader(source, delimiter=delimiter)
+        self._tab_delimited = DelimitedReader(source, delimiter="\t")
 
     def iter_records(self, stream: BinaryIO, *, start_line: int = 0) -> Iterator[RawRecord]:
         field_count = len(self._source.spec.fields)
-        if _detect_delimited(stream, field_count):
+        detected = _detect_delimiter(
+            stream,
+            field_count,
+            delimiters=(self._delimited._delimiter, self._tab_delimited._delimiter),
+        )
+        if detected == self._delimited._delimiter:
             yield from self._delimited.iter_records(stream, start_line=start_line)
+        elif detected == self._tab_delimited._delimiter:
+            yield from self._tab_delimited.iter_records(stream, start_line=start_line)
         elif _detect_line_fixed(stream, self._source.spec.record_length):
             parser = FixedWidthParser(self._source.spec)
             line_no = 0

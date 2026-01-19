@@ -33,6 +33,12 @@ def test_infer_int() -> None:
     assert infer.kind == "int"
 
 
+def test_bid_order_size_infers_int() -> None:
+    field = _field("bnit", "Bid order size")
+    infer = infer_field_from_values(field, ["1", "10", "500"])
+    assert infer.kind == "int"
+
+
 def test_infer_decimal() -> None:
     field = _field("price", "가격")
     infer = infer_field_from_values(field, ["1.25", "3.40"])
@@ -110,4 +116,34 @@ def test_infer_datetime() -> None:
 def test_code_like_stays_str() -> None:
     field = _field("item_code", "코드")
     infer = infer_field_from_values(field, ["001", "002", "010"])
+    assert infer.kind == "str"
+
+
+def test_code_like_overrides_decimal_hint() -> None:
+    field = _field("bstp_larg_div_code", "지수 업종 대분류 코드")
+    infer = infer_field_from_values(field, ["0000", "0027", "0016"])
+    assert infer.kind == "str"
+
+
+def test_category_value_stays_str() -> None:
+    field = _field("idx_div", "시장구분값")
+    infer = infer_field_from_values(field, ["0", "1", "2"])
+    assert infer.kind == "str"
+
+
+def test_disabled_description_blocks_decimal() -> None:
+    field = _field("srfc_intrt", "표면 이자율(사용안함)")
+    infer = infer_field_from_values(field, ["10", "11", "12"])
+    assert infer.kind == "str"
+
+
+def test_display_digit_infers_int() -> None:
+    field = _field("sDispDigit", "가격표시진법")
+    infer = infer_field_from_values(field, ["10", "64", "256"])
+    assert infer.kind == "int"
+
+
+def test_asset_name_blocks_decimal() -> None:
+    field = _field("sRefrAsset", "참조자산 Index등 지수명")
+    infer = infer_field_from_values(field, ["ESH26", "NQH26", "ESU26"])
     assert infer.kind == "str"

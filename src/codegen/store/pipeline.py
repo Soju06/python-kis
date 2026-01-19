@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Mapping
@@ -18,8 +19,12 @@ from codegen.store.steps.generate import generate_store
 from codegen.store.steps.infer import (
     CatalogInference,
     InferConfig,
+    NumericConflict,
+    NumericWarning,
     infer_catalog_types,
     write_inference,
+    write_numeric_conflicts,
+    write_numeric_warnings,
 )
 from codegen.store.steps.io import load_catalog
 from codegen.store.steps.validate import validate_catalog
@@ -33,6 +38,7 @@ from codegen.store.validation_models import (
 )
 from pykis.store.parser.definitions import SourceDef
 
+DOWNLOAD_TIMEOUT_SECONDS = float(os.environ.get("STORE_CODEGEN_DOWNLOAD_TIMEOUT", "120"))
 ROOT = project_root()
 DOCS_ROOT = store_docs_root(ROOT)
 SPEC_PATH = DOCS_ROOT
@@ -97,9 +103,11 @@ def run_pipeline(
     inference: CatalogInference | None = None
     inference_path: Path | None = None
     data_paths: dict[str, Path] | None = None
+    numeric_conflicts: list[NumericConflict] | None = None
+    numeric_warnings: list[NumericWarning] | None = None
     if infer:
         cache_root = cache_dir or CACHE_DIR
-        inference, data_paths = _build_inference(
+        inference, data_paths, numeric_conflicts, numeric_warnings = _build_inference(
             catalog,
             cache_root,
             refresh=refresh,
@@ -108,6 +116,29 @@ def run_pipeline(
         )
         inference_path = REPORT_DIR / "inference.json"
         write_inference(inference_path, inference)
+        conflicts_path = REPORT_DIR / "numeric_conflicts.json"
+        if numeric_conflicts:
+            write_numeric_conflicts(conflicts_path, numeric_conflicts)
+        elif conflicts_path.exists():
+            conflicts_path.unlink()
+        warnings_path = REPORT_DIR / "numeric_warnings.json"
+        expected_path = REPORT_DIR / "numeric_warnings_expected.json"
+        if numeric_warnings:
+            unexpected = [warning for warning in numeric_warnings if not warning.expected]
+            expected = [warning for warning in numeric_warnings if warning.expected]
+            if unexpected:
+                write_numeric_warnings(warnings_path, unexpected)
+            elif warnings_path.exists():
+                warnings_path.unlink()
+            if expected:
+                write_numeric_warnings(expected_path, expected)
+            elif expected_path.exists():
+                expected_path.unlink()
+        else:
+            if warnings_path.exists():
+                warnings_path.unlink()
+            if expected_path.exists():
+                expected_path.unlink()
 
     enum_conflicts = generate_store(catalog, target_raw, inference, enum_override_path=ENUM_OVERRIDE_PATH)
     if enum_conflicts:
@@ -165,7 +196,7 @@ def _build_inference(
     refresh: bool,
     workers: int,
     config: InferConfig | None,
-) -> tuple[CatalogInference, dict[str, Path]]:
+) -> tuple[CatalogInference, dict[str, Path], list[NumericConflict], list[NumericWarning]]:
     sources = [_source_def(source) for source in catalog.sources]
     downloads_dir = cache_dir / "downloads"
     extracted_dir = cache_dir / "extracted"
@@ -181,8 +212,8 @@ def _build_inference(
         refresh=refresh,
     )
     data_paths = {result.source_id: result.data_path for result in extract_results}
-    inference = infer_catalog_types(catalog, data_paths, config=config)
-    return inference, data_paths
+    inference, conflicts, warnings = infer_catalog_types(catalog, data_paths, config=config)
+    return inference, data_paths, conflicts, warnings
 
 
 @dataclass(frozen=True, slots=True)
@@ -397,7 +428,7 @@ def _download_source(source: SourceDef, downloads_dir: Path, *, refresh: bool) -
     if dest.exists() and not refresh:
         return DownloadResult(source_id=source.source_id, download_path=dest)
     tmp = dest.with_suffix(dest.suffix + ".tmp")
-    with httpx.Client(timeout=30.0, follow_redirects=True) as client:
+    with httpx.Client(timeout=DOWNLOAD_TIMEOUT_SECONDS, follow_redirects=True) as client:
         with client.stream("GET", source.download_url) as response:
             response.raise_for_status()
             with tmp.open("wb") as handle:

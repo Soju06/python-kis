@@ -4,26 +4,30 @@ from __future__ import annotations
 from pydantic import Field
 
 from pykis.store.parser.base import (
-    StoreBoolOptional,
+    StoreBool,
+    StoreDecimal,
+    StoreInt,
     StoreModel,
+    StoreTime,
 )
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
+from pykis.store.raw.structs._enums import (
+    SjongEnum,
+    StisEnum,
+)
 
 
 class mastcode(StoreModel):
-    ncod: str | None = Field(
-        default=None,
+    ncod: str = Field(
         json_schema_extra={"length": 3},
     )
     ("National code")
-    exid: str | None = Field(
-        default=None,
+    exid: str = Field(
         json_schema_extra={"length": 4},
     )
     ("Exchange id")
-    excd: str | None = Field(
-        default=None,
+    excd: str = Field(
         json_schema_extra={"length": 4},
     )
     ("Exchange code")
@@ -47,9 +51,12 @@ class mastcode(StoreModel):
         json_schema_extra={"length": 65},
     )
     ("English name")
-    stis: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 2},
+    stis: StisEnum = Field(
+        json_schema_extra={
+            "length": 2,
+            "enum": ["1", "2", "3", "4"],
+            "enum_desc": {"1": "Index", "2": "Stock", "3": "ETP(ETF)", "4": "Warrant"},
+        },
     )
     ("Security type 1:Index 2:Stock 3:ETP(ETF) 4:Warrant")
     curr: str | None = Field(
@@ -57,8 +64,7 @@ class mastcode(StoreModel):
         json_schema_extra={"length": 5},
     )
     ("currency")
-    zdiv: str | None = Field(
-        default=None,
+    zdiv: StoreInt = Field(
         json_schema_extra={"length": 2},
     )
     ("float position")
@@ -67,32 +73,27 @@ class mastcode(StoreModel):
         json_schema_extra={"length": 2},
     )
     ("data type")
-    base: str = Field(
+    base: StoreDecimal = Field(
         json_schema_extra={"length": 13},
     )
     ("base price")
-    bnit: str | None = Field(
-        default=None,
+    bnit: StoreInt = Field(
         json_schema_extra={"length": 9},
     )
     ("Bid order size")
-    anit: str | None = Field(
-        default=None,
+    anit: StoreInt = Field(
         json_schema_extra={"length": 9},
     )
     ("Ask order size")
-    mstm: str | None = Field(
-        default=None,
+    mstm: StoreInt = Field(
         json_schema_extra={"length": 5},
     )
     ("market start time(HHMM)")
-    metm: str | None = Field(
-        default=None,
+    metm: StoreTime = Field(
         json_schema_extra={"length": 5},
     )
     ("market end time(HHMM)")
-    isdr: StoreBoolOptional = Field(
-        default=None,
+    isdr: StoreBool = Field(
         json_schema_extra={"length": 2},
     )
     ("DR 여부 :Y, N")
@@ -106,13 +107,11 @@ class mastcode(StoreModel):
         json_schema_extra={"length": 5},
     )
     ("업종분류코드")
-    sjong: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 2},
+    sjong: SjongEnum = Field(
+        json_schema_extra={"length": 2, "enum": ["0", "1"], "enum_desc": {"0": "구성종목없음", "1": "구성종목있음"}},
     )
     ("지수구성종목 존재 여부 0:구성종목없음 1:구성종목있음")
-    ttyp: str | None = Field(
-        default=None,
+    ttyp: StoreInt = Field(
         json_schema_extra={"length": 2},
     )
     ("Tick size Type")

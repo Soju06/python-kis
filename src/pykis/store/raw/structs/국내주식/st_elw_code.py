@@ -7,6 +7,7 @@ from pykis.store.parser.base import (
     StoreBool,
     StoreDate,
     StoreDecimal,
+    StoreInt,
     StoreModel,
 )
 from pykis.store.parser.definitions import StructDef
@@ -78,7 +79,7 @@ class ST_ELW_CODE(StoreModel):
         json_schema_extra={"length": 5},
     )
     ("발행사코드")
-    acpr: str = Field(
+    acpr: StoreInt = Field(
         json_schema_extra={"length": 9},
     )
     ("행사가")
@@ -98,15 +99,16 @@ class ST_ELW_CODE(StoreModel):
         json_schema_extra={"length": 8},
     )
     ("지급일")
-    prdy_avls: str = Field(
+    prdy_avls: StoreDecimal = Field(
         json_schema_extra={"length": 9},
     )
     ("전일시가총액(억)")
-    lstn_stcn: str = Field(
+    lstn_stcn: StoreInt = Field(
         json_schema_extra={"length": 15},
     )
     ("상장주수(천)")
-    mrkt_prtt_no1: str = Field(
+    mrkt_prtt_no1: str | None = Field(
+        default=None,
         json_schema_extra={"length": 5},
     )
     ("시장 참가자 번호1")

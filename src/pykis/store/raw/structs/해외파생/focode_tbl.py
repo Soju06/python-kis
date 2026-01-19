@@ -92,11 +92,11 @@ class FOCODE_TBL(StoreModel):
         json_schema_extra={"length": 14},
     )
     ("틱가치")
-    sCtrtSz: StoreInt = Field(
+    sCtrtSz: StoreDecimal = Field(
         json_schema_extra={"length": 10},
     )
     ("계약크기")
-    sDispDigit: StoreDecimal = Field(
+    sDispDigit: StoreInt = Field(
         json_schema_extra={"length": 4},
     )
     ("가격표시진법")

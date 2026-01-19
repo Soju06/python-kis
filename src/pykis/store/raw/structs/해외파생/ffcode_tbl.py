@@ -50,7 +50,7 @@ class FFCODE_TBL(StoreModel):
         json_schema_extra={"length": 10},
     )
     ("품목코드 (ISAM KEY 2)")
-    sClasCd: str = Field(
+    sClasCd: StoreInt = Field(
         json_schema_extra={"length": 3},
     )
     ("품목종류")
@@ -74,7 +74,7 @@ class FFCODE_TBL(StoreModel):
         json_schema_extra={"length": 10},
     )
     ("계약크기")
-    sDispDigit: StoreDecimal = Field(
+    sDispDigit: StoreInt = Field(
         json_schema_extra={"length": 4},
     )
     ("가격표시진법")
