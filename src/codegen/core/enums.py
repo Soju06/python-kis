@@ -155,11 +155,12 @@ def parse_enum_entries(description: str | None) -> list[EnumEntry]:
     candidates.extend(_parse_pairs(normalized))
     candidates.extend(_parse_colonless(normalized))
 
-    for chunk in _ENUM_LIST_RE.findall(normalized):
-        for token in chunk.split(","):
-            token = token.strip()
-            if token:
-                candidates.append(EnumEntry(code=token, desc=""))
+    if not candidates:
+        for chunk in _ENUM_LIST_RE.findall(normalized):
+            for token in chunk.split(","):
+                token = token.strip()
+                if token:
+                    candidates.append(EnumEntry(code=token, desc=""))
 
     if not candidates:
         return []

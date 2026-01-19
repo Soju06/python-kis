@@ -20,7 +20,6 @@ from pykis.store.raw.structs._enums import (
     IcicClsCodeEnum,
     MrktAlrmClsCodeEnum,
     ShortOverClsCodeEnum,
-    SriNmixYnEnum,
 )
 
 
@@ -193,9 +192,9 @@ class ST_KSP_CODE(StoreModel):
         json_schema_extra={"length": 1},
     )
     ("KRX섹터지수 운송여부")
-    sri_nmix_yn: SriNmixYnEnum | None = Field(
+    sri_nmix_yn: StoreBoolOptional = Field(
         default=None,
-        json_schema_extra={"length": 1, "enum": ["SRI", "Y", "N"], "enum_desc": {"SRI": "지수여부 (Y"}},
+        json_schema_extra={"length": 1},
     )
     ("SRI 지수여부 (Y,N)")
     stck_sdpr: str = Field(
@@ -245,7 +244,7 @@ class ST_KSP_CODE(StoreModel):
     flng_cls_code: FlngClsCodeEnum = Field(
         json_schema_extra={
             "length": 2,
-            "enum": ["00", "01", "02", "03", "04", "05", "06", "99", "W", "SR", "EW"],
+            "enum": ["00", "01", "02", "03", "04", "05", "06", "99"],
             "enum_desc": {
                 "00": "해당사항없음",
                 "01": "권리락",

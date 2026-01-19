@@ -11,8 +11,6 @@ class AtmClsCodeEnum(KisStrEnum):
     "ITM"
     VALUE_3 = ("3", "OTM")
     "OTM"
-    ATM = ("ATM", "")
-    ITM = ("ITM", "")
 
 
 class AvlsScalClsCodeEnum(KisStrEnum):
@@ -206,10 +204,6 @@ class FlngClsCodeEnum(KisStrEnum):
     "권리중간배당락"
     VALUE_99 = ("99", "기타")
     "기타"
-    SW = ("SW", "")
-    SR = ("SR", "")
-    EW = ("EW", "")
-    W = ("W", "")
 
 
 class GlobYnEnum(KisStrEnum):
@@ -375,8 +369,6 @@ class SatmflgEnum(KisStrEnum):
     "ITM"
     VALUE_O = ("O", "OTM")
     "OTM"
-    ATM = ("ATM", "")
-    ITM = ("ITM", "")
 
 
 class SclascdEnum(KisStrEnum):
@@ -525,13 +517,6 @@ class Snp500YnEnum(KisStrEnum):
     "편입"
 
 
-class SriNmixYnEnum(KisStrEnum):
-    SRI = ("SRI", "지수여부 (Y")
-    "지수여부 (Y"
-    Y = ("Y", "")
-    N = ("N", "")
-
-
 class SsymbolEnum(KisStrEnum):
     C = ("C", "")
     P = ("P", "")
@@ -551,14 +536,6 @@ class StisEnum(KisStrEnum):
 class SundrassetEnum(KisStrEnum):
     AAPL = ("AAPL", "")
     TSLA = ("TSLA", "")
-
-
-class SundrinstrEnum(KisStrEnum):
-    EX = ("ex", "NAS")
-    "NAS"
-    NAS = ("NAS", "")
-    NYS = ("NYS", "")
-    AMS = ("AMS", "")
 
 
 class TypeEnum(KisStrEnum):
@@ -602,10 +579,8 @@ __all__ = [
     "SnearflgEnum",
     "SnearflgdtEnum",
     "Snp500YnEnum",
-    "SriNmixYnEnum",
     "SsymbolEnum",
     "StisEnum",
     "SundrassetEnum",
-    "SundrinstrEnum",
     "TypeEnum",
 ]

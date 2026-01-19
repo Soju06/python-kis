@@ -57,29 +57,6 @@ class ExcdEnum(KisStrEnum):
     "아멕스(주간)"
 
 
-class RsymEnum(KisStrEnum):
-    DNASAAPL = ("DNASAAPL", "D+NAS(나스닥)+AAPL(애플)")
-    "D+NAS(나스닥)+AAPL(애플)"
-    NYS = ("NYS", "뉴욕")
-    "뉴욕"
-    NAS = ("NAS", "나스닥")
-    "나스닥"
-    AMS = ("AMS", "아멕스")
-    "아멕스"
-    TSE = ("TSE", "도쿄")
-    "도쿄"
-    HKS = ("HKS", "홍콩")
-    "홍콩"
-    SHS = ("SHS", "상해")
-    "상해"
-    SZS = ("SZS", "심천")
-    "심천"
-    HSX = ("HSX", "호치민")
-    "호치민"
-    HNX = ("HNX", "하노이")
-    "하노이"
-
-
 class SignEnum(KisStrEnum):
     VALUE_1 = ("1", "상한")
     "상한"
@@ -183,7 +160,7 @@ class PriceRequestDict(TypedDict):
 
 
 class PriceOutput(RawModel):
-    rsym: RsymEnum | None = Field(
+    rsym: str | None = Field(
         default=None,
         alias="rsym",
     )
@@ -432,6 +409,5 @@ __all__ = [
     "PriceResponse",
     "PriceOutput",
     "ExcdEnum",
-    "RsymEnum",
     "SignEnum",
 ]

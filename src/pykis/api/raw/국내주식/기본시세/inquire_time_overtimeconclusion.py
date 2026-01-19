@@ -14,7 +14,6 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
 from pykis.raw.base import (
     KisBool,
     KisTimeOptional,
@@ -26,15 +25,8 @@ if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
-class FidCondMrktDivCodeEnum(KisStrEnum):
-    J = ("J", "주식")
-    "주식"
-    ETF = ("ETF", "")
-    ETN = ("ETN", "")
-
-
 class InquireTimeOvertimeconclusionRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
+    FID_COND_MRKT_DIV_CODE: str = Field(
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("J : 주식, ETF, ETN")
@@ -54,13 +46,13 @@ class InquireTimeOvertimeconclusionRequestDict(TypedDict):
     주식현재가 시간외시간별체결[v1_국내주식-025]
 
     Request fields:
-        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J : 주식, ETF, ETN
+        FID_COND_MRKT_DIV_CODE (str): J : 주식, ETF, ETN
         FID_INPUT_ISCD (str): 종목번호 (6자리) ETN의 경우, Q로 시작 (EX. Q500001)
         FID_HOUR_CLS_CODE (str): 1 : 시간외 (Default)
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
+        str,
         "J : 주식, ETF, ETN",
     ]
     FID_INPUT_ISCD: Annotated[
@@ -298,7 +290,7 @@ if TYPE_CHECKING:
                 **kwargs (InquireTimeOvertimeconclusionRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J : 주식, ETF, ETN
+                        FID_COND_MRKT_DIV_CODE (str): J : 주식, ETF, ETN
                         FID_INPUT_ISCD (str): 종목번호 (6자리) ETN의 경우, Q로 시작 (EX. Q500001)
                         FID_HOUR_CLS_CODE (str): 1 : 시간외 (Default)
 
@@ -318,5 +310,4 @@ __all__ = [
     "InquireTimeOvertimeconclusionResponse",
     "InquireTimeOvertimeconclusionOutput1",
     "InquireTimeOvertimeconclusionOutput2",
-    "FidCondMrktDivCodeEnum",
 ]

@@ -70,6 +70,8 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
         sample = sample_values[0] if sample_values else None
     if field.code.lower() == "keyb":
         return FieldHint(kind="str")
+    if field.code.lower() in {"rsym", "symb"}:
+        return FieldHint(kind="str")
     if "y/n" in text or field.code.lower().endswith("_yn") or "여부" in text:
         return FieldHint(kind="bool")
 
@@ -363,24 +365,26 @@ def validate_samples(
         endpoint = registry.get(spec.id)
         if endpoint is None:
             continue
-        if not spec.domains.demo:
-            results.append(ValidationSampleResult(id=spec.id, status="skipped", reason="demo_only"))
+        domain = "demo" if spec.domains.demo else "real" if spec.domains.real else None
+        if domain is None:
+            results.append(ValidationSampleResult(id=spec.id, status="skipped", reason="no_domain"))
             continue
         raw_path = augment_dir / spec.id / "raw.json"
         if not raw_path.exists():
             errors += 1
-            results.append(ValidationSampleResult(id=spec.id, status="missing_raw"))
+            results.append(ValidationSampleResult(id=spec.id, domain=domain, status="missing_raw"))
             continue
         payload = _as_object(json.loads(raw_path.read_text(encoding="utf-8")))
         if payload is None:
             errors += 1
-            results.append(ValidationSampleResult(id=spec.id, status="invalid_payload"))
+            results.append(ValidationSampleResult(id=spec.id, domain=domain, status="invalid_payload"))
             continue
         if str(payload.get("rt_cd")) not in ("0", "OK"):
             errors += 1
             results.append(
                 ValidationSampleResult(
                     id=spec.id,
+                    domain=domain,
                     status="rt_cd_error",
                     reason=str(payload.get("msg1") or ""),
                 )
@@ -388,9 +392,9 @@ def validate_samples(
             continue
         try:
             endpoint.response_model.model_validate(payload)
-            results.append(ValidationSampleResult(id=spec.id, status="ok"))
+            results.append(ValidationSampleResult(id=spec.id, domain=domain, status="ok"))
         except Exception as exc:  # noqa: BLE001
             errors += 1
-            results.append(ValidationSampleResult(id=spec.id, status="error", reason=str(exc)))
+            results.append(ValidationSampleResult(id=spec.id, domain=domain, status="error", reason=str(exc)))
 
     return ValidationReport(total=len(results), errors=errors, results=results)

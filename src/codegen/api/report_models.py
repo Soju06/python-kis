@@ -81,6 +81,7 @@ class ValidationSampleResult(BaseModel):
 
     id: str
     status: str
+    domain: str | None = None
     reason: str | None = None
 
 

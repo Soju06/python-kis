@@ -69,14 +69,16 @@ def run_smoke(
             results.append(SmokeResult(id=spec.id, status="skipped", reason="not_read_only"))
             continue
 
-        for domain, client in (("demo", demo_client), ("real", real_client)):
-            if domain == "demo" and not spec.domains.demo:
-                results.append(SmokeResult(id=spec.id, domain=domain, status="skipped", reason="demo_only"))
-                continue
-            if domain == "real" and not spec.domains.real:
-                results.append(SmokeResult(id=spec.id, domain=domain, status="skipped", reason="real_only"))
-                continue
+        domains: list[tuple[str, SyncKisRawClient]] = []
+        if spec.domains.demo:
+            domains.append(("demo", demo_client))
+        if spec.domains.real:
+            domains.append(("real", real_client))
+        if not domains:
+            results.append(SmokeResult(id=spec.id, status="skipped", reason="no_domain"))
+            continue
 
+        for domain, client in domains:
             resolver = resolvers[domain]
             query, query_missing = build_payload(spec, resolver, "query", spec.request.query)
             body, body_missing = build_payload(spec, resolver, "body", spec.request.body)
@@ -142,7 +144,8 @@ def run_smoke(
                     continue
 
                 rt_cd = getattr(response, "rt_cd", None)
-                if rt_cd is False or str(rt_cd) in {"0", "OK"}:
+                rt_cd_value = None if rt_cd is None else str(rt_cd)
+                if rt_cd is False or rt_cd_value in {"0", "OK"}:
                     results.append(
                         SmokeResult(
                             id=spec.id,
@@ -153,12 +156,36 @@ def run_smoke(
                         )
                     )
                     continue
+                if rt_cd_value is None:
+                    errors += 1
+                    results.append(
+                        SmokeResult(
+                            id=spec.id,
+                            domain=domain,
+                            attempt=attempt + 1,
+                            status="error",
+                            reason="missing_rt_cd",
+                        )
+                    )
+                    continue
 
                 payload = None
                 try:
                     payload = _coerce_payload(raw.json())
                 except Exception:  # noqa: BLE001
                     payload = None
+                if rt_cd_value == "1":
+                    errors += 1
+                    results.append(
+                        SmokeResult(
+                            id=spec.id,
+                            domain=domain,
+                            attempt=attempt + 1,
+                            status="error",
+                            reason="rt_cd=1",
+                        )
+                    )
+                    continue
                 if is_empty_payload(payload):
                     results.append(
                         SmokeResult(

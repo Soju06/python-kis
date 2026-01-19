@@ -63,29 +63,6 @@ class CoEnPricecurEnum(KisStrEnum):
     VND = ("VND", "")
 
 
-class RsymEnum(KisStrEnum):
-    DNASAAPL = ("DNASAAPL", "D+NAS(나스닥)+AAPL(애플)")
-    "D+NAS(나스닥)+AAPL(애플)"
-    NYS = ("NYS", "뉴욕")
-    "뉴욕"
-    NAS = ("NAS", "나스닥")
-    "나스닥"
-    AMS = ("AMS", "아멕스")
-    "아멕스"
-    TSE = ("TSE", "도쿄")
-    "도쿄"
-    HKS = ("HKS", "홍콩")
-    "홍콩"
-    SHS = ("SHS", "상해")
-    "상해"
-    SZS = ("SZS", "심천")
-    "심천"
-    HSX = ("HSX", "호치민")
-    "호치민"
-    HNX = ("HNX", "하노이")
-    "하노이"
-
-
 class InquireSearchRequest(RawModel):
     AUTH: str | None = Field(
         default=None,
@@ -483,7 +460,7 @@ class InquireSearchOutput1(RawModel):
 
 
 class InquireSearchOutput2(RawModel):
-    rsym: RsymEnum | None = Field(
+    rsym: str | None = Field(
         default=None,
         alias="rsym",
     )
@@ -805,5 +782,4 @@ __all__ = [
     "ExcdEnum",
     "CoStPricecurEnum",
     "CoEnPricecurEnum",
-    "RsymEnum",
 ]

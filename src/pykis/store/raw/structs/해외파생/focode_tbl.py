@@ -139,11 +139,7 @@ class FOCODE_TBL(StoreModel):
     )
     ("년월")
     sAtmFlg: SatmflgEnum = Field(
-        json_schema_extra={
-            "length": 1,
-            "enum": ["A", "I", "O", "ATM", "ITM"],
-            "enum_desc": {"A": "ATM", "I": "ITM", "O": "OTM"},
-        },
+        json_schema_extra={"length": 1, "enum": ["A", "I", "O"], "enum_desc": {"A": "ATM", "I": "ITM", "O": "OTM"}},
     )
     ("A: ATM, I:ITM, O:OTM")
     sNearFlg: SnearflgEnum = Field(

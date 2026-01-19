@@ -45,11 +45,7 @@ class ST_FO_STK_CODE(StoreModel):
     ("한글종목명")
     atm_cls_code: AtmClsCodeEnum | None = Field(
         default=None,
-        json_schema_extra={
-            "length": 1,
-            "enum": ["1", "2", "3", "ATM", "ITM"],
-            "enum_desc": {"1": "ATM", "2": "ITM", "3": "OTM"},
-        },
+        json_schema_extra={"length": 1, "enum": ["1", "2", "3"], "enum_desc": {"1": "ATM", "2": "ITM", "3": "OTM"}},
     )
     ("ATM구분(1:ATM,2:ITM,3:OTM)")
     acpr: StoreDecimal = Field(

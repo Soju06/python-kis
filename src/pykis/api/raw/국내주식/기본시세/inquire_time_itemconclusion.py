@@ -33,8 +33,6 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
     "NXT"
     UN = ("UN", "통합")
     "통합"
-    KRX = ("KRX", "")
-    NXT = ("NXT", "")
 
 
 class InquireTimeItemconclusionRequest(RawModel):

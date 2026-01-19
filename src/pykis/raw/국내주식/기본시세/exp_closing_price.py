@@ -49,7 +49,6 @@ class FidInputIscdEnum(KisStrEnum):
     "코스피200"
     VALUE_4001 = ("4001", "KRX100")
     "KRX100"
-    VALUE_200 = ("200", "")
 
 
 class FidBlngClsCodeEnum(KisStrEnum):
