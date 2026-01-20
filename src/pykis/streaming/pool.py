@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Literal, Protocol
 
 from pykis.streaming.session import StreamingSession
-from pykis.streaming.subscriptions import SubscriptionRegistry
+from pykis.streaming.subscriptions import SubscriptionKey, SubscriptionRegistry
 
 
 @dataclass(frozen=True, slots=True)
@@ -23,6 +23,54 @@ class SessionEntry:
     session: StreamingSession
     registry: SubscriptionRegistry
     ref_count: int
+
+    async def subscribe(
+        self,
+        *,
+        approval_key: str,
+        tr_id: str,
+        tr_key: str,
+        custtype: str = "P",
+        tr_type: str = "1",
+        content_type: str = "utf-8",
+    ) -> None:
+        key = SubscriptionKey(tr_id=tr_id, tr_key=tr_key)
+        added = self.registry.add(key)
+        if not added:
+            return
+        try:
+            await self.session.subscribe(
+                approval_key=approval_key,
+                tr_id=tr_id,
+                tr_key=tr_key,
+                custtype=custtype,
+                tr_type=tr_type,
+                content_type=content_type,
+            )
+        except Exception:
+            self.registry.remove(key)
+            raise
+
+    async def unsubscribe(
+        self,
+        *,
+        approval_key: str,
+        tr_id: str,
+        tr_key: str,
+        custtype: str = "P",
+        content_type: str = "utf-8",
+    ) -> None:
+        key = SubscriptionKey(tr_id=tr_id, tr_key=tr_key)
+        if not self.registry.contains(key):
+            return
+        await self.session.unsubscribe(
+            approval_key=approval_key,
+            tr_id=tr_id,
+            tr_key=tr_key,
+            custtype=custtype,
+            content_type=content_type,
+        )
+        self.registry.remove(key)
 
 
 @dataclass(slots=True)

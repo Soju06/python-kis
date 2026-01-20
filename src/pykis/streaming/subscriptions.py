@@ -23,12 +23,16 @@ class SubscriptionRegistry:
         self.limit = limit
         self._keys = set()
 
-    def add(self, key: SubscriptionKey) -> None:
+    def add(self, key: SubscriptionKey) -> bool:
         if key in self._keys:
-            return
+            return False
         if len(self._keys) >= self.limit:
             raise StreamingLimitError(f"subscription limit exceeded (limit={self.limit})")
         self._keys.add(key)
+        return True
+
+    def contains(self, key: SubscriptionKey) -> bool:
+        return key in self._keys
 
     def remove(self, key: SubscriptionKey) -> None:
         self._keys.discard(key)

@@ -24,6 +24,12 @@ from pykis.api.errors import (
     KisTransportError,
     KisUnsupportedEndpointError,
 )
+from pykis.api.rate_limit import (
+    AsyncRateLimiter,
+    parse_retry_after,
+    resolve_rate_limits,
+    retry_backoff_hint,
+)
 from pykis.api.token import KisAccessToken
 from pykis.api.token_cache import KisTokenCache, default_token_cache_dir
 from pykis.logging import get_logger
@@ -38,9 +44,9 @@ TOKEN_RATE_LIMIT_WAIT = 300
 logger = get_logger(__name__)
 
 
-def _build_retry(rate_limit: float) -> Retry:
-    backoff_factor = rate_limit if rate_limit > 0 else 0.0
-    max_backoff_wait = rate_limit if rate_limit > 0 else 120.0
+def _build_retry(backoff_hint: float) -> Retry:
+    backoff_factor = backoff_hint if backoff_hint > 0 else 0.0
+    max_backoff_wait = backoff_hint if backoff_hint > 0 else 120.0
     return Retry(
         total=2,
         allowed_methods=("GET",),
@@ -102,7 +108,10 @@ def _coerce_query_params(payload: Mapping[str, object]) -> dict[str, str | int |
 class KisRawClient:
     auth: KisAuth
     domain: Literal["demo", "real"]
-    rate_limit: float
+    rate_limit_per_second: float | None
+    rate_limit_per_minute: float | None
+    rate_limit_max_retries: int | None
+    rate_limiter: AsyncRateLimiter
     _client: httpx.AsyncClient
     _token_cache: dict[str, KisAccessToken]
     _token_cache_store: KisTokenCache | None
@@ -112,7 +121,10 @@ class KisRawClient:
     __slots__ = (
         "auth",
         "domain",
-        "rate_limit",
+        "rate_limit_per_second",
+        "rate_limit_per_minute",
+        "rate_limit_max_retries",
+        "rate_limiter",
         "_client",
         "_token_cache",
         "_token_cache_store",
@@ -124,8 +136,12 @@ class KisRawClient:
         self,
         auth: KisAuth,
         domain: Literal["demo", "real"] | None = None,
-        rate_limit: float = 0.4,
+        rate_limit: float | None = None,
+        rate_limit_per_second: float | None = None,
+        rate_limit_per_minute: float | None = None,
+        rate_limit_max_retries: int | None = None,
         *,
+        rate_limit_min_backoff: float = 0.5,
         keep_token: bool | str | Path | None = None,
         revoke_on_close: bool | None = None,
         client: httpx.AsyncClient | None = None,
@@ -133,10 +149,23 @@ class KisRawClient:
     ) -> None:
         self.auth = auth
         self.domain = domain or "demo"
-        self.rate_limit = rate_limit
+        limits = resolve_rate_limits(
+            domain=self.domain,
+            rate_limit=rate_limit,
+            per_second=rate_limit_per_second,
+            per_minute=rate_limit_per_minute,
+        )
+        self.rate_limit_per_second = limits.per_second
+        self.rate_limit_per_minute = limits.per_minute
+        self.rate_limit_max_retries = rate_limit_max_retries
+        self.rate_limiter = AsyncRateLimiter(
+            per_second=self.rate_limit_per_second,
+            per_minute=self.rate_limit_per_minute,
+            min_backoff=rate_limit_min_backoff,
+        )
         transport = None
         if client is None:
-            retry = _build_retry(self.rate_limit)
+            retry = _build_retry(retry_backoff_hint(self.rate_limit_per_second))
             transport = RetryTransport(retry=retry)
         self._client = client or httpx.AsyncClient(timeout=DEFAULT_TIMEOUT, transport=transport)
         self._token_cache = {}
@@ -162,9 +191,8 @@ class KisRawClient:
         else:
             logger.warning("KisRawClient still open; call aclose() explicitly.")
 
-    async def _sleep(self) -> None:
-        if self.rate_limit > 0:
-            await asyncio.sleep(self.rate_limit)
+    async def _acquire_rate_limit(self) -> None:
+        await self.rate_limiter.acquire()
 
     def _base_url(self, base_url: str | None = None) -> str:
         if base_url:
@@ -176,7 +204,7 @@ class KisRawClient:
 
     async def _issue_token(self, base_url: str) -> KisAccessToken:
         while True:
-            await self._sleep()
+            await self._acquire_rate_limit()
             try:
                 resp = await self._client.post(
                     urljoin(base_url, "/oauth2/tokenP"),
@@ -193,6 +221,11 @@ class KisRawClient:
                     original=exc,
                     context=_error_context(method="POST", path="/oauth2/tokenP"),
                 ) from exc
+
+            if resp.status_code == 429:
+                retry_after = parse_retry_after(resp.headers.get("Retry-After"))
+                self.rate_limiter.on_rate_limited(retry_after)
+                continue
 
             if resp.status_code != 403:
                 if resp.status_code == 200 and "text/html" in (resp.headers.get("content-type") or ""):
@@ -270,35 +303,52 @@ class KisRawClient:
         return token
 
     async def _hashkey(self, base_url: str, body: Mapping[str, object]) -> str:
-        await self._sleep()
-        try:
-            resp = await self._client.post(
-                urljoin(base_url, "/uapi/hashkey"),
-                headers={
-                    "content-type": "application/json",
-                    "appkey": self.auth.app_key,
-                    "appsecret": self.auth.secret_key,
-                },
-                json=body,
-            )
-            resp.raise_for_status()
-        except httpx.HTTPStatusError as exc:
-            raise KisHttpError(
-                f"hashkey failed with status {exc.response.status_code}",
-                context=_error_context(method="POST", path="/uapi/hashkey", status_code=exc.response.status_code),
-                payload=exc.response.text[:200],
-            ) from exc
-        except httpx.HTTPError as exc:
-            raise KisTransportError(
-                "hashkey transport error",
-                original=exc,
-                context=_error_context(method="POST", path="/uapi/hashkey"),
-            ) from exc
-        payload = resp.json()
-        return payload.get("HASH") or payload.get("hash") or ""
+        attempts = 0
+        while True:
+            await self._acquire_rate_limit()
+            try:
+                resp = await self._client.post(
+                    urljoin(base_url, "/uapi/hashkey"),
+                    headers={
+                        "content-type": "application/json",
+                        "appkey": self.auth.app_key,
+                        "appsecret": self.auth.secret_key,
+                    },
+                    json=body,
+                )
+            except httpx.HTTPError as exc:
+                raise KisTransportError(
+                    "hashkey transport error",
+                    original=exc,
+                    context=_error_context(method="POST", path="/uapi/hashkey"),
+                ) from exc
+
+            if resp.status_code == 429:
+                retry_after = parse_retry_after(resp.headers.get("Retry-After"))
+                self.rate_limiter.on_rate_limited(retry_after)
+                attempts += 1
+                if self.rate_limit_max_retries is not None and attempts > self.rate_limit_max_retries:
+                    raise KisRateLimitError(
+                        "rate limited for hashkey",
+                        retry_after=retry_after,
+                        context=_error_context(method="POST", path="/uapi/hashkey", status_code=resp.status_code),
+                    )
+                continue
+
+            try:
+                resp.raise_for_status()
+            except httpx.HTTPStatusError as exc:
+                raise KisHttpError(
+                    f"hashkey failed with status {exc.response.status_code}",
+                    context=_error_context(method="POST", path="/uapi/hashkey", status_code=exc.response.status_code),
+                    payload=exc.response.text[:200],
+                ) from exc
+
+            payload = resp.json()
+            return payload.get("HASH") or payload.get("hash") or ""
 
     async def _revoke_token(self, base_url: str, token: KisAccessToken) -> None:
-        await self._sleep()
+        await self._acquire_rate_limit()
         try:
             resp = await self._client.post(
                 urljoin(base_url, "/oauth2/revokeP"),
@@ -329,7 +379,7 @@ class KisRawClient:
         if hashkey_required and body:
             headers["hashkey"] = await self._hashkey(base_url, dict(body))
 
-        await self._sleep()
+        await self._acquire_rate_limit()
         try:
             response = await self._client.request(
                 method=method,
@@ -391,18 +441,31 @@ class KisRawClient:
             auth_required=endpoint.auth_required,
             hashkey_required=endpoint.hashkey_required,
         )
-        if response.status_code == 429:
-            retry_after = response.headers.get("Retry-After")
-            wait = float(retry_after) if retry_after and retry_after.isdigit() else None
-            raise KisRateLimitError(
-                f"rate limited for {endpoint.id}",
-                retry_after=wait,
-                context=_error_context(
-                    endpoint_id=endpoint.id,
-                    method=endpoint.method,
-                    path=endpoint.path,
-                    status_code=response.status_code,
-                ),
+        attempts = 0
+        while response.status_code == 429:
+            retry_after = parse_retry_after(response.headers.get("Retry-After"))
+            self.rate_limiter.on_rate_limited(retry_after)
+            attempts += 1
+            if self.rate_limit_max_retries is not None and attempts > self.rate_limit_max_retries:
+                raise KisRateLimitError(
+                    f"rate limited for {endpoint.id}",
+                    retry_after=retry_after,
+                    context=_error_context(
+                        endpoint_id=endpoint.id,
+                        method=endpoint.method,
+                        path=endpoint.path,
+                        status_code=response.status_code,
+                    ),
+                )
+            response = await self.request(
+                method=endpoint.method,
+                base_url=self._base_url(),
+                path=endpoint.path,
+                headers=built_headers,
+                params=query if query else None,
+                body=body if body else None,
+                auth_required=endpoint.auth_required,
+                hashkey_required=endpoint.hashkey_required,
             )
         if response.is_success:
             try:
