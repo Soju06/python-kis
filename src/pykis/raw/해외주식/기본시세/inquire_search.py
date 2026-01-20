@@ -489,7 +489,7 @@ class InquireSearchOutput2(RawModel):
         alias="last",
     )
     ("현재가")
-    shar: str | None = Field(
+    shar: int | None = Field(
         default=None,
         alias="shar",
     )
@@ -524,12 +524,12 @@ class InquireSearchOutput2(RawModel):
         alias="rate",
     )
     ("등락율(%)")
-    diff: str | None = Field(
+    diff: Decimal | None = Field(
         default=None,
         alias="diff",
     )
     ("대비")
-    sign: str | None = Field(
+    sign: int | None = Field(
         default=None,
         alias="sign",
     )
@@ -539,17 +539,17 @@ class InquireSearchOutput2(RawModel):
         alias="avol",
     )
     ("거래대금(단위: 천)")
-    eps: str | None = Field(
+    eps: Decimal | None = Field(
         default=None,
         alias="eps",
     )
     ("EPS")
-    per: str | None = Field(
+    per: Decimal | None = Field(
         default=None,
         alias="per",
     )
     ("PER")
-    rank: str | None = Field(
+    rank: int | None = Field(
         default=None,
         alias="rank",
     )

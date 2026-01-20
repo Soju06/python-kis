@@ -263,9 +263,16 @@ class KisPortalClient:
         response_headers: list[ApiProperty] = []
         response_body: list[ApiProperty] = []
 
+        def _normalize_property_code(code: str) -> str:
+            normalized = code.strip()
+            if normalized.startswith("-") and len(normalized) > 1 and normalized[1].isalnum():
+                normalized = normalized.lstrip("-").strip()
+            return normalized
+
         for prop in raw_props:
+            raw_code = str(prop.get("propertyCd", "") or "")
             api_prop = ApiProperty(
-                code=str(prop.get("propertyCd", "") or ""),
+                code=_normalize_property_code(raw_code),
                 name=str(prop.get("propertyNm", "") or ""),
                 body_type=str(prop.get("bodyType", "") or ""),
                 property_type=str(prop.get("propertyType", "") or ""),

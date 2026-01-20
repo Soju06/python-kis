@@ -20,3 +20,96 @@ endpoints:
   81269474-9c66-404f-bdfe-4bb472975330:
     query:
       fid_cond_mrkt_div_code: "N"
+  0a5782f0-0c05-4feb-90f4-b86f09b45327:
+    query:
+      FID_COND_MRKT_DIV_CODE: "B"
+      FID_INPUT_ISCD: "KR2088012A16"
+  498e6384-f887-4fb2-9055-2cbc95790087:
+    query:
+      FID_COND_MRKT_DIV_CODE: "F"
+      FID_INPUT_ISCD: "A01603"
+  77de2a74-b26c-40ca-a5b7-f87e2ef64f9f:
+    query:
+      FID_COND_MRKT_DIV_CODE: "F"
+      FID_INPUT_ISCD: "A01603"
+      FID_INPUT_DATE_1: "20260120"
+      FID_INPUT_DATE_2: "20260120"
+      FID_PERIOD_DIV_CODE: "D"
+  7d30b578-018d-4250-852a-7599211ff988:
+    query:
+      AUTH: ""
+      EXCD: "NYS"
+      KEYB: ""
+      NDAY: "20260120"
+      VOL_RANG: "0"
+  86194480-c8f0-4b0b-9d3d-001c2fc33422:
+    query:
+      FID_COND_MRKT_DIV_CODE: "F"
+      FID_INPUT_ISCD: "A01603"
+      FID_HOUR_CLS_CODE: "30"
+      FID_PW_DATA_INCU_YN: "N"
+      FID_FAKE_TICK_INCU_YN: "N"
+      FID_INPUT_DATE_1: "20260120"
+      FID_INPUT_HOUR_1: "093000"
+  868b0fe2-fdb5-4a32-bdb2-00db12269230:
+    query:
+      FID_COND_MRKT_DIV_CODE: "U"
+      FID_INPUT_ISCD: "1001"
+  8702dab4-008d-4849-8f24-a91b57872a80:
+    query:
+      SRS_CD: "6AM24"
+      EXCH_CD: "CME"
+      START_DATE_TIME: "20240324"
+      CLOSE_DATE_TIME: "20240423"
+      QRY_TP: "Q"
+      QRY_CNT: "30"
+      QRY_GAP: ""
+      INDEX_KEY: ""
+  8c473311-ecfd-428f-9ec2-0b574d8592b9:
+    query:
+      SRS_CD: "6AM24"
+      EXCH_CD: "CME"
+      START_DATE_TIME: "20240324"
+      CLOSE_DATE_TIME: "20240424"
+      QRY_TP: "Q"
+      QRY_CNT: "40"
+      QRY_GAP: ""
+      INDEX_KEY: ""
+  9064a50c-0545-4b6c-8eb2-034f5214974b:
+    query:
+      INFO_GB: ""
+      CLASS_CD: ""
+      NATION_CD: ""
+      EXCHANGE_CD: ""
+      SYMB: ""
+      DATA_DT: "20260120"
+      DATA_TM: "093500"
+      CTS: ""
+  a274b685-7ea8-441d-a2fe-3087becb6bf2:
+    query:
+      FID_COND_MRKT_DIV_CODE: "B"
+      FID_INPUT_ISCD: "KR6095572D81"
+  bec98736-8f5a-49a0-b325-5f6c40ff13b3:
+    query:
+      FID_COND_MRKT_DIV_CODE: "F"
+      FID_INPUT_ISCD: "A01603"
+  c7be7c01-6f43-4576-b1fd-84d0102ce4c3:
+    query:
+      SRS_CD: "6AM24"
+      EXCH_CD: "CME"
+      START_DATE_TIME: "20240324"
+      CLOSE_DATE_TIME: "20240423"
+      QRY_TP: "Q"
+      QRY_CNT: "40"
+      QRY_GAP: ""
+      INDEX_KEY: ""
+  cd2e4d9a-7e3d-44ff-9b68-36d971655c24:
+    query:
+      SRS_CD: "6AM24"
+      EXCH_CD: "CME"
+      START_DATE_TIME: "20240324"
+      CLOSE_DATE_TIME: "20240424"
+      QRY_TP: "Q"
+      QRY_CNT: "40"
+      QRY_GAP: ""
+      INDEX_KEY: ""

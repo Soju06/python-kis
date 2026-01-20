@@ -192,7 +192,8 @@ def normalize_doc(doc: DocEndpoint, source_path: str) -> tuple[EndpointSpec | No
                     kind = "array"
                 else:
                     kind = "unknown"
-            current_output = SpecOutput(code=field.code, name=field.name, kind=kind, fields=[])
+            output_code = code
+            current_output = SpecOutput(code=output_code, name=field.name, kind=kind, fields=[])
             outputs.append(current_output)
             continue
 

@@ -3,6 +3,133 @@ from __future__ import annotations
 
 from typing import cast
 
+from pykis.api.raw.OAuth인증.approval import ENDPOINT as ENDPOINT_5c87ba63_740a_4166_93ac_803510bb9c02
+from pykis.api.raw.OAuth인증.hashkey import ENDPOINT as ENDPOINT_214b9e22_8f2e_4fba_9688_587279f1061a
+from pykis.api.raw.OAuth인증.revokep import ENDPOINT as ENDPOINT_dd3cb447_5034_4711_8c88_62c913429c7b
+from pykis.api.raw.OAuth인증.tokenp import ENDPOINT as ENDPOINT_fa778c98_f68d_451e_8fff_b1c6bfe5cd30
+from pykis.api.raw.국내선물옵션.기본시세.display_board_callput import (
+    ENDPOINT as ENDPOINT_d9b0e346_a67d_43c6_938a_508e2d8507c6,
+)
+from pykis.api.raw.국내선물옵션.기본시세.display_board_futures import (
+    ENDPOINT as ENDPOINT_8362a35a_e7c2_4944_a4a2_5a716737388c,
+)
+from pykis.api.raw.국내선물옵션.기본시세.display_board_option_list import (
+    ENDPOINT as ENDPOINT_89e1ffde_0cda_4426_8277_72710c193cf2,
+)
+from pykis.api.raw.국내선물옵션.기본시세.display_board_top import (
+    ENDPOINT as ENDPOINT_4112fd5d_43b7_4dc4_bf44_33df58981847,
+)
+from pykis.api.raw.국내선물옵션.기본시세.exp_price_trend import (
+    ENDPOINT as ENDPOINT_498e6384_f887_4fb2_9055_2cbc95790087,
+)
+from pykis.api.raw.국내선물옵션.기본시세.inquire_asking_price import (
+    ENDPOINT as ENDPOINT_bec98736_8f5a_49a0_b325_5f6c40ff13b3,
+)
+from pykis.api.raw.국내선물옵션.기본시세.inquire_daily_fuopchartprice import (
+    ENDPOINT as ENDPOINT_77de2a74_b26c_40ca_a5b7_f87e2ef64f9f,
+)
+from pykis.api.raw.국내선물옵션.기본시세.inquire_price import ENDPOINT as ENDPOINT_0bb05819_d759_4789_8eda_27a0b88f02aa
+from pykis.api.raw.국내선물옵션.기본시세.inquire_time_fuopchartprice import (
+    ENDPOINT as ENDPOINT_86194480_c8f0_4b0b_9d3d_001c2fc33422,
+)
+from pykis.api.raw.국내선물옵션.실시간시세.h0cfasp0 import ENDPOINT as ENDPOINT_932e6da0_9454_47d6_b26d_0cceb3349438
+from pykis.api.raw.국내선물옵션.실시간시세.h0cfcnt0 import ENDPOINT as ENDPOINT_7affebdf_31cb_4552_9836_b7aa9fe2d792
+from pykis.api.raw.국내선물옵션.실시간시세.h0euanc0 import ENDPOINT as ENDPOINT_5d3edabf_2af0_4fda_bb86_494b6080e046
+from pykis.api.raw.국내선물옵션.실시간시세.h0euasp0 import ENDPOINT as ENDPOINT_8e68c76f_58df_4a8e_ad57_09ec4fcea8ee
+from pykis.api.raw.국내선물옵션.실시간시세.h0eucni0 import ENDPOINT as ENDPOINT_6a53d1c1_c9fe_48d8_9426_ef304b36b961
+from pykis.api.raw.국내선물옵션.실시간시세.h0eucnt0 import ENDPOINT as ENDPOINT_4d079440_555b_4773_a484_67bf170e9b27
+from pykis.api.raw.국내선물옵션.실시간시세.h0ifasp0 import ENDPOINT as ENDPOINT_851da7d1_fdf2_4693_bab3_ad1234daca02
+from pykis.api.raw.국내선물옵션.실시간시세.h0ifcni0 import ENDPOINT as ENDPOINT_1d9a993b_18ff_40f6_891f_8a450e68f15a
+from pykis.api.raw.국내선물옵션.실시간시세.h0ifcnt0 import ENDPOINT as ENDPOINT_641bf3d8_f381_4661_aaad_d9ee05e05489
+from pykis.api.raw.국내선물옵션.실시간시세.h0ioasp0 import ENDPOINT as ENDPOINT_ee7c4225_61e7_4d2d_b9ac_e8b00ccacdad
+from pykis.api.raw.국내선물옵션.실시간시세.h0iocnt0 import ENDPOINT as ENDPOINT_879a70f9_a216_4e55_9d36_cbf939681405
+from pykis.api.raw.국내선물옵션.실시간시세.h0mfasp0 import ENDPOINT as ENDPOINT_480e727f_c7df_4b22_9d15_9c4567a8b849
+from pykis.api.raw.국내선물옵션.실시간시세.h0mfcni0 import ENDPOINT as ENDPOINT_70845e60_37a9_4849_a563_bc613b419599
+from pykis.api.raw.국내선물옵션.실시간시세.h0mfcnt0 import ENDPOINT as ENDPOINT_3d10c790_f3dd_4837_b048_cc5a45b678b8
+from pykis.api.raw.국내선물옵션.실시간시세.h0zfanc0 import ENDPOINT as ENDPOINT_6774932d_1c2d_44cb_b8fb_44b39bd5eed5
+from pykis.api.raw.국내선물옵션.실시간시세.h0zfasp0 import ENDPOINT as ENDPOINT_c4ded44e_26fe_4b9f_b8d7_10e1ba4020a4
+from pykis.api.raw.국내선물옵션.실시간시세.h0zfcnt0 import ENDPOINT as ENDPOINT_fc5bcd3a_4b96_423d_b315_ea3f758fbcd7
+from pykis.api.raw.국내선물옵션.실시간시세.h0zoanc0 import ENDPOINT as ENDPOINT_a2b6b401_1534_4f0e_9b59_1bf2349434f4
+from pykis.api.raw.국내선물옵션.실시간시세.h0zoasp0 import ENDPOINT as ENDPOINT_00eafa0f_820b_4a12_91dc_a65593a8322e
+from pykis.api.raw.국내선물옵션.실시간시세.h0zocnt0 import ENDPOINT as ENDPOINT_ee7973de_54a7_4b34_9a31_b34a4294d606
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_balance import (
+    ENDPOINT as ENDPOINT_71356fc2_c4ca_4d5f_b564_cd16b8155ecc,
+)
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_balance_settlement_pl import (
+    ENDPOINT as ENDPOINT_d352ed8c_30eb_4de2_83b4_62f6830b6208,
+)
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_balance_valuation_pl import (
+    ENDPOINT as ENDPOINT_7e749979_58f8_4b71_980d_2d91ba1266e8,
+)
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_ccnl import ENDPOINT as ENDPOINT_b14b5187_8dbd_4fde_a4b6_73a8a3c19f1a
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_ccnl_bstime import (
+    ENDPOINT as ENDPOINT_f64db1b8_012a_4e92_ab1c_e9b3b264b2b7,
+)
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_daily_amount_fee import (
+    ENDPOINT as ENDPOINT_2bb020d7_ae3f_4f65_88ac_e9f598544825,
+)
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_deposit import (
+    ENDPOINT as ENDPOINT_24abcfa1_a95b_4344_bb7f_11f2523f8355,
+)
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_ngt_balance import (
+    ENDPOINT as ENDPOINT_3af368ec_3627_4fdc_9bb9_4e4ff1a1968f,
+)
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_ngt_ccnl import (
+    ENDPOINT as ENDPOINT_b5f12325_af4e_4fcd_a8b2_c8047dd317d2,
+)
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_psbl_ngt_order import (
+    ENDPOINT as ENDPOINT_bca48008_6f73_4753_ab4b_aa8506145340,
+)
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_psbl_order import (
+    ENDPOINT as ENDPOINT_d66ffd69_8d60_4490_99d0_becf63aabf41,
+)
+from pykis.api.raw.국내선물옵션.주문_계좌.ngt_margin_detail import (
+    ENDPOINT as ENDPOINT_07126b90_256e_4b93_b0be_e1e59dfc89f0,
+)
+from pykis.api.raw.국내선물옵션.주문_계좌.order import ENDPOINT as ENDPOINT_73a1bb73_fd91_4d70_bba1_f3241f12e7ff
+from pykis.api.raw.국내선물옵션.주문_계좌.order_rvsecncl import (
+    ENDPOINT as ENDPOINT_a3c3305a_7624_4049_b0f3_6bcca689d1f5,
+)
+from pykis.api.raw.국내주식.ELW_시세.compare_stocks import ENDPOINT as ENDPOINT_ca2e71e1_5ef4_4489_b4c4_118e10588690
+from pykis.api.raw.국내주식.ELW_시세.cond_search import ENDPOINT as ENDPOINT_264533d3_00eb_4794_984a_fecb84350f39
+from pykis.api.raw.국내주식.ELW_시세.expiration_stocks import ENDPOINT as ENDPOINT_d99d058d_4319_41ce_bce0_53c44a894ddb
+from pykis.api.raw.국내주식.ELW_시세.indicator import ENDPOINT as ENDPOINT_8869c0c3_efd8_461b_ba87_5ab468afeea2
+from pykis.api.raw.국내주식.ELW_시세.indicator_trend_ccnl import (
+    ENDPOINT as ENDPOINT_937eb413_9db9_4479_887d_4cf172dcf344,
+)
+from pykis.api.raw.국내주식.ELW_시세.indicator_trend_daily import (
+    ENDPOINT as ENDPOINT_1e0869f4_5639_4f22_be71_a28897242457,
+)
+from pykis.api.raw.국내주식.ELW_시세.indicator_trend_minute import (
+    ENDPOINT as ENDPOINT_4af6e358_255c_4e4e_b691_388610068216,
+)
+from pykis.api.raw.국내주식.ELW_시세.inquire_elw_price import ENDPOINT as ENDPOINT_07313e08_45f2_4423_abb2_2a49752910ae
+from pykis.api.raw.국내주식.ELW_시세.lp_trade_trend import ENDPOINT as ENDPOINT_e5f413ec_3e68_47d7_931f_d7eb263990d9
+from pykis.api.raw.국내주식.ELW_시세.newly_listed import ENDPOINT as ENDPOINT_147e81db_e0d2_40cd_95f5_d8da90c2d998
+from pykis.api.raw.국내주식.ELW_시세.quick_change import ENDPOINT as ENDPOINT_4769336b_3280_419e_b69d_7531195b2221
+from pykis.api.raw.국내주식.ELW_시세.sensitivity import ENDPOINT as ENDPOINT_246842f0_450e_464b_8dbc_356133d12b42
+from pykis.api.raw.국내주식.ELW_시세.sensitivity_trend_ccnl import (
+    ENDPOINT as ENDPOINT_e9be5d05_448e_4222_bb05_7f0e27a91d69,
+)
+from pykis.api.raw.국내주식.ELW_시세.sensitivity_trend_daily import (
+    ENDPOINT as ENDPOINT_a64dc948_de6c_4e7a_988b_9769ac8fd5b2,
+)
+from pykis.api.raw.국내주식.ELW_시세.udrl_asset_list import ENDPOINT as ENDPOINT_4e082d62_bbad_48bb_92dc_aceac46e9a8d
+from pykis.api.raw.국내주식.ELW_시세.udrl_asset_price import ENDPOINT as ENDPOINT_263ef907_db8c_4bf6_8da9_388c8fb4cf10
+from pykis.api.raw.국내주식.ELW_시세.updown_rate import ENDPOINT as ENDPOINT_9f6b3c41_d44a_4ae1_8324_aa222d19c6bf
+from pykis.api.raw.국내주식.ELW_시세.volatility_trend_ccnl import (
+    ENDPOINT as ENDPOINT_40403e7f_bd31_4e12_ae87_553e7be28b12,
+)
+from pykis.api.raw.국내주식.ELW_시세.volatility_trend_daily import (
+    ENDPOINT as ENDPOINT_5bd31e17_ea4d_4e76_8e03_f8dfb3be25e7,
+)
+from pykis.api.raw.국내주식.ELW_시세.volatility_trend_minute import (
+    ENDPOINT as ENDPOINT_31081a30_ba59_4b42_a9f2_c1fe850fadb1,
+)
+from pykis.api.raw.국내주식.ELW_시세.volatility_trend_tick import (
+    ENDPOINT as ENDPOINT_f1ce6099_5bf2_4b4e_915e_e0c7020af4bf,
+)
+from pykis.api.raw.국내주식.ELW_시세.volume_rank import ENDPOINT as ENDPOINT_6bd62480_d165_415e_9d82_bffe2f43aa7e
 from pykis.api.raw.국내주식.기본시세.exp_closing_price import ENDPOINT as ENDPOINT_ebf1dc17_7b48_4192_841d_0ccb6ce3f016
 from pykis.api.raw.국내주식.기본시세.inquire_asking_price_exp_ccn import (
     ENDPOINT as ENDPOINT_af3d3794_92c0_4f3b_8041_4ca4ddcda5de,
@@ -51,6 +178,317 @@ from pykis.api.raw.국내주식.기본시세.nav_comparison_time_trend import (
 from pykis.api.raw.국내주식.기본시세.nav_comparison_trend import (
     ENDPOINT as ENDPOINT_46eea904_3984_4354_b4e9_8918f503fd79,
 )
+from pykis.api.raw.국내주식.순위분석.after_hour_balance import ENDPOINT as ENDPOINT_4490b65c_3c6e_4e8b_b525_f5b48fe88710
+from pykis.api.raw.국내주식.순위분석.bulk_trans_num import ENDPOINT as ENDPOINT_7bdbff93_1334_496f_a9b8_7da6032f7407
+from pykis.api.raw.국내주식.순위분석.credit_balance import ENDPOINT as ENDPOINT_0c2760ca_7fc9_4f41_9abd_33b2f5ff3b3b
+from pykis.api.raw.국내주식.순위분석.disparity import ENDPOINT as ENDPOINT_5b33c1b2_bd6b_449d_9923_3f0439912c87
+from pykis.api.raw.국내주식.순위분석.dividend_rate import ENDPOINT as ENDPOINT_20027666_84aa_491a_9a95_644d8fbd7015
+from pykis.api.raw.국내주식.순위분석.exp_trans_updown import ENDPOINT as ENDPOINT_05a719af_aa3c_46c7_a670_55f2f11654c2
+from pykis.api.raw.국내주식.순위분석.finance_ratio import ENDPOINT as ENDPOINT_a25aaec9_332a_4607_b64b_c2a35df177eb
+from pykis.api.raw.국내주식.순위분석.fluctuation import ENDPOINT as ENDPOINT_c3b78a4a_de38_43fb_a78d_4018b1ea4d4f
+from pykis.api.raw.국내주식.순위분석.hts_top_view import ENDPOINT as ENDPOINT_636e216a_f3bb_4dc6_8bc3_e6d9babca5f1
+from pykis.api.raw.국내주식.순위분석.market_cap import ENDPOINT as ENDPOINT_bdb401cd_03ea_4329_928d_18b3e9af066e
+from pykis.api.raw.국내주식.순위분석.market_value import ENDPOINT as ENDPOINT_dfd2502e_0d5c_4999_8a24_84ff15a74696
+from pykis.api.raw.국내주식.순위분석.near_new_highlow import ENDPOINT as ENDPOINT_72e63cb2_2ab1_41a0_8ab9_62cbeaa5eea0
+from pykis.api.raw.국내주식.순위분석.overtime_fluctuation import (
+    ENDPOINT as ENDPOINT_f5c2c9d8_8d11_4a70_8694_1b71e3fc3640,
+)
+from pykis.api.raw.국내주식.순위분석.overtime_volume import ENDPOINT as ENDPOINT_16958dd0_0304_4554_b12d_ec56e7874e71
+from pykis.api.raw.국내주식.순위분석.prefer_disparate_ratio import (
+    ENDPOINT as ENDPOINT_798040e2_7ae9_410c_80ce_4fa7de012046,
+)
+from pykis.api.raw.국내주식.순위분석.profit_asset_index import ENDPOINT as ENDPOINT_7185c44d_0bc5_4c0f_b64d_71ac9ea796f1
+from pykis.api.raw.국내주식.순위분석.quote_balance import ENDPOINT as ENDPOINT_09dff633_6f3b_486a_b894_bbed4e77aaf6
+from pykis.api.raw.국내주식.순위분석.short_sale import ENDPOINT as ENDPOINT_4745d669_557b_413c_aa0b_522e620cd832
+from pykis.api.raw.국내주식.순위분석.top_interest_stock import ENDPOINT as ENDPOINT_f2921c05_8b93_4a13_a0d8_6132be010066
+from pykis.api.raw.국내주식.순위분석.traded_by_company import ENDPOINT as ENDPOINT_c02e3f30_5d71_4156_a039_3976f4d485f8
+from pykis.api.raw.국내주식.순위분석.volume_power import ENDPOINT as ENDPOINT_f2d34ad7_9fc4_40b8_b857_3825fd772c44
+from pykis.api.raw.국내주식.순위분석.volume_rank import ENDPOINT as ENDPOINT_6df56964_f22b_43d4_9457_f06264018e5b
+from pykis.api.raw.국내주식.시세분석.capture_uplowprice import ENDPOINT as ENDPOINT_30654e7a_8eda_42ac_8b54_9f0287bde15d
+from pykis.api.raw.국내주식.시세분석.comp_program_trade_daily import (
+    ENDPOINT as ENDPOINT_3b0af8ef_13b4_4514_a07a_1bc718d07005,
+)
+from pykis.api.raw.국내주식.시세분석.comp_program_trade_today import (
+    ENDPOINT as ENDPOINT_0843477a_156b_4ac5_bf65_199b124b072f,
+)
+from pykis.api.raw.국내주식.시세분석.daily_credit_balance import (
+    ENDPOINT as ENDPOINT_0aad2cef_b338_4f4f_a8a0_b19c67a390b3,
+)
+from pykis.api.raw.국내주식.시세분석.daily_loan_trans import ENDPOINT as ENDPOINT_3ed0247e_d717_43ed_85e9_51f952844687
+from pykis.api.raw.국내주식.시세분석.daily_short_sale import ENDPOINT as ENDPOINT_1069f2bf_962f_48db_8dc4_54d362065431
+from pykis.api.raw.국내주식.시세분석.exp_price_trend import ENDPOINT as ENDPOINT_c4d31a39_d602_4848_9c00_1d9d3f494e63
+from pykis.api.raw.국내주식.시세분석.foreign_institution_total import (
+    ENDPOINT as ENDPOINT_4a077f43_7053_47be_b811_8e35be4ea745,
+)
+from pykis.api.raw.국내주식.시세분석.frgnmem_pchs_trend import ENDPOINT as ENDPOINT_fdecab0c_4c48_499b_9436_4ac3d32dbd09
+from pykis.api.raw.국내주식.시세분석.frgnmem_trade_estimate import (
+    ENDPOINT as ENDPOINT_f13f5e30_1065_451b_bcd3_06543b840a2e,
+)
+from pykis.api.raw.국내주식.시세분석.frgnmem_trade_trend import (
+    ENDPOINT as ENDPOINT_ce9f2a8f_e3cb_4bd3_83ba_7b6034eafae9,
+)
+from pykis.api.raw.국내주식.시세분석.inquire_daily_trade_volume import (
+    ENDPOINT as ENDPOINT_abc1a594_7f67_4a6b_9f02_67310c435b61,
+)
+from pykis.api.raw.국내주식.시세분석.inquire_investor_daily_by_market import (
+    ENDPOINT as ENDPOINT_0cc848c0_4928_4b89_bca4_62df430e4a45,
+)
+from pykis.api.raw.국내주식.시세분석.inquire_investor_time_by_market import (
+    ENDPOINT as ENDPOINT_e5c6c050_e63f_4ab7_b339_d1a645d3239b,
+)
+from pykis.api.raw.국내주식.시세분석.inquire_member_daily import (
+    ENDPOINT as ENDPOINT_50775574_8832_4db8_aeb5_51a32c8250ed,
+)
+from pykis.api.raw.국내주식.시세분석.intstock_grouplist import ENDPOINT as ENDPOINT_6723d437_b275_4c10_b7fb_9ba788cad75e
+from pykis.api.raw.국내주식.시세분석.intstock_multprice import ENDPOINT as ENDPOINT_fee465d1_7fd5_4c66_b4a4_731b813d569d
+from pykis.api.raw.국내주식.시세분석.intstock_stocklist_by_group import (
+    ENDPOINT as ENDPOINT_4d8c6e7a_a026_4f8d_8c64_9e7ecbc3d97e,
+)
+from pykis.api.raw.국내주식.시세분석.investor_program_trade_today import (
+    ENDPOINT as ENDPOINT_b664e9df_7ab6_4b89_89a0_5537ae380caf,
+)
+from pykis.api.raw.국내주식.시세분석.investor_trade_by_stock_daily import (
+    ENDPOINT as ENDPOINT_141f0f11_ef30_4e52_9388_a6e78502d5c2,
+)
+from pykis.api.raw.국내주식.시세분석.investor_trend_estimate import (
+    ENDPOINT as ENDPOINT_7fcf90d5_5e84_484a_8000_9121fb0a81d7,
+)
+from pykis.api.raw.국내주식.시세분석.mktfunds import ENDPOINT as ENDPOINT_b8c4fb5f_c3ef_4f6c_bfab_5471f43fb0ae
+from pykis.api.raw.국내주식.시세분석.overtime_exp_trans_fluct import (
+    ENDPOINT as ENDPOINT_fc52daa5_9919_4f80_b926_ee35ef298c54,
+)
+from pykis.api.raw.국내주식.시세분석.pbar_tratio import ENDPOINT as ENDPOINT_49cc5311_ae48_44e5_bc5c_7618f1ee61cd
+from pykis.api.raw.국내주식.시세분석.program_trade_by_stock import (
+    ENDPOINT as ENDPOINT_eed4c960_21af_45b7_8fc7_cc95911ee239,
+)
+from pykis.api.raw.국내주식.시세분석.program_trade_by_stock_daily import (
+    ENDPOINT as ENDPOINT_5ff6b5de_85e8_47e3_bb41_3e427c487bb3,
+)
+from pykis.api.raw.국내주식.시세분석.psearch_result import ENDPOINT as ENDPOINT_3f2f6823_fcdf_4713_a594_a03c7154096e
+from pykis.api.raw.국내주식.시세분석.psearch_title import ENDPOINT as ENDPOINT_24413e7f_cca6_4ab4_8598_b9d4e2d4305d
+from pykis.api.raw.국내주식.시세분석.tradprt_byamt import ENDPOINT as ENDPOINT_b290d16e_aa18_4e41_9c08_f4d941efe9a1
+from pykis.api.raw.국내주식.실시간시세.h0ewanc0 import ENDPOINT as ENDPOINT_d8302223_2381_46cc_81df_c756df21d12b
+from pykis.api.raw.국내주식.실시간시세.h0ewasp0 import ENDPOINT as ENDPOINT_9995fff8_61d9_4e18_a2f4_e1ce457ee209
+from pykis.api.raw.국내주식.실시간시세.h0ewcnt0 import ENDPOINT as ENDPOINT_d6ea99af_241c_4c3b_b6ac_0bd25724a2fe
+from pykis.api.raw.국내주식.실시간시세.h0nxanc0 import ENDPOINT as ENDPOINT_dba2c184_cd93_4d3b_b039_cf6e5b4264a1
+from pykis.api.raw.국내주식.실시간시세.h0nxasp0 import ENDPOINT as ENDPOINT_b9c67d36_a7b3_402e_9d86_d674a9f95159
+from pykis.api.raw.국내주식.실시간시세.h0nxcnt0 import ENDPOINT as ENDPOINT_ce1f9bd8_a9bf_41a8_9a01_32178b94c499
+from pykis.api.raw.국내주식.실시간시세.h0nxmbc0 import ENDPOINT as ENDPOINT_1900e01f_58a4_4c4d_b15d_4a30283af4c2
+from pykis.api.raw.국내주식.실시간시세.h0nxmko0 import ENDPOINT as ENDPOINT_e3e7dc3e_4989_4d85_9ac0_f25c805f3c7c
+from pykis.api.raw.국내주식.실시간시세.h0nxpgm0 import ENDPOINT as ENDPOINT_c3356cfc_4532_46ed_af87_b79960e397ec
+from pykis.api.raw.국내주식.실시간시세.h0stanc0 import ENDPOINT as ENDPOINT_970a5802_434c_4a45_b714_5325385d47a3
+from pykis.api.raw.국내주식.실시간시세.h0stasp0 import ENDPOINT as ENDPOINT_9cda726b_6f0b_48b5_8369_6d66bea05a2a
+from pykis.api.raw.국내주식.실시간시세.h0stcni0 import ENDPOINT as ENDPOINT_1e3c056d_1b42_461c_b8fb_631bb48e1ee2
+from pykis.api.raw.국내주식.실시간시세.h0stcnt0 import ENDPOINT as ENDPOINT_714d1437_8f62_43db_a73c_cf509d3f6aa7
+from pykis.api.raw.국내주식.실시간시세.h0stmbc0 import ENDPOINT as ENDPOINT_dbd893be_725c_429d_81eb_8b69cbeb3222
+from pykis.api.raw.국내주식.실시간시세.h0stmko0 import ENDPOINT as ENDPOINT_6500be39_a989_4c30_abbb_197bd3890eb8
+from pykis.api.raw.국내주식.실시간시세.h0stnav0 import ENDPOINT as ENDPOINT_e77ce3c3_4786_4500_bba2_0c02d6d1e1a8
+from pykis.api.raw.국내주식.실시간시세.h0stoaa0 import ENDPOINT as ENDPOINT_3e56c064_ef28_45ba_a681_6d164703af14
+from pykis.api.raw.국내주식.실시간시세.h0stoac0 import ENDPOINT as ENDPOINT_244aeedf_2bc4_44ff_b683_4d587e59008f
+from pykis.api.raw.국내주식.실시간시세.h0stoup0 import ENDPOINT as ENDPOINT_f1e3afa7_ed25_41a9_9130_aa8b53cd77d0
+from pykis.api.raw.국내주식.실시간시세.h0stpgm0 import ENDPOINT as ENDPOINT_63ddf05c_2baf_463d_a145_9e5448b5373d
+from pykis.api.raw.국내주식.실시간시세.h0unanc0 import ENDPOINT as ENDPOINT_dd693714_a397_4306_b135_88c691b7b6af
+from pykis.api.raw.국내주식.실시간시세.h0unasp0 import ENDPOINT as ENDPOINT_5dbf113a_f697_4295_8168_a93812aa3bfb
+from pykis.api.raw.국내주식.실시간시세.h0uncnt0 import ENDPOINT as ENDPOINT_b42038d9_0565_4801_ad09_633d5138fb26
+from pykis.api.raw.국내주식.실시간시세.h0unmbc0 import ENDPOINT as ENDPOINT_8e1f270a_98d0_4b2a_8b5e_15ff6db6b5db
+from pykis.api.raw.국내주식.실시간시세.h0unmko0 import ENDPOINT as ENDPOINT_16ee04b1_9606_4852_a138_dbccb5b83834
+from pykis.api.raw.국내주식.실시간시세.h0unpgm0 import ENDPOINT as ENDPOINT_416ebbf1_64b8_4d1e_be85_8fede035dec6
+from pykis.api.raw.국내주식.실시간시세.h0upanc0 import ENDPOINT as ENDPOINT_10443c63_715e_46ef_ab46_5a91b5913e87
+from pykis.api.raw.국내주식.실시간시세.h0upcnt0 import ENDPOINT as ENDPOINT_914eb98d_8dd7_42a1_8f9d_da73f4a61ae7
+from pykis.api.raw.국내주식.실시간시세.h0uppgm0 import ENDPOINT as ENDPOINT_7862b3ea_d28b_4995_8366_4965f96436c5
+from pykis.api.raw.국내주식.업종_기타.chk_holiday import ENDPOINT as ENDPOINT_5c488ab2_59fd_486e_bf74_b68e813e35c0
+from pykis.api.raw.국내주식.업종_기타.comp_interest import ENDPOINT as ENDPOINT_ecc36b93_6f99_4cd2_b16d_79b46734769a
+from pykis.api.raw.국내주식.업종_기타.exp_index_trend import ENDPOINT as ENDPOINT_020c2367_4e2c_4e9a_85b4_c5daaa73f600
+from pykis.api.raw.국내주식.업종_기타.exp_total_index import ENDPOINT as ENDPOINT_7d1b2345_32f8_463b_9f41_8b4602387d52
+from pykis.api.raw.국내주식.업종_기타.inquire_daily_indexchartprice import (
+    ENDPOINT as ENDPOINT_184519fc_37b5_4687_bebf_d3ddf5659729,
+)
+from pykis.api.raw.국내주식.업종_기타.inquire_index_category_price import (
+    ENDPOINT as ENDPOINT_27bef4b4_cf83_4698_8f1e_16138cb09817,
+)
+from pykis.api.raw.국내주식.업종_기타.inquire_index_daily_price import (
+    ENDPOINT as ENDPOINT_b11002e2_63c7_401b_a6fd_3136cb28040a,
+)
+from pykis.api.raw.국내주식.업종_기타.inquire_index_price import (
+    ENDPOINT as ENDPOINT_868b0fe2_fdb5_4a32_bdb2_00db12269230,
+)
+from pykis.api.raw.국내주식.업종_기타.inquire_index_tickprice import (
+    ENDPOINT as ENDPOINT_a87c0275_f467_4199_866a_876a8fcdccb0,
+)
+from pykis.api.raw.국내주식.업종_기타.inquire_index_timeprice import (
+    ENDPOINT as ENDPOINT_1d150774_eafa_49f8_9e77_67099bc28771,
+)
+from pykis.api.raw.국내주식.업종_기타.inquire_time_indexchartprice import (
+    ENDPOINT as ENDPOINT_5613b629_b622_4a22_8175_31a4376c36b4,
+)
+from pykis.api.raw.국내주식.업종_기타.inquire_vi_status import ENDPOINT as ENDPOINT_f54caf9c_65db_42ee_aa7e_a337c5a41778
+from pykis.api.raw.국내주식.업종_기타.market_time import ENDPOINT as ENDPOINT_8eab76ff_a534_4d31_afe1_0fef1ff46682
+from pykis.api.raw.국내주식.업종_기타.news_title import ENDPOINT as ENDPOINT_fbfe7300_7096_4938_840b_9f7c328cc5fd
+from pykis.api.raw.국내주식.종목정보.balance_sheet import ENDPOINT as ENDPOINT_f77aedcb_b46f_4aa0_b062_f03b9a444405
+from pykis.api.raw.국내주식.종목정보.bonus_issue import ENDPOINT as ENDPOINT_281cea6a_ae69_4837_99dd_e7e6ba1ff442
+from pykis.api.raw.국내주식.종목정보.cap_dcrs import ENDPOINT as ENDPOINT_27e843a3_826a_4a92_95f1_12be4c111898
+from pykis.api.raw.국내주식.종목정보.credit_by_company import ENDPOINT as ENDPOINT_43c17205_d112_4f9f_83f9_1704af8e4f79
+from pykis.api.raw.국내주식.종목정보.dividend import ENDPOINT as ENDPOINT_99ac7df4_132a_4458_8b07_4dab240d9896
+from pykis.api.raw.국내주식.종목정보.estimate_perform import ENDPOINT as ENDPOINT_fbb4bb45_57bb_4037_905d_dff0ff635cf6
+from pykis.api.raw.국내주식.종목정보.financial_ratio import ENDPOINT as ENDPOINT_26c5165d_1910_4467_aed9_7213524b7546
+from pykis.api.raw.국내주식.종목정보.forfeit import ENDPOINT as ENDPOINT_a4f2cae8_2180_428c_a456_6acf5cfbeafb
+from pykis.api.raw.국내주식.종목정보.growth_ratio import ENDPOINT as ENDPOINT_e7a0d02d_2aec_4358_8738_65c7c6da3b1b
+from pykis.api.raw.국내주식.종목정보.income_statement import ENDPOINT as ENDPOINT_c5933de1_4016_485a_a9ff_729818881d28
+from pykis.api.raw.국내주식.종목정보.invest_opbysec import ENDPOINT as ENDPOINT_3a588de4_df48_49ac_88ca_9765998c00e1
+from pykis.api.raw.국내주식.종목정보.invest_opinion import ENDPOINT as ENDPOINT_9de56f62_938c_40df_970e_8fd13a59b445
+from pykis.api.raw.국내주식.종목정보.lendable_by_company import (
+    ENDPOINT as ENDPOINT_ca0f8e3e_9f99_4ebd_a81c_c5f8017c4d65,
+)
+from pykis.api.raw.국내주식.종목정보.list_info import ENDPOINT as ENDPOINT_01fd59f1_e7f6_4192_8b02_d52e5dd7c8f3
+from pykis.api.raw.국내주식.종목정보.mand_deposit import ENDPOINT as ENDPOINT_b742d5ef_6d97_4e75_ae25_52daf2f08021
+from pykis.api.raw.국내주식.종목정보.merger_split import ENDPOINT as ENDPOINT_fa9583fd_0340_4f24_a755_45fdfb5e5bab
+from pykis.api.raw.국내주식.종목정보.other_major_ratios import ENDPOINT as ENDPOINT_fdb555c9_b958_48ad_a836_fd81f18ad73e
+from pykis.api.raw.국내주식.종목정보.paidin_capin import ENDPOINT as ENDPOINT_e0f9b38e_774a_441e_8dbd_27ab5f5ebb8b
+from pykis.api.raw.국내주식.종목정보.profit_ratio import ENDPOINT as ENDPOINT_a4275fc3_384b_4b24_bf3a_38b72786b5ab
+from pykis.api.raw.국내주식.종목정보.pub_offer import ENDPOINT as ENDPOINT_03997d2f_6145_4a84_88fe_5a63fe4374fb
+from pykis.api.raw.국내주식.종목정보.purreq import ENDPOINT as ENDPOINT_664138c4_6417_45a0_bbcc_da4eb4317edf
+from pykis.api.raw.국내주식.종목정보.rev_split import ENDPOINT as ENDPOINT_86565be8_1f1f_4387_9bae_5bae3031dba1
+from pykis.api.raw.국내주식.종목정보.search_info import ENDPOINT as ENDPOINT_00589d46_b8fe_4329_a20e_50dfe05f0d82
+from pykis.api.raw.국내주식.종목정보.search_stock_info import ENDPOINT as ENDPOINT_da0485b5_31f1_4c62_a3d4_294a4311ad39
+from pykis.api.raw.국내주식.종목정보.sharehld_meet import ENDPOINT as ENDPOINT_e2633b78_811f_40b8_a933_dcba64c3e0e8
+from pykis.api.raw.국내주식.종목정보.stability_ratio import ENDPOINT as ENDPOINT_a27c026a_744f_4ddd_9d35_c35b285af74c
+from pykis.api.raw.국내주식.주문_계좌.inquire_account_balance import (
+    ENDPOINT as ENDPOINT_052c663e_73db_43ee_b1a0_702a14de31fc,
+)
+from pykis.api.raw.국내주식.주문_계좌.inquire_balance import ENDPOINT as ENDPOINT_fe014543_4baa_4452_a388_2d6558d1e212
+from pykis.api.raw.국내주식.주문_계좌.inquire_balance_rlz_pl import (
+    ENDPOINT as ENDPOINT_ff79302e_6014_495e_a188_6dca69fc952e,
+)
+from pykis.api.raw.국내주식.주문_계좌.inquire_credit_psamount import (
+    ENDPOINT as ENDPOINT_262e63bf_95bd_4540_b252_092d36df750a,
+)
+from pykis.api.raw.국내주식.주문_계좌.inquire_daily_ccld import (
+    ENDPOINT as ENDPOINT_380e7913_c8dc_4bea_9ceb_b200f16b3a09,
+)
+from pykis.api.raw.국내주식.주문_계좌.inquire_deposit import ENDPOINT as ENDPOINT_095877d8_43c9_45cd_998b_114598e0c812
+from pykis.api.raw.국내주식.주문_계좌.inquire_period_profit import (
+    ENDPOINT as ENDPOINT_9748985e_43bc_4b8f_be73_cd9434666099,
+)
+from pykis.api.raw.국내주식.주문_계좌.inquire_period_trade_profit import (
+    ENDPOINT as ENDPOINT_4755efc7_31c4_411c_af45_3e6948611f0a,
+)
+from pykis.api.raw.국내주식.주문_계좌.inquire_present_balance import (
+    ENDPOINT as ENDPOINT_6e8dc8ed_f026_497c_a40c_098448a94241,
+)
+from pykis.api.raw.국내주식.주문_계좌.inquire_psbl_order import (
+    ENDPOINT as ENDPOINT_64e81099_cb25_4f86_86d9_b53e6ed7d1a8,
+)
+from pykis.api.raw.국내주식.주문_계좌.inquire_psbl_rvsecncl import (
+    ENDPOINT as ENDPOINT_d4537e9c_73f7_414c_9fb0_4eae3bc397d0,
+)
+from pykis.api.raw.국내주식.주문_계좌.inquire_psbl_sell import ENDPOINT as ENDPOINT_b71fba6a_5759_4efa_a7e0_5e93e7e0e02d
+from pykis.api.raw.국내주식.주문_계좌.intgr_margin import ENDPOINT as ENDPOINT_32b7ac44_2d64_466d_9343_7e9d4e7ab0e4
+from pykis.api.raw.국내주식.주문_계좌.order_cash import ENDPOINT as ENDPOINT_aade4c72_5fb7_418a_9ff2_254b4d5f0ceb
+from pykis.api.raw.국내주식.주문_계좌.order_credit import ENDPOINT as ENDPOINT_f5769e4a_24d5_44f9_a2d8_232d45abf988
+from pykis.api.raw.국내주식.주문_계좌.order_resv import ENDPOINT as ENDPOINT_f350887c_35a2_4b65_98aa_9524eb47bb6d
+from pykis.api.raw.국내주식.주문_계좌.order_resv_ccnl import ENDPOINT as ENDPOINT_4da32292_291d_4b58_9ab4_f9d40ca983a6
+from pykis.api.raw.국내주식.주문_계좌.order_resv_rvsecncl import (
+    ENDPOINT as ENDPOINT_09cd3a87_6b6a_4741_bc7d_f6565c93d6d8,
+)
+from pykis.api.raw.국내주식.주문_계좌.order_rvsecncl import ENDPOINT as ENDPOINT_4bfdfb2b_34a7_43f6_935a_e637724f960a
+from pykis.api.raw.국내주식.주문_계좌.period_rights import ENDPOINT as ENDPOINT_04275bfe_007a_45f6_8d4d_0682320a0741
+from pykis.api.raw.장내채권.기본시세.avg_unit import ENDPOINT as ENDPOINT_aacab59c_7559_414b_bf73_b0d15f3d62f1
+from pykis.api.raw.장내채권.기본시세.inquire_asking_price import (
+    ENDPOINT as ENDPOINT_0a5782f0_0c05_4feb_90f4_b86f09b45327,
+)
+from pykis.api.raw.장내채권.기본시세.inquire_ccnl import ENDPOINT as ENDPOINT_34d1b922_ab20_4839_9f15_ab1fe242a81f
+from pykis.api.raw.장내채권.기본시세.inquire_daily_itemchartprice import (
+    ENDPOINT as ENDPOINT_f5dcbbc3_bee6_4b83_a236_5f3a5bb59d72,
+)
+from pykis.api.raw.장내채권.기본시세.inquire_daily_price import (
+    ENDPOINT as ENDPOINT_7d6d8ba7_bcae_4d7c_8d5b_4b51cd42a94a,
+)
+from pykis.api.raw.장내채권.기본시세.inquire_price import ENDPOINT as ENDPOINT_a274b685_7ea8_441d_a2fe_3087becb6bf2
+from pykis.api.raw.장내채권.기본시세.issue_info import ENDPOINT as ENDPOINT_cf45db98_43d0_476a_8774_d9690365300a
+from pykis.api.raw.장내채권.기본시세.search_bond_info import ENDPOINT as ENDPOINT_56cf546c_a74f_467c_98b1_005967535e9e
+from pykis.api.raw.장내채권.실시간시세.h0bicnt0 import ENDPOINT as ENDPOINT_95690f51_c58b_47cb_850a_e0b70702e382
+from pykis.api.raw.장내채권.실시간시세.h0bjasp0 import ENDPOINT as ENDPOINT_242ea47d_150e_4c8f_88a1_50fba4b822c5
+from pykis.api.raw.장내채권.실시간시세.h0bjcnt0 import ENDPOINT as ENDPOINT_a5e03bf1_e7ef_4587_9d13_159376b444b8
+from pykis.api.raw.장내채권.주문_계좌.buy import ENDPOINT as ENDPOINT_51c1a249_5fde_412d_9c8f_be5ef2f8dc3b
+from pykis.api.raw.장내채권.주문_계좌.inquire_balance import ENDPOINT as ENDPOINT_13a96552_4b77_411c_9ef6_5eed7192a76a
+from pykis.api.raw.장내채권.주문_계좌.inquire_daily_ccld import (
+    ENDPOINT as ENDPOINT_4803d486_0b85_4d6f_9bc1_164fef860905,
+)
+from pykis.api.raw.장내채권.주문_계좌.inquire_psbl_order import (
+    ENDPOINT as ENDPOINT_75fdcac1_6dfc_439c_a9f0_176dc27abb4f,
+)
+from pykis.api.raw.장내채권.주문_계좌.inquire_psbl_rvsecncl import (
+    ENDPOINT as ENDPOINT_daf83679_be80_4ce8_9f1d_88e123a9ee0c,
+)
+from pykis.api.raw.장내채권.주문_계좌.order_rvsecncl import ENDPOINT as ENDPOINT_e48e54a7_f72b_4282_a18b_8d5e52b725fb
+from pykis.api.raw.장내채권.주문_계좌.sell import ENDPOINT as ENDPOINT_2261a45e_8e04_4cdf_8f4d_d52a45a0380d
+from pykis.api.raw.해외선물옵션.기본시세.daily_ccnl import ENDPOINT as ENDPOINT_8c473311_ecfd_428f_9ec2_0b574d8592b9
+from pykis.api.raw.해외선물옵션.기본시세.inquire_asking_price import (
+    ENDPOINT as ENDPOINT_1a07c21c_5fca_4d8f_a780_d861a7f80eb8,
+)
+from pykis.api.raw.해외선물옵션.기본시세.inquire_price import ENDPOINT as ENDPOINT_3d3ad086_7c1b_41cb_9b76_ba05ccf6ba95
+from pykis.api.raw.해외선물옵션.기본시세.inquire_time_futurechartprice import (
+    ENDPOINT as ENDPOINT_31d46ebe_2a19_4467_9dfb_a2d21adb1e61,
+)
+from pykis.api.raw.해외선물옵션.기본시세.inquire_time_optchartprice import (
+    ENDPOINT as ENDPOINT_9fa44d82_f5f3_4edc_adec_8bad25800bd3,
+)
+from pykis.api.raw.해외선물옵션.기본시세.investor_unpd_trend import (
+    ENDPOINT as ENDPOINT_d5dc7247_6f82_4cd7_8133_afabd8f003f7,
+)
+from pykis.api.raw.해외선물옵션.기본시세.market_time import ENDPOINT as ENDPOINT_3acd4025_6e95_46dc_a90d_b38215912d11
+from pykis.api.raw.해외선물옵션.기본시세.monthly_ccnl import ENDPOINT as ENDPOINT_8702dab4_008d_4849_8f24_a91b57872a80
+from pykis.api.raw.해외선물옵션.기본시세.opt_asking_price import (
+    ENDPOINT as ENDPOINT_506cd6e9_97d9_4c4b_82bc_6a6c13586885,
+)
+from pykis.api.raw.해외선물옵션.기본시세.opt_daily_ccnl import ENDPOINT as ENDPOINT_1ecba681_1f73_4fb7_98b0_b7feef13b354
+from pykis.api.raw.해외선물옵션.기본시세.opt_detail import ENDPOINT as ENDPOINT_89c2f9ea_62be_4c4a_bd07_66f3fe3234a6
+from pykis.api.raw.해외선물옵션.기본시세.opt_monthly_ccnl import (
+    ENDPOINT as ENDPOINT_94959cbc_bbb7_4776_8cd0_7058138a08aa,
+)
+from pykis.api.raw.해외선물옵션.기본시세.opt_price import ENDPOINT as ENDPOINT_621bdd34_a902_4117_98b8_57733197742a
+from pykis.api.raw.해외선물옵션.기본시세.opt_tick_ccnl import ENDPOINT as ENDPOINT_41290e2a_6e25_49c0_91a1_99b96ce53efe
+from pykis.api.raw.해외선물옵션.기본시세.opt_weekly_ccnl import (
+    ENDPOINT as ENDPOINT_14431ddf_c0d5_4c33_a945_86e77bcf6486,
+)
+from pykis.api.raw.해외선물옵션.기본시세.search_contract_detail import (
+    ENDPOINT as ENDPOINT_48c30d93_ffc0_47c7_a6ba_da728b0b3d5d,
+)
+from pykis.api.raw.해외선물옵션.기본시세.search_opt_detail import (
+    ENDPOINT as ENDPOINT_42e2e7bd_c2ad_469b_91b2_3962c9931b79,
+)
+from pykis.api.raw.해외선물옵션.기본시세.stock_detail import ENDPOINT as ENDPOINT_f9f83090_60d0_4dcf_99c9_a4b36852848e
+from pykis.api.raw.해외선물옵션.기본시세.tick_ccnl import ENDPOINT as ENDPOINT_c7be7c01_6f43_4576_b1fd_84d0102ce4c3
+from pykis.api.raw.해외선물옵션.기본시세.weekly_ccnl import ENDPOINT as ENDPOINT_cd2e4d9a_7e3d_44ff_9b68_36d971655c24
+from pykis.api.raw.해외선물옵션.실시간시세.hdfff010 import ENDPOINT as ENDPOINT_bb550b35_fa29_449c_8608_530a1843a80f
+from pykis.api.raw.해외선물옵션.실시간시세.hdfff020 import ENDPOINT as ENDPOINT_f30d6f30_54f2_480c_bf7a_3e4086fa71b0
+from pykis.api.raw.해외선물옵션.실시간시세.hdfff1c0 import ENDPOINT as ENDPOINT_82aef9c2_4f88_4bdf_861d_7c5c9fa69a5b
+from pykis.api.raw.해외선물옵션.실시간시세.hdfff2c0 import ENDPOINT as ENDPOINT_cb0618f5_967f_4d26_a6eb_527bfd693041
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_ccld import ENDPOINT as ENDPOINT_d1d7b8f1_6dc8_4439_a27f_5aa2c73b12f3
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_daily_ccld import (
+    ENDPOINT as ENDPOINT_17cfbb44_0389_4b56_9d0c_7410930747d4,
+)
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_daily_order import (
+    ENDPOINT as ENDPOINT_ca3e5ee4_a1f3_48a6_ab11_cd298ebef686,
+)
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_deposit import (
+    ENDPOINT as ENDPOINT_df4f0faf_db31_4650_b320_64a44ebdecf6,
+)
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_period_ccld import (
+    ENDPOINT as ENDPOINT_aab037bf_5ea2_4e25_99f1_c45d09f02a31,
+)
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_period_trans import (
+    ENDPOINT as ENDPOINT_11cc8ad0_d3cc_4c55_8c2f_4923e8b87ee4,
+)
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_psamount import (
+    ENDPOINT as ENDPOINT_fbe60d47_02bd_4d48_8169_e0df9e74c57c,
+)
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_unpd import ENDPOINT as ENDPOINT_81fa9968_fe8e_45af_811e_270816f4d12c
+from pykis.api.raw.해외선물옵션.주문_계좌.margin_detail import ENDPOINT as ENDPOINT_5ff633c1_c50d_4494_9456_0c558031c678
+from pykis.api.raw.해외선물옵션.주문_계좌.order import ENDPOINT as ENDPOINT_749c8e3b_7e40_4f5b_82a3_11cad0a10e8d
+from pykis.api.raw.해외선물옵션.주문_계좌.order_rvsecncl import (
+    ENDPOINT as ENDPOINT_a0822304_5dba_4912_b62d_d82bd88858fa,
+)
 from pykis.api.raw.해외주식.기본시세.countries_holiday import ENDPOINT as ENDPOINT_1394ba1d_e17d_42c8_8e53_6bed5dce7588
 from pykis.api.raw.해외주식.기본시세.dailyprice import ENDPOINT as ENDPOINT_0e9fb2ba_bbac_4735_925a_a35e08c9a790
 from pykis.api.raw.해외주식.기본시세.industry_price import ENDPOINT as ENDPOINT_b03e2301_db2c_4144_ac63_9297b5d637bc
@@ -72,9 +510,125 @@ from pykis.api.raw.해외주식.기본시세.inquire_time_itemchartprice import 
 from pykis.api.raw.해외주식.기본시세.price import ENDPOINT as ENDPOINT_3eeac674_072d_4674_a5a7_f0ed01194a81
 from pykis.api.raw.해외주식.기본시세.price_detail import ENDPOINT as ENDPOINT_abc66a03_8103_4f6d_8ba8_450c2b935e14
 from pykis.api.raw.해외주식.기본시세.search_info import ENDPOINT as ENDPOINT_7f77a12b_b23c_4605_93ea_4e1b3c0356fb
+from pykis.api.raw.해외주식.시세분석.brknews_title import ENDPOINT as ENDPOINT_b73a4cdf_402b_4e11_a161_609ea9451835
+from pykis.api.raw.해외주식.시세분석.colable_by_company import ENDPOINT as ENDPOINT_967e60c7_f1eb_4f23_b893_71747556ad49
+from pykis.api.raw.해외주식.시세분석.market_cap import ENDPOINT as ENDPOINT_ae084fcd_7a30_4a14_8483_91a7fc918d23
+from pykis.api.raw.해외주식.시세분석.new_highlow import ENDPOINT as ENDPOINT_4360b745_0b9b_408e_8e0d_178138dbf864
+from pykis.api.raw.해외주식.시세분석.news_title import ENDPOINT as ENDPOINT_9064a50c_0545_4b6c_8eb2_034f5214974b
+from pykis.api.raw.해외주식.시세분석.period_rights import ENDPOINT as ENDPOINT_2151d14c_0fae_44a5_be38_c3f5ab8354bb
+from pykis.api.raw.해외주식.시세분석.price_fluct import ENDPOINT as ENDPOINT_2549b1c6_2c8c_4826_b632_74c0b68c24e9
+from pykis.api.raw.해외주식.시세분석.rights_by_ice import ENDPOINT as ENDPOINT_cd4be4fc_4545_4147_ab9a_e5b0ccede0de
+from pykis.api.raw.해외주식.시세분석.trade_growth import ENDPOINT as ENDPOINT_05980ed5_8ab1_471a_975c_3e129841cbb8
+from pykis.api.raw.해외주식.시세분석.trade_pbmn import ENDPOINT as ENDPOINT_3cb7e131_7e44_4f34_831f_e6720b4a299a
+from pykis.api.raw.해외주식.시세분석.trade_turnover import ENDPOINT as ENDPOINT_7d30b578_018d_4250_852a_7599211ff988
+from pykis.api.raw.해외주식.시세분석.trade_vol import ENDPOINT as ENDPOINT_ec944971_3694_4692_8a17_761c2b549cd9
+from pykis.api.raw.해외주식.시세분석.updown_rate import ENDPOINT as ENDPOINT_bac2f657_36b1_4538_aabc_0bee8ba77229
+from pykis.api.raw.해외주식.시세분석.volume_power import ENDPOINT as ENDPOINT_57ac7aae_ae01_4b22_b61b_f1330adb5e0a
+from pykis.api.raw.해외주식.시세분석.volume_surge import ENDPOINT as ENDPOINT_40409c43_9bc7_447a_b09a_171d14b437f9
+from pykis.api.raw.해외주식.실시간시세.h0gscni0 import ENDPOINT as ENDPOINT_fef3c007_4a03_4b3b_9d08_310b88912877
+from pykis.api.raw.해외주식.실시간시세.hdfsasp0 import ENDPOINT as ENDPOINT_19f840e8_d6be_4b68_94f5_9448a0c4f10b
+from pykis.api.raw.해외주식.실시간시세.hdfsasp1 import ENDPOINT as ENDPOINT_22cadc7e_10e1_4b97_a0e0_f1f41b0b67ac
+from pykis.api.raw.해외주식.실시간시세.hdfscnt0 import ENDPOINT as ENDPOINT_52290e93_e94c_4d2a_9ce3_c304681d3807
+from pykis.api.raw.해외주식.주문_계좌.algo_ordno import ENDPOINT as ENDPOINT_f737550b_909d_4b5d_ba03_568c8a06b5b1
+from pykis.api.raw.해외주식.주문_계좌.daytime_order import ENDPOINT as ENDPOINT_9efc47d7_58ec_4f9e_8068_37795580fe67
+from pykis.api.raw.해외주식.주문_계좌.daytime_order_rvsecncl import (
+    ENDPOINT as ENDPOINT_67d53cfe_fba6_4d46_a72a_b4ced4d03dd0,
+)
+from pykis.api.raw.해외주식.주문_계좌.foreign_margin import ENDPOINT as ENDPOINT_f8d92c02_7537_4ae5_88ca_fe3d0a7155db
+from pykis.api.raw.해외주식.주문_계좌.inquire_algo_ccnl import ENDPOINT as ENDPOINT_1187c231_1de6_4947_b942_bfca6b3d27e7
+from pykis.api.raw.해외주식.주문_계좌.inquire_balance import ENDPOINT as ENDPOINT_0482dfb1_154c_476c_8a3b_6fc1da498dbf
+from pykis.api.raw.해외주식.주문_계좌.inquire_ccnl import ENDPOINT as ENDPOINT_6d715b38_566f_4045_a08c_4a594d3a3314
+from pykis.api.raw.해외주식.주문_계좌.inquire_nccs import ENDPOINT as ENDPOINT_60cae69d_c121_4dd9_902c_1112567fd88e
+from pykis.api.raw.해외주식.주문_계좌.inquire_paymt_stdr_balance import (
+    ENDPOINT as ENDPOINT_8e78ed2f_8c3d_424e_b400_82fc94ca4a6b,
+)
+from pykis.api.raw.해외주식.주문_계좌.inquire_period_profit import (
+    ENDPOINT as ENDPOINT_147d1d34_3001_4958_b970_106935a19fe7,
+)
+from pykis.api.raw.해외주식.주문_계좌.inquire_period_trans import (
+    ENDPOINT as ENDPOINT_8e874fea_8e55_464d_b535_75df64fc3048,
+)
+from pykis.api.raw.해외주식.주문_계좌.inquire_present_balance import (
+    ENDPOINT as ENDPOINT_09baff2a_6e9d_4502_ba66_d7bb94094b67,
+)
+from pykis.api.raw.해외주식.주문_계좌.inquire_psamount import ENDPOINT as ENDPOINT_2a155fee_882f_4d80_8183_559f2f6983e9
+from pykis.api.raw.해외주식.주문_계좌.order import ENDPOINT as ENDPOINT_e4a7e5fd_eed5_4a85_93f0_f46b804dae5f
+from pykis.api.raw.해외주식.주문_계좌.order_resv import ENDPOINT as ENDPOINT_55095c42_8c7d_47fc_a34b_947e12481678
+from pykis.api.raw.해외주식.주문_계좌.order_resv_ccnl import ENDPOINT as ENDPOINT_ec92f2c8_c3bd_4f80_b1f3_ea0716577f02
+from pykis.api.raw.해외주식.주문_계좌.order_resv_list import ENDPOINT as ENDPOINT_db7f9cb2_2ab8_43c6_a744_e996c309a801
+from pykis.api.raw.해외주식.주문_계좌.order_rvsecncl import ENDPOINT as ENDPOINT_4812f155_bdb5_47ac_a35b_a70d3d8f14c9
 from pykis.raw.types import Endpoint
 
 ENDPOINTS: dict[str, Endpoint] = {
+    "5c87ba63-740a-4166-93ac-803510bb9c02": cast(Endpoint, ENDPOINT_5c87ba63_740a_4166_93ac_803510bb9c02),
+    "214b9e22-8f2e-4fba-9688-587279f1061a": cast(Endpoint, ENDPOINT_214b9e22_8f2e_4fba_9688_587279f1061a),
+    "dd3cb447-5034-4711-8c88-62c913429c7b": cast(Endpoint, ENDPOINT_dd3cb447_5034_4711_8c88_62c913429c7b),
+    "fa778c98-f68d-451e-8fff-b1c6bfe5cd30": cast(Endpoint, ENDPOINT_fa778c98_f68d_451e_8fff_b1c6bfe5cd30),
+    "d9b0e346-a67d-43c6-938a-508e2d8507c6": cast(Endpoint, ENDPOINT_d9b0e346_a67d_43c6_938a_508e2d8507c6),
+    "8362a35a-e7c2-4944-a4a2-5a716737388c": cast(Endpoint, ENDPOINT_8362a35a_e7c2_4944_a4a2_5a716737388c),
+    "89e1ffde-0cda-4426-8277-72710c193cf2": cast(Endpoint, ENDPOINT_89e1ffde_0cda_4426_8277_72710c193cf2),
+    "4112fd5d-43b7-4dc4-bf44-33df58981847": cast(Endpoint, ENDPOINT_4112fd5d_43b7_4dc4_bf44_33df58981847),
+    "498e6384-f887-4fb2-9055-2cbc95790087": cast(Endpoint, ENDPOINT_498e6384_f887_4fb2_9055_2cbc95790087),
+    "bec98736-8f5a-49a0-b325-5f6c40ff13b3": cast(Endpoint, ENDPOINT_bec98736_8f5a_49a0_b325_5f6c40ff13b3),
+    "77de2a74-b26c-40ca-a5b7-f87e2ef64f9f": cast(Endpoint, ENDPOINT_77de2a74_b26c_40ca_a5b7_f87e2ef64f9f),
+    "0bb05819-d759-4789-8eda-27a0b88f02aa": cast(Endpoint, ENDPOINT_0bb05819_d759_4789_8eda_27a0b88f02aa),
+    "86194480-c8f0-4b0b-9d3d-001c2fc33422": cast(Endpoint, ENDPOINT_86194480_c8f0_4b0b_9d3d_001c2fc33422),
+    "932e6da0-9454-47d6-b26d-0cceb3349438": cast(Endpoint, ENDPOINT_932e6da0_9454_47d6_b26d_0cceb3349438),
+    "7affebdf-31cb-4552-9836-b7aa9fe2d792": cast(Endpoint, ENDPOINT_7affebdf_31cb_4552_9836_b7aa9fe2d792),
+    "5d3edabf-2af0-4fda-bb86-494b6080e046": cast(Endpoint, ENDPOINT_5d3edabf_2af0_4fda_bb86_494b6080e046),
+    "8e68c76f-58df-4a8e-ad57-09ec4fcea8ee": cast(Endpoint, ENDPOINT_8e68c76f_58df_4a8e_ad57_09ec4fcea8ee),
+    "6a53d1c1-c9fe-48d8-9426-ef304b36b961": cast(Endpoint, ENDPOINT_6a53d1c1_c9fe_48d8_9426_ef304b36b961),
+    "4d079440-555b-4773-a484-67bf170e9b27": cast(Endpoint, ENDPOINT_4d079440_555b_4773_a484_67bf170e9b27),
+    "851da7d1-fdf2-4693-bab3-ad1234daca02": cast(Endpoint, ENDPOINT_851da7d1_fdf2_4693_bab3_ad1234daca02),
+    "1d9a993b-18ff-40f6-891f-8a450e68f15a": cast(Endpoint, ENDPOINT_1d9a993b_18ff_40f6_891f_8a450e68f15a),
+    "641bf3d8-f381-4661-aaad-d9ee05e05489": cast(Endpoint, ENDPOINT_641bf3d8_f381_4661_aaad_d9ee05e05489),
+    "ee7c4225-61e7-4d2d-b9ac-e8b00ccacdad": cast(Endpoint, ENDPOINT_ee7c4225_61e7_4d2d_b9ac_e8b00ccacdad),
+    "879a70f9-a216-4e55-9d36-cbf939681405": cast(Endpoint, ENDPOINT_879a70f9_a216_4e55_9d36_cbf939681405),
+    "480e727f-c7df-4b22-9d15-9c4567a8b849": cast(Endpoint, ENDPOINT_480e727f_c7df_4b22_9d15_9c4567a8b849),
+    "70845e60-37a9-4849-a563-bc613b419599": cast(Endpoint, ENDPOINT_70845e60_37a9_4849_a563_bc613b419599),
+    "3d10c790-f3dd-4837-b048-cc5a45b678b8": cast(Endpoint, ENDPOINT_3d10c790_f3dd_4837_b048_cc5a45b678b8),
+    "6774932d-1c2d-44cb-b8fb-44b39bd5eed5": cast(Endpoint, ENDPOINT_6774932d_1c2d_44cb_b8fb_44b39bd5eed5),
+    "c4ded44e-26fe-4b9f-b8d7-10e1ba4020a4": cast(Endpoint, ENDPOINT_c4ded44e_26fe_4b9f_b8d7_10e1ba4020a4),
+    "fc5bcd3a-4b96-423d-b315-ea3f758fbcd7": cast(Endpoint, ENDPOINT_fc5bcd3a_4b96_423d_b315_ea3f758fbcd7),
+    "a2b6b401-1534-4f0e-9b59-1bf2349434f4": cast(Endpoint, ENDPOINT_a2b6b401_1534_4f0e_9b59_1bf2349434f4),
+    "00eafa0f-820b-4a12-91dc-a65593a8322e": cast(Endpoint, ENDPOINT_00eafa0f_820b_4a12_91dc_a65593a8322e),
+    "ee7973de-54a7-4b34-9a31-b34a4294d606": cast(Endpoint, ENDPOINT_ee7973de_54a7_4b34_9a31_b34a4294d606),
+    "d352ed8c-30eb-4de2-83b4-62f6830b6208": cast(Endpoint, ENDPOINT_d352ed8c_30eb_4de2_83b4_62f6830b6208),
+    "7e749979-58f8-4b71-980d-2d91ba1266e8": cast(Endpoint, ENDPOINT_7e749979_58f8_4b71_980d_2d91ba1266e8),
+    "71356fc2-c4ca-4d5f-b564-cd16b8155ecc": cast(Endpoint, ENDPOINT_71356fc2_c4ca_4d5f_b564_cd16b8155ecc),
+    "f64db1b8-012a-4e92-ab1c-e9b3b264b2b7": cast(Endpoint, ENDPOINT_f64db1b8_012a_4e92_ab1c_e9b3b264b2b7),
+    "b14b5187-8dbd-4fde-a4b6-73a8a3c19f1a": cast(Endpoint, ENDPOINT_b14b5187_8dbd_4fde_a4b6_73a8a3c19f1a),
+    "2bb020d7-ae3f-4f65-88ac-e9f598544825": cast(Endpoint, ENDPOINT_2bb020d7_ae3f_4f65_88ac_e9f598544825),
+    "24abcfa1-a95b-4344-bb7f-11f2523f8355": cast(Endpoint, ENDPOINT_24abcfa1_a95b_4344_bb7f_11f2523f8355),
+    "3af368ec-3627-4fdc-9bb9-4e4ff1a1968f": cast(Endpoint, ENDPOINT_3af368ec_3627_4fdc_9bb9_4e4ff1a1968f),
+    "b5f12325-af4e-4fcd-a8b2-c8047dd317d2": cast(Endpoint, ENDPOINT_b5f12325_af4e_4fcd_a8b2_c8047dd317d2),
+    "bca48008-6f73-4753-ab4b-aa8506145340": cast(Endpoint, ENDPOINT_bca48008_6f73_4753_ab4b_aa8506145340),
+    "d66ffd69-8d60-4490-99d0-becf63aabf41": cast(Endpoint, ENDPOINT_d66ffd69_8d60_4490_99d0_becf63aabf41),
+    "07126b90-256e-4b93-b0be-e1e59dfc89f0": cast(Endpoint, ENDPOINT_07126b90_256e_4b93_b0be_e1e59dfc89f0),
+    "a3c3305a-7624-4049-b0f3-6bcca689d1f5": cast(Endpoint, ENDPOINT_a3c3305a_7624_4049_b0f3_6bcca689d1f5),
+    "73a1bb73-fd91-4d70-bba1-f3241f12e7ff": cast(Endpoint, ENDPOINT_73a1bb73_fd91_4d70_bba1_f3241f12e7ff),
+    "ca2e71e1-5ef4-4489-b4c4-118e10588690": cast(Endpoint, ENDPOINT_ca2e71e1_5ef4_4489_b4c4_118e10588690),
+    "264533d3-00eb-4794-984a-fecb84350f39": cast(Endpoint, ENDPOINT_264533d3_00eb_4794_984a_fecb84350f39),
+    "d99d058d-4319-41ce-bce0-53c44a894ddb": cast(Endpoint, ENDPOINT_d99d058d_4319_41ce_bce0_53c44a894ddb),
+    "937eb413-9db9-4479-887d-4cf172dcf344": cast(Endpoint, ENDPOINT_937eb413_9db9_4479_887d_4cf172dcf344),
+    "1e0869f4-5639-4f22-be71-a28897242457": cast(Endpoint, ENDPOINT_1e0869f4_5639_4f22_be71_a28897242457),
+    "4af6e358-255c-4e4e-b691-388610068216": cast(Endpoint, ENDPOINT_4af6e358_255c_4e4e_b691_388610068216),
+    "8869c0c3-efd8-461b-ba87-5ab468afeea2": cast(Endpoint, ENDPOINT_8869c0c3_efd8_461b_ba87_5ab468afeea2),
+    "07313e08-45f2-4423-abb2-2a49752910ae": cast(Endpoint, ENDPOINT_07313e08_45f2_4423_abb2_2a49752910ae),
+    "e5f413ec-3e68-47d7-931f-d7eb263990d9": cast(Endpoint, ENDPOINT_e5f413ec_3e68_47d7_931f_d7eb263990d9),
+    "147e81db-e0d2-40cd-95f5-d8da90c2d998": cast(Endpoint, ENDPOINT_147e81db_e0d2_40cd_95f5_d8da90c2d998),
+    "4769336b-3280-419e-b69d-7531195b2221": cast(Endpoint, ENDPOINT_4769336b_3280_419e_b69d_7531195b2221),
+    "e9be5d05-448e-4222-bb05-7f0e27a91d69": cast(Endpoint, ENDPOINT_e9be5d05_448e_4222_bb05_7f0e27a91d69),
+    "a64dc948-de6c-4e7a-988b-9769ac8fd5b2": cast(Endpoint, ENDPOINT_a64dc948_de6c_4e7a_988b_9769ac8fd5b2),
+    "246842f0-450e-464b-8dbc-356133d12b42": cast(Endpoint, ENDPOINT_246842f0_450e_464b_8dbc_356133d12b42),
+    "4e082d62-bbad-48bb-92dc-aceac46e9a8d": cast(Endpoint, ENDPOINT_4e082d62_bbad_48bb_92dc_aceac46e9a8d),
+    "263ef907-db8c-4bf6-8da9-388c8fb4cf10": cast(Endpoint, ENDPOINT_263ef907_db8c_4bf6_8da9_388c8fb4cf10),
+    "9f6b3c41-d44a-4ae1-8324-aa222d19c6bf": cast(Endpoint, ENDPOINT_9f6b3c41_d44a_4ae1_8324_aa222d19c6bf),
+    "40403e7f-bd31-4e12-ae87-553e7be28b12": cast(Endpoint, ENDPOINT_40403e7f_bd31_4e12_ae87_553e7be28b12),
+    "5bd31e17-ea4d-4e76-8e03-f8dfb3be25e7": cast(Endpoint, ENDPOINT_5bd31e17_ea4d_4e76_8e03_f8dfb3be25e7),
+    "31081a30-ba59-4b42-a9f2-c1fe850fadb1": cast(Endpoint, ENDPOINT_31081a30_ba59_4b42_a9f2_c1fe850fadb1),
+    "f1ce6099-5bf2-4b4e-915e-e0c7020af4bf": cast(Endpoint, ENDPOINT_f1ce6099_5bf2_4b4e_915e_e0c7020af4bf),
+    "6bd62480-d165-415e-9d82-bffe2f43aa7e": cast(Endpoint, ENDPOINT_6bd62480_d165_415e_9d82_bffe2f43aa7e),
     "ebf1dc17-7b48-4192-841d-0ccb6ce3f016": cast(Endpoint, ENDPOINT_ebf1dc17_7b48_4192_841d_0ccb6ce3f016),
     "af3d3794-92c0-4f3b-8041-4ca4ddcda5de": cast(Endpoint, ENDPOINT_af3d3794_92c0_4f3b_8041_4ca4ddcda5de),
     "b72d1ba6-b37c-4b7c-91ae-9d02835444f6": cast(Endpoint, ENDPOINT_b72d1ba6_b37c_4b7c_91ae_9d02835444f6),
@@ -95,6 +649,199 @@ ENDPOINTS: dict[str, Endpoint] = {
     "ade0f812-3677-48c0-9cce-ddfb4a689add": cast(Endpoint, ENDPOINT_ade0f812_3677_48c0_9cce_ddfb4a689add),
     "dd867a76-745d-4268-8ff8-b3e7f71e6e83": cast(Endpoint, ENDPOINT_dd867a76_745d_4268_8ff8_b3e7f71e6e83),
     "46eea904-3984-4354-b4e9-8918f503fd79": cast(Endpoint, ENDPOINT_46eea904_3984_4354_b4e9_8918f503fd79),
+    "4490b65c-3c6e-4e8b-b525-f5b48fe88710": cast(Endpoint, ENDPOINT_4490b65c_3c6e_4e8b_b525_f5b48fe88710),
+    "7bdbff93-1334-496f-a9b8-7da6032f7407": cast(Endpoint, ENDPOINT_7bdbff93_1334_496f_a9b8_7da6032f7407),
+    "0c2760ca-7fc9-4f41-9abd-33b2f5ff3b3b": cast(Endpoint, ENDPOINT_0c2760ca_7fc9_4f41_9abd_33b2f5ff3b3b),
+    "5b33c1b2-bd6b-449d-9923-3f0439912c87": cast(Endpoint, ENDPOINT_5b33c1b2_bd6b_449d_9923_3f0439912c87),
+    "20027666-84aa-491a-9a95-644d8fbd7015": cast(Endpoint, ENDPOINT_20027666_84aa_491a_9a95_644d8fbd7015),
+    "05a719af-aa3c-46c7-a670-55f2f11654c2": cast(Endpoint, ENDPOINT_05a719af_aa3c_46c7_a670_55f2f11654c2),
+    "a25aaec9-332a-4607-b64b-c2a35df177eb": cast(Endpoint, ENDPOINT_a25aaec9_332a_4607_b64b_c2a35df177eb),
+    "c3b78a4a-de38-43fb-a78d-4018b1ea4d4f": cast(Endpoint, ENDPOINT_c3b78a4a_de38_43fb_a78d_4018b1ea4d4f),
+    "636e216a-f3bb-4dc6-8bc3-e6d9babca5f1": cast(Endpoint, ENDPOINT_636e216a_f3bb_4dc6_8bc3_e6d9babca5f1),
+    "bdb401cd-03ea-4329-928d-18b3e9af066e": cast(Endpoint, ENDPOINT_bdb401cd_03ea_4329_928d_18b3e9af066e),
+    "dfd2502e-0d5c-4999-8a24-84ff15a74696": cast(Endpoint, ENDPOINT_dfd2502e_0d5c_4999_8a24_84ff15a74696),
+    "72e63cb2-2ab1-41a0-8ab9-62cbeaa5eea0": cast(Endpoint, ENDPOINT_72e63cb2_2ab1_41a0_8ab9_62cbeaa5eea0),
+    "f5c2c9d8-8d11-4a70-8694-1b71e3fc3640": cast(Endpoint, ENDPOINT_f5c2c9d8_8d11_4a70_8694_1b71e3fc3640),
+    "16958dd0-0304-4554-b12d-ec56e7874e71": cast(Endpoint, ENDPOINT_16958dd0_0304_4554_b12d_ec56e7874e71),
+    "798040e2-7ae9-410c-80ce-4fa7de012046": cast(Endpoint, ENDPOINT_798040e2_7ae9_410c_80ce_4fa7de012046),
+    "7185c44d-0bc5-4c0f-b64d-71ac9ea796f1": cast(Endpoint, ENDPOINT_7185c44d_0bc5_4c0f_b64d_71ac9ea796f1),
+    "09dff633-6f3b-486a-b894-bbed4e77aaf6": cast(Endpoint, ENDPOINT_09dff633_6f3b_486a_b894_bbed4e77aaf6),
+    "4745d669-557b-413c-aa0b-522e620cd832": cast(Endpoint, ENDPOINT_4745d669_557b_413c_aa0b_522e620cd832),
+    "f2921c05-8b93-4a13-a0d8-6132be010066": cast(Endpoint, ENDPOINT_f2921c05_8b93_4a13_a0d8_6132be010066),
+    "c02e3f30-5d71-4156-a039-3976f4d485f8": cast(Endpoint, ENDPOINT_c02e3f30_5d71_4156_a039_3976f4d485f8),
+    "f2d34ad7-9fc4-40b8-b857-3825fd772c44": cast(Endpoint, ENDPOINT_f2d34ad7_9fc4_40b8_b857_3825fd772c44),
+    "6df56964-f22b-43d4-9457-f06264018e5b": cast(Endpoint, ENDPOINT_6df56964_f22b_43d4_9457_f06264018e5b),
+    "30654e7a-8eda-42ac-8b54-9f0287bde15d": cast(Endpoint, ENDPOINT_30654e7a_8eda_42ac_8b54_9f0287bde15d),
+    "3b0af8ef-13b4-4514-a07a-1bc718d07005": cast(Endpoint, ENDPOINT_3b0af8ef_13b4_4514_a07a_1bc718d07005),
+    "0843477a-156b-4ac5-bf65-199b124b072f": cast(Endpoint, ENDPOINT_0843477a_156b_4ac5_bf65_199b124b072f),
+    "0aad2cef-b338-4f4f-a8a0-b19c67a390b3": cast(Endpoint, ENDPOINT_0aad2cef_b338_4f4f_a8a0_b19c67a390b3),
+    "3ed0247e-d717-43ed-85e9-51f952844687": cast(Endpoint, ENDPOINT_3ed0247e_d717_43ed_85e9_51f952844687),
+    "1069f2bf-962f-48db-8dc4-54d362065431": cast(Endpoint, ENDPOINT_1069f2bf_962f_48db_8dc4_54d362065431),
+    "c4d31a39-d602-4848-9c00-1d9d3f494e63": cast(Endpoint, ENDPOINT_c4d31a39_d602_4848_9c00_1d9d3f494e63),
+    "4a077f43-7053-47be-b811-8e35be4ea745": cast(Endpoint, ENDPOINT_4a077f43_7053_47be_b811_8e35be4ea745),
+    "fdecab0c-4c48-499b-9436-4ac3d32dbd09": cast(Endpoint, ENDPOINT_fdecab0c_4c48_499b_9436_4ac3d32dbd09),
+    "f13f5e30-1065-451b-bcd3-06543b840a2e": cast(Endpoint, ENDPOINT_f13f5e30_1065_451b_bcd3_06543b840a2e),
+    "ce9f2a8f-e3cb-4bd3-83ba-7b6034eafae9": cast(Endpoint, ENDPOINT_ce9f2a8f_e3cb_4bd3_83ba_7b6034eafae9),
+    "abc1a594-7f67-4a6b-9f02-67310c435b61": cast(Endpoint, ENDPOINT_abc1a594_7f67_4a6b_9f02_67310c435b61),
+    "0cc848c0-4928-4b89-bca4-62df430e4a45": cast(Endpoint, ENDPOINT_0cc848c0_4928_4b89_bca4_62df430e4a45),
+    "e5c6c050-e63f-4ab7-b339-d1a645d3239b": cast(Endpoint, ENDPOINT_e5c6c050_e63f_4ab7_b339_d1a645d3239b),
+    "50775574-8832-4db8-aeb5-51a32c8250ed": cast(Endpoint, ENDPOINT_50775574_8832_4db8_aeb5_51a32c8250ed),
+    "6723d437-b275-4c10-b7fb-9ba788cad75e": cast(Endpoint, ENDPOINT_6723d437_b275_4c10_b7fb_9ba788cad75e),
+    "fee465d1-7fd5-4c66-b4a4-731b813d569d": cast(Endpoint, ENDPOINT_fee465d1_7fd5_4c66_b4a4_731b813d569d),
+    "4d8c6e7a-a026-4f8d-8c64-9e7ecbc3d97e": cast(Endpoint, ENDPOINT_4d8c6e7a_a026_4f8d_8c64_9e7ecbc3d97e),
+    "b664e9df-7ab6-4b89-89a0-5537ae380caf": cast(Endpoint, ENDPOINT_b664e9df_7ab6_4b89_89a0_5537ae380caf),
+    "141f0f11-ef30-4e52-9388-a6e78502d5c2": cast(Endpoint, ENDPOINT_141f0f11_ef30_4e52_9388_a6e78502d5c2),
+    "7fcf90d5-5e84-484a-8000-9121fb0a81d7": cast(Endpoint, ENDPOINT_7fcf90d5_5e84_484a_8000_9121fb0a81d7),
+    "b8c4fb5f-c3ef-4f6c-bfab-5471f43fb0ae": cast(Endpoint, ENDPOINT_b8c4fb5f_c3ef_4f6c_bfab_5471f43fb0ae),
+    "fc52daa5-9919-4f80-b926-ee35ef298c54": cast(Endpoint, ENDPOINT_fc52daa5_9919_4f80_b926_ee35ef298c54),
+    "49cc5311-ae48-44e5-bc5c-7618f1ee61cd": cast(Endpoint, ENDPOINT_49cc5311_ae48_44e5_bc5c_7618f1ee61cd),
+    "5ff6b5de-85e8-47e3-bb41-3e427c487bb3": cast(Endpoint, ENDPOINT_5ff6b5de_85e8_47e3_bb41_3e427c487bb3),
+    "eed4c960-21af-45b7-8fc7-cc95911ee239": cast(Endpoint, ENDPOINT_eed4c960_21af_45b7_8fc7_cc95911ee239),
+    "3f2f6823-fcdf-4713-a594-a03c7154096e": cast(Endpoint, ENDPOINT_3f2f6823_fcdf_4713_a594_a03c7154096e),
+    "24413e7f-cca6-4ab4-8598-b9d4e2d4305d": cast(Endpoint, ENDPOINT_24413e7f_cca6_4ab4_8598_b9d4e2d4305d),
+    "b290d16e-aa18-4e41-9c08-f4d941efe9a1": cast(Endpoint, ENDPOINT_b290d16e_aa18_4e41_9c08_f4d941efe9a1),
+    "d8302223-2381-46cc-81df-c756df21d12b": cast(Endpoint, ENDPOINT_d8302223_2381_46cc_81df_c756df21d12b),
+    "9995fff8-61d9-4e18-a2f4-e1ce457ee209": cast(Endpoint, ENDPOINT_9995fff8_61d9_4e18_a2f4_e1ce457ee209),
+    "d6ea99af-241c-4c3b-b6ac-0bd25724a2fe": cast(Endpoint, ENDPOINT_d6ea99af_241c_4c3b_b6ac_0bd25724a2fe),
+    "dba2c184-cd93-4d3b-b039-cf6e5b4264a1": cast(Endpoint, ENDPOINT_dba2c184_cd93_4d3b_b039_cf6e5b4264a1),
+    "b9c67d36-a7b3-402e-9d86-d674a9f95159": cast(Endpoint, ENDPOINT_b9c67d36_a7b3_402e_9d86_d674a9f95159),
+    "ce1f9bd8-a9bf-41a8-9a01-32178b94c499": cast(Endpoint, ENDPOINT_ce1f9bd8_a9bf_41a8_9a01_32178b94c499),
+    "1900e01f-58a4-4c4d-b15d-4a30283af4c2": cast(Endpoint, ENDPOINT_1900e01f_58a4_4c4d_b15d_4a30283af4c2),
+    "e3e7dc3e-4989-4d85-9ac0-f25c805f3c7c": cast(Endpoint, ENDPOINT_e3e7dc3e_4989_4d85_9ac0_f25c805f3c7c),
+    "c3356cfc-4532-46ed-af87-b79960e397ec": cast(Endpoint, ENDPOINT_c3356cfc_4532_46ed_af87_b79960e397ec),
+    "970a5802-434c-4a45-b714-5325385d47a3": cast(Endpoint, ENDPOINT_970a5802_434c_4a45_b714_5325385d47a3),
+    "9cda726b-6f0b-48b5-8369-6d66bea05a2a": cast(Endpoint, ENDPOINT_9cda726b_6f0b_48b5_8369_6d66bea05a2a),
+    "1e3c056d-1b42-461c-b8fb-631bb48e1ee2": cast(Endpoint, ENDPOINT_1e3c056d_1b42_461c_b8fb_631bb48e1ee2),
+    "714d1437-8f62-43db-a73c-cf509d3f6aa7": cast(Endpoint, ENDPOINT_714d1437_8f62_43db_a73c_cf509d3f6aa7),
+    "dbd893be-725c-429d-81eb-8b69cbeb3222": cast(Endpoint, ENDPOINT_dbd893be_725c_429d_81eb_8b69cbeb3222),
+    "6500be39-a989-4c30-abbb-197bd3890eb8": cast(Endpoint, ENDPOINT_6500be39_a989_4c30_abbb_197bd3890eb8),
+    "e77ce3c3-4786-4500-bba2-0c02d6d1e1a8": cast(Endpoint, ENDPOINT_e77ce3c3_4786_4500_bba2_0c02d6d1e1a8),
+    "3e56c064-ef28-45ba-a681-6d164703af14": cast(Endpoint, ENDPOINT_3e56c064_ef28_45ba_a681_6d164703af14),
+    "244aeedf-2bc4-44ff-b683-4d587e59008f": cast(Endpoint, ENDPOINT_244aeedf_2bc4_44ff_b683_4d587e59008f),
+    "f1e3afa7-ed25-41a9-9130-aa8b53cd77d0": cast(Endpoint, ENDPOINT_f1e3afa7_ed25_41a9_9130_aa8b53cd77d0),
+    "63ddf05c-2baf-463d-a145-9e5448b5373d": cast(Endpoint, ENDPOINT_63ddf05c_2baf_463d_a145_9e5448b5373d),
+    "dd693714-a397-4306-b135-88c691b7b6af": cast(Endpoint, ENDPOINT_dd693714_a397_4306_b135_88c691b7b6af),
+    "5dbf113a-f697-4295-8168-a93812aa3bfb": cast(Endpoint, ENDPOINT_5dbf113a_f697_4295_8168_a93812aa3bfb),
+    "b42038d9-0565-4801-ad09-633d5138fb26": cast(Endpoint, ENDPOINT_b42038d9_0565_4801_ad09_633d5138fb26),
+    "8e1f270a-98d0-4b2a-8b5e-15ff6db6b5db": cast(Endpoint, ENDPOINT_8e1f270a_98d0_4b2a_8b5e_15ff6db6b5db),
+    "16ee04b1-9606-4852-a138-dbccb5b83834": cast(Endpoint, ENDPOINT_16ee04b1_9606_4852_a138_dbccb5b83834),
+    "416ebbf1-64b8-4d1e-be85-8fede035dec6": cast(Endpoint, ENDPOINT_416ebbf1_64b8_4d1e_be85_8fede035dec6),
+    "10443c63-715e-46ef-ab46-5a91b5913e87": cast(Endpoint, ENDPOINT_10443c63_715e_46ef_ab46_5a91b5913e87),
+    "914eb98d-8dd7-42a1-8f9d-da73f4a61ae7": cast(Endpoint, ENDPOINT_914eb98d_8dd7_42a1_8f9d_da73f4a61ae7),
+    "7862b3ea-d28b-4995-8366-4965f96436c5": cast(Endpoint, ENDPOINT_7862b3ea_d28b_4995_8366_4965f96436c5),
+    "5c488ab2-59fd-486e-bf74-b68e813e35c0": cast(Endpoint, ENDPOINT_5c488ab2_59fd_486e_bf74_b68e813e35c0),
+    "ecc36b93-6f99-4cd2-b16d-79b46734769a": cast(Endpoint, ENDPOINT_ecc36b93_6f99_4cd2_b16d_79b46734769a),
+    "020c2367-4e2c-4e9a-85b4-c5daaa73f600": cast(Endpoint, ENDPOINT_020c2367_4e2c_4e9a_85b4_c5daaa73f600),
+    "7d1b2345-32f8-463b-9f41-8b4602387d52": cast(Endpoint, ENDPOINT_7d1b2345_32f8_463b_9f41_8b4602387d52),
+    "184519fc-37b5-4687-bebf-d3ddf5659729": cast(Endpoint, ENDPOINT_184519fc_37b5_4687_bebf_d3ddf5659729),
+    "27bef4b4-cf83-4698-8f1e-16138cb09817": cast(Endpoint, ENDPOINT_27bef4b4_cf83_4698_8f1e_16138cb09817),
+    "b11002e2-63c7-401b-a6fd-3136cb28040a": cast(Endpoint, ENDPOINT_b11002e2_63c7_401b_a6fd_3136cb28040a),
+    "868b0fe2-fdb5-4a32-bdb2-00db12269230": cast(Endpoint, ENDPOINT_868b0fe2_fdb5_4a32_bdb2_00db12269230),
+    "a87c0275-f467-4199-866a-876a8fcdccb0": cast(Endpoint, ENDPOINT_a87c0275_f467_4199_866a_876a8fcdccb0),
+    "1d150774-eafa-49f8-9e77-67099bc28771": cast(Endpoint, ENDPOINT_1d150774_eafa_49f8_9e77_67099bc28771),
+    "5613b629-b622-4a22-8175-31a4376c36b4": cast(Endpoint, ENDPOINT_5613b629_b622_4a22_8175_31a4376c36b4),
+    "f54caf9c-65db-42ee-aa7e-a337c5a41778": cast(Endpoint, ENDPOINT_f54caf9c_65db_42ee_aa7e_a337c5a41778),
+    "8eab76ff-a534-4d31-afe1-0fef1ff46682": cast(Endpoint, ENDPOINT_8eab76ff_a534_4d31_afe1_0fef1ff46682),
+    "fbfe7300-7096-4938-840b-9f7c328cc5fd": cast(Endpoint, ENDPOINT_fbfe7300_7096_4938_840b_9f7c328cc5fd),
+    "f77aedcb-b46f-4aa0-b062-f03b9a444405": cast(Endpoint, ENDPOINT_f77aedcb_b46f_4aa0_b062_f03b9a444405),
+    "281cea6a-ae69-4837-99dd-e7e6ba1ff442": cast(Endpoint, ENDPOINT_281cea6a_ae69_4837_99dd_e7e6ba1ff442),
+    "27e843a3-826a-4a92-95f1-12be4c111898": cast(Endpoint, ENDPOINT_27e843a3_826a_4a92_95f1_12be4c111898),
+    "43c17205-d112-4f9f-83f9-1704af8e4f79": cast(Endpoint, ENDPOINT_43c17205_d112_4f9f_83f9_1704af8e4f79),
+    "99ac7df4-132a-4458-8b07-4dab240d9896": cast(Endpoint, ENDPOINT_99ac7df4_132a_4458_8b07_4dab240d9896),
+    "fbb4bb45-57bb-4037-905d-dff0ff635cf6": cast(Endpoint, ENDPOINT_fbb4bb45_57bb_4037_905d_dff0ff635cf6),
+    "26c5165d-1910-4467-aed9-7213524b7546": cast(Endpoint, ENDPOINT_26c5165d_1910_4467_aed9_7213524b7546),
+    "a4f2cae8-2180-428c-a456-6acf5cfbeafb": cast(Endpoint, ENDPOINT_a4f2cae8_2180_428c_a456_6acf5cfbeafb),
+    "e7a0d02d-2aec-4358-8738-65c7c6da3b1b": cast(Endpoint, ENDPOINT_e7a0d02d_2aec_4358_8738_65c7c6da3b1b),
+    "c5933de1-4016-485a-a9ff-729818881d28": cast(Endpoint, ENDPOINT_c5933de1_4016_485a_a9ff_729818881d28),
+    "3a588de4-df48-49ac-88ca-9765998c00e1": cast(Endpoint, ENDPOINT_3a588de4_df48_49ac_88ca_9765998c00e1),
+    "9de56f62-938c-40df-970e-8fd13a59b445": cast(Endpoint, ENDPOINT_9de56f62_938c_40df_970e_8fd13a59b445),
+    "ca0f8e3e-9f99-4ebd-a81c-c5f8017c4d65": cast(Endpoint, ENDPOINT_ca0f8e3e_9f99_4ebd_a81c_c5f8017c4d65),
+    "01fd59f1-e7f6-4192-8b02-d52e5dd7c8f3": cast(Endpoint, ENDPOINT_01fd59f1_e7f6_4192_8b02_d52e5dd7c8f3),
+    "b742d5ef-6d97-4e75-ae25-52daf2f08021": cast(Endpoint, ENDPOINT_b742d5ef_6d97_4e75_ae25_52daf2f08021),
+    "fa9583fd-0340-4f24-a755-45fdfb5e5bab": cast(Endpoint, ENDPOINT_fa9583fd_0340_4f24_a755_45fdfb5e5bab),
+    "fdb555c9-b958-48ad-a836-fd81f18ad73e": cast(Endpoint, ENDPOINT_fdb555c9_b958_48ad_a836_fd81f18ad73e),
+    "e0f9b38e-774a-441e-8dbd-27ab5f5ebb8b": cast(Endpoint, ENDPOINT_e0f9b38e_774a_441e_8dbd_27ab5f5ebb8b),
+    "a4275fc3-384b-4b24-bf3a-38b72786b5ab": cast(Endpoint, ENDPOINT_a4275fc3_384b_4b24_bf3a_38b72786b5ab),
+    "03997d2f-6145-4a84-88fe-5a63fe4374fb": cast(Endpoint, ENDPOINT_03997d2f_6145_4a84_88fe_5a63fe4374fb),
+    "664138c4-6417-45a0-bbcc-da4eb4317edf": cast(Endpoint, ENDPOINT_664138c4_6417_45a0_bbcc_da4eb4317edf),
+    "86565be8-1f1f-4387-9bae-5bae3031dba1": cast(Endpoint, ENDPOINT_86565be8_1f1f_4387_9bae_5bae3031dba1),
+    "00589d46-b8fe-4329-a20e-50dfe05f0d82": cast(Endpoint, ENDPOINT_00589d46_b8fe_4329_a20e_50dfe05f0d82),
+    "da0485b5-31f1-4c62-a3d4-294a4311ad39": cast(Endpoint, ENDPOINT_da0485b5_31f1_4c62_a3d4_294a4311ad39),
+    "e2633b78-811f-40b8-a933-dcba64c3e0e8": cast(Endpoint, ENDPOINT_e2633b78_811f_40b8_a933_dcba64c3e0e8),
+    "a27c026a-744f-4ddd-9d35-c35b285af74c": cast(Endpoint, ENDPOINT_a27c026a_744f_4ddd_9d35_c35b285af74c),
+    "052c663e-73db-43ee-b1a0-702a14de31fc": cast(Endpoint, ENDPOINT_052c663e_73db_43ee_b1a0_702a14de31fc),
+    "ff79302e-6014-495e-a188-6dca69fc952e": cast(Endpoint, ENDPOINT_ff79302e_6014_495e_a188_6dca69fc952e),
+    "fe014543-4baa-4452-a388-2d6558d1e212": cast(Endpoint, ENDPOINT_fe014543_4baa_4452_a388_2d6558d1e212),
+    "262e63bf-95bd-4540-b252-092d36df750a": cast(Endpoint, ENDPOINT_262e63bf_95bd_4540_b252_092d36df750a),
+    "380e7913-c8dc-4bea-9ceb-b200f16b3a09": cast(Endpoint, ENDPOINT_380e7913_c8dc_4bea_9ceb_b200f16b3a09),
+    "095877d8-43c9-45cd-998b-114598e0c812": cast(Endpoint, ENDPOINT_095877d8_43c9_45cd_998b_114598e0c812),
+    "9748985e-43bc-4b8f-be73-cd9434666099": cast(Endpoint, ENDPOINT_9748985e_43bc_4b8f_be73_cd9434666099),
+    "4755efc7-31c4-411c-af45-3e6948611f0a": cast(Endpoint, ENDPOINT_4755efc7_31c4_411c_af45_3e6948611f0a),
+    "6e8dc8ed-f026-497c-a40c-098448a94241": cast(Endpoint, ENDPOINT_6e8dc8ed_f026_497c_a40c_098448a94241),
+    "64e81099-cb25-4f86-86d9-b53e6ed7d1a8": cast(Endpoint, ENDPOINT_64e81099_cb25_4f86_86d9_b53e6ed7d1a8),
+    "d4537e9c-73f7-414c-9fb0-4eae3bc397d0": cast(Endpoint, ENDPOINT_d4537e9c_73f7_414c_9fb0_4eae3bc397d0),
+    "b71fba6a-5759-4efa-a7e0-5e93e7e0e02d": cast(Endpoint, ENDPOINT_b71fba6a_5759_4efa_a7e0_5e93e7e0e02d),
+    "32b7ac44-2d64-466d-9343-7e9d4e7ab0e4": cast(Endpoint, ENDPOINT_32b7ac44_2d64_466d_9343_7e9d4e7ab0e4),
+    "aade4c72-5fb7-418a-9ff2-254b4d5f0ceb": cast(Endpoint, ENDPOINT_aade4c72_5fb7_418a_9ff2_254b4d5f0ceb),
+    "f5769e4a-24d5-44f9-a2d8-232d45abf988": cast(Endpoint, ENDPOINT_f5769e4a_24d5_44f9_a2d8_232d45abf988),
+    "4da32292-291d-4b58-9ab4-f9d40ca983a6": cast(Endpoint, ENDPOINT_4da32292_291d_4b58_9ab4_f9d40ca983a6),
+    "09cd3a87-6b6a-4741-bc7d-f6565c93d6d8": cast(Endpoint, ENDPOINT_09cd3a87_6b6a_4741_bc7d_f6565c93d6d8),
+    "f350887c-35a2-4b65-98aa-9524eb47bb6d": cast(Endpoint, ENDPOINT_f350887c_35a2_4b65_98aa_9524eb47bb6d),
+    "4bfdfb2b-34a7-43f6-935a-e637724f960a": cast(Endpoint, ENDPOINT_4bfdfb2b_34a7_43f6_935a_e637724f960a),
+    "04275bfe-007a-45f6-8d4d-0682320a0741": cast(Endpoint, ENDPOINT_04275bfe_007a_45f6_8d4d_0682320a0741),
+    "aacab59c-7559-414b-bf73-b0d15f3d62f1": cast(Endpoint, ENDPOINT_aacab59c_7559_414b_bf73_b0d15f3d62f1),
+    "0a5782f0-0c05-4feb-90f4-b86f09b45327": cast(Endpoint, ENDPOINT_0a5782f0_0c05_4feb_90f4_b86f09b45327),
+    "34d1b922-ab20-4839-9f15-ab1fe242a81f": cast(Endpoint, ENDPOINT_34d1b922_ab20_4839_9f15_ab1fe242a81f),
+    "f5dcbbc3-bee6-4b83-a236-5f3a5bb59d72": cast(Endpoint, ENDPOINT_f5dcbbc3_bee6_4b83_a236_5f3a5bb59d72),
+    "7d6d8ba7-bcae-4d7c-8d5b-4b51cd42a94a": cast(Endpoint, ENDPOINT_7d6d8ba7_bcae_4d7c_8d5b_4b51cd42a94a),
+    "a274b685-7ea8-441d-a2fe-3087becb6bf2": cast(Endpoint, ENDPOINT_a274b685_7ea8_441d_a2fe_3087becb6bf2),
+    "cf45db98-43d0-476a-8774-d9690365300a": cast(Endpoint, ENDPOINT_cf45db98_43d0_476a_8774_d9690365300a),
+    "56cf546c-a74f-467c-98b1-005967535e9e": cast(Endpoint, ENDPOINT_56cf546c_a74f_467c_98b1_005967535e9e),
+    "95690f51-c58b-47cb-850a-e0b70702e382": cast(Endpoint, ENDPOINT_95690f51_c58b_47cb_850a_e0b70702e382),
+    "242ea47d-150e-4c8f-88a1-50fba4b822c5": cast(Endpoint, ENDPOINT_242ea47d_150e_4c8f_88a1_50fba4b822c5),
+    "a5e03bf1-e7ef-4587-9d13-159376b444b8": cast(Endpoint, ENDPOINT_a5e03bf1_e7ef_4587_9d13_159376b444b8),
+    "51c1a249-5fde-412d-9c8f-be5ef2f8dc3b": cast(Endpoint, ENDPOINT_51c1a249_5fde_412d_9c8f_be5ef2f8dc3b),
+    "13a96552-4b77-411c-9ef6-5eed7192a76a": cast(Endpoint, ENDPOINT_13a96552_4b77_411c_9ef6_5eed7192a76a),
+    "4803d486-0b85-4d6f-9bc1-164fef860905": cast(Endpoint, ENDPOINT_4803d486_0b85_4d6f_9bc1_164fef860905),
+    "75fdcac1-6dfc-439c-a9f0-176dc27abb4f": cast(Endpoint, ENDPOINT_75fdcac1_6dfc_439c_a9f0_176dc27abb4f),
+    "daf83679-be80-4ce8-9f1d-88e123a9ee0c": cast(Endpoint, ENDPOINT_daf83679_be80_4ce8_9f1d_88e123a9ee0c),
+    "e48e54a7-f72b-4282-a18b-8d5e52b725fb": cast(Endpoint, ENDPOINT_e48e54a7_f72b_4282_a18b_8d5e52b725fb),
+    "2261a45e-8e04-4cdf-8f4d-d52a45a0380d": cast(Endpoint, ENDPOINT_2261a45e_8e04_4cdf_8f4d_d52a45a0380d),
+    "8c473311-ecfd-428f-9ec2-0b574d8592b9": cast(Endpoint, ENDPOINT_8c473311_ecfd_428f_9ec2_0b574d8592b9),
+    "1a07c21c-5fca-4d8f-a780-d861a7f80eb8": cast(Endpoint, ENDPOINT_1a07c21c_5fca_4d8f_a780_d861a7f80eb8),
+    "3d3ad086-7c1b-41cb-9b76-ba05ccf6ba95": cast(Endpoint, ENDPOINT_3d3ad086_7c1b_41cb_9b76_ba05ccf6ba95),
+    "31d46ebe-2a19-4467-9dfb-a2d21adb1e61": cast(Endpoint, ENDPOINT_31d46ebe_2a19_4467_9dfb_a2d21adb1e61),
+    "9fa44d82-f5f3-4edc-adec-8bad25800bd3": cast(Endpoint, ENDPOINT_9fa44d82_f5f3_4edc_adec_8bad25800bd3),
+    "d5dc7247-6f82-4cd7-8133-afabd8f003f7": cast(Endpoint, ENDPOINT_d5dc7247_6f82_4cd7_8133_afabd8f003f7),
+    "3acd4025-6e95-46dc-a90d-b38215912d11": cast(Endpoint, ENDPOINT_3acd4025_6e95_46dc_a90d_b38215912d11),
+    "8702dab4-008d-4849-8f24-a91b57872a80": cast(Endpoint, ENDPOINT_8702dab4_008d_4849_8f24_a91b57872a80),
+    "506cd6e9-97d9-4c4b-82bc-6a6c13586885": cast(Endpoint, ENDPOINT_506cd6e9_97d9_4c4b_82bc_6a6c13586885),
+    "1ecba681-1f73-4fb7-98b0-b7feef13b354": cast(Endpoint, ENDPOINT_1ecba681_1f73_4fb7_98b0_b7feef13b354),
+    "89c2f9ea-62be-4c4a-bd07-66f3fe3234a6": cast(Endpoint, ENDPOINT_89c2f9ea_62be_4c4a_bd07_66f3fe3234a6),
+    "94959cbc-bbb7-4776-8cd0-7058138a08aa": cast(Endpoint, ENDPOINT_94959cbc_bbb7_4776_8cd0_7058138a08aa),
+    "621bdd34-a902-4117-98b8-57733197742a": cast(Endpoint, ENDPOINT_621bdd34_a902_4117_98b8_57733197742a),
+    "41290e2a-6e25-49c0-91a1-99b96ce53efe": cast(Endpoint, ENDPOINT_41290e2a_6e25_49c0_91a1_99b96ce53efe),
+    "14431ddf-c0d5-4c33-a945-86e77bcf6486": cast(Endpoint, ENDPOINT_14431ddf_c0d5_4c33_a945_86e77bcf6486),
+    "48c30d93-ffc0-47c7-a6ba-da728b0b3d5d": cast(Endpoint, ENDPOINT_48c30d93_ffc0_47c7_a6ba_da728b0b3d5d),
+    "42e2e7bd-c2ad-469b-91b2-3962c9931b79": cast(Endpoint, ENDPOINT_42e2e7bd_c2ad_469b_91b2_3962c9931b79),
+    "f9f83090-60d0-4dcf-99c9-a4b36852848e": cast(Endpoint, ENDPOINT_f9f83090_60d0_4dcf_99c9_a4b36852848e),
+    "c7be7c01-6f43-4576-b1fd-84d0102ce4c3": cast(Endpoint, ENDPOINT_c7be7c01_6f43_4576_b1fd_84d0102ce4c3),
+    "cd2e4d9a-7e3d-44ff-9b68-36d971655c24": cast(Endpoint, ENDPOINT_cd2e4d9a_7e3d_44ff_9b68_36d971655c24),
+    "bb550b35-fa29-449c-8608-530a1843a80f": cast(Endpoint, ENDPOINT_bb550b35_fa29_449c_8608_530a1843a80f),
+    "f30d6f30-54f2-480c-bf7a-3e4086fa71b0": cast(Endpoint, ENDPOINT_f30d6f30_54f2_480c_bf7a_3e4086fa71b0),
+    "82aef9c2-4f88-4bdf-861d-7c5c9fa69a5b": cast(Endpoint, ENDPOINT_82aef9c2_4f88_4bdf_861d_7c5c9fa69a5b),
+    "cb0618f5-967f-4d26-a6eb-527bfd693041": cast(Endpoint, ENDPOINT_cb0618f5_967f_4d26_a6eb_527bfd693041),
+    "d1d7b8f1-6dc8-4439-a27f-5aa2c73b12f3": cast(Endpoint, ENDPOINT_d1d7b8f1_6dc8_4439_a27f_5aa2c73b12f3),
+    "17cfbb44-0389-4b56-9d0c-7410930747d4": cast(Endpoint, ENDPOINT_17cfbb44_0389_4b56_9d0c_7410930747d4),
+    "ca3e5ee4-a1f3-48a6-ab11-cd298ebef686": cast(Endpoint, ENDPOINT_ca3e5ee4_a1f3_48a6_ab11_cd298ebef686),
+    "df4f0faf-db31-4650-b320-64a44ebdecf6": cast(Endpoint, ENDPOINT_df4f0faf_db31_4650_b320_64a44ebdecf6),
+    "aab037bf-5ea2-4e25-99f1-c45d09f02a31": cast(Endpoint, ENDPOINT_aab037bf_5ea2_4e25_99f1_c45d09f02a31),
+    "11cc8ad0-d3cc-4c55-8c2f-4923e8b87ee4": cast(Endpoint, ENDPOINT_11cc8ad0_d3cc_4c55_8c2f_4923e8b87ee4),
+    "fbe60d47-02bd-4d48-8169-e0df9e74c57c": cast(Endpoint, ENDPOINT_fbe60d47_02bd_4d48_8169_e0df9e74c57c),
+    "81fa9968-fe8e-45af-811e-270816f4d12c": cast(Endpoint, ENDPOINT_81fa9968_fe8e_45af_811e_270816f4d12c),
+    "5ff633c1-c50d-4494-9456-0c558031c678": cast(Endpoint, ENDPOINT_5ff633c1_c50d_4494_9456_0c558031c678),
+    "a0822304-5dba-4912-b62d-d82bd88858fa": cast(Endpoint, ENDPOINT_a0822304_5dba_4912_b62d_d82bd88858fa),
+    "749c8e3b-7e40-4f5b-82a3-11cad0a10e8d": cast(Endpoint, ENDPOINT_749c8e3b_7e40_4f5b_82a3_11cad0a10e8d),
     "1394ba1d-e17d-42c8-8e53-6bed5dce7588": cast(Endpoint, ENDPOINT_1394ba1d_e17d_42c8_8e53_6bed5dce7588),
     "0e9fb2ba-bbac-4735-925a-a35e08c9a790": cast(Endpoint, ENDPOINT_0e9fb2ba_bbac_4735_925a_a35e08c9a790),
     "b03e2301-db2c-4144-ac63-9297b5d637bc": cast(Endpoint, ENDPOINT_b03e2301_db2c_4144_ac63_9297b5d637bc),
@@ -108,4 +855,41 @@ ENDPOINTS: dict[str, Endpoint] = {
     "abc66a03-8103-4f6d-8ba8-450c2b935e14": cast(Endpoint, ENDPOINT_abc66a03_8103_4f6d_8ba8_450c2b935e14),
     "3eeac674-072d-4674-a5a7-f0ed01194a81": cast(Endpoint, ENDPOINT_3eeac674_072d_4674_a5a7_f0ed01194a81),
     "7f77a12b-b23c-4605-93ea-4e1b3c0356fb": cast(Endpoint, ENDPOINT_7f77a12b_b23c_4605_93ea_4e1b3c0356fb),
+    "b73a4cdf-402b-4e11-a161-609ea9451835": cast(Endpoint, ENDPOINT_b73a4cdf_402b_4e11_a161_609ea9451835),
+    "967e60c7-f1eb-4f23-b893-71747556ad49": cast(Endpoint, ENDPOINT_967e60c7_f1eb_4f23_b893_71747556ad49),
+    "ae084fcd-7a30-4a14-8483-91a7fc918d23": cast(Endpoint, ENDPOINT_ae084fcd_7a30_4a14_8483_91a7fc918d23),
+    "4360b745-0b9b-408e-8e0d-178138dbf864": cast(Endpoint, ENDPOINT_4360b745_0b9b_408e_8e0d_178138dbf864),
+    "9064a50c-0545-4b6c-8eb2-034f5214974b": cast(Endpoint, ENDPOINT_9064a50c_0545_4b6c_8eb2_034f5214974b),
+    "2151d14c-0fae-44a5-be38-c3f5ab8354bb": cast(Endpoint, ENDPOINT_2151d14c_0fae_44a5_be38_c3f5ab8354bb),
+    "2549b1c6-2c8c-4826-b632-74c0b68c24e9": cast(Endpoint, ENDPOINT_2549b1c6_2c8c_4826_b632_74c0b68c24e9),
+    "cd4be4fc-4545-4147-ab9a-e5b0ccede0de": cast(Endpoint, ENDPOINT_cd4be4fc_4545_4147_ab9a_e5b0ccede0de),
+    "05980ed5-8ab1-471a-975c-3e129841cbb8": cast(Endpoint, ENDPOINT_05980ed5_8ab1_471a_975c_3e129841cbb8),
+    "3cb7e131-7e44-4f34-831f-e6720b4a299a": cast(Endpoint, ENDPOINT_3cb7e131_7e44_4f34_831f_e6720b4a299a),
+    "7d30b578-018d-4250-852a-7599211ff988": cast(Endpoint, ENDPOINT_7d30b578_018d_4250_852a_7599211ff988),
+    "ec944971-3694-4692-8a17-761c2b549cd9": cast(Endpoint, ENDPOINT_ec944971_3694_4692_8a17_761c2b549cd9),
+    "bac2f657-36b1-4538-aabc-0bee8ba77229": cast(Endpoint, ENDPOINT_bac2f657_36b1_4538_aabc_0bee8ba77229),
+    "57ac7aae-ae01-4b22-b61b-f1330adb5e0a": cast(Endpoint, ENDPOINT_57ac7aae_ae01_4b22_b61b_f1330adb5e0a),
+    "40409c43-9bc7-447a-b09a-171d14b437f9": cast(Endpoint, ENDPOINT_40409c43_9bc7_447a_b09a_171d14b437f9),
+    "fef3c007-4a03-4b3b-9d08-310b88912877": cast(Endpoint, ENDPOINT_fef3c007_4a03_4b3b_9d08_310b88912877),
+    "19f840e8-d6be-4b68-94f5-9448a0c4f10b": cast(Endpoint, ENDPOINT_19f840e8_d6be_4b68_94f5_9448a0c4f10b),
+    "22cadc7e-10e1-4b97-a0e0-f1f41b0b67ac": cast(Endpoint, ENDPOINT_22cadc7e_10e1_4b97_a0e0_f1f41b0b67ac),
+    "52290e93-e94c-4d2a-9ce3-c304681d3807": cast(Endpoint, ENDPOINT_52290e93_e94c_4d2a_9ce3_c304681d3807),
+    "f737550b-909d-4b5d-ba03-568c8a06b5b1": cast(Endpoint, ENDPOINT_f737550b_909d_4b5d_ba03_568c8a06b5b1),
+    "67d53cfe-fba6-4d46-a72a-b4ced4d03dd0": cast(Endpoint, ENDPOINT_67d53cfe_fba6_4d46_a72a_b4ced4d03dd0),
+    "9efc47d7-58ec-4f9e-8068-37795580fe67": cast(Endpoint, ENDPOINT_9efc47d7_58ec_4f9e_8068_37795580fe67),
+    "f8d92c02-7537-4ae5-88ca-fe3d0a7155db": cast(Endpoint, ENDPOINT_f8d92c02_7537_4ae5_88ca_fe3d0a7155db),
+    "1187c231-1de6-4947-b942-bfca6b3d27e7": cast(Endpoint, ENDPOINT_1187c231_1de6_4947_b942_bfca6b3d27e7),
+    "0482dfb1-154c-476c-8a3b-6fc1da498dbf": cast(Endpoint, ENDPOINT_0482dfb1_154c_476c_8a3b_6fc1da498dbf),
+    "6d715b38-566f-4045-a08c-4a594d3a3314": cast(Endpoint, ENDPOINT_6d715b38_566f_4045_a08c_4a594d3a3314),
+    "60cae69d-c121-4dd9-902c-1112567fd88e": cast(Endpoint, ENDPOINT_60cae69d_c121_4dd9_902c_1112567fd88e),
+    "8e78ed2f-8c3d-424e-b400-82fc94ca4a6b": cast(Endpoint, ENDPOINT_8e78ed2f_8c3d_424e_b400_82fc94ca4a6b),
+    "147d1d34-3001-4958-b970-106935a19fe7": cast(Endpoint, ENDPOINT_147d1d34_3001_4958_b970_106935a19fe7),
+    "8e874fea-8e55-464d-b535-75df64fc3048": cast(Endpoint, ENDPOINT_8e874fea_8e55_464d_b535_75df64fc3048),
+    "09baff2a-6e9d-4502-ba66-d7bb94094b67": cast(Endpoint, ENDPOINT_09baff2a_6e9d_4502_ba66_d7bb94094b67),
+    "2a155fee-882f-4d80-8183-559f2f6983e9": cast(Endpoint, ENDPOINT_2a155fee_882f_4d80_8183_559f2f6983e9),
+    "ec92f2c8-c3bd-4f80-b1f3-ea0716577f02": cast(Endpoint, ENDPOINT_ec92f2c8_c3bd_4f80_b1f3_ea0716577f02),
+    "db7f9cb2-2ab8-43c6-a744-e996c309a801": cast(Endpoint, ENDPOINT_db7f9cb2_2ab8_43c6_a744_e996c309a801),
+    "55095c42-8c7d-47fc-a34b-947e12481678": cast(Endpoint, ENDPOINT_55095c42_8c7d_47fc_a34b_947e12481678),
+    "4812f155-bdb5-47ac-a35b-a70d3d8f14c9": cast(Endpoint, ENDPOINT_4812f155_bdb5_47ac_a35b_a70d3d8f14c9),
+    "e4a7e5fd-eed5-4a85-93f0-f46b804dae5f": cast(Endpoint, ENDPOINT_e4a7e5fd_eed5_4a85_93f0_f46b804dae5f),
 }

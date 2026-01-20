@@ -1,117 +1,428 @@
 version: 1
-notes: |
-  Type overrides for deterministic model generation.
-  - Use when docs and live responses diverge.
-  - Keep each override scoped and documented with a reason.
-  - "changes" mirrors the inferred schema structure:
-      output_aliases: {output1: output}
-      outputs: {output1: {field: {required: false}}}
-      response: {field: {required: false}}
-
+notes: "Type overrides for deterministic model generation.\n- Use when docs and live\
+  \ responses diverge.\n- Keep each override scoped and documented with a reason.\n\
+  - \"changes\" mirrors the inferred schema structure:\n    output_aliases: {output1:\
+  \ output}\n    outputs: {output1: {field: {required: false}}}\n    response: {field:\
+  \ {required: false}}\n"
 overrides:
-  - id: ebf1dc17-7b48-4192-841d-0ccb6ce3f016
-    reason: "Live response uses key 'output' while docs specify 'output1'."
-    source: "augment/raw mismatch"
-    changes:
-      output_aliases:
-        output1: output
-  - id: 6b0b388e-f815-4009-b46d-e08e47575ca7
-    reason: "Live response uses key 'output' while docs specify 'output1'."
-    source: "augment/raw mismatch"
-    changes:
-      output_aliases:
-        output1: output
-      outputs:
-        output1:
-          ovtm_untp_askp_icdc4:
-            required: false
-          ovtm_untp_askp_icdc5:
-            required: false
-          ovtm_untp_askp_icdc6:
-            required: false
-          ovtm_untp_askp_icdc7:
-            required: false
-          ovtm_untp_askp_icdc8:
-            required: false
-          ovtm_untp_askp_icdc9:
-            required: false
-          ovtm_untp_askp_icdc10:
-            required: false
-          ovtm_untp_bidp_icdc4:
-            required: false
-          ovtm_untp_bidp_icdc5:
-            required: false
-          ovtm_untp_bidp_icdc6:
-            required: false
-          ovtm_untp_bidp_icdc7:
-            required: false
-          ovtm_untp_bidp_icdc8:
-            required: false
-          ovtm_untp_bidp_icdc9:
-            required: false
-          ovtm_untp_bidp_icdc10:
-            required: false
-  - id: 1e375270-7d8d-4e4b-bcac-d11cb41542cb
-    reason: "Fields are required in docs but omitted in live responses."
-    source: "augment/raw mismatch"
-    changes:
-      outputs:
-        output:
-          mang_issu_cls_name:
-            required: false
-          mrkt_warn_cls_name:
-            required: false
-          revl_issu_reas_name:
-            required: false
-          flng_cls_name:
-            required: false
-  - id: e53eb2e6-b292-4e2b-b150-22d92b401453
-    reason: "Fields are required in docs but omitted in live responses."
-    source: "augment/raw mismatch"
-    changes:
-      outputs:
-        output:
-          nmix_ctrt:
-            required: false
-          mbcr_name:
-            required: false
-  - id: 81b30d9e-1bce-439f-9cf0-56f0ea1a4f95
-    reason: "Field is required in docs but omitted in live responses."
-    source: "augment/raw mismatch"
-    changes:
-      outputs:
-        output2:
-          stck_pbpr:
-            required: false
-  - id: a08c3421-e50f-4f24-b1fe-64c12f723c77
-    reason: "Field is required in docs but omitted in live responses."
-    source: "augment/raw mismatch"
-    changes:
-      outputs:
-        output1:
-          itewhol_loan_rmnd_ratem:
-            required: false
-  - id: 1394ba1d-e17d-42c8-8e53-6bed5dce7588
-    reason: "Live response returns an array under output."
-    source: "augment/raw mismatch"
-    changes:
-      output_kinds:
-        output: array
-  - id: 7f77a12b-b23c-4605-93ea-4e1b3c0356fb
-    reason: "Datetime field provided as YYYYMMDDHHMMSS."
-    source: "augment/raw mismatch"
-    changes:
-      outputs:
-        output:
-          last_rcvg_dtime:
-            kind: datetime
-  - id: 81269474-9c66-404f-bdfe-4bb472975330
-    reason: "Fields are required in docs but omitted in live responses."
-    source: "augment/raw mismatch"
-    changes:
-      outputs:
-        output1:
-          hts_kor_isnm:
-            required: false
-          stck_shrn_iscd:
-            required: false
+- id: ebf1dc17-7b48-4192-841d-0ccb6ce3f016
+  reason: Live response uses key 'output' while docs specify 'output1'.
+  source: augment/raw mismatch
+  changes:
+    output_aliases:
+      output1: output
+  approved_by: legacy
+  approved_at: '2026-01-20'
+  evidence: tmp/docs/augment/ebf1dc17-7b48-4192-841d-0ccb6ce3f016/error.json
+- id: 6b0b388e-f815-4009-b46d-e08e47575ca7
+  reason: Live response uses key 'output' while docs specify 'output1'.
+  source: augment/raw mismatch
+  changes:
+    output_aliases:
+      output1: output
+    outputs:
+      output1:
+        ovtm_untp_askp_icdc4:
+          required: false
+        ovtm_untp_askp_icdc5:
+          required: false
+        ovtm_untp_askp_icdc6:
+          required: false
+        ovtm_untp_askp_icdc7:
+          required: false
+        ovtm_untp_askp_icdc8:
+          required: false
+        ovtm_untp_askp_icdc9:
+          required: false
+        ovtm_untp_askp_icdc10:
+          required: false
+        ovtm_untp_bidp_icdc4:
+          required: false
+        ovtm_untp_bidp_icdc5:
+          required: false
+        ovtm_untp_bidp_icdc6:
+          required: false
+        ovtm_untp_bidp_icdc7:
+          required: false
+        ovtm_untp_bidp_icdc8:
+          required: false
+        ovtm_untp_bidp_icdc9:
+          required: false
+        ovtm_untp_bidp_icdc10:
+          required: false
+  approved_by: legacy
+  approved_at: '2026-01-20'
+  evidence: tmp/docs/augment/6b0b388e-f815-4009-b46d-e08e47575ca7/error.json
+- id: 1e375270-7d8d-4e4b-bcac-d11cb41542cb
+  reason: Fields are required in docs but omitted in live responses.
+  source: augment/raw mismatch
+  changes:
+    outputs:
+      output:
+        mang_issu_cls_name:
+          required: false
+        mrkt_warn_cls_name:
+          required: false
+        revl_issu_reas_name:
+          required: false
+        flng_cls_name:
+          required: false
+  approved_by: legacy
+  approved_at: '2026-01-20'
+  evidence: tmp/docs/augment/1e375270-7d8d-4e4b-bcac-d11cb41542cb/error.json
+- id: e53eb2e6-b292-4e2b-b150-22d92b401453
+  reason: Fields are required in docs but omitted in live responses.
+  source: augment/raw mismatch
+  changes:
+    outputs:
+      output:
+        nmix_ctrt:
+          required: false
+        mbcr_name:
+          required: false
+  approved_by: legacy
+  approved_at: '2026-01-20'
+  evidence: tmp/docs/augment/e53eb2e6-b292-4e2b-b150-22d92b401453/error.json
+- id: 81b30d9e-1bce-439f-9cf0-56f0ea1a4f95
+  reason: Field is required in docs but omitted in live responses.
+  source: augment/raw mismatch
+  changes:
+    outputs:
+      output2:
+        stck_pbpr:
+          required: false
+  approved_by: legacy
+  approved_at: '2026-01-20'
+  evidence: tmp/docs/augment/81b30d9e-1bce-439f-9cf0-56f0ea1a4f95/error.json
+- id: a08c3421-e50f-4f24-b1fe-64c12f723c77
+  reason: Field is required in docs but omitted in live responses.
+  source: augment/raw mismatch
+  changes:
+    outputs:
+      output1:
+        itewhol_loan_rmnd_ratem:
+          required: false
+  approved_by: legacy
+  approved_at: '2026-01-20'
+  evidence: tmp/docs/augment/a08c3421-e50f-4f24-b1fe-64c12f723c77/error.json
+- id: 1394ba1d-e17d-42c8-8e53-6bed5dce7588
+  reason: Live response returns an array under output.
+  source: augment/raw mismatch
+  changes:
+    output_kinds:
+      output: array
+  approved_by: legacy
+  approved_at: '2026-01-20'
+  evidence: tmp/docs/augment/1394ba1d-e17d-42c8-8e53-6bed5dce7588/error.json
+- id: 7f77a12b-b23c-4605-93ea-4e1b3c0356fb
+  reason: Datetime field provided as YYYYMMDDHHMMSS.
+  source: augment/raw mismatch
+  changes:
+    outputs:
+      output:
+        last_rcvg_dtime:
+          kind: datetime
+  approved_by: legacy
+  approved_at: '2026-01-20'
+  evidence: tmp/docs/augment/7f77a12b-b23c-4605-93ea-4e1b3c0356fb/error.json
+- id: 81269474-9c66-404f-bdfe-4bb472975330
+  reason: Fields are required in docs but omitted in live responses.
+  source: augment/raw mismatch
+  changes:
+    outputs:
+      output1:
+        hts_kor_isnm:
+          required: false
+        stck_shrn_iscd:
+          required: false
+  approved_by: legacy
+  approved_at: '2026-01-20'
+  evidence: tmp/docs/augment/81269474-9c66-404f-bdfe-4bb472975330/error.json
+- id: 8362a35a-e7c2-4944-a4a2-5a716737388c
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response uses different output key casing/names.
+  evidence: tmp/docs/augment/8362a35a-e7c2-4944-a4a2-5a716737388c/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_aliases:
+      output1: output
+- id: 89e1ffde-0cda-4426-8277-72710c193cf2
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response uses different output key casing/names.
+  evidence: tmp/docs/augment/89e1ffde-0cda-4426-8277-72710c193cf2/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_aliases:
+      output1: output
+- id: ca2e71e1-5ef4-4489-b4c4-118e10588690
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/ca2e71e1-5ef4-4489-b4c4-118e10588690/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_kinds:
+      output: array
+- id: 636e216a-f3bb-4dc6-8bc3-e6d9babca5f1
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/636e216a-f3bb-4dc6-8bc3-e6d9babca5f1/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_kinds:
+      output1: array
+- id: 20027666-84aa-491a-9a95-644d8fbd7015
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response uses different output key casing/names.
+  evidence: tmp/docs/augment/20027666-84aa-491a-9a95-644d8fbd7015/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_aliases:
+      output1: output
+- id: fc52daa5-9919-4f80-b926-ee35ef298c54
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/fc52daa5-9919-4f80-b926-ee35ef298c54/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_kinds:
+      output: array
+- id: e5c6c050-e63f-4ab7-b339-d1a645d3239b
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/e5c6c050-e63f-4ab7-b339-d1a645d3239b/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_kinds:
+      output: array
+- id: 5c488ab2-59fd-486e-bf74-b68e813e35c0
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/5c488ab2-59fd-486e-bf74-b68e813e35c0/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_kinds:
+      output: array
+- id: f54caf9c-65db-42ee-aa7e-a337c5a41778
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/f54caf9c-65db-42ee-aa7e-a337c5a41778/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_kinds:
+      output: array
+- id: fbfe7300-7096-4938-840b-9f7c328cc5fd
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/fbfe7300-7096-4938-840b-9f7c328cc5fd/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_kinds:
+      output: array
+- id: 7d30b578-018d-4250-852a-7599211ff988
+  approved_by: user
+  approved_at: '2026-01-20'
+  reason: Field is required in docs but omitted in live responses.
+  evidence: tmp/docs/augment/7d30b578-018d-4250-852a-7599211ff988/raw.json
+  source: augment/raw mismatch (2026-01-20)
+  changes:
+    outputs:
+      output2:
+        n_tvol:
+          required: false
+- id: e0f9b38e-774a-441e-8dbd-27ab5f5ebb8b
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response uses different output key casing/names.
+  evidence: tmp/docs/augment/e0f9b38e-774a-441e-8dbd-27ab5f5ebb8b/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_aliases:
+      output: output1
+- id: 3acd4025-6e95-46dc-a90d-b38215912d11
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/3acd4025-6e95-46dc-a90d-b38215912d11/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_kinds:
+      output: array
+- id: 967e60c7-f1eb-4f23-b893-71747556ad49
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/967e60c7-f1eb-4f23-b893-71747556ad49/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_kinds:
+      output1: array
+- id: 4a077f43-7053-47be-b811-8e35be4ea745
+  approved_by: user
+  approved_at: '2026-01-19'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/4a077f43-7053-47be-b811-8e35be4ea745/error.json
+  source: augment/raw mismatch (2026-01-19)
+  changes:
+    output_kinds:
+      output: array
+- id: 0bb05819-d759-4789-8eda-27a0b88f02aa
+  approved_by: user
+  approved_at: '2026-01-20'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/0bb05819-d759-4789-8eda-27a0b88f02aa/error.json
+  source: augment/raw mismatch (2026-01-20)
+  changes:
+    output_kinds:
+      output2: single
+      output3: single
+- id: 46eea904-3984-4354-b4e9-8918f503fd79
+  approved_by: user
+  approved_at: '2026-01-20'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/46eea904-3984-4354-b4e9-8918f503fd79/error.json
+  source: augment/raw mismatch (2026-01-20)
+  changes:
+    output_kinds:
+      output2: single
+- id: 77de2a74-b26c-40ca-a5b7-f87e2ef64f9f
+  approved_by: user
+  approved_at: '2026-01-20'
+  reason: Fields are required in docs but omitted in live responses.
+  evidence: tmp/docs/augment/77de2a74-b26c-40ca-a5b7-f87e2ef64f9f/error.json
+  source: augment/raw mismatch (2026-01-20)
+  changes:
+    outputs:
+      output1:
+        kospi200_prdy_ctrt:
+          required: false
+        kospi200_prdy_vrss:
+          required: false
+        kospi200_prdy_vrss_sign:
+          required: false
+- id: 86194480-c8f0-4b0b-9d3d-001c2fc33422
+  approved_by: user
+  approved_at: '2026-01-20'
+  reason: Fields are required in docs but omitted in live responses.
+  evidence: tmp/docs/augment/86194480-c8f0-4b0b-9d3d-001c2fc33422/error.json
+  source: augment/raw mismatch (2026-01-20)
+  changes:
+    outputs:
+      output1:
+        kospi200_prdy_ctrt:
+          required: false
+        kospi200_prdy_vrss:
+          required: false
+        kospi200_prdy_vrss_sign:
+          required: false
+- id: 8eab76ff-a534-4d31-afe1-0fef1ff46682
+  approved_by: user
+  approved_at: '2026-01-20'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/8eab76ff-a534-4d31-afe1-0fef1ff46682/raw.json
+  source: augment/raw mismatch (2026-01-20)
+  changes:
+    output_kinds:
+      output1: single
+- id: 9064a50c-0545-4b6c-8eb2-034f5214974b
+  approved_by: user
+  approved_at: '2026-01-20'
+  reason: Fields are required in docs but omitted in live responses.
+  evidence: tmp/docs/augment/9064a50c-0545-4b6c-8eb2-034f5214974b/error.json
+  source: augment/raw mismatch (2026-01-20)
+  changes:
+    response:
+      class_cd:
+        required: false
+      class_name:
+        required: false
+      data_dt:
+        required: false
+      data_tm:
+        required: false
+      exchange_cd:
+        required: false
+      info_gb:
+        required: false
+      nation_cd:
+        required: false
+      news_key:
+        required: false
+      source:
+        required: false
+      symb:
+        required: false
+      symb_name:
+        required: false
+      title:
+        required: false
+- id: 9fa44d82-f5f3-4edc-adec-8bad25800bd3
+  approved_by: user
+  approved_at: '2026-01-20'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/9fa44d82-f5f3-4edc-adec-8bad25800bd3/error.json
+  source: augment/raw mismatch (2026-01-20)
+  changes:
+    output_kinds:
+      output2: single
+- id: a274b685-7ea8-441d-a2fe-3087becb6bf2
+  approved_by: user
+  approved_at: '2026-01-20'
+  reason: Fields are required in docs but omitted in live responses.
+  evidence: tmp/docs/augment/a274b685-7ea8-441d-a2fe-3087becb6bf2/error.json
+  source: augment/raw mismatch (2026-01-20)
+  changes:
+    outputs:
+      output:
+        hts_kor_isnm:
+          required: false
+        prdy_vrss_sign:
+          required: false
+        stnd_iscd:
+          required: false
+- id: af3d3794-92c0-4f3b-8041-4ca4ddcda5de
+  approved_by: user
+  approved_at: '2026-01-20'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/af3d3794-92c0-4f3b-8041-4ca4ddcda5de/error.json
+  source: augment/raw mismatch (2026-01-20)
+  changes:
+    output_kinds:
+      output2: single
+- id: bec98736-8f5a-49a0-b325-5f6c40ff13b3
+  approved_by: user
+  approved_at: '2026-01-20'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/bec98736-8f5a-49a0-b325-5f6c40ff13b3/error.json
+  source: augment/raw mismatch (2026-01-20)
+  changes:
+    output_kinds:
+      output2: single
+- id: ca0f8e3e-9f99-4ebd-a81c-c5f8017c4d65
+  approved_by: user
+  approved_at: '2026-01-20'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/ca0f8e3e-9f99-4ebd-a81c-c5f8017c4d65/error.json
+  source: augment/raw mismatch (2026-01-20)
+  changes:
+    output_kinds:
+      output2: single
+- id: ed60877a-6183-433a-9a8c-ef56ed9bc679
+  approved_by: user
+  approved_at: '2026-01-20'
+  reason: Live response returns arrays where docs specify objects.
+  evidence: tmp/docs/augment/ed60877a-6183-433a-9a8c-ef56ed9bc679/error.json
+  source: augment/raw mismatch (2026-01-20)
+  changes:
+    output_kinds:
+      output2: single
+      output3: single

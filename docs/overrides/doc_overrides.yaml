@@ -47,3 +47,48 @@ overrides:
               type_name: String
               length: "32"
               required: true
+
+  - id: 31d46ebe-2a19-4467-9dfb-a2d21adb1e61
+    reason: Live response omits output1/output2 blocks; remove output markers/fields.
+    response:
+      body:
+        remove:
+          - output2
+          - ret_cnt
+          - last_n_cnt
+          - index_key
+          - output1
+          - data_date
+          - data_time
+          - open_price
+          - high_price
+          - low_price
+          - last_price
+          - last_qntt
+          - vol
+          - prev_diff_flag
+          - prev_diff_price
+          - prev_diff_rate
+  - id: 506cd6e9-97d9-4c4b-82bc-6a6c13586885
+    reason: Live response omits output1/output2 blocks; remove output markers/fields.
+    response:
+      body:
+        remove:
+          - output1
+          - open_price
+          - high_price
+          - lowp_rice
+          - last_price
+          - sttl_price
+          - vol
+          - prev_diff_price
+          - prev_diff_rate
+          - quot_date
+          - quot_time
+          - output2
+          - bid_qntt
+          - bid_num
+          - bid_price
+          - ask_qntt
+          - ask_num
+          - ask_price

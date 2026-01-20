@@ -159,7 +159,7 @@ class NavComparisonTrendResponse(RawModel):
         alias="output1",
     )
     ("응답상세")
-    output2: list[NavComparisonTrendOutput2] = Field(
+    output2: NavComparisonTrendOutput2 = Field(
         alias="output2",
     )
     ("응답상세")

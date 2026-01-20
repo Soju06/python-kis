@@ -582,11 +582,11 @@ class InquireAskingPriceResponse(RawModel):
         alias="output1",
     )
     ("응답상세")
-    output2: list[InquireAskingPriceOutput2] = Field(
+    output2: InquireAskingPriceOutput2 = Field(
         alias="output2",
     )
     ("응답상세")
-    output3: list[InquireAskingPriceOutput3] = Field(
+    output3: InquireAskingPriceOutput3 = Field(
         alias="output3",
     )
     ("응답상세")

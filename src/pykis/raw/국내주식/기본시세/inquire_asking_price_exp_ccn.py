@@ -430,7 +430,7 @@ class InquireAskingPriceExpCcnResponse(RawModel):
         alias="output1",
     )
     ("응답상세")
-    output2: list[InquireAskingPriceExpCcnOutput2] = Field(
+    output2: InquireAskingPriceExpCcnOutput2 = Field(
         alias="output2",
     )
     ("응답상세")

@@ -52,7 +52,7 @@ TYPE_OVERRIDES_PATH = DOCS_BASE / "overrides" / "type_overrides.yaml"
 DOC_OVERRIDES_PATH = DOCS_BASE / "overrides" / "doc_overrides.yaml"
 DEMO_SECRET = ROOT / "demo_secret.json"
 REAL_SECRET = ROOT / "real_secret.json"
-TARGET_SECTIONS = ("[국내주식] 기본시세", "[해외주식] 기본시세")
+TARGET_SECTIONS: tuple[str, ...] | None = None
 SAMPLE_COUNT = 5
 DEMO_RATE_LIMIT = 0.5
 REAL_RATE_LIMIT = 0.2
@@ -251,8 +251,16 @@ def run_pipeline() -> PipelineResult:
 
     type_overrides = load_type_overrides(TYPE_OVERRIDES_PATH)
 
-    section_specs = [spec for spec in specs if spec.section in TARGET_SECTIONS]
-    logger.info("scope target_sections=%s endpoints=%s", ", ".join(TARGET_SECTIONS), len(section_specs))
+    if TARGET_SECTIONS:
+        section_specs = [spec for spec in specs if spec.section in TARGET_SECTIONS]
+        logger.info(
+            "scope target_sections=%s endpoints=%s",
+            ", ".join(TARGET_SECTIONS),
+            len(section_specs),
+        )
+    else:
+        section_specs = specs
+        logger.info("scope target_sections=ALL endpoints=%s", len(section_specs))
 
     def _sort_key(item: EndpointSpec) -> str:
         return item.id
