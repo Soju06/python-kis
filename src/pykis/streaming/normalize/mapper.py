@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from decimal import Decimal
+from datetime import datetime
+from decimal import Decimal, InvalidOperation
+from typing import Protocol, cast
 
 from pykis.streaming.normalize.models import (
     NormalizedEvent,
@@ -8,50 +10,108 @@ from pykis.streaming.normalize.models import (
     NormalizedOrderBookLevel,
     NormalizedTrade,
 )
-from pykis.streaming.raw.generated.h0nxcnt0 import H0NXCNT0
+from pykis.streaming.raw.base import StreamingRawModel
 from pykis.streaming.raw.generated.h0nxasp0 import H0NXASP0
-from pykis.streaming.raw.generated.h0stcnt0 import H0STCNT0
+from pykis.streaming.raw.generated.h0nxcnt0 import H0NXCNT0
 from pykis.streaming.raw.generated.h0stasp0 import H0STASP0
-from pykis.streaming.raw.generated.h0uncnt0 import H0UNCNT0
+from pykis.streaming.raw.generated.h0stcnt0 import H0STCNT0
 from pykis.streaming.raw.generated.h0unasp0 import H0UNASP0
+from pykis.streaming.raw.generated.h0uncnt0 import H0UNCNT0
 from pykis.streaming.raw.generated.h0upcnt0 import H0UPCNT0
-from pykis.streaming.raw.generated.h0upasp0 import H0UPASP0
-from pykis.streaming.raw.generated.hdfscnt0 import HDFSCNT0
 from pykis.streaming.raw.generated.hdfsasp0 import HDFSASP0
 from pykis.streaming.raw.generated.hdfsasp1 import HDFSASP1
-from pykis.streaming.raw.base import StreamingRawModel
+from pykis.streaming.raw.generated.hdfscnt0 import HDFSCNT0
 
 
 def normalize_event(tr_id: str, record: StreamingRawModel) -> NormalizedEvent | None:
     if isinstance(record, (H0STCNT0, H0NXCNT0, H0UNCNT0, H0UPCNT0)):
-        return _normalize_domestic_trade(record, tr_id)
+        return _normalize_domestic_trade(cast(DomesticTradeRaw, record), tr_id)
     if isinstance(record, HDFSCNT0):
         return _normalize_overseas_trade(record, tr_id)
-    if isinstance(record, (H0STASP0, H0NXASP0, H0UNASP0, H0UPASP0)):
-        return _normalize_domestic_orderbook(record, tr_id)
+    if isinstance(record, (H0STASP0, H0NXASP0, H0UNASP0)):
+        return _normalize_domestic_orderbook(cast(DomesticOrderBookRaw, record), tr_id)
     if isinstance(record, (HDFSASP0, HDFSASP1)):
         return _normalize_overseas_orderbook(record, tr_id)
     return None
 
 
-def _normalize_domestic_trade(
-    record: H0STCNT0 | H0NXCNT0 | H0UNCNT0 | H0UPCNT0,
-    tr_id: str,
-) -> NormalizedTrade:
+class DomesticTradeRaw(Protocol):
+    MKSC_SHRN_ISCD: str
+    STCK_CNTG_HOUR: datetime
+    STCK_PRPR: Decimal | str
+    CNTG_VOL: Decimal | str
+    STCK_OPRC: Decimal | str
+    STCK_HGPR: Decimal | str
+    STCK_LWPR: Decimal | str
+    PRDY_VRSS: Decimal | str
+    PRDY_CTRT: Decimal | str
+    ACML_TR_PBMN: Decimal | str
+    BIDP1: Decimal | str
+    ASKP1: Decimal | str
+
+
+class DomesticOrderBookRaw(Protocol):
+    MKSC_SHRN_ISCD: str
+    BSOP_HOUR: datetime
+    BIDP1: Decimal | str
+    BIDP2: Decimal | str
+    BIDP3: Decimal | str
+    BIDP4: Decimal | str
+    BIDP5: Decimal | str
+    BIDP6: Decimal | str
+    BIDP7: Decimal | str
+    BIDP8: Decimal | str
+    BIDP9: Decimal | str
+    BIDP10: Decimal | str
+    ASKP1: Decimal | str
+    ASKP2: Decimal | str
+    ASKP3: Decimal | str
+    ASKP4: Decimal | str
+    ASKP5: Decimal | str
+    ASKP6: Decimal | str
+    ASKP7: Decimal | str
+    ASKP8: Decimal | str
+    ASKP9: Decimal | str
+    ASKP10: Decimal | str
+    BIDP_RSQN1: Decimal | str
+    BIDP_RSQN2: Decimal | str
+    BIDP_RSQN3: Decimal | str
+    BIDP_RSQN4: Decimal | str
+    BIDP_RSQN5: Decimal | str
+    BIDP_RSQN6: Decimal | str
+    BIDP_RSQN7: Decimal | str
+    BIDP_RSQN8: Decimal | str
+    BIDP_RSQN9: Decimal | str
+    BIDP_RSQN10: Decimal | str
+    ASKP_RSQN1: Decimal | str
+    ASKP_RSQN2: Decimal | str
+    ASKP_RSQN3: Decimal | str
+    ASKP_RSQN4: Decimal | str
+    ASKP_RSQN5: Decimal | str
+    ASKP_RSQN6: Decimal | str
+    ASKP_RSQN7: Decimal | str
+    ASKP_RSQN8: Decimal | str
+    ASKP_RSQN9: Decimal | str
+    ASKP_RSQN10: Decimal | str
+    TOTAL_BIDP_RSQN: Decimal | str
+    TOTAL_ASKP_RSQN: Decimal | str
+
+
+def _normalize_domestic_trade(record: DomesticTradeRaw, tr_id: str) -> NormalizedTrade:
     return NormalizedTrade(
         symbol=record.MKSC_SHRN_ISCD,
         market="domestic",
         timestamp_utc=record.STCK_CNTG_HOUR,
-        price=record.STCK_PRPR,
-        volume=record.CNTG_VOL,
-        open=record.STCK_OPRC,
-        high=record.STCK_HGPR,
-        low=record.STCK_LWPR,
-        change=record.PRDY_VRSS,
-        change_rate=record.PRDY_CTRT,
-        turnover=record.ACML_TR_PBMN,
-        bid=record.BIDP1,
-        ask=record.ASKP1,
+        price=_decimal_required(record.STCK_PRPR),
+        volume=_decimal_required(record.CNTG_VOL),
+        open=_decimal_optional(record.STCK_OPRC),
+        high=_decimal_optional(record.STCK_HGPR),
+        low=_decimal_optional(record.STCK_LWPR),
+        change=_decimal_optional(record.PRDY_VRSS),
+        change_rate=_decimal_optional(record.PRDY_CTRT),
+        turnover=_decimal_optional(record.ACML_TR_PBMN),
+        bid=_decimal_optional(record.BIDP1),
+        ask=_decimal_optional(record.ASKP1),
         source_tr_id=tr_id,
     )
 
@@ -75,10 +135,7 @@ def _normalize_overseas_trade(record: HDFSCNT0, tr_id: str) -> NormalizedTrade:
     )
 
 
-def _normalize_domestic_orderbook(
-    record: H0STASP0 | H0NXASP0 | H0UNASP0 | H0UPASP0,
-    tr_id: str,
-) -> NormalizedOrderBook:
+def _normalize_domestic_orderbook(record: DomesticOrderBookRaw, tr_id: str) -> NormalizedOrderBook:
     bids = tuple(
         NormalizedOrderBookLevel(price=price, size=size)
         for price, size in _pair_levels(
@@ -143,8 +200,8 @@ def _normalize_domestic_orderbook(
         timestamp_utc=record.BSOP_HOUR,
         bids=bids,
         asks=asks,
-        total_bid_size=record.TOTAL_BIDP_RSQN,
-        total_ask_size=record.TOTAL_ASKP_RSQN,
+        total_bid_size=_decimal_optional(record.TOTAL_BIDP_RSQN),
+        total_ask_size=_decimal_optional(record.TOTAL_ASKP_RSQN),
         source_tr_id=tr_id,
     )
 
@@ -284,13 +341,15 @@ def _overseas_size_fields(record: HDFSASP0 | HDFSASP1) -> dict[str, list[str]]:
 
 
 def _pair_levels(
-    prices: list[Decimal | None],
-    sizes: list[Decimal | None],
+    prices: list[Decimal | str | None],
+    sizes: list[Decimal | str | None],
 ) -> list[tuple[Decimal, Decimal]]:
     levels: list[tuple[Decimal, Decimal]] = []
     for price, size in zip(prices, sizes, strict=False):
-        if isinstance(price, Decimal) and isinstance(size, Decimal):
-            levels.append((price, size))
+        price_value = _decimal_optional(price)
+        size_value = _decimal_optional(size)
+        if price_value is not None and size_value is not None:
+            levels.append((price_value, size_value))
     return levels
 
 
@@ -315,3 +374,29 @@ def _sum_sizes(values: list[Decimal]) -> Decimal | None:
     for value in values:
         total += value
     return total
+
+
+def _decimal_required(value: Decimal | str) -> Decimal:
+    if isinstance(value, Decimal):
+        return value
+    text = str(value).strip()
+    if not text:
+        raise ValueError("required decimal value is empty")
+    try:
+        return Decimal(text)
+    except InvalidOperation as exc:
+        raise ValueError("required decimal value is invalid") from exc
+
+
+def _decimal_optional(value: Decimal | str | None) -> Decimal | None:
+    if value is None:
+        return None
+    if isinstance(value, Decimal):
+        return value
+    text = str(value).strip()
+    if not text:
+        return None
+    try:
+        return Decimal(text)
+    except InvalidOperation:
+        return None

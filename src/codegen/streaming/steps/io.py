@@ -72,8 +72,9 @@ def _parse_tr_spec(tr_id: str, data: Mapping[str, object]) -> TrSpec:
     for key, value in field_aliases_raw.items():
         if not isinstance(value, str):
             raise SpecError(f"tr_specs.{tr_id}.field_aliases values must be str")
+        key_text = str(key)
         try:
-            index = int(key)
+            index = int(key_text)
         except (TypeError, ValueError) as exc:
             raise SpecError(f"tr_specs.{tr_id}.field_aliases keys must be int-compatible") from exc
         field_aliases[index] = value

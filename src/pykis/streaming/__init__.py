@@ -6,33 +6,33 @@ from pykis.streaming._async import (
     SessionEntry,
     SessionKey,
     SessionPool,
-    StreamQueue,
     StreamingEventRouter,
     StreamingKeyStore,
     StreamingSession,
+    StreamQueue,
     SubscriptionKey,
     SubscriptionRegistry,
     SubscriptionStream,
     WebSocketRunner,
     WebSocketTransport,
 )
-from pykis.streaming.constants import MAX_SUBSCRIPTIONS_PER_SESSION
-from pykis.streaming.errors import StreamingLimitError
 from pykis.streaming._sync import (
     SyncAesCbcDecryptor,
     SyncSessionEntry,
     SyncSessionKey,
     SyncSessionPool,
-    SyncStreamQueue,
     SyncStreamingEventRouter,
     SyncStreamingKeyStore,
     SyncStreamingSession,
+    SyncStreamQueue,
     SyncSubscriptionKey,
     SyncSubscriptionRegistry,
     SyncSubscriptionStream,
     SyncWebSocketRunner,
     SyncWebSocketTransport,
 )
+from pykis.streaming.constants import MAX_SUBSCRIPTIONS_PER_SESSION
+from pykis.streaming.errors import StreamingLimitError
 
 __all__ = [
     "AesCbcDecryptor",

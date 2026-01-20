@@ -158,6 +158,18 @@ def _postprocess_streaming_sync(sync_dir: pathlib.Path) -> None:
             "            except Exception:\n"
             "                self.transport.close()\n",
         )
+        updated = updated.replace(
+            "from typing import Iterator, Callable, Protocol",
+            "from typing import Callable, Iterator, Protocol",
+        )
+        updated = updated.replace(
+            "Callable[[], Awaitable[None]]",
+            "Callable[[], None]",
+        )
+        updated = updated.replace(
+            "from typing import Awaitable, Callable, Literal, Protocol",
+            "from typing import Callable, Literal, Protocol",
+        )
         if "threading." in updated and not _has_import_line(updated, "threading"):
             if "import asyncio" in updated:
                 updated = updated.replace("import asyncio", "import asyncio\nimport threading")

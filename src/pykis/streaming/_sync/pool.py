@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import threading
 from dataclasses import dataclass
-from typing import Awaitable, Callable, Literal, Protocol
+from typing import Callable, Literal, Protocol
 
 from pykis.streaming._sync.queue import DropPolicy, SyncStreamQueue
-from pykis.streaming._sync.router import SyncStreamingEventRouter
+from pykis.streaming._sync.router import EventTransformer, SyncStreamingEventRouter
 from pykis.streaming._sync.session import SyncStreamingSession
 from pykis.streaming._sync.subscriptions import SyncSubscriptionKey, SyncSubscriptionRegistry
 
@@ -114,7 +114,7 @@ class SyncSessionEntry:
         self,
         key: SyncSubscriptionKey,
         queue: SyncStreamQueue[object],
-    ) -> Callable[[], Awaitable[None]]:
+    ) -> Callable[[], None]:
         def _close() -> None:
             last = self.router.unregister(key, queue)
             if last and self.approval_key is not None:
@@ -144,7 +144,7 @@ class SyncSessionPool:
         *,
         key: SyncSessionKey,
         factory: SessionFactory,
-        transformer: Callable[[str, object], object | None] | None = None,
+        transformer: EventTransformer | None = None,
     ) -> SyncSessionEntry:
         with self._lock:
             entry = self._sessions.get(key)
@@ -182,7 +182,7 @@ class SyncSubscriptionStream:
     tr_id: str
     tr_key: str
     queue: SyncStreamQueue[object]
-    close_callback: Callable[[], Awaitable[None]]
+    close_callback: Callable[[], None]
 
     def __iter__(self) -> "SyncSubscriptionStream":
         return self

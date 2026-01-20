@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Callable, Protocol
+from typing import Protocol
 
 from pykis.streaming._sync.queue import SyncStreamQueue
 from pykis.streaming._sync.subscriptions import SyncSubscriptionKey

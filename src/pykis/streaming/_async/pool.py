@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Awaitable, Callable, Literal, Protocol
 
 from pykis.streaming._async.queue import DropPolicy, StreamQueue
-from pykis.streaming._async.router import StreamingEventRouter
+from pykis.streaming._async.router import EventTransformer, StreamingEventRouter
 from pykis.streaming._async.session import StreamingSession
 from pykis.streaming._async.subscriptions import SubscriptionKey, SubscriptionRegistry
 
@@ -144,7 +144,7 @@ class SessionPool:
         *,
         key: SessionKey,
         factory: SessionFactory,
-        transformer: Callable[[str, object], object | None] | None = None,
+        transformer: EventTransformer | None = None,
     ) -> SessionEntry:
         async with self._lock:
             entry = self._sessions.get(key)

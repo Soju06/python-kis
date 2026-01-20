@@ -4,7 +4,7 @@ import importlib
 import json
 from dataclasses import dataclass
 from types import ModuleType
-from typing import Iterator, Callable, Protocol
+from typing import Callable, Iterator, Protocol
 
 
 class WebSocketConnection(Protocol):
