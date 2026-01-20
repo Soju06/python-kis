@@ -112,16 +112,16 @@ todos:
     status: completed
   - id: p4-session-pool
     content: "[P4] Implement SessionPool keyed by (app_key, domain)"
-    status: pending
+    status: completed
   - id: p4-subscription-registry
     content: "[P4] Implement SubscriptionRegistry with 41-sub cap enforcement"
-    status: pending
+    status: completed
   - id: p4-event-router
     content: "[P4] Implement EventRouter keyed by (tr_id, tr_key)"
     status: pending
   - id: p4-stream-queue
     content: "[P4] Implement bounded StreamQueue with backpressure policy"
-    status: pending
+    status: completed
   - id: p4-streaming-normalize
     content: "[P4] Implement streaming Layer 1 normalizer for events"
     status: pending
@@ -287,6 +287,20 @@ todos:
 
 - 41‑subscription 제한 상수는 `src/pykis/streaming/constants.py`에 정의하고, Layer 0 raw transport에서만 참조.
 - 문서에서는 streaming Layer 0의 제약으로 명시하고, 상위 레이어에는 raw 제약만 전달되지 않도록 한다.
+
+## Rate‑limit policy (from FAQ 32f34d68, 2025‑04‑28 기준)
+
+- **REST**: 계좌(앱키) 단위 제한
+  - real: 20 req/sec (기본 지연 0.05s)
+  - demo: 2 req/sec (기본 지연 0.5s)
+- **WebSocket**: 계좌(앱키) 단위 1 세션
+  - 실시간 구독 총합 41건 (국내/해외/파생 합산)
+
+### 적용 설계
+
+1) **SessionPool**: `(app_key, domain)` 키로 1 세션만 유지하며 참조 카운트를 통해 공유.
+2) **SubscriptionRegistry**: 한 세션당 41개 cap을 강제.
+3) **REST rate limit**: 클라이언트 기본 rate_limit을 domain에 맞게 설정하되, 사용자가 override 가능.
 
 ## Streaming realtime standardization (domestic/overseas) — execution plan (v1)
 
