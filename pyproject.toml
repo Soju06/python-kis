@@ -34,7 +34,7 @@ requires-python = ">=3.13"
 dependencies = [
     "aiosqlite>=0.20.0",
     "aiopath>=0.6.11",
-    "cryptography>=42.0.0",
+    "cryptography==46.0.3",
     "pydantic==2.12.5",
     "httpx>=0.28.1",
     "httpx-retries>=0.2.0",
