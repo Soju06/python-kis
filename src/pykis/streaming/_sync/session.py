@@ -1,57 +1,76 @@
 from __future__ import annotations
 
-import asyncio
 import json
+import threading
+import time
 from dataclasses import dataclass
-from typing import Callable, cast
+from typing import Awaitable, Callable, cast
 
-from pykis.streaming.crypto import AesCbcDecryptor, StreamingKeyStore
+from pykis.streaming._sync.crypto import SyncAesCbcDecryptor, SyncStreamingKeyStore
+from pykis.streaming._sync.router import SyncStreamingEventRouter
+from pykis.streaming._sync.transport import SyncWebSocketRunner, SyncWebSocketTransport
 from pykis.streaming.raw.adapter import StreamingFrameHandler
-from pykis.streaming.transport import WebSocketRunner, WebSocketTransport
 
 ControlMessage = dict[str, object]
 
 
 @dataclass(slots=True)
-class StreamingSession:
+class SyncStreamingSession:
     url: str
     frame_handler: StreamingFrameHandler
-    key_store: StreamingKeyStore
-    transport: WebSocketTransport
-    _runner: WebSocketRunner | None
-    _task: asyncio.Task[None] | None
+    key_store: SyncStreamingKeyStore
+    transport: SyncWebSocketTransport
+    _runner: SyncWebSocketRunner | None
+    _task: threading.Thread | None
     on_control: Callable[[ControlMessage], None] | None
+    on_reconnect: Callable[[], Awaitable[None] | None] | None
+    router: SyncStreamingEventRouter | None
+    reconnect: bool
+    reconnect_backoff: float
+    reconnect_max_backoff: float
 
     def __init__(
         self,
         *,
         url: str,
         frame_handler: StreamingFrameHandler,
+        router: SyncStreamingEventRouter | None = None,
         on_control: Callable[[ControlMessage], None] | None = None,
+        on_reconnect: Callable[[], Awaitable[None] | None] | None = None,
+        reconnect: bool = True,
+        reconnect_backoff: float = 1.0,
+        reconnect_max_backoff: float = 30.0,
     ) -> None:
         self.url = url
         self.frame_handler = frame_handler
-        self.key_store = StreamingKeyStore()
-        self.transport = WebSocketTransport(url)
+        self.key_store = SyncStreamingKeyStore()
+        self.transport = SyncWebSocketTransport(url)
         self._runner = None
         self._task = None
         self.on_control = on_control
+        self.on_reconnect = on_reconnect
+        self.router = router
+        self.reconnect = reconnect
+        self.reconnect_backoff = reconnect_backoff
+        self.reconnect_max_backoff = reconnect_max_backoff
 
         if self.frame_handler.decryptor is None:
-            self.frame_handler.decryptor = AesCbcDecryptor(self.key_store)
+            self.frame_handler.decryptor = SyncAesCbcDecryptor(self.key_store)
 
-    async def connect(self) -> None:
-        await self.transport.connect()
-        self._runner = WebSocketRunner(self.transport, self._handle_message)
-        self._task = asyncio.create_task(self._runner.run())
-
-    async def close(self) -> None:
+    def connect(self) -> None:
         if self._task is not None:
-            self._task.cancel()
-            self._task = None
-        await self.transport.close()
+            return
+        self._task = threading.Thread(target=self._run_loop, daemon=True)
+        self._task.start()
 
-    async def subscribe(
+    def close(self) -> None:
+        self.reconnect = False
+        self.transport.close()
+        if self._task is not None:
+            self._task.join(timeout=1.0)
+            self._task = None
+
+    def subscribe(
         self,
         *,
         approval_key: str,
@@ -69,9 +88,9 @@ class StreamingSession:
             tr_type=tr_type,
             content_type=content_type,
         )
-        await self.transport.send_json(message)
+        self.transport.send_json(message)
 
-    async def unsubscribe(
+    def unsubscribe(
         self,
         *,
         approval_key: str,
@@ -80,7 +99,7 @@ class StreamingSession:
         custtype: str = "P",
         content_type: str = "utf-8",
     ) -> None:
-        await self.subscribe(
+        self.subscribe(
             approval_key=approval_key,
             tr_id=tr_id,
             tr_key=tr_key,
@@ -100,7 +119,10 @@ class StreamingSession:
             return
         if message.startswith("["):
             return
-        self.frame_handler.handle_frame(message)
+        if self.router is not None:
+            self.router.handle_frame(message)
+        else:
+            self.frame_handler.handle_frame(message)
 
     def _handle_control(self, data: ControlMessage) -> None:
         body = _get_dict(data.get("body"))
@@ -111,6 +133,26 @@ class StreamingSession:
             self.key_store.update(key, iv)
         if self.on_control is not None:
             self.on_control(data)
+
+    def _run_loop(self) -> None:
+        backoff = self.reconnect_backoff
+        while True:
+            try:
+                self.transport.connect()
+                self._runner = SyncWebSocketRunner(self.transport, self._handle_message)
+                self._runner.run()
+            except Exception:
+                self.transport.close()
+            if not self.reconnect:
+                self.transport.close()
+                return
+            self.key_store.clear()
+            if self.on_reconnect is not None:
+                result = self.on_reconnect()
+                if result is not None:
+                    result
+            time.sleep(backoff)
+            backoff = min(backoff * 2.0, self.reconnect_max_backoff)
 
 
 def _build_subscription_message(

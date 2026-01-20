@@ -100,7 +100,7 @@ todos:
     status: pending
   - id: p4-streaming-pkg
     content: "[P4] Create pykis.streaming package (async-first)"
-    status: in_progress
+    status: completed
   - id: p4-ws-transport
     content: "[P4] Implement WebSocket transport layer (Layer 0 raw)"
     status: completed
@@ -118,22 +118,22 @@ todos:
     status: completed
   - id: p4-event-router
     content: "[P4] Implement EventRouter keyed by (tr_id, tr_key)"
-    status: pending
+    status: completed
   - id: p4-stream-queue
     content: "[P4] Implement bounded StreamQueue with backpressure policy"
     status: completed
   - id: p4-streaming-normalize
     content: "[P4] Implement streaming Layer 1 normalizer for events"
-    status: pending
+    status: completed
   - id: p4-streaming-system
     content: "[P4] Implement streaming Layer 2 system events"
-    status: pending
+    status: completed
   - id: p4-reconnect-flow
     content: "[P4] Implement reconnect/resubscribe flow with deterministic replay"
-    status: pending
+    status: completed
   - id: p4-unasync-streaming
     content: "[P4] Configure unasync for streaming sync facade"
-    status: pending
+    status: completed
   - id: p5-async-client
     content: "[P5] Implement KisAsyncClient composing API + system services"
     status: pending

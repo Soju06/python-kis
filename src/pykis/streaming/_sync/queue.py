@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import asyncio
+import queue
 from dataclasses import dataclass
 from enum import Enum
 from typing import Generic, TypeVar
@@ -15,10 +15,10 @@ class DropPolicy(str, Enum):
 
 
 @dataclass(slots=True)
-class StreamQueue(Generic[T]):
+class SyncStreamQueue(Generic[T]):
     maxsize: int
     policy: DropPolicy
-    _queue: asyncio.Queue[T]
+    _queue: queue.Queue[T]
 
     def __init__(
         self,
@@ -30,9 +30,9 @@ class StreamQueue(Generic[T]):
             raise ValueError("maxsize must be >= 1")
         self.maxsize = maxsize
         self.policy = policy
-        self._queue = asyncio.Queue(maxsize=maxsize)
+        self._queue = queue.Queue(maxsize=maxsize)
 
-    async def put(self, item: T) -> None:
+    def put(self, item: T) -> None:
         if not self._queue.full():
             self._queue.put_nowait(item)
             return
@@ -48,8 +48,8 @@ class StreamQueue(Generic[T]):
             return
         self._queue.put_nowait(item)
 
-    async def get(self) -> T:
-        return await self._queue.get()
+    def get(self) -> T:
+        return self._queue.get()
 
     def qsize(self) -> int:
         return self._queue.qsize()
@@ -57,12 +57,12 @@ class StreamQueue(Generic[T]):
     def _drop_oldest(self) -> None:
         try:
             self._queue.get_nowait()
-        except asyncio.QueueEmpty:
+        except queue.Empty:
             return
 
     def _drain(self) -> None:
         while True:
             try:
                 self._queue.get_nowait()
-            except asyncio.QueueEmpty:
+            except queue.Empty:
                 return

@@ -13,13 +13,17 @@ class KeyStore(Protocol):
 
 
 @dataclass(slots=True)
-class StreamingKeyStore:
+class SyncStreamingKeyStore:
     key: bytes | None = None
     iv: bytes | None = None
 
     def update(self, key: str, iv: str) -> None:
         self.key = _decode_secret(key)
         self.iv = _decode_secret(iv)
+
+    def clear(self) -> None:
+        self.key = None
+        self.iv = None
 
     def get_key(self) -> bytes | None:
         return self.key
@@ -29,7 +33,7 @@ class StreamingKeyStore:
 
 
 @dataclass(slots=True)
-class AesCbcDecryptor(PayloadDecryptor):
+class SyncAesCbcDecryptor(PayloadDecryptor):
     key_store: KeyStore
 
     def decrypt(self, tr_id: str, payload: str) -> str:

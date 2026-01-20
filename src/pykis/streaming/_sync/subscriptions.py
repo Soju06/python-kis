@@ -1,0 +1,44 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+from pykis.streaming.constants import MAX_SUBSCRIPTIONS_PER_SESSION
+from pykis.streaming.errors import StreamingLimitError
+
+
+@dataclass(frozen=True, slots=True)
+class SyncSubscriptionKey:
+    tr_id: str
+    tr_key: str
+
+
+@dataclass(slots=True)
+class SyncSubscriptionRegistry:
+    limit: int
+    _keys: set[SyncSubscriptionKey]
+
+    def __init__(self, *, limit: int = MAX_SUBSCRIPTIONS_PER_SESSION) -> None:
+        if limit < 1:
+            raise ValueError("limit must be >= 1")
+        self.limit = limit
+        self._keys = set()
+
+    def add(self, key: SyncSubscriptionKey) -> bool:
+        if key in self._keys:
+            return False
+        if len(self._keys) >= self.limit:
+            raise StreamingLimitError(f"subscription limit exceeded (limit={self.limit})")
+        self._keys.add(key)
+        return True
+
+    def contains(self, key: SyncSubscriptionKey) -> bool:
+        return key in self._keys
+
+    def remove(self, key: SyncSubscriptionKey) -> None:
+        self._keys.discard(key)
+
+    def __len__(self) -> int:
+        return len(self._keys)
+
+    def snapshot(self) -> tuple[SyncSubscriptionKey, ...]:
+        return tuple(self._keys)

@@ -114,9 +114,84 @@ def _postprocess_store_sync(sync_dir: pathlib.Path) -> None:
             path.write_text(updated, encoding="utf-8")
 
 
+def _postprocess_streaming_sync(sync_dir: pathlib.Path) -> None:
+    for path in sync_dir.rglob("*.py"):
+        text = path.read_text(encoding="utf-8")
+        updated = text
+        updated = updated.replace("asyncio.QueueEmpty", "queue.Empty")
+        updated = updated.replace("asyncio.Queue", "queue.Queue")
+        updated = updated.replace("asyncio.Lock", "threading.Lock")
+        updated = updated.replace("asyncio.Task[None]", "threading.Thread")
+        updated = updated.replace("asyncio.sleep", "time.sleep")
+        updated = updated.replace("asyncio.CancelledError", "Exception")
+        updated = updated.replace("websockets.connect", "websockets.sync.client.connect")
+        updated = updated.replace(
+            "    def connect(self) -> None:\n"
+            "        if self._task is not None:\n"
+            "            return\n"
+            "        self._task = asyncio.create_task(self._run_loop())\n",
+            "    def connect(self) -> None:\n"
+            "        if self._task is not None:\n"
+            "            return\n"
+            "        self._task = threading.Thread(target=self._run_loop, daemon=True)\n"
+            "        self._task.start()\n",
+        )
+        updated = updated.replace(
+            "    def close(self) -> None:\n"
+            "        self.reconnect = False\n"
+            "        if self._task is not None:\n"
+            "            self._task.cancel()\n"
+            "            self._task = None\n"
+            "        self.transport.close()\n",
+            "    def close(self) -> None:\n"
+            "        self.reconnect = False\n"
+            "        self.transport.close()\n"
+            "        if self._task is not None:\n"
+            "            self._task.join(timeout=1.0)\n"
+            "            self._task = None\n",
+        )
+        updated = updated.replace(
+            "            except Exception:\n"
+            "                return\n"
+            "            except Exception:\n"
+            "                self.transport.close()\n",
+            "            except Exception:\n"
+            "                self.transport.close()\n",
+        )
+        if "threading." in updated and not _has_import_line(updated, "threading"):
+            if "import asyncio" in updated:
+                updated = updated.replace("import asyncio", "import asyncio\nimport threading")
+            else:
+                updated = "import threading\n" + updated
+        if "queue.Queue" in updated and not _has_import_line(updated, "queue"):
+            if "import asyncio" in updated:
+                updated = updated.replace("import asyncio", "import asyncio\nimport queue")
+            else:
+                updated = "import queue\n" + updated
+        if "queue.Empty" in updated and not _has_import_line(updated, "queue"):
+            if "import asyncio" in updated:
+                updated = updated.replace("import asyncio", "import asyncio\nimport queue")
+            else:
+                updated = "import queue\n" + updated
+        if "time.sleep" in updated and not _has_import_line(updated, "time"):
+            if "import asyncio" in updated:
+                updated = updated.replace("import asyncio", "import asyncio\nimport time")
+            else:
+                updated = "import time\n" + updated
+        if "import asyncio" in updated and "asyncio." not in updated:
+            updated = updated.replace("import asyncio\n", "")
+        updated = updated.replace(
+            "import time\nimport threading\nimport json\n",
+            "import json\nimport threading\nimport time\n",
+        )
+        if updated != text:
+            path.write_text(updated, encoding="utf-8")
+
+
 def _targets(root: pathlib.Path) -> list[UnasyncTarget]:
     store_root = root / "src" / "pykis" / "store"
     api_root = root / "src" / "pykis" / "api"
+    streaming_root = root / "src" / "pykis" / "streaming"
     return [
         UnasyncTarget(
             name="store",
@@ -145,6 +220,32 @@ def _targets(root: pathlib.Path) -> list[UnasyncTarget]:
                 "httpx.AsyncClient": "httpx.Client",
             },
             postprocess=_postprocess_api_sync,
+        ),
+        UnasyncTarget(
+            name="streaming",
+            async_dir=streaming_root / "_async",
+            sync_dir=streaming_root / "_sync",
+            replacements={
+                "_async": "_sync",
+                "StreamingSession": "SyncStreamingSession",
+                "SessionPool": "SyncSessionPool",
+                "SessionEntry": "SyncSessionEntry",
+                "SessionKey": "SyncSessionKey",
+                "SubscriptionStream": "SyncSubscriptionStream",
+                "SubscriptionRegistry": "SyncSubscriptionRegistry",
+                "SubscriptionKey": "SyncSubscriptionKey",
+                "StreamingEventRouter": "SyncStreamingEventRouter",
+                "StreamQueue": "SyncStreamQueue",
+                "WebSocketTransport": "SyncWebSocketTransport",
+                "WebSocketRunner": "SyncWebSocketRunner",
+                "AesCbcDecryptor": "SyncAesCbcDecryptor",
+                "StreamingKeyStore": "SyncStreamingKeyStore",
+                "aclose": "close",
+                "asyncio.Lock": "threading.Lock",
+                "asyncio.Queue": "queue.Queue",
+                "asyncio.sleep": "time.sleep",
+            },
+            postprocess=_postprocess_streaming_sync,
         ),
     ]
 

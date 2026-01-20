@@ -1,21 +1,20 @@
 from __future__ import annotations
 
-import asyncio
 import importlib
 import json
 from dataclasses import dataclass
 from types import ModuleType
-from typing import AsyncIterator, Callable, Protocol
+from typing import Iterator, Callable, Protocol
 
 
 class WebSocketConnection(Protocol):
-    async def send(self, data: str) -> None: ...
-    async def close(self) -> None: ...
-    def __aiter__(self) -> AsyncIterator[str | bytes]: ...
+    def send(self, data: str) -> None: ...
+    def close(self) -> None: ...
+    def __iter__(self) -> Iterator[str | bytes]: ...
 
 
 @dataclass(slots=True)
-class WebSocketTransport:
+class SyncWebSocketTransport:
     url: str
     connect_timeout: float
     ping_interval: float | None
@@ -33,28 +32,29 @@ class WebSocketTransport:
         self.ping_interval = ping_interval
         self._ws = None
 
-    async def connect(self) -> None:
+    def connect(self) -> None:
         websockets = _load_websockets()
-        self._ws = await asyncio.wait_for(
-            websockets.connect(self.url, ping_interval=self.ping_interval),
-            timeout=self.connect_timeout,
+        self._ws = websockets.sync.client.connect(
+            self.url,
+            ping_interval=self.ping_interval,
+            open_timeout=self.connect_timeout,
         )
 
-    async def close(self) -> None:
+    def close(self) -> None:
         if self._ws is None:
             return
-        await self._ws.close()
+        self._ws.close()
         self._ws = None
 
-    async def send_json(self, payload: dict[str, object]) -> None:
+    def send_json(self, payload: dict[str, object]) -> None:
         if self._ws is None:
             raise RuntimeError("WebSocket not connected")
-        await self._ws.send(json.dumps(payload, ensure_ascii=False))
+        self._ws.send(json.dumps(payload, ensure_ascii=False))
 
-    async def messages(self) -> AsyncIterator[str]:
+    def messages(self) -> Iterator[str]:
         if self._ws is None:
             raise RuntimeError("WebSocket not connected")
-        async for message in self._ws:
+        for message in self._ws:
             if isinstance(message, bytes):
                 yield message.decode("utf-8", errors="replace")
             else:
@@ -62,12 +62,12 @@ class WebSocketTransport:
 
 
 @dataclass(slots=True)
-class WebSocketRunner:
-    transport: WebSocketTransport
+class SyncWebSocketRunner:
+    transport: SyncWebSocketTransport
     on_message: Callable[[str], None]
 
-    async def run(self) -> None:
-        async for message in self.transport.messages():
+    def run(self) -> None:
+        for message in self.transport.messages():
             self.on_message(message)
 
 
