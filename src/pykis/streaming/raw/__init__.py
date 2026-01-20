@@ -1,5 +1,8 @@
 from pykis.streaming.raw.base import StreamingRawModel
+from pykis.streaming.raw.context import StreamingParseContext, SystemTimeProvider, TimeProvider
 from pykis.streaming.raw.generated.registry import REGISTRY as RAW_REGISTRY
+from pykis.streaming.raw.overrides import NullOverrideLogger, OverrideCandidate, OverrideLogger
+from pykis.streaming.raw.parser import StreamingParseError, StreamingParseResult, parse_streaming_frame
 from pykis.streaming.raw.specs import (
     DateTimeRule,
     DecimalRule,
@@ -13,7 +16,16 @@ __all__ = [
     "DecimalRule",
     "FieldSource",
     "FieldType",
+    "NullOverrideLogger",
+    "OverrideCandidate",
+    "OverrideLogger",
     "RAW_REGISTRY",
+    "StreamingParseContext",
+    "StreamingParseError",
+    "StreamingParseResult",
     "StreamingRawModel",
     "StreamingSpec",
+    "SystemTimeProvider",
+    "TimeProvider",
+    "parse_streaming_frame",
 ]
