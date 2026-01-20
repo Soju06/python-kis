@@ -330,18 +330,7 @@ def _parse_datetime(
 
     tzinfo = _resolve_timezone(rule.timezone, context)
     if rule.kind == "date_only":
-        parsed_date = _parse_date(
-            raw_value,
-            rule.format,
-            tzinfo,
-            context,
-            rule.year_policy,
-            raw_map,
-            rule.timezone,
-            override_logger,
-            spec,
-            payload,
-        )
+        parsed_date = _parse_date(raw_value, rule.format, tzinfo, context)
         return datetime.combine(parsed_date, time(0, 0), tzinfo=tzinfo).astimezone(timezone.utc)
 
     if rule.kind == "time_only":
@@ -392,18 +381,7 @@ def _resolve_date_field(
         )
         raise StreamingParseError("Missing date rule for dependent field", tr_id=spec.tr_id, payload=payload)
     tzinfo = _resolve_timezone(rule.timezone, context)
-    parsed_date = _parse_date(
-        raw_value,
-        rule.format,
-        tzinfo,
-        context,
-        rule.year_policy,
-        raw_map,
-        rule.timezone,
-        override_logger,
-        spec,
-        payload,
-    )
+    parsed_date = _parse_date(raw_value, rule.format, tzinfo, context)
     return parsed_date
 
 
@@ -412,12 +390,6 @@ def _parse_date(
     fmt: str,
     tzinfo: ZoneInfo,
     context: StreamingParseContext,
-    year_policy: str | None,
-    raw_map: dict[str, str],
-    rule_timezone: str,
-    override_logger: OverrideLogger,
-    spec: StreamingSpec,
-    payload: str,
 ) -> date:
     text = raw_value.strip()
     if fmt == "YYYYMMDD":
@@ -426,17 +398,8 @@ def _parse_date(
         year = int(text[:2])
         month = int(text[2:4])
         day = int(text[4:6])
-        anchor_year = None
-        if year_policy == "century_from_local" and rule_timezone == "market":
-            anchor_year = _resolve_anchor_year(raw_map.get("TYMD"), override_logger, spec, payload)
-        if anchor_year is not None:
-            year = anchor_year
-        else:
-            if year_policy == "century_from_local":
-                local_year = context.time_provider.now_utc().astimezone(tzinfo).year
-                year += (local_year // 100) * 100
-            else:
-                year += 2000
+        local_year = context.time_provider.now_utc().astimezone(tzinfo).year
+        year += (local_year // 100) * 100
         return date(year, month, day)
     raise StreamingParseError("Unsupported date format", payload=text)
 
@@ -450,30 +413,6 @@ def _resolve_timezone(value: str, context: StreamingParseContext) -> ZoneInfo:
     if value == "market":
         return ZoneInfo(context.market_timezone)
     return ZoneInfo(value)
-
-
-def _resolve_anchor_year(
-    tymd: str | None,
-    override_logger: OverrideLogger,
-    spec: StreamingSpec,
-    payload: str,
-) -> int | None:
-    if not tymd:
-        return None
-    text = tymd.strip()
-    if len(text) != 8 or not text.isdigit():
-        _record_candidate(
-            override_logger,
-            spec,
-            field="TYMD",
-            raw_value=text,
-            decision="datetime",
-            reason="yy_anchor_invalid",
-            payload=payload,
-            confidence=0.4,
-        )
-        return None
-    return int(text[:4])
 
 
 def _record_candidate(

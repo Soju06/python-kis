@@ -100,10 +100,16 @@ todos:
     status: pending
   - id: p4-streaming-pkg
     content: "[P4] Create pykis.streaming package (async-first)"
-    status: pending
+    status: in_progress
   - id: p4-ws-transport
     content: "[P4] Implement WebSocket transport layer (Layer 0 raw)"
-    status: pending
+    status: completed
+  - id: p4-streaming-market-timezone
+    content: "[P4] Resolve overseas market timezone by market code (RSYM/TR_KEY)"
+    status: completed
+  - id: p4-streaming-override-log
+    content: "[P4] Log streaming override candidates with buffered JSONL + rotation"
+    status: completed
   - id: p4-session-pool
     content: "[P4] Implement SessionPool keyed by (app_key, domain)"
     status: pending
@@ -282,6 +288,42 @@ todos:
 - 41‑subscription 제한 상수는 `src/pykis/streaming/constants.py`에 정의하고, Layer 0 raw transport에서만 참조.
 - 문서에서는 streaming Layer 0의 제약으로 명시하고, 상위 레이어에는 raw 제약만 전달되지 않도록 한다.
 
+## Streaming realtime standardization (domestic/overseas) — execution plan (v1)
+
+**범위**: Layer 0 실시간 파싱/전송 (국내·해외 시세 우선). Decimal/UTC 변환은 Layer 0에서 수행.
+
+### 1) Market‑code timezone resolution (overseas)
+
+- **입력 규칙**: 해외 종목 키(`RSYM`/`TR_KEY`)는 `D{MARKET}{SYMBOL}` 또는 `R{MARKET}{SYMBOL}` 포맷을 전제로 한다.
+- **처리 단계**
+  - `streaming.raw.market.extract_market_code`에서 시장 코드 추출 (정규식 `^[DR]([A-Z]{3})`).
+  - `MARKET_TIMEZONES` 테이블로 IANA timezone 매핑.
+  - `StreamingFrameHandler`에서 payload 헤더 필드로 timezone override 후 parse.
+- **완료 기준**: 해외 실시간 datetime 필드가 시장 timezone 기준으로 UTC 변환됨. 매핑 실패 시 fallback timezone 유지.
+
+### 2) Override candidate logging (Decimal heuristic + datetime)
+
+- **목표**: 휴리스틱/에러 케이스를 JSONL로 기록하여 수동 override 설계에 연결.
+- **처리 단계**
+  - 파서에서 heuristic/parse‑error 케이스를 `OverrideCandidate`로 기록.
+  - `JsonlOverrideLogger`에 buffered write + max_bytes rotation 적용.
+  - candidate에는 endpoint UUID, tr_id, field, raw_value, rule, payload sample 포함.
+- **완료 기준**: 실시간 파싱 중 edge case가 JSONL로 누적되고, 승인 후 `type_overrides.yaml`에 반영 가능.
+
+### 3) WebSocket transport/session (Layer 0)
+
+- **목표**: 인증/세션/구독/복호화까지 Layer 0에서 처리.
+- **처리 단계**
+  - `WebSocketTransport`: connect/send/messages + timeout/ping.
+  - `StreamingSession`: subscribe/unsubscribe + control 메시지로 AES key/iv 갱신.
+  - `AesCbcDecryptor`: key store 기반 payload 복호화.
+- **완료 기준**: websocket 메시지 수신 → (복호화) → raw parse까지 단일 세션 흐름 확립.
+
+### Date/Time 단순화 규칙
+
+- `YYMMDD`는 **시장 timezone 기준 현재 세기**를 사용 (세기 추론 로직 제거).
+- `business_date`는 **시장 로컬 날짜**이며, 기본은 `TimeProvider.now_utc()`을 로컬 timezone으로 변환한 값.
+
 ## Target layering map
 
 ```mermaid
@@ -432,6 +474,10 @@ flowchart TB
 | `p4-streaming-pkg` | Streaming 패키지 생성 | `pykis.streaming/` 패키지 구조 (async-first), `constants.py`에 41-sub 제한 정의 |
 
 | `p4-ws-transport` | WebSocket transport | Layer 0 raw transport: 인증, 세션, 구독, 복호화 담당 |
+
+| `p4-streaming-market-timezone` | Market timezone mapping | 해외 실시간 `RSYM/TR_KEY` 시장 코드 기반 timezone 결정 |
+
+| `p4-streaming-override-log` | Override candidate logging | Decimal/Datetime edge case JSONL 기록 (buffered + rotation) |
 
 | `p4-session-pool` | SessionPool 구현 | `(app_key, domain)` 키로 세션 풀 관리, appkey당 1개 websocket 공유 |
 
