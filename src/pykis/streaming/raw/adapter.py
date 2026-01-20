@@ -5,6 +5,7 @@ from datetime import date
 from typing import Callable, Mapping, Protocol
 
 from pykis.streaming.raw.context import StreamingParseContext, TimeProvider
+from pykis.streaming.raw.market import resolve_timezone_from_fields
 from pykis.streaming.raw.overrides import NullOverrideLogger, OverrideLogger
 from pykis.streaming.raw.parser import (
     PayloadDecryptor,
@@ -17,6 +18,10 @@ from pykis.streaming.raw.specs import SpecRegistry, StreamingSpec
 
 class ContextProvider(Protocol):
     def context_for(self, spec: StreamingSpec) -> StreamingParseContext: ...
+
+
+class MarketTimezoneResolver(Protocol):
+    def resolve(self, spec: StreamingSpec, raw_fields: dict[str, str]) -> str | None: ...
 
 
 @dataclass(slots=True)
@@ -49,9 +54,7 @@ class StaticContextProvider:
         if spec.market == "domestic":
             tz = self.domestic_timezone
         else:
-            tz = self.overseas_timezones.get(spec.tr_id) or self.overseas_timezone
-            if tz is None:
-                raise StreamingParseError("Missing overseas timezone", tr_id=spec.tr_id)
+            tz = self.overseas_timezones.get(spec.tr_id) or self.overseas_timezone or "UTC"
         return StreamingParseContext(
             tz,
             business_date=self.business_date,
@@ -67,6 +70,7 @@ class StreamingFrameHandler:
     override_logger: OverrideLogger
     decryptor: PayloadDecryptor | None
     on_event: Callable[[str, object], None] | None
+    timezone_resolver: MarketTimezoneResolver | None
 
     def __init__(
         self,
@@ -75,12 +79,14 @@ class StreamingFrameHandler:
         context_provider: ContextProvider,
         override_logger: OverrideLogger | None = None,
         decryptor: PayloadDecryptor | None = None,
+        timezone_resolver: MarketTimezoneResolver | None = None,
         on_event: Callable[[str, object], None] | None = None,
     ) -> None:
         self.registry = registry
         self.context_provider = context_provider
         self.override_logger = override_logger or NullOverrideLogger()
         self.decryptor = decryptor
+        self.timezone_resolver = timezone_resolver
         self.on_event = on_event
 
     def handle_frame(self, frame: str) -> list[object] | None:
@@ -90,11 +96,12 @@ class StreamingFrameHandler:
         if frame.startswith("{") or frame.startswith("["):
             return None
 
-        _, tr_id, _, _ = split_streaming_frame(frame)
+        _, tr_id, _, payload = split_streaming_frame(frame)
         spec = self.registry.get(tr_id)
         if spec is None:
             raise StreamingParseError("Unknown tr_id", tr_id=tr_id, payload=frame)
         context = self.context_provider.context_for(spec)
+        context = self._apply_timezone_override(spec, payload, context)
         result = parse_streaming_frame(
             frame,
             registry=self.registry,
@@ -108,3 +115,34 @@ class StreamingFrameHandler:
             for record in result.records:
                 self.on_event(result.tr_id, record)
         return result.records
+
+    def _apply_timezone_override(
+        self,
+        spec: StreamingSpec,
+        payload: str,
+        context: StreamingParseContext,
+    ) -> StreamingParseContext:
+        if spec.market == "domestic":
+            return context
+        raw_fields = _build_raw_fields(payload, spec)
+        if not raw_fields:
+            return context
+        if self.timezone_resolver is None:
+            tz = resolve_timezone_from_fields(raw_fields, context.market_timezone)
+        else:
+            tz = self.timezone_resolver.resolve(spec, raw_fields)
+        if tz:
+            context.market_timezone = tz
+        return context
+
+
+def _build_raw_fields(payload: str, spec: StreamingSpec) -> dict[str, str]:
+    values = payload.split("^")
+    field_count = len(spec.field_order)
+    if field_count == 0 or len(values) < field_count:
+        return {}
+    values = values[:field_count]
+    fields: dict[str, str] = {}
+    for idx, code in enumerate(spec.field_order):
+        fields[spec.field_aliases.get(idx, code)] = values[idx].strip()
+    return fields
