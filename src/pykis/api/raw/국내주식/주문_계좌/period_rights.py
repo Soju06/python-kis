@@ -14,13 +14,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -155,6 +155,8 @@ class RghtTypeCdEnum(KisStrEnum):
     "환매"
     VALUE_99 = ("99", "기타권리사유")
     "기타권리사유"
+    RITZ = ("Ritz", "36 부동산신탁")
+    "36 부동산신탁"
 
 
 class RghtCblcTypeCdEnum(KisStrEnum):
@@ -223,11 +225,11 @@ class PeriodRightsRequest(RawModel):
         alias="ACNT_PRDT_CD",
     )
     ("상품계좌번호 2자리 입력(ex. 01 or 22)")
-    INQR_STRT_DT: KisDate = Field(
+    INQR_STRT_DT: str = Field(
         alias="INQR_STRT_DT",
     )
     ("조회시작일자(YYYYMMDD)")
-    INQR_END_DT: KisDate = Field(
+    INQR_END_DT: str = Field(
         alias="INQR_END_DT",
     )
     ("조회종료일자(YYYYMMDD)")
@@ -265,8 +267,8 @@ class PeriodRightsRequestDict(TypedDict):
         HMID (str): 공란
         CANO (str): 계좌번호 8자리 입력 (ex.12345678)
         ACNT_PRDT_CD (str): 상품계좌번호 2자리 입력(ex. 01 or 22)
-        INQR_STRT_DT (KisDate): 조회시작일자(YYYYMMDD)
-        INQR_END_DT (KisDate): 조회종료일자(YYYYMMDD)
+        INQR_STRT_DT (str): 조회시작일자(YYYYMMDD)
+        INQR_END_DT (str): 조회종료일자(YYYYMMDD)
         RGHT_TYPE_CD (str): 공란
         PDNO (str): 공란
         PRDT_TYPE_CD (str): 공란
@@ -295,11 +297,11 @@ class PeriodRightsRequestDict(TypedDict):
         "상품계좌번호 2자리 입력(ex. 01 or 22)",
     ]
     INQR_STRT_DT: Annotated[
-        KisDate,
+        str,
         "조회시작일자(YYYYMMDD)",
     ]
     INQR_END_DT: Annotated[
-        KisDate,
+        str,
         "조회종료일자(YYYYMMDD)",
     ]
     RGHT_TYPE_CD: Annotated[
@@ -548,8 +550,8 @@ if TYPE_CHECKING:
                         HMID (str): 공란
                         CANO (str): 계좌번호 8자리 입력 (ex.12345678)
                         ACNT_PRDT_CD (str): 상품계좌번호 2자리 입력(ex. 01 or 22)
-                        INQR_STRT_DT (KisDate): 조회시작일자(YYYYMMDD)
-                        INQR_END_DT (KisDate): 조회종료일자(YYYYMMDD)
+                        INQR_STRT_DT (str): 조회시작일자(YYYYMMDD)
+                        INQR_END_DT (str): 조회종료일자(YYYYMMDD)
                         RGHT_TYPE_CD (str): 공란
                         PDNO (str): 공란
                         PRDT_TYPE_CD (str): 공란

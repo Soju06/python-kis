@@ -14,13 +14,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -96,11 +96,11 @@ class InquireDailyItemchartpriceRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("종목코드 (ex 005930 삼성전자)")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("조회 시작일자")
-    FID_INPUT_DATE_2: KisDate = Field(
+    FID_INPUT_DATE_2: str = Field(
         alias="FID_INPUT_DATE_2",
     )
     ("조회 종료일자 (최대 100개)")
@@ -123,8 +123,8 @@ class InquireDailyItemchartpriceRequestDict(TypedDict):
     Request fields:
         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J:KRX, NX:NXT, UN:통합
         FID_INPUT_ISCD (str): 종목코드 (ex 005930 삼성전자)
-        FID_INPUT_DATE_1 (KisDate): 조회 시작일자
-        FID_INPUT_DATE_2 (KisDate): 조회 종료일자 (최대 100개)
+        FID_INPUT_DATE_1 (str): 조회 시작일자
+        FID_INPUT_DATE_2 (str): 조회 종료일자 (최대 100개)
         FID_PERIOD_DIV_CODE (FidPeriodDivCodeEnum): D:일봉 W:주봉, M:월봉, Y:년봉
         FID_ORG_ADJ_PRC (KisBool): 0:수정주가 1:원주가
     """
@@ -138,11 +138,11 @@ class InquireDailyItemchartpriceRequestDict(TypedDict):
         "종목코드 (ex 005930 삼성전자)",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "조회 시작일자",
     ]
     FID_INPUT_DATE_2: Annotated[
-        KisDate,
+        str,
         "조회 종료일자 (최대 100개)",
     ]
     FID_PERIOD_DIV_CODE: Annotated[
@@ -438,8 +438,8 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J:KRX, NX:NXT, UN:통합
                         FID_INPUT_ISCD (str): 종목코드 (ex 005930 삼성전자)
-                        FID_INPUT_DATE_1 (KisDate): 조회 시작일자
-                        FID_INPUT_DATE_2 (KisDate): 조회 종료일자 (최대 100개)
+                        FID_INPUT_DATE_1 (str): 조회 시작일자
+                        FID_INPUT_DATE_2 (str): 조회 종료일자 (최대 100개)
                         FID_PERIOD_DIV_CODE (FidPeriodDivCodeEnum): D:일봉 W:주봉, M:월봉, Y:년봉
                         FID_ORG_ADJ_PRC (KisBool): 0:수정주가 1:원주가
 

@@ -14,14 +14,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -36,11 +35,6 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
     "금선물"
     X = ("X", "환율")
     "환율"
-
-
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_100 = ("100", "")
-    S = ("S", "")
 
 
 class FidPeriodDivCodeEnum(KisStrEnum):
@@ -59,7 +53,7 @@ class InquireDailyChartpriceRequest(RawModel):
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("N: 해외지수, X 환율, I: 국채, S:금선물")
-    FID_INPUT_ISCD: FidInputIscdEnum = Field(
+    FID_INPUT_ISCD: str = Field(
         alias="FID_INPUT_ISCD",
     )
     (
@@ -67,11 +61,11 @@ class InquireDailyChartpriceRequest(RawModel):
         "API로 미국주식 조회 시, 다우30, 나스닥100, S&P500 종목만 조회 가능합니다. 더 많은 미국주식 종목 "
         "시세를 이용할 시에는, 해외주식기간별시세 API 사용 부탁드립니다."
     )
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("시작일자(YYYYMMDD)")
-    FID_INPUT_DATE_2: KisDate = Field(
+    FID_INPUT_DATE_2: str = Field(
         alias="FID_INPUT_DATE_2",
     )
     ("종료일자(YYYYMMDD)")
@@ -93,12 +87,12 @@ class InquireDailyChartpriceRequestDict(TypedDict):
 
     Request fields:
         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): N: 해외지수, X 환율, I: 국채, S:금선물
-        FID_INPUT_ISCD (FidInputIscdEnum): 종목코드 ※ 해외주식 마스터 코드 참조 (포럼 > FAQ >
-        종목정보 다운로드(해외) > 해외지수) ※ 해당 API로 미국주식 조회 시, 다우30, 나스닥100, S&P500
-        종목만 조회 가능합니다. 더 많은 미국주식 종목 시세를 이용할 시에는, 해외주식기간별시세 API
-        사용 부탁드립니다.
-        FID_INPUT_DATE_1 (KisDate): 시작일자(YYYYMMDD)
-        FID_INPUT_DATE_2 (KisDate): 종료일자(YYYYMMDD)
+        FID_INPUT_ISCD (str): 종목코드 ※ 해외주식 마스터 코드 참조 (포럼 > FAQ > 종목정보
+        다운로드(해외) > 해외지수) ※ 해당 API로 미국주식 조회 시, 다우30, 나스닥100, S&P500 종목만
+        조회 가능합니다. 더 많은 미국주식 종목 시세를 이용할 시에는, 해외주식기간별시세 API 사용
+        부탁드립니다.
+        FID_INPUT_DATE_1 (str): 시작일자(YYYYMMDD)
+        FID_INPUT_DATE_2 (str): 종료일자(YYYYMMDD)
         FID_PERIOD_DIV_CODE (FidPeriodDivCodeEnum): D:일, W:주, M:월, Y:년
     """
 
@@ -107,17 +101,17 @@ class InquireDailyChartpriceRequestDict(TypedDict):
         "N: 해외지수, X 환율, I: 국채, S:금선물",
     ]
     FID_INPUT_ISCD: Annotated[
-        FidInputIscdEnum,
+        str,
         "종목코드 ※ 해외주식 마스터 코드 참조 (포럼 > FAQ > 종목정보 다운로드(해외) > 해외지수) ※ 해당 "
         "API로 미국주식 조회 시, 다우30, 나스닥100, S&P500 종목만 조회 가능합니다. 더 많은 미국주식 종목 "
         "시세를 이용할 시에는, 해외주식기간별시세 API 사용 부탁드립니다.",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "시작일자(YYYYMMDD)",
     ]
     FID_INPUT_DATE_2: Annotated[
-        KisDate,
+        str,
         "종료일자(YYYYMMDD)",
     ]
     FID_PERIOD_DIV_CODE: Annotated[
@@ -347,12 +341,12 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): N: 해외지수, X 환율, I: 국채,
                         S:금선물
-                        FID_INPUT_ISCD (FidInputIscdEnum): 종목코드 ※ 해외주식 마스터 코드 참조 (포럼
-                        > FAQ > 종목정보 다운로드(해외) > 해외지수) ※ 해당 API로 미국주식 조회 시,
-                        다우30, 나스닥100, S&P500 종목만 조회 가능합니다. 더 많은 미국주식 종목 시세를
-                        이용할 시에는, 해외주식기간별시세 API 사용 부탁드립니다.
-                        FID_INPUT_DATE_1 (KisDate): 시작일자(YYYYMMDD)
-                        FID_INPUT_DATE_2 (KisDate): 종료일자(YYYYMMDD)
+                        FID_INPUT_ISCD (str): 종목코드 ※ 해외주식 마스터 코드 참조 (포럼 > FAQ >
+                        종목정보 다운로드(해외) > 해외지수) ※ 해당 API로 미국주식 조회 시, 다우30,
+                        나스닥100, S&P500 종목만 조회 가능합니다. 더 많은 미국주식 종목 시세를 이용할
+                        시에는, 해외주식기간별시세 API 사용 부탁드립니다.
+                        FID_INPUT_DATE_1 (str): 시작일자(YYYYMMDD)
+                        FID_INPUT_DATE_2 (str): 종료일자(YYYYMMDD)
                         FID_PERIOD_DIV_CODE (FidPeriodDivCodeEnum): D:일, W:주, M:월, Y:년
 
             Returns:
@@ -372,6 +366,5 @@ __all__ = [
     "InquireDailyChartpriceOutput1",
     "InquireDailyChartpriceOutput2",
     "FidCondMrktDivCodeEnum",
-    "FidInputIscdEnum",
     "FidPeriodDivCodeEnum",
 ]

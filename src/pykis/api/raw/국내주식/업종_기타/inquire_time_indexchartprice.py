@@ -14,14 +14,14 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -34,24 +34,6 @@ class FidEtcClsCodeEnum(KisStrEnum):
     "장마감"
 
 
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0001 = ("0001", "종합")
-    "종합"
-    VALUE_0002 = ("0002", "대형주")
-    "대형주"
-    FAQ = ("FAQ", "종목정보 다운로드(국내) - 업종코드 참조")
-    "종목정보 다운로드(국내) - 업종코드 참조"
-
-
-class FidInputHour1Enum(KisStrEnum):
-    VALUE_60 = ("60", "> 1분")
-    "> 1분"
-    VALUE_600 = ("600", "> 10분")
-    "> 10분"
-    VALUE_3600 = ("3600", "> 1시간")
-    "> 1시간"
-
-
 class InquireTimeIndexchartpriceRequest(RawModel):
     FID_COND_MRKT_DIV_CODE: str = Field(
         alias="FID_COND_MRKT_DIV_CODE",
@@ -61,11 +43,11 @@ class InquireTimeIndexchartpriceRequest(RawModel):
         alias="FID_ETC_CLS_CODE",
     )
     ("0: 기본 1:장마감,시간외 제외")
-    FID_INPUT_ISCD: FidInputIscdEnum = Field(
+    FID_INPUT_ISCD: str = Field(
         alias="FID_INPUT_ISCD",
     )
     ("0001 : 종합 0002 : 대형주 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)")
-    FID_INPUT_HOUR_1: FidInputHour1Enum = Field(
+    FID_INPUT_HOUR_1: str = Field(
         alias="FID_INPUT_HOUR_1",
     )
     ("30, 60 -> 1분, 600-> 10분, 3600 -> 1시간")
@@ -83,9 +65,9 @@ class InquireTimeIndexchartpriceRequestDict(TypedDict):
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): U
         FID_ETC_CLS_CODE (FidEtcClsCodeEnum): 0: 기본 1:장마감,시간외 제외
-        FID_INPUT_ISCD (FidInputIscdEnum): 0001 : 종합 0002 : 대형주 ... 포탈 (FAQ : 종목정보
-        다운로드(국내) - 업종코드 참조)
-        FID_INPUT_HOUR_1 (FidInputHour1Enum): 30, 60 -> 1분, 600-> 10분, 3600 -> 1시간
+        FID_INPUT_ISCD (str): 0001 : 종합 0002 : 대형주 ... 포탈 (FAQ : 종목정보 다운로드(국내) -
+        업종코드 참조)
+        FID_INPUT_HOUR_1 (str): 30, 60 -> 1분, 600-> 10분, 3600 -> 1시간
         FID_PW_DATA_INCU_YN (KisBool): Y (과거) / N (당일)
     """
 
@@ -98,11 +80,11 @@ class InquireTimeIndexchartpriceRequestDict(TypedDict):
         "0: 기본 1:장마감,시간외 제외",
     ]
     FID_INPUT_ISCD: Annotated[
-        FidInputIscdEnum,
+        str,
         "0001 : 종합 0002 : 대형주 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)",
     ]
     FID_INPUT_HOUR_1: Annotated[
-        FidInputHour1Enum,
+        str,
         "30, 60 -> 1분, 600-> 10분, 3600 -> 1시간",
     ]
     FID_PW_DATA_INCU_YN: Annotated[
@@ -116,7 +98,7 @@ class InquireTimeIndexchartpriceOutput1(RawModel):
         alias="bstp_nmix_prdy_vrss",
     )
     ("업종 지수 전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -298,9 +280,9 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): U
                         FID_ETC_CLS_CODE (FidEtcClsCodeEnum): 0: 기본 1:장마감,시간외 제외
-                        FID_INPUT_ISCD (FidInputIscdEnum): 0001 : 종합 0002 : 대형주 ... 포탈 (FAQ :
-                        종목정보 다운로드(국내) - 업종코드 참조)
-                        FID_INPUT_HOUR_1 (FidInputHour1Enum): 30, 60 -> 1분, 600-> 10분, 3600 -> 1시간
+                        FID_INPUT_ISCD (str): 0001 : 종합 0002 : 대형주 ... 포탈 (FAQ : 종목정보
+                        다운로드(국내) - 업종코드 참조)
+                        FID_INPUT_HOUR_1 (str): 30, 60 -> 1분, 600-> 10분, 3600 -> 1시간
                         FID_PW_DATA_INCU_YN (KisBool): Y (과거) / N (당일)
 
             Returns:
@@ -320,6 +302,4 @@ __all__ = [
     "InquireTimeIndexchartpriceOutput1",
     "InquireTimeIndexchartpriceOutput2",
     "FidEtcClsCodeEnum",
-    "FidInputIscdEnum",
-    "FidInputHour1Enum",
 ]

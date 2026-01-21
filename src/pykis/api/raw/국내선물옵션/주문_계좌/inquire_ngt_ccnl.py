@@ -14,17 +14,31 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class SllBuyDvsnCdEnum(KisStrEnum):
@@ -53,11 +67,11 @@ class FuopDvsnCdEnum(KisStrEnum):
 
 
 class InquireNgtCcnlRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -120,8 +134,8 @@ class InquireNgtCcnlRequestDict(TypedDict):
     (야간)선물옵션 주문체결 내역조회 [국내선물-009]
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         STRT_ORD_DT (KisDate): 시작주문일자
         END_ORD_DT (KisDate): 조회하려는 마지막 일자 다음일자로 조회 (ex. 20221011 까지의 내역을
         조회하고자 할 경우, 20221012로 종료주문일자 설정)
@@ -140,11 +154,11 @@ class InquireNgtCcnlRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     STRT_ORD_DT: Annotated[
@@ -419,8 +433,8 @@ if TYPE_CHECKING:
                 **kwargs (InquireNgtCcnlRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         STRT_ORD_DT (KisDate): 시작주문일자
                         END_ORD_DT (KisDate): 조회하려는 마지막 일자 다음일자로 조회 (ex. 20221011
                         까지의 내역을 조회하고자 할 경우, 20221012로 종료주문일자 설정)
@@ -454,6 +468,8 @@ __all__ = [
     "InquireNgtCcnlResponse",
     "InquireNgtCcnlOutput2",
     "InquireNgtCcnlOutput1",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "SllBuyDvsnCdEnum",
     "CcldNccsDvsnEnum",
     "FuopDvsnCdEnum",

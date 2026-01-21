@@ -14,13 +14,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -44,7 +44,7 @@ class InvestorTradeByStockDailyRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("종목번호 (6자리)")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("입력 날짜(20250812) (해당일 조회는 장 종료 후 정상 조회 가능)")
@@ -69,7 +69,7 @@ class InvestorTradeByStockDailyRequestDict(TypedDict):
     Request fields:
         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J:KRX, NX:NXT, UN:통합
         FID_INPUT_ISCD (str): 종목번호 (6자리)
-        FID_INPUT_DATE_1 (KisDate): 입력 날짜(20250812) (해당일 조회는 장 종료 후 정상 조회 가능)
+        FID_INPUT_DATE_1 (str): 입력 날짜(20250812) (해당일 조회는 장 종료 후 정상 조회 가능)
         FID_ORG_ADJ_PRC (str): 공란 입력
         FID_ETC_CLS_CODE (str): 공란 입력
     """
@@ -83,7 +83,7 @@ class InvestorTradeByStockDailyRequestDict(TypedDict):
         "종목번호 (6자리)",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "입력 날짜(20250812) (해당일 조회는 장 종료 후 정상 조회 가능)",
     ]
     FID_ORG_ADJ_PRC: Annotated[
@@ -628,7 +628,7 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J:KRX, NX:NXT, UN:통합
                         FID_INPUT_ISCD (str): 종목번호 (6자리)
-                        FID_INPUT_DATE_1 (KisDate): 입력 날짜(20250812) (해당일 조회는 장 종료 후 정상
+                        FID_INPUT_DATE_1 (str): 입력 날짜(20250812) (해당일 조회는 장 종료 후 정상
                         조회 가능)
                         FID_ORG_ADJ_PRC (str): 공란 입력
                         FID_ETC_CLS_CODE (str): 공란 입력

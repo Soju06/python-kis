@@ -14,16 +14,31 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
+    KisDateTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class FuopDvsnCdEnum(KisStrEnum):
@@ -64,19 +79,19 @@ class SllBuyDvsnCdEnum(KisStrEnum):
 
 
 class InquireDailyCcldRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    STRT_DT: KisDate = Field(
+    STRT_DT: str = Field(
         alias="STRT_DT",
     )
     ("시작일자(YYYYMMDD)")
-    END_DT: KisDate = Field(
+    END_DT: str = Field(
         alias="END_DT",
     )
     ("종료일자(YYYYMMDD)")
@@ -118,10 +133,10 @@ class InquireDailyCcldRequestDict(TypedDict):
     해외선물옵션 일별 체결내역 API입니다.
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
-        STRT_DT (KisDate): 시작일자(YYYYMMDD)
-        END_DT (KisDate): 종료일자(YYYYMMDD)
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
+        STRT_DT (str): 시작일자(YYYYMMDD)
+        END_DT (str): 종료일자(YYYYMMDD)
         FUOP_DVSN_CD (FuopDvsnCdEnum): 00:전체 / 01:선물 / 02:옵션
         FM_PDGR_CD (str): 공란(Default)
         CRCY_CD (CrcyCdEnum): %%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR
@@ -133,19 +148,19 @@ class InquireDailyCcldRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     STRT_DT: Annotated[
-        KisDate,
+        str,
         "시작일자(YYYYMMDD)",
     ]
     END_DT: Annotated[
-        KisDate,
+        str,
         "종료일자(YYYYMMDD)",
     ]
     FUOP_DVSN_CD: Annotated[
@@ -247,7 +262,7 @@ class InquireDailyCcldOutput1(RawModel):
         alias="fm_opt_pure_agrm_amt",
     )
     ("FM옵션순약정금액")
-    ccld_dtl_dtime: KisDate = Field(
+    ccld_dtl_dtime: KisDateTime = Field(
         alias="ccld_dtl_dtime",
     )
     ("체결상세일시")
@@ -347,10 +362,10 @@ if TYPE_CHECKING:
                 **kwargs (InquireDailyCcldRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
-                        STRT_DT (KisDate): 시작일자(YYYYMMDD)
-                        END_DT (KisDate): 종료일자(YYYYMMDD)
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
+                        STRT_DT (str): 시작일자(YYYYMMDD)
+                        END_DT (str): 종료일자(YYYYMMDD)
                         FUOP_DVSN_CD (FuopDvsnCdEnum): 00:전체 / 01:선물 / 02:옵션
                         FM_PDGR_CD (str): 공란(Default)
                         CRCY_CD (CrcyCdEnum): %%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD:
@@ -376,6 +391,8 @@ __all__ = [
     "InquireDailyCcldResponse",
     "InquireDailyCcldOutput2",
     "InquireDailyCcldOutput1",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "FuopDvsnCdEnum",
     "CrcyCdEnum",
     "SllBuyDvsnCdEnum",

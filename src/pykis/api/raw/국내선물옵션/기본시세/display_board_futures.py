@@ -14,15 +14,24 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(20503)")
+    "key(20503)"
+    VALUE_20503 = ("20503", "Unique key")
+    "Unique key"
+    KEY = ("key", "20503")
+    "20503"
 
 
 class FidCondMrktClsCodeEnum(KisStrEnum):
@@ -41,7 +50,7 @@ class DisplayBoardFuturesRequest(RawModel):
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("시장구분코드 (F: 선물)")
-    FID_COND_SCR_DIV_CODE: str = Field(
+    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("Unique key(20503)")
@@ -59,7 +68,7 @@ class DisplayBoardFuturesRequestDict(TypedDict):
 
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (F: 선물)
-        FID_COND_SCR_DIV_CODE (str): Unique key(20503)
+        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20503)
         FID_COND_MRKT_CLS_CODE (FidCondMrktClsCodeEnum): 공백: KOSPI200 MKI: 미니KOSPI200 WKM:
         KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150
     """
@@ -69,7 +78,7 @@ class DisplayBoardFuturesRequestDict(TypedDict):
         "시장구분코드 (F: 선물)",
     ]
     FID_COND_SCR_DIV_CODE: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(20503)",
     ]
     FID_COND_MRKT_CLS_CODE: Annotated[
@@ -79,103 +88,83 @@ class DisplayBoardFuturesRequestDict(TypedDict):
 
 
 class DisplayBoardFuturesOutput1(RawModel):
-    futs_shrn_iscd: str | None = Field(
-        default=None,
+    futs_shrn_iscd: str = Field(
         alias="futs_shrn_iscd",
     )
     ("선물 단축 종목코드")
-    hts_kor_isnm: str | None = Field(
-        default=None,
+    hts_kor_isnm: str = Field(
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
-    futs_prpr: Decimal | None = Field(
-        default=None,
+    futs_prpr: Decimal = Field(
         alias="futs_prpr",
     )
     ("선물 현재가")
-    futs_prdy_vrss: str | None = Field(
-        default=None,
+    futs_prdy_vrss: Decimal = Field(
         alias="futs_prdy_vrss",
     )
     ("선물 전일 대비")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
-    futs_prdy_ctrt: Decimal | None = Field(
-        default=None,
+    futs_prdy_ctrt: Decimal = Field(
         alias="futs_prdy_ctrt",
     )
     ("선물 전일 대비율")
-    hts_thpr: str | None = Field(
-        default=None,
+    hts_thpr: Decimal = Field(
         alias="hts_thpr",
     )
     ("HTS 이론가")
-    acml_vol: int | None = Field(
-        default=None,
+    acml_vol: int = Field(
         alias="acml_vol",
     )
     ("누적 거래량")
-    futs_askp: str | None = Field(
-        default=None,
+    futs_askp: Decimal = Field(
         alias="futs_askp",
     )
     ("선물 매도호가")
-    futs_bidp: str | None = Field(
-        default=None,
+    futs_bidp: str = Field(
         alias="futs_bidp",
     )
     ("선물 매수호가")
-    hts_otst_stpl_qty: int | None = Field(
-        default=None,
+    hts_otst_stpl_qty: int = Field(
         alias="hts_otst_stpl_qty",
     )
     ("HTS 미결제 약정 수량")
-    futs_hgpr: Decimal | None = Field(
-        default=None,
+    futs_hgpr: Decimal = Field(
         alias="futs_hgpr",
     )
     ("선물 최고가")
-    futs_lwpr: Decimal | None = Field(
-        default=None,
+    futs_lwpr: Decimal = Field(
         alias="futs_lwpr",
     )
     ("선물 최저가")
-    hts_rmnn_dynu: str | None = Field(
-        default=None,
+    hts_rmnn_dynu: int = Field(
         alias="hts_rmnn_dynu",
     )
     ("HTS 잔존 일수")
-    total_askp_rsqn: str | None = Field(
-        default=None,
+    total_askp_rsqn: int = Field(
         alias="total_askp_rsqn",
     )
     ("총 매도호가 잔량")
-    total_bidp_rsqn: str | None = Field(
-        default=None,
+    total_bidp_rsqn: str = Field(
         alias="total_bidp_rsqn",
     )
     ("총 매수호가 잔량")
-    futs_antc_cnpr: str | None = Field(
-        default=None,
+    futs_antc_cnpr: Decimal = Field(
         alias="futs_antc_cnpr",
     )
     ("선물예상체결가")
-    futs_antc_cntg_vrss: str | None = Field(
-        default=None,
+    futs_antc_cntg_vrss: Decimal = Field(
         alias="futs_antc_cntg_vrss",
     )
     ("선물예상체결대비")
-    antc_cntg_vrss_sign: str | None = Field(
-        default=None,
+    antc_cntg_vrss_sign: int = Field(
         alias="antc_cntg_vrss_sign",
     )
     ("예상 체결 대비 부호")
-    antc_cntg_prdy_ctrt: Decimal | None = Field(
-        default=None,
+    antc_cntg_prdy_ctrt: Decimal = Field(
         alias="antc_cntg_prdy_ctrt",
     )
     ("예상 체결 전일 대비율")
@@ -266,7 +255,7 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (F: 선물)
-                        FID_COND_SCR_DIV_CODE (str): Unique key(20503)
+                        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20503)
                         FID_COND_MRKT_CLS_CODE (FidCondMrktClsCodeEnum): 공백: KOSPI200 MKI:
                         미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150
 
@@ -285,5 +274,6 @@ __all__ = [
     "DisplayBoardFuturesRequestDict",
     "DisplayBoardFuturesResponse",
     "DisplayBoardFuturesOutput1",
+    "FidCondScrDivCodeEnum",
     "FidCondMrktClsCodeEnum",
 ]

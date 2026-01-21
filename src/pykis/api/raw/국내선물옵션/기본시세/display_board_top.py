@@ -14,11 +14,11 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -93,50 +93,61 @@ class DisplayBoardTopRequestDict(TypedDict):
 
 
 class DisplayBoardTopOutput1(RawModel):
-    unas_prpr: Decimal = Field(
+    unas_prpr: Decimal | None = Field(
+        default=None,
         alias="unas_prpr",
     )
     ("기초자산 현재가")
-    unas_prdy_vrss: str = Field(
+    unas_prdy_vrss: str | None = Field(
+        default=None,
         alias="unas_prdy_vrss",
     )
     ("기초자산 전일 대비")
-    unas_prdy_vrss_sign: str = Field(
+    unas_prdy_vrss_sign: str | None = Field(
+        default=None,
         alias="unas_prdy_vrss_sign",
     )
     ("기초자산 전일 대비 부호")
-    unas_prdy_ctrt: Decimal = Field(
+    unas_prdy_ctrt: Decimal | None = Field(
+        default=None,
         alias="unas_prdy_ctrt",
     )
     ("기초자산 전일 대비율")
-    unas_acml_vol: int = Field(
+    unas_acml_vol: int | None = Field(
+        default=None,
         alias="unas_acml_vol",
     )
     ("기초자산 누적 거래량")
-    hts_kor_isnm: str = Field(
+    hts_kor_isnm: str | None = Field(
+        default=None,
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
-    futs_prpr: Decimal = Field(
+    futs_prpr: Decimal | None = Field(
+        default=None,
         alias="futs_prpr",
     )
     ("선물 현재가")
-    futs_prdy_vrss: str = Field(
+    futs_prdy_vrss: str | None = Field(
+        default=None,
         alias="futs_prdy_vrss",
     )
     ("선물 전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: str | None = Field(
+        default=None,
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
-    futs_prdy_ctrt: Decimal = Field(
+    futs_prdy_ctrt: Decimal | None = Field(
+        default=None,
         alias="futs_prdy_ctrt",
     )
     ("선물 전일 대비율")
 
 
 class DisplayBoardTopOutput2(RawModel):
-    hts_rmnn_dynu: str = Field(
+    hts_rmnn_dynu: str | None = Field(
+        default=None,
         alias="hts_rmnn_dynu",
     )
     ("HTS 잔존 일수")

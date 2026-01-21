@@ -13,66 +13,27 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
-    KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
-class ProdIscdEnum(KisStrEnum):
-    GE = ("GE", "")
-    ZB = ("ZB", "")
-    ZF = ("ZF", "")
-    ZN = ("ZN", "")
-    ZT = ("ZT", "")
-    GC = ("GC", "")
-    PA = ("PA", "")
-    PL = ("PL", "")
-    SI = ("SI", "")
-    HG = ("HG", "")
-    CC = ("CC", "")
-    CT = ("CT", "")
-    KC = ("KC", "")
-    OJ = ("OJ", "")
-    SB = ("SB", "")
-    ZC = ("ZC", "")
-    ZL = ("ZL", "")
-    ZM = ("ZM", "")
-    ZO = ("ZO", "")
-    ZR = ("ZR", "")
-    ZS = ("ZS", "")
-    ZW = ("ZW", "")
-    CL = ("CL", "")
-    HO = ("HO", "")
-    NG = ("NG", "")
-    WBS = ("WBS", "")
-    ES = ("ES", "")
-    NQ = ("NQ", "")
-    TF = ("TF", "")
-    YM = ("YM", "")
-    VX = ("VX", "")
-    GF = ("GF", "")
-    HE = ("HE", "")
-    LE = ("LE", "")
-    VALUE_6A = ("6A", "")
-    VALUE_6B = ("6B", "")
-    VALUE_6C = ("6C", "")
-    VALUE_6E = ("6E", "")
-    VALUE_6J = ("6J", "")
-    VALUE_6N = ("6N", "")
-    VALUE_6S = ("6S", "")
-    DX = ("DX", "")
+class UpmuGubunEnum(KisStrEnum):
+    VALUE_0 = ("0", "수량")
+    "수량"
+    VALUE_1 = ("1", "증감")
+    "증감"
 
 
 class InvestorUnpdTrendRequest(RawModel):
-    PROD_ISCD: ProdIscdEnum = Field(
+    PROD_ISCD: str = Field(
         alias="PROD_ISCD",
     )
     (
@@ -84,7 +45,7 @@ class InvestorUnpdTrendRequest(RawModel):
         alias="BSOP_DATE",
     )
     ("기준일(ex)20240513)")
-    UPMU_GUBUN: int = Field(
+    UPMU_GUBUN: UpmuGubunEnum = Field(
         alias="UPMU_GUBUN",
     )
     ("0(수량), 1(증감)")
@@ -117,16 +78,16 @@ class InvestorUnpdTrendRequestDict(TypedDict):
     5. CFTC 홈페이지: http://www.cftc.gov/index.htm
 
     Request fields:
-        PROD_ISCD (ProdIscdEnum): 금리 (GE, ZB, ZF,ZN,ZT), 금속(GC, PA, PL,SI, HG), 농산물(CC,
-        CT,KC, OJ, SB, ZC,ZL, ZM, ZO, ZR, ZS, ZW), 에너지(CL, HO, NG, WBS), 지수(ES, NQ, TF, YM,
-        VX), 축산물(GF, HE, LE), 통화(6A, 6B, 6C, 6E, 6J, 6N, 6S, DX)
+        PROD_ISCD (str): 금리 (GE, ZB, ZF,ZN,ZT), 금속(GC, PA, PL,SI, HG), 농산물(CC, CT,KC, OJ, SB,
+        ZC,ZL, ZM, ZO, ZR, ZS, ZW), 에너지(CL, HO, NG, WBS), 지수(ES, NQ, TF, YM, VX), 축산물(GF,
+        HE, LE), 통화(6A, 6B, 6C, 6E, 6J, 6N, 6S, DX)
         BSOP_DATE (KisDate): 기준일(ex)20240513)
-        UPMU_GUBUN (int): 0(수량), 1(증감)
+        UPMU_GUBUN (UpmuGubunEnum): 0(수량), 1(증감)
         CTS_KEY (str): 공백
     """
 
     PROD_ISCD: Annotated[
-        ProdIscdEnum,
+        str,
         "금리 (GE, ZB, ZF,ZN,ZT), 금속(GC, PA, PL,SI, HG), 농산물(CC, CT,KC, OJ, SB, ZC,ZL, ZM, ZO, ZR, "
         "ZS, ZW), 에너지(CL, HO, NG, WBS), 지수(ES, NQ, TF, YM, VX), 축산물(GF, HE, LE), 통화(6A, 6B, 6C, "
         "6E, 6J, 6N, 6S, DX)",
@@ -136,7 +97,7 @@ class InvestorUnpdTrendRequestDict(TypedDict):
         "기준일(ex)20240513)",
     ]
     UPMU_GUBUN: Annotated[
-        int,
+        UpmuGubunEnum,
         "0(수량), 1(증감)",
     ]
     CTS_KEY: Annotated[
@@ -146,96 +107,78 @@ class InvestorUnpdTrendRequestDict(TypedDict):
 
 
 class InvestorUnpdTrendOutput1(RawModel):
-    row_cnt: str | None = Field(
-        default=None,
+    row_cnt: str = Field(
         alias="row_cnt",
     )
     ("응답레코드카운트")
 
 
 class InvestorUnpdTrendOutput2(RawModel):
-    prod_iscd: str | None = Field(
-        default=None,
+    prod_iscd: str = Field(
         alias="prod_iscd",
     )
     ("상품")
-    cftc_iscd: str | None = Field(
-        default=None,
+    cftc_iscd: str = Field(
         alias="cftc_iscd",
     )
     ("CFTC코드")
-    bsop_date: KisDateOptional = Field(
-        default=None,
+    bsop_date: KisDate = Field(
         alias="bsop_date",
     )
     ("일자")
-    bidp_spec: str | None = Field(
-        default=None,
+    bidp_spec: str = Field(
         alias="bidp_spec",
     )
     ("매수투기")
-    askp_spec: str | None = Field(
-        default=None,
+    askp_spec: int = Field(
         alias="askp_spec",
     )
     ("매도투기")
-    spread_spec: str | None = Field(
-        default=None,
+    spread_spec: int = Field(
         alias="spread_spec",
     )
     ("스프레드투기")
-    bidp_hedge: str | None = Field(
-        default=None,
+    bidp_hedge: str = Field(
         alias="bidp_hedge",
     )
     ("매수헤지")
-    askp_hedge: str | None = Field(
-        default=None,
+    askp_hedge: int = Field(
         alias="askp_hedge",
     )
     ("매도헤지")
-    hts_otst_smtn: str | None = Field(
-        default=None,
+    hts_otst_smtn: int = Field(
         alias="hts_otst_smtn",
     )
     ("미결제합계")
-    bidp_missing: str | None = Field(
-        default=None,
+    bidp_missing: str = Field(
         alias="bidp_missing",
     )
     ("매수누락")
-    askp_missing: str | None = Field(
-        default=None,
+    askp_missing: int = Field(
         alias="askp_missing",
     )
     ("매도누락")
-    bidp_spec_cust: str | None = Field(
-        default=None,
+    bidp_spec_cust: str = Field(
         alias="bidp_spec_cust",
     )
     ("매수투기고객")
-    askp_spec_cust: str | None = Field(
-        default=None,
+    askp_spec_cust: int = Field(
         alias="askp_spec_cust",
     )
     ("매도투기고객")
-    spread_spec_cust: str | None = Field(
-        default=None,
+    spread_spec_cust: int = Field(
         alias="spread_spec_cust",
     )
     ("스프레드투기고객")
-    bidp_hedge_cust: str | None = Field(
-        default=None,
+    bidp_hedge_cust: str = Field(
         alias="bidp_hedge_cust",
     )
     ("매수헤지고객")
-    askp_hedge_cust: str | None = Field(
-        default=None,
+    askp_hedge_cust: int = Field(
         alias="askp_hedge_cust",
     )
     ("매도헤지고객")
-    cust_smtn: str | None = Field(
-        default=None,
+    cust_smtn: int = Field(
         alias="cust_smtn",
     )
     ("고객합계")
@@ -363,12 +306,11 @@ if TYPE_CHECKING:
                 **kwargs (InvestorUnpdTrendRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        PROD_ISCD (ProdIscdEnum): 금리 (GE, ZB, ZF,ZN,ZT), 금속(GC, PA, PL,SI, HG),
-                        농산물(CC, CT,KC, OJ, SB, ZC,ZL, ZM, ZO, ZR, ZS, ZW), 에너지(CL, HO, NG, WBS),
-                        지수(ES, NQ, TF, YM, VX), 축산물(GF, HE, LE), 통화(6A, 6B, 6C, 6E, 6J, 6N, 6S,
-                        DX)
+                        PROD_ISCD (str): 금리 (GE, ZB, ZF,ZN,ZT), 금속(GC, PA, PL,SI, HG), 농산물(CC,
+                        CT,KC, OJ, SB, ZC,ZL, ZM, ZO, ZR, ZS, ZW), 에너지(CL, HO, NG, WBS), 지수(ES,
+                        NQ, TF, YM, VX), 축산물(GF, HE, LE), 통화(6A, 6B, 6C, 6E, 6J, 6N, 6S, DX)
                         BSOP_DATE (KisDate): 기준일(ex)20240513)
-                        UPMU_GUBUN (int): 0(수량), 1(증감)
+                        UPMU_GUBUN (UpmuGubunEnum): 0(수량), 1(증감)
                         CTS_KEY (str): 공백
 
             Returns:
@@ -387,5 +329,5 @@ __all__ = [
     "InvestorUnpdTrendResponse",
     "InvestorUnpdTrendOutput1",
     "InvestorUnpdTrendOutput2",
-    "ProdIscdEnum",
+    "UpmuGubunEnum",
 ]

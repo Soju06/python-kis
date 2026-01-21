@@ -14,16 +14,30 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class InqrDvsn2Enum(KisStrEnum):
@@ -80,11 +94,11 @@ class OrdDvsnCdEnum(KisStrEnum):
 
 
 class InquirePsblRvsecnclRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -116,8 +130,8 @@ class InquirePsblRvsecnclRequestDict(TypedDict):
     [국내주식-004 v1] 주식정정취소가능주문조회
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         CTX_AREA_FK100 (str): '공란 : 최초 조회시는 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지
         조회시(2번째부터)'
         CTX_AREA_NK100 (str): '공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지
@@ -127,11 +141,11 @@ class InquirePsblRvsecnclRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     CTX_AREA_FK100: Annotated[
@@ -341,8 +355,8 @@ if TYPE_CHECKING:
                 **kwargs (InquirePsblRvsecnclRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         CTX_AREA_FK100 (str): '공란 : 최초 조회시는 이전 조회 Output CTX_AREA_FK100 값
                         : 다음페이지 조회시(2번째부터)'
                         CTX_AREA_NK100 (str): '공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 :
@@ -365,6 +379,8 @@ __all__ = [
     "InquirePsblRvsecnclRequestDict",
     "InquirePsblRvsecnclResponse",
     "InquirePsblRvsecnclOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "InqrDvsn2Enum",
     "SllBuyDvsnCdEnum",
     "OrdDvsnCdEnum",

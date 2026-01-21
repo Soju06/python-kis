@@ -14,15 +14,29 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class FuopDvsnEnum(KisStrEnum):
@@ -35,11 +49,11 @@ class FuopDvsnEnum(KisStrEnum):
 
 
 class InquireUnpdRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -63,19 +77,19 @@ class InquireUnpdRequestDict(TypedDict):
     해외선물옵션 미결제내역조회(잔고) [v1_해외선물-005]
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         FUOP_DVSN (FuopDvsnEnum): 00: 전체 / 01:선물 / 02: 옵션
         CTX_AREA_FK100 (str): 연속조회검색조건100
         CTX_AREA_NK100 (str): 연속조회키100
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     FUOP_DVSN: Annotated[
@@ -249,8 +263,8 @@ if TYPE_CHECKING:
                 **kwargs (InquireUnpdRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         FUOP_DVSN (FuopDvsnEnum): 00: 전체 / 01:선물 / 02: 옵션
                         CTX_AREA_FK100 (str): 연속조회검색조건100
                         CTX_AREA_NK100 (str): 연속조회키100
@@ -270,5 +284,7 @@ __all__ = [
     "InquireUnpdRequestDict",
     "InquireUnpdResponse",
     "InquireUnpdOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "FuopDvsnEnum",
 ]

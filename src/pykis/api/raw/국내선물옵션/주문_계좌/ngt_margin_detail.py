@@ -14,14 +14,22 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class MgnaDvsnCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "유지(")
+    "유지("
+    VALUE_02 = ("02", "유지")
+    "유지"
 
 
 class NgtMarginDetailRequest(RawModel):
@@ -33,7 +41,7 @@ class NgtMarginDetailRequest(RawModel):
         alias="ACNT_PRDT_CD",
     )
     ("계좌상품코드")
-    MGNA_DVSN_CD: str = Field(
+    MGNA_DVSN_CD: MgnaDvsnCdEnum = Field(
         alias="MGNA_DVSN_CD",
     )
     ("위탁(01), 유지(02)")
@@ -48,7 +56,7 @@ class NgtMarginDetailRequestDict(TypedDict):
     Request fields:
         CANO (str): 종합계좌번호
         ACNT_PRDT_CD (str): 계좌상품코드
-        MGNA_DVSN_CD (str): 위탁(01), 유지(02)
+        MGNA_DVSN_CD (MgnaDvsnCdEnum): 위탁(01), 유지(02)
     """
 
     CANO: Annotated[
@@ -60,7 +68,7 @@ class NgtMarginDetailRequestDict(TypedDict):
         "계좌상품코드",
     ]
     MGNA_DVSN_CD: Annotated[
-        str,
+        MgnaDvsnCdEnum,
         "위탁(01), 유지(02)",
     ]
 
@@ -509,7 +517,7 @@ if TYPE_CHECKING:
                     Request fields:
                         CANO (str): 종합계좌번호
                         ACNT_PRDT_CD (str): 계좌상품코드
-                        MGNA_DVSN_CD (str): 위탁(01), 유지(02)
+                        MGNA_DVSN_CD (MgnaDvsnCdEnum): 위탁(01), 유지(02)
 
             Returns:
                 tuple[NgtMarginDetailResponse, KisResponse]: 응답 모델과 원시 응답
@@ -531,4 +539,5 @@ __all__ = [
     "NgtMarginDetailOutput1_2",
     "NgtMarginDetailOutput2_2",
     "NgtMarginDetailOutput3_2",
+    "MgnaDvsnCdEnum",
 ]

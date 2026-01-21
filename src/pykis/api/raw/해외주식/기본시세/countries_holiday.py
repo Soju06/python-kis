@@ -13,13 +13,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -71,7 +70,7 @@ class TrNatnCdEnum(KisStrEnum):
 
 
 class CountriesHolidayRequest(RawModel):
-    TRAD_DT: KisDate = Field(
+    TRAD_DT: str = Field(
         alias="TRAD_DT",
     )
     ("기준일자(YYYYMMDD)")
@@ -90,13 +89,13 @@ class CountriesHolidayRequestDict(TypedDict):
     해외결제일자조회 API입니다.
 
     Request fields:
-        TRAD_DT (KisDate): 기준일자(YYYYMMDD)
+        TRAD_DT (str): 기준일자(YYYYMMDD)
         CTX_AREA_NK (str): 공백으로 입력
         CTX_AREA_FK (str): 공백으로 입력
     """
 
     TRAD_DT: Annotated[
-        KisDate,
+        str,
         "기준일자(YYYYMMDD)",
     ]
     CTX_AREA_NK: Annotated[
@@ -137,11 +136,11 @@ class CountriesHolidayOutput(RawModel):
         alias="tr_mket_name",
     )
     ("거래시장명")
-    acpl_sttl_dt: KisDate = Field(
+    acpl_sttl_dt: str = Field(
         alias="acpl_sttl_dt",
     )
     ("현지결제일자(YYYYMMDD)")
-    dmst_sttl_dt: KisDate = Field(
+    dmst_sttl_dt: str = Field(
         alias="dmst_sttl_dt",
     )
     ("국내결제일자(YYYYMMDD)")
@@ -225,7 +224,7 @@ if TYPE_CHECKING:
                 **kwargs (CountriesHolidayRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        TRAD_DT (KisDate): 기준일자(YYYYMMDD)
+                        TRAD_DT (str): 기준일자(YYYYMMDD)
                         CTX_AREA_NK (str): 공백으로 입력
                         CTX_AREA_FK (str): 공백으로 입력
 

@@ -14,16 +14,48 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidCondMrktDivCodeEnum(KisStrEnum):
+    W = ("W", "ELW")
+    "ELW"
+    ELW = ("ELW", "W")
+    "W"
+
+
+class FidRankSortClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "종목코드(")
+    "종목코드("
+    VALUE_1 = ("1", "현재가(")
+    "현재가("
+    VALUE_2 = ("2", "대비율(")
+    "대비율("
+    VALUE_3 = ("3", "거래량(")
+    "거래량("
+    VALUE_4 = ("4", "행사가격(")
+    "행사가격("
+    VALUE_6 = ("6", "상장일(")
+    "상장일("
+    VALUE_7 = ("7", "만기일(")
+    "만기일("
+    VALUE_8 = ("8", "잔존일수(")
+    "잔존일수("
+    VALUE_9 = ("9", "레버리지(")
+    "레버리지("
+    VALUE_10 = ("10", "'")
+    "'"
+    VALUE_5 = ("5", "행사가격")
+    "행사가격"
 
 
 class FidTrgtClsCodeEnum(KisStrEnum):
@@ -55,6 +87,22 @@ class FidTrgtClsCodeEnum(KisStrEnum):
     "레버리지"
 
 
+class FidMrktClsCodeEnum(KisStrEnum):
+    A = ("A", "콜(")
+    "콜("
+    CO = ("CO", "풋(")
+    "풋("
+    PO = ("PO", "풋")
+    "풋"
+
+
+class FidEtcClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", ">=(")
+    ">=("
+    VALUE_1 = ("1", ">=")
+    ">="
+
+
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
     "전체"
@@ -65,7 +113,7 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class CondSearchRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("ELW(W)")
@@ -73,7 +121,7 @@ class CondSearchRequest(RawModel):
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("화면번호(11510)")
-    FID_RANK_SORT_CLS_CODE: str = Field(
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
         alias="FID_RANK_SORT_CLS_CODE",
     )
     (
@@ -116,15 +164,15 @@ class CondSearchRequest(RawModel):
         alias="FID_UNAS_INPUT_ISCD",
     )
     ("기초자산입력종목코드")
-    FID_MRKT_CLS_CODE: str = Field(
+    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(
         alias="FID_MRKT_CLS_CODE",
     )
     ("권리유형전체(A)콜(CO)풋(PO)")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("상장일전체(0)금일(1)7일이하(2)8~30일(3)31~90일(4)")
-    FID_INPUT_DATE_2: KisDate = Field(
+    FID_INPUT_DATE_2: str = Field(
         alias="FID_INPUT_DATE_2",
     )
     ("만기일전체(0)1개월(1)1~2(2)2~3(3)3~6(4)6~9(5)9~12(6)12이상(7)")
@@ -132,7 +180,7 @@ class CondSearchRequest(RawModel):
         alias="FID_INPUT_ISCD_2",
     )
     ("입력종목코드2")
-    FID_ETC_CLS_CODE: str = Field(
+    FID_ETC_CLS_CODE: FidEtcClsCodeEnum = Field(
         alias="FID_ETC_CLS_CODE",
     )
     ("행사가전체(0)>=(1)")
@@ -160,11 +208,11 @@ class CondSearchRequest(RawModel):
         alias="FID_RSFL_RATE2",
     )
     ("전일대비율이하")
-    FID_VOL1: str = Field(
+    FID_VOL1: int = Field(
         alias="FID_VOL1",
     )
     ("거래량이상")
-    FID_VOL2: str = Field(
+    FID_VOL2: int = Field(
         alias="FID_VOL2",
     )
     ("거래량이하")
@@ -184,11 +232,11 @@ class CondSearchRequest(RawModel):
         alias="FID_LVRG_VAL2",
     )
     ("레버리지값2")
-    FID_VOL3: str = Field(
+    FID_VOL3: int = Field(
         alias="FID_VOL3",
     )
     ("LP종료일from")
-    FID_VOL4: str = Field(
+    FID_VOL4: int = Field(
         alias="FID_VOL4",
     )
     ("LP종료일to")
@@ -310,9 +358,9 @@ class CondSearchRequestDict(TypedDict):
     한 번의 호출에 최대 100건까지 확인 가능합니다.
 
     Request fields:
-        FID_COND_MRKT_DIV_CODE (str): ELW(W)
+        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): ELW(W)
         FID_COND_SCR_DIV_CODE (str): 화면번호(11510)
-        FID_RANK_SORT_CLS_CODE (str):
+        FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum):
         '정렬1정렬안함(0)종목코드(1)현재가(2)대비율(3)거래량(4)행사가격(5)
         전환비율(6)상장일(7)만기일(8)잔존일수(9)레버리지(10)'
         FID_INPUT_CNT_1 (str): 정렬1기준 - 상위(1)하위(2)
@@ -326,25 +374,25 @@ class CondSearchRequestDict(TypedDict):
         이하, 8:현재가, 9:전일대비율, 10:거래량, 11:최종거래일, 12:레버리지
         FID_INPUT_ISCD (str): 발행사종목코드전체(00000)
         FID_UNAS_INPUT_ISCD (str): 기초자산입력종목코드
-        FID_MRKT_CLS_CODE (str): 권리유형전체(A)콜(CO)풋(PO)
-        FID_INPUT_DATE_1 (KisDate): 상장일전체(0)금일(1)7일이하(2)8~30일(3)31~90일(4)
-        FID_INPUT_DATE_2 (KisDate): 만기일전체(0)1개월(1)1~2(2)2~3(3)3~6(4)6~9(5)9~12(6)12이상(7)
+        FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): 권리유형전체(A)콜(CO)풋(PO)
+        FID_INPUT_DATE_1 (str): 상장일전체(0)금일(1)7일이하(2)8~30일(3)31~90일(4)
+        FID_INPUT_DATE_2 (str): 만기일전체(0)1개월(1)1~2(2)2~3(3)3~6(4)6~9(5)9~12(6)12이상(7)
         FID_INPUT_ISCD_2 (str): 입력종목코드2
-        FID_ETC_CLS_CODE (str): 행사가전체(0)>=(1)
+        FID_ETC_CLS_CODE (FidEtcClsCodeEnum): 행사가전체(0)>=(1)
         FID_INPUT_RMNN_DYNU_1 (str): 잔존일이상
         FID_INPUT_RMNN_DYNU_2 (str): 잔존일이하
         FID_PRPR_CNT1 (str): 현재가이상
         FID_PRPR_CNT2 (str): 현재가이하
         FID_RSFL_RATE1 (str): 전일대비율이상
         FID_RSFL_RATE2 (str): 전일대비율이하
-        FID_VOL1 (str): 거래량이상
-        FID_VOL2 (str): 거래량이하
+        FID_VOL1 (int): 거래량이상
+        FID_VOL2 (int): 거래량이하
         FID_APLY_RANG_PRC_1 (str): 최종거래일from
         FID_APLY_RANG_PRC_2 (str): 최종거래일to
         FID_LVRG_VAL1 (str): 레버리지값1
         FID_LVRG_VAL2 (str): 레버리지값2
-        FID_VOL3 (str): LP종료일from
-        FID_VOL4 (str): LP종료일to
+        FID_VOL3 (int): LP종료일from
+        FID_VOL4 (int): LP종료일to
         FID_INTS_VLTL1 (str): 내재변동성이상
         FID_INTS_VLTL2 (str): 내재변동성이하
         FID_PRMM_VAL1 (str): 프리미엄이상
@@ -375,7 +423,7 @@ class CondSearchRequestDict(TypedDict):
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
+        FidCondMrktDivCodeEnum,
         "ELW(W)",
     ]
     FID_COND_SCR_DIV_CODE: Annotated[
@@ -383,7 +431,7 @@ class CondSearchRequestDict(TypedDict):
         "화면번호(11510)",
     ]
     FID_RANK_SORT_CLS_CODE: Annotated[
-        str,
+        FidRankSortClsCodeEnum,
         "'정렬1정렬안함(0)종목코드(1)현재가(2)대비율(3)거래량(4)행사가격(5) "
         "전환비율(6)상장일(7)만기일(8)잔존일수(9)레버리지(10)'",
     ]
@@ -422,15 +470,15 @@ class CondSearchRequestDict(TypedDict):
         "기초자산입력종목코드",
     ]
     FID_MRKT_CLS_CODE: Annotated[
-        str,
+        FidMrktClsCodeEnum,
         "권리유형전체(A)콜(CO)풋(PO)",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "상장일전체(0)금일(1)7일이하(2)8~30일(3)31~90일(4)",
     ]
     FID_INPUT_DATE_2: Annotated[
-        KisDate,
+        str,
         "만기일전체(0)1개월(1)1~2(2)2~3(3)3~6(4)6~9(5)9~12(6)12이상(7)",
     ]
     FID_INPUT_ISCD_2: Annotated[
@@ -438,7 +486,7 @@ class CondSearchRequestDict(TypedDict):
         "입력종목코드2",
     ]
     FID_ETC_CLS_CODE: Annotated[
-        str,
+        FidEtcClsCodeEnum,
         "행사가전체(0)>=(1)",
     ]
     FID_INPUT_RMNN_DYNU_1: Annotated[
@@ -466,11 +514,11 @@ class CondSearchRequestDict(TypedDict):
         "전일대비율이하",
     ]
     FID_VOL1: Annotated[
-        str,
+        int,
         "거래량이상",
     ]
     FID_VOL2: Annotated[
-        str,
+        int,
         "거래량이하",
     ]
     FID_APLY_RANG_PRC_1: Annotated[
@@ -490,11 +538,11 @@ class CondSearchRequestDict(TypedDict):
         "레버리지값2",
     ]
     FID_VOL3: Annotated[
-        str,
+        int,
         "LP종료일from",
     ]
     FID_VOL4: Annotated[
-        str,
+        int,
         "LP종료일to",
     ]
     FID_INTS_VLTL1: Annotated[
@@ -624,11 +672,11 @@ class CondSearchOutput1(RawModel):
         alias="elw_prpr",
     )
     ("ELW현재가")
-    prdy_vrss: str = Field(
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
@@ -640,7 +688,7 @@ class CondSearchOutput1(RawModel):
         alias="acml_vol",
     )
     ("누적거래량")
-    acpr: str = Field(
+    acpr: Decimal = Field(
         alias="acpr",
     )
     ("행사가")
@@ -656,7 +704,7 @@ class CondSearchOutput1(RawModel):
         alias="stck_last_tr_date",
     )
     ("주식최종거래일자")
-    hts_rmnn_dynu: str = Field(
+    hts_rmnn_dynu: int = Field(
         alias="hts_rmnn_dynu",
     )
     ("HTS잔존일수")
@@ -668,11 +716,11 @@ class CondSearchOutput1(RawModel):
         alias="unas_prpr",
     )
     ("기초자산현재가")
-    unas_prdy_vrss: str = Field(
+    unas_prdy_vrss: Decimal = Field(
         alias="unas_prdy_vrss",
     )
     ("기초자산전일대비")
-    unas_prdy_vrss_sign: str = Field(
+    unas_prdy_vrss_sign: int = Field(
         alias="unas_prdy_vrss_sign",
     )
     ("기초자산전일대비부호")
@@ -684,7 +732,7 @@ class CondSearchOutput1(RawModel):
         alias="unas_acml_vol",
     )
     ("기초자산누적거래량")
-    moneyness: str = Field(
+    moneyness: Decimal = Field(
         alias="moneyness",
     )
     ("MONEYNESS")
@@ -692,27 +740,27 @@ class CondSearchOutput1(RawModel):
         alias="atm_cls_name",
     )
     ("ATM구분명")
-    prit: str = Field(
+    prit: Decimal = Field(
         alias="prit",
     )
     ("패리티")
-    delta_val: str = Field(
+    delta_val: Decimal = Field(
         alias="delta_val",
     )
     ("델타값")
-    hts_ints_vltl: str = Field(
+    hts_ints_vltl: Decimal = Field(
         alias="hts_ints_vltl",
     )
     ("HTS내재변동성")
-    tmvl_val: str = Field(
+    tmvl_val: Decimal = Field(
         alias="tmvl_val",
     )
     ("시간가치값")
-    gear: str = Field(
+    gear: Decimal = Field(
         alias="gear",
     )
     ("기어링")
-    lvrg_val: str = Field(
+    lvrg_val: Decimal = Field(
         alias="lvrg_val",
     )
     ("레버리지값")
@@ -720,11 +768,11 @@ class CondSearchOutput1(RawModel):
         alias="prls_qryr_rate",
     )
     ("손익분기비율")
-    cfp: str = Field(
+    cfp: Decimal = Field(
         alias="cfp",
     )
     ("자본지지점")
-    lstn_stcn: str = Field(
+    lstn_stcn: int = Field(
         alias="lstn_stcn",
     )
     ("상장주수")
@@ -760,7 +808,7 @@ class CondSearchOutput1(RawModel):
         alias="mtrt_date",
     )
     ("만기일자")
-    prmm_val: str = Field(
+    prmm_val: Decimal = Field(
         alias="prmm_val",
     )
     ("프리미엄값")
@@ -768,7 +816,7 @@ class CondSearchOutput1(RawModel):
         alias="stck_lp_fin_date",
     )
     ("주식LP종료일자")
-    tick_conv_prc: str = Field(
+    tick_conv_prc: Decimal = Field(
         alias="tick_conv_prc",
     )
     ("틱환산가")
@@ -776,7 +824,7 @@ class CondSearchOutput1(RawModel):
         alias="prls_qryr_stpr_prc",
     )
     ("손익분기주가가격")
-    lp_hvol: str = Field(
+    lp_hvol: int = Field(
         alias="lp_hvol",
     )
     ("LP보유량")
@@ -868,9 +916,9 @@ if TYPE_CHECKING:
                 **kwargs (CondSearchRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_COND_MRKT_DIV_CODE (str): ELW(W)
+                        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): ELW(W)
                         FID_COND_SCR_DIV_CODE (str): 화면번호(11510)
-                        FID_RANK_SORT_CLS_CODE (str):
+                        FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum):
                         '정렬1정렬안함(0)종목코드(1)현재가(2)대비율(3)거래량(4)행사가격(5)
                         전환비율(6)상장일(7)만기일(8)잔존일수(9)레버리지(10)'
                         FID_INPUT_CNT_1 (str): 정렬1기준 - 상위(1)하위(2)
@@ -886,26 +934,26 @@ if TYPE_CHECKING:
                         12:레버리지
                         FID_INPUT_ISCD (str): 발행사종목코드전체(00000)
                         FID_UNAS_INPUT_ISCD (str): 기초자산입력종목코드
-                        FID_MRKT_CLS_CODE (str): 권리유형전체(A)콜(CO)풋(PO)
-                        FID_INPUT_DATE_1 (KisDate): 상장일전체(0)금일(1)7일이하(2)8~30일(3)31~90일(4)
-                        FID_INPUT_DATE_2 (KisDate):
+                        FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): 권리유형전체(A)콜(CO)풋(PO)
+                        FID_INPUT_DATE_1 (str): 상장일전체(0)금일(1)7일이하(2)8~30일(3)31~90일(4)
+                        FID_INPUT_DATE_2 (str):
                         만기일전체(0)1개월(1)1~2(2)2~3(3)3~6(4)6~9(5)9~12(6)12이상(7)
                         FID_INPUT_ISCD_2 (str): 입력종목코드2
-                        FID_ETC_CLS_CODE (str): 행사가전체(0)>=(1)
+                        FID_ETC_CLS_CODE (FidEtcClsCodeEnum): 행사가전체(0)>=(1)
                         FID_INPUT_RMNN_DYNU_1 (str): 잔존일이상
                         FID_INPUT_RMNN_DYNU_2 (str): 잔존일이하
                         FID_PRPR_CNT1 (str): 현재가이상
                         FID_PRPR_CNT2 (str): 현재가이하
                         FID_RSFL_RATE1 (str): 전일대비율이상
                         FID_RSFL_RATE2 (str): 전일대비율이하
-                        FID_VOL1 (str): 거래량이상
-                        FID_VOL2 (str): 거래량이하
+                        FID_VOL1 (int): 거래량이상
+                        FID_VOL2 (int): 거래량이하
                         FID_APLY_RANG_PRC_1 (str): 최종거래일from
                         FID_APLY_RANG_PRC_2 (str): 최종거래일to
                         FID_LVRG_VAL1 (str): 레버리지값1
                         FID_LVRG_VAL2 (str): 레버리지값2
-                        FID_VOL3 (str): LP종료일from
-                        FID_VOL4 (str): LP종료일to
+                        FID_VOL3 (int): LP종료일from
+                        FID_VOL4 (int): LP종료일to
                         FID_INTS_VLTL1 (str): 내재변동성이상
                         FID_INTS_VLTL2 (str): 내재변동성이하
                         FID_PRMM_VAL1 (str): 프리미엄이상
@@ -949,6 +997,10 @@ __all__ = [
     "CondSearchRequestDict",
     "CondSearchResponse",
     "CondSearchOutput1",
+    "FidCondMrktDivCodeEnum",
+    "FidRankSortClsCodeEnum",
     "FidTrgtClsCodeEnum",
+    "FidMrktClsCodeEnum",
+    "FidEtcClsCodeEnum",
     "FidDivClsCodeEnum",
 ]

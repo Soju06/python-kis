@@ -14,16 +14,27 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidDivClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "매수(")
+    "매수("
+    VALUE_1 = ("1", "중립(")
+    "중립("
+    VALUE_2 = ("2", "매도(")
+    "매도("
+    VALUE_3 = ("3", "매도")
+    "매도"
 
 
 class InvestOpbysecRequest(RawModel):
@@ -39,15 +50,15 @@ class InvestOpbysecRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)")
-    FID_DIV_CLS_CODE: str = Field(
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
         alias="FID_DIV_CLS_CODE",
     )
     ("전체(0) 매수(1) 중립(2) 매도(3)")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("이후 ~")
-    FID_INPUT_DATE_2: KisDate = Field(
+    FID_INPUT_DATE_2: str = Field(
         alias="FID_INPUT_DATE_2",
     )
     ("~ 이전")
@@ -67,9 +78,9 @@ class InvestOpbysecRequestDict(TypedDict):
         FID_COND_SCR_DIV_CODE (str): 16634(Primary key)
         FID_INPUT_ISCD (str): 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보
         다운로드(국내) 참조)
-        FID_DIV_CLS_CODE (str): 전체(0) 매수(1) 중립(2) 매도(3)
-        FID_INPUT_DATE_1 (KisDate): 이후 ~
-        FID_INPUT_DATE_2 (KisDate): ~ 이전
+        FID_DIV_CLS_CODE (FidDivClsCodeEnum): 전체(0) 매수(1) 중립(2) 매도(3)
+        FID_INPUT_DATE_1 (str): 이후 ~
+        FID_INPUT_DATE_2 (str): ~ 이전
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -85,15 +96,15 @@ class InvestOpbysecRequestDict(TypedDict):
         "회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)",
     ]
     FID_DIV_CLS_CODE: Annotated[
-        str,
+        FidDivClsCodeEnum,
         "전체(0) 매수(1) 중립(2) 매도(3)",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "이후 ~",
     ]
     FID_INPUT_DATE_2: Annotated[
-        KisDate,
+        str,
         "~ 이전",
     ]
 
@@ -275,9 +286,9 @@ if TYPE_CHECKING:
                         FID_COND_SCR_DIV_CODE (str): 16634(Primary key)
                         FID_INPUT_ISCD (str): 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ ->
                         종목정보 다운로드(국내) 참조)
-                        FID_DIV_CLS_CODE (str): 전체(0) 매수(1) 중립(2) 매도(3)
-                        FID_INPUT_DATE_1 (KisDate): 이후 ~
-                        FID_INPUT_DATE_2 (KisDate): ~ 이전
+                        FID_DIV_CLS_CODE (FidDivClsCodeEnum): 전체(0) 매수(1) 중립(2) 매도(3)
+                        FID_INPUT_DATE_1 (str): 이후 ~
+                        FID_INPUT_DATE_2 (str): ~ 이전
 
             Returns:
                 tuple[InvestOpbysecResponse, KisResponse]: 응답 모델과 원시 응답
@@ -294,4 +305,5 @@ __all__ = [
     "InvestOpbysecRequestDict",
     "InvestOpbysecResponse",
     "InvestOpbysecOutput",
+    "FidDivClsCodeEnum",
 ]

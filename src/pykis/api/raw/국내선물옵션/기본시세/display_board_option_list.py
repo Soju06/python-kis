@@ -13,18 +13,28 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(509)")
+    "key(509)"
+    VALUE_509 = ("509", "Unique key")
+    "Unique key"
+    KEY = ("key", "509")
+    "509"
+
+
 class DisplayBoardOptionListRequest(RawModel):
-    FID_COND_SCR_DIV_CODE: str = Field(
+    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("Unique key(509)")
@@ -45,13 +55,13 @@ class DisplayBoardOptionListRequestDict(TypedDict):
     API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
 
     Request fields:
-        FID_COND_SCR_DIV_CODE (str): Unique key(509)
+        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(509)
         FID_COND_MRKT_DIV_CODE (str): 공백
         FID_COND_MRKT_CLS_CODE (str): 공백
     """
 
     FID_COND_SCR_DIV_CODE: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(509)",
     ]
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -65,13 +75,11 @@ class DisplayBoardOptionListRequestDict(TypedDict):
 
 
 class DisplayBoardOptionListOutput1(RawModel):
-    mtrt_yymm_code: str | None = Field(
-        default=None,
+    mtrt_yymm_code: str = Field(
         alias="mtrt_yymm_code",
     )
     ("만기 년월 코드")
-    mtrt_yymm: str | None = Field(
-        default=None,
+    mtrt_yymm: str = Field(
         alias="mtrt_yymm",
     )
     ("만기 년월")
@@ -161,7 +169,7 @@ if TYPE_CHECKING:
                 **kwargs (DisplayBoardOptionListRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_COND_SCR_DIV_CODE (str): Unique key(509)
+                        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(509)
                         FID_COND_MRKT_DIV_CODE (str): 공백
                         FID_COND_MRKT_CLS_CODE (str): 공백
 
@@ -180,4 +188,5 @@ __all__ = [
     "DisplayBoardOptionListRequestDict",
     "DisplayBoardOptionListResponse",
     "DisplayBoardOptionListOutput1",
+    "FidCondScrDivCodeEnum",
 ]

@@ -14,13 +14,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -66,11 +66,11 @@ class InquireDailyFuopchartpriceRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("종목번호 (지수선물:6자리, 지수옵션 9자리)")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("조회 시작일자 (ex. 20220401)")
-    FID_INPUT_DATE_2: KisDate = Field(
+    FID_INPUT_DATE_2: str = Field(
         alias="FID_INPUT_DATE_2",
     )
     (
@@ -99,9 +99,9 @@ class InquireDailyFuopchartpriceRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): F: 지수선물, O:지수옵션 JF: 주식선물,
         JO:주식옵션, CF: 상품선물(금), 금리선물(국채), 통화선물(달러) CM: 야간선물, EU: 야간옵션
         FID_INPUT_ISCD (str): 종목번호 (지수선물:6자리, 지수옵션 9자리)
-        FID_INPUT_DATE_1 (KisDate): 조회 시작일자 (ex. 20220401)
-        FID_INPUT_DATE_2 (KisDate): 조회 종료일자 (ex. 20220524) ※ 주(W), 월(M), 년(Y) 봉 조회 시에
-        아래 참고 ㅁ FID_INPUT_DATE_2 가 현재일 까지일때 . 주봉 조회 : 해당 주의 첫번째 영업일이
+        FID_INPUT_DATE_1 (str): 조회 시작일자 (ex. 20220401)
+        FID_INPUT_DATE_2 (str): 조회 종료일자 (ex. 20220524) ※ 주(W), 월(M), 년(Y) 봉 조회 시에 아래
+        참고 ㅁ FID_INPUT_DATE_2 가 현재일 까지일때 . 주봉 조회 : 해당 주의 첫번째 영업일이
         포함되어야함 . 월봉 조회 : 해당 월의 전월 일자로 시작되어야함 . 년봉 조회 : 해당 년의 전년도
         일자로 시작되어야함 ㅁ FID_INPUT_DATE_2 가 현재일보다 이전일 때 . 주봉 조회 : 해당 주의
         첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 영업일이 포함되어야함 . 년봉 조회 :
@@ -119,11 +119,11 @@ class InquireDailyFuopchartpriceRequestDict(TypedDict):
         "종목번호 (지수선물:6자리, 지수옵션 9자리)",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "조회 시작일자 (ex. 20220401)",
     ]
     FID_INPUT_DATE_2: Annotated[
-        KisDate,
+        str,
         "조회 종료일자 (ex. 20220524) ※ 주(W), 월(M), 년(Y) 봉 조회 시에 아래 참고 ㅁ FID_INPUT_DATE_2 가 "
         "현재일 까지일때 . 주봉 조회 : 해당 주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 "
         "전월 일자로 시작되어야함 . 년봉 조회 : 해당 년의 전년도 일자로 시작되어야함 ㅁ FID_INPUT_DATE_2 "
@@ -395,10 +395,10 @@ if TYPE_CHECKING:
                         주식선물, JO:주식옵션, CF: 상품선물(금), 금리선물(국채), 통화선물(달러) CM:
                         야간선물, EU: 야간옵션
                         FID_INPUT_ISCD (str): 종목번호 (지수선물:6자리, 지수옵션 9자리)
-                        FID_INPUT_DATE_1 (KisDate): 조회 시작일자 (ex. 20220401)
-                        FID_INPUT_DATE_2 (KisDate): 조회 종료일자 (ex. 20220524) ※ 주(W), 월(M), 년(Y)
-                        봉 조회 시에 아래 참고 ㅁ FID_INPUT_DATE_2 가 현재일 까지일때 . 주봉 조회 :
-                        해당 주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 전월 일자로
+                        FID_INPUT_DATE_1 (str): 조회 시작일자 (ex. 20220401)
+                        FID_INPUT_DATE_2 (str): 조회 종료일자 (ex. 20220524) ※ 주(W), 월(M), 년(Y) 봉
+                        조회 시에 아래 참고 ㅁ FID_INPUT_DATE_2 가 현재일 까지일때 . 주봉 조회 : 해당
+                        주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 전월 일자로
                         시작되어야함 . 년봉 조회 : 해당 년의 전년도 일자로 시작되어야함 ㅁ
                         FID_INPUT_DATE_2 가 현재일보다 이전일 때 . 주봉 조회 : 해당 주의 첫번째
                         영업일이 포함되어야함 . 월봉 조회 : 해당 월의 영업일이 포함되어야함 . 년봉

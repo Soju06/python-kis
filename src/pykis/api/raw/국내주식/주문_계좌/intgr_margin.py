@@ -14,22 +14,51 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
+
+
+class WcrcFrcrDvsnCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "외화기준")
+    "외화기준"
+    VALUE_02 = ("02", "원화기준")
+    "원화기준"
+
+
+class FwexCtrtFrcrDvsnCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "외화기준")
+    "외화기준"
+    VALUE_02 = ("02", "원화기준")
+    "원화기준"
+
+
 class IntgrMarginRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -37,11 +66,11 @@ class IntgrMarginRequest(RawModel):
         alias="CMA_EVLU_AMT_ICLD_YN",
     )
     ("N 입력")
-    WCRC_FRCR_DVSN_CD: str = Field(
+    WCRC_FRCR_DVSN_CD: WcrcFrcrDvsnCdEnum = Field(
         alias="WCRC_FRCR_DVSN_CD",
     )
     ("01(외화기준),02(원화기준)")
-    FWEX_CTRT_FRCR_DVSN_CD: str = Field(
+    FWEX_CTRT_FRCR_DVSN_CD: FwexCtrtFrcrDvsnCdEnum = Field(
         alias="FWEX_CTRT_FRCR_DVSN_CD",
     )
     ("01(외화기준),02(원화기준)")
@@ -59,19 +88,19 @@ class IntgrMarginRequestDict(TypedDict):
     이용하여 주시기 바랍니다.
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         CMA_EVLU_AMT_ICLD_YN (KisBool): N 입력
-        WCRC_FRCR_DVSN_CD (str): 01(외화기준),02(원화기준)
-        FWEX_CTRT_FRCR_DVSN_CD (str): 01(외화기준),02(원화기준)
+        WCRC_FRCR_DVSN_CD (WcrcFrcrDvsnCdEnum): 01(외화기준),02(원화기준)
+        FWEX_CTRT_FRCR_DVSN_CD (FwexCtrtFrcrDvsnCdEnum): 01(외화기준),02(원화기준)
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     CMA_EVLU_AMT_ICLD_YN: Annotated[
@@ -79,11 +108,11 @@ class IntgrMarginRequestDict(TypedDict):
         "N 입력",
     ]
     WCRC_FRCR_DVSN_CD: Annotated[
-        str,
+        WcrcFrcrDvsnCdEnum,
         "01(외화기준),02(원화기준)",
     ]
     FWEX_CTRT_FRCR_DVSN_CD: Annotated[
-        str,
+        FwexCtrtFrcrDvsnCdEnum,
         "01(외화기준),02(원화기준)",
     ]
 
@@ -601,11 +630,11 @@ if TYPE_CHECKING:
                 **kwargs (IntgrMarginRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         CMA_EVLU_AMT_ICLD_YN (KisBool): N 입력
-                        WCRC_FRCR_DVSN_CD (str): 01(외화기준),02(원화기준)
-                        FWEX_CTRT_FRCR_DVSN_CD (str): 01(외화기준),02(원화기준)
+                        WCRC_FRCR_DVSN_CD (WcrcFrcrDvsnCdEnum): 01(외화기준),02(원화기준)
+                        FWEX_CTRT_FRCR_DVSN_CD (FwexCtrtFrcrDvsnCdEnum): 01(외화기준),02(원화기준)
 
             Returns:
                 tuple[IntgrMarginResponse, KisResponse]: 응답 모델과 원시 응답
@@ -622,4 +651,8 @@ __all__ = [
     "IntgrMarginRequestDict",
     "IntgrMarginResponse",
     "IntgrMarginOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
+    "WcrcFrcrDvsnCdEnum",
+    "FwexCtrtFrcrDvsnCdEnum",
 ]

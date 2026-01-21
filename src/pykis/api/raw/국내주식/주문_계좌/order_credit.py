@@ -15,18 +15,30 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
-    KisDateOptional,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class CrdtTypeEnum(KisStrEnum):
@@ -88,11 +100,11 @@ class OrdDvsnEnum(KisStrEnum):
 
 
 class OrderCreditRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -112,7 +124,7 @@ class OrderCreditRequest(RawModel):
         "[매도] 22 : 유통대주신규, 24 : 자기대주신규, 25 : 자기융자상환, 27 : 유통융자상환 [매수] 21 : "
         "자기융자신규, 23 : 유통융자신규 , 26 : 유통대주상환, 28 : 자기대주상환"
     )
-    LOAN_DT: KisDate = Field(
+    LOAN_DT: str = Field(
         alias="LOAN_DT",
     )
     ("[신용매수] 신규 대출로, 오늘날짜(yyyyMMdd)) 입력 [신용매도] 매도할 종목의 대출일자(yyyyMMdd)) 입력")
@@ -163,7 +175,7 @@ class OrderCreditRequest(RawModel):
         alias="MGCO_APTM_ODNO",
     )
     ("운용사지정주문번호")
-    LQTY_TR_NGTN_DTL_NO: KisDateOptional = Field(
+    LQTY_TR_NGTN_DTL_NO: str | None = Field(
         default=None,
         alias="LQTY_TR_NGTN_DTL_NO",
     )
@@ -233,14 +245,14 @@ class OrderCreditRequestDict(TypedDict):
     [국내주식-002 v1] 주식주문(신용)
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         PDNO (str): 종목코드(6자리)
         SLL_TYPE (str): 공란 입력 optional
         CRDT_TYPE (CrdtTypeEnum): [매도] 22 : 유통대주신규, 24 : 자기대주신규, 25 : 자기융자상환, 27
         : 유통융자상환 [매수] 21 : 자기융자신규, 23 : 유통융자신규 , 26 : 유통대주상환, 28 :
         자기대주상환
-        LOAN_DT (KisDate): [신용매수] 신규 대출로, 오늘날짜(yyyyMMdd)) 입력 [신용매도] 매도할 종목의
+        LOAN_DT (str): [신용매수] 신규 대출로, 오늘날짜(yyyyMMdd)) 입력 [신용매도] 매도할 종목의
         대출일자(yyyyMMdd)) 입력
         ORD_DVSN (OrdDvsnEnum): [KRX] 00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04
         : 최우선지정가 05 : 장전 시간외 06 : 장후 시간외 07 : 시간외 단일가 11 : IOC지정가
@@ -263,7 +275,7 @@ class OrderCreditRequestDict(TypedDict):
         EMGC_ORD_YN (KisBool): 비상주문여부 optional
         PGTR_DVSN (str): 프로그램매매구분 optional
         MGCO_APTM_ODNO (str): 운용사지정주문번호 optional
-        LQTY_TR_NGTN_DTL_NO (KisDate): 대량거래협상상세번호 optional
+        LQTY_TR_NGTN_DTL_NO (str): 대량거래협상상세번호 optional
         LQTY_TR_AGMT_NO (str): 대량거래협정번호 optional
         LQTY_TR_NGTN_ID (str): 대량거래협상자Id optional
         LP_ORD_YN (KisBool): LP주문여부 optional
@@ -278,11 +290,11 @@ class OrderCreditRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     PDNO: Annotated[
@@ -301,7 +313,7 @@ class OrderCreditRequestDict(TypedDict):
         "자기융자신규, 23 : 유통융자신규 , 26 : 유통대주상환, 28 : 자기대주상환",
     ]
     LOAN_DT: Annotated[
-        KisDate,
+        str,
         "[신용매수] 신규 대출로, 오늘날짜(yyyyMMdd)) 입력 [신용매도] 매도할 종목의 대출일자(yyyyMMdd)) 입력",
     ]
     ORD_DVSN: Annotated[
@@ -353,7 +365,7 @@ class OrderCreditRequestDict(TypedDict):
     ]
     LQTY_TR_NGTN_DTL_NO: NotRequired[
         Annotated[
-            KisDateOptional,
+            str | None,
             "대량거래협상상세번호",
         ]
     ]
@@ -525,14 +537,14 @@ if TYPE_CHECKING:
                 **kwargs (OrderCreditRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         PDNO (str): 종목코드(6자리)
                         SLL_TYPE (str): 공란 입력 optional
                         CRDT_TYPE (CrdtTypeEnum): [매도] 22 : 유통대주신규, 24 : 자기대주신규, 25 :
                         자기융자상환, 27 : 유통융자상환 [매수] 21 : 자기융자신규, 23 : 유통융자신규 ,
                         26 : 유통대주상환, 28 : 자기대주상환
-                        LOAN_DT (KisDate): [신용매수] 신규 대출로, 오늘날짜(yyyyMMdd)) 입력 [신용매도]
+                        LOAN_DT (str): [신용매수] 신규 대출로, 오늘날짜(yyyyMMdd)) 입력 [신용매도]
                         매도할 종목의 대출일자(yyyyMMdd)) 입력
                         ORD_DVSN (OrdDvsnEnum): [KRX] 00 : 지정가 01 : 시장가 02 : 조건부지정가 03 :
                         최유리지정가 04 : 최우선지정가 05 : 장전 시간외 06 : 장후 시간외 07 : 시간외
@@ -557,7 +569,7 @@ if TYPE_CHECKING:
                         EMGC_ORD_YN (KisBool): 비상주문여부 optional
                         PGTR_DVSN (str): 프로그램매매구분 optional
                         MGCO_APTM_ODNO (str): 운용사지정주문번호 optional
-                        LQTY_TR_NGTN_DTL_NO (KisDate): 대량거래협상상세번호 optional
+                        LQTY_TR_NGTN_DTL_NO (str): 대량거래협상상세번호 optional
                         LQTY_TR_AGMT_NO (str): 대량거래협정번호 optional
                         LQTY_TR_NGTN_ID (str): 대량거래협상자Id optional
                         LP_ORD_YN (KisBool): LP주문여부 optional
@@ -586,6 +598,8 @@ __all__ = [
     "OrderCreditRequestDict",
     "OrderCreditResponse",
     "OrderCreditOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "CrdtTypeEnum",
     "OrdDvsnEnum",
 ]

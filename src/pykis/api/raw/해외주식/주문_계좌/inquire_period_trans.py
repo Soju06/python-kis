@@ -14,15 +14,25 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class SllBuyDvsnCdEnum(KisStrEnum):
+    VALUE_00 = ("00", "전체")
+    "전체"
+    VALUE_01 = ("01", "매도")
+    "매도"
+    VALUE_02 = ("02", "매수")
+    "매수"
 
 
 class InquirePeriodTransRequest(RawModel):
@@ -50,7 +60,7 @@ class InquirePeriodTransRequest(RawModel):
         alias="PDNO",
     )
     ("공백 (전체조회), 개별종목 조회는 상품번호입력")
-    SLL_BUY_DVSN_CD: str = Field(
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(
         alias="SLL_BUY_DVSN_CD",
     )
     ("00(전체), 01(매도), 02(매수)")
@@ -85,7 +95,7 @@ class InquirePeriodTransRequestDict(TypedDict):
         ERLM_END_DT (KisDate): ~입력날짜 (ex) 20240520)
         OVRS_EXCG_CD (str): 공백
         PDNO (str): 공백 (전체조회), 개별종목 조회는 상품번호입력
-        SLL_BUY_DVSN_CD (str): 00(전체), 01(매도), 02(매수)
+        SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 00(전체), 01(매도), 02(매수)
         LOAN_DVSN_CD (str): 공백
         CTX_AREA_FK100 (str): 공백
         CTX_AREA_NK100 (str): 공백
@@ -116,7 +126,7 @@ class InquirePeriodTransRequestDict(TypedDict):
         "공백 (전체조회), 개별종목 조회는 상품번호입력",
     ]
     SLL_BUY_DVSN_CD: Annotated[
-        str,
+        SllBuyDvsnCdEnum,
         "00(전체), 01(매도), 02(매수)",
     ]
     LOAN_DVSN_CD: Annotated[
@@ -357,7 +367,7 @@ if TYPE_CHECKING:
                         ERLM_END_DT (KisDate): ~입력날짜 (ex) 20240520)
                         OVRS_EXCG_CD (str): 공백
                         PDNO (str): 공백 (전체조회), 개별종목 조회는 상품번호입력
-                        SLL_BUY_DVSN_CD (str): 00(전체), 01(매도), 02(매수)
+                        SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 00(전체), 01(매도), 02(매수)
                         LOAN_DVSN_CD (str): 공백
                         CTX_AREA_FK100 (str): 공백
                         CTX_AREA_NK100 (str): 공백
@@ -378,4 +388,5 @@ __all__ = [
     "InquirePeriodTransResponse",
     "InquirePeriodTransOutput1",
     "InquirePeriodTransOutput2",
+    "SllBuyDvsnCdEnum",
 ]

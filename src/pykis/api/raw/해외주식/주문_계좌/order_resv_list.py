@@ -13,18 +13,31 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     KisDateOptional,
     KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class InqrDvsnCdEnum(KisStrEnum):
@@ -87,19 +100,19 @@ class OvrsExcgCdEnum(KisStrEnum):
 
 
 class OrderResvListRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    INQR_STRT_DT: KisDate = Field(
+    INQR_STRT_DT: str = Field(
         alias="INQR_STRT_DT",
     )
     ("조회시작일자(YYYYMMDD)")
-    INQR_END_DT: KisDate = Field(
+    INQR_END_DT: str = Field(
         alias="INQR_END_DT",
     )
     ("조회종료일자(YYYYMMDD)")
@@ -144,10 +157,10 @@ class OrderResvListRequestDict(TypedDict):
     [v1_해외주식-013]해외주식 예약주문조회
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
-        INQR_STRT_DT (KisDate): 조회시작일자(YYYYMMDD)
-        INQR_END_DT (KisDate): 조회종료일자(YYYYMMDD)
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
+        INQR_STRT_DT (str): 조회시작일자(YYYYMMDD)
+        INQR_END_DT (str): 조회종료일자(YYYYMMDD)
         INQR_DVSN_CD (InqrDvsnCdEnum): 00 : 전체 01 : 일반해외주식 02 : 미니스탁
         PRDT_TYPE_CD (PrdtTypeCdEnum): [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회
         [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 512 : 미국 나스닥 / 513 : 미국
@@ -164,19 +177,19 @@ class OrderResvListRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     INQR_STRT_DT: Annotated[
-        KisDate,
+        str,
         "조회시작일자(YYYYMMDD)",
     ]
     INQR_END_DT: Annotated[
-        KisDate,
+        str,
         "조회종료일자(YYYYMMDD)",
     ]
     INQR_DVSN_CD: Annotated[
@@ -427,10 +440,10 @@ if TYPE_CHECKING:
                 **kwargs (OrderResvListRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
-                        INQR_STRT_DT (KisDate): 조회시작일자(YYYYMMDD)
-                        INQR_END_DT (KisDate): 조회종료일자(YYYYMMDD)
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
+                        INQR_STRT_DT (str): 조회시작일자(YYYYMMDD)
+                        INQR_END_DT (str): 조회종료일자(YYYYMMDD)
                         INQR_DVSN_CD (InqrDvsnCdEnum): 00 : 전체 01 : 일반해외주식 02 : 미니스탁
                         PRDT_TYPE_CD (PrdtTypeCdEnum): [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식
                         전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 512 : 미국
@@ -461,6 +474,8 @@ __all__ = [
     "OrderResvListRequestDict",
     "OrderResvListResponse",
     "OrderResvListOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "InqrDvsnCdEnum",
     "PrdtTypeCdEnum",
     "OvrsExcgCdEnum",

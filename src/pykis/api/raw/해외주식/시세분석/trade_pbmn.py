@@ -14,13 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -47,6 +46,46 @@ class ExcdEnum(KisStrEnum):
     "도쿄 '"
 
 
+class NdayEnum(KisStrEnum):
+    VALUE_0 = ("0", "당일")
+    "당일"
+    VALUE_1 = ("1", "2일")
+    "2일"
+    VALUE_2 = ("2", "3일")
+    "3일"
+    VALUE_3 = ("3", "5일")
+    "5일"
+    VALUE_4 = ("4", "10일")
+    "10일"
+    VALUE_5 = ("5", "20일전")
+    "20일전"
+    VALUE_6 = ("6", "30일")
+    "30일"
+    VALUE_7 = ("7", "60일")
+    "60일"
+    VALUE_8 = ("8", "120일")
+    "120일"
+    VALUE_9 = ("9", "1년")
+    "1년"
+
+
+class VolRangEnum(KisStrEnum):
+    VALUE_0 = ("0", "전체")
+    "전체"
+    VALUE_1 = ("1", "1백주이상")
+    "1백주이상"
+    VALUE_2 = ("2", "1천주이상")
+    "1천주이상"
+    VALUE_3 = ("3", "1만주이상")
+    "1만주이상"
+    VALUE_4 = ("4", "10만주이상")
+    "10만주이상"
+    VALUE_5 = ("5", "100만주이상")
+    "100만주이상"
+    VALUE_6 = ("6", "1000만주이상")
+    "1000만주이상"
+
+
 class TradePbmnRequest(RawModel):
     KEYB: str = Field(
         alias="KEYB",
@@ -63,11 +102,11 @@ class TradePbmnRequest(RawModel):
         "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : "
         "하노이 TSE : 도쿄 '"
     )
-    NDAY: KisDate = Field(
+    NDAY: NdayEnum = Field(
         alias="NDAY",
     )
     ("N일전 : 0(당일), 1(2일), 2(3일), 3(5일), 4(10일), 5(20일전), 6(30일), 7(60일), 8(120일), 9(1년)")
-    VOL_RANG: int = Field(
+    VOL_RANG: VolRangEnum = Field(
         alias="VOL_RANG",
     )
     ("0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)")
@@ -90,9 +129,9 @@ class TradePbmnRequestDict(TypedDict):
         AUTH (str): 공백
         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천
         HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
-        NDAY (KisDate): N일전 : 0(당일), 1(2일), 2(3일), 3(5일), 4(10일), 5(20일전), 6(30일),
+        NDAY (NdayEnum): N일전 : 0(당일), 1(2일), 2(3일), 3(5일), 4(10일), 5(20일전), 6(30일),
         7(60일), 8(120일), 9(1년)
-        VOL_RANG (int): 0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상),
+        VOL_RANG (VolRangEnum): 0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상),
         5(100만주이상), 6(1000만주이상)
         PRC1 (Decimal): 가격 ~
         PRC2 (Decimal): ~ 가격
@@ -112,11 +151,11 @@ class TradePbmnRequestDict(TypedDict):
         "하노이 TSE : 도쿄 '",
     ]
     NDAY: Annotated[
-        KisDate,
+        NdayEnum,
         "N일전 : 0(당일), 1(2일), 2(3일), 3(5일), 4(10일), 5(20일전), 6(30일), 7(60일), 8(120일), 9(1년)",
     ]
     VOL_RANG: Annotated[
-        int,
+        VolRangEnum,
         "0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)",
     ]
     PRC1: Annotated[
@@ -305,9 +344,9 @@ if TYPE_CHECKING:
                         AUTH (str): 공백
                         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS :
                         상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
-                        NDAY (KisDate): N일전 : 0(당일), 1(2일), 2(3일), 3(5일), 4(10일), 5(20일전),
+                        NDAY (NdayEnum): N일전 : 0(당일), 1(2일), 2(3일), 3(5일), 4(10일), 5(20일전),
                         6(30일), 7(60일), 8(120일), 9(1년)
-                        VOL_RANG (int): 0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상),
+                        VOL_RANG (VolRangEnum): 0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상),
                         4(10만주이상), 5(100만주이상), 6(1000만주이상)
                         PRC1 (Decimal): 가격 ~
                         PRC2 (Decimal): ~ 가격
@@ -329,4 +368,6 @@ __all__ = [
     "TradePbmnOutput1",
     "TradePbmnOutput2",
     "ExcdEnum",
+    "NdayEnum",
+    "VolRangEnum",
 ]

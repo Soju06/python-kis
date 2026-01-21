@@ -13,15 +13,25 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class OrdSvrDvsnCdEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(0)")
+    "key(0)"
+    VALUE_0 = ("0", "Unique key")
+    "Unique key"
+    KEY = ("key", "0")
+    "0"
 
 
 class BuyRequest(RawModel):
@@ -61,7 +71,7 @@ class BuyRequest(RawModel):
         alias="MGCO_APTM_ODNO",
     )
     ("공백")
-    ORD_SVR_DVSN_CD: str = Field(
+    ORD_SVR_DVSN_CD: OrdSvrDvsnCdEnum = Field(
         alias="ORD_SVR_DVSN_CD",
     )
     ("Unique key(0)")
@@ -87,7 +97,7 @@ class BuyRequestDict(TypedDict):
         BOND_RTL_MKET_YN (KisBool): Y, N
         IDCR_STFNO (str): 공백
         MGCO_APTM_ODNO (str): 공백
-        ORD_SVR_DVSN_CD (str): Unique key(0)
+        ORD_SVR_DVSN_CD (OrdSvrDvsnCdEnum): Unique key(0)
         CTAC_TLNO (str): 연락전화번호
     """
 
@@ -128,7 +138,7 @@ class BuyRequestDict(TypedDict):
         "공백",
     ]
     ORD_SVR_DVSN_CD: Annotated[
-        str,
+        OrdSvrDvsnCdEnum,
         "Unique key(0)",
     ]
     CTAC_TLNO: Annotated[
@@ -246,7 +256,7 @@ if TYPE_CHECKING:
                         BOND_RTL_MKET_YN (KisBool): Y, N
                         IDCR_STFNO (str): 공백
                         MGCO_APTM_ODNO (str): 공백
-                        ORD_SVR_DVSN_CD (str): Unique key(0)
+                        ORD_SVR_DVSN_CD (OrdSvrDvsnCdEnum): Unique key(0)
                         CTAC_TLNO (str): 연락전화번호
 
             Returns:
@@ -264,4 +274,5 @@ __all__ = [
     "BuyRequestDict",
     "BuyResponse",
     "BuyOutput",
+    "OrdSvrDvsnCdEnum",
 ]

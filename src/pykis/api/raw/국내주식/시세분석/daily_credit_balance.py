@@ -14,16 +14,25 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
-    KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(20476)")
+    "key(20476)"
+    VALUE_20476 = ("20476", "Unique key")
+    "Unique key"
+    KEY = ("key", "20476")
+    "20476"
 
 
 class DailyCreditBalanceRequest(RawModel):
@@ -31,7 +40,7 @@ class DailyCreditBalanceRequest(RawModel):
         alias="fid_cond_mrkt_div_code",
     )
     ("시장구분코드 (주식 J)")
-    fid_cond_scr_div_code: str = Field(
+    fid_cond_scr_div_code: FidCondScrDivCodeEnum = Field(
         alias="fid_cond_scr_div_code",
     )
     ("Unique key(20476)")
@@ -39,7 +48,7 @@ class DailyCreditBalanceRequest(RawModel):
         alias="fid_input_iscd",
     )
     ("종목코드 (ex 005930)")
-    fid_input_date_1: KisDate = Field(
+    fid_input_date_1: str = Field(
         alias="fid_input_date_1",
     )
     ("결제일자 (ex 20240313)")
@@ -56,9 +65,9 @@ class DailyCreditBalanceRequestDict(TypedDict):
 
     Request fields:
         fid_cond_mrkt_div_code (str): 시장구분코드 (주식 J)
-        fid_cond_scr_div_code (str): Unique key(20476)
+        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20476)
         fid_input_iscd (str): 종목코드 (ex 005930)
-        fid_input_date_1 (KisDate): 결제일자 (ex 20240313)
+        fid_input_date_1 (str): 결제일자 (ex 20240313)
     """
 
     fid_cond_mrkt_div_code: Annotated[
@@ -66,7 +75,7 @@ class DailyCreditBalanceRequestDict(TypedDict):
         "시장구분코드 (주식 J)",
     ]
     fid_cond_scr_div_code: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(20476)",
     ]
     fid_input_iscd: Annotated[
@@ -74,139 +83,113 @@ class DailyCreditBalanceRequestDict(TypedDict):
         "종목코드 (ex 005930)",
     ]
     fid_input_date_1: Annotated[
-        KisDate,
+        str,
         "결제일자 (ex 20240313)",
     ]
 
 
 class DailyCreditBalanceOutput(RawModel):
-    deal_date: KisDateOptional = Field(
-        default=None,
+    deal_date: KisDate = Field(
         alias="deal_date",
     )
     ("매매 일자")
-    stck_prpr: Decimal | None = Field(
-        default=None,
+    stck_prpr: Decimal = Field(
         alias="stck_prpr",
     )
     ("주식 현재가")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
-    prdy_vrss: str | None = Field(
-        default=None,
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일 대비")
-    prdy_ctrt: Decimal | None = Field(
-        default=None,
+    prdy_ctrt: Decimal = Field(
         alias="prdy_ctrt",
     )
     ("전일 대비율")
-    acml_vol: int | None = Field(
-        default=None,
+    acml_vol: int = Field(
         alias="acml_vol",
     )
     ("누적 거래량")
-    stlm_date: KisDateOptional = Field(
-        default=None,
+    stlm_date: KisDate = Field(
         alias="stlm_date",
     )
     ("결제 일자")
-    whol_loan_new_stcn: str | None = Field(
-        default=None,
+    whol_loan_new_stcn: int = Field(
         alias="whol_loan_new_stcn",
     )
     ("단위: 주")
-    whol_loan_rdmp_stcn: str | None = Field(
-        default=None,
+    whol_loan_rdmp_stcn: int = Field(
         alias="whol_loan_rdmp_stcn",
     )
     ("단위: 주")
-    whol_loan_rmnd_stcn: str | None = Field(
-        default=None,
+    whol_loan_rmnd_stcn: int = Field(
         alias="whol_loan_rmnd_stcn",
     )
     ("단위: 주")
-    whol_loan_new_amt: Decimal | None = Field(
-        default=None,
+    whol_loan_new_amt: Decimal = Field(
         alias="whol_loan_new_amt",
     )
     ("단위: 만원")
-    whol_loan_rdmp_amt: Decimal | None = Field(
-        default=None,
+    whol_loan_rdmp_amt: Decimal = Field(
         alias="whol_loan_rdmp_amt",
     )
     ("단위: 만원")
-    whol_loan_rmnd_amt: Decimal | None = Field(
-        default=None,
+    whol_loan_rmnd_amt: Decimal = Field(
         alias="whol_loan_rmnd_amt",
     )
     ("단위: 만원")
-    whol_loan_rmnd_rate: Decimal | None = Field(
-        default=None,
+    whol_loan_rmnd_rate: Decimal = Field(
         alias="whol_loan_rmnd_rate",
     )
     ("전체 융자 잔고 비율")
-    whol_loan_gvrt: Decimal | None = Field(
-        default=None,
+    whol_loan_gvrt: Decimal = Field(
         alias="whol_loan_gvrt",
     )
     ("전체 융자 공여율")
-    whol_stln_new_stcn: str | None = Field(
-        default=None,
+    whol_stln_new_stcn: int = Field(
         alias="whol_stln_new_stcn",
     )
     ("단위: 주")
-    whol_stln_rdmp_stcn: str | None = Field(
-        default=None,
+    whol_stln_rdmp_stcn: int = Field(
         alias="whol_stln_rdmp_stcn",
     )
     ("단위: 주")
-    whol_stln_rmnd_stcn: str | None = Field(
-        default=None,
+    whol_stln_rmnd_stcn: int = Field(
         alias="whol_stln_rmnd_stcn",
     )
     ("단위: 주")
-    whol_stln_new_amt: Decimal | None = Field(
-        default=None,
+    whol_stln_new_amt: Decimal = Field(
         alias="whol_stln_new_amt",
     )
     ("단위: 만원")
-    whol_stln_rdmp_amt: Decimal | None = Field(
-        default=None,
+    whol_stln_rdmp_amt: Decimal = Field(
         alias="whol_stln_rdmp_amt",
     )
     ("단위: 만원")
-    whol_stln_rmnd_amt: Decimal | None = Field(
-        default=None,
+    whol_stln_rmnd_amt: Decimal = Field(
         alias="whol_stln_rmnd_amt",
     )
     ("단위: 만원")
-    whol_stln_rmnd_rate: Decimal | None = Field(
-        default=None,
+    whol_stln_rmnd_rate: Decimal = Field(
         alias="whol_stln_rmnd_rate",
     )
     ("전체 대주 잔고 비율")
-    whol_stln_gvrt: Decimal | None = Field(
-        default=None,
+    whol_stln_gvrt: Decimal = Field(
         alias="whol_stln_gvrt",
     )
     ("전체 대주 공여율")
-    stck_oprc: Decimal | None = Field(
-        default=None,
+    stck_oprc: Decimal = Field(
         alias="stck_oprc",
     )
     ("주식 시가2")
-    stck_hgpr: Decimal | None = Field(
-        default=None,
+    stck_hgpr: Decimal = Field(
         alias="stck_hgpr",
     )
     ("주식 최고가")
-    stck_lwpr: Decimal | None = Field(
-        default=None,
+    stck_lwpr: Decimal = Field(
         alias="stck_lwpr",
     )
     ("주식 최저가")
@@ -304,9 +287,9 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         fid_cond_mrkt_div_code (str): 시장구분코드 (주식 J)
-                        fid_cond_scr_div_code (str): Unique key(20476)
+                        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20476)
                         fid_input_iscd (str): 종목코드 (ex 005930)
-                        fid_input_date_1 (KisDate): 결제일자 (ex 20240313)
+                        fid_input_date_1 (str): 결제일자 (ex 20240313)
 
             Returns:
                 tuple[DailyCreditBalanceResponse, KisResponse]: 응답 모델과 원시 응답
@@ -323,4 +306,5 @@ __all__ = [
     "DailyCreditBalanceRequestDict",
     "DailyCreditBalanceResponse",
     "DailyCreditBalanceOutput",
+    "FidCondScrDivCodeEnum",
 ]

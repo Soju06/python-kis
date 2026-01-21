@@ -13,13 +13,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
-    KisTime,
+    KisDateOptional,
+    KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -58,19 +58,23 @@ class VolatilityTrendTickRequestDict(TypedDict):
 
 
 class VolatilityTrendTickOutput(RawModel):
-    bsop_date: KisDate = Field(
+    bsop_date: KisDateOptional = Field(
+        default=None,
         alias="bsop_date",
     )
     ("주식영업일자")
-    stck_cntg_hour: KisTime = Field(
+    stck_cntg_hour: KisTimeOptional = Field(
+        default=None,
         alias="stck_cntg_hour",
     )
     ("ELW현재가")
-    elw_prpr: str = Field(
+    elw_prpr: str | None = Field(
+        default=None,
         alias="elw_prpr",
     )
     ("전일대비")
-    hts_ints_vltl: str = Field(
+    hts_ints_vltl: str | None = Field(
+        default=None,
         alias="hts_ints_vltl",
     )
     ("전일대비부호")

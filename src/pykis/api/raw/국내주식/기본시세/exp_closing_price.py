@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -38,17 +38,13 @@ class FidRankSortClsCodeEnum(KisStrEnum):
     "직전대비하락률상위"
 
 
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
-    VALUE_4001 = ("4001", "KRX100")
-    "KRX100"
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(11173)")
+    "key(11173)"
+    VALUE_11173 = ("11173", "Unique key")
+    "Unique key"
+    KEY = ("key", "11173")
+    "11173"
 
 
 class FidBlngClsCodeEnum(KisStrEnum):
@@ -67,11 +63,11 @@ class ExpClosingPriceRequest(RawModel):
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("시장구분코드 (주식 J)")
-    FID_COND_SCR_DIV_CODE: str = Field(
+    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("Unique key(11173)")
-    FID_INPUT_ISCD: FidInputIscdEnum = Field(
+    FID_INPUT_ISCD: str = Field(
         alias="FID_INPUT_ISCD",
     )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
@@ -91,9 +87,8 @@ class ExpClosingPriceRequestDict(TypedDict):
         FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): 0:전체, 1:상한가마감예상, 2:하한가마감예상,
         3:직전대비상승률상위 ,4:직전대비하락률상위
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 J)
-        FID_COND_SCR_DIV_CODE (str): Unique key(11173)
-        FID_INPUT_ISCD (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
-        4001: KRX100
+        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(11173)
+        FID_INPUT_ISCD (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100
         FID_BLNG_CLS_CODE (FidBlngClsCodeEnum): 0:전체, 1:종가범위연장
     """
 
@@ -106,11 +101,11 @@ class ExpClosingPriceRequestDict(TypedDict):
         "시장구분코드 (주식 J)",
     ]
     FID_COND_SCR_DIV_CODE: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(11173)",
     ]
     FID_INPUT_ISCD: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100",
     ]
     FID_BLNG_CLS_CODE: Annotated[
@@ -254,9 +249,9 @@ if TYPE_CHECKING:
                         FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): 0:전체, 1:상한가마감예상,
                         2:하한가마감예상, 3:직전대비상승률상위 ,4:직전대비하락률상위
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 J)
-                        FID_COND_SCR_DIV_CODE (str): Unique key(11173)
-                        FID_INPUT_ISCD (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥,
-                        2001:코스피200, 4001: KRX100
+                        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(11173)
+                        FID_INPUT_ISCD (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
+                        4001: KRX100
                         FID_BLNG_CLS_CODE (FidBlngClsCodeEnum): 0:전체, 1:종가범위연장
 
             Returns:
@@ -275,6 +270,6 @@ __all__ = [
     "ExpClosingPriceResponse",
     "ExpClosingPriceOutput1",
     "FidRankSortClsCodeEnum",
-    "FidInputIscdEnum",
+    "FidCondScrDivCodeEnum",
     "FidBlngClsCodeEnum",
 ]

@@ -14,36 +14,15 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
-
-
-class ExcdEnum(KisStrEnum):
-    NYS = ("NYS", "뉴욕")
-    "뉴욕"
-    NAS = ("NAS", "나스닥")
-    "나스닥"
-    AMS = ("AMS", "아멕스")
-    "아멕스"
-    HKS = ("HKS", "홍콩")
-    "홍콩"
-    SHS = ("SHS", "상해")
-    "상해"
-    SZS = ("SZS", "심천")
-    "심천"
-    HSX = ("HSX", "호치민")
-    "호치민"
-    HNX = ("HNX", "하노이")
-    "하노이"
-    TSE = ("TSE", "도쿄 '")
-    "도쿄 '"
 
 
 class TdayEnum(KisStrEnum):
@@ -63,7 +42,7 @@ class MtypEnum(KisStrEnum):
 
 
 class InquireCcnlRequest(RawModel):
-    EXCD: ExcdEnum = Field(
+    EXCD: str = Field(
         alias="EXCD",
     )
     (
@@ -93,8 +72,8 @@ class InquireCcnlRequestDict(TypedDict):
     해외주식 체결추이 API입니다.
 
     Request fields:
-        EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천
-        HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
+        EXCD (str): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX
+        : 호치민, HNX : 하노이 TSE : 도쿄 '
         AUTH (str): 공백
         KEYB (str): 공백
         TDAY (TdayEnum): 0:전일, 1:당일
@@ -102,7 +81,7 @@ class InquireCcnlRequestDict(TypedDict):
     """
 
     EXCD: Annotated[
-        ExcdEnum,
+        str,
         "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : "
         "하노이 TSE : 도쿄 '",
     ]
@@ -150,7 +129,7 @@ class InquireCcnlOutput1(RawModel):
         alias="rate",
     )
     ("등락율")
-    evol: str | None = Field(
+    evol: int | None = Field(
         default=None,
         alias="evol",
     )
@@ -260,8 +239,8 @@ if TYPE_CHECKING:
                 **kwargs (InquireCcnlRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS :
-                        상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
+                        EXCD (str): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 ,
+                        SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
                         AUTH (str): 공백
                         KEYB (str): 공백
                         TDAY (TdayEnum): 0:전일, 1:당일
@@ -282,7 +261,6 @@ __all__ = [
     "InquireCcnlRequestDict",
     "InquireCcnlResponse",
     "InquireCcnlOutput1",
-    "ExcdEnum",
     "TdayEnum",
     "MtypEnum",
 ]

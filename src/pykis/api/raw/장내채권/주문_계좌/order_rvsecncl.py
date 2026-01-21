@@ -13,13 +13,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -30,6 +30,15 @@ class RvseCnclDvsnCdEnum(KisStrEnum):
     "정정"
     VALUE_02 = ("02", "취소")
     "취소"
+
+
+class OrdSvrDvsnCdEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(0)")
+    "key(0)"
+    VALUE_0 = ("0", "Unique key")
+    "Unique key"
+    KEY = ("key", "0")
+    "0"
 
 
 class OrderRvsecnclRequest(RawModel):
@@ -69,7 +78,7 @@ class OrderRvsecnclRequest(RawModel):
         alias="MGCO_APTM_ODNO",
     )
     ("공백")
-    ORD_SVR_DVSN_CD: str = Field(
+    ORD_SVR_DVSN_CD: OrdSvrDvsnCdEnum = Field(
         alias="ORD_SVR_DVSN_CD",
     )
     ("Unique key(0)")
@@ -95,7 +104,7 @@ class OrderRvsecnclRequestDict(TypedDict):
         QTY_ALL_ORD_YN (KisBool): Y: 잔량전부(주문수량 입력안함),
         RVSE_CNCL_DVSN_CD (RvseCnclDvsnCdEnum): 01: 정정, 02: 취소
         MGCO_APTM_ODNO (str): 공백
-        ORD_SVR_DVSN_CD (str): Unique key(0)
+        ORD_SVR_DVSN_CD (OrdSvrDvsnCdEnum): Unique key(0)
         CTAC_TLNO (str): -
     """
 
@@ -136,7 +145,7 @@ class OrderRvsecnclRequestDict(TypedDict):
         "공백",
     ]
     ORD_SVR_DVSN_CD: Annotated[
-        str,
+        OrdSvrDvsnCdEnum,
         "Unique key(0)",
     ]
     CTAC_TLNO: Annotated[
@@ -253,7 +262,7 @@ if TYPE_CHECKING:
                         QTY_ALL_ORD_YN (KisBool): Y: 잔량전부(주문수량 입력안함),
                         RVSE_CNCL_DVSN_CD (RvseCnclDvsnCdEnum): 01: 정정, 02: 취소
                         MGCO_APTM_ODNO (str): 공백
-                        ORD_SVR_DVSN_CD (str): Unique key(0)
+                        ORD_SVR_DVSN_CD (OrdSvrDvsnCdEnum): Unique key(0)
                         CTAC_TLNO (str): -
 
             Returns:
@@ -272,4 +281,5 @@ __all__ = [
     "OrderRvsecnclResponse",
     "OrderRvsecnclOutput",
     "RvseCnclDvsnCdEnum",
+    "OrdSvrDvsnCdEnum",
 ]

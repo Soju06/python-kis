@@ -15,16 +15,30 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class SllBuyDvsnCdEnum(KisStrEnum):
@@ -75,11 +89,11 @@ class OrdObjtCblcDvsnCdEnum(KisStrEnum):
 
 
 class OrderResvRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -116,7 +130,7 @@ class OrderResvRequest(RawModel):
         alias="LOAN_DT",
     )
     ("대출일자")
-    RSVN_ORD_END_DT: KisDateOptional = Field(
+    RSVN_ORD_END_DT: str | None = Field(
         default=None,
         alias="RSVN_ORD_END_DT",
     )
@@ -181,8 +195,8 @@ class OrderResvRequestDict(TypedDict):
     [국내주식-017 v1] 주식예약주문
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         PDNO (str): 종목코드(6자리)
         ORD_QTY (int): 주문주식수
         ORD_UNPR (Decimal): 1주당 가격 * 장전 시간외, 시장가의 경우 1주당 가격을 공란으로 비우지
@@ -194,7 +208,7 @@ class OrderResvRequestDict(TypedDict):
         22 : 유통대주신규 23 : 유통융자신규 24 : 자기대주신규 25 : 자기융자상환 26 : 유통대주상환 27
         : 유통융자상환 28 : 자기대주상환
         LOAN_DT (KisDate): 대출일자 optional
-        RSVN_ORD_END_DT (KisDate): (YYYYMMDD) 현재 일자보다 이후로 설정해야 함 *
+        RSVN_ORD_END_DT (str): (YYYYMMDD) 현재 일자보다 이후로 설정해야 함 *
         RSVN_ORD_END_DT(예약주문종료일자)를 안 넣으면 다음날 주문처리되고 예약주문은 종료됨 *
         RSVN_ORD_END_DT(예약주문종료일자)는 익영업일부터 달력일 기준으로 공휴일 포함하여 최대 30일이
         되는 일자까지 입력 가능 optional
@@ -202,11 +216,11 @@ class OrderResvRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     PDNO: Annotated[
@@ -243,7 +257,7 @@ class OrderResvRequestDict(TypedDict):
     ]
     RSVN_ORD_END_DT: NotRequired[
         Annotated[
-            KisDateOptional,
+            str | None,
             "(YYYYMMDD) 현재 일자보다 이후로 설정해야 함 * RSVN_ORD_END_DT(예약주문종료일자)를 안 넣으면 "
             "다음날 주문처리되고 예약주문은 종료됨 * RSVN_ORD_END_DT(예약주문종료일자)는 익영업일부터 달력일 "
             "기준으로 공휴일 포함하여 최대 30일이 되는 일자까지 입력 가능",
@@ -435,8 +449,8 @@ if TYPE_CHECKING:
                 **kwargs (OrderResvRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         PDNO (str): 종목코드(6자리)
                         ORD_QTY (int): 주문주식수
                         ORD_UNPR (Decimal): 1주당 가격 * 장전 시간외, 시장가의 경우 1주당 가격을
@@ -450,7 +464,7 @@ if TYPE_CHECKING:
                         유통융자신규 24 : 자기대주신규 25 : 자기융자상환 26 : 유통대주상환 27 :
                         유통융자상환 28 : 자기대주상환
                         LOAN_DT (KisDate): 대출일자 optional
-                        RSVN_ORD_END_DT (KisDate): (YYYYMMDD) 현재 일자보다 이후로 설정해야 함 *
+                        RSVN_ORD_END_DT (str): (YYYYMMDD) 현재 일자보다 이후로 설정해야 함 *
                         RSVN_ORD_END_DT(예약주문종료일자)를 안 넣으면 다음날 주문처리되고 예약주문은
                         종료됨 * RSVN_ORD_END_DT(예약주문종료일자)는 익영업일부터 달력일 기준으로
                         공휴일 포함하여 최대 30일이 되는 일자까지 입력 가능 optional
@@ -471,6 +485,8 @@ __all__ = [
     "OrderResvRequestDict",
     "OrderResvResponse",
     "OrderResvOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "SllBuyDvsnCdEnum",
     "OrdDvsnCdEnum",
     "OrdObjtCblcDvsnCdEnum",

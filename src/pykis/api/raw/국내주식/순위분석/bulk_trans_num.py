@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -32,17 +32,13 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
     "NXT"
 
 
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
-    VALUE_4001 = ("4001", "KRX100")
-    "KRX100"
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(11909)")
+    "key(11909)"
+    VALUE_11909 = ("11909", "Unique key")
+    "Unique key"
+    KEY = ("key", "11909")
+    "11909"
 
 
 class FidRankSortClsCodeEnum(KisStrEnum):
@@ -61,11 +57,11 @@ class BulkTransNumRequest(RawModel):
         alias="fid_cond_mrkt_div_code",
     )
     ("시장구분코드 (J:KRX, NX:NXT)")
-    fid_cond_scr_div_code: str = Field(
+    fid_cond_scr_div_code: FidCondScrDivCodeEnum = Field(
         alias="fid_cond_scr_div_code",
     )
     ("Unique key(11909)")
-    fid_input_iscd: FidInputIscdEnum = Field(
+    fid_input_iscd: str = Field(
         alias="fid_input_iscd",
     )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
@@ -97,7 +93,7 @@ class BulkTransNumRequest(RawModel):
         alias="fid_trgt_cls_code",
     )
     ("0:전체")
-    fid_vol_cnt: str = Field(
+    fid_vol_cnt: int = Field(
         alias="fid_vol_cnt",
     )
     ("거래량 ~")
@@ -119,9 +115,8 @@ class BulkTransNumRequestDict(TypedDict):
     Request fields:
         fid_aply_rang_prc_2 (str): ~ 가격
         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
-        fid_cond_scr_div_code (str): Unique key(11909)
-        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
-        4001: KRX100
+        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(11909)
+        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100
         fid_rank_sort_cls_code (FidRankSortClsCodeEnum): 0:매수상위, 1:매도상위
         fid_div_cls_code (str): 0:전체
         fid_input_price_1 (str): 건별금액 ~
@@ -129,7 +124,7 @@ class BulkTransNumRequestDict(TypedDict):
         fid_input_iscd_2 (str): 공백:전체종목, 개별종목 조회시 종목코드 (000660)
         fid_trgt_exls_cls_code (str): 0:전체
         fid_trgt_cls_code (str): 0:전체
-        fid_vol_cnt (str): 거래량 ~
+        fid_vol_cnt (int): 거래량 ~
     """
 
     fid_aply_rang_prc_2: Annotated[
@@ -141,11 +136,11 @@ class BulkTransNumRequestDict(TypedDict):
         "시장구분코드 (J:KRX, NX:NXT)",
     ]
     fid_cond_scr_div_code: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(11909)",
     ]
     fid_input_iscd: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100",
     ]
     fid_rank_sort_cls_code: Annotated[
@@ -177,64 +172,53 @@ class BulkTransNumRequestDict(TypedDict):
         "0:전체",
     ]
     fid_vol_cnt: Annotated[
-        str,
+        int,
         "거래량 ~",
     ]
 
 
 class BulkTransNumOutput(RawModel):
-    mksc_shrn_iscd: str | None = Field(
-        default=None,
+    mksc_shrn_iscd: str = Field(
         alias="mksc_shrn_iscd",
     )
     ("유가증권 단축 종목코드")
-    data_rank: str | None = Field(
-        default=None,
+    data_rank: int = Field(
         alias="data_rank",
     )
     ("데이터 순위")
-    hts_kor_isnm: str | None = Field(
-        default=None,
+    hts_kor_isnm: str = Field(
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
-    stck_prpr: Decimal | None = Field(
-        default=None,
+    stck_prpr: Decimal = Field(
         alias="stck_prpr",
     )
     ("주식 현재가")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
-    prdy_vrss: str | None = Field(
-        default=None,
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일 대비")
-    prdy_ctrt: Decimal | None = Field(
-        default=None,
+    prdy_ctrt: Decimal = Field(
         alias="prdy_ctrt",
     )
     ("전일 대비율")
-    acml_vol: int | None = Field(
-        default=None,
+    acml_vol: int = Field(
         alias="acml_vol",
     )
     ("누적 거래량")
-    shnu_cntg_csnu: int | None = Field(
-        default=None,
+    shnu_cntg_csnu: int = Field(
         alias="shnu_cntg_csnu",
     )
     ("매수2 체결 건수")
-    seln_cntg_csnu: int | None = Field(
-        default=None,
+    seln_cntg_csnu: int = Field(
         alias="seln_cntg_csnu",
     )
     ("매도 체결 건수")
-    ntby_cnqn: str | None = Field(
-        default=None,
+    ntby_cnqn: int = Field(
         alias="ntby_cnqn",
     )
     ("순매수 체결량")
@@ -340,9 +324,9 @@ if TYPE_CHECKING:
                     Request fields:
                         fid_aply_rang_prc_2 (str): ~ 가격
                         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
-                        fid_cond_scr_div_code (str): Unique key(11909)
-                        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥,
-                        2001:코스피200, 4001: KRX100
+                        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(11909)
+                        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
+                        4001: KRX100
                         fid_rank_sort_cls_code (FidRankSortClsCodeEnum): 0:매수상위, 1:매도상위
                         fid_div_cls_code (str): 0:전체
                         fid_input_price_1 (str): 건별금액 ~
@@ -350,7 +334,7 @@ if TYPE_CHECKING:
                         fid_input_iscd_2 (str): 공백:전체종목, 개별종목 조회시 종목코드 (000660)
                         fid_trgt_exls_cls_code (str): 0:전체
                         fid_trgt_cls_code (str): 0:전체
-                        fid_vol_cnt (str): 거래량 ~
+                        fid_vol_cnt (int): 거래량 ~
 
             Returns:
                 tuple[BulkTransNumResponse, KisResponse]: 응답 모델과 원시 응답
@@ -368,6 +352,6 @@ __all__ = [
     "BulkTransNumResponse",
     "BulkTransNumOutput",
     "FidCondMrktDivCodeEnum",
-    "FidInputIscdEnum",
+    "FidCondScrDivCodeEnum",
     "FidRankSortClsCodeEnum",
 ]

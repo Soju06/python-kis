@@ -14,16 +14,30 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class OvrsExcgCdEnum(KisStrEnum):
@@ -60,11 +74,11 @@ class WcrcFrcrDvsnCdEnum(KisStrEnum):
 
 
 class InquirePeriodProfitRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -84,11 +98,11 @@ class InquirePeriodProfitRequest(RawModel):
         alias="PDNO",
     )
     ("공란 : 전체")
-    INQR_STRT_DT: KisDate = Field(
+    INQR_STRT_DT: str = Field(
         alias="INQR_STRT_DT",
     )
     ("YYYYMMDD")
-    INQR_END_DT: KisDate = Field(
+    INQR_END_DT: str = Field(
         alias="INQR_END_DT",
     )
     ("YYYYMMDD")
@@ -127,27 +141,27 @@ class InquirePeriodProfitRequestDict(TypedDict):
     ﻿﻿■ 담보상환내역은 기간손익화면에 표시되지 많으니 참고하여 주시기 바랍니다.
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         OVRS_EXCG_CD (OvrsExcgCdEnum): 공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE :
         일본, HASE : 베트남
         NATN_CD (str): 공란(Default)
         CRCY_CD (CrcyCdEnum): 공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY :
         일본엔화, VND : 베트남동
         PDNO (str): 공란 : 전체
-        INQR_STRT_DT (KisDate): YYYYMMDD
-        INQR_END_DT (KisDate): YYYYMMDD
+        INQR_STRT_DT (str): YYYYMMDD
+        INQR_END_DT (str): YYYYMMDD
         WCRC_FRCR_DVSN_CD (WcrcFrcrDvsnCdEnum): 01 : 외화, 02 : 원화
         CTX_AREA_FK200 (str): 연속조회검색조건200
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     OVRS_EXCG_CD: Annotated[
@@ -167,11 +181,11 @@ class InquirePeriodProfitRequestDict(TypedDict):
         "공란 : 전체",
     ]
     INQR_STRT_DT: Annotated[
-        KisDate,
+        str,
         "YYYYMMDD",
     ]
     INQR_END_DT: Annotated[
-        KisDate,
+        str,
         "YYYYMMDD",
     ]
     WCRC_FRCR_DVSN_CD: Annotated[
@@ -398,16 +412,16 @@ if TYPE_CHECKING:
                 **kwargs (InquirePeriodProfitRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         OVRS_EXCG_CD (OvrsExcgCdEnum): 공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA :
                         중국, TKSE : 일본, HASE : 베트남
                         NATN_CD (str): 공란(Default)
                         CRCY_CD (CrcyCdEnum): 공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY :
                         중국위안화, JPY : 일본엔화, VND : 베트남동
                         PDNO (str): 공란 : 전체
-                        INQR_STRT_DT (KisDate): YYYYMMDD
-                        INQR_END_DT (KisDate): YYYYMMDD
+                        INQR_STRT_DT (str): YYYYMMDD
+                        INQR_END_DT (str): YYYYMMDD
                         WCRC_FRCR_DVSN_CD (WcrcFrcrDvsnCdEnum): 01 : 외화, 02 : 원화
                         CTX_AREA_FK200 (str): 연속조회검색조건200
                         CTX_AREA_NK200 (str): 연속조회키200
@@ -428,6 +442,8 @@ __all__ = [
     "InquirePeriodProfitResponse",
     "InquirePeriodProfitOutput1",
     "InquirePeriodProfitOutput2",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "OvrsExcgCdEnum",
     "CrcyCdEnum",
     "WcrcFrcrDvsnCdEnum",

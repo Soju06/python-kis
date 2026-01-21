@@ -14,18 +14,32 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisDateOptional,
     KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class PrcsDvsnCdEnum(KisStrEnum):
@@ -54,11 +68,11 @@ class OrderResvCcnlRequest(RawModel):
         alias="TMNL_MDIA_KIND_CD",
     )
     ('"00" 입력')
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -100,8 +114,8 @@ class OrderResvCcnlRequestDict(TypedDict):
         RSVN_ORD_END_DT (KisDate): 예약주문종료일자
         RSVN_ORD_SEQ (str): 예약주문순번
         TMNL_MDIA_KIND_CD (str): "00" 입력
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         PRCS_DVSN_CD (PrcsDvsnCdEnum): 0: 전체 1: 처리내역 2: 미처리내역
         CNCL_YN (KisBool): "Y" 유효한 주문만 조회
         PDNO (str): 종목코드(6자리) (공백 입력 시 전체 조회)
@@ -127,11 +141,11 @@ class OrderResvCcnlRequestDict(TypedDict):
         '"00" 입력',
     ]
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     PRCS_DVSN_CD: Annotated[
@@ -368,8 +382,8 @@ if TYPE_CHECKING:
                         RSVN_ORD_END_DT (KisDate): 예약주문종료일자
                         RSVN_ORD_SEQ (str): 예약주문순번
                         TMNL_MDIA_KIND_CD (str): "00" 입력
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         PRCS_DVSN_CD (PrcsDvsnCdEnum): 0: 전체 1: 처리내역 2: 미처리내역
                         CNCL_YN (KisBool): "Y" 유효한 주문만 조회
                         PDNO (str): 종목코드(6자리) (공백 입력 시 전체 조회)
@@ -392,5 +406,7 @@ __all__ = [
     "OrderResvCcnlRequestDict",
     "OrderResvCcnlResponse",
     "OrderResvCcnlOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "PrcsDvsnCdEnum",
 ]

@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
+    KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -38,11 +38,11 @@ class InvestOpinionRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("종목코드(ex) 005930(삼성전자))")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("이후 ~(ex) 0020231113)")
-    FID_INPUT_DATE_2: KisDate = Field(
+    FID_INPUT_DATE_2: str = Field(
         alias="FID_INPUT_DATE_2",
     )
     ("~ 이전(ex) 0020240513)")
@@ -61,8 +61,8 @@ class InvestOpinionRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (str): J(시장 구분 코드)
         FID_COND_SCR_DIV_CODE (str): 16633(Primary key)
         FID_INPUT_ISCD (str): 종목코드(ex) 005930(삼성전자))
-        FID_INPUT_DATE_1 (KisDate): 이후 ~(ex) 0020231113)
-        FID_INPUT_DATE_2 (KisDate): ~ 이전(ex) 0020240513)
+        FID_INPUT_DATE_1 (str): 이후 ~(ex) 0020231113)
+        FID_INPUT_DATE_2 (str): ~ 이전(ex) 0020240513)
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -78,17 +78,18 @@ class InvestOpinionRequestDict(TypedDict):
         "종목코드(ex) 005930(삼성전자))",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "이후 ~(ex) 0020231113)",
     ]
     FID_INPUT_DATE_2: Annotated[
-        KisDate,
+        str,
         "~ 이전(ex) 0020240513)",
     ]
 
 
 class InvestOpinionOutput(RawModel):
-    stck_bsop_date: KisDate = Field(
+    stck_bsop_date: KisDateOptional = Field(
+        default=None,
         alias="stck_bsop_date",
     )
     ("주식영업일자")
@@ -97,7 +98,8 @@ class InvestOpinionOutput(RawModel):
         alias="invt_opnn",
     )
     ("투자의견")
-    invt_opnn_cls_code: str = Field(
+    invt_opnn_cls_code: str | None = Field(
+        default=None,
         alias="invt_opnn_cls_code",
     )
     ("투자의견구분코드")
@@ -106,7 +108,8 @@ class InvestOpinionOutput(RawModel):
         alias="rgbf_invt_opnn",
     )
     ("직전투자의견")
-    rgbf_invt_opnn_cls_code: str = Field(
+    rgbf_invt_opnn_cls_code: str | None = Field(
+        default=None,
         alias="rgbf_invt_opnn_cls_code",
     )
     ("직전투자의견구분코드")
@@ -115,23 +118,28 @@ class InvestOpinionOutput(RawModel):
         alias="mbcr_name",
     )
     ("회원사명")
-    hts_goal_prc: Decimal = Field(
+    hts_goal_prc: Decimal | None = Field(
+        default=None,
         alias="hts_goal_prc",
     )
     ("HTS목표가격")
-    stck_prdy_clpr: int = Field(
+    stck_prdy_clpr: str | None = Field(
+        default=None,
         alias="stck_prdy_clpr",
     )
     ("주식전일종가")
-    stck_nday_esdg: Decimal = Field(
+    stck_nday_esdg: str | None = Field(
+        default=None,
         alias="stck_nday_esdg",
     )
     ("주식N일괴리도")
-    nday_dprt: Decimal = Field(
+    nday_dprt: Decimal | None = Field(
+        default=None,
         alias="nday_dprt",
     )
     ("N일괴리율")
-    stft_esdg: Decimal = Field(
+    stft_esdg: str | None = Field(
+        default=None,
         alias="stft_esdg",
     )
     ("주식선물괴리도")
@@ -235,8 +243,8 @@ if TYPE_CHECKING:
                         FID_COND_MRKT_DIV_CODE (str): J(시장 구분 코드)
                         FID_COND_SCR_DIV_CODE (str): 16633(Primary key)
                         FID_INPUT_ISCD (str): 종목코드(ex) 005930(삼성전자))
-                        FID_INPUT_DATE_1 (KisDate): 이후 ~(ex) 0020231113)
-                        FID_INPUT_DATE_2 (KisDate): ~ 이전(ex) 0020240513)
+                        FID_INPUT_DATE_1 (str): 이후 ~(ex) 0020231113)
+                        FID_INPUT_DATE_2 (str): ~ 이전(ex) 0020240513)
 
             Returns:
                 tuple[InvestOpinionResponse, KisResponse]: 응답 모델과 원시 응답

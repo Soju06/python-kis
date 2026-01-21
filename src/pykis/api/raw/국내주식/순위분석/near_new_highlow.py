@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -30,6 +30,15 @@ class FidAplyRangVolEnum(KisStrEnum):
     "전체"
     VALUE_100 = ("100", "100주 이상")
     "100주 이상"
+
+
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(20187)")
+    "key(20187)"
+    VALUE_20187 = ("20187", "Unique key")
+    "Unique key"
+    KEY = ("key", "20187")
+    "20187"
 
 
 class FidDivClsCodeEnum(KisStrEnum):
@@ -48,19 +57,6 @@ class FidPrcClsCodeEnum(KisStrEnum):
     "신고근접"
     VALUE_1 = ("1", "신저근접")
     "신저근접"
-
-
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
-    VALUE_4001 = ("4001", "KRX100")
-    "KRX100"
 
 
 class FidTrgtExlsClsCodeEnum(KisStrEnum):
@@ -91,7 +87,7 @@ class NearNewHighlowRequest(RawModel):
         alias="fid_cond_mrkt_div_code",
     )
     ("시장구분코드 (주식 J)")
-    fid_cond_scr_div_code: str = Field(
+    fid_cond_scr_div_code: FidCondScrDivCodeEnum = Field(
         alias="fid_cond_scr_div_code",
     )
     ("Unique key(20187)")
@@ -111,7 +107,7 @@ class NearNewHighlowRequest(RawModel):
         alias="fid_prc_cls_code",
     )
     ("0:신고근접, 1:신저근접")
-    fid_input_iscd: FidInputIscdEnum = Field(
+    fid_input_iscd: str = Field(
         alias="fid_input_iscd",
     )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
@@ -149,13 +145,12 @@ class NearNewHighlowRequestDict(TypedDict):
     Request fields:
         fid_aply_rang_vol (FidAplyRangVolEnum): 0: 전체, 100: 100주 이상
         fid_cond_mrkt_div_code (str): 시장구분코드 (주식 J)
-        fid_cond_scr_div_code (str): Unique key(20187)
+        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20187)
         fid_div_cls_code (FidDivClsCodeEnum): 0:전체, 1:관리종목, 2:투자주의, 3:투자경고
         fid_input_cnt_1 (str): 괴리율 최소
         fid_input_cnt_2 (str): 괴리율 최대
         fid_prc_cls_code (FidPrcClsCodeEnum): 0:신고근접, 1:신저근접
-        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
-        4001: KRX100
+        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100
         fid_trgt_cls_code (str): 0: 전체
         fid_trgt_exls_cls_code (FidTrgtExlsClsCodeEnum): 0:전체, 1:관리종목, 2:투자주의, 3:투자경고,
         4:투자위험예고, 5:투자위험, 6:보통주, 7:우선주
@@ -172,7 +167,7 @@ class NearNewHighlowRequestDict(TypedDict):
         "시장구분코드 (주식 J)",
     ]
     fid_cond_scr_div_code: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(20187)",
     ]
     fid_div_cls_code: Annotated[
@@ -192,7 +187,7 @@ class NearNewHighlowRequestDict(TypedDict):
         "0:신고근접, 1:신저근접",
     ]
     fid_input_iscd: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100",
     ]
     fid_trgt_cls_code: Annotated[
@@ -214,83 +209,67 @@ class NearNewHighlowRequestDict(TypedDict):
 
 
 class NearNewHighlowOutput(RawModel):
-    hts_kor_isnm: str | None = Field(
-        default=None,
+    hts_kor_isnm: str = Field(
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
-    mksc_shrn_iscd: str | None = Field(
-        default=None,
+    mksc_shrn_iscd: str = Field(
         alias="mksc_shrn_iscd",
     )
     ("유가증권 단축 종목코드")
-    stck_prpr: Decimal | None = Field(
-        default=None,
+    stck_prpr: Decimal = Field(
         alias="stck_prpr",
     )
     ("주식 현재가")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
-    prdy_vrss: str | None = Field(
-        default=None,
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일 대비")
-    prdy_ctrt: Decimal | None = Field(
-        default=None,
+    prdy_ctrt: Decimal = Field(
         alias="prdy_ctrt",
     )
     ("전일 대비율")
-    askp: str | None = Field(
-        default=None,
+    askp: int = Field(
         alias="askp",
     )
     ("매도호가")
-    askp_rsqn1: str | None = Field(
-        default=None,
+    askp_rsqn1: int = Field(
         alias="askp_rsqn1",
     )
     ("매도호가 잔량1")
-    bidp: str | None = Field(
-        default=None,
+    bidp: str = Field(
         alias="bidp",
     )
     ("매수호가")
-    bidp_rsqn1: str | None = Field(
-        default=None,
+    bidp_rsqn1: str = Field(
         alias="bidp_rsqn1",
     )
     ("매수호가 잔량1")
-    acml_vol: int | None = Field(
-        default=None,
+    acml_vol: int = Field(
         alias="acml_vol",
     )
     ("누적 거래량")
-    new_hgpr: Decimal | None = Field(
-        default=None,
+    new_hgpr: Decimal = Field(
         alias="new_hgpr",
     )
     ("신 최고가")
-    hprc_near_rate: Decimal | None = Field(
-        default=None,
+    hprc_near_rate: Decimal = Field(
         alias="hprc_near_rate",
     )
     ("고가 근접 비율")
-    new_lwpr: Decimal | None = Field(
-        default=None,
+    new_lwpr: Decimal = Field(
         alias="new_lwpr",
     )
     ("신 최저가")
-    lwpr_near_rate: Decimal | None = Field(
-        default=None,
+    lwpr_near_rate: Decimal = Field(
         alias="lwpr_near_rate",
     )
     ("저가 근접 비율")
-    stck_sdpr: str | None = Field(
-        default=None,
+    stck_sdpr: int = Field(
         alias="stck_sdpr",
     )
     ("주식 기준가")
@@ -396,14 +375,14 @@ if TYPE_CHECKING:
                     Request fields:
                         fid_aply_rang_vol (FidAplyRangVolEnum): 0: 전체, 100: 100주 이상
                         fid_cond_mrkt_div_code (str): 시장구분코드 (주식 J)
-                        fid_cond_scr_div_code (str): Unique key(20187)
+                        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20187)
                         fid_div_cls_code (FidDivClsCodeEnum): 0:전체, 1:관리종목, 2:투자주의,
                         3:투자경고
                         fid_input_cnt_1 (str): 괴리율 최소
                         fid_input_cnt_2 (str): 괴리율 최대
                         fid_prc_cls_code (FidPrcClsCodeEnum): 0:신고근접, 1:신저근접
-                        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥,
-                        2001:코스피200, 4001: KRX100
+                        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
+                        4001: KRX100
                         fid_trgt_cls_code (str): 0: 전체
                         fid_trgt_exls_cls_code (FidTrgtExlsClsCodeEnum): 0:전체, 1:관리종목,
                         2:투자주의, 3:투자경고, 4:투자위험예고, 5:투자위험, 6:보통주, 7:우선주
@@ -426,8 +405,8 @@ __all__ = [
     "NearNewHighlowResponse",
     "NearNewHighlowOutput",
     "FidAplyRangVolEnum",
+    "FidCondScrDivCodeEnum",
     "FidDivClsCodeEnum",
     "FidPrcClsCodeEnum",
-    "FidInputIscdEnum",
     "FidTrgtExlsClsCodeEnum",
 ]

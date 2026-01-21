@@ -14,14 +14,14 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -77,7 +77,7 @@ class InquireTimeFuopchartpriceRequest(RawModel):
         alias="FID_FAKE_TICK_INCU_YN",
     )
     ("N으로 입력")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("입력 날짜 기준으로 이전 기간 조회(YYYYMMDD) ex) 20230908 입력 시, 2023년 9월 8일부터 일자 역순으로 조회")
@@ -104,8 +104,8 @@ class InquireTimeFuopchartpriceRequestDict(TypedDict):
         FID_HOUR_CLS_CODE (FidHourClsCodeEnum): FID 시간 구분 코드(30: 30초, 60: 1분, 3600: 1시간)
         FID_PW_DATA_INCU_YN (KisBool): Y(과거) / N (당일)
         FID_FAKE_TICK_INCU_YN (KisBool): N으로 입력
-        FID_INPUT_DATE_1 (KisDate): 입력 날짜 기준으로 이전 기간 조회(YYYYMMDD) ex) 20230908 입력
-        시, 2023년 9월 8일부터 일자 역순으로 조회
+        FID_INPUT_DATE_1 (str): 입력 날짜 기준으로 이전 기간 조회(YYYYMMDD) ex) 20230908 입력 시,
+        2023년 9월 8일부터 일자 역순으로 조회
         FID_INPUT_HOUR_1 (str): 입력 시간 기준으로 이전 시간 조회(HHMMSS) ex) 093000 입력 시, 오전
         9시 30분부터 역순으로 분봉 조회 * CM(야간선물), EU(야간옵션)인 경우, 자정 이후 시간은
         +24시간으로 입력 ex) 253000 입력 시, 새벽 1시 30분부터 역순으로 분봉 조회
@@ -133,7 +133,7 @@ class InquireTimeFuopchartpriceRequestDict(TypedDict):
         "N으로 입력",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "입력 날짜 기준으로 이전 기간 조회(YYYYMMDD) ex) 20230908 입력 시, 2023년 9월 8일부터 일자 역순으로 조회",
     ]
     FID_INPUT_HOUR_1: Annotated[
@@ -405,7 +405,7 @@ if TYPE_CHECKING:
                         3600: 1시간)
                         FID_PW_DATA_INCU_YN (KisBool): Y(과거) / N (당일)
                         FID_FAKE_TICK_INCU_YN (KisBool): N으로 입력
-                        FID_INPUT_DATE_1 (KisDate): 입력 날짜 기준으로 이전 기간 조회(YYYYMMDD) ex)
+                        FID_INPUT_DATE_1 (str): 입력 날짜 기준으로 이전 기간 조회(YYYYMMDD) ex)
                         20230908 입력 시, 2023년 9월 8일부터 일자 역순으로 조회
                         FID_INPUT_HOUR_1 (str): 입력 시간 기준으로 이전 시간 조회(HHMMSS) ex) 093000
                         입력 시, 오전 9시 30분부터 역순으로 분봉 조회 * CM(야간선물), EU(야간옵션)인

@@ -14,14 +14,29 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidRankSortClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "금액순")
+    "금액순"
+    VALUE_1 = ("1", "수량순")
+    "수량순"
+
+
+class FidRankSortClsCode2Enum(KisStrEnum):
+    VALUE_0 = ("0", "매수순")
+    "매수순"
+    VALUE_1 = ("1", "매도순")
+    "매도순"
 
 
 class FrgnmemTradeEstimateRequest(RawModel):
@@ -37,11 +52,11 @@ class FrgnmemTradeEstimateRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("0000(전체), 1001(코스피), 2001(코스닥)")
-    FID_RANK_SORT_CLS_CODE: str = Field(
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
         alias="FID_RANK_SORT_CLS_CODE",
     )
     ("0(금액순), 1(수량순)")
-    FID_RANK_SORT_CLS_CODE_2: str = Field(
+    FID_RANK_SORT_CLS_CODE_2: FidRankSortClsCode2Enum = Field(
         alias="FID_RANK_SORT_CLS_CODE_2",
     )
     ("0(매수순), 1(매도순)")
@@ -57,8 +72,8 @@ class FrgnmemTradeEstimateRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (J)
         FID_COND_SCR_DIV_CODE (str): Uniquekey (16441)
         FID_INPUT_ISCD (str): 0000(전체), 1001(코스피), 2001(코스닥)
-        FID_RANK_SORT_CLS_CODE (str): 0(금액순), 1(수량순)
-        FID_RANK_SORT_CLS_CODE_2 (str): 0(매수순), 1(매도순)
+        FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): 0(금액순), 1(수량순)
+        FID_RANK_SORT_CLS_CODE_2 (FidRankSortClsCode2Enum): 0(매수순), 1(매도순)
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -74,63 +89,53 @@ class FrgnmemTradeEstimateRequestDict(TypedDict):
         "0000(전체), 1001(코스피), 2001(코스닥)",
     ]
     FID_RANK_SORT_CLS_CODE: Annotated[
-        str,
+        FidRankSortClsCodeEnum,
         "0(금액순), 1(수량순)",
     ]
     FID_RANK_SORT_CLS_CODE_2: Annotated[
-        str,
+        FidRankSortClsCode2Enum,
         "0(매수순), 1(매도순)",
     ]
 
 
 class FrgnmemTradeEstimateOutput(RawModel):
-    stck_shrn_iscd: str | None = Field(
-        default=None,
+    stck_shrn_iscd: str = Field(
         alias="stck_shrn_iscd",
     )
     ("주식단축종목코드")
-    hts_kor_isnm: str | None = Field(
-        default=None,
+    hts_kor_isnm: str = Field(
         alias="hts_kor_isnm",
     )
     ("HTS한글종목명")
-    glob_ntsl_qty: int | None = Field(
-        default=None,
+    glob_ntsl_qty: int = Field(
         alias="glob_ntsl_qty",
     )
     ("외국계순매도수량")
-    stck_prpr: Decimal | None = Field(
-        default=None,
+    stck_prpr: Decimal = Field(
         alias="stck_prpr",
     )
     ("주식현재가")
-    prdy_vrss: str | None = Field(
-        default=None,
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일대비")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
-    prdy_ctrt: Decimal | None = Field(
-        default=None,
+    prdy_ctrt: Decimal = Field(
         alias="prdy_ctrt",
     )
     ("전일대비율")
-    acml_vol: int | None = Field(
-        default=None,
+    acml_vol: int = Field(
         alias="acml_vol",
     )
     ("누적거래량")
-    glob_total_seln_qty: int | None = Field(
-        default=None,
+    glob_total_seln_qty: int = Field(
         alias="glob_total_seln_qty",
     )
     ("외국계총매도수량")
-    glob_total_shnu_qty: int | None = Field(
-        default=None,
+    glob_total_shnu_qty: int = Field(
         alias="glob_total_shnu_qty",
     )
     ("외국계총매수2수량")
@@ -223,8 +228,8 @@ if TYPE_CHECKING:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (J)
                         FID_COND_SCR_DIV_CODE (str): Uniquekey (16441)
                         FID_INPUT_ISCD (str): 0000(전체), 1001(코스피), 2001(코스닥)
-                        FID_RANK_SORT_CLS_CODE (str): 0(금액순), 1(수량순)
-                        FID_RANK_SORT_CLS_CODE_2 (str): 0(매수순), 1(매도순)
+                        FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): 0(금액순), 1(수량순)
+                        FID_RANK_SORT_CLS_CODE_2 (FidRankSortClsCode2Enum): 0(매수순), 1(매도순)
 
             Returns:
                 tuple[FrgnmemTradeEstimateResponse, KisResponse]: 응답 모델과 원시 응답
@@ -241,4 +246,6 @@ __all__ = [
     "FrgnmemTradeEstimateRequestDict",
     "FrgnmemTradeEstimateResponse",
     "FrgnmemTradeEstimateOutput",
+    "FidRankSortClsCodeEnum",
+    "FidRankSortClsCode2Enum",
 ]

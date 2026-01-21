@@ -14,15 +14,15 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisDateOptional,
     KisDateTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -51,6 +51,81 @@ class PrdtTypeCdEnum(KisStrEnum):
     "중국 상해A"
     VALUE_552 = ("552", "중국 심천A")
     "중국 심천A"
+
+
+class OvrsStckDvsnCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "주식")
+    "주식"
+    VALUE_02 = ("02", "WARRANT")
+    "WARRANT"
+    VALUE_03 = ("03", "ETF")
+    "ETF"
+    VALUE_04 = ("04", "우선주")
+    "우선주"
+
+
+class OvrsStckTrStopDvsnCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "정상")
+    "정상"
+    VALUE_02 = ("02", "거래정지(")
+    "거래정지("
+    VALUE_03 = ("03", "거래중단")
+    "거래중단"
+    VALUE_04 = ("04", "매도정지")
+    "매도정지"
+    VALUE_05 = ("05", "거래정지(위탁)")
+    "거래정지(위탁)"
+    VALUE_06 = ("06", "매수정지")
+    "매수정지"
+    ALL = ("ALL", "02.거래정지")
+    "02.거래정지"
+
+
+class OvrsStckEtfRiskDrtpCdEnum(KisStrEnum):
+    MUTUAL = ("Mutual", "Fund")
+    "Fund"
+    VALUE_001 = ("001", "ETF")
+    "ETF"
+    VALUE_002 = ("002", "ETN")
+    "ETN"
+    VALUE_003 = ("003", "ETC(Exchage Traded Commodity)")
+    "ETC(Exchage Traded Commodity)"
+    VALUE_004 = ("004", "Others(REIT's, Mutual")
+    "Others(REIT's, Mutual"
+    VALUE_005 = ("005", "VIX Underlying ETF")
+    "VIX Underlying ETF"
+    VALUE_006 = ("006", "VIX Underlying ETN")
+    "VIX Underlying ETN"
+    ETC = ("ETC", "Exchage Traded Commodity")
+    "Exchage Traded Commodity"
+
+
+class OvrsStckStopRsonCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "권리발생")
+    "권리발생"
+    VALUE_02 = ("02", "ISIN상이")
+    "ISIN상이"
+    VALUE_03 = ("03", "기타")
+    "기타"
+    VALUE_04 = ("04", "급등락종목")
+    "급등락종목"
+    VALUE_05 = ("05", "상장폐지(예정)")
+    "상장폐지(예정)"
+    VALUE_06 = ("06", "종목코드,거래소변경")
+    "종목코드,거래소변경"
+    VALUE_07 = ("07", "PTP종목")
+    "PTP종목"
+
+
+class MiniStkTrStatDvsnCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "정상")
+    "정상"
+    VALUE_02 = ("02", "매매 불가")
+    "매매 불가"
+    VALUE_03 = ("03", "매수 불가")
+    "매수 불가"
+    VALUE_04 = ("04", "매도 불가")
+    "매도 불가"
 
 
 class SearchInfoRequest(RawModel):
@@ -139,7 +214,7 @@ class SearchInfoOutput(RawModel):
         alias="crcy_name",
     )
     ("통화명")
-    ovrs_stck_dvsn_cd: str = Field(
+    ovrs_stck_dvsn_cd: OvrsStckDvsnCdEnum = Field(
         alias="ovrs_stck_dvsn_cd",
     )
     ("01.주식 02.WARRANT 03.ETF 04.우선주")
@@ -172,7 +247,7 @@ class SearchInfoOutput(RawModel):
         alias="lstg_dt",
     )
     ("상장일자")
-    ovrs_stck_tr_stop_dvsn_cd: str = Field(
+    ovrs_stck_tr_stop_dvsn_cd: OvrsStckTrStopDvsnCdEnum = Field(
         alias="ovrs_stck_tr_stop_dvsn_cd",
     )
     (
@@ -226,7 +301,7 @@ class SearchInfoOutput(RawModel):
         alias="blbg_tckr_text",
     )
     ("블름버그티커내용")
-    ovrs_stck_etf_risk_drtp_cd: str | None = Field(
+    ovrs_stck_etf_risk_drtp_cd: OvrsStckEtfRiskDrtpCdEnum | None = Field(
         default=None,
         alias="ovrs_stck_etf_risk_drtp_cd",
     )
@@ -258,7 +333,7 @@ class SearchInfoOutput(RawModel):
         alias="lei_cd",
     )
     ("LEI코드")
-    ovrs_stck_stop_rson_cd: str | None = Field(
+    ovrs_stck_stop_rson_cd: OvrsStckStopRsonCdEnum | None = Field(
         default=None,
         alias="ovrs_stck_stop_rson_cd",
     )
@@ -268,7 +343,7 @@ class SearchInfoOutput(RawModel):
         alias="lstg_abol_dt",
     )
     ("상장폐지일자")
-    mini_stk_tr_stat_dvsn_cd: str = Field(
+    mini_stk_tr_stat_dvsn_cd: MiniStkTrStatDvsnCdEnum = Field(
         alias="mini_stk_tr_stat_dvsn_cd",
     )
     ("01.정상 02.매매 불가 03.매수 불가 04.매도 불가")
@@ -446,4 +521,9 @@ __all__ = [
     "SearchInfoResponse",
     "SearchInfoOutput",
     "PrdtTypeCdEnum",
+    "OvrsStckDvsnCdEnum",
+    "OvrsStckTrStopDvsnCdEnum",
+    "OvrsStckEtfRiskDrtpCdEnum",
+    "OvrsStckStopRsonCdEnum",
+    "MiniStkTrStatDvsnCdEnum",
 ]

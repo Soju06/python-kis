@@ -35,7 +35,7 @@ from codegen.core.reports import write_docs_summary
 from codegen.core.types import JsonObject
 from pykis.api.auth import KisAuth
 from pykis.api.client import SyncKisRawClient
-from pykis.raw.types import Endpoint
+from pykis.api.raw.types import Endpoint
 
 ROOT = project_root()
 DOCS_BASE = ROOT / "docs"
@@ -44,7 +44,6 @@ ARTIFACTS_ROOT = ROOT / "tmp" / "docs"
 NORMALIZED_DIR = ARTIFACTS_ROOT / "normalized"
 REPORT_DIR = ARTIFACTS_ROOT / "reports"
 GENERATED_API_RAW_DIR = ROOT / "src" / "pykis" / "api" / "raw"
-GENERATED_RAW_DIR = ROOT / "src" / "pykis" / "raw"
 RAW_REGISTRY_PREFIX = "pykis.api.raw"
 AUGMENT_DIR = ARTIFACTS_ROOT / "augment"
 OVERRIDES_PATH = DOCS_BASE / "overrides" / "augment_overrides.yaml"
@@ -56,6 +55,10 @@ TARGET_SECTIONS: tuple[str, ...] | None = None
 SAMPLE_COUNT = 5
 DEMO_RATE_LIMIT = 0.5
 REAL_RATE_LIMIT = 0.2
+OAUTH_SECTIONS = {"OAuth인증"}
+OAUTH_SUBCATEGORIES = {"OAuth인증"}
+REALTIME_SUBCATEGORIES = {"실시간시세"}
+EXCLUDED_PATH_PREFIXES = ("/oauth2",)
 
 logger = logging.getLogger("pykis.codegen.pipeline")
 
@@ -76,6 +79,46 @@ def _spec_basename(spec: EndpointSpec) -> str:
         if stem:
             return normalize_filename(stem)
     return normalize_filename(spec.name)
+
+
+def _normalize_label(value: str | None) -> str:
+    return (value or "").strip()
+
+
+def _is_oauth_spec(spec: EndpointSpec) -> bool:
+    section = _normalize_label(spec.section)
+    category = _normalize_label(spec.category)
+    subcategory = _normalize_label(spec.subcategory)
+    path = (spec.path or "").strip()
+    if section in OAUTH_SECTIONS:
+        return True
+    if category in OAUTH_SECTIONS:
+        return True
+    if subcategory in OAUTH_SUBCATEGORIES:
+        return True
+    return any(path.startswith(prefix) for prefix in EXCLUDED_PATH_PREFIXES)
+
+
+def _is_realtime_spec(spec: EndpointSpec) -> bool:
+    section = _normalize_label(spec.section)
+    category = _normalize_label(spec.category)
+    subcategory = _normalize_label(spec.subcategory)
+    if "실시간시세" in section:
+        return True
+    if "실시간시세" in category:
+        return True
+    return subcategory in REALTIME_SUBCATEGORIES
+
+
+def _filter_api_raw_specs(specs: list[EndpointSpec]) -> tuple[list[EndpointSpec], list[EndpointSpec]]:
+    kept: list[EndpointSpec] = []
+    dropped: list[EndpointSpec] = []
+    for spec in specs:
+        if _is_oauth_spec(spec) or _is_realtime_spec(spec):
+            dropped.append(spec)
+        else:
+            kept.append(spec)
+    return kept, dropped
 
 
 def _build_report(issues: list[SpecIssue], parse_errors: list[JsonObject]) -> ScanReport:
@@ -261,6 +304,16 @@ def run_pipeline() -> PipelineResult:
     else:
         section_specs = specs
         logger.info("scope target_sections=ALL endpoints=%s", len(section_specs))
+    section_specs, excluded_specs = _filter_api_raw_specs(section_specs)
+    if excluded_specs:
+        oauth_count = sum(1 for spec in excluded_specs if _is_oauth_spec(spec))
+        realtime_count = len(excluded_specs) - oauth_count
+        logger.info(
+            "exclude api_raw oauth=%s realtime=%s kept=%s",
+            oauth_count,
+            realtime_count,
+            len(section_specs),
+        )
 
     def _sort_key(item: EndpointSpec) -> str:
         return item.id
@@ -275,7 +328,6 @@ def run_pipeline() -> PipelineResult:
 
     # Generate raw models/registry for sample
     generate_raw(sample_specs, GENERATED_API_RAW_DIR, type_overrides, module_prefix="pykis.api.raw")
-    generate_raw(sample_specs, GENERATED_RAW_DIR, type_overrides, module_prefix="pykis.raw")
 
     if not DEMO_SECRET.exists():
         raise SystemExit("Missing demo_secret.json required for demo augmentation.")
@@ -323,7 +375,6 @@ def run_pipeline() -> PipelineResult:
     inference_sample = _apply_type_overrides(infer_types(sample_specs, AUGMENT_DIR), type_overrides)
     write_report(REPORT_DIR / "inference_sample.json", inference_sample)
     generate_raw(section_specs, GENERATED_API_RAW_DIR, inference_sample, module_prefix="pykis.api.raw")
-    generate_raw(section_specs, GENERATED_RAW_DIR, inference_sample, module_prefix="pykis.raw")
 
     FULL_ENDPOINTS = _reload_registry()
 
@@ -357,7 +408,6 @@ def run_pipeline() -> PipelineResult:
     inference = _apply_type_overrides(infer_types(section_specs, AUGMENT_DIR), type_overrides)
     write_report(REPORT_DIR / "inference.json", inference)
     generate_raw(section_specs, GENERATED_API_RAW_DIR, inference, module_prefix="pykis.api.raw")
-    generate_raw(section_specs, GENERATED_RAW_DIR, inference, module_prefix="pykis.raw")
 
     validation = validate_samples(section_specs, AUGMENT_DIR, _reload_registry())
     write_report(REPORT_DIR / "validation.json", validation)
@@ -418,10 +468,8 @@ def _clean_generated_dirs() -> None:
                 sub.rmdir()
 
     keep_files = {"base.py", "registry.py", "types.py", "__init__.py"}
-    for raw_dir in (GENERATED_API_RAW_DIR, GENERATED_RAW_DIR):
-        if not raw_dir.exists():
-            continue
-        for child in raw_dir.iterdir():
+    if GENERATED_API_RAW_DIR.exists():
+        for child in GENERATED_API_RAW_DIR.iterdir():
             if child.is_file() and child.name in keep_files:
                 continue
             if child.is_file():

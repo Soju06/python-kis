@@ -13,13 +13,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
+    KisDateTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -41,11 +41,11 @@ class InquireTimeFuturechartpriceRequest(RawModel):
         alias="EXCH_CD",
     )
     ("CME")
-    START_DATE_TIME: KisDate = Field(
+    START_DATE_TIME: KisDateTime = Field(
         alias="START_DATE_TIME",
     )
     ("공백")
-    CLOSE_DATE_TIME: KisDate = Field(
+    CLOSE_DATE_TIME: KisDateTime = Field(
         alias="CLOSE_DATE_TIME",
     )
     ("ex) 20230823")
@@ -57,7 +57,7 @@ class InquireTimeFuturechartpriceRequest(RawModel):
         alias="QRY_CNT",
     )
     ("120 (조회갯수)")
-    QRY_GAP: str = Field(
+    QRY_GAP: int = Field(
         alias="QRY_GAP",
     )
     ("5 (분간격)")
@@ -120,11 +120,11 @@ class InquireTimeFuturechartpriceRequestDict(TypedDict):
         SRS_CD (str): ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물"
         참고
         EXCH_CD (str): CME
-        START_DATE_TIME (KisDate): 공백
-        CLOSE_DATE_TIME (KisDate): ex) 20230823
+        START_DATE_TIME (KisDateTime): 공백
+        CLOSE_DATE_TIME (KisDateTime): ex) 20230823
         QRY_TP (QryTpEnum): Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시
         QRY_CNT (int): 120 (조회갯수)
-        QRY_GAP (str): 5 (분간격)
+        QRY_GAP (int): 5 (분간격)
         INDEX_KEY (str): 다음조회(QRY_TP를 P로 입력) 시, 이전 호출의 "output1 > index_key" 기입하여
         조회
     """
@@ -138,11 +138,11 @@ class InquireTimeFuturechartpriceRequestDict(TypedDict):
         "CME",
     ]
     START_DATE_TIME: Annotated[
-        KisDate,
+        KisDateTime,
         "공백",
     ]
     CLOSE_DATE_TIME: Annotated[
-        KisDate,
+        KisDateTime,
         "ex) 20230823",
     ]
     QRY_TP: Annotated[
@@ -154,7 +154,7 @@ class InquireTimeFuturechartpriceRequestDict(TypedDict):
         "120 (조회갯수)",
     ]
     QRY_GAP: Annotated[
-        str,
+        int,
         "5 (분간격)",
     ]
     INDEX_KEY: Annotated[
@@ -334,11 +334,11 @@ if TYPE_CHECKING:
                         SRS_CD (str): ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) -
                         해외지수선물" 참고
                         EXCH_CD (str): CME
-                        START_DATE_TIME (KisDate): 공백
-                        CLOSE_DATE_TIME (KisDate): ex) 20230823
+                        START_DATE_TIME (KisDateTime): 공백
+                        CLOSE_DATE_TIME (KisDateTime): ex) 20230823
                         QRY_TP (QryTpEnum): Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시
                         QRY_CNT (int): 120 (조회갯수)
-                        QRY_GAP (str): 5 (분간격)
+                        QRY_GAP (int): 5 (분간격)
                         INDEX_KEY (str): 다음조회(QRY_TP를 P로 입력) 시, 이전 호출의 "output1 >
                         index_key" 기입하여 조회
 

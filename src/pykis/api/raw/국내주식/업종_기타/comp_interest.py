@@ -14,23 +14,42 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class FidCondMrktDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(I)")
+    "key(I)"
+    VALUE_I = ("I", "Unique key")
+    "Unique key"
+    KEY = ("key", "I")
+    "I"
+
+
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(20702)")
+    "key(20702)"
+    VALUE_20702 = ("20702", "Unique key")
+    "Unique key"
+    KEY = ("key", "20702")
+    "20702"
+
+
 class CompInterestRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("Unique key(I)")
-    FID_COND_SCR_DIV_CODE: str = Field(
+    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("Unique key(20702)")
@@ -53,18 +72,18 @@ class CompInterestRequestDict(TypedDict):
     ※ 11:30 이후에 신규데이터가 수신되는 점 참고하시기 바랍니다.
 
     Request fields:
-        FID_COND_MRKT_DIV_CODE (str): Unique key(I)
-        FID_COND_SCR_DIV_CODE (str): Unique key(20702)
+        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): Unique key(I)
+        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20702)
         FID_DIV_CLS_CODE (str): 1: 해외금리지표
         FID_DIV_CLS_CODE1 (str): 공백 : 전체
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
+        FidCondMrktDivCodeEnum,
         "Unique key(I)",
     ]
     FID_COND_SCR_DIV_CODE: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(20702)",
     ]
     FID_DIV_CLS_CODE: Annotated[
@@ -90,11 +109,11 @@ class CompInterestOutput1(RawModel):
         alias="bond_mnrt_prpr",
     )
     ("채권금리현재가")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
-    bond_mnrt_prdy_vrss: str = Field(
+    bond_mnrt_prdy_vrss: Decimal = Field(
         alias="bond_mnrt_prdy_vrss",
     )
     ("채권금리전일대비")
@@ -121,11 +140,11 @@ class CompInterestOutput2(RawModel):
         alias="bond_mnrt_prpr",
     )
     ("채권금리현재가")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
-    bond_mnrt_prdy_vrss: str = Field(
+    bond_mnrt_prdy_vrss: Decimal = Field(
         alias="bond_mnrt_prdy_vrss",
     )
     ("채권금리전일대비")
@@ -231,8 +250,8 @@ if TYPE_CHECKING:
                 **kwargs (CompInterestRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_COND_MRKT_DIV_CODE (str): Unique key(I)
-                        FID_COND_SCR_DIV_CODE (str): Unique key(20702)
+                        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): Unique key(I)
+                        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20702)
                         FID_DIV_CLS_CODE (str): 1: 해외금리지표
                         FID_DIV_CLS_CODE1 (str): 공백 : 전체
 
@@ -252,4 +271,6 @@ __all__ = [
     "CompInterestResponse",
     "CompInterestOutput1",
     "CompInterestOutput2",
+    "FidCondMrktDivCodeEnum",
+    "FidCondScrDivCodeEnum",
 ]

@@ -155,8 +155,7 @@ def _postprocess_streaming_sync(sync_dir: pathlib.Path) -> None:
             "                return\n"
             "            except Exception:\n"
             "                self.transport.close()\n",
-            "            except Exception:\n"
-            "                self.transport.close()\n",
+            "            except Exception:\n                self.transport.close()\n",
         )
         updated = updated.replace(
             "from typing import Iterator, Callable, Protocol",

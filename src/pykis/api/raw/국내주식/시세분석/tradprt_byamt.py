@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -76,58 +76,47 @@ class TradprtByamtRequestDict(TypedDict):
 
 
 class TradprtByamtOutput(RawModel):
-    prpr_name: Decimal | None = Field(
-        default=None,
+    prpr_name: str = Field(
         alias="prpr_name",
     )
     ("가격명")
-    smtn_avrg_prpr: Decimal | None = Field(
-        default=None,
+    smtn_avrg_prpr: Decimal = Field(
         alias="smtn_avrg_prpr",
     )
     ("합계 평균가격")
-    acml_vol: int | None = Field(
-        default=None,
+    acml_vol: int = Field(
         alias="acml_vol",
     )
     ("합계 거래량")
-    whol_ntby_qty_rate: Decimal | None = Field(
-        default=None,
+    whol_ntby_qty_rate: Decimal = Field(
         alias="whol_ntby_qty_rate",
     )
     ("합계 순매수비율")
-    ntby_cntg_csnu: int | None = Field(
-        default=None,
+    ntby_cntg_csnu: int = Field(
         alias="ntby_cntg_csnu",
     )
     ("합계 순매수건수")
-    seln_cnqn_smtn: int | None = Field(
-        default=None,
+    seln_cnqn_smtn: int = Field(
         alias="seln_cnqn_smtn",
     )
     ("매도 거래량")
-    whol_seln_vol_rate: Decimal | None = Field(
-        default=None,
+    whol_seln_vol_rate: Decimal = Field(
         alias="whol_seln_vol_rate",
     )
     ("매도 거래량비율")
-    seln_cntg_csnu: int | None = Field(
-        default=None,
+    seln_cntg_csnu: int = Field(
         alias="seln_cntg_csnu",
     )
     ("매도 건수")
-    shnu_cnqn_smtn: int | None = Field(
-        default=None,
+    shnu_cnqn_smtn: int = Field(
         alias="shnu_cnqn_smtn",
     )
     ("매수 거래량")
-    whol_shun_vol_rate: Decimal | None = Field(
-        default=None,
+    whol_shun_vol_rate: Decimal = Field(
         alias="whol_shun_vol_rate",
     )
     ("매수 거래량비율")
-    shnu_cntg_csnu: int | None = Field(
-        default=None,
+    shnu_cntg_csnu: int = Field(
         alias="shnu_cntg_csnu",
     )
     ("매수 건수")

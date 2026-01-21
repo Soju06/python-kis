@@ -566,6 +566,10 @@ def generate_raw(
             "Unpack",
             "overload",
         ]
+        base_module = f"{module_prefix}.base"
+        types_module = f"{module_prefix}.types"
+        base_import_line = f"from {base_module} import ("
+        types_import_line = f"from {types_module} import Endpoint, KisResponse"
         import_lines = [
             "from typing import (",
             *[f"    {item}," for item in typing_items],
@@ -574,7 +578,7 @@ def generate_raw(
             "",
             "from pydantic import Field",
             "",
-            "from pykis.raw.base import (",
+            base_import_line,
             "    RawModel,",
             "    KisBool,",
             "    KisDate,",
@@ -584,11 +588,11 @@ def generate_raw(
             "    KisTimeOptional,",
             "    KisDateTimeOptional,",
             ")",
-            "from pykis.raw.types import Endpoint, KisResponse",
+            types_import_line,
             "",
         ]
         if enum_list:
-            insert_at = import_lines.index("from pykis.raw.base import (")
+            insert_at = import_lines.index(base_import_line)
             import_lines.insert(insert_at, "from pykis.common.enums import KisStrEnum")
         import_lines += [
             "if TYPE_CHECKING:",

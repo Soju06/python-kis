@@ -14,14 +14,37 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidPrcClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "상한가")
+    "상한가"
+    VALUE_1 = ("1", "하한가")
+    "하한가"
+
+
+class FidDivClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "상하한가종목")
+    "상하한가종목"
+    VALUE_6 = ("6", "8%상하한가 근접")
+    "8%상하한가 근접"
+    VALUE_5 = ("5", "10%상하한가 근접")
+    "10%상하한가 근접"
+    VALUE_1 = ("1", "15%상하한가 근접")
+    "15%상하한가 근접"
+    VALUE_2 = ("2", "20%상하한가 근접")
+    "20%상하한가 근접"
+    VALUE_3 = ("3", "25%상하한가 근접")
+    "25%상하한가 근접"
 
 
 class CaptureUplowpriceRequest(RawModel):
@@ -33,11 +56,11 @@ class CaptureUplowpriceRequest(RawModel):
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("11300(Unique key)")
-    FID_PRC_CLS_CODE: str = Field(
+    FID_PRC_CLS_CODE: FidPrcClsCodeEnum = Field(
         alias="FID_PRC_CLS_CODE",
     )
     ("0(상한가),1(하한가)")
-    FID_DIV_CLS_CODE: str = Field(
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
         alias="FID_DIV_CLS_CODE",
     )
     (
@@ -64,7 +87,7 @@ class CaptureUplowpriceRequest(RawModel):
         alias="FID_INPUT_PRICE_2",
     )
     ("공백 입력")
-    FID_VOL_CNT: str = Field(
+    FID_VOL_CNT: int = Field(
         alias="FID_VOL_CNT",
     )
     ("공백 입력")
@@ -79,15 +102,15 @@ class CaptureUplowpriceRequestDict(TypedDict):
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): 시장구분(J)
         FID_COND_SCR_DIV_CODE (str): 11300(Unique key)
-        FID_PRC_CLS_CODE (str): 0(상한가),1(하한가)
-        FID_DIV_CLS_CODE (str): '0(상하한가종목),6(8%상하한가 근접), 5(10%상하한가 근접),
-        1(15%상하한가 근접),2(20%상하한가 근접), 3(25%상하한가 근접)'
+        FID_PRC_CLS_CODE (FidPrcClsCodeEnum): 0(상한가),1(하한가)
+        FID_DIV_CLS_CODE (FidDivClsCodeEnum): '0(상하한가종목),6(8%상하한가 근접), 5(10%상하한가
+        근접), 1(15%상하한가 근접),2(20%상하한가 근접), 3(25%상하한가 근접)'
         FID_INPUT_ISCD (str): 전체(0000), 코스피(0001),코스닥(1001)
         FID_TRGT_CLS_CODE (str): 공백 입력
         FID_TRGT_EXLS_CLS_CODE (str): 공백 입력
         FID_INPUT_PRICE_1 (str): 공백 입력
         FID_INPUT_PRICE_2 (str): 공백 입력
-        FID_VOL_CNT (str): 공백 입력
+        FID_VOL_CNT (int): 공백 입력
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -99,11 +122,11 @@ class CaptureUplowpriceRequestDict(TypedDict):
         "11300(Unique key)",
     ]
     FID_PRC_CLS_CODE: Annotated[
-        str,
+        FidPrcClsCodeEnum,
         "0(상한가),1(하한가)",
     ]
     FID_DIV_CLS_CODE: Annotated[
-        str,
+        FidDivClsCodeEnum,
         "'0(상하한가종목),6(8%상하한가 근접), 5(10%상하한가 근접), 1(15%상하한가 근접),2(20%상하한가 "
         "근접), 3(25%상하한가 근접)'",
     ]
@@ -128,7 +151,7 @@ class CaptureUplowpriceRequestDict(TypedDict):
         "공백 입력",
     ]
     FID_VOL_CNT: Annotated[
-        str,
+        int,
         "공백 입력",
     ]
 
@@ -307,15 +330,16 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분(J)
                         FID_COND_SCR_DIV_CODE (str): 11300(Unique key)
-                        FID_PRC_CLS_CODE (str): 0(상한가),1(하한가)
-                        FID_DIV_CLS_CODE (str): '0(상하한가종목),6(8%상하한가 근접), 5(10%상하한가
-                        근접), 1(15%상하한가 근접),2(20%상하한가 근접), 3(25%상하한가 근접)'
+                        FID_PRC_CLS_CODE (FidPrcClsCodeEnum): 0(상한가),1(하한가)
+                        FID_DIV_CLS_CODE (FidDivClsCodeEnum): '0(상하한가종목),6(8%상하한가 근접),
+                        5(10%상하한가 근접), 1(15%상하한가 근접),2(20%상하한가 근접), 3(25%상하한가
+                        근접)'
                         FID_INPUT_ISCD (str): 전체(0000), 코스피(0001),코스닥(1001)
                         FID_TRGT_CLS_CODE (str): 공백 입력
                         FID_TRGT_EXLS_CLS_CODE (str): 공백 입력
                         FID_INPUT_PRICE_1 (str): 공백 입력
                         FID_INPUT_PRICE_2 (str): 공백 입력
-                        FID_VOL_CNT (str): 공백 입력
+                        FID_VOL_CNT (int): 공백 입력
 
             Returns:
                 tuple[CaptureUplowpriceResponse, KisResponse]: 응답 모델과 원시 응답
@@ -332,4 +356,6 @@ __all__ = [
     "CaptureUplowpriceRequestDict",
     "CaptureUplowpriceResponse",
     "CaptureUplowpriceOutput",
+    "FidPrcClsCodeEnum",
+    "FidDivClsCodeEnum",
 ]

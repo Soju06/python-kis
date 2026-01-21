@@ -13,14 +13,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     KisDateOptional,
     KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -43,7 +42,7 @@ class BrknewsTitleRequest(RawModel):
         alias="FID_TITL_CNTT",
     )
     ("공백")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("공백")
@@ -78,7 +77,7 @@ class BrknewsTitleRequestDict(TypedDict):
         FID_COND_MRKT_CLS_CODE (str): 공백
         FID_INPUT_ISCD (str): 공백
         FID_TITL_CNTT (str): 공백
-        FID_INPUT_DATE_1 (KisDate): 공백
+        FID_INPUT_DATE_1 (str): 공백
         FID_INPUT_HOUR_1 (str): 공백
         FID_RANK_SORT_CLS_CODE (str): 공백
         FID_INPUT_SRNO (str): 공백
@@ -102,7 +101,7 @@ class BrknewsTitleRequestDict(TypedDict):
         "공백",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "공백",
     ]
     FID_INPUT_HOUR_1: Annotated[
@@ -353,7 +352,7 @@ if TYPE_CHECKING:
                         FID_COND_MRKT_CLS_CODE (str): 공백
                         FID_INPUT_ISCD (str): 공백
                         FID_TITL_CNTT (str): 공백
-                        FID_INPUT_DATE_1 (KisDate): 공백
+                        FID_INPUT_DATE_1 (str): 공백
                         FID_INPUT_HOUR_1 (str): 공백
                         FID_RANK_SORT_CLS_CODE (str): 공백
                         FID_INPUT_SRNO (str): 공백

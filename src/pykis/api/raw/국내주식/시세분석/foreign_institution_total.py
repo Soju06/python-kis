@@ -14,26 +14,15 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
-
-
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "코스피")
-    "코스피"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    FAQ = ("FAQ", "종목정보 다운로드(국내) - 업종코드 참조")
-    "종목정보 다운로드(국내) - 업종코드 참조"
 
 
 class FidDivClsCodeEnum(KisStrEnum):
@@ -70,7 +59,7 @@ class ForeignInstitutionTotalRequest(RawModel):
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("16449(Default)")
-    FID_INPUT_ISCD: FidInputIscdEnum = Field(
+    FID_INPUT_ISCD: str = Field(
         alias="FID_INPUT_ISCD",
     )
     ("0000:전체, 0001:코스피, 1001:코스닥 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)")
@@ -103,8 +92,8 @@ class ForeignInstitutionTotalRequestDict(TypedDict):
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): V(Default)
         FID_COND_SCR_DIV_CODE (str): 16449(Default)
-        FID_INPUT_ISCD (FidInputIscdEnum): 0000:전체, 0001:코스피, 1001:코스닥 ... 포탈 (FAQ :
-        종목정보 다운로드(국내) - 업종코드 참조)
+        FID_INPUT_ISCD (str): 0000:전체, 0001:코스피, 1001:코스닥 ... 포탈 (FAQ : 종목정보
+        다운로드(국내) - 업종코드 참조)
         FID_DIV_CLS_CODE (FidDivClsCodeEnum): 0: 수량정열, 1: 금액정열
         FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): 0: 순매수상위, 1: 순매도상위
         FID_ETC_CLS_CODE (FidEtcClsCodeEnum): 0:전체 1:외국인 2:기관계 3:기타
@@ -119,7 +108,7 @@ class ForeignInstitutionTotalRequestDict(TypedDict):
         "16449(Default)",
     ]
     FID_INPUT_ISCD: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:코스피, 1001:코스닥 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)",
     ]
     FID_DIV_CLS_CODE: Annotated[
@@ -367,8 +356,8 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): V(Default)
                         FID_COND_SCR_DIV_CODE (str): 16449(Default)
-                        FID_INPUT_ISCD (FidInputIscdEnum): 0000:전체, 0001:코스피, 1001:코스닥 ...
-                        포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)
+                        FID_INPUT_ISCD (str): 0000:전체, 0001:코스피, 1001:코스닥 ... 포탈 (FAQ :
+                        종목정보 다운로드(국내) - 업종코드 참조)
                         FID_DIV_CLS_CODE (FidDivClsCodeEnum): 0: 수량정열, 1: 금액정열
                         FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): 0: 순매수상위, 1: 순매도상위
                         FID_ETC_CLS_CODE (FidEtcClsCodeEnum): 0:전체 1:외국인 2:기관계 3:기타
@@ -388,7 +377,6 @@ __all__ = [
     "ForeignInstitutionTotalRequestDict",
     "ForeignInstitutionTotalResponse",
     "ForeignInstitutionTotalOutput",
-    "FidInputIscdEnum",
     "FidDivClsCodeEnum",
     "FidRankSortClsCodeEnum",
     "FidEtcClsCodeEnum",

@@ -15,14 +15,15 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
+    KisDateTimeOptional,
     KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -44,12 +45,12 @@ class OptTickCcnlRequest(RawModel):
         alias="EXCH_CD",
     )
     ("종목코드에 맞는 거래소 코드 ex) CME")
-    START_DATE_TIME: KisDateOptional = Field(
+    START_DATE_TIME: KisDateTimeOptional = Field(
         default=None,
         alias="START_DATE_TIME",
     )
     ('"" 공란 입력')
-    CLOSE_DATE_TIME: KisDateOptional = Field(
+    CLOSE_DATE_TIME: KisDateTimeOptional = Field(
         default=None,
         alias="CLOSE_DATE_TIME",
     )
@@ -110,8 +111,8 @@ class OptTickCcnlRequestDict(TypedDict):
         SRS_CD (str): ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) -
         해외지수옵션/해외주식옵션" 참고
         EXCH_CD (str): 종목코드에 맞는 거래소 코드 ex) CME
-        START_DATE_TIME (KisDate): "" 공란 입력 optional
-        CLOSE_DATE_TIME (KisDate): "" 공란 입력 ※ 날짜 입력해도 처리 안됨 optional
+        START_DATE_TIME (KisDateTime): "" 공란 입력 optional
+        CLOSE_DATE_TIME (KisDateTime): "" 공란 입력 ※ 날짜 입력해도 처리 안됨 optional
         QRY_TP (QryTpEnum): Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시
         QRY_CNT (int): 예) 30 (최대 40)
         QRY_GAP (str): 공백
@@ -129,13 +130,13 @@ class OptTickCcnlRequestDict(TypedDict):
     ]
     START_DATE_TIME: NotRequired[
         Annotated[
-            KisDateOptional,
+            KisDateTimeOptional,
             '"" 공란 입력',
         ]
     ]
     CLOSE_DATE_TIME: NotRequired[
         Annotated[
-            KisDateOptional,
+            KisDateTimeOptional,
             '"" 공란 입력 ※ 날짜 입력해도 처리 안됨',
         ]
     ]
@@ -381,8 +382,8 @@ if TYPE_CHECKING:
                         SRS_CD (str): ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보
                         다운로드(해외) - 해외지수옵션/해외주식옵션" 참고
                         EXCH_CD (str): 종목코드에 맞는 거래소 코드 ex) CME
-                        START_DATE_TIME (KisDate): "" 공란 입력 optional
-                        CLOSE_DATE_TIME (KisDate): "" 공란 입력 ※ 날짜 입력해도 처리 안됨 optional
+                        START_DATE_TIME (KisDateTime): "" 공란 입력 optional
+                        CLOSE_DATE_TIME (KisDateTime): "" 공란 입력 ※ 날짜 입력해도 처리 안됨 optional
                         QRY_TP (QryTpEnum): Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시
                         QRY_CNT (int): 예) 30 (최대 40)
                         QRY_GAP (str): 공백

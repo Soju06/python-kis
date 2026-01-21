@@ -14,14 +14,32 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidRankSortClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "종목명순")
+    "종목명순"
+    VALUE_1 = ("1", "콜발행종목순")
+    "콜발행종목순"
+    VALUE_2 = ("2", "풋발행종목순")
+    "풋발행종목순"
+    VALUE_3 = ("3", "전일대비 상승율순")
+    "전일대비 상승율순"
+    VALUE_4 = ("4", "전일대비 하락율순")
+    "전일대비 하락율순"
+    VALUE_5 = ("5", "현재가 크기순")
+    "현재가 크기순"
+    VALUE_6 = ("6", "종목코드순")
+    "종목코드순"
 
 
 class UdrlAssetListRequest(RawModel):
@@ -29,7 +47,7 @@ class UdrlAssetListRequest(RawModel):
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("11541(Primary key)")
-    FID_RANK_SORT_CLS_CODE: str = Field(
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
         alias="FID_RANK_SORT_CLS_CODE",
     )
     (
@@ -50,8 +68,8 @@ class UdrlAssetListRequestDict(TypedDict):
 
     Request fields:
         FID_COND_SCR_DIV_CODE (str): 11541(Primary key)
-        FID_RANK_SORT_CLS_CODE (str): 0(종목명순), 1(콜발행종목순), 2(풋발행종목순), 3(전일대비
-        상승율순), 4(전일대비 하락율순), 5(현재가 크기순), 6(종목코드순)
+        FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): 0(종목명순), 1(콜발행종목순),
+        2(풋발행종목순), 3(전일대비 상승율순), 4(전일대비 하락율순), 5(현재가 크기순), 6(종목코드순)
         FID_INPUT_ISCD (str): 00000(전체), 00003(한국투자증권), 00017(KB증권), 00005(미래에셋)
     """
 
@@ -60,7 +78,7 @@ class UdrlAssetListRequestDict(TypedDict):
         "11541(Primary key)",
     ]
     FID_RANK_SORT_CLS_CODE: Annotated[
-        str,
+        FidRankSortClsCodeEnum,
         "0(종목명순), 1(콜발행종목순), 2(풋발행종목순), 3(전일대비 상승율순), 4(전일대비 하락율순), "
         "5(현재가 크기순), 6(종목코드순)",
     ]
@@ -188,8 +206,9 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         FID_COND_SCR_DIV_CODE (str): 11541(Primary key)
-                        FID_RANK_SORT_CLS_CODE (str): 0(종목명순), 1(콜발행종목순), 2(풋발행종목순),
-                        3(전일대비 상승율순), 4(전일대비 하락율순), 5(현재가 크기순), 6(종목코드순)
+                        FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): 0(종목명순), 1(콜발행종목순),
+                        2(풋발행종목순), 3(전일대비 상승율순), 4(전일대비 하락율순), 5(현재가 크기순),
+                        6(종목코드순)
                         FID_INPUT_ISCD (str): 00000(전체), 00003(한국투자증권), 00017(KB증권),
                         00005(미래에셋)
 
@@ -208,4 +227,5 @@ __all__ = [
     "UdrlAssetListRequestDict",
     "UdrlAssetListResponse",
     "UdrlAssetListOutput",
+    "FidRankSortClsCodeEnum",
 ]

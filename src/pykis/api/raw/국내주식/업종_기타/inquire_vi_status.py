@@ -14,15 +14,14 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     KisDateOptional,
     KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -76,7 +75,7 @@ class InquireViStatusRequest(RawModel):
         alias="FID_RANK_SORT_CLS_CODE",
     )
     ("0:전체1:정적2:동적3:정적&동적")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("영업일")
@@ -102,7 +101,7 @@ class InquireViStatusRequestDict(TypedDict):
         FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): 0:전체 K:거래소 Q:코스닥
         FID_INPUT_ISCD (str): FID 입력 종목코드
         FID_RANK_SORT_CLS_CODE (str): 0:전체1:정적2:동적3:정적&동적
-        FID_INPUT_DATE_1 (KisDate): 영업일
+        FID_INPUT_DATE_1 (str): 영업일
         FID_TRGT_CLS_CODE (str): FID 대상 구분 코드
         FID_TRGT_EXLS_CLS_CODE (str): FID 대상 제외 구분 코드
     """
@@ -128,7 +127,7 @@ class InquireViStatusRequestDict(TypedDict):
         "0:전체1:정적2:동적3:정적&동적",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "영업일",
     ]
     FID_TRGT_CLS_CODE: Annotated[
@@ -298,7 +297,7 @@ if TYPE_CHECKING:
                         FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): 0:전체 K:거래소 Q:코스닥
                         FID_INPUT_ISCD (str): FID 입력 종목코드
                         FID_RANK_SORT_CLS_CODE (str): 0:전체1:정적2:동적3:정적&동적
-                        FID_INPUT_DATE_1 (KisDate): 영업일
+                        FID_INPUT_DATE_1 (str): 영업일
                         FID_TRGT_CLS_CODE (str): FID 대상 구분 코드
                         FID_TRGT_EXLS_CLS_CODE (str): FID 대상 제외 구분 코드
 

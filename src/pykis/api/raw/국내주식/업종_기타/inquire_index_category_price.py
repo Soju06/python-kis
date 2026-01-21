@@ -14,13 +14,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -130,7 +130,7 @@ class InquireIndexCategoryPriceOutput1(RawModel):
         alias="bstp_nmix_prdy_vrss",
     )
     ("업종 지수 전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -221,7 +221,7 @@ class InquireIndexCategoryPriceOutput2(RawModel):
         alias="bstp_nmix_prdy_vrss",
     )
     ("업종 지수 전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -237,11 +237,12 @@ class InquireIndexCategoryPriceOutput2(RawModel):
         alias="acml_tr_pbmn",
     )
     ("누적 거래 대금")
-    acml_vol_rlim: int = Field(
+    acml_vol_rlim: Decimal = Field(
         alias="acml_vol_rlim",
     )
     ("누적 거래량 비중")
-    acml_tr_pbmn_rlim: Decimal = Field(
+    acml_tr_pbmn_rlim: Decimal | None = Field(
+        default=None,
         alias="acml_tr_pbmn_rlim",
     )
     ("누적 거래 대금 비중")

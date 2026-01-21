@@ -14,27 +14,25 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDateOptional,
+    KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(11701)")
+    "key(11701)"
+    VALUE_11701 = ("11701", "Unique key")
+    "Unique key"
+    KEY = ("key", "11701")
+    "11701"
 
 
 class FidRankSortClsCodeEnum(KisStrEnum):
@@ -61,11 +59,11 @@ class FidRankSortClsCodeEnum(KisStrEnum):
 
 
 class CreditBalanceRequest(RawModel):
-    FID_COND_SCR_DIV_CODE: str = Field(
+    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("Unique key(11701)")
-    FID_INPUT_ISCD: FidInputIscdEnum = Field(
+    FID_INPUT_ISCD: str = Field(
         alias="FID_INPUT_ISCD",
     )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,")
@@ -101,8 +99,8 @@ class CreditBalanceRequestDict(TypedDict):
     자세한 사용 방법은 공지사항 - [조건검색 필독] 조건검색 API 이용안내 참고 부탁드립니다.
 
     Request fields:
-        FID_COND_SCR_DIV_CODE (str): Unique key(11701)
-        FID_INPUT_ISCD (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
+        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(11701)
+        FID_INPUT_ISCD (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
         FID_OPTION (str): 2~999
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 J)
         FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): '(융자)0:잔고비율 상위, 1: 잔고수량 상위,
@@ -111,11 +109,11 @@ class CreditBalanceRequestDict(TypedDict):
     """
 
     FID_COND_SCR_DIV_CODE: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(11701)",
     ]
     FID_INPUT_ISCD: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,",
     ]
     FID_OPTION: Annotated[
@@ -135,23 +133,19 @@ class CreditBalanceRequestDict(TypedDict):
 
 
 class CreditBalanceOutput1(RawModel):
-    bstp_cls_code: str | None = Field(
-        default=None,
+    bstp_cls_code: str = Field(
         alias="bstp_cls_code",
     )
     ("업종 구분 코드")
-    hts_kor_isnm: str | None = Field(
-        default=None,
+    hts_kor_isnm: str = Field(
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
-    stnd_date1: KisDateOptional = Field(
-        default=None,
+    stnd_date1: KisDate = Field(
         alias="stnd_date1",
     )
     ("기준 일자1")
-    stnd_date2: KisDateOptional = Field(
-        default=None,
+    stnd_date2: KisDate = Field(
         alias="stnd_date2",
     )
     ("기준 일자2")
@@ -170,7 +164,7 @@ class CreditBalanceOutput2(RawModel):
         alias="stck_prpr",
     )
     ("주식 현재가")
-    prdy_vrss: Decimal = Field(
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일 대비")
@@ -182,7 +176,7 @@ class CreditBalanceOutput2(RawModel):
         alias="prdy_ctrt",
     )
     ("전일 대비율")
-    acml_vol: Decimal = Field(
+    acml_vol: int = Field(
         alias="acml_vol",
     )
     ("누적 거래량")
@@ -198,28 +192,23 @@ class CreditBalanceOutput2(RawModel):
         alias="whol_loan_rmnd_rate",
     )
     ("전체 융자 잔고 비율")
-    whol_stln_rmnd_stcn: str | None = Field(
-        default=None,
+    whol_stln_rmnd_stcn: int = Field(
         alias="whol_stln_rmnd_stcn",
     )
     ("전체 대주 잔고 주수")
-    whol_stln_rmnd_amt: Decimal | None = Field(
-        default=None,
+    whol_stln_rmnd_amt: Decimal = Field(
         alias="whol_stln_rmnd_amt",
     )
     ("전체 대주 잔고 금액")
-    whol_stln_rmnd_rate: Decimal | None = Field(
-        default=None,
+    whol_stln_rmnd_rate: Decimal = Field(
         alias="whol_stln_rmnd_rate",
     )
     ("전체 대주 잔고 비율")
-    nday_vrss_loan_rmnd_inrt: Decimal | None = Field(
-        default=None,
+    nday_vrss_loan_rmnd_inrt: Decimal = Field(
         alias="nday_vrss_loan_rmnd_inrt",
     )
     ("N일 대비 융자 잔고 증가율")
-    nday_vrss_stln_rmnd_inrt: Decimal | None = Field(
-        default=None,
+    nday_vrss_stln_rmnd_inrt: Decimal = Field(
         alias="nday_vrss_stln_rmnd_inrt",
     )
     ("N일 대비 대주 잔고 증가율")
@@ -327,9 +316,8 @@ if TYPE_CHECKING:
                 **kwargs (CreditBalanceRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_COND_SCR_DIV_CODE (str): Unique key(11701)
-                        FID_INPUT_ISCD (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥,
-                        2001:코스피200,
+                        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(11701)
+                        FID_INPUT_ISCD (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
                         FID_OPTION (str): 2~999
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 J)
                         FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): '(융자)0:잔고비율 상위, 1:
@@ -353,6 +341,6 @@ __all__ = [
     "CreditBalanceResponse",
     "CreditBalanceOutput1",
     "CreditBalanceOutput2",
-    "FidInputIscdEnum",
+    "FidCondScrDivCodeEnum",
     "FidRankSortClsCodeEnum",
 ]

@@ -14,15 +14,29 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class MgnaDvsnEnum(KisStrEnum):
@@ -40,11 +54,11 @@ class ExccStatCdEnum(KisStrEnum):
 
 
 class InquireBalanceValuationPlRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -71,8 +85,8 @@ class InquireBalanceValuationPlRequestDict(TypedDict):
     선물옵션 잔고평가손익내역 API입니다.
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         MGNA_DVSN (MgnaDvsnEnum): 01 : 개시, 02 : 유지
         EXCC_STAT_CD (ExccStatCdEnum): 1 : 정산 (정산가격으로 잔고 조회) 2 : 본정산 (매입가격으로
         잔고 조회)
@@ -81,11 +95,11 @@ class InquireBalanceValuationPlRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     MGNA_DVSN: Annotated[
@@ -374,8 +388,8 @@ if TYPE_CHECKING:
                 **kwargs (InquireBalanceValuationPlRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         MGNA_DVSN (MgnaDvsnEnum): 01 : 개시, 02 : 유지
                         EXCC_STAT_CD (ExccStatCdEnum): 1 : 정산 (정산가격으로 잔고 조회) 2 : 본정산
                         (매입가격으로 잔고 조회)
@@ -398,6 +412,8 @@ __all__ = [
     "InquireBalanceValuationPlResponse",
     "InquireBalanceValuationPlOutput2",
     "InquireBalanceValuationPlOutput1",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "MgnaDvsnEnum",
     "ExccStatCdEnum",
 ]

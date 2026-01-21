@@ -13,16 +13,25 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class ExcgDvsnCdEnum(KisStrEnum):
+    VALUE_00 = ("00", "전체")
+    "전체"
+    VALUE_02 = ("02", "거래소")
+    "거래소"
+    VALUE_03 = ("03", "코스닥")
+    "코스닥"
 
 
 class InqrDvsn1Enum(KisStrEnum):
@@ -33,7 +42,7 @@ class InqrDvsn1Enum(KisStrEnum):
 
 
 class LendableByCompanyRequest(RawModel):
-    EXCG_DVSN_CD: str = Field(
+    EXCG_DVSN_CD: ExcgDvsnCdEnum = Field(
         alias="EXCG_DVSN_CD",
     )
     ("00(전체), 02(거래소), 03(코스닥)")
@@ -68,7 +77,7 @@ class LendableByCompanyRequestDict(TypedDict):
     ※ 본 API는 다음조회가 불가합니다.
 
     Request fields:
-        EXCG_DVSN_CD (str): 00(전체), 02(거래소), 03(코스닥)
+        EXCG_DVSN_CD (ExcgDvsnCdEnum): 00(전체), 02(거래소), 03(코스닥)
         PDNO (str): 공백 : 전체조회, 종목코드 입력 시 해당종목만 조회
         THCO_STLN_PSBL_YN (KisBool): Y
         INQR_DVSN_1 (InqrDvsn1Enum): 0 : 전체조회, 1: 종목코드순 정렬
@@ -77,7 +86,7 @@ class LendableByCompanyRequestDict(TypedDict):
     """
 
     EXCG_DVSN_CD: Annotated[
-        str,
+        ExcgDvsnCdEnum,
         "00(전체), 02(거래소), 03(코스닥)",
     ]
     PDNO: Annotated[
@@ -277,7 +286,7 @@ if TYPE_CHECKING:
                 **kwargs (LendableByCompanyRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        EXCG_DVSN_CD (str): 00(전체), 02(거래소), 03(코스닥)
+                        EXCG_DVSN_CD (ExcgDvsnCdEnum): 00(전체), 02(거래소), 03(코스닥)
                         PDNO (str): 공백 : 전체조회, 종목코드 입력 시 해당종목만 조회
                         THCO_STLN_PSBL_YN (KisBool): Y
                         INQR_DVSN_1 (InqrDvsn1Enum): 0 : 전체조회, 1: 종목코드순 정렬
@@ -300,5 +309,6 @@ __all__ = [
     "LendableByCompanyResponse",
     "LendableByCompanyOutput1",
     "LendableByCompanyOutput2",
+    "ExcgDvsnCdEnum",
     "InqrDvsn1Enum",
 ]

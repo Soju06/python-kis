@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -62,11 +62,12 @@ class LpTradeTrendOutput1(RawModel):
         alias="elw_prpr",
     )
     ("ELW현재가")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: str | None = Field(
+        default=None,
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
-    prdy_vrss: str = Field(
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일대비")
@@ -86,15 +87,15 @@ class LpTradeTrendOutput1(RawModel):
         alias="stck_cnvr_rate",
     )
     ("주식전환비율")
-    prit: str = Field(
+    prit: Decimal = Field(
         alias="prit",
     )
     ("패리티")
-    lvrg_val: str = Field(
+    lvrg_val: Decimal = Field(
         alias="lvrg_val",
     )
     ("레버리지값")
-    gear: str = Field(
+    gear: Decimal = Field(
         alias="gear",
     )
     ("기어링")
@@ -102,19 +103,19 @@ class LpTradeTrendOutput1(RawModel):
         alias="prls_qryr_rate",
     )
     ("손익분기비율")
-    cfp: str = Field(
+    cfp: Decimal = Field(
         alias="cfp",
     )
     ("자본지지점")
-    invl_val: str = Field(
+    invl_val: Decimal = Field(
         alias="invl_val",
     )
     ("내재가치값")
-    tmvl_val: str = Field(
+    tmvl_val: Decimal = Field(
         alias="tmvl_val",
     )
     ("시간가치값")
-    acpr: str = Field(
+    acpr: Decimal = Field(
         alias="acpr",
     )
     ("행사가")
@@ -133,11 +134,11 @@ class LpTradeTrendOutput2(RawModel):
         alias="elw_prpr",
     )
     ("ELW현재가")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
-    prdy_vrss: str = Field(
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일대비")
@@ -149,7 +150,7 @@ class LpTradeTrendOutput2(RawModel):
         alias="lp_seln_qty",
     )
     ("LP매도수량")
-    lp_seln_avrg_unpr: str = Field(
+    lp_seln_avrg_unpr: int = Field(
         alias="lp_seln_avrg_unpr",
     )
     ("LP매도평균단가")
@@ -157,11 +158,11 @@ class LpTradeTrendOutput2(RawModel):
         alias="lp_shnu_qty",
     )
     ("LP매수수량")
-    lp_shnu_avrg_unpr: str = Field(
+    lp_shnu_avrg_unpr: int = Field(
         alias="lp_shnu_avrg_unpr",
     )
     ("LP매수평균단가")
-    lp_hvol: str = Field(
+    lp_hvol: int = Field(
         alias="lp_hvol",
     )
     ("LP보유량")

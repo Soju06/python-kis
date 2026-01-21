@@ -14,17 +14,31 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class SllBuyDvsnCdEnum(KisStrEnum):
@@ -64,19 +78,19 @@ class NmprTypeCdEnum(KisStrEnum):
 
 
 class InquireCcnlRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    STRT_ORD_DT: KisDate = Field(
+    STRT_ORD_DT: str = Field(
         alias="STRT_ORD_DT",
     )
     ("주문내역 조회 시작 일자, YYYYMMDD")
-    END_ORD_DT: KisDate = Field(
+    END_ORD_DT: str = Field(
         alias="END_ORD_DT",
     )
     ("주문내역 조회 마지막 일자, YYYYMMDD")
@@ -121,10 +135,10 @@ class InquireCcnlRequestDict(TypedDict):
     [국내선물-003 v1] 선물옵션주문체결내역조회
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
-        STRT_ORD_DT (KisDate): 주문내역 조회 시작 일자, YYYYMMDD
-        END_ORD_DT (KisDate): 주문내역 조회 마지막 일자, YYYYMMDD
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
+        STRT_ORD_DT (str): 주문내역 조회 시작 일자, YYYYMMDD
+        END_ORD_DT (str): 주문내역 조회 마지막 일자, YYYYMMDD
         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 00 : 전체 01 : 매도 02 : 매수
         CCLD_NCCS_DVSN (CcldNccsDvsnEnum): 00 : 전체 01 : 체결 02 : 미체결
         SORT_SQN (SortSqnEnum): AS : 정순 DS : 역순
@@ -138,19 +152,19 @@ class InquireCcnlRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     STRT_ORD_DT: Annotated[
-        KisDate,
+        str,
         "주문내역 조회 시작 일자, YYYYMMDD",
     ]
     END_ORD_DT: Annotated[
-        KisDate,
+        str,
         "주문내역 조회 마지막 일자, YYYYMMDD",
     ]
     SLL_BUY_DVSN_CD: Annotated[
@@ -192,7 +206,7 @@ class InquireCcnlOutput1(RawModel):
         alias="ord_gno_brno",
     )
     ("계좌 개설 시 관리점으로 선택한 영업점의 고유번호")
-    cano: str = Field(
+    cano: CanoEnum = Field(
         alias="cano",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
@@ -200,7 +214,7 @@ class InquireCcnlOutput1(RawModel):
         alias="csac_name",
     )
     ("계좌의 고객명")
-    acnt_prdt_cd: str = Field(
+    acnt_prdt_cd: AcntPrdtCdEnum = Field(
         alias="acnt_prdt_cd",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -417,10 +431,10 @@ if TYPE_CHECKING:
                 **kwargs (InquireCcnlRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
-                        STRT_ORD_DT (KisDate): 주문내역 조회 시작 일자, YYYYMMDD
-                        END_ORD_DT (KisDate): 주문내역 조회 마지막 일자, YYYYMMDD
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
+                        STRT_ORD_DT (str): 주문내역 조회 시작 일자, YYYYMMDD
+                        END_ORD_DT (str): 주문내역 조회 마지막 일자, YYYYMMDD
                         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 00 : 전체 01 : 매도 02 : 매수
                         CCLD_NCCS_DVSN (CcldNccsDvsnEnum): 00 : 전체 01 : 체결 02 : 미체결
                         SORT_SQN (SortSqnEnum): AS : 정순 DS : 역순
@@ -449,6 +463,8 @@ __all__ = [
     "InquireCcnlResponse",
     "InquireCcnlOutput1",
     "InquireCcnlOutput2",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "SllBuyDvsnCdEnum",
     "CcldNccsDvsnEnum",
     "SortSqnEnum",

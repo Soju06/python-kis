@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -65,11 +65,11 @@ class InquireDailyPriceOutput(RawModel):
         alias="bond_prpr",
     )
     ("채권현재가")
-    bond_prdy_vrss: str = Field(
+    bond_prdy_vrss: Decimal = Field(
         alias="bond_prdy_vrss",
     )
     ("채권전일대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
@@ -108,7 +108,7 @@ class InquireDailyPriceResponse(RawModel):
         alias="msg1",
     )
     ("응답메세지")
-    output: InquireDailyPriceOutput = Field(
+    output: list[InquireDailyPriceOutput] = Field(
         alias="output",
     )
     ("응답상세")

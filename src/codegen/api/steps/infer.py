@@ -7,14 +7,20 @@ from pathlib import Path
 from codegen.api.models import EndpointSpec, SpecField
 from codegen.api.report_models import ValidationReport, ValidationSampleResult
 from codegen.api.types import EndpointHints, ExtraFields, FieldHint, TypeOverrides
-from codegen.core.enums import parse_enum_entries
+from codegen.api.runtime import UNSAFE_KEYWORDS, is_empty_payload
+from codegen.core.enums import EnumEntry, parse_enum_entries
 from codegen.core.types import JsonObject, JsonValue
-from pykis.raw.types import Endpoint
+from pykis.api.raw.types import Endpoint
 
 
 def _text_flags(field: SpecField) -> str:
     parts = [field.code, field.name or "", field.description or "", field.type_name or ""]
     return " ".join(parts).lower()
+
+
+def _is_unsafe(spec: EndpointSpec) -> bool:
+    haystack = " ".join(filter(None, [spec.name, spec.section, spec.category, spec.subcategory, spec.path])).lower()
+    return any(keyword.lower() in haystack for keyword in UNSAFE_KEYWORDS)
 
 
 def _is_code_like(text: str) -> bool:
@@ -23,6 +29,29 @@ def _is_code_like(text: str) -> bool:
 
 _DECIMAL_SPEC_RE = re.compile(r"\b\d+\s*\(\s*(\d+)\s*\.\s*(\d+)\s*\)")
 _DECIMAL_TEXT_RE = re.compile(r"정수부분\s*(\d+)\s*자리.*?소수부분\s*(\d+)\s*자리")
+_DT_TOKEN_RE = re.compile(r"(?<![a-z0-9])dt(?![a-z0-9])")
+
+
+def _has_dt_token(text: str) -> bool:
+    return bool(_DT_TOKEN_RE.search(text))
+
+
+def _has_n_day_marker(text: str) -> bool:
+    return "n일" in text
+
+
+def _prefer_enum(text: str, code_lower: str, enum_entries: list[EnumEntry]) -> bool:
+    if not enum_entries:
+        return False
+    if _has_n_day_marker(text):
+        return True
+    if any(token in text for token in ("구분", "분류", "코드", "dvsn", "gubn")):
+        return True
+    if code_lower.endswith("_cd") or code_lower.endswith("cd"):
+        return True
+    if code_lower.startswith("gb") or code_lower.startswith("gubn") or "dvsn" in code_lower:
+        return True
+    return False
 
 
 def _decimal_spec(text: str) -> tuple[int, int] | None:
@@ -65,6 +94,7 @@ def _values_numeric(values: list[str]) -> bool:
 
 def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
     text = _text_flags(field)
+    code_lower = field.code.lower()
     sample_values = _enum_sample_values(sample)
     if isinstance(sample, list):
         sample = sample_values[0] if sample_values else None
@@ -74,40 +104,70 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
         return FieldHint(kind="str")
     if "y/n" in text or field.code.lower().endswith("_yn") or "여부" in text:
         return FieldHint(kind="bool")
+    if "name" in code_lower or "명" in (field.name or ""):
+        return FieldHint(kind="str")
+    if ("input" in code_lower or "iscd" in code_lower) and _is_code_like(text):
+        return FieldHint(kind="str")
+    if any(token in text for token in ("yyyymm", "yyymm", "yymmww", "년월", "년월주차")):
+        return FieldHint(kind="str")
 
     enum_entries = parse_enum_entries(field.description or "")
+    enum_values = [entry.code for entry in enum_entries]
+    enum_desc = {entry.code: entry.desc for entry in enum_entries if entry.desc}
+    enum_hint: FieldHint | None = None
     if enum_entries:
-        if any(token in text for token in ("비트", "bit", "첫 번째", "두 번째", "첫번째", "두번째")):
-            return FieldHint(kind="str")
-        enum_values = [entry.code for entry in enum_entries]
-        enum_desc = {entry.code: entry.desc for entry in enum_entries if entry.desc}
         normalized = {value.upper() for value in enum_values}
         if normalized.issubset({"Y", "N"}):
-            return FieldHint(kind="bool")
-        if len(enum_values) >= 2:
+            enum_hint = FieldHint(kind="bool")
+        elif len(enum_values) >= 2:
             if sample_values and any(value not in enum_values for value in sample_values):
                 if _values_numeric(enum_values) and _values_numeric(sample_values):
                     for value in sample_values:
                         if value not in enum_values:
                             enum_values.append(value)
                 else:
-                    return FieldHint(kind="str")
-            return FieldHint(kind="enum", enum=enum_values, enum_desc=enum_desc or None)
+                    enum_hint = FieldHint(kind="str")
+            if enum_hint is None:
+                enum_hint = FieldHint(kind="enum", enum=enum_values, enum_desc=enum_desc or None)
 
-    spec = _decimal_spec(text)
-    if spec:
-        max_digits, decimal_places = spec
-        return FieldHint(kind="decimal", max_digits=max_digits, decimal_places=decimal_places)
+    if enum_hint and _prefer_enum(text, code_lower, enum_entries):
+        return enum_hint
 
-    if any(token in text for token in ("일자", "날짜", "기준일", "date", "ymd", "_dt")):
+    if any(token in text for token in ("일시", "datetime", "timestamp", "dtime")):
+        return FieldHint(kind="datetime")
+
+    if any(token in text for token in ("일자", "날짜", "기준일", "date", "ymd")) or _has_dt_token(text):
         return FieldHint(kind="date")
 
     time_tokens = ("시각", "hhmm", "hhmmss", "time", "_tm", "hour")
     if "시간외" not in text and not _is_code_like(text) and any(token in text for token in time_tokens):
         return FieldHint(kind="time")
 
-    if any(token in text for token in ("일시", "datetime", "timestamp")):
-        return FieldHint(kind="datetime")
+    spec = _decimal_spec(text)
+    if spec:
+        max_digits, decimal_places = spec
+        return FieldHint(kind="decimal", max_digits=max_digits, decimal_places=decimal_places)
+
+    if enum_hint:
+        if any(token in text for token in ("비트", "bit", "첫 번째", "두 번째", "첫번째", "두번째")):
+            return FieldHint(kind="str")
+        return enum_hint
+
+    if "vol" in code_lower and "volat" not in code_lower and "vltl" not in code_lower:
+        rate_hint = any(
+            token in text
+            for token in (
+                "비율",
+                "율",
+                "rate",
+                "ratio",
+                "percent",
+                "pct",
+                "ctrt",
+                "rlim",
+            )
+        )
+        return FieldHint(kind="decimal" if rate_hint else "int")
 
     if _is_code_like(text):
         return FieldHint(kind="str")
@@ -139,7 +199,9 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
             if re.fullmatch(r"-?\d+\.\d+", value):
                 return FieldHint(kind="decimal")
             if re.fullmatch(r"-?\d+", value):
-                if len(value) == 8 and any(token in text for token in ("일자", "날짜", "date", "ymd")):
+                if len(value) == 8 and (
+                    any(token in text for token in ("일자", "날짜", "date", "ymd")) or _has_dt_token(text)
+                ):
                     return FieldHint(kind="date")
                 if (
                     len(value) == 6
@@ -365,6 +427,9 @@ def validate_samples(
         endpoint = registry.get(spec.id)
         if endpoint is None:
             continue
+        if _is_unsafe(spec):
+            results.append(ValidationSampleResult(id=spec.id, status="skipped", reason="unsafe"))
+            continue
         domain = "demo" if spec.domains.demo else "real" if spec.domains.real else None
         if domain is None:
             results.append(ValidationSampleResult(id=spec.id, status="skipped", reason="no_domain"))
@@ -380,6 +445,16 @@ def validate_samples(
             results.append(ValidationSampleResult(id=spec.id, domain=domain, status="invalid_payload"))
             continue
         if str(payload.get("rt_cd")) not in ("0", "OK"):
+            if is_empty_payload(payload):
+                results.append(
+                    ValidationSampleResult(
+                        id=spec.id,
+                        domain=domain,
+                        status="skipped",
+                        reason="empty_response",
+                    )
+                )
+                continue
             errors += 1
             results.append(
                 ValidationSampleResult(

@@ -14,14 +14,33 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(20235)")
+    "key(20235)"
+    VALUE_20235 = ("20235", "Unique key")
+    "Unique key"
+    KEY = ("key", "20235")
+    "20235"
+
+
+class FidRankSortClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "매수잔량")
+    "매수잔량"
+    VALUE_1 = ("1", "매도잔량")
+    "매도잔량"
+    VALUE_2 = ("2", "거래량")
+    "거래량"
 
 
 class OvertimeVolumeRequest(RawModel):
@@ -29,7 +48,7 @@ class OvertimeVolumeRequest(RawModel):
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("시장구분코드 (J: 주식)")
-    FID_COND_SCR_DIV_CODE: str = Field(
+    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("Unique key(20235)")
@@ -37,7 +56,7 @@ class OvertimeVolumeRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("0000(전체), 0001(코스피), 1001(코스닥)")
-    FID_RANK_SORT_CLS_CODE: str = Field(
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
         alias="FID_RANK_SORT_CLS_CODE",
     )
     ("0(매수잔량), 1(매도잔량), 2(거래량)")
@@ -49,7 +68,7 @@ class OvertimeVolumeRequest(RawModel):
         alias="FID_INPUT_PRICE_2",
     )
     ("~ 가격")
-    FID_VOL_CNT: str = Field(
+    FID_VOL_CNT: int = Field(
         alias="FID_VOL_CNT",
     )
     ("거래량 ~")
@@ -72,12 +91,12 @@ class OvertimeVolumeRequestDict(TypedDict):
 
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (J: 주식)
-        FID_COND_SCR_DIV_CODE (str): Unique key(20235)
+        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20235)
         FID_INPUT_ISCD (str): 0000(전체), 0001(코스피), 1001(코스닥)
-        FID_RANK_SORT_CLS_CODE (str): 0(매수잔량), 1(매도잔량), 2(거래량)
+        FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): 0(매수잔량), 1(매도잔량), 2(거래량)
         FID_INPUT_PRICE_1 (str): 가격 ~
         FID_INPUT_PRICE_2 (str): ~ 가격
-        FID_VOL_CNT (str): 거래량 ~
+        FID_VOL_CNT (int): 거래량 ~
         FID_TRGT_CLS_CODE (str): 공백
         FID_TRGT_EXLS_CLS_CODE (str): 공백
     """
@@ -87,7 +106,7 @@ class OvertimeVolumeRequestDict(TypedDict):
         "시장구분코드 (J: 주식)",
     ]
     FID_COND_SCR_DIV_CODE: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(20235)",
     ]
     FID_INPUT_ISCD: Annotated[
@@ -95,7 +114,7 @@ class OvertimeVolumeRequestDict(TypedDict):
         "0000(전체), 0001(코스피), 1001(코스닥)",
     ]
     FID_RANK_SORT_CLS_CODE: Annotated[
-        str,
+        FidRankSortClsCodeEnum,
         "0(매수잔량), 1(매도잔량), 2(거래량)",
     ]
     FID_INPUT_PRICE_1: Annotated[
@@ -107,7 +126,7 @@ class OvertimeVolumeRequestDict(TypedDict):
         "~ 가격",
     ]
     FID_VOL_CNT: Annotated[
-        str,
+        int,
         "거래량 ~",
     ]
     FID_TRGT_CLS_CODE: Annotated[
@@ -121,7 +140,7 @@ class OvertimeVolumeRequestDict(TypedDict):
 
 
 class OvertimeVolumeOutput1(RawModel):
-    ovtm_untp_exch_vol: Decimal = Field(
+    ovtm_untp_exch_vol: int = Field(
         alias="ovtm_untp_exch_vol",
     )
     ("시간외 단일가 거래소 거래량")
@@ -129,7 +148,7 @@ class OvertimeVolumeOutput1(RawModel):
         alias="ovtm_untp_exch_tr_pbmn",
     )
     ("시간외 단일가 거래소 거래대금")
-    ovtm_untp_kosdaq_vol: Decimal = Field(
+    ovtm_untp_kosdaq_vol: int = Field(
         alias="ovtm_untp_kosdaq_vol",
     )
     ("시간외 단일가 KOSDAQ 거래량")
@@ -140,73 +159,59 @@ class OvertimeVolumeOutput1(RawModel):
 
 
 class OvertimeVolumeOutput2(RawModel):
-    stck_shrn_iscd: str | None = Field(
-        default=None,
+    stck_shrn_iscd: str = Field(
         alias="stck_shrn_iscd",
     )
     ("주식 단축 종목코드")
-    hts_kor_isnm: str | None = Field(
-        default=None,
+    hts_kor_isnm: str = Field(
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
-    ovtm_untp_prpr: Decimal | None = Field(
-        default=None,
+    ovtm_untp_prpr: Decimal = Field(
         alias="ovtm_untp_prpr",
     )
     ("시간외 단일가 현재가")
-    ovtm_untp_prdy_vrss: Decimal | None = Field(
-        default=None,
+    ovtm_untp_prdy_vrss: Decimal = Field(
         alias="ovtm_untp_prdy_vrss",
     )
     ("시간외 단일가 전일 대비")
-    ovtm_untp_prdy_vrss_sign: Decimal | None = Field(
-        default=None,
+    ovtm_untp_prdy_vrss_sign: Decimal = Field(
         alias="ovtm_untp_prdy_vrss_sign",
     )
     ("시간외 단일가 전일 대비 부호")
-    ovtm_untp_prdy_ctrt: Decimal | None = Field(
-        default=None,
+    ovtm_untp_prdy_ctrt: Decimal = Field(
         alias="ovtm_untp_prdy_ctrt",
     )
     ("시간외 단일가 전일 대비율")
-    ovtm_untp_seln_rsqn: Decimal | None = Field(
-        default=None,
+    ovtm_untp_seln_rsqn: Decimal = Field(
         alias="ovtm_untp_seln_rsqn",
     )
     ("시간외 단일가 매도 잔량")
-    ovtm_untp_shnu_rsqn: Decimal | None = Field(
-        default=None,
+    ovtm_untp_shnu_rsqn: Decimal = Field(
         alias="ovtm_untp_shnu_rsqn",
     )
     ("시간외 단일가 매수 잔량")
-    ovtm_untp_vol: Decimal | None = Field(
-        default=None,
+    ovtm_untp_vol: int = Field(
         alias="ovtm_untp_vol",
     )
     ("시간외 단일가 거래량")
-    ovtm_vrss_acml_vol_rlim: int | None = Field(
-        default=None,
+    ovtm_vrss_acml_vol_rlim: Decimal = Field(
         alias="ovtm_vrss_acml_vol_rlim",
     )
     ("시간외 대비 누적 거래량 비중")
-    stck_prpr: Decimal | None = Field(
-        default=None,
+    stck_prpr: Decimal = Field(
         alias="stck_prpr",
     )
     ("주식 현재가")
-    acml_vol: int | None = Field(
-        default=None,
+    acml_vol: int = Field(
         alias="acml_vol",
     )
     ("누적 거래량")
-    bidp: str | None = Field(
-        default=None,
+    bidp: str = Field(
         alias="bidp",
     )
     ("매수호가")
-    askp: str | None = Field(
-        default=None,
+    askp: int = Field(
         alias="askp",
     )
     ("매도호가")
@@ -303,12 +308,13 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (J: 주식)
-                        FID_COND_SCR_DIV_CODE (str): Unique key(20235)
+                        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20235)
                         FID_INPUT_ISCD (str): 0000(전체), 0001(코스피), 1001(코스닥)
-                        FID_RANK_SORT_CLS_CODE (str): 0(매수잔량), 1(매도잔량), 2(거래량)
+                        FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): 0(매수잔량), 1(매도잔량),
+                        2(거래량)
                         FID_INPUT_PRICE_1 (str): 가격 ~
                         FID_INPUT_PRICE_2 (str): ~ 가격
-                        FID_VOL_CNT (str): 거래량 ~
+                        FID_VOL_CNT (int): 거래량 ~
                         FID_TRGT_CLS_CODE (str): 공백
                         FID_TRGT_EXLS_CLS_CODE (str): 공백
 
@@ -328,4 +334,6 @@ __all__ = [
     "OvertimeVolumeResponse",
     "OvertimeVolumeOutput1",
     "OvertimeVolumeOutput2",
+    "FidCondScrDivCodeEnum",
+    "FidRankSortClsCodeEnum",
 ]

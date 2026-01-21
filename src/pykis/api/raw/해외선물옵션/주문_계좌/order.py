@@ -15,16 +15,30 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class SllBuyDvsnCdEnum(KisStrEnum):
@@ -34,12 +48,21 @@ class SllBuyDvsnCdEnum(KisStrEnum):
     "매수"
 
 
+class PricDvsnCdEnum(KisStrEnum):
+    VALUE_2 = ("2", "시장")
+    "시장"
+    VALUE_1 = ("1", "지정")
+    "지정"
+    VALUE_3 = ("3", "STOP, 4 S/L")
+    "STOP, 4 S/L"
+
+
 class OrderRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -61,7 +84,7 @@ class OrderRequest(RawModel):
         alias="FM_LQD_USTL_CCNO",
     )
     ("빈칸 (hedge청산만 이용)")
-    PRIC_DVSN_CD: str = Field(
+    PRIC_DVSN_CD: PricDvsnCdEnum = Field(
         alias="PRIC_DVSN_CD",
     )
     ("1.지정, 2. 시장, 3. STOP, 4 S/L")
@@ -118,13 +141,13 @@ class OrderRequestDict(TypedDict):
        https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         OVRS_FUTR_FX_PDNO (str): 해외선물FX상품번호
         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 01 : 매도 02 : 매수
         FM_LQD_USTL_CCLD_DT (KisDate): 빈칸 (hedge청산만 이용) optional
         FM_LQD_USTL_CCNO (str): 빈칸 (hedge청산만 이용) optional
-        PRIC_DVSN_CD (str): 1.지정, 2. 시장, 3. STOP, 4 S/L
+        PRIC_DVSN_CD (PricDvsnCdEnum): 1.지정, 2. 시장, 3. STOP, 4 S/L
         FM_LIMIT_ORD_PRIC (Decimal): 지정가인 경우 가격 입력 * 시장가, STOP주문인 경우, 빈칸("")
         입력 optional
         FM_STOP_ORD_PRIC (Decimal): STOP 주문 가격 입력 * 시장가, 지정가인 경우, 빈칸("") 입력
@@ -139,11 +162,11 @@ class OrderRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     OVRS_FUTR_FX_PDNO: Annotated[
@@ -167,7 +190,7 @@ class OrderRequestDict(TypedDict):
         ]
     ]
     PRIC_DVSN_CD: Annotated[
-        str,
+        PricDvsnCdEnum,
         "1.지정, 2. 시장, 3. STOP, 4 S/L",
     ]
     FM_LIMIT_ORD_PRIC: NotRequired[
@@ -320,13 +343,13 @@ if TYPE_CHECKING:
                 **kwargs (OrderRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         OVRS_FUTR_FX_PDNO (str): 해외선물FX상품번호
                         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 01 : 매도 02 : 매수
                         FM_LQD_USTL_CCLD_DT (KisDate): 빈칸 (hedge청산만 이용) optional
                         FM_LQD_USTL_CCNO (str): 빈칸 (hedge청산만 이용) optional
-                        PRIC_DVSN_CD (str): 1.지정, 2. 시장, 3. STOP, 4 S/L
+                        PRIC_DVSN_CD (PricDvsnCdEnum): 1.지정, 2. 시장, 3. STOP, 4 S/L
                         FM_LIMIT_ORD_PRIC (Decimal): 지정가인 경우 가격 입력 * 시장가, STOP주문인
                         경우, 빈칸("") 입력 optional
                         FM_STOP_ORD_PRIC (Decimal): STOP 주문 가격 입력 * 시장가, 지정가인 경우,
@@ -354,5 +377,8 @@ __all__ = [
     "OrderRequestDict",
     "OrderResponse",
     "OrderOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "SllBuyDvsnCdEnum",
+    "PricDvsnCdEnum",
 ]

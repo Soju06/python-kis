@@ -13,24 +13,43 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class TypeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(1)")
+    "key(1)"
+    VALUE_1 = ("1", "Unique key")
+    "Unique key"
+    KEY = ("key", "1")
+    "1"
+
+
+class FidEtcClsCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(00)")
+    "key(00)"
+    VALUE_00 = ("00", "Unique key")
+    "Unique key"
+    KEY = ("key", "00")
+    "00"
+
+
 class IntstockGrouplistRequest(RawModel):
-    TYPE: str = Field(
+    TYPE: TypeEnum = Field(
         alias="TYPE",
     )
     ("Unique key(1)")
-    FID_ETC_CLS_CODE: str = Field(
+    FID_ETC_CLS_CODE: FidEtcClsCodeEnum = Field(
         alias="FID_ETC_CLS_CODE",
     )
     ("Unique key(00)")
@@ -52,17 +71,17 @@ class IntstockGrouplistRequestDict(TypedDict):
     https://github.com/koreainvestment/open-trading-api/blob/main/rest/get_interest_stocks_price.py
 
     Request fields:
-        TYPE (str): Unique key(1)
-        FID_ETC_CLS_CODE (str): Unique key(00)
+        TYPE (TypeEnum): Unique key(1)
+        FID_ETC_CLS_CODE (FidEtcClsCodeEnum): Unique key(00)
         USER_ID (str): HTS_ID 입력
     """
 
     TYPE: Annotated[
-        str,
+        TypeEnum,
         "Unique key(1)",
     ]
     FID_ETC_CLS_CODE: Annotated[
-        str,
+        FidEtcClsCodeEnum,
         "Unique key(00)",
     ]
     USER_ID: Annotated[
@@ -80,7 +99,7 @@ class IntstockGrouplistOutput2(RawModel):
         alias="trnm_hour",
     )
     ("전송 시간")
-    data_rank: str = Field(
+    data_rank: int = Field(
         alias="data_rank",
     )
     ("데이터 순위")
@@ -92,7 +111,7 @@ class IntstockGrouplistOutput2(RawModel):
         alias="inter_grp_name",
     )
     ("관심 그룹 명")
-    ask_cnt: str = Field(
+    ask_cnt: int = Field(
         alias="ask_cnt",
     )
     ("요청 개수")
@@ -103,8 +122,7 @@ class IntstockGrouplistResponse(RawModel):
         alias="rt_cd",
     )
     ("성공 실패 여부")
-    msg_cd: str | None = Field(
-        default=None,
+    msg_cd: str = Field(
         alias="msg_cd",
     )
     ("응답코드")
@@ -194,8 +212,8 @@ if TYPE_CHECKING:
                 **kwargs (IntstockGrouplistRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        TYPE (str): Unique key(1)
-                        FID_ETC_CLS_CODE (str): Unique key(00)
+                        TYPE (TypeEnum): Unique key(1)
+                        FID_ETC_CLS_CODE (FidEtcClsCodeEnum): Unique key(00)
                         USER_ID (str): HTS_ID 입력
 
             Returns:
@@ -213,4 +231,6 @@ __all__ = [
     "IntstockGrouplistRequestDict",
     "IntstockGrouplistResponse",
     "IntstockGrouplistOutput2",
+    "TypeEnum",
+    "FidEtcClsCodeEnum",
 ]

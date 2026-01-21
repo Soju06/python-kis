@@ -14,13 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -31,6 +30,15 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
     "KRX"
     NX = ("NX", "NXT")
     "NXT"
+
+
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(20186)")
+    "key(20186)"
+    VALUE_20186 = ("20186", "Unique key")
+    "Unique key"
+    KEY = ("key", "20186")
+    "20186"
 
 
 class FidDivClsCodeEnum(KisStrEnum):
@@ -59,19 +67,6 @@ class FidRankSortClsCodeEnum(KisStrEnum):
     "매수상위"
 
 
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
-    VALUE_4001 = ("4001", "KRX100")
-    "KRX100"
-
-
 class FidAplyRangVolEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
     "전체"
@@ -88,7 +83,7 @@ class TradedByCompanyRequest(RawModel):
         alias="fid_cond_mrkt_div_code",
     )
     ("시장구분코드 (J:KRX, NX:NXT)")
-    fid_cond_scr_div_code: str = Field(
+    fid_cond_scr_div_code: FidCondScrDivCodeEnum = Field(
         alias="fid_cond_scr_div_code",
     )
     ("Unique key(20186)")
@@ -100,15 +95,15 @@ class TradedByCompanyRequest(RawModel):
         alias="fid_rank_sort_cls_code",
     )
     ("0:매도상위,1:매수상위")
-    fid_input_date_1: KisDate = Field(
+    fid_input_date_1: str = Field(
         alias="fid_input_date_1",
     )
     ("기간~")
-    fid_input_date_2: KisDate = Field(
+    fid_input_date_2: str = Field(
         alias="fid_input_date_2",
     )
     ("~기간")
-    fid_input_iscd: FidInputIscdEnum = Field(
+    fid_input_iscd: str = Field(
         alias="fid_input_iscd",
     )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
@@ -146,14 +141,13 @@ class TradedByCompanyRequestDict(TypedDict):
     Request fields:
         fid_trgt_exls_cls_code (str): 0: 전체
         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
-        fid_cond_scr_div_code (str): Unique key(20186)
+        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20186)
         fid_div_cls_code (FidDivClsCodeEnum): 0:전체, 1:관리종목, 2:투자주의, 3:투자경고,
         4:투자위험예고, 5:투자위험, 6:보통주, 7:우선주
         fid_rank_sort_cls_code (FidRankSortClsCodeEnum): 0:매도상위,1:매수상위
-        fid_input_date_1 (KisDate): 기간~
-        fid_input_date_2 (KisDate): ~기간
-        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
-        4001: KRX100
+        fid_input_date_1 (str): 기간~
+        fid_input_date_2 (str): ~기간
+        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100
         fid_trgt_cls_code (str): 0: 전체
         fid_aply_rang_vol (FidAplyRangVolEnum): 0: 전체, 100: 100주 이상
         fid_aply_rang_prc_2 (str): ~ 가격
@@ -169,7 +163,7 @@ class TradedByCompanyRequestDict(TypedDict):
         "시장구분코드 (J:KRX, NX:NXT)",
     ]
     fid_cond_scr_div_code: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(20186)",
     ]
     fid_div_cls_code: Annotated[
@@ -181,15 +175,15 @@ class TradedByCompanyRequestDict(TypedDict):
         "0:매도상위,1:매수상위",
     ]
     fid_input_date_1: Annotated[
-        KisDate,
+        str,
         "기간~",
     ]
     fid_input_date_2: Annotated[
-        KisDate,
+        str,
         "~기간",
     ]
     fid_input_iscd: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100",
     ]
     fid_trgt_cls_code: Annotated[
@@ -373,14 +367,14 @@ if TYPE_CHECKING:
                     Request fields:
                         fid_trgt_exls_cls_code (str): 0: 전체
                         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
-                        fid_cond_scr_div_code (str): Unique key(20186)
+                        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20186)
                         fid_div_cls_code (FidDivClsCodeEnum): 0:전체, 1:관리종목, 2:투자주의,
                         3:투자경고, 4:투자위험예고, 5:투자위험, 6:보통주, 7:우선주
                         fid_rank_sort_cls_code (FidRankSortClsCodeEnum): 0:매도상위,1:매수상위
-                        fid_input_date_1 (KisDate): 기간~
-                        fid_input_date_2 (KisDate): ~기간
-                        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥,
-                        2001:코스피200, 4001: KRX100
+                        fid_input_date_1 (str): 기간~
+                        fid_input_date_2 (str): ~기간
+                        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
+                        4001: KRX100
                         fid_trgt_cls_code (str): 0: 전체
                         fid_aply_rang_vol (FidAplyRangVolEnum): 0: 전체, 100: 100주 이상
                         fid_aply_rang_prc_2 (str): ~ 가격
@@ -402,8 +396,8 @@ __all__ = [
     "TradedByCompanyResponse",
     "TradedByCompanyOutput",
     "FidCondMrktDivCodeEnum",
+    "FidCondScrDivCodeEnum",
     "FidDivClsCodeEnum",
     "FidRankSortClsCodeEnum",
-    "FidInputIscdEnum",
     "FidAplyRangVolEnum",
 ]

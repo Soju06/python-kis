@@ -14,11 +14,11 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -56,11 +56,13 @@ class InquireElwPriceRequestDict(TypedDict):
 
 
 class InquireElwPriceOutput1(RawModel):
-    elw_shrn_iscd: str = Field(
+    elw_shrn_iscd: str | None = Field(
+        default=None,
         alias="elw_shrn_iscd",
     )
     ("ELW 단축 종목코드")
-    hts_kor_isnm: str = Field(
+    hts_kor_isnm: str | None = Field(
+        default=None,
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
@@ -68,11 +70,12 @@ class InquireElwPriceOutput1(RawModel):
         alias="elw_prpr",
     )
     ("ELW 현재가")
-    prdy_vrss: str = Field(
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: str | None = Field(
+        default=None,
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -88,7 +91,8 @@ class InquireElwPriceOutput1(RawModel):
         alias="prdy_vrss_vol_rate",
     )
     ("전일 대비 거래량 비율")
-    unas_shrn_iscd: str = Field(
+    unas_shrn_iscd: str | None = Field(
+        default=None,
         alias="unas_shrn_iscd",
     )
     ("기초자산 단축 종목코드")
@@ -100,11 +104,11 @@ class InquireElwPriceOutput1(RawModel):
         alias="unas_prpr",
     )
     ("기초자산 현재가")
-    unas_prdy_vrss: str = Field(
+    unas_prdy_vrss: Decimal = Field(
         alias="unas_prdy_vrss",
     )
     ("기초자산 전일 대비")
-    unas_prdy_vrss_sign: str = Field(
+    unas_prdy_vrss_sign: int = Field(
         alias="unas_prdy_vrss_sign",
     )
     ("기초자산 전일 대비 부호")
@@ -116,7 +120,7 @@ class InquireElwPriceOutput1(RawModel):
         alias="bidp",
     )
     ("매수호가")
-    askp: str = Field(
+    askp: int = Field(
         alias="askp",
     )
     ("매도호가")
@@ -140,11 +144,11 @@ class InquireElwPriceOutput1(RawModel):
         alias="elw_lwpr",
     )
     ("ELW 최저가")
-    stck_prdy_clpr: str = Field(
+    stck_prdy_clpr: int = Field(
         alias="stck_prdy_clpr",
     )
     ("주식 전일 종가")
-    hts_thpr: str = Field(
+    hts_thpr: Decimal = Field(
         alias="hts_thpr",
     )
     ("HTS 이론가")
@@ -156,11 +160,11 @@ class InquireElwPriceOutput1(RawModel):
         alias="atm_cls_name",
     )
     ("ATM 구분 명")
-    hts_ints_vltl: str = Field(
+    hts_ints_vltl: Decimal = Field(
         alias="hts_ints_vltl",
     )
     ("HTS 내재 변동성")
-    acpr: str = Field(
+    acpr: Decimal = Field(
         alias="acpr",
     )
     ("행사가")
@@ -172,7 +176,7 @@ class InquireElwPriceOutput1(RawModel):
         alias="pvt_frst_dmrs_prc",
     )
     ("피벗 1차 디저항 가격")
-    pvt_pont_val: str = Field(
+    pvt_pont_val: int = Field(
         alias="pvt_pont_val",
     )
     ("피벗 포인트 값")
@@ -184,15 +188,15 @@ class InquireElwPriceOutput1(RawModel):
         alias="pvt_scnd_dmsp_prc",
     )
     ("피벗 2차 디지지 가격")
-    dmsp_val: str = Field(
+    dmsp_val: int = Field(
         alias="dmsp_val",
     )
     ("디지지 값")
-    dmrs_val: str = Field(
+    dmrs_val: int = Field(
         alias="dmrs_val",
     )
     ("디저항 값")
-    elw_sdpr: str = Field(
+    elw_sdpr: int = Field(
         alias="elw_sdpr",
     )
     ("ELW 기준가")
@@ -200,11 +204,12 @@ class InquireElwPriceOutput1(RawModel):
         alias="apprch_rate",
     )
     ("접근도")
-    tick_conv_prc: str = Field(
+    tick_conv_prc: Decimal = Field(
         alias="tick_conv_prc",
     )
     ("틱환산가")
-    invt_epmd_cntt: str = Field(
+    invt_epmd_cntt: str | None = Field(
+        default=None,
         alias="invt_epmd_cntt",
     )
     ("투자 유의 내용")
@@ -223,8 +228,8 @@ class InquireElwPriceResponse(RawModel):
         alias="msg1",
     )
     ("응답메세지")
-    output1: list[InquireElwPriceOutput1] = Field(
-        alias="output1",
+    output1: InquireElwPriceOutput1 = Field(
+        alias="output",
     )
     ("응답상세")
 

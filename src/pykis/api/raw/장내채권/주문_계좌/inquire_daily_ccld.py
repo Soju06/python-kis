@@ -14,16 +14,31 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class SllBuyDvsnCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "매도")
+    "매도"
+    VALUE_02 = ("02", "매수")
+    "매수"
+
+
+class SortSqnDvsnEnum(KisStrEnum):
+    VALUE_01 = ("01", "주문순서")
+    "주문순서"
+    VALUE_02 = ("02", "주문역순")
+    "주문역순"
 
 
 class InquireDailyCcldRequest(RawModel):
@@ -43,11 +58,11 @@ class InquireDailyCcldRequest(RawModel):
         alias="INQR_END_DT",
     )
     ("~ 일자 (조회 당일)")
-    SLL_BUY_DVSN_CD: str = Field(
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(
         alias="SLL_BUY_DVSN_CD",
     )
     ("%(전체), 01(매도), 02(매수)")
-    SORT_SQN_DVSN: str = Field(
+    SORT_SQN_DVSN: SortSqnDvsnEnum = Field(
         alias="SORT_SQN_DVSN",
     )
     ("01(주문순서), 02(주문역순)")
@@ -80,8 +95,8 @@ class InquireDailyCcldRequestDict(TypedDict):
         ACNT_PRDT_CD (str): 계좌상품코드
         INQR_STRT_DT (KisDate): 일자 ~ (1주일 이내)
         INQR_END_DT (KisDate): ~ 일자 (조회 당일)
-        SLL_BUY_DVSN_CD (str): %(전체), 01(매도), 02(매수)
-        SORT_SQN_DVSN (str): 01(주문순서), 02(주문역순)
+        SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): %(전체), 01(매도), 02(매수)
+        SORT_SQN_DVSN (SortSqnDvsnEnum): 01(주문순서), 02(주문역순)
         PDNO (str): 상품번호
         NCCS_YN (KisBool): N(전체), C(체결), Y(미체결)
         CTX_AREA_NK200 (str): 연속조회키200
@@ -105,11 +120,11 @@ class InquireDailyCcldRequestDict(TypedDict):
         "~ 일자 (조회 당일)",
     ]
     SLL_BUY_DVSN_CD: Annotated[
-        str,
+        SllBuyDvsnCdEnum,
         "%(전체), 01(매도), 02(매수)",
     ]
     SORT_SQN_DVSN: Annotated[
-        str,
+        SortSqnDvsnEnum,
         "01(주문순서), 02(주문역순)",
     ]
     PDNO: Annotated[
@@ -328,8 +343,8 @@ if TYPE_CHECKING:
                         ACNT_PRDT_CD (str): 계좌상품코드
                         INQR_STRT_DT (KisDate): 일자 ~ (1주일 이내)
                         INQR_END_DT (KisDate): ~ 일자 (조회 당일)
-                        SLL_BUY_DVSN_CD (str): %(전체), 01(매도), 02(매수)
-                        SORT_SQN_DVSN (str): 01(주문순서), 02(주문역순)
+                        SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): %(전체), 01(매도), 02(매수)
+                        SORT_SQN_DVSN (SortSqnDvsnEnum): 01(주문순서), 02(주문역순)
                         PDNO (str): 상품번호
                         NCCS_YN (KisBool): N(전체), C(체결), Y(미체결)
                         CTX_AREA_NK200 (str): 연속조회키200
@@ -351,4 +366,6 @@ __all__ = [
     "InquireDailyCcldResponse",
     "InquireDailyCcldOutput1",
     "InquireDailyCcldOutput2",
+    "SllBuyDvsnCdEnum",
+    "SortSqnDvsnEnum",
 ]

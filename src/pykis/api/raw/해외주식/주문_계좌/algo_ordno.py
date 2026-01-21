@@ -14,19 +14,18 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
 class AlgoOrdnoRequest(RawModel):
-    TRAD_DT: KisDate = Field(
+    TRAD_DT: str = Field(
         alias="TRAD_DT",
     )
     ("YYYYMMDD")
@@ -55,7 +54,7 @@ class AlgoOrdnoRequestDict(TypedDict):
     TWAP, VWAP 주문에 대한 주문번호를 조회하는 API
 
     Request fields:
-        TRAD_DT (KisDate): YYYYMMDD
+        TRAD_DT (str): YYYYMMDD
         CANO (str): 종합계좌번호 (8자리)
         ACNO_PRDT_CD (str): 계좌상품코드 (2자리) : 주식계좌는 01
         CTX_AREA_NK200 (str): 연속조회키200 optional
@@ -63,7 +62,7 @@ class AlgoOrdnoRequestDict(TypedDict):
     """
 
     TRAD_DT: Annotated[
-        KisDate,
+        str,
         "YYYYMMDD",
     ]
     CANO: Annotated[
@@ -214,7 +213,7 @@ if TYPE_CHECKING:
                 **kwargs (AlgoOrdnoRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        TRAD_DT (KisDate): YYYYMMDD
+                        TRAD_DT (str): YYYYMMDD
                         CANO (str): 종합계좌번호 (8자리)
                         ACNO_PRDT_CD (str): 계좌상품코드 (2자리) : 주식계좌는 01
                         CTX_AREA_NK200 (str): 연속조회키200 optional

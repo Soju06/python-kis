@@ -13,19 +13,38 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
+    KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class TypeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(1)")
+    "key(1)"
+    VALUE_1 = ("1", "Unique key")
+    "Unique key"
+    KEY = ("key", "1")
+    "1"
+
+
+class FidEtcClsCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(4)")
+    "key(4)"
+    VALUE_4 = ("4", "Unique key")
+    "Unique key"
+    KEY = ("key", "4")
+    "4"
+
+
 class IntstockStocklistByGroupRequest(RawModel):
-    TYPE: str = Field(
+    TYPE: TypeEnum = Field(
         alias="TYPE",
     )
     ("Unique key(1)")
@@ -53,7 +72,7 @@ class IntstockStocklistByGroupRequest(RawModel):
         alias="CNTG_CLS_CODE",
     )
     ("공백")
-    FID_ETC_CLS_CODE: str = Field(
+    FID_ETC_CLS_CODE: FidEtcClsCodeEnum = Field(
         alias="FID_ETC_CLS_CODE",
     )
     ("Unique key(4)")
@@ -71,18 +90,18 @@ class IntstockStocklistByGroupRequestDict(TypedDict):
     https://github.com/koreainvestment/open-trading-api/blob/main/rest/get_interest_stocks_price.py
 
     Request fields:
-        TYPE (str): Unique key(1)
+        TYPE (TypeEnum): Unique key(1)
         USER_ID (str): HTS_ID 입력
         DATA_RANK (str): 공백
         INTER_GRP_CODE (str): 관심그룹 조회 결과의 그룹 값 입력
         INTER_GRP_NAME (str): 공백
         HTS_KOR_ISNM (str): 공백
         CNTG_CLS_CODE (str): 공백
-        FID_ETC_CLS_CODE (str): Unique key(4)
+        FID_ETC_CLS_CODE (FidEtcClsCodeEnum): Unique key(4)
     """
 
     TYPE: Annotated[
-        str,
+        TypeEnum,
         "Unique key(1)",
     ]
     USER_ID: Annotated[
@@ -110,13 +129,13 @@ class IntstockStocklistByGroupRequestDict(TypedDict):
         "공백",
     ]
     FID_ETC_CLS_CODE: Annotated[
-        str,
+        FidEtcClsCodeEnum,
         "Unique key(4)",
     ]
 
 
 class IntstockStocklistByGroupOutput1(RawModel):
-    data_rank: str = Field(
+    data_rank: int = Field(
         alias="data_rank",
     )
     ("데이터 순위")
@@ -127,43 +146,53 @@ class IntstockStocklistByGroupOutput1(RawModel):
 
 
 class IntstockStocklistByGroupOutput2(RawModel):
-    fid_mrkt_cls_code: str = Field(
+    fid_mrkt_cls_code: str | None = Field(
+        default=None,
         alias="fid_mrkt_cls_code",
     )
     ("FID 시장 구분 코드")
-    data_rank: str = Field(
+    data_rank: str | None = Field(
+        default=None,
         alias="data_rank",
     )
     ("데이터 순위")
-    exch_code: str = Field(
+    exch_code: str | None = Field(
+        default=None,
         alias="exch_code",
     )
     ("거래소코드")
-    jong_code: str = Field(
+    jong_code: str | None = Field(
+        default=None,
         alias="jong_code",
     )
     ("종목코드")
-    color_code: str = Field(
+    color_code: str | None = Field(
+        default=None,
         alias="color_code",
     )
     ("생상 코드")
-    memo: str = Field(
+    memo: str | None = Field(
+        default=None,
         alias="memo",
     )
     ("메모")
-    hts_kor_isnm: str = Field(
+    hts_kor_isnm: str | None = Field(
+        default=None,
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
-    fxdt_ntby_qty: KisDate = Field(
+    fxdt_ntby_qty: KisDateOptional = Field(
+        default=None,
         alias="fxdt_ntby_qty",
     )
     ("기준일 순매수 수량")
-    cntg_unpr: str = Field(
+    cntg_unpr: str | None = Field(
+        default=None,
         alias="cntg_unpr",
     )
     ("체결단가")
-    cntg_cls_code: str = Field(
+    cntg_cls_code: str | None = Field(
+        default=None,
         alias="cntg_cls_code",
     )
     ("체결 구분 코드")
@@ -268,14 +297,14 @@ if TYPE_CHECKING:
                 **kwargs (IntstockStocklistByGroupRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        TYPE (str): Unique key(1)
+                        TYPE (TypeEnum): Unique key(1)
                         USER_ID (str): HTS_ID 입력
                         DATA_RANK (str): 공백
                         INTER_GRP_CODE (str): 관심그룹 조회 결과의 그룹 값 입력
                         INTER_GRP_NAME (str): 공백
                         HTS_KOR_ISNM (str): 공백
                         CNTG_CLS_CODE (str): 공백
-                        FID_ETC_CLS_CODE (str): Unique key(4)
+                        FID_ETC_CLS_CODE (FidEtcClsCodeEnum): Unique key(4)
 
             Returns:
                 tuple[IntstockStocklistByGroupResponse, KisResponse]: 응답 모델과 원시 응답
@@ -293,4 +322,6 @@ __all__ = [
     "IntstockStocklistByGroupResponse",
     "IntstockStocklistByGroupOutput1",
     "IntstockStocklistByGroupOutput2",
+    "TypeEnum",
+    "FidEtcClsCodeEnum",
 ]

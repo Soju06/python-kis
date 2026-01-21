@@ -14,25 +14,16 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
-
-
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0001 = ("0001", "종합")
-    "종합"
-    VALUE_0002 = ("0002", "대형주")
-    "대형주"
-    FAQ = ("FAQ", "종목정보 다운로드(국내) - 업종코드 참조)'")
-    "종목정보 다운로드(국내) - 업종코드 참조)'"
 
 
 class FidPeriodDivCodeEnum(KisStrEnum):
@@ -51,15 +42,15 @@ class InquireDailyIndexchartpriceRequest(RawModel):
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("업종 : U")
-    FID_INPUT_ISCD: FidInputIscdEnum = Field(
+    FID_INPUT_ISCD: str = Field(
         alias="FID_INPUT_ISCD",
     )
     ("'0001 : 종합 0002 : 대형주 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)'")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("조회 시작일자 (ex. 20220501)")
-    FID_INPUT_DATE_2: KisDate = Field(
+    FID_INPUT_DATE_2: str = Field(
         alias="FID_INPUT_DATE_2",
     )
     ("조회 종료일자 (ex. 20220530)")
@@ -77,10 +68,10 @@ class InquireDailyIndexchartpriceRequestDict(TypedDict):
 
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): 업종 : U
-        FID_INPUT_ISCD (FidInputIscdEnum): '0001 : 종합 0002 : 대형주 ... 포탈 (FAQ : 종목정보
-        다운로드(국내) - 업종코드 참조)'
-        FID_INPUT_DATE_1 (KisDate): 조회 시작일자 (ex. 20220501)
-        FID_INPUT_DATE_2 (KisDate): 조회 종료일자 (ex. 20220530)
+        FID_INPUT_ISCD (str): '0001 : 종합 0002 : 대형주 ... 포탈 (FAQ : 종목정보 다운로드(국내) -
+        업종코드 참조)'
+        FID_INPUT_DATE_1 (str): 조회 시작일자 (ex. 20220501)
+        FID_INPUT_DATE_2 (str): 조회 종료일자 (ex. 20220530)
         FID_PERIOD_DIV_CODE (FidPeriodDivCodeEnum): ' D:일봉 W:주봉, M:월봉, Y:년봉'
     """
 
@@ -89,15 +80,15 @@ class InquireDailyIndexchartpriceRequestDict(TypedDict):
         "업종 : U",
     ]
     FID_INPUT_ISCD: Annotated[
-        FidInputIscdEnum,
+        str,
         "'0001 : 종합 0002 : 대형주 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)'",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "조회 시작일자 (ex. 20220501)",
     ]
     FID_INPUT_DATE_2: Annotated[
-        KisDate,
+        str,
         "조회 종료일자 (ex. 20220530)",
     ]
     FID_PERIOD_DIV_CODE: Annotated[
@@ -107,7 +98,7 @@ class InquireDailyIndexchartpriceRequestDict(TypedDict):
 
 
 class InquireDailyIndexchartpriceOutput1(RawModel):
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -293,10 +284,10 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): 업종 : U
-                        FID_INPUT_ISCD (FidInputIscdEnum): '0001 : 종합 0002 : 대형주 ... 포탈 (FAQ :
-                        종목정보 다운로드(국내) - 업종코드 참조)'
-                        FID_INPUT_DATE_1 (KisDate): 조회 시작일자 (ex. 20220501)
-                        FID_INPUT_DATE_2 (KisDate): 조회 종료일자 (ex. 20220530)
+                        FID_INPUT_ISCD (str): '0001 : 종합 0002 : 대형주 ... 포탈 (FAQ : 종목정보
+                        다운로드(국내) - 업종코드 참조)'
+                        FID_INPUT_DATE_1 (str): 조회 시작일자 (ex. 20220501)
+                        FID_INPUT_DATE_2 (str): 조회 종료일자 (ex. 20220530)
                         FID_PERIOD_DIV_CODE (FidPeriodDivCodeEnum): ' D:일봉 W:주봉, M:월봉, Y:년봉'
 
             Returns:
@@ -315,6 +306,5 @@ __all__ = [
     "InquireDailyIndexchartpriceResponse",
     "InquireDailyIndexchartpriceOutput1",
     "InquireDailyIndexchartpriceOutput2",
-    "FidInputIscdEnum",
     "FidPeriodDivCodeEnum",
 ]

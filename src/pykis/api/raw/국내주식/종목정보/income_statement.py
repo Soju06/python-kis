@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -74,7 +74,7 @@ class IncomeStatementRequestDict(TypedDict):
 
 
 class IncomeStatementOutput(RawModel):
-    stac_yymm: int = Field(
+    stac_yymm: str = Field(
         alias="stac_yymm",
     )
     ("결산 년월")

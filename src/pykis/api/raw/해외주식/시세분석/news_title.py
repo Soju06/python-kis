@@ -13,18 +13,27 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     KisDateOptional,
     KisTime,
     KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class NationCdEnum(KisStrEnum):
+    CN = ("CN", "중국")
+    "중국"
+    HK = ("HK", "홍콩")
+    "홍콩"
+    US = ("US", "미국")
+    "미국"
 
 
 class NewsTitleRequest(RawModel):
@@ -36,7 +45,7 @@ class NewsTitleRequest(RawModel):
         alias="CLASS_CD",
     )
     ("전체: 공백")
-    NATION_CD: str = Field(
+    NATION_CD: NationCdEnum = Field(
         alias="NATION_CD",
     )
     ("전체: 공백 CN(중국), HK(홍콩), US(미국)")
@@ -48,7 +57,7 @@ class NewsTitleRequest(RawModel):
         alias="SYMB",
     )
     ("전체: 공백")
-    DATA_DT: KisDate = Field(
+    DATA_DT: str = Field(
         alias="DATA_DT",
     )
     ("전체: 공백 특정일자(YYYYMMDD) ex. 20240502")
@@ -71,10 +80,10 @@ class NewsTitleRequestDict(TypedDict):
     Request fields:
         INFO_GB (str): 전체: 공백
         CLASS_CD (str): 전체: 공백
-        NATION_CD (str): 전체: 공백 CN(중국), HK(홍콩), US(미국)
+        NATION_CD (NationCdEnum): 전체: 공백 CN(중국), HK(홍콩), US(미국)
         EXCHANGE_CD (str): 전체: 공백
         SYMB (str): 전체: 공백
-        DATA_DT (KisDate): 전체: 공백 특정일자(YYYYMMDD) ex. 20240502
+        DATA_DT (str): 전체: 공백 특정일자(YYYYMMDD) ex. 20240502
         DATA_TM (KisTime): 전체: 공백 전체: 공백 특정시간(HHMMSS) ex. 093500
         CTS (str): 공백 입력
     """
@@ -88,7 +97,7 @@ class NewsTitleRequestDict(TypedDict):
         "전체: 공백",
     ]
     NATION_CD: Annotated[
-        str,
+        NationCdEnum,
         "전체: 공백 CN(중국), HK(홍콩), US(미국)",
     ]
     EXCHANGE_CD: Annotated[
@@ -100,7 +109,7 @@ class NewsTitleRequestDict(TypedDict):
         "전체: 공백",
     ]
     DATA_DT: Annotated[
-        KisDate,
+        str,
         "전체: 공백 특정일자(YYYYMMDD) ex. 20240502",
     ]
     DATA_TM: Annotated[
@@ -259,10 +268,10 @@ if TYPE_CHECKING:
                     Request fields:
                         INFO_GB (str): 전체: 공백
                         CLASS_CD (str): 전체: 공백
-                        NATION_CD (str): 전체: 공백 CN(중국), HK(홍콩), US(미국)
+                        NATION_CD (NationCdEnum): 전체: 공백 CN(중국), HK(홍콩), US(미국)
                         EXCHANGE_CD (str): 전체: 공백
                         SYMB (str): 전체: 공백
-                        DATA_DT (KisDate): 전체: 공백 특정일자(YYYYMMDD) ex. 20240502
+                        DATA_DT (str): 전체: 공백 특정일자(YYYYMMDD) ex. 20240502
                         DATA_TM (KisTime): 전체: 공백 전체: 공백 특정시간(HHMMSS) ex. 093500
                         CTS (str): 공백 입력
 
@@ -280,4 +289,5 @@ __all__ = [
     "NewsTitleRequest",
     "NewsTitleRequestDict",
     "NewsTitleResponse",
+    "NationCdEnum",
 ]

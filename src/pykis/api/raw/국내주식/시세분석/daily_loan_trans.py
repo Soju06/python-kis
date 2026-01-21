@@ -14,19 +14,30 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
+    KisDateTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class MrktDivClsCodeEnum(KisStrEnum):
+    VALUE_1 = ("1", "코스피")
+    "코스피"
+    VALUE_2 = ("2", "코스닥")
+    "코스닥"
+    VALUE_3 = ("3", "종목")
+    "종목"
+
+
 class DailyLoanTransRequest(RawModel):
-    MRKT_DIV_CLS_CODE: str = Field(
+    MRKT_DIV_CLS_CODE: MrktDivClsCodeEnum = Field(
         alias="MRKT_DIV_CLS_CODE",
     )
     ("1(코스피), 2(코스닥), 3(종목)")
@@ -34,11 +45,11 @@ class DailyLoanTransRequest(RawModel):
         alias="MKSC_SHRN_ISCD",
     )
     ("종목코드")
-    START_DATE: KisDate = Field(
+    START_DATE: KisDateTime = Field(
         alias="START_DATE",
     )
     ("조회기간 ~")
-    END_DATE: KisDate = Field(
+    END_DATE: KisDateTime = Field(
         alias="END_DATE",
     )
     ("~ 조회기간")
@@ -55,15 +66,15 @@ class DailyLoanTransRequestDict(TypedDict):
     가능합니다.
 
     Request fields:
-        MRKT_DIV_CLS_CODE (str): 1(코스피), 2(코스닥), 3(종목)
+        MRKT_DIV_CLS_CODE (MrktDivClsCodeEnum): 1(코스피), 2(코스닥), 3(종목)
         MKSC_SHRN_ISCD (str): 종목코드
-        START_DATE (KisDate): 조회기간 ~
-        END_DATE (KisDate): ~ 조회기간
+        START_DATE (KisDateTime): 조회기간 ~
+        END_DATE (KisDateTime): ~ 조회기간
         CTS (str): 이전조회KEY
     """
 
     MRKT_DIV_CLS_CODE: Annotated[
-        str,
+        MrktDivClsCodeEnum,
         "1(코스피), 2(코스닥), 3(종목)",
     ]
     MKSC_SHRN_ISCD: Annotated[
@@ -71,11 +82,11 @@ class DailyLoanTransRequestDict(TypedDict):
         "종목코드",
     ]
     START_DATE: Annotated[
-        KisDate,
+        KisDateTime,
         "조회기간 ~",
     ]
     END_DATE: Annotated[
-        KisDate,
+        KisDateTime,
         "~ 조회기간",
     ]
     CTS: Annotated[
@@ -89,15 +100,15 @@ class DailyLoanTransOutput1(RawModel):
         alias="bsop_date",
     )
     ("일자")
-    stck_prpr: str = Field(
+    stck_prpr: Decimal = Field(
         alias="stck_prpr",
     )
     ("주식 종가")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
-    prdy_vrss: str = Field(
+    prdy_vrss: Decimal = Field(
         alias="prdy_vrss",
     )
     ("전일 대비")
@@ -109,19 +120,19 @@ class DailyLoanTransOutput1(RawModel):
         alias="acml_vol",
     )
     ("누적 거래량")
-    new_stcn: str = Field(
+    new_stcn: int = Field(
         alias="new_stcn",
     )
     ("당일 증가 주수 (체결)")
-    rdmp_stcn: str = Field(
+    rdmp_stcn: int = Field(
         alias="rdmp_stcn",
     )
     ("당일 감소 주수 (상환)")
-    prdy_rmnd_vrss: str = Field(
+    prdy_rmnd_vrss: int = Field(
         alias="prdy_rmnd_vrss",
     )
     ("대차거래 증감")
-    rmnd_stcn: str = Field(
+    rmnd_stcn: int = Field(
         alias="rmnd_stcn",
     )
     ("당일 잔고 주수")
@@ -215,10 +226,10 @@ if TYPE_CHECKING:
                 **kwargs (DailyLoanTransRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        MRKT_DIV_CLS_CODE (str): 1(코스피), 2(코스닥), 3(종목)
+                        MRKT_DIV_CLS_CODE (MrktDivClsCodeEnum): 1(코스피), 2(코스닥), 3(종목)
                         MKSC_SHRN_ISCD (str): 종목코드
-                        START_DATE (KisDate): 조회기간 ~
-                        END_DATE (KisDate): ~ 조회기간
+                        START_DATE (KisDateTime): 조회기간 ~
+                        END_DATE (KisDateTime): ~ 조회기간
                         CTS (str): 이전조회KEY
 
             Returns:
@@ -236,4 +247,5 @@ __all__ = [
     "DailyLoanTransRequestDict",
     "DailyLoanTransResponse",
     "DailyLoanTransOutput1",
+    "MrktDivClsCodeEnum",
 ]

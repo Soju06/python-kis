@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import cast
 
-from pykis.raw.types import Endpoint
+from pykis.api.raw.types import Endpoint
 
 {% for entry in registry_entries %}
 from {{ entry.module_import }} import ENDPOINT as {{ entry.endpoint_alias }}

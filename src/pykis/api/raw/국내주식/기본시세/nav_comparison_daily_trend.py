@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -34,11 +34,11 @@ class NavComparisonDailyTrendRequest(RawModel):
         alias="fid_input_iscd",
     )
     ("종목코드 (6자리)")
-    fid_input_date_1: KisDate = Field(
+    fid_input_date_1: str = Field(
         alias="fid_input_date_1",
     )
     ("조회 시작일자 (ex. 20240101)")
-    fid_input_date_2: KisDate = Field(
+    fid_input_date_2: str = Field(
         alias="fid_input_date_2",
     )
     ("조회 종료일자 (ex. 20240220)")
@@ -54,8 +54,8 @@ class NavComparisonDailyTrendRequestDict(TypedDict):
     Request fields:
         fid_cond_mrkt_div_code (str): J 입력
         fid_input_iscd (str): 종목코드 (6자리)
-        fid_input_date_1 (KisDate): 조회 시작일자 (ex. 20240101)
-        fid_input_date_2 (KisDate): 조회 종료일자 (ex. 20240220)
+        fid_input_date_1 (str): 조회 시작일자 (ex. 20240101)
+        fid_input_date_2 (str): 조회 종료일자 (ex. 20240220)
     """
 
     fid_cond_mrkt_div_code: Annotated[
@@ -67,11 +67,11 @@ class NavComparisonDailyTrendRequestDict(TypedDict):
         "종목코드 (6자리)",
     ]
     fid_input_date_1: Annotated[
-        KisDate,
+        str,
         "조회 시작일자 (ex. 20240101)",
     ]
     fid_input_date_2: Annotated[
-        KisDate,
+        str,
         "조회 종료일자 (ex. 20240220)",
     ]
 
@@ -220,8 +220,8 @@ if TYPE_CHECKING:
                     Request fields:
                         fid_cond_mrkt_div_code (str): J 입력
                         fid_input_iscd (str): 종목코드 (6자리)
-                        fid_input_date_1 (KisDate): 조회 시작일자 (ex. 20240101)
-                        fid_input_date_2 (KisDate): 조회 종료일자 (ex. 20240220)
+                        fid_input_date_1 (str): 조회 시작일자 (ex. 20240101)
+                        fid_input_date_2 (str): 조회 종료일자 (ex. 20240220)
 
             Returns:
                 tuple[NavComparisonDailyTrendResponse, KisResponse]: 응답 모델과 원시 응답

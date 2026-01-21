@@ -14,15 +14,33 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CrcyCdEnum(KisStrEnum):
+    JPY = ("JPY", ")일본엔화")
+    ")일본엔화"
+    TKR = ("TKR", "TOT_KRW")
+    "TOT_KRW"
+    TUS = ("TUS", "TOT_USD")
+    "TOT_USD"
+    USD = ("USD", "미국달러")
+    "미국달러"
+    HKD = ("HKD", "홍콩달러")
+    "홍콩달러"
+    CNY = ("CNY", "중국위안화")
+    "중국위안화"
+    VND = ("VND", "베트남동")
+    "베트남동"
 
 
 class MarginDetailRequest(RawModel):
@@ -34,7 +52,7 @@ class MarginDetailRequest(RawModel):
         alias="ACNT_PRDT_CD",
     )
     ("계좌상품코드")
-    CRCY_CD: str = Field(
+    CRCY_CD: CrcyCdEnum = Field(
         alias="CRCY_CD",
     )
     ("'TKR(TOT_KRW), TUS(TOT_USD), USD(미국달러), HKD(홍콩달러), CNY(중국위안화), JPY )일본엔화), VND(베트남동)'")
@@ -93,8 +111,8 @@ class MarginDetailRequestDict(TypedDict):
     Request fields:
         CANO (str): 종합계좌번호
         ACNT_PRDT_CD (str): 계좌상품코드
-        CRCY_CD (str): 'TKR(TOT_KRW), TUS(TOT_USD), USD(미국달러), HKD(홍콩달러), CNY(중국위안화),
-        JPY )일본엔화), VND(베트남동)'
+        CRCY_CD (CrcyCdEnum): 'TKR(TOT_KRW), TUS(TOT_USD), USD(미국달러), HKD(홍콩달러),
+        CNY(중국위안화), JPY )일본엔화), VND(베트남동)'
         INQR_DT (KisDate): 조회일자
     """
 
@@ -107,7 +125,7 @@ class MarginDetailRequestDict(TypedDict):
         "계좌상품코드",
     ]
     CRCY_CD: Annotated[
-        str,
+        CrcyCdEnum,
         "'TKR(TOT_KRW), TUS(TOT_USD), USD(미국달러), HKD(홍콩달러), CNY(중국위안화), JPY )일본엔화), VND(베트남동)'",
     ]
     INQR_DT: Annotated[
@@ -484,8 +502,8 @@ if TYPE_CHECKING:
                     Request fields:
                         CANO (str): 종합계좌번호
                         ACNT_PRDT_CD (str): 계좌상품코드
-                        CRCY_CD (str): 'TKR(TOT_KRW), TUS(TOT_USD), USD(미국달러), HKD(홍콩달러),
-                        CNY(중국위안화), JPY )일본엔화), VND(베트남동)'
+                        CRCY_CD (CrcyCdEnum): 'TKR(TOT_KRW), TUS(TOT_USD), USD(미국달러),
+                        HKD(홍콩달러), CNY(중국위안화), JPY )일본엔화), VND(베트남동)'
                         INQR_DT (KisDate): 조회일자
 
             Returns:
@@ -503,4 +521,5 @@ __all__ = [
     "MarginDetailRequestDict",
     "MarginDetailResponse",
     "MarginDetailOutput",
+    "CrcyCdEnum",
 ]

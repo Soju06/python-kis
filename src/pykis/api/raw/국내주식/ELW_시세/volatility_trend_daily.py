@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -66,11 +66,11 @@ class VolatilityTrendDailyOutput(RawModel):
         alias="elw_prpr",
     )
     ("ELW 현재가")
-    prdy_vrss: str = Field(
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
@@ -94,27 +94,27 @@ class VolatilityTrendDailyOutput(RawModel):
         alias="acml_vol",
     )
     ("누적 거래량")
-    d10_hist_vltl: str = Field(
+    d10_hist_vltl: Decimal = Field(
         alias="d10_hist_vltl",
     )
     ("10일 역사적 변동성")
-    d20_hist_vltl: str = Field(
+    d20_hist_vltl: Decimal = Field(
         alias="d20_hist_vltl",
     )
     ("20일 역사적 변동성")
-    d30_hist_vltl: str = Field(
+    d30_hist_vltl: Decimal = Field(
         alias="d30_hist_vltl",
     )
     ("30일 역사적 변동성")
-    d60_hist_vltl: str = Field(
+    d60_hist_vltl: Decimal = Field(
         alias="d60_hist_vltl",
     )
     ("60일 역사적 변동성")
-    d90_hist_vltl: str = Field(
+    d90_hist_vltl: Decimal = Field(
         alias="d90_hist_vltl",
     )
     ("90일 역사적 변동성")
-    hts_ints_vltl: str = Field(
+    hts_ints_vltl: Decimal = Field(
         alias="hts_ints_vltl",
     )
     ("HTS 내재 변동성")

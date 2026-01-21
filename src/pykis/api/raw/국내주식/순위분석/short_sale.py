@@ -14,31 +14,25 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "코스피")
-    "코스피"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
-    VALUE_4001 = ("4001", "KRX100")
-    "KRX100"
-    VALUE_3003 = ("3003", "코스닥150")
-    "코스닥150"
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(20482)")
+    "key(20482)"
+    VALUE_20482 = ("20482", "Unique key")
+    "Unique key"
+    KEY = ("key", "20482")
+    "20482"
 
 
 class FidPeriodDivCodeEnum(KisStrEnum):
@@ -48,25 +42,8 @@ class FidPeriodDivCodeEnum(KisStrEnum):
     "월"
 
 
-class FidInputCnt1Enum(KisStrEnum):
-    VALUE_0 = ("0", "1일")
-    "1일"
-    VALUE_1 = ("1", "2일")
-    "2일"
-    VALUE_2 = ("2", "3일")
-    "3일"
-    VALUE_3 = ("3", "4일")
-    "4일"
-    VALUE_4 = ("4", "1주일")
-    "1주일"
-    VALUE_9 = ("9", "2주일")
-    "2주일"
-    VALUE_14 = ("14", "3주일")
-    "3주일"
-
-
 class ShortSaleRequest(RawModel):
-    FID_APLY_RANG_VOL: str = Field(
+    FID_APLY_RANG_VOL: int = Field(
         alias="FID_APLY_RANG_VOL",
     )
     ("공백")
@@ -74,11 +51,11 @@ class ShortSaleRequest(RawModel):
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("시장구분코드 (주식 J)")
-    FID_COND_SCR_DIV_CODE: str = Field(
+    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("Unique key(20482)")
-    FID_INPUT_ISCD: FidInputIscdEnum = Field(
+    FID_INPUT_ISCD: str = Field(
         alias="FID_INPUT_ISCD",
     )
     ("0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100, 3003: 코스닥150")
@@ -86,7 +63,7 @@ class ShortSaleRequest(RawModel):
         alias="FID_PERIOD_DIV_CODE",
     )
     ("조회구분 (일/월) D: 일, M:월")
-    FID_INPUT_CNT_1: FidInputCnt1Enum = Field(
+    FID_INPUT_CNT_1: str = Field(
         alias="FID_INPUT_CNT_1",
     )
     (
@@ -125,14 +102,14 @@ class ShortSaleRequestDict(TypedDict):
     자세한 사용 방법은 공지사항 - [조건검색 필독] 조건검색 API 이용안내 참고 부탁드립니다.
 
     Request fields:
-        FID_APLY_RANG_VOL (str): 공백
+        FID_APLY_RANG_VOL (int): 공백
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 J)
-        FID_COND_SCR_DIV_CODE (str): Unique key(20482)
-        FID_INPUT_ISCD (FidInputIscdEnum): 0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200,
-        4001: KRX100, 3003: 코스닥150
+        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20482)
+        FID_INPUT_ISCD (str): 0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100,
+        3003: 코스닥150
         FID_PERIOD_DIV_CODE (FidPeriodDivCodeEnum): 조회구분 (일/월) D: 일, M:월
-        FID_INPUT_CNT_1 (FidInputCnt1Enum): '조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일, 3:4일,
-        4:1주일, 9:2주일, 14:3주일, 조회구분(M) 1:1개월, 2:2개월, 3:3개월'
+        FID_INPUT_CNT_1 (str): '조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일, 3:4일, 4:1주일,
+        9:2주일, 14:3주일, 조회구분(M) 1:1개월, 2:2개월, 3:3개월'
         FID_TRGT_EXLS_CLS_CODE (str): 공백
         FID_TRGT_CLS_CODE (str): 공백
         FID_APLY_RANG_PRC_1 (str): 가격 ~
@@ -140,7 +117,7 @@ class ShortSaleRequestDict(TypedDict):
     """
 
     FID_APLY_RANG_VOL: Annotated[
-        str,
+        int,
         "공백",
     ]
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -148,11 +125,11 @@ class ShortSaleRequestDict(TypedDict):
         "시장구분코드 (주식 J)",
     ]
     FID_COND_SCR_DIV_CODE: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(20482)",
     ]
     FID_INPUT_ISCD: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100, 3003: 코스닥150",
     ]
     FID_PERIOD_DIV_CODE: Annotated[
@@ -160,7 +137,7 @@ class ShortSaleRequestDict(TypedDict):
         "조회구분 (일/월) D: 일, M:월",
     ]
     FID_INPUT_CNT_1: Annotated[
-        FidInputCnt1Enum,
+        str,
         "'조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일, 3:4일, 4:1주일, 9:2주일, 14:3주일, 조회구분(M) "
         "1:1개월, 2:2개월, 3:3개월'",
     ]
@@ -219,7 +196,7 @@ class ShortSaleOutput(RawModel):
         alias="ssts_cntg_qty",
     )
     ("공매도 체결 수량")
-    ssts_vol_rlim: int = Field(
+    ssts_vol_rlim: Decimal = Field(
         alias="ssts_vol_rlim",
     )
     ("공매도 거래량 비중")
@@ -343,15 +320,14 @@ if TYPE_CHECKING:
                 **kwargs (ShortSaleRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_APLY_RANG_VOL (str): 공백
+                        FID_APLY_RANG_VOL (int): 공백
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 J)
-                        FID_COND_SCR_DIV_CODE (str): Unique key(20482)
-                        FID_INPUT_ISCD (FidInputIscdEnum): 0000:전체, 0001:코스피, 1001:코스닥,
-                        2001:코스피200, 4001: KRX100, 3003: 코스닥150
+                        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20482)
+                        FID_INPUT_ISCD (str): 0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200,
+                        4001: KRX100, 3003: 코스닥150
                         FID_PERIOD_DIV_CODE (FidPeriodDivCodeEnum): 조회구분 (일/월) D: 일, M:월
-                        FID_INPUT_CNT_1 (FidInputCnt1Enum): '조회가간(일수): 조회구분(D) 0:1일, 1:2일,
-                        2:3일, 3:4일, 4:1주일, 9:2주일, 14:3주일, 조회구분(M) 1:1개월, 2:2개월,
-                        3:3개월'
+                        FID_INPUT_CNT_1 (str): '조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일,
+                        3:4일, 4:1주일, 9:2주일, 14:3주일, 조회구분(M) 1:1개월, 2:2개월, 3:3개월'
                         FID_TRGT_EXLS_CLS_CODE (str): 공백
                         FID_TRGT_CLS_CODE (str): 공백
                         FID_APLY_RANG_PRC_1 (str): 가격 ~
@@ -372,7 +348,6 @@ __all__ = [
     "ShortSaleRequestDict",
     "ShortSaleResponse",
     "ShortSaleOutput",
-    "FidInputIscdEnum",
+    "FidCondScrDivCodeEnum",
     "FidPeriodDivCodeEnum",
-    "FidInputCnt1Enum",
 ]

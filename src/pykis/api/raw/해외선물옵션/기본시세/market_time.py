@@ -13,15 +13,65 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
+    KisDateTimeOptional,
     KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FmClasCdEnum(KisStrEnum):
+    VALUE_001 = ("001", "통화")
+    "통화"
+    VALUE_002 = ("002", "금리")
+    "금리"
+    VALUE_003 = ("003", "지수")
+    "지수"
+    VALUE_004 = ("004", "농산물")
+    "농산물"
+    VALUE_005 = ("005", "축산물")
+    "축산물"
+    VALUE_006 = ("006", "금속")
+    "금속"
+    VALUE_007 = ("007", "에너지")
+    "에너지"
+
+
+class FmExcgCdEnum(KisStrEnum):
+    CME = ("CME", "EUREX(")
+    "EUREX("
+    EUREX = ("EUREX", "HKEx(")
+    "HKEx("
+    ICE = ("ICE", "SGX(")
+    "SGX("
+    SGX = ("SGX", "OSE(")
+    "OSE("
+    OSE = ("OSE", "ASX(")
+    "ASX("
+    CBOE = ("CBOE", "MDEX(")
+    "MDEX("
+    MDEX = ("MDEX", "NYSE(")
+    "NYSE("
+    BMF = ("BMF", "FTX(")
+    "FTX("
+    FTX = ("FTX", "HNX(")
+    "HNX("
+    HNX = ("HNX", "ETC(기타)'")
+    "ETC(기타)'"
+    HKEX = ("HKEx", "HKEx")
+    "HKEx"
+    ASX = ("ASX", "ASX")
+    "ASX"
+    NYSE = ("NYSE", "NYSE")
+    "NYSE"
+    ETC = ("ETC", "기타")
+    "기타"
 
 
 class MarketTimeRequest(RawModel):
@@ -29,11 +79,11 @@ class MarketTimeRequest(RawModel):
         alias="FM_PDGR_CD",
     )
     ("공백")
-    FM_CLAS_CD: str = Field(
+    FM_CLAS_CD: FmClasCdEnum = Field(
         alias="FM_CLAS_CD",
     )
     ("'공백(전체), 001(통화), 002(금리), 003(지수), 004(농산물),005(축산물),006(금속),007(에너지)'")
-    FM_EXCG_CD: str = Field(
+    FM_EXCG_CD: FmExcgCdEnum = Field(
         alias="FM_EXCG_CD",
     )
     (
@@ -62,10 +112,11 @@ class MarketTimeRequestDict(TypedDict):
 
     Request fields:
         FM_PDGR_CD (str): 공백
-        FM_CLAS_CD (str): '공백(전체), 001(통화), 002(금리), 003(지수),
+        FM_CLAS_CD (FmClasCdEnum): '공백(전체), 001(통화), 002(금리), 003(지수),
         004(농산물),005(축산물),006(금속),007(에너지)'
-        FM_EXCG_CD (str): 'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE), SGX(SGX), OSE(OSE),
-        ASX(ASX), CBOE(CBOE), MDEX(MDEX), NYSE(NYSE), BMF(BMF),FTX(FTX), HNX(HNX), ETC(기타)'
+        FM_EXCG_CD (FmExcgCdEnum): 'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE), SGX(SGX),
+        OSE(OSE), ASX(ASX), CBOE(CBOE), MDEX(MDEX), NYSE(NYSE), BMF(BMF),FTX(FTX), HNX(HNX),
+        ETC(기타)'
         OPT_YN (KisBool): %(전체), N(선물), Y(옵션)
         CTX_AREA_NK200 (str): 연속조회키200
         CTX_AREA_FK200 (str): 연속조회검색조건200
@@ -76,11 +127,11 @@ class MarketTimeRequestDict(TypedDict):
         "공백",
     ]
     FM_CLAS_CD: Annotated[
-        str,
+        FmClasCdEnum,
         "'공백(전체), 001(통화), 002(금리), 003(지수), 004(농산물),005(축산물),006(금속),007(에너지)'",
     ]
     FM_EXCG_CD: Annotated[
-        str,
+        FmExcgCdEnum,
         "'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE), SGX(SGX), OSE(OSE), ASX(ASX), CBOE(CBOE), "
         "MDEX(MDEX), NYSE(NYSE), BMF(BMF),FTX(FTX), HNX(HNX), ETC(기타)'",
     ]
@@ -154,7 +205,7 @@ class MarketTimeOutput(RawModel):
         alias="pm_mkmn_end_tmd",
     )
     ("오후장운영종료시각")
-    mkmn_nxdy_strt_tmd: KisTimeOptional = Field(
+    mkmn_nxdy_strt_tmd: KisDateTimeOptional = Field(
         default=None,
         alias="mkmn_nxdy_strt_tmd",
     )
@@ -261,11 +312,11 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         FM_PDGR_CD (str): 공백
-                        FM_CLAS_CD (str): '공백(전체), 001(통화), 002(금리), 003(지수),
+                        FM_CLAS_CD (FmClasCdEnum): '공백(전체), 001(통화), 002(금리), 003(지수),
                         004(농산물),005(축산물),006(금속),007(에너지)'
-                        FM_EXCG_CD (str): 'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE), SGX(SGX),
-                        OSE(OSE), ASX(ASX), CBOE(CBOE), MDEX(MDEX), NYSE(NYSE), BMF(BMF),FTX(FTX),
-                        HNX(HNX), ETC(기타)'
+                        FM_EXCG_CD (FmExcgCdEnum): 'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE),
+                        SGX(SGX), OSE(OSE), ASX(ASX), CBOE(CBOE), MDEX(MDEX), NYSE(NYSE),
+                        BMF(BMF),FTX(FTX), HNX(HNX), ETC(기타)'
                         OPT_YN (KisBool): %(전체), N(선물), Y(옵션)
                         CTX_AREA_NK200 (str): 연속조회키200
                         CTX_AREA_FK200 (str): 연속조회검색조건200
@@ -285,4 +336,6 @@ __all__ = [
     "MarketTimeRequestDict",
     "MarketTimeResponse",
     "MarketTimeOutput",
+    "FmClasCdEnum",
+    "FmExcgCdEnum",
 ]

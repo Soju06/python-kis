@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -32,15 +32,13 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
     "NXT"
 
 
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(20180)")
+    "key(20180)"
+    VALUE_20180 = ("20180", "Unique key")
+    "Unique key"
+    KEY = ("key", "20180")
+    "20180"
 
 
 class FidDivClsCodeEnum(KisStrEnum):
@@ -62,13 +60,6 @@ class FidDivClsCodeEnum(KisStrEnum):
     "우선주"
 
 
-class FidInputCnt1Enum(KisStrEnum):
-    VALUE_1 = ("1", "1위부터")
-    "1위부터"
-    VALUE_10 = ("10", "10위부터")
-    "10위부터"
-
-
 class TopInterestStockRequest(RawModel):
     fid_input_iscd_2: str = Field(
         alias="fid_input_iscd_2",
@@ -78,11 +69,11 @@ class TopInterestStockRequest(RawModel):
         alias="fid_cond_mrkt_div_code",
     )
     ("시장구분코드 (J:KRX, NX:NXT)")
-    fid_cond_scr_div_code: str = Field(
+    fid_cond_scr_div_code: FidCondScrDivCodeEnum = Field(
         alias="fid_cond_scr_div_code",
     )
     ("Unique key(20180)")
-    fid_input_iscd: FidInputIscdEnum = Field(
+    fid_input_iscd: str = Field(
         alias="fid_input_iscd",
     )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
@@ -102,7 +93,7 @@ class TopInterestStockRequest(RawModel):
         alias="fid_input_price_2",
     )
     ("입력값 없을때 전체 (~ 가격)")
-    fid_vol_cnt: str = Field(
+    fid_vol_cnt: int = Field(
         alias="fid_vol_cnt",
     )
     ("입력값 없을때 전체 (거래량 ~)")
@@ -110,7 +101,7 @@ class TopInterestStockRequest(RawModel):
         alias="fid_div_cls_code",
     )
     ("0: 전체 1: 관리종목 2: 투자주의 3: 투자경고 4: 투자위험예고 5: 투자위험 6: 보통주 7: 우선주")
-    fid_input_cnt_1: FidInputCnt1Enum = Field(
+    fid_input_cnt_1: str = Field(
         alias="fid_input_cnt_1",
     )
     ("순위검색 입력값(1: 1위부터, 10:10위부터)")
@@ -132,16 +123,16 @@ class TopInterestStockRequestDict(TypedDict):
     Request fields:
         fid_input_iscd_2 (str): 000000 : 필수입력값
         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
-        fid_cond_scr_div_code (str): Unique key(20180)
-        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
+        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20180)
+        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
         fid_trgt_cls_code (str): 0 : 전체
         fid_trgt_exls_cls_code (str): 0 : 전체
         fid_input_price_1 (str): 입력값 없을때 전체 (가격 ~)
         fid_input_price_2 (str): 입력값 없을때 전체 (~ 가격)
-        fid_vol_cnt (str): 입력값 없을때 전체 (거래량 ~)
+        fid_vol_cnt (int): 입력값 없을때 전체 (거래량 ~)
         fid_div_cls_code (FidDivClsCodeEnum): 0: 전체 1: 관리종목 2: 투자주의 3: 투자경고 4:
         투자위험예고 5: 투자위험 6: 보통주 7: 우선주
-        fid_input_cnt_1 (FidInputCnt1Enum): 순위검색 입력값(1: 1위부터, 10:10위부터)
+        fid_input_cnt_1 (str): 순위검색 입력값(1: 1위부터, 10:10위부터)
     """
 
     fid_input_iscd_2: Annotated[
@@ -153,11 +144,11 @@ class TopInterestStockRequestDict(TypedDict):
         "시장구분코드 (J:KRX, NX:NXT)",
     ]
     fid_cond_scr_div_code: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(20180)",
     ]
     fid_input_iscd: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200",
     ]
     fid_trgt_cls_code: Annotated[
@@ -177,7 +168,7 @@ class TopInterestStockRequestDict(TypedDict):
         "입력값 없을때 전체 (~ 가격)",
     ]
     fid_vol_cnt: Annotated[
-        str,
+        int,
         "입력값 없을때 전체 (거래량 ~)",
     ]
     fid_div_cls_code: Annotated[
@@ -185,7 +176,7 @@ class TopInterestStockRequestDict(TypedDict):
         "0: 전체 1: 관리종목 2: 투자주의 3: 투자경고 4: 투자위험예고 5: 투자위험 6: 보통주 7: 우선주",
     ]
     fid_input_cnt_1: Annotated[
-        FidInputCnt1Enum,
+        str,
         "순위검색 입력값(1: 1위부터, 10:10위부터)",
     ]
 
@@ -207,11 +198,11 @@ class TopInterestStockOutput(RawModel):
         alias="stck_prpr",
     )
     ("주식 현재가")
-    prdy_vrss: str = Field(
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -227,7 +218,7 @@ class TopInterestStockOutput(RawModel):
         alias="acml_tr_pbmn",
     )
     ("누적 거래 대금")
-    askp: str = Field(
+    askp: int = Field(
         alias="askp",
     )
     ("매도호가")
@@ -235,7 +226,7 @@ class TopInterestStockOutput(RawModel):
         alias="bidp",
     )
     ("매수호가")
-    data_rank: str = Field(
+    data_rank: int = Field(
         alias="data_rank",
     )
     ("데이터 순위")
@@ -345,17 +336,16 @@ if TYPE_CHECKING:
                     Request fields:
                         fid_input_iscd_2 (str): 000000 : 필수입력값
                         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
-                        fid_cond_scr_div_code (str): Unique key(20180)
-                        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥,
-                        2001:코스피200
+                        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20180)
+                        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
                         fid_trgt_cls_code (str): 0 : 전체
                         fid_trgt_exls_cls_code (str): 0 : 전체
                         fid_input_price_1 (str): 입력값 없을때 전체 (가격 ~)
                         fid_input_price_2 (str): 입력값 없을때 전체 (~ 가격)
-                        fid_vol_cnt (str): 입력값 없을때 전체 (거래량 ~)
+                        fid_vol_cnt (int): 입력값 없을때 전체 (거래량 ~)
                         fid_div_cls_code (FidDivClsCodeEnum): 0: 전체 1: 관리종목 2: 투자주의 3:
                         투자경고 4: 투자위험예고 5: 투자위험 6: 보통주 7: 우선주
-                        fid_input_cnt_1 (FidInputCnt1Enum): 순위검색 입력값(1: 1위부터, 10:10위부터)
+                        fid_input_cnt_1 (str): 순위검색 입력값(1: 1위부터, 10:10위부터)
 
             Returns:
                 tuple[TopInterestStockResponse, KisResponse]: 응답 모델과 원시 응답
@@ -373,7 +363,6 @@ __all__ = [
     "TopInterestStockResponse",
     "TopInterestStockOutput",
     "FidCondMrktDivCodeEnum",
-    "FidInputIscdEnum",
+    "FidCondScrDivCodeEnum",
     "FidDivClsCodeEnum",
-    "FidInputCnt1Enum",
 ]

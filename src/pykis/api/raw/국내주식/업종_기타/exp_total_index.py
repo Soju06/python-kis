@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -34,17 +34,13 @@ class FidMrktClsCodeEnum(KisStrEnum):
     "코스닥"
 
 
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
-    VALUE_4001 = ("4001", "KRX100")
-    "KRX100"
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(11175)")
+    "key(11175)"
+    VALUE_11175 = ("11175", "Unique key")
+    "Unique key"
+    KEY = ("key", "11175")
+    "11175"
 
 
 class FidMkopClsCodeEnum(KisStrEnum):
@@ -63,11 +59,11 @@ class ExpTotalIndexRequest(RawModel):
         alias="fid_cond_mrkt_div_code",
     )
     ("시장구분코드 (업종 U)")
-    fid_cond_scr_div_code: str = Field(
+    fid_cond_scr_div_code: FidCondScrDivCodeEnum = Field(
         alias="fid_cond_scr_div_code",
     )
     ("Unique key(11175)")
-    fid_input_iscd: FidInputIscdEnum = Field(
+    fid_input_iscd: str = Field(
         alias="fid_input_iscd",
     )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
@@ -86,9 +82,8 @@ class ExpTotalIndexRequestDict(TypedDict):
     Request fields:
         fid_mrkt_cls_code (FidMrktClsCodeEnum): 0:전체 K:거래소 Q:코스닥
         fid_cond_mrkt_div_code (str): 시장구분코드 (업종 U)
-        fid_cond_scr_div_code (str): Unique key(11175)
-        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
-        4001: KRX100
+        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(11175)
+        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100
         fid_mkop_cls_code (FidMkopClsCodeEnum): 1:장시작전, 2:장마감
     """
 
@@ -101,11 +96,11 @@ class ExpTotalIndexRequestDict(TypedDict):
         "시장구분코드 (업종 U)",
     ]
     fid_cond_scr_div_code: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(11175)",
     ]
     fid_input_iscd: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100",
     ]
     fid_mkop_cls_code: Annotated[
@@ -123,7 +118,7 @@ class ExpTotalIndexOutput1(RawModel):
         alias="bstp_nmix_prdy_vrss",
     )
     ("업종 지수 전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -147,7 +142,8 @@ class ExpTotalIndexOutput1(RawModel):
         alias="stnr_issu_cnt",
     )
     ("보합 종목 수")
-    bstp_cls_code: str = Field(
+    bstp_cls_code: str | None = Field(
+        default=None,
         alias="bstp_cls_code",
     )
     ("업종 구분 코드")
@@ -166,7 +162,7 @@ class ExpTotalIndexOutput2(RawModel):
         alias="bstp_nmix_prdy_vrss",
     )
     ("업종 지수 전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -286,9 +282,9 @@ if TYPE_CHECKING:
                     Request fields:
                         fid_mrkt_cls_code (FidMrktClsCodeEnum): 0:전체 K:거래소 Q:코스닥
                         fid_cond_mrkt_div_code (str): 시장구분코드 (업종 U)
-                        fid_cond_scr_div_code (str): Unique key(11175)
-                        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥,
-                        2001:코스피200, 4001: KRX100
+                        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(11175)
+                        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
+                        4001: KRX100
                         fid_mkop_cls_code (FidMkopClsCodeEnum): 1:장시작전, 2:장마감
 
             Returns:
@@ -308,6 +304,6 @@ __all__ = [
     "ExpTotalIndexOutput1",
     "ExpTotalIndexOutput2",
     "FidMrktClsCodeEnum",
-    "FidInputIscdEnum",
+    "FidCondScrDivCodeEnum",
     "FidMkopClsCodeEnum",
 ]

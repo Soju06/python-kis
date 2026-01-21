@@ -15,13 +15,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -32,6 +31,15 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
     "KRX"
     NX = ("NX", "NXT")
     "NXT"
+
+
+class FidDivClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "전체")
+    "전체"
+    VALUE_1 = ("1", "보통주")
+    "보통주"
+    VALUE_2 = ("2", "우선주")
+    "우선주"
 
 
 class FidBlngClsCodeEnum(KisStrEnum):
@@ -47,16 +55,6 @@ class FidBlngClsCodeEnum(KisStrEnum):
     "평균거래금액회전율"
 
 
-class FidInputPrice1Enum(KisStrEnum):
-    VALUE_1 = ("1", "")
-    FID = ("FID", "")
-
-
-class FidInputPrice2Enum(KisStrEnum):
-    VALUE_1 = ("1", "")
-    FID = ("FID", "")
-
-
 class VolumeRankRequest(RawModel):
     FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
         alias="FID_COND_MRKT_DIV_CODE",
@@ -70,7 +68,7 @@ class VolumeRankRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("0000(전체) 기타(업종코드)")
-    FID_DIV_CLS_CODE: str = Field(
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
         alias="FID_DIV_CLS_CODE",
     )
     ("0(전체) 1(보통주) 2(우선주)")
@@ -89,22 +87,22 @@ class VolumeRankRequest(RawModel):
         "1 or 0 10자리 (차례대로 투자위험/경고/주의 관리종목 정리매매 불성실공시 우선주 거래정지 ETF ETN "
         '신용주문불가 SPAC) ex) "0000000000"'
     )
-    FID_INPUT_PRICE_1: FidInputPrice1Enum | None = Field(
+    FID_INPUT_PRICE_1: str | None = Field(
         default=None,
         alias="FID_INPUT_PRICE_1",
     )
     ('가격 ~ ex) "0" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력')
-    FID_INPUT_PRICE_2: FidInputPrice2Enum | None = Field(
+    FID_INPUT_PRICE_2: str | None = Field(
         default=None,
         alias="FID_INPUT_PRICE_2",
     )
     ('~ 가격 ex) "1000000" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력')
-    FID_VOL_CNT: str | None = Field(
+    FID_VOL_CNT: int | None = Field(
         default=None,
         alias="FID_VOL_CNT",
     )
     ('거래량 ~ ex) "100000" 전체 거래량 대상 조회 시 FID_VOL_CNT ""(공란) 입력')
-    FID_INPUT_DATE_1: KisDateOptional = Field(
+    FID_INPUT_DATE_1: str | None = Field(
         default=None,
         alias="FID_INPUT_DATE_1",
     )
@@ -132,20 +130,20 @@ class VolumeRankRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J:KRX, NX:NXT
         FID_COND_SCR_DIV_CODE (str): 20171
         FID_INPUT_ISCD (str): 0000(전체) 기타(업종코드)
-        FID_DIV_CLS_CODE (str): 0(전체) 1(보통주) 2(우선주)
+        FID_DIV_CLS_CODE (FidDivClsCodeEnum): 0(전체) 1(보통주) 2(우선주)
         FID_BLNG_CLS_CODE (FidBlngClsCodeEnum): 0 : 평균거래량 1:거래증가율 2:평균거래회전율
         3:거래금액순 4:평균거래금액회전율
         FID_TRGT_CLS_CODE (str): 1 or 0 9자리 (차례대로 증거금 30% 40% 50% 60% 100% 신용보증금 30%
         40% 50% 60%) ex) "111111111"
         FID_TRGT_EXLS_CLS_CODE (str): 1 or 0 10자리 (차례대로 투자위험/경고/주의 관리종목 정리매매
         불성실공시 우선주 거래정지 ETF ETN 신용주문불가 SPAC) ex) "0000000000"
-        FID_INPUT_PRICE_1 (FidInputPrice1Enum): 가격 ~ ex) "0" 전체 가격 대상 조회 시
-        FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력 optional
-        FID_INPUT_PRICE_2 (FidInputPrice2Enum): ~ 가격 ex) "1000000" 전체 가격 대상 조회 시
-        FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력 optional
-        FID_VOL_CNT (str): 거래량 ~ ex) "100000" 전체 거래량 대상 조회 시 FID_VOL_CNT ""(공란) 입력
+        FID_INPUT_PRICE_1 (str): 가격 ~ ex) "0" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1,
+        FID_INPUT_PRICE_2 모두 ""(공란) 입력 optional
+        FID_INPUT_PRICE_2 (str): ~ 가격 ex) "1000000" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1,
+        FID_INPUT_PRICE_2 모두 ""(공란) 입력 optional
+        FID_VOL_CNT (int): 거래량 ~ ex) "100000" 전체 거래량 대상 조회 시 FID_VOL_CNT ""(공란) 입력
         optional
-        FID_INPUT_DATE_1 (KisDate): ""(공란) 입력 optional
+        FID_INPUT_DATE_1 (str): ""(공란) 입력 optional
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -161,7 +159,7 @@ class VolumeRankRequestDict(TypedDict):
         "0000(전체) 기타(업종코드)",
     ]
     FID_DIV_CLS_CODE: Annotated[
-        str,
+        FidDivClsCodeEnum,
         "0(전체) 1(보통주) 2(우선주)",
     ]
     FID_BLNG_CLS_CODE: Annotated[
@@ -179,25 +177,25 @@ class VolumeRankRequestDict(TypedDict):
     ]
     FID_INPUT_PRICE_1: NotRequired[
         Annotated[
-            FidInputPrice1Enum | None,
+            str | None,
             '가격 ~ ex) "0" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력',
         ]
     ]
     FID_INPUT_PRICE_2: NotRequired[
         Annotated[
-            FidInputPrice2Enum | None,
+            str | None,
             '~ 가격 ex) "1000000" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력',
         ]
     ]
     FID_VOL_CNT: NotRequired[
         Annotated[
-            str | None,
+            int | None,
             '거래량 ~ ex) "100000" 전체 거래량 대상 조회 시 FID_VOL_CNT ""(공란) 입력',
         ]
     ]
     FID_INPUT_DATE_1: NotRequired[
         Annotated[
-            KisDateOptional,
+            str | None,
             '""(공란) 입력',
         ]
     ]
@@ -394,7 +392,7 @@ if TYPE_CHECKING:
                         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J:KRX, NX:NXT
                         FID_COND_SCR_DIV_CODE (str): 20171
                         FID_INPUT_ISCD (str): 0000(전체) 기타(업종코드)
-                        FID_DIV_CLS_CODE (str): 0(전체) 1(보통주) 2(우선주)
+                        FID_DIV_CLS_CODE (FidDivClsCodeEnum): 0(전체) 1(보통주) 2(우선주)
                         FID_BLNG_CLS_CODE (FidBlngClsCodeEnum): 0 : 평균거래량 1:거래증가율
                         2:평균거래회전율 3:거래금액순 4:평균거래금액회전율
                         FID_TRGT_CLS_CODE (str): 1 or 0 9자리 (차례대로 증거금 30% 40% 50% 60% 100%
@@ -402,13 +400,13 @@ if TYPE_CHECKING:
                         FID_TRGT_EXLS_CLS_CODE (str): 1 or 0 10자리 (차례대로 투자위험/경고/주의
                         관리종목 정리매매 불성실공시 우선주 거래정지 ETF ETN 신용주문불가 SPAC) ex)
                         "0000000000"
-                        FID_INPUT_PRICE_1 (FidInputPrice1Enum): 가격 ~ ex) "0" 전체 가격 대상 조회 시
+                        FID_INPUT_PRICE_1 (str): 가격 ~ ex) "0" 전체 가격 대상 조회 시
                         FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력 optional
-                        FID_INPUT_PRICE_2 (FidInputPrice2Enum): ~ 가격 ex) "1000000" 전체 가격 대상
-                        조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력 optional
-                        FID_VOL_CNT (str): 거래량 ~ ex) "100000" 전체 거래량 대상 조회 시 FID_VOL_CNT
+                        FID_INPUT_PRICE_2 (str): ~ 가격 ex) "1000000" 전체 가격 대상 조회 시
+                        FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력 optional
+                        FID_VOL_CNT (int): 거래량 ~ ex) "100000" 전체 거래량 대상 조회 시 FID_VOL_CNT
                         ""(공란) 입력 optional
-                        FID_INPUT_DATE_1 (KisDate): ""(공란) 입력 optional
+                        FID_INPUT_DATE_1 (str): ""(공란) 입력 optional
 
             Returns:
                 tuple[VolumeRankResponse, KisResponse]: 응답 모델과 원시 응답
@@ -426,7 +424,6 @@ __all__ = [
     "VolumeRankResponse",
     "VolumeRankOutput",
     "FidCondMrktDivCodeEnum",
+    "FidDivClsCodeEnum",
     "FidBlngClsCodeEnum",
-    "FidInputPrice1Enum",
-    "FidInputPrice2Enum",
 ]

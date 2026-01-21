@@ -14,14 +14,14 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
     KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -96,7 +96,7 @@ class FluctuationRequest(RawModel):
         alias="fid_input_price_2",
     )
     ("공백 입력 시 전체 (~ 가격)")
-    fid_vol_cnt: str = Field(
+    fid_vol_cnt: int = Field(
         alias="fid_vol_cnt",
     )
     ("공백 입력 시 전체 (거래량 ~)")
@@ -144,7 +144,7 @@ class FluctuationRequestDict(TypedDict):
         fid_rank_sort_cls_code : 기타 (0:전체)'
         fid_input_price_1 (str): 공백 입력 시 전체 (가격 ~)
         fid_input_price_2 (str): 공백 입력 시 전체 (~ 가격)
-        fid_vol_cnt (str): 공백 입력 시 전체 (거래량 ~)
+        fid_vol_cnt (int): 공백 입력 시 전체 (거래량 ~)
         fid_trgt_cls_code (str): 0:전체
         fid_trgt_exls_cls_code (str): 0:전체
         fid_div_cls_code (str): 0:전체
@@ -189,7 +189,7 @@ class FluctuationRequestDict(TypedDict):
         "공백 입력 시 전체 (~ 가격)",
     ]
     fid_vol_cnt: Annotated[
-        str,
+        int,
         "공백 입력 시 전체 (거래량 ~)",
     ]
     fid_trgt_cls_code: Annotated[
@@ -443,7 +443,7 @@ if TYPE_CHECKING:
                         1:종가대비) fid_rank_sort_cls_code : 기타 (0:전체)'
                         fid_input_price_1 (str): 공백 입력 시 전체 (가격 ~)
                         fid_input_price_2 (str): 공백 입력 시 전체 (~ 가격)
-                        fid_vol_cnt (str): 공백 입력 시 전체 (거래량 ~)
+                        fid_vol_cnt (int): 공백 입력 시 전체 (거래량 ~)
                         fid_trgt_cls_code (str): 0:전체
                         fid_trgt_exls_cls_code (str): 0:전체
                         fid_div_cls_code (str): 0:전체

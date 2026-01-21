@@ -14,11 +14,11 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -83,7 +83,7 @@ class InquireOvertimePriceOutput(RawModel):
         alias="ovtm_untp_prdy_ctrt",
     )
     ("시간외 단일가 전일 대비율")
-    ovtm_untp_vol: Decimal = Field(
+    ovtm_untp_vol: int = Field(
         alias="ovtm_untp_vol",
     )
     ("시간외 단일가 거래량")

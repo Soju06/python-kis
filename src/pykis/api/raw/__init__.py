@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from pykis.raw.types import Endpoint
+from pykis.api.raw.types import Endpoint
 
 ENDPOINTS: dict[str, Endpoint] = {}
 _REGISTRY_IMPORT_ERROR: Exception | None = None

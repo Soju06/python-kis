@@ -14,14 +14,56 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(11186)")
+    "key(11186)"
+    VALUE_11186 = ("11186", "Unique key")
+    "Unique key"
+    KEY = ("key", "11186")
+    "11186"
+
+
+class FidRankSortClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "상승률")
+    "상승률"
+    VALUE_1 = ("1", "상승폭")
+    "상승폭"
+    VALUE_2 = ("2", "보합")
+    "보합"
+    VALUE_3 = ("3", "하락률")
+    "하락률"
+    VALUE_4 = ("4", "하락폭")
+    "하락폭"
+
+
+class FidDivClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "전체")
+    "전체"
+    VALUE_1 = ("1", "관리종목")
+    "관리종목"
+    VALUE_2 = ("2", "투자주의")
+    "투자주의"
+    VALUE_3 = ("3", "투자경고")
+    "투자경고"
+    VALUE_4 = ("4", "투자위험예고")
+    "투자위험예고"
+    VALUE_5 = ("5", "투자위험")
+    "투자위험"
+    VALUE_6 = ("6", "보통주")
+    "보통주"
+    VALUE_7 = ("7", "우선주")
+    "우선주"
 
 
 class OvertimeExpTransFluctRequest(RawModel):
@@ -29,7 +71,7 @@ class OvertimeExpTransFluctRequest(RawModel):
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("시장구분코드 (J: 주식)")
-    FID_COND_SCR_DIV_CODE: str = Field(
+    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("Unique key(11186)")
@@ -37,11 +79,11 @@ class OvertimeExpTransFluctRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("0000(전체), 0001(코스피), 1001(코스닥)")
-    FID_RANK_SORT_CLS_CODE: str = Field(
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
         alias="FID_RANK_SORT_CLS_CODE",
     )
     ("0(상승률), 1(상승폭), 2(보합), 3(하락률), 4(하락폭)")
-    FID_DIV_CLS_CODE: str = Field(
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
         alias="FID_DIV_CLS_CODE",
     )
     ("'0(전체), 1(관리종목), 2(투자주의), 3(투자경고), 4(투자위험예고), 5(투자위험), 6(보통주), 7(우선주)'")
@@ -67,11 +109,12 @@ class OvertimeExpTransFluctRequestDict(TypedDict):
 
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (J: 주식)
-        FID_COND_SCR_DIV_CODE (str): Unique key(11186)
+        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(11186)
         FID_INPUT_ISCD (str): 0000(전체), 0001(코스피), 1001(코스닥)
-        FID_RANK_SORT_CLS_CODE (str): 0(상승률), 1(상승폭), 2(보합), 3(하락률), 4(하락폭)
-        FID_DIV_CLS_CODE (str): '0(전체), 1(관리종목), 2(투자주의), 3(투자경고), 4(투자위험예고),
-        5(투자위험), 6(보통주), 7(우선주)'
+        FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): 0(상승률), 1(상승폭), 2(보합), 3(하락률),
+        4(하락폭)
+        FID_DIV_CLS_CODE (FidDivClsCodeEnum): '0(전체), 1(관리종목), 2(투자주의), 3(투자경고),
+        4(투자위험예고), 5(투자위험), 6(보통주), 7(우선주)'
         FID_INPUT_PRICE_1 (str): 가격 ~
         FID_INPUT_PRICE_2 (str): 공백
         FID_INPUT_VOL_1 (str): 거래량 ~
@@ -82,7 +125,7 @@ class OvertimeExpTransFluctRequestDict(TypedDict):
         "시장구분코드 (J: 주식)",
     ]
     FID_COND_SCR_DIV_CODE: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(11186)",
     ]
     FID_INPUT_ISCD: Annotated[
@@ -90,11 +133,11 @@ class OvertimeExpTransFluctRequestDict(TypedDict):
         "0000(전체), 0001(코스피), 1001(코스닥)",
     ]
     FID_RANK_SORT_CLS_CODE: Annotated[
-        str,
+        FidRankSortClsCodeEnum,
         "0(상승률), 1(상승폭), 2(보합), 3(하락률), 4(하락폭)",
     ]
     FID_DIV_CLS_CODE: Annotated[
-        str,
+        FidDivClsCodeEnum,
         "'0(전체), 1(관리종목), 2(투자주의), 3(투자경고), 4(투자위험예고), 5(투자위험), 6(보통주), 7(우선주)'",
     ]
     FID_INPUT_PRICE_1: Annotated[
@@ -264,12 +307,12 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (J: 주식)
-                        FID_COND_SCR_DIV_CODE (str): Unique key(11186)
+                        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(11186)
                         FID_INPUT_ISCD (str): 0000(전체), 0001(코스피), 1001(코스닥)
-                        FID_RANK_SORT_CLS_CODE (str): 0(상승률), 1(상승폭), 2(보합), 3(하락률),
-                        4(하락폭)
-                        FID_DIV_CLS_CODE (str): '0(전체), 1(관리종목), 2(투자주의), 3(투자경고),
-                        4(투자위험예고), 5(투자위험), 6(보통주), 7(우선주)'
+                        FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): 0(상승률), 1(상승폭),
+                        2(보합), 3(하락률), 4(하락폭)
+                        FID_DIV_CLS_CODE (FidDivClsCodeEnum): '0(전체), 1(관리종목), 2(투자주의),
+                        3(투자경고), 4(투자위험예고), 5(투자위험), 6(보통주), 7(우선주)'
                         FID_INPUT_PRICE_1 (str): 가격 ~
                         FID_INPUT_PRICE_2 (str): 공백
                         FID_INPUT_VOL_1 (str): 거래량 ~
@@ -289,4 +332,7 @@ __all__ = [
     "OvertimeExpTransFluctRequestDict",
     "OvertimeExpTransFluctResponse",
     "OvertimeExpTransFluctOutput",
+    "FidCondScrDivCodeEnum",
+    "FidRankSortClsCodeEnum",
+    "FidDivClsCodeEnum",
 ]

@@ -14,44 +14,25 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
-class FidInputIscdEnum(KisStrEnum):
-    ETF = ("ETF", "ETF")
-    "ETF"
-    ELW = ("ELW", "ELW")
-    "ELW"
-    ETN = ("ETN", "ETN")
-    "ETN"
-    VALUE_150 = ("150", "KQI")
-    "KQI"
-
-
-class FidInputIscd2Enum(KisStrEnum):
-    ISCD = ("iscd", "KSP(코스피) 혹은 KSQ(코스닥)인 경우")
-    "KSP(코스피) 혹은 KSQ(코스닥)인 경우"
-    FAQ = ("FAQ", "종목정보 다운로드(국내) - 업종코드 참조")
-    "종목정보 다운로드(국내) - 업종코드 참조"
-
-
 class InquireInvestorTimeByMarketRequest(RawModel):
-    fid_input_iscd: FidInputIscdEnum = Field(
+    fid_input_iscd: str = Field(
         alias="fid_input_iscd",
     )
     (
         "코스피: KSP, 코스닥:KSQ, 선물,콜옵션,풋옵션 : K2I, 주식선물:999, ETF: ETF, ELW:ELW, ETN: ETN, "
         "미니: MKI, 위클리월 : WKM, 위클리목: WKI 코스닥150: KQI"
     )
-    fid_input_iscd_2: FidInputIscd2Enum = Field(
+    fid_input_iscd_2: str = Field(
         alias="fid_input_iscd_2",
     )
     (
@@ -73,10 +54,9 @@ class InquireInvestorTimeByMarketRequestDict(TypedDict):
     해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
 
     Request fields:
-        fid_input_iscd (FidInputIscdEnum): 코스피: KSP, 코스닥:KSQ, 선물,콜옵션,풋옵션 : K2I,
-        주식선물:999, ETF: ETF, ELW:ELW, ETN: ETN, 미니: MKI, 위클리월 : WKM, 위클리목: WKI
-        코스닥150: KQI
-        fid_input_iscd_2 (FidInputIscd2Enum): - fid_input_iscd: KSP(코스피) 혹은 KSQ(코스닥)인 경우
+        fid_input_iscd (str): 코스피: KSP, 코스닥:KSQ, 선물,콜옵션,풋옵션 : K2I, 주식선물:999, ETF:
+        ETF, ELW:ELW, ETN: ETN, 미니: MKI, 위클리월 : WKM, 위클리목: WKI 코스닥150: KQI
+        fid_input_iscd_2 (str): - fid_input_iscd: KSP(코스피) 혹은 KSQ(코스닥)인 경우
         코스피(0001_종합, .…0027_제조업 ) 코스닥(1001_종합, …. 1041_IT부품) ... 포탈 (FAQ : 종목정보
         다운로드(국내) - 업종코드 참조) - fid_input_iscd가 K2I인 경우 F001(선물) OC01(콜옵션)
         OP01(풋옵션) - fid_input_iscd가 999인 경우 S001(주식선물) - fid_input_iscd가 ETF인 경우
@@ -88,12 +68,12 @@ class InquireInvestorTimeByMarketRequestDict(TypedDict):
     """
 
     fid_input_iscd: Annotated[
-        FidInputIscdEnum,
+        str,
         "코스피: KSP, 코스닥:KSQ, 선물,콜옵션,풋옵션 : K2I, 주식선물:999, ETF: ETF, ELW:ELW, ETN: ETN, "
         "미니: MKI, 위클리월 : WKM, 위클리목: WKI 코스닥150: KQI",
     ]
     fid_input_iscd_2: Annotated[
-        FidInputIscd2Enum,
+        str,
         "- fid_input_iscd: KSP(코스피) 혹은 KSQ(코스닥)인 경우 코스피(0001_종합, .…0027_제조업 ) "
         "코스닥(1001_종합, …. 1041_IT부품) ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조) - "
         "fid_input_iscd가 K2I인 경우 F001(선물) OC01(콜옵션) OP01(풋옵션) - fid_input_iscd가 999인 경우 "
@@ -480,20 +460,20 @@ if TYPE_CHECKING:
                 **kwargs (InquireInvestorTimeByMarketRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        fid_input_iscd (FidInputIscdEnum): 코스피: KSP, 코스닥:KSQ, 선물,콜옵션,풋옵션
-                        : K2I, 주식선물:999, ETF: ETF, ELW:ELW, ETN: ETN, 미니: MKI, 위클리월 : WKM,
+                        fid_input_iscd (str): 코스피: KSP, 코스닥:KSQ, 선물,콜옵션,풋옵션 : K2I,
+                        주식선물:999, ETF: ETF, ELW:ELW, ETN: ETN, 미니: MKI, 위클리월 : WKM,
                         위클리목: WKI 코스닥150: KQI
-                        fid_input_iscd_2 (FidInputIscd2Enum): - fid_input_iscd: KSP(코스피) 혹은
-                        KSQ(코스닥)인 경우 코스피(0001_종합, .…0027_제조업 ) 코스닥(1001_종합, ….
-                        1041_IT부품) ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조) -
-                        fid_input_iscd가 K2I인 경우 F001(선물) OC01(콜옵션) OP01(풋옵션) -
-                        fid_input_iscd가 999인 경우 S001(주식선물) - fid_input_iscd가 ETF인 경우
-                        T000(ETF) - fid_input_iscd가 ELW인 경우 W000(ELW) - fid_input_iscd가 ETN인
-                        경우 E199(ETN) - fid_input_iscd가 MKI인 경우 F004(미니선물) OC02(미니콜옵션)
-                        OP02(미니풋옵션) - fid_input_iscd가 WKM인 경우 OC05(위클리콜(월))
-                        OP05(위클리풋(월)) - fid_input_iscd가 WKI인 경우 OC04(위클리콜(목))
-                        OP04(위클리풋(목)) - fid_input_iscd가 KQI인 경우 F002(코스닥150선물)
-                        OC03(코스닥150콜옵션) OP03(코스닥150풋옵션)
+                        fid_input_iscd_2 (str): - fid_input_iscd: KSP(코스피) 혹은 KSQ(코스닥)인 경우
+                        코스피(0001_종합, .…0027_제조업 ) 코스닥(1001_종합, …. 1041_IT부품) ... 포탈
+                        (FAQ : 종목정보 다운로드(국내) - 업종코드 참조) - fid_input_iscd가 K2I인 경우
+                        F001(선물) OC01(콜옵션) OP01(풋옵션) - fid_input_iscd가 999인 경우
+                        S001(주식선물) - fid_input_iscd가 ETF인 경우 T000(ETF) - fid_input_iscd가
+                        ELW인 경우 W000(ELW) - fid_input_iscd가 ETN인 경우 E199(ETN) -
+                        fid_input_iscd가 MKI인 경우 F004(미니선물) OC02(미니콜옵션) OP02(미니풋옵션) -
+                        fid_input_iscd가 WKM인 경우 OC05(위클리콜(월)) OP05(위클리풋(월)) -
+                        fid_input_iscd가 WKI인 경우 OC04(위클리콜(목)) OP04(위클리풋(목)) -
+                        fid_input_iscd가 KQI인 경우 F002(코스닥150선물) OC03(코스닥150콜옵션)
+                        OP03(코스닥150풋옵션)
 
             Returns:
                 tuple[InquireInvestorTimeByMarketResponse, KisResponse]: 응답 모델과 원시 응답
@@ -510,6 +490,4 @@ __all__ = [
     "InquireInvestorTimeByMarketRequestDict",
     "InquireInvestorTimeByMarketResponse",
     "InquireInvestorTimeByMarketOutput",
-    "FidInputIscdEnum",
-    "FidInputIscd2Enum",
 ]

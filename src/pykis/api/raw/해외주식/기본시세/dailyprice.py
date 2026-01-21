@@ -15,14 +15,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -96,7 +95,7 @@ class DailypriceRequest(RawModel):
         alias="GUBN",
     )
     ("0 : 일 1 : 주 2 : 월")
-    BYMD: KisDate = Field(
+    BYMD: str = Field(
         alias="BYMD",
     )
     ("조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정")
@@ -155,7 +154,7 @@ class DailypriceRequestDict(TypedDict):
         심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이
         SYMB (str): 종목코드 (ex. TSLA)
         GUBN (GubnEnum): 0 : 일 1 : 주 2 : 월
-        BYMD (KisDate): 조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정
+        BYMD (str): 조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정
         MODP (KisBool): 0 : 미반영 1 : 반영
         KEYB (str): 응답시 다음값이 있으면 값이 셋팅되어 있으므로 다음 조회시 응답값 그대로 셋팅
         optional
@@ -181,7 +180,7 @@ class DailypriceRequestDict(TypedDict):
         "0 : 일 1 : 주 2 : 월",
     ]
     BYMD: Annotated[
-        KisDate,
+        str,
         "조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정",
     ]
     MODP: Annotated[
@@ -218,7 +217,7 @@ class DailypriceOutput1(RawModel):
 
 
 class DailypriceOutput2(RawModel):
-    xymd: KisDateOptional = Field(
+    xymd: str | None = Field(
         default=None,
         alias="xymd",
     )
@@ -452,7 +451,7 @@ if TYPE_CHECKING:
                         SHS : 상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이
                         SYMB (str): 종목코드 (ex. TSLA)
                         GUBN (GubnEnum): 0 : 일 1 : 주 2 : 월
-                        BYMD (KisDate): 조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정
+                        BYMD (str): 조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정
                         MODP (KisBool): 0 : 미반영 1 : 반영
                         KEYB (str): 응답시 다음값이 있으면 값이 셋팅되어 있으므로 다음 조회시 응답값
                         그대로 셋팅 optional

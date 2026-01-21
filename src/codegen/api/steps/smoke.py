@@ -17,7 +17,7 @@ from codegen.api.runtime import (
 from codegen.core.types import JsonObject, JsonValue
 from pykis.api.client import SyncKisRawClient
 from pykis.api.errors import KisResponseError
-from pykis.raw.types import Endpoint
+from pykis.api.raw.types import Endpoint
 
 
 def _is_read_only(spec: EndpointSpec) -> bool:

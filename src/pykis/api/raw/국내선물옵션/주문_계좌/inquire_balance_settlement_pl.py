@@ -14,27 +14,41 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
+
+
 class InquireBalanceSettlementPlRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    INQR_DT: KisDate = Field(
+    INQR_DT: str = Field(
         alias="INQR_DT",
     )
     ("조회일자(YYYYMMDD)")
@@ -53,23 +67,23 @@ class InquireBalanceSettlementPlRequestDict(TypedDict):
     선물옵션 잔고정산손익내역 API입니다.
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
-        INQR_DT (KisDate): 조회일자(YYYYMMDD)
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
+        INQR_DT (str): 조회일자(YYYYMMDD)
         CTX_AREA_FK200 (str): 연속조회검색조건200
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     INQR_DT: Annotated[
-        KisDate,
+        str,
         "조회일자(YYYYMMDD)",
     ]
     CTX_AREA_FK200: Annotated[
@@ -266,9 +280,9 @@ if TYPE_CHECKING:
                 **kwargs (InquireBalanceSettlementPlRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
-                        INQR_DT (KisDate): 조회일자(YYYYMMDD)
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
+                        INQR_DT (str): 조회일자(YYYYMMDD)
                         CTX_AREA_FK200 (str): 연속조회검색조건200
                         CTX_AREA_NK200 (str): 연속조회키200
 
@@ -288,4 +302,6 @@ __all__ = [
     "InquireBalanceSettlementPlResponse",
     "InquireBalanceSettlementPlOutput2",
     "InquireBalanceSettlementPlOutput1",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
 ]

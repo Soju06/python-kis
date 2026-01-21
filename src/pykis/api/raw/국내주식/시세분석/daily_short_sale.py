@@ -14,19 +14,19 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
 class DailyShortSaleRequest(RawModel):
-    FID_INPUT_DATE_2: KisDate = Field(
+    FID_INPUT_DATE_2: str = Field(
         alias="FID_INPUT_DATE_2",
     )
     ("~ 누적")
@@ -38,7 +38,7 @@ class DailyShortSaleRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("종목코드")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("공백시 전체 (기간 ~)")
@@ -49,14 +49,14 @@ class DailyShortSaleRequestDict(TypedDict):
     국내주식 공매도 일별추이[국내주식-134]
 
     Request fields:
-        FID_INPUT_DATE_2 (KisDate): ~ 누적
+        FID_INPUT_DATE_2 (str): ~ 누적
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 J)
         FID_INPUT_ISCD (str): 종목코드
-        FID_INPUT_DATE_1 (KisDate): 공백시 전체 (기간 ~)
+        FID_INPUT_DATE_1 (str): 공백시 전체 (기간 ~)
     """
 
     FID_INPUT_DATE_2: Annotated[
-        KisDate,
+        str,
         "~ 누적",
     ]
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -68,7 +68,7 @@ class DailyShortSaleRequestDict(TypedDict):
         "종목코드",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "공백시 전체 (기간 ~)",
     ]
 
@@ -133,7 +133,7 @@ class DailyShortSaleOutput2(RawModel):
         alias="ssts_cntg_qty",
     )
     ("공매도 체결 수량")
-    ssts_vol_rlim: int = Field(
+    ssts_vol_rlim: Decimal = Field(
         alias="ssts_vol_rlim",
     )
     ("공매도 거래량 비중")
@@ -269,10 +269,10 @@ if TYPE_CHECKING:
                 **kwargs (DailyShortSaleRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_INPUT_DATE_2 (KisDate): ~ 누적
+                        FID_INPUT_DATE_2 (str): ~ 누적
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 J)
                         FID_INPUT_ISCD (str): 종목코드
-                        FID_INPUT_DATE_1 (KisDate): 공백시 전체 (기간 ~)
+                        FID_INPUT_DATE_1 (str): 공백시 전체 (기간 ~)
 
             Returns:
                 tuple[DailyShortSaleResponse, KisResponse]: 응답 모델과 원시 응답

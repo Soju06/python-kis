@@ -15,18 +15,32 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisDateOptional,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class SllBuyDvsnEnum(KisStrEnum):
@@ -145,11 +159,11 @@ class LoanTypeCdEnum(KisStrEnum):
 
 
 class InquireCcnlRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -158,11 +172,11 @@ class InquireCcnlRequest(RawModel):
         alias="PDNO",
     )
     ('전종목일 경우 "%" 입력 ※ 모의투자계좌의 경우 ""(전체 조회)만 가능')
-    ORD_STRT_DT: KisDate = Field(
+    ORD_STRT_DT: str = Field(
         alias="ORD_STRT_DT",
     )
     ("YYYYMMDD 형식 (현지시각 기준)")
-    ORD_END_DT: KisDate = Field(
+    ORD_END_DT: str = Field(
         alias="ORD_END_DT",
     )
     ("YYYYMMDD 형식 (현지시각 기준)")
@@ -234,11 +248,11 @@ class InquireCcnlRequestDict(TypedDict):
     [해외주식-007 v1] 해외주식 주문체결내역
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         PDNO (str): 전종목일 경우 "%" 입력 ※ 모의투자계좌의 경우 ""(전체 조회)만 가능 optional
-        ORD_STRT_DT (KisDate): YYYYMMDD 형식 (현지시각 기준)
-        ORD_END_DT (KisDate): YYYYMMDD 형식 (현지시각 기준)
+        ORD_STRT_DT (str): YYYYMMDD 형식 (현지시각 기준)
+        ORD_END_DT (str): YYYYMMDD 형식 (현지시각 기준)
         SLL_BUY_DVSN (SllBuyDvsnEnum): 00 : 전체 01 : 매도 02 : 매수 ※ 모의투자계좌의 경우 "00"(전체
         조회)만 가능
         CCLD_NCCS_DVSN (CcldNccsDvsnEnum): 00 : 전체 01 : 체결 02 : 미체결 ※ 모의투자계좌의 경우
@@ -260,11 +274,11 @@ class InquireCcnlRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     PDNO: NotRequired[
@@ -274,11 +288,11 @@ class InquireCcnlRequestDict(TypedDict):
         ]
     ]
     ORD_STRT_DT: Annotated[
-        KisDate,
+        str,
         "YYYYMMDD 형식 (현지시각 기준)",
     ]
     ORD_END_DT: Annotated[
-        KisDate,
+        str,
         "YYYYMMDD 형식 (현지시각 기준)",
     ]
     SLL_BUY_DVSN: Annotated[
@@ -591,12 +605,12 @@ if TYPE_CHECKING:
                 **kwargs (InquireCcnlRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         PDNO (str): 전종목일 경우 "%" 입력 ※ 모의투자계좌의 경우 ""(전체 조회)만 가능
                         optional
-                        ORD_STRT_DT (KisDate): YYYYMMDD 형식 (현지시각 기준)
-                        ORD_END_DT (KisDate): YYYYMMDD 형식 (현지시각 기준)
+                        ORD_STRT_DT (str): YYYYMMDD 형식 (현지시각 기준)
+                        ORD_END_DT (str): YYYYMMDD 형식 (현지시각 기준)
                         SLL_BUY_DVSN (SllBuyDvsnEnum): 00 : 전체 01 : 매도 02 : 매수 ※ 모의투자계좌의
                         경우 "00"(전체 조회)만 가능
                         CCLD_NCCS_DVSN (CcldNccsDvsnEnum): 00 : 전체 01 : 체결 02 : 미체결 ※
@@ -631,6 +645,8 @@ __all__ = [
     "InquireCcnlRequestDict",
     "InquireCcnlResponse",
     "InquireCcnlOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "SllBuyDvsnEnum",
     "CcldNccsDvsnEnum",
     "OvrsExcgCdEnum",

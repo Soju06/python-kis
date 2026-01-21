@@ -55,6 +55,10 @@ def _parse_kis_datetime(value: object) -> datetime | None:
         return None
     if text.isdigit() and len(text) == 14:
         return datetime.strptime(text, '%Y%m%d%H%M%S')
+    if text.isdigit() and len(text) == 17:
+        base = datetime.strptime(text[:14], '%Y%m%d%H%M%S')
+        micros = int(text[14:].ljust(6, '0'))
+        return base.replace(microsecond=micros)
     return datetime.fromisoformat(text)
 
 

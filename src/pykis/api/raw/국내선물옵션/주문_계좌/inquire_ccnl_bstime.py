@@ -14,28 +14,42 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
+
+
 class InquireCcnlBstimeRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    ORD_DT: KisDate = Field(
+    ORD_DT: str = Field(
         alias="ORD_DT",
     )
     ("주문일자(YYYYMMDD)")
@@ -62,9 +76,9 @@ class InquireCcnlBstimeRequestDict(TypedDict):
     선물옵션 기준일체결내역 API입니다.
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
-        ORD_DT (KisDate): 주문일자(YYYYMMDD)
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
+        ORD_DT (str): 주문일자(YYYYMMDD)
         FUOP_TR_STRT_TMD (KisTime): 선물옵션거래시작시간(HHMMSS)
         FUOP_TR_END_TMD (KisTime): 선물옵션거래종료시간(HHMMSS)
         CTX_AREA_FK200 (str): 연속조회검색조건200
@@ -72,15 +86,15 @@ class InquireCcnlBstimeRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     ORD_DT: Annotated[
-        KisDate,
+        str,
         "주문일자(YYYYMMDD)",
     ]
     FUOP_TR_STRT_TMD: Annotated[
@@ -245,9 +259,9 @@ if TYPE_CHECKING:
                 **kwargs (InquireCcnlBstimeRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
-                        ORD_DT (KisDate): 주문일자(YYYYMMDD)
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
+                        ORD_DT (str): 주문일자(YYYYMMDD)
                         FUOP_TR_STRT_TMD (KisTime): 선물옵션거래시작시간(HHMMSS)
                         FUOP_TR_END_TMD (KisTime): 선물옵션거래종료시간(HHMMSS)
                         CTX_AREA_FK200 (str): 연속조회검색조건200
@@ -269,4 +283,6 @@ __all__ = [
     "InquireCcnlBstimeResponse",
     "InquireCcnlBstimeOutput1",
     "InquireCcnlBstimeOutput2",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
 ]

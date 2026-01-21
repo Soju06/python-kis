@@ -14,13 +14,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -40,7 +40,7 @@ class PrdyVrssSignEnum(KisStrEnum):
 
 
 class MktfundsRequest(RawModel):
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("입력날짜1")
@@ -57,11 +57,11 @@ class MktfundsRequestDict(TypedDict):
     법적인 책임도 지지 않사오니 투자에 참고로만 이용하시기 바랍니다.
 
     Request fields:
-        FID_INPUT_DATE_1 (KisDate): 입력날짜1
+        FID_INPUT_DATE_1 (str): 입력날짜1
     """
 
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "입력날짜1",
     ]
 
@@ -229,7 +229,7 @@ if TYPE_CHECKING:
                 **kwargs (MktfundsRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_INPUT_DATE_1 (KisDate): 입력날짜1
+                        FID_INPUT_DATE_1 (str): 입력날짜1
 
             Returns:
                 tuple[MktfundsResponse, KisResponse]: 응답 모델과 원시 응답

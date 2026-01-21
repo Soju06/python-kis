@@ -13,13 +13,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -43,11 +43,11 @@ class InquireDailyTradeVolumeRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("005930")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("from")
-    FID_INPUT_DATE_2: KisDate = Field(
+    FID_INPUT_DATE_2: str = Field(
         alias="FID_INPUT_DATE_2",
     )
     ("to")
@@ -66,8 +66,8 @@ class InquireDailyTradeVolumeRequestDict(TypedDict):
     Request fields:
         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J: KRX, NX: NXT, UN: 통합
         FID_INPUT_ISCD (str): 005930
-        FID_INPUT_DATE_1 (KisDate): from
-        FID_INPUT_DATE_2 (KisDate): to
+        FID_INPUT_DATE_1 (str): from
+        FID_INPUT_DATE_2 (str): to
         FID_PERIOD_DIV_CODE (str): D
     """
 
@@ -80,11 +80,11 @@ class InquireDailyTradeVolumeRequestDict(TypedDict):
         "005930",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "from",
     ]
     FID_INPUT_DATE_2: Annotated[
-        KisDate,
+        str,
         "to",
     ]
     FID_PERIOD_DIV_CODE: Annotated[
@@ -209,8 +209,8 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J: KRX, NX: NXT, UN: 통합
                         FID_INPUT_ISCD (str): 005930
-                        FID_INPUT_DATE_1 (KisDate): from
-                        FID_INPUT_DATE_2 (KisDate): to
+                        FID_INPUT_DATE_1 (str): from
+                        FID_INPUT_DATE_2 (str): to
                         FID_PERIOD_DIV_CODE (str): D
 
             Returns:

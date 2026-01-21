@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -34,17 +34,6 @@ class FidRankSortClsCodeEnum(KisStrEnum):
     "매도잔량"
     VALUE_4 = ("4", "매수잔량")
     "매수잔량"
-
-
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
 
 
 class AfterHourBalanceRequest(RawModel):
@@ -68,7 +57,7 @@ class AfterHourBalanceRequest(RawModel):
         alias="fid_div_cls_code",
     )
     ("0 : 전체")
-    fid_input_iscd: FidInputIscdEnum = Field(
+    fid_input_iscd: str = Field(
         alias="fid_input_iscd",
     )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
@@ -80,7 +69,7 @@ class AfterHourBalanceRequest(RawModel):
         alias="fid_trgt_cls_code",
     )
     ("0 : 전체")
-    fid_vol_cnt: str = Field(
+    fid_vol_cnt: int = Field(
         alias="fid_vol_cnt",
     )
     ("입력값 없을때 전체 (거래량 ~)")
@@ -110,10 +99,10 @@ class AfterHourBalanceRequestDict(TypedDict):
         fid_rank_sort_cls_code (FidRankSortClsCodeEnum): 1: 장전 시간외, 2: 장후 시간외, 3:매도잔량,
         4:매수잔량
         fid_div_cls_code (str): 0 : 전체
-        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
+        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
         fid_trgt_exls_cls_code (str): 0 : 전체
         fid_trgt_cls_code (str): 0 : 전체
-        fid_vol_cnt (str): 입력값 없을때 전체 (거래량 ~)
+        fid_vol_cnt (int): 입력값 없을때 전체 (거래량 ~)
         fid_input_price_2 (str): 입력값 없을때 전체 (~ 가격)
     """
 
@@ -138,7 +127,7 @@ class AfterHourBalanceRequestDict(TypedDict):
         "0 : 전체",
     ]
     fid_input_iscd: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200",
     ]
     fid_trgt_exls_cls_code: Annotated[
@@ -150,7 +139,7 @@ class AfterHourBalanceRequestDict(TypedDict):
         "0 : 전체",
     ]
     fid_vol_cnt: Annotated[
-        str,
+        int,
         "입력값 없을때 전체 (거래량 ~)",
     ]
     fid_input_price_2: Annotated[
@@ -321,11 +310,10 @@ if TYPE_CHECKING:
                         fid_rank_sort_cls_code (FidRankSortClsCodeEnum): 1: 장전 시간외, 2: 장후
                         시간외, 3:매도잔량, 4:매수잔량
                         fid_div_cls_code (str): 0 : 전체
-                        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥,
-                        2001:코스피200
+                        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
                         fid_trgt_exls_cls_code (str): 0 : 전체
                         fid_trgt_cls_code (str): 0 : 전체
-                        fid_vol_cnt (str): 입력값 없을때 전체 (거래량 ~)
+                        fid_vol_cnt (int): 입력값 없을때 전체 (거래량 ~)
                         fid_input_price_2 (str): 입력값 없을때 전체 (~ 가격)
 
             Returns:
@@ -344,5 +332,4 @@ __all__ = [
     "AfterHourBalanceResponse",
     "AfterHourBalanceOutput",
     "FidRankSortClsCodeEnum",
-    "FidInputIscdEnum",
 ]

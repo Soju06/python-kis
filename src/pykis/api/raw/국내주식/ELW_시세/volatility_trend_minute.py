@@ -14,16 +14,32 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidHourClsCodeEnum(KisStrEnum):
+    VALUE_60 = ("60", "1분")
+    "1분"
+    VALUE_180 = ("180", "3분")
+    "3분"
+    VALUE_300 = ("300", "5분")
+    "5분"
+    VALUE_600 = ("600", "10분")
+    "10분"
+    VALUE_1800 = ("1800", "30분")
+    "30분"
+    VALUE_3600 = ("3600", "60분")
+    "60분"
 
 
 class VolatilityTrendMinuteRequest(RawModel):
@@ -35,7 +51,7 @@ class VolatilityTrendMinuteRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("ex) 58J297(KBJ297삼성전자콜)")
-    FID_HOUR_CLS_CODE: str = Field(
+    FID_HOUR_CLS_CODE: FidHourClsCodeEnum = Field(
         alias="FID_HOUR_CLS_CODE",
     )
     ("'60(1분), 180(3분), 300(5분), 600(10분), 1800(30분), 3600(60분) '")
@@ -54,7 +70,8 @@ class VolatilityTrendMinuteRequestDict(TypedDict):
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): W(Unique key)
         FID_INPUT_ISCD (str): ex) 58J297(KBJ297삼성전자콜)
-        FID_HOUR_CLS_CODE (str): '60(1분), 180(3분), 300(5분), 600(10분), 1800(30분), 3600(60분) '
+        FID_HOUR_CLS_CODE (FidHourClsCodeEnum): '60(1분), 180(3분), 300(5분), 600(10분), 1800(30분),
+        3600(60분) '
         FID_PW_DATA_INCU_YN (KisBool): N(과거데이터포함X),Y(과거데이터포함O)
     """
 
@@ -67,7 +84,7 @@ class VolatilityTrendMinuteRequestDict(TypedDict):
         "ex) 58J297(KBJ297삼성전자콜)",
     ]
     FID_HOUR_CLS_CODE: Annotated[
-        str,
+        FidHourClsCodeEnum,
         "'60(1분), 180(3분), 300(5분), 600(10분), 1800(30분), 3600(60분) '",
     ]
     FID_PW_DATA_INCU_YN: Annotated[
@@ -101,11 +118,12 @@ class VolatilityTrendMinuteOutput(RawModel):
         alias="elw_lwpr",
     )
     ("ELW 최저가")
-    hts_ints_vltl: str = Field(
+    hts_ints_vltl: Decimal = Field(
         alias="hts_ints_vltl",
     )
     ("HTS 내재 변동성")
-    hist_vltl: str = Field(
+    hist_vltl: str | None = Field(
+        default=None,
         alias="hist_vltl",
     )
     ("역사적 변동성")
@@ -197,8 +215,8 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): W(Unique key)
                         FID_INPUT_ISCD (str): ex) 58J297(KBJ297삼성전자콜)
-                        FID_HOUR_CLS_CODE (str): '60(1분), 180(3분), 300(5분), 600(10분), 1800(30분),
-                        3600(60분) '
+                        FID_HOUR_CLS_CODE (FidHourClsCodeEnum): '60(1분), 180(3분), 300(5분),
+                        600(10분), 1800(30분), 3600(60분) '
                         FID_PW_DATA_INCU_YN (KisBool): N(과거데이터포함X),Y(과거데이터포함O)
 
             Returns:
@@ -216,4 +234,5 @@ __all__ = [
     "VolatilityTrendMinuteRequestDict",
     "VolatilityTrendMinuteResponse",
     "VolatilityTrendMinuteOutput",
+    "FidHourClsCodeEnum",
 ]

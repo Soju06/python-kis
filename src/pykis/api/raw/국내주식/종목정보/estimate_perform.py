@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -64,7 +64,7 @@ class EstimatePerformOutput1(RawModel):
         alias="item_kor_nm",
     )
     ("HTS한글종목명")
-    name1: Decimal | None = Field(
+    name1: str | None = Field(
         default=None,
         alias="name1",
     )
@@ -79,7 +79,7 @@ class EstimatePerformOutput1(RawModel):
         alias="estdate",
     )
     ("전일대비부호")
-    rcmd_name: Decimal | None = Field(
+    rcmd_name: str | None = Field(
         default=None,
         alias="rcmd_name",
     )

@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -30,28 +30,6 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
     "KRX"
     NX = ("NX", "NXT")
     "NXT"
-
-
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
-
-
-class FidInputOption2Enum(KisStrEnum):
-    VALUE_0 = ("0", "1/4분기")
-    "1/4분기"
-    VALUE_1 = ("1", "반기")
-    "반기"
-    VALUE_2 = ("2", "3/4분기")
-    "3/4분기"
-    VALUE_3 = ("3", "결산")
-    "결산"
 
 
 class FidRankSortClsCodeEnum(KisStrEnum):
@@ -78,7 +56,7 @@ class FinanceRatioRequest(RawModel):
         alias="fid_cond_scr_div_code",
     )
     ("Unique key( 20175 )")
-    fid_input_iscd: FidInputIscdEnum = Field(
+    fid_input_iscd: str = Field(
         alias="fid_input_iscd",
     )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
@@ -94,7 +72,7 @@ class FinanceRatioRequest(RawModel):
         alias="fid_input_price_2",
     )
     ("입력값 없을때 전체 (~ 가격)")
-    fid_vol_cnt: str = Field(
+    fid_vol_cnt: int = Field(
         alias="fid_vol_cnt",
     )
     ("입력값 없을때 전체 (거래량 ~)")
@@ -102,7 +80,7 @@ class FinanceRatioRequest(RawModel):
         alias="fid_input_option_1",
     )
     ("회계년도 입력 (ex 2023)")
-    fid_input_option_2: FidInputOption2Enum = Field(
+    fid_input_option_2: str = Field(
         alias="fid_input_option_2",
     )
     ("0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산")
@@ -137,13 +115,13 @@ class FinanceRatioRequestDict(TypedDict):
         fid_trgt_cls_code (str): 0 : 전체
         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
         fid_cond_scr_div_code (str): Unique key( 20175 )
-        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
+        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
         fid_div_cls_code (str): 0 : 전체
         fid_input_price_1 (str): 입력값 없을때 전체 (가격 ~)
         fid_input_price_2 (str): 입력값 없을때 전체 (~ 가격)
-        fid_vol_cnt (str): 입력값 없을때 전체 (거래량 ~)
+        fid_vol_cnt (int): 입력값 없을때 전체 (거래량 ~)
         fid_input_option_1 (str): 회계년도 입력 (ex 2023)
-        fid_input_option_2 (FidInputOption2Enum): 0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산
+        fid_input_option_2 (str): 0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산
         fid_rank_sort_cls_code (FidRankSortClsCodeEnum): 7: 수익성 분석, 11 : 안정성 분석, 15:
         성장성 분석, 20: 활동성 분석
         fid_blng_cls_code (str): 0
@@ -163,7 +141,7 @@ class FinanceRatioRequestDict(TypedDict):
         "Unique key( 20175 )",
     ]
     fid_input_iscd: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200",
     ]
     fid_div_cls_code: Annotated[
@@ -179,7 +157,7 @@ class FinanceRatioRequestDict(TypedDict):
         "입력값 없을때 전체 (~ 가격)",
     ]
     fid_vol_cnt: Annotated[
-        str,
+        int,
         "입력값 없을때 전체 (거래량 ~)",
     ]
     fid_input_option_1: Annotated[
@@ -187,7 +165,7 @@ class FinanceRatioRequestDict(TypedDict):
         "회계년도 입력 (ex 2023)",
     ]
     fid_input_option_2: Annotated[
-        FidInputOption2Enum,
+        str,
         "0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산",
     ]
     fid_rank_sort_cls_code: Annotated[
@@ -443,15 +421,13 @@ if TYPE_CHECKING:
                         fid_trgt_cls_code (str): 0 : 전체
                         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
                         fid_cond_scr_div_code (str): Unique key( 20175 )
-                        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥,
-                        2001:코스피200
+                        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
                         fid_div_cls_code (str): 0 : 전체
                         fid_input_price_1 (str): 입력값 없을때 전체 (가격 ~)
                         fid_input_price_2 (str): 입력값 없을때 전체 (~ 가격)
-                        fid_vol_cnt (str): 입력값 없을때 전체 (거래량 ~)
+                        fid_vol_cnt (int): 입력값 없을때 전체 (거래량 ~)
                         fid_input_option_1 (str): 회계년도 입력 (ex 2023)
-                        fid_input_option_2 (FidInputOption2Enum): 0: 1/4분기 , 1: 반기, 2: 3/4분기, 3:
-                        결산
+                        fid_input_option_2 (str): 0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산
                         fid_rank_sort_cls_code (FidRankSortClsCodeEnum): 7: 수익성 분석, 11 : 안정성
                         분석, 15: 성장성 분석, 20: 활동성 분석
                         fid_blng_cls_code (str): 0
@@ -473,7 +449,5 @@ __all__ = [
     "FinanceRatioResponse",
     "FinanceRatioOutput",
     "FidCondMrktDivCodeEnum",
-    "FidInputIscdEnum",
-    "FidInputOption2Enum",
     "FidRankSortClsCodeEnum",
 ]

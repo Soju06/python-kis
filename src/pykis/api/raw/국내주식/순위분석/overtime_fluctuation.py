@@ -14,14 +14,37 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(20234)")
+    "key(20234)"
+    VALUE_20234 = ("20234", "Unique key")
+    "Unique key"
+    KEY = ("key", "20234")
+    "20234"
+
+
+class FidDivClsCodeEnum(KisStrEnum):
+    VALUE_1 = ("1", "상한가")
+    "상한가"
+    VALUE_2 = ("2", "상승률")
+    "상승률"
+    VALUE_3 = ("3", "보합")
+    "보합"
+    VALUE_4 = ("4", "하한가")
+    "하한가"
+    VALUE_5 = ("5", "하락률")
+    "하락률"
 
 
 class OvertimeFluctuationRequest(RawModel):
@@ -33,7 +56,7 @@ class OvertimeFluctuationRequest(RawModel):
         alias="FID_MRKT_CLS_CODE",
     )
     ("공백 입력")
-    FID_COND_SCR_DIV_CODE: str = Field(
+    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("Unique key(20234)")
@@ -41,7 +64,7 @@ class OvertimeFluctuationRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("0000(전체), 0001(코스피), 1001(코스닥)")
-    FID_DIV_CLS_CODE: str = Field(
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
         alias="FID_DIV_CLS_CODE",
     )
     ("1(상한가), 2(상승률), 3(보합),4(하한가),5(하락률)")
@@ -53,7 +76,7 @@ class OvertimeFluctuationRequest(RawModel):
         alias="FID_INPUT_PRICE_2",
     )
     ("입력값 없을때 전체 (~ 가격)")
-    FID_VOL_CNT: str = Field(
+    FID_VOL_CNT: int = Field(
         alias="FID_VOL_CNT",
     )
     ("입력값 없을때 전체 (거래량 ~)")
@@ -77,12 +100,12 @@ class OvertimeFluctuationRequestDict(TypedDict):
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (J: 주식)
         FID_MRKT_CLS_CODE (str): 공백 입력
-        FID_COND_SCR_DIV_CODE (str): Unique key(20234)
+        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20234)
         FID_INPUT_ISCD (str): 0000(전체), 0001(코스피), 1001(코스닥)
-        FID_DIV_CLS_CODE (str): 1(상한가), 2(상승률), 3(보합),4(하한가),5(하락률)
+        FID_DIV_CLS_CODE (FidDivClsCodeEnum): 1(상한가), 2(상승률), 3(보합),4(하한가),5(하락률)
         FID_INPUT_PRICE_1 (str): 입력값 없을때 전체 (가격 ~)
         FID_INPUT_PRICE_2 (str): 입력값 없을때 전체 (~ 가격)
-        FID_VOL_CNT (str): 입력값 없을때 전체 (거래량 ~)
+        FID_VOL_CNT (int): 입력값 없을때 전체 (거래량 ~)
         FID_TRGT_CLS_CODE (str): 공백 입력
         FID_TRGT_EXLS_CLS_CODE (str): 공백 입력
     """
@@ -96,7 +119,7 @@ class OvertimeFluctuationRequestDict(TypedDict):
         "공백 입력",
     ]
     FID_COND_SCR_DIV_CODE: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(20234)",
     ]
     FID_INPUT_ISCD: Annotated[
@@ -104,7 +127,7 @@ class OvertimeFluctuationRequestDict(TypedDict):
         "0000(전체), 0001(코스피), 1001(코스닥)",
     ]
     FID_DIV_CLS_CODE: Annotated[
-        str,
+        FidDivClsCodeEnum,
         "1(상한가), 2(상승률), 3(보합),4(하한가),5(하락률)",
     ]
     FID_INPUT_PRICE_1: Annotated[
@@ -116,7 +139,7 @@ class OvertimeFluctuationRequestDict(TypedDict):
         "입력값 없을때 전체 (~ 가격)",
     ]
     FID_VOL_CNT: Annotated[
-        str,
+        int,
         "입력값 없을때 전체 (거래량 ~)",
     ]
     FID_TRGT_CLS_CODE: Annotated[
@@ -150,7 +173,7 @@ class OvertimeFluctuationOutput1(RawModel):
         alias="ovtm_untp_down_issu_cnt",
     )
     ("시간외 단일가 하락 종목 수")
-    ovtm_untp_acml_vol: Decimal = Field(
+    ovtm_untp_acml_vol: int = Field(
         alias="ovtm_untp_acml_vol",
     )
     ("시간외 단일가 누적 거래량")
@@ -158,7 +181,7 @@ class OvertimeFluctuationOutput1(RawModel):
         alias="ovtm_untp_acml_tr_pbmn",
     )
     ("시간외 단일가 누적 거래대금")
-    ovtm_untp_exch_vol: Decimal = Field(
+    ovtm_untp_exch_vol: int = Field(
         alias="ovtm_untp_exch_vol",
     )
     ("시간외 단일가 거래소 거래량")
@@ -166,7 +189,7 @@ class OvertimeFluctuationOutput1(RawModel):
         alias="ovtm_untp_exch_tr_pbmn",
     )
     ("시간외 단일가 거래소 거래대금")
-    ovtm_untp_kosdaq_vol: Decimal = Field(
+    ovtm_untp_kosdaq_vol: int = Field(
         alias="ovtm_untp_kosdaq_vol",
     )
     ("시간외 단일가 KOSDAQ 거래량")
@@ -177,83 +200,67 @@ class OvertimeFluctuationOutput1(RawModel):
 
 
 class OvertimeFluctuationOutput2(RawModel):
-    mksc_shrn_iscd: str | None = Field(
-        default=None,
+    mksc_shrn_iscd: str = Field(
         alias="mksc_shrn_iscd",
     )
     ("유가증권 단축 종목코드")
-    hts_kor_isnm: str | None = Field(
-        default=None,
+    hts_kor_isnm: str = Field(
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
-    ovtm_untp_prpr: Decimal | None = Field(
-        default=None,
+    ovtm_untp_prpr: Decimal = Field(
         alias="ovtm_untp_prpr",
     )
     ("시간외 단일가 현재가")
-    ovtm_untp_prdy_vrss: Decimal | None = Field(
-        default=None,
+    ovtm_untp_prdy_vrss: Decimal = Field(
         alias="ovtm_untp_prdy_vrss",
     )
     ("시간외 단일가 전일 대비")
-    ovtm_untp_prdy_vrss_sign: Decimal | None = Field(
-        default=None,
+    ovtm_untp_prdy_vrss_sign: Decimal = Field(
         alias="ovtm_untp_prdy_vrss_sign",
     )
     ("시간외 단일가 전일 대비 부호")
-    ovtm_untp_prdy_ctrt: Decimal | None = Field(
-        default=None,
+    ovtm_untp_prdy_ctrt: Decimal = Field(
         alias="ovtm_untp_prdy_ctrt",
     )
     ("시간외 단일가 전일 대비율")
-    ovtm_untp_askp1: Decimal | None = Field(
-        default=None,
+    ovtm_untp_askp1: Decimal = Field(
         alias="ovtm_untp_askp1",
     )
     ("시간외 단일가 매도호가1")
-    ovtm_untp_seln_rsqn: Decimal | None = Field(
-        default=None,
+    ovtm_untp_seln_rsqn: Decimal = Field(
         alias="ovtm_untp_seln_rsqn",
     )
     ("시간외 단일가 매도 잔량")
-    ovtm_untp_bidp1: str | None = Field(
-        default=None,
+    ovtm_untp_bidp1: str = Field(
         alias="ovtm_untp_bidp1",
     )
     ("시간외 단일가 매수호가1")
-    ovtm_untp_shnu_rsqn: Decimal | None = Field(
-        default=None,
+    ovtm_untp_shnu_rsqn: Decimal = Field(
         alias="ovtm_untp_shnu_rsqn",
     )
     ("시간외 단일가 매수 잔량")
-    ovtm_untp_vol: Decimal | None = Field(
-        default=None,
+    ovtm_untp_vol: int = Field(
         alias="ovtm_untp_vol",
     )
     ("시간외 단일가 거래량")
-    ovtm_vrss_acml_vol_rlim: int | None = Field(
-        default=None,
+    ovtm_vrss_acml_vol_rlim: Decimal = Field(
         alias="ovtm_vrss_acml_vol_rlim",
     )
     ("시간외 대비 누적 거래량 비중")
-    stck_prpr: Decimal | None = Field(
-        default=None,
+    stck_prpr: Decimal = Field(
         alias="stck_prpr",
     )
     ("주식 현재가")
-    acml_vol: int | None = Field(
-        default=None,
+    acml_vol: int = Field(
         alias="acml_vol",
     )
     ("누적 거래량")
-    bidp: str | None = Field(
-        default=None,
+    bidp: str = Field(
         alias="bidp",
     )
     ("매수호가")
-    askp: str | None = Field(
-        default=None,
+    askp: int = Field(
         alias="askp",
     )
     ("매도호가")
@@ -351,12 +358,13 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (J: 주식)
                         FID_MRKT_CLS_CODE (str): 공백 입력
-                        FID_COND_SCR_DIV_CODE (str): Unique key(20234)
+                        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20234)
                         FID_INPUT_ISCD (str): 0000(전체), 0001(코스피), 1001(코스닥)
-                        FID_DIV_CLS_CODE (str): 1(상한가), 2(상승률), 3(보합),4(하한가),5(하락률)
+                        FID_DIV_CLS_CODE (FidDivClsCodeEnum): 1(상한가), 2(상승률),
+                        3(보합),4(하한가),5(하락률)
                         FID_INPUT_PRICE_1 (str): 입력값 없을때 전체 (가격 ~)
                         FID_INPUT_PRICE_2 (str): 입력값 없을때 전체 (~ 가격)
-                        FID_VOL_CNT (str): 입력값 없을때 전체 (거래량 ~)
+                        FID_VOL_CNT (int): 입력값 없을때 전체 (거래량 ~)
                         FID_TRGT_CLS_CODE (str): 공백 입력
                         FID_TRGT_EXLS_CLS_CODE (str): 공백 입력
 
@@ -376,4 +384,6 @@ __all__ = [
     "OvertimeFluctuationResponse",
     "OvertimeFluctuationOutput1",
     "OvertimeFluctuationOutput2",
+    "FidCondScrDivCodeEnum",
+    "FidDivClsCodeEnum",
 ]

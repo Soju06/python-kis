@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -79,7 +79,7 @@ class InquireDailyOvertimepriceOutput1(RawModel):
         decimal_places=2,
     )
     ("11(8.2)")
-    ovtm_untp_vol: Decimal | None = Field(
+    ovtm_untp_vol: int | None = Field(
         default=None,
         alias="ovtm_untp_vol",
     )
@@ -136,7 +136,7 @@ class InquireDailyOvertimepriceOutput1(RawModel):
         decimal_places=2,
     )
     ("11(8.2)")
-    ovtm_untp_antc_vol: Decimal | None = Field(
+    ovtm_untp_antc_vol: int | None = Field(
         default=None,
         alias="ovtm_untp_antc_vol",
     )
@@ -171,7 +171,7 @@ class InquireDailyOvertimepriceOutput2(RawModel):
         decimal_places=2,
     )
     ("11(8.2)")
-    ovtm_untp_vol: Decimal | None = Field(
+    ovtm_untp_vol: int | None = Field(
         default=None,
         alias="ovtm_untp_vol",
     )

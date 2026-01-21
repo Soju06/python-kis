@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisTime,
+    KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -58,51 +58,63 @@ class IndicatorTrendCcnlRequestDict(TypedDict):
 
 
 class IndicatorTrendCcnlOutput(RawModel):
-    stck_cntg_hour: KisTime = Field(
+    stck_cntg_hour: KisTimeOptional = Field(
+        default=None,
         alias="stck_cntg_hour",
     )
     ("주식체결시간")
-    elw_prpr: Decimal = Field(
+    elw_prpr: Decimal | None = Field(
+        default=None,
         alias="elw_prpr",
     )
     ("ELW현재가")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: str | None = Field(
+        default=None,
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
-    prdy_vrss: str = Field(
+    prdy_vrss: str | None = Field(
+        default=None,
         alias="prdy_vrss",
     )
     ("전일대비")
-    prdy_ctrt: Decimal = Field(
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
         alias="prdy_ctrt",
     )
     ("전일대비율")
-    acml_vol: int = Field(
+    acml_vol: int | None = Field(
+        default=None,
         alias="acml_vol",
     )
     ("누적거래량")
-    lvrg_val: str = Field(
+    lvrg_val: str | None = Field(
+        default=None,
         alias="lvrg_val",
     )
     ("레버리지값")
-    gear: str = Field(
+    gear: str | None = Field(
+        default=None,
         alias="gear",
     )
     ("기어링")
-    tmvl_val: str = Field(
+    tmvl_val: str | None = Field(
+        default=None,
         alias="tmvl_val",
     )
     ("시간가치값")
-    invl_val: str = Field(
+    invl_val: str | None = Field(
+        default=None,
         alias="invl_val",
     )
     ("내재가치값")
-    prit: str = Field(
+    prit: str | None = Field(
+        default=None,
         alias="prit",
     )
     ("패리티")
-    apprch_rate: Decimal = Field(
+    apprch_rate: Decimal | None = Field(
+        default=None,
         alias="apprch_rate",
     )
     ("접근도")

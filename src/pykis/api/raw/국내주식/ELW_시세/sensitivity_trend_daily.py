@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -66,11 +66,11 @@ class SensitivityTrendDailyOutput(RawModel):
         alias="elw_prpr",
     )
     ("ELW현재가")
-    prdy_vrss: str = Field(
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
@@ -78,27 +78,27 @@ class SensitivityTrendDailyOutput(RawModel):
         alias="prdy_ctrt",
     )
     ("전일대비율")
-    hts_thpr: str = Field(
+    hts_thpr: Decimal = Field(
         alias="hts_thpr",
     )
     ("HTS이론가")
-    delta_val: str = Field(
+    delta_val: Decimal = Field(
         alias="delta_val",
     )
     ("델타값")
-    gama: str = Field(
+    gama: Decimal = Field(
         alias="gama",
     )
     ("감마")
-    theta: str = Field(
+    theta: Decimal = Field(
         alias="theta",
     )
     ("세타")
-    vega: str = Field(
+    vega: Decimal = Field(
         alias="vega",
     )
     ("베가")
-    rho: str = Field(
+    rho: Decimal = Field(
         alias="rho",
     )
     ("로우")

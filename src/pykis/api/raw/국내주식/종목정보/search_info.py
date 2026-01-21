@@ -13,16 +13,23 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class PdnoEnum(KisStrEnum):
+    AAPL = ("AAPL", ": AAPL (코드 :")
+    ": AAPL (코드 :"
+    VALUE_512 = ("512", "'")
+    "'"
 
 
 class PrdtTypeCdEnum(KisStrEnum):
@@ -55,7 +62,7 @@ class PrdtTypeCdEnum(KisStrEnum):
 
 
 class SearchInfoRequest(RawModel):
-    PDNO: str = Field(
+    PDNO: PdnoEnum = Field(
         alias="PDNO",
     )
     ("'주식(하이닉스) : 000660 (코드 : 300) 선물(101S12) : KR4101SC0009 (코드 : 301) 미국(AAPL) : AAPL (코드 : 512)'")
@@ -74,15 +81,15 @@ class SearchInfoRequestDict(TypedDict):
     상품기본조회[v1_국내주식-029]
 
     Request fields:
-        PDNO (str): '주식(하이닉스) : 000660 (코드 : 300) 선물(101S12) : KR4101SC0009 (코드 : 301)
-        미국(AAPL) : AAPL (코드 : 512)'
+        PDNO (PdnoEnum): '주식(하이닉스) : 000660 (코드 : 300) 선물(101S12) : KR4101SC0009 (코드 :
+        301) 미국(AAPL) : AAPL (코드 : 512)'
         PRDT_TYPE_CD (PrdtTypeCdEnum): '300 주식 301 선물옵션 302 채권 512 미국 나스닥 / 513 미국
         뉴욕 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558 홍콩USD 507 베트남 하노이 / 508
         베트남 호치민 551 중국 상해A / 552 중국 심천A'
     """
 
     PDNO: Annotated[
-        str,
+        PdnoEnum,
         "'주식(하이닉스) : 000660 (코드 : 300) 선물(101S12) : KR4101SC0009 (코드 : 301) 미국(AAPL) : AAPL "
         "(코드 : 512)'",
     ]
@@ -260,8 +267,8 @@ if TYPE_CHECKING:
                 **kwargs (SearchInfoRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        PDNO (str): '주식(하이닉스) : 000660 (코드 : 300) 선물(101S12) : KR4101SC0009
-                        (코드 : 301) 미국(AAPL) : AAPL (코드 : 512)'
+                        PDNO (PdnoEnum): '주식(하이닉스) : 000660 (코드 : 300) 선물(101S12) :
+                        KR4101SC0009 (코드 : 301) 미국(AAPL) : AAPL (코드 : 512)'
                         PRDT_TYPE_CD (PrdtTypeCdEnum): '300 주식 301 선물옵션 302 채권 512 미국 나스닥
                         / 513 미국 뉴욕 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558
                         홍콩USD 507 베트남 하노이 / 508 베트남 호치민 551 중국 상해A / 552 중국 심천A'
@@ -281,5 +288,6 @@ __all__ = [
     "SearchInfoRequestDict",
     "SearchInfoResponse",
     "SearchInfoOutput",
+    "PdnoEnum",
     "PrdtTypeCdEnum",
 ]

@@ -14,16 +14,31 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
+    KisDateTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class CcldNccsDvsnEnum(KisStrEnum):
@@ -70,11 +85,11 @@ class NewLqdDvsnCdEnum(KisStrEnum):
 
 
 class InquireCcldRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -106,8 +121,8 @@ class InquireCcldRequestDict(TypedDict):
     해외선물옵션 당일주문내역조회 [v1_해외선물-004]
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         CCLD_NCCS_DVSN (CcldNccsDvsnEnum): 01:전체 / 02:체결 / 03:미체결
         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): %%:전체 / 01:매도 / 02:매수
         FUOP_DVSN (FuopDvsnEnum): 00:전체 / 01:선물 / 02:옵션
@@ -116,11 +131,11 @@ class InquireCcldRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     CCLD_NCCS_DVSN: Annotated[
@@ -246,12 +261,12 @@ class InquireCcldOutput(RawModel):
         alias="ord_grp_name",
     )
     ("주문그룹명")
-    erlm_dtl_dtime: KisDateOptional = Field(
+    erlm_dtl_dtime: KisDateTimeOptional = Field(
         default=None,
         alias="erlm_dtl_dtime",
     )
     ("등록상세일시")
-    ccld_dtl_dtime: KisDateOptional = Field(
+    ccld_dtl_dtime: KisDateTimeOptional = Field(
         default=None,
         alias="ccld_dtl_dtime",
     )
@@ -382,8 +397,8 @@ if TYPE_CHECKING:
                 **kwargs (InquireCcldRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         CCLD_NCCS_DVSN (CcldNccsDvsnEnum): 01:전체 / 02:체결 / 03:미체결
                         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): %%:전체 / 01:매도 / 02:매수
                         FUOP_DVSN (FuopDvsnEnum): 00:전체 / 01:선물 / 02:옵션
@@ -405,6 +420,8 @@ __all__ = [
     "InquireCcldRequestDict",
     "InquireCcldResponse",
     "InquireCcldOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "CcldNccsDvsnEnum",
     "SllBuyDvsnCdEnum",
     "FuopDvsnEnum",

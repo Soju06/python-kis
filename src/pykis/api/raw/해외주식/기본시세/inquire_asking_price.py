@@ -14,13 +14,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -177,12 +177,12 @@ class InquireAskingPriceOutput1(RawModel):
         alias="dhms",
     )
     ("호가시간")
-    bvol: str | None = Field(
+    bvol: int | None = Field(
         default=None,
         alias="bvol",
     )
     ("매수호가총잔량")
-    avol: str | None = Field(
+    avol: int | None = Field(
         default=None,
         alias="avol",
     )

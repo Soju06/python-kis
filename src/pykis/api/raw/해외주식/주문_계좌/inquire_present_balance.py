@@ -14,16 +14,30 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class WcrcFrcrDvsnCdEnum(KisStrEnum):
@@ -61,6 +75,14 @@ class TrMketCdEnum(KisStrEnum):
     "미국(OTCBB)"
     VALUE_05 = ("05", "아멕스(AMEX)")
     "아멕스(AMEX)"
+    NASD = ("NASD", "01 : 나스닥")
+    "01 : 나스닥"
+    NYSE = ("NYSE", "02 : 뉴욕거래소")
+    "02 : 뉴욕거래소"
+    OTCBB = ("OTCBB", "04 : 미국")
+    "04 : 미국"
+    AMEX = ("AMEX", "05 : 아멕스")
+    "05 : 아멕스"
 
 
 class InqrDvsnCdEnum(KisStrEnum):
@@ -114,11 +136,11 @@ class ItemLnkgExcgCdEnum(KisStrEnum):
 
 
 class InquirePresentBalanceRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -189,8 +211,8 @@ class InquirePresentBalanceRequestDict(TypedDict):
     [해외주식-008 v1] 해외주식 체결기준현재잔고
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         WCRC_FRCR_DVSN_CD (WcrcFrcrDvsnCdEnum): 01 : 원화 02 : 외화
         NATN_CD (NatnCdEnum): 000 전체 840 미국 344 홍콩 156 중국 392 일본 704 베트남
         TR_MKET_CD (TrMketCdEnum): [Request body NATN_CD 000 설정] 00 : 전체 [Request body NATN_CD
@@ -203,11 +225,11 @@ class InquirePresentBalanceRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     WCRC_FRCR_DVSN_CD: Annotated[
@@ -658,8 +680,8 @@ if TYPE_CHECKING:
                 **kwargs (InquirePresentBalanceRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         WCRC_FRCR_DVSN_CD (WcrcFrcrDvsnCdEnum): 01 : 원화 02 : 외화
                         NATN_CD (NatnCdEnum): 000 전체 840 미국 344 홍콩 156 중국 392 일본 704 베트남
                         TR_MKET_CD (TrMketCdEnum): [Request body NATN_CD 000 설정] 00 : 전체 [Request
@@ -688,6 +710,8 @@ __all__ = [
     "InquirePresentBalanceOutput1",
     "InquirePresentBalanceOutput2",
     "InquirePresentBalanceOutput3",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "WcrcFrcrDvsnCdEnum",
     "NatnCdEnum",
     "TrMketCdEnum",

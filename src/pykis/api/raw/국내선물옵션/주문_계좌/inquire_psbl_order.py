@@ -15,15 +15,29 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class SllBuyDvsnCdEnum(KisStrEnum):
@@ -54,15 +68,19 @@ class OrdDvsnCdEnum(KisStrEnum):
     "최유리(IOC)"
     VALUE_15 = ("15", "최유리(FOK)")
     "최유리(FOK)"
+    IOC = ("IOC", "10 : 지정가")
+    "10 : 지정가"
+    FOK = ("FOK", "11 : 지정가")
+    "11 : 지정가"
 
 
 class InquirePsblOrderRequest(RawModel):
-    CANO: str | None = Field(
+    CANO: CanoEnum | None = Field(
         default=None,
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str | None = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum | None = Field(
         default=None,
         alias="ACNT_PRDT_CD",
     )
@@ -98,8 +116,8 @@ class InquirePsblOrderRequestDict(TypedDict):
     [국내선물-005 v1] 선물옵션 주문가능
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리 optional
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리 optional
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리 optional
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리 optional
         PDNO (str): 선물옵션종목코드 선물 6자리 (예: 101S03) 옵션 9자리 (예: 201S03370) optional
         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 01 : 매도 02 : 매수 optional
         UNIT_PRICE (Decimal): 주문가격 ※ 주문가격 '0'일 경우 - 옵션매수 : 현재가 - 그 이외 : 기준가
@@ -111,13 +129,13 @@ class InquirePsblOrderRequestDict(TypedDict):
 
     CANO: NotRequired[
         Annotated[
-            str | None,
+            CanoEnum | None,
             "계좌번호 체계(8-2)의 앞 8자리",
         ]
     ]
     ACNT_PRDT_CD: NotRequired[
         Annotated[
-            str | None,
+            AcntPrdtCdEnum | None,
             "계좌번호 체계(8-2)의 뒤 2자리",
         ]
     ]
@@ -249,8 +267,8 @@ if TYPE_CHECKING:
                 **kwargs (InquirePsblOrderRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리 optional
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리 optional
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리 optional
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리 optional
                         PDNO (str): 선물옵션종목코드 선물 6자리 (예: 101S03) 옵션 9자리 (예:
                         201S03370) optional
                         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 01 : 매도 02 : 매수 optional
@@ -275,6 +293,8 @@ __all__ = [
     "InquirePsblOrderRequestDict",
     "InquirePsblOrderResponse",
     "InquirePsblOrderOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "SllBuyDvsnCdEnum",
     "OrdDvsnCdEnum",
 ]

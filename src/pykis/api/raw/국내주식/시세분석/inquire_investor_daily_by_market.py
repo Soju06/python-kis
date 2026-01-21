@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -34,7 +34,7 @@ class InquireInvestorDailyByMarketRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("코스피, 코스닥 : 업종분류코드 (종목정보파일 - 업종코드 참조)")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("ex. 20240517")
@@ -42,7 +42,7 @@ class InquireInvestorDailyByMarketRequest(RawModel):
         alias="FID_INPUT_ISCD_1",
     )
     ("코스피(KSP), 코스닥(KSQ)")
-    FID_INPUT_DATE_2: KisDate = Field(
+    FID_INPUT_DATE_2: str = Field(
         alias="FID_INPUT_DATE_2",
     )
     ("입력 날짜1과 동일날짜 입력")
@@ -61,9 +61,9 @@ class InquireInvestorDailyByMarketRequestDict(TypedDict):
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (업종 U)
         FID_INPUT_ISCD (str): 코스피, 코스닥 : 업종분류코드 (종목정보파일 - 업종코드 참조)
-        FID_INPUT_DATE_1 (KisDate): ex. 20240517
+        FID_INPUT_DATE_1 (str): ex. 20240517
         FID_INPUT_ISCD_1 (str): 코스피(KSP), 코스닥(KSQ)
-        FID_INPUT_DATE_2 (KisDate): 입력 날짜1과 동일날짜 입력
+        FID_INPUT_DATE_2 (str): 입력 날짜1과 동일날짜 입력
         FID_INPUT_ISCD_2 (str): 코스피, 코스닥 : 업종분류코드 (종목정보파일 - 업종코드 참조)
     """
 
@@ -76,7 +76,7 @@ class InquireInvestorDailyByMarketRequestDict(TypedDict):
         "코스피, 코스닥 : 업종분류코드 (종목정보파일 - 업종코드 참조)",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "ex. 20240517",
     ]
     FID_INPUT_ISCD_1: Annotated[
@@ -84,7 +84,7 @@ class InquireInvestorDailyByMarketRequestDict(TypedDict):
         "코스피(KSP), 코스닥(KSQ)",
     ]
     FID_INPUT_DATE_2: Annotated[
-        KisDate,
+        str,
         "입력 날짜1과 동일날짜 입력",
     ]
     FID_INPUT_ISCD_2: Annotated[
@@ -106,7 +106,7 @@ class InquireInvestorDailyByMarketOutput(RawModel):
         alias="bstp_nmix_prdy_vrss",
     )
     ("업종 지수 전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -126,7 +126,7 @@ class InquireInvestorDailyByMarketOutput(RawModel):
         alias="bstp_nmix_lwpr",
     )
     ("업종 지수 최저가")
-    stck_prdy_clpr: str = Field(
+    stck_prdy_clpr: Decimal = Field(
         alias="stck_prdy_clpr",
     )
     ("주식 전일 종가")
@@ -339,9 +339,9 @@ if TYPE_CHECKING:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (업종 U)
                         FID_INPUT_ISCD (str): 코스피, 코스닥 : 업종분류코드 (종목정보파일 - 업종코드
                         참조)
-                        FID_INPUT_DATE_1 (KisDate): ex. 20240517
+                        FID_INPUT_DATE_1 (str): ex. 20240517
                         FID_INPUT_ISCD_1 (str): 코스피(KSP), 코스닥(KSQ)
-                        FID_INPUT_DATE_2 (KisDate): 입력 날짜1과 동일날짜 입력
+                        FID_INPUT_DATE_2 (str): 입력 날짜1과 동일날짜 입력
                         FID_INPUT_ISCD_2 (str): 코스피, 코스닥 : 업종분류코드 (종목정보파일 - 업종코드
                         참조)
 

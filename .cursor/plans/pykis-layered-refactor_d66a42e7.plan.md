@@ -299,8 +299,11 @@ todos:
 ### 적용 설계
 
 1) **SessionPool**: `(app_key, domain)` 키로 1 세션만 유지하며 참조 카운트를 통해 공유.
+
 2) **SubscriptionRegistry**: 한 세션당 41개 cap을 강제.
+
 3) **REST rate limit**: per‑second/per‑minute token bucket 기반 limiter로 최대 유량 근접 전송.
+
    - 429 수신 시 `Retry-After`를 반영하여 잠시 대기 후 재시도.
 
 ## Streaming realtime standardization (domestic/overseas) — execution plan (v1)

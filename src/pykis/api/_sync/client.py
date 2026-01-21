@@ -31,10 +31,10 @@ from pykis.api.rate_limit import (
     resolve_rate_limits,
     retry_backoff_hint,
 )
+from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.api.token import KisAccessToken
 from pykis.api.token_cache import KisTokenCache, default_token_cache_dir
 from pykis.logging import get_logger
-from pykis.raw.types import Endpoint, KisResponse
 
 RequestT = TypeVar("RequestT", bound=BaseModel)
 ResponseT = TypeVar("ResponseT", bound=BaseModel)

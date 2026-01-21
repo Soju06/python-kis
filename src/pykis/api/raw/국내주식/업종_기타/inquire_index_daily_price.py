@@ -14,13 +14,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -48,7 +48,7 @@ class InquireIndexDailyPriceRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("코스피(0001), 코스닥(1001), 코스피200(2001) ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("입력 날짜(ex. 20240223)")
@@ -65,7 +65,7 @@ class InquireIndexDailyPriceRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (업종 U)
         FID_INPUT_ISCD (str): 코스피(0001), 코스닥(1001), 코스피200(2001) ... 포탈 (FAQ : 종목정보
         다운로드(국내) - 업종코드 참조)
-        FID_INPUT_DATE_1 (KisDate): 입력 날짜(ex. 20240223)
+        FID_INPUT_DATE_1 (str): 입력 날짜(ex. 20240223)
     """
 
     FID_PERIOD_DIV_CODE: Annotated[
@@ -81,7 +81,7 @@ class InquireIndexDailyPriceRequestDict(TypedDict):
         "코스피(0001), 코스닥(1001), 코스피200(2001) ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "입력 날짜(ex. 20240223)",
     ]
 
@@ -95,7 +95,7 @@ class InquireIndexDailyPriceOutput1(RawModel):
         alias="bstp_nmix_prdy_vrss",
     )
     ("업종 지수 전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -178,7 +178,7 @@ class InquireIndexDailyPriceOutput2(RawModel):
         alias="bstp_nmix_prpr",
     )
     ("업종 지수 현재가")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -202,7 +202,7 @@ class InquireIndexDailyPriceOutput2(RawModel):
         alias="bstp_nmix_lwpr",
     )
     ("업종 지수 최저가")
-    acml_vol_rlim: int = Field(
+    acml_vol_rlim: Decimal = Field(
         alias="acml_vol_rlim",
     )
     ("누적 거래량 비중")
@@ -214,11 +214,11 @@ class InquireIndexDailyPriceOutput2(RawModel):
         alias="acml_tr_pbmn",
     )
     ("누적 거래 대금")
-    invt_new_psdg: str = Field(
+    invt_new_psdg: Decimal = Field(
         alias="invt_new_psdg",
     )
     ("투자 신 심리도")
-    d20_dsrt: str = Field(
+    d20_dsrt: Decimal = Field(
         alias="d20_dsrt",
     )
     ("20일 이격도")
@@ -317,7 +317,7 @@ if TYPE_CHECKING:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (업종 U)
                         FID_INPUT_ISCD (str): 코스피(0001), 코스닥(1001), 코스피200(2001) ... 포탈
                         (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)
-                        FID_INPUT_DATE_1 (KisDate): 입력 날짜(ex. 20240223)
+                        FID_INPUT_DATE_1 (str): 입력 날짜(ex. 20240223)
 
             Returns:
                 tuple[InquireIndexDailyPriceResponse, KisResponse]: 응답 모델과 원시 응답

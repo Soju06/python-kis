@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -30,17 +30,6 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
     "KRX"
     NX = ("NX", "NXT")
     "NXT"
-
-
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
 
 
 class FidDivClsCodeEnum(KisStrEnum):
@@ -62,15 +51,25 @@ class FidDivClsCodeEnum(KisStrEnum):
     "우선주"
 
 
-class FidInputOption2Enum(KisStrEnum):
-    VALUE_0 = ("0", "1/4분기")
-    "1/4분기"
-    VALUE_1 = ("1", "반기")
-    "반기"
-    VALUE_2 = ("2", "3/4분기")
-    "3/4분기"
-    VALUE_3 = ("3", "결산")
-    "결산"
+class FidRankSortClsCodeEnum(KisStrEnum):
+    VALUE_23 = ("23", "PER")
+    "PER"
+    VALUE_24 = ("24", "PBR")
+    "PBR"
+    VALUE_25 = ("25", "PCR")
+    "PCR"
+    VALUE_26 = ("26", "PSR")
+    "PSR"
+    VALUE_27 = ("27", "EPS")
+    "EPS"
+    VALUE_28 = ("28", "EVA")
+    "EVA"
+    VALUE_29 = ("29", "EBITDA")
+    "EBITDA"
+    VALUE_30 = ("30", "EV/EBITDA")
+    "EV/EBITDA"
+    VALUE_31 = ("31", "EBITDA/금융비율'")
+    "EBITDA/금융비율'"
 
 
 class MarketValueRequest(RawModel):
@@ -86,7 +85,7 @@ class MarketValueRequest(RawModel):
         alias="fid_cond_scr_div_code",
     )
     ("Unique key( 20179 )")
-    fid_input_iscd: FidInputIscdEnum = Field(
+    fid_input_iscd: str = Field(
         alias="fid_input_iscd",
     )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
@@ -102,7 +101,7 @@ class MarketValueRequest(RawModel):
         alias="fid_input_price_2",
     )
     ("입력값 없을때 전체 (~ 가격)")
-    fid_vol_cnt: str = Field(
+    fid_vol_cnt: int = Field(
         alias="fid_vol_cnt",
     )
     ("입력값 없을때 전체 (거래량 ~)")
@@ -110,11 +109,11 @@ class MarketValueRequest(RawModel):
         alias="fid_input_option_1",
     )
     ("회계연도 입력 (ex 2023)")
-    fid_input_option_2: FidInputOption2Enum = Field(
+    fid_input_option_2: str = Field(
         alias="fid_input_option_2",
     )
     ("0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산")
-    fid_rank_sort_cls_code: str = Field(
+    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(
         alias="fid_rank_sort_cls_code",
     )
     ("'가치분석(23:PER, 24:PBR, 25:PCR, 26:PSR, 27: EPS, 28:EVA, 29: EBITDA, 30: EV/EBITDA, 31:EBITDA/금융비율'")
@@ -145,16 +144,16 @@ class MarketValueRequestDict(TypedDict):
         fid_trgt_cls_code (str): 0 : 전체
         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
         fid_cond_scr_div_code (str): Unique key( 20179 )
-        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
+        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
         fid_div_cls_code (FidDivClsCodeEnum): 0: 전체, 1:관리종목, 2:투자주의, 3:투자경고,
         4:투자위험예고, 5:투자위험, 6:보톧주, 7:우선주
         fid_input_price_1 (str): 입력값 없을때 전체 (가격 ~)
         fid_input_price_2 (str): 입력값 없을때 전체 (~ 가격)
-        fid_vol_cnt (str): 입력값 없을때 전체 (거래량 ~)
+        fid_vol_cnt (int): 입력값 없을때 전체 (거래량 ~)
         fid_input_option_1 (str): 회계연도 입력 (ex 2023)
-        fid_input_option_2 (FidInputOption2Enum): 0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산
-        fid_rank_sort_cls_code (str): '가치분석(23:PER, 24:PBR, 25:PCR, 26:PSR, 27: EPS, 28:EVA, 29:
-        EBITDA, 30: EV/EBITDA, 31:EBITDA/금융비율'
+        fid_input_option_2 (str): 0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산
+        fid_rank_sort_cls_code (FidRankSortClsCodeEnum): '가치분석(23:PER, 24:PBR, 25:PCR, 26:PSR,
+        27: EPS, 28:EVA, 29: EBITDA, 30: EV/EBITDA, 31:EBITDA/금융비율'
         fid_blng_cls_code (str): 0 : 전체
         fid_trgt_exls_cls_code (str): 0 : 전체
     """
@@ -172,7 +171,7 @@ class MarketValueRequestDict(TypedDict):
         "Unique key( 20179 )",
     ]
     fid_input_iscd: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200",
     ]
     fid_div_cls_code: Annotated[
@@ -188,7 +187,7 @@ class MarketValueRequestDict(TypedDict):
         "입력값 없을때 전체 (~ 가격)",
     ]
     fid_vol_cnt: Annotated[
-        str,
+        int,
         "입력값 없을때 전체 (거래량 ~)",
     ]
     fid_input_option_1: Annotated[
@@ -196,11 +195,11 @@ class MarketValueRequestDict(TypedDict):
         "회계연도 입력 (ex 2023)",
     ]
     fid_input_option_2: Annotated[
-        FidInputOption2Enum,
+        str,
         "0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산",
     ]
     fid_rank_sort_cls_code: Annotated[
-        str,
+        FidRankSortClsCodeEnum,
         "'가치분석(23:PER, 24:PBR, 25:PCR, 26:PSR, 27: EPS, 28:EVA, 29: EBITDA, 30: EV/EBITDA, 31:EBITDA/금융비율'",
     ]
     fid_blng_cls_code: Annotated[
@@ -417,18 +416,17 @@ if TYPE_CHECKING:
                         fid_trgt_cls_code (str): 0 : 전체
                         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
                         fid_cond_scr_div_code (str): Unique key( 20179 )
-                        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥,
-                        2001:코스피200
+                        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
                         fid_div_cls_code (FidDivClsCodeEnum): 0: 전체, 1:관리종목, 2:투자주의,
                         3:투자경고, 4:투자위험예고, 5:투자위험, 6:보톧주, 7:우선주
                         fid_input_price_1 (str): 입력값 없을때 전체 (가격 ~)
                         fid_input_price_2 (str): 입력값 없을때 전체 (~ 가격)
-                        fid_vol_cnt (str): 입력값 없을때 전체 (거래량 ~)
+                        fid_vol_cnt (int): 입력값 없을때 전체 (거래량 ~)
                         fid_input_option_1 (str): 회계연도 입력 (ex 2023)
-                        fid_input_option_2 (FidInputOption2Enum): 0: 1/4분기 , 1: 반기, 2: 3/4분기, 3:
-                        결산
-                        fid_rank_sort_cls_code (str): '가치분석(23:PER, 24:PBR, 25:PCR, 26:PSR, 27:
-                        EPS, 28:EVA, 29: EBITDA, 30: EV/EBITDA, 31:EBITDA/금융비율'
+                        fid_input_option_2 (str): 0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산
+                        fid_rank_sort_cls_code (FidRankSortClsCodeEnum): '가치분석(23:PER, 24:PBR,
+                        25:PCR, 26:PSR, 27: EPS, 28:EVA, 29: EBITDA, 30: EV/EBITDA,
+                        31:EBITDA/금융비율'
                         fid_blng_cls_code (str): 0 : 전체
                         fid_trgt_exls_cls_code (str): 0 : 전체
 
@@ -448,7 +446,6 @@ __all__ = [
     "MarketValueResponse",
     "MarketValueOutput",
     "FidCondMrktDivCodeEnum",
-    "FidInputIscdEnum",
     "FidDivClsCodeEnum",
-    "FidInputOption2Enum",
+    "FidRankSortClsCodeEnum",
 ]

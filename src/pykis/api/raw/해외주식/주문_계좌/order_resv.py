@@ -14,17 +14,31 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class SllBuyDvsnCdEnum(KisStrEnum):
@@ -90,14 +104,16 @@ class OrdDvsnEnum(KisStrEnum):
     "VWAP"
     VALUE_31 = ("31", "MOO(장개시시장가)")
     "MOO(장개시시장가)"
+    MOO = ("MOO", "장개시시장가")
+    "장개시시장가"
 
 
 class OrderResvRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -215,8 +231,8 @@ class OrderResvRequestDict(TypedDict):
     [해외주식-002 v1] 해외주식 예약주문접수
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인
         경우만 사용 01 : 매도 02 : 매수 optional
         RVSE_CNCL_DVSN_CD (RvseCnclDvsnCdEnum): tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인
@@ -242,11 +258,11 @@ class OrderResvRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     SLL_BUY_DVSN_CD: NotRequired[
@@ -497,8 +513,8 @@ if TYPE_CHECKING:
                 **kwargs (OrderResvRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): tr_id가 TTTS3013U(중국/홍콩/일본/베트남
                         예약 주문)인 경우만 사용 01 : 매도 02 : 매수 optional
                         RVSE_CNCL_DVSN_CD (RvseCnclDvsnCdEnum): tr_id가
@@ -540,6 +556,8 @@ __all__ = [
     "OrderResvRequestDict",
     "OrderResvResponse",
     "OrderResvOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "SllBuyDvsnCdEnum",
     "RvseCnclDvsnCdEnum",
     "PrdtTypeCdEnum",

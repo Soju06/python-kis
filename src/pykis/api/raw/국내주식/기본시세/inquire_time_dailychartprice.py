@@ -15,14 +15,14 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -50,7 +50,7 @@ class InquireTimeDailychartpriceRequest(RawModel):
         alias="FID_INPUT_HOUR_1",
     )
     ("입력 시간(ex 13시 130000)")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("입력 날짜(20241023)")
@@ -79,7 +79,7 @@ class InquireTimeDailychartpriceRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J:KRX, NX:NXT, UN:통합
         FID_INPUT_ISCD (str): 종목코드 (ex 005930 삼성전자)
         FID_INPUT_HOUR_1 (str): 입력 시간(ex 13시 130000)
-        FID_INPUT_DATE_1 (KisDate): 입력 날짜(20241023)
+        FID_INPUT_DATE_1 (str): 입력 날짜(20241023)
         FID_PW_DATA_INCU_YN (KisBool): 과거 데이터 포함 여부
         FID_FAKE_TICK_INCU_YN (KisBool): 공백 필수 입력 optional
     """
@@ -97,7 +97,7 @@ class InquireTimeDailychartpriceRequestDict(TypedDict):
         "입력 시간(ex 13시 130000)",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "입력 날짜(20241023)",
     ]
     FID_PW_DATA_INCU_YN: Annotated[
@@ -281,7 +281,7 @@ if TYPE_CHECKING:
                         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J:KRX, NX:NXT, UN:통합
                         FID_INPUT_ISCD (str): 종목코드 (ex 005930 삼성전자)
                         FID_INPUT_HOUR_1 (str): 입력 시간(ex 13시 130000)
-                        FID_INPUT_DATE_1 (KisDate): 입력 날짜(20241023)
+                        FID_INPUT_DATE_1 (str): 입력 날짜(20241023)
                         FID_PW_DATA_INCU_YN (KisBool): 과거 데이터 포함 여부
                         FID_FAKE_TICK_INCU_YN (KisBool): 공백 필수 입력 optional
 

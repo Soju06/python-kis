@@ -14,16 +14,30 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class OvrsExcgCdEnum(KisStrEnum):
@@ -40,6 +54,10 @@ class OrgnOdnoEnum(KisStrEnum):
     "stock/v1/trading/"
     INQUIRE = ("inquire", "nccs)에서 odno(주문번호) 참조'")
     "nccs)에서 odno(주문번호) 참조'"
+    NCCS = ("nccs", "에서 odno(주문번호) 참조'")
+    "에서 odno(주문번호) 참조'"
+    ODNO = ("odno", "주문번호")
+    "주문번호"
 
 
 class RvseCnclDvsnCdEnum(KisStrEnum):
@@ -50,11 +68,11 @@ class RvseCnclDvsnCdEnum(KisStrEnum):
 
 
 class DaytimeOrderRvsecnclRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -125,8 +143,8 @@ class DaytimeOrderRvsecnclRequestDict(TypedDict):
        https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 
     Request fields:
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         OVRS_EXCG_CD (OvrsExcgCdEnum): NASD:나스닥 / NYSE:뉴욕 / AMEX:아멕스
         PDNO (str): 종목코드
         ORGN_ODNO (OrgnOdnoEnum): '정정 또는 취소할 원주문번호(매매 TR의 주문번호) - 해외주식
@@ -140,11 +158,11 @@ class DaytimeOrderRvsecnclRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     OVRS_EXCG_CD: Annotated[
@@ -323,8 +341,8 @@ if TYPE_CHECKING:
                 **kwargs (DaytimeOrderRvsecnclRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         OVRS_EXCG_CD (OvrsExcgCdEnum): NASD:나스닥 / NYSE:뉴욕 / AMEX:아멕스
                         PDNO (str): 종목코드
                         ORGN_ODNO (OrgnOdnoEnum): '정정 또는 취소할 원주문번호(매매 TR의 주문번호) -
@@ -352,6 +370,8 @@ __all__ = [
     "DaytimeOrderRvsecnclRequestDict",
     "DaytimeOrderRvsecnclResponse",
     "DaytimeOrderRvsecnclOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "OvrsExcgCdEnum",
     "OrgnOdnoEnum",
     "RvseCnclDvsnCdEnum",

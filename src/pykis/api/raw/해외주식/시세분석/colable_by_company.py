@@ -14,16 +14,32 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
-    KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class NatnCdEnum(KisStrEnum):
+    VALUE_840 = ("840", "미국")
+    "미국"
+    VALUE_344 = ("344", "홍콩")
+    "홍콩"
+    VALUE_156 = ("156", "중국")
+    "중국"
+
+
+class InqrSqnDvsnEnum(KisStrEnum):
+    VALUE_01 = ("01", "이름순")
+    "이름순"
+    VALUE_02 = ("02", "코드순")
+    "코드순"
 
 
 class ColableByCompanyRequest(RawModel):
@@ -47,11 +63,11 @@ class ColableByCompanyRequest(RawModel):
         alias="INQR_DVSN",
     )
     ("공백")
-    NATN_CD: str = Field(
+    NATN_CD: NatnCdEnum = Field(
         alias="NATN_CD",
     )
     ("840(미국), 344(홍콩), 156(중국)")
-    INQR_SQN_DVSN: str = Field(
+    INQR_SQN_DVSN: InqrSqnDvsnEnum = Field(
         alias="INQR_SQN_DVSN",
     )
     ("01(이름순), 02(코드순)")
@@ -92,8 +108,8 @@ class ColableByCompanyRequestDict(TypedDict):
         INQR_STRT_DT (KisDate): 공백
         INQR_END_DT (KisDate): 공백
         INQR_DVSN (int): 공백
-        NATN_CD (str): 840(미국), 344(홍콩), 156(중국)
-        INQR_SQN_DVSN (str): 01(이름순), 02(코드순)
+        NATN_CD (NatnCdEnum): 840(미국), 344(홍콩), 156(중국)
+        INQR_SQN_DVSN (InqrSqnDvsnEnum): 01(이름순), 02(코드순)
         RT_DVSN_CD (str): 공백
         RT (Decimal): 공백
         LOAN_PSBL_YN (KisBool): 공백
@@ -122,11 +138,11 @@ class ColableByCompanyRequestDict(TypedDict):
         "공백",
     ]
     NATN_CD: Annotated[
-        str,
+        NatnCdEnum,
         "840(미국), 344(홍콩), 156(중국)",
     ]
     INQR_SQN_DVSN: Annotated[
-        str,
+        InqrSqnDvsnEnum,
         "01(이름순), 02(코드순)",
     ]
     RT_DVSN_CD: Annotated[
@@ -152,63 +168,51 @@ class ColableByCompanyRequestDict(TypedDict):
 
 
 class ColableByCompanyOutput1(RawModel):
-    pdno: str | None = Field(
-        default=None,
+    pdno: str = Field(
         alias="pdno",
     )
     ("상품번호")
-    ovrs_item_name: str | None = Field(
-        default=None,
+    ovrs_item_name: str = Field(
         alias="ovrs_item_name",
     )
     ("해외종목명")
-    loan_rt: Decimal | None = Field(
-        default=None,
+    loan_rt: Decimal = Field(
         alias="loan_rt",
     )
     ("대출비율")
-    mgge_mntn_rt: Decimal | None = Field(
-        default=None,
+    mgge_mntn_rt: Decimal = Field(
         alias="mgge_mntn_rt",
     )
     ("담보유지비율")
-    mgge_ensu_rt: Decimal | None = Field(
-        default=None,
+    mgge_ensu_rt: Decimal = Field(
         alias="mgge_ensu_rt",
     )
     ("담보확보비율")
-    loan_exec_psbl_yn: KisBool | None = Field(
-        default=None,
+    loan_exec_psbl_yn: KisBool = Field(
         alias="loan_exec_psbl_yn",
     )
     ("대출실행가능여부")
-    stff_name: str | None = Field(
-        default=None,
+    stff_name: str = Field(
         alias="stff_name",
     )
     ("직원명")
-    erlm_dt: KisDateOptional = Field(
-        default=None,
+    erlm_dt: KisDate = Field(
         alias="erlm_dt",
     )
     ("등록일자")
-    tr_mket_name: str | None = Field(
-        default=None,
+    tr_mket_name: str = Field(
         alias="tr_mket_name",
     )
     ("거래시장명")
-    crcy_cd: str | None = Field(
-        default=None,
+    crcy_cd: str = Field(
         alias="crcy_cd",
     )
     ("통화코드")
-    natn_kor_name: str | None = Field(
-        default=None,
+    natn_kor_name: str = Field(
         alias="natn_kor_name",
     )
     ("국가한글명")
-    ovrs_excg_cd: str | None = Field(
-        default=None,
+    ovrs_excg_cd: str = Field(
         alias="ovrs_excg_cd",
     )
     ("해외거래소코드")
@@ -320,8 +324,8 @@ if TYPE_CHECKING:
                         INQR_STRT_DT (KisDate): 공백
                         INQR_END_DT (KisDate): 공백
                         INQR_DVSN (int): 공백
-                        NATN_CD (str): 840(미국), 344(홍콩), 156(중국)
-                        INQR_SQN_DVSN (str): 01(이름순), 02(코드순)
+                        NATN_CD (NatnCdEnum): 840(미국), 344(홍콩), 156(중국)
+                        INQR_SQN_DVSN (InqrSqnDvsnEnum): 01(이름순), 02(코드순)
                         RT_DVSN_CD (str): 공백
                         RT (Decimal): 공백
                         LOAN_PSBL_YN (KisBool): 공백
@@ -344,4 +348,6 @@ __all__ = [
     "ColableByCompanyResponse",
     "ColableByCompanyOutput1",
     "ColableByCompanyOutput2",
+    "NatnCdEnum",
+    "InqrSqnDvsnEnum",
 ]

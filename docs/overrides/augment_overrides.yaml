@@ -1,115 +1,633 @@
 version: 1
-notes: |
-  Deterministic request overrides for augmentation/smoke.
+notes: 'Deterministic request overrides for augmentation/smoke.
+
   - Use for fixed values or when docs require upstream lookups.
+
+  '
 defaults:
-  icod: "000"
-  prdt_type_cd: "512"
-  pdno: "AAPL"
-  symb: "AAPL"
-  keyb: ""
+  icod: '000'
+  prdt_type_cd: '512'
+  pdno: AAPL
+  symb: AAPL
+  keyb: ''
 endpoints:
   3dfc942e-0ed3-4c81-9e8d-9a96f1c5c669:
     query:
-      fid_hour_cls_code: "1"
+      fid_hour_cls_code: '1'
   dd867a76-745d-4268-8ff8-b3e7f71e6e83:
     query:
-      fid_cond_mrkt_div_code: "E"
-      fid_hour_cls_code: "00060"
-      fid_input_iscd: "069500"
+      fid_cond_mrkt_div_code: E
+      fid_hour_cls_code: '60'
+      fid_input_iscd: '069500'
   81269474-9c66-404f-bdfe-4bb472975330:
     query:
-      fid_cond_mrkt_div_code: "N"
+      fid_cond_mrkt_div_code: N
   0a5782f0-0c05-4feb-90f4-b86f09b45327:
     query:
-      FID_COND_MRKT_DIV_CODE: "B"
-      FID_INPUT_ISCD: "KR2088012A16"
+      FID_COND_MRKT_DIV_CODE: B
+      FID_INPUT_ISCD: KR2088012A16
   498e6384-f887-4fb2-9055-2cbc95790087:
     query:
-      FID_COND_MRKT_DIV_CODE: "F"
-      FID_INPUT_ISCD: "A01603"
+      FID_COND_MRKT_DIV_CODE: F
+      FID_INPUT_ISCD: A01603
   77de2a74-b26c-40ca-a5b7-f87e2ef64f9f:
     query:
-      FID_COND_MRKT_DIV_CODE: "F"
-      FID_INPUT_ISCD: "A01603"
-      FID_INPUT_DATE_1: "20260120"
-      FID_INPUT_DATE_2: "20260120"
-      FID_PERIOD_DIV_CODE: "D"
+      FID_COND_MRKT_DIV_CODE: F
+      FID_INPUT_ISCD: A01603
+      FID_INPUT_DATE_1: '20260120'
+      FID_INPUT_DATE_2: '20260120'
+      FID_PERIOD_DIV_CODE: D
   7d30b578-018d-4250-852a-7599211ff988:
     query:
-      AUTH: ""
-      EXCD: "NYS"
-      KEYB: ""
-      NDAY: "20260120"
-      VOL_RANG: "0"
+      AUTH: ''
+      EXCD: NYS
+      KEYB: ''
+      NDAY: '0'
+      VOL_RANG: '0'
   86194480-c8f0-4b0b-9d3d-001c2fc33422:
     query:
-      FID_COND_MRKT_DIV_CODE: "F"
-      FID_INPUT_ISCD: "A01603"
-      FID_HOUR_CLS_CODE: "30"
-      FID_PW_DATA_INCU_YN: "N"
-      FID_FAKE_TICK_INCU_YN: "N"
-      FID_INPUT_DATE_1: "20260120"
-      FID_INPUT_HOUR_1: "093000"
+      FID_COND_MRKT_DIV_CODE: F
+      FID_INPUT_ISCD: A01603
+      FID_HOUR_CLS_CODE: '30'
+      FID_PW_DATA_INCU_YN: N
+      FID_FAKE_TICK_INCU_YN: N
+      FID_INPUT_DATE_1: '20260120'
+      FID_INPUT_HOUR_1: '093000'
   868b0fe2-fdb5-4a32-bdb2-00db12269230:
     query:
-      FID_COND_MRKT_DIV_CODE: "U"
-      FID_INPUT_ISCD: "1001"
+      FID_COND_MRKT_DIV_CODE: U
+      FID_INPUT_ISCD: '1001'
   8702dab4-008d-4849-8f24-a91b57872a80:
     query:
-      SRS_CD: "6AM24"
-      EXCH_CD: "CME"
-      START_DATE_TIME: "20240324"
-      CLOSE_DATE_TIME: "20240423"
-      QRY_TP: "Q"
-      QRY_CNT: "30"
-      QRY_GAP: ""
-      INDEX_KEY: ""
+      SRS_CD: BRNQ24
+      EXCH_CD: ICE
+      START_DATE_TIME: '20240324'
+      CLOSE_DATE_TIME: '20240423'
+      QRY_TP: Q
+      QRY_CNT: '30'
+      QRY_GAP: ''
+      INDEX_KEY: ''
   8c473311-ecfd-428f-9ec2-0b574d8592b9:
     query:
-      SRS_CD: "6AM24"
-      EXCH_CD: "CME"
-      START_DATE_TIME: "20240324"
-      CLOSE_DATE_TIME: "20240424"
-      QRY_TP: "Q"
-      QRY_CNT: "40"
-      QRY_GAP: ""
-      INDEX_KEY: ""
+      SRS_CD: BRNQ24
+      EXCH_CD: ICE
+      START_DATE_TIME: '20240324'
+      CLOSE_DATE_TIME: '20240424'
+      QRY_TP: Q
+      QRY_CNT: '40'
+      QRY_GAP: ''
+      INDEX_KEY: ''
   9064a50c-0545-4b6c-8eb2-034f5214974b:
     query:
-      INFO_GB: ""
-      CLASS_CD: ""
-      NATION_CD: ""
-      EXCHANGE_CD: ""
-      SYMB: ""
-      DATA_DT: "20260120"
-      DATA_TM: "093500"
-      CTS: ""
+      INFO_GB: ''
+      CLASS_CD: ''
+      NATION_CD: US
+      EXCHANGE_CD: ''
+      SYMB: ''
+      DATA_DT: '20260120'
+      DATA_TM: '093500'
+      CTS: ''
   a274b685-7ea8-441d-a2fe-3087becb6bf2:
     query:
-      FID_COND_MRKT_DIV_CODE: "B"
-      FID_INPUT_ISCD: "KR6095572D81"
+      FID_COND_MRKT_DIV_CODE: B
+      FID_INPUT_ISCD: KR6095572D81
   bec98736-8f5a-49a0-b325-5f6c40ff13b3:
     query:
-      FID_COND_MRKT_DIV_CODE: "F"
-      FID_INPUT_ISCD: "A01603"
+      FID_COND_MRKT_DIV_CODE: F
+      FID_INPUT_ISCD: A01603
   c7be7c01-6f43-4576-b1fd-84d0102ce4c3:
     query:
-      SRS_CD: "6AM24"
-      EXCH_CD: "CME"
-      START_DATE_TIME: "20240324"
-      CLOSE_DATE_TIME: "20240423"
-      QRY_TP: "Q"
-      QRY_CNT: "40"
-      QRY_GAP: ""
-      INDEX_KEY: ""
+      SRS_CD: BRNQ24
+      EXCH_CD: ICE
+      START_DATE_TIME: '20240324'
+      CLOSE_DATE_TIME: '20240423'
+      QRY_TP: Q
+      QRY_CNT: '40'
+      QRY_GAP: ''
+      INDEX_KEY: ''
   cd2e4d9a-7e3d-44ff-9b68-36d971655c24:
     query:
-      SRS_CD: "6AM24"
-      EXCH_CD: "CME"
-      START_DATE_TIME: "20240324"
-      CLOSE_DATE_TIME: "20240424"
-      QRY_TP: "Q"
-      QRY_CNT: "40"
-      QRY_GAP: ""
-      INDEX_KEY: ""
+      SRS_CD: BRNQ24
+      EXCH_CD: ICE
+      START_DATE_TIME: '20240324'
+      CLOSE_DATE_TIME: '20240424'
+      QRY_TP: Q
+      QRY_CNT: '40'
+      QRY_GAP: ''
+      INDEX_KEY: ''
+  d9b0e346-a67d-43c6-938a-508e2d8507c6:
+    query:
+      FID_COND_MRKT_DIV_CODE: O
+      FID_COND_SCR_DIV_CODE: '20503'
+      FID_MRKT_CLS_CODE: CO
+      FID_MTRT_CNT: '202405'
+      FID_COND_MRKT_CLS_CODE: MKI
+      FID_MRKT_CLS_CODE1: PO
+  4112fd5d-43b7-4dc4-bf44-33df58981847:
+    query:
+      FID_COND_MRKT_DIV_CODE: F
+      FID_INPUT_ISCD: 101V06
+      FID_COND_MRKT_DIV_CODE1: ''
+      FID_COND_SCR_DIV_CODE: ''
+      FID_MTRT_CNT: ''
+      FID_COND_MRKT_CLS_CODE: ''
+  264533d3-00eb-4794-984a-fecb84350f39:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_COND_SCR_DIV_CODE: '11510'
+      FID_INPUT_ISCD: '00000'
+      FID_MRKT_CLS_CODE: A
+      FID_INPUT_DATE_1: '0'
+      FID_INPUT_DATE_2: '0'
+  d99d058d-4319-41ce-bce0-53c44a894ddb:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_COND_SCR_DIV_CODE: '11547'
+      FID_INPUT_DATE_1: '20240402'
+      FID_INPUT_DATE_2: '20240408'
+      FID_INPUT_ISCD_2: '00000'
+  937eb413-9db9-4479-887d-4cf172dcf344:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+  1e0869f4-5639-4f22-be71-a28897242457:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+  4af6e358-255c-4e4e-b691-388610068216:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+      FID_HOUR_CLS_CODE: '60'
+      FID_PW_DATA_INCU_YN: Y
+  e9be5d05-448e-4222-bb05-7f0e27a91d69:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+  a64dc948-de6c-4e7a-988b-9769ac8fd5b2:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+  40403e7f-bd31-4e12-ae87-553e7be28b12:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+  5bd31e17-ea4d-4e76-8e03-f8dfb3be25e7:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+  31081a30-ba59-4b42-a9f2-c1fe850fadb1:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57JS61
+      FID_HOUR_CLS_CODE: '60'
+      FID_PW_DATA_INCU_YN: N
+  f1ce6099-5bf2-4b4e-915e-e0c7020af4bf:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+  e5f413ec-3e68-47d7-931f-d7eb263990d9:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+  8869c0c3-efd8-461b-ba87-5ab468afeea2:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_COND_SCR_DIV_CODE: '20279'
+      FID_INPUT_ISCD: '00000'
+  147e81db-e0d2-40cd-95f5-d8da90c2d998:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_COND_SCR_DIV_CODE: '11548'
+      FID_INPUT_ISCD_2: '00003'
+      FID_INPUT_DATE_1: '20240410'
+      FID_DIV_CLS_CODE: '02'
+      FID_UNAS_INPUT_ISCD: '000000'
+      FID_BLNC_CLS_CODE: '0'
+  4769336b-3280-419e-b69d-7531195b2221:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_COND_SCR_DIV_CODE: '20287'
+      FID_INPUT_ISCD: '00000'
+      FID_MRKT_CLS_CODE: A
+      FID_UNAS_INPUT_ISCD: '00000'
+      FID_INPUT_PRICE_1: ''
+      FID_INPUT_PRICE_2: ''
+      FID_INPUT_VOL_1: '0'
+      FID_INPUT_VOL_2: '0'
+      FID_HOUR_CLS_CODE: '2'
+      FID_INPUT_HOUR_1: '1'
+      FID_INPUT_HOUR_2: ''
+      FID_RANK_SORT_CLS_CODE: '1'
+  246842f0-450e-464b-8dbc-356133d12b42:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_COND_SCR_DIV_CODE: '20285'
+      FID_INPUT_ISCD: '00000'
+  263ef907-db8c-4bf6-8da9-388c8fb4cf10:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_COND_SCR_DIV_CODE: '11541'
+      FID_MRKT_CLS_CODE: A
+      FID_INPUT_ISCD: '00000'
+  9f6b3c41-d44a-4ae1-8324-aa222d19c6bf:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_COND_SCR_DIV_CODE: '20277'
+      FID_INPUT_ISCD: '00000'
+  6bd62480-d165-415e-9d82-bffe2f43aa7e:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_COND_SCR_DIV_CODE: '20278'
+      FID_INPUT_ISCD: '00000'
+      FID_INPUT_ISCD_2: '0000'
+      FID_INPUT_DATE_1: '20240410'
+      FID_INPUT_DATE_2: '20240410'
+  0843477a-156b-4ac5-bf65-199b124b072f:
+    query:
+      FID_COND_MRKT_DIV_CODE: J
+      FID_MRKT_CLS_CODE: K
+      FID_SCTN_CLS_CODE: ''
+      FID_INPUT_ISCD: ''
+      FID_COND_MRKT_DIV_CODE1: ''
+      FID_INPUT_HOUR_1: ''
+  5ff6b5de-85e8-47e3-bb41-3e427c487bb3:
+    query:
+      FID_COND_MRKT_DIV_CODE: J
+      FID_INPUT_ISCD: '005930'
+  eed4c960-21af-45b7-8fc7-cc95911ee239:
+    query:
+      FID_COND_MRKT_DIV_CODE: J
+      FID_INPUT_ISCD: '005930'
+  0cc848c0-4928-4b89-bca4-62df430e4a45:
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+      FID_INPUT_ISCD: '0001'
+      FID_INPUT_ISCD_2: '0001'
+      FID_INPUT_DATE_1: '20240401'
+      FID_INPUT_DATE_2: '20240401'
+  7d1b2345-32f8-463b-9f41-8b4602387d52:
+    query:
+      fid_mrkt_cls_code: '0'
+      fid_cond_mrkt_div_code: U
+      fid_cond_scr_div_code: '11175'
+      fid_input_iscd: '0001'
+      fid_mkop_cls_code: '1'
+  184519fc-37b5-4687-bebf-d3ddf5659729:
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+      FID_INPUT_ISCD: '0001'
+      FID_INPUT_DATE_1: '20240401'
+      FID_INPUT_DATE_2: '20240430'
+  27bef4b4-cf83-4698-8f1e-16138cb09817:
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+      FID_COND_SCR_DIV_CODE: '20214'
+      FID_INPUT_ISCD: '0001'
+      FID_MRKT_CLS_CODE: K
+  b11002e2-63c7-401b-a6fd-3136cb28040a:
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+      FID_INPUT_ISCD: '0001'
+      FID_INPUT_DATE_1: '20240401'
+  a87c0275-f467-4199-866a-876a8fcdccb0:
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+      FID_INPUT_ISCD: '0001'
+  1d150774-eafa-49f8-9e77-67099bc28771:
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+      FID_INPUT_ISCD: '0001'
+  5613b629-b622-4a22-8175-31a4376c36b4:
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+      FID_INPUT_ISCD: '0001'
+  34d1b922-ab20-4839-9f15-ab1fe242a81f:
+    query:
+      FID_COND_MRKT_DIV_CODE: B
+      FID_INPUT_ISCD: KR2033022D33
+  f5dcbbc3-bee6-4b83-a236-5f3a5bb59d72:
+    query:
+      FID_COND_MRKT_DIV_CODE: B
+      FID_INPUT_ISCD: KR2033022D33
+  7d6d8ba7-bcae-4d7c-8d5b-4b51cd42a94a:
+    query:
+      FID_COND_MRKT_DIV_CODE: B
+      FID_INPUT_ISCD: KR2033022D33
+  ecc36b93-6f99-4cd2-b16d-79b46734769a:
+    query:
+      FID_COND_MRKT_DIV_CODE: I
+      FID_COND_SCR_DIV_CODE: '20702'
+      FID_DIV_CLS_CODE: '1'
+      FID_DIV_CLS_CODE1: ''
+  f2921c05-8b93-4a13-a0d8-6132be010066:
+    query:
+      fid_cond_mrkt_div_code: J
+      fid_cond_scr_div_code: '20180'
+      fid_input_iscd: '0000'
+      fid_trgt_exls_cls_code: '0'
+      fid_trgt_cls_code: '0'
+      fid_input_price_1: ''
+      fid_input_price_2: ''
+      fid_vol_cnt: '0'
+      fid_div_cls_code: '0'
+      fid_input_iscd_2: '000000'
+      fid_input_cnt_1: '1'
+  6df56964-f22b-43d4-9457-f06264018e5b:
+    query:
+      FID_COND_MRKT_DIV_CODE: J
+      FID_COND_SCR_DIV_CODE: '20171'
+      FID_INPUT_ISCD: '0000'
+      FID_DIV_CLS_CODE: '0'
+      FID_BLNG_CLS_CODE: '0'
+      FID_TRGT_CLS_CODE: '111111111'
+      FID_TRGT_EXLS_CLS_CODE: '000000'
+      FID_INPUT_PRICE_1: '0'
+      FID_INPUT_PRICE_2: '0'
+      FID_VOL_CNT: '0'
+      FID_INPUT_DATE_1: '0'
+  6723d437-b275-4c10-b7fb-9ba788cad75e:
+    query:
+      TYPE: '1'
+      FID_ETC_CLS_CODE: '00'
+  4d8c6e7a-a026-4f8d-8c64-9e7ecbc3d97e:
+    query:
+      TYPE: '1'
+      INTER_GRP_CODE: '002'
+      FID_ETC_CLS_CODE: '4'
+      DATA_RANK: ''
+      INTER_GRP_NAME: ''
+      HTS_KOR_ISNM: ''
+      CNTG_CLS_CODE: ''
+  fee465d1-7fd5-4c66-b4a4-731b813d569d:
+    query:
+      FID_COND_MRKT_DIV_CODE_1: J
+      FID_COND_MRKT_DIV_CODE_2: J
+      FID_COND_MRKT_DIV_CODE_3: J
+      FID_COND_MRKT_DIV_CODE_4: J
+      FID_COND_MRKT_DIV_CODE_5: J
+      FID_COND_MRKT_DIV_CODE_6: J
+      FID_COND_MRKT_DIV_CODE_7: J
+      FID_COND_MRKT_DIV_CODE_8: J
+      FID_COND_MRKT_DIV_CODE_9: J
+      FID_COND_MRKT_DIV_CODE_10: J
+      FID_COND_MRKT_DIV_CODE_11: J
+      FID_COND_MRKT_DIV_CODE_12: J
+      FID_COND_MRKT_DIV_CODE_13: J
+      FID_COND_MRKT_DIV_CODE_14: J
+      FID_COND_MRKT_DIV_CODE_15: J
+      FID_COND_MRKT_DIV_CODE_16: J
+      FID_COND_MRKT_DIV_CODE_17: J
+      FID_COND_MRKT_DIV_CODE_18: J
+      FID_COND_MRKT_DIV_CODE_19: J
+      FID_COND_MRKT_DIV_CODE_20: J
+      FID_COND_MRKT_DIV_CODE_21: J
+      FID_COND_MRKT_DIV_CODE_22: J
+      FID_COND_MRKT_DIV_CODE_23: J
+      FID_COND_MRKT_DIV_CODE_24: J
+      FID_COND_MRKT_DIV_CODE_25: J
+      FID_COND_MRKT_DIV_CODE_26: J
+      FID_COND_MRKT_DIV_CODE_27: J
+      FID_COND_MRKT_DIV_CODE_28: J
+      FID_COND_MRKT_DIV_CODE_29: J
+      FID_COND_MRKT_DIV_CODE_30: J
+      FID_INPUT_ISCD_1: '005930'
+      FID_INPUT_ISCD_2: '005930'
+      FID_INPUT_ISCD_3: '005930'
+      FID_INPUT_ISCD_4: '005930'
+      FID_INPUT_ISCD_5: '005930'
+      FID_INPUT_ISCD_6: '005930'
+      FID_INPUT_ISCD_7: '005930'
+      FID_INPUT_ISCD_8: '005930'
+      FID_INPUT_ISCD_9: '005930'
+      FID_INPUT_ISCD_10: '005930'
+      FID_INPUT_ISCD_11: '005930'
+      FID_INPUT_ISCD_12: '005930'
+      FID_INPUT_ISCD_13: '005930'
+      FID_INPUT_ISCD_14: '005930'
+      FID_INPUT_ISCD_15: '005930'
+      FID_INPUT_ISCD_16: '005930'
+      FID_INPUT_ISCD_17: '005930'
+      FID_INPUT_ISCD_18: '005930'
+      FID_INPUT_ISCD_19: '005930'
+      FID_INPUT_ISCD_20: '005930'
+      FID_INPUT_ISCD_21: '005930'
+      FID_INPUT_ISCD_22: '005930'
+      FID_INPUT_ISCD_23: '005930'
+      FID_INPUT_ISCD_24: '005930'
+      FID_INPUT_ISCD_25: '005930'
+      FID_INPUT_ISCD_26: '005930'
+      FID_INPUT_ISCD_27: '005930'
+      FID_INPUT_ISCD_28: '005930'
+      FID_INPUT_ISCD_29: '005930'
+      FID_INPUT_ISCD_30: '005930'
+  3ed0247e-d717-43ed-85e9-51f952844687:
+    query:
+      MRKT_DIV_CLS_CODE: '1'
+      MKSC_SHRN_ISCD: '005930'
+      START_DATE: '20240401'
+      END_DATE: '20240430'
+      CTS: ''
+  cf45db98-43d0-476a-8774-d9690365300a:
+    query:
+      PDNO: KR6449111CB8
+      PRDT_TYPE_CD: '302'
+  56cf546c-a74f-467c-98b1-005967535e9e:
+    query:
+      PDNO: KR6449111CB8
+      PRDT_TYPE_CD: '302'
+  aacab59c-7559-414b-bf73-b0d15f3d62f1:
+    query:
+      PDNO: ''
+      PRDT_TYPE_CD: '302'
+      VRFC_KIND_CD: '00'
+  da0485b5-31f1-4c62-a3d4-294a4311ad39:
+    query:
+      PRDT_TYPE_CD: '300'
+      PDNO: '005930'
+  07313e08-45f2-4423-abb2-2a49752910ae:
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+  0c2760ca-7fc9-4f41-9abd-33b2f5ff3b3b:
+    query:
+      FID_COND_SCR_DIV_CODE: '11701'
+      FID_INPUT_ISCD: '0000'
+      FID_OPTION: '2'
+      FID_COND_MRKT_DIV_CODE: J
+      FID_RANK_SORT_CLS_CODE: '0'
+  05a719af-aa3c-46c7-a670-55f2f11654c2:
+    query:
+      fid_rank_sort_cls_code: '0'
+      fid_cond_mrkt_div_code: J
+      fid_cond_scr_div_code: '20182'
+      fid_input_iscd: '0000'
+      fid_div_cls_code: '0'
+      fid_aply_rang_prc_1: ''
+      fid_vol_cnt: '0'
+      fid_pbmn: ''
+      fid_blng_cls_code: '0'
+      fid_mkop_cls_code: '0'
+  8362a35a-e7c2-4944-a4a2-5a716737388c:
+    query:
+      FID_COND_MRKT_DIV_CODE: F
+      FID_COND_SCR_DIV_CODE: '20503'
+      FID_COND_MRKT_CLS_CODE: MKI
+  89e1ffde-0cda-4426-8277-72710c193cf2:
+    query:
+      FID_COND_SCR_DIV_CODE: '509'
+      FID_COND_MRKT_DIV_CODE: ''
+      FID_COND_MRKT_CLS_CODE: ''
+  ebf1dc17-7b48-4192-841d-0ccb6ce3f016:
+    query:
+      FID_RANK_SORT_CLS_CODE: '0'
+      FID_COND_MRKT_DIV_CODE: J
+      FID_COND_SCR_DIV_CODE: '11173'
+      FID_INPUT_ISCD: '0001'
+      FID_BLNG_CLS_CODE: '0'
+  0bb05819-d759-4789-8eda-27a0b88f02aa:
+    query:
+      FID_COND_MRKT_DIV_CODE: F
+      FID_INPUT_ISCD: 101S03
+  7bdbff93-1334-496f-a9b8-7da6032f7407:
+    query:
+      fid_cond_mrkt_div_code: J
+      fid_cond_scr_div_code: '11909'
+      fid_input_iscd: '0000'
+      fid_rank_sort_cls_code: '0'
+      fid_div_cls_code: '0'
+      fid_input_price_1: ''
+      fid_aply_rang_prc_1: ''
+      fid_aply_rang_prc_2: ''
+      fid_input_iscd_2: ''
+      fid_trgt_cls_code: '0'
+      fid_trgt_exls_cls_code: '0'
+      fid_vol_cnt: '0'
+  72e63cb2-2ab1-41a0-8ab9-62cbeaa5eea0:
+    query:
+      fid_cond_mrkt_div_code: J
+      fid_cond_scr_div_code: '20187'
+      fid_div_cls_code: '0'
+      fid_input_cnt_1: ''
+      fid_input_cnt_2: ''
+      fid_prc_cls_code: '0'
+      fid_input_iscd: '0000'
+      fid_trgt_cls_code: '0'
+      fid_trgt_exls_cls_code: '0'
+      fid_aply_rang_prc_1: ''
+      fid_aply_rang_prc_2: ''
+      fid_aply_rang_vol: '0'
+  f5c2c9d8-8d11-4a70-8694-1b71e3fc3640:
+    query:
+      FID_COND_MRKT_DIV_CODE: J
+      FID_MRKT_CLS_CODE: ''
+      FID_COND_SCR_DIV_CODE: '20234'
+      FID_INPUT_ISCD: '0000'
+      FID_DIV_CLS_CODE: '2'
+      FID_INPUT_PRICE_1: ''
+      FID_INPUT_PRICE_2: ''
+      FID_VOL_CNT: '0'
+      FID_TRGT_CLS_CODE: ''
+      FID_TRGT_EXLS_CLS_CODE: ''
+  16958dd0-0304-4554-b12d-ec56e7874e71:
+    query:
+      FID_COND_MRKT_DIV_CODE: J
+      FID_COND_SCR_DIV_CODE: '20235'
+      FID_INPUT_ISCD: '0000'
+      FID_RANK_SORT_CLS_CODE: '0'
+      FID_INPUT_PRICE_1: ''
+      FID_INPUT_PRICE_2: ''
+      FID_VOL_CNT: '0'
+      FID_TRGT_CLS_CODE: ''
+      FID_TRGT_EXLS_CLS_CODE: ''
+  c02e3f30-5d71-4156-a039-3976f4d485f8:
+    query:
+      fid_trgt_exls_cls_code: '0'
+      fid_cond_mrkt_div_code: J
+      fid_cond_scr_div_code: '20186'
+      fid_div_cls_code: '0'
+      fid_rank_sort_cls_code: '0'
+      fid_input_date_1: '20240314'
+      fid_input_date_2: '20240315'
+      fid_input_iscd: '0000'
+      fid_trgt_cls_code: '0'
+      fid_aply_rang_prc_1: ''
+      fid_aply_rang_prc_2: ''
+      fid_aply_rang_vol: '0'
+  0aad2cef-b338-4f4f-a8a0-b19c67a390b3:
+    query:
+      fid_cond_mrkt_div_code: J
+      fid_cond_scr_div_code: '20476'
+      fid_input_iscd: '005930'
+      fid_input_date_1: '20240315'
+  ce9f2a8f-e3cb-4bd3-83ba-7b6034eafae9:
+    query:
+      FID_COND_SCR_DIV_CODE: '20432'
+      FID_COND_MRKT_DIV_CODE: J
+      FID_INPUT_ISCD: '005930'
+      FID_INPUT_ISCD_2: '99999'
+      FID_MRKT_CLS_CODE: A
+      FID_VOL_CNT: '0'
+  fc52daa5-9919-4f80-b926-ee35ef298c54:
+    query:
+      FID_COND_MRKT_DIV_CODE: J
+      FID_COND_SCR_DIV_CODE: '11186'
+      FID_INPUT_ISCD: '0000'
+      FID_RANK_SORT_CLS_CODE: '0'
+      FID_DIV_CLS_CODE: '0'
+      FID_INPUT_PRICE_1: ''
+      FID_INPUT_PRICE_2: ''
+      FID_INPUT_VOL_1: '0'
+  43c17205-d112-4f9f-83f9-1704af8e4f79:
+    query:
+      fid_cond_mrkt_div_code: J
+      fid_cond_scr_div_code: '20477'
+      fid_input_iscd: '0000'
+      fid_slct_yn: '0'
+      fid_rank_sort_cls_code: '1'
+  4360b745-0b9b-408e-8e0d-178138dbf864:
+    query:
+      NDAY: '0'
+  05980ed5-8ab1-471a-975c-3e129841cbb8:
+    query:
+      NDAY: '0'
+  3cb7e131-7e44-4f34-831f-e6720b4a299a:
+    query:
+      NDAY: '0'
+  ec944971-3694-4692-8a17-761c2b549cd9:
+    query:
+      NDAY: '0'
+  bac2f657-36b1-4538-aabc-0bee8ba77229:
+    query:
+      NDAY: '0'
+  1ecba681-1f73-4fb7-98b0-b7feef13b354:
+    query:
+      QRY_TP: Q
+  94959cbc-bbb7-4776-8cd0-7058138a08aa:
+    query:
+      QRY_TP: Q
+  14431ddf-c0d5-4c33-a945-86e77bcf6486:
+    query:
+      QRY_TP: Q
+  9fa44d82-f5f3-4edc-adec-8bad25800bd3:
+    query:
+      INDEX_KEY: ''
+  41290e2a-6e25-49c0-91a1-99b96ce53efe:
+    query:
+      INDEX_KEY: ''
+  31d46ebe-2a19-4467-9dfb-a2d21adb1e61:
+    query:
+      QRY_GAP: '5'
+      INDEX_KEY: ''
+  2549b1c6-2c8c-4826-b632-74c0b68c24e9:
+    query:
+      MIXN: '0'
+  40409c43-9bc7-447a-b09a-171d14b437f9:
+    query:
+      MIXN: '0'
+  d5dc7247-6f82-4cd7-8133-afabd8f003f7:
+    query:
+      UPMU_GUBUN: '0'
+  967e60c7-f1eb-4f23-b893-71747556ad49:
+    query:
+      INQR_SQN_DVSN: '01'

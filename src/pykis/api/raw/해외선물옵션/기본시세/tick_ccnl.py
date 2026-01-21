@@ -14,14 +14,15 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
-    KisTime,
+    KisDateOptional,
+    KisDateTime,
+    KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -43,11 +44,11 @@ class TickCcnlRequest(RawModel):
         alias="EXCH_CD",
     )
     ("예) CME")
-    START_DATE_TIME: KisDate = Field(
+    START_DATE_TIME: KisDateTime = Field(
         alias="START_DATE_TIME",
     )
     ("공백")
-    CLOSE_DATE_TIME: KisDate = Field(
+    CLOSE_DATE_TIME: KisDateTime = Field(
         alias="CLOSE_DATE_TIME",
     )
     ("예) 20240402")
@@ -101,8 +102,8 @@ class TickCcnlRequestDict(TypedDict):
     Request fields:
         SRS_CD (str): 예) 6AM24
         EXCH_CD (str): 예) CME
-        START_DATE_TIME (KisDate): 공백
-        CLOSE_DATE_TIME (KisDate): 예) 20240402
+        START_DATE_TIME (KisDateTime): 공백
+        CLOSE_DATE_TIME (KisDateTime): 예) 20240402
         QRY_TP (QryTpEnum): Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시
         QRY_CNT (int): 예) 30 (최대 40)
         QRY_GAP (str): 공백 (분만 사용)
@@ -118,11 +119,11 @@ class TickCcnlRequestDict(TypedDict):
         "예) CME",
     ]
     START_DATE_TIME: Annotated[
-        KisDate,
+        KisDateTime,
         "공백",
     ]
     CLOSE_DATE_TIME: Annotated[
-        KisDate,
+        KisDateTime,
         "예) 20240402",
     ]
     QRY_TP: Annotated[
@@ -144,62 +145,80 @@ class TickCcnlRequestDict(TypedDict):
 
 
 class TickCcnlOutput1(RawModel):
-    tret_cnt: str = Field(
+    tret_cnt: str | None = Field(
+        default=None,
         alias="tret_cnt",
     )
     ("자료개수")
-    last_n_cnt: str = Field(
+    last_n_cnt: int = Field(
         alias="last_n_cnt",
     )
     ("N틱최종개수")
-    index_key: str = Field(
+    index_key: str | None = Field(
+        default=None,
         alias="index_key",
     )
     ("이전조회KEY")
+    ret_cnt: int | None = Field(
+        default=None,
+        alias="ret_cnt",
+    )
+    ("inferred from raw payload")
 
 
 class TickCcnlOutput2(RawModel):
-    data_date: KisDate = Field(
+    data_date: KisDateOptional = Field(
+        default=None,
         alias="data_date",
     )
     ("일자")
-    data_time: KisTime = Field(
+    data_time: KisTimeOptional = Field(
+        default=None,
         alias="data_time",
     )
     ("시각")
-    open_price: Decimal = Field(
+    open_price: Decimal | None = Field(
+        default=None,
         alias="open_price",
     )
     ("시가")
-    high_price: Decimal = Field(
+    high_price: Decimal | None = Field(
+        default=None,
         alias="high_price",
     )
     ("고가")
-    low_price: Decimal = Field(
+    low_price: Decimal | None = Field(
+        default=None,
         alias="low_price",
     )
     ("저가")
-    last_price: str = Field(
+    last_price: str | None = Field(
+        default=None,
         alias="last_price",
     )
     ("체결가격 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    last_qntt: int = Field(
+    last_qntt: int | None = Field(
+        default=None,
         alias="last_qntt",
     )
     ("체결수량")
-    vol: int = Field(
+    vol: int | None = Field(
+        default=None,
         alias="vol",
     )
     ("누적거래수량")
-    prev_diff_flag: str = Field(
+    prev_diff_flag: str | None = Field(
+        default=None,
         alias="prev_diff_flag",
     )
     ("전일대비구분")
-    prev_diff_price: Decimal = Field(
+    prev_diff_price: Decimal | None = Field(
+        default=None,
         alias="prev_diff_price",
     )
     ("전일대비가격")
-    prev_diff_rate: Decimal = Field(
+    prev_diff_rate: Decimal | None = Field(
+        default=None,
         alias="prev_diff_rate",
     )
     ("전일대비율")
@@ -343,8 +362,8 @@ if TYPE_CHECKING:
                     Request fields:
                         SRS_CD (str): 예) 6AM24
                         EXCH_CD (str): 예) CME
-                        START_DATE_TIME (KisDate): 공백
-                        CLOSE_DATE_TIME (KisDate): 예) 20240402
+                        START_DATE_TIME (KisDateTime): 공백
+                        CLOSE_DATE_TIME (KisDateTime): 예) 20240402
                         QRY_TP (QryTpEnum): Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시
                         QRY_CNT (int): 예) 30 (최대 40)
                         QRY_GAP (str): 공백 (분만 사용)

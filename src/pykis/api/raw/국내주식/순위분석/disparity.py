@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -71,17 +71,6 @@ class FidHourClsCodeEnum(KisStrEnum):
     "이격도120"
 
 
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
-
-
 class DisparityRequest(RawModel):
     fid_input_price_2: str = Field(
         alias="fid_input_price_2",
@@ -107,7 +96,7 @@ class DisparityRequest(RawModel):
         alias="fid_hour_cls_code",
     )
     ("5:이격도5, 10:이격도10, 20:이격도20, 60:이격도60, 120:이격도120")
-    fid_input_iscd: FidInputIscdEnum = Field(
+    fid_input_iscd: str = Field(
         alias="fid_input_iscd",
     )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
@@ -123,7 +112,7 @@ class DisparityRequest(RawModel):
         alias="fid_input_price_1",
     )
     ("입력값 없을때 전체 (가격 ~)")
-    fid_vol_cnt: str = Field(
+    fid_vol_cnt: int = Field(
         alias="fid_vol_cnt",
     )
     ("입력값 없을때 전체 (거래량 ~)")
@@ -151,11 +140,11 @@ class DisparityRequestDict(TypedDict):
         fid_rank_sort_cls_code (FidRankSortClsCodeEnum): 0: 이격도상위순, 1:이격도하위순
         fid_hour_cls_code (FidHourClsCodeEnum): 5:이격도5, 10:이격도10, 20:이격도20, 60:이격도60,
         120:이격도120
-        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
+        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
         fid_trgt_cls_code (str): 0 : 전체
         fid_trgt_exls_cls_code (str): 0 : 전체
         fid_input_price_1 (str): 입력값 없을때 전체 (가격 ~)
-        fid_vol_cnt (str): 입력값 없을때 전체 (거래량 ~)
+        fid_vol_cnt (int): 입력값 없을때 전체 (거래량 ~)
     """
 
     fid_input_price_2: Annotated[
@@ -183,7 +172,7 @@ class DisparityRequestDict(TypedDict):
         "5:이격도5, 10:이격도10, 20:이격도20, 60:이격도60, 120:이격도120",
     ]
     fid_input_iscd: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200",
     ]
     fid_trgt_cls_code: Annotated[
@@ -199,7 +188,7 @@ class DisparityRequestDict(TypedDict):
         "입력값 없을때 전체 (가격 ~)",
     ]
     fid_vol_cnt: Annotated[
-        str,
+        int,
         "입력값 없을때 전체 (거래량 ~)",
     ]
 
@@ -379,12 +368,11 @@ if TYPE_CHECKING:
                         1:이격도하위순
                         fid_hour_cls_code (FidHourClsCodeEnum): 5:이격도5, 10:이격도10, 20:이격도20,
                         60:이격도60, 120:이격도120
-                        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥,
-                        2001:코스피200
+                        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
                         fid_trgt_cls_code (str): 0 : 전체
                         fid_trgt_exls_cls_code (str): 0 : 전체
                         fid_input_price_1 (str): 입력값 없을때 전체 (가격 ~)
-                        fid_vol_cnt (str): 입력값 없을때 전체 (거래량 ~)
+                        fid_vol_cnt (int): 입력값 없을때 전체 (거래량 ~)
 
             Returns:
                 tuple[DisparityResponse, KisResponse]: 응답 모델과 원시 응답
@@ -405,5 +393,4 @@ __all__ = [
     "FidDivClsCodeEnum",
     "FidRankSortClsCodeEnum",
     "FidHourClsCodeEnum",
-    "FidInputIscdEnum",
 ]

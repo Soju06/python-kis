@@ -15,13 +15,14 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
+    KisDateTimeOptional,
     KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -36,12 +37,12 @@ class OptWeeklyCcnlRequest(RawModel):
         alias="EXCH_CD",
     )
     ("종목코드에 맞는 거래소 코드 ex) CME")
-    START_DATE_TIME: KisDateOptional = Field(
+    START_DATE_TIME: KisDateTimeOptional = Field(
         default=None,
         alias="START_DATE_TIME",
     )
     ('"" 공란 입력')
-    CLOSE_DATE_TIME: KisDateOptional = Field(
+    CLOSE_DATE_TIME: KisDateTimeOptional = Field(
         default=None,
         alias="CLOSE_DATE_TIME",
     )
@@ -99,8 +100,8 @@ class OptWeeklyCcnlRequestDict(TypedDict):
         SRS_CD (str): ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) -
         해외지수옵션/해외주식옵션" 참고
         EXCH_CD (str): 종목코드에 맞는 거래소 코드 ex) CME
-        START_DATE_TIME (KisDate): "" 공란 입력 optional
-        CLOSE_DATE_TIME (KisDate): "" 공란 입력 optional
+        START_DATE_TIME (KisDateTime): "" 공란 입력 optional
+        CLOSE_DATE_TIME (KisDateTime): "" 공란 입력 optional
         QRY_TP (str): Q
         QRY_CNT (int): 예) 20 (최대 120)
         QRY_GAP (str): "" 공란 입력 optional
@@ -117,13 +118,13 @@ class OptWeeklyCcnlRequestDict(TypedDict):
     ]
     START_DATE_TIME: NotRequired[
         Annotated[
-            KisDateOptional,
+            KisDateTimeOptional,
             '"" 공란 입력',
         ]
     ]
     CLOSE_DATE_TIME: NotRequired[
         Annotated[
-            KisDateOptional,
+            KisDateTimeOptional,
             '"" 공란 입력',
         ]
     ]
@@ -364,8 +365,8 @@ if TYPE_CHECKING:
                         SRS_CD (str): ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보
                         다운로드(해외) - 해외지수옵션/해외주식옵션" 참고
                         EXCH_CD (str): 종목코드에 맞는 거래소 코드 ex) CME
-                        START_DATE_TIME (KisDate): "" 공란 입력 optional
-                        CLOSE_DATE_TIME (KisDate): "" 공란 입력 optional
+                        START_DATE_TIME (KisDateTime): "" 공란 입력 optional
+                        CLOSE_DATE_TIME (KisDateTime): "" 공란 입력 optional
                         QRY_TP (str): Q
                         QRY_CNT (int): 예) 20 (최대 120)
                         QRY_GAP (str): "" 공란 입력 optional

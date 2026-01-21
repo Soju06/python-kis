@@ -13,13 +13,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -43,7 +42,7 @@ class WdayDvsnCdEnum(KisStrEnum):
 
 
 class ChkHolidayRequest(RawModel):
-    BASS_DT: KisDate = Field(
+    BASS_DT: str = Field(
         alias="BASS_DT",
     )
     ("기준일자(YYYYMMDD)")
@@ -67,13 +66,13 @@ class ChkHolidayRequestDict(TypedDict):
     주문을 넣을 수 있는지 확인하고자 하실 경우 개장일여부(opnd_yn)을 사용하시면 됩니다.
 
     Request fields:
-        BASS_DT (KisDate): 기준일자(YYYYMMDD)
+        BASS_DT (str): 기준일자(YYYYMMDD)
         CTX_AREA_NK (str): 공백으로 입력
         CTX_AREA_FK (str): 공백으로 입력
     """
 
     BASS_DT: Annotated[
-        KisDate,
+        str,
         "기준일자(YYYYMMDD)",
     ]
     CTX_AREA_NK: Annotated[
@@ -87,7 +86,7 @@ class ChkHolidayRequestDict(TypedDict):
 
 
 class ChkHolidayOutput(RawModel):
-    bass_dt: KisDate = Field(
+    bass_dt: str = Field(
         alias="bass_dt",
     )
     ("기준일자(YYYYMMDD)")
@@ -203,7 +202,7 @@ if TYPE_CHECKING:
                 **kwargs (ChkHolidayRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        BASS_DT (KisDate): 기준일자(YYYYMMDD)
+                        BASS_DT (str): 기준일자(YYYYMMDD)
                         CTX_AREA_NK (str): 공백으로 입력
                         CTX_AREA_FK (str): 공백으로 입력
 

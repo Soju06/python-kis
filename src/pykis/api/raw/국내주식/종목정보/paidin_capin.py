@@ -14,15 +14,23 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class Gb1Enum(KisStrEnum):
+    VALUE_1 = ("1", "청약일별")
+    "청약일별"
+    VALUE_2 = ("2", "기준일별")
+    "기준일별"
 
 
 class PaidinCapinRequest(RawModel):
@@ -30,7 +38,7 @@ class PaidinCapinRequest(RawModel):
         alias="CTS",
     )
     ("공백")
-    GB1: KisDate = Field(
+    GB1: Gb1Enum = Field(
         alias="GB1",
     )
     ("1(청약일별), 2(기준일별)")
@@ -58,7 +66,7 @@ class PaidinCapinRequestDict(TypedDict):
 
     Request fields:
         CTS (str): 공백
-        GB1 (KisDate): 1(청약일별), 2(기준일별)
+        GB1 (Gb1Enum): 1(청약일별), 2(기준일별)
         F_DT (KisDate): 일자 ~
         T_DT (KisDate): ~ 일자
         SHT_CD (str): 공백(전체), 특정종목 조회시(종목코드)
@@ -69,7 +77,7 @@ class PaidinCapinRequestDict(TypedDict):
         "공백",
     ]
     GB1: Annotated[
-        KisDate,
+        Gb1Enum,
         "1(청약일별), 2(기준일별)",
     ]
     F_DT: Annotated[
@@ -235,7 +243,7 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         CTS (str): 공백
-                        GB1 (KisDate): 1(청약일별), 2(기준일별)
+                        GB1 (Gb1Enum): 1(청약일별), 2(기준일별)
                         F_DT (KisDate): 일자 ~
                         T_DT (KisDate): ~ 일자
                         SHT_CD (str): 공백(전체), 특정종목 조회시(종목코드)
@@ -255,4 +263,5 @@ __all__ = [
     "PaidinCapinRequestDict",
     "PaidinCapinResponse",
     "PaidinCapinOutput",
+    "Gb1Enum",
 ]

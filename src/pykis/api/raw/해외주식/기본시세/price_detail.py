@@ -14,47 +14,15 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
-
-
-class ExcdEnum(KisStrEnum):
-    HKS = ("HKS", "홍콩")
-    "홍콩"
-    NYS = ("NYS", "뉴욕")
-    "뉴욕"
-    NAS = ("NAS", "나스닥")
-    "나스닥"
-    AMS = ("AMS", "아멕스")
-    "아멕스"
-    TSE = ("TSE", "도쿄")
-    "도쿄"
-    SHS = ("SHS", "상해")
-    "상해"
-    SZS = ("SZS", "심천")
-    "심천"
-    SHI = ("SHI", "상해지수")
-    "상해지수"
-    SZI = ("SZI", "심천지수")
-    "심천지수"
-    HSX = ("HSX", "호치민")
-    "호치민"
-    HNX = ("HNX", "하노이")
-    "하노이"
-    BAY = ("BAY", "뉴욕(주간)")
-    "뉴욕(주간)"
-    BAQ = ("BAQ", "나스닥(주간)")
-    "나스닥(주간)"
-    BAA = ("BAA", "아멕스(주간)")
-    "아멕스(주간)"
 
 
 class PriceDetailRequest(RawModel):
@@ -62,7 +30,7 @@ class PriceDetailRequest(RawModel):
         alias="AUTH",
     )
     ("사용자권한정보")
-    EXCD: ExcdEnum = Field(
+    EXCD: str = Field(
         alias="EXCD",
     )
     (
@@ -116,9 +84,9 @@ class PriceDetailRequestDict(TypedDict):
 
     Request fields:
         AUTH (str): 사용자권한정보
-        EXCD (ExcdEnum): HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS :
-        심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ :
-        나스닥(주간) BAA : 아멕스(주간)
+        EXCD (str): HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천
+        SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간)
+        BAA : 아멕스(주간)
         SYMB (str): 종목코드
     """
 
@@ -127,7 +95,7 @@ class PriceDetailRequestDict(TypedDict):
         "사용자권한정보",
     ]
     EXCD: Annotated[
-        ExcdEnum,
+        str,
         "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 "
         "SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
     ]
@@ -501,9 +469,9 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         AUTH (str): 사용자권한정보
-                        EXCD (ExcdEnum): HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄
-                        SHS : 상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이
-                        BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)
+                        EXCD (str): HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS :
+                        상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY :
+                        뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)
                         SYMB (str): 종목코드
 
             Returns:
@@ -521,5 +489,4 @@ __all__ = [
     "PriceDetailRequestDict",
     "PriceDetailResponse",
     "PriceDetailOutput",
-    "ExcdEnum",
 ]

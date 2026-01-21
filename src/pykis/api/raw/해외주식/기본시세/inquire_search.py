@@ -15,12 +15,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -489,7 +489,7 @@ class InquireSearchOutput2(RawModel):
         alias="last",
     )
     ("현재가")
-    shar: int | None = Field(
+    shar: str | None = Field(
         default=None,
         alias="shar",
     )
@@ -524,32 +524,32 @@ class InquireSearchOutput2(RawModel):
         alias="rate",
     )
     ("등락율(%)")
-    diff: Decimal | None = Field(
+    diff: str | None = Field(
         default=None,
         alias="diff",
     )
     ("대비")
-    sign: int | None = Field(
+    sign: str | None = Field(
         default=None,
         alias="sign",
     )
     ("기호")
-    avol: Decimal | None = Field(
+    avol: int | None = Field(
         default=None,
         alias="avol",
     )
     ("거래대금(단위: 천)")
-    eps: Decimal | None = Field(
+    eps: str | None = Field(
         default=None,
         alias="eps",
     )
     ("EPS")
-    per: Decimal | None = Field(
+    per: str | None = Field(
         default=None,
         alias="per",
     )
     ("PER")
-    rank: int | None = Field(
+    rank: str | None = Field(
         default=None,
         alias="rank",
     )

@@ -13,15 +13,14 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     KisDateOptional,
     KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -294,6 +293,8 @@ class NewsLrdvCodeEnum(KisStrEnum):
     "동향"
     VALUE_L = ("L", "한투리서치")
     "한투리서치"
+    IT = ("IT", "과학")
+    "과학"
 
 
 class NewsTitleRequest(RawModel):
@@ -313,7 +314,7 @@ class NewsTitleRequest(RawModel):
         alias="FID_TITL_CNTT",
     )
     ("공백 필수 입력")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("공백: 현재기준, 조회일자(ex 00YYYYMMDD)")
@@ -342,7 +343,7 @@ class NewsTitleRequestDict(TypedDict):
         FID_COND_MRKT_CLS_CODE (str): 공백 필수 입력
         FID_INPUT_ISCD (str): 공백: 전체, 종목코드 : 해당코드가 등록된 뉴스
         FID_TITL_CNTT (str): 공백 필수 입력
-        FID_INPUT_DATE_1 (KisDate): 공백: 현재기준, 조회일자(ex 00YYYYMMDD)
+        FID_INPUT_DATE_1 (str): 공백: 현재기준, 조회일자(ex 00YYYYMMDD)
         FID_INPUT_HOUR_1 (str): 공백: 현재기준, 조회시간(ex 0000HHMMSS)
         FID_RANK_SORT_CLS_CODE (str): 공백 필수 입력
         FID_INPUT_SRNO (str): 공백 필수 입력
@@ -365,7 +366,7 @@ class NewsTitleRequestDict(TypedDict):
         "공백 필수 입력",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "공백: 현재기준, 조회일자(ex 00YYYYMMDD)",
     ]
     FID_INPUT_HOUR_1: Annotated[
@@ -585,7 +586,7 @@ if TYPE_CHECKING:
                         FID_COND_MRKT_CLS_CODE (str): 공백 필수 입력
                         FID_INPUT_ISCD (str): 공백: 전체, 종목코드 : 해당코드가 등록된 뉴스
                         FID_TITL_CNTT (str): 공백 필수 입력
-                        FID_INPUT_DATE_1 (KisDate): 공백: 현재기준, 조회일자(ex 00YYYYMMDD)
+                        FID_INPUT_DATE_1 (str): 공백: 현재기준, 조회일자(ex 00YYYYMMDD)
                         FID_INPUT_HOUR_1 (str): 공백: 현재기준, 조회시간(ex 0000HHMMSS)
                         FID_RANK_SORT_CLS_CODE (str): 공백 필수 입력
                         FID_INPUT_SRNO (str): 공백 필수 입력

@@ -15,16 +15,30 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class SllBuyDvsnCdEnum(KisStrEnum):
@@ -71,11 +85,11 @@ class OrdObjtCblcDvsnCdEnum(KisStrEnum):
 
 
 class OrderResvRvsecnclRequest(RawModel):
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("[정정/취소] 계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("[정정/취소] 계좌번호 체계(8-2)의 뒤 2자리")
@@ -149,8 +163,8 @@ class OrderResvRvsecnclRequestDict(TypedDict):
     [국내주식-018,019 v1] 주식예약주문정정취소
 
     Request fields:
-        CANO (str): [정정/취소] 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): [정정/취소] 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): [정정/취소] 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): [정정/취소] 계좌번호 체계(8-2)의 뒤 2자리
         PDNO (str): [정정]
         ORD_QTY (int): [정정] 주문주식수
         ORD_UNPR (Decimal): [정정] 1주당 가격 * 장전 시간외, 시장가의 경우 1주당 가격을 공란으로
@@ -170,11 +184,11 @@ class OrderResvRvsecnclRequestDict(TypedDict):
     """
 
     CANO: Annotated[
-        str,
+        CanoEnum,
         "[정정/취소] 계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "[정정/취소] 계좌번호 체계(8-2)의 뒤 2자리",
     ]
     PDNO: Annotated[
@@ -338,8 +352,8 @@ if TYPE_CHECKING:
                 **kwargs (OrderResvRvsecnclRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CANO (str): [정정/취소] 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): [정정/취소] 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): [정정/취소] 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): [정정/취소] 계좌번호 체계(8-2)의 뒤 2자리
                         PDNO (str): [정정]
                         ORD_QTY (int): [정정] 주문주식수
                         ORD_UNPR (Decimal): [정정] 1주당 가격 * 장전 시간외, 시장가의 경우 1주당
@@ -373,6 +387,8 @@ __all__ = [
     "OrderResvRvsecnclRequestDict",
     "OrderResvRvsecnclResponse",
     "OrderResvRvsecnclOutput",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "SllBuyDvsnCdEnum",
     "OrdDvsnCdEnum",
     "OrdObjtCblcDvsnCdEnum",

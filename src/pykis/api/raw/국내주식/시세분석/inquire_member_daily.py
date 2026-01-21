@@ -14,13 +14,13 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -48,11 +48,11 @@ class InquireMemberDailyRequest(RawModel):
         alias="FID_INPUT_ISCD_2",
     )
     ("회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) > 회원사 참조)")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("날짜 ~")
-    FID_INPUT_DATE_2: KisDate = Field(
+    FID_INPUT_DATE_2: str = Field(
         alias="FID_INPUT_DATE_2",
     )
     ("~ 날짜")
@@ -73,8 +73,8 @@ class InquireMemberDailyRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 주식종목코드입력
         FID_INPUT_ISCD_2 (str): 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보
         다운로드(국내) > 회원사 참조)
-        FID_INPUT_DATE_1 (KisDate): 날짜 ~
-        FID_INPUT_DATE_2 (KisDate): ~ 날짜
+        FID_INPUT_DATE_1 (str): 날짜 ~
+        FID_INPUT_DATE_2 (str): ~ 날짜
         FID_SCTN_CLS_CODE (str): 공백
     """
 
@@ -91,11 +91,11 @@ class InquireMemberDailyRequestDict(TypedDict):
         "회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) > 회원사 참조)",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "날짜 ~",
     ]
     FID_INPUT_DATE_2: Annotated[
-        KisDate,
+        str,
         "~ 날짜",
     ]
     FID_SCTN_CLS_CODE: Annotated[
@@ -231,8 +231,8 @@ if TYPE_CHECKING:
                         FID_INPUT_ISCD (str): 주식종목코드입력
                         FID_INPUT_ISCD_2 (str): 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ ->
                         종목정보 다운로드(국내) > 회원사 참조)
-                        FID_INPUT_DATE_1 (KisDate): 날짜 ~
-                        FID_INPUT_DATE_2 (KisDate): ~ 날짜
+                        FID_INPUT_DATE_1 (str): 날짜 ~
+                        FID_INPUT_DATE_2 (str): ~ 날짜
                         FID_SCTN_CLS_CODE (str): 공백
 
             Returns:

@@ -14,31 +14,19 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
-    VALUE_3003 = ("3003", "KSQ150")
-    "KSQ150"
-
-
 class InquireIndexTickpriceRequest(RawModel):
-    FID_INPUT_ISCD: FidInputIscdEnum = Field(
+    FID_INPUT_ISCD: str = Field(
         alias="FID_INPUT_ISCD",
     )
     ("0001:거래소, 1001:코스닥, 2001:코스피200, 3003:KSQ150")
@@ -55,12 +43,12 @@ class InquireIndexTickpriceRequestDict(TypedDict):
     개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
 
     Request fields:
-        FID_INPUT_ISCD (FidInputIscdEnum): 0001:거래소, 1001:코스닥, 2001:코스피200, 3003:KSQ150
+        FID_INPUT_ISCD (str): 0001:거래소, 1001:코스닥, 2001:코스피200, 3003:KSQ150
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (업종 U)
     """
 
     FID_INPUT_ISCD: Annotated[
-        FidInputIscdEnum,
+        str,
         "0001:거래소, 1001:코스닥, 2001:코스피200, 3003:KSQ150",
     ]
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -82,7 +70,7 @@ class InquireIndexTickpriceOutput(RawModel):
         alias="bstp_nmix_prdy_vrss",
     )
     ("업종 지수 전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -188,8 +176,7 @@ if TYPE_CHECKING:
                 **kwargs (InquireIndexTickpriceRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_INPUT_ISCD (FidInputIscdEnum): 0001:거래소, 1001:코스닥, 2001:코스피200,
-                        3003:KSQ150
+                        FID_INPUT_ISCD (str): 0001:거래소, 1001:코스닥, 2001:코스피200, 3003:KSQ150
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (업종 U)
 
             Returns:
@@ -207,5 +194,4 @@ __all__ = [
     "InquireIndexTickpriceRequestDict",
     "InquireIndexTickpriceResponse",
     "InquireIndexTickpriceOutput",
-    "FidInputIscdEnum",
 ]

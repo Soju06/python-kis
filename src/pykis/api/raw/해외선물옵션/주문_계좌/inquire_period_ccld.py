@@ -14,16 +14,30 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class CanoEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 앞 8자리")
+    "2)의 앞 8자리"
+    VALUE_2 = ("2", "의 앞 8자리")
+    "의 앞 8자리"
+
+
+class AcntPrdtCdEnum(KisStrEnum):
+    VALUE_8 = ("8", "2)의 뒤 2자리")
+    "2)의 뒤 2자리"
+    VALUE_2 = ("2", "의 뒤 2자리")
+    "의 뒤 2자리"
 
 
 class CrcyCdEnum(KisStrEnum):
@@ -63,11 +77,11 @@ class InquirePeriodCcldRequest(RawModel):
         alias="INQR_TERM_TO_DT",
     )
     ("조회기간TO일자")
-    CANO: str = Field(
+    CANO: CanoEnum = Field(
         alias="CANO",
     )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: str = Field(
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
@@ -100,8 +114,8 @@ class InquirePeriodCcldRequestDict(TypedDict):
     Request fields:
         INQR_TERM_FROM_DT (KisDate): 조회기간FROM일자
         INQR_TERM_TO_DT (KisDate): 조회기간TO일자
-        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         CRCY_CD (CrcyCdEnum): '%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR
         / HKD: 홍콩 CNY: 중국 / JPY: 일본'
         WHOL_TRSL_YN (KisBool): N
@@ -119,11 +133,11 @@ class InquirePeriodCcldRequestDict(TypedDict):
         "조회기간TO일자",
     ]
     CANO: Annotated[
-        str,
+        CanoEnum,
         "계좌번호 체계(8-2)의 앞 8자리",
     ]
     ACNT_PRDT_CD: Annotated[
-        str,
+        AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
     CRCY_CD: Annotated[
@@ -367,8 +381,8 @@ if TYPE_CHECKING:
                     Request fields:
                         INQR_TERM_FROM_DT (KisDate): 조회기간FROM일자
                         INQR_TERM_TO_DT (KisDate): 조회기간TO일자
-                        CANO (str): 계좌번호 체계(8-2)의 앞 8자리
-                        ACNT_PRDT_CD (str): 계좌번호 체계(8-2)의 뒤 2자리
+                        CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
+                        ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         CRCY_CD (CrcyCdEnum): '%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD:
                         미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본'
                         WHOL_TRSL_YN (KisBool): N
@@ -392,6 +406,8 @@ __all__ = [
     "InquirePeriodCcldResponse",
     "InquirePeriodCcldOutput1",
     "InquirePeriodCcldOutput2",
+    "CanoEnum",
+    "AcntPrdtCdEnum",
     "CrcyCdEnum",
     "FuopDvsnEnum",
 ]

@@ -14,20 +14,61 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisDateOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class RghtTypeCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "유상")
+    "유상"
+    VALUE_02 = ("02", "무상")
+    "무상"
+    VALUE_03 = ("03", "배당")
+    "배당"
+    VALUE_11 = ("11", "합병")
+    "합병"
+    VALUE_14 = ("14", "액면분할")
+    "액면분할"
+    VALUE_15 = ("15", "액면병합")
+    "액면병합"
+    VALUE_17 = ("17", "감자")
+    "감자"
+    VALUE_54 = ("54", "WR청구")
+    "WR청구"
+    VALUE_61 = ("61", "원리금상환")
+    "원리금상환"
+    VALUE_71 = ("71", "WR소멸")
+    "WR소멸"
+    VALUE_74 = ("74", "배당옵션")
+    "배당옵션"
+    VALUE_75 = ("75", "특별배당")
+    "특별배당"
+    VALUE_76 = ("76", "ISINCODE변경")
+    "ISINCODE변경"
+    VALUE_77 = ("77", "실권주청약")
+    "실권주청약"
+
+
+class InqrDvsnCdEnum(KisStrEnum):
+    VALUE_02 = ("02", "현지기준일")
+    "현지기준일"
+    VALUE_03 = ("03", "청약시작일")
+    "청약시작일"
+    VALUE_04 = ("04", "청약종료일")
+    "청약종료일"
+
+
 class PeriodRightsRequest(RawModel):
-    RGHT_TYPE_CD: str = Field(
+    RGHT_TYPE_CD: RghtTypeCdEnum = Field(
         alias="RGHT_TYPE_CD",
     )
     (
@@ -35,7 +76,7 @@ class PeriodRightsRequest(RawModel):
         "54(WR청구), 61(원리금상환), 71(WR소멸), 74(배당옵션), 75(특별배당), 76(ISINCODE변경), "
         "77(실권주청약)'"
     )
-    INQR_DVSN_CD: KisDate = Field(
+    INQR_DVSN_CD: InqrDvsnCdEnum = Field(
         alias="INQR_DVSN_CD",
     )
     ("02(현지기준일), 03(청약시작일), 04(청약종료일)")
@@ -75,10 +116,10 @@ class PeriodRightsRequestDict(TypedDict):
     바랍니다.
 
     Request fields:
-        RGHT_TYPE_CD (str): '%%(전체), 01(유상), 02(무상), 03(배당), 11(합병), 14(액면분할),
-        15(액면병합), 17(감자), 54(WR청구), 61(원리금상환), 71(WR소멸), 74(배당옵션), 75(특별배당),
-        76(ISINCODE변경), 77(실권주청약)'
-        INQR_DVSN_CD (KisDate): 02(현지기준일), 03(청약시작일), 04(청약종료일)
+        RGHT_TYPE_CD (RghtTypeCdEnum): '%%(전체), 01(유상), 02(무상), 03(배당), 11(합병),
+        14(액면분할), 15(액면병합), 17(감자), 54(WR청구), 61(원리금상환), 71(WR소멸), 74(배당옵션),
+        75(특별배당), 76(ISINCODE변경), 77(실권주청약)'
+        INQR_DVSN_CD (InqrDvsnCdEnum): 02(현지기준일), 03(청약시작일), 04(청약종료일)
         INQR_STRT_DT (KisDate): 일자 ~
         INQR_END_DT (KisDate): ~ 일자
         PDNO (str): 공백
@@ -88,13 +129,13 @@ class PeriodRightsRequestDict(TypedDict):
     """
 
     RGHT_TYPE_CD: Annotated[
-        str,
+        RghtTypeCdEnum,
         "'%%(전체), 01(유상), 02(무상), 03(배당), 11(합병), 14(액면분할), 15(액면병합), 17(감자), "
         "54(WR청구), 61(원리금상환), 71(WR소멸), 74(배당옵션), 75(특별배당), 76(ISINCODE변경), "
         "77(실권주청약)'",
     ]
     INQR_DVSN_CD: Annotated[
-        KisDate,
+        InqrDvsnCdEnum,
         "02(현지기준일), 03(청약시작일), 04(청약종료일)",
     ]
     INQR_STRT_DT: Annotated[
@@ -301,10 +342,10 @@ if TYPE_CHECKING:
                 **kwargs (PeriodRightsRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        RGHT_TYPE_CD (str): '%%(전체), 01(유상), 02(무상), 03(배당), 11(합병),
-                        14(액면분할), 15(액면병합), 17(감자), 54(WR청구), 61(원리금상환), 71(WR소멸),
-                        74(배당옵션), 75(특별배당), 76(ISINCODE변경), 77(실권주청약)'
-                        INQR_DVSN_CD (KisDate): 02(현지기준일), 03(청약시작일), 04(청약종료일)
+                        RGHT_TYPE_CD (RghtTypeCdEnum): '%%(전체), 01(유상), 02(무상), 03(배당),
+                        11(합병), 14(액면분할), 15(액면병합), 17(감자), 54(WR청구), 61(원리금상환),
+                        71(WR소멸), 74(배당옵션), 75(특별배당), 76(ISINCODE변경), 77(실권주청약)'
+                        INQR_DVSN_CD (InqrDvsnCdEnum): 02(현지기준일), 03(청약시작일), 04(청약종료일)
                         INQR_STRT_DT (KisDate): 일자 ~
                         INQR_END_DT (KisDate): ~ 일자
                         PDNO (str): 공백
@@ -327,4 +368,6 @@ __all__ = [
     "PeriodRightsRequestDict",
     "PeriodRightsResponse",
     "PeriodRightsOutput",
+    "RghtTypeCdEnum",
+    "InqrDvsnCdEnum",
 ]

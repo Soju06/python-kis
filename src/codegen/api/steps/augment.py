@@ -27,9 +27,39 @@ from codegen.api.runtime import (
 )
 from codegen.core.types import JsonObject, JsonValue
 from pykis.api.client import SyncKisRawClient
-from pykis.raw.types import Endpoint
+from pykis.api.raw.types import Endpoint
 
 logger = logging.getLogger("pykis.codegen.augment")
+
+
+def _apply_output_alias(payload: JsonObject, endpoint: EndpointSpec) -> JsonObject:
+    output_codes = {output.code for output in endpoint.response.outputs}
+    if "output" in payload and "output" not in output_codes and len(output_codes) == 1:
+        only_code = next(iter(output_codes))
+        if only_code not in payload:
+            payload = dict(payload)
+            payload[only_code] = payload["output"]
+    return payload
+
+
+def _outputs_empty(payload: JsonObject, endpoint: EndpointSpec) -> bool:
+    outputs = endpoint.response.outputs
+    if not outputs:
+        return False
+    for output in outputs:
+        container = payload.get(output.code)
+        if container is None and "output" in payload and len(outputs) == 1:
+            container = payload.get("output")
+        if isinstance(container, list):
+            if container:
+                return False
+            continue
+        if isinstance(container, dict):
+            if container:
+                return False
+            continue
+        return False
+    return True
 
 
 def _response_ok(response: object) -> bool:
@@ -263,6 +293,7 @@ def augment_endpoint(
         _dump_json(result_dir / "error.json", raw_payload if raw_payload is not None else {"raw": response.text})
         raise RuntimeError(f"[augment] invalid JSON for {endpoint.id}")
 
+    payload = _apply_output_alias(payload, endpoint)
     _dump_json(result_dir / "raw.json", payload)
 
     if str(payload.get("rt_cd")) not in ("0", "OK"):
@@ -280,6 +311,17 @@ def augment_endpoint(
         _dump_json(result_dir / "meta.json", meta.model_dump())
         _dump_json(result_dir / "error.json", payload)
         raise RuntimeError(f"[augment] rt_cd error for {endpoint.id}")
+
+    if _outputs_empty(payload, endpoint):
+        meta = meta.model_copy(update={"ok": True, "empty": True})
+        _dump_json(result_dir / "meta.json", meta.model_dump())
+        _dump_json(result_dir / "error.json", payload)
+        return AugmentEndpointResult(
+            id=endpoint.id,
+            status="ok",
+            status_code=response.status_code,
+            note="empty",
+        )
 
     try:
         response_model = endpoint_def.response_model.model_validate(payload)

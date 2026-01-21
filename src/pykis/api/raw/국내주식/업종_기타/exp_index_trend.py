@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -32,19 +32,6 @@ class FidMkopClsCodeEnum(KisStrEnum):
     "장마감"
 
 
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "코스피")
-    "코스피"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
-    VALUE_4001 = ("4001", "KRX100")
-    "KRX100"
-
-
 class ExpIndexTrendRequest(RawModel):
     FID_MKOP_CLS_CODE: FidMkopClsCodeEnum = Field(
         alias="FID_MKOP_CLS_CODE",
@@ -54,7 +41,7 @@ class ExpIndexTrendRequest(RawModel):
         alias="FID_INPUT_HOUR_1",
     )
     ("10(10초), 30(30초), 60(1분), 600(10분)")
-    FID_INPUT_ISCD: FidInputIscdEnum = Field(
+    FID_INPUT_ISCD: str = Field(
         alias="FID_INPUT_ISCD",
     )
     ("0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100")
@@ -73,8 +60,7 @@ class ExpIndexTrendRequestDict(TypedDict):
     Request fields:
         FID_MKOP_CLS_CODE (FidMkopClsCodeEnum): 1: 장시작전, 2: 장마감
         FID_INPUT_HOUR_1 (str): 10(10초), 30(30초), 60(1분), 600(10분)
-        FID_INPUT_ISCD (FidInputIscdEnum): 0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200,
-        4001: KRX100
+        FID_INPUT_ISCD (str): 0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 U)
     """
 
@@ -87,7 +73,7 @@ class ExpIndexTrendRequestDict(TypedDict):
         "10(10초), 30(30초), 60(1분), 600(10분)",
     ]
     FID_INPUT_ISCD: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100",
     ]
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -220,8 +206,8 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_MKOP_CLS_CODE (FidMkopClsCodeEnum): 1: 장시작전, 2: 장마감
                         FID_INPUT_HOUR_1 (str): 10(10초), 30(30초), 60(1분), 600(10분)
-                        FID_INPUT_ISCD (FidInputIscdEnum): 0000:전체, 0001:코스피, 1001:코스닥,
-                        2001:코스피200, 4001: KRX100
+                        FID_INPUT_ISCD (str): 0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200,
+                        4001: KRX100
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 U)
 
             Returns:
@@ -240,5 +226,4 @@ __all__ = [
     "ExpIndexTrendResponse",
     "ExpIndexTrendOutput",
     "FidMkopClsCodeEnum",
-    "FidInputIscdEnum",
 ]

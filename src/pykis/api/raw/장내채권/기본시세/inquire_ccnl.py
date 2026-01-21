@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisTime,
+    KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -57,31 +57,38 @@ class InquireCcnlRequestDict(TypedDict):
 
 
 class InquireCcnlOutput(RawModel):
-    stck_cntg_hour: KisTime = Field(
+    stck_cntg_hour: KisTimeOptional = Field(
+        default=None,
         alias="stck_cntg_hour",
     )
     ("주식 체결 시간")
-    bond_prpr: Decimal = Field(
+    bond_prpr: Decimal | None = Field(
+        default=None,
         alias="bond_prpr",
     )
     ("채권 현재가")
-    bond_prdy_vrss: str = Field(
+    bond_prdy_vrss: str | None = Field(
+        default=None,
         alias="bond_prdy_vrss",
     )
     ("채권 전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: str | None = Field(
+        default=None,
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
         alias="prdy_ctrt",
     )
     ("전일 대비율")
-    cntg_vol: int = Field(
+    cntg_vol: int | None = Field(
+        default=None,
         alias="cntg_vol",
     )
     ("체결 거래량")
-    acml_vol: int = Field(
+    acml_vol: int | None = Field(
+        default=None,
         alias="acml_vol",
     )
     ("누적 거래량")
@@ -100,7 +107,7 @@ class InquireCcnlResponse(RawModel):
         alias="msg1",
     )
     ("응답메세지")
-    output: InquireCcnlOutput = Field(
+    output: list[InquireCcnlOutput] = Field(
         alias="output",
     )
     ("응답상세")

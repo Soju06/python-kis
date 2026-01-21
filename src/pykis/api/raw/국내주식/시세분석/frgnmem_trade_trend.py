@@ -14,23 +14,31 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisTimeOptional,
+    KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
-class FidInputIscd2Enum(KisStrEnum):
-    FAQ = ("FAQ", "> 종목정보 다운로드(국내) 참조")
-    "> 종목정보 다운로드(국내) 참조"
-    EX = ("ex", "99999(전체)")
-    "99999(전체)"
+class FidMrktClsCodeEnum(KisStrEnum):
+    ELW = ("ELW", "W")
+    "W"
+    A = ("A", "전체")
+    "전체"
+    K = ("K", "코스피")
+    "코스피"
+    Q = ("Q", "코스닥")
+    "코스닥"
+    K2 = ("K2", "코스피200")
+    "코스피200"
+    W = ("W", "ELW")
+    "ELW"
 
 
 class FrgnmemTradeTrendRequest(RawModel):
@@ -46,18 +54,18 @@ class FrgnmemTradeTrendRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("ex. 005930(삼성전자) ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력")
-    FID_INPUT_ISCD_2: FidInputIscd2Enum = Field(
+    FID_INPUT_ISCD_2: str = Field(
         alias="FID_INPUT_ISCD_2",
     )
     ("ex. 99999(전체) ※ 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)")
-    FID_MRKT_CLS_CODE: str = Field(
+    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(
         alias="FID_MRKT_CLS_CODE",
     )
     (
         "A(전체),K(코스피), Q(코스닥), K2(코스피200), W(ELW) ※ FID_INPUT_ISCD(종목코드) 혹은 "
         "FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력"
     )
-    FID_VOL_CNT: str = Field(
+    FID_VOL_CNT: int = Field(
         alias="FID_VOL_CNT",
     )
     ("거래량 ~")
@@ -76,11 +84,11 @@ class FrgnmemTradeTrendRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (str): J 고정 입력
         FID_INPUT_ISCD (str): ex. 005930(삼성전자) ※ FID_INPUT_ISCD(종목코드) 혹은
         FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력
-        FID_INPUT_ISCD_2 (FidInputIscd2Enum): ex. 99999(전체) ※ 회원사코드 (kis developers 포탈
-        사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)
-        FID_MRKT_CLS_CODE (str): A(전체),K(코스피), Q(코스닥), K2(코스피200), W(ELW) ※
-        FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력
-        FID_VOL_CNT (str): 거래량 ~
+        FID_INPUT_ISCD_2 (str): ex. 99999(전체) ※ 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ
+        -> 종목정보 다운로드(국내) 참조)
+        FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): A(전체),K(코스피), Q(코스닥), K2(코스피200), W(ELW)
+        ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력
+        FID_VOL_CNT (int): 거래량 ~
     """
 
     FID_COND_SCR_DIV_CODE: Annotated[
@@ -96,81 +104,69 @@ class FrgnmemTradeTrendRequestDict(TypedDict):
         "ex. 005930(삼성전자) ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력",
     ]
     FID_INPUT_ISCD_2: Annotated[
-        FidInputIscd2Enum,
+        str,
         "ex. 99999(전체) ※ 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)",
     ]
     FID_MRKT_CLS_CODE: Annotated[
-        str,
+        FidMrktClsCodeEnum,
         "A(전체),K(코스피), Q(코스닥), K2(코스피200), W(ELW) ※ FID_INPUT_ISCD(종목코드) 혹은 "
         "FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력",
     ]
     FID_VOL_CNT: Annotated[
-        str,
+        int,
         "거래량 ~",
     ]
 
 
 class FrgnmemTradeTrendOutput1(RawModel):
-    total_seln_qty: int | None = Field(
-        default=None,
+    total_seln_qty: int = Field(
         alias="total_seln_qty",
     )
     ("총매도수량")
-    total_shnu_qty: int | None = Field(
-        default=None,
+    total_shnu_qty: int = Field(
         alias="total_shnu_qty",
     )
     ("총매수2수량")
 
 
 class FrgnmemTradeTrendOutput2(RawModel):
-    bsop_hour: KisTimeOptional = Field(
-        default=None,
+    bsop_hour: KisTime = Field(
         alias="bsop_hour",
     )
     ("영업시간")
-    mbcr_name: str | None = Field(
-        default=None,
+    mbcr_name: str = Field(
         alias="mbcr_name",
     )
     ("회원사명")
-    hts_kor_isnm: str | None = Field(
-        default=None,
+    hts_kor_isnm: str = Field(
         alias="hts_kor_isnm",
     )
     ("HTS한글종목명")
-    stck_prpr: Decimal | None = Field(
-        default=None,
+    stck_prpr: Decimal = Field(
         alias="stck_prpr",
     )
     ("주식현재가")
-    prdy_vrss: str | None = Field(
-        default=None,
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일대비")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
-    cntg_vol: int | None = Field(
-        default=None,
+    cntg_vol: int = Field(
         alias="cntg_vol",
     )
     ("체결거래량")
-    acml_ntby_qty: int | None = Field(
-        default=None,
+    acml_ntby_qty: int = Field(
         alias="acml_ntby_qty",
     )
     ("누적순매수수량")
-    glob_ntby_qty: int | None = Field(
-        default=None,
+    glob_ntby_qty: int = Field(
         alias="glob_ntby_qty",
     )
     ("외국계순매수수량")
-    frgn_ntby_qty_icdc: int | None = Field(
-        default=None,
+    frgn_ntby_qty_icdc: int = Field(
         alias="frgn_ntby_qty_icdc",
     )
     ("외국인순매수수량증감")
@@ -272,12 +268,12 @@ if TYPE_CHECKING:
                         FID_COND_MRKT_DIV_CODE (str): J 고정 입력
                         FID_INPUT_ISCD (str): ex. 005930(삼성전자) ※ FID_INPUT_ISCD(종목코드) 혹은
                         FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력
-                        FID_INPUT_ISCD_2 (FidInputIscd2Enum): ex. 99999(전체) ※ 회원사코드 (kis
-                        developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)
-                        FID_MRKT_CLS_CODE (str): A(전체),K(코스피), Q(코스닥), K2(코스피200), W(ELW) ※
-                        FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만
-                        입력
-                        FID_VOL_CNT (str): 거래량 ~
+                        FID_INPUT_ISCD_2 (str): ex. 99999(전체) ※ 회원사코드 (kis developers 포탈
+                        사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)
+                        FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): A(전체),K(코스피), Q(코스닥),
+                        K2(코스피200), W(ELW) ※ FID_INPUT_ISCD(종목코드) 혹은
+                        FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력
+                        FID_VOL_CNT (int): 거래량 ~
 
             Returns:
                 tuple[FrgnmemTradeTrendResponse, KisResponse]: 응답 모델과 원시 응답
@@ -295,5 +291,5 @@ __all__ = [
     "FrgnmemTradeTrendResponse",
     "FrgnmemTradeTrendOutput1",
     "FrgnmemTradeTrendOutput2",
-    "FidInputIscd2Enum",
+    "FidMrktClsCodeEnum",
 ]

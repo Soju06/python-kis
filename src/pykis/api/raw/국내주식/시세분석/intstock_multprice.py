@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -600,11 +600,13 @@ class IntstockMultpriceRequestDict(TypedDict):
 
 
 class IntstockMultpriceOutput(RawModel):
-    kospi_kosdaq_cls_name: str = Field(
+    kospi_kosdaq_cls_name: str | None = Field(
+        default=None,
         alias="kospi_kosdaq_cls_name",
     )
     ("코스피 코스닥 구분 명")
-    mrkt_trtm_cls_name: str = Field(
+    mrkt_trtm_cls_name: str | None = Field(
+        default=None,
         alias="mrkt_trtm_cls_name",
     )
     ("시장 조치 구분 명")
@@ -624,11 +626,11 @@ class IntstockMultpriceOutput(RawModel):
         alias="inter2_prpr",
     )
     ("관심2 현재가")
-    inter2_prdy_vrss: str = Field(
+    inter2_prdy_vrss: int = Field(
         alias="inter2_prdy_vrss",
     )
     ("관심2 전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -652,15 +654,15 @@ class IntstockMultpriceOutput(RawModel):
         alias="inter2_lwpr",
     )
     ("관심2 저가")
-    inter2_llam: str = Field(
+    inter2_llam: int = Field(
         alias="inter2_llam",
     )
     ("관심2 하한가")
-    inter2_mxpr: str = Field(
+    inter2_mxpr: int = Field(
         alias="inter2_mxpr",
     )
     ("관심2 상한가")
-    inter2_askp: str = Field(
+    inter2_askp: int = Field(
         alias="inter2_askp",
     )
     ("관심2 매도호가")
@@ -668,15 +670,15 @@ class IntstockMultpriceOutput(RawModel):
         alias="inter2_bidp",
     )
     ("관심2 매수호가")
-    seln_rsqn: str = Field(
+    seln_rsqn: int = Field(
         alias="seln_rsqn",
     )
     ("매도 잔량")
-    shnu_rsqn: str = Field(
+    shnu_rsqn: int = Field(
         alias="shnu_rsqn",
     )
     ("매수2 잔량")
-    total_askp_rsqn: str = Field(
+    total_askp_rsqn: int = Field(
         alias="total_askp_rsqn",
     )
     ("총 매도호가 잔량")
@@ -688,7 +690,7 @@ class IntstockMultpriceOutput(RawModel):
         alias="acml_tr_pbmn",
     )
     ("누적 거래 대금")
-    inter2_prdy_clpr: str = Field(
+    inter2_prdy_clpr: int = Field(
         alias="inter2_prdy_clpr",
     )
     ("관심2 전일 종가")
@@ -696,11 +698,11 @@ class IntstockMultpriceOutput(RawModel):
         alias="oprc_vrss_hgpr_rate",
     )
     ("시가 대비 최고가 비율")
-    intr_antc_cntg_vrss: str = Field(
+    intr_antc_cntg_vrss: int = Field(
         alias="intr_antc_cntg_vrss",
     )
     ("관심 예상 체결 대비")
-    intr_antc_cntg_vrss_sign: str = Field(
+    intr_antc_cntg_vrss_sign: int = Field(
         alias="intr_antc_cntg_vrss_sign",
     )
     ("관심 예상 체결 대비 부호")
@@ -712,7 +714,7 @@ class IntstockMultpriceOutput(RawModel):
         alias="intr_antc_vol",
     )
     ("관심 예상 거래량")
-    inter2_sdpr: str = Field(
+    inter2_sdpr: int = Field(
         alias="inter2_sdpr",
     )
     ("관심2 기준가")
@@ -731,7 +733,7 @@ class IntstockMultpriceResponse(RawModel):
         alias="msg1",
     )
     ("응답메세지")
-    output: IntstockMultpriceOutput = Field(
+    output: list[IntstockMultpriceOutput] = Field(
         alias="output",
     )
     ("응답상세")

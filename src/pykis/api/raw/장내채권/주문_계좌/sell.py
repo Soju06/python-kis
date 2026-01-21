@@ -13,14 +13,14 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -33,6 +33,15 @@ class OrdDvsnEnum(KisStrEnum):
     "일자별 (매수순번: 0 입력)"
     VALUE_03 = ("03", "체결가별 '")
     "체결가별 '"
+
+
+class OrdSvrDvsnCdEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(0)")
+    "key(0)"
+    VALUE_0 = ("0", "Unique key")
+    "Unique key"
+    KEY = ("key", "0")
+    "0"
 
 
 class SellRequest(RawModel):
@@ -88,7 +97,7 @@ class SellRequest(RawModel):
         alias="MGCO_APTM_ODNO",
     )
     ("공백")
-    ORD_SVR_DVSN_CD: str = Field(
+    ORD_SVR_DVSN_CD: OrdSvrDvsnCdEnum = Field(
         alias="ORD_SVR_DVSN_CD",
     )
     ("Unique key(0)")
@@ -119,7 +128,7 @@ class SellRequestDict(TypedDict):
         SLL_AGCO_OPPS_SLL_YN (KisBool): N
         BOND_RTL_MKET_YN (KisBool): N
         MGCO_APTM_ODNO (str): 공백
-        ORD_SVR_DVSN_CD (str): Unique key(0)
+        ORD_SVR_DVSN_CD (OrdSvrDvsnCdEnum): Unique key(0)
         CTAC_TLNO (str): 연락전화번호
     """
 
@@ -176,7 +185,7 @@ class SellRequestDict(TypedDict):
         "공백",
     ]
     ORD_SVR_DVSN_CD: Annotated[
-        str,
+        OrdSvrDvsnCdEnum,
         "Unique key(0)",
     ]
     CTAC_TLNO: Annotated[
@@ -299,7 +308,7 @@ if TYPE_CHECKING:
                         SLL_AGCO_OPPS_SLL_YN (KisBool): N
                         BOND_RTL_MKET_YN (KisBool): N
                         MGCO_APTM_ODNO (str): 공백
-                        ORD_SVR_DVSN_CD (str): Unique key(0)
+                        ORD_SVR_DVSN_CD (OrdSvrDvsnCdEnum): Unique key(0)
                         CTAC_TLNO (str): 연락전화번호
 
             Returns:
@@ -318,4 +327,5 @@ __all__ = [
     "SellResponse",
     "SellOutput",
     "OrdDvsnEnum",
+    "OrdSvrDvsnCdEnum",
 ]

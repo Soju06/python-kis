@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisTime,
+    KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -58,39 +58,48 @@ class VolatilityTrendCcnlRequestDict(TypedDict):
 
 
 class VolatilityTrendCcnlOutput(RawModel):
-    stck_cntg_hour: KisTime = Field(
+    stck_cntg_hour: KisTimeOptional = Field(
+        default=None,
         alias="stck_cntg_hour",
     )
     ("주식체결시간")
-    elw_prpr: Decimal = Field(
+    elw_prpr: Decimal | None = Field(
+        default=None,
         alias="elw_prpr",
     )
     ("ELW현재가")
-    prdy_vrss: str = Field(
+    prdy_vrss: str | None = Field(
+        default=None,
         alias="prdy_vrss",
     )
     ("전일대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: str | None = Field(
+        default=None,
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
-    prdy_ctrt: Decimal = Field(
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
         alias="prdy_ctrt",
     )
     ("전일대비율")
-    bidp: str = Field(
+    bidp: str | None = Field(
+        default=None,
         alias="bidp",
     )
     ("매수호가")
-    askp: str = Field(
+    askp: str | None = Field(
+        default=None,
         alias="askp",
     )
     ("매도호가")
-    acml_vol: int = Field(
+    acml_vol: int | None = Field(
+        default=None,
         alias="acml_vol",
     )
     ("누적거래량")
-    hts_ints_vltl: str = Field(
+    hts_ints_vltl: str | None = Field(
+        default=None,
         alias="hts_ints_vltl",
     )
     ("HTS내재변동성")
@@ -109,7 +118,7 @@ class VolatilityTrendCcnlResponse(RawModel):
         alias="msg1",
     )
     ("응답메세지")
-    output: VolatilityTrendCcnlOutput = Field(
+    output: list[VolatilityTrendCcnlOutput] = Field(
         alias="output",
     )
     ("응답상세")

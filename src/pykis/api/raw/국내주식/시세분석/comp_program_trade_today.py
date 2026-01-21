@@ -14,23 +14,16 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
-
-
-class FidCondMrktDivCodeEnum(KisStrEnum):
-    KRX = ("KRX", "J")
-    "J"
-    NXT = ("NXT", "NX")
-    "NX"
 
 
 class FidMrktClsCodeEnum(KisStrEnum):
@@ -41,7 +34,7 @@ class FidMrktClsCodeEnum(KisStrEnum):
 
 
 class CompProgramTradeTodayRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
+    FID_COND_MRKT_DIV_CODE: str = Field(
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("KRX : J , NXT : NX, 통합 : UN")
@@ -78,7 +71,7 @@ class CompProgramTradeTodayRequestDict(TypedDict):
     데이터는 모두 동일한 장마감 데이터인 점 유의 부탁드립니다.
 
     Request fields:
-        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): KRX : J , NXT : NX, 통합 : UN
+        FID_COND_MRKT_DIV_CODE (str): KRX : J , NXT : NX, 통합 : UN
         FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): K:코스피, Q:코스닥
         FID_SCTN_CLS_CODE (str): 공백 입력
         FID_INPUT_ISCD (str): 공백 입력
@@ -87,7 +80,7 @@ class CompProgramTradeTodayRequestDict(TypedDict):
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
+        str,
         "KRX : J , NXT : NX, 통합 : UN",
     ]
     FID_MRKT_CLS_CODE: Annotated[
@@ -121,7 +114,8 @@ class CompProgramTradeTodayOutput1(RawModel):
         alias="arbt_smtn_seln_tr_pbmn",
     )
     ("차익 합계 매도 거래 대금")
-    arbt_smtm_seln_tr_pbmn_rate: Decimal = Field(
+    arbt_smtm_seln_tr_pbmn_rate: Decimal | None = Field(
+        default=None,
         alias="arbt_smtm_seln_tr_pbmn_rate",
     )
     ("차익 합계 매도 거래대금 비율")
@@ -129,7 +123,8 @@ class CompProgramTradeTodayOutput1(RawModel):
         alias="arbt_smtn_shnu_tr_pbmn",
     )
     ("차익 합계 매수2 거래 대금")
-    arbt_smtm_shun_tr_pbmn_rate: Decimal = Field(
+    arbt_smtm_shun_tr_pbmn_rate: Decimal | None = Field(
+        default=None,
         alias="arbt_smtm_shun_tr_pbmn_rate",
     )
     ("차익합계매수거래대금비율")
@@ -137,7 +132,8 @@ class CompProgramTradeTodayOutput1(RawModel):
         alias="nabt_smtn_seln_tr_pbmn",
     )
     ("비차익 합계 매도 거래 대금")
-    nabt_smtm_seln_tr_pbmn_rate: Decimal = Field(
+    nabt_smtm_seln_tr_pbmn_rate: Decimal | None = Field(
+        default=None,
         alias="nabt_smtm_seln_tr_pbmn_rate",
     )
     ("비차익 합계 매도 거래대금 비율")
@@ -145,7 +141,8 @@ class CompProgramTradeTodayOutput1(RawModel):
         alias="nabt_smtn_shnu_tr_pbmn",
     )
     ("비차익 합계 매수2 거래 대금")
-    nabt_smtm_shun_tr_pbmn_rate: Decimal = Field(
+    nabt_smtm_shun_tr_pbmn_rate: Decimal | None = Field(
+        default=None,
         alias="nabt_smtm_shun_tr_pbmn_rate",
     )
     ("비차익합계매수거래대금비율")
@@ -153,7 +150,8 @@ class CompProgramTradeTodayOutput1(RawModel):
         alias="arbt_smtn_ntby_tr_pbmn",
     )
     ("차익 합계 순매수 거래 대금")
-    arbt_smtm_ntby_tr_pbmn_rate: Decimal = Field(
+    arbt_smtm_ntby_tr_pbmn_rate: Decimal | None = Field(
+        default=None,
         alias="arbt_smtm_ntby_tr_pbmn_rate",
     )
     ("차익 합계 순매수 거래대금 비율")
@@ -161,7 +159,8 @@ class CompProgramTradeTodayOutput1(RawModel):
         alias="nabt_smtn_ntby_tr_pbmn",
     )
     ("비차익 합계 순매수 거래 대금")
-    nabt_smtm_ntby_tr_pbmn_rate: Decimal = Field(
+    nabt_smtm_ntby_tr_pbmn_rate: Decimal | None = Field(
+        default=None,
         alias="nabt_smtm_ntby_tr_pbmn_rate",
     )
     ("비차익 합계 순매수 거래대금 비")
@@ -169,19 +168,23 @@ class CompProgramTradeTodayOutput1(RawModel):
         alias="whol_smtn_ntby_tr_pbmn",
     )
     ("전체 합계 순매수 거래 대금")
-    whol_ntby_tr_pbmn_rate: Decimal = Field(
+    whol_ntby_tr_pbmn_rate: Decimal | None = Field(
+        default=None,
         alias="whol_ntby_tr_pbmn_rate",
     )
     ("전체 순매수 거래대금 비율")
-    bstp_nmix_prpr: Decimal = Field(
+    bstp_nmix_prpr: Decimal | None = Field(
+        default=None,
         alias="bstp_nmix_prpr",
     )
     ("업종 지수 현재가")
-    bstp_nmix_prdy_vrss: Decimal = Field(
+    bstp_nmix_prdy_vrss: Decimal | None = Field(
+        default=None,
         alias="bstp_nmix_prdy_vrss",
     )
     ("업종 지수 전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: str | None = Field(
+        default=None,
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -201,7 +204,7 @@ class CompProgramTradeTodayResponse(RawModel):
     )
     ("응답메세지")
     output1: list[CompProgramTradeTodayOutput1] = Field(
-        alias="output1",
+        alias="output",
     )
     ("응답상세")
 
@@ -279,7 +282,7 @@ if TYPE_CHECKING:
                 **kwargs (CompProgramTradeTodayRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): KRX : J , NXT : NX, 통합 : UN
+                        FID_COND_MRKT_DIV_CODE (str): KRX : J , NXT : NX, 통합 : UN
                         FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): K:코스피, Q:코스닥
                         FID_SCTN_CLS_CODE (str): 공백 입력
                         FID_INPUT_ISCD (str): 공백 입력
@@ -301,6 +304,5 @@ __all__ = [
     "CompProgramTradeTodayRequestDict",
     "CompProgramTradeTodayResponse",
     "CompProgramTradeTodayOutput1",
-    "FidCondMrktDivCodeEnum",
     "FidMrktClsCodeEnum",
 ]

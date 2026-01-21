@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisTime,
+    KisTimeOptional,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -56,47 +56,58 @@ class SensitivityTrendCcnlRequestDict(TypedDict):
 
 
 class SensitivityTrendCcnlOutput(RawModel):
-    stck_cntg_hour: KisTime = Field(
+    stck_cntg_hour: KisTimeOptional = Field(
+        default=None,
         alias="stck_cntg_hour",
     )
     ("주식체결시간")
-    elw_prpr: Decimal = Field(
+    elw_prpr: Decimal | None = Field(
+        default=None,
         alias="elw_prpr",
     )
     ("ELW현재가")
-    prdy_vrss: str = Field(
+    prdy_vrss: str | None = Field(
+        default=None,
         alias="prdy_vrss",
     )
     ("전일대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: str | None = Field(
+        default=None,
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
-    prdy_ctrt: Decimal = Field(
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
         alias="prdy_ctrt",
     )
     ("전일대비율")
-    hts_thpr: str = Field(
+    hts_thpr: str | None = Field(
+        default=None,
         alias="hts_thpr",
     )
     ("hts 이론가")
-    delta_val: str = Field(
+    delta_val: str | None = Field(
+        default=None,
         alias="delta_val",
     )
     ("델타 값")
-    gama: str = Field(
+    gama: str | None = Field(
+        default=None,
         alias="gama",
     )
     ("감마")
-    theta: str = Field(
+    theta: str | None = Field(
+        default=None,
         alias="theta",
     )
     ("세타")
-    vega: str = Field(
+    vega: str | None = Field(
+        default=None,
         alias="vega",
     )
     ("베가")
-    rho: str = Field(
+    rho: str | None = Field(
+        default=None,
         alias="rho",
     )
     ("로우")

@@ -14,16 +14,34 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidHourClsCodeEnum(KisStrEnum):
+    VALUE_60 = ("60", "1분")
+    "1분"
+    VALUE_180 = ("180", "3분")
+    "3분"
+    VALUE_300 = ("300", "5분")
+    "5분"
+    VALUE_600 = ("600", "10분")
+    "10분"
+    VALUE_1800 = ("1800", "30분")
+    "30분"
+    VALUE_3600 = ("3600", "60분")
+    "60분"
+    VALUE_7200 = ("7200", "60분")
+    "60분"
 
 
 class IndicatorTrendMinuteRequest(RawModel):
@@ -35,7 +53,7 @@ class IndicatorTrendMinuteRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("ex) 58J297(KBJ297삼성전자콜)")
-    FID_HOUR_CLS_CODE: str = Field(
+    FID_HOUR_CLS_CODE: FidHourClsCodeEnum = Field(
         alias="FID_HOUR_CLS_CODE",
     )
     ("'60(1분), 180(3분), 300(5분), 600(10분), 1800(30분), 3600(60분), 7200(60분) '")
@@ -54,8 +72,8 @@ class IndicatorTrendMinuteRequestDict(TypedDict):
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (W)
         FID_INPUT_ISCD (str): ex) 58J297(KBJ297삼성전자콜)
-        FID_HOUR_CLS_CODE (str): '60(1분), 180(3분), 300(5분), 600(10분), 1800(30분), 3600(60분),
-        7200(60분) '
+        FID_HOUR_CLS_CODE (FidHourClsCodeEnum): '60(1분), 180(3분), 300(5분), 600(10분), 1800(30분),
+        3600(60분), 7200(60분) '
         FID_PW_DATA_INCU_YN (KisBool): N(과거데이터포함X),Y(과거데이터포함O)
     """
 
@@ -68,7 +86,7 @@ class IndicatorTrendMinuteRequestDict(TypedDict):
         "ex) 58J297(KBJ297삼성전자콜)",
     ]
     FID_HOUR_CLS_CODE: Annotated[
-        str,
+        FidHourClsCodeEnum,
         "'60(1분), 180(3분), 300(5분), 600(10분), 1800(30분), 3600(60분), 7200(60분) '",
     ]
     FID_PW_DATA_INCU_YN: Annotated[
@@ -102,23 +120,23 @@ class IndicatorTrendMinuteOutput(RawModel):
         alias="elw_lwpr",
     )
     ("ELW최저가")
-    lvrg_val: str = Field(
+    lvrg_val: Decimal = Field(
         alias="lvrg_val",
     )
     ("레버리지값")
-    gear: str = Field(
+    gear: Decimal = Field(
         alias="gear",
     )
     ("기어링")
-    prmm_val: str = Field(
+    prmm_val: Decimal = Field(
         alias="prmm_val",
     )
     ("프리미엄값")
-    invl_val: str = Field(
+    invl_val: Decimal = Field(
         alias="invl_val",
     )
     ("내재가치값")
-    prit: str = Field(
+    prit: Decimal = Field(
         alias="prit",
     )
     ("패리티")
@@ -218,8 +236,8 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (W)
                         FID_INPUT_ISCD (str): ex) 58J297(KBJ297삼성전자콜)
-                        FID_HOUR_CLS_CODE (str): '60(1분), 180(3분), 300(5분), 600(10분), 1800(30분),
-                        3600(60분), 7200(60분) '
+                        FID_HOUR_CLS_CODE (FidHourClsCodeEnum): '60(1분), 180(3분), 300(5분),
+                        600(10분), 1800(30분), 3600(60분), 7200(60분) '
                         FID_PW_DATA_INCU_YN (KisBool): N(과거데이터포함X),Y(과거데이터포함O)
 
             Returns:
@@ -237,4 +255,5 @@ __all__ = [
     "IndicatorTrendMinuteRequestDict",
     "IndicatorTrendMinuteResponse",
     "IndicatorTrendMinuteOutput",
+    "FidHourClsCodeEnum",
 ]

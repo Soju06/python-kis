@@ -12,6 +12,12 @@ _ENUM_PAIR_DASH_RE = re.compile(
     r"(?P<code>[A-Za-z0-9]{1,8})\s*[-–]\s*(?P<desc>.*?)(?=(?:\b[A-Za-z0-9]{1,8}\s*[-–])|$)",
     re.S,
 )
+_ENUM_PAIR_DOT_RE = re.compile(
+    r"(?<![A-Za-z0-9가-힣_])(?P<code>[A-Za-z0-9]{1,5})\s*[.)]\s*(?P<desc>.*?)(?=(?:\b[A-Za-z0-9]{1,5}\s*[.)])|$)",
+    re.S,
+)
+_ENUM_PAREN_CODE_RE = re.compile(r"(?P<desc>[^()\n,;/]+?)\s*\((?P<code>[A-Za-z0-9]{1,5})\)")
+_ENUM_PAREN_DESC_RE = re.compile(r"(?<![A-Za-z0-9_])(?P<code>[A-Za-z0-9]{1,5})\s*\((?P<desc>[^()\n,;/]+?)\)")
 
 
 @dataclass(frozen=True, slots=True)
@@ -93,6 +99,39 @@ def _parse_pairs(normalized: str) -> list[EnumEntry]:
     return entries
 
 
+def _parse_dot_pairs(normalized: str) -> list[EnumEntry]:
+    entries: list[EnumEntry] = []
+    for line in normalized.splitlines():
+        for match in _ENUM_PAIR_DOT_RE.finditer(line):
+            code = match.group("code").strip()
+            desc = _clean_desc(match.group("desc") or "")
+            if not code or not desc:
+                continue
+            if code.lower() in {"ex", "eg"}:
+                continue
+            if desc.startswith("※") or "FID_" in desc:
+                continue
+            entries.append(EnumEntry(code=code, desc=desc))
+    return entries
+
+
+def _parse_paren_pairs(normalized: str) -> list[EnumEntry]:
+    entries: list[EnumEntry] = []
+    for match in _ENUM_PAREN_CODE_RE.finditer(normalized):
+        code = match.group("code").strip()
+        desc = _clean_desc(match.group("desc") or "")
+        if not code or not desc:
+            continue
+        entries.append(EnumEntry(code=code, desc=desc))
+    for match in _ENUM_PAREN_DESC_RE.finditer(normalized):
+        code = match.group("code").strip()
+        desc = _clean_desc(match.group("desc") or "")
+        if not code or not desc:
+            continue
+        entries.append(EnumEntry(code=code, desc=desc))
+    return entries
+
+
 def _parse_colonless(normalized: str) -> list[EnumEntry]:
     entries: list[EnumEntry] = []
     for line in normalized.splitlines():
@@ -154,6 +193,8 @@ def parse_enum_entries(description: str | None) -> list[EnumEntry]:
 
     candidates.extend(_parse_pairs(normalized))
     candidates.extend(_parse_colonless(normalized))
+    candidates.extend(_parse_dot_pairs(normalized))
+    candidates.extend(_parse_paren_pairs(normalized))
 
     if not candidates:
         for chunk in _ENUM_LIST_RE.findall(normalized):

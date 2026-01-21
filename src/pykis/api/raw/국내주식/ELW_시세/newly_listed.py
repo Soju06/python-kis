@@ -14,15 +14,43 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(11548)")
+    "key(11548)"
+    VALUE_11548 = ("11548", "Unique key")
+    "Unique key"
+    KEY = ("key", "11548")
+    "11548"
+
+
+class FidDivClsCodeEnum(KisStrEnum):
+    VALUE_02 = ("02", "콜(")
+    "콜("
+    VALUE_00 = ("00", "풋(")
+    "풋("
+    VALUE_01 = ("01", "풋")
+    "풋"
+
+
+class FidBlncClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "전체")
+    "전체"
+    VALUE_1 = ("1", "일반")
+    "일반"
+    VALUE_2 = ("2", "조기종료")
+    "조기종료"
 
 
 class NewlyListedRequest(RawModel):
@@ -30,11 +58,11 @@ class NewlyListedRequest(RawModel):
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("시장구분코드 (W)")
-    FID_COND_SCR_DIV_CODE: str = Field(
+    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("Unique key(11548)")
-    FID_DIV_CLS_CODE: str = Field(
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
         alias="FID_DIV_CLS_CODE",
     )
     ("전체(02), 콜(00), 풋(01)")
@@ -46,11 +74,11 @@ class NewlyListedRequest(RawModel):
         alias="FID_INPUT_ISCD_2",
     )
     ("'00003(한국투자증권), 00017(KB증권), 00005(미래에셋증권)'")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("날짜 (ex) 20240402)")
-    FID_BLNC_CLS_CODE: str = Field(
+    FID_BLNC_CLS_CODE: FidBlncClsCodeEnum = Field(
         alias="FID_BLNC_CLS_CODE",
     )
     ("0(전체), 1(일반), 2(조기종료)")
@@ -64,13 +92,13 @@ class NewlyListedRequestDict(TypedDict):
 
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (W)
-        FID_COND_SCR_DIV_CODE (str): Unique key(11548)
-        FID_DIV_CLS_CODE (str): 전체(02), 콜(00), 풋(01)
+        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(11548)
+        FID_DIV_CLS_CODE (FidDivClsCodeEnum): 전체(02), 콜(00), 풋(01)
         FID_UNAS_INPUT_ISCD (str): 'ex) 000000(전체), 2001(코스피200) , 3003(코스닥150),
         005930(삼성전자) '
         FID_INPUT_ISCD_2 (str): '00003(한국투자증권), 00017(KB증권), 00005(미래에셋증권)'
-        FID_INPUT_DATE_1 (KisDate): 날짜 (ex) 20240402)
-        FID_BLNC_CLS_CODE (str): 0(전체), 1(일반), 2(조기종료)
+        FID_INPUT_DATE_1 (str): 날짜 (ex) 20240402)
+        FID_BLNC_CLS_CODE (FidBlncClsCodeEnum): 0(전체), 1(일반), 2(조기종료)
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -78,11 +106,11 @@ class NewlyListedRequestDict(TypedDict):
         "시장구분코드 (W)",
     ]
     FID_COND_SCR_DIV_CODE: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(11548)",
     ]
     FID_DIV_CLS_CODE: Annotated[
-        str,
+        FidDivClsCodeEnum,
         "전체(02), 콜(00), 풋(01)",
     ]
     FID_UNAS_INPUT_ISCD: Annotated[
@@ -94,11 +122,11 @@ class NewlyListedRequestDict(TypedDict):
         "'00003(한국투자증권), 00017(KB증권), 00005(미래에셋증권)'",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "날짜 (ex) 20240402)",
     ]
     FID_BLNC_CLS_CODE: Annotated[
-        str,
+        FidBlncClsCodeEnum,
         "0(전체), 1(일반), 2(조기종료)",
     ]
 
@@ -143,15 +171,18 @@ class NewlyListedOutput(RawModel):
 
 
 class NewlyListedResponse(RawModel):
-    rt_cd: KisBool = Field(
+    rt_cd: KisBool | None = Field(
+        default=None,
         alias="rt_cd",
     )
     ("성공 실패 여부")
-    msg_cd: str = Field(
+    msg_cd: str | None = Field(
+        default=None,
         alias="msg_cd",
     )
     ("응답코드")
-    msg1: str = Field(
+    msg1: str | None = Field(
+        default=None,
         alias="msg1",
     )
     ("응답메세지")
@@ -227,14 +258,14 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (W)
-                        FID_COND_SCR_DIV_CODE (str): Unique key(11548)
-                        FID_DIV_CLS_CODE (str): 전체(02), 콜(00), 풋(01)
+                        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(11548)
+                        FID_DIV_CLS_CODE (FidDivClsCodeEnum): 전체(02), 콜(00), 풋(01)
                         FID_UNAS_INPUT_ISCD (str): 'ex) 000000(전체), 2001(코스피200) ,
                         3003(코스닥150), 005930(삼성전자) '
                         FID_INPUT_ISCD_2 (str): '00003(한국투자증권), 00017(KB증권),
                         00005(미래에셋증권)'
-                        FID_INPUT_DATE_1 (KisDate): 날짜 (ex) 20240402)
-                        FID_BLNC_CLS_CODE (str): 0(전체), 1(일반), 2(조기종료)
+                        FID_INPUT_DATE_1 (str): 날짜 (ex) 20240402)
+                        FID_BLNC_CLS_CODE (FidBlncClsCodeEnum): 0(전체), 1(일반), 2(조기종료)
 
             Returns:
                 tuple[NewlyListedResponse, KisResponse]: 응답 모델과 원시 응답
@@ -251,4 +282,7 @@ __all__ = [
     "NewlyListedRequestDict",
     "NewlyListedResponse",
     "NewlyListedOutput",
+    "FidCondScrDivCodeEnum",
+    "FidDivClsCodeEnum",
+    "FidBlncClsCodeEnum",
 ]

@@ -10,7 +10,7 @@ from codegen.api.overrides import (
     EndpointOverrideLocations,
     load_augment_overrides,
 )
-from codegen.core.enums import parse_enum_values
+from codegen.core.enums import parse_enum_entries, parse_enum_values
 from codegen.core.text import is_forced_null_description
 from codegen.core.types import JsonObject, JsonValue
 from pykis.api.client import SyncKisRawClient
@@ -18,7 +18,12 @@ from pykis.api.client import SyncKisRawClient
 UNSAFE_KEYWORDS = ("주문", "정정", "취소", "매수", "매도", "trading", "order")
 
 _EMPTY_MESSAGE_CODES = {"APBN0024"}
-_EMPTY_MESSAGE_SNIPPETS = ("조회된 데이터가 없습니다",)
+_EMPTY_MESSAGE_SNIPPETS = (
+    "조회된 데이터가 없습니다",
+    "조회할 자료가 없습니다",
+    "조회가 계속 됩니다",
+    "CME SUB거래소 신청 계좌가 아닙니다",
+)
 
 
 def load_overrides(path: Path) -> AugmentOverrides:
@@ -74,6 +79,13 @@ class ValueResolver:
             return self._defaults[key]
         return _heuristic_value(key)
 
+    def has_override(self, endpoint_id: str, location: str, code: str) -> bool:
+        endpoint_overrides = self._endpoints.get(endpoint_id)
+        if not endpoint_overrides:
+            return False
+        location_overrides = _endpoint_location(endpoint_overrides, location)
+        return code.lower() in location_overrides
+
 
 def build_payload(
     endpoint: EndpointSpec,
@@ -90,9 +102,15 @@ def build_payload(
             continue
         value = resolver.resolve(endpoint.id, location, field.code)
         enum_values = _enum_values(field)
+        enum_alt_values = _enum_alt_values(field)
         if enum_values:
-            if value is None or str(value) not in enum_values:
+            if value is None:
                 value = _enum_default(field)
+            else:
+                if not resolver.has_override(endpoint.id, location, field.code):
+                    normalized = str(value)
+                    if normalized not in enum_values and normalized not in enum_alt_values:
+                        value = _enum_default(field)
         elif value is None:
             value = _enum_default(field)
         if value is None:
@@ -117,6 +135,10 @@ def is_empty_payload(payload: JsonObject | None) -> bool:
     if msg_code in _EMPTY_MESSAGE_CODES:
         return True
     message = str(payload.get("msg1") or "")
+    if not msg_code and not message:
+        rt_cd = str(payload.get("rt_cd") or "").strip()
+        if not rt_cd:
+            return True
     return any(snippet in message for snippet in _EMPTY_MESSAGE_SNIPPETS)
 
 
@@ -135,6 +157,24 @@ def _endpoint_location(
 
 def _enum_values(field: SpecField) -> list[str]:
     return parse_enum_values(field.description)
+
+
+def _enum_alt_values(field: SpecField) -> list[str]:
+    entries = parse_enum_entries(field.description or "")
+    values: list[str] = []
+    for entry in entries:
+        desc = (entry.desc or "").strip()
+        if _is_code_like(desc):
+            values.append(desc)
+    return values
+
+
+def _is_code_like(value: str) -> bool:
+    if not value:
+        return False
+    if not value.isalnum():
+        return False
+    return len(value) <= 4
 
 
 def _enum_default(field: SpecField) -> str | None:

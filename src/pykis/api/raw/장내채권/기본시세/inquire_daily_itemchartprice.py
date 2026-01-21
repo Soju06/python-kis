@@ -14,19 +14,29 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class FidCondMrktDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(B)")
+    "key(B)"
+    B = ("B", "Unique key")
+    "Unique key"
+    KEY = ("key", "B")
+    "B"
+
+
 class InquireDailyItemchartpriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("Unique key(B)")
@@ -45,12 +55,12 @@ class InquireDailyItemchartpriceRequestDict(TypedDict):
     최근 30건까지 데이터 확인이 가능합니다.
 
     Request fields:
-        FID_COND_MRKT_DIV_CODE (str): Unique key(B)
+        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): Unique key(B)
         FID_INPUT_ISCD (str): 종목코드
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
+        FidCondMrktDivCodeEnum,
         "Unique key(B)",
     ]
     FID_INPUT_ISCD: Annotated[
@@ -174,7 +184,7 @@ if TYPE_CHECKING:
                 **kwargs (InquireDailyItemchartpriceRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_COND_MRKT_DIV_CODE (str): Unique key(B)
+                        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): Unique key(B)
                         FID_INPUT_ISCD (str): 종목코드
 
             Returns:
@@ -192,4 +202,5 @@ __all__ = [
     "InquireDailyItemchartpriceRequestDict",
     "InquireDailyItemchartpriceResponse",
     "InquireDailyItemchartpriceOutput",
+    "FidCondMrktDivCodeEnum",
 ]

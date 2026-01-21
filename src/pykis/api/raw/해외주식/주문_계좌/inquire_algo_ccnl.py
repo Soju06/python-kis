@@ -15,13 +15,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
     KisTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -36,7 +35,7 @@ class InquireAlgoCcnlRequest(RawModel):
         alias="ACNT_PRDT_CD",
     )
     ("상품코드 2자리 (주식계좌 : 01)")
-    ORD_DT: KisDate = Field(
+    ORD_DT: str = Field(
         alias="ORD_DT",
     )
     ("주문일자 (YYYYMMDD)")
@@ -74,7 +73,7 @@ class InquireAlgoCcnlRequestDict(TypedDict):
     Request fields:
         CANO (str): 종합계좌번호 8자리
         ACNT_PRDT_CD (str): 상품코드 2자리 (주식계좌 : 01)
-        ORD_DT (KisDate): 주문일자 (YYYYMMDD)
+        ORD_DT (str): 주문일자 (YYYYMMDD)
         ORD_GNO_BRNO (str): 주문채번지점번호 optional
         ODNO (str): 지정가주문번호 (TTTC6058R)에서 조회된 주문번호 입력
         TTLZ_ICLD_YN (KisBool): 집계포함여부 optional
@@ -91,7 +90,7 @@ class InquireAlgoCcnlRequestDict(TypedDict):
         "상품코드 2자리 (주식계좌 : 01)",
     ]
     ORD_DT: Annotated[
-        KisDate,
+        str,
         "주문일자 (YYYYMMDD)",
     ]
     ORD_GNO_BRNO: NotRequired[
@@ -299,7 +298,7 @@ if TYPE_CHECKING:
                     Request fields:
                         CANO (str): 종합계좌번호 8자리
                         ACNT_PRDT_CD (str): 상품코드 2자리 (주식계좌 : 01)
-                        ORD_DT (KisDate): 주문일자 (YYYYMMDD)
+                        ORD_DT (str): 주문일자 (YYYYMMDD)
                         ORD_GNO_BRNO (str): 주문채번지점번호 optional
                         ODNO (str): 지정가주문번호 (TTTC6058R)에서 조회된 주문번호 입력
                         TTLZ_ICLD_YN (KisBool): 집계포함여부 optional

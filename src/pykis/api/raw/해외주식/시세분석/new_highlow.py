@@ -14,14 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
-    KisDate,
-    KisDateTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -48,6 +46,56 @@ class ExcdEnum(KisStrEnum):
     "도쿄 '"
 
 
+class GubnEnum(KisStrEnum):
+    VALUE_1 = ("1", "신저(")
+    "신저("
+    VALUE_0 = ("0", "신저")
+    "신저"
+
+
+class Gubn2Enum(KisStrEnum):
+    VALUE_0 = ("0", "돌파유지(")
+    "돌파유지("
+    VALUE_1 = ("1", "돌파유지")
+    "돌파유지"
+
+
+class NdayEnum(KisStrEnum):
+    VALUE_0 = ("0", "5일")
+    "5일"
+    VALUE_1 = ("1", "10일")
+    "10일"
+    VALUE_2 = ("2", "20일")
+    "20일"
+    VALUE_3 = ("3", "30일")
+    "30일"
+    VALUE_4 = ("4", "60일")
+    "60일"
+    VALUE_5 = ("5", "120일전")
+    "120일전"
+    VALUE_6 = ("6", "52주")
+    "52주"
+    VALUE_7 = ("7", "1년")
+    "1년"
+
+
+class VolRangEnum(KisStrEnum):
+    VALUE_0 = ("0", "전체")
+    "전체"
+    VALUE_1 = ("1", "1백주이상")
+    "1백주이상"
+    VALUE_2 = ("2", "1천주이상")
+    "1천주이상"
+    VALUE_3 = ("3", "1만주이상")
+    "1만주이상"
+    VALUE_4 = ("4", "10만주이상")
+    "10만주이상"
+    VALUE_5 = ("5", "100만주이상")
+    "100만주이상"
+    VALUE_6 = ("6", "1000만주이상")
+    "1000만주이상"
+
+
 class NewHighlowRequest(RawModel):
     KEYB: str = Field(
         alias="KEYB",
@@ -64,19 +112,19 @@ class NewHighlowRequest(RawModel):
         "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : "
         "하노이 TSE : 도쿄 '"
     )
-    GUBN: int = Field(
+    GUBN: GubnEnum = Field(
         alias="GUBN",
     )
     ("신고(1) 신저(0)")
-    GUBN2: KisDateTime = Field(
+    GUBN2: Gubn2Enum = Field(
         alias="GUBN2",
     )
     ("일시돌파(0) 돌파유지(1)")
-    NDAY: KisDate = Field(
+    NDAY: NdayEnum = Field(
         alias="NDAY",
     )
     ("N일전 : 0(5일), 1(10일), 2(20일), 3(30일), 4(60일), 5(120일전), 6(52주), 7(1년)")
-    VOL_RANG: int = Field(
+    VOL_RANG: VolRangEnum = Field(
         alias="VOL_RANG",
     )
     ("0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)")
@@ -91,11 +139,11 @@ class NewHighlowRequestDict(TypedDict):
         AUTH (str): 공백
         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천
         HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
-        GUBN (int): 신고(1) 신저(0)
-        GUBN2 (KisDateTime): 일시돌파(0) 돌파유지(1)
-        NDAY (KisDate): N일전 : 0(5일), 1(10일), 2(20일), 3(30일), 4(60일), 5(120일전), 6(52주),
+        GUBN (GubnEnum): 신고(1) 신저(0)
+        GUBN2 (Gubn2Enum): 일시돌파(0) 돌파유지(1)
+        NDAY (NdayEnum): N일전 : 0(5일), 1(10일), 2(20일), 3(30일), 4(60일), 5(120일전), 6(52주),
         7(1년)
-        VOL_RANG (int): 0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상),
+        VOL_RANG (VolRangEnum): 0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상),
         5(100만주이상), 6(1000만주이상)
     """
 
@@ -113,19 +161,19 @@ class NewHighlowRequestDict(TypedDict):
         "하노이 TSE : 도쿄 '",
     ]
     GUBN: Annotated[
-        int,
+        GubnEnum,
         "신고(1) 신저(0)",
     ]
     GUBN2: Annotated[
-        KisDateTime,
+        Gubn2Enum,
         "일시돌파(0) 돌파유지(1)",
     ]
     NDAY: Annotated[
-        KisDate,
+        NdayEnum,
         "N일전 : 0(5일), 1(10일), 2(20일), 3(30일), 4(60일), 5(120일전), 6(52주), 7(1년)",
     ]
     VOL_RANG: Annotated[
-        int,
+        VolRangEnum,
         "0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)",
     ]
 
@@ -298,11 +346,11 @@ if TYPE_CHECKING:
                         AUTH (str): 공백
                         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS :
                         상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
-                        GUBN (int): 신고(1) 신저(0)
-                        GUBN2 (KisDateTime): 일시돌파(0) 돌파유지(1)
-                        NDAY (KisDate): N일전 : 0(5일), 1(10일), 2(20일), 3(30일), 4(60일),
+                        GUBN (GubnEnum): 신고(1) 신저(0)
+                        GUBN2 (Gubn2Enum): 일시돌파(0) 돌파유지(1)
+                        NDAY (NdayEnum): N일전 : 0(5일), 1(10일), 2(20일), 3(30일), 4(60일),
                         5(120일전), 6(52주), 7(1년)
-                        VOL_RANG (int): 0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상),
+                        VOL_RANG (VolRangEnum): 0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상),
                         4(10만주이상), 5(100만주이상), 6(1000만주이상)
 
             Returns:
@@ -322,4 +370,8 @@ __all__ = [
     "NewHighlowOutput1",
     "NewHighlowOutput2",
     "ExcdEnum",
+    "GubnEnum",
+    "Gubn2Enum",
+    "NdayEnum",
+    "VolRangEnum",
 ]

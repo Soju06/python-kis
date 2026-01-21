@@ -14,15 +14,77 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
+    KisDateOptional,
+    KisDateTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class PrdtTypeCdEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(302)")
+    "key(302)"
+    VALUE_302 = ("302", "Unique key")
+    "Unique key"
+    KEY = ("key", "302")
+    "302"
+
+
+class KsdIntCalcUnitCdEnum(KisStrEnum):
+    VALUE_1 = ("1", "발행금액")
+    "발행금액"
+    VALUE_2 = ("2", "만원")
+    "만원"
+    VALUE_3 = ("3", "십만원")
+    "십만원"
+    VALUE_4 = ("4", "백만원")
+    "백만원"
+
+
+class BondIntDfrmMthdCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "할인채")
+    "할인채"
+    VALUE_02 = ("02", "복리채")
+    "복리채"
+    VALUE_03 = ("03", "이표채.확정금리")
+    "이표채.확정금리"
+    VALUE_04 = ("04", "이표채.금리연동")
+    "이표채.금리연동"
+    VALUE_05 = ("05", "이표채.변동금리")
+    "이표채.변동금리"
+    VALUE_06 = ("06", "단리채")
+    "단리채"
+    VALUE_07 = ("07", "분할채")
+    "분할채"
+    VALUE_09 = ("09", "복5단2")
+    "복5단2"
+    VALUE_19 = ("19", "기타.고정금리")
+    "기타.고정금리"
+    VALUE_29 = ("29", "기타.변동금리")
+    "기타.변동금리"
+
+
+class IntDfrmDayTypeCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "발행일")
+    "발행일"
+    VALUE_02 = ("02", "만기일")
+    "만기일"
+    VALUE_03 = ("03", "특정일")
+    "특정일"
+
+
+class IntMnedDvsnCdEnum(KisStrEnum):
+    VALUE_1 = ("1", "일자기준")
+    "일자기준"
+    VALUE_2 = ("2", "말일기준")
+    "말일기준"
 
 
 class SearchBondInfoRequest(RawModel):
@@ -30,7 +92,7 @@ class SearchBondInfoRequest(RawModel):
         alias="PDNO",
     )
     ("상품번호")
-    PRDT_TYPE_CD: str = Field(
+    PRDT_TYPE_CD: PrdtTypeCdEnum = Field(
         alias="PRDT_TYPE_CD",
     )
     ("Unique key(302)")
@@ -43,7 +105,7 @@ class SearchBondInfoRequestDict(TypedDict):
 
     Request fields:
         PDNO (str): 상품번호
-        PRDT_TYPE_CD (str): Unique key(302)
+        PRDT_TYPE_CD (PrdtTypeCdEnum): Unique key(302)
     """
 
     PDNO: Annotated[
@@ -51,7 +113,7 @@ class SearchBondInfoRequestDict(TypedDict):
         "상품번호",
     ]
     PRDT_TYPE_CD: Annotated[
-        str,
+        PrdtTypeCdEnum,
         "Unique key(302)",
     ]
 
@@ -81,7 +143,7 @@ class SearchBondInfoOutput(RawModel):
         alias="ksd_ofrg_dvsn_cd",
     )
     ("증권예탁결제원모집구분코드")
-    ksd_bond_int_dfrm_dvsn_cd: str = Field(
+    ksd_bond_int_dfrm_dvsn_cd: int = Field(
         alias="ksd_bond_int_dfrm_dvsn_cd",
     )
     ("증권예탁결제원채권이자지급구분")
@@ -101,7 +163,8 @@ class SearchBondInfoOutput(RawModel):
         alias="iso_crcy_cd",
     )
     ("통화코드")
-    mdwy_rdpt_dt: KisDate = Field(
+    mdwy_rdpt_dt: KisDateOptional = Field(
+        default=None,
         alias="mdwy_rdpt_dt",
     )
     ("중도상환일자")
@@ -121,11 +184,11 @@ class SearchBondInfoOutput(RawModel):
         alias="ksd_prca_rdpt_mthd_cd",
     )
     ("증권예탁결제원원금상환방법코드")
-    int_caltm_mcnt: str = Field(
+    int_caltm_mcnt: int = Field(
         alias="int_caltm_mcnt",
     )
     ("이자계산기간개월수")
-    ksd_int_calc_unit_cd: str = Field(
+    ksd_int_calc_unit_cd: KsdIntCalcUnitCdEnum = Field(
         alias="ksd_int_calc_unit_cd",
     )
     ("1.발행금액 2.만원 3.십만원 4.백만원")
@@ -133,15 +196,15 @@ class SearchBondInfoOutput(RawModel):
         alias="uval_cut_dvsn_cd",
     )
     ("절상절사구분코드")
-    uval_cut_dcpt_dgit: str = Field(
+    uval_cut_dcpt_dgit: int = Field(
         alias="uval_cut_dcpt_dgit",
     )
     ("절상절사소수점자릿수")
-    ksd_dydv_caltm_aply_dvsn_cd: str = Field(
+    ksd_dydv_caltm_aply_dvsn_cd: int = Field(
         alias="ksd_dydv_caltm_aply_dvsn_cd",
     )
     ("증권예탁결제원일할계산기간적용")
-    dydv_calc_dcnt: str = Field(
+    dydv_calc_dcnt: int = Field(
         alias="dydv_calc_dcnt",
     )
     ("일할계산일수")
@@ -169,11 +232,12 @@ class SearchBondInfoOutput(RawModel):
         alias="laps_indf_yn",
     )
     ("경과이자지급여부")
-    ksd_lhdy_pnia_dfrm_mthd_cd: str = Field(
+    ksd_lhdy_pnia_dfrm_mthd_cd: int = Field(
         alias="ksd_lhdy_pnia_dfrm_mthd_cd",
     )
     ("증권예탁결제원공휴일원리금지급")
-    frst_int_dfrm_dt: KisDate = Field(
+    frst_int_dfrm_dt: KisDateOptional = Field(
+        default=None,
         alias="frst_int_dfrm_dt",
     )
     ("최초이자지급일자")
@@ -205,11 +269,13 @@ class SearchBondInfoOutput(RawModel):
         alias="expd_exts_yn",
     )
     ("만기연장여부")
-    pclr_ptcr_text: str = Field(
+    pclr_ptcr_text: str | None = Field(
+        default=None,
         alias="pclr_ptcr_text",
     )
     ("특이사항내용")
-    dpsi_psbl_excp_stat_cd: str = Field(
+    dpsi_psbl_excp_stat_cd: str | None = Field(
+        default=None,
         alias="dpsi_psbl_excp_stat_cd",
     )
     ("예탁가능예외상태코드")
@@ -221,26 +287,28 @@ class SearchBondInfoOutput(RawModel):
         alias="expd_exts_srdp_rt",
     )
     ("만기연장분할상환율")
-    expd_rdpt_rt: Decimal = Field(
+    expd_rdpt_rt: Decimal | None = Field(
+        default=None,
         alias="expd_rdpt_rt",
     )
     ("만기상환율")
-    expd_asrc_erng_rt: Decimal = Field(
+    expd_asrc_erng_rt: Decimal | None = Field(
+        default=None,
         alias="expd_asrc_erng_rt",
     )
     ("만기보장수익율")
-    bond_int_dfrm_mthd_cd: str = Field(
+    bond_int_dfrm_mthd_cd: BondIntDfrmMthdCdEnum = Field(
         alias="bond_int_dfrm_mthd_cd",
     )
     (
         "01.할인채 02.복리채 03.이표채.확정금리 04.이표채.금리연동 05.이표채.변동금리 06.단리채 07.분할채 "
         "09.복5단2 19.기타.고정금리 29.기타.변동금리"
     )
-    int_dfrm_day_type_cd: str = Field(
+    int_dfrm_day_type_cd: IntDfrmDayTypeCdEnum = Field(
         alias="int_dfrm_day_type_cd",
     )
     ("01.발행일 02.만기일 03.특정일")
-    prca_dfmt_term_mcnt: str = Field(
+    prca_dfmt_term_mcnt: int = Field(
         alias="prca_dfmt_term_mcnt",
     )
     ("원금거치기간개월수")
@@ -260,7 +328,8 @@ class SearchBondInfoOutput(RawModel):
         alias="sprx_psbl_yn",
     )
     ("분리과세가능여부")
-    ictx_rt_dvsn_cd: str = Field(
+    ictx_rt_dvsn_cd: str | None = Field(
+        default=None,
         alias="ictx_rt_dvsn_cd",
     )
     ("소득세율구분코드")
@@ -272,15 +341,15 @@ class SearchBondInfoOutput(RawModel):
         alias="bond_clsf_kor_name",
     )
     ("채권분류한글명")
-    int_mned_dvsn_cd: KisDate = Field(
+    int_mned_dvsn_cd: IntMnedDvsnCdEnum = Field(
         alias="int_mned_dvsn_cd",
     )
     ("1.일자기준 2.말일기준")
-    pnia_int_calc_unpr: str = Field(
+    pnia_int_calc_unpr: Decimal = Field(
         alias="pnia_int_calc_unpr",
     )
     ("원리금이자계산단가")
-    frn_intr: str = Field(
+    frn_intr: Decimal = Field(
         alias="frn_intr",
     )
     ("FRN금리")
@@ -288,11 +357,12 @@ class SearchBondInfoOutput(RawModel):
         alias="aply_day_prcm_idx_lnkg_cefc",
     )
     ("적용일물가지수연동계수")
-    ksd_expd_dydv_calc_bass_cd: str = Field(
+    ksd_expd_dydv_calc_bass_cd: str | None = Field(
+        default=None,
         alias="ksd_expd_dydv_calc_bass_cd",
     )
     ("증권예탁결제원만기일할계산기준")
-    expd_dydv_calc_dcnt: str = Field(
+    expd_dydv_calc_dcnt: int = Field(
         alias="expd_dydv_calc_dcnt",
     )
     ("만기일할계산일수")
@@ -312,7 +382,8 @@ class SearchBondInfoOutput(RawModel):
         alias="qib_yn",
     )
     ("QIB여부")
-    qib_cclc_dt: KisDate = Field(
+    qib_cclc_dt: KisDateOptional = Field(
+        default=None,
         alias="qib_cclc_dt",
     )
     ("QIB해지일자")
@@ -320,7 +391,8 @@ class SearchBondInfoOutput(RawModel):
         alias="csbd_yn",
     )
     ("영구채여부")
-    csbd_cclc_dt: KisDate = Field(
+    csbd_cclc_dt: KisDateOptional = Field(
+        default=None,
         alias="csbd_cclc_dt",
     )
     ("영구채해지일자")
@@ -348,7 +420,8 @@ class SearchBondInfoOutput(RawModel):
         alias="int_rkng_mthd_dvsn_cd",
     )
     ("이자산정방법구분코드")
-    ofrg_dvsn_cd: str = Field(
+    ofrg_dvsn_cd: str | None = Field(
+        default=None,
         alias="ofrg_dvsn_cd",
     )
     ("모집구분코드")
@@ -372,15 +445,15 @@ class SearchBondInfoOutput(RawModel):
         alias="krx_issu_istt_cd",
     )
     ("KRX발행기관코드")
-    ksd_indf_frqc_uder_calc_cd: str = Field(
+    ksd_indf_frqc_uder_calc_cd: int = Field(
         alias="ksd_indf_frqc_uder_calc_cd",
     )
     ("증권예탁결제원이자지급주기미만")
-    ksd_indf_frqc_uder_calc_dcnt: str = Field(
+    ksd_indf_frqc_uder_calc_dcnt: int = Field(
         alias="ksd_indf_frqc_uder_calc_dcnt",
     )
     ("증권예탁결제원이자지급주기미만")
-    tlg_rcvg_dtl_dtime: KisDate = Field(
+    tlg_rcvg_dtl_dtime: KisDateTime = Field(
         alias="tlg_rcvg_dtl_dtime",
     )
     ("전문수신상세일시")
@@ -466,7 +539,7 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         PDNO (str): 상품번호
-                        PRDT_TYPE_CD (str): Unique key(302)
+                        PRDT_TYPE_CD (PrdtTypeCdEnum): Unique key(302)
 
             Returns:
                 tuple[SearchBondInfoResponse, KisResponse]: 응답 모델과 원시 응답
@@ -483,4 +556,9 @@ __all__ = [
     "SearchBondInfoRequestDict",
     "SearchBondInfoResponse",
     "SearchBondInfoOutput",
+    "PrdtTypeCdEnum",
+    "KsdIntCalcUnitCdEnum",
+    "BondIntDfrmMthdCdEnum",
+    "IntDfrmDayTypeCdEnum",
+    "IntMnedDvsnCdEnum",
 ]

@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -41,17 +41,6 @@ class FidDivClsCodeEnum(KisStrEnum):
     "우선주"
 
 
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
-
-
 class MarketCapRequest(RawModel):
     fid_input_price_2: str = Field(
         alias="fid_input_price_2",
@@ -69,7 +58,7 @@ class MarketCapRequest(RawModel):
         alias="fid_div_cls_code",
     )
     ("0: 전체, 1:보통주, 2:우선주")
-    fid_input_iscd: FidInputIscdEnum = Field(
+    fid_input_iscd: str = Field(
         alias="fid_input_iscd",
     )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
@@ -85,7 +74,7 @@ class MarketCapRequest(RawModel):
         alias="fid_input_price_1",
     )
     ("입력값 없을때 전체 (가격 ~)")
-    fid_vol_cnt: str = Field(
+    fid_vol_cnt: int = Field(
         alias="fid_vol_cnt",
     )
     ("입력값 없을때 전체 (거래량 ~)")
@@ -109,11 +98,11 @@ class MarketCapRequestDict(TypedDict):
         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
         fid_cond_scr_div_code (str): Unique key( 20174 )
         fid_div_cls_code (FidDivClsCodeEnum): 0: 전체, 1:보통주, 2:우선주
-        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
+        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
         fid_trgt_cls_code (str): 0 : 전체
         fid_trgt_exls_cls_code (str): 0 : 전체
         fid_input_price_1 (str): 입력값 없을때 전체 (가격 ~)
-        fid_vol_cnt (str): 입력값 없을때 전체 (거래량 ~)
+        fid_vol_cnt (int): 입력값 없을때 전체 (거래량 ~)
     """
 
     fid_input_price_2: Annotated[
@@ -133,7 +122,7 @@ class MarketCapRequestDict(TypedDict):
         "0: 전체, 1:보통주, 2:우선주",
     ]
     fid_input_iscd: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200",
     ]
     fid_trgt_cls_code: Annotated[
@@ -149,7 +138,7 @@ class MarketCapRequestDict(TypedDict):
         "입력값 없을때 전체 (가격 ~)",
     ]
     fid_vol_cnt: Annotated[
-        str,
+        int,
         "입력값 없을때 전체 (거래량 ~)",
     ]
 
@@ -314,12 +303,11 @@ if TYPE_CHECKING:
                         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
                         fid_cond_scr_div_code (str): Unique key( 20174 )
                         fid_div_cls_code (FidDivClsCodeEnum): 0: 전체, 1:보통주, 2:우선주
-                        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥,
-                        2001:코스피200
+                        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
                         fid_trgt_cls_code (str): 0 : 전체
                         fid_trgt_exls_cls_code (str): 0 : 전체
                         fid_input_price_1 (str): 입력값 없을때 전체 (가격 ~)
-                        fid_vol_cnt (str): 입력값 없을때 전체 (거래량 ~)
+                        fid_vol_cnt (int): 입력값 없을때 전체 (거래량 ~)
 
             Returns:
                 tuple[MarketCapResponse, KisResponse]: 응답 모델과 원시 응답
@@ -338,5 +326,4 @@ __all__ = [
     "MarketCapOutput",
     "FidCondMrktDivCodeEnum",
     "FidDivClsCodeEnum",
-    "FidInputIscdEnum",
 ]

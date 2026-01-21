@@ -14,15 +14,33 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
+    KisDateTime,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class WcrcFrcrDvsnCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "원화기준")
+    "원화기준"
+    VALUE_02 = ("02", "외화기준")
+    "외화기준"
+
+
+class InqrDvsnCdEnum(KisStrEnum):
+    VALUE_00 = ("00", "전체")
+    "전체"
+    VALUE_01 = ("01", "일반")
+    "일반"
+    VALUE_02 = ("02", "미니스탁")
+    "미니스탁"
 
 
 class InquirePaymtStdrBalanceRequest(RawModel):
@@ -38,11 +56,11 @@ class InquirePaymtStdrBalanceRequest(RawModel):
         alias="BASS_DT",
     )
     ("기준일자")
-    WCRC_FRCR_DVSN_CD: str = Field(
+    WCRC_FRCR_DVSN_CD: WcrcFrcrDvsnCdEnum = Field(
         alias="WCRC_FRCR_DVSN_CD",
     )
     ("01(원화기준),02(외화기준)")
-    INQR_DVSN_CD: str = Field(
+    INQR_DVSN_CD: InqrDvsnCdEnum = Field(
         alias="INQR_DVSN_CD",
     )
     ("00(전체), 01(일반), 02(미니스탁)")
@@ -65,8 +83,8 @@ class InquirePaymtStdrBalanceRequestDict(TypedDict):
         CANO (str): 종합계좌번호
         ACNT_PRDT_CD (str): 계좌상품코드
         BASS_DT (KisDate): 기준일자
-        WCRC_FRCR_DVSN_CD (str): 01(원화기준),02(외화기준)
-        INQR_DVSN_CD (str): 00(전체), 01(일반), 02(미니스탁)
+        WCRC_FRCR_DVSN_CD (WcrcFrcrDvsnCdEnum): 01(원화기준),02(외화기준)
+        INQR_DVSN_CD (InqrDvsnCdEnum): 00(전체), 01(일반), 02(미니스탁)
     """
 
     CANO: Annotated[
@@ -82,11 +100,11 @@ class InquirePaymtStdrBalanceRequestDict(TypedDict):
         "기준일자",
     ]
     WCRC_FRCR_DVSN_CD: Annotated[
-        str,
+        WcrcFrcrDvsnCdEnum,
         "01(원화기준),02(외화기준)",
     ]
     INQR_DVSN_CD: Annotated[
-        str,
+        InqrDvsnCdEnum,
         "00(전체), 01(일반), 02(미니스탁)",
     ]
 
@@ -132,7 +150,7 @@ class InquirePaymtStdrBalanceOutput1(RawModel):
         alias="bass_exrt",
     )
     ("기준환율")
-    oprt_dtl_dtime: KisDate = Field(
+    oprt_dtl_dtime: KisDateTime = Field(
         alias="oprt_dtl_dtime",
     )
     ("조작상세일시")
@@ -361,8 +379,8 @@ if TYPE_CHECKING:
                         CANO (str): 종합계좌번호
                         ACNT_PRDT_CD (str): 계좌상품코드
                         BASS_DT (KisDate): 기준일자
-                        WCRC_FRCR_DVSN_CD (str): 01(원화기준),02(외화기준)
-                        INQR_DVSN_CD (str): 00(전체), 01(일반), 02(미니스탁)
+                        WCRC_FRCR_DVSN_CD (WcrcFrcrDvsnCdEnum): 01(원화기준),02(외화기준)
+                        INQR_DVSN_CD (InqrDvsnCdEnum): 00(전체), 01(일반), 02(미니스탁)
 
             Returns:
                 tuple[InquirePaymtStdrBalanceResponse, KisResponse]: 응답 모델과 원시 응답
@@ -381,4 +399,6 @@ __all__ = [
     "InquirePaymtStdrBalanceOutput1",
     "InquirePaymtStdrBalanceOutput2",
     "InquirePaymtStdrBalanceOutput3",
+    "WcrcFrcrDvsnCdEnum",
+    "InqrDvsnCdEnum",
 ]

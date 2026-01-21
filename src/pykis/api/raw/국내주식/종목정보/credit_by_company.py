@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -32,17 +32,13 @@ class FidRankSortClsCodeEnum(KisStrEnum):
     "이름순"
 
 
-class FidInputIscdEnum(KisStrEnum):
-    VALUE_0000 = ("0000", "전체")
-    "전체"
-    VALUE_0001 = ("0001", "거래소")
-    "거래소"
-    VALUE_1001 = ("1001", "코스닥")
-    "코스닥"
-    VALUE_2001 = ("2001", "코스피200")
-    "코스피200"
-    VALUE_4001 = ("4001", "KRX100")
-    "KRX100"
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(20477)")
+    "key(20477)"
+    VALUE_20477 = ("20477", "Unique key")
+    "Unique key"
+    KEY = ("key", "20477")
+    "20477"
 
 
 class CreditByCompanyRequest(RawModel):
@@ -54,11 +50,11 @@ class CreditByCompanyRequest(RawModel):
         alias="fid_slct_yn",
     )
     ("0:신용주문가능, 1: 신용주문불가")
-    fid_input_iscd: FidInputIscdEnum = Field(
+    fid_input_iscd: str = Field(
         alias="fid_input_iscd",
     )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
-    fid_cond_scr_div_code: str = Field(
+    fid_cond_scr_div_code: FidCondScrDivCodeEnum = Field(
         alias="fid_cond_scr_div_code",
     )
     ("Unique key(20477)")
@@ -78,9 +74,8 @@ class CreditByCompanyRequestDict(TypedDict):
     Request fields:
         fid_rank_sort_cls_code (FidRankSortClsCodeEnum): 0:코드순, 1:이름순
         fid_slct_yn (KisBool): 0:신용주문가능, 1: 신용주문불가
-        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
-        4001: KRX100
-        fid_cond_scr_div_code (str): Unique key(20477)
+        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100
+        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20477)
         fid_cond_mrkt_div_code (str): 시장구분코드 (주식 J)
     """
 
@@ -93,11 +88,11 @@ class CreditByCompanyRequestDict(TypedDict):
         "0:신용주문가능, 1: 신용주문불가",
     ]
     fid_input_iscd: Annotated[
-        FidInputIscdEnum,
+        str,
         "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100",
     ]
     fid_cond_scr_div_code: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(20477)",
     ]
     fid_cond_mrkt_div_code: Annotated[
@@ -107,18 +102,15 @@ class CreditByCompanyRequestDict(TypedDict):
 
 
 class CreditByCompanyOutput(RawModel):
-    stck_shrn_iscd: str | None = Field(
-        default=None,
+    stck_shrn_iscd: str = Field(
         alias="stck_shrn_iscd",
     )
     ("주식 단축 종목코드")
-    hts_kor_isnm: str | None = Field(
-        default=None,
+    hts_kor_isnm: str = Field(
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
-    crdt_rate: Decimal | None = Field(
-        default=None,
+    crdt_rate: Decimal = Field(
         alias="crdt_rate",
     )
     ("신용 비율")
@@ -212,9 +204,9 @@ if TYPE_CHECKING:
                     Request fields:
                         fid_rank_sort_cls_code (FidRankSortClsCodeEnum): 0:코드순, 1:이름순
                         fid_slct_yn (KisBool): 0:신용주문가능, 1: 신용주문불가
-                        fid_input_iscd (FidInputIscdEnum): 0000:전체, 0001:거래소, 1001:코스닥,
-                        2001:코스피200, 4001: KRX100
-                        fid_cond_scr_div_code (str): Unique key(20477)
+                        fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
+                        4001: KRX100
+                        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20477)
                         fid_cond_mrkt_div_code (str): 시장구분코드 (주식 J)
 
             Returns:
@@ -233,5 +225,5 @@ __all__ = [
     "CreditByCompanyResponse",
     "CreditByCompanyOutput",
     "FidRankSortClsCodeEnum",
-    "FidInputIscdEnum",
+    "FidCondScrDivCodeEnum",
 ]

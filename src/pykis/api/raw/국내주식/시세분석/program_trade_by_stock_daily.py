@@ -14,27 +14,19 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     KisDate,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
-class FidCondMrktDivCodeEnum(KisStrEnum):
-    KRX = ("KRX", "J")
-    "J"
-    NXT = ("NXT", "NX")
-    "NX"
-
-
 class ProgramTradeByStockDailyRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
+    FID_COND_MRKT_DIV_CODE: str = Field(
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("KRX : J , NXT : NX, 통합 : UN")
@@ -42,7 +34,7 @@ class ProgramTradeByStockDailyRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("종목코드")
-    FID_INPUT_DATE_1: KisDate = Field(
+    FID_INPUT_DATE_1: str = Field(
         alias="FID_INPUT_DATE_1",
     )
     ("기준일 (ex 0020240308), 미입력시 당일부터 조회")
@@ -56,13 +48,13 @@ class ProgramTradeByStockDailyRequestDict(TypedDict):
     참고하시면 기능을 이해하기 쉽습니다.
 
     Request fields:
-        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): KRX : J , NXT : NX, 통합 : UN
+        FID_COND_MRKT_DIV_CODE (str): KRX : J , NXT : NX, 통합 : UN
         FID_INPUT_ISCD (str): 종목코드
-        FID_INPUT_DATE_1 (KisDate): 기준일 (ex 0020240308), 미입력시 당일부터 조회
+        FID_INPUT_DATE_1 (str): 기준일 (ex 0020240308), 미입력시 당일부터 조회
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
+        str,
         "KRX : J , NXT : NX, 통합 : UN",
     ]
     FID_INPUT_ISCD: Annotated[
@@ -70,7 +62,7 @@ class ProgramTradeByStockDailyRequestDict(TypedDict):
         "종목코드",
     ]
     FID_INPUT_DATE_1: Annotated[
-        KisDate,
+        str,
         "기준일 (ex 0020240308), 미입력시 당일부터 조회",
     ]
 
@@ -80,15 +72,15 @@ class ProgramTradeByStockDailyOutput(RawModel):
         alias="stck_bsop_date",
     )
     ("주식 영업 일자")
-    stck_clpr: str = Field(
+    stck_clpr: int = Field(
         alias="stck_clpr",
     )
     ("주식 종가")
-    prdy_vrss: str = Field(
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일 대비")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
@@ -224,9 +216,9 @@ if TYPE_CHECKING:
                 **kwargs (ProgramTradeByStockDailyRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): KRX : J , NXT : NX, 통합 : UN
+                        FID_COND_MRKT_DIV_CODE (str): KRX : J , NXT : NX, 통합 : UN
                         FID_INPUT_ISCD (str): 종목코드
-                        FID_INPUT_DATE_1 (KisDate): 기준일 (ex 0020240308), 미입력시 당일부터 조회
+                        FID_INPUT_DATE_1 (str): 기준일 (ex 0020240308), 미입력시 당일부터 조회
 
             Returns:
                 tuple[ProgramTradeByStockDailyResponse, KisResponse]: 응답 모델과 원시 응답
@@ -243,5 +235,4 @@ __all__ = [
     "ProgramTradeByStockDailyRequestDict",
     "ProgramTradeByStockDailyResponse",
     "ProgramTradeByStockDailyOutput",
-    "FidCondMrktDivCodeEnum",
 ]

@@ -14,12 +14,12 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.common.enums import KisStrEnum
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -46,6 +46,53 @@ class ExcdEnum(KisStrEnum):
     "도쿄 '"
 
 
+class GubnEnum(KisStrEnum):
+    VALUE_0 = ("0", "급락")
+    "급락"
+    VALUE_1 = ("1", "급등")
+    "급등"
+
+
+class MixnEnum(KisStrEnum):
+    VALUE_0 = ("0", "1분전")
+    "1분전"
+    VALUE_1 = ("1", "2분전")
+    "2분전"
+    VALUE_2 = ("2", "3분전")
+    "3분전"
+    VALUE_3 = ("3", "5분전")
+    "5분전"
+    VALUE_4 = ("4", "10분전")
+    "10분전"
+    VALUE_5 = ("5", "15분전")
+    "15분전"
+    VALUE_6 = ("6", "20분전")
+    "20분전"
+    VALUE_7 = ("7", "30분전")
+    "30분전"
+    VALUE_8 = ("8", "60분전")
+    "60분전"
+    VALUE_9 = ("9", "120분전")
+    "120분전"
+
+
+class VolRangEnum(KisStrEnum):
+    VALUE_0 = ("0", "전체")
+    "전체"
+    VALUE_1 = ("1", "1백주이상")
+    "1백주이상"
+    VALUE_2 = ("2", "1천주이상")
+    "1천주이상"
+    VALUE_3 = ("3", "1만주이상")
+    "1만주이상"
+    VALUE_4 = ("4", "10만주이상")
+    "10만주이상"
+    VALUE_5 = ("5", "100만주이상")
+    "100만주이상"
+    VALUE_6 = ("6", "1000만주이상")
+    "1000만주이상"
+
+
 class PriceFluctRequest(RawModel):
     KEYB: str = Field(
         alias="KEYB",
@@ -62,18 +109,18 @@ class PriceFluctRequest(RawModel):
         "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : "
         "하노이 TSE : 도쿄 '"
     )
-    GUBN: int = Field(
+    GUBN: GubnEnum = Field(
         alias="GUBN",
     )
     ("0(급락), 1(급등)")
-    MIXN: str = Field(
+    MIXN: MixnEnum = Field(
         alias="MIXN",
     )
     (
         "N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전), 6(20분전), 7(30분전), "
         "8(60분전), 9(120분전)"
     )
-    VOL_RANG: int = Field(
+    VOL_RANG: VolRangEnum = Field(
         alias="VOL_RANG",
     )
     ("0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)")
@@ -88,10 +135,10 @@ class PriceFluctRequestDict(TypedDict):
         AUTH (str): 공백
         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천
         HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
-        GUBN (int): 0(급락), 1(급등)
-        MIXN (str): N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전), 6(20분전),
-        7(30분전), 8(60분전), 9(120분전)
-        VOL_RANG (int): 0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상),
+        GUBN (GubnEnum): 0(급락), 1(급등)
+        MIXN (MixnEnum): N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전),
+        6(20분전), 7(30분전), 8(60분전), 9(120분전)
+        VOL_RANG (VolRangEnum): 0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상),
         5(100만주이상), 6(1000만주이상)
     """
 
@@ -109,16 +156,16 @@ class PriceFluctRequestDict(TypedDict):
         "하노이 TSE : 도쿄 '",
     ]
     GUBN: Annotated[
-        int,
+        GubnEnum,
         "0(급락), 1(급등)",
     ]
     MIXN: Annotated[
-        str,
+        MixnEnum,
         "N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전), 6(20분전), 7(30분전), "
         "8(60분전), 9(120분전)",
     ]
     VOL_RANG: Annotated[
-        int,
+        VolRangEnum,
         "0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)",
     ]
 
@@ -291,10 +338,10 @@ if TYPE_CHECKING:
                         AUTH (str): 공백
                         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS :
                         상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
-                        GUBN (int): 0(급락), 1(급등)
-                        MIXN (str): N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전),
+                        GUBN (GubnEnum): 0(급락), 1(급등)
+                        MIXN (MixnEnum): N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전),
                         5(15분전), 6(20분전), 7(30분전), 8(60분전), 9(120분전)
-                        VOL_RANG (int): 0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상),
+                        VOL_RANG (VolRangEnum): 0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상),
                         4(10만주이상), 5(100만주이상), 6(1000만주이상)
 
             Returns:
@@ -314,4 +361,7 @@ __all__ = [
     "PriceFluctOutput1",
     "PriceFluctOutput2",
     "ExcdEnum",
+    "GubnEnum",
+    "MixnEnum",
+    "VolRangEnum",
 ]

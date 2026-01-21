@@ -14,14 +14,62 @@ from typing import (
 
 from pydantic import Field
 
-from pykis.raw.base import (
+from pykis.api.raw.base import (
     KisBool,
     RawModel,
 )
-from pykis.raw.types import Endpoint, KisResponse
+from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class FidCondScrDivCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(20287)")
+    "key(20287)"
+    VALUE_20287 = ("20287", "Unique key")
+    "Unique key"
+    KEY = ("key", "20287")
+    "20287"
+
+
+class FidMrktClsCodeEnum(KisStrEnum):
+    UNIQUE = ("Unique", "key(A)")
+    "key(A)"
+    A = ("A", "Unique key")
+    "Unique key"
+    KEY = ("key", "A")
+    "A"
+
+
+class FidHourClsCodeEnum(KisStrEnum):
+    VALUE_1 = ("1", "분")
+    "분"
+    VALUE_2 = ("2", "일")
+    "일"
+
+
+class FidRankSortClsCodeEnum(KisStrEnum):
+    VALUE_1 = ("1", "가격급등")
+    "가격급등"
+    VALUE_2 = ("2", "가격급락")
+    "가격급락"
+    VALUE_3 = ("3", "거래량급증")
+    "거래량급증"
+    VALUE_4 = ("4", "매수잔량급증")
+    "매수잔량급증"
+    VALUE_5 = ("5", "매도잔량급증")
+    "매도잔량급증"
+
+
+class FidBlngClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "전체")
+    "전체"
+    VALUE_1 = ("1", "일반")
+    "일반"
+    VALUE_2 = ("2", "조기종료")
+    "조기종료"
 
 
 class QuickChangeRequest(RawModel):
@@ -29,7 +77,7 @@ class QuickChangeRequest(RawModel):
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("시장구분코드 (W)")
-    FID_COND_SCR_DIV_CODE: str = Field(
+    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("Unique key(20287)")
@@ -41,7 +89,7 @@ class QuickChangeRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("'00000(전체), 00003(한국투자증권) , 00017(KB증권), 00005(미래에셋주식회사)'")
-    FID_MRKT_CLS_CODE: str = Field(
+    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(
         alias="FID_MRKT_CLS_CODE",
     )
     ("Unique key(A)")
@@ -61,7 +109,7 @@ class QuickChangeRequest(RawModel):
         alias="FID_INPUT_VOL_2",
     )
     ("거래량(이하)")
-    FID_HOUR_CLS_CODE: str = Field(
+    FID_HOUR_CLS_CODE: FidHourClsCodeEnum = Field(
         alias="FID_HOUR_CLS_CODE",
     )
     ("1(분), 2(일)")
@@ -73,11 +121,11 @@ class QuickChangeRequest(RawModel):
         alias="FID_INPUT_HOUR_2",
     )
     ("기준시간(분 선택 시)")
-    FID_RANK_SORT_CLS_CODE: str = Field(
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
         alias="FID_RANK_SORT_CLS_CODE",
     )
     ("'1(가격급등), 2(가격급락), 3(거래량급증) , 4(매수잔량급증), 5(매도잔량급증)'")
-    FID_BLNG_CLS_CODE: str = Field(
+    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum = Field(
         alias="FID_BLNG_CLS_CODE",
     )
     ("0(전체), 1(일반), 2(조기종료)")
@@ -91,22 +139,22 @@ class QuickChangeRequestDict(TypedDict):
 
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (W)
-        FID_COND_SCR_DIV_CODE (str): Unique key(20287)
+        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20287)
         FID_UNAS_INPUT_ISCD (str): '000000(전체), 2001(코스피200) , 3003(코스닥150),
         005930(삼성전자) '
         FID_INPUT_ISCD (str): '00000(전체), 00003(한국투자증권) , 00017(KB증권),
         00005(미래에셋주식회사)'
-        FID_MRKT_CLS_CODE (str): Unique key(A)
+        FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): Unique key(A)
         FID_INPUT_PRICE_1 (str): 가격(이상)
         FID_INPUT_PRICE_2 (str): 가격(이하)
         FID_INPUT_VOL_1 (str): 거래량(이상)
         FID_INPUT_VOL_2 (str): 거래량(이하)
-        FID_HOUR_CLS_CODE (str): 1(분), 2(일)
+        FID_HOUR_CLS_CODE (FidHourClsCodeEnum): 1(분), 2(일)
         FID_INPUT_HOUR_1 (str): 입력 일 또는 분
         FID_INPUT_HOUR_2 (str): 기준시간(분 선택 시)
-        FID_RANK_SORT_CLS_CODE (str): '1(가격급등), 2(가격급락), 3(거래량급증) , 4(매수잔량급증),
-        5(매도잔량급증)'
-        FID_BLNG_CLS_CODE (str): 0(전체), 1(일반), 2(조기종료)
+        FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): '1(가격급등), 2(가격급락), 3(거래량급증) ,
+        4(매수잔량급증), 5(매도잔량급증)'
+        FID_BLNG_CLS_CODE (FidBlngClsCodeEnum): 0(전체), 1(일반), 2(조기종료)
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -114,7 +162,7 @@ class QuickChangeRequestDict(TypedDict):
         "시장구분코드 (W)",
     ]
     FID_COND_SCR_DIV_CODE: Annotated[
-        str,
+        FidCondScrDivCodeEnum,
         "Unique key(20287)",
     ]
     FID_UNAS_INPUT_ISCD: Annotated[
@@ -126,7 +174,7 @@ class QuickChangeRequestDict(TypedDict):
         "'00000(전체), 00003(한국투자증권) , 00017(KB증권), 00005(미래에셋주식회사)'",
     ]
     FID_MRKT_CLS_CODE: Annotated[
-        str,
+        FidMrktClsCodeEnum,
         "Unique key(A)",
     ]
     FID_INPUT_PRICE_1: Annotated[
@@ -146,7 +194,7 @@ class QuickChangeRequestDict(TypedDict):
         "거래량(이하)",
     ]
     FID_HOUR_CLS_CODE: Annotated[
-        str,
+        FidHourClsCodeEnum,
         "1(분), 2(일)",
     ]
     FID_INPUT_HOUR_1: Annotated[
@@ -158,11 +206,11 @@ class QuickChangeRequestDict(TypedDict):
         "기준시간(분 선택 시)",
     ]
     FID_RANK_SORT_CLS_CODE: Annotated[
-        str,
+        FidRankSortClsCodeEnum,
         "'1(가격급등), 2(가격급락), 3(거래량급증) , 4(매수잔량급증), 5(매도잔량급증)'",
     ]
     FID_BLNG_CLS_CODE: Annotated[
-        str,
+        FidBlngClsCodeEnum,
         "0(전체), 1(일반), 2(조기종료)",
     ]
 
@@ -180,11 +228,11 @@ class QuickChangeOutput(RawModel):
         alias="elw_prpr",
     )
     ("ELW현재가")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
-    prdy_vrss: str = Field(
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일대비")
@@ -192,7 +240,7 @@ class QuickChangeOutput(RawModel):
         alias="prdy_ctrt",
     )
     ("전일대비율")
-    askp: str = Field(
+    askp: int = Field(
         alias="askp",
     )
     ("매도호가")
@@ -200,7 +248,7 @@ class QuickChangeOutput(RawModel):
         alias="bidp",
     )
     ("매수호가")
-    total_askp_rsqn: str = Field(
+    total_askp_rsqn: int = Field(
         alias="total_askp_rsqn",
     )
     ("총매도호가잔량")
@@ -212,11 +260,11 @@ class QuickChangeOutput(RawModel):
         alias="acml_vol",
     )
     ("누적거래량")
-    stnd_val: str = Field(
+    stnd_val: int = Field(
         alias="stnd_val",
     )
     ("기준값")
-    stnd_val_vrss: str = Field(
+    stnd_val_vrss: int = Field(
         alias="stnd_val_vrss",
     )
     ("기준값대비")
@@ -311,22 +359,22 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (W)
-                        FID_COND_SCR_DIV_CODE (str): Unique key(20287)
+                        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20287)
                         FID_UNAS_INPUT_ISCD (str): '000000(전체), 2001(코스피200) , 3003(코스닥150),
                         005930(삼성전자) '
                         FID_INPUT_ISCD (str): '00000(전체), 00003(한국투자증권) , 00017(KB증권),
                         00005(미래에셋주식회사)'
-                        FID_MRKT_CLS_CODE (str): Unique key(A)
+                        FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): Unique key(A)
                         FID_INPUT_PRICE_1 (str): 가격(이상)
                         FID_INPUT_PRICE_2 (str): 가격(이하)
                         FID_INPUT_VOL_1 (str): 거래량(이상)
                         FID_INPUT_VOL_2 (str): 거래량(이하)
-                        FID_HOUR_CLS_CODE (str): 1(분), 2(일)
+                        FID_HOUR_CLS_CODE (FidHourClsCodeEnum): 1(분), 2(일)
                         FID_INPUT_HOUR_1 (str): 입력 일 또는 분
                         FID_INPUT_HOUR_2 (str): 기준시간(분 선택 시)
-                        FID_RANK_SORT_CLS_CODE (str): '1(가격급등), 2(가격급락), 3(거래량급증) ,
-                        4(매수잔량급증), 5(매도잔량급증)'
-                        FID_BLNG_CLS_CODE (str): 0(전체), 1(일반), 2(조기종료)
+                        FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum): '1(가격급등), 2(가격급락),
+                        3(거래량급증) , 4(매수잔량급증), 5(매도잔량급증)'
+                        FID_BLNG_CLS_CODE (FidBlngClsCodeEnum): 0(전체), 1(일반), 2(조기종료)
 
             Returns:
                 tuple[QuickChangeResponse, KisResponse]: 응답 모델과 원시 응답
@@ -343,4 +391,9 @@ __all__ = [
     "QuickChangeRequestDict",
     "QuickChangeResponse",
     "QuickChangeOutput",
+    "FidCondScrDivCodeEnum",
+    "FidMrktClsCodeEnum",
+    "FidHourClsCodeEnum",
+    "FidRankSortClsCodeEnum",
+    "FidBlngClsCodeEnum",
 ]
