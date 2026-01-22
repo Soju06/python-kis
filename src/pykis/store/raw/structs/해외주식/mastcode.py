@@ -8,7 +8,6 @@ from pykis.store.parser.base import (
     StoreDecimal,
     StoreInt,
     StoreModel,
-    StoreTime,
 )
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
@@ -54,8 +53,8 @@ class mastcode(StoreModel):
     stis: StisEnum = Field(
         json_schema_extra={
             "length": 2,
-            "enum": ["1", "2", "3", "4"],
-            "enum_desc": {"1": "Index", "2": "Stock", "3": "ETP(ETF)", "4": "Warrant"},
+            "enum": ["1", "2", "3", "4", "ETF", "ETP"],
+            "enum_desc": {"1": "Index", "2": "Stock", "3": "ETP(ETF)", "4": "Warrant", "ETF": "3:ETP", "ETP": "ETF"},
         },
     )
     ("Security type 1:Index 2:Stock 3:ETP(ETF) 4:Warrant")
@@ -85,11 +84,11 @@ class mastcode(StoreModel):
         json_schema_extra={"length": 9},
     )
     ("Ask order size")
-    mstm: StoreInt = Field(
+    mstm: str = Field(
         json_schema_extra={"length": 5},
     )
     ("market start time(HHMM)")
-    metm: StoreTime = Field(
+    metm: str = Field(
         json_schema_extra={"length": 5},
     )
     ("market end time(HHMM)")

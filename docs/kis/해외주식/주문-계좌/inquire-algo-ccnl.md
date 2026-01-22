@@ -53,8 +53,8 @@
 | `CANO` | 계좌번호 | String | 8 | Y | 종합계좌번호 8자리 |
 | `ACNT_PRDT_CD` | 계좌상품코드 | String | 2 | Y | 상품코드 2자리 (주식계좌 : 01) |
 | `ORD_DT` | 주문일자 | String | 8 | Y | 주문일자 (YYYYMMDD) |
-| `ORD_GNO_BRNO` | 주문채번지점번호 | String | 5 | N |  |
-| `ODNO` | 주문번호 | String | 10 | Y | 지정가주문번호 (TTTC6058R)에서 조회된 주문번호 입력 |
+| `ORD_GNO_BRNO` | 주문채번지점번호 | String | 5 | N | TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력 |
+| `ODNO` | 주문번호 | String | 10 | Y | 지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력 |
 | `TTLZ_ICLD_YN` | 집계포함여부 | String | 1 | N |  |
 | `CTX_AREA_NK200` | 연속조회키200 | String | 200 | N | 연속조회 시 사용 |
 | `CTX_AREA_FK200` | 연속조회조건200 | String | 200 | N | 연속조회 시 사용 |

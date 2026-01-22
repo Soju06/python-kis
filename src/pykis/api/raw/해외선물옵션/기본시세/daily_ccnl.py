@@ -163,7 +163,7 @@ class DailyCcnlOutput1(RawModel):
         default=None,
         alias="ret_cnt",
     )
-    ("inferred from raw payload")
+    ("inferred from live response")
 
 
 class DailyCcnlOutput2(RawModel):

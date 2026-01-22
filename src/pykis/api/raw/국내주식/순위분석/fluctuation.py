@@ -286,7 +286,7 @@ class FluctuationOutput(RawModel):
         alias="lwpr_vrss_prpr_rate",
     )
     ("최저가 대비 현재가 비율")
-    dsgt_date_clpr_vrss_prpr_rate: KisDateOptional = Field(
+    dsgt_date_clpr_vrss_prpr_rate: Decimal | None = Field(
         default=None,
         alias="dsgt_date_clpr_vrss_prpr_rate",
     )

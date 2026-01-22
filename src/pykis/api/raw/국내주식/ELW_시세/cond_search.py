@@ -844,7 +844,7 @@ class CondSearchResponse(RawModel):
     )
     ("응답메세지")
     output1: list[CondSearchOutput1] = Field(
-        alias="output1",
+        alias="output",
     )
     ("응답상세")
 

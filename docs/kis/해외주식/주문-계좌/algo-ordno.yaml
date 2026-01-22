@@ -132,7 +132,7 @@ request:
     length: '8'
     required: true
     description: 종합계좌번호 (8자리)
-  - code: ACNO_PRDT_CD
+  - code: ACNT_PRDT_CD
     name: 계좌상품코드
     type: A0001
     type_name: String

@@ -21,9 +21,17 @@ from pykis.api.raw.base import (
     RawModel,
 )
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
+
+
+class OrdGnoBrnoEnum(KisStrEnum):
+    TTS6058R = ("TTS6058R", "조회 시 해당 주문번호(odno)의 ord_gno_brno 입력")
+    "조회 시 해당 주문번호(odno)의 ord_gno_brno 입력"
+    ODNO = ("odno", "의 ord_gno_brno 입력")
+    "의 ord_gno_brno 입력"
 
 
 class InquireAlgoCcnlRequest(RawModel):
@@ -39,15 +47,15 @@ class InquireAlgoCcnlRequest(RawModel):
         alias="ORD_DT",
     )
     ("주문일자 (YYYYMMDD)")
-    ORD_GNO_BRNO: str | None = Field(
+    ORD_GNO_BRNO: OrdGnoBrnoEnum | None = Field(
         default=None,
         alias="ORD_GNO_BRNO",
     )
-    ("주문채번지점번호")
+    ("TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력")
     ODNO: str = Field(
         alias="ODNO",
     )
-    ("지정가주문번호 (TTTC6058R)에서 조회된 주문번호 입력")
+    ("지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력")
     TTLZ_ICLD_YN: KisBool | None = Field(
         default=None,
         alias="TTLZ_ICLD_YN",
@@ -74,8 +82,9 @@ class InquireAlgoCcnlRequestDict(TypedDict):
         CANO (str): 종합계좌번호 8자리
         ACNT_PRDT_CD (str): 상품코드 2자리 (주식계좌 : 01)
         ORD_DT (str): 주문일자 (YYYYMMDD)
-        ORD_GNO_BRNO (str): 주문채번지점번호 optional
-        ODNO (str): 지정가주문번호 (TTTC6058R)에서 조회된 주문번호 입력
+        ORD_GNO_BRNO (OrdGnoBrnoEnum): TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력
+        optional
+        ODNO (str): 지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력
         TTLZ_ICLD_YN (KisBool): 집계포함여부 optional
         CTX_AREA_NK200 (str): 연속조회 시 사용 optional
         CTX_AREA_FK200 (str): 연속조회 시 사용 optional
@@ -95,13 +104,13 @@ class InquireAlgoCcnlRequestDict(TypedDict):
     ]
     ORD_GNO_BRNO: NotRequired[
         Annotated[
-            str | None,
-            "주문채번지점번호",
+            OrdGnoBrnoEnum | None,
+            "TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력",
         ]
     ]
     ODNO: Annotated[
         str,
-        "지정가주문번호 (TTTC6058R)에서 조회된 주문번호 입력",
+        "지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력",
     ]
     TTLZ_ICLD_YN: NotRequired[
         Annotated[
@@ -299,8 +308,9 @@ if TYPE_CHECKING:
                         CANO (str): 종합계좌번호 8자리
                         ACNT_PRDT_CD (str): 상품코드 2자리 (주식계좌 : 01)
                         ORD_DT (str): 주문일자 (YYYYMMDD)
-                        ORD_GNO_BRNO (str): 주문채번지점번호 optional
-                        ODNO (str): 지정가주문번호 (TTTC6058R)에서 조회된 주문번호 입력
+                        ORD_GNO_BRNO (OrdGnoBrnoEnum): TTS6058R 조회 시 해당 주문번호(odno)의
+                        ord_gno_brno 입력 optional
+                        ODNO (str): 지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력
                         TTLZ_ICLD_YN (KisBool): 집계포함여부 optional
                         CTX_AREA_NK200 (str): 연속조회 시 사용 optional
                         CTX_AREA_FK200 (str): 연속조회 시 사용 optional
@@ -321,4 +331,5 @@ __all__ = [
     "InquireAlgoCcnlResponse",
     "InquireAlgoCcnlOutput",
     "InquireAlgoCcnlOutput3",
+    "OrdGnoBrnoEnum",
 ]

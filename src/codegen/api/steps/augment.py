@@ -19,6 +19,7 @@ from codegen.api.report_models import (
     AugmentSummary,
 )
 from codegen.api.runtime import (
+    SKIP_ENDPOINT_IDS,
     UNSAFE_KEYWORDS,
     ValueResolver,
     build_payload,
@@ -204,6 +205,9 @@ def augment_endpoint(
 
     if base_url.startswith(("ws://", "wss://")):
         return AugmentEndpointResult(id=endpoint.id, status="skipped", reason="websocket")
+
+    if endpoint.id in SKIP_ENDPOINT_IDS:
+        return AugmentEndpointResult(id=endpoint.id, status="skipped", reason="skip_endpoint")
 
     if _is_unsafe(endpoint):
         return AugmentEndpointResult(id=endpoint.id, status="skipped", reason="unsafe")

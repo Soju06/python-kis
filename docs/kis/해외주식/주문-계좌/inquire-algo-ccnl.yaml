@@ -143,14 +143,14 @@ request:
     type_name: String
     length: '5'
     required: false
-    description: ''
+    description: TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력
   - code: ODNO
     name: 주문번호
     type: A0001
     type_name: String
     length: '10'
     required: true
-    description: 지정가주문번호 (TTTC6058R)에서 조회된 주문번호 입력
+    description: 지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력
   - code: TTLZ_ICLD_YN
     name: 집계포함여부
     type: A0001

@@ -8,6 +8,7 @@ from pydantic import ValidationError
 from codegen.api.models import EndpointSpec
 from codegen.api.report_models import SmokeReport, SmokeResult
 from codegen.api.runtime import (
+    SKIP_ENDPOINT_IDS,
     UNSAFE_KEYWORDS,
     ValueResolver,
     build_payload,
@@ -60,6 +61,9 @@ def run_smoke(
     errors = 0
 
     for spec in specs:
+        if spec.id in SKIP_ENDPOINT_IDS:
+            results.append(SmokeResult(id=spec.id, status="skipped", reason="skip_endpoint"))
+            continue
         endpoint = registry.get(spec.id)
         if endpoint is None:
             errors += 1

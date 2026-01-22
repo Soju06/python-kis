@@ -383,7 +383,7 @@ class IssueInfoOutput(RawModel):
         alias="add_erng_rt",
     )
     ("추가수익율")
-    add_erng_rt_aply_dt: KisDateOptional = Field(
+    add_erng_rt_aply_dt: Decimal | None = Field(
         default=None,
         alias="add_erng_rt_aply_dt",
     )

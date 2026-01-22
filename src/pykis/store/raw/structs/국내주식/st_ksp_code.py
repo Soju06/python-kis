@@ -246,7 +246,7 @@ class ST_KSP_CODE(StoreModel):
     flng_cls_code: FlngClsCodeEnum = Field(
         json_schema_extra={
             "length": 2,
-            "enum": ["00", "01", "02", "03", "04", "05", "06", "99"],
+            "enum": ["00", "01", "02", "03", "04", "05", "06", "99", "SPACE"],
             "enum_desc": {
                 "00": "해당사항없음",
                 "01": "권리락",
@@ -256,6 +256,7 @@ class ST_KSP_CODE(StoreModel):
                 "05": "중간배당락",
                 "06": "권리중간배당락",
                 "99": "기타",
+                "SPACE": "EW는 미해당",
             },
         },
     )

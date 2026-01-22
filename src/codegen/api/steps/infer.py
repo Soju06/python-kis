@@ -7,7 +7,7 @@ from pathlib import Path
 from codegen.api.models import EndpointSpec, SpecField
 from codegen.api.report_models import ValidationReport, ValidationSampleResult
 from codegen.api.types import EndpointHints, ExtraFields, FieldHint, TypeOverrides
-from codegen.api.runtime import UNSAFE_KEYWORDS, is_empty_payload
+from codegen.api.runtime import SKIP_ENDPOINT_IDS, UNSAFE_KEYWORDS, is_empty_payload
 from codegen.core.enums import EnumEntry, parse_enum_entries
 from codegen.core.types import JsonObject, JsonValue
 from pykis.api.raw.types import Endpoint
@@ -30,6 +30,8 @@ def _is_code_like(text: str) -> bool:
 _DECIMAL_SPEC_RE = re.compile(r"\b\d+\s*\(\s*(\d+)\s*\.\s*(\d+)\s*\)")
 _DECIMAL_TEXT_RE = re.compile(r"정수부분\s*(\d+)\s*자리.*?소수부분\s*(\d+)\s*자리")
 _DT_TOKEN_RE = re.compile(r"(?<![a-z0-9])dt(?![a-z0-9])")
+_RATE_TOKENS = ("비율", "율", "rate", "ratio", "percent", "pct", "ctrt")
+_DATE_TOKENS = ("일자", "날짜", "기준일", "date", "ymd")
 
 
 def _has_dt_token(text: str) -> bool:
@@ -98,6 +100,8 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
     sample_values = _enum_sample_values(sample)
     if isinstance(sample, list):
         sample = sample_values[0] if sample_values else None
+    has_rate_token = any(token in text for token in _RATE_TOKENS)
+    has_date_token = any(token in text for token in _DATE_TOKENS) or _has_dt_token(text)
     if field.code.lower() == "keyb":
         return FieldHint(kind="str")
     if field.code.lower() in {"rsym", "symb"}:
@@ -136,7 +140,9 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
     if any(token in text for token in ("일시", "datetime", "timestamp", "dtime")):
         return FieldHint(kind="datetime")
 
-    if any(token in text for token in ("일자", "날짜", "기준일", "date", "ymd")) or _has_dt_token(text):
+    if has_date_token and has_rate_token:
+        return FieldHint(kind="decimal")
+    if has_date_token:
         return FieldHint(kind="date")
 
     time_tokens = ("시각", "hhmm", "hhmmss", "time", "_tm", "hour")
@@ -186,7 +192,7 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
         "price",
         "단일가",
     )
-    rate_tokens = ("비율", "율", "rate", "ratio", "percent", "pct", "ctrt")
+    rate_tokens = _RATE_TOKENS
     volume_tokens = ("수량", "거래량", "건수", "횟수", "volume", "count")
 
     if sample is not None:
@@ -200,7 +206,8 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
                 return FieldHint(kind="decimal")
             if re.fullmatch(r"-?\d+", value):
                 if len(value) == 8 and (
-                    any(token in text for token in ("일자", "날짜", "date", "ymd")) or _has_dt_token(text)
+                    (any(token in text for token in ("일자", "날짜", "date", "ymd")) or _has_dt_token(text))
+                    and not has_rate_token
                 ):
                     return FieldHint(kind="date")
                 if (
@@ -426,6 +433,9 @@ def validate_samples(
     for spec in specs:
         endpoint = registry.get(spec.id)
         if endpoint is None:
+            continue
+        if spec.id in SKIP_ENDPOINT_IDS:
+            results.append(ValidationSampleResult(id=spec.id, status="skipped", reason="skip_endpoint"))
             continue
         if _is_unsafe(spec):
             results.append(ValidationSampleResult(id=spec.id, status="skipped", reason="unsafe"))

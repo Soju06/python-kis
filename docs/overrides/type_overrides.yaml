@@ -426,3 +426,170 @@ overrides:
     output_kinds:
       output2: single
       output3: single
+- id: 3a588de4-df48-49ac-88ca-9765998c00e1
+  approved_by: user
+  approved_at: '2026-01-21'
+  reason: Raw sample contains '0' which parses to None; field should be optional.
+  evidence: tmp/docs/augment/3a588de4-df48-49ac-88ca-9765998c00e1/raw.json
+  source: augment/raw mismatch (2026-01-21)
+  changes:
+    outputs:
+      output:
+        stck_bsop_date:
+          required: false
+- id: e5f413ec-3e68-47d7-931f-d7eb263990d9
+  approved_by: user
+  approved_at: '2026-01-21'
+  reason: Field missing in live response payload.
+  evidence: tmp/docs/augment/e5f413ec-3e68-47d7-931f-d7eb263990d9/raw.json
+  source: augment/raw mismatch (2026-01-21)
+  changes:
+    outputs:
+      output1:
+        prdy_vrss_sign:
+          required: false
+- id: 07313e08-45f2-4423-abb2-2a49752910ae
+  approved_by: user
+  approved_at: '2026-01-21'
+  reason: Fields missing in live response rows.
+  evidence: tmp/docs/augment/07313e08-45f2-4423-abb2-2a49752910ae/raw.json
+  source: augment/raw mismatch (2026-01-21)
+  changes:
+    outputs:
+      output1:
+        elw_shrn_iscd:
+          required: false
+        hts_kor_isnm:
+          required: false
+        prdy_vrss_sign:
+          required: false
+        unas_shrn_iscd:
+          required: false
+        invt_epmd_cntt:
+          required: false
+- id: 0843477a-156b-4ac5-bf65-199b124b072f
+  approved_by: user
+  approved_at: '2026-01-21'
+  reason: Rate fields absent in live response rows.
+  evidence: tmp/docs/augment/0843477a-156b-4ac5-bf65-199b124b072f/raw.json
+  source: augment/raw mismatch (2026-01-21)
+  changes:
+    output_aliases:
+      output1: output
+    outputs:
+      output1:
+        arbt_smtm_seln_tr_pbmn_rate:
+          required: false
+        arbt_smtm_shun_tr_pbmn_rate:
+          required: false
+        nabt_smtm_seln_tr_pbmn_rate:
+          required: false
+        nabt_smtm_shun_tr_pbmn_rate:
+          required: false
+        arbt_smtm_ntby_tr_pbmn_rate:
+          required: false
+        nabt_smtm_ntby_tr_pbmn_rate:
+          required: false
+        whol_ntby_tr_pbmn_rate:
+          required: false
+- id: 7d1b2345-32f8-463b-9f41-8b4602387d52
+  approved_by: user
+  approved_at: '2026-01-21'
+  reason: Field missing in live response payload.
+  evidence: tmp/docs/augment/7d1b2345-32f8-463b-9f41-8b4602387d52/raw.json
+  source: augment/raw mismatch (2026-01-21)
+  changes:
+    outputs:
+      output1:
+        bstp_cls_code:
+          required: false
+- id: fee465d1-7fd5-4c66-b4a4-731b813d569d
+  approved_by: user
+  approved_at: '2026-01-21'
+  reason: Live response returns output as array.
+  evidence: tmp/docs/augment/fee465d1-7fd5-4c66-b4a4-731b813d569d/raw.json
+  source: augment/raw mismatch (2026-01-21)
+  changes:
+    output_kinds:
+      output: array
+- id: 7d6d8ba7-bcae-4d7c-8d5b-4b51cd42a94a
+  approved_by: user
+  approved_at: '2026-01-21'
+  reason: Live response returns output as array.
+  evidence: tmp/docs/augment/7d6d8ba7-bcae-4d7c-8d5b-4b51cd42a94a/raw.json
+  source: augment/raw mismatch (2026-01-21)
+  changes:
+    output_kinds:
+      output: array
+- id: 264533d3-00eb-4794-984a-fecb84350f39
+  approved_by: user
+  approved_at: '2026-01-21'
+  reason: Live response returns 'output' instead of 'output1'.
+  evidence: tmp/docs/reports/smoke.json
+  source: smoke mismatch (2026-01-21)
+  changes:
+    output_aliases:
+      output1: output
+- id: 8c473311-ecfd-428f-9ec2-0b574d8592b9
+  approved_by: user
+  approved_at: '2026-01-21'
+  reason: Live response uses ret_cnt (tret_cnt missing).
+  evidence: tmp/docs/augment/8c473311-ecfd-428f-9ec2-0b574d8592b9/raw.json
+  source: augment/raw mismatch (2026-01-21)
+  changes:
+    outputs:
+      output1:
+        tret_cnt:
+          required: false
+    extra_fields:
+      outputs:
+        output1:
+          - code: ret_cnt
+            name: 자료개수
+            type: A0001
+            type_name: String
+            length: "4"
+            required: false
+            description: "inferred from live response"
+- id: 8702dab4-008d-4849-8f24-a91b57872a80
+  approved_by: user
+  approved_at: '2026-01-21'
+  reason: Live response uses ret_cnt (tret_cnt missing).
+  evidence: tmp/docs/augment/8702dab4-008d-4849-8f24-a91b57872a80/raw.json
+  source: augment/raw mismatch (2026-01-21)
+  changes:
+    outputs:
+      output1:
+        tret_cnt:
+          required: false
+    extra_fields:
+      outputs:
+        output1:
+          - code: ret_cnt
+            name: 자료개수
+            type: A0001
+            type_name: String
+            length: "4"
+            required: false
+            description: "inferred from live response"
+- id: c7be7c01-6f43-4576-b1fd-84d0102ce4c3
+  approved_by: user
+  approved_at: '2026-01-21'
+  reason: Live response uses ret_cnt (tret_cnt missing).
+  evidence: tmp/docs/augment/c7be7c01-6f43-4576-b1fd-84d0102ce4c3/raw.json
+  source: augment/raw mismatch (2026-01-21)
+  changes:
+    outputs:
+      output1:
+        tret_cnt:
+          required: false
+    extra_fields:
+      outputs:
+        output1:
+          - code: ret_cnt
+            name: 자료개수
+            type: A0001
+            type_name: String
+            length: "4"
+            required: false
+            description: "inferred from live response"

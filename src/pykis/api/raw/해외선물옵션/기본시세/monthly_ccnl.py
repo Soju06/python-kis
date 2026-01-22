@@ -163,7 +163,7 @@ class MonthlyCcnlOutput1(RawModel):
         default=None,
         alias="ret_cnt",
     )
-    ("inferred from raw payload")
+    ("inferred from live response")
 
 
 class MonthlyCcnlOutput2(RawModel):

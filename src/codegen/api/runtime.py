@@ -16,6 +16,7 @@ from codegen.core.types import JsonObject, JsonValue
 from pykis.api.client import SyncKisRawClient
 
 UNSAFE_KEYWORDS = ("주문", "정정", "취소", "매수", "매도", "trading", "order")
+SKIP_ENDPOINT_IDS = frozenset()
 
 _EMPTY_MESSAGE_CODES = {"APBN0024"}
 _EMPTY_MESSAGE_SNIPPETS = (
@@ -251,6 +252,7 @@ def _heuristic_value(code: str) -> JsonValue | None:
 
 
 __all__ = [
+    "SKIP_ENDPOINT_IDS",
     "UNSAFE_KEYWORDS",
     "ValueResolver",
     "build_payload",

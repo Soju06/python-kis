@@ -204,6 +204,8 @@ class FlngClsCodeEnum(KisStrEnum):
     "권리중간배당락"
     VALUE_99 = ("99", "기타")
     "기타"
+    SPACE = ("SPACE", "EW는 미해당")
+    "EW는 미해당"
 
 
 class GlobYnEnum(KisStrEnum):
@@ -288,6 +290,13 @@ class Kospi200ApntClsCodeEnum(KisStrEnum):
     "섹터업종(20110401 변경됨)"
 
 
+class MetmEnum(KisStrEnum):
+    HHMM = ("HHMM", "market end time")
+    "market end time"
+    TIME = ("time", "HHMM")
+    "HHMM"
+
+
 class MmscClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "연결선물")
     "연결선물"
@@ -310,6 +319,13 @@ class MrktAlrmClsCodeEnum(KisStrEnum):
     "투자경고"
     VALUE_03 = ("03", "투자위험")
     "투자위험"
+
+
+class MstmEnum(KisStrEnum):
+    HHMM = ("HHMM", "market start time")
+    "market start time"
+    TIME = ("time", "HHMM")
+    "HHMM"
 
 
 class Nasdaq100YnEnum(KisStrEnum):
@@ -382,6 +398,10 @@ class SclascdEnum(KisStrEnum):
     "선물옵션"
     VALUE_5 = ("5", "주식옵션 (W)")
     "주식옵션 (W)"
+    M = ("M", "2: 주식옵션")
+    "2: 주식옵션"
+    W = ("W", "5: 주식옵션")
+    "5: 주식옵션"
 
 
 class ScrtGrpClsCodeEnum(KisStrEnum):
@@ -476,6 +496,8 @@ class SexchsubcdEnum(KisStrEnum):
     "TMX"
     P0 = ("P0", "HNX")
     "HNX"
+    VALUE_12 = ("12", "27")
+    "27"
 
 
 class ShortOverClsCodeEnum(KisStrEnum):
@@ -531,6 +553,10 @@ class StisEnum(KisStrEnum):
     "ETP(ETF)"
     VALUE_4 = ("4", "Warrant")
     "Warrant"
+    ETF = ("ETF", "3:ETP")
+    "3:ETP"
+    ETP = ("ETP", "ETF")
+    "ETF"
 
 
 class SundrassetEnum(KisStrEnum):
@@ -564,8 +590,10 @@ __all__ = [
     "IcicClsCodeEnum",
     "InfoTypeEnum",
     "Kospi200ApntClsCodeEnum",
+    "MetmEnum",
     "MmscClsCodeEnum",
     "MrktAlrmClsCodeEnum",
+    "MstmEnum",
     "Nasdaq100YnEnum",
     "ProdNoEnum",
     "PrstClsCodeEnum",

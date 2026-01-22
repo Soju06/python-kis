@@ -52,7 +52,7 @@ TWAP, VWAP 주문에 대한 주문번호를 조회하는 API
 |--------|--------|------|------|------|------|
 | `TRAD_DT` | 거래일자 | String | 8 | Y | YYYYMMDD |
 | `CANO` | 계좌번호 | String | 8 | Y | 종합계좌번호 (8자리) |
-| `ACNO_PRDT_CD` | 계좌상품코드 | String | 2 | Y | 계좌상품코드 (2자리) : 주식계좌는 01 |
+| `ACNT_PRDT_CD` | 계좌상품코드 | String | 2 | Y | 계좌상품코드 (2자리) : 주식계좌는 01 |
 | `CTX_AREA_NK200` | 연속조회키200 | String | 200 | N |  |
 | `CTX_AREA_FK200` | 연속조회조건200 | String | 200 | N |  |
 
