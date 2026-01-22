@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -27,8 +28,10 @@ if TYPE_CHECKING:
 
 
 class ForfeitRequest(RawModel):
-    SHT_CD: str = Field(
+    SHT_CD: str | None = Field(
+        default=None,
         alias="SHT_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백: 전체, 특정종목 조회시 : 종목코드")
     T_DT: KisDate = Field(
@@ -39,8 +42,10 @@ class ForfeitRequest(RawModel):
         alias="F_DT",
     )
     ("일자 ~")
-    CTS: str = Field(
+    CTS: str | None = Field(
+        default=None,
         alias="CTS",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -54,15 +59,17 @@ class ForfeitRequestDict(TypedDict):
     ※ 예탁원에서 제공한 자료이므로 정보용으로만 사용하시기 바랍니다.
 
     Request fields:
-        SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드
+        SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
         T_DT (KisDate): ~ 일자
         F_DT (KisDate): 일자 ~
-        CTS (str): 공백
+        CTS (str): 공백 optional
     """
 
-    SHT_CD: Annotated[
-        str,
-        "공백: 전체, 특정종목 조회시 : 종목코드",
+    SHT_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공백: 전체, 특정종목 조회시 : 종목코드",
+        ]
     ]
     T_DT: Annotated[
         KisDate,
@@ -72,9 +79,11 @@ class ForfeitRequestDict(TypedDict):
         KisDate,
         "일자 ~",
     ]
-    CTS: Annotated[
-        str,
-        "공백",
+    CTS: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
 
 
@@ -214,10 +223,10 @@ if TYPE_CHECKING:
                 **kwargs (ForfeitRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드
+                        SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
                         T_DT (KisDate): ~ 일자
                         F_DT (KisDate): 일자 ~
-                        CTS (str): 공백
+                        CTS (str): 공백 optional
 
             Returns:
                 tuple[ForfeitResponse, KisResponse]: 응답 모델과 원시 응답

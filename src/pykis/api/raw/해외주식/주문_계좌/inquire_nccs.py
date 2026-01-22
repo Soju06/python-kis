@@ -159,8 +159,10 @@ class InquireNccsRequest(RawModel):
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_EXCG_CD: OvrsExcgCdEnum = Field(
+    OVRS_EXCG_CD: OvrsExcgCdEnum | None = Field(
+        default=None,
         alias="OVRS_EXCG_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     (
         "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 "
@@ -171,14 +173,19 @@ class InquireNccsRequest(RawModel):
     SORT_SQN: SortSqnEnum | None = Field(
         default=None,
         alias="SORT_SQN",
+        json_schema_extra={"blank_allowed": True},
     )
     ('DS : 정순 그외 : 역순 [header tr_id: TTTS3018R] ""(공란)')
-    CTX_AREA_FK200: str = Field(
+    CTX_AREA_FK200: str | None = Field(
+        default=None,
         alias="CTX_AREA_FK200",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_NK200: str = Field(
+    CTX_AREA_NK200: str | None = Field(
+        default=None,
         alias="CTX_AREA_NK200",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)")
 
@@ -212,12 +219,12 @@ class InquireNccsRequestDict(TypedDict):
         OVRS_EXCG_CD (OvrsExcgCdEnum): NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA :
         중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민 * NASD 인
         경우만 미국전체로 조회되며 나머지 거래소 코드는 해당 거래소만 조회됨 * 공백 입력 시
-        다음조회가 불가능하므로, 반드시 거래소코드 입력해야 함
+        다음조회가 불가능하므로, 반드시 거래소코드 입력해야 함 optional
         SORT_SQN (SortSqnEnum): DS : 정순 그외 : 역순 [header tr_id: TTTS3018R] ""(공란) optional
         CTX_AREA_FK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지
-        조회시(2번째부터)
+        조회시(2번째부터) optional
         CTX_AREA_NK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지
-        조회시(2번째부터)
+        조회시(2번째부터) optional
     """
 
     CANO: Annotated[
@@ -228,12 +235,14 @@ class InquireNccsRequestDict(TypedDict):
         AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
-    OVRS_EXCG_CD: Annotated[
-        OvrsExcgCdEnum,
-        "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 "
-        "HASE : 베트남 하노이 VNSE : 베트남 호치민 * NASD 인 경우만 미국전체로 조회되며 나머지 거래소 "
-        "코드는 해당 거래소만 조회됨 * 공백 입력 시 다음조회가 불가능하므로, 반드시 거래소코드 입력해야 "
-        "함",
+    OVRS_EXCG_CD: NotRequired[
+        Annotated[
+            OvrsExcgCdEnum | None,
+            "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 "
+            "HASE : 베트남 하노이 VNSE : 베트남 호치민 * NASD 인 경우만 미국전체로 조회되며 나머지 거래소 "
+            "코드는 해당 거래소만 조회됨 * 공백 입력 시 다음조회가 불가능하므로, 반드시 거래소코드 입력해야 "
+            "함",
+        ]
     ]
     SORT_SQN: NotRequired[
         Annotated[
@@ -241,13 +250,17 @@ class InquireNccsRequestDict(TypedDict):
             'DS : 정순 그외 : 역순 [header tr_id: TTTS3018R] ""(공란)',
         ]
     ]
-    CTX_AREA_FK200: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_FK200: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
-    CTX_AREA_NK200: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_NK200: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
 
 
@@ -353,6 +366,7 @@ class InquireNccsOutput(RawModel):
     )
     prcs_stat_name: str = Field(
         alias="prcs_stat_name",
+        json_schema_extra={"blank_allowed": True},
     )
     ('""')
     loan_type_cd: LoanTypeCdEnum = Field(
@@ -511,13 +525,13 @@ if TYPE_CHECKING:
                         홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE :
                         베트남 호치민 * NASD 인 경우만 미국전체로 조회되며 나머지 거래소 코드는 해당
                         거래소만 조회됨 * 공백 입력 시 다음조회가 불가능하므로, 반드시 거래소코드
-                        입력해야 함
+                        입력해야 함 optional
                         SORT_SQN (SortSqnEnum): DS : 정순 그외 : 역순 [header tr_id: TTTS3018R]
                         ""(공란) optional
                         CTX_AREA_FK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 :
-                        다음페이지 조회시(2번째부터)
+                        다음페이지 조회시(2번째부터) optional
                         CTX_AREA_NK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 :
-                        다음페이지 조회시(2번째부터)
+                        다음페이지 조회시(2번째부터) optional
 
             Returns:
                 tuple[InquireNccsResponse, KisResponse]: 응답 모델과 원시 응답

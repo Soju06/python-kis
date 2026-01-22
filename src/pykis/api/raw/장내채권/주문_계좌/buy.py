@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -63,12 +64,16 @@ class BuyRequest(RawModel):
         alias="BOND_RTL_MKET_YN",
     )
     ("Y, N")
-    IDCR_STFNO: str = Field(
+    IDCR_STFNO: str | None = Field(
+        default=None,
         alias="IDCR_STFNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    MGCO_APTM_ODNO: str = Field(
+    MGCO_APTM_ODNO: str | None = Field(
+        default=None,
         alias="MGCO_APTM_ODNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     ORD_SVR_DVSN_CD: OrdSvrDvsnCdEnum = Field(
@@ -95,8 +100,8 @@ class BuyRequestDict(TypedDict):
         BOND_ORD_UNPR (str): 채권주문단가
         SAMT_MKET_PTCI_YN (KisBool): N: 일반시장, Y: 소액시장
         BOND_RTL_MKET_YN (KisBool): Y, N
-        IDCR_STFNO (str): 공백
-        MGCO_APTM_ODNO (str): 공백
+        IDCR_STFNO (str): 공백 optional
+        MGCO_APTM_ODNO (str): 공백 optional
         ORD_SVR_DVSN_CD (OrdSvrDvsnCdEnum): Unique key(0)
         CTAC_TLNO (str): 연락전화번호
     """
@@ -129,13 +134,17 @@ class BuyRequestDict(TypedDict):
         KisBool,
         "Y, N",
     ]
-    IDCR_STFNO: Annotated[
-        str,
-        "공백",
+    IDCR_STFNO: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    MGCO_APTM_ODNO: Annotated[
-        str,
-        "공백",
+    MGCO_APTM_ODNO: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     ORD_SVR_DVSN_CD: Annotated[
         OrdSvrDvsnCdEnum,
@@ -254,8 +263,8 @@ if TYPE_CHECKING:
                         BOND_ORD_UNPR (str): 채권주문단가
                         SAMT_MKET_PTCI_YN (KisBool): N: 일반시장, Y: 소액시장
                         BOND_RTL_MKET_YN (KisBool): Y, N
-                        IDCR_STFNO (str): 공백
-                        MGCO_APTM_ODNO (str): 공백
+                        IDCR_STFNO (str): 공백 optional
+                        MGCO_APTM_ODNO (str): 공백 optional
                         ORD_SVR_DVSN_CD (OrdSvrDvsnCdEnum): Unique key(0)
                         CTAC_TLNO (str): 연락전화번호
 

@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -52,24 +53,32 @@ class IntstockStocklistByGroupRequest(RawModel):
         alias="USER_ID",
     )
     ("HTS_ID 입력")
-    DATA_RANK: str = Field(
+    DATA_RANK: str | None = Field(
+        default=None,
         alias="DATA_RANK",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     INTER_GRP_CODE: str = Field(
         alias="INTER_GRP_CODE",
     )
     ("관심그룹 조회 결과의 그룹 값 입력")
-    INTER_GRP_NAME: str = Field(
+    INTER_GRP_NAME: str | None = Field(
+        default=None,
         alias="INTER_GRP_NAME",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    HTS_KOR_ISNM: str = Field(
+    HTS_KOR_ISNM: str | None = Field(
+        default=None,
         alias="HTS_KOR_ISNM",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    CNTG_CLS_CODE: str = Field(
+    CNTG_CLS_CODE: str | None = Field(
+        default=None,
         alias="CNTG_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     FID_ETC_CLS_CODE: FidEtcClsCodeEnum = Field(
@@ -92,11 +101,11 @@ class IntstockStocklistByGroupRequestDict(TypedDict):
     Request fields:
         TYPE (TypeEnum): Unique key(1)
         USER_ID (str): HTS_ID 입력
-        DATA_RANK (str): 공백
+        DATA_RANK (str): 공백 optional
         INTER_GRP_CODE (str): 관심그룹 조회 결과의 그룹 값 입력
-        INTER_GRP_NAME (str): 공백
-        HTS_KOR_ISNM (str): 공백
-        CNTG_CLS_CODE (str): 공백
+        INTER_GRP_NAME (str): 공백 optional
+        HTS_KOR_ISNM (str): 공백 optional
+        CNTG_CLS_CODE (str): 공백 optional
         FID_ETC_CLS_CODE (FidEtcClsCodeEnum): Unique key(4)
     """
 
@@ -108,25 +117,33 @@ class IntstockStocklistByGroupRequestDict(TypedDict):
         str,
         "HTS_ID 입력",
     ]
-    DATA_RANK: Annotated[
-        str,
-        "공백",
+    DATA_RANK: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     INTER_GRP_CODE: Annotated[
         str,
         "관심그룹 조회 결과의 그룹 값 입력",
     ]
-    INTER_GRP_NAME: Annotated[
-        str,
-        "공백",
+    INTER_GRP_NAME: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    HTS_KOR_ISNM: Annotated[
-        str,
-        "공백",
+    HTS_KOR_ISNM: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    CNTG_CLS_CODE: Annotated[
-        str,
-        "공백",
+    CNTG_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     FID_ETC_CLS_CODE: Annotated[
         FidEtcClsCodeEnum,
@@ -299,11 +316,11 @@ if TYPE_CHECKING:
                     Request fields:
                         TYPE (TypeEnum): Unique key(1)
                         USER_ID (str): HTS_ID 입력
-                        DATA_RANK (str): 공백
+                        DATA_RANK (str): 공백 optional
                         INTER_GRP_CODE (str): 관심그룹 조회 결과의 그룹 값 입력
-                        INTER_GRP_NAME (str): 공백
-                        HTS_KOR_ISNM (str): 공백
-                        CNTG_CLS_CODE (str): 공백
+                        INTER_GRP_NAME (str): 공백 optional
+                        HTS_KOR_ISNM (str): 공백 optional
+                        CNTG_CLS_CODE (str): 공백 optional
                         FID_ETC_CLS_CODE (FidEtcClsCodeEnum): Unique key(4)
 
             Returns:

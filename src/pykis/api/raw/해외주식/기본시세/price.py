@@ -74,6 +74,7 @@ class PriceRequest(RawModel):
     AUTH: str | None = Field(
         default=None,
         alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" (Null 값 설정)')
     EXCD: ExcdEnum = Field(

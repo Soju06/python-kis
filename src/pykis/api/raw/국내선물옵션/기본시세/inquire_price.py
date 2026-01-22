@@ -16,7 +16,7 @@ from pydantic import Field
 
 from pykis.api.raw.base import (
     KisBool,
-    KisDateOptional,
+    KisDate,
     RawModel,
 )
 from pykis.api.raw.types import Endpoint, KisResponse
@@ -96,156 +96,126 @@ class InquirePriceRequestDict(TypedDict):
 
 
 class InquirePriceOutput1(RawModel):
-    hts_kor_isnm: str | None = Field(
-        default=None,
+    hts_kor_isnm: str = Field(
         alias="hts_kor_isnm",
     )
     ("종목명")
-    futs_prpr: Decimal | None = Field(
-        default=None,
+    futs_prpr: Decimal = Field(
         alias="futs_prpr",
     )
     ("선물의 현재가격")
-    futs_prdy_vrss: Decimal | None = Field(
-        default=None,
+    futs_prdy_vrss: Decimal = Field(
         alias="futs_prdy_vrss",
     )
     ("선물의 전일 종가와 당일 현재가의 차이 (당일 현재가-전일 종가)")
-    prdy_vrss_sign: PrdyVrssSignEnum | None = Field(
-        default=None,
+    prdy_vrss_sign: PrdyVrssSignEnum = Field(
         alias="prdy_vrss_sign",
     )
     ("1 : 상한 2 : 상승 3 : 보합 4 : 하한 5 : 하락")
-    futs_prdy_clpr: str | None = Field(
-        default=None,
+    futs_prdy_clpr: str = Field(
         alias="futs_prdy_clpr",
     )
     ("해당 선물 종목의 전일 종가")
-    futs_prdy_ctrt: Decimal | None = Field(
-        default=None,
+    futs_prdy_ctrt: Decimal = Field(
         alias="futs_prdy_ctrt",
     )
     ("선물 전일 대비 / 당일 현재가 * 100")
-    acml_vol: int | None = Field(
-        default=None,
+    acml_vol: int = Field(
         alias="acml_vol",
     )
     ("당일 조회시점까지 전체 거래량")
-    acml_tr_pbmn: Decimal | None = Field(
-        default=None,
+    acml_tr_pbmn: Decimal = Field(
         alias="acml_tr_pbmn",
     )
     ("당일 조회시점까지 전체 거래금액")
-    hts_otst_stpl_qty: int | None = Field(
-        default=None,
+    hts_otst_stpl_qty: int = Field(
         alias="hts_otst_stpl_qty",
     )
     ("현재까지 반대매매로 청산되지 않은 계약수")
-    otst_stpl_qty_icdc: int | None = Field(
-        default=None,
+    otst_stpl_qty_icdc: int = Field(
         alias="otst_stpl_qty_icdc",
     )
     ("전일대비 미결제 약정 수량의 증감")
-    futs_oprc: Decimal | None = Field(
-        default=None,
+    futs_oprc: Decimal = Field(
         alias="futs_oprc",
     )
     ("당일 최초 거래가격")
-    futs_hgpr: Decimal | None = Field(
-        default=None,
+    futs_hgpr: Decimal = Field(
         alias="futs_hgpr",
     )
     ("당일 조회 시점까지 가장 높은 거래가격")
-    futs_lwpr: Decimal | None = Field(
-        default=None,
+    futs_lwpr: Decimal = Field(
         alias="futs_lwpr",
     )
     ("당일 조회 시점까지 가장 낮은 거래가격")
-    futs_mxpr: Decimal | None = Field(
-        default=None,
+    futs_mxpr: Decimal = Field(
         alias="futs_mxpr",
     )
     ("당일 거래 가능한 최고 가격")
-    futs_llam: Decimal | None = Field(
-        default=None,
+    futs_llam: Decimal = Field(
         alias="futs_llam",
     )
     ("당일 거래 가능한 최저 가격")
-    basis: Decimal | None = Field(
-        default=None,
+    basis: Decimal = Field(
         alias="basis",
     )
     ("이론베이시스 선물 이론가격과 현물가격과의 차이")
-    futs_sdpr: str | None = Field(
-        default=None,
+    futs_sdpr: Decimal = Field(
         alias="futs_sdpr",
     )
     ("선물 기준가")
-    hts_thpr: Decimal | None = Field(
-        default=None,
+    hts_thpr: Decimal = Field(
         alias="hts_thpr",
     )
     (
         "해당 월물의 이론적 가치를 계산한 것으로 주가지수 선물 이론가격은 (주가지수 선물 이론가격 = "
         "주가지수 + 기간이자비용 - 기간배당수입) 로 계산"
     )
-    dprt: Decimal | None = Field(
-        default=None,
+    dprt: Decimal = Field(
         alias="dprt",
     )
     ("현재의 시장가가 이론가격으로부터 얼마나 벗어나 있는지에 대한 측정 자료 괴리도 = (현재가 - 이론가격)")
-    crbr_aply_mxpr: str | None = Field(
-        default=None,
+    crbr_aply_mxpr: Decimal = Field(
         alias="crbr_aply_mxpr",
     )
     ("서킷브레이커 적용 상한가")
-    crbr_aply_llam: str | None = Field(
-        default=None,
+    crbr_aply_llam: Decimal = Field(
         alias="crbr_aply_llam",
     )
     ("서킷브레이커 적용 하한가")
-    futs_last_tr_date: KisDateOptional = Field(
-        default=None,
+    futs_last_tr_date: KisDate = Field(
         alias="futs_last_tr_date",
     )
     ("해당 선물 종목의 마지막 거래일")
-    hts_rmnn_dynu: str | None = Field(
-        default=None,
+    hts_rmnn_dynu: int = Field(
         alias="hts_rmnn_dynu",
     )
     ("최종 거래일까지 남은 일수")
-    futs_lstn_medm_hgpr: str | None = Field(
-        default=None,
+    futs_lstn_medm_hgpr: str = Field(
         alias="futs_lstn_medm_hgpr",
     )
     ("해당 선물 종목의 상장일 이후 최고 거래가격")
-    futs_lstn_medm_lwpr: str | None = Field(
-        default=None,
+    futs_lstn_medm_lwpr: str = Field(
         alias="futs_lstn_medm_lwpr",
     )
     ("해당 선물 종목의 상장일 이후 최저 거래가격")
-    delta_val: str | None = Field(
-        default=None,
+    delta_val: str = Field(
         alias="delta_val",
     )
     ("옵션 종목의 지표값")
-    gama: str | None = Field(
-        default=None,
+    gama: str = Field(
         alias="gama",
     )
     ("옵션 종목의 지표값")
-    theta: str | None = Field(
-        default=None,
+    theta: str = Field(
         alias="theta",
     )
     ("옵션 종목의 지표값")
-    vega: str | None = Field(
-        default=None,
+    vega: str = Field(
         alias="vega",
     )
     ("옵션 종목의 지표값")
-    rho: str | None = Field(
-        default=None,
+    rho: str = Field(
         alias="rho",
     )
     ("옵션 종목의 지표값")
@@ -259,8 +229,7 @@ class InquirePriceOutput1(RawModel):
         alias="hts_ints_vltl",
     )
     ("옵션 종목의 지표값")
-    mrkt_basis: Decimal | None = Field(
-        default=None,
+    mrkt_basis: Decimal = Field(
         alias="mrkt_basis",
     )
     ("시장베이시스 현재 시장에서 형성된 선물가격과 현물가격과의 차이")

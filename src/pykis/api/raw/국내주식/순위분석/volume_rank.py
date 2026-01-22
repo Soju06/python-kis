@@ -90,21 +90,25 @@ class VolumeRankRequest(RawModel):
     FID_INPUT_PRICE_1: str | None = Field(
         default=None,
         alias="FID_INPUT_PRICE_1",
+        json_schema_extra={"blank_allowed": True},
     )
     ('가격 ~ ex) "0" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력')
     FID_INPUT_PRICE_2: str | None = Field(
         default=None,
         alias="FID_INPUT_PRICE_2",
+        json_schema_extra={"blank_allowed": True},
     )
     ('~ 가격 ex) "1000000" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력')
     FID_VOL_CNT: int | None = Field(
         default=None,
         alias="FID_VOL_CNT",
+        json_schema_extra={"blank_allowed": True},
     )
     ('거래량 ~ ex) "100000" 전체 거래량 대상 조회 시 FID_VOL_CNT ""(공란) 입력')
     FID_INPUT_DATE_1: str | None = Field(
         default=None,
         alias="FID_INPUT_DATE_1",
+        json_schema_extra={"blank_allowed": True},
     )
     ('""(공란) 입력')
 
@@ -210,7 +214,7 @@ class VolumeRankOutput(RawModel):
         alias="mksc_shrn_iscd",
     )
     ("유가증권 단축 종목코드")
-    data_rank: str = Field(
+    data_rank: int = Field(
         alias="data_rank",
     )
     ("데이터 순위")
@@ -218,11 +222,11 @@ class VolumeRankOutput(RawModel):
         alias="stck_prpr",
     )
     ("주식 현재가")
-    prdy_vrss_sign: str = Field(
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
-    prdy_vrss: str = Field(
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일 대비")
@@ -238,7 +242,7 @@ class VolumeRankOutput(RawModel):
         alias="prdy_vol",
     )
     ("전일 거래량")
-    lstn_stcn: str = Field(
+    lstn_stcn: int = Field(
         alias="lstn_stcn",
     )
     ("상장 주수")
@@ -281,18 +285,15 @@ class VolumeRankOutput(RawModel):
 
 
 class VolumeRankResponse(RawModel):
-    rt_cd: KisBool | None = Field(
-        default=None,
+    rt_cd: KisBool = Field(
         alias="rt_cd",
     )
     ("성공 실패 여부")
-    msg_cd: str | None = Field(
-        default=None,
+    msg_cd: str = Field(
         alias="msg_cd",
     )
     ("응답코드")
-    msg1: str | None = Field(
-        default=None,
+    msg1: str = Field(
         alias="msg1",
     )
     ("응답메세지")

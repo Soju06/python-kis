@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -110,20 +111,28 @@ class InquireCcnlRequest(RawModel):
         alias="STRT_ODNO",
     )
     ("조회 시작 번호 입력")
-    PDNO: str = Field(
+    PDNO: str | None = Field(
+        default=None,
         alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 시, 전체 조회 선물 6자리 (예: 101S03) 옵션 9자리 (예: 201S03370)")
-    MKET_ID_CD: str = Field(
+    MKET_ID_CD: str | None = Field(
+        default=None,
         alias="MKET_ID_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란(Default)")
-    CTX_AREA_FK200: str = Field(
+    CTX_AREA_FK200: str | None = Field(
+        default=None,
         alias="CTX_AREA_FK200",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_NK200: str = Field(
+    CTX_AREA_NK200: str | None = Field(
+        default=None,
         alias="CTX_AREA_NK200",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)")
 
@@ -143,12 +152,12 @@ class InquireCcnlRequestDict(TypedDict):
         CCLD_NCCS_DVSN (CcldNccsDvsnEnum): 00 : 전체 01 : 체결 02 : 미체결
         SORT_SQN (SortSqnEnum): AS : 정순 DS : 역순
         STRT_ODNO (str): 조회 시작 번호 입력
-        PDNO (str): 공란 시, 전체 조회 선물 6자리 (예: 101S03) 옵션 9자리 (예: 201S03370)
-        MKET_ID_CD (str): 공란(Default)
+        PDNO (str): 공란 시, 전체 조회 선물 6자리 (예: 101S03) 옵션 9자리 (예: 201S03370) optional
+        MKET_ID_CD (str): 공란(Default) optional
         CTX_AREA_FK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지
-        조회시(2번째부터)
+        조회시(2번째부터) optional
         CTX_AREA_NK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지
-        조회시(2번째부터)
+        조회시(2번째부터) optional
     """
 
     CANO: Annotated[
@@ -183,21 +192,29 @@ class InquireCcnlRequestDict(TypedDict):
         str,
         "조회 시작 번호 입력",
     ]
-    PDNO: Annotated[
-        str,
-        "공란 시, 전체 조회 선물 6자리 (예: 101S03) 옵션 9자리 (예: 201S03370)",
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            "공란 시, 전체 조회 선물 6자리 (예: 101S03) 옵션 9자리 (예: 201S03370)",
+        ]
     ]
-    MKET_ID_CD: Annotated[
-        str,
-        "공란(Default)",
+    MKET_ID_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공란(Default)",
+        ]
     ]
-    CTX_AREA_FK200: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_FK200: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
-    CTX_AREA_NK200: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_NK200: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
 
 
@@ -440,12 +457,12 @@ if TYPE_CHECKING:
                         SORT_SQN (SortSqnEnum): AS : 정순 DS : 역순
                         STRT_ODNO (str): 조회 시작 번호 입력
                         PDNO (str): 공란 시, 전체 조회 선물 6자리 (예: 101S03) 옵션 9자리 (예:
-                        201S03370)
-                        MKET_ID_CD (str): 공란(Default)
+                        201S03370) optional
+                        MKET_ID_CD (str): 공란(Default) optional
                         CTX_AREA_FK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 :
-                        다음페이지 조회시(2번째부터)
+                        다음페이지 조회시(2번째부터) optional
                         CTX_AREA_NK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 :
-                        다음페이지 조회시(2번째부터)
+                        다음페이지 조회시(2번째부터) optional
 
             Returns:
                 tuple[InquireCcnlResponse, KisResponse]: 응답 모델과 원시 응답

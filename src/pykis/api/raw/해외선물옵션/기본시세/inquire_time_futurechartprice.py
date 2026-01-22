@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -16,6 +17,7 @@ from pydantic import Field
 from pykis.api.raw.base import (
     KisBool,
     KisDateTime,
+    KisDateTimeOptional,
     RawModel,
 )
 from pykis.api.raw.types import Endpoint, KisResponse
@@ -41,8 +43,10 @@ class InquireTimeFuturechartpriceRequest(RawModel):
         alias="EXCH_CD",
     )
     ("CME")
-    START_DATE_TIME: KisDateTime = Field(
+    START_DATE_TIME: KisDateTimeOptional = Field(
+        default=None,
         alias="START_DATE_TIME",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     CLOSE_DATE_TIME: KisDateTime = Field(
@@ -120,7 +124,7 @@ class InquireTimeFuturechartpriceRequestDict(TypedDict):
         SRS_CD (str): ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물"
         참고
         EXCH_CD (str): CME
-        START_DATE_TIME (KisDateTime): 공백
+        START_DATE_TIME (KisDateTime): 공백 optional
         CLOSE_DATE_TIME (KisDateTime): ex) 20230823
         QRY_TP (QryTpEnum): Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시
         QRY_CNT (int): 120 (조회갯수)
@@ -137,9 +141,11 @@ class InquireTimeFuturechartpriceRequestDict(TypedDict):
         str,
         "CME",
     ]
-    START_DATE_TIME: Annotated[
-        KisDateTime,
-        "공백",
+    START_DATE_TIME: NotRequired[
+        Annotated[
+            KisDateTimeOptional,
+            "공백",
+        ]
     ]
     CLOSE_DATE_TIME: Annotated[
         KisDateTime,
@@ -334,7 +340,7 @@ if TYPE_CHECKING:
                         SRS_CD (str): ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) -
                         해외지수선물" 참고
                         EXCH_CD (str): CME
-                        START_DATE_TIME (KisDateTime): 공백
+                        START_DATE_TIME (KisDateTime): 공백 optional
                         CLOSE_DATE_TIME (KisDateTime): ex) 20230823
                         QRY_TP (QryTpEnum): Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시
                         QRY_CNT (int): 120 (조회갯수)

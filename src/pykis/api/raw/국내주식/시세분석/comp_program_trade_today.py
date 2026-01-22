@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -42,20 +43,28 @@ class CompProgramTradeTodayRequest(RawModel):
         alias="FID_MRKT_CLS_CODE",
     )
     ("K:코스피, Q:코스닥")
-    FID_SCTN_CLS_CODE: str = Field(
+    FID_SCTN_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_SCTN_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
-    FID_INPUT_ISCD: str = Field(
+    FID_INPUT_ISCD: str | None = Field(
+        default=None,
         alias="FID_INPUT_ISCD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
-    FID_COND_MRKT_DIV_CODE1: str = Field(
+    FID_COND_MRKT_DIV_CODE1: str | None = Field(
+        default=None,
         alias="FID_COND_MRKT_DIV_CODE1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
-    FID_INPUT_HOUR_1: str = Field(
+    FID_INPUT_HOUR_1: str | None = Field(
+        default=None,
         alias="FID_INPUT_HOUR_1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
 
@@ -73,10 +82,10 @@ class CompProgramTradeTodayRequestDict(TypedDict):
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): KRX : J , NXT : NX, 통합 : UN
         FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): K:코스피, Q:코스닥
-        FID_SCTN_CLS_CODE (str): 공백 입력
-        FID_INPUT_ISCD (str): 공백 입력
-        FID_COND_MRKT_DIV_CODE1 (str): 공백 입력
-        FID_INPUT_HOUR_1 (str): 공백 입력
+        FID_SCTN_CLS_CODE (str): 공백 입력 optional
+        FID_INPUT_ISCD (str): 공백 입력 optional
+        FID_COND_MRKT_DIV_CODE1 (str): 공백 입력 optional
+        FID_INPUT_HOUR_1 (str): 공백 입력 optional
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -87,21 +96,29 @@ class CompProgramTradeTodayRequestDict(TypedDict):
         FidMrktClsCodeEnum,
         "K:코스피, Q:코스닥",
     ]
-    FID_SCTN_CLS_CODE: Annotated[
-        str,
-        "공백 입력",
+    FID_SCTN_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "공백 입력",
+    FID_INPUT_ISCD: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
-    FID_COND_MRKT_DIV_CODE1: Annotated[
-        str,
-        "공백 입력",
+    FID_COND_MRKT_DIV_CODE1: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
-    FID_INPUT_HOUR_1: Annotated[
-        str,
-        "공백 입력",
+    FID_INPUT_HOUR_1: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
 
 
@@ -284,10 +301,10 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): KRX : J , NXT : NX, 통합 : UN
                         FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): K:코스피, Q:코스닥
-                        FID_SCTN_CLS_CODE (str): 공백 입력
-                        FID_INPUT_ISCD (str): 공백 입력
-                        FID_COND_MRKT_DIV_CODE1 (str): 공백 입력
-                        FID_INPUT_HOUR_1 (str): 공백 입력
+                        FID_SCTN_CLS_CODE (str): 공백 입력 optional
+                        FID_INPUT_ISCD (str): 공백 입력 optional
+                        FID_COND_MRKT_DIV_CODE1 (str): 공백 입력 optional
+                        FID_INPUT_HOUR_1 (str): 공백 입력 optional
 
             Returns:
                 tuple[CompProgramTradeTodayResponse, KisResponse]: 응답 모델과 원시 응답

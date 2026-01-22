@@ -127,6 +127,7 @@ class OrderRequest(RawModel):
     NMPR_TYPE_CD: NmprTypeCdEnum | None = Field(
         default=None,
         alias="NMPR_TYPE_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     (
         '※ ORD_DVSN_CD(주문구분코드)를 입력한 경우 ""(공란)으로 입력해도 됨 01 : 지정가 02 : 시장가 03 : '
@@ -135,6 +136,7 @@ class OrderRequest(RawModel):
     KRX_NMPR_CNDT_CD: KrxNmprCndtCdEnum | None = Field(
         default=None,
         alias="KRX_NMPR_CNDT_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ('※ ORD_DVSN_CD(주문구분코드)를 입력한 경우 ""(공란)으로 입력해도 됨 0 : 없음 3 : IOC 4 : FOK')
     CTAC_TLNO: str | None = Field(
@@ -145,6 +147,7 @@ class OrderRequest(RawModel):
     FUOP_ITEM_DVSN_CD: str | None = Field(
         default=None,
         alias="FUOP_ITEM_DVSN_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란(Default)")
     ORD_DVSN_CD: OrdDvsnCdEnum = Field(

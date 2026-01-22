@@ -55,7 +55,7 @@ class InquireElwPriceRequestDict(TypedDict):
     ]
 
 
-class InquireElwPriceOutput1(RawModel):
+class InquireElwPriceOutput(RawModel):
     elw_shrn_iscd: str | None = Field(
         default=None,
         alias="elw_shrn_iscd",
@@ -228,7 +228,7 @@ class InquireElwPriceResponse(RawModel):
         alias="msg1",
     )
     ("응답메세지")
-    output1: InquireElwPriceOutput1 = Field(
+    output: InquireElwPriceOutput = Field(
         alias="output",
     )
     ("응답상세")
@@ -311,5 +311,5 @@ __all__ = [
     "InquireElwPriceRequest",
     "InquireElwPriceRequestDict",
     "InquireElwPriceResponse",
-    "InquireElwPriceOutput1",
+    "InquireElwPriceOutput",
 ]

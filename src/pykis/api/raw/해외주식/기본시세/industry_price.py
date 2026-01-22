@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -46,8 +47,10 @@ class ExcdEnum(KisStrEnum):
 
 
 class IndustryPriceRequest(RawModel):
-    AUTH: str = Field(
+    AUTH: str | None = Field(
+        default=None,
         alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     EXCD: ExcdEnum = Field(
@@ -64,14 +67,16 @@ class IndustryPriceRequestDict(TypedDict):
     해외주식 업종별코드조회 API입니다.
 
     Request fields:
-        AUTH (str): 공백
+        AUTH (str): 공백 optional
         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천
         HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
     """
 
-    AUTH: Annotated[
-        str,
-        "공백",
+    AUTH: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     EXCD: Annotated[
         ExcdEnum,
@@ -180,7 +185,7 @@ if TYPE_CHECKING:
                 **kwargs (IndustryPriceRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        AUTH (str): 공백
+                        AUTH (str): 공백 optional
                         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS :
                         상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
 

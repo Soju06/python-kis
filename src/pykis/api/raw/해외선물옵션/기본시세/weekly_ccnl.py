@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -18,6 +19,7 @@ from pykis.api.raw.base import (
     KisBool,
     KisDate,
     KisDateTime,
+    KisDateTimeOptional,
     KisTimeOptional,
     RawModel,
 )
@@ -44,8 +46,10 @@ class WeeklyCcnlRequest(RawModel):
         alias="EXCH_CD",
     )
     ("예) CME")
-    START_DATE_TIME: KisDateTime = Field(
+    START_DATE_TIME: KisDateTimeOptional = Field(
+        default=None,
         alias="START_DATE_TIME",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     CLOSE_DATE_TIME: KisDateTime = Field(
@@ -60,12 +64,16 @@ class WeeklyCcnlRequest(RawModel):
         alias="QRY_CNT",
     )
     ("예) 30 (최대 40)")
-    QRY_GAP: str = Field(
+    QRY_GAP: str | None = Field(
+        default=None,
         alias="QRY_GAP",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 (분만 사용)")
-    INDEX_KEY: str = Field(
+    INDEX_KEY: str | None = Field(
+        default=None,
         alias="INDEX_KEY",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -102,12 +110,12 @@ class WeeklyCcnlRequestDict(TypedDict):
     Request fields:
         SRS_CD (str): 예) 6AM24
         EXCH_CD (str): 예) CME
-        START_DATE_TIME (KisDateTime): 공백
+        START_DATE_TIME (KisDateTime): 공백 optional
         CLOSE_DATE_TIME (KisDateTime): 예) 20240402
         QRY_TP (QryTpEnum): Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시
         QRY_CNT (int): 예) 30 (최대 40)
-        QRY_GAP (str): 공백 (분만 사용)
-        INDEX_KEY (str): 공백
+        QRY_GAP (str): 공백 (분만 사용) optional
+        INDEX_KEY (str): 공백 optional
     """
 
     SRS_CD: Annotated[
@@ -118,9 +126,11 @@ class WeeklyCcnlRequestDict(TypedDict):
         str,
         "예) CME",
     ]
-    START_DATE_TIME: Annotated[
-        KisDateTime,
-        "공백",
+    START_DATE_TIME: NotRequired[
+        Annotated[
+            KisDateTimeOptional,
+            "공백",
+        ]
     ]
     CLOSE_DATE_TIME: Annotated[
         KisDateTime,
@@ -134,13 +144,17 @@ class WeeklyCcnlRequestDict(TypedDict):
         int,
         "예) 30 (최대 40)",
     ]
-    QRY_GAP: Annotated[
-        str,
-        "공백 (분만 사용)",
+    QRY_GAP: NotRequired[
+        Annotated[
+            str | None,
+            "공백 (분만 사용)",
+        ]
     ]
-    INDEX_KEY: Annotated[
-        str,
-        "공백",
+    INDEX_KEY: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
 
 
@@ -347,12 +361,12 @@ if TYPE_CHECKING:
                     Request fields:
                         SRS_CD (str): 예) 6AM24
                         EXCH_CD (str): 예) CME
-                        START_DATE_TIME (KisDateTime): 공백
+                        START_DATE_TIME (KisDateTime): 공백 optional
                         CLOSE_DATE_TIME (KisDateTime): 예) 20240402
                         QRY_TP (QryTpEnum): Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시
                         QRY_CNT (int): 예) 30 (최대 40)
-                        QRY_GAP (str): 공백 (분만 사용)
-                        INDEX_KEY (str): 공백
+                        QRY_GAP (str): 공백 (분만 사용) optional
+                        INDEX_KEY (str): 공백 optional
 
             Returns:
                 tuple[WeeklyCcnlResponse, KisResponse]: 응답 모델과 원시 응답

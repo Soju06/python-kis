@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -53,8 +54,10 @@ class SellRequest(RawModel):
         alias="ACNT_PRDT_CD",
     )
     ("계좌상품코드")
-    ORD_DVSN: OrdDvsnEnum = Field(
+    ORD_DVSN: OrdDvsnEnum | None = Field(
+        default=None,
         alias="ORD_DVSN",
+        json_schema_extra={"blank_allowed": True},
     )
     ("'01: 종목별 (매수일자, 매수순번 공백입력) 02: 일자별 (매수순번: 0 입력) 03: 체결가별 '")
     PDNO: str = Field(
@@ -93,8 +96,10 @@ class SellRequest(RawModel):
         alias="BOND_RTL_MKET_YN",
     )
     ("N")
-    MGCO_APTM_ODNO: str = Field(
+    MGCO_APTM_ODNO: str | None = Field(
+        default=None,
         alias="MGCO_APTM_ODNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     ORD_SVR_DVSN_CD: OrdSvrDvsnCdEnum = Field(
@@ -117,7 +122,7 @@ class SellRequestDict(TypedDict):
         CANO (str): 종합계좌번호
         ACNT_PRDT_CD (str): 계좌상품코드
         ORD_DVSN (OrdDvsnEnum): '01: 종목별 (매수일자, 매수순번 공백입력) 02: 일자별 (매수순번: 0
-        입력) 03: 체결가별 '
+        입력) 03: 체결가별 ' optional
         PDNO (str): 상품번호
         ORD_QTY2 (KisBool): SAMT_MKET_PTCI_YN(소액시장참여여부) : N(일반시장) 입력 시 10단위 입력
         BOND_ORD_UNPR (str): 주문단가
@@ -127,7 +132,7 @@ class SellRequestDict(TypedDict):
         SAMT_MKET_PTCI_YN (KisBool): N: 일반시장, Y: 소액시장
         SLL_AGCO_OPPS_SLL_YN (KisBool): N
         BOND_RTL_MKET_YN (KisBool): N
-        MGCO_APTM_ODNO (str): 공백
+        MGCO_APTM_ODNO (str): 공백 optional
         ORD_SVR_DVSN_CD (OrdSvrDvsnCdEnum): Unique key(0)
         CTAC_TLNO (str): 연락전화번호
     """
@@ -140,9 +145,11 @@ class SellRequestDict(TypedDict):
         str,
         "계좌상품코드",
     ]
-    ORD_DVSN: Annotated[
-        OrdDvsnEnum,
-        "'01: 종목별 (매수일자, 매수순번 공백입력) 02: 일자별 (매수순번: 0 입력) 03: 체결가별 '",
+    ORD_DVSN: NotRequired[
+        Annotated[
+            OrdDvsnEnum | None,
+            "'01: 종목별 (매수일자, 매수순번 공백입력) 02: 일자별 (매수순번: 0 입력) 03: 체결가별 '",
+        ]
     ]
     PDNO: Annotated[
         str,
@@ -180,9 +187,11 @@ class SellRequestDict(TypedDict):
         KisBool,
         "N",
     ]
-    MGCO_APTM_ODNO: Annotated[
-        str,
-        "공백",
+    MGCO_APTM_ODNO: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     ORD_SVR_DVSN_CD: Annotated[
         OrdSvrDvsnCdEnum,
@@ -296,7 +305,7 @@ if TYPE_CHECKING:
                         CANO (str): 종합계좌번호
                         ACNT_PRDT_CD (str): 계좌상품코드
                         ORD_DVSN (OrdDvsnEnum): '01: 종목별 (매수일자, 매수순번 공백입력) 02: 일자별
-                        (매수순번: 0 입력) 03: 체결가별 '
+                        (매수순번: 0 입력) 03: 체결가별 ' optional
                         PDNO (str): 상품번호
                         ORD_QTY2 (KisBool): SAMT_MKET_PTCI_YN(소액시장참여여부) : N(일반시장) 입력 시
                         10단위 입력
@@ -307,7 +316,7 @@ if TYPE_CHECKING:
                         SAMT_MKET_PTCI_YN (KisBool): N: 일반시장, Y: 소액시장
                         SLL_AGCO_OPPS_SLL_YN (KisBool): N
                         BOND_RTL_MKET_YN (KisBool): N
-                        MGCO_APTM_ODNO (str): 공백
+                        MGCO_APTM_ODNO (str): 공백 optional
                         ORD_SVR_DVSN_CD (OrdSvrDvsnCdEnum): Unique key(0)
                         CTAC_TLNO (str): 연락전화번호
 

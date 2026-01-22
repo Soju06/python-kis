@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -82,20 +83,28 @@ class InquirePeriodProfitRequest(RawModel):
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_EXCG_CD: OvrsExcgCdEnum = Field(
+    OVRS_EXCG_CD: OvrsExcgCdEnum | None = Field(
+        default=None,
         alias="OVRS_EXCG_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE : 일본, HASE : 베트남")
-    NATN_CD: str = Field(
+    NATN_CD: str | None = Field(
+        default=None,
         alias="NATN_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란(Default)")
-    CRCY_CD: CrcyCdEnum = Field(
+    CRCY_CD: CrcyCdEnum | None = Field(
+        default=None,
         alias="CRCY_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY : 일본엔화, VND : 베트남동")
-    PDNO: str = Field(
+    PDNO: str | None = Field(
+        default=None,
         alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 전체")
     INQR_STRT_DT: str = Field(
@@ -144,11 +153,11 @@ class InquirePeriodProfitRequestDict(TypedDict):
         CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         OVRS_EXCG_CD (OvrsExcgCdEnum): 공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE :
-        일본, HASE : 베트남
-        NATN_CD (str): 공란(Default)
+        일본, HASE : 베트남 optional
+        NATN_CD (str): 공란(Default) optional
         CRCY_CD (CrcyCdEnum): 공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY :
-        일본엔화, VND : 베트남동
-        PDNO (str): 공란 : 전체
+        일본엔화, VND : 베트남동 optional
+        PDNO (str): 공란 : 전체 optional
         INQR_STRT_DT (str): YYYYMMDD
         INQR_END_DT (str): YYYYMMDD
         WCRC_FRCR_DVSN_CD (WcrcFrcrDvsnCdEnum): 01 : 외화, 02 : 원화
@@ -164,21 +173,29 @@ class InquirePeriodProfitRequestDict(TypedDict):
         AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
-    OVRS_EXCG_CD: Annotated[
-        OvrsExcgCdEnum,
-        "공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE : 일본, HASE : 베트남",
+    OVRS_EXCG_CD: NotRequired[
+        Annotated[
+            OvrsExcgCdEnum | None,
+            "공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE : 일본, HASE : 베트남",
+        ]
     ]
-    NATN_CD: Annotated[
-        str,
-        "공란(Default)",
+    NATN_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공란(Default)",
+        ]
     ]
-    CRCY_CD: Annotated[
-        CrcyCdEnum,
-        "공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY : 일본엔화, VND : 베트남동",
+    CRCY_CD: NotRequired[
+        Annotated[
+            CrcyCdEnum | None,
+            "공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY : 일본엔화, VND : 베트남동",
+        ]
     ]
-    PDNO: Annotated[
-        str,
-        "공란 : 전체",
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 전체",
+        ]
     ]
     INQR_STRT_DT: Annotated[
         str,
@@ -264,22 +281,27 @@ class InquirePeriodProfitOutput1(RawModel):
 class InquirePeriodProfitOutput2(RawModel):
     stck_sll_amt_smtl: str = Field(
         alias="stck_sll_amt_smtl",
+        json_schema_extra={"blank_allowed": True},
     )
     ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
     stck_buy_amt_smtl: str = Field(
         alias="stck_buy_amt_smtl",
+        json_schema_extra={"blank_allowed": True},
     )
     ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
     smtl_fee1: str = Field(
         alias="smtl_fee1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
     excc_dfrm_amt: str = Field(
         alias="excc_dfrm_amt",
+        json_schema_extra={"blank_allowed": True},
     )
     ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
     ovrs_rlzt_pfls_tot_amt: str = Field(
         alias="ovrs_rlzt_pfls_tot_amt",
+        json_schema_extra={"blank_allowed": True},
     )
     ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
     tot_pftrt: str = Field(
@@ -415,11 +437,11 @@ if TYPE_CHECKING:
                         CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
                         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         OVRS_EXCG_CD (OvrsExcgCdEnum): 공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA :
-                        중국, TKSE : 일본, HASE : 베트남
-                        NATN_CD (str): 공란(Default)
+                        중국, TKSE : 일본, HASE : 베트남 optional
+                        NATN_CD (str): 공란(Default) optional
                         CRCY_CD (CrcyCdEnum): 공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY :
-                        중국위안화, JPY : 일본엔화, VND : 베트남동
-                        PDNO (str): 공란 : 전체
+                        중국위안화, JPY : 일본엔화, VND : 베트남동 optional
+                        PDNO (str): 공란 : 전체 optional
                         INQR_STRT_DT (str): YYYYMMDD
                         INQR_END_DT (str): YYYYMMDD
                         WCRC_FRCR_DVSN_CD (WcrcFrcrDvsnCdEnum): 01 : 외화, 02 : 원화

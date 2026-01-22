@@ -115,48 +115,39 @@ class ExpClosingPriceRequestDict(TypedDict):
 
 
 class ExpClosingPriceOutput1(RawModel):
-    stck_shrn_iscd: str | None = Field(
-        default=None,
+    stck_shrn_iscd: str = Field(
         alias="stck_shrn_iscd",
     )
     ("주식 단축 종목코드")
-    hts_kor_isnm: str | None = Field(
-        default=None,
+    hts_kor_isnm: str = Field(
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
-    stck_prpr: Decimal | None = Field(
-        default=None,
+    stck_prpr: Decimal = Field(
         alias="stck_prpr",
     )
     ("주식 현재가")
-    prdy_vrss: str | None = Field(
-        default=None,
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일 대비")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
+    prdy_vrss_sign: int = Field(
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(
-        default=None,
+    prdy_ctrt: Decimal = Field(
         alias="prdy_ctrt",
     )
     ("전일 대비율")
-    sdpr_vrss_prpr: Decimal | None = Field(
-        default=None,
+    sdpr_vrss_prpr: Decimal = Field(
         alias="sdpr_vrss_prpr",
     )
     ("기준가 대비 현재가")
-    sdpr_vrss_prpr_rate: Decimal | None = Field(
-        default=None,
+    sdpr_vrss_prpr_rate: Decimal = Field(
         alias="sdpr_vrss_prpr_rate",
     )
     ("기준가 대비 현재가 비율")
-    cntg_vol: int | None = Field(
-        default=None,
+    cntg_vol: int = Field(
         alias="cntg_vol",
     )
     ("체결 거래량")

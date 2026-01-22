@@ -161,8 +161,7 @@ class QuoteBalanceOutput(RawModel):
         alias="mksc_shrn_iscd",
     )
     ("유가증권 단축 종목코드")
-    data_rank: str | None = Field(
-        default=None,
+    data_rank: int = Field(
         alias="data_rank",
     )
     ("데이터 순위")
@@ -171,13 +170,11 @@ class QuoteBalanceOutput(RawModel):
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
-    stck_prpr: Decimal | None = Field(
-        default=None,
+    stck_prpr: Decimal = Field(
         alias="stck_prpr",
     )
     ("주식 현재가")
-    prdy_vrss: str | None = Field(
-        default=None,
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일 대비")
@@ -186,38 +183,31 @@ class QuoteBalanceOutput(RawModel):
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(
-        default=None,
+    prdy_ctrt: Decimal = Field(
         alias="prdy_ctrt",
     )
     ("전일 대비율")
-    acml_vol: int | None = Field(
-        default=None,
+    acml_vol: int = Field(
         alias="acml_vol",
     )
     ("누적 거래량")
-    total_askp_rsqn: str | None = Field(
-        default=None,
+    total_askp_rsqn: int = Field(
         alias="total_askp_rsqn",
     )
     ("총 매도호가 잔량")
-    total_bidp_rsqn: str | None = Field(
-        default=None,
+    total_bidp_rsqn: str = Field(
         alias="total_bidp_rsqn",
     )
     ("총 매수호가 잔량")
-    total_ntsl_bidp_rsqn: str | None = Field(
-        default=None,
+    total_ntsl_bidp_rsqn: str = Field(
         alias="total_ntsl_bidp_rsqn",
     )
     ("총 순 매수호가 잔량")
-    shnu_rsqn_rate: Decimal | None = Field(
-        default=None,
+    shnu_rsqn_rate: Decimal = Field(
         alias="shnu_rsqn_rate",
     )
     ("매수 잔량 비율")
-    seln_rsqn_rate: Decimal | None = Field(
-        default=None,
+    seln_rsqn_rate: Decimal = Field(
         alias="seln_rsqn_rate",
     )
     ("매도 잔량 비율")

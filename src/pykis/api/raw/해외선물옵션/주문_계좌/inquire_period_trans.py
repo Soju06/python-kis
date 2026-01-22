@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -98,16 +99,22 @@ class InquirePeriodTransRequest(RawModel):
         "'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / "
         "JPY: 일본 VND: 베트남 '"
     )
-    CTX_AREA_FK100: str = Field(
+    CTX_AREA_FK100: str | None = Field(
+        default=None,
         alias="CTX_AREA_FK100",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_NK100: str = Field(
+    CTX_AREA_NK100: str | None = Field(
+        default=None,
         alias="CTX_AREA_NK100",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100값 : 다음페이지 조회시(2번째부터)")
-    PWD_CHK_YN: KisBool = Field(
+    PWD_CHK_YN: KisBool | None = Field(
+        default=None,
         alias="PWD_CHK_YN",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란(Default)")
 
@@ -125,10 +132,10 @@ class InquirePeriodTransRequestDict(TypedDict):
         CRCY_CD (CrcyCdEnum): '%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR
         / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남 '
         CTX_AREA_FK100 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100값 : 다음페이지
-        조회시(2번째부터)
+        조회시(2번째부터) optional
         CTX_AREA_NK100 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100값 : 다음페이지
-        조회시(2번째부터)
-        PWD_CHK_YN (KisBool): 공란(Default)
+        조회시(2번째부터) optional
+        PWD_CHK_YN (KisBool): 공란(Default) optional
     """
 
     INQR_TERM_FROM_DT: Annotated[
@@ -156,17 +163,23 @@ class InquirePeriodTransRequestDict(TypedDict):
         "'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / "
         "JPY: 일본 VND: 베트남 '",
     ]
-    CTX_AREA_FK100: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_FK100: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
-    CTX_AREA_NK100: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_NK100: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
-    PWD_CHK_YN: Annotated[
-        KisBool,
-        "공란(Default)",
+    PWD_CHK_YN: NotRequired[
+        Annotated[
+            KisBool | None,
+            "공란(Default)",
+        ]
     ]
 
 
@@ -327,10 +340,10 @@ if TYPE_CHECKING:
                         CRCY_CD (CrcyCdEnum): '%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD:
                         미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남 '
                         CTX_AREA_FK100 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100값 :
-                        다음페이지 조회시(2번째부터)
+                        다음페이지 조회시(2번째부터) optional
                         CTX_AREA_NK100 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100값 :
-                        다음페이지 조회시(2번째부터)
-                        PWD_CHK_YN (KisBool): 공란(Default)
+                        다음페이지 조회시(2번째부터) optional
+                        PWD_CHK_YN (KisBool): 공란(Default) optional
 
             Returns:
                 tuple[InquirePeriodTransResponse, KisResponse]: 응답 모델과 원시 응답

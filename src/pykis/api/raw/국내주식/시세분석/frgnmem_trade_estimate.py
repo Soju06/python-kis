@@ -99,11 +99,13 @@ class FrgnmemTradeEstimateRequestDict(TypedDict):
 
 
 class FrgnmemTradeEstimateOutput(RawModel):
-    stck_shrn_iscd: str = Field(
+    stck_shrn_iscd: str | None = Field(
+        default=None,
         alias="stck_shrn_iscd",
     )
     ("주식단축종목코드")
-    hts_kor_isnm: str = Field(
+    hts_kor_isnm: str | None = Field(
+        default=None,
         alias="hts_kor_isnm",
     )
     ("HTS한글종목명")
@@ -115,11 +117,12 @@ class FrgnmemTradeEstimateOutput(RawModel):
         alias="stck_prpr",
     )
     ("주식현재가")
-    prdy_vrss: int = Field(
+    prdy_vrss: str | None = Field(
+        default=None,
         alias="prdy_vrss",
     )
     ("전일대비")
-    prdy_vrss_sign: int = Field(
+    prdy_vrss_sign: Decimal = Field(
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
@@ -127,15 +130,18 @@ class FrgnmemTradeEstimateOutput(RawModel):
         alias="prdy_ctrt",
     )
     ("전일대비율")
-    acml_vol: int = Field(
+    acml_vol: int | None = Field(
+        default=None,
         alias="acml_vol",
     )
     ("누적거래량")
-    glob_total_seln_qty: int = Field(
+    glob_total_seln_qty: int | None = Field(
+        default=None,
         alias="glob_total_seln_qty",
     )
     ("외국계총매도수량")
-    glob_total_shnu_qty: int = Field(
+    glob_total_shnu_qty: int | None = Field(
+        default=None,
         alias="glob_total_shnu_qty",
     )
     ("외국계총매수2수량")

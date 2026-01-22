@@ -55,16 +55,6 @@ def _parse_tr_spec(tr_id: str, data: Mapping[str, object]) -> TrSpec:
         raise SpecError(f"tr_specs.{tr_id}.field_order must be list[str]")
     field_order = tuple(str(item) for item in field_order_raw)
 
-    field_order_norm_raw = data.get("field_order_normalized")
-    if field_order_norm_raw is not None:
-        if not isinstance(field_order_norm_raw, list) or not all(
-            isinstance(item, str) for item in field_order_norm_raw
-        ):
-            raise SpecError(f"tr_specs.{tr_id}.field_order_normalized must be list[str]")
-        field_order_normalized: tuple[str, ...] | None = tuple(str(item) for item in field_order_norm_raw)
-    else:
-        field_order_normalized = None
-
     field_aliases_raw = data.get("field_aliases") or {}
     if not isinstance(field_aliases_raw, Mapping):
         raise SpecError(f"tr_specs.{tr_id}.field_aliases must be mapping")
@@ -89,6 +79,18 @@ def _parse_tr_spec(tr_id: str, data: Mapping[str, object]) -> TrSpec:
             raise SpecError(f"tr_specs.{tr_id}.field_specs.{name} invalid")
         field_specs[str(name)] = _parse_field_spec(str(name), cast(Mapping[str, object], spec_data))
 
+    field_order_norm_raw = data.get("field_order_normalized")
+    if field_order_norm_raw is not None:
+        if not isinstance(field_order_norm_raw, list) or not all(
+            isinstance(item, str) for item in field_order_norm_raw
+        ):
+            raise SpecError(f"tr_specs.{tr_id}.field_order_normalized must be list[str]")
+        field_order_normalized: tuple[str, ...] | None = tuple(str(item) for item in field_order_norm_raw)
+    else:
+        field_order_normalized = _normalize_field_order(field_order, field_aliases)
+
+    _ensure_alias_specs(field_order, field_aliases, field_specs)
+
     return TrSpec(
         tr_id=tr_id,
         endpoint_uuid=str(data.get("endpoint_uuid", "")),
@@ -100,6 +102,50 @@ def _parse_tr_spec(tr_id: str, data: Mapping[str, object]) -> TrSpec:
         requires_business_date=bool(data.get("requires_business_date", False)),
         field_specs=field_specs,
     )
+
+
+def _normalize_field_order(field_order: tuple[str, ...], field_aliases: Mapping[int, str]) -> tuple[str, ...]:
+    normalized: list[str] = []
+    seen: set[str] = set()
+    for index, name in enumerate(field_order):
+        candidate = field_aliases.get(index, name)
+        if candidate in seen:
+            candidate = _dedupe_name(candidate, seen)
+        normalized.append(candidate)
+        seen.add(candidate)
+    return tuple(normalized)
+
+
+def _dedupe_name(base: str, seen: set[str]) -> str:
+    suffix = 2
+    candidate = f"{base}_{suffix}"
+    while candidate in seen:
+        suffix += 1
+        candidate = f"{base}_{suffix}"
+    return candidate
+
+
+def _ensure_alias_specs(
+    field_order: tuple[str, ...],
+    field_aliases: Mapping[int, str],
+    field_specs: dict[str, FieldSpec],
+) -> None:
+    for index, alias in field_aliases.items():
+        if index < 0 or index >= len(field_order):
+            continue
+        original_name = field_order[index]
+        original_spec = field_specs.get(original_name)
+        if original_spec is None:
+            continue
+        if alias in field_specs:
+            continue
+        field_specs[alias] = FieldSpec(
+            name=alias,
+            field_type=original_spec.field_type,
+            source=original_spec.source,
+            datetime_rule=original_spec.datetime_rule,
+            decimal_rule=original_spec.decimal_rule,
+        )
 
 
 def _parse_field_spec(name: str, data: Mapping[str, object]) -> FieldSpec:

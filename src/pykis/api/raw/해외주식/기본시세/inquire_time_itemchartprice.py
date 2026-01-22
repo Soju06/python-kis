@@ -65,6 +65,7 @@ class InquireTimeItemchartpriceRequest(RawModel):
     AUTH: str | None = Field(
         default=None,
         alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" 공백으로 입력')
     EXCD: ExcdEnum = Field(
@@ -90,20 +91,23 @@ class InquireTimeItemchartpriceRequest(RawModel):
     NEXT: KisBool | None = Field(
         default=None,
         alias="NEXT",
+        json_schema_extra={"blank_allowed": True},
     )
     ('처음조회 시, "" 공백 입력 다음조회 시, "1" 입력')
     NREC: str = Field(
         alias="NREC",
     )
     ("레코드요청갯수 (최대 120)")
-    FILL: str | None = Field(
+    FILL: int | None = Field(
         default=None,
         alias="FILL",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" 공백으로 입력')
     KEYB: str | None = Field(
         default=None,
         alias="KEYB",
+        json_schema_extra={"blank_allowed": True},
     )
     (
         '처음 조회 시, "" 공백 입력 다음 조회 시, 이전 조회 결과의 마지막 분봉 데이터를 이용하여, 1분 전 '
@@ -174,7 +178,7 @@ class InquireTimeItemchartpriceRequestDict(TypedDict):
         PINC (KisBool): 0:당일 1:전일포함 ※ 다음조회 시 반드시 "1"로 입력
         NEXT (KisBool): 처음조회 시, "" 공백 입력 다음조회 시, "1" 입력 optional
         NREC (str): 레코드요청갯수 (최대 120)
-        FILL (str): "" 공백으로 입력 optional
+        FILL (int): "" 공백으로 입력 optional
         KEYB (str): 처음 조회 시, "" 공백 입력 다음 조회 시, 이전 조회 결과의 마지막 분봉 데이터를
         이용하여, 1분 전 혹은 n분 전의 시간을 입력 (형식: YYYYMMDDHHMMSS, ex. 20241014140100)
         optional
@@ -216,7 +220,7 @@ class InquireTimeItemchartpriceRequestDict(TypedDict):
     ]
     FILL: NotRequired[
         Annotated[
-            str | None,
+            int | None,
             '"" 공백으로 입력',
         ]
     ]
@@ -534,7 +538,7 @@ if TYPE_CHECKING:
                         PINC (KisBool): 0:당일 1:전일포함 ※ 다음조회 시 반드시 "1"로 입력
                         NEXT (KisBool): 처음조회 시, "" 공백 입력 다음조회 시, "1" 입력 optional
                         NREC (str): 레코드요청갯수 (최대 120)
-                        FILL (str): "" 공백으로 입력 optional
+                        FILL (int): "" 공백으로 입력 optional
                         KEYB (str): 처음 조회 시, "" 공백 입력 다음 조회 시, 이전 조회 결과의 마지막
                         분봉 데이터를 이용하여, 1분 전 혹은 n분 전의 시간을 입력 (형식:
                         YYYYMMDDHHMMSS, ex. 20241014140100) optional

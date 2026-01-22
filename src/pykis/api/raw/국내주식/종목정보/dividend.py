@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -37,8 +38,10 @@ class Gb1Enum(KisStrEnum):
 
 
 class DividendRequest(RawModel):
-    CTS: str = Field(
+    CTS: str | None = Field(
+        default=None,
         alias="CTS",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     GB1: Gb1Enum = Field(
@@ -53,12 +56,16 @@ class DividendRequest(RawModel):
         alias="T_DT",
     )
     ("~ 일자")
-    SHT_CD: str = Field(
+    SHT_CD: str | None = Field(
+        default=None,
         alias="SHT_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백: 전체, 특정종목 조회시 : 종목코드")
-    HIGH_GB: KisBool = Field(
+    HIGH_GB: KisBool | None = Field(
+        default=None,
         alias="HIGH_GB",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -74,17 +81,19 @@ class DividendRequestDict(TypedDict):
     일반적으로 주권교부일의 익영업일입니다.
 
     Request fields:
-        CTS (str): 공백
+        CTS (str): 공백 optional
         GB1 (Gb1Enum): 0:배당전체, 1:결산배당, 2:중간배당
         F_DT (KisDate): 일자 ~
         T_DT (KisDate): ~ 일자
-        SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드
-        HIGH_GB (KisBool): 공백
+        SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
+        HIGH_GB (KisBool): 공백 optional
     """
 
-    CTS: Annotated[
-        str,
-        "공백",
+    CTS: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     GB1: Annotated[
         Gb1Enum,
@@ -98,13 +107,17 @@ class DividendRequestDict(TypedDict):
         KisDate,
         "~ 일자",
     ]
-    SHT_CD: Annotated[
-        str,
-        "공백: 전체, 특정종목 조회시 : 종목코드",
+    SHT_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공백: 전체, 특정종목 조회시 : 종목코드",
+        ]
     ]
-    HIGH_GB: Annotated[
-        KisBool,
-        "공백",
+    HIGH_GB: NotRequired[
+        Annotated[
+            KisBool | None,
+            "공백",
+        ]
     ]
 
 
@@ -268,12 +281,12 @@ if TYPE_CHECKING:
                 **kwargs (DividendRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CTS (str): 공백
+                        CTS (str): 공백 optional
                         GB1 (Gb1Enum): 0:배당전체, 1:결산배당, 2:중간배당
                         F_DT (KisDate): 일자 ~
                         T_DT (KisDate): ~ 일자
-                        SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드
-                        HIGH_GB (KisBool): 공백
+                        SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
+                        HIGH_GB (KisBool): 공백 optional
 
             Returns:
                 tuple[DividendResponse, KisResponse]: 응답 모델과 원시 응답

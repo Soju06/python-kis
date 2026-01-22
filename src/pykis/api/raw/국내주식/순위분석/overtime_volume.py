@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -72,12 +73,16 @@ class OvertimeVolumeRequest(RawModel):
         alias="FID_VOL_CNT",
     )
     ("거래량 ~")
-    FID_TRGT_CLS_CODE: str = Field(
+    FID_TRGT_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_TRGT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    FID_TRGT_EXLS_CLS_CODE: str = Field(
+    FID_TRGT_EXLS_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_TRGT_EXLS_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -97,8 +102,8 @@ class OvertimeVolumeRequestDict(TypedDict):
         FID_INPUT_PRICE_1 (str): 가격 ~
         FID_INPUT_PRICE_2 (str): ~ 가격
         FID_VOL_CNT (int): 거래량 ~
-        FID_TRGT_CLS_CODE (str): 공백
-        FID_TRGT_EXLS_CLS_CODE (str): 공백
+        FID_TRGT_CLS_CODE (str): 공백 optional
+        FID_TRGT_EXLS_CLS_CODE (str): 공백 optional
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -129,13 +134,17 @@ class OvertimeVolumeRequestDict(TypedDict):
         int,
         "거래량 ~",
     ]
-    FID_TRGT_CLS_CODE: Annotated[
-        str,
-        "공백",
+    FID_TRGT_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    FID_TRGT_EXLS_CLS_CODE: Annotated[
-        str,
-        "공백",
+    FID_TRGT_EXLS_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
 
 
@@ -315,8 +324,8 @@ if TYPE_CHECKING:
                         FID_INPUT_PRICE_1 (str): 가격 ~
                         FID_INPUT_PRICE_2 (str): ~ 가격
                         FID_VOL_CNT (int): 거래량 ~
-                        FID_TRGT_CLS_CODE (str): 공백
-                        FID_TRGT_EXLS_CLS_CODE (str): 공백
+                        FID_TRGT_CLS_CODE (str): 공백 optional
+                        FID_TRGT_EXLS_CLS_CODE (str): 공백 optional
 
             Returns:
                 tuple[OvertimeVolumeResponse, KisResponse]: 응답 모델과 원시 응답

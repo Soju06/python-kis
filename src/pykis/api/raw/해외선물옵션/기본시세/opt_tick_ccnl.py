@@ -48,11 +48,13 @@ class OptTickCcnlRequest(RawModel):
     START_DATE_TIME: KisDateTimeOptional = Field(
         default=None,
         alias="START_DATE_TIME",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" 공란 입력')
     CLOSE_DATE_TIME: KisDateTimeOptional = Field(
         default=None,
         alias="CLOSE_DATE_TIME",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" 공란 입력 ※ 날짜 입력해도 처리 안됨')
     QRY_TP: QryTpEnum = Field(
@@ -63,8 +65,10 @@ class OptTickCcnlRequest(RawModel):
         alias="QRY_CNT",
     )
     ("예) 30 (최대 40)")
-    QRY_GAP: str = Field(
+    QRY_GAP: str | None = Field(
+        default=None,
         alias="QRY_GAP",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     INDEX_KEY: str = Field(
@@ -115,7 +119,7 @@ class OptTickCcnlRequestDict(TypedDict):
         CLOSE_DATE_TIME (KisDateTime): "" 공란 입력 ※ 날짜 입력해도 처리 안됨 optional
         QRY_TP (QryTpEnum): Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시
         QRY_CNT (int): 예) 30 (최대 40)
-        QRY_GAP (str): 공백
+        QRY_GAP (str): 공백 optional
         INDEX_KEY (str): 다음조회(QRY_TP를 P로 입력) 시, 이전 호출의 "output1 > index_key" 기입하여
         조회
     """
@@ -148,9 +152,11 @@ class OptTickCcnlRequestDict(TypedDict):
         int,
         "예) 30 (최대 40)",
     ]
-    QRY_GAP: Annotated[
-        str,
-        "공백",
+    QRY_GAP: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     INDEX_KEY: Annotated[
         str,
@@ -386,7 +392,7 @@ if TYPE_CHECKING:
                         CLOSE_DATE_TIME (KisDateTime): "" 공란 입력 ※ 날짜 입력해도 처리 안됨 optional
                         QRY_TP (QryTpEnum): Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시
                         QRY_CNT (int): 예) 30 (최대 40)
-                        QRY_GAP (str): 공백
+                        QRY_GAP (str): 공백 optional
                         INDEX_KEY (str): 다음조회(QRY_TP를 P로 입력) 시, 이전 호출의 "output1 >
                         index_key" 기입하여 조회
 

@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -107,8 +108,10 @@ class VolumeRankRequest(RawModel):
         alias="FID_INPUT_ISCD_2",
     )
     ("0000")
-    FID_INPUT_DATE_2: str = Field(
+    FID_INPUT_DATE_2: str | None = Field(
+        default=None,
         alias="FID_INPUT_DATE_2",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -136,7 +139,7 @@ class VolumeRankRequestDict(TypedDict):
         평균거래회전율 3:거래금액순 4: 순매수잔량순 5: 순매도잔량순
         FID_BLNG_CLS_CODE (str): 0: 전체
         FID_INPUT_ISCD_2 (str): 0000
-        FID_INPUT_DATE_2 (str): 공백
+        FID_INPUT_DATE_2 (str): 공백 optional
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -195,9 +198,11 @@ class VolumeRankRequestDict(TypedDict):
         str,
         "0000",
     ]
-    FID_INPUT_DATE_2: Annotated[
-        str,
-        "공백",
+    FID_INPUT_DATE_2: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
 
 
@@ -514,7 +519,7 @@ if TYPE_CHECKING:
                         2: 평균거래회전율 3:거래금액순 4: 순매수잔량순 5: 순매도잔량순
                         FID_BLNG_CLS_CODE (str): 0: 전체
                         FID_INPUT_ISCD_2 (str): 0000
-                        FID_INPUT_DATE_2 (str): 공백
+                        FID_INPUT_DATE_2 (str): 공백 optional
 
             Returns:
                 tuple[VolumeRankResponse, KisResponse]: 응답 모델과 원시 응답

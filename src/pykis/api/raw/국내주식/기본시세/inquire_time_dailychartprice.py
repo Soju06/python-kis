@@ -61,6 +61,7 @@ class InquireTimeDailychartpriceRequest(RawModel):
     FID_FAKE_TICK_INCU_YN: KisBool | None = Field(
         default=None,
         alias="FID_FAKE_TICK_INCU_YN",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 필수 입력")
 

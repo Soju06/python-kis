@@ -11,7 +11,7 @@ from codegen.api.runtime import (
     SKIP_ENDPOINT_IDS,
     UNSAFE_KEYWORDS,
     ValueResolver,
-    build_payload,
+    build_payload_with_trace,
     is_empty_payload,
     load_overrides,
 )
@@ -51,6 +51,7 @@ def run_smoke(
     real_client: SyncKisRawClient,
     overrides_path: Path,
     out_path: Path,
+    detail_out_path: Path | None = None,
 ) -> SmokeReport:
     overrides = load_overrides(overrides_path)
     resolvers = {
@@ -59,6 +60,8 @@ def run_smoke(
     }
     results: list[SmokeResult] = []
     errors = 0
+    detail_out_path = detail_out_path or out_path.with_name("smoke_requests.json")
+    request_details: dict[str, JsonObject] = {}
 
     for spec in specs:
         if spec.id in SKIP_ENDPOINT_IDS:
@@ -84,9 +87,18 @@ def run_smoke(
 
         for domain, client in domains:
             resolver = resolvers[domain]
-            query, query_missing = build_payload(spec, resolver, "query", spec.request.query)
-            body, body_missing = build_payload(spec, resolver, "body", spec.request.body)
+            query, query_missing, query_trace = build_payload_with_trace(spec, resolver, "query", spec.request.query)
+            body, body_missing, body_trace = build_payload_with_trace(spec, resolver, "body", spec.request.body)
             missing = query_missing + body_missing
+            request_details.setdefault(spec.id, {})[domain] = {
+                "query": query,
+                "body": body,
+                "resolution": {
+                    "query": query_trace,
+                    "body": body_trace,
+                    "missing_required": missing,
+                },
+            }
             if missing:
                 errors += 1
                 results.append(
@@ -215,4 +227,5 @@ def run_smoke(
 
     report = SmokeReport(total=len(results), errors=errors, results=results)
     out_path.write_text(json.dumps(report.model_dump(), ensure_ascii=False, indent=2), encoding="utf-8")
+    detail_out_path.write_text(json.dumps(request_details, ensure_ascii=False, indent=2), encoding="utf-8")
     return report

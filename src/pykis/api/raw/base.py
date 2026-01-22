@@ -35,7 +35,7 @@ def _parse_kis_time(value: object) -> time | None:
     text = str(value).strip()
     if not text:
         return None
-    if text in {'0', '000000', '0000'}:
+    if text in {'0', '000000', '0000', '888888'}:
         return None
     if text.isdigit() and len(text) in (6, 4):
         fmt = '%H%M%S' if len(text) == 6 else '%H%M'

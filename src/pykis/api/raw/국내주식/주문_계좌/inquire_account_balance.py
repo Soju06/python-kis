@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -48,12 +49,16 @@ class InquireAccountBalanceRequest(RawModel):
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    INQR_DVSN_1: str = Field(
+    INQR_DVSN_1: str | None = Field(
+        default=None,
         alias="INQR_DVSN_1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백입력")
-    BSPR_BF_DT_APLY_YN: KisBool = Field(
+    BSPR_BF_DT_APLY_YN: KisBool | None = Field(
+        default=None,
         alias="BSPR_BF_DT_APLY_YN",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백입력")
 
@@ -68,8 +73,8 @@ class InquireAccountBalanceRequestDict(TypedDict):
     Request fields:
         CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
-        INQR_DVSN_1 (str): 공백입력
-        BSPR_BF_DT_APLY_YN (KisBool): 공백입력
+        INQR_DVSN_1 (str): 공백입력 optional
+        BSPR_BF_DT_APLY_YN (KisBool): 공백입력 optional
     """
 
     CANO: Annotated[
@@ -80,13 +85,17 @@ class InquireAccountBalanceRequestDict(TypedDict):
         AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
-    INQR_DVSN_1: Annotated[
-        str,
-        "공백입력",
+    INQR_DVSN_1: NotRequired[
+        Annotated[
+            str | None,
+            "공백입력",
+        ]
     ]
-    BSPR_BF_DT_APLY_YN: Annotated[
-        KisBool,
-        "공백입력",
+    BSPR_BF_DT_APLY_YN: NotRequired[
+        Annotated[
+            KisBool | None,
+            "공백입력",
+        ]
     ]
 
 
@@ -312,8 +321,8 @@ if TYPE_CHECKING:
                     Request fields:
                         CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
                         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
-                        INQR_DVSN_1 (str): 공백입력
-                        BSPR_BF_DT_APLY_YN (KisBool): 공백입력
+                        INQR_DVSN_1 (str): 공백입력 optional
+                        BSPR_BF_DT_APLY_YN (KisBool): 공백입력 optional
 
             Returns:
                 tuple[InquireAccountBalanceResponse, KisResponse]: 응답 모델과 원시 응답

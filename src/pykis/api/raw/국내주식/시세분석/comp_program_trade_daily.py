@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -51,12 +52,16 @@ class CompProgramTradeDailyRequest(RawModel):
         alias="FID_MRKT_CLS_CODE",
     )
     ("K:코스피, Q:코스닥")
-    FID_INPUT_DATE_1: str = Field(
+    FID_INPUT_DATE_1: str | None = Field(
+        default=None,
         alias="FID_INPUT_DATE_1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력, 입력 시 ~ 입력일자까지 조회됨 * 8개월 이상 과거 조회 불가")
-    FID_INPUT_DATE_2: str = Field(
+    FID_INPUT_DATE_2: str | None = Field(
+        default=None,
         alias="FID_INPUT_DATE_2",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
 
@@ -73,7 +78,8 @@ class CompProgramTradeDailyRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J : KRX, NX : NXT, UN : 통합
         FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): K:코스피, Q:코스닥
         FID_INPUT_DATE_1 (str): 공백 입력, 입력 시 ~ 입력일자까지 조회됨 * 8개월 이상 과거 조회 불가
-        FID_INPUT_DATE_2 (str): 공백 입력
+        optional
+        FID_INPUT_DATE_2 (str): 공백 입력 optional
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -84,13 +90,17 @@ class CompProgramTradeDailyRequestDict(TypedDict):
         FidMrktClsCodeEnum,
         "K:코스피, Q:코스닥",
     ]
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "공백 입력, 입력 시 ~ 입력일자까지 조회됨 * 8개월 이상 과거 조회 불가",
+    FID_INPUT_DATE_1: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력, 입력 시 ~ 입력일자까지 조회됨 * 8개월 이상 과거 조회 불가",
+        ]
     ]
-    FID_INPUT_DATE_2: Annotated[
-        str,
-        "공백 입력",
+    FID_INPUT_DATE_2: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
 
 
@@ -588,8 +598,8 @@ if TYPE_CHECKING:
                         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J : KRX, NX : NXT, UN : 통합
                         FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): K:코스피, Q:코스닥
                         FID_INPUT_DATE_1 (str): 공백 입력, 입력 시 ~ 입력일자까지 조회됨 * 8개월 이상
-                        과거 조회 불가
-                        FID_INPUT_DATE_2 (str): 공백 입력
+                        과거 조회 불가 optional
+                        FID_INPUT_DATE_2 (str): 공백 입력 optional
 
             Returns:
                 tuple[CompProgramTradeDailyResponse, KisResponse]: 응답 모델과 원시 응답

@@ -130,8 +130,7 @@ class InvestOpbysecOutput(RawModel):
         alias="invt_opnn",
     )
     ("투자의견")
-    invt_opnn_cls_code: str | None = Field(
-        default=None,
+    invt_opnn_cls_code: str = Field(
         alias="invt_opnn_cls_code",
     )
     ("투자의견구분코드")
@@ -140,8 +139,7 @@ class InvestOpbysecOutput(RawModel):
         alias="rgbf_invt_opnn",
     )
     ("직전투자의견")
-    rgbf_invt_opnn_cls_code: str | None = Field(
-        default=None,
+    rgbf_invt_opnn_cls_code: str = Field(
         alias="rgbf_invt_opnn_cls_code",
     )
     ("직전투자의견구분코드")
@@ -150,13 +148,11 @@ class InvestOpbysecOutput(RawModel):
         alias="mbcr_name",
     )
     ("회원사명")
-    stck_prpr: Decimal | None = Field(
-        default=None,
+    stck_prpr: Decimal = Field(
         alias="stck_prpr",
     )
     ("주식현재가")
-    prdy_vrss: str | None = Field(
-        default=None,
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일대비")
@@ -165,23 +161,19 @@ class InvestOpbysecOutput(RawModel):
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
-    prdy_ctrt: Decimal | None = Field(
-        default=None,
+    prdy_ctrt: Decimal = Field(
         alias="prdy_ctrt",
     )
     ("전일대비율")
-    hts_goal_prc: Decimal | None = Field(
-        default=None,
+    hts_goal_prc: Decimal = Field(
         alias="hts_goal_prc",
     )
     ("HTS목표가격")
-    stck_prdy_clpr: str | None = Field(
-        default=None,
+    stck_prdy_clpr: int = Field(
         alias="stck_prdy_clpr",
     )
     ("주식전일종가")
-    stft_esdg: str | None = Field(
-        default=None,
+    stft_esdg: Decimal = Field(
         alias="stft_esdg",
     )
     ("주식선물괴리도")

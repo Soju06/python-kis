@@ -87,93 +87,75 @@ class InquireInvestorOutput(RawModel):
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
-    prsn_ntby_qty: int | None = Field(
-        default=None,
+    prsn_ntby_qty: int = Field(
         alias="prsn_ntby_qty",
     )
     ("개인 순매수 수량")
-    frgn_ntby_qty: int | None = Field(
-        default=None,
+    frgn_ntby_qty: int = Field(
         alias="frgn_ntby_qty",
     )
     ("외국인 순매수 수량")
-    orgn_ntby_qty: int | None = Field(
-        default=None,
+    orgn_ntby_qty: int = Field(
         alias="orgn_ntby_qty",
     )
     ("기관계 순매수 수량")
-    prsn_ntby_tr_pbmn: Decimal | None = Field(
-        default=None,
+    prsn_ntby_tr_pbmn: Decimal = Field(
         alias="prsn_ntby_tr_pbmn",
     )
     ("개인 순매수 거래 대금")
-    frgn_ntby_tr_pbmn: Decimal | None = Field(
-        default=None,
+    frgn_ntby_tr_pbmn: Decimal = Field(
         alias="frgn_ntby_tr_pbmn",
     )
     ("외국인 순매수 거래 대금")
-    orgn_ntby_tr_pbmn: Decimal | None = Field(
-        default=None,
+    orgn_ntby_tr_pbmn: Decimal = Field(
         alias="orgn_ntby_tr_pbmn",
     )
     ("기관계 순매수 거래 대금")
-    prsn_shnu_vol: int | None = Field(
-        default=None,
+    prsn_shnu_vol: int = Field(
         alias="prsn_shnu_vol",
     )
     ("개인 매수2 거래량")
-    frgn_shnu_vol: int | None = Field(
-        default=None,
+    frgn_shnu_vol: int = Field(
         alias="frgn_shnu_vol",
     )
     ("외국인 매수2 거래량")
-    orgn_shnu_vol: int | None = Field(
-        default=None,
+    orgn_shnu_vol: int = Field(
         alias="orgn_shnu_vol",
     )
     ("기관계 매수2 거래량")
-    prsn_shnu_tr_pbmn: Decimal | None = Field(
-        default=None,
+    prsn_shnu_tr_pbmn: Decimal = Field(
         alias="prsn_shnu_tr_pbmn",
     )
     ("개인 매수2 거래 대금")
-    frgn_shnu_tr_pbmn: Decimal | None = Field(
-        default=None,
+    frgn_shnu_tr_pbmn: Decimal = Field(
         alias="frgn_shnu_tr_pbmn",
     )
     ("외국인 매수2 거래 대금")
-    orgn_shnu_tr_pbmn: Decimal | None = Field(
-        default=None,
+    orgn_shnu_tr_pbmn: Decimal = Field(
         alias="orgn_shnu_tr_pbmn",
     )
     ("기관계 매수2 거래 대금")
-    prsn_seln_vol: int | None = Field(
-        default=None,
+    prsn_seln_vol: int = Field(
         alias="prsn_seln_vol",
     )
     ("개인 매도 거래량")
-    frgn_seln_vol: int | None = Field(
-        default=None,
+    frgn_seln_vol: int = Field(
         alias="frgn_seln_vol",
     )
     ("외국인 매도 거래량")
-    orgn_seln_vol: int | None = Field(
-        default=None,
+    orgn_seln_vol: int = Field(
         alias="orgn_seln_vol",
     )
     ("기관계 매도 거래량")
-    prsn_seln_tr_pbmn: Decimal | None = Field(
-        default=None,
+    prsn_seln_tr_pbmn: Decimal = Field(
         alias="prsn_seln_tr_pbmn",
     )
     ("개인 매도 거래 대금")
-    frgn_seln_tr_pbmn: Decimal | None = Field(
-        default=None,
+    frgn_seln_tr_pbmn: Decimal = Field(
         alias="frgn_seln_tr_pbmn",
     )
     ("외국인 매도 거래 대금")
-    orgn_seln_tr_pbmn: Decimal | None = Field(
-        default=None,
+    orgn_seln_tr_pbmn: Decimal = Field(
         alias="orgn_seln_tr_pbmn",
     )
     ("기관계 매도 거래 대금")

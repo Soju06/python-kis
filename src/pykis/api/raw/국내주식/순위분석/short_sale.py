@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -43,8 +44,10 @@ class FidPeriodDivCodeEnum(KisStrEnum):
 
 
 class ShortSaleRequest(RawModel):
-    FID_APLY_RANG_VOL: int = Field(
+    FID_APLY_RANG_VOL: int | None = Field(
+        default=None,
         alias="FID_APLY_RANG_VOL",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     FID_COND_MRKT_DIV_CODE: str = Field(
@@ -70,12 +73,16 @@ class ShortSaleRequest(RawModel):
         "'조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일, 3:4일, 4:1주일, 9:2주일, 14:3주일, 조회구분(M) "
         "1:1개월, 2:2개월, 3:3개월'"
     )
-    FID_TRGT_EXLS_CLS_CODE: str = Field(
+    FID_TRGT_EXLS_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_TRGT_EXLS_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    FID_TRGT_CLS_CODE: str = Field(
+    FID_TRGT_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_TRGT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     FID_APLY_RANG_PRC_1: str = Field(
@@ -102,7 +109,7 @@ class ShortSaleRequestDict(TypedDict):
     자세한 사용 방법은 공지사항 - [조건검색 필독] 조건검색 API 이용안내 참고 부탁드립니다.
 
     Request fields:
-        FID_APLY_RANG_VOL (int): 공백
+        FID_APLY_RANG_VOL (int): 공백 optional
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 J)
         FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20482)
         FID_INPUT_ISCD (str): 0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100,
@@ -110,15 +117,17 @@ class ShortSaleRequestDict(TypedDict):
         FID_PERIOD_DIV_CODE (FidPeriodDivCodeEnum): 조회구분 (일/월) D: 일, M:월
         FID_INPUT_CNT_1 (str): '조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일, 3:4일, 4:1주일,
         9:2주일, 14:3주일, 조회구분(M) 1:1개월, 2:2개월, 3:3개월'
-        FID_TRGT_EXLS_CLS_CODE (str): 공백
-        FID_TRGT_CLS_CODE (str): 공백
+        FID_TRGT_EXLS_CLS_CODE (str): 공백 optional
+        FID_TRGT_CLS_CODE (str): 공백 optional
         FID_APLY_RANG_PRC_1 (str): 가격 ~
         FID_APLY_RANG_PRC_2 (str): ~ 가격
     """
 
-    FID_APLY_RANG_VOL: Annotated[
-        int,
-        "공백",
+    FID_APLY_RANG_VOL: NotRequired[
+        Annotated[
+            int | None,
+            "공백",
+        ]
     ]
     FID_COND_MRKT_DIV_CODE: Annotated[
         str,
@@ -141,13 +150,17 @@ class ShortSaleRequestDict(TypedDict):
         "'조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일, 3:4일, 4:1주일, 9:2주일, 14:3주일, 조회구분(M) "
         "1:1개월, 2:2개월, 3:3개월'",
     ]
-    FID_TRGT_EXLS_CLS_CODE: Annotated[
-        str,
-        "공백",
+    FID_TRGT_EXLS_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    FID_TRGT_CLS_CODE: Annotated[
-        str,
-        "공백",
+    FID_TRGT_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     FID_APLY_RANG_PRC_1: Annotated[
         str,
@@ -320,7 +333,7 @@ if TYPE_CHECKING:
                 **kwargs (ShortSaleRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_APLY_RANG_VOL (int): 공백
+                        FID_APLY_RANG_VOL (int): 공백 optional
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 J)
                         FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20482)
                         FID_INPUT_ISCD (str): 0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200,
@@ -328,8 +341,8 @@ if TYPE_CHECKING:
                         FID_PERIOD_DIV_CODE (FidPeriodDivCodeEnum): 조회구분 (일/월) D: 일, M:월
                         FID_INPUT_CNT_1 (str): '조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일,
                         3:4일, 4:1주일, 9:2주일, 14:3주일, 조회구분(M) 1:1개월, 2:2개월, 3:3개월'
-                        FID_TRGT_EXLS_CLS_CODE (str): 공백
-                        FID_TRGT_CLS_CODE (str): 공백
+                        FID_TRGT_EXLS_CLS_CODE (str): 공백 optional
+                        FID_TRGT_CLS_CODE (str): 공백 optional
                         FID_APLY_RANG_PRC_1 (str): 가격 ~
                         FID_APLY_RANG_PRC_2 (str): ~ 가격
 

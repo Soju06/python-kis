@@ -170,6 +170,7 @@ class InquireCcnlRequest(RawModel):
     PDNO: str | None = Field(
         default=None,
         alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ('전종목일 경우 "%" 입력 ※ 모의투자계좌의 경우 ""(전체 조회)만 가능')
     ORD_STRT_DT: str = Field(
@@ -191,6 +192,7 @@ class InquireCcnlRequest(RawModel):
     OVRS_EXCG_CD: OvrsExcgCdEnum | None = Field(
         default=None,
         alias="OVRS_EXCG_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     (
         '전종목일 경우 "%" 입력 NASD : 미국시장 전체(나스닥, 뉴욕, 아멕스) NYSE : 뉴욕 AMEX : 아멕스 SEHK '
@@ -204,24 +206,31 @@ class InquireCcnlRequest(RawModel):
     ORD_DT: KisDateOptional = Field(
         default=None,
         alias="ORD_DT",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" (Null 값 설정)')
     ORD_GNO_BRNO: str | None = Field(
         default=None,
         alias="ORD_GNO_BRNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" (Null 값 설정)')
     ODNO: str | None = Field(
         default=None,
         alias="ODNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" (Null 값 설정) ※ 주문번호로 검색 불가능합니다. 반드시 ""(Null 값 설정) 바랍니다.')
-    CTX_AREA_NK200: str = Field(
+    CTX_AREA_NK200: str | None = Field(
+        default=None,
         alias="CTX_AREA_NK200",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_FK200: str = Field(
+    CTX_AREA_FK200: str | None = Field(
+        default=None,
         alias="CTX_AREA_FK200",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)")
 
@@ -268,9 +277,9 @@ class InquireCcnlRequestDict(TypedDict):
         ODNO (str): "" (Null 값 설정) ※ 주문번호로 검색 불가능합니다. 반드시 ""(Null 값 설정)
         바랍니다. optional
         CTX_AREA_NK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지
-        조회시(2번째부터)
+        조회시(2번째부터) optional
         CTX_AREA_FK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지
-        조회시(2번째부터)
+        조회시(2번째부터) optional
     """
 
     CANO: Annotated[
@@ -333,13 +342,17 @@ class InquireCcnlRequestDict(TypedDict):
             '"" (Null 값 설정) ※ 주문번호로 검색 불가능합니다. 반드시 ""(Null 값 설정) 바랍니다.',
         ]
     ]
-    CTX_AREA_NK200: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_NK200: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
-    CTX_AREA_FK200: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_FK200: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
 
 
@@ -626,9 +639,9 @@ if TYPE_CHECKING:
                         ODNO (str): "" (Null 값 설정) ※ 주문번호로 검색 불가능합니다. 반드시 ""(Null
                         값 설정) 바랍니다. optional
                         CTX_AREA_NK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 :
-                        다음페이지 조회시(2번째부터)
+                        다음페이지 조회시(2번째부터) optional
                         CTX_AREA_FK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 :
-                        다음페이지 조회시(2번째부터)
+                        다음페이지 조회시(2번째부터) optional
 
             Returns:
                 tuple[InquireCcnlResponse, KisResponse]: 응답 모델과 원시 응답

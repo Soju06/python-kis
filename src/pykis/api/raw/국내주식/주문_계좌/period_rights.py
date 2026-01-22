@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -209,12 +210,16 @@ class PeriodRightsRequest(RawModel):
         alias="INQR_DVSN",
     )
     ("03 입력")
-    CUST_RNCNO25: str = Field(
+    CUST_RNCNO25: str | None = Field(
+        default=None,
         alias="CUST_RNCNO25",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란")
-    HMID: str = Field(
+    HMID: str | None = Field(
+        default=None,
         alias="HMID",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란")
     CANO: str = Field(
@@ -233,16 +238,22 @@ class PeriodRightsRequest(RawModel):
         alias="INQR_END_DT",
     )
     ("조회종료일자(YYYYMMDD)")
-    RGHT_TYPE_CD: str = Field(
+    RGHT_TYPE_CD: str | None = Field(
+        default=None,
         alias="RGHT_TYPE_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란")
-    PDNO: str = Field(
+    PDNO: str | None = Field(
+        default=None,
         alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란")
-    PRDT_TYPE_CD: str = Field(
+    PRDT_TYPE_CD: str | None = Field(
+        default=None,
         alias="PRDT_TYPE_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란")
     CTX_AREA_NK100: str = Field(
@@ -263,15 +274,15 @@ class PeriodRightsRequestDict(TypedDict):
 
     Request fields:
         INQR_DVSN (str): 03 입력
-        CUST_RNCNO25 (str): 공란
-        HMID (str): 공란
+        CUST_RNCNO25 (str): 공란 optional
+        HMID (str): 공란 optional
         CANO (str): 계좌번호 8자리 입력 (ex.12345678)
         ACNT_PRDT_CD (str): 상품계좌번호 2자리 입력(ex. 01 or 22)
         INQR_STRT_DT (str): 조회시작일자(YYYYMMDD)
         INQR_END_DT (str): 조회종료일자(YYYYMMDD)
-        RGHT_TYPE_CD (str): 공란
-        PDNO (str): 공란
-        PRDT_TYPE_CD (str): 공란
+        RGHT_TYPE_CD (str): 공란 optional
+        PDNO (str): 공란 optional
+        PRDT_TYPE_CD (str): 공란 optional
         CTX_AREA_NK100 (str): 다음조회시 입력
         CTX_AREA_FK100 (str): 다음조회시 입력
     """
@@ -280,13 +291,17 @@ class PeriodRightsRequestDict(TypedDict):
         str,
         "03 입력",
     ]
-    CUST_RNCNO25: Annotated[
-        str,
-        "공란",
+    CUST_RNCNO25: NotRequired[
+        Annotated[
+            str | None,
+            "공란",
+        ]
     ]
-    HMID: Annotated[
-        str,
-        "공란",
+    HMID: NotRequired[
+        Annotated[
+            str | None,
+            "공란",
+        ]
     ]
     CANO: Annotated[
         str,
@@ -304,17 +319,23 @@ class PeriodRightsRequestDict(TypedDict):
         str,
         "조회종료일자(YYYYMMDD)",
     ]
-    RGHT_TYPE_CD: Annotated[
-        str,
-        "공란",
+    RGHT_TYPE_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공란",
+        ]
     ]
-    PDNO: Annotated[
-        str,
-        "공란",
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            "공란",
+        ]
     ]
-    PRDT_TYPE_CD: Annotated[
-        str,
-        "공란",
+    PRDT_TYPE_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공란",
+        ]
     ]
     CTX_AREA_NK100: Annotated[
         str,
@@ -546,15 +567,15 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         INQR_DVSN (str): 03 입력
-                        CUST_RNCNO25 (str): 공란
-                        HMID (str): 공란
+                        CUST_RNCNO25 (str): 공란 optional
+                        HMID (str): 공란 optional
                         CANO (str): 계좌번호 8자리 입력 (ex.12345678)
                         ACNT_PRDT_CD (str): 상품계좌번호 2자리 입력(ex. 01 or 22)
                         INQR_STRT_DT (str): 조회시작일자(YYYYMMDD)
                         INQR_END_DT (str): 조회종료일자(YYYYMMDD)
-                        RGHT_TYPE_CD (str): 공란
-                        PDNO (str): 공란
-                        PRDT_TYPE_CD (str): 공란
+                        RGHT_TYPE_CD (str): 공란 optional
+                        PDNO (str): 공란 optional
+                        PRDT_TYPE_CD (str): 공란 optional
                         CTX_AREA_NK100 (str): 다음조회시 입력
                         CTX_AREA_FK100 (str): 다음조회시 입력
 

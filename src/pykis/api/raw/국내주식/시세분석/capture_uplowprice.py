@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -71,24 +72,34 @@ class CaptureUplowpriceRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("전체(0000), 코스피(0001),코스닥(1001)")
-    FID_TRGT_CLS_CODE: str = Field(
+    FID_TRGT_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_TRGT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
-    FID_TRGT_EXLS_CLS_CODE: str = Field(
+    FID_TRGT_EXLS_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_TRGT_EXLS_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
-    FID_INPUT_PRICE_1: str = Field(
+    FID_INPUT_PRICE_1: str | None = Field(
+        default=None,
         alias="FID_INPUT_PRICE_1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
-    FID_INPUT_PRICE_2: str = Field(
+    FID_INPUT_PRICE_2: str | None = Field(
+        default=None,
         alias="FID_INPUT_PRICE_2",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
-    FID_VOL_CNT: int = Field(
+    FID_VOL_CNT: int | None = Field(
+        default=None,
         alias="FID_VOL_CNT",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
 
@@ -106,11 +117,11 @@ class CaptureUplowpriceRequestDict(TypedDict):
         FID_DIV_CLS_CODE (FidDivClsCodeEnum): '0(상하한가종목),6(8%상하한가 근접), 5(10%상하한가
         근접), 1(15%상하한가 근접),2(20%상하한가 근접), 3(25%상하한가 근접)'
         FID_INPUT_ISCD (str): 전체(0000), 코스피(0001),코스닥(1001)
-        FID_TRGT_CLS_CODE (str): 공백 입력
-        FID_TRGT_EXLS_CLS_CODE (str): 공백 입력
-        FID_INPUT_PRICE_1 (str): 공백 입력
-        FID_INPUT_PRICE_2 (str): 공백 입력
-        FID_VOL_CNT (int): 공백 입력
+        FID_TRGT_CLS_CODE (str): 공백 입력 optional
+        FID_TRGT_EXLS_CLS_CODE (str): 공백 입력 optional
+        FID_INPUT_PRICE_1 (str): 공백 입력 optional
+        FID_INPUT_PRICE_2 (str): 공백 입력 optional
+        FID_VOL_CNT (int): 공백 입력 optional
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -134,25 +145,35 @@ class CaptureUplowpriceRequestDict(TypedDict):
         str,
         "전체(0000), 코스피(0001),코스닥(1001)",
     ]
-    FID_TRGT_CLS_CODE: Annotated[
-        str,
-        "공백 입력",
+    FID_TRGT_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
-    FID_TRGT_EXLS_CLS_CODE: Annotated[
-        str,
-        "공백 입력",
+    FID_TRGT_EXLS_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
-    FID_INPUT_PRICE_1: Annotated[
-        str,
-        "공백 입력",
+    FID_INPUT_PRICE_1: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
-    FID_INPUT_PRICE_2: Annotated[
-        str,
-        "공백 입력",
+    FID_INPUT_PRICE_2: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
-    FID_VOL_CNT: Annotated[
-        int,
-        "공백 입력",
+    FID_VOL_CNT: NotRequired[
+        Annotated[
+            int | None,
+            "공백 입력",
+        ]
     ]
 
 
@@ -335,11 +356,11 @@ if TYPE_CHECKING:
                         5(10%상하한가 근접), 1(15%상하한가 근접),2(20%상하한가 근접), 3(25%상하한가
                         근접)'
                         FID_INPUT_ISCD (str): 전체(0000), 코스피(0001),코스닥(1001)
-                        FID_TRGT_CLS_CODE (str): 공백 입력
-                        FID_TRGT_EXLS_CLS_CODE (str): 공백 입력
-                        FID_INPUT_PRICE_1 (str): 공백 입력
-                        FID_INPUT_PRICE_2 (str): 공백 입력
-                        FID_VOL_CNT (int): 공백 입력
+                        FID_TRGT_CLS_CODE (str): 공백 입력 optional
+                        FID_TRGT_EXLS_CLS_CODE (str): 공백 입력 optional
+                        FID_INPUT_PRICE_1 (str): 공백 입력 optional
+                        FID_INPUT_PRICE_2 (str): 공백 입력 optional
+                        FID_VOL_CNT (int): 공백 입력 optional
 
             Returns:
                 tuple[CaptureUplowpriceResponse, KisResponse]: 응답 모델과 원시 응답

@@ -55,11 +55,13 @@ class InquireTimeOptchartpriceRequest(RawModel):
     START_DATE_TIME: KisDateTimeOptional = Field(
         default=None,
         alias="START_DATE_TIME",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" 공란 입력')
     CLOSE_DATE_TIME: KisDateTimeOptional = Field(
         default=None,
         alias="CLOSE_DATE_TIME",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" 공란 입력 ※ 날짜 입력해도 처리 안됨')
     QRY_TP: QryTpEnum = Field(

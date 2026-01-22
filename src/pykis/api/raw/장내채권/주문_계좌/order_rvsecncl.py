@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -74,8 +75,10 @@ class OrderRvsecnclRequest(RawModel):
         alias="RVSE_CNCL_DVSN_CD",
     )
     ("01: 정정, 02: 취소")
-    MGCO_APTM_ODNO: str = Field(
+    MGCO_APTM_ODNO: str | None = Field(
+        default=None,
         alias="MGCO_APTM_ODNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     ORD_SVR_DVSN_CD: OrdSvrDvsnCdEnum = Field(
@@ -103,7 +106,7 @@ class OrderRvsecnclRequestDict(TypedDict):
         BOND_ORD_UNPR (str): -
         QTY_ALL_ORD_YN (KisBool): Y: 잔량전부(주문수량 입력안함),
         RVSE_CNCL_DVSN_CD (RvseCnclDvsnCdEnum): 01: 정정, 02: 취소
-        MGCO_APTM_ODNO (str): 공백
+        MGCO_APTM_ODNO (str): 공백 optional
         ORD_SVR_DVSN_CD (OrdSvrDvsnCdEnum): Unique key(0)
         CTAC_TLNO (str): -
     """
@@ -140,9 +143,11 @@ class OrderRvsecnclRequestDict(TypedDict):
         RvseCnclDvsnCdEnum,
         "01: 정정, 02: 취소",
     ]
-    MGCO_APTM_ODNO: Annotated[
-        str,
-        "공백",
+    MGCO_APTM_ODNO: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     ORD_SVR_DVSN_CD: Annotated[
         OrdSvrDvsnCdEnum,
@@ -261,7 +266,7 @@ if TYPE_CHECKING:
                         BOND_ORD_UNPR (str): -
                         QTY_ALL_ORD_YN (KisBool): Y: 잔량전부(주문수량 입력안함),
                         RVSE_CNCL_DVSN_CD (RvseCnclDvsnCdEnum): 01: 정정, 02: 취소
-                        MGCO_APTM_ODNO (str): 공백
+                        MGCO_APTM_ODNO (str): 공백 optional
                         ORD_SVR_DVSN_CD (OrdSvrDvsnCdEnum): Unique key(0)
                         CTAC_TLNO (str): -
 

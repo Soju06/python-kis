@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import atexit
+import threading
 import time
 from datetime import date, datetime
 from datetime import time as time_value
@@ -94,6 +95,17 @@ def _encode_request_value(value: object) -> object:
     return value
 
 
+def _apply_blank_allowed(model: BaseModel, payload: dict[str, object]) -> dict[str, object]:
+    for name, field in model.__class__.model_fields.items():
+        extra = field.json_schema_extra or {}
+        if not extra.get("blank_allowed"):
+            continue
+        if getattr(model, name, None) is None:
+            alias = field.serialization_alias or field.alias or name
+            payload.setdefault(str(alias), "")
+    return payload
+
+
 def _coerce_query_params(payload: Mapping[str, object]) -> dict[str, str | int | float | None]:
     params: dict[str, str | int | float | None] = {}
     for key, value in payload.items():
@@ -106,6 +118,30 @@ def _coerce_query_params(payload: Mapping[str, object]) -> dict[str, str | int |
     return params
 
 
+def _extract_response_payload(response: KisResponse) -> dict[str, object] | None:
+    try:
+        data = response.json()
+    except Exception:
+        return None
+    if not isinstance(data, dict):
+        return None
+    return {str(key): value for key, value in data.items()}
+
+
+def _is_invalid_token_payload(payload: Mapping[str, object]) -> bool:
+    msg_cd = str(payload.get("msg_cd") or "").strip()
+    error_code = str(payload.get("error_code") or "").strip()
+    msg1 = str(payload.get("msg1") or "").strip()
+    msg1_lower = msg1.lower()
+    if msg_cd in {"EGW00121", "EGW00123"}:
+        return True
+    if error_code in {"EGW00121", "EGW00123"}:
+        return True
+    if "유효하지 않은 token" in msg1:
+        return True
+    return "invalid token" in msg1_lower
+
+
 class SyncKisRawClient:
     auth: KisAuth
     domain: Literal["demo", "real"]
@@ -116,6 +152,7 @@ class SyncKisRawClient:
     _client: httpx.Client
     _token_cache: dict[str, KisAccessToken]
     _token_cache_store: KisTokenCache | None
+    _token_lock: threading.Lock
     _revoke_on_close: bool
     _closed: bool
 
@@ -129,6 +166,7 @@ class SyncKisRawClient:
         "_client",
         "_token_cache",
         "_token_cache_store",
+        "_token_lock",
         "_revoke_on_close",
         "_closed",
     )
@@ -146,6 +184,7 @@ class SyncKisRawClient:
         keep_token: bool | str | Path | None = None,
         revoke_on_close: bool | None = None,
         client: httpx.Client | None = None,
+        timeout: float | httpx.Timeout | None = None,
         atexit_close: bool = True,
     ) -> None:
         self.auth = auth
@@ -168,9 +207,11 @@ class SyncKisRawClient:
         if client is None:
             retry = _build_retry(retry_backoff_hint(self.rate_limit_per_second))
             transport = RetryTransport(retry=retry)
-        self._client = client or httpx.Client(timeout=DEFAULT_TIMEOUT, transport=transport)
+        client_timeout = DEFAULT_TIMEOUT if timeout is None else timeout
+        self._client = client or httpx.Client(timeout=client_timeout, transport=transport)
         self._token_cache = {}
         self._token_cache_store = None
+        self._token_lock = threading.Lock()
         if keep_token:
             cache_dir = default_token_cache_dir() if keep_token is True else Path(keep_token).expanduser()
             self._token_cache_store = KisTokenCache(cache_dir, auth)
@@ -284,24 +325,41 @@ class SyncKisRawClient:
                 context=_error_context(method="POST", path="/oauth2/tokenP", status_code=resp.status_code),
             )
 
+    def _clear_token(self, base_url: str) -> None:
+        self._token_cache.pop(base_url, None)
+        if self._token_cache_store:
+            self._token_cache_store.clear(base_url)
+
     def _get_token(self, base_url: str) -> KisAccessToken:
-        token = self._token_cache.get(base_url)
-        if token and not token.expired:
+        with self._token_lock:
+            token = self._token_cache.get(base_url)
+            if token and not token.expired:
+                return token
+            if token and token.expired:
+                self._token_cache.pop(base_url, None)
+            if self._token_cache_store:
+                cached = self._token_cache_store.load(base_url)
+                if cached and not cached.expired:
+                    self._token_cache[base_url] = cached
+                    return cached
+                if cached and cached.expired:
+                    self._token_cache_store.clear(base_url)
+            token = self._issue_token(base_url)
+            self._token_cache[base_url] = token
+            if self._token_cache_store:
+                self._token_cache_store.save(base_url, token)
             return token
-        if token and token.expired:
-            self._token_cache.pop(base_url, None)
-        if self._token_cache_store:
-            cached = self._token_cache_store.load(base_url)
-            if cached and not cached.expired:
-                self._token_cache[base_url] = cached
-                return cached
-            if cached and cached.expired:
-                self._token_cache_store.clear(base_url)
-        token = self._issue_token(base_url)
-        self._token_cache[base_url] = token
-        if self._token_cache_store:
-            self._token_cache_store.save(base_url, token)
-        return token
+
+    def _refresh_token(self, base_url: str, used_token: str | None) -> None:
+        with self._token_lock:
+            current = self._token_cache.get(base_url)
+            if current and used_token and current.token != used_token:
+                return
+            self._clear_token(base_url)
+            token = self._issue_token(base_url)
+            self._token_cache[base_url] = token
+            if self._token_cache_store:
+                self._token_cache_store.save(base_url, token)
 
     def _hashkey(self, base_url: str, body: Mapping[str, object]) -> str:
         attempts = 0
@@ -360,7 +418,7 @@ class SyncKisRawClient:
         except Exception as exc:  # pragma: no cover - best effort on shutdown
             logger.warning("token revoke failed: %s", exc)
 
-    def request(
+    def _request_with_token(
         self,
         *,
         method: str,
@@ -371,11 +429,13 @@ class SyncKisRawClient:
         body: Mapping[str, object] | None,
         auth_required: bool,
         hashkey_required: bool,
-    ) -> KisResponse:
+    ) -> tuple[KisResponse, str | None]:
         headers = dict(headers or {})
+        token_value: str | None = None
         if auth_required:
             token = self._get_token(base_url)
             headers["authorization"] = token.authorization()
+            token_value = token.token
 
         if hashkey_required and body:
             headers["hashkey"] = self._hashkey(base_url, dict(body))
@@ -388,7 +448,6 @@ class SyncKisRawClient:
                 headers=headers,
                 params=params,
                 json=body if method == "POST" else None,
-                timeout=DEFAULT_TIMEOUT,
             )
         except httpx.HTTPError as exc:
             raise KisTransportError(
@@ -396,6 +455,44 @@ class SyncKisRawClient:
                 original=exc,
                 context=_error_context(method=method, path=path),
             ) from exc
+        return response, token_value
+
+    def request(
+        self,
+        *,
+        method: str,
+        base_url: str,
+        path: str,
+        headers: Mapping[str, str] | None,
+        params: Mapping[str, str | int | float | None] | None,
+        body: Mapping[str, object] | None,
+        auth_required: bool,
+        hashkey_required: bool,
+    ) -> KisResponse:
+        response, used_token = self._request_with_token(
+            method=method,
+            base_url=base_url,
+            path=path,
+            headers=headers,
+            params=params,
+            body=body,
+            auth_required=auth_required,
+            hashkey_required=hashkey_required,
+        )
+        if auth_required:
+            payload = _extract_response_payload(response)
+            if payload and _is_invalid_token_payload(payload):
+                self._refresh_token(base_url, used_token)
+                response, _ = self._request_with_token(
+                    method=method,
+                    base_url=base_url,
+                    path=path,
+                    headers=headers,
+                    params=params,
+                    body=body,
+                    auth_required=auth_required,
+                    hashkey_required=hashkey_required,
+                )
         return response
 
     def call(
@@ -408,8 +505,9 @@ class SyncKisRawClient:
             model = request
         else:
             model = endpoint.request_model.model_validate(dict(request))
-        payload: Mapping[str, object] = model.model_dump(by_alias=True, exclude_none=True)
-        request_payload = {key: _encode_request_value(value) for key, value in payload.items()}
+        request_fields: Mapping[str, object] = model.model_dump(by_alias=True, exclude_none=True)
+        request_payload = {key: _encode_request_value(value) for key, value in request_fields.items()}
+        request_payload = _apply_blank_allowed(model, request_payload)
         if endpoint.method == "GET":
             query = _coerce_query_params(request_payload)
             body = {}
@@ -432,35 +530,12 @@ class SyncKisRawClient:
                 )
             built_headers.setdefault("tr_id", tr_id)
 
-        response = self.request(
-            method=endpoint.method,
-            base_url=self._base_url(),
-            path=endpoint.path,
-            headers=built_headers,
-            params=query if query else None,
-            body=body if body else None,
-            auth_required=endpoint.auth_required,
-            hashkey_required=endpoint.hashkey_required,
-        )
-        attempts = 0
-        while response.status_code == 429:
-            retry_after = parse_retry_after(response.headers.get("Retry-After"))
-            self.rate_limiter.on_rate_limited(retry_after)
-            attempts += 1
-            if self.rate_limit_max_retries is not None and attempts > self.rate_limit_max_retries:
-                raise KisRateLimitError(
-                    f"rate limited for {endpoint.id}",
-                    retry_after=retry_after,
-                    context=_error_context(
-                        endpoint_id=endpoint.id,
-                        method=endpoint.method,
-                        path=endpoint.path,
-                        status_code=response.status_code,
-                    ),
-                )
-            response = self.request(
+        base_url = self._base_url()
+        refresh_attempted = False
+        while True:
+            response, used_token = self._request_with_token(
                 method=endpoint.method,
-                base_url=self._base_url(),
+                base_url=base_url,
                 path=endpoint.path,
                 headers=built_headers,
                 params=query if query else None,
@@ -468,47 +543,88 @@ class SyncKisRawClient:
                 auth_required=endpoint.auth_required,
                 hashkey_required=endpoint.hashkey_required,
             )
-        if response.is_success:
-            try:
-                data = response.json()
-            except Exception as exc:
-                snippet = response.text[:200]
-                raise KisResponseError(
-                    f"invalid JSON for {endpoint.id}",
-                    context=_error_context(
-                        endpoint_id=endpoint.id,
-                        method=endpoint.method,
-                        path=endpoint.path,
-                        status_code=response.status_code,
-                        message=snippet,
-                    ),
-                ) from exc
-            if isinstance(data, dict):
-                data_map = {str(key): value for key, value in data.items()}
-                if str(data_map.get("rt_cd")) not in ("0", "OK"):
-                    raise KisResponseError(
-                        f"API error for {endpoint.id}: {data_map.get('msg_cd')} {data_map.get('msg1')}".strip(),
+            attempts = 0
+            while response.status_code == 429:
+                retry_after = parse_retry_after(response.headers.get("Retry-After"))
+                self.rate_limiter.on_rate_limited(retry_after)
+                attempts += 1
+                if self.rate_limit_max_retries is not None and attempts > self.rate_limit_max_retries:
+                    raise KisRateLimitError(
+                        f"rate limited for {endpoint.id}",
+                        retry_after=retry_after,
                         context=_error_context(
                             endpoint_id=endpoint.id,
                             method=endpoint.method,
                             path=endpoint.path,
                             status_code=response.status_code,
-                            message=str(data_map.get("msg1") or ""),
                         ),
-                        payload=data_map,
                     )
-                return endpoint.response_model.model_validate(data_map), response
-            return endpoint.response_model.model_validate(data), response
-        raise KisHttpError(
-            f"HTTP {response.status_code} for {endpoint.id}",
-            context=_error_context(
-                endpoint_id=endpoint.id,
-                method=endpoint.method,
-                path=endpoint.path,
-                status_code=response.status_code,
-            ),
-            payload=response.text[:200],
-        )
+                response, used_token = self._request_with_token(
+                    method=endpoint.method,
+                    base_url=base_url,
+                    path=endpoint.path,
+                    headers=built_headers,
+                    params=query if query else None,
+                    body=body if body else None,
+                    auth_required=endpoint.auth_required,
+                    hashkey_required=endpoint.hashkey_required,
+                )
+
+            response_payload = _extract_response_payload(response)
+            if (
+                endpoint.auth_required
+                and not refresh_attempted
+                and response_payload
+                and _is_invalid_token_payload(response_payload)
+            ):
+                self._refresh_token(base_url, used_token)
+                refresh_attempted = True
+                continue
+
+            if response.is_success:
+                if response_payload is None:
+                    try:
+                        data = response.json()
+                    except Exception as exc:
+                        snippet = response.text[:200]
+                        raise KisResponseError(
+                            f"invalid JSON for {endpoint.id}",
+                            context=_error_context(
+                                endpoint_id=endpoint.id,
+                                method=endpoint.method,
+                                path=endpoint.path,
+                                status_code=response.status_code,
+                                message=snippet,
+                            ),
+                        ) from exc
+                else:
+                    data = response_payload
+                if isinstance(data, dict):
+                    data_map = {str(key): value for key, value in data.items()}
+                    if str(data_map.get("rt_cd")) not in ("0", "OK"):
+                        raise KisResponseError(
+                            f"API error for {endpoint.id}: {data_map.get('msg_cd')} {data_map.get('msg1')}".strip(),
+                            context=_error_context(
+                                endpoint_id=endpoint.id,
+                                method=endpoint.method,
+                                path=endpoint.path,
+                                status_code=response.status_code,
+                                message=str(data_map.get("msg1") or ""),
+                            ),
+                            payload=data_map,
+                        )
+                    return endpoint.response_model.model_validate(data_map), response
+                return endpoint.response_model.model_validate(data), response
+            raise KisHttpError(
+                f"HTTP {response.status_code} for {endpoint.id}",
+                context=_error_context(
+                    endpoint_id=endpoint.id,
+                    method=endpoint.method,
+                    path=endpoint.path,
+                    status_code=response.status_code,
+                ),
+                payload=response.text[:200],
+            )
 
     def close(self) -> None:
         if self._closed:

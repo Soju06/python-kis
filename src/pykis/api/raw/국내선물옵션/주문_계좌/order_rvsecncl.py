@@ -157,6 +157,7 @@ class OrderRvsecnclRequest(RawModel):
     FUOP_ITEM_DVSN_CD: FuopItemDvsnCdEnum | None = Field(
         default=None,
         alias="FUOP_ITEM_DVSN_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     (
         "[Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 공란(Default) [Header tr_id JTCE1002U(선물옵션 "

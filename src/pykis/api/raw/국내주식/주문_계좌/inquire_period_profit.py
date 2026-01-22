@@ -52,6 +52,7 @@ class InquirePeriodProfitRequest(RawModel):
     PDNO: str | None = Field(
         default=None,
         alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ('""공란입력 시, 전체')
     CTX_AREA_NK100: str = Field(

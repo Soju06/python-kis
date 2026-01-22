@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -56,8 +57,10 @@ class InquireMemberDailyRequest(RawModel):
         alias="FID_INPUT_DATE_2",
     )
     ("~ 날짜")
-    FID_SCTN_CLS_CODE: str = Field(
+    FID_SCTN_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_SCTN_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -75,7 +78,7 @@ class InquireMemberDailyRequestDict(TypedDict):
         다운로드(국내) > 회원사 참조)
         FID_INPUT_DATE_1 (str): 날짜 ~
         FID_INPUT_DATE_2 (str): ~ 날짜
-        FID_SCTN_CLS_CODE (str): 공백
+        FID_SCTN_CLS_CODE (str): 공백 optional
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -98,9 +101,11 @@ class InquireMemberDailyRequestDict(TypedDict):
         str,
         "~ 날짜",
     ]
-    FID_SCTN_CLS_CODE: Annotated[
-        str,
-        "공백",
+    FID_SCTN_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
 
 
@@ -233,7 +238,7 @@ if TYPE_CHECKING:
                         종목정보 다운로드(국내) > 회원사 참조)
                         FID_INPUT_DATE_1 (str): 날짜 ~
                         FID_INPUT_DATE_2 (str): ~ 날짜
-                        FID_SCTN_CLS_CODE (str): 공백
+                        FID_SCTN_CLS_CODE (str): 공백 optional
 
             Returns:
                 tuple[InquireMemberDailyResponse, KisResponse]: 응답 모델과 원시 응답

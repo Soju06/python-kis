@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -74,12 +75,16 @@ class CountriesHolidayRequest(RawModel):
         alias="TRAD_DT",
     )
     ("기준일자(YYYYMMDD)")
-    CTX_AREA_NK: str = Field(
+    CTX_AREA_NK: str | None = Field(
+        default=None,
         alias="CTX_AREA_NK",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백으로 입력")
-    CTX_AREA_FK: str = Field(
+    CTX_AREA_FK: str | None = Field(
+        default=None,
         alias="CTX_AREA_FK",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백으로 입력")
 
@@ -90,21 +95,25 @@ class CountriesHolidayRequestDict(TypedDict):
 
     Request fields:
         TRAD_DT (str): 기준일자(YYYYMMDD)
-        CTX_AREA_NK (str): 공백으로 입력
-        CTX_AREA_FK (str): 공백으로 입력
+        CTX_AREA_NK (str): 공백으로 입력 optional
+        CTX_AREA_FK (str): 공백으로 입력 optional
     """
 
     TRAD_DT: Annotated[
         str,
         "기준일자(YYYYMMDD)",
     ]
-    CTX_AREA_NK: Annotated[
-        str,
-        "공백으로 입력",
+    CTX_AREA_NK: NotRequired[
+        Annotated[
+            str | None,
+            "공백으로 입력",
+        ]
     ]
-    CTX_AREA_FK: Annotated[
-        str,
-        "공백으로 입력",
+    CTX_AREA_FK: NotRequired[
+        Annotated[
+            str | None,
+            "공백으로 입력",
+        ]
     ]
 
 
@@ -225,8 +234,8 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         TRAD_DT (str): 기준일자(YYYYMMDD)
-                        CTX_AREA_NK (str): 공백으로 입력
-                        CTX_AREA_FK (str): 공백으로 입력
+                        CTX_AREA_NK (str): 공백으로 입력 optional
+                        CTX_AREA_FK (str): 공백으로 입력 optional
 
             Returns:
                 tuple[CountriesHolidayResponse, KisResponse]: 응답 모델과 원시 응답

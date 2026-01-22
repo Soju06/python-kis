@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -46,8 +47,10 @@ class LendableByCompanyRequest(RawModel):
         alias="EXCG_DVSN_CD",
     )
     ("00(전체), 02(거래소), 03(코스닥)")
-    PDNO: str = Field(
+    PDNO: str | None = Field(
+        default=None,
         alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 : 전체조회, 종목코드 입력 시 해당종목만 조회")
     THCO_STLN_PSBL_YN: KisBool = Field(
@@ -78,7 +81,7 @@ class LendableByCompanyRequestDict(TypedDict):
 
     Request fields:
         EXCG_DVSN_CD (ExcgDvsnCdEnum): 00(전체), 02(거래소), 03(코스닥)
-        PDNO (str): 공백 : 전체조회, 종목코드 입력 시 해당종목만 조회
+        PDNO (str): 공백 : 전체조회, 종목코드 입력 시 해당종목만 조회 optional
         THCO_STLN_PSBL_YN (KisBool): Y
         INQR_DVSN_1 (InqrDvsn1Enum): 0 : 전체조회, 1: 종목코드순 정렬
         CTX_AREA_FK200 (str): 미입력 (다음조회 불가)
@@ -89,9 +92,11 @@ class LendableByCompanyRequestDict(TypedDict):
         ExcgDvsnCdEnum,
         "00(전체), 02(거래소), 03(코스닥)",
     ]
-    PDNO: Annotated[
-        str,
-        "공백 : 전체조회, 종목코드 입력 시 해당종목만 조회",
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            "공백 : 전체조회, 종목코드 입력 시 해당종목만 조회",
+        ]
     ]
     THCO_STLN_PSBL_YN: Annotated[
         KisBool,
@@ -287,7 +292,7 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         EXCG_DVSN_CD (ExcgDvsnCdEnum): 00(전체), 02(거래소), 03(코스닥)
-                        PDNO (str): 공백 : 전체조회, 종목코드 입력 시 해당종목만 조회
+                        PDNO (str): 공백 : 전체조회, 종목코드 입력 시 해당종목만 조회 optional
                         THCO_STLN_PSBL_YN (KisBool): Y
                         INQR_DVSN_1 (InqrDvsn1Enum): 0 : 전체조회, 1: 종목코드순 정렬
                         CTX_AREA_FK200 (str): 미입력 (다음조회 불가)

@@ -200,7 +200,7 @@ endpoints:
       FID_COND_MRKT_DIV_CODE: W
       FID_COND_SCR_DIV_CODE: '11548'
       FID_INPUT_ISCD_2: '00003'
-      FID_INPUT_DATE_1: '20240410'
+      FID_INPUT_DATE_1: '20260122'
       FID_DIV_CLS_CODE: '02'
       FID_UNAS_INPUT_ISCD: '000000'
       FID_BLNC_CLS_CODE: '0'
@@ -341,11 +341,11 @@ endpoints:
       FID_DIV_CLS_CODE: '0'
       FID_BLNG_CLS_CODE: '0'
       FID_TRGT_CLS_CODE: '111111111'
-      FID_TRGT_EXLS_CLS_CODE: '000000'
-      FID_INPUT_PRICE_1: '0'
-      FID_INPUT_PRICE_2: '0'
-      FID_VOL_CNT: '0'
-      FID_INPUT_DATE_1: '0'
+      FID_TRGT_EXLS_CLS_CODE: '0000000000'
+      FID_INPUT_PRICE_1: ''
+      FID_INPUT_PRICE_2: ''
+      FID_VOL_CNT: ''
+      FID_INPUT_DATE_1: ''
   6723d437-b275-4c10-b7fb-9ba788cad75e:
     query:
       TYPE: '1'
@@ -488,7 +488,7 @@ endpoints:
   0bb05819-d759-4789-8eda-27a0b88f02aa:
     query:
       FID_COND_MRKT_DIV_CODE: F
-      FID_INPUT_ISCD: 101S03
+      FID_INPUT_ISCD: A01603
   7bdbff93-1334-496f-a9b8-7da6032f7407:
     query:
       fid_cond_mrkt_div_code: J

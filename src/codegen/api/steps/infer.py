@@ -6,9 +6,10 @@ from pathlib import Path
 
 from codegen.api.models import EndpointSpec, SpecField
 from codegen.api.report_models import ValidationReport, ValidationSampleResult
-from codegen.api.types import EndpointHints, ExtraFields, FieldHint, TypeOverrides
 from codegen.api.runtime import SKIP_ENDPOINT_IDS, UNSAFE_KEYWORDS, is_empty_payload
+from codegen.api.types import EndpointHints, ExtraFields, FieldHint, TypeOverrides
 from codegen.core.enums import EnumEntry, parse_enum_entries
+from codegen.core.text import is_blank_description
 from codegen.core.types import JsonObject, JsonValue
 from pykis.api.raw.types import Endpoint
 
@@ -94,7 +95,20 @@ def _values_numeric(values: list[str]) -> bool:
     return all(value.isdigit() for value in values)
 
 
-def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
+def _preview_value(value: JsonValue | None, limit: int = 5) -> JsonValue | None:
+    if isinstance(value, list):
+        return value[:limit]
+    if isinstance(value, dict):
+        preview: dict[str, JsonValue] = {}
+        for idx, (key, item) in enumerate(value.items()):
+            if idx >= limit:
+                break
+            preview[str(key)] = item
+        return preview
+    return value
+
+
+def _infer_kind(field: SpecField, sample: JsonValue | None, trace: JsonObject | None = None) -> FieldHint:
     text = _text_flags(field)
     code_lower = field.code.lower()
     sample_values = _enum_sample_values(sample)
@@ -102,18 +116,51 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
         sample = sample_values[0] if sample_values else None
     has_rate_token = any(token in text for token in _RATE_TOKENS)
     has_date_token = any(token in text for token in _DATE_TOKENS) or _has_dt_token(text)
+
+    if trace is not None:
+        trace.update(
+            {
+                "field": {
+                    "code": field.code,
+                    "name": field.name,
+                    "type_name": field.type_name,
+                },
+                "text_flags": text,
+                "sample": _preview_value(sample),
+                "sample_values": sample_values[:5],
+                "signals": {
+                    "has_rate_token": has_rate_token,
+                    "has_date_token": has_date_token,
+                },
+            }
+        )
+
+    def _final(hint: FieldHint, reason: str) -> FieldHint:
+        if trace is not None:
+            decision: JsonObject = {"kind": hint.kind, "reason": reason}
+            if hint.enum:
+                decision["enum"] = hint.enum
+            if hint.enum_desc:
+                decision["enum_desc"] = hint.enum_desc
+            if hint.max_digits is not None:
+                decision["max_digits"] = hint.max_digits
+            if hint.decimal_places is not None:
+                decision["decimal_places"] = hint.decimal_places
+            trace["decision"] = decision
+        return hint
+
     if field.code.lower() == "keyb":
-        return FieldHint(kind="str")
+        return _final(FieldHint(kind="str"), "special_keyb")
     if field.code.lower() in {"rsym", "symb"}:
-        return FieldHint(kind="str")
+        return _final(FieldHint(kind="str"), "symbol_field")
     if "y/n" in text or field.code.lower().endswith("_yn") or "여부" in text:
-        return FieldHint(kind="bool")
+        return _final(FieldHint(kind="bool"), "boolean_yn")
     if "name" in code_lower or "명" in (field.name or ""):
-        return FieldHint(kind="str")
+        return _final(FieldHint(kind="str"), "name_field")
     if ("input" in code_lower or "iscd" in code_lower) and _is_code_like(text):
-        return FieldHint(kind="str")
+        return _final(FieldHint(kind="str"), "input_code_like")
     if any(token in text for token in ("yyyymm", "yyymm", "yymmww", "년월", "년월주차")):
-        return FieldHint(kind="str")
+        return _final(FieldHint(kind="str"), "year_month_token")
 
     enum_entries = parse_enum_entries(field.description or "")
     enum_values = [entry.code for entry in enum_entries]
@@ -134,30 +181,36 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
             if enum_hint is None:
                 enum_hint = FieldHint(kind="enum", enum=enum_values, enum_desc=enum_desc or None)
 
+    if trace is not None and enum_entries:
+        trace["enum"] = {"values": enum_values, "desc": enum_desc or None}
+
     if enum_hint and _prefer_enum(text, code_lower, enum_entries):
-        return enum_hint
+        return _final(enum_hint, "enum_preferred")
 
     if any(token in text for token in ("일시", "datetime", "timestamp", "dtime")):
-        return FieldHint(kind="datetime")
+        return _final(FieldHint(kind="datetime"), "datetime_token")
 
     if has_date_token and has_rate_token:
-        return FieldHint(kind="decimal")
+        return _final(FieldHint(kind="decimal"), "rate_over_date")
     if has_date_token:
-        return FieldHint(kind="date")
+        return _final(FieldHint(kind="date"), "date_token")
 
     time_tokens = ("시각", "hhmm", "hhmmss", "time", "_tm", "hour")
     if "시간외" not in text and not _is_code_like(text) and any(token in text for token in time_tokens):
-        return FieldHint(kind="time")
+        return _final(FieldHint(kind="time"), "time_token")
 
     spec = _decimal_spec(text)
     if spec:
         max_digits, decimal_places = spec
-        return FieldHint(kind="decimal", max_digits=max_digits, decimal_places=decimal_places)
+        return _final(
+            FieldHint(kind="decimal", max_digits=max_digits, decimal_places=decimal_places),
+            "decimal_spec",
+        )
 
     if enum_hint:
         if any(token in text for token in ("비트", "bit", "첫 번째", "두 번째", "첫번째", "두번째")):
-            return FieldHint(kind="str")
-        return enum_hint
+            return _final(FieldHint(kind="str"), "enum_forced_str")
+        return _final(enum_hint, "enum_default")
 
     if "vol" in code_lower and "volat" not in code_lower and "vltl" not in code_lower:
         rate_hint = any(
@@ -173,10 +226,10 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
                 "rlim",
             )
         )
-        return FieldHint(kind="decimal" if rate_hint else "int")
+        return _final(FieldHint(kind="decimal" if rate_hint else "int"), "volume_token")
 
     if _is_code_like(text):
-        return FieldHint(kind="str")
+        return _final(FieldHint(kind="str"), "code_like")
 
     price_tokens = (
         "가격",
@@ -197,41 +250,41 @@ def _infer_kind(field: SpecField, sample: JsonValue | None) -> FieldHint:
 
     if sample is not None:
         if isinstance(sample, (int,)):
-            return FieldHint(kind="int")
+            return _final(FieldHint(kind="int"), "sample_int")
         if isinstance(sample, (float,)):
-            return FieldHint(kind="decimal")
+            return _final(FieldHint(kind="decimal"), "sample_float")
         if isinstance(sample, str):
             value = sample.strip()
             if re.fullmatch(r"-?\d+\.\d+", value):
-                return FieldHint(kind="decimal")
+                return _final(FieldHint(kind="decimal"), "sample_decimal_str")
             if re.fullmatch(r"-?\d+", value):
                 if len(value) == 8 and (
                     (any(token in text for token in ("일자", "날짜", "date", "ymd")) or _has_dt_token(text))
                     and not has_rate_token
                 ):
-                    return FieldHint(kind="date")
+                    return _final(FieldHint(kind="date"), "sample_date_str")
                 if (
                     len(value) == 6
                     and "시간외" not in text
                     and any(token in text for token in ("시간", "시각", "time", "hhmmss", "hhmm"))
                 ):
-                    return FieldHint(kind="time")
+                    return _final(FieldHint(kind="time"), "sample_time_str")
                 if any(token in text for token in price_tokens + rate_tokens):
-                    return FieldHint(kind="decimal")
+                    return _final(FieldHint(kind="decimal"), "sample_numeric_price_or_rate")
                 if any(token in text for token in volume_tokens):
-                    return FieldHint(kind="int")
-                return FieldHint(kind="int")
+                    return _final(FieldHint(kind="int"), "sample_numeric_volume")
+                return _final(FieldHint(kind="int"), "sample_numeric_int")
 
     if any(token in text for token in price_tokens):
-        return FieldHint(kind="decimal")
+        return _final(FieldHint(kind="decimal"), "price_token")
 
     if any(token in text for token in rate_tokens):
-        return FieldHint(kind="decimal")
+        return _final(FieldHint(kind="decimal"), "rate_token")
 
     if any(token in text for token in volume_tokens):
-        return FieldHint(kind="int")
+        return _final(FieldHint(kind="int"), "volume_token_fallback")
 
-    return FieldHint(kind="str")
+    return _final(FieldHint(kind="str"), "fallback_str")
 
 
 def _is_blank(value: JsonValue) -> bool:
@@ -285,11 +338,26 @@ def _sample_from_container(container: JsonValue | None, field: SpecField) -> tup
     return None, False
 
 
-def infer_types(specs: list[EndpointSpec], augment_dir: Path) -> TypeOverrides:
+def infer_types(
+    specs: list[EndpointSpec],
+    augment_dir: Path,
+    trace_out: dict[str, JsonObject] | None = None,
+) -> TypeOverrides:
     endpoints: dict[str, EndpointHints] = {}
 
     for spec in specs:
         entry = EndpointHints(extra_fields=ExtraFields())
+        trace_request: dict[str, JsonObject] | None = None
+        trace_response: dict[str, JsonObject] | None = None
+        trace_outputs: dict[str, dict[str, JsonObject]] | None = None
+        trace_output_aliases: dict[str, str] | None = None
+        trace_output_kinds: dict[str, str] | None = None
+        if trace_out is not None:
+            trace_request = {}
+            trace_response = {}
+            trace_outputs = {}
+            trace_output_aliases = {}
+            trace_output_kinds = {}
         success_path = augment_dir / spec.id / "success.json"
         raw_path = augment_dir / spec.id / "raw.json"
         request_path = augment_dir / spec.id / "request.json"
@@ -308,31 +376,52 @@ def infer_types(specs: list[EndpointSpec], augment_dir: Path) -> TypeOverrides:
             if request_payload:
                 sample = _as_object(request_payload.get("query")) or {}
                 sample = sample.get(field.code)
-            entry.request[field.code] = _infer_kind(field, sample)
+            trace: JsonObject | None = {} if trace_request is not None else None
+            hint = _infer_kind(field, sample, trace=trace)
+            if is_blank_description(field.description):
+                hint.required = False
+                if trace is not None:
+                    trace["blank_allowed"] = True
+            entry.request[field.code] = hint
+            if trace_request is not None:
+                trace_request[field.code] = trace or {}
 
         for field in spec.request.body:
             sample = None
             if request_payload:
                 sample = _as_object(request_payload.get("body")) or {}
                 sample = sample.get(field.code)
-            entry.request[field.code] = _infer_kind(field, sample)
+            trace = {} if trace_request is not None else None
+            hint = _infer_kind(field, sample, trace=trace)
+            if is_blank_description(field.description):
+                hint.required = False
+                if trace is not None:
+                    trace["blank_allowed"] = True
+            entry.request[field.code] = hint
+            if trace_request is not None:
+                trace_request[field.code] = trace or {}
 
         if raw_payload:
             output_codes = {output.code for output in spec.response.outputs}
             if "output" in raw_payload and "output" not in output_codes and len(output_codes) == 1:
                 only_code = next(iter(output_codes))
                 entry.output_aliases[only_code] = "output"
+                if trace_output_aliases is not None:
+                    trace_output_aliases[only_code] = "output"
 
         for field in spec.response.body:
             sample = raw_payload.get(field.code) if raw_payload else None
             sample, _ = _normalize_sample(sample)
-            hint = _infer_kind(field, sample)
+            trace = {} if trace_response is not None else None
+            hint = _infer_kind(field, sample, trace=trace)
             kind = hint.kind
             if field.required and _is_zero_datetime(sample, kind):
                 hint.required = False
             if field.required and raw_payload and sample is None:
                 hint.required = False
             entry.response[field.code] = hint
+            if trace_response is not None:
+                trace_response[field.code] = trace or {}
 
         if raw_payload:
             known_keys = {field.code for field in spec.response.body}
@@ -354,7 +443,10 @@ def infer_types(specs: list[EndpointSpec], augment_dir: Path) -> TypeOverrides:
                     }
                 )
                 entry.extra_fields.response.append(field)
-                entry.response[key] = _infer_kind(field, value)
+                trace = {} if trace_response is not None else None
+                entry.response[key] = _infer_kind(field, value, trace=trace)
+                if trace_response is not None:
+                    trace_response[key] = trace or {}
 
         def _resolve_container(code: str) -> JsonValue | None:
             if not raw_payload:
@@ -374,13 +466,16 @@ def infer_types(specs: list[EndpointSpec], augment_dir: Path) -> TypeOverrides:
                 entry.output_kinds[output.code] = "single"
             else:
                 entry.output_kinds[output.code] = output.kind
+            if trace_output_kinds is not None:
+                trace_output_kinds[output.code] = entry.output_kinds[output.code]
 
             output_map: dict[str, FieldHint] = {}
             output_known = {field.code for field in output.fields}
             for field in output.fields:
                 sample, _ = _sample_from_container(container, field)
                 sample, _ = _normalize_sample(sample)
-                hint = _infer_kind(field, sample)
+                trace = {} if trace_outputs is not None else None
+                hint = _infer_kind(field, sample, trace=trace)
                 kind = hint.kind
                 if field.required and _is_zero_datetime(sample, kind):
                     hint.required = False
@@ -397,6 +492,8 @@ def infer_types(specs: list[EndpointSpec], augment_dir: Path) -> TypeOverrides:
                     if blank_in_list:
                         hint.required = False
                 output_map[field.code] = hint
+                if trace_outputs is not None:
+                    trace_outputs.setdefault(output.code, {})[field.code] = trace or {}
             if isinstance(container, dict):
                 extras: list[SpecField] = []
                 for key, value in container.items():
@@ -414,11 +511,22 @@ def infer_types(specs: list[EndpointSpec], augment_dir: Path) -> TypeOverrides:
                         }
                     )
                     extras.append(field)
-                    output_map[key_str] = _infer_kind(field, value)
+                    trace = {} if trace_outputs is not None else None
+                    output_map[key_str] = _infer_kind(field, value, trace=trace)
+                    if trace_outputs is not None:
+                        trace_outputs.setdefault(output.code, {})[key_str] = trace or {}
                 entry.extra_fields.outputs[output.code] = extras
             entry.outputs[output.code] = output_map
 
         endpoints[spec.id] = entry
+        if trace_out is not None and trace_request is not None and trace_response is not None:
+            trace_out[spec.id] = {
+                "request": trace_request,
+                "response": trace_response,
+                "outputs": trace_outputs or {},
+                "output_aliases": trace_output_aliases or {},
+                "output_kinds": trace_output_kinds or {},
+            }
 
     return TypeOverrides(endpoints=endpoints)
 

@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -86,44 +87,60 @@ class InquireNgtCcnlRequest(RawModel):
         "조회하려는 마지막 일자 다음일자로 조회 (ex. 20221011 까지의 내역을 조회하고자 할 경우, "
         "20221012로 종료주문일자 설정)"
     )
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum | None = Field(
+        default=None,
         alias="SLL_BUY_DVSN_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : default (00: 전체 ,01 : 매도, 02 : 매수)")
     CCLD_NCCS_DVSN: CcldNccsDvsnEnum = Field(
         alias="CCLD_NCCS_DVSN",
     )
     ("00 : 전체 01 : 체결 02 : 미체결")
-    SORT_SQN: str = Field(
+    SORT_SQN: str | None = Field(
+        default=None,
         alias="SORT_SQN",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : default (DS : 정순, 그외 : 역순)")
-    STRT_ODNO: str = Field(
+    STRT_ODNO: str | None = Field(
+        default=None,
         alias="STRT_ODNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : default")
-    PDNO: str = Field(
+    PDNO: str | None = Field(
+        default=None,
         alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : default")
-    MKET_ID_CD: str = Field(
+    MKET_ID_CD: str | None = Field(
+        default=None,
         alias="MKET_ID_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : default")
-    FUOP_DVSN_CD: FuopDvsnCdEnum = Field(
+    FUOP_DVSN_CD: FuopDvsnCdEnum | None = Field(
+        default=None,
         alias="FUOP_DVSN_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 전체, 01 : 선물, 02 : 옵션")
     SCRN_DVSN: str = Field(
         alias="SCRN_DVSN",
     )
     ("02(Default)")
-    CTX_AREA_FK200: str = Field(
+    CTX_AREA_FK200: str | None = Field(
+        default=None,
         alias="CTX_AREA_FK200",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_NK200: str = Field(
+    CTX_AREA_NK200: str | None = Field(
+        default=None,
         alias="CTX_AREA_NK200",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)")
 
@@ -139,18 +156,18 @@ class InquireNgtCcnlRequestDict(TypedDict):
         STRT_ORD_DT (KisDate): 시작주문일자
         END_ORD_DT (KisDate): 조회하려는 마지막 일자 다음일자로 조회 (ex. 20221011 까지의 내역을
         조회하고자 할 경우, 20221012로 종료주문일자 설정)
-        SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 공란 : default (00: 전체 ,01 : 매도, 02 : 매수)
+        SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 공란 : default (00: 전체 ,01 : 매도, 02 : 매수) optional
         CCLD_NCCS_DVSN (CcldNccsDvsnEnum): 00 : 전체 01 : 체결 02 : 미체결
-        SORT_SQN (str): 공란 : default (DS : 정순, 그외 : 역순)
-        STRT_ODNO (str): 공란 : default
-        PDNO (str): 공란 : default
-        MKET_ID_CD (str): 공란 : default
-        FUOP_DVSN_CD (FuopDvsnCdEnum): 공란 : 전체, 01 : 선물, 02 : 옵션
+        SORT_SQN (str): 공란 : default (DS : 정순, 그외 : 역순) optional
+        STRT_ODNO (str): 공란 : default optional
+        PDNO (str): 공란 : default optional
+        MKET_ID_CD (str): 공란 : default optional
+        FUOP_DVSN_CD (FuopDvsnCdEnum): 공란 : 전체, 01 : 선물, 02 : 옵션 optional
         SCRN_DVSN (str): 02(Default)
         CTX_AREA_FK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지
-        조회시(2번째부터)
+        조회시(2번째부터) optional
         CTX_AREA_NK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지
-        조회시(2번째부터)
+        조회시(2번째부터) optional
     """
 
     CANO: Annotated[
@@ -170,45 +187,61 @@ class InquireNgtCcnlRequestDict(TypedDict):
         "조회하려는 마지막 일자 다음일자로 조회 (ex. 20221011 까지의 내역을 조회하고자 할 경우, "
         "20221012로 종료주문일자 설정)",
     ]
-    SLL_BUY_DVSN_CD: Annotated[
-        SllBuyDvsnCdEnum,
-        "공란 : default (00: 전체 ,01 : 매도, 02 : 매수)",
+    SLL_BUY_DVSN_CD: NotRequired[
+        Annotated[
+            SllBuyDvsnCdEnum | None,
+            "공란 : default (00: 전체 ,01 : 매도, 02 : 매수)",
+        ]
     ]
     CCLD_NCCS_DVSN: Annotated[
         CcldNccsDvsnEnum,
         "00 : 전체 01 : 체결 02 : 미체결",
     ]
-    SORT_SQN: Annotated[
-        str,
-        "공란 : default (DS : 정순, 그외 : 역순)",
+    SORT_SQN: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : default (DS : 정순, 그외 : 역순)",
+        ]
     ]
-    STRT_ODNO: Annotated[
-        str,
-        "공란 : default",
+    STRT_ODNO: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : default",
+        ]
     ]
-    PDNO: Annotated[
-        str,
-        "공란 : default",
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : default",
+        ]
     ]
-    MKET_ID_CD: Annotated[
-        str,
-        "공란 : default",
+    MKET_ID_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : default",
+        ]
     ]
-    FUOP_DVSN_CD: Annotated[
-        FuopDvsnCdEnum,
-        "공란 : 전체, 01 : 선물, 02 : 옵션",
+    FUOP_DVSN_CD: NotRequired[
+        Annotated[
+            FuopDvsnCdEnum | None,
+            "공란 : 전체, 01 : 선물, 02 : 옵션",
+        ]
     ]
     SCRN_DVSN: Annotated[
         str,
         "02(Default)",
     ]
-    CTX_AREA_FK200: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_FK200: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
-    CTX_AREA_NK200: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_NK200: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
 
 
@@ -439,18 +472,18 @@ if TYPE_CHECKING:
                         END_ORD_DT (KisDate): 조회하려는 마지막 일자 다음일자로 조회 (ex. 20221011
                         까지의 내역을 조회하고자 할 경우, 20221012로 종료주문일자 설정)
                         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 공란 : default (00: 전체 ,01 : 매도, 02 :
-                        매수)
+                        매수) optional
                         CCLD_NCCS_DVSN (CcldNccsDvsnEnum): 00 : 전체 01 : 체결 02 : 미체결
-                        SORT_SQN (str): 공란 : default (DS : 정순, 그외 : 역순)
-                        STRT_ODNO (str): 공란 : default
-                        PDNO (str): 공란 : default
-                        MKET_ID_CD (str): 공란 : default
-                        FUOP_DVSN_CD (FuopDvsnCdEnum): 공란 : 전체, 01 : 선물, 02 : 옵션
+                        SORT_SQN (str): 공란 : default (DS : 정순, 그외 : 역순) optional
+                        STRT_ODNO (str): 공란 : default optional
+                        PDNO (str): 공란 : default optional
+                        MKET_ID_CD (str): 공란 : default optional
+                        FUOP_DVSN_CD (FuopDvsnCdEnum): 공란 : 전체, 01 : 선물, 02 : 옵션 optional
                         SCRN_DVSN (str): 02(Default)
                         CTX_AREA_FK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 :
-                        다음페이지 조회시(2번째부터)
+                        다음페이지 조회시(2번째부터) optional
                         CTX_AREA_NK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 :
-                        다음페이지 조회시(2번째부터)
+                        다음페이지 조회시(2번째부터) optional
 
             Returns:
                 tuple[InquireNgtCcnlResponse, KisResponse]: 응답 모델과 원시 응답

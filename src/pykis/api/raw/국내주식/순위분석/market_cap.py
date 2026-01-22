@@ -149,8 +149,7 @@ class MarketCapOutput(RawModel):
         alias="mksc_shrn_iscd",
     )
     ("유가증권 단축 종목코드")
-    data_rank: str | None = Field(
-        default=None,
+    data_rank: int = Field(
         alias="data_rank",
     )
     ("데이터 순위")
@@ -159,13 +158,11 @@ class MarketCapOutput(RawModel):
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
-    stck_prpr: Decimal | None = Field(
-        default=None,
+    stck_prpr: Decimal = Field(
         alias="stck_prpr",
     )
     ("주식 현재가")
-    prdy_vrss: str | None = Field(
-        default=None,
+    prdy_vrss: int = Field(
         alias="prdy_vrss",
     )
     ("전일 대비")
@@ -174,28 +171,23 @@ class MarketCapOutput(RawModel):
         alias="prdy_vrss_sign",
     )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(
-        default=None,
+    prdy_ctrt: Decimal = Field(
         alias="prdy_ctrt",
     )
     ("전일 대비율")
-    acml_vol: int | None = Field(
-        default=None,
+    acml_vol: int = Field(
         alias="acml_vol",
     )
     ("누적 거래량")
-    lstn_stcn: str | None = Field(
-        default=None,
+    lstn_stcn: int = Field(
         alias="lstn_stcn",
     )
     ("상장 주수")
-    stck_avls: Decimal | None = Field(
-        default=None,
+    stck_avls: Decimal = Field(
         alias="stck_avls",
     )
     ("시가 총액")
-    mrkt_whol_avls_rlim: Decimal | None = Field(
-        default=None,
+    mrkt_whol_avls_rlim: Decimal = Field(
         alias="mrkt_whol_avls_rlim",
     )
     ("시장 전체 시가총액 비중")

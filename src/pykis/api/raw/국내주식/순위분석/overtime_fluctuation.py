@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -52,8 +53,10 @@ class OvertimeFluctuationRequest(RawModel):
         alias="FID_COND_MRKT_DIV_CODE",
     )
     ("시장구분코드 (J: 주식)")
-    FID_MRKT_CLS_CODE: str = Field(
+    FID_MRKT_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_MRKT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
     FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
@@ -80,12 +83,16 @@ class OvertimeFluctuationRequest(RawModel):
         alias="FID_VOL_CNT",
     )
     ("입력값 없을때 전체 (거래량 ~)")
-    FID_TRGT_CLS_CODE: str = Field(
+    FID_TRGT_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_TRGT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
-    FID_TRGT_EXLS_CLS_CODE: str = Field(
+    FID_TRGT_EXLS_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_TRGT_EXLS_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
 
@@ -99,24 +106,26 @@ class OvertimeFluctuationRequestDict(TypedDict):
 
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (J: 주식)
-        FID_MRKT_CLS_CODE (str): 공백 입력
+        FID_MRKT_CLS_CODE (str): 공백 입력 optional
         FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20234)
         FID_INPUT_ISCD (str): 0000(전체), 0001(코스피), 1001(코스닥)
         FID_DIV_CLS_CODE (FidDivClsCodeEnum): 1(상한가), 2(상승률), 3(보합),4(하한가),5(하락률)
         FID_INPUT_PRICE_1 (str): 입력값 없을때 전체 (가격 ~)
         FID_INPUT_PRICE_2 (str): 입력값 없을때 전체 (~ 가격)
         FID_VOL_CNT (int): 입력값 없을때 전체 (거래량 ~)
-        FID_TRGT_CLS_CODE (str): 공백 입력
-        FID_TRGT_EXLS_CLS_CODE (str): 공백 입력
+        FID_TRGT_CLS_CODE (str): 공백 입력 optional
+        FID_TRGT_EXLS_CLS_CODE (str): 공백 입력 optional
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
         str,
         "시장구분코드 (J: 주식)",
     ]
-    FID_MRKT_CLS_CODE: Annotated[
-        str,
-        "공백 입력",
+    FID_MRKT_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
     FID_COND_SCR_DIV_CODE: Annotated[
         FidCondScrDivCodeEnum,
@@ -142,13 +151,17 @@ class OvertimeFluctuationRequestDict(TypedDict):
         int,
         "입력값 없을때 전체 (거래량 ~)",
     ]
-    FID_TRGT_CLS_CODE: Annotated[
-        str,
-        "공백 입력",
+    FID_TRGT_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
-    FID_TRGT_EXLS_CLS_CODE: Annotated[
-        str,
-        "공백 입력",
+    FID_TRGT_EXLS_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
 
 
@@ -357,7 +370,7 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (J: 주식)
-                        FID_MRKT_CLS_CODE (str): 공백 입력
+                        FID_MRKT_CLS_CODE (str): 공백 입력 optional
                         FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20234)
                         FID_INPUT_ISCD (str): 0000(전체), 0001(코스피), 1001(코스닥)
                         FID_DIV_CLS_CODE (FidDivClsCodeEnum): 1(상한가), 2(상승률),
@@ -365,8 +378,8 @@ if TYPE_CHECKING:
                         FID_INPUT_PRICE_1 (str): 입력값 없을때 전체 (가격 ~)
                         FID_INPUT_PRICE_2 (str): 입력값 없을때 전체 (~ 가격)
                         FID_VOL_CNT (int): 입력값 없을때 전체 (거래량 ~)
-                        FID_TRGT_CLS_CODE (str): 공백 입력
-                        FID_TRGT_EXLS_CLS_CODE (str): 공백 입력
+                        FID_TRGT_CLS_CODE (str): 공백 입력 optional
+                        FID_TRGT_EXLS_CLS_CODE (str): 공백 입력 optional
 
             Returns:
                 tuple[OvertimeFluctuationResponse, KisResponse]: 응답 모델과 원시 응답

@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -102,12 +103,16 @@ class InquirePsblRvsecnclRequest(RawModel):
         alias="ACNT_PRDT_CD",
     )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    CTX_AREA_FK100: str = Field(
+    CTX_AREA_FK100: str | None = Field(
+        default=None,
         alias="CTX_AREA_FK100",
+        json_schema_extra={"blank_allowed": True},
     )
     ("'공란 : 최초 조회시는 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)'")
-    CTX_AREA_NK100: str = Field(
+    CTX_AREA_NK100: str | None = Field(
+        default=None,
         alias="CTX_AREA_NK100",
+        json_schema_extra={"blank_allowed": True},
     )
     ("'공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)'")
     INQR_DVSN_1: str = Field(
@@ -133,9 +138,9 @@ class InquirePsblRvsecnclRequestDict(TypedDict):
         CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         CTX_AREA_FK100 (str): '공란 : 최초 조회시는 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지
-        조회시(2번째부터)'
+        조회시(2번째부터)' optional
         CTX_AREA_NK100 (str): '공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지
-        조회시(2번째부터)'
+        조회시(2번째부터)' optional
         INQR_DVSN_1 (str): '0 주문 1 종목'
         INQR_DVSN_2 (InqrDvsn2Enum): '0 전체 1 매도 2 매수'
     """
@@ -148,13 +153,17 @@ class InquirePsblRvsecnclRequestDict(TypedDict):
         AcntPrdtCdEnum,
         "계좌번호 체계(8-2)의 뒤 2자리",
     ]
-    CTX_AREA_FK100: Annotated[
-        str,
-        "'공란 : 최초 조회시는 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)'",
+    CTX_AREA_FK100: NotRequired[
+        Annotated[
+            str | None,
+            "'공란 : 최초 조회시는 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)'",
+        ]
     ]
-    CTX_AREA_NK100: Annotated[
-        str,
-        "'공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)'",
+    CTX_AREA_NK100: NotRequired[
+        Annotated[
+            str | None,
+            "'공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)'",
+        ]
     ]
     INQR_DVSN_1: Annotated[
         str,
@@ -358,9 +367,9 @@ if TYPE_CHECKING:
                         CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
                         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         CTX_AREA_FK100 (str): '공란 : 최초 조회시는 이전 조회 Output CTX_AREA_FK100 값
-                        : 다음페이지 조회시(2번째부터)'
+                        : 다음페이지 조회시(2번째부터)' optional
                         CTX_AREA_NK100 (str): '공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 :
-                        다음페이지 조회시(2번째부터)'
+                        다음페이지 조회시(2번째부터)' optional
                         INQR_DVSN_1 (str): '0 주문 1 종목'
                         INQR_DVSN_2 (InqrDvsn2Enum): '0 전체 1 매도 2 매수'
 

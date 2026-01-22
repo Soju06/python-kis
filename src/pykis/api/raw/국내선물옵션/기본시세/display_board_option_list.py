@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -38,12 +39,16 @@ class DisplayBoardOptionListRequest(RawModel):
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("Unique key(509)")
-    FID_COND_MRKT_DIV_CODE: str = Field(
+    FID_COND_MRKT_DIV_CODE: str | None = Field(
+        default=None,
         alias="FID_COND_MRKT_DIV_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    FID_COND_MRKT_CLS_CODE: str = Field(
+    FID_COND_MRKT_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_COND_MRKT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -56,21 +61,25 @@ class DisplayBoardOptionListRequestDict(TypedDict):
 
     Request fields:
         FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(509)
-        FID_COND_MRKT_DIV_CODE (str): 공백
-        FID_COND_MRKT_CLS_CODE (str): 공백
+        FID_COND_MRKT_DIV_CODE (str): 공백 optional
+        FID_COND_MRKT_CLS_CODE (str): 공백 optional
     """
 
     FID_COND_SCR_DIV_CODE: Annotated[
         FidCondScrDivCodeEnum,
         "Unique key(509)",
     ]
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "공백",
+    FID_COND_MRKT_DIV_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    FID_COND_MRKT_CLS_CODE: Annotated[
-        str,
-        "공백",
+    FID_COND_MRKT_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
 
 
@@ -170,8 +179,8 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(509)
-                        FID_COND_MRKT_DIV_CODE (str): 공백
-                        FID_COND_MRKT_CLS_CODE (str): 공백
+                        FID_COND_MRKT_DIV_CODE (str): 공백 optional
+                        FID_COND_MRKT_CLS_CODE (str): 공백 optional
 
             Returns:
                 tuple[DisplayBoardOptionListResponse, KisResponse]: 응답 모델과 원시 응답

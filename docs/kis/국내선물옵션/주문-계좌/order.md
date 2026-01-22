@@ -46,7 +46,7 @@
 | `appkey` | 앱키  | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
-| `tr_id` | 거래ID | String | 13 | Y | [실전투자] TTTO1101U : 선물 옵션 매수 매도 주문 주간 (구) JTCE1001U : 선물 옵션 매수 매도 주문 야간 (신) STTN1101U : 선물 옵션 매수 매... |
+| `tr_id` | 거래ID | String | 13 | Y | [실전투자] TTTO1101U : 선물 옵션 매수 매도 주문 주간  (신) STTN1101U : 선물 옵션 매수 매도 주문 야간   [모의투자] VTTO1101U : 선물 옵... |
 | `tr_cont` | 연속 거래 여부 | String | 1 | N | tr_cont를 이용한 다음조회 불가 API |
 | `custtype` | 고객타입 | String | 1 | N | B : 법인  P : 개인 |
 | `seq_no` | 일련번호 | String | 2 | N | [법인 필수] 001 |

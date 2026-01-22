@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -49,12 +50,16 @@ class InquireCcnlRequest(RawModel):
         "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : "
         "하노이 TSE : 도쿄 '"
     )
-    AUTH: str = Field(
+    AUTH: str | None = Field(
+        default=None,
         alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    KEYB: str = Field(
+    KEYB: str | None = Field(
+        default=None,
         alias="KEYB",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     TDAY: TdayEnum = Field(
@@ -74,8 +79,8 @@ class InquireCcnlRequestDict(TypedDict):
     Request fields:
         EXCD (str): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX
         : 호치민, HNX : 하노이 TSE : 도쿄 '
-        AUTH (str): 공백
-        KEYB (str): 공백
+        AUTH (str): 공백 optional
+        KEYB (str): 공백 optional
         TDAY (TdayEnum): 0:전일, 1:당일
         SYMB (str): 해외종목코드
     """
@@ -85,13 +90,17 @@ class InquireCcnlRequestDict(TypedDict):
         "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : "
         "하노이 TSE : 도쿄 '",
     ]
-    AUTH: Annotated[
-        str,
-        "공백",
+    AUTH: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    KEYB: Annotated[
-        str,
-        "공백",
+    KEYB: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     TDAY: Annotated[
         TdayEnum,
@@ -241,8 +250,8 @@ if TYPE_CHECKING:
                     Request fields:
                         EXCD (str): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 ,
                         SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
-                        AUTH (str): 공백
-                        KEYB (str): 공백
+                        AUTH (str): 공백 optional
+                        KEYB (str): 공백 optional
                         TDAY (TdayEnum): 0:전일, 1:당일
                         SYMB (str): 해외종목코드
 

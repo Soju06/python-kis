@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -75,12 +76,16 @@ class FmExcgCdEnum(KisStrEnum):
 
 
 class MarketTimeRequest(RawModel):
-    FM_PDGR_CD: str = Field(
+    FM_PDGR_CD: str | None = Field(
+        default=None,
         alias="FM_PDGR_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    FM_CLAS_CD: FmClasCdEnum = Field(
+    FM_CLAS_CD: FmClasCdEnum | None = Field(
+        default=None,
         alias="FM_CLAS_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("'공백(전체), 001(통화), 002(금리), 003(지수), 004(농산물),005(축산물),006(금속),007(에너지)'")
     FM_EXCG_CD: FmExcgCdEnum = Field(
@@ -111,9 +116,9 @@ class MarketTimeRequestDict(TypedDict):
     해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
 
     Request fields:
-        FM_PDGR_CD (str): 공백
+        FM_PDGR_CD (str): 공백 optional
         FM_CLAS_CD (FmClasCdEnum): '공백(전체), 001(통화), 002(금리), 003(지수),
-        004(농산물),005(축산물),006(금속),007(에너지)'
+        004(농산물),005(축산물),006(금속),007(에너지)' optional
         FM_EXCG_CD (FmExcgCdEnum): 'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE), SGX(SGX),
         OSE(OSE), ASX(ASX), CBOE(CBOE), MDEX(MDEX), NYSE(NYSE), BMF(BMF),FTX(FTX), HNX(HNX),
         ETC(기타)'
@@ -122,13 +127,17 @@ class MarketTimeRequestDict(TypedDict):
         CTX_AREA_FK200 (str): 연속조회검색조건200
     """
 
-    FM_PDGR_CD: Annotated[
-        str,
-        "공백",
+    FM_PDGR_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    FM_CLAS_CD: Annotated[
-        FmClasCdEnum,
-        "'공백(전체), 001(통화), 002(금리), 003(지수), 004(농산물),005(축산물),006(금속),007(에너지)'",
+    FM_CLAS_CD: NotRequired[
+        Annotated[
+            FmClasCdEnum | None,
+            "'공백(전체), 001(통화), 002(금리), 003(지수), 004(농산물),005(축산물),006(금속),007(에너지)'",
+        ]
     ]
     FM_EXCG_CD: Annotated[
         FmExcgCdEnum,
@@ -311,9 +320,9 @@ if TYPE_CHECKING:
                 **kwargs (MarketTimeRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FM_PDGR_CD (str): 공백
+                        FM_PDGR_CD (str): 공백 optional
                         FM_CLAS_CD (FmClasCdEnum): '공백(전체), 001(통화), 002(금리), 003(지수),
-                        004(농산물),005(축산물),006(금속),007(에너지)'
+                        004(농산물),005(축산물),006(금속),007(에너지)' optional
                         FM_EXCG_CD (FmExcgCdEnum): 'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE),
                         SGX(SGX), OSE(OSE), ASX(ASX), CBOE(CBOE), MDEX(MDEX), NYSE(NYSE),
                         BMF(BMF),FTX(FTX), HNX(HNX), ETC(기타)'

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -15,6 +16,7 @@ from codegen.api.report_models import (
     AugmentSummary,
     ScanReport,
 )
+from codegen.api.reporting import write_api_report
 from codegen.api.steps.augment import run_augmentation
 from codegen.api.steps.generate import generate_raw, normalize_filename, section_path
 from codegen.api.steps.infer import infer_types, validate_samples
@@ -55,6 +57,7 @@ TARGET_SECTIONS: tuple[str, ...] | None = None
 SAMPLE_COUNT = 5
 DEMO_RATE_LIMIT = 0.5
 REAL_RATE_LIMIT = 0.2
+CODEGEN_API_TIMEOUT_SECONDS = float(os.environ.get("CODEGEN_API_TIMEOUT_SECONDS", "20"))
 OAUTH_SECTIONS = {"OAuth인증"}
 OAUTH_SUBCATEGORIES = {"OAuth인증"}
 REALTIME_SUBCATEGORIES = {"실시간시세"}
@@ -212,7 +215,13 @@ def _load_auth(path: Path) -> KisAuth:
 def _prepare_client(
     auth: KisAuth, domain: Literal["demo", "real"], rate_limit: float, keep_token: bool | str
 ) -> tuple[SyncKisRawClient | None, Exception | None]:
-    client = SyncKisRawClient(auth, domain=domain, rate_limit=rate_limit, keep_token=keep_token)
+    client = SyncKisRawClient(
+        auth,
+        domain=domain,
+        rate_limit=rate_limit,
+        keep_token=keep_token,
+        timeout=CODEGEN_API_TIMEOUT_SECONDS,
+    )
     try:
         client.ensure_token()
         return client, None
@@ -405,7 +414,14 @@ def run_pipeline() -> PipelineResult:
         augment_quality.msg_cd_top,
     )
 
-    inference = _apply_type_overrides(infer_types(section_specs, AUGMENT_DIR), type_overrides)
+    inference_trace: dict[str, JsonObject] = {}
+    inference_base = infer_types(section_specs, AUGMENT_DIR, trace_out=inference_trace)
+    write_report(REPORT_DIR / "inference_base.json", inference_base)
+    (REPORT_DIR / "inference_trace.json").write_text(
+        json.dumps(inference_trace, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    inference = _apply_type_overrides(inference_base, type_overrides)
     write_report(REPORT_DIR / "inference.json", inference)
     generate_raw(section_specs, GENERATED_API_RAW_DIR, inference, module_prefix="pykis.api.raw")
 
@@ -441,6 +457,7 @@ def run_pipeline() -> PipelineResult:
         encoding="utf-8",
     )
     write_docs_summary(REPORT_DIR)
+    write_api_report(ROOT)
 
     if validation.errors:
         raise SystemExit("Validation finished with errors. See reports.")

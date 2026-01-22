@@ -16,7 +16,7 @@ from pydantic import Field
 
 from pykis.api.raw.base import (
     KisBool,
-    KisTime,
+    KisTimeOptional,
     RawModel,
 )
 from pykis.api.raw.types import Endpoint, KisResponse
@@ -67,7 +67,8 @@ class InquireIndexTimepriceRequestDict(TypedDict):
 
 
 class InquireIndexTimepriceOutput(RawModel):
-    bsop_hour: KisTime = Field(
+    bsop_hour: KisTimeOptional = Field(
+        default=None,
         alias="bsop_hour",
     )
     ("영업 시간")

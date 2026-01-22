@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -49,8 +50,10 @@ class InvestorUnpdTrendRequest(RawModel):
         alias="UPMU_GUBUN",
     )
     ("0(수량), 1(증감)")
-    CTS_KEY: str = Field(
+    CTS_KEY: str | None = Field(
+        default=None,
         alias="CTS_KEY",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -83,7 +86,7 @@ class InvestorUnpdTrendRequestDict(TypedDict):
         HE, LE), 통화(6A, 6B, 6C, 6E, 6J, 6N, 6S, DX)
         BSOP_DATE (KisDate): 기준일(ex)20240513)
         UPMU_GUBUN (UpmuGubunEnum): 0(수량), 1(증감)
-        CTS_KEY (str): 공백
+        CTS_KEY (str): 공백 optional
     """
 
     PROD_ISCD: Annotated[
@@ -100,9 +103,11 @@ class InvestorUnpdTrendRequestDict(TypedDict):
         UpmuGubunEnum,
         "0(수량), 1(증감)",
     ]
-    CTS_KEY: Annotated[
-        str,
-        "공백",
+    CTS_KEY: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
 
 
@@ -311,7 +316,7 @@ if TYPE_CHECKING:
                         NQ, TF, YM, VX), 축산물(GF, HE, LE), 통화(6A, 6B, 6C, 6E, 6J, 6N, 6S, DX)
                         BSOP_DATE (KisDate): 기준일(ex)20240513)
                         UPMU_GUBUN (UpmuGubunEnum): 0(수량), 1(증감)
-                        CTS_KEY (str): 공백
+                        CTS_KEY (str): 공백 optional
 
             Returns:
                 tuple[InvestorUnpdTrendResponse, KisResponse]: 응답 모델과 원시 응답

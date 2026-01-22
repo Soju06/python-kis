@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -120,8 +121,10 @@ class OrderResvListRequest(RawModel):
         alias="INQR_DVSN_CD",
     )
     ("00 : 전체 01 : 일반해외주식 02 : 미니스탁")
-    PRDT_TYPE_CD: PrdtTypeCdEnum = Field(
+    PRDT_TYPE_CD: PrdtTypeCdEnum | None = Field(
+        default=None,
         alias="PRDT_TYPE_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     (
         "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 "
@@ -129,20 +132,26 @@ class OrderResvListRequest(RawModel):
         ": 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 "
         ": 중국 상해A / 552 : 중국 심천A"
     )
-    OVRS_EXCG_CD: OvrsExcgCdEnum = Field(
+    OVRS_EXCG_CD: OvrsExcgCdEnum | None = Field(
+        default=None,
         alias="OVRS_EXCG_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     (
         "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 "
         "아시아주식 전체조회 NASD : 나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / "
         "SZAA : 중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소"
     )
-    CTX_AREA_FK200: str = Field(
+    CTX_AREA_FK200: str | None = Field(
+        default=None,
         alias="CTX_AREA_FK200",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_NK200: str = Field(
+    CTX_AREA_NK200: str | None = Field(
+        default=None,
         alias="CTX_AREA_NK200",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)")
 
@@ -165,15 +174,15 @@ class OrderResvListRequestDict(TypedDict):
         PRDT_TYPE_CD (PrdtTypeCdEnum): [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회
         [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 512 : 미국 나스닥 / 513 : 미국
         뉴욕거래소 / 529 : 미국 아멕스 515 : 일본 501 : 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 :
-        베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 : 중국 상해A / 552 : 중국 심천A
+        베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 : 중국 상해A / 552 : 중국 심천A optional
         OVRS_EXCG_CD (OvrsExcgCdEnum): [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회
         [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 NASD : 나스닥 / NYSE : 뉴욕 / AMEX
         : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / SZAA : 중국심천 TKSE : 일본 / HASE : 하노이거래소 /
-        VNSE : 호치민거래소
+        VNSE : 호치민거래소 optional
         CTX_AREA_FK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지
-        조회시(2번째부터)
+        조회시(2번째부터) optional
         CTX_AREA_NK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지
-        조회시(2번째부터)
+        조회시(2번째부터) optional
     """
 
     CANO: Annotated[
@@ -196,26 +205,34 @@ class OrderResvListRequestDict(TypedDict):
         InqrDvsnCdEnum,
         "00 : 전체 01 : 일반해외주식 02 : 미니스탁",
     ]
-    PRDT_TYPE_CD: Annotated[
-        PrdtTypeCdEnum,
-        "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 "
-        "아시아주식 전체조회 512 : 미국 나스닥 / 513 : 미국 뉴욕거래소 / 529 : 미국 아멕스 515 : 일본 501 "
-        ": 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 "
-        ": 중국 상해A / 552 : 중국 심천A",
+    PRDT_TYPE_CD: NotRequired[
+        Annotated[
+            PrdtTypeCdEnum | None,
+            "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 "
+            "아시아주식 전체조회 512 : 미국 나스닥 / 513 : 미국 뉴욕거래소 / 529 : 미국 아멕스 515 : 일본 501 "
+            ": 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 "
+            ": 중국 상해A / 552 : 중국 심천A",
+        ]
     ]
-    OVRS_EXCG_CD: Annotated[
-        OvrsExcgCdEnum,
-        "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 "
-        "아시아주식 전체조회 NASD : 나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / "
-        "SZAA : 중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소",
+    OVRS_EXCG_CD: NotRequired[
+        Annotated[
+            OvrsExcgCdEnum | None,
+            "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 "
+            "아시아주식 전체조회 NASD : 나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / "
+            "SZAA : 중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소",
+        ]
     ]
-    CTX_AREA_FK200: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_FK200: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
-    CTX_AREA_NK200: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_NK200: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
 
 
@@ -449,15 +466,15 @@ if TYPE_CHECKING:
                         전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 512 : 미국
                         나스닥 / 513 : 미국 뉴욕거래소 / 529 : 미국 아멕스 515 : 일본 501 : 홍콩 / 543
                         : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남
-                        호치민거래소 551 : 중국 상해A / 552 : 중국 심천A
+                        호치민거래소 551 : 중국 상해A / 552 : 중국 심천A optional
                         OVRS_EXCG_CD (OvrsExcgCdEnum): [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식
                         전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 NASD :
                         나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / SZAA :
-                        중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소
+                        중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소 optional
                         CTX_AREA_FK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 :
-                        다음페이지 조회시(2번째부터)
+                        다음페이지 조회시(2번째부터) optional
                         CTX_AREA_NK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 :
-                        다음페이지 조회시(2번째부터)
+                        다음페이지 조회시(2번째부터) optional
 
             Returns:
                 tuple[OrderResvListResponse, KisResponse]: 응답 모델과 원시 응답

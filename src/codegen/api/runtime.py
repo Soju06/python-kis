@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 from datetime import datetime
 from pathlib import Path
+from typing import cast
 
 from codegen.api.models import EndpointSpec, SpecField
 from codegen.api.overrides import (
@@ -11,7 +12,7 @@ from codegen.api.overrides import (
     load_augment_overrides,
 )
 from codegen.core.enums import parse_enum_entries, parse_enum_values
-from codegen.core.text import is_forced_null_description
+from codegen.core.text import is_blank_description, is_forced_null_description
 from codegen.core.types import JsonObject, JsonValue
 from pykis.api.client import SyncKisRawClient
 
@@ -80,6 +81,31 @@ class ValueResolver:
             return self._defaults[key]
         return _heuristic_value(key)
 
+    def resolve_with_source(
+        self,
+        endpoint_id: str,
+        location: str,
+        code: str,
+    ) -> tuple[JsonValue | None, str, str | None]:
+        key = code.lower()
+        if key == "grant_type":
+            return "client_credentials", "special", "grant_type"
+        if key in ("user_id", "userid"):
+            value = self._defaults.get("user_id") or self._defaults.get("userid") or self._defaults.get("id")
+            if value is not None:
+                return value, "special", "user_id"
+        endpoint_overrides = self._endpoints.get(endpoint_id)
+        if endpoint_overrides:
+            location_overrides = _endpoint_location(endpoint_overrides, location)
+            if key in location_overrides:
+                return location_overrides[key], "override", None
+        if key in self._defaults:
+            return self._defaults[key], "default", None
+        value, reason = _heuristic_value_with_reason(key)
+        if value is not None:
+            return value, "heuristic", reason
+        return None, "missing", None
+
     def has_override(self, endpoint_id: str, location: str, code: str) -> bool:
         endpoint_overrides = self._endpoints.get(endpoint_id)
         if not endpoint_overrides:
@@ -94,39 +120,103 @@ def build_payload(
     location: str,
     fields: list[SpecField],
 ) -> tuple[dict[str, JsonValue], list[str]]:
+    payload, missing, _ = build_payload_with_trace(endpoint, resolver, location, fields)
+    return payload, missing
+
+
+def build_payload_with_trace(
+    endpoint: EndpointSpec,
+    resolver: ValueResolver,
+    location: str,
+    fields: list[SpecField],
+) -> tuple[dict[str, JsonValue], list[str], list[JsonObject]]:
     payload: dict[str, JsonValue] = {}
     missing: list[str] = []
+    traces: list[JsonObject] = []
 
     for field in fields:
         desc = (field.description or "").strip()
         if is_forced_null_description(desc):
+            traces.append(
+                {
+                    "code": field.code,
+                    "location": location,
+                    "value": None,
+                    "required": field.required,
+                    "used": False,
+                    "source": "forced_null",
+                    "notes": ["forced_null_description"],
+                }
+            )
             continue
-        value = resolver.resolve(endpoint.id, location, field.code)
+
+        value, source, reason = resolver.resolve_with_source(endpoint.id, location, field.code)
         enum_values = _enum_values(field)
         enum_alt_values = _enum_alt_values(field)
+        notes: list[str] = []
+
         if enum_values:
             if value is None:
-                value = _enum_default(field)
+                enum_default = _enum_default(field)
+                if enum_default is not None:
+                    value = enum_default
+                    source = "enum_default"
             else:
                 if not resolver.has_override(endpoint.id, location, field.code):
                     normalized = str(value)
                     if normalized not in enum_values and normalized not in enum_alt_values:
-                        value = _enum_default(field)
+                        enum_default = _enum_default(field)
+                        if enum_default is not None:
+                            value = enum_default
+                            source = "enum_default"
+                            notes.append("enum_coerced")
         elif value is None:
-            value = _enum_default(field)
+            enum_default = _enum_default(field)
+            if enum_default is not None:
+                value = enum_default
+                source = "enum_default"
+
         if value is None:
-            value = _heuristic_value(field.code)
-        desc_lower = desc.lower()
-        if "공백" in desc_lower or "blank" in desc_lower:
-            value = "" if value is None else value
+            heuristic_value, heuristic_reason = _heuristic_value_with_reason(field.code)
+            if heuristic_value is not None:
+                value = heuristic_value
+                source = "heuristic"
+                reason = heuristic_reason
+
+        if is_blank_description(desc):
+            if value is None:
+                value = ""
+                if source == "missing":
+                    source = "blank_default"
+            notes.append("blank_allowed")
+
         if value is None and field.required:
             value = ""
+            source = "required_blank"
             missing.append(field.code)
-        if value is None:
-            continue
-        payload[field.code] = value
+            notes.append("required_blank")
 
-    return payload, missing
+        used = value is not None
+        if used:
+            payload[field.code] = value
+
+        trace = cast(
+            JsonObject,
+            {
+                "code": field.code,
+                "location": location,
+                "value": value,
+                "required": field.required,
+                "used": used,
+                "source": source,
+                "notes": notes,
+            },
+        )
+        if reason:
+            trace["reason"] = reason
+        traces.append(trace)
+
+    return payload, missing, traces
 
 
 def is_empty_payload(payload: JsonObject | None) -> bool:
@@ -194,29 +284,34 @@ def _enum_default(field: SpecField) -> str | None:
 
 
 def _heuristic_value(code: str) -> JsonValue | None:
+    value, _ = _heuristic_value_with_reason(code)
+    return value
+
+
+def _heuristic_value_with_reason(code: str) -> tuple[JsonValue | None, str | None]:
     code = code.lower()
     if code == "keyb":
-        return ""
+        return "", "keyb_blank"
     if code in ("icod", "industry_code"):
-        return "000"
+        return "000", "industry_code_default"
     if code in ("prdt_type_cd", "prdt_type"):
-        return "512"
+        return "512", "product_type_default"
     if code in ("pdno",):
-        return "AAPL"
+        return "AAPL", "pdno_symbol_default"
     if code in ("auth",):
-        return ""
+        return "", "auth_blank"
     if code.endswith("etc_cls_code"):
-        return ""
+        return "", "etc_cls_blank"
     if code.endswith("hour_1"):
-        return "100000"
+        return "100000", "hour_1_default"
     if any(token in code for token in ("date", "_dt", "ymd", "bass_dt", "bsop_date")):
-        return datetime.now().strftime("%Y%m%d")
+        return datetime.now().strftime("%Y%m%d"), "date_today"
     if any(token in code for token in ("time", "hour", "tm")):
-        return "090000"
+        return "090000", "time_default"
     if code.endswith("_yn") or code.endswith("yn"):
-        return "N"
+        return "N", "yn_default"
     if any(token in code for token in ("qty", "cnt", "count", "vol")):
-        return "1"
+        return "1", "qty_default"
     if any(
         token in code
         for token in (
@@ -233,22 +328,22 @@ def _heuristic_value(code: str) -> JsonValue | None:
             "vltl",
         )
     ):
-        return "0"
+        return "0", "price_default"
     if code.startswith("fid_") and re.search(r"\d+$", code):
-        return "0"
+        return "0", "fid_numeric_default"
     if code.startswith("ctx_area"):
-        return ""
+        return "", "ctx_area_default"
     if code in ("seq", "nmin", "pinc", "next", "nrec", "fill"):
-        return "0"
+        return "0", "seq_default"
     if code in ("cts_area",):
-        return ""
+        return "", "cts_area_default"
     if any(token in code for token in ("code", "cls", "cd", "div", "type", "gb", "gubn")):
-        return "0"
+        return "0", "code_like_default"
     if "symb" in code:
-        return "AAPL"
+        return "AAPL", "symbol_default"
     if any(token in code for token in ("excd", "exch", "exchange")):
-        return "NAS"
-    return None
+        return "NAS", "exchange_default"
+    return None, None
 
 
 __all__ = [
@@ -256,6 +351,7 @@ __all__ = [
     "UNSAFE_KEYWORDS",
     "ValueResolver",
     "build_payload",
+    "build_payload_with_trace",
     "is_empty_payload",
     "load_overrides",
 ]

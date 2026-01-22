@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -17,6 +18,7 @@ from pydantic import Field
 from pykis.api.raw.base import (
     KisBool,
     KisDate,
+    KisDateOptional,
     RawModel,
 )
 from pykis.api.raw.types import Endpoint, KisResponse
@@ -46,12 +48,16 @@ class InquireBalanceRequest(RawModel):
         alias="INQR_CNDT",
     )
     ("00: 전체, 01: 상품번호단위")
-    PDNO: str = Field(
+    PDNO: str | None = Field(
+        default=None,
         alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    BUY_DT: KisDate = Field(
+    BUY_DT: KisDateOptional = Field(
+        default=None,
         alias="BUY_DT",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     CTX_AREA_FK200: str = Field(
@@ -74,8 +80,8 @@ class InquireBalanceRequestDict(TypedDict):
         CANO (str): 종합계좌번호
         ACNT_PRDT_CD (str): 계좌상품코드
         INQR_CNDT (InqrCndtEnum): 00: 전체, 01: 상품번호단위
-        PDNO (str): 공백
-        BUY_DT (KisDate): 공백
+        PDNO (str): 공백 optional
+        BUY_DT (KisDate): 공백 optional
         CTX_AREA_FK200 (str): 연속조회검색조건200
         CTX_AREA_NK200 (str): 연속조회키200
     """
@@ -92,13 +98,17 @@ class InquireBalanceRequestDict(TypedDict):
         InqrCndtEnum,
         "00: 전체, 01: 상품번호단위",
     ]
-    PDNO: Annotated[
-        str,
-        "공백",
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    BUY_DT: Annotated[
-        KisDate,
-        "공백",
+    BUY_DT: NotRequired[
+        Annotated[
+            KisDateOptional,
+            "공백",
+        ]
     ]
     CTX_AREA_FK200: Annotated[
         str,
@@ -248,8 +258,8 @@ if TYPE_CHECKING:
                         CANO (str): 종합계좌번호
                         ACNT_PRDT_CD (str): 계좌상품코드
                         INQR_CNDT (InqrCndtEnum): 00: 전체, 01: 상품번호단위
-                        PDNO (str): 공백
-                        BUY_DT (KisDate): 공백
+                        PDNO (str): 공백 optional
+                        BUY_DT (KisDate): 공백 optional
                         CTX_AREA_FK200 (str): 연속조회검색조건200
                         CTX_AREA_NK200 (str): 연속조회키200
 

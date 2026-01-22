@@ -6,6 +6,7 @@ import logging
 from datetime import date, datetime, time
 from decimal import Decimal
 from pathlib import Path
+from typing import cast
 from urllib.parse import urljoin
 
 from pydantic import ValidationError
@@ -22,7 +23,7 @@ from codegen.api.runtime import (
     SKIP_ENDPOINT_IDS,
     UNSAFE_KEYWORDS,
     ValueResolver,
-    build_payload,
+    build_payload_with_trace,
     is_empty_payload,
     load_overrides,
 )
@@ -81,7 +82,7 @@ def _fingerprint(spec: EndpointSpec, overrides: AugmentOverrides, domain: str) -
         "spec": spec.model_dump(),
         "overrides": overrides.model_dump(by_alias=True),
         "domain": domain,
-        "augment_version": 2,
+        "augment_version": 3,
     }
     encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
@@ -148,46 +149,85 @@ def _is_unsafe(endpoint: EndpointSpec) -> bool:
     return any(keyword.lower() in haystack for keyword in UNSAFE_KEYWORDS)
 
 
-def _build_headers(
+def _build_headers_with_trace(
     endpoint: EndpointSpec,
     resolver: ValueResolver,
     domain: str,
-) -> tuple[dict[str, str], list[str]]:
+) -> tuple[dict[str, str], list[str], list[JsonObject]]:
     headers: dict[str, str] = {}
     missing: list[str] = []
+    traces: list[JsonObject] = []
     tr_id = _select_tr_id(endpoint, domain)
 
     for field in endpoint.request.headers:
         key = field.code
         key_lower = key.lower()
         value: JsonValue | None = None
+        source = "missing"
+        reason: str | None = None
+        notes: list[str] = []
 
         if key_lower == "content-type":
             value = "application/json; charset=utf-8"
             key = "content-type"
+            source = "system"
         elif key_lower == "authorization":
             value = "__AUTH__"
             key = "authorization"
+            source = "auth_required"
         elif key_lower == "appkey":
-            value = resolver.resolve(endpoint.id, "headers", key)
+            value, source, reason = resolver.resolve_with_source(endpoint.id, "headers", key)
             key = "appkey"
         elif key_lower == "appsecret":
-            value = resolver.resolve(endpoint.id, "headers", key)
+            value, source, reason = resolver.resolve_with_source(endpoint.id, "headers", key)
             key = "appsecret"
         elif key_lower == "tr_id":
             value = tr_id
             key = "tr_id"
+            source = "tr_id"
+            if value is None:
+                notes.append("missing_tr_id")
         else:
-            value = resolver.resolve(endpoint.id, "headers", key)
+            value, source, reason = resolver.resolve_with_source(endpoint.id, "headers", key)
 
         if value is None:
             if field.required:
                 missing.append(field.code)
+            trace = cast(
+                JsonObject,
+                {
+                    "code": field.code,
+                    "location": "headers",
+                    "value": None,
+                    "required": field.required,
+                    "used": False,
+                    "source": source,
+                    "notes": notes,
+                },
+            )
+            if reason:
+                trace["reason"] = reason
+            traces.append(trace)
             continue
 
         headers[key] = str(value)
+        trace = cast(
+            JsonObject,
+            {
+                "code": field.code,
+                "location": "headers",
+                "value": value,
+                "required": field.required,
+                "used": True,
+                "source": source,
+                "notes": notes,
+            },
+        )
+        if reason:
+            trace["reason"] = reason
+        traces.append(trace)
 
-    return headers, missing
+    return headers, missing, traces
 
 
 def augment_endpoint(
@@ -225,9 +265,9 @@ def augment_endpoint(
         if cached_meta and cached_meta.get("fingerprint") == fingerprint and cached_meta.get("ok"):
             return AugmentEndpointResult(id=endpoint.id, status="cached")
 
-    headers, header_missing = _build_headers(endpoint, resolver, domain)
-    query, query_missing = build_payload(endpoint, resolver, "query", endpoint.request.query)
-    body, body_missing = build_payload(endpoint, resolver, "body", endpoint.request.body)
+    headers, header_missing, header_trace = _build_headers_with_trace(endpoint, resolver, domain)
+    query, query_missing, query_trace = build_payload_with_trace(endpoint, resolver, "query", endpoint.request.query)
+    body, body_missing, body_trace = build_payload_with_trace(endpoint, resolver, "body", endpoint.request.body)
 
     missing = header_missing + query_missing + body_missing
     if header_missing:
@@ -265,6 +305,15 @@ def augment_endpoint(
         body=body,
     )
     _dump_json(result_dir / "request.json", request_payload.model_dump())
+    _dump_json(
+        result_dir / "request_resolution.json",
+        {
+            "headers": header_trace,
+            "query": query_trace,
+            "body": body_trace,
+            "missing_required": missing,
+        },
+    )
 
     ok = _response_ok(response)
     meta = AugmentMeta(

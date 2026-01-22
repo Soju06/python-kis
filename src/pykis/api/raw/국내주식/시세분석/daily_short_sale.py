@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -38,8 +39,10 @@ class DailyShortSaleRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("종목코드")
-    FID_INPUT_DATE_1: str = Field(
+    FID_INPUT_DATE_1: str | None = Field(
+        default=None,
         alias="FID_INPUT_DATE_1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백시 전체 (기간 ~)")
 
@@ -52,7 +55,7 @@ class DailyShortSaleRequestDict(TypedDict):
         FID_INPUT_DATE_2 (str): ~ 누적
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 J)
         FID_INPUT_ISCD (str): 종목코드
-        FID_INPUT_DATE_1 (str): 공백시 전체 (기간 ~)
+        FID_INPUT_DATE_1 (str): 공백시 전체 (기간 ~) optional
     """
 
     FID_INPUT_DATE_2: Annotated[
@@ -67,9 +70,11 @@ class DailyShortSaleRequestDict(TypedDict):
         str,
         "종목코드",
     ]
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "공백시 전체 (기간 ~)",
+    FID_INPUT_DATE_1: NotRequired[
+        Annotated[
+            str | None,
+            "공백시 전체 (기간 ~)",
+        ]
     ]
 
 
@@ -272,7 +277,7 @@ if TYPE_CHECKING:
                         FID_INPUT_DATE_2 (str): ~ 누적
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 J)
                         FID_INPUT_ISCD (str): 종목코드
-                        FID_INPUT_DATE_1 (str): 공백시 전체 (기간 ~)
+                        FID_INPUT_DATE_1 (str): 공백시 전체 (기간 ~) optional
 
             Returns:
                 tuple[DailyShortSaleResponse, KisResponse]: 응답 모델과 원시 응답

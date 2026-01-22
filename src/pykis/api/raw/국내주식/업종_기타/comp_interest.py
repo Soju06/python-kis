@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -57,8 +58,10 @@ class CompInterestRequest(RawModel):
         alias="FID_DIV_CLS_CODE",
     )
     ("1: 해외금리지표")
-    FID_DIV_CLS_CODE1: str = Field(
+    FID_DIV_CLS_CODE1: str | None = Field(
+        default=None,
         alias="FID_DIV_CLS_CODE1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 : 전체")
 
@@ -75,7 +78,7 @@ class CompInterestRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): Unique key(I)
         FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20702)
         FID_DIV_CLS_CODE (str): 1: 해외금리지표
-        FID_DIV_CLS_CODE1 (str): 공백 : 전체
+        FID_DIV_CLS_CODE1 (str): 공백 : 전체 optional
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -90,9 +93,11 @@ class CompInterestRequestDict(TypedDict):
         str,
         "1: 해외금리지표",
     ]
-    FID_DIV_CLS_CODE1: Annotated[
-        str,
-        "공백 : 전체",
+    FID_DIV_CLS_CODE1: NotRequired[
+        Annotated[
+            str | None,
+            "공백 : 전체",
+        ]
     ]
 
 
@@ -253,7 +258,7 @@ if TYPE_CHECKING:
                         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): Unique key(I)
                         FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20702)
                         FID_DIV_CLS_CODE (str): 1: 해외금리지표
-                        FID_DIV_CLS_CODE1 (str): 공백 : 전체
+                        FID_DIV_CLS_CODE1 (str): 공백 : 전체 optional
 
             Returns:
                 tuple[CompInterestResponse, KisResponse]: 응답 모델과 원시 응답

@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -54,8 +55,10 @@ class AvgUnitRequest(RawModel):
         alias="INQR_END_DT",
     )
     ("~ 일자")
-    PDNO: str = Field(
+    PDNO: str | None = Field(
+        default=None,
         alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백: 전체, 특정종목 조회시 : 종목코드")
     PRDT_TYPE_CD: PrdtTypeCdEnum = Field(
@@ -66,12 +69,16 @@ class AvgUnitRequest(RawModel):
         alias="VRFC_KIND_CD",
     )
     ("Unique key(00)")
-    CTX_AREA_NK30: str = Field(
+    CTX_AREA_NK30: str | None = Field(
+        default=None,
         alias="CTX_AREA_NK30",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    CTX_AREA_FK100: str = Field(
+    CTX_AREA_FK100: str | None = Field(
+        default=None,
         alias="CTX_AREA_FK100",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -85,11 +92,11 @@ class AvgUnitRequestDict(TypedDict):
     Request fields:
         INQR_STRT_DT (KisDate): 일자 ~
         INQR_END_DT (KisDate): ~ 일자
-        PDNO (str): 공백: 전체, 특정종목 조회시 : 종목코드
+        PDNO (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
         PRDT_TYPE_CD (PrdtTypeCdEnum): Unique key(302)
         VRFC_KIND_CD (VrfcKindCdEnum): Unique key(00)
-        CTX_AREA_NK30 (str): 공백
-        CTX_AREA_FK100 (str): 공백
+        CTX_AREA_NK30 (str): 공백 optional
+        CTX_AREA_FK100 (str): 공백 optional
     """
 
     INQR_STRT_DT: Annotated[
@@ -100,9 +107,11 @@ class AvgUnitRequestDict(TypedDict):
         KisDate,
         "~ 일자",
     ]
-    PDNO: Annotated[
-        str,
-        "공백: 전체, 특정종목 조회시 : 종목코드",
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            "공백: 전체, 특정종목 조회시 : 종목코드",
+        ]
     ]
     PRDT_TYPE_CD: Annotated[
         PrdtTypeCdEnum,
@@ -112,129 +121,110 @@ class AvgUnitRequestDict(TypedDict):
         VrfcKindCdEnum,
         "Unique key(00)",
     ]
-    CTX_AREA_NK30: Annotated[
-        str,
-        "공백",
+    CTX_AREA_NK30: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    CTX_AREA_FK100: Annotated[
-        str,
-        "공백",
+    CTX_AREA_FK100: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
 
 
 class AvgUnitOutput1(RawModel):
-    evlu_dt: KisDateOptional = Field(
-        default=None,
+    evlu_dt: KisDate = Field(
         alias="evlu_dt",
     )
     ("평가일자")
-    pdno: str | None = Field(
-        default=None,
+    pdno: str = Field(
         alias="pdno",
     )
     ("상품번호")
-    prdt_type_cd: str | None = Field(
-        default=None,
+    prdt_type_cd: str = Field(
         alias="prdt_type_cd",
     )
     ("상품유형코드")
-    prdt_name: str | None = Field(
-        default=None,
+    prdt_name: str = Field(
         alias="prdt_name",
     )
     ("상품명")
-    kis_unpr: str | None = Field(
-        default=None,
+    kis_unpr: Decimal = Field(
         alias="kis_unpr",
     )
     ("한국신용평가단가")
-    kbp_unpr: str | None = Field(
-        default=None,
+    kbp_unpr: Decimal = Field(
         alias="kbp_unpr",
     )
     ("한국채권평가단가")
-    nice_evlu_unpr: str | None = Field(
-        default=None,
+    nice_evlu_unpr: Decimal = Field(
         alias="nice_evlu_unpr",
     )
     ("한국신용정보평가단가")
-    fnp_unpr: str | None = Field(
-        default=None,
+    fnp_unpr: Decimal = Field(
         alias="fnp_unpr",
     )
     ("에프앤자산평가단가")
-    avg_evlu_unpr: str | None = Field(
-        default=None,
+    avg_evlu_unpr: Decimal = Field(
         alias="avg_evlu_unpr",
     )
     ("평균평가단가")
-    kis_crdt_grad_text: str | None = Field(
-        default=None,
+    kis_crdt_grad_text: str = Field(
         alias="kis_crdt_grad_text",
     )
     ("한국신용평가신용등급내용")
-    kbp_crdt_grad_text: str | None = Field(
-        default=None,
+    kbp_crdt_grad_text: str = Field(
         alias="kbp_crdt_grad_text",
     )
     ("한국채권평가신용등급내용")
-    nice_crdt_grad_text: str | None = Field(
-        default=None,
+    nice_crdt_grad_text: str = Field(
         alias="nice_crdt_grad_text",
     )
     ("한국신용정보신용등급내용")
-    fnp_crdt_grad_text: str | None = Field(
-        default=None,
+    fnp_crdt_grad_text: str = Field(
         alias="fnp_crdt_grad_text",
     )
     ("에프앤자산평가신용등급내용")
-    chng_yn: KisBool | None = Field(
-        default=None,
+    chng_yn: KisBool = Field(
         alias="chng_yn",
     )
     ("변경여부")
-    kis_erng_rt: Decimal | None = Field(
-        default=None,
+    kis_erng_rt: Decimal = Field(
         alias="kis_erng_rt",
     )
     ("한국신용평가수익율")
-    kbp_erng_rt: Decimal | None = Field(
-        default=None,
+    kbp_erng_rt: Decimal = Field(
         alias="kbp_erng_rt",
     )
     ("한국채권평가수익율")
-    nice_evlu_erng_rt: Decimal | None = Field(
-        default=None,
+    nice_evlu_erng_rt: Decimal = Field(
         alias="nice_evlu_erng_rt",
     )
     ("한국신용정보평가수익율")
-    fnp_erng_rt: Decimal | None = Field(
-        default=None,
+    fnp_erng_rt: Decimal = Field(
         alias="fnp_erng_rt",
     )
     ("에프앤자산평가수익율")
-    avg_evlu_erng_rt: Decimal | None = Field(
-        default=None,
+    avg_evlu_erng_rt: Decimal = Field(
         alias="avg_evlu_erng_rt",
     )
     ("평균평가수익율")
-    kis_rf_unpr: str | None = Field(
-        default=None,
+    kis_rf_unpr: Decimal = Field(
         alias="kis_rf_unpr",
     )
     ("한국신용평가RF단가")
-    kbp_rf_unpr: str | None = Field(
-        default=None,
+    kbp_rf_unpr: Decimal = Field(
         alias="kbp_rf_unpr",
     )
     ("한국채권평가RF단가")
-    nice_evlu_rf_unpr: str | None = Field(
-        default=None,
+    nice_evlu_rf_unpr: Decimal = Field(
         alias="nice_evlu_rf_unpr",
     )
     ("한국신용정보평가RF단가")
-    avg_evlu_rf_unpr: str | None = Field(
-        default=None,
+    avg_evlu_rf_unpr: Decimal = Field(
         alias="avg_evlu_rf_unpr",
     )
     ("평균평가RF단가")
@@ -470,11 +460,11 @@ if TYPE_CHECKING:
                     Request fields:
                         INQR_STRT_DT (KisDate): 일자 ~
                         INQR_END_DT (KisDate): ~ 일자
-                        PDNO (str): 공백: 전체, 특정종목 조회시 : 종목코드
+                        PDNO (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
                         PRDT_TYPE_CD (PrdtTypeCdEnum): Unique key(302)
                         VRFC_KIND_CD (VrfcKindCdEnum): Unique key(00)
-                        CTX_AREA_NK30 (str): 공백
-                        CTX_AREA_FK100 (str): 공백
+                        CTX_AREA_NK30 (str): 공백 optional
+                        CTX_AREA_FK100 (str): 공백 optional
 
             Returns:
                 tuple[AvgUnitResponse, KisResponse]: 응답 모델과 원시 응답

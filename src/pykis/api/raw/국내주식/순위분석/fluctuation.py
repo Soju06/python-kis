@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -57,8 +58,10 @@ class FidPrcClsCodeEnum(KisStrEnum):
 
 
 class FluctuationRequest(RawModel):
-    fid_rsfl_rate2: str = Field(
+    fid_rsfl_rate2: str | None = Field(
+        default=None,
         alias="fid_rsfl_rate2",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력 시 전체 (~ 비율")
     fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(
@@ -88,16 +91,22 @@ class FluctuationRequest(RawModel):
         "'fid_rank_sort_cls_code :0 상승율 순일때 (0:저가대비, 1:종가대비) fid_rank_sort_cls_code :1 "
         "하락율 순일때 (0:고가대비, 1:종가대비) fid_rank_sort_cls_code : 기타 (0:전체)'"
     )
-    fid_input_price_1: str = Field(
+    fid_input_price_1: str | None = Field(
+        default=None,
         alias="fid_input_price_1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력 시 전체 (가격 ~)")
-    fid_input_price_2: str = Field(
+    fid_input_price_2: str | None = Field(
+        default=None,
         alias="fid_input_price_2",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력 시 전체 (~ 가격)")
-    fid_vol_cnt: int = Field(
+    fid_vol_cnt: int | None = Field(
+        default=None,
         alias="fid_vol_cnt",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력 시 전체 (거래량 ~)")
     fid_trgt_cls_code: str = Field(
@@ -112,8 +121,10 @@ class FluctuationRequest(RawModel):
         alias="fid_div_cls_code",
     )
     ("0:전체")
-    fid_rsfl_rate1: str = Field(
+    fid_rsfl_rate1: str | None = Field(
+        default=None,
         alias="fid_rsfl_rate1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력 시 전체 (비율 ~)")
 
@@ -132,7 +143,7 @@ class FluctuationRequestDict(TypedDict):
     자세한 사용 방법은 공지사항 - [조건검색 필독] 조건검색 API 이용안내 참고 부탁드립니다.
 
     Request fields:
-        fid_rsfl_rate2 (str): 공백 입력 시 전체 (~ 비율
+        fid_rsfl_rate2 (str): 공백 입력 시 전체 (~ 비율 optional
         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
         fid_cond_scr_div_code (str): Unique key( 20170 )
         fid_input_iscd (str): 0000(전체) 코스피(0001), 코스닥(1001), 코스피200(2001)
@@ -142,18 +153,20 @@ class FluctuationRequestDict(TypedDict):
         fid_prc_cls_code (FidPrcClsCodeEnum): 'fid_rank_sort_cls_code :0 상승율 순일때 (0:저가대비,
         1:종가대비) fid_rank_sort_cls_code :1 하락율 순일때 (0:고가대비, 1:종가대비)
         fid_rank_sort_cls_code : 기타 (0:전체)'
-        fid_input_price_1 (str): 공백 입력 시 전체 (가격 ~)
-        fid_input_price_2 (str): 공백 입력 시 전체 (~ 가격)
-        fid_vol_cnt (int): 공백 입력 시 전체 (거래량 ~)
+        fid_input_price_1 (str): 공백 입력 시 전체 (가격 ~) optional
+        fid_input_price_2 (str): 공백 입력 시 전체 (~ 가격) optional
+        fid_vol_cnt (int): 공백 입력 시 전체 (거래량 ~) optional
         fid_trgt_cls_code (str): 0:전체
         fid_trgt_exls_cls_code (str): 0:전체
         fid_div_cls_code (str): 0:전체
-        fid_rsfl_rate1 (str): 공백 입력 시 전체 (비율 ~)
+        fid_rsfl_rate1 (str): 공백 입력 시 전체 (비율 ~) optional
     """
 
-    fid_rsfl_rate2: Annotated[
-        str,
-        "공백 입력 시 전체 (~ 비율",
+    fid_rsfl_rate2: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력 시 전체 (~ 비율",
+        ]
     ]
     fid_cond_mrkt_div_code: Annotated[
         FidCondMrktDivCodeEnum,
@@ -180,17 +193,23 @@ class FluctuationRequestDict(TypedDict):
         "'fid_rank_sort_cls_code :0 상승율 순일때 (0:저가대비, 1:종가대비) fid_rank_sort_cls_code :1 "
         "하락율 순일때 (0:고가대비, 1:종가대비) fid_rank_sort_cls_code : 기타 (0:전체)'",
     ]
-    fid_input_price_1: Annotated[
-        str,
-        "공백 입력 시 전체 (가격 ~)",
+    fid_input_price_1: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력 시 전체 (가격 ~)",
+        ]
     ]
-    fid_input_price_2: Annotated[
-        str,
-        "공백 입력 시 전체 (~ 가격)",
+    fid_input_price_2: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력 시 전체 (~ 가격)",
+        ]
     ]
-    fid_vol_cnt: Annotated[
-        int,
-        "공백 입력 시 전체 (거래량 ~)",
+    fid_vol_cnt: NotRequired[
+        Annotated[
+            int | None,
+            "공백 입력 시 전체 (거래량 ~)",
+        ]
     ]
     fid_trgt_cls_code: Annotated[
         str,
@@ -204,9 +223,11 @@ class FluctuationRequestDict(TypedDict):
         str,
         "0:전체",
     ]
-    fid_rsfl_rate1: Annotated[
-        str,
-        "공백 입력 시 전체 (비율 ~)",
+    fid_rsfl_rate1: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력 시 전체 (비율 ~)",
+        ]
     ]
 
 
@@ -431,7 +452,7 @@ if TYPE_CHECKING:
                 **kwargs (FluctuationRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        fid_rsfl_rate2 (str): 공백 입력 시 전체 (~ 비율
+                        fid_rsfl_rate2 (str): 공백 입력 시 전체 (~ 비율 optional
                         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
                         fid_cond_scr_div_code (str): Unique key( 20170 )
                         fid_input_iscd (str): 0000(전체) 코스피(0001), 코스닥(1001), 코스피200(2001)
@@ -441,13 +462,13 @@ if TYPE_CHECKING:
                         fid_prc_cls_code (FidPrcClsCodeEnum): 'fid_rank_sort_cls_code :0 상승율 순일때
                         (0:저가대비, 1:종가대비) fid_rank_sort_cls_code :1 하락율 순일때 (0:고가대비,
                         1:종가대비) fid_rank_sort_cls_code : 기타 (0:전체)'
-                        fid_input_price_1 (str): 공백 입력 시 전체 (가격 ~)
-                        fid_input_price_2 (str): 공백 입력 시 전체 (~ 가격)
-                        fid_vol_cnt (int): 공백 입력 시 전체 (거래량 ~)
+                        fid_input_price_1 (str): 공백 입력 시 전체 (가격 ~) optional
+                        fid_input_price_2 (str): 공백 입력 시 전체 (~ 가격) optional
+                        fid_vol_cnt (int): 공백 입력 시 전체 (거래량 ~) optional
                         fid_trgt_cls_code (str): 0:전체
                         fid_trgt_exls_cls_code (str): 0:전체
                         fid_div_cls_code (str): 0:전체
-                        fid_rsfl_rate1 (str): 공백 입력 시 전체 (비율 ~)
+                        fid_rsfl_rate1 (str): 공백 입력 시 전체 (비율 ~) optional
 
             Returns:
                 tuple[FluctuationResponse, KisResponse]: 응답 모델과 원시 응답

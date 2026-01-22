@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -298,36 +299,52 @@ class NewsLrdvCodeEnum(KisStrEnum):
 
 
 class NewsTitleRequest(RawModel):
-    FID_NEWS_OFER_ENTP_CODE: str = Field(
+    FID_NEWS_OFER_ENTP_CODE: str | None = Field(
+        default=None,
         alias="FID_NEWS_OFER_ENTP_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 필수 입력")
-    FID_COND_MRKT_CLS_CODE: str = Field(
+    FID_COND_MRKT_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_COND_MRKT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 필수 입력")
-    FID_INPUT_ISCD: str = Field(
+    FID_INPUT_ISCD: str | None = Field(
+        default=None,
         alias="FID_INPUT_ISCD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백: 전체, 종목코드 : 해당코드가 등록된 뉴스")
-    FID_TITL_CNTT: str = Field(
+    FID_TITL_CNTT: str | None = Field(
+        default=None,
         alias="FID_TITL_CNTT",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 필수 입력")
-    FID_INPUT_DATE_1: str = Field(
+    FID_INPUT_DATE_1: str | None = Field(
+        default=None,
         alias="FID_INPUT_DATE_1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백: 현재기준, 조회일자(ex 00YYYYMMDD)")
-    FID_INPUT_HOUR_1: str = Field(
+    FID_INPUT_HOUR_1: str | None = Field(
+        default=None,
         alias="FID_INPUT_HOUR_1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백: 현재기준, 조회시간(ex 0000HHMMSS)")
-    FID_RANK_SORT_CLS_CODE: str = Field(
+    FID_RANK_SORT_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_RANK_SORT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 필수 입력")
-    FID_INPUT_SRNO: str = Field(
+    FID_INPUT_SRNO: str | None = Field(
+        default=None,
         alias="FID_INPUT_SRNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 필수 입력")
 
@@ -339,47 +356,63 @@ class NewsTitleRequestDict(TypedDict):
     사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
 
     Request fields:
-        FID_NEWS_OFER_ENTP_CODE (str): 공백 필수 입력
-        FID_COND_MRKT_CLS_CODE (str): 공백 필수 입력
-        FID_INPUT_ISCD (str): 공백: 전체, 종목코드 : 해당코드가 등록된 뉴스
-        FID_TITL_CNTT (str): 공백 필수 입력
-        FID_INPUT_DATE_1 (str): 공백: 현재기준, 조회일자(ex 00YYYYMMDD)
-        FID_INPUT_HOUR_1 (str): 공백: 현재기준, 조회시간(ex 0000HHMMSS)
-        FID_RANK_SORT_CLS_CODE (str): 공백 필수 입력
-        FID_INPUT_SRNO (str): 공백 필수 입력
+        FID_NEWS_OFER_ENTP_CODE (str): 공백 필수 입력 optional
+        FID_COND_MRKT_CLS_CODE (str): 공백 필수 입력 optional
+        FID_INPUT_ISCD (str): 공백: 전체, 종목코드 : 해당코드가 등록된 뉴스 optional
+        FID_TITL_CNTT (str): 공백 필수 입력 optional
+        FID_INPUT_DATE_1 (str): 공백: 현재기준, 조회일자(ex 00YYYYMMDD) optional
+        FID_INPUT_HOUR_1 (str): 공백: 현재기준, 조회시간(ex 0000HHMMSS) optional
+        FID_RANK_SORT_CLS_CODE (str): 공백 필수 입력 optional
+        FID_INPUT_SRNO (str): 공백 필수 입력 optional
     """
 
-    FID_NEWS_OFER_ENTP_CODE: Annotated[
-        str,
-        "공백 필수 입력",
+    FID_NEWS_OFER_ENTP_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백 필수 입력",
+        ]
     ]
-    FID_COND_MRKT_CLS_CODE: Annotated[
-        str,
-        "공백 필수 입력",
+    FID_COND_MRKT_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백 필수 입력",
+        ]
     ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "공백: 전체, 종목코드 : 해당코드가 등록된 뉴스",
+    FID_INPUT_ISCD: NotRequired[
+        Annotated[
+            str | None,
+            "공백: 전체, 종목코드 : 해당코드가 등록된 뉴스",
+        ]
     ]
-    FID_TITL_CNTT: Annotated[
-        str,
-        "공백 필수 입력",
+    FID_TITL_CNTT: NotRequired[
+        Annotated[
+            str | None,
+            "공백 필수 입력",
+        ]
     ]
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "공백: 현재기준, 조회일자(ex 00YYYYMMDD)",
+    FID_INPUT_DATE_1: NotRequired[
+        Annotated[
+            str | None,
+            "공백: 현재기준, 조회일자(ex 00YYYYMMDD)",
+        ]
     ]
-    FID_INPUT_HOUR_1: Annotated[
-        str,
-        "공백: 현재기준, 조회시간(ex 0000HHMMSS)",
+    FID_INPUT_HOUR_1: NotRequired[
+        Annotated[
+            str | None,
+            "공백: 현재기준, 조회시간(ex 0000HHMMSS)",
+        ]
     ]
-    FID_RANK_SORT_CLS_CODE: Annotated[
-        str,
-        "공백 필수 입력",
+    FID_RANK_SORT_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백 필수 입력",
+        ]
     ]
-    FID_INPUT_SRNO: Annotated[
-        str,
-        "공백 필수 입력",
+    FID_INPUT_SRNO: NotRequired[
+        Annotated[
+            str | None,
+            "공백 필수 입력",
+        ]
     ]
 
 
@@ -582,14 +615,14 @@ if TYPE_CHECKING:
                 **kwargs (NewsTitleRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_NEWS_OFER_ENTP_CODE (str): 공백 필수 입력
-                        FID_COND_MRKT_CLS_CODE (str): 공백 필수 입력
-                        FID_INPUT_ISCD (str): 공백: 전체, 종목코드 : 해당코드가 등록된 뉴스
-                        FID_TITL_CNTT (str): 공백 필수 입력
-                        FID_INPUT_DATE_1 (str): 공백: 현재기준, 조회일자(ex 00YYYYMMDD)
-                        FID_INPUT_HOUR_1 (str): 공백: 현재기준, 조회시간(ex 0000HHMMSS)
-                        FID_RANK_SORT_CLS_CODE (str): 공백 필수 입력
-                        FID_INPUT_SRNO (str): 공백 필수 입력
+                        FID_NEWS_OFER_ENTP_CODE (str): 공백 필수 입력 optional
+                        FID_COND_MRKT_CLS_CODE (str): 공백 필수 입력 optional
+                        FID_INPUT_ISCD (str): 공백: 전체, 종목코드 : 해당코드가 등록된 뉴스 optional
+                        FID_TITL_CNTT (str): 공백 필수 입력 optional
+                        FID_INPUT_DATE_1 (str): 공백: 현재기준, 조회일자(ex 00YYYYMMDD) optional
+                        FID_INPUT_HOUR_1 (str): 공백: 현재기준, 조회시간(ex 0000HHMMSS) optional
+                        FID_RANK_SORT_CLS_CODE (str): 공백 필수 입력 optional
+                        FID_INPUT_SRNO (str): 공백 필수 입력 optional
 
             Returns:
                 tuple[NewsTitleResponse, KisResponse]: 응답 모델과 원시 응답

@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -91,8 +92,10 @@ class OvertimeExpTransFluctRequest(RawModel):
         alias="FID_INPUT_PRICE_1",
     )
     ("가격 ~")
-    FID_INPUT_PRICE_2: str = Field(
+    FID_INPUT_PRICE_2: str | None = Field(
+        default=None,
         alias="FID_INPUT_PRICE_2",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     FID_INPUT_VOL_1: str = Field(
@@ -116,7 +119,7 @@ class OvertimeExpTransFluctRequestDict(TypedDict):
         FID_DIV_CLS_CODE (FidDivClsCodeEnum): '0(전체), 1(관리종목), 2(투자주의), 3(투자경고),
         4(투자위험예고), 5(투자위험), 6(보통주), 7(우선주)'
         FID_INPUT_PRICE_1 (str): 가격 ~
-        FID_INPUT_PRICE_2 (str): 공백
+        FID_INPUT_PRICE_2 (str): 공백 optional
         FID_INPUT_VOL_1 (str): 거래량 ~
     """
 
@@ -144,9 +147,11 @@ class OvertimeExpTransFluctRequestDict(TypedDict):
         str,
         "가격 ~",
     ]
-    FID_INPUT_PRICE_2: Annotated[
-        str,
-        "공백",
+    FID_INPUT_PRICE_2: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     FID_INPUT_VOL_1: Annotated[
         str,
@@ -155,33 +160,27 @@ class OvertimeExpTransFluctRequestDict(TypedDict):
 
 
 class OvertimeExpTransFluctOutput(RawModel):
-    data_rank: str | None = Field(
-        default=None,
+    data_rank: int = Field(
         alias="data_rank",
     )
     ("데이터 순위")
-    iscd_stat_cls_code: str | None = Field(
-        default=None,
+    iscd_stat_cls_code: str = Field(
         alias="iscd_stat_cls_code",
     )
     ("종목 상태 구분 코드")
-    stck_shrn_iscd: str | None = Field(
-        default=None,
+    stck_shrn_iscd: str = Field(
         alias="stck_shrn_iscd",
     )
     ("주식 단축 종목코드")
-    hts_kor_isnm: str | None = Field(
-        default=None,
+    hts_kor_isnm: str = Field(
         alias="hts_kor_isnm",
     )
     ("HTS 한글 종목명")
-    ovtm_untp_antc_cnpr: Decimal | None = Field(
-        default=None,
+    ovtm_untp_antc_cnpr: Decimal = Field(
         alias="ovtm_untp_antc_cnpr",
     )
     ("시간외 단일가 예상 체결가")
-    ovtm_untp_antc_cntg_vrss: Decimal | None = Field(
-        default=None,
+    ovtm_untp_antc_cntg_vrss: Decimal = Field(
         alias="ovtm_untp_antc_cntg_vrss",
     )
     ("시간외 단일가 예상 체결 대비")
@@ -190,33 +189,27 @@ class OvertimeExpTransFluctOutput(RawModel):
         alias="ovtm_untp_antc_cntg_vrsssign",
     )
     ("시간외 단일가 예상 체결 대비")
-    ovtm_untp_antc_cntg_ctrt: Decimal | None = Field(
-        default=None,
+    ovtm_untp_antc_cntg_ctrt: Decimal = Field(
         alias="ovtm_untp_antc_cntg_ctrt",
     )
     ("시간외 단일가 예상 체결 대비율")
-    ovtm_untp_askp_rsqn1: Decimal | None = Field(
-        default=None,
+    ovtm_untp_askp_rsqn1: Decimal = Field(
         alias="ovtm_untp_askp_rsqn1",
     )
     ("시간외 단일가 매도호가 잔량1")
-    ovtm_untp_bidp_rsqn1: str | None = Field(
-        default=None,
+    ovtm_untp_bidp_rsqn1: str = Field(
         alias="ovtm_untp_bidp_rsqn1",
     )
     ("시간외 단일가 매수호가 잔량1")
-    ovtm_untp_antc_cnqn: Decimal | None = Field(
-        default=None,
+    ovtm_untp_antc_cnqn: Decimal = Field(
         alias="ovtm_untp_antc_cnqn",
     )
     ("시간외 단일가 예상 체결량")
-    itmt_vol: int | None = Field(
-        default=None,
+    itmt_vol: int = Field(
         alias="itmt_vol",
     )
     ("장중 거래량")
-    stck_prpr: Decimal | None = Field(
-        default=None,
+    stck_prpr: Decimal = Field(
         alias="stck_prpr",
     )
     ("주식 현재가")
@@ -314,7 +307,7 @@ if TYPE_CHECKING:
                         FID_DIV_CLS_CODE (FidDivClsCodeEnum): '0(전체), 1(관리종목), 2(투자주의),
                         3(투자경고), 4(투자위험예고), 5(투자위험), 6(보통주), 7(우선주)'
                         FID_INPUT_PRICE_1 (str): 가격 ~
-                        FID_INPUT_PRICE_2 (str): 공백
+                        FID_INPUT_PRICE_2 (str): 공백 optional
                         FID_INPUT_VOL_1 (str): 거래량 ~
 
             Returns:

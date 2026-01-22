@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -54,8 +55,10 @@ class DisplayBoardFuturesRequest(RawModel):
         alias="FID_COND_SCR_DIV_CODE",
     )
     ("Unique key(20503)")
-    FID_COND_MRKT_CLS_CODE: FidCondMrktClsCodeEnum = Field(
+    FID_COND_MRKT_CLS_CODE: FidCondMrktClsCodeEnum | None = Field(
+        default=None,
         alias="FID_COND_MRKT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150")
 
@@ -70,7 +73,7 @@ class DisplayBoardFuturesRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (F: 선물)
         FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20503)
         FID_COND_MRKT_CLS_CODE (FidCondMrktClsCodeEnum): 공백: KOSPI200 MKI: 미니KOSPI200 WKM:
-        KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150
+        KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150 optional
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -81,9 +84,11 @@ class DisplayBoardFuturesRequestDict(TypedDict):
         FidCondScrDivCodeEnum,
         "Unique key(20503)",
     ]
-    FID_COND_MRKT_CLS_CODE: Annotated[
-        FidCondMrktClsCodeEnum,
-        "공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150",
+    FID_COND_MRKT_CLS_CODE: NotRequired[
+        Annotated[
+            FidCondMrktClsCodeEnum | None,
+            "공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150",
+        ]
     ]
 
 
@@ -258,6 +263,7 @@ if TYPE_CHECKING:
                         FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20503)
                         FID_COND_MRKT_CLS_CODE (FidCondMrktClsCodeEnum): 공백: KOSPI200 MKI:
                         미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150
+                        optional
 
             Returns:
                 tuple[DisplayBoardFuturesResponse, KisResponse]: 응답 모델과 원시 응답

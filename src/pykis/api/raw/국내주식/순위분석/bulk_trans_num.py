@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -81,8 +82,10 @@ class BulkTransNumRequest(RawModel):
         alias="fid_aply_rang_prc_1",
     )
     ("가격 ~")
-    fid_input_iscd_2: str = Field(
+    fid_input_iscd_2: str | None = Field(
+        default=None,
         alias="fid_input_iscd_2",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백:전체종목, 개별종목 조회시 종목코드 (000660)")
     fid_trgt_exls_cls_code: str = Field(
@@ -121,7 +124,7 @@ class BulkTransNumRequestDict(TypedDict):
         fid_div_cls_code (str): 0:전체
         fid_input_price_1 (str): 건별금액 ~
         fid_aply_rang_prc_1 (str): 가격 ~
-        fid_input_iscd_2 (str): 공백:전체종목, 개별종목 조회시 종목코드 (000660)
+        fid_input_iscd_2 (str): 공백:전체종목, 개별종목 조회시 종목코드 (000660) optional
         fid_trgt_exls_cls_code (str): 0:전체
         fid_trgt_cls_code (str): 0:전체
         fid_vol_cnt (int): 거래량 ~
@@ -159,9 +162,11 @@ class BulkTransNumRequestDict(TypedDict):
         str,
         "가격 ~",
     ]
-    fid_input_iscd_2: Annotated[
-        str,
-        "공백:전체종목, 개별종목 조회시 종목코드 (000660)",
+    fid_input_iscd_2: NotRequired[
+        Annotated[
+            str | None,
+            "공백:전체종목, 개별종목 조회시 종목코드 (000660)",
+        ]
     ]
     fid_trgt_exls_cls_code: Annotated[
         str,
@@ -332,6 +337,7 @@ if TYPE_CHECKING:
                         fid_input_price_1 (str): 건별금액 ~
                         fid_aply_rang_prc_1 (str): 가격 ~
                         fid_input_iscd_2 (str): 공백:전체종목, 개별종목 조회시 종목코드 (000660)
+                        optional
                         fid_trgt_exls_cls_code (str): 0:전체
                         fid_trgt_cls_code (str): 0:전체
                         fid_vol_cnt (int): 거래량 ~

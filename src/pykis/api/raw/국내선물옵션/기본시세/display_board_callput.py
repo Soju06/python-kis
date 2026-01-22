@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -58,8 +59,10 @@ class DisplayBoardCallputRequest(RawModel):
         alias="FID_MRKT_CLS_CODE",
     )
     ("시장구분코드 (CO: 콜옵션)")
-    FID_MTRT_CNT: str = Field(
+    FID_MTRT_CNT: str | None = Field(
+        default=None,
         alias="FID_MTRT_CNT",
+        json_schema_extra={"blank_allowed": True},
     )
     (
         "- FID_COND_MRKT_CLS_CODE : 공백(KOSPI200), MKI(미니KOSPI200), KQI(KOSDAQ150) 인 경우 : "
@@ -67,8 +70,10 @@ class DisplayBoardCallputRequest(RawModel):
         "WKI(KOSPI200위클리(목)) 인 경우 : 만기년월주차(YYMMWW) 입력 (ex. 2024년도 7월 3주차인 경우, "
         "240703 입력)"
     )
-    FID_COND_MRKT_CLS_CODE: FidCondMrktClsCodeEnum = Field(
+    FID_COND_MRKT_CLS_CODE: FidCondMrktClsCodeEnum | None = Field(
+        default=None,
         alias="FID_COND_MRKT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150")
     FID_MRKT_CLS_CODE1: str = Field(
@@ -94,9 +99,9 @@ class DisplayBoardCallputRequestDict(TypedDict):
         FID_MTRT_CNT (str): - FID_COND_MRKT_CLS_CODE : 공백(KOSPI200), MKI(미니KOSPI200),
         KQI(KOSDAQ150) 인 경우 : 만기년월(YYYYMM) 입력 (ex. 202407) - FID_COND_MRKT_CLS_CODE :
         WKM(KOSPI200위클리(월)), WKI(KOSPI200위클리(목)) 인 경우 : 만기년월주차(YYMMWW) 입력 (ex.
-        2024년도 7월 3주차인 경우, 240703 입력)
+        2024년도 7월 3주차인 경우, 240703 입력) optional
         FID_COND_MRKT_CLS_CODE (FidCondMrktClsCodeEnum): 공백: KOSPI200 MKI: 미니KOSPI200 WKM:
-        KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150
+        KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150 optional
         FID_MRKT_CLS_CODE1 (str): 시장구분코드 (PO: 풋옵션)
     """
 
@@ -112,16 +117,20 @@ class DisplayBoardCallputRequestDict(TypedDict):
         str,
         "시장구분코드 (CO: 콜옵션)",
     ]
-    FID_MTRT_CNT: Annotated[
-        str,
-        "- FID_COND_MRKT_CLS_CODE : 공백(KOSPI200), MKI(미니KOSPI200), KQI(KOSDAQ150) 인 경우 : "
-        "만기년월(YYYYMM) 입력 (ex. 202407) - FID_COND_MRKT_CLS_CODE : WKM(KOSPI200위클리(월)), "
-        "WKI(KOSPI200위클리(목)) 인 경우 : 만기년월주차(YYMMWW) 입력 (ex. 2024년도 7월 3주차인 경우, "
-        "240703 입력)",
+    FID_MTRT_CNT: NotRequired[
+        Annotated[
+            str | None,
+            "- FID_COND_MRKT_CLS_CODE : 공백(KOSPI200), MKI(미니KOSPI200), KQI(KOSDAQ150) 인 경우 : "
+            "만기년월(YYYYMM) 입력 (ex. 202407) - FID_COND_MRKT_CLS_CODE : WKM(KOSPI200위클리(월)), "
+            "WKI(KOSPI200위클리(목)) 인 경우 : 만기년월주차(YYMMWW) 입력 (ex. 2024년도 7월 3주차인 경우, "
+            "240703 입력)",
+        ]
     ]
-    FID_COND_MRKT_CLS_CODE: Annotated[
-        FidCondMrktClsCodeEnum,
-        "공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150",
+    FID_COND_MRKT_CLS_CODE: NotRequired[
+        Annotated[
+            FidCondMrktClsCodeEnum | None,
+            "공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150",
+        ]
     ]
     FID_MRKT_CLS_CODE1: Annotated[
         str,
@@ -648,8 +657,10 @@ if TYPE_CHECKING:
                         MKI(미니KOSPI200), KQI(KOSDAQ150) 인 경우 : 만기년월(YYYYMM) 입력 (ex. 202407)
                         - FID_COND_MRKT_CLS_CODE : WKM(KOSPI200위클리(월)), WKI(KOSPI200위클리(목)) 인
                         경우 : 만기년월주차(YYMMWW) 입력 (ex. 2024년도 7월 3주차인 경우, 240703 입력)
+                        optional
                         FID_COND_MRKT_CLS_CODE (FidCondMrktClsCodeEnum): 공백: KOSPI200 MKI:
                         미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150
+                        optional
                         FID_MRKT_CLS_CODE1 (str): 시장구분코드 (PO: 풋옵션)
 
             Returns:

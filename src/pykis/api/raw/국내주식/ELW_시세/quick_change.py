@@ -216,59 +216,73 @@ class QuickChangeRequestDict(TypedDict):
 
 
 class QuickChangeOutput(RawModel):
-    elw_shrn_iscd: str = Field(
+    elw_shrn_iscd: str | None = Field(
+        default=None,
         alias="elw_shrn_iscd",
     )
     ("ELW단축종목코드")
-    elw_kor_isnm: str = Field(
+    elw_kor_isnm: str | None = Field(
+        default=None,
         alias="elw_kor_isnm",
     )
     ("ELW한글종목명")
-    elw_prpr: Decimal = Field(
+    elw_prpr: Decimal | None = Field(
+        default=None,
         alias="elw_prpr",
     )
     ("ELW현재가")
-    prdy_vrss_sign: int = Field(
+    prdy_vrss_sign: str | None = Field(
+        default=None,
         alias="prdy_vrss_sign",
     )
     ("전일대비부호")
-    prdy_vrss: int = Field(
+    prdy_vrss: str | None = Field(
+        default=None,
         alias="prdy_vrss",
     )
     ("전일대비")
-    prdy_ctrt: Decimal = Field(
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
         alias="prdy_ctrt",
     )
     ("전일대비율")
-    askp: int = Field(
+    askp: str | None = Field(
+        default=None,
         alias="askp",
     )
     ("매도호가")
-    bidp: str = Field(
+    bidp: str | None = Field(
+        default=None,
         alias="bidp",
     )
     ("매수호가")
-    total_askp_rsqn: int = Field(
+    total_askp_rsqn: str | None = Field(
+        default=None,
         alias="total_askp_rsqn",
     )
     ("총매도호가잔량")
-    total_bidp_rsqn: str = Field(
+    total_bidp_rsqn: str | None = Field(
+        default=None,
         alias="total_bidp_rsqn",
     )
     ("총매수호가잔량")
-    acml_vol: int = Field(
+    acml_vol: int | None = Field(
+        default=None,
         alias="acml_vol",
     )
     ("누적거래량")
-    stnd_val: int = Field(
+    stnd_val: str | None = Field(
+        default=None,
         alias="stnd_val",
     )
     ("기준값")
-    stnd_val_vrss: int = Field(
+    stnd_val_vrss: str | None = Field(
+        default=None,
         alias="stnd_val_vrss",
     )
     ("기준값대비")
-    stnd_val_ctrt: Decimal = Field(
+    stnd_val_ctrt: Decimal | None = Field(
+        default=None,
         alias="stnd_val_ctrt",
     )
     ("기준값대비율")

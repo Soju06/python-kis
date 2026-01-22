@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -54,8 +55,10 @@ class ExcdEnum(KisStrEnum):
 
 
 class InquireAskingPriceRequest(RawModel):
-    AUTH: str = Field(
+    AUTH: str | None = Field(
+        default=None,
         alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     EXCD: ExcdEnum = Field(
@@ -105,15 +108,17 @@ class InquireAskingPriceRequestDict(TypedDict):
     https://www.truefriend.com/main/customer/guide/Guide.jsp?&cmd=TF04ag010002¤tPage=1&num=64)
 
     Request fields:
-        AUTH (str): 공백
+        AUTH (str): 공백 optional
         EXCD (ExcdEnum): NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX :
         호치민 HNX : 하노이 TSE : 도쿄 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)
         SYMB (str): 종목코드 예)TSLA
     """
 
-    AUTH: Annotated[
-        str,
-        "공백",
+    AUTH: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     EXCD: Annotated[
         ExcdEnum,
@@ -711,7 +716,7 @@ if TYPE_CHECKING:
                 **kwargs (InquireAskingPriceRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        AUTH (str): 공백
+                        AUTH (str): 공백 optional
                         EXCD (ExcdEnum): NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해
                         SZS : 심천 HSX : 호치민 HNX : 하노이 TSE : 도쿄 BAY : 뉴욕(주간) BAQ :
                         나스닥(주간) BAA : 아멕스(주간)

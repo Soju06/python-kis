@@ -52,6 +52,7 @@ class InquirePeriodTradeProfitRequest(RawModel):
     PDNO: str | None = Field(
         default=None,
         alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ('""공란입력 시, 전체')
     INQR_STRT_DT: KisDate = Field(

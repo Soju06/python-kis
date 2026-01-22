@@ -2,7 +2,33 @@ from __future__ import annotations
 
 import unicodedata
 
-_NULL_DESCRIPTION_PHRASES = ('""', "null 값 설정", "null값 설정")
+_NULL_DESCRIPTION_PHRASES = ("null 값 설정", "null값 설정")
+_BLANK_FORBIDDEN_PHRASES = (
+    "공백 불가",
+    "공란 불가",
+    "공백불가",
+    "공란불가",
+    "공란으로 비우지 않음",
+    "공백으로 비우지 않음",
+)
+
+
+def is_blank_description(description: str | None) -> bool:
+    if not description:
+        return False
+    desc = description.strip()
+    if not desc:
+        return False
+    if any(phrase in desc for phrase in _BLANK_FORBIDDEN_PHRASES):
+        return False
+    lowered = desc.lower()
+    if "blank" in lowered:
+        return True
+    if '""' in desc:
+        return True
+    if "공백" in desc or "공란" in desc:
+        return True
+    return False
 
 
 def is_demo_unavailable(value: str | None) -> bool:
@@ -25,8 +51,6 @@ def is_forced_null_description(description: str | None) -> bool:
     if not desc:
         return False
     lowered = desc.lower()
-    if '""' in desc:
-        return True
     if "null" in lowered and "설정" in desc:
         return True
     return any(phrase in desc for phrase in _NULL_DESCRIPTION_PHRASES)
@@ -111,6 +135,7 @@ def wrap_display_text(value: str, width: int = 100) -> str:
 
 
 __all__ = [
+    "is_blank_description",
     "is_demo_unavailable",
     "is_forced_null_description",
     "wrap_display_lines",

@@ -38,12 +38,12 @@ class HDFSASP0(StreamingRawModel):
     VASK3: Decimal
     DBID3: Decimal
     DASK3: Decimal
-    PBID3: Decimal
-    PASK3: Decimal
-    VBID3: Decimal
-    VASK3: Decimal
-    DBID3: Decimal
-    DASK3: Decimal
+    PBID3_2: Decimal
+    PASK3_2: Decimal
+    VBID3_2: Decimal
+    VASK3_2: Decimal
+    DBID3_2: Decimal
+    DASK3_2: Decimal
     PBID4: Decimal
     PASK4: Decimal
     VBID4: Decimal
@@ -198,12 +198,12 @@ FIELD_TYPES = {
     "VASK3": FieldType.DECIMAL,
     "DBID3": FieldType.DECIMAL,
     "DASK3": FieldType.DECIMAL,
-    "PBID3": FieldType.DECIMAL,
-    "PASK3": FieldType.DECIMAL,
-    "VBID3": FieldType.DECIMAL,
-    "VASK3": FieldType.DECIMAL,
-    "DBID3": FieldType.DECIMAL,
-    "DASK3": FieldType.DECIMAL,
+    "PBID3_2": FieldType.DECIMAL,
+    "PASK3_2": FieldType.DECIMAL,
+    "VBID3_2": FieldType.DECIMAL,
+    "VASK3_2": FieldType.DECIMAL,
+    "DBID3_2": FieldType.DECIMAL,
+    "DASK3_2": FieldType.DECIMAL,
     "PBID4": FieldType.DECIMAL,
     "PASK4": FieldType.DECIMAL,
     "VBID4": FieldType.DECIMAL,
@@ -277,12 +277,12 @@ FIELD_SOURCES = {
     "VASK3": FieldSource.HEURISTIC,
     "DBID3": FieldSource.HEURISTIC,
     "DASK3": FieldSource.HEURISTIC,
-    "PBID3": FieldSource.HEURISTIC,
-    "PASK3": FieldSource.HEURISTIC,
-    "VBID3": FieldSource.HEURISTIC,
-    "VASK3": FieldSource.HEURISTIC,
-    "DBID3": FieldSource.HEURISTIC,
-    "DASK3": FieldSource.HEURISTIC,
+    "PBID3_2": FieldSource.HEURISTIC,
+    "PASK3_2": FieldSource.HEURISTIC,
+    "VBID3_2": FieldSource.HEURISTIC,
+    "VASK3_2": FieldSource.HEURISTIC,
+    "DBID3_2": FieldSource.HEURISTIC,
+    "DASK3_2": FieldSource.HEURISTIC,
     "PBID4": FieldSource.HEURISTIC,
     "PASK4": FieldSource.HEURISTIC,
     "VBID4": FieldSource.HEURISTIC,
@@ -339,8 +339,8 @@ DECIMAL_RULES = {
     "PASK2": DecimalRule(scale="zdiv", zdiv_field="ZDIV"),
     "PBID3": DecimalRule(scale="zdiv", zdiv_field="ZDIV"),
     "PASK3": DecimalRule(scale="zdiv", zdiv_field="ZDIV"),
-    "PBID3": DecimalRule(scale="zdiv", zdiv_field="ZDIV"),
-    "PASK3": DecimalRule(scale="zdiv", zdiv_field="ZDIV"),
+    "PBID3_2": DecimalRule(scale="zdiv", zdiv_field="ZDIV"),
+    "PASK3_2": DecimalRule(scale="zdiv", zdiv_field="ZDIV"),
     "PBID4": DecimalRule(scale="zdiv", zdiv_field="ZDIV"),
     "PASK4": DecimalRule(scale="zdiv", zdiv_field="ZDIV"),
     "PBID5": DecimalRule(scale="zdiv", zdiv_field="ZDIV"),

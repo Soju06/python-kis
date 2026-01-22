@@ -67,6 +67,7 @@ class InquireSearchRequest(RawModel):
     AUTH: str | None = Field(
         default=None,
         alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" (Null 값 설정)')
     EXCD: ExcdEnum = Field(
@@ -196,6 +197,7 @@ class InquireSearchRequest(RawModel):
     KEYB: str | None = Field(
         default=None,
         alias="KEYB",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" 공백 입력')
 

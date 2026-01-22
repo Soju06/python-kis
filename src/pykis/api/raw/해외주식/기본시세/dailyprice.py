@@ -78,6 +78,7 @@ class DailypriceRequest(RawModel):
     AUTH: str | None = Field(
         default=None,
         alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" (Null 값 설정)')
     EXCD: ExcdEnum = Field(
@@ -95,8 +96,10 @@ class DailypriceRequest(RawModel):
         alias="GUBN",
     )
     ("0 : 일 1 : 주 2 : 월")
-    BYMD: str = Field(
+    BYMD: str | None = Field(
+        default=None,
         alias="BYMD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정")
     MODP: KisBool = Field(
@@ -154,7 +157,7 @@ class DailypriceRequestDict(TypedDict):
         심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이
         SYMB (str): 종목코드 (ex. TSLA)
         GUBN (GubnEnum): 0 : 일 1 : 주 2 : 월
-        BYMD (str): 조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정
+        BYMD (str): 조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정 optional
         MODP (KisBool): 0 : 미반영 1 : 반영
         KEYB (str): 응답시 다음값이 있으면 값이 셋팅되어 있으므로 다음 조회시 응답값 그대로 셋팅
         optional
@@ -179,9 +182,11 @@ class DailypriceRequestDict(TypedDict):
         GubnEnum,
         "0 : 일 1 : 주 2 : 월",
     ]
-    BYMD: Annotated[
-        str,
-        "조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정",
+    BYMD: NotRequired[
+        Annotated[
+            str | None,
+            "조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정",
+        ]
     ]
     MODP: Annotated[
         KisBool,
@@ -452,6 +457,7 @@ if TYPE_CHECKING:
                         SYMB (str): 종목코드 (ex. TSLA)
                         GUBN (GubnEnum): 0 : 일 1 : 주 2 : 월
                         BYMD (str): 조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정
+                        optional
                         MODP (KisBool): 0 : 미반영 1 : 반영
                         KEYB (str): 응답시 다음값이 있으면 값이 셋팅되어 있으므로 다음 조회시 응답값
                         그대로 셋팅 optional

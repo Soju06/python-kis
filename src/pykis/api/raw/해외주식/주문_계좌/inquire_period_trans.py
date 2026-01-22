@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -52,28 +53,38 @@ class InquirePeriodTransRequest(RawModel):
         alias="ERLM_END_DT",
     )
     ("~입력날짜 (ex) 20240520)")
-    OVRS_EXCG_CD: str = Field(
+    OVRS_EXCG_CD: str | None = Field(
+        default=None,
         alias="OVRS_EXCG_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    PDNO: str = Field(
+    PDNO: str | None = Field(
+        default=None,
         alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 (전체조회), 개별종목 조회는 상품번호입력")
     SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(
         alias="SLL_BUY_DVSN_CD",
     )
     ("00(전체), 01(매도), 02(매수)")
-    LOAN_DVSN_CD: str = Field(
+    LOAN_DVSN_CD: str | None = Field(
+        default=None,
         alias="LOAN_DVSN_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    CTX_AREA_FK100: str = Field(
+    CTX_AREA_FK100: str | None = Field(
+        default=None,
         alias="CTX_AREA_FK100",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    CTX_AREA_NK100: str = Field(
+    CTX_AREA_NK100: str | None = Field(
+        default=None,
         alias="CTX_AREA_NK100",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -93,12 +104,12 @@ class InquirePeriodTransRequestDict(TypedDict):
         ACNT_PRDT_CD (str): 계좌상품코드
         ERLM_STRT_DT (KisDate): 입력날짜 ~ (ex) 20240420)
         ERLM_END_DT (KisDate): ~입력날짜 (ex) 20240520)
-        OVRS_EXCG_CD (str): 공백
-        PDNO (str): 공백 (전체조회), 개별종목 조회는 상품번호입력
+        OVRS_EXCG_CD (str): 공백 optional
+        PDNO (str): 공백 (전체조회), 개별종목 조회는 상품번호입력 optional
         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 00(전체), 01(매도), 02(매수)
-        LOAN_DVSN_CD (str): 공백
-        CTX_AREA_FK100 (str): 공백
-        CTX_AREA_NK100 (str): 공백
+        LOAN_DVSN_CD (str): 공백 optional
+        CTX_AREA_FK100 (str): 공백 optional
+        CTX_AREA_NK100 (str): 공백 optional
     """
 
     CANO: Annotated[
@@ -117,29 +128,39 @@ class InquirePeriodTransRequestDict(TypedDict):
         KisDate,
         "~입력날짜 (ex) 20240520)",
     ]
-    OVRS_EXCG_CD: Annotated[
-        str,
-        "공백",
+    OVRS_EXCG_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    PDNO: Annotated[
-        str,
-        "공백 (전체조회), 개별종목 조회는 상품번호입력",
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            "공백 (전체조회), 개별종목 조회는 상품번호입력",
+        ]
     ]
     SLL_BUY_DVSN_CD: Annotated[
         SllBuyDvsnCdEnum,
         "00(전체), 01(매도), 02(매수)",
     ]
-    LOAN_DVSN_CD: Annotated[
-        str,
-        "공백",
+    LOAN_DVSN_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    CTX_AREA_FK100: Annotated[
-        str,
-        "공백",
+    CTX_AREA_FK100: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    CTX_AREA_NK100: Annotated[
-        str,
-        "공백",
+    CTX_AREA_NK100: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
 
 
@@ -365,12 +386,12 @@ if TYPE_CHECKING:
                         ACNT_PRDT_CD (str): 계좌상품코드
                         ERLM_STRT_DT (KisDate): 입력날짜 ~ (ex) 20240420)
                         ERLM_END_DT (KisDate): ~입력날짜 (ex) 20240520)
-                        OVRS_EXCG_CD (str): 공백
-                        PDNO (str): 공백 (전체조회), 개별종목 조회는 상품번호입력
+                        OVRS_EXCG_CD (str): 공백 optional
+                        PDNO (str): 공백 (전체조회), 개별종목 조회는 상품번호입력 optional
                         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 00(전체), 01(매도), 02(매수)
-                        LOAN_DVSN_CD (str): 공백
-                        CTX_AREA_FK100 (str): 공백
-                        CTX_AREA_NK100 (str): 공백
+                        LOAN_DVSN_CD (str): 공백 optional
+                        CTX_AREA_FK100 (str): 공백 optional
+                        CTX_AREA_NK100 (str): 공백 optional
 
             Returns:
                 tuple[InquirePeriodTransResponse, KisResponse]: 응답 모델과 원시 응답

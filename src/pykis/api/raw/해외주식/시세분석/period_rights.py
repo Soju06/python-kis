@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -88,20 +89,28 @@ class PeriodRightsRequest(RawModel):
         alias="INQR_END_DT",
     )
     ("~ 일자")
-    PDNO: str = Field(
+    PDNO: str | None = Field(
+        default=None,
         alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    PRDT_TYPE_CD: str = Field(
+    PRDT_TYPE_CD: str | None = Field(
+        default=None,
         alias="PRDT_TYPE_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    CTX_AREA_NK50: str = Field(
+    CTX_AREA_NK50: str | None = Field(
+        default=None,
         alias="CTX_AREA_NK50",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    CTX_AREA_FK50: str = Field(
+    CTX_AREA_FK50: str | None = Field(
+        default=None,
         alias="CTX_AREA_FK50",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -122,10 +131,10 @@ class PeriodRightsRequestDict(TypedDict):
         INQR_DVSN_CD (InqrDvsnCdEnum): 02(현지기준일), 03(청약시작일), 04(청약종료일)
         INQR_STRT_DT (KisDate): 일자 ~
         INQR_END_DT (KisDate): ~ 일자
-        PDNO (str): 공백
-        PRDT_TYPE_CD (str): 공백
-        CTX_AREA_NK50 (str): 공백
-        CTX_AREA_FK50 (str): 공백
+        PDNO (str): 공백 optional
+        PRDT_TYPE_CD (str): 공백 optional
+        CTX_AREA_NK50 (str): 공백 optional
+        CTX_AREA_FK50 (str): 공백 optional
     """
 
     RGHT_TYPE_CD: Annotated[
@@ -146,50 +155,65 @@ class PeriodRightsRequestDict(TypedDict):
         KisDate,
         "~ 일자",
     ]
-    PDNO: Annotated[
-        str,
-        "공백",
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    PRDT_TYPE_CD: Annotated[
-        str,
-        "공백",
+    PRDT_TYPE_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    CTX_AREA_NK50: Annotated[
-        str,
-        "공백",
+    CTX_AREA_NK50: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    CTX_AREA_FK50: Annotated[
-        str,
-        "공백",
+    CTX_AREA_FK50: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
 
 
 class PeriodRightsOutput(RawModel):
-    bass_dt: KisDate = Field(
+    bass_dt: KisDateOptional = Field(
+        default=None,
         alias="bass_dt",
     )
     ("기준일자")
-    rght_type_cd: str = Field(
+    rght_type_cd: str | None = Field(
+        default=None,
         alias="rght_type_cd",
     )
     ("권리유형코드")
-    pdno: str = Field(
+    pdno: str | None = Field(
+        default=None,
         alias="pdno",
     )
     ("상품번호")
-    prdt_name: str = Field(
+    prdt_name: str | None = Field(
+        default=None,
         alias="prdt_name",
     )
     ("상품명")
-    prdt_type_cd: str = Field(
+    prdt_type_cd: str | None = Field(
+        default=None,
         alias="prdt_type_cd",
     )
     ("상품유형코드")
-    std_pdno: str = Field(
+    std_pdno: str | None = Field(
+        default=None,
         alias="std_pdno",
     )
     ("표준상품번호")
-    acpl_bass_dt: KisDate = Field(
+    acpl_bass_dt: KisDateOptional = Field(
+        default=None,
         alias="acpl_bass_dt",
     )
     ("현지기준일자")
@@ -203,15 +227,18 @@ class PeriodRightsOutput(RawModel):
         alias="sbsc_end_dt",
     )
     ("청약종료일자")
-    cash_alct_rt: Decimal = Field(
+    cash_alct_rt: Decimal | None = Field(
+        default=None,
         alias="cash_alct_rt",
     )
     ("현금배정비율")
-    stck_alct_rt: Decimal = Field(
+    stck_alct_rt: Decimal | None = Field(
+        default=None,
         alias="stck_alct_rt",
     )
     ("주식배정비율")
-    crcy_cd: str = Field(
+    crcy_cd: str | None = Field(
+        default=None,
         alias="crcy_cd",
     )
     ("통화코드")
@@ -230,23 +257,28 @@ class PeriodRightsOutput(RawModel):
         alias="crcy_cd4",
     )
     ("통화코드4")
-    alct_frcr_unpr: Decimal = Field(
+    alct_frcr_unpr: str | None = Field(
+        default=None,
         alias="alct_frcr_unpr",
     )
     ("배정외화단가")
-    stkp_dvdn_frcr_amt2: Decimal = Field(
+    stkp_dvdn_frcr_amt2: Decimal | None = Field(
+        default=None,
         alias="stkp_dvdn_frcr_amt2",
     )
     ("주당배당외화금액2")
-    stkp_dvdn_frcr_amt3: Decimal = Field(
+    stkp_dvdn_frcr_amt3: Decimal | None = Field(
+        default=None,
         alias="stkp_dvdn_frcr_amt3",
     )
     ("주당배당외화금액3")
-    stkp_dvdn_frcr_amt4: Decimal = Field(
+    stkp_dvdn_frcr_amt4: Decimal | None = Field(
+        default=None,
         alias="stkp_dvdn_frcr_amt4",
     )
     ("주당배당외화금액4")
-    dfnt_yn: KisBool = Field(
+    dfnt_yn: KisBool | None = Field(
+        default=None,
         alias="dfnt_yn",
     )
     ("확정여부")
@@ -265,6 +297,16 @@ class PeriodRightsResponse(RawModel):
         alias="msg1",
     )
     ("응답메세지")
+    ctx_area_nk50: str | None = Field(
+        default=None,
+        alias="ctx_area_nk50",
+    )
+    ("inferred from raw payload")
+    ctx_area_fk50: str | None = Field(
+        default=None,
+        alias="ctx_area_fk50",
+    )
+    ("inferred from raw payload")
     output: list[PeriodRightsOutput] = Field(
         alias="output",
     )
@@ -348,10 +390,10 @@ if TYPE_CHECKING:
                         INQR_DVSN_CD (InqrDvsnCdEnum): 02(현지기준일), 03(청약시작일), 04(청약종료일)
                         INQR_STRT_DT (KisDate): 일자 ~
                         INQR_END_DT (KisDate): ~ 일자
-                        PDNO (str): 공백
-                        PRDT_TYPE_CD (str): 공백
-                        CTX_AREA_NK50 (str): 공백
-                        CTX_AREA_FK50 (str): 공백
+                        PDNO (str): 공백 optional
+                        PRDT_TYPE_CD (str): 공백 optional
+                        CTX_AREA_NK50 (str): 공백 optional
+                        CTX_AREA_FK50 (str): 공백 optional
 
             Returns:
                 tuple[PeriodRightsResponse, KisResponse]: 응답 모델과 원시 응답

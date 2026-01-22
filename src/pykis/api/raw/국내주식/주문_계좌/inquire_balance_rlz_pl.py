@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -60,8 +61,10 @@ class InquireBalanceRlzPlRequest(RawModel):
         alias="AFHR_FLPR_YN",
     )
     ("'N : 기본값 Y : 시간외단일가'")
-    OFL_YN: KisBool = Field(
+    OFL_YN: KisBool | None = Field(
+        default=None,
         alias="OFL_YN",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란")
     INQR_DVSN: str = Field(
@@ -88,12 +91,16 @@ class InquireBalanceRlzPlRequest(RawModel):
         alias="COST_ICLD_YN",
     )
     ("비용포함여부")
-    CTX_AREA_FK100: str = Field(
+    CTX_AREA_FK100: str | None = Field(
+        default=None,
         alias="CTX_AREA_FK100",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_NK100: str = Field(
+    CTX_AREA_NK100: str | None = Field(
+        default=None,
         alias="CTX_AREA_NK100",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)")
 
@@ -109,7 +116,7 @@ class InquireBalanceRlzPlRequestDict(TypedDict):
         CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         AFHR_FLPR_YN (KisBool): 'N : 기본값 Y : 시간외단일가'
-        OFL_YN (KisBool): 공란
+        OFL_YN (KisBool): 공란 optional
         INQR_DVSN (str): 00 : 전체
         UNPR_DVSN (str): 01 : 기본값
         FUND_STTL_ICLD_YN (KisBool): N : 포함하지 않음 Y : 포함
@@ -117,9 +124,9 @@ class InquireBalanceRlzPlRequestDict(TypedDict):
         PRCS_DVSN (PrcsDvsnEnum): 00 : 전일매매포함 01 : 전일매매미포함
         COST_ICLD_YN (KisBool): 비용포함여부
         CTX_AREA_FK100 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지
-        조회시(2번째부터)
+        조회시(2번째부터) optional
         CTX_AREA_NK100 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지
-        조회시(2번째부터)
+        조회시(2번째부터) optional
     """
 
     CANO: Annotated[
@@ -134,9 +141,11 @@ class InquireBalanceRlzPlRequestDict(TypedDict):
         KisBool,
         "'N : 기본값 Y : 시간외단일가'",
     ]
-    OFL_YN: Annotated[
-        KisBool,
-        "공란",
+    OFL_YN: NotRequired[
+        Annotated[
+            KisBool | None,
+            "공란",
+        ]
     ]
     INQR_DVSN: Annotated[
         str,
@@ -162,13 +171,17 @@ class InquireBalanceRlzPlRequestDict(TypedDict):
         KisBool,
         "비용포함여부",
     ]
-    CTX_AREA_FK100: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_FK100: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
-    CTX_AREA_NK100: Annotated[
-        str,
-        "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)",
+    CTX_AREA_NK100: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)",
+        ]
     ]
 
 
@@ -475,7 +488,7 @@ if TYPE_CHECKING:
                         CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
                         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         AFHR_FLPR_YN (KisBool): 'N : 기본값 Y : 시간외단일가'
-                        OFL_YN (KisBool): 공란
+                        OFL_YN (KisBool): 공란 optional
                         INQR_DVSN (str): 00 : 전체
                         UNPR_DVSN (str): 01 : 기본값
                         FUND_STTL_ICLD_YN (KisBool): N : 포함하지 않음 Y : 포함
@@ -483,9 +496,9 @@ if TYPE_CHECKING:
                         PRCS_DVSN (PrcsDvsnEnum): 00 : 전일매매포함 01 : 전일매매미포함
                         COST_ICLD_YN (KisBool): 비용포함여부
                         CTX_AREA_FK100 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100 값 :
-                        다음페이지 조회시(2번째부터)
+                        다음페이지 조회시(2번째부터) optional
                         CTX_AREA_NK100 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 :
-                        다음페이지 조회시(2번째부터)
+                        다음페이지 조회시(2번째부터) optional
 
             Returns:
                 tuple[InquireBalanceRlzPlResponse, KisResponse]: 응답 모델과 원시 응답

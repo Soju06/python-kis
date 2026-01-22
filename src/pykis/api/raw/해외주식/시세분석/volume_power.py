@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -87,12 +88,16 @@ class VolRangEnum(KisStrEnum):
 
 
 class VolumePowerRequest(RawModel):
-    KEYB: str = Field(
+    KEYB: str | None = Field(
+        default=None,
         alias="KEYB",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    AUTH: str = Field(
+    AUTH: str | None = Field(
+        default=None,
         alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     EXCD: ExcdEnum = Field(
@@ -120,8 +125,8 @@ class VolumePowerRequestDict(TypedDict):
     해외주식 매수체결강도상위[해외주식-040]
 
     Request fields:
-        KEYB (str): 공백
-        AUTH (str): 공백
+        KEYB (str): 공백 optional
+        AUTH (str): 공백 optional
         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천
         HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
         NDAY (NdayEnum): N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전),
@@ -130,13 +135,17 @@ class VolumePowerRequestDict(TypedDict):
         5(100만주이상), 6(1000만주이상)
     """
 
-    KEYB: Annotated[
-        str,
-        "공백",
+    KEYB: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    AUTH: Annotated[
-        str,
-        "공백",
+    AUTH: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     EXCD: Annotated[
         ExcdEnum,
@@ -314,8 +323,8 @@ if TYPE_CHECKING:
                 **kwargs (VolumePowerRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        KEYB (str): 공백
-                        AUTH (str): 공백
+                        KEYB (str): 공백 optional
+                        AUTH (str): 공백 optional
                         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS :
                         상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
                         NDAY (NdayEnum): N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전),

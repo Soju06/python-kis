@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -17,6 +18,7 @@ from pydantic import Field
 from pykis.api.raw.base import (
     KisBool,
     KisDate,
+    KisDateOptional,
     RawModel,
 )
 from pykis.api.raw.types import Endpoint, KisResponse
@@ -47,20 +49,28 @@ class ColableByCompanyRequest(RawModel):
         alias="PDNO",
     )
     ("ex)AMD")
-    PRDT_TYPE_CD: str = Field(
+    PRDT_TYPE_CD: str | None = Field(
+        default=None,
         alias="PRDT_TYPE_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    INQR_STRT_DT: KisDate = Field(
+    INQR_STRT_DT: KisDateOptional = Field(
+        default=None,
         alias="INQR_STRT_DT",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    INQR_END_DT: KisDate = Field(
+    INQR_END_DT: KisDateOptional = Field(
+        default=None,
         alias="INQR_END_DT",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    INQR_DVSN: int = Field(
+    INQR_DVSN: int | None = Field(
+        default=None,
         alias="INQR_DVSN",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     NATN_CD: NatnCdEnum = Field(
@@ -71,24 +81,34 @@ class ColableByCompanyRequest(RawModel):
         alias="INQR_SQN_DVSN",
     )
     ("01(이름순), 02(코드순)")
-    RT_DVSN_CD: str = Field(
+    RT_DVSN_CD: str | None = Field(
+        default=None,
         alias="RT_DVSN_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    RT: Decimal = Field(
+    RT: Decimal | None = Field(
+        default=None,
         alias="RT",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    LOAN_PSBL_YN: KisBool = Field(
+    LOAN_PSBL_YN: KisBool | None = Field(
+        default=None,
         alias="LOAN_PSBL_YN",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    CTX_AREA_FK100: str = Field(
+    CTX_AREA_FK100: str | None = Field(
+        default=None,
         alias="CTX_AREA_FK100",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    CTX_AREA_NK100: str = Field(
+    CTX_AREA_NK100: str | None = Field(
+        default=None,
         alias="CTX_AREA_NK100",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -104,38 +124,46 @@ class ColableByCompanyRequestDict(TypedDict):
 
     Request fields:
         PDNO (str): ex)AMD
-        PRDT_TYPE_CD (str): 공백
-        INQR_STRT_DT (KisDate): 공백
-        INQR_END_DT (KisDate): 공백
-        INQR_DVSN (int): 공백
+        PRDT_TYPE_CD (str): 공백 optional
+        INQR_STRT_DT (KisDate): 공백 optional
+        INQR_END_DT (KisDate): 공백 optional
+        INQR_DVSN (int): 공백 optional
         NATN_CD (NatnCdEnum): 840(미국), 344(홍콩), 156(중국)
         INQR_SQN_DVSN (InqrSqnDvsnEnum): 01(이름순), 02(코드순)
-        RT_DVSN_CD (str): 공백
-        RT (Decimal): 공백
-        LOAN_PSBL_YN (KisBool): 공백
-        CTX_AREA_FK100 (str): 공백
-        CTX_AREA_NK100 (str): 공백
+        RT_DVSN_CD (str): 공백 optional
+        RT (Decimal): 공백 optional
+        LOAN_PSBL_YN (KisBool): 공백 optional
+        CTX_AREA_FK100 (str): 공백 optional
+        CTX_AREA_NK100 (str): 공백 optional
     """
 
     PDNO: Annotated[
         str,
         "ex)AMD",
     ]
-    PRDT_TYPE_CD: Annotated[
-        str,
-        "공백",
+    PRDT_TYPE_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    INQR_STRT_DT: Annotated[
-        KisDate,
-        "공백",
+    INQR_STRT_DT: NotRequired[
+        Annotated[
+            KisDateOptional,
+            "공백",
+        ]
     ]
-    INQR_END_DT: Annotated[
-        KisDate,
-        "공백",
+    INQR_END_DT: NotRequired[
+        Annotated[
+            KisDateOptional,
+            "공백",
+        ]
     ]
-    INQR_DVSN: Annotated[
-        int,
-        "공백",
+    INQR_DVSN: NotRequired[
+        Annotated[
+            int | None,
+            "공백",
+        ]
     ]
     NATN_CD: Annotated[
         NatnCdEnum,
@@ -145,25 +173,35 @@ class ColableByCompanyRequestDict(TypedDict):
         InqrSqnDvsnEnum,
         "01(이름순), 02(코드순)",
     ]
-    RT_DVSN_CD: Annotated[
-        str,
-        "공백",
+    RT_DVSN_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    RT: Annotated[
-        Decimal,
-        "공백",
+    RT: NotRequired[
+        Annotated[
+            Decimal | None,
+            "공백",
+        ]
     ]
-    LOAN_PSBL_YN: Annotated[
-        KisBool,
-        "공백",
+    LOAN_PSBL_YN: NotRequired[
+        Annotated[
+            KisBool | None,
+            "공백",
+        ]
     ]
-    CTX_AREA_FK100: Annotated[
-        str,
-        "공백",
+    CTX_AREA_FK100: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    CTX_AREA_NK100: Annotated[
-        str,
-        "공백",
+    CTX_AREA_NK100: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
 
 
@@ -320,17 +358,17 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         PDNO (str): ex)AMD
-                        PRDT_TYPE_CD (str): 공백
-                        INQR_STRT_DT (KisDate): 공백
-                        INQR_END_DT (KisDate): 공백
-                        INQR_DVSN (int): 공백
+                        PRDT_TYPE_CD (str): 공백 optional
+                        INQR_STRT_DT (KisDate): 공백 optional
+                        INQR_END_DT (KisDate): 공백 optional
+                        INQR_DVSN (int): 공백 optional
                         NATN_CD (NatnCdEnum): 840(미국), 344(홍콩), 156(중국)
                         INQR_SQN_DVSN (InqrSqnDvsnEnum): 01(이름순), 02(코드순)
-                        RT_DVSN_CD (str): 공백
-                        RT (Decimal): 공백
-                        LOAN_PSBL_YN (KisBool): 공백
-                        CTX_AREA_FK100 (str): 공백
-                        CTX_AREA_NK100 (str): 공백
+                        RT_DVSN_CD (str): 공백 optional
+                        RT (Decimal): 공백 optional
+                        LOAN_PSBL_YN (KisBool): 공백 optional
+                        CTX_AREA_FK100 (str): 공백 optional
+                        CTX_AREA_NK100 (str): 공백 optional
 
             Returns:
                 tuple[ColableByCompanyResponse, KisResponse]: 응답 모델과 원시 응답

@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -16,7 +17,6 @@ from pydantic import Field
 from pykis.api.raw.base import (
     KisBool,
     KisDateOptional,
-    KisTime,
     KisTimeOptional,
     RawModel,
 )
@@ -37,36 +37,52 @@ class NationCdEnum(KisStrEnum):
 
 
 class NewsTitleRequest(RawModel):
-    INFO_GB: str = Field(
+    INFO_GB: str | None = Field(
+        default=None,
         alias="INFO_GB",
+        json_schema_extra={"blank_allowed": True},
     )
     ("전체: 공백")
-    CLASS_CD: str = Field(
+    CLASS_CD: str | None = Field(
+        default=None,
         alias="CLASS_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("전체: 공백")
-    NATION_CD: NationCdEnum = Field(
+    NATION_CD: NationCdEnum | None = Field(
+        default=None,
         alias="NATION_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("전체: 공백 CN(중국), HK(홍콩), US(미국)")
-    EXCHANGE_CD: str = Field(
+    EXCHANGE_CD: str | None = Field(
+        default=None,
         alias="EXCHANGE_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("전체: 공백")
-    SYMB: str = Field(
+    SYMB: str | None = Field(
+        default=None,
         alias="SYMB",
+        json_schema_extra={"blank_allowed": True},
     )
     ("전체: 공백")
-    DATA_DT: str = Field(
+    DATA_DT: str | None = Field(
+        default=None,
         alias="DATA_DT",
+        json_schema_extra={"blank_allowed": True},
     )
     ("전체: 공백 특정일자(YYYYMMDD) ex. 20240502")
-    DATA_TM: KisTime = Field(
+    DATA_TM: KisTimeOptional = Field(
+        default=None,
         alias="DATA_TM",
+        json_schema_extra={"blank_allowed": True},
     )
     ("전체: 공백 전체: 공백 특정시간(HHMMSS) ex. 093500")
-    CTS: str = Field(
+    CTS: str | None = Field(
+        default=None,
         alias="CTS",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
 
@@ -78,47 +94,63 @@ class NewsTitleRequestDict(TypedDict):
     사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
 
     Request fields:
-        INFO_GB (str): 전체: 공백
-        CLASS_CD (str): 전체: 공백
-        NATION_CD (NationCdEnum): 전체: 공백 CN(중국), HK(홍콩), US(미국)
-        EXCHANGE_CD (str): 전체: 공백
-        SYMB (str): 전체: 공백
-        DATA_DT (str): 전체: 공백 특정일자(YYYYMMDD) ex. 20240502
-        DATA_TM (KisTime): 전체: 공백 전체: 공백 특정시간(HHMMSS) ex. 093500
-        CTS (str): 공백 입력
+        INFO_GB (str): 전체: 공백 optional
+        CLASS_CD (str): 전체: 공백 optional
+        NATION_CD (NationCdEnum): 전체: 공백 CN(중국), HK(홍콩), US(미국) optional
+        EXCHANGE_CD (str): 전체: 공백 optional
+        SYMB (str): 전체: 공백 optional
+        DATA_DT (str): 전체: 공백 특정일자(YYYYMMDD) ex. 20240502 optional
+        DATA_TM (KisTime): 전체: 공백 전체: 공백 특정시간(HHMMSS) ex. 093500 optional
+        CTS (str): 공백 입력 optional
     """
 
-    INFO_GB: Annotated[
-        str,
-        "전체: 공백",
+    INFO_GB: NotRequired[
+        Annotated[
+            str | None,
+            "전체: 공백",
+        ]
     ]
-    CLASS_CD: Annotated[
-        str,
-        "전체: 공백",
+    CLASS_CD: NotRequired[
+        Annotated[
+            str | None,
+            "전체: 공백",
+        ]
     ]
-    NATION_CD: Annotated[
-        NationCdEnum,
-        "전체: 공백 CN(중국), HK(홍콩), US(미국)",
+    NATION_CD: NotRequired[
+        Annotated[
+            NationCdEnum | None,
+            "전체: 공백 CN(중국), HK(홍콩), US(미국)",
+        ]
     ]
-    EXCHANGE_CD: Annotated[
-        str,
-        "전체: 공백",
+    EXCHANGE_CD: NotRequired[
+        Annotated[
+            str | None,
+            "전체: 공백",
+        ]
     ]
-    SYMB: Annotated[
-        str,
-        "전체: 공백",
+    SYMB: NotRequired[
+        Annotated[
+            str | None,
+            "전체: 공백",
+        ]
     ]
-    DATA_DT: Annotated[
-        str,
-        "전체: 공백 특정일자(YYYYMMDD) ex. 20240502",
+    DATA_DT: NotRequired[
+        Annotated[
+            str | None,
+            "전체: 공백 특정일자(YYYYMMDD) ex. 20240502",
+        ]
     ]
-    DATA_TM: Annotated[
-        KisTime,
-        "전체: 공백 전체: 공백 특정시간(HHMMSS) ex. 093500",
+    DATA_TM: NotRequired[
+        Annotated[
+            KisTimeOptional,
+            "전체: 공백 전체: 공백 특정시간(HHMMSS) ex. 093500",
+        ]
     ]
-    CTS: Annotated[
-        str,
-        "공백 입력",
+    CTS: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
 
 
@@ -266,14 +298,14 @@ if TYPE_CHECKING:
                 **kwargs (NewsTitleRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        INFO_GB (str): 전체: 공백
-                        CLASS_CD (str): 전체: 공백
-                        NATION_CD (NationCdEnum): 전체: 공백 CN(중국), HK(홍콩), US(미국)
-                        EXCHANGE_CD (str): 전체: 공백
-                        SYMB (str): 전체: 공백
-                        DATA_DT (str): 전체: 공백 특정일자(YYYYMMDD) ex. 20240502
-                        DATA_TM (KisTime): 전체: 공백 전체: 공백 특정시간(HHMMSS) ex. 093500
-                        CTS (str): 공백 입력
+                        INFO_GB (str): 전체: 공백 optional
+                        CLASS_CD (str): 전체: 공백 optional
+                        NATION_CD (NationCdEnum): 전체: 공백 CN(중국), HK(홍콩), US(미국) optional
+                        EXCHANGE_CD (str): 전체: 공백 optional
+                        SYMB (str): 전체: 공백 optional
+                        DATA_DT (str): 전체: 공백 특정일자(YYYYMMDD) ex. 20240502 optional
+                        DATA_TM (KisTime): 전체: 공백 전체: 공백 특정시간(HHMMSS) ex. 093500 optional
+                        CTS (str): 공백 입력 optional
 
             Returns:
                 tuple[NewsTitleResponse, KisResponse]: 응답 모델과 원시 응답

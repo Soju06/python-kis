@@ -5,6 +5,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -30,32 +31,46 @@ class BrknewsTitleRequest(RawModel):
         alias="FID_NEWS_OFER_ENTP_CODE",
     )
     ("뉴스제공업체구분=>0:전체조회")
-    FID_COND_MRKT_CLS_CODE: str = Field(
+    FID_COND_MRKT_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_COND_MRKT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    FID_INPUT_ISCD: str = Field(
+    FID_INPUT_ISCD: str | None = Field(
+        default=None,
         alias="FID_INPUT_ISCD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    FID_TITL_CNTT: str = Field(
+    FID_TITL_CNTT: str | None = Field(
+        default=None,
         alias="FID_TITL_CNTT",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    FID_INPUT_DATE_1: str = Field(
+    FID_INPUT_DATE_1: str | None = Field(
+        default=None,
         alias="FID_INPUT_DATE_1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    FID_INPUT_HOUR_1: str = Field(
+    FID_INPUT_HOUR_1: str | None = Field(
+        default=None,
         alias="FID_INPUT_HOUR_1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    FID_RANK_SORT_CLS_CODE: str = Field(
+    FID_RANK_SORT_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_RANK_SORT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    FID_INPUT_SRNO: str = Field(
+    FID_INPUT_SRNO: str | None = Field(
+        default=None,
         alias="FID_INPUT_SRNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     FID_COND_SCR_DIV_CODE: str = Field(
@@ -74,13 +89,13 @@ class BrknewsTitleRequestDict(TypedDict):
 
     Request fields:
         FID_NEWS_OFER_ENTP_CODE (str): 뉴스제공업체구분=>0:전체조회
-        FID_COND_MRKT_CLS_CODE (str): 공백
-        FID_INPUT_ISCD (str): 공백
-        FID_TITL_CNTT (str): 공백
-        FID_INPUT_DATE_1 (str): 공백
-        FID_INPUT_HOUR_1 (str): 공백
-        FID_RANK_SORT_CLS_CODE (str): 공백
-        FID_INPUT_SRNO (str): 공백
+        FID_COND_MRKT_CLS_CODE (str): 공백 optional
+        FID_INPUT_ISCD (str): 공백 optional
+        FID_TITL_CNTT (str): 공백 optional
+        FID_INPUT_DATE_1 (str): 공백 optional
+        FID_INPUT_HOUR_1 (str): 공백 optional
+        FID_RANK_SORT_CLS_CODE (str): 공백 optional
+        FID_INPUT_SRNO (str): 공백 optional
         FID_COND_SCR_DIV_CODE (str): 화면번호:11801
     """
 
@@ -88,33 +103,47 @@ class BrknewsTitleRequestDict(TypedDict):
         str,
         "뉴스제공업체구분=>0:전체조회",
     ]
-    FID_COND_MRKT_CLS_CODE: Annotated[
-        str,
-        "공백",
+    FID_COND_MRKT_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "공백",
+    FID_INPUT_ISCD: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    FID_TITL_CNTT: Annotated[
-        str,
-        "공백",
+    FID_TITL_CNTT: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "공백",
+    FID_INPUT_DATE_1: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    FID_INPUT_HOUR_1: Annotated[
-        str,
-        "공백",
+    FID_INPUT_HOUR_1: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    FID_RANK_SORT_CLS_CODE: Annotated[
-        str,
-        "공백",
+    FID_RANK_SORT_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    FID_INPUT_SRNO: Annotated[
-        str,
-        "공백",
+    FID_INPUT_SRNO: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     FID_COND_SCR_DIV_CODE: Annotated[
         str,
@@ -349,13 +378,13 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         FID_NEWS_OFER_ENTP_CODE (str): 뉴스제공업체구분=>0:전체조회
-                        FID_COND_MRKT_CLS_CODE (str): 공백
-                        FID_INPUT_ISCD (str): 공백
-                        FID_TITL_CNTT (str): 공백
-                        FID_INPUT_DATE_1 (str): 공백
-                        FID_INPUT_HOUR_1 (str): 공백
-                        FID_RANK_SORT_CLS_CODE (str): 공백
-                        FID_INPUT_SRNO (str): 공백
+                        FID_COND_MRKT_CLS_CODE (str): 공백 optional
+                        FID_INPUT_ISCD (str): 공백 optional
+                        FID_TITL_CNTT (str): 공백 optional
+                        FID_INPUT_DATE_1 (str): 공백 optional
+                        FID_INPUT_HOUR_1 (str): 공백 optional
+                        FID_RANK_SORT_CLS_CODE (str): 공백 optional
+                        FID_INPUT_SRNO (str): 공백 optional
                         FID_COND_SCR_DIV_CODE (str): 화면번호:11801
 
             Returns:

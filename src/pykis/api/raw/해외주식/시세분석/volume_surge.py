@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -87,12 +88,16 @@ class VolRangEnum(KisStrEnum):
 
 
 class VolumeSurgeRequest(RawModel):
-    KEYB: str = Field(
+    KEYB: str | None = Field(
+        default=None,
         alias="KEYB",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    AUTH: str = Field(
+    AUTH: str | None = Field(
+        default=None,
         alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     EXCD: ExcdEnum = Field(
@@ -120,8 +125,8 @@ class VolumeSurgeRequestDict(TypedDict):
     해외주식 거래량급증[해외주식-039]
 
     Request fields:
-        KEYB (str): 공백
-        AUTH (str): 공백
+        KEYB (str): 공백 optional
+        AUTH (str): 공백 optional
         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천
         HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
         MIXN (MixnEnum): N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전),
@@ -130,13 +135,17 @@ class VolumeSurgeRequestDict(TypedDict):
         5(100만주이상), 6(1000만주이상)
     """
 
-    KEYB: Annotated[
-        str,
-        "공백",
+    KEYB: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    AUTH: Annotated[
-        str,
-        "공백",
+    AUTH: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     EXCD: Annotated[
         ExcdEnum,
@@ -170,67 +179,83 @@ class VolumeSurgeOutput1(RawModel):
 
 
 class VolumeSurgeOutput2(RawModel):
-    rsym: str = Field(
+    rsym: str | None = Field(
+        default=None,
         alias="rsym",
     )
     ("실시간조회심볼")
-    excd: str = Field(
+    excd: str | None = Field(
+        default=None,
         alias="excd",
     )
     ("거래소코드")
-    symb: str = Field(
+    symb: str | None = Field(
+        default=None,
         alias="symb",
     )
     ("종목코드")
-    knam: str = Field(
+    knam: str | None = Field(
+        default=None,
         alias="knam",
     )
     ("종목명")
-    last: Decimal = Field(
+    last: Decimal | None = Field(
+        default=None,
         alias="last",
     )
     ("현재가")
-    sign: int = Field(
+    sign: str | None = Field(
+        default=None,
         alias="sign",
     )
     ("기호")
-    diff: Decimal = Field(
+    diff: str | None = Field(
+        default=None,
         alias="diff",
     )
     ("대비")
-    rate: Decimal = Field(
+    rate: Decimal | None = Field(
+        default=None,
         alias="rate",
     )
     ("등락율")
-    tvol: int = Field(
+    tvol: int | None = Field(
+        default=None,
         alias="tvol",
     )
     ("거래량")
-    pask: Decimal = Field(
+    pask: str | None = Field(
+        default=None,
         alias="pask",
     )
     ("매도호가")
-    pbid: str = Field(
+    pbid: str | None = Field(
+        default=None,
         alias="pbid",
     )
     ("매수호가")
-    n_tvol: int = Field(
+    n_tvol: int | None = Field(
+        default=None,
         alias="n_tvol",
     )
     ("기준거래량")
-    n_diff: int = Field(
+    n_diff: str | None = Field(
+        default=None,
         alias="n_diff",
     )
     ("증가량")
-    n_rate: Decimal = Field(
+    n_rate: Decimal | None = Field(
+        default=None,
         alias="n_rate",
     )
     ("증가율")
-    enam: str = Field(
+    enam: str | None = Field(
+        default=None,
         alias="enam",
     )
     ("영문종목명")
-    e_ordyn: str = Field(
+    e_ordyn: str | None = Field(
+        default=None,
         alias="e_ordyn",
     )
     ("매매가능")
@@ -318,8 +343,8 @@ if TYPE_CHECKING:
                 **kwargs (VolumeSurgeRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        KEYB (str): 공백
-                        AUTH (str): 공백
+                        KEYB (str): 공백 optional
+                        AUTH (str): 공백 optional
                         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS :
                         상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
                         MIXN (MixnEnum): N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전),

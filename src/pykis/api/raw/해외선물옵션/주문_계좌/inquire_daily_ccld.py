@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -99,8 +100,10 @@ class InquireDailyCcldRequest(RawModel):
         alias="FUOP_DVSN_CD",
     )
     ("00:전체 / 01:선물 / 02:옵션")
-    FM_PDGR_CD: str = Field(
+    FM_PDGR_CD: str | None = Field(
+        default=None,
         alias="FM_PDGR_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란(Default)")
     CRCY_CD: CrcyCdEnum = Field(
@@ -138,7 +141,7 @@ class InquireDailyCcldRequestDict(TypedDict):
         STRT_DT (str): 시작일자(YYYYMMDD)
         END_DT (str): 종료일자(YYYYMMDD)
         FUOP_DVSN_CD (FuopDvsnCdEnum): 00:전체 / 01:선물 / 02:옵션
-        FM_PDGR_CD (str): 공란(Default)
+        FM_PDGR_CD (str): 공란(Default) optional
         CRCY_CD (CrcyCdEnum): %%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR
         / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남
         FM_ITEM_FTNG_YN (KisBool): "N"(Default)
@@ -167,9 +170,11 @@ class InquireDailyCcldRequestDict(TypedDict):
         FuopDvsnCdEnum,
         "00:전체 / 01:선물 / 02:옵션",
     ]
-    FM_PDGR_CD: Annotated[
-        str,
-        "공란(Default)",
+    FM_PDGR_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공란(Default)",
+        ]
     ]
     CRCY_CD: Annotated[
         CrcyCdEnum,
@@ -367,7 +372,7 @@ if TYPE_CHECKING:
                         STRT_DT (str): 시작일자(YYYYMMDD)
                         END_DT (str): 종료일자(YYYYMMDD)
                         FUOP_DVSN_CD (FuopDvsnCdEnum): 00:전체 / 01:선물 / 02:옵션
-                        FM_PDGR_CD (str): 공란(Default)
+                        FM_PDGR_CD (str): 공란(Default) optional
                         CRCY_CD (CrcyCdEnum): %%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD:
                         미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남
                         FM_ITEM_FTNG_YN (KisBool): "N"(Default)

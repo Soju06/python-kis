@@ -1,0 +1,151 @@
+# Codegen API Report — {{ title_date }}
+
+## 기본 정보
+| 항목 | 상세 내용 |
+| :--- | :--- |
+{% for row in metadata_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}
+
+## 요약
+| 항목 | 상세 내용 |
+| :--- | :--- |
+{% for row in summary_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}
+
+## 범위
+| 항목 | 상세 내용 |
+| :--- | :--- |
+{% for row in scope_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}
+
+## 문서 기준 제외 (OAuth/실시간 제외)
+> 정상 포함된 엔드포인트는 표기하지 않습니다.
+
+{% if exclusion_summary_rows %}
+### 제외 요약
+| 사유 | 건수 | 비고 |
+| :--- | ---: | :--- |
+{% for row in exclusion_summary_rows %}
+| {{ row.reason }} | {{ row.count }} | {{ row.note }} |
+{% endfor %}
+
+{% else %}
+(제외 없음)
+{% endif %}
+
+{% if exclusion_detail_rows %}
+### 제외 상세
+| Endpoint ID | Name | Reason | Source | Action |
+| :--- | :--- | :--- | :--- | :--- |
+{% for row in exclusion_detail_rows %}
+| `{{ row.id }}` | {{ row.name }} | {{ row.reason }} | {{ row.source }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+## 스모크 테스트 경고
+> 오류가 아닌 경고(빈 응답 등)만 상세 표기합니다.
+
+{% if smoke_warning_summary_rows %}
+### 경고 요약
+| 유형 | 건수 | 비고 |
+| :--- | ---: | :--- |
+{% for row in smoke_warning_summary_rows %}
+| {{ row.reason }} | {{ row.count }} | {{ row.note }} |
+{% endfor %}
+
+{% else %}
+(경고 없음)
+{% endif %}
+
+{% if smoke_warning_details %}
+### 경고 상세
+| Endpoint ID | Name | Domain | Reason | Attempt | Path |
+| :--- | :--- | :--- | :--- | ---: | :--- |
+{% for row in smoke_warning_details %}
+| `{{ row.id }}` | {{ row.name }} | {{ row.domain }} | {{ row.reason }} | {{ row.attempt }} | {{ row.path }} |
+{% endfor %}
+
+{% endif %}
+## 스모크 테스트 오류
+> 오류 응답/전송 오류 등을 상세 표기합니다.
+
+{% if smoke_error_summary_rows %}
+### 오류 요약
+| 유형 | 건수 | 비고 |
+| :--- | ---: | :--- |
+{% for row in smoke_error_summary_rows %}
+| {{ row.reason }} | {{ row.count }} | {{ row.note }} |
+{% endfor %}
+
+{% else %}
+(오류 없음)
+{% endif %}
+
+{% if smoke_error_details %}
+### 오류 상세
+| Endpoint ID | Name | Domain | Reason | Attempt | Path |
+| :--- | :--- | :--- | :--- | ---: | :--- |
+{% for row in smoke_error_details %}
+| `{{ row.id }}` | {{ row.name }} | {{ row.domain }} | {{ row.reason }} | {{ row.attempt }} | {{ row.path }} |
+{% endfor %}
+
+{% endif %}
+{% if smoke_error_messages %}
+### 오류 상세 메시지
+{% for row in smoke_error_messages %}
+#### `{{ row.id }}`
+- Name: {{ row.name }}
+- Domain: {{ row.domain }}
+- Path: {{ row.path }}
+
+```
+{{ row.reason }}
+```
+
+{% endfor %}
+{% endif %}
+## Override 수명주기
+> 정상 유지(active) 항목은 상세 생략합니다.
+
+| 항목 | 상세 내용 |
+| :--- | :--- |
+{% for row in override_summary_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}
+
+{% if override_redundant_rows %}
+### 제거 후보 (Redundant)
+| Override ID | Reason | Change | Approved At | Evidence | Action |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+{% for row in override_redundant_rows %}
+| `{{ row.id }}` | {{ row.reason }} | {{ row.change_summary }} | {{ row.approved_at }} | {{ row.evidence }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+{% if override_blocked_rows %}
+### 차단됨 (Blocked)
+| Override ID | Reason | Change | Approved At | Evidence | Action |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+{% for row in override_blocked_rows %}
+| `{{ row.id }}` | {{ row.reason }} | {{ row.change_summary }} | {{ row.approved_at }} | {{ row.evidence }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+{% if override_missing_rows %}
+### 누락됨 (Missing)
+| Override ID | Reason | Change | Approved At | Evidence | Action |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+{% for row in override_missing_rows %}
+| `{{ row.id }}` | {{ row.reason }} | {{ row.change_summary }} | {{ row.approved_at }} | {{ row.evidence }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+## 부록
+| 항목 | 경로 |
+| :--- | :--- |
+{% for row in sources_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}

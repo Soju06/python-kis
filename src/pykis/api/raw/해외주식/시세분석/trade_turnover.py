@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -87,12 +88,16 @@ class VolRangEnum(KisStrEnum):
 
 
 class TradeTurnoverRequest(RawModel):
-    KEYB: str = Field(
+    KEYB: str | None = Field(
+        default=None,
         alias="KEYB",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    AUTH: str = Field(
+    AUTH: str | None = Field(
+        default=None,
         alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     EXCD: ExcdEnum = Field(
@@ -117,8 +122,8 @@ class TradeTurnoverRequestDict(TypedDict):
     해외주식 거래회전율순위[해외주식-046]
 
     Request fields:
-        KEYB (str): 공백
-        AUTH (str): 공백
+        KEYB (str): 공백 optional
+        AUTH (str): 공백 optional
         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천
         HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
         NDAY (NdayEnum): N일전 : 0(당일), 1(2일), 2(3일), 3(5일), 4(10일), 5(20일전), 6(30일),
@@ -127,13 +132,17 @@ class TradeTurnoverRequestDict(TypedDict):
         5(100만주이상), 6(1000만주이상)
     """
 
-    KEYB: Annotated[
-        str,
-        "공백",
+    KEYB: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    AUTH: Annotated[
-        str,
-        "공백",
+    AUTH: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     EXCD: Annotated[
         ExcdEnum,
@@ -174,47 +183,58 @@ class TradeTurnoverOutput1(RawModel):
 
 
 class TradeTurnoverOutput2(RawModel):
-    rsym: str = Field(
+    rsym: str | None = Field(
+        default=None,
         alias="rsym",
     )
     ("실시간조회심볼")
-    excd: str = Field(
+    excd: str | None = Field(
+        default=None,
         alias="excd",
     )
     ("거래소코드")
-    symb: str = Field(
+    symb: str | None = Field(
+        default=None,
         alias="symb",
     )
     ("종목코드")
-    name: str = Field(
+    name: str | None = Field(
+        default=None,
         alias="name",
     )
     ("종목명")
-    last: Decimal = Field(
+    last: Decimal | None = Field(
+        default=None,
         alias="last",
     )
     ("현재가")
-    sign: int = Field(
+    sign: str | None = Field(
+        default=None,
         alias="sign",
     )
     ("기호")
-    diff: Decimal = Field(
+    diff: str | None = Field(
+        default=None,
         alias="diff",
     )
     ("대비")
-    rate: Decimal = Field(
+    rate: Decimal | None = Field(
+        default=None,
         alias="rate",
     )
     ("등락율")
-    tvol: int = Field(
+    tvol: int | None = Field(
+        default=None,
         alias="tvol",
     )
     ("거래량")
-    pask: Decimal = Field(
+    pask: str | None = Field(
+        default=None,
         alias="pask",
     )
     ("매도호가")
-    pbid: str = Field(
+    pbid: str | None = Field(
+        default=None,
         alias="pbid",
     )
     ("매수호가")
@@ -223,23 +243,28 @@ class TradeTurnoverOutput2(RawModel):
         alias="n_tvol",
     )
     ("평균거래량")
-    shar: int = Field(
+    shar: str | None = Field(
+        default=None,
         alias="shar",
     )
     ("상장주식수")
-    tover: Decimal = Field(
+    tover: Decimal | None = Field(
+        default=None,
         alias="tover",
     )
     ("회전율")
-    rank: int = Field(
+    rank: str | None = Field(
+        default=None,
         alias="rank",
     )
     ("순위")
-    ename: str = Field(
+    ename: str | None = Field(
+        default=None,
         alias="ename",
     )
     ("영문종목명")
-    e_ordyn: str = Field(
+    e_ordyn: str | None = Field(
+        default=None,
         alias="e_ordyn",
     )
     ("매매가능")
@@ -327,8 +352,8 @@ if TYPE_CHECKING:
                 **kwargs (TradeTurnoverRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        KEYB (str): 공백
-                        AUTH (str): 공백
+                        KEYB (str): 공백 optional
+                        AUTH (str): 공백 optional
                         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS :
                         상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
                         NDAY (NdayEnum): N일전 : 0(당일), 1(2일), 2(3일), 3(5일), 4(10일), 5(20일전),

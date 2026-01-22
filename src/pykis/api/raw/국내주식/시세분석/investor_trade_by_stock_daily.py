@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -48,12 +49,16 @@ class InvestorTradeByStockDailyRequest(RawModel):
         alias="FID_INPUT_DATE_1",
     )
     ("입력 날짜(20250812) (해당일 조회는 장 종료 후 정상 조회 가능)")
-    FID_ORG_ADJ_PRC: str = Field(
+    FID_ORG_ADJ_PRC: str | None = Field(
+        default=None,
         alias="FID_ORG_ADJ_PRC",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 입력")
-    FID_ETC_CLS_CODE: str = Field(
+    FID_ETC_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_ETC_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 입력")
 
@@ -70,8 +75,8 @@ class InvestorTradeByStockDailyRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): J:KRX, NX:NXT, UN:통합
         FID_INPUT_ISCD (str): 종목번호 (6자리)
         FID_INPUT_DATE_1 (str): 입력 날짜(20250812) (해당일 조회는 장 종료 후 정상 조회 가능)
-        FID_ORG_ADJ_PRC (str): 공란 입력
-        FID_ETC_CLS_CODE (str): 공란 입력
+        FID_ORG_ADJ_PRC (str): 공란 입력 optional
+        FID_ETC_CLS_CODE (str): 공란 입력 optional
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -86,13 +91,17 @@ class InvestorTradeByStockDailyRequestDict(TypedDict):
         str,
         "입력 날짜(20250812) (해당일 조회는 장 종료 후 정상 조회 가능)",
     ]
-    FID_ORG_ADJ_PRC: Annotated[
-        str,
-        "공란 입력",
+    FID_ORG_ADJ_PRC: NotRequired[
+        Annotated[
+            str | None,
+            "공란 입력",
+        ]
     ]
-    FID_ETC_CLS_CODE: Annotated[
-        str,
-        "공란 입력",
+    FID_ETC_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공란 입력",
+        ]
     ]
 
 
@@ -630,8 +639,8 @@ if TYPE_CHECKING:
                         FID_INPUT_ISCD (str): 종목번호 (6자리)
                         FID_INPUT_DATE_1 (str): 입력 날짜(20250812) (해당일 조회는 장 종료 후 정상
                         조회 가능)
-                        FID_ORG_ADJ_PRC (str): 공란 입력
-                        FID_ETC_CLS_CODE (str): 공란 입력
+                        FID_ORG_ADJ_PRC (str): 공란 입력 optional
+                        FID_ETC_CLS_CODE (str): 공란 입력 optional
 
             Returns:
                 tuple[InvestorTradeByStockDailyResponse, KisResponse]: 응답 모델과 원시 응답

@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -33,20 +34,28 @@ class DisplayBoardTopRequest(RawModel):
         alias="FID_INPUT_ISCD",
     )
     ("선물최근월물 ex)(101V06)")
-    FID_COND_MRKT_DIV_CODE1: str = Field(
+    FID_COND_MRKT_DIV_CODE1: str | None = Field(
+        default=None,
         alias="FID_COND_MRKT_DIV_CODE1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    FID_COND_SCR_DIV_CODE: str = Field(
+    FID_COND_SCR_DIV_CODE: str | None = Field(
+        default=None,
         alias="FID_COND_SCR_DIV_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    FID_MTRT_CNT: str = Field(
+    FID_MTRT_CNT: str | None = Field(
+        default=None,
         alias="FID_MTRT_CNT",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    FID_COND_MRKT_CLS_CODE: str = Field(
+    FID_COND_MRKT_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_COND_MRKT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -60,10 +69,10 @@ class DisplayBoardTopRequestDict(TypedDict):
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (F: 선물)
         FID_INPUT_ISCD (str): 선물최근월물 ex)(101V06)
-        FID_COND_MRKT_DIV_CODE1 (str): 공백
-        FID_COND_SCR_DIV_CODE (str): 공백
-        FID_MTRT_CNT (str): 공백
-        FID_COND_MRKT_CLS_CODE (str): 공백
+        FID_COND_MRKT_DIV_CODE1 (str): 공백 optional
+        FID_COND_SCR_DIV_CODE (str): 공백 optional
+        FID_MTRT_CNT (str): 공백 optional
+        FID_COND_MRKT_CLS_CODE (str): 공백 optional
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -74,21 +83,29 @@ class DisplayBoardTopRequestDict(TypedDict):
         str,
         "선물최근월물 ex)(101V06)",
     ]
-    FID_COND_MRKT_DIV_CODE1: Annotated[
-        str,
-        "공백",
+    FID_COND_MRKT_DIV_CODE1: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "공백",
+    FID_COND_SCR_DIV_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    FID_MTRT_CNT: Annotated[
-        str,
-        "공백",
+    FID_MTRT_CNT: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    FID_COND_MRKT_CLS_CODE: Annotated[
-        str,
-        "공백",
+    FID_COND_MRKT_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
 
 
@@ -243,10 +260,10 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (F: 선물)
                         FID_INPUT_ISCD (str): 선물최근월물 ex)(101V06)
-                        FID_COND_MRKT_DIV_CODE1 (str): 공백
-                        FID_COND_SCR_DIV_CODE (str): 공백
-                        FID_MTRT_CNT (str): 공백
-                        FID_COND_MRKT_CLS_CODE (str): 공백
+                        FID_COND_MRKT_DIV_CODE1 (str): 공백 optional
+                        FID_COND_SCR_DIV_CODE (str): 공백 optional
+                        FID_MTRT_CNT (str): 공백 optional
+                        FID_COND_MRKT_CLS_CODE (str): 공백 optional
 
             Returns:
                 tuple[DisplayBoardTopResponse, KisResponse]: 응답 모델과 원시 응답

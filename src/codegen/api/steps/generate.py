@@ -9,7 +9,7 @@ from codegen.api.models import EndpointSpec, SpecField
 from codegen.api.types import EndpointHints, FieldHint, TypeOverrides
 from codegen.core.format import run_ruff_fix, run_ruff_format
 from codegen.core.render import render_template
-from codegen.core.text import wrap_display_lines
+from codegen.core.text import is_blank_description, wrap_display_lines
 
 __all__ = ["generate_raw", "normalize_filename", "section_path"]
 
@@ -365,6 +365,8 @@ def _build_model_fields(
         used_names.add(name)
         hint = hints.get(field.code) if hints else None
         base_type, _, field_args = _field_type(field, hint)
+        if is_blank_description(field.description):
+            field_args.append('json_schema_extra={"blank_allowed": True}')
         required = field.required
         if hint and hint.required is not None:
             required = hint.required

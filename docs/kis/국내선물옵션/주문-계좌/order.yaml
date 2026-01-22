@@ -66,8 +66,8 @@ request:
     type_name: String
     length: '13'
     required: true
-    description: "[실전투자]\nTTTO1101U : 선물 옵션 매수 매도 주문 주간\n(구) JTCE1001U : 선물 옵션 매수 매도 주문 야간\n(신) STTN1101U : 선물 옵션 매수 매도 주문\
-      \ 야간 \n\n[모의투자]\nVTTO1101U : 선물 옵션 매수 매도 주문 주간"
+    description: "[실전투자]\nTTTO1101U : 선물 옵션 매수 매도 주문 주간 \n(신) STTN1101U : 선물 옵션 매수 매도 주문 야간 \n\n[모의투자]\nVTTO1101U : 선물 옵션\
+      \ 매수 매도 주문 주간"
   - code: tr_cont
     name: 연속 거래 여부
     type: A0001

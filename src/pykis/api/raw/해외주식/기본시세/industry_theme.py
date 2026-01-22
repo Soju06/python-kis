@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -64,12 +65,16 @@ class VolRangEnum(KisStrEnum):
 
 
 class IndustryThemeRequest(RawModel):
-    KEYB: str = Field(
+    KEYB: str | None = Field(
+        default=None,
         alias="KEYB",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
-    AUTH: str = Field(
+    AUTH: str | None = Field(
+        default=None,
         alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     EXCD: ExcdEnum = Field(
@@ -94,8 +99,8 @@ class IndustryThemeRequestDict(TypedDict):
     해외주식 업종별시세 API입니다.
 
     Request fields:
-        KEYB (str): 공백
-        AUTH (str): 공백
+        KEYB (str): 공백 optional
+        AUTH (str): 공백 optional
         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천
         HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
         ICOD (str): 업종코드별조회(HHDFS76370100) 를 통해 확인
@@ -103,13 +108,17 @@ class IndustryThemeRequestDict(TypedDict):
         5(100만주이상), 6(1000만주이상)
     """
 
-    KEYB: Annotated[
-        str,
-        "공백",
+    KEYB: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
-    AUTH: Annotated[
-        str,
-        "공백",
+    AUTH: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     EXCD: Annotated[
         ExcdEnum,
@@ -150,67 +159,83 @@ class IndustryThemeOutput1(RawModel):
 
 
 class IndustryThemeOutput2(RawModel):
-    rsym: str = Field(
+    rsym: str | None = Field(
+        default=None,
         alias="rsym",
     )
     ("실시간조회심볼")
-    excd: str = Field(
+    excd: str | None = Field(
+        default=None,
         alias="excd",
     )
     ("거래소코드")
-    symb: str = Field(
+    symb: str | None = Field(
+        default=None,
         alias="symb",
     )
     ("종목코드")
-    name: str = Field(
+    name: str | None = Field(
+        default=None,
         alias="name",
     )
     ("종목명")
-    last: Decimal = Field(
+    last: Decimal | None = Field(
+        default=None,
         alias="last",
     )
     ("현재가")
-    sign: int = Field(
+    sign: str | None = Field(
+        default=None,
         alias="sign",
     )
     ("기호")
-    diff: Decimal = Field(
+    diff: str | None = Field(
+        default=None,
         alias="diff",
     )
     ("대비")
-    rate: Decimal = Field(
+    rate: Decimal | None = Field(
+        default=None,
         alias="rate",
     )
     ("등락율")
-    tvol: int = Field(
+    tvol: int | None = Field(
+        default=None,
         alias="tvol",
     )
     ("거래량")
-    vask: int = Field(
+    vask: str | None = Field(
+        default=None,
         alias="vask",
     )
     ("매도잔량")
-    pask: Decimal = Field(
+    pask: str | None = Field(
+        default=None,
         alias="pask",
     )
     ("매도호가")
-    pbid: str = Field(
+    pbid: str | None = Field(
+        default=None,
         alias="pbid",
     )
     ("매수호가")
-    vbid: str = Field(
+    vbid: str | None = Field(
+        default=None,
         alias="vbid",
     )
     ("매수잔량")
-    seqn: int = Field(
+    seqn: str | None = Field(
+        default=None,
         alias="seqn",
     )
     ("순위")
-    ename: str = Field(
+    ename: str | None = Field(
+        default=None,
         alias="ename",
     )
     ("영문종목명")
-    e_ordyn: str = Field(
+    e_ordyn: str | None = Field(
+        default=None,
         alias="e_ordyn",
     )
     ("매매가능")
@@ -298,8 +323,8 @@ if TYPE_CHECKING:
                 **kwargs (IndustryThemeRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        KEYB (str): 공백
-                        AUTH (str): 공백
+                        KEYB (str): 공백 optional
+                        AUTH (str): 공백 optional
                         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS :
                         상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
                         ICOD (str): 업종코드별조회(HHDFS76370100) 를 통해 확인

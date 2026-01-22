@@ -91,11 +91,13 @@ class OrderRequest(RawModel):
     FM_LIMIT_ORD_PRIC: Decimal | None = Field(
         default=None,
         alias="FM_LIMIT_ORD_PRIC",
+        json_schema_extra={"blank_allowed": True},
     )
     ('지정가인 경우 가격 입력 * 시장가, STOP주문인 경우, 빈칸("") 입력')
     FM_STOP_ORD_PRIC: Decimal | None = Field(
         default=None,
         alias="FM_STOP_ORD_PRIC",
+        json_schema_extra={"blank_allowed": True},
     )
     ('STOP 주문 가격 입력 * 시장가, 지정가인 경우, 빈칸("") 입력')
     FM_ORD_QTY: int = Field(

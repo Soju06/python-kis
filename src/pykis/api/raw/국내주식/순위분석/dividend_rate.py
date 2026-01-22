@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -83,8 +84,10 @@ class Gb4Enum(KisStrEnum):
 
 
 class DividendRateRequest(RawModel):
-    CTS_AREA: str = Field(
+    CTS_AREA: str | None = Field(
+        default=None,
         alias="CTS_AREA",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
     GB1: Gb1Enum = Field(
@@ -134,7 +137,7 @@ class DividendRateRequestDict(TypedDict):
     자세한 사용 방법은 공지사항 - [조건검색 필독] 조건검색 API 이용안내 참고 부탁드립니다.
 
     Request fields:
-        CTS_AREA (str): 공백
+        CTS_AREA (str): 공백 optional
         GB1 (Gb1Enum): 0:전체, 1:코스피, 2: 코스피200, 3: 코스닥,
         UPJONG (UpjongEnum): '코스피(0001:종합, 0002:대형주.…0027:제조업 ), 코스닥(1001:종합, ….
         1041:IT부품 코스피200 (2001:KOSPI200, 2007:KOSPI100, 2008:KOSPI50)'
@@ -145,9 +148,11 @@ class DividendRateRequestDict(TypedDict):
         GB4 (Gb4Enum): 0:전체, 1:결산배당, 2:중간배당
     """
 
-    CTS_AREA: Annotated[
-        str,
-        "공백",
+    CTS_AREA: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
     GB1: Annotated[
         Gb1Enum,
@@ -316,7 +321,7 @@ if TYPE_CHECKING:
                 **kwargs (DividendRateRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        CTS_AREA (str): 공백
+                        CTS_AREA (str): 공백 optional
                         GB1 (Gb1Enum): 0:전체, 1:코스피, 2: 코스피200, 3: 코스닥,
                         UPJONG (UpjongEnum): '코스피(0001:종합, 0002:대형주.…0027:제조업 ),
                         코스닥(1001:종합, …. 1041:IT부품 코스피200 (2001:KOSPI200, 2007:KOSPI100,

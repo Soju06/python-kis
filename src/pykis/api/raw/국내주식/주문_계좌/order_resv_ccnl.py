@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -84,8 +85,10 @@ class OrderResvCcnlRequest(RawModel):
         alias="CNCL_YN",
     )
     ('"Y" 유효한 주문만 조회')
-    PDNO: str = Field(
+    PDNO: str | None = Field(
+        default=None,
         alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
     )
     ("종목코드(6자리) (공백 입력 시 전체 조회)")
     SLL_BUY_DVSN_CD: str = Field(
@@ -118,7 +121,7 @@ class OrderResvCcnlRequestDict(TypedDict):
         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         PRCS_DVSN_CD (PrcsDvsnCdEnum): 0: 전체 1: 처리내역 2: 미처리내역
         CNCL_YN (KisBool): "Y" 유효한 주문만 조회
-        PDNO (str): 종목코드(6자리) (공백 입력 시 전체 조회)
+        PDNO (str): 종목코드(6자리) (공백 입력 시 전체 조회) optional
         SLL_BUY_DVSN_CD (str): 매도매수구분코드
         CTX_AREA_FK200 (str): 다음 페이지 조회시 사용
         CTX_AREA_NK200 (str): 다음 페이지 조회시 사용
@@ -156,9 +159,11 @@ class OrderResvCcnlRequestDict(TypedDict):
         KisBool,
         '"Y" 유효한 주문만 조회',
     ]
-    PDNO: Annotated[
-        str,
-        "종목코드(6자리) (공백 입력 시 전체 조회)",
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            "종목코드(6자리) (공백 입력 시 전체 조회)",
+        ]
     ]
     SLL_BUY_DVSN_CD: Annotated[
         str,
@@ -386,7 +391,7 @@ if TYPE_CHECKING:
                         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         PRCS_DVSN_CD (PrcsDvsnCdEnum): 0: 전체 1: 처리내역 2: 미처리내역
                         CNCL_YN (KisBool): "Y" 유효한 주문만 조회
-                        PDNO (str): 종목코드(6자리) (공백 입력 시 전체 조회)
+                        PDNO (str): 종목코드(6자리) (공백 입력 시 전체 조회) optional
                         SLL_BUY_DVSN_CD (str): 매도매수구분코드
                         CTX_AREA_FK200 (str): 다음 페이지 조회시 사용
                         CTX_AREA_NK200 (str): 다음 페이지 조회시 사용

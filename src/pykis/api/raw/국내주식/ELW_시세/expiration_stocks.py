@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -65,8 +66,10 @@ class ExpirationStocksRequest(RawModel):
         alias="FID_DIV_CLS_CODE",
     )
     ("0(콜),1(풋),2(전체)")
-    FID_ETC_CLS_CODE: str = Field(
+    FID_ETC_CLS_CODE: str | None = Field(
+        default=None,
         alias="FID_ETC_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
     FID_UNAS_INPUT_ISCD: str = Field(
@@ -81,8 +84,10 @@ class ExpirationStocksRequest(RawModel):
         alias="FID_BLNG_CLS_CODE",
     )
     ("0(전체),1(일반),2(조기종료)")
-    FID_INPUT_OPTION_1: str = Field(
+    FID_INPUT_OPTION_1: str | None = Field(
+        default=None,
         alias="FID_INPUT_OPTION_1",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백 입력")
 
@@ -101,12 +106,12 @@ class ExpirationStocksRequestDict(TypedDict):
         FID_INPUT_DATE_1 (str): 입력날짜 ~ (ex) 20240402)
         FID_INPUT_DATE_2 (str): ~입력날짜 (ex) 20240408)
         FID_DIV_CLS_CODE (FidDivClsCodeEnum): 0(콜),1(풋),2(전체)
-        FID_ETC_CLS_CODE (str): 공백 입력
+        FID_ETC_CLS_CODE (str): 공백 입력 optional
         FID_UNAS_INPUT_ISCD (str): 000000(전체), 2001(KOSPI 200), 기초자산코드(종목코드 ex.
         삼성전자-005930)
         FID_INPUT_ISCD_2 (str): 00000(전체), 00003(한국투자증권), 00017(KB증권), 00005(미래에셋증권)
         FID_BLNG_CLS_CODE (FidBlngClsCodeEnum): 0(전체),1(일반),2(조기종료)
-        FID_INPUT_OPTION_1 (str): 공백 입력
+        FID_INPUT_OPTION_1 (str): 공백 입력 optional
     """
 
     FID_COND_MRKT_DIV_CODE: Annotated[
@@ -129,9 +134,11 @@ class ExpirationStocksRequestDict(TypedDict):
         FidDivClsCodeEnum,
         "0(콜),1(풋),2(전체)",
     ]
-    FID_ETC_CLS_CODE: Annotated[
-        str,
-        "공백 입력",
+    FID_ETC_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
     FID_UNAS_INPUT_ISCD: Annotated[
         str,
@@ -145,9 +152,11 @@ class ExpirationStocksRequestDict(TypedDict):
         FidBlngClsCodeEnum,
         "0(전체),1(일반),2(조기종료)",
     ]
-    FID_INPUT_OPTION_1: Annotated[
-        str,
-        "공백 입력",
+    FID_INPUT_OPTION_1: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
     ]
 
 
@@ -352,13 +361,13 @@ if TYPE_CHECKING:
                         FID_INPUT_DATE_1 (str): 입력날짜 ~ (ex) 20240402)
                         FID_INPUT_DATE_2 (str): ~입력날짜 (ex) 20240408)
                         FID_DIV_CLS_CODE (FidDivClsCodeEnum): 0(콜),1(풋),2(전체)
-                        FID_ETC_CLS_CODE (str): 공백 입력
+                        FID_ETC_CLS_CODE (str): 공백 입력 optional
                         FID_UNAS_INPUT_ISCD (str): 000000(전체), 2001(KOSPI 200),
                         기초자산코드(종목코드 ex. 삼성전자-005930)
                         FID_INPUT_ISCD_2 (str): 00000(전체), 00003(한국투자증권), 00017(KB증권),
                         00005(미래에셋증권)
                         FID_BLNG_CLS_CODE (FidBlngClsCodeEnum): 0(전체),1(일반),2(조기종료)
-                        FID_INPUT_OPTION_1 (str): 공백 입력
+                        FID_INPUT_OPTION_1 (str): 공백 입력 optional
 
             Returns:
                 tuple[ExpirationStocksResponse, KisResponse]: 응답 모델과 원시 응답

@@ -115,6 +115,7 @@ class OrderCreditRequest(RawModel):
     SLL_TYPE: str | None = Field(
         default=None,
         alias="SLL_TYPE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공란 입력")
     CRDT_TYPE: CrdtTypeEnum = Field(

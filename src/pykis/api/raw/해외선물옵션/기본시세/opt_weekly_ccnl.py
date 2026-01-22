@@ -40,11 +40,13 @@ class OptWeeklyCcnlRequest(RawModel):
     START_DATE_TIME: KisDateTimeOptional = Field(
         default=None,
         alias="START_DATE_TIME",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" 공란 입력')
     CLOSE_DATE_TIME: KisDateTimeOptional = Field(
         default=None,
         alias="CLOSE_DATE_TIME",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" 공란 입력')
     QRY_TP: str = Field(
@@ -58,11 +60,13 @@ class OptWeeklyCcnlRequest(RawModel):
     QRY_GAP: str | None = Field(
         default=None,
         alias="QRY_GAP",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" 공란 입력')
     INDEX_KEY: str | None = Field(
         default=None,
         alias="INDEX_KEY",
+        json_schema_extra={"blank_allowed": True},
     )
     ('"" 공란 입력')
 
@@ -176,6 +180,7 @@ class OptWeeklyCcnlOutput2(RawModel):
     data_time: KisTimeOptional = Field(
         default=None,
         alias="data_time",
+        json_schema_extra={"blank_allowed": True},
     )
     ('""')
     open_price: Decimal | None = Field(

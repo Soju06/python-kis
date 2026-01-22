@@ -6,6 +6,7 @@ from typing import (
     TYPE_CHECKING,
     Annotated,
     Mapping,
+    NotRequired,
     Protocol,
     TypedDict,
     Unpack,
@@ -31,16 +32,20 @@ class MandDepositRequest(RawModel):
         alias="T_DT",
     )
     ("~ 일자")
-    SHT_CD: str = Field(
+    SHT_CD: str | None = Field(
+        default=None,
         alias="SHT_CD",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백: 전체, 특정종목 조회시 : 종목코드")
     F_DT: KisDate = Field(
         alias="F_DT",
     )
     ("일자 ~")
-    CTS: str = Field(
+    CTS: str | None = Field(
+        default=None,
         alias="CTS",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백")
 
@@ -55,26 +60,30 @@ class MandDepositRequestDict(TypedDict):
 
     Request fields:
         T_DT (KisDate): ~ 일자
-        SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드
+        SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
         F_DT (KisDate): 일자 ~
-        CTS (str): 공백
+        CTS (str): 공백 optional
     """
 
     T_DT: Annotated[
         KisDate,
         "~ 일자",
     ]
-    SHT_CD: Annotated[
-        str,
-        "공백: 전체, 특정종목 조회시 : 종목코드",
+    SHT_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공백: 전체, 특정종목 조회시 : 종목코드",
+        ]
     ]
     F_DT: Annotated[
         KisDate,
         "일자 ~",
     ]
-    CTS: Annotated[
-        str,
-        "공백",
+    CTS: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
     ]
 
 
@@ -200,9 +209,9 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         T_DT (KisDate): ~ 일자
-                        SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드
+                        SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
                         F_DT (KisDate): 일자 ~
-                        CTS (str): 공백
+                        CTS (str): 공백 optional
 
             Returns:
                 tuple[MandDepositResponse, KisResponse]: 응답 모델과 원시 응답

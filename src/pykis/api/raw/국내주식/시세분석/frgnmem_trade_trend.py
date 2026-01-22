@@ -119,11 +119,13 @@ class FrgnmemTradeTrendRequestDict(TypedDict):
 
 
 class FrgnmemTradeTrendOutput1(RawModel):
-    total_seln_qty: int = Field(
+    total_seln_qty: int | None = Field(
+        default=None,
         alias="total_seln_qty",
     )
     ("총매도수량")
-    total_shnu_qty: int = Field(
+    total_shnu_qty: int | None = Field(
+        default=None,
         alias="total_shnu_qty",
     )
     ("총매수2수량")

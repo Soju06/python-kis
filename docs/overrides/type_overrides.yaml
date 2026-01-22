@@ -185,13 +185,17 @@ overrides:
       output1: output
 - id: fc52daa5-9919-4f80-b926-ee35ef298c54
   approved_by: user
-  approved_at: '2026-01-19'
-  reason: Live response returns arrays where docs specify objects.
-  evidence: tmp/docs/augment/fc52daa5-9919-4f80-b926-ee35ef298c54/error.json
-  source: augment/raw mismatch (2026-01-19)
+  approved_at: '2026-01-22'
+  reason: Field missing in live response rows; allow optional.
+  evidence: tmp/docs/augment/fc52daa5-9919-4f80-b926-ee35ef298c54/raw.json
+  source: augment/raw mismatch (2026-01-22)
   changes:
     output_kinds:
       output: array
+    outputs:
+      output:
+        ovtm_untp_antc_cntg_vrsssign:
+          required: false
 - id: e5c6c050-e63f-4ab7-b339-d1a645d3239b
   approved_by: user
   approved_at: '2026-01-19'
@@ -277,14 +281,22 @@ overrides:
       output: array
 - id: 0bb05819-d759-4789-8eda-27a0b88f02aa
   approved_by: user
-  approved_at: '2026-01-20'
-  reason: Live response returns arrays where docs specify objects.
-  evidence: tmp/docs/augment/0bb05819-d759-4789-8eda-27a0b88f02aa/error.json
-  source: augment/raw mismatch (2026-01-20)
+  approved_at: '2026-01-22'
+  reason: Fields missing in live response payload; allow optional.
+  evidence: tmp/docs/augment/0bb05819-d759-4789-8eda-27a0b88f02aa/raw.json
+  source: augment/raw mismatch (2026-01-22)
   changes:
     output_kinds:
       output2: single
       output3: single
+    outputs:
+      output1:
+        hist_vltl:
+          required: false
+        hts_ints_vltl:
+          required: false
+        acpr:
+          required: false
 - id: 46eea904-3984-4354-b4e9-8918f503fd79
   approved_by: user
   approved_at: '2026-01-20'
@@ -450,13 +462,13 @@ overrides:
           required: false
 - id: 07313e08-45f2-4423-abb2-2a49752910ae
   approved_by: user
-  approved_at: '2026-01-21'
-  reason: Fields missing in live response rows.
+  approved_at: '2026-01-22'
+  reason: Live response uses `output`; fields missing in response payload.
   evidence: tmp/docs/augment/07313e08-45f2-4423-abb2-2a49752910ae/raw.json
-  source: augment/raw mismatch (2026-01-21)
+  source: augment/raw mismatch (2026-01-22)
   changes:
     outputs:
-      output1:
+      output:
         elw_shrn_iscd:
           required: false
         hts_kor_isnm:
@@ -466,6 +478,39 @@ overrides:
         unas_shrn_iscd:
           required: false
         invt_epmd_cntt:
+          required: false
+- id: a87c0275-f467-4199-866a-876a8fcdccb0
+  approved_by: user
+  approved_at: '2026-01-22'
+  reason: Sentinel time value `888888` should be treated as None; allow optional.
+  evidence: tmp/docs/reports/validation.json
+  source: validation error (2026-01-22)
+  changes:
+    outputs:
+      output:
+        stck_cntg_hour:
+          required: false
+- id: 1d150774-eafa-49f8-9e77-67099bc28771
+  approved_by: user
+  approved_at: '2026-01-22'
+  reason: Sentinel time value `888888` should be treated as None; allow optional.
+  evidence: tmp/docs/reports/validation.json
+  source: validation error (2026-01-22)
+  changes:
+    outputs:
+      output:
+        bsop_hour:
+          required: false
+- id: 5613b629-b622-4a22-8175-31a4376c36b4
+  approved_by: user
+  approved_at: '2026-01-22'
+  reason: Sentinel time value `888888` should be treated as None; allow optional.
+  evidence: tmp/docs/reports/validation.json
+  source: validation error (2026-01-22)
+  changes:
+    outputs:
+      output2:
+        stck_cntg_hour:
           required: false
 - id: 0843477a-156b-4ac5-bf65-199b124b072f
   approved_by: user
