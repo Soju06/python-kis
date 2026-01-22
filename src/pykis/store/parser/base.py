@@ -136,7 +136,7 @@ class StoreModel(BaseModel):
     def _blank_optional_to_none(cls, value: object, info):
         if isinstance(value, str):
             text = value.strip()
-            if not text or text in {".", "-", ","}:
+            if not text or text in {".", "-", ",", "(", ")"}:
                 field = cls.model_fields.get(info.field_name)
                 if field and _is_optional(field.annotation):
                     return None

@@ -10,8 +10,11 @@ from pykis.store.parser.base import (
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
 from pykis.store.raw.structs._enums import (
+    AtmClsCodeEnum,
     ComTypeEnum,
     InfoTypeEnum,
+    MmscClsCodeEnum,
+    ProdNoEnum,
 )
 
 
@@ -40,21 +43,63 @@ class ST_FO_COM_CODE(StoreModel):
         json_schema_extra={"length": 40},
     )
     ("한글종목명 (SZ_KORNAME=40)")
-    atm_cls_code: str | None = Field(
+    atm_cls_code: AtmClsCodeEnum | None = Field(
         default=None,
-        json_schema_extra={"length": 1},
+        json_schema_extra={"length": 1, "enum": ["1", "2", "3"], "enum_desc": {"1": "ATM", "2": "ITM", "3": "OTM"}},
     )
     ("ATM구분(1:ATM,2:ITM,3:OTM)")
     acpr: StoreDecimal = Field(
         json_schema_extra={"length": 8},
     )
     ("행사가")
-    mmsc_cls_code: str = Field(
-        json_schema_extra={"length": 1},
+    mmsc_cls_code: MmscClsCodeEnum = Field(
+        json_schema_extra={
+            "length": 1,
+            "enum": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+            "enum_desc": {"0": "연결선물", "1": "최근월물", "2": "차근월물", "3": "차차근월물", "4": "차차차근월물"},
+        },
     )
     ("월물구분코드 (0:연결선물, 1:최근월물 2:차근월물 3:차차근월물 4:차차차근월물 SP 는 무조건 1")
-    prod_no: str = Field(
-        json_schema_extra={"length": 3},
+    prod_no: ProdNoEnum = Field(
+        json_schema_extra={
+            "length": 3,
+            "enum": [
+                "B03",
+                "B05",
+                "B10",
+                "MSB",
+                "USD",
+                "JPY",
+                "EUR",
+                "GLD",
+                "LHG",
+                "CMU",
+                "RFR",
+                "BM3",
+                "BM5",
+                "BMA",
+                "B3A",
+                "CNH",
+                "KGD",
+                "BML",
+                "EM3",
+                "EMA",
+                "EXU",
+            ],
+            "enum_desc": {
+                "B03": "3년국채",
+                "B05": "5년국채",
+                "B10": "10년국채",
+                "MSB": "통안증권",
+                "USD": "미국달러",
+                "JPY": "엔",
+                "EUR": "유로",
+                "GLD": "금",
+                "LHG": "돈육",
+                "CMU": "CME미국달러",
+                "RFR": "3개월무위험금리",
+            },
+        },
     )
     (
         "기초자산 단축코드 "

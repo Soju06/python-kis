@@ -18,6 +18,8 @@ _ENUM_PAIR_DOT_RE = re.compile(
 )
 _ENUM_PAREN_CODE_RE = re.compile(r"(?P<desc>[^()\n,;/]+?)\s*\((?P<code>[A-Za-z0-9]{1,5})\)")
 _ENUM_PAREN_DESC_RE = re.compile(r"(?<![A-Za-z0-9_])(?P<code>[A-Za-z0-9]{1,5})\s*\((?P<desc>[^()\n,;/]+?)\)")
+_ENUM_EXAMPLE_RE = re.compile(r"(?i)\bex\b|e\.g\.|예시|예\)|예:")
+_ENUM_EXAMPLE_LIST_HINT_RE = re.compile(r"(?i)\bticker\b|티커")
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,6 +35,10 @@ def _normalize_description(text: str) -> str:
     normalized = text.replace("\r\n", "\n").replace("\r", "\n")
     normalized = normalized.replace("<br/>", "\n").replace("<br />", "\n").replace("<br>", "\n")
     normalized = normalized.replace("''", "'")
+    normalized = normalized.replace("：", ":").replace("／", "/").replace("，", ",")
+    normalized = normalized.replace("—", "-").replace("–", "-")
+    normalized = re.sub(r"\b\d{4}[./]\d{1,2}[./]\d{1,2}\b", " ", normalized)
+    normalized = re.sub(r"\b\d{4}[./]\d{1,2}\b", " ", normalized)
     normalized = re.sub(r"[\"']\s*([A-Za-z0-9]{1,8})\s*[\"']", r"\1", normalized)
     return normalized
 
@@ -78,9 +84,7 @@ def _is_code_token(token: str) -> bool:
 
 def _parse_pairs(normalized: str) -> list[EnumEntry]:
     entries: list[EnumEntry] = []
-    segments = []
-    for line in normalized.splitlines():
-        segments.extend(part.strip() for part in line.split(",") if part.strip())
+    segments = [line.strip() for line in normalized.splitlines() if line.strip()]
     if not segments:
         segments = [normalized]
     for segment in segments:
@@ -197,6 +201,8 @@ def parse_enum_entries(description: str | None) -> list[EnumEntry]:
     candidates.extend(_parse_paren_pairs(normalized))
 
     if not candidates:
+        if _ENUM_EXAMPLE_RE.search(normalized) or _ENUM_EXAMPLE_LIST_HINT_RE.search(normalized):
+            return []
         for chunk in _ENUM_LIST_RE.findall(normalized):
             for token in chunk.split(","):
                 token = token.strip()

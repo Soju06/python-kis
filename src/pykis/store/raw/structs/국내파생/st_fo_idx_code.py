@@ -11,12 +11,64 @@ from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
 from pykis.store.raw.structs._enums import (
     AtmClsCodeEnum,
+    InfoTypeEnum,
+    MmscClsCodeEnum,
 )
 
 
 class ST_FO_IDX_CODE(StoreModel):
-    info_type: str = Field(
-        json_schema_extra={"length": 1},
+    info_type: InfoTypeEnum = Field(
+        json_schema_extra={
+            "length": 1,
+            "enum": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "J",
+                "K",
+                "L",
+                "M",
+                "H",
+                "I",
+                "N",
+                "P",
+                "R",
+                "O",
+                "Q",
+                "S",
+            ],
+            "enum_desc": {
+                "1": "지수선물",
+                "2": "지수SP",
+                "3": "스타선물",
+                "4": "스타SP",
+                "5": "지수콜옵션",
+                "6": "지수풋옵션",
+                "7": "변동성선물",
+                "8": "변동성SP",
+                "9": "섹터선물",
+                "A": "섹터SP",
+                "B": "미니선물",
+                "C": "미니SP",
+                "D": "미니콜옵션",
+                "E": "미니풋옵션",
+                "J": "코스닥150콜옵션",
+                "K": "코스닥150풋옵션",
+                "L": "위클리콜옵션",
+                "M": "위클리풋옵션",
+            },
+        },
     )
     (
         "1:지수선물 2:지수SP 3:스타선물 4:스타SP "
@@ -49,9 +101,13 @@ class ST_FO_IDX_CODE(StoreModel):
         json_schema_extra={"length": 8},
     )
     ("행사가")
-    mmsc_cls_code: str | None = Field(
+    mmsc_cls_code: MmscClsCodeEnum | None = Field(
         default=None,
-        json_schema_extra={"length": 1},
+        json_schema_extra={
+            "length": 1,
+            "enum": ["0", "1", "2", "3", "4", "5", "6", "7"],
+            "enum_desc": {"0": "연결선물", "1": "최근월물", "2": "차근월물", "3": "차차근월물", "4": "차차차근월물"},
+        },
     )
     ("월물구분코드 (0:연결선물, 1:최근월물 2:차근월물 3:차차근월물 4:차차차근월물")
     unas_shrn_iscd: str = Field(

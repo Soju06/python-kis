@@ -63,7 +63,11 @@ def _detect_line_fixed(stream: BinaryIO, record_length: int, *, sample_bytes: in
     if not line:
         return False
     stripped = line.rstrip(b"\r\n")
-    return len(stripped) == record_length
+    if len(stripped) == record_length:
+        return True
+    if len(stripped) == record_length + 1 and stripped[record_length:] in {b"Y", b"N"}:
+        return True
+    return False
 
 
 def is_delimited_file(path: Path, field_count: int, *, delimiter: bytes = b"|", sample_bytes: int = 4096) -> bool:

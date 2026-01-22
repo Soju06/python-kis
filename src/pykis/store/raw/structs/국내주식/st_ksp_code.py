@@ -17,10 +17,14 @@ from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
 from pykis.store.raw.structs._enums import (
     AvlsScalClsCodeEnum,
+    EtpProdClsCodeEnum,
     FcamModClsCodeEnum,
     FlngClsCodeEnum,
     IcicClsCodeEnum,
+    Kospi200ApntClsCodeEnum,
     MrktAlrmClsCodeEnum,
+    PrstClsCodeEnum,
+    ScrtGrpClsCodeEnum,
     ShortOverClsCodeEnum,
 )
 
@@ -38,8 +42,26 @@ class ST_KSP_CODE(StoreModel):
         json_schema_extra={"length": 40},
     )
     ("한글종목명")
-    scrt_grp_cls_code: str = Field(
-        json_schema_extra={"length": 2},
+    scrt_grp_cls_code: ScrtGrpClsCodeEnum = Field(
+        json_schema_extra={
+            "length": 2,
+            "enum": ["ST", "MF", "RT", "SC", "IF", "DR", "EW", "EF", "SW", "SR", "BC", "FE", "FS", "PF", "EN"],
+            "enum_desc": {
+                "ST": "주권",
+                "MF": "증권투자회사",
+                "RT": "부동산투자회사",
+                "SC": "선박투자회사",
+                "IF": "사회간접자본투융자회사",
+                "DR": "주식예탁증서",
+                "EW": "ELW",
+                "EF": "ETF",
+                "SW": "신주인수권증권",
+                "SR": "신주인수권증서",
+                "BC": "수익증권",
+                "FE": "해외ETF",
+                "FS": "외국주권",
+            },
+        },
     )
     (
         "증권그룹구분코드 "
@@ -84,8 +106,23 @@ class ST_KSP_CODE(StoreModel):
         json_schema_extra={"length": 1},
     )
     ("지배 구조 지수 종목 여부 (Y/N)")
-    kospi200_apnt_cls_code: str = Field(
-        json_schema_extra={"length": 1},
+    kospi200_apnt_cls_code: Kospi200ApntClsCodeEnum = Field(
+        json_schema_extra={
+            "length": 1,
+            "enum": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "KOSPI200", "A", "9", "B"],
+            "enum_desc": {
+                "0": "미분류",
+                "1": "건설기계",
+                "2": "조선운송",
+                "3": "철강소재",
+                "4": "에너지화학",
+                "5": "정보통신",
+                "6": "금융",
+                "7": "필수소비재",
+                "8": "자유소비재",
+                "KOSPI200": "섹터업종(20110401 변경됨)",
+            },
+        },
     )
     (
         "KOSPI200 섹터업종(20110401 변경됨) "
@@ -105,9 +142,20 @@ class ST_KSP_CODE(StoreModel):
         json_schema_extra={"length": 1},
     )
     ("KRX 종목 여부")
-    etp_prod_cls_code: str | None = Field(
+    etp_prod_cls_code: EtpProdClsCodeEnum | None = Field(
         default=None,
-        json_schema_extra={"length": 1},
+        json_schema_extra={
+            "length": 1,
+            "enum": ["0", "1", "2", "3", "4", "ETP", "5"],
+            "enum_desc": {
+                "0": "해당없음",
+                "1": "투자회사형",
+                "2": "수익증권형",
+                "3": "ETN",
+                "4": "손실제한ETN",
+                "ETP": "상품구분코드",
+            },
+        },
     )
     ("ETP 상품구분코드 0:해당없음 1:투자회사형 2:수익증권형 3:ETN 4:손실제한ETN")
     elw_pblc_yn: StoreBool = Field(
@@ -324,8 +372,12 @@ class ST_KSP_CODE(StoreModel):
         json_schema_extra={"length": 7},
     )
     ("공모 가격")
-    prst_cls_code: str = Field(
-        json_schema_extra={"length": 1},
+    prst_cls_code: PrstClsCodeEnum = Field(
+        json_schema_extra={
+            "length": 1,
+            "enum": ["0", "1", "2", "9"],
+            "enum_desc": {"0": "해당없음(보통주)", "1": "구형우선주", "2": "신형우선주"},
+        },
     )
     ("우선주 구분 코드 (0:해당없음(보통주) 1:구형우선주 2:신형우선주")
     ssts_hot_yn: StoreBoolOptional = Field(

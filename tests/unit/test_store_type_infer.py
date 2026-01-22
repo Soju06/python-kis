@@ -71,6 +71,21 @@ def test_infer_enum_from_description() -> None:
     assert infer.enum == ["1", "2", "3"]
 
 
+def test_infer_enum_without_values() -> None:
+    field = _field("info_type", "1:지수선물 2:지수SP")
+    infer = infer_field_from_values(field, [])
+    assert infer.kind == "enum"
+    assert infer.enum == ["1", "2"]
+    assert infer.nullable is True
+
+
+def test_infer_enum_with_fullwidth_punctuation() -> None:
+    field = _field("status", "A：정상，B：중단")
+    infer = infer_field_from_values(field, ["A", "B"])
+    assert infer.kind == "enum"
+    assert infer.enum == ["A", "B"]
+
+
 def test_infer_enum_from_quoted_description() -> None:
     field = _field("rght_type_cls_code", "권리 유형 구분 코드 ''C'':콜 ''E'':기타 ''P'':풋")
     infer = infer_field_from_values(field, ["C", "E", "P"])
@@ -99,6 +114,20 @@ def test_infer_enum_from_colonless_multiword_description() -> None:
     assert infer.enum == ["512", "513", "529"]
 
 
+def test_infer_enum_ignores_date_dots() -> None:
+    field = _field("exch_sub", "서브 거래소 코드 2019.12.27 10:ASX 20:BALTIC")
+    infer = infer_field_from_values(field, ["10", "20"])
+    assert infer.kind == "enum"
+    assert infer.enum is not None
+    assert "12" not in infer.enum
+
+
+def test_infer_enum_ignores_example_list() -> None:
+    field = _field("ticker", "Ticker 코드 ex: NAS, NYS, AMS")
+    infer = infer_field_from_values(field, ["NAS", "NYS", "AMS"])
+    assert infer.kind == "str"
+
+
 def test_enum_does_not_drop_non_yn_codes() -> None:
     field = _field("mrkt_div", "N 해외지수 X 환율")
     infer = infer_field_from_values(field, ["N", "X"])
@@ -106,11 +135,11 @@ def test_enum_does_not_drop_non_yn_codes() -> None:
     assert infer.enum == ["N", "X"]
 
 
-def test_description_enum_does_not_merge_observed() -> None:
+def test_description_enum_merges_observed() -> None:
     field = _field("opt_cls", "1:콜 2:풋")
     infer = infer_field_from_values(field, ["1", "2", "9"])
     assert infer.kind == "enum"
-    assert infer.enum == ["1", "2"]
+    assert infer.enum == ["1", "2", "9"]
 
 
 def test_infer_time() -> None:

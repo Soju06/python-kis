@@ -16,6 +16,7 @@ from pykis.store.raw.structs._enums import (
     FcamModClsCodeEnum,
     FlngClsCodeEnum,
     IcicClsCodeEnum,
+    Krx300IssuYnEnum,
     MrktAlrmClsCodeEnum,
     PrstClsCodeEnum,
 )
@@ -179,9 +180,13 @@ class ST_KNX_CODE(StoreModel):
         json_schema_extra={"length": 1},
     )
     ("이상급등종목여부")
-    krx300_issu_yn: str | None = Field(
+    krx300_issu_yn: Krx300IssuYnEnum | None = Field(
         default=None,
-        json_schema_extra={"length": 1},
+        json_schema_extra={
+            "length": 1,
+            "enum": ["KRX300", "N"],
+            "enum_desc": {"KRX300": "종목 여부 (Y", "N": "(실제적으로 필러)"},
+        },
     )
     ("KRX300 종목 여부 (Y/N) (실제적으로 필러)")
     sale_account: StoreInt = Field(

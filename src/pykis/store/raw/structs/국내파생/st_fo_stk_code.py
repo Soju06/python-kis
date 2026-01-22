@@ -12,6 +12,7 @@ from pykis.store.parser.spec import FieldSpec, RecordSpec
 from pykis.store.raw.structs._enums import (
     AtmClsCodeEnum,
     InfoTypeEnum,
+    MmscClsCodeEnum,
 )
 
 
@@ -19,7 +20,7 @@ class ST_FO_STK_CODE(StoreModel):
     info_type: InfoTypeEnum = Field(
         json_schema_extra={
             "length": 1,
-            "enum": ["1", "2", "3", "4", "5", "6"],
+            "enum": ["1", "2", "3", "4", "5", "6", "7", "8"],
             "enum_desc": {
                 "1": "코스피 주식선물",
                 "2": "코스피 주식선물 SP",
@@ -52,9 +53,13 @@ class ST_FO_STK_CODE(StoreModel):
         json_schema_extra={"length": 8},
     )
     ("행사가")
-    mmsc_cls_code: str | None = Field(
+    mmsc_cls_code: MmscClsCodeEnum | None = Field(
         default=None,
-        json_schema_extra={"length": 1},
+        json_schema_extra={
+            "length": 1,
+            "enum": ["0", "1", "2", "3", "4", "5", "6"],
+            "enum_desc": {"0": "연결선물", "1": "최근월물", "2": "차근월물", "3": "차차근월물", "4": "차차차근월물"},
+        },
     )
     ("월물구분코드 (0:연결선물, 1:최근월물 2:차근월물 3:차차근월물 4:차차차근월물")
     unas_shrn_iscd: str = Field(

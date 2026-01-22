@@ -12,6 +12,9 @@ from pykis.store.parser.base import (
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
 from pykis.store.raw.structs._enums import (
+    EtypEnum,
+    MetmEnum,
+    MstmEnum,
     SjongEnum,
     StisEnum,
 )
@@ -84,12 +87,20 @@ class mastcode(StoreModel):
         json_schema_extra={"length": 9},
     )
     ("Ask order size")
-    mstm: str = Field(
-        json_schema_extra={"length": 5},
+    mstm: MstmEnum = Field(
+        json_schema_extra={
+            "length": 5,
+            "enum": ["HHMM", "time", "930", "900", "915"],
+            "enum_desc": {"HHMM": "market start time", "time": "HHMM"},
+        },
     )
     ("market start time(HHMM)")
-    metm: str = Field(
-        json_schema_extra={"length": 5},
+    metm: MetmEnum = Field(
+        json_schema_extra={
+            "length": 5,
+            "enum": ["HHMM", "time", "1600", "1500", "1610", "1530"],
+            "enum_desc": {"HHMM": "market end time", "time": "HHMM"},
+        },
     )
     ("market end time(HHMM)")
     isdr: StoreBool = Field(
@@ -114,9 +125,20 @@ class mastcode(StoreModel):
         json_schema_extra={"length": 2},
     )
     ("Tick size Type")
-    etyp: str | None = Field(
+    etyp: EtypEnum | None = Field(
         default=None,
-        json_schema_extra={"length": 4},
+        json_schema_extra={
+            "length": 4,
+            "enum": ["001", "002", "003", "004", "005", "006", "000"],
+            "enum_desc": {
+                "001": "ETF",
+                "002": "ETN",
+                "003": "ETC",
+                "004": "Others",
+                "005": "VIX Underlying ETF",
+                "006": "VIX Underlying ETN",
+            },
+        },
     )
     ("001: ETF 002: ETN 003: ETC 004: Others 005: VIX Underlying ETF 006: VIX Underlying ETN")
     ttyp_sb: str | None = Field(

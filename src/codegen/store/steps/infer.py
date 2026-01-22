@@ -16,6 +16,7 @@ from codegen.store.models import MasterCatalog, MasterField, MasterStructSpec
 
 _INT_RE = re.compile(r"^-?\d+$")
 _DECIMAL_RE = re.compile(r"^-?\d+\.\d+$")
+_ENUM_VALUE_RE = re.compile(r"^[A-Za-z0-9%]+$")
 _BOOL_VALUES = {"Y", "N", "YES", "NO", "TRUE", "FALSE", "1", "0"}
 _DATE_TOKENS = ("일자", "날짜", "기준일", "date", "ymd", "_dt")
 _TIME_TOKENS = ("시각", "시간", "hhmm", "hhmmss", "time", "_tm", "hour")
@@ -114,7 +115,7 @@ class FieldStats:
     def observe(self, raw: str, config: InferConfig) -> None:
         self.total += 1
         value = raw.strip()
-        if not value or value in {".", "-", ","}:
+        if not value or value in {".", "-", ",", "(", ")"}:
             self.empty += 1
             return
         self.non_empty += 1
@@ -193,6 +194,15 @@ class FieldInference(BaseModel):
     enum: list[str] | None = None
     enum_desc: dict[str, str] | None = None
     stats: FieldStatsSummary
+
+
+@dataclass(frozen=True, slots=True)
+class EnumCase:
+    struct_name: str
+    field_name: str
+    description: str | None
+    values: list[str]
+    descriptions: dict[str, str] | None
 
 
 @dataclass(frozen=True, slots=True)
@@ -323,6 +333,33 @@ def infer_field_from_values(
     return _finalize_field(field, stats, config)
 
 
+def collect_enum_cases(catalog: MasterCatalog) -> list[EnumCase]:
+    cases: list[EnumCase] = []
+    for struct in catalog.structs:
+        for field in struct.fields:
+            entries = parse_enum_entries(field.description)
+            if not entries:
+                continue
+            values = [entry.code for entry in entries]
+            desc_map = {entry.code: entry.desc for entry in entries if entry.desc}
+            cases.append(
+                EnumCase(
+                    struct_name=struct.name,
+                    field_name=field.name,
+                    description=field.description or None,
+                    values=values,
+                    descriptions=desc_map or None,
+                )
+            )
+    return sorted(cases, key=lambda item: (item.struct_name, item.field_name))
+
+
+def write_enum_cases(path: Path, cases: list[EnumCase]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = [asdict(case) for case in cases]
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def write_inference(path: Path, inference: CatalogInference) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
@@ -393,6 +430,7 @@ def _finalize_field(
         desc_entries = parse_enum_entries(field.description)
         if desc_entries:
             desc_enum = [entry.code for entry in desc_entries]
+            enum_desc = {entry.code: entry.desc for entry in desc_entries if entry.desc}
             if _is_bool_enum(desc_enum, strong_hint=strong_bool_hint):
                 return FieldInference(
                     name=field.name,
@@ -400,6 +438,15 @@ def _finalize_field(
                     nullable=True,
                     enum=None,
                     enum_desc=None,
+                    stats=_stats_summary(stats),
+                )
+            if len(desc_enum) <= config.max_enum_values:
+                return FieldInference(
+                    name=field.name,
+                    kind="enum",
+                    nullable=True,
+                    enum=desc_enum,
+                    enum_desc=enum_desc or None,
                     stats=_stats_summary(stats),
                 )
         if bool_hint:
@@ -433,12 +480,22 @@ def _finalize_field(
                 enum_desc=None,
                 stats=_stats_summary(stats),
             )
-        if len(desc_enum) <= config.max_enum_values:
+        merged_enum = list(desc_enum)
+        if not stats.distinct_overflow:
+            for value in stats.distinct:
+                if value in desc_enum:
+                    continue
+                if not value or len(value) > 8:
+                    continue
+                if not _ENUM_VALUE_RE.fullmatch(value):
+                    continue
+                merged_enum.append(value)
+        if len(merged_enum) <= config.max_enum_values:
             return FieldInference(
                 name=field.name,
                 kind="enum",
                 nullable=nullable,
-                enum=desc_enum,
+                enum=merged_enum,
                 enum_desc=enum_desc or None,
                 stats=_stats_summary(stats),
             )
@@ -886,13 +943,16 @@ def _numeric_conflict(
 
 __all__ = [
     "CatalogInference",
+    "EnumCase",
     "FieldInference",
     "InferConfig",
     "NumericConflict",
     "NumericWarning",
     "StructInference",
+    "collect_enum_cases",
     "infer_catalog_types",
     "infer_field_from_values",
+    "write_enum_cases",
     "write_inference",
     "write_numeric_conflicts",
     "write_numeric_warnings",

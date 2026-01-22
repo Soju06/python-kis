@@ -17,10 +17,12 @@ from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
 from pykis.store.raw.structs._enums import (
     AvlsScalClsCodeEnum,
+    EtpProdClsCodeEnum,
     FcamModClsCodeEnum,
     FlngClsCodeEnum,
     IcicClsCodeEnum,
     MrktAlrmClsCodeEnum,
+    PrstClsCodeEnum,
     ScrtGrpClsCodeEnum,
     ShortOverClsCodeEnum,
 )
@@ -102,9 +104,20 @@ class ST_KSQ_CODE(StoreModel):
         json_schema_extra={"length": 1},
     )
     ("KRX 종목 여부")
-    etp_prod_cls_code: str | None = Field(
+    etp_prod_cls_code: EtpProdClsCodeEnum | None = Field(
         default=None,
-        json_schema_extra={"length": 1},
+        json_schema_extra={
+            "length": 1,
+            "enum": ["0", "1", "2", "3", "4", "ETP"],
+            "enum_desc": {
+                "0": "해당없음",
+                "1": "투자회사형",
+                "2": "수익증권형",
+                "3": "ETN",
+                "4": "손실제한ETN",
+                "ETP": "상품구분코드",
+            },
+        },
     )
     ("ETP 상품구분코드 0:해당없음 1:투자회사형 2:수익증권형 3:ETN 4:손실제한ETN")
     krx100_issu_yn: StoreBool = Field(
@@ -316,8 +329,12 @@ class ST_KSQ_CODE(StoreModel):
         json_schema_extra={"length": 7},
     )
     ("공모 가격")
-    prst_cls_code: str = Field(
-        json_schema_extra={"length": 1},
+    prst_cls_code: PrstClsCodeEnum = Field(
+        json_schema_extra={
+            "length": 1,
+            "enum": ["0", "1", "2", "9"],
+            "enum_desc": {"0": "해당없음(보통주)", "1": "구형우선주", "2": "신형우선주"},
+        },
     )
     ("우선주 구분 코드 (0:해당없음(보통주) 1:구형우선주 2:신형우선주")
     ssts_hot_yn: StoreBoolOptional = Field(

@@ -119,6 +119,7 @@ class ClsCodeEnum(KisStrEnum):
     "리보금리"
     B = ("B", "주요국정부채")
     "주요국정부채"
+    E = ("E", "")
 
 
 class ComTypeEnum(KisStrEnum):
@@ -135,6 +136,38 @@ class Dow30YnEnum(KisStrEnum):
     "미편입"
     VALUE_1 = ("1", "편입")
     "편입"
+    F = ("F", "")
+    E = ("e", "")
+    S = ("s", "")
+    U = ("u", "")
+    N = ("n", "")
+    E_2 = ("E", "")
+    Y = ("y", "")
+    VALUE_O = ("o", "")
+    X = ("x", "")
+    T = ("T", "")
+    D = ("d", "")
+    VALUE_L = ("l", "")
+    T_2 = ("t", "")
+    C = ("c", "")
+    VALUE_I = ("i", "")
+    A = ("a", "")
+    S_2 = ("S", "")
+    R = ("r", "")
+    H = ("h", "")
+    V = ("v", "")
+    Y_2 = ("Y", "")
+    VALUE_I_2 = ("I", "")
+    G = ("g", "")
+    A_2 = ("A", "")
+    B = ("B", "")
+    C_2 = ("C", "")
+    K = ("k", "")
+    Q = ("q", "")
+    VALUE_5 = ("5", "")
+    M = ("m", "")
+    P = ("p", "")
+    VALUE_L_2 = ("L", "")
 
 
 class ElwNvltOptnClsCodeEnum(KisStrEnum):
@@ -159,6 +192,7 @@ class EtpProdClsCodeEnum(KisStrEnum):
     "손실제한ETN"
     ETP = ("ETP", "상품구분코드")
     "상품구분코드"
+    VALUE_5 = ("5", "")
 
 
 class EtypEnum(KisStrEnum):
@@ -174,6 +208,7 @@ class EtypEnum(KisStrEnum):
     "VIX Underlying ETF"
     VALUE_006 = ("006", "VIX Underlying ETN")
     "VIX Underlying ETN"
+    VALUE_000 = ("000", "")
 
 
 class FcamModClsCodeEnum(KisStrEnum):
@@ -265,6 +300,14 @@ class InfoTypeEnum(KisStrEnum):
     "위클리콜옵션"
     M = ("M", "위클리풋옵션")
     "위클리풋옵션"
+    H = ("H", "")
+    VALUE_I = ("I", "")
+    N = ("N", "")
+    P = ("P", "")
+    R = ("R", "")
+    VALUE_O = ("O", "")
+    Q = ("Q", "")
+    S = ("S", "")
 
 
 class Kospi200ApntClsCodeEnum(KisStrEnum):
@@ -288,6 +331,16 @@ class Kospi200ApntClsCodeEnum(KisStrEnum):
     "자유소비재"
     KOSPI200 = ("KOSPI200", "섹터업종(20110401 변경됨)")
     "섹터업종(20110401 변경됨)"
+    A = ("A", "")
+    VALUE_9 = ("9", "")
+    B = ("B", "")
+
+
+class Krx300IssuYnEnum(KisStrEnum):
+    KRX300 = ("KRX300", "종목 여부 (Y")
+    "종목 여부 (Y"
+    N = ("N", "(실제적으로 필러)")
+    "(실제적으로 필러)"
 
 
 class MetmEnum(KisStrEnum):
@@ -295,6 +348,10 @@ class MetmEnum(KisStrEnum):
     "market end time"
     TIME = ("time", "HHMM")
     "HHMM"
+    VALUE_1600 = ("1600", "")
+    VALUE_1500 = ("1500", "")
+    VALUE_1610 = ("1610", "")
+    VALUE_1530 = ("1530", "")
 
 
 class MmscClsCodeEnum(KisStrEnum):
@@ -308,6 +365,11 @@ class MmscClsCodeEnum(KisStrEnum):
     "차차근월물"
     VALUE_4 = ("4", "차차차근월물")
     "차차차근월물"
+    VALUE_5 = ("5", "")
+    VALUE_6 = ("6", "")
+    VALUE_7 = ("7", "")
+    VALUE_8 = ("8", "")
+    VALUE_9 = ("9", "")
 
 
 class MrktAlrmClsCodeEnum(KisStrEnum):
@@ -326,6 +388,9 @@ class MstmEnum(KisStrEnum):
     "market start time"
     TIME = ("time", "HHMM")
     "HHMM"
+    VALUE_930 = ("930", "")
+    VALUE_900 = ("900", "")
+    VALUE_915 = ("915", "")
 
 
 class Nasdaq100YnEnum(KisStrEnum):
@@ -333,6 +398,35 @@ class Nasdaq100YnEnum(KisStrEnum):
     "미편입"
     VALUE_1 = ("1", "편입")
     "편입"
+    U = ("u", "")
+    C = ("C", "")
+    N = ("n", "")
+    E = ("e", "")
+    T = ("t", "")
+    T_2 = ("T", "")
+    F = ("F", "")
+    VALUE_I = ("i", "")
+    VALUE_L = ("l", "")
+    A = ("a", "")
+    G = ("G", "")
+    D = ("d", "")
+    X = ("x", "")
+    VALUE_O = ("o", "")
+    C_2 = ("c", "")
+    S = ("S", "")
+    H = ("h", "")
+    Q = ("Q", "")
+    E_2 = ("E", "")
+    V = ("v", "")
+    Y = ("y", "")
+    R = ("r", "")
+    F_2 = ("f", "")
+    G_2 = ("g", "")
+    S_2 = ("s", "")
+    VALUE_L_2 = ("L", "")
+    M = ("m", "")
+    VALUE_I_2 = ("I", "")
+    B = ("B", "")
 
 
 class ProdNoEnum(KisStrEnum):
@@ -358,6 +452,16 @@ class ProdNoEnum(KisStrEnum):
     "CME미국달러"
     RFR = ("RFR", "3개월무위험금리")
     "3개월무위험금리"
+    BM3 = ("BM3", "")
+    BM5 = ("BM5", "")
+    BMA = ("BMA", "")
+    B3A = ("B3A", "")
+    CNH = ("CNH", "")
+    KGD = ("KGD", "")
+    BML = ("BML", "")
+    EM3 = ("EM3", "")
+    EMA = ("EMA", "")
+    EXU = ("EXU", "")
 
 
 class PrstClsCodeEnum(KisStrEnum):
@@ -367,6 +471,7 @@ class PrstClsCodeEnum(KisStrEnum):
     "구형우선주"
     VALUE_2 = ("2", "신형우선주")
     "신형우선주"
+    VALUE_9 = ("9", "")
 
 
 class RghtTypeClsCodeEnum(KisStrEnum):
@@ -431,6 +536,8 @@ class ScrtGrpClsCodeEnum(KisStrEnum):
     "해외ETF"
     FS = ("FS", "외국주권")
     "외국주권"
+    PF = ("PF", "")
+    EN = ("EN", "")
 
 
 class SexchsubcdEnum(KisStrEnum):
@@ -496,8 +603,7 @@ class SexchsubcdEnum(KisStrEnum):
     "TMX"
     P0 = ("P0", "HNX")
     "HNX"
-    VALUE_12 = ("12", "27")
-    "27"
+    Q0 = ("Q0", "")
 
 
 class ShortOverClsCodeEnum(KisStrEnum):
@@ -537,6 +643,38 @@ class Snp500YnEnum(KisStrEnum):
     "미편입"
     VALUE_1 = ("1", "편입")
     "편입"
+    N = ("n", "")
+    VALUE_L = ("l", "")
+    T = ("t", "")
+    D = ("d", "")
+    A = ("a", "")
+    F = ("F", "")
+    VALUE_L_2 = ("L", "")
+    B = ("B", "")
+    E = ("E", "")
+    X = ("x", "")
+    C = ("c", "")
+    C_2 = ("C", "")
+    P = ("p", "")
+    U = ("u", "")
+    E_2 = ("e", "")
+    R = ("r", "")
+    G = ("g", "")
+    T_2 = ("T", "")
+    H = ("h", "")
+    D_2 = ("D", "")
+    Y = ("Y", "")
+    VALUE_O = ("o", "")
+    VALUE_O_2 = ("O", "")
+    N_2 = ("N", "")
+    S = ("S", "")
+    VALUE_I = ("i", "")
+    S_2 = ("s", "")
+    VALUE_5 = ("5", "")
+    VALUE_I_2 = ("I", "")
+    V = ("v", "")
+    P_2 = ("P", "")
+    M = ("m", "")
 
 
 class SsymbolEnum(KisStrEnum):
@@ -559,16 +697,11 @@ class StisEnum(KisStrEnum):
     "ETF"
 
 
-class SundrassetEnum(KisStrEnum):
-    AAPL = ("AAPL", "")
-    TSLA = ("TSLA", "")
-
-
 class TypeEnum(KisStrEnum):
     A0 = ("A0", "장내소매채권")
     "장내소매채권"
-    F9 = ("F9", "(주식관련사채")
-    "(주식관련사채"
+    F9 = ("F9", "(주식관련사채, 소액채권)")
+    "(주식관련사채, 소액채권)"
     C0 = ("C0", "국고채권")
     "국고채권"
 
@@ -590,6 +723,7 @@ __all__ = [
     "IcicClsCodeEnum",
     "InfoTypeEnum",
     "Kospi200ApntClsCodeEnum",
+    "Krx300IssuYnEnum",
     "MetmEnum",
     "MmscClsCodeEnum",
     "MrktAlrmClsCodeEnum",
@@ -609,6 +743,5 @@ __all__ = [
     "Snp500YnEnum",
     "SsymbolEnum",
     "StisEnum",
-    "SundrassetEnum",
     "TypeEnum",
 ]

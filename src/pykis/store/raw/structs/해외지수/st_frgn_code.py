@@ -8,11 +8,35 @@ from pykis.store.parser.base import (
 )
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
+from pykis.store.raw.structs._enums import (
+    ClsCodeEnum,
+    Dow30YnEnum,
+    Nasdaq100YnEnum,
+    Snp500YnEnum,
+)
 
 
 class ST_FRGN_CODE(StoreModel):
-    cls_code: str = Field(
-        json_schema_extra={"length": 1},
+    cls_code: ClsCodeEnum = Field(
+        json_schema_extra={
+            "length": 1,
+            "enum": ["W", "P", "Q", "H", "D", "G", "F", "M", "X", "C", "R", "L", "B", "E"],
+            "enum_desc": {
+                "W": "세계주요지수",
+                "P": "미국지수",
+                "Q": "미국종목",
+                "H": "세계주요종목",
+                "D": "미국상장국내기업",
+                "G": "유럽상장국내기업",
+                "F": "CME선물",
+                "M": "반도체",
+                "X": "환율",
+                "C": "상품선물",
+                "R": "국내금리",
+                "L": "리보금리",
+                "B": "주요국정부채",
+            },
+        },
     )
     (
         "구분코드 "
@@ -48,19 +72,133 @@ class ST_FRGN_CODE(StoreModel):
         json_schema_extra={"length": 4},
     )
     ("종목업종코드")
-    dow_30_yn: str | None = Field(
+    dow_30_yn: Dow30YnEnum | None = Field(
         default=None,
-        json_schema_extra={"length": 1},
+        json_schema_extra={
+            "length": 1,
+            "enum": [
+                "0",
+                "1",
+                "F",
+                "e",
+                "s",
+                "u",
+                "n",
+                "E",
+                "y",
+                "o",
+                "x",
+                "T",
+                "d",
+                "l",
+                "t",
+                "c",
+                "i",
+                "a",
+                "S",
+                "r",
+                "h",
+                "v",
+                "Y",
+                "I",
+                "g",
+                "A",
+                "B",
+                "C",
+                "k",
+                "q",
+                "5",
+                "m",
+                "p",
+                "L",
+            ],
+            "enum_desc": {"0": "미편입", "1": "편입"},
+        },
     )
     ("다우30 편입종목여부 0:미편입 1:편입")
-    nasdaq_100_yn: str | None = Field(
+    nasdaq_100_yn: Nasdaq100YnEnum | None = Field(
         default=None,
-        json_schema_extra={"length": 1},
+        json_schema_extra={
+            "length": 1,
+            "enum": [
+                "0",
+                "1",
+                "u",
+                "C",
+                "n",
+                "e",
+                "t",
+                "T",
+                "F",
+                "i",
+                "l",
+                "a",
+                "G",
+                "d",
+                "x",
+                "o",
+                "c",
+                "S",
+                "h",
+                "Q",
+                "E",
+                "v",
+                "y",
+                "r",
+                "f",
+                "g",
+                "s",
+                "L",
+                "m",
+                "I",
+                "B",
+            ],
+            "enum_desc": {"0": "미편입", "1": "편입"},
+        },
     )
     ("나스닥100 편입종목여부 0:미편입 1:편입")
-    snp_500_yn: str | None = Field(
+    snp_500_yn: Snp500YnEnum | None = Field(
         default=None,
-        json_schema_extra={"length": 1},
+        json_schema_extra={
+            "length": 1,
+            "enum": [
+                "0",
+                "1",
+                "n",
+                "l",
+                "t",
+                "d",
+                "a",
+                "F",
+                "L",
+                "B",
+                "E",
+                "x",
+                "c",
+                "C",
+                "p",
+                "u",
+                "e",
+                "r",
+                "g",
+                "T",
+                "h",
+                "D",
+                "Y",
+                "o",
+                "O",
+                "N",
+                "S",
+                "i",
+                "s",
+                "5",
+                "I",
+                "v",
+                "P",
+                "m",
+            ],
+            "enum_desc": {"0": "미편입", "1": "편입"},
+        },
     )
     ("S&P 500 편입종목여부 0:미편입 1:편입")
     exch_cls_code: str | None = Field(

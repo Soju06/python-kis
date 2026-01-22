@@ -21,7 +21,9 @@ from codegen.store.steps.infer import (
     InferConfig,
     NumericConflict,
     NumericWarning,
+    collect_enum_cases,
     infer_catalog_types,
+    write_enum_cases,
     write_inference,
     write_numeric_conflicts,
     write_numeric_warnings,
@@ -96,6 +98,13 @@ def run_pipeline(
     report_path = REPORT_DIR / "scan.json"
     with report_path.open("w", encoding="utf-8") as handle:
         json.dump(scan_report.model_dump(), handle, ensure_ascii=False, indent=2)
+
+    enum_cases = collect_enum_cases(catalog)
+    enum_cases_path = REPORT_DIR / "enum_cases.json"
+    if enum_cases:
+        write_enum_cases(enum_cases_path, enum_cases)
+    elif enum_cases_path.exists():
+        enum_cases_path.unlink()
 
     if scan_report.errors:
         raise SystemExit("Store spec validation failed. See tmp/store_codegen/scan.json.")
@@ -373,7 +382,8 @@ def _split_validation_errors(
     for error in exc.errors():
         loc = error.get("loc")
         field = loc[0] if isinstance(loc, (list, tuple)) and loc else None
-        if error.get("type") == "literal_error" and isinstance(field, str) and field in enum_field_set:
+        error_type = error.get("type")
+        if error_type in {"literal_error", "enum"} and isinstance(field, str) and field in enum_field_set:
             value = error.get("input")
             value_str = "" if value is None else str(value)
             result.mismatches.increment(struct_name, field, value_str)
