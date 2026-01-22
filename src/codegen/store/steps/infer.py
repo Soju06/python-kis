@@ -71,6 +71,9 @@ _DECIMAL_BLOCK_TOKENS = (
     "ticker",
 )
 _DISABLED_TOKENS = ("사용안함", "사용 안함", "미사용", "사용하지 않음", "deprecated", "obsolete")
+_BOOL_ENUM_CODES = {"Y", "N"}
+_BOOL_NUMERIC_CODES = {"0", "1"}
+_BOOL_STRONG_TOKENS = ("여부", "y/n", "yes/no", "true/false", "boolean")
 
 if TYPE_CHECKING:
     from pykis.store.parser.spec import RecordSpec
@@ -381,10 +384,33 @@ def _finalize_field(
     warnings: list[NumericWarning] | None = None,
 ) -> FieldInference:
     text = _text_flags(field)
+    bool_hint = _has_bool_hint(text)
+    strong_bool_hint = _has_strong_bool_hint(text)
     non_empty = stats.non_empty
     nullable = stats.empty > 0
 
     if non_empty == 0:
+        desc_entries = parse_enum_entries(field.description)
+        if desc_entries:
+            desc_enum = [entry.code for entry in desc_entries]
+            if _is_bool_enum(desc_enum, strong_hint=strong_bool_hint):
+                return FieldInference(
+                    name=field.name,
+                    kind="bool",
+                    nullable=True,
+                    enum=None,
+                    enum_desc=None,
+                    stats=_stats_summary(stats),
+                )
+        if bool_hint:
+            return FieldInference(
+                name=field.name,
+                kind="bool",
+                nullable=True,
+                enum=None,
+                enum_desc=None,
+                stats=_stats_summary(stats),
+            )
         return FieldInference(
             name=field.name,
             kind="str",
@@ -398,7 +424,7 @@ def _finalize_field(
     if desc_entries:
         desc_enum = [entry.code for entry in desc_entries]
         enum_desc = {entry.code: entry.desc for entry in desc_entries if entry.desc}
-        if set(desc_enum).issubset({"Y", "N"}):
+        if _is_bool_enum(desc_enum, strong_hint=strong_bool_hint):
             return FieldInference(
                 name=field.name,
                 kind="bool",
@@ -417,7 +443,6 @@ def _finalize_field(
                 stats=_stats_summary(stats),
             )
 
-    bool_hint = _has_bool_hint(text)
     if bool_hint:
         return FieldInference(
             name=field.name,
@@ -579,6 +604,32 @@ def _has_int_hint(text: str) -> bool:
 def _has_bool_hint(text: str) -> bool:
     tokens = ("y/n", "_yn", "여부", "flag", "yn")
     return any(token in text for token in tokens)
+
+
+def _has_strong_bool_hint(text: str) -> bool:
+    return any(token in text for token in _BOOL_STRONG_TOKENS)
+
+
+def _normalize_bool_enum_codes(values: Iterable[str]) -> set[str]:
+    normalized: set[str] = set()
+    for value in values:
+        token = str(value).strip().upper()
+        if token:
+            normalized.add(token)
+    return normalized
+
+
+def _is_bool_enum(values: Iterable[str], *, strong_hint: bool) -> bool:
+    normalized = _normalize_bool_enum_codes(values)
+    if not normalized:
+        return False
+    if normalized.issubset(_BOOL_ENUM_CODES):
+        return True
+    if normalized.issubset(_BOOL_NUMERIC_CODES):
+        return strong_hint
+    if normalized.issubset(_BOOL_ENUM_CODES | _BOOL_NUMERIC_CODES):
+        return strong_hint
+    return False
 
 
 def _has_disabled_hint(text: str) -> bool:

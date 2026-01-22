@@ -20,6 +20,19 @@ def test_infer_bool_with_noise() -> None:
     assert infer.kind == "bool"
 
 
+def test_infer_bool_from_numeric_yn_description() -> None:
+    field = _field("dow_30_yn", "편입종목여부 0:미편입 1:편입")
+    infer = infer_field_from_values(field, ["0", "1", "0"])
+    assert infer.kind == "bool"
+
+
+def test_numeric_binary_enum_without_bool_hint_stays_enum() -> None:
+    field = _field("glob_yn", "구분 0=국내 1=외국")
+    infer = infer_field_from_values(field, ["0", "1", "0"])
+    assert infer.kind == "enum"
+    assert infer.enum == ["0", "1"]
+
+
 def test_infer_date() -> None:
     field = _field("base_date", "기준일자")
     infer = infer_field_from_values(field, ["20240101", "20231231", "00000000"])
