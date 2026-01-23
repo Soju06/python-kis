@@ -34,18 +34,11 @@ from pykis.store.parser.spec import FieldSpec, RecordSpec
 class {{ struct_name }}(StoreModel):
 {% if fields %}
 {% for field in fields %}
-    {{ field.name }}: {{ field.type }} = Field(
+    {{ field.name }}: {% if field.desc %}Annotated[{{ field.type }}, {{ field.desc | repr }}]{% else %}{{ field.type }}{% endif %} = Field(
 {% for arg in field.init_args %}
         {{ arg }},
 {% endfor %}
     )
-{% if field.desc_lines %}
-    (
-{% for line in field.desc_lines %}
-        {{ line | repr }}
-{% endfor %}
-    )
-{% endif %}
 {% endfor %}
 {% else %}
     pass

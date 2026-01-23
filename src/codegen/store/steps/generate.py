@@ -65,7 +65,7 @@ class StoreFieldDef:
     type: str
     extra: JsonObject
     nullable: bool
-    desc_lines: list[str]
+    desc: str
 
     @property
     def init_args(self) -> list[str]:
@@ -180,6 +180,10 @@ def _desc_lines(text: str) -> list[str]:
     if len(lines) <= 1:
         return lines
     return [f"{line} " for line in lines[:-1]] + [lines[-1]]
+
+
+def _desc_text(text: str) -> str:
+    return "".join(_desc_lines(text))
 
 
 def _ensure_unique_member_name(name: str, used: set[str]) -> str:
@@ -412,15 +416,18 @@ def generate_structs(
                     extra["enum"] = enum_values
                 if enum_desc:
                     extra["enum_desc"] = enum_desc
+                desc = _desc_text(field.description or "")
                 fields_payload.append(
                     StoreFieldDef(
                         name=field.name,
                         type=py_type,
                         extra=extra,
                         nullable=nullable,
-                        desc_lines=_desc_lines(field.description or ""),
+                        desc=desc,
                     )
                 )
+                if desc:
+                    typing_imports.add("Annotated")
                 start = offset
                 end = offset + field.length
                 field_specs.append(FieldSpecDef(name=field.name, start=start, end=end))
