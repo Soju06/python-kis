@@ -134,16 +134,21 @@ def wrap_display_text(value: str, width: int = 100) -> str:
     return "\n".join(wrap_display_lines(value, width=width))
 
 
-def _split_literal_line(text: str, max_repr_len: int) -> list[str]:
-    if max_repr_len <= 0:
+def _repr_display_width(text: str) -> int:
+    """Calculate the display width of repr(text), accounting for full-width characters."""
+    return _display_width(repr(text))
+
+
+def _split_literal_line(text: str, max_repr_width: int) -> list[str]:
+    if max_repr_width <= 0:
         return [text]
-    if len(repr(text)) <= max_repr_len:
+    if _repr_display_width(text) <= max_repr_width:
         return [text]
     parts: list[str] = []
     current = ""
     for ch in text:
         candidate = f"{current}{ch}"
-        if current and len(repr(candidate)) > max_repr_len:
+        if current and _repr_display_width(candidate) > max_repr_width:
             parts.append(current)
             current = ch
             continue
@@ -153,14 +158,15 @@ def _split_literal_line(text: str, max_repr_len: int) -> list[str]:
     return parts or [text]
 
 
-def format_string_literal(text: str, indent: int = 8, line_limit: int = 150) -> str:
+def format_string_literal(text: str, indent: int = 12, line_limit: int = 150) -> str:
     literal = repr(text)
     indent = max(0, indent)
     line_limit = max(0, line_limit)
-    if indent + len(literal) <= line_limit:
+    literal_width = _display_width(literal)
+    if indent + literal_width <= line_limit:
         return literal
     wrap_width = max(1, line_limit - indent - 2)
-    max_repr_len = max(1, line_limit - indent)
+    max_repr_width = max(1, line_limit - indent)
     raw_lines = wrap_display_lines(text, width=wrap_width)
     if not raw_lines:
         return literal
@@ -168,7 +174,7 @@ def format_string_literal(text: str, indent: int = 8, line_limit: int = 150) -> 
     for index, line in enumerate(raw_lines):
         if index < len(raw_lines) - 1:
             line = f"{line} "
-        pieces.extend(_split_literal_line(line, max_repr_len))
+        pieces.extend(_split_literal_line(line, max_repr_width))
     content_indent = " " * indent
     base_indent = " " * max(0, indent - 4)
     literal_lines = "\n".join(f"{content_indent}{repr(piece)}" for piece in pieces)

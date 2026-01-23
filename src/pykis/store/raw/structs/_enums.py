@@ -131,45 +131,6 @@ class ComTypeEnum(KisStrEnum):
     "상품"
 
 
-class Dow30YnEnum(KisStrEnum):
-    VALUE_0 = ("0", "미편입")
-    "미편입"
-    VALUE_1 = ("1", "편입")
-    "편입"
-    F = ("F", "")
-    E = ("e", "")
-    S = ("s", "")
-    U = ("u", "")
-    N = ("n", "")
-    E_2 = ("E", "")
-    Y = ("y", "")
-    VALUE_O = ("o", "")
-    X = ("x", "")
-    T = ("T", "")
-    D = ("d", "")
-    VALUE_L = ("l", "")
-    T_2 = ("t", "")
-    C = ("c", "")
-    VALUE_I = ("i", "")
-    A = ("a", "")
-    S_2 = ("S", "")
-    R = ("r", "")
-    H = ("h", "")
-    V = ("v", "")
-    Y_2 = ("Y", "")
-    VALUE_I_2 = ("I", "")
-    G = ("g", "")
-    A_2 = ("A", "")
-    B = ("B", "")
-    C_2 = ("C", "")
-    K = ("k", "")
-    Q = ("q", "")
-    VALUE_5 = ("5", "")
-    M = ("m", "")
-    P = ("p", "")
-    VALUE_L_2 = ("L", "")
-
-
 class ElwNvltOptnClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "표준옵션")
     "표준옵션"
@@ -393,42 +354,6 @@ class MstmEnum(KisStrEnum):
     VALUE_915 = ("915", "")
 
 
-class Nasdaq100YnEnum(KisStrEnum):
-    VALUE_0 = ("0", "미편입")
-    "미편입"
-    VALUE_1 = ("1", "편입")
-    "편입"
-    U = ("u", "")
-    C = ("C", "")
-    N = ("n", "")
-    E = ("e", "")
-    T = ("t", "")
-    T_2 = ("T", "")
-    F = ("F", "")
-    VALUE_I = ("i", "")
-    VALUE_L = ("l", "")
-    A = ("a", "")
-    G = ("G", "")
-    D = ("d", "")
-    X = ("x", "")
-    VALUE_O = ("o", "")
-    C_2 = ("c", "")
-    S = ("S", "")
-    H = ("h", "")
-    Q = ("Q", "")
-    E_2 = ("E", "")
-    V = ("v", "")
-    Y = ("y", "")
-    R = ("r", "")
-    F_2 = ("f", "")
-    G_2 = ("g", "")
-    S_2 = ("s", "")
-    VALUE_L_2 = ("L", "")
-    M = ("m", "")
-    VALUE_I_2 = ("I", "")
-    B = ("B", "")
-
-
 class ProdNoEnum(KisStrEnum):
     B03 = ("B03", "3년국채")
     "3년국채"
@@ -617,66 +542,6 @@ class ShortOverClsCodeEnum(KisStrEnum):
     "지정연장(해제연기)"
 
 
-class SjongEnum(KisStrEnum):
-    VALUE_0 = ("0", "구성종목없음")
-    "구성종목없음"
-    VALUE_1 = ("1", "구성종목있음")
-    "구성종목있음"
-
-
-class SnearflgEnum(KisStrEnum):
-    VALUE_0 = ("0", "원월물")
-    "원월물"
-    VALUE_1 = ("1", "근월물")
-    "근월물"
-
-
-class SnearflgdtEnum(KisStrEnum):
-    VALUE_0 = ("0", "원월물")
-    "원월물"
-    VALUE_1 = ("1", "최근월물")
-    "최근월물"
-
-
-class Snp500YnEnum(KisStrEnum):
-    VALUE_0 = ("0", "미편입")
-    "미편입"
-    VALUE_1 = ("1", "편입")
-    "편입"
-    N = ("n", "")
-    VALUE_L = ("l", "")
-    T = ("t", "")
-    D = ("d", "")
-    A = ("a", "")
-    F = ("F", "")
-    VALUE_L_2 = ("L", "")
-    B = ("B", "")
-    E = ("E", "")
-    X = ("x", "")
-    C = ("c", "")
-    C_2 = ("C", "")
-    P = ("p", "")
-    U = ("u", "")
-    E_2 = ("e", "")
-    R = ("r", "")
-    G = ("g", "")
-    T_2 = ("T", "")
-    H = ("h", "")
-    D_2 = ("D", "")
-    Y = ("Y", "")
-    VALUE_O = ("o", "")
-    VALUE_O_2 = ("O", "")
-    N_2 = ("N", "")
-    S = ("S", "")
-    VALUE_I = ("i", "")
-    S_2 = ("s", "")
-    VALUE_5 = ("5", "")
-    VALUE_I_2 = ("I", "")
-    V = ("v", "")
-    P_2 = ("P", "")
-    M = ("m", "")
-
-
 class SsymbolEnum(KisStrEnum):
     C = ("C", "")
     P = ("P", "")
@@ -713,7 +578,6 @@ __all__ = [
     "BondIntClsCodeEnum",
     "ClsCodeEnum",
     "ComTypeEnum",
-    "Dow30YnEnum",
     "ElwNvltOptnClsCodeEnum",
     "EtpProdClsCodeEnum",
     "EtypEnum",
@@ -728,7 +592,6 @@ __all__ = [
     "MmscClsCodeEnum",
     "MrktAlrmClsCodeEnum",
     "MstmEnum",
-    "Nasdaq100YnEnum",
     "ProdNoEnum",
     "PrstClsCodeEnum",
     "RghtTypeClsCodeEnum",
@@ -737,10 +600,6 @@ __all__ = [
     "ScrtGrpClsCodeEnum",
     "SexchsubcdEnum",
     "ShortOverClsCodeEnum",
-    "SjongEnum",
-    "SnearflgEnum",
-    "SnearflgdtEnum",
-    "Snp500YnEnum",
     "SsymbolEnum",
     "StisEnum",
     "TypeEnum",
