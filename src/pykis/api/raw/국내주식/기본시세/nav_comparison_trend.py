@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,9 +25,13 @@ if TYPE_CHECKING:
 
 
 class NavComparisonTrendRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("J")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("종목코드")
 
 
@@ -31,66 +46,122 @@ class NavComparisonTrendRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목코드
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "J"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "J",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "종목코드",
+    ]
 
 
 class NavComparisonTrendOutput1(RawModel):
-    stck_prpr: Decimal = Field(alias="stck_prpr")
+    stck_prpr: Decimal = Field(
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
+    prdy_vrss: int = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: int = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
+    acml_tr_pbmn: Decimal = Field(
+        alias="acml_tr_pbmn",
+    )
     ("누적 거래 대금")
-    stck_prdy_clpr: int = Field(alias="stck_prdy_clpr")
+    stck_prdy_clpr: int = Field(
+        alias="stck_prdy_clpr",
+    )
     ("주식 전일 종가")
-    stck_oprc: Decimal = Field(alias="stck_oprc")
+    stck_oprc: Decimal = Field(
+        alias="stck_oprc",
+    )
     ("주식 시가2")
-    stck_hgpr: Decimal = Field(alias="stck_hgpr")
+    stck_hgpr: Decimal = Field(
+        alias="stck_hgpr",
+    )
     ("주식 최고가")
-    stck_lwpr: Decimal = Field(alias="stck_lwpr")
+    stck_lwpr: Decimal = Field(
+        alias="stck_lwpr",
+    )
     ("주식 최저가")
-    stck_mxpr: int = Field(alias="stck_mxpr")
+    stck_mxpr: int = Field(
+        alias="stck_mxpr",
+    )
     ("주식 상한가")
-    stck_llam: int = Field(alias="stck_llam")
+    stck_llam: int = Field(
+        alias="stck_llam",
+    )
     ("주식 하한가")
 
 
 class NavComparisonTrendOutput2(RawModel):
-    nav: Decimal = Field(alias="nav")
+    nav: Decimal = Field(
+        alias="nav",
+    )
     ("NAV")
-    nav_prdy_vrss_sign: int = Field(alias="nav_prdy_vrss_sign")
+    nav_prdy_vrss_sign: int = Field(
+        alias="nav_prdy_vrss_sign",
+    )
     ("NAV 전일 대비 부호")
-    nav_prdy_vrss: Decimal = Field(alias="nav_prdy_vrss")
+    nav_prdy_vrss: Decimal = Field(
+        alias="nav_prdy_vrss",
+    )
     ("NAV 전일 대비")
-    nav_prdy_ctrt: Decimal = Field(alias="nav_prdy_ctrt")
+    nav_prdy_ctrt: Decimal = Field(
+        alias="nav_prdy_ctrt",
+    )
     ("NAV 전일 대비율")
-    prdy_clpr_nav: Decimal = Field(alias="prdy_clpr_nav")
+    prdy_clpr_nav: Decimal = Field(
+        alias="prdy_clpr_nav",
+    )
     ("NAV전일종가")
-    oprc_nav: Decimal = Field(alias="oprc_nav")
+    oprc_nav: Decimal = Field(
+        alias="oprc_nav",
+    )
     ("NAV시가")
-    hprc_nav: Decimal = Field(alias="hprc_nav")
+    hprc_nav: Decimal = Field(
+        alias="hprc_nav",
+    )
     ("NAV고가")
-    lprc_nav: Decimal = Field(alias="lprc_nav")
+    lprc_nav: Decimal = Field(
+        alias="lprc_nav",
+    )
     ("NAV저가")
 
 
 class NavComparisonTrendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: NavComparisonTrendOutput1 = Field(alias="output1")
+    output1: NavComparisonTrendOutput1 = Field(
+        alias="output1",
+    )
     ("응답상세")
-    output2: NavComparisonTrendOutput2 = Field(alias="output2")
+    output2: NavComparisonTrendOutput2 = Field(
+        alias="output2",
+    )
     ("응답상세")
 
 
@@ -117,15 +188,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: NavComparisonTrendRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: NavComparisonTrendRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[NavComparisonTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: NavComparisonTrendRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: NavComparisonTrendRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[NavComparisonTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[NavComparisonTrendRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[NavComparisonTrendRequestDict],
         ) -> tuple[NavComparisonTrendResponse, KisResponse]: ...
         def call(
             self,

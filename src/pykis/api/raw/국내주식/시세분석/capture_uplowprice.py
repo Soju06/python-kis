@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -37,25 +49,58 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class CaptureUplowpriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("시장구분(J)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: str = Field(
+        alias="FID_COND_SCR_DIV_CODE",
+    )
     ("11300(Unique key)")
-    FID_PRC_CLS_CODE: FidPrcClsCodeEnum = Field(alias="FID_PRC_CLS_CODE")
+    FID_PRC_CLS_CODE: FidPrcClsCodeEnum = Field(
+        alias="FID_PRC_CLS_CODE",
+    )
     ("0(상한가),1(하한가)")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
-    ("'0(상하한가종목),6(8%상하한가 근접), 5(10%상하한가 근접), 1(15%상하한가 근접),2(20%상하한가 근접), 3(25%상하한가 근접)'")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
+        alias="FID_DIV_CLS_CODE",
+    )
+    (
+        "'0(상하한가종목),6(8%상하한가 근접), 5(10%상하한가 근접), 1(15%상하한가 근접),2(20%상하한가 "
+        "근접), 3(25%상하한가 근접)'"
+    )
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("전체(0000), 코스피(0001),코스닥(1001)")
-    FID_TRGT_CLS_CODE: str | None = Field(default=None, alias="FID_TRGT_CLS_CODE", json_schema_extra={"blank_allowed": True})
+    FID_TRGT_CLS_CODE: str | None = Field(
+        default=None,
+        alias="FID_TRGT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백 입력")
-    FID_TRGT_EXLS_CLS_CODE: str | None = Field(default=None, alias="FID_TRGT_EXLS_CLS_CODE", json_schema_extra={"blank_allowed": True})
+    FID_TRGT_EXLS_CLS_CODE: str | None = Field(
+        default=None,
+        alias="FID_TRGT_EXLS_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백 입력")
-    FID_INPUT_PRICE_1: str | None = Field(default=None, alias="FID_INPUT_PRICE_1", json_schema_extra={"blank_allowed": True})
+    FID_INPUT_PRICE_1: str | None = Field(
+        default=None,
+        alias="FID_INPUT_PRICE_1",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백 입력")
-    FID_INPUT_PRICE_2: str | None = Field(default=None, alias="FID_INPUT_PRICE_2", json_schema_extra={"blank_allowed": True})
+    FID_INPUT_PRICE_2: str | None = Field(
+        default=None,
+        alias="FID_INPUT_PRICE_2",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백 입력")
-    FID_VOL_CNT: int | None = Field(default=None, alias="FID_VOL_CNT", json_schema_extra={"blank_allowed": True})
+    FID_VOL_CNT: int | None = Field(
+        default=None,
+        alias="FID_VOL_CNT",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백 입력")
 
 
@@ -79,65 +124,163 @@ class CaptureUplowpriceRequestDict(TypedDict):
         FID_VOL_CNT (int): 공백 입력 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분(J)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "11300(Unique key)"]
-    FID_PRC_CLS_CODE: Annotated[FidPrcClsCodeEnum, "0(상한가),1(하한가)"]
-    FID_DIV_CLS_CODE: Annotated[
-        FidDivClsCodeEnum, "'0(상하한가종목),6(8%상하한가 근접), 5(10%상하한가 근접), 1(15%상하한가 근접),2(20%상하한가 근접), 3(25%상하한가 근접)'"
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "시장구분(J)",
     ]
-    FID_INPUT_ISCD: Annotated[str, "전체(0000), 코스피(0001),코스닥(1001)"]
-    FID_TRGT_CLS_CODE: NotRequired[Annotated[str | None, "공백 입력"]]
-    FID_TRGT_EXLS_CLS_CODE: NotRequired[Annotated[str | None, "공백 입력"]]
-    FID_INPUT_PRICE_1: NotRequired[Annotated[str | None, "공백 입력"]]
-    FID_INPUT_PRICE_2: NotRequired[Annotated[str | None, "공백 입력"]]
-    FID_VOL_CNT: NotRequired[Annotated[int | None, "공백 입력"]]
+    FID_COND_SCR_DIV_CODE: Annotated[
+        str,
+        "11300(Unique key)",
+    ]
+    FID_PRC_CLS_CODE: Annotated[
+        FidPrcClsCodeEnum,
+        "0(상한가),1(하한가)",
+    ]
+    FID_DIV_CLS_CODE: Annotated[
+        FidDivClsCodeEnum,
+        "'0(상하한가종목),6(8%상하한가 근접), 5(10%상하한가 근접), 1(15%상하한가 근접),2(20%상하한가 "
+        "근접), 3(25%상하한가 근접)'",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "전체(0000), 코스피(0001),코스닥(1001)",
+    ]
+    FID_TRGT_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
+    ]
+    FID_TRGT_EXLS_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
+    ]
+    FID_INPUT_PRICE_1: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
+    ]
+    FID_INPUT_PRICE_2: NotRequired[
+        Annotated[
+            str | None,
+            "공백 입력",
+        ]
+    ]
+    FID_VOL_CNT: NotRequired[
+        Annotated[
+            int | None,
+            "공백 입력",
+        ]
+    ]
 
 
 class CaptureUplowpriceOutput(RawModel):
-    mksc_shrn_iscd: str | None = Field(default=None, alias="mksc_shrn_iscd")
+    mksc_shrn_iscd: str | None = Field(
+        default=None,
+        alias="mksc_shrn_iscd",
+    )
     ("유가증권단축종목코드")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
+    hts_kor_isnm: str | None = Field(
+        default=None,
+        alias="hts_kor_isnm",
+    )
     ("HTS한글종목명")
-    stck_prpr: Decimal | None = Field(default=None, alias="stck_prpr")
+    stck_prpr: Decimal | None = Field(
+        default=None,
+        alias="stck_prpr",
+    )
     ("주식현재가")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("전일대비부호")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
+    prdy_vrss: str | None = Field(
+        default=None,
+        alias="prdy_vrss",
+    )
     ("전일대비")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="prdy_ctrt",
+    )
     ("전일대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
+    acml_vol: int | None = Field(
+        default=None,
+        alias="acml_vol",
+    )
     ("누적거래량")
-    total_askp_rsqn: str | None = Field(default=None, alias="total_askp_rsqn")
+    total_askp_rsqn: str | None = Field(
+        default=None,
+        alias="total_askp_rsqn",
+    )
     ("총매도호가잔량")
-    total_bidp_rsqn: str | None = Field(default=None, alias="total_bidp_rsqn")
+    total_bidp_rsqn: str | None = Field(
+        default=None,
+        alias="total_bidp_rsqn",
+    )
     ("총매수호가잔량")
-    askp_rsqn1: str | None = Field(default=None, alias="askp_rsqn1")
+    askp_rsqn1: str | None = Field(
+        default=None,
+        alias="askp_rsqn1",
+    )
     ("매도호가잔량1")
-    bidp_rsqn1: str | None = Field(default=None, alias="bidp_rsqn1")
+    bidp_rsqn1: str | None = Field(
+        default=None,
+        alias="bidp_rsqn1",
+    )
     ("매수호가잔량1")
-    prdy_vol: int | None = Field(default=None, alias="prdy_vol")
+    prdy_vol: int | None = Field(
+        default=None,
+        alias="prdy_vol",
+    )
     ("전일거래량")
-    seln_cnqn: str | None = Field(default=None, alias="seln_cnqn")
+    seln_cnqn: str | None = Field(
+        default=None,
+        alias="seln_cnqn",
+    )
     ("매도체결량")
-    shnu_cnqn: str | None = Field(default=None, alias="shnu_cnqn")
+    shnu_cnqn: str | None = Field(
+        default=None,
+        alias="shnu_cnqn",
+    )
     ("매수2체결량")
-    stck_llam: str | None = Field(default=None, alias="stck_llam")
+    stck_llam: str | None = Field(
+        default=None,
+        alias="stck_llam",
+    )
     ("주식하한가")
-    stck_mxpr: str | None = Field(default=None, alias="stck_mxpr")
+    stck_mxpr: str | None = Field(
+        default=None,
+        alias="stck_mxpr",
+    )
     ("주식상한가")
-    prdy_vrss_vol_rate: Decimal | None = Field(default=None, alias="prdy_vrss_vol_rate")
+    prdy_vrss_vol_rate: Decimal | None = Field(
+        default=None,
+        alias="prdy_vrss_vol_rate",
+    )
     ("전일대비거래량비율")
 
 
 class CaptureUplowpriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[CaptureUplowpriceOutput] = Field(alias="output")
+    output: list[CaptureUplowpriceOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -164,15 +307,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: CaptureUplowpriceRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: CaptureUplowpriceRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[CaptureUplowpriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: CaptureUplowpriceRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: CaptureUplowpriceRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[CaptureUplowpriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[CaptureUplowpriceRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[CaptureUplowpriceRequestDict],
         ) -> tuple[CaptureUplowpriceResponse, KisResponse]: ...
         def call(
             self,

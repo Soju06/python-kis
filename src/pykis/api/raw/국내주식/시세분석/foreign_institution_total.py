@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -40,17 +51,29 @@ class FidEtcClsCodeEnum(KisStrEnum):
 
 
 class ForeignInstitutionTotalRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("V(Default)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: str = Field(
+        alias="FID_COND_SCR_DIV_CODE",
+    )
     ("16449(Default)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("0000:전체, 0001:코스피, 1001:코스닥 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
+        alias="FID_DIV_CLS_CODE",
+    )
     ("0: 수량정열, 1: 금액정열")
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
+        alias="FID_RANK_SORT_CLS_CODE",
+    )
     ("0: 순매수상위, 1: 순매도상위")
-    FID_ETC_CLS_CODE: FidEtcClsCodeEnum = Field(alias="FID_ETC_CLS_CODE")
+    FID_ETC_CLS_CODE: FidEtcClsCodeEnum = Field(
+        alias="FID_ETC_CLS_CODE",
+    )
     ("0:전체 1:외국인 2:기관계 3:기타")
 
 
@@ -76,77 +99,181 @@ class ForeignInstitutionTotalRequestDict(TypedDict):
         FID_ETC_CLS_CODE (FidEtcClsCodeEnum): 0:전체 1:외국인 2:기관계 3:기타
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "V(Default)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "16449(Default)"]
-    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:코스피, 1001:코스닥 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)"]
-    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 수량정열, 1: 금액정열"]
-    FID_RANK_SORT_CLS_CODE: Annotated[FidRankSortClsCodeEnum, "0: 순매수상위, 1: 순매도상위"]
-    FID_ETC_CLS_CODE: Annotated[FidEtcClsCodeEnum, "0:전체 1:외국인 2:기관계 3:기타"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "V(Default)",
+    ]
+    FID_COND_SCR_DIV_CODE: Annotated[
+        str,
+        "16449(Default)",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "0000:전체, 0001:코스피, 1001:코스닥 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)",
+    ]
+    FID_DIV_CLS_CODE: Annotated[
+        FidDivClsCodeEnum,
+        "0: 수량정열, 1: 금액정열",
+    ]
+    FID_RANK_SORT_CLS_CODE: Annotated[
+        FidRankSortClsCodeEnum,
+        "0: 순매수상위, 1: 순매도상위",
+    ]
+    FID_ETC_CLS_CODE: Annotated[
+        FidEtcClsCodeEnum,
+        "0:전체 1:외국인 2:기관계 3:기타",
+    ]
 
 
 class ForeignInstitutionTotalOutput(RawModel):
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
+    hts_kor_isnm: str | None = Field(
+        default=None,
+        alias="hts_kor_isnm",
+    )
     ("HTS 한글 종목명")
-    mksc_shrn_iscd: str | None = Field(default=None, alias="mksc_shrn_iscd")
+    mksc_shrn_iscd: str | None = Field(
+        default=None,
+        alias="mksc_shrn_iscd",
+    )
     ("유가증권 단축 종목코드")
-    ntby_qty: int | None = Field(default=None, alias="ntby_qty")
+    ntby_qty: int | None = Field(
+        default=None,
+        alias="ntby_qty",
+    )
     ("순매수 수량")
-    stck_prpr: Decimal | None = Field(default=None, alias="stck_prpr")
+    stck_prpr: Decimal | None = Field(
+        default=None,
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
+    prdy_vrss: str | None = Field(
+        default=None,
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
+    acml_vol: int | None = Field(
+        default=None,
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    frgn_ntby_qty: int | None = Field(default=None, alias="frgn_ntby_qty")
+    frgn_ntby_qty: int | None = Field(
+        default=None,
+        alias="frgn_ntby_qty",
+    )
     ("외국인 순매수 수량")
-    orgn_ntby_qty: int | None = Field(default=None, alias="orgn_ntby_qty")
+    orgn_ntby_qty: int | None = Field(
+        default=None,
+        alias="orgn_ntby_qty",
+    )
     ("기관계 순매수 수량")
-    ivtr_ntby_qty: int | None = Field(default=None, alias="ivtr_ntby_qty")
+    ivtr_ntby_qty: int | None = Field(
+        default=None,
+        alias="ivtr_ntby_qty",
+    )
     ("투자신탁 순매수 수량")
-    bank_ntby_qty: int | None = Field(default=None, alias="bank_ntby_qty")
+    bank_ntby_qty: int | None = Field(
+        default=None,
+        alias="bank_ntby_qty",
+    )
     ("은행 순매수 수량")
-    insu_ntby_qty: int | None = Field(default=None, alias="insu_ntby_qty")
+    insu_ntby_qty: int | None = Field(
+        default=None,
+        alias="insu_ntby_qty",
+    )
     ("보험 순매수 수량")
-    mrbn_ntby_qty: int | None = Field(default=None, alias="mrbn_ntby_qty")
+    mrbn_ntby_qty: int | None = Field(
+        default=None,
+        alias="mrbn_ntby_qty",
+    )
     ("종금 순매수 수량")
-    fund_ntby_qty: int | None = Field(default=None, alias="fund_ntby_qty")
+    fund_ntby_qty: int | None = Field(
+        default=None,
+        alias="fund_ntby_qty",
+    )
     ("기금 순매수 수량")
-    etc_orgt_ntby_vol: int | None = Field(default=None, alias="etc_orgt_ntby_vol")
+    etc_orgt_ntby_vol: int | None = Field(
+        default=None,
+        alias="etc_orgt_ntby_vol",
+    )
     ("기타 단체 순매수 거래량")
-    etc_corp_ntby_vol: int | None = Field(default=None, alias="etc_corp_ntby_vol")
+    etc_corp_ntby_vol: int | None = Field(
+        default=None,
+        alias="etc_corp_ntby_vol",
+    )
     ("기타 법인 순매수 거래량")
-    frgn_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="frgn_ntby_tr_pbmn")
+    frgn_ntby_tr_pbmn: Decimal | None = Field(
+        default=None,
+        alias="frgn_ntby_tr_pbmn",
+    )
     ("frgn_ntby_tr_pbmn ~ etc_corp_ntby_tr_pbmn (단위 : 백만원, 수량*현재가)")
-    orgn_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="orgn_ntby_tr_pbmn")
+    orgn_ntby_tr_pbmn: Decimal | None = Field(
+        default=None,
+        alias="orgn_ntby_tr_pbmn",
+    )
     ("기관계 순매수 거래 대금")
-    ivtr_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="ivtr_ntby_tr_pbmn")
+    ivtr_ntby_tr_pbmn: Decimal | None = Field(
+        default=None,
+        alias="ivtr_ntby_tr_pbmn",
+    )
     ("투자신탁 순매수 거래 대금")
-    bank_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="bank_ntby_tr_pbmn")
+    bank_ntby_tr_pbmn: Decimal | None = Field(
+        default=None,
+        alias="bank_ntby_tr_pbmn",
+    )
     ("은행 순매수 거래 대금")
-    insu_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="insu_ntby_tr_pbmn")
+    insu_ntby_tr_pbmn: Decimal | None = Field(
+        default=None,
+        alias="insu_ntby_tr_pbmn",
+    )
     ("보험 순매수 거래 대금")
-    mrbn_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="mrbn_ntby_tr_pbmn")
+    mrbn_ntby_tr_pbmn: Decimal | None = Field(
+        default=None,
+        alias="mrbn_ntby_tr_pbmn",
+    )
     ("종금 순매수 거래 대금")
-    fund_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="fund_ntby_tr_pbmn")
+    fund_ntby_tr_pbmn: Decimal | None = Field(
+        default=None,
+        alias="fund_ntby_tr_pbmn",
+    )
     ("기금 순매수 거래 대금")
-    etc_orgt_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="etc_orgt_ntby_tr_pbmn")
+    etc_orgt_ntby_tr_pbmn: Decimal | None = Field(
+        default=None,
+        alias="etc_orgt_ntby_tr_pbmn",
+    )
     ("기타 단체 순매수 거래 대금")
-    etc_corp_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="etc_corp_ntby_tr_pbmn")
+    etc_corp_ntby_tr_pbmn: Decimal | None = Field(
+        default=None,
+        alias="etc_corp_ntby_tr_pbmn",
+    )
     ("기타 법인 순매수 거래 대금")
 
 
 class ForeignInstitutionTotalResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[ForeignInstitutionTotalOutput] = Field(alias="output")
+    output: list[ForeignInstitutionTotalOutput] = Field(
+        alias="output",
+    )
     ("응답상세1")
 
 
@@ -179,15 +306,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: ForeignInstitutionTotalRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: ForeignInstitutionTotalRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[ForeignInstitutionTotalResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: ForeignInstitutionTotalRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: ForeignInstitutionTotalRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[ForeignInstitutionTotalResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[ForeignInstitutionTotalRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[ForeignInstitutionTotalRequestDict],
         ) -> tuple[ForeignInstitutionTotalResponse, KisResponse]: ...
         def call(
             self,

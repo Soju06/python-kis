@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisTime, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisTime,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,11 +26,17 @@ if TYPE_CHECKING:
 
 
 class FrgnmemPchsTrendRequest(RawModel):
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("종목코드(ex) 005930(삼성전자))")
-    FID_INPUT_ISCD_2: str = Field(alias="FID_INPUT_ISCD_2")
+    FID_INPUT_ISCD_2: str = Field(
+        alias="FID_INPUT_ISCD_2",
+    )
     ("외국계 전체(99999)")
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("J (KRX만 지원)")
 
 
@@ -34,42 +52,79 @@ class FrgnmemPchsTrendRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (str): J (KRX만 지원)
     """
 
-    FID_INPUT_ISCD: Annotated[str, "종목코드(ex) 005930(삼성전자))"]
-    FID_INPUT_ISCD_2: Annotated[str, "외국계 전체(99999)"]
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "J (KRX만 지원)"]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "종목코드(ex) 005930(삼성전자))",
+    ]
+    FID_INPUT_ISCD_2: Annotated[
+        str,
+        "외국계 전체(99999)",
+    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "J (KRX만 지원)",
+    ]
 
 
 class FrgnmemPchsTrendOutput(RawModel):
-    bsop_hour: KisTime = Field(alias="bsop_hour")
+    bsop_hour: KisTime = Field(
+        alias="bsop_hour",
+    )
     ("영업시간")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
+    stck_prpr: Decimal = Field(
+        alias="stck_prpr",
+    )
     ("주식현재가")
-    prdy_vrss: str = Field(alias="prdy_vrss")
+    prdy_vrss: str = Field(
+        alias="prdy_vrss",
+    )
     ("전일대비")
-    prdy_vrss_sign: str = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: str = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일대비부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일대비율")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적거래량")
-    frgn_seln_vol: int = Field(alias="frgn_seln_vol")
+    frgn_seln_vol: int = Field(
+        alias="frgn_seln_vol",
+    )
     ("외국인매도거래량")
-    frgn_shnu_vol: int = Field(alias="frgn_shnu_vol")
+    frgn_shnu_vol: int = Field(
+        alias="frgn_shnu_vol",
+    )
     ("외국인매수2거래량")
-    glob_ntby_qty: int = Field(alias="glob_ntby_qty")
+    glob_ntby_qty: int = Field(
+        alias="glob_ntby_qty",
+    )
     ("외국계순매수수량")
-    frgn_ntby_qty_icdc: int = Field(alias="frgn_ntby_qty_icdc")
+    frgn_ntby_qty_icdc: int = Field(
+        alias="frgn_ntby_qty_icdc",
+    )
     ("외국인순매수수량증감")
 
 
 class FrgnmemPchsTrendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[FrgnmemPchsTrendOutput] = Field(alias="output")
+    output: list[FrgnmemPchsTrendOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -96,15 +151,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: FrgnmemPchsTrendRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: FrgnmemPchsTrendRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[FrgnmemPchsTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: FrgnmemPchsTrendRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: FrgnmemPchsTrendRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[FrgnmemPchsTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[FrgnmemPchsTrendRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[FrgnmemPchsTrendRequestDict],
         ) -> tuple[FrgnmemPchsTrendResponse, KisResponse]: ...
         def call(
             self,
@@ -139,4 +206,10 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "FrgnmemPchsTrendRequest", "FrgnmemPchsTrendRequestDict", "FrgnmemPchsTrendResponse", "FrgnmemPchsTrendOutput"]
+__all__ = [
+    "ENDPOINT",
+    "FrgnmemPchsTrendRequest",
+    "FrgnmemPchsTrendRequestDict",
+    "FrgnmemPchsTrendResponse",
+    "FrgnmemPchsTrendOutput",
+]

@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -31,23 +42,41 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class MarketCapRequest(RawModel):
-    fid_input_price_2: str = Field(alias="fid_input_price_2")
+    fid_input_price_2: str = Field(
+        alias="fid_input_price_2",
+    )
     ("입력값 없을때 전체 (~ 가격)")
-    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(alias="fid_cond_mrkt_div_code")
+    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(
+        alias="fid_cond_mrkt_div_code",
+    )
     ("시장구분코드 (J:KRX, NX:NXT)")
-    fid_cond_scr_div_code: str = Field(alias="fid_cond_scr_div_code")
+    fid_cond_scr_div_code: str = Field(
+        alias="fid_cond_scr_div_code",
+    )
     ("Unique key( 20174 )")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
+    fid_div_cls_code: FidDivClsCodeEnum = Field(
+        alias="fid_div_cls_code",
+    )
     ("0: 전체, 1:보통주, 2:우선주")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
+    fid_input_iscd: str = Field(
+        alias="fid_input_iscd",
+    )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
-    fid_trgt_cls_code: str = Field(alias="fid_trgt_cls_code")
+    fid_trgt_cls_code: str = Field(
+        alias="fid_trgt_cls_code",
+    )
     ("0 : 전체")
-    fid_trgt_exls_cls_code: str = Field(alias="fid_trgt_exls_cls_code")
+    fid_trgt_exls_cls_code: str = Field(
+        alias="fid_trgt_exls_cls_code",
+    )
     ("0 : 전체")
-    fid_input_price_1: str = Field(alias="fid_input_price_1")
+    fid_input_price_1: str = Field(
+        alias="fid_input_price_1",
+    )
     ("입력값 없을때 전체 (가격 ~)")
-    fid_vol_cnt: int = Field(alias="fid_vol_cnt")
+    fid_vol_cnt: int = Field(
+        alias="fid_vol_cnt",
+    )
     ("입력값 없을때 전체 (거래량 ~)")
 
 
@@ -76,50 +105,110 @@ class MarketCapRequestDict(TypedDict):
         fid_vol_cnt (int): 입력값 없을때 전체 (거래량 ~)
     """
 
-    fid_input_price_2: Annotated[str, "입력값 없을때 전체 (~ 가격)"]
-    fid_cond_mrkt_div_code: Annotated[FidCondMrktDivCodeEnum, "시장구분코드 (J:KRX, NX:NXT)"]
-    fid_cond_scr_div_code: Annotated[str, "Unique key( 20174 )"]
-    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 전체, 1:보통주, 2:우선주"]
-    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200"]
-    fid_trgt_cls_code: Annotated[str, "0 : 전체"]
-    fid_trgt_exls_cls_code: Annotated[str, "0 : 전체"]
-    fid_input_price_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"]
-    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"]
+    fid_input_price_2: Annotated[
+        str,
+        "입력값 없을때 전체 (~ 가격)",
+    ]
+    fid_cond_mrkt_div_code: Annotated[
+        FidCondMrktDivCodeEnum,
+        "시장구분코드 (J:KRX, NX:NXT)",
+    ]
+    fid_cond_scr_div_code: Annotated[
+        str,
+        "Unique key( 20174 )",
+    ]
+    fid_div_cls_code: Annotated[
+        FidDivClsCodeEnum,
+        "0: 전체, 1:보통주, 2:우선주",
+    ]
+    fid_input_iscd: Annotated[
+        str,
+        "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200",
+    ]
+    fid_trgt_cls_code: Annotated[
+        str,
+        "0 : 전체",
+    ]
+    fid_trgt_exls_cls_code: Annotated[
+        str,
+        "0 : 전체",
+    ]
+    fid_input_price_1: Annotated[
+        str,
+        "입력값 없을때 전체 (가격 ~)",
+    ]
+    fid_vol_cnt: Annotated[
+        int,
+        "입력값 없을때 전체 (거래량 ~)",
+    ]
 
 
 class MarketCapOutput(RawModel):
-    mksc_shrn_iscd: str | None = Field(default=None, alias="mksc_shrn_iscd")
+    mksc_shrn_iscd: str | None = Field(
+        default=None,
+        alias="mksc_shrn_iscd",
+    )
     ("유가증권 단축 종목코드")
-    data_rank: int = Field(alias="data_rank")
+    data_rank: int = Field(
+        alias="data_rank",
+    )
     ("데이터 순위")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
+    hts_kor_isnm: str | None = Field(
+        default=None,
+        alias="hts_kor_isnm",
+    )
     ("HTS 한글 종목명")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
+    stck_prpr: Decimal = Field(
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
+    prdy_vrss: int = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    lstn_stcn: int = Field(alias="lstn_stcn")
+    lstn_stcn: int = Field(
+        alias="lstn_stcn",
+    )
     ("상장 주수")
-    stck_avls: Decimal = Field(alias="stck_avls")
+    stck_avls: Decimal = Field(
+        alias="stck_avls",
+    )
     ("시가 총액")
-    mrkt_whol_avls_rlim: Decimal = Field(alias="mrkt_whol_avls_rlim")
+    mrkt_whol_avls_rlim: Decimal = Field(
+        alias="mrkt_whol_avls_rlim",
+    )
     ("시장 전체 시가총액 비중")
 
 
 class MarketCapResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[MarketCapOutput] = Field(alias="output")
+    output: list[MarketCapOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -153,15 +242,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: MarketCapRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: MarketCapRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[MarketCapResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: MarketCapRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: MarketCapRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[MarketCapResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[MarketCapRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[MarketCapRequestDict],
         ) -> tuple[MarketCapResponse, KisResponse]: ...
         def call(
             self,

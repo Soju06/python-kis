@@ -2,11 +2,25 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    KisDateOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,13 +28,25 @@ if TYPE_CHECKING:
 
 
 class MergerSplitRequest(RawModel):
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
+    CTS: str | None = Field(
+        default=None,
+        alias="CTS",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
-    F_DT: KisDate = Field(alias="F_DT")
+    F_DT: KisDate = Field(
+        alias="F_DT",
+    )
     ("일자 ~")
-    T_DT: KisDate = Field(alias="T_DT")
+    T_DT: KisDate = Field(
+        alias="T_DT",
+    )
     ("~ 일자")
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
+    SHT_CD: str | None = Field(
+        default=None,
+        alias="SHT_CD",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백: 전체, 특정종목 조회시 : 종목코드")
 
 
@@ -39,51 +65,117 @@ class MergerSplitRequestDict(TypedDict):
         SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
     """
 
-    CTS: NotRequired[Annotated[str | None, "공백"]]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    T_DT: Annotated[KisDate, "~ 일자"]
-    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
+    CTS: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
+    F_DT: Annotated[
+        KisDate,
+        "일자 ~",
+    ]
+    T_DT: Annotated[
+        KisDate,
+        "~ 일자",
+    ]
+    SHT_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공백: 전체, 특정종목 조회시 : 종목코드",
+        ]
+    ]
 
 
 class MergerSplitOutput1(RawModel):
-    record_date: KisDateOptional = Field(default=None, alias="record_date")
+    record_date: KisDateOptional = Field(
+        default=None,
+        alias="record_date",
+    )
     ("기준일")
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
+    sht_cd: str | None = Field(
+        default=None,
+        alias="sht_cd",
+    )
     ("종목코드")
-    opp_cust_cd: str | None = Field(default=None, alias="opp_cust_cd")
+    opp_cust_cd: str | None = Field(
+        default=None,
+        alias="opp_cust_cd",
+    )
     ("피합병(피분할)회사코드")
-    opp_cust_nm: str | None = Field(default=None, alias="opp_cust_nm")
+    opp_cust_nm: str | None = Field(
+        default=None,
+        alias="opp_cust_nm",
+    )
     ("피합병(피분할)회사명")
-    cust_cd: str | None = Field(default=None, alias="cust_cd")
+    cust_cd: str | None = Field(
+        default=None,
+        alias="cust_cd",
+    )
     ("합병(분할)회사코드")
-    cust_nm: str | None = Field(default=None, alias="cust_nm")
+    cust_nm: str | None = Field(
+        default=None,
+        alias="cust_nm",
+    )
     ("합병(분할)회사명")
-    merge_type: str | None = Field(default=None, alias="merge_type")
+    merge_type: str | None = Field(
+        default=None,
+        alias="merge_type",
+    )
     ("합병사유")
-    merge_rate: Decimal | None = Field(default=None, alias="merge_rate")
+    merge_rate: Decimal | None = Field(
+        default=None,
+        alias="merge_rate",
+    )
     ("비율")
-    td_stop_dt: KisDateOptional = Field(default=None, alias="td_stop_dt")
+    td_stop_dt: KisDateOptional = Field(
+        default=None,
+        alias="td_stop_dt",
+    )
     ("매매거래정지기간")
-    list_dt: KisDateOptional = Field(default=None, alias="list_dt")
+    list_dt: KisDateOptional = Field(
+        default=None,
+        alias="list_dt",
+    )
     ("상장/등록일")
-    odd_amt_pay_dt: KisDateOptional = Field(default=None, alias="odd_amt_pay_dt")
+    odd_amt_pay_dt: KisDateOptional = Field(
+        default=None,
+        alias="odd_amt_pay_dt",
+    )
     ("단주대금지급일")
-    tot_issue_stk_qty: str | None = Field(default=None, alias="tot_issue_stk_qty")
+    tot_issue_stk_qty: str | None = Field(
+        default=None,
+        alias="tot_issue_stk_qty",
+    )
     ("발행주식")
-    issue_stk_qty: str | None = Field(default=None, alias="issue_stk_qty")
+    issue_stk_qty: str | None = Field(
+        default=None,
+        alias="issue_stk_qty",
+    )
     ("발행할주식")
-    seq: str | None = Field(default=None, alias="seq")
+    seq: str | None = Field(
+        default=None,
+        alias="seq",
+    )
     ("연번")
 
 
 class MergerSplitResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: list[MergerSplitOutput1] = Field(alias="output1")
+    output1: list[MergerSplitOutput1] = Field(
+        alias="output1",
+    )
     ("응답상세")
 
 
@@ -112,15 +204,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: MergerSplitRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: MergerSplitRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[MergerSplitResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: MergerSplitRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: MergerSplitRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[MergerSplitResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[MergerSplitRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[MergerSplitRequestDict],
         ) -> tuple[MergerSplitResponse, KisResponse]: ...
         def call(
             self,
@@ -158,4 +262,10 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "MergerSplitRequest", "MergerSplitRequestDict", "MergerSplitResponse", "MergerSplitOutput1"]
+__all__ = [
+    "ENDPOINT",
+    "MergerSplitRequest",
+    "MergerSplitRequestDict",
+    "MergerSplitResponse",
+    "MergerSplitOutput1",
+]

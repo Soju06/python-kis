@@ -2,11 +2,27 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisDateTime, KisDateTimeOptional, KisTimeOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    KisDateTime,
+    KisDateTimeOptional,
+    KisTimeOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -22,21 +38,43 @@ class QryTpEnum(KisStrEnum):
 
 
 class DailyCcnlRequest(RawModel):
-    SRS_CD: str = Field(alias="SRS_CD")
+    SRS_CD: str = Field(
+        alias="SRS_CD",
+    )
     ("예) 6AM24")
-    EXCH_CD: str = Field(alias="EXCH_CD")
+    EXCH_CD: str = Field(
+        alias="EXCH_CD",
+    )
     ("예) CME")
-    START_DATE_TIME: KisDateTimeOptional = Field(default=None, alias="START_DATE_TIME", json_schema_extra={"blank_allowed": True})
+    START_DATE_TIME: KisDateTimeOptional = Field(
+        default=None,
+        alias="START_DATE_TIME",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
-    CLOSE_DATE_TIME: KisDateTime = Field(alias="CLOSE_DATE_TIME")
+    CLOSE_DATE_TIME: KisDateTime = Field(
+        alias="CLOSE_DATE_TIME",
+    )
     ("예) 20240402")
-    QRY_TP: QryTpEnum = Field(alias="QRY_TP")
+    QRY_TP: QryTpEnum = Field(
+        alias="QRY_TP",
+    )
     ("Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시")
-    QRY_CNT: int = Field(alias="QRY_CNT")
+    QRY_CNT: int = Field(
+        alias="QRY_CNT",
+    )
     ("예) 30 (최대 40)")
-    QRY_GAP: str | None = Field(default=None, alias="QRY_GAP", json_schema_extra={"blank_allowed": True})
+    QRY_GAP: str | None = Field(
+        default=None,
+        alias="QRY_GAP",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백 (분만 사용)")
-    INDEX_KEY: str | None = Field(default=None, alias="INDEX_KEY", json_schema_extra={"blank_allowed": True})
+    INDEX_KEY: str | None = Field(
+        default=None,
+        alias="INDEX_KEY",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
 
 
@@ -80,62 +118,137 @@ class DailyCcnlRequestDict(TypedDict):
         INDEX_KEY (str): 공백 optional
     """
 
-    SRS_CD: Annotated[str, "예) 6AM24"]
-    EXCH_CD: Annotated[str, "예) CME"]
-    START_DATE_TIME: NotRequired[Annotated[KisDateTimeOptional, "공백"]]
-    CLOSE_DATE_TIME: Annotated[KisDateTime, "예) 20240402"]
-    QRY_TP: Annotated[QryTpEnum, "Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시"]
-    QRY_CNT: Annotated[int, "예) 30 (최대 40)"]
-    QRY_GAP: NotRequired[Annotated[str | None, "공백 (분만 사용)"]]
-    INDEX_KEY: NotRequired[Annotated[str | None, "공백"]]
+    SRS_CD: Annotated[
+        str,
+        "예) 6AM24",
+    ]
+    EXCH_CD: Annotated[
+        str,
+        "예) CME",
+    ]
+    START_DATE_TIME: NotRequired[
+        Annotated[
+            KisDateTimeOptional,
+            "공백",
+        ]
+    ]
+    CLOSE_DATE_TIME: Annotated[
+        KisDateTime,
+        "예) 20240402",
+    ]
+    QRY_TP: Annotated[
+        QryTpEnum,
+        "Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시",
+    ]
+    QRY_CNT: Annotated[
+        int,
+        "예) 30 (최대 40)",
+    ]
+    QRY_GAP: NotRequired[
+        Annotated[
+            str | None,
+            "공백 (분만 사용)",
+        ]
+    ]
+    INDEX_KEY: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
 
 
 class DailyCcnlOutput1(RawModel):
-    tret_cnt: str | None = Field(default=None, alias="tret_cnt")
+    tret_cnt: str | None = Field(
+        default=None,
+        alias="tret_cnt",
+    )
     ("자료개수")
-    last_n_cnt: str | None = Field(default=None, alias="last_n_cnt")
+    last_n_cnt: str | None = Field(
+        default=None,
+        alias="last_n_cnt",
+    )
     ("N틱최종개수")
-    index_key: int = Field(alias="index_key")
+    index_key: int = Field(
+        alias="index_key",
+    )
     ("이전조회KEY")
-    ret_cnt: int | None = Field(default=None, alias="ret_cnt")
+    ret_cnt: int | None = Field(
+        default=None,
+        alias="ret_cnt",
+    )
     ("inferred from live response")
 
 
 class DailyCcnlOutput2(RawModel):
-    data_date: KisDate = Field(alias="data_date")
+    data_date: KisDate = Field(
+        alias="data_date",
+    )
     ("일자")
-    data_time: KisTimeOptional = Field(default=None, alias="data_time")
+    data_time: KisTimeOptional = Field(
+        default=None,
+        alias="data_time",
+    )
     ("시각")
-    open_price: Decimal = Field(alias="open_price")
+    open_price: Decimal = Field(
+        alias="open_price",
+    )
     ("시가")
-    high_price: Decimal = Field(alias="high_price")
+    high_price: Decimal = Field(
+        alias="high_price",
+    )
     ("고가")
-    low_price: Decimal = Field(alias="low_price")
+    low_price: Decimal = Field(
+        alias="low_price",
+    )
     ("저가")
-    last_price: Decimal = Field(alias="last_price")
+    last_price: Decimal = Field(
+        alias="last_price",
+    )
     ("체결가격")
-    last_qntt: int | None = Field(default=None, alias="last_qntt")
+    last_qntt: int | None = Field(
+        default=None,
+        alias="last_qntt",
+    )
     ("체결수량")
-    vol: int = Field(alias="vol")
+    vol: int = Field(
+        alias="vol",
+    )
     ("누적거래수량")
-    prev_diff_flag: int = Field(alias="prev_diff_flag")
+    prev_diff_flag: int = Field(
+        alias="prev_diff_flag",
+    )
     ("전일대비구분")
-    prev_diff_price: Decimal = Field(alias="prev_diff_price")
+    prev_diff_price: Decimal = Field(
+        alias="prev_diff_price",
+    )
     ("전일대비가격")
-    prev_diff_rate: Decimal = Field(alias="prev_diff_rate")
+    prev_diff_rate: Decimal = Field(
+        alias="prev_diff_rate",
+    )
     ("전일대비율")
 
 
 class DailyCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: DailyCcnlOutput1 = Field(alias="output1")
+    output1: DailyCcnlOutput1 = Field(
+        alias="output1",
+    )
     ("응답상세")
-    output2: list[DailyCcnlOutput2] = Field(alias="output2")
+    output2: list[DailyCcnlOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세")
 
 
@@ -185,15 +298,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DailyCcnlRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DailyCcnlRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DailyCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DailyCcnlRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DailyCcnlRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DailyCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[DailyCcnlRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[DailyCcnlRequestDict],
         ) -> tuple[DailyCcnlResponse, KisResponse]: ...
         def call(
             self,
@@ -258,4 +383,12 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "DailyCcnlRequest", "DailyCcnlRequestDict", "DailyCcnlResponse", "DailyCcnlOutput1", "DailyCcnlOutput2", "QryTpEnum"]
+__all__ = [
+    "ENDPOINT",
+    "DailyCcnlRequest",
+    "DailyCcnlRequestDict",
+    "DailyCcnlResponse",
+    "DailyCcnlOutput1",
+    "DailyCcnlOutput2",
+    "QryTpEnum",
+]

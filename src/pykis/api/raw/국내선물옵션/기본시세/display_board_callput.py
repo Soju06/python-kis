@@ -2,25 +2,28 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
-
-
-class FidCondScrDivCodeEnum(KisStrEnum):
-    UNIQUE = ("Unique", "key(20503)")
-    "key(20503)"
-    VALUE_20503 = ("20503", "Unique key")
-    "Unique key"
-    KEY = ("key", "20503")
-    "20503"
 
 
 class FidCondMrktClsCodeEnum(KisStrEnum):
@@ -35,13 +38,23 @@ class FidCondMrktClsCodeEnum(KisStrEnum):
 
 
 class DisplayBoardCallputRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("시장구분코드 (O: 옵션)")
-    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: str = Field(
+        alias="FID_COND_SCR_DIV_CODE",
+    )
     ("Unique key(20503)")
-    FID_MRKT_CLS_CODE: str = Field(alias="FID_MRKT_CLS_CODE")
+    FID_MRKT_CLS_CODE: str = Field(
+        alias="FID_MRKT_CLS_CODE",
+    )
     ("시장구분코드 (CO: 콜옵션)")
-    FID_MTRT_CNT: str | None = Field(default=None, alias="FID_MTRT_CNT", json_schema_extra={"blank_allowed": True})
+    FID_MTRT_CNT: str | None = Field(
+        default=None,
+        alias="FID_MTRT_CNT",
+        json_schema_extra={"blank_allowed": True},
+    )
     (
         "- FID_COND_MRKT_CLS_CODE : 공백(KOSPI200), MKI(미니KOSPI200), KQI(KOSDAQ150) 인 경우 : "
         "만기년월(YYYYMM) 입력 (ex. 202407) - FID_COND_MRKT_CLS_CODE : WKM(KOSPI200위클리(월)), "
@@ -49,10 +62,14 @@ class DisplayBoardCallputRequest(RawModel):
         "240703 입력)"
     )
     FID_COND_MRKT_CLS_CODE: FidCondMrktClsCodeEnum | None = Field(
-        default=None, alias="FID_COND_MRKT_CLS_CODE", json_schema_extra={"blank_allowed": True}
+        default=None,
+        alias="FID_COND_MRKT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
     )
     ("공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150")
-    FID_MRKT_CLS_CODE1: str = Field(alias="FID_MRKT_CLS_CODE1")
+    FID_MRKT_CLS_CODE1: str = Field(
+        alias="FID_MRKT_CLS_CODE1",
+    )
     ("시장구분코드 (PO: 풋옵션)")
 
 
@@ -68,7 +85,7 @@ class DisplayBoardCallputRequestDict(TypedDict):
 
     Request fields:
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (O: 옵션)
-        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20503)
+        FID_COND_SCR_DIV_CODE (str): Unique key(20503)
         FID_MRKT_CLS_CODE (str): 시장구분코드 (CO: 콜옵션)
         FID_MTRT_CNT (str): - FID_COND_MRKT_CLS_CODE : 공백(KOSPI200), MKI(미니KOSPI200),
         KQI(KOSDAQ150) 인 경우 : 만기년월(YYYYMM) 입력 (ex. 202407) - FID_COND_MRKT_CLS_CODE :
@@ -79,9 +96,18 @@ class DisplayBoardCallputRequestDict(TypedDict):
         FID_MRKT_CLS_CODE1 (str): 시장구분코드 (PO: 풋옵션)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (O: 옵션)"]
-    FID_COND_SCR_DIV_CODE: Annotated[FidCondScrDivCodeEnum, "Unique key(20503)"]
-    FID_MRKT_CLS_CODE: Annotated[str, "시장구분코드 (CO: 콜옵션)"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "시장구분코드 (O: 옵션)",
+    ]
+    FID_COND_SCR_DIV_CODE: Annotated[
+        str,
+        "Unique key(20503)",
+    ]
+    FID_MRKT_CLS_CODE: Annotated[
+        str,
+        "시장구분코드 (CO: 콜옵션)",
+    ]
     FID_MTRT_CNT: NotRequired[
         Annotated[
             str | None,
@@ -92,191 +118,453 @@ class DisplayBoardCallputRequestDict(TypedDict):
         ]
     ]
     FID_COND_MRKT_CLS_CODE: NotRequired[
-        Annotated[FidCondMrktClsCodeEnum | None, "공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150"]
+        Annotated[
+            FidCondMrktClsCodeEnum | None,
+            "공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150",
+        ]
     ]
-    FID_MRKT_CLS_CODE1: Annotated[str, "시장구분코드 (PO: 풋옵션)"]
+    FID_MRKT_CLS_CODE1: Annotated[
+        str,
+        "시장구분코드 (PO: 풋옵션)",
+    ]
 
 
 class DisplayBoardCallputOutput1(RawModel):
-    acpr: str | None = Field(default=None, alias="acpr")
+    acpr: str | None = Field(
+        default=None,
+        alias="acpr",
+    )
     ("행사가")
-    unch_prpr: Decimal | None = Field(default=None, alias="unch_prpr")
+    unch_prpr: Decimal | None = Field(
+        default=None,
+        alias="unch_prpr",
+    )
     ("환산 현재가")
-    optn_shrn_iscd: str | None = Field(default=None, alias="optn_shrn_iscd")
+    optn_shrn_iscd: str | None = Field(
+        default=None,
+        alias="optn_shrn_iscd",
+    )
     ("옵션 단축 종목코드")
-    optn_prpr: Decimal | None = Field(default=None, alias="optn_prpr")
+    optn_prpr: Decimal | None = Field(
+        default=None,
+        alias="optn_prpr",
+    )
     ("옵션 현재가")
-    optn_prdy_vrss: str | None = Field(default=None, alias="optn_prdy_vrss")
+    optn_prdy_vrss: str | None = Field(
+        default=None,
+        alias="optn_prdy_vrss",
+    )
     ("옵션 전일 대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    optn_prdy_ctrt: Decimal | None = Field(default=None, alias="optn_prdy_ctrt")
+    optn_prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="optn_prdy_ctrt",
+    )
     ("옵션 전일 대비율")
-    optn_bidp: str | None = Field(default=None, alias="optn_bidp")
+    optn_bidp: str | None = Field(
+        default=None,
+        alias="optn_bidp",
+    )
     ("옵션 매수호가")
-    optn_askp: str | None = Field(default=None, alias="optn_askp")
+    optn_askp: str | None = Field(
+        default=None,
+        alias="optn_askp",
+    )
     ("옵션 매도호가")
-    tmvl_val: str | None = Field(default=None, alias="tmvl_val")
+    tmvl_val: str | None = Field(
+        default=None,
+        alias="tmvl_val",
+    )
     ("시간가치 값")
-    nmix_sdpr: Decimal | None = Field(default=None, alias="nmix_sdpr")
+    nmix_sdpr: Decimal | None = Field(
+        default=None,
+        alias="nmix_sdpr",
+    )
     ("지수 기준가")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
+    acml_vol: int | None = Field(
+        default=None,
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    seln_rsqn: str | None = Field(default=None, alias="seln_rsqn")
+    seln_rsqn: str | None = Field(
+        default=None,
+        alias="seln_rsqn",
+    )
     ("매도 잔량")
-    shnu_rsqn: str | None = Field(default=None, alias="shnu_rsqn")
+    shnu_rsqn: str | None = Field(
+        default=None,
+        alias="shnu_rsqn",
+    )
     ("매수2 잔량")
-    acml_tr_pbmn: Decimal | None = Field(default=None, alias="acml_tr_pbmn")
+    acml_tr_pbmn: Decimal | None = Field(
+        default=None,
+        alias="acml_tr_pbmn",
+    )
     ("누적 거래 대금")
-    hts_otst_stpl_qty: int | None = Field(default=None, alias="hts_otst_stpl_qty")
+    hts_otst_stpl_qty: int | None = Field(
+        default=None,
+        alias="hts_otst_stpl_qty",
+    )
     ("HTS 미결제 약정 수량")
-    otst_stpl_qty_icdc: int | None = Field(default=None, alias="otst_stpl_qty_icdc")
+    otst_stpl_qty_icdc: int | None = Field(
+        default=None,
+        alias="otst_stpl_qty_icdc",
+    )
     ("미결제 약정 수량 증감")
-    delta_val: str | None = Field(default=None, alias="delta_val")
+    delta_val: str | None = Field(
+        default=None,
+        alias="delta_val",
+    )
     ("델타 값")
-    gama: str | None = Field(default=None, alias="gama")
+    gama: str | None = Field(
+        default=None,
+        alias="gama",
+    )
     ("감마")
-    vega: str | None = Field(default=None, alias="vega")
+    vega: str | None = Field(
+        default=None,
+        alias="vega",
+    )
     ("베가")
-    theta: str | None = Field(default=None, alias="theta")
+    theta: str | None = Field(
+        default=None,
+        alias="theta",
+    )
     ("세타")
-    rho: str | None = Field(default=None, alias="rho")
+    rho: str | None = Field(
+        default=None,
+        alias="rho",
+    )
     ("로우")
-    hts_ints_vltl: str | None = Field(default=None, alias="hts_ints_vltl")
+    hts_ints_vltl: str | None = Field(
+        default=None,
+        alias="hts_ints_vltl",
+    )
     ("HTS 내재 변동성")
-    invl_val: str | None = Field(default=None, alias="invl_val")
+    invl_val: str | None = Field(
+        default=None,
+        alias="invl_val",
+    )
     ("내재가치 값")
-    esdg: str | None = Field(default=None, alias="esdg")
+    esdg: str | None = Field(
+        default=None,
+        alias="esdg",
+    )
     ("괴리도")
-    dprt: Decimal | None = Field(default=None, alias="dprt")
+    dprt: Decimal | None = Field(
+        default=None,
+        alias="dprt",
+    )
     ("괴리율")
-    hist_vltl: str | None = Field(default=None, alias="hist_vltl")
+    hist_vltl: str | None = Field(
+        default=None,
+        alias="hist_vltl",
+    )
     ("역사적 변동성")
-    hts_thpr: str | None = Field(default=None, alias="hts_thpr")
+    hts_thpr: str | None = Field(
+        default=None,
+        alias="hts_thpr",
+    )
     ("HTS 이론가")
-    optn_oprc: Decimal | None = Field(default=None, alias="optn_oprc")
+    optn_oprc: Decimal | None = Field(
+        default=None,
+        alias="optn_oprc",
+    )
     ("옵션 시가2")
-    optn_hgpr: Decimal | None = Field(default=None, alias="optn_hgpr")
+    optn_hgpr: Decimal | None = Field(
+        default=None,
+        alias="optn_hgpr",
+    )
     ("옵션 최고가")
-    optn_lwpr: Decimal | None = Field(default=None, alias="optn_lwpr")
+    optn_lwpr: Decimal | None = Field(
+        default=None,
+        alias="optn_lwpr",
+    )
     ("옵션 최저가")
-    optn_mxpr: str | None = Field(default=None, alias="optn_mxpr")
+    optn_mxpr: str | None = Field(
+        default=None,
+        alias="optn_mxpr",
+    )
     ("옵션 상한가")
-    optn_llam: str | None = Field(default=None, alias="optn_llam")
+    optn_llam: str | None = Field(
+        default=None,
+        alias="optn_llam",
+    )
     ("옵션 하한가")
-    atm_cls_name: str | None = Field(default=None, alias="atm_cls_name")
+    atm_cls_name: str | None = Field(
+        default=None,
+        alias="atm_cls_name",
+    )
     ("ATM 구분 명")
-    rgbf_vrss_icdc: str | None = Field(default=None, alias="rgbf_vrss_icdc")
+    rgbf_vrss_icdc: str | None = Field(
+        default=None,
+        alias="rgbf_vrss_icdc",
+    )
     ("직전 대비 증감")
-    total_askp_rsqn: str | None = Field(default=None, alias="total_askp_rsqn")
+    total_askp_rsqn: str | None = Field(
+        default=None,
+        alias="total_askp_rsqn",
+    )
     ("총 매도호가 잔량")
-    total_bidp_rsqn: str | None = Field(default=None, alias="total_bidp_rsqn")
+    total_bidp_rsqn: str | None = Field(
+        default=None,
+        alias="total_bidp_rsqn",
+    )
     ("총 매수호가 잔량")
-    futs_antc_cnpr: str | None = Field(default=None, alias="futs_antc_cnpr")
+    futs_antc_cnpr: str | None = Field(
+        default=None,
+        alias="futs_antc_cnpr",
+    )
     ("선물예상체결가")
-    futs_antc_cntg_vrss: str | None = Field(default=None, alias="futs_antc_cntg_vrss")
+    futs_antc_cntg_vrss: str | None = Field(
+        default=None,
+        alias="futs_antc_cntg_vrss",
+    )
     ("선물예상체결대비")
-    antc_cntg_vrss_sign: str | None = Field(default=None, alias="antc_cntg_vrss_sign")
+    antc_cntg_vrss_sign: str | None = Field(
+        default=None,
+        alias="antc_cntg_vrss_sign",
+    )
     ("예상 체결 대비 부호")
-    antc_cntg_prdy_ctrt: Decimal | None = Field(default=None, alias="antc_cntg_prdy_ctrt")
+    antc_cntg_prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="antc_cntg_prdy_ctrt",
+    )
     ("예상 체결 전일 대비율")
 
 
 class DisplayBoardCallputOutput2(RawModel):
-    acpr: str | None = Field(default=None, alias="acpr")
+    acpr: str | None = Field(
+        default=None,
+        alias="acpr",
+    )
     ("행사가")
-    unch_prpr: Decimal | None = Field(default=None, alias="unch_prpr")
+    unch_prpr: Decimal | None = Field(
+        default=None,
+        alias="unch_prpr",
+    )
     ("환산 현재가")
-    optn_shrn_iscd: str | None = Field(default=None, alias="optn_shrn_iscd")
+    optn_shrn_iscd: str | None = Field(
+        default=None,
+        alias="optn_shrn_iscd",
+    )
     ("옵션 단축 종목코드")
-    optn_prpr: Decimal | None = Field(default=None, alias="optn_prpr")
+    optn_prpr: Decimal | None = Field(
+        default=None,
+        alias="optn_prpr",
+    )
     ("옵션 현재가")
-    optn_prdy_vrss: str | None = Field(default=None, alias="optn_prdy_vrss")
+    optn_prdy_vrss: str | None = Field(
+        default=None,
+        alias="optn_prdy_vrss",
+    )
     ("옵션 전일 대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    optn_prdy_ctrt: Decimal | None = Field(default=None, alias="optn_prdy_ctrt")
+    optn_prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="optn_prdy_ctrt",
+    )
     ("옵션 전일 대비율")
-    optn_bidp: str | None = Field(default=None, alias="optn_bidp")
+    optn_bidp: str | None = Field(
+        default=None,
+        alias="optn_bidp",
+    )
     ("옵션 매수호가")
-    optn_askp: str | None = Field(default=None, alias="optn_askp")
+    optn_askp: str | None = Field(
+        default=None,
+        alias="optn_askp",
+    )
     ("옵션 매도호가")
-    tmvl_val: str | None = Field(default=None, alias="tmvl_val")
+    tmvl_val: str | None = Field(
+        default=None,
+        alias="tmvl_val",
+    )
     ("시간가치 값")
-    nmix_sdpr: Decimal | None = Field(default=None, alias="nmix_sdpr")
+    nmix_sdpr: Decimal | None = Field(
+        default=None,
+        alias="nmix_sdpr",
+    )
     ("지수 기준가")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
+    acml_vol: int | None = Field(
+        default=None,
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    seln_rsqn: str | None = Field(default=None, alias="seln_rsqn")
+    seln_rsqn: str | None = Field(
+        default=None,
+        alias="seln_rsqn",
+    )
     ("매도 잔량")
-    shnu_rsqn: str | None = Field(default=None, alias="shnu_rsqn")
+    shnu_rsqn: str | None = Field(
+        default=None,
+        alias="shnu_rsqn",
+    )
     ("매수2 잔량")
-    acml_tr_pbmn: Decimal | None = Field(default=None, alias="acml_tr_pbmn")
+    acml_tr_pbmn: Decimal | None = Field(
+        default=None,
+        alias="acml_tr_pbmn",
+    )
     ("누적 거래 대금")
-    hts_otst_stpl_qty: int | None = Field(default=None, alias="hts_otst_stpl_qty")
+    hts_otst_stpl_qty: int | None = Field(
+        default=None,
+        alias="hts_otst_stpl_qty",
+    )
     ("HTS 미결제 약정 수량")
-    otst_stpl_qty_icdc: int | None = Field(default=None, alias="otst_stpl_qty_icdc")
+    otst_stpl_qty_icdc: int | None = Field(
+        default=None,
+        alias="otst_stpl_qty_icdc",
+    )
     ("미결제 약정 수량 증감")
-    delta_val: str | None = Field(default=None, alias="delta_val")
+    delta_val: str | None = Field(
+        default=None,
+        alias="delta_val",
+    )
     ("델타 값")
-    gama: str | None = Field(default=None, alias="gama")
+    gama: str | None = Field(
+        default=None,
+        alias="gama",
+    )
     ("감마")
-    vega: str | None = Field(default=None, alias="vega")
+    vega: str | None = Field(
+        default=None,
+        alias="vega",
+    )
     ("베가")
-    theta: str | None = Field(default=None, alias="theta")
+    theta: str | None = Field(
+        default=None,
+        alias="theta",
+    )
     ("세타")
-    rho: str | None = Field(default=None, alias="rho")
+    rho: str | None = Field(
+        default=None,
+        alias="rho",
+    )
     ("로우")
-    hts_ints_vltl: str | None = Field(default=None, alias="hts_ints_vltl")
+    hts_ints_vltl: str | None = Field(
+        default=None,
+        alias="hts_ints_vltl",
+    )
     ("HTS 내재 변동성")
-    invl_val: str | None = Field(default=None, alias="invl_val")
+    invl_val: str | None = Field(
+        default=None,
+        alias="invl_val",
+    )
     ("내재가치 값")
-    esdg: str | None = Field(default=None, alias="esdg")
+    esdg: str | None = Field(
+        default=None,
+        alias="esdg",
+    )
     ("괴리도")
-    dprt: Decimal | None = Field(default=None, alias="dprt")
+    dprt: Decimal | None = Field(
+        default=None,
+        alias="dprt",
+    )
     ("괴리율")
-    hist_vltl: str | None = Field(default=None, alias="hist_vltl")
+    hist_vltl: str | None = Field(
+        default=None,
+        alias="hist_vltl",
+    )
     ("역사적 변동성")
-    hts_thpr: str | None = Field(default=None, alias="hts_thpr")
+    hts_thpr: str | None = Field(
+        default=None,
+        alias="hts_thpr",
+    )
     ("HTS 이론가")
-    optn_oprc: Decimal | None = Field(default=None, alias="optn_oprc")
+    optn_oprc: Decimal | None = Field(
+        default=None,
+        alias="optn_oprc",
+    )
     ("옵션 시가2")
-    optn_hgpr: Decimal | None = Field(default=None, alias="optn_hgpr")
+    optn_hgpr: Decimal | None = Field(
+        default=None,
+        alias="optn_hgpr",
+    )
     ("옵션 최고가")
-    optn_lwpr: Decimal | None = Field(default=None, alias="optn_lwpr")
+    optn_lwpr: Decimal | None = Field(
+        default=None,
+        alias="optn_lwpr",
+    )
     ("옵션 최저가")
-    optn_mxpr: str | None = Field(default=None, alias="optn_mxpr")
+    optn_mxpr: str | None = Field(
+        default=None,
+        alias="optn_mxpr",
+    )
     ("옵션 상한가")
-    optn_llam: str | None = Field(default=None, alias="optn_llam")
+    optn_llam: str | None = Field(
+        default=None,
+        alias="optn_llam",
+    )
     ("옵션 하한가")
-    atm_cls_name: str | None = Field(default=None, alias="atm_cls_name")
+    atm_cls_name: str | None = Field(
+        default=None,
+        alias="atm_cls_name",
+    )
     ("ATM 구분 명")
-    rgbf_vrss_icdc: str | None = Field(default=None, alias="rgbf_vrss_icdc")
+    rgbf_vrss_icdc: str | None = Field(
+        default=None,
+        alias="rgbf_vrss_icdc",
+    )
     ("직전 대비 증감")
-    total_askp_rsqn: str | None = Field(default=None, alias="total_askp_rsqn")
+    total_askp_rsqn: str | None = Field(
+        default=None,
+        alias="total_askp_rsqn",
+    )
     ("총 매도호가 잔량")
-    total_bidp_rsqn: str | None = Field(default=None, alias="total_bidp_rsqn")
+    total_bidp_rsqn: str | None = Field(
+        default=None,
+        alias="total_bidp_rsqn",
+    )
     ("총 매수호가 잔량")
-    futs_antc_cnpr: str | None = Field(default=None, alias="futs_antc_cnpr")
+    futs_antc_cnpr: str | None = Field(
+        default=None,
+        alias="futs_antc_cnpr",
+    )
     ("선물예상체결가")
-    futs_antc_cntg_vrss: str | None = Field(default=None, alias="futs_antc_cntg_vrss")
+    futs_antc_cntg_vrss: str | None = Field(
+        default=None,
+        alias="futs_antc_cntg_vrss",
+    )
     ("선물예상체결대비")
-    antc_cntg_vrss_sign: str | None = Field(default=None, alias="antc_cntg_vrss_sign")
+    antc_cntg_vrss_sign: str | None = Field(
+        default=None,
+        alias="antc_cntg_vrss_sign",
+    )
     ("예상 체결 대비 부호")
-    antc_cntg_prdy_ctrt: Decimal | None = Field(default=None, alias="antc_cntg_prdy_ctrt")
+    antc_cntg_prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="antc_cntg_prdy_ctrt",
+    )
     ("예상 체결 전일 대비율")
 
 
 class DisplayBoardCallputResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: list[DisplayBoardCallputOutput1] = Field(alias="output1")
+    output1: list[DisplayBoardCallputOutput1] = Field(
+        alias="output1",
+    )
     ("응답상세")
-    output2: list[DisplayBoardCallputOutput2] = Field(alias="output2")
+    output2: list[DisplayBoardCallputOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세")
 
 
@@ -307,15 +595,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DisplayBoardCallputRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DisplayBoardCallputRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DisplayBoardCallputResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DisplayBoardCallputRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DisplayBoardCallputRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DisplayBoardCallputResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[DisplayBoardCallputRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[DisplayBoardCallputRequestDict],
         ) -> tuple[DisplayBoardCallputResponse, KisResponse]: ...
         def call(
             self,
@@ -342,7 +642,7 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (O: 옵션)
-                        FID_COND_SCR_DIV_CODE (FidCondScrDivCodeEnum): Unique key(20503)
+                        FID_COND_SCR_DIV_CODE (str): Unique key(20503)
                         FID_MRKT_CLS_CODE (str): 시장구분코드 (CO: 콜옵션)
                         FID_MTRT_CNT (str): - FID_COND_MRKT_CLS_CODE : 공백(KOSPI200),
                         MKI(미니KOSPI200), KQI(KOSDAQ150) 인 경우 : 만기년월(YYYYMM) 입력 (ex. 202407)
@@ -370,6 +670,5 @@ __all__ = [
     "DisplayBoardCallputResponse",
     "DisplayBoardCallputOutput1",
     "DisplayBoardCallputOutput2",
-    "FidCondScrDivCodeEnum",
     "FidCondMrktClsCodeEnum",
 ]

@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisTime, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisTime,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -22,9 +34,13 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
 
 
 class ExpPriceTrendRequest(RawModel):
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("종목번호 (지수선물:6자리, 지수옵션 9자리)")
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("F : 지수선물, O : 지수옵션")
 
 
@@ -39,48 +55,86 @@ class ExpPriceTrendRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): F : 지수선물, O : 지수옵션
     """
 
-    FID_INPUT_ISCD: Annotated[str, "종목번호 (지수선물:6자리, 지수옵션 9자리)"]
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "F : 지수선물, O : 지수옵션"]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "종목번호 (지수선물:6자리, 지수옵션 9자리)",
+    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        FidCondMrktDivCodeEnum,
+        "F : 지수선물, O : 지수옵션",
+    ]
 
 
 class ExpPriceTrendOutput1(RawModel):
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
+    hts_kor_isnm: str = Field(
+        alias="hts_kor_isnm",
+    )
     ("영업 시간")
-    futs_antc_cnpr: Decimal = Field(alias="futs_antc_cnpr")
+    futs_antc_cnpr: Decimal = Field(
+        alias="futs_antc_cnpr",
+    )
     ("업종 지수 현재가")
-    antc_cntg_vrss_sign: Decimal = Field(alias="antc_cntg_vrss_sign")
+    antc_cntg_vrss_sign: Decimal = Field(
+        alias="antc_cntg_vrss_sign",
+    )
     ("업종 지수 전일 대비")
-    futs_antc_cntg_vrss: Decimal = Field(alias="futs_antc_cntg_vrss")
+    futs_antc_cntg_vrss: Decimal = Field(
+        alias="futs_antc_cntg_vrss",
+    )
     ("전일 대비 부호")
-    antc_cntg_prdy_ctrt: Decimal = Field(alias="antc_cntg_prdy_ctrt")
+    antc_cntg_prdy_ctrt: Decimal = Field(
+        alias="antc_cntg_prdy_ctrt",
+    )
     ("업종 지수 전일 대비율")
-    futs_sdpr: Decimal = Field(alias="futs_sdpr")
+    futs_sdpr: Decimal = Field(
+        alias="futs_sdpr",
+    )
     ("누적 거래 대금")
 
 
 class ExpPriceTrendOutput2(RawModel):
-    stck_cntg_hour: KisTime = Field(alias="stck_cntg_hour")
+    stck_cntg_hour: KisTime = Field(
+        alias="stck_cntg_hour",
+    )
     ("주식체결시간")
-    futs_antc_cnpr: Decimal = Field(alias="futs_antc_cnpr")
+    futs_antc_cnpr: Decimal = Field(
+        alias="futs_antc_cnpr",
+    )
     ("선물예상체결가")
-    antc_cntg_vrss_sign: int = Field(alias="antc_cntg_vrss_sign")
+    antc_cntg_vrss_sign: int = Field(
+        alias="antc_cntg_vrss_sign",
+    )
     ("예상체결대비부호")
-    futs_antc_cntg_vrss: Decimal = Field(alias="futs_antc_cntg_vrss")
+    futs_antc_cntg_vrss: Decimal = Field(
+        alias="futs_antc_cntg_vrss",
+    )
     ("선물예상체결대비")
-    antc_cntg_prdy_ctrt: Decimal = Field(alias="antc_cntg_prdy_ctrt")
+    antc_cntg_prdy_ctrt: Decimal = Field(
+        alias="antc_cntg_prdy_ctrt",
+    )
     ("예상체결전일대비율")
 
 
 class ExpPriceTrendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: ExpPriceTrendOutput1 = Field(alias="output1")
+    output1: ExpPriceTrendOutput1 = Field(
+        alias="output1",
+    )
     ("응답상세")
-    output2: list[ExpPriceTrendOutput2] = Field(alias="output2")
+    output2: list[ExpPriceTrendOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세")
 
 
@@ -107,15 +161,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: ExpPriceTrendRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: ExpPriceTrendRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[ExpPriceTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: ExpPriceTrendRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: ExpPriceTrendRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[ExpPriceTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[ExpPriceTrendRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[ExpPriceTrendRequestDict],
         ) -> tuple[ExpPriceTrendResponse, KisResponse]: ...
         def call(
             self,

@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -29,15 +40,25 @@ class FidRankSortClsCode2Enum(KisStrEnum):
 
 
 class FrgnmemTradeEstimateRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("시장구분코드 (J)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: str = Field(
+        alias="FID_COND_SCR_DIV_CODE",
+    )
     ("Uniquekey (16441)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("0000(전체), 1001(코스피), 2001(코스닥)")
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
+        alias="FID_RANK_SORT_CLS_CODE",
+    )
     ("0(금액순), 1(수량순)")
-    FID_RANK_SORT_CLS_CODE_2: FidRankSortClsCode2Enum = Field(alias="FID_RANK_SORT_CLS_CODE_2")
+    FID_RANK_SORT_CLS_CODE_2: FidRankSortClsCode2Enum = Field(
+        alias="FID_RANK_SORT_CLS_CODE_2",
+    )
     ("0(매수순), 1(매도순)")
 
 
@@ -55,44 +76,93 @@ class FrgnmemTradeEstimateRequestDict(TypedDict):
         FID_RANK_SORT_CLS_CODE_2 (FidRankSortClsCode2Enum): 0(매수순), 1(매도순)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (J)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "Uniquekey (16441)"]
-    FID_INPUT_ISCD: Annotated[str, "0000(전체), 1001(코스피), 2001(코스닥)"]
-    FID_RANK_SORT_CLS_CODE: Annotated[FidRankSortClsCodeEnum, "0(금액순), 1(수량순)"]
-    FID_RANK_SORT_CLS_CODE_2: Annotated[FidRankSortClsCode2Enum, "0(매수순), 1(매도순)"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "시장구분코드 (J)",
+    ]
+    FID_COND_SCR_DIV_CODE: Annotated[
+        str,
+        "Uniquekey (16441)",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "0000(전체), 1001(코스피), 2001(코스닥)",
+    ]
+    FID_RANK_SORT_CLS_CODE: Annotated[
+        FidRankSortClsCodeEnum,
+        "0(금액순), 1(수량순)",
+    ]
+    FID_RANK_SORT_CLS_CODE_2: Annotated[
+        FidRankSortClsCode2Enum,
+        "0(매수순), 1(매도순)",
+    ]
 
 
 class FrgnmemTradeEstimateOutput(RawModel):
-    stck_shrn_iscd: str | None = Field(default=None, alias="stck_shrn_iscd")
+    stck_shrn_iscd: str | None = Field(
+        default=None,
+        alias="stck_shrn_iscd",
+    )
     ("주식단축종목코드")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
+    hts_kor_isnm: str | None = Field(
+        default=None,
+        alias="hts_kor_isnm",
+    )
     ("HTS한글종목명")
-    glob_ntsl_qty: int = Field(alias="glob_ntsl_qty")
+    glob_ntsl_qty: int = Field(
+        alias="glob_ntsl_qty",
+    )
     ("외국계순매도수량")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
+    stck_prpr: Decimal = Field(
+        alias="stck_prpr",
+    )
     ("주식현재가")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
+    prdy_vrss: str | None = Field(
+        default=None,
+        alias="prdy_vrss",
+    )
     ("전일대비")
-    prdy_vrss_sign: Decimal = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: Decimal = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일대비부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
+    acml_vol: int | None = Field(
+        default=None,
+        alias="acml_vol",
+    )
     ("누적거래량")
-    glob_total_seln_qty: int | None = Field(default=None, alias="glob_total_seln_qty")
+    glob_total_seln_qty: int | None = Field(
+        default=None,
+        alias="glob_total_seln_qty",
+    )
     ("외국계총매도수량")
-    glob_total_shnu_qty: int | None = Field(default=None, alias="glob_total_shnu_qty")
+    glob_total_shnu_qty: int | None = Field(
+        default=None,
+        alias="glob_total_shnu_qty",
+    )
     ("외국계총매수2수량")
 
 
 class FrgnmemTradeEstimateResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[FrgnmemTradeEstimateOutput] = Field(alias="output")
+    output: list[FrgnmemTradeEstimateOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -119,15 +189,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: FrgnmemTradeEstimateRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: FrgnmemTradeEstimateRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[FrgnmemTradeEstimateResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: FrgnmemTradeEstimateRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: FrgnmemTradeEstimateRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[FrgnmemTradeEstimateResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[FrgnmemTradeEstimateRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[FrgnmemTradeEstimateRequestDict],
         ) -> tuple[FrgnmemTradeEstimateResponse, KisResponse]: ...
         def call(
             self,

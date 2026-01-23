@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,9 +26,13 @@ if TYPE_CHECKING:
 
 
 class VolatilityTrendDailyRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("시장구분코드 (W)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("ex) 58J297(KBJ297삼성전자콜)")
 
 
@@ -31,51 +47,95 @@ class VolatilityTrendDailyRequestDict(TypedDict):
         FID_INPUT_ISCD (str): ex) 58J297(KBJ297삼성전자콜)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"]
-    FID_INPUT_ISCD: Annotated[str, "ex) 58J297(KBJ297삼성전자콜)"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "시장구분코드 (W)",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "ex) 58J297(KBJ297삼성전자콜)",
+    ]
 
 
 class VolatilityTrendDailyOutput(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
+    stck_bsop_date: KisDate = Field(
+        alias="stck_bsop_date",
+    )
     ("주식 영업 일자")
-    elw_prpr: Decimal = Field(alias="elw_prpr")
+    elw_prpr: Decimal = Field(
+        alias="elw_prpr",
+    )
     ("ELW 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
+    prdy_vrss: int = Field(
+        alias="prdy_vrss",
+    )
     ("전일대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: int = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일대비부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일대비율")
-    elw_oprc: Decimal = Field(alias="elw_oprc")
+    elw_oprc: Decimal = Field(
+        alias="elw_oprc",
+    )
     ("elw 시가2")
-    elw_hgpr: Decimal = Field(alias="elw_hgpr")
+    elw_hgpr: Decimal = Field(
+        alias="elw_hgpr",
+    )
     ("elw 최고가")
-    elw_lwpr: Decimal = Field(alias="elw_lwpr")
+    elw_lwpr: Decimal = Field(
+        alias="elw_lwpr",
+    )
     ("elw 최저가")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    d10_hist_vltl: Decimal = Field(alias="d10_hist_vltl")
+    d10_hist_vltl: Decimal = Field(
+        alias="d10_hist_vltl",
+    )
     ("10일 역사적 변동성")
-    d20_hist_vltl: Decimal = Field(alias="d20_hist_vltl")
+    d20_hist_vltl: Decimal = Field(
+        alias="d20_hist_vltl",
+    )
     ("20일 역사적 변동성")
-    d30_hist_vltl: Decimal = Field(alias="d30_hist_vltl")
+    d30_hist_vltl: Decimal = Field(
+        alias="d30_hist_vltl",
+    )
     ("30일 역사적 변동성")
-    d60_hist_vltl: Decimal = Field(alias="d60_hist_vltl")
+    d60_hist_vltl: Decimal = Field(
+        alias="d60_hist_vltl",
+    )
     ("60일 역사적 변동성")
-    d90_hist_vltl: Decimal = Field(alias="d90_hist_vltl")
+    d90_hist_vltl: Decimal = Field(
+        alias="d90_hist_vltl",
+    )
     ("90일 역사적 변동성")
-    hts_ints_vltl: Decimal = Field(alias="hts_ints_vltl")
+    hts_ints_vltl: Decimal = Field(
+        alias="hts_ints_vltl",
+    )
     ("HTS 내재 변동성")
 
 
 class VolatilityTrendDailyResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[VolatilityTrendDailyOutput] = Field(alias="output")
+    output: list[VolatilityTrendDailyOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -102,15 +162,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: VolatilityTrendDailyRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: VolatilityTrendDailyRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[VolatilityTrendDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: VolatilityTrendDailyRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: VolatilityTrendDailyRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[VolatilityTrendDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[VolatilityTrendDailyRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[VolatilityTrendDailyRequestDict],
         ) -> tuple[VolatilityTrendDailyResponse, KisResponse]: ...
         def call(
             self,
@@ -144,4 +216,10 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "VolatilityTrendDailyRequest", "VolatilityTrendDailyRequestDict", "VolatilityTrendDailyResponse", "VolatilityTrendDailyOutput"]
+__all__ = [
+    "ENDPOINT",
+    "VolatilityTrendDailyRequest",
+    "VolatilityTrendDailyRequestDict",
+    "VolatilityTrendDailyResponse",
+    "VolatilityTrendDailyOutput",
+]

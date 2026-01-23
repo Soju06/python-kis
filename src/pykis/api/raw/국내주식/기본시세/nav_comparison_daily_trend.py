@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,13 +26,21 @@ if TYPE_CHECKING:
 
 
 class NavComparisonDailyTrendRequest(RawModel):
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
+    fid_cond_mrkt_div_code: str = Field(
+        alias="fid_cond_mrkt_div_code",
+    )
     ("J 입력")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
+    fid_input_iscd: str = Field(
+        alias="fid_input_iscd",
+    )
     ("종목코드 (6자리)")
-    fid_input_date_1: str = Field(alias="fid_input_date_1")
+    fid_input_date_1: str = Field(
+        alias="fid_input_date_1",
+    )
     ("조회 시작일자 (ex. 20240101)")
-    fid_input_date_2: str = Field(alias="fid_input_date_2")
+    fid_input_date_2: str = Field(
+        alias="fid_input_date_2",
+    )
     ("조회 종료일자 (ex. 20240220)")
 
 
@@ -38,49 +58,96 @@ class NavComparisonDailyTrendRequestDict(TypedDict):
         fid_input_date_2 (str): 조회 종료일자 (ex. 20240220)
     """
 
-    fid_cond_mrkt_div_code: Annotated[str, "J 입력"]
-    fid_input_iscd: Annotated[str, "종목코드 (6자리)"]
-    fid_input_date_1: Annotated[str, "조회 시작일자 (ex. 20240101)"]
-    fid_input_date_2: Annotated[str, "조회 종료일자 (ex. 20240220)"]
+    fid_cond_mrkt_div_code: Annotated[
+        str,
+        "J 입력",
+    ]
+    fid_input_iscd: Annotated[
+        str,
+        "종목코드 (6자리)",
+    ]
+    fid_input_date_1: Annotated[
+        str,
+        "조회 시작일자 (ex. 20240101)",
+    ]
+    fid_input_date_2: Annotated[
+        str,
+        "조회 종료일자 (ex. 20240220)",
+    ]
 
 
 class NavComparisonDailyTrendOutput(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
+    stck_bsop_date: KisDate = Field(
+        alias="stck_bsop_date",
+    )
     ("주식 영업 일자")
-    stck_clpr: int = Field(alias="stck_clpr")
+    stck_clpr: int = Field(
+        alias="stck_clpr",
+    )
     ("주식 종가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
+    prdy_vrss: int = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: int = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    cntg_vol: int | None = Field(default=None, alias="cntg_vol")
+    cntg_vol: int | None = Field(
+        default=None,
+        alias="cntg_vol",
+    )
     ("체결 거래량")
-    dprt: Decimal = Field(alias="dprt")
+    dprt: Decimal = Field(
+        alias="dprt",
+    )
     ("괴리율")
-    nav_vrss_prpr: Decimal = Field(alias="nav_vrss_prpr")
+    nav_vrss_prpr: Decimal = Field(
+        alias="nav_vrss_prpr",
+    )
     ("NAV 대비 현재가")
-    nav: Decimal = Field(alias="nav")
+    nav: Decimal = Field(
+        alias="nav",
+    )
     ("NAV")
-    nav_prdy_vrss_sign: int = Field(alias="nav_prdy_vrss_sign")
+    nav_prdy_vrss_sign: int = Field(
+        alias="nav_prdy_vrss_sign",
+    )
     ("NAV 전일 대비 부호")
-    nav_prdy_vrss: Decimal = Field(alias="nav_prdy_vrss")
+    nav_prdy_vrss: Decimal = Field(
+        alias="nav_prdy_vrss",
+    )
     ("NAV 전일 대비")
-    nav_prdy_ctrt: Decimal = Field(alias="nav_prdy_ctrt")
+    nav_prdy_ctrt: Decimal = Field(
+        alias="nav_prdy_ctrt",
+    )
     ("NAV 전일 대비율")
 
 
 class NavComparisonDailyTrendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[NavComparisonDailyTrendOutput] = Field(alias="output")
+    output: list[NavComparisonDailyTrendOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -108,15 +175,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: NavComparisonDailyTrendRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: NavComparisonDailyTrendRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[NavComparisonDailyTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: NavComparisonDailyTrendRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: NavComparisonDailyTrendRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[NavComparisonDailyTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[NavComparisonDailyTrendRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[NavComparisonDailyTrendRequestDict],
         ) -> tuple[NavComparisonDailyTrendResponse, KisResponse]: ...
         def call(
             self,

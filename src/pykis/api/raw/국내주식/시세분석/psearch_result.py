@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -28,9 +39,13 @@ class DaebiEnum(KisStrEnum):
 
 
 class PsearchResultRequest(RawModel):
-    user_id: str = Field(alias="user_id")
+    user_id: str = Field(
+        alias="user_id",
+    )
     ("사용자 HTS ID")
-    seq: str = Field(alias="seq")
+    seq: str = Field(
+        alias="seq",
+    )
     ("종목조건검색 목록조회 API의 output인 'seq'을 이용 (0 부터 시작)")
 
 
@@ -60,69 +75,131 @@ class PsearchResultRequestDict(TypedDict):
         seq (str): 종목조건검색 목록조회 API의 output인 'seq'을 이용 (0 부터 시작)
     """
 
-    user_id: Annotated[str, "사용자 HTS ID"]
-    seq: Annotated[str, "종목조건검색 목록조회 API의 output인 'seq'을 이용 (0 부터 시작)"]
+    user_id: Annotated[
+        str,
+        "사용자 HTS ID",
+    ]
+    seq: Annotated[
+        str,
+        "종목조건검색 목록조회 API의 output인 'seq'을 이용 (0 부터 시작)",
+    ]
 
 
 class PsearchResultOutput2(RawModel):
-    code: str = Field(alias="code")
+    code: str = Field(
+        alias="code",
+    )
     ("종목코드")
-    name: str = Field(alias="name")
+    name: str = Field(
+        alias="name",
+    )
     ("종목명")
-    daebi: DaebiEnum = Field(alias="daebi")
+    daebi: DaebiEnum = Field(
+        alias="daebi",
+    )
     ("1. 상한 2. 상승 3. 보합 4. 하한 5. 하락")
-    price: Decimal = Field(alias="price")
+    price: Decimal = Field(
+        alias="price",
+    )
     ("현재가")
-    chgrate: Decimal = Field(alias="chgrate")
+    chgrate: Decimal = Field(
+        alias="chgrate",
+    )
     ("등락율")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("거래량")
-    trade_amt: Decimal = Field(alias="trade_amt")
+    trade_amt: Decimal = Field(
+        alias="trade_amt",
+    )
     ("거래대금")
-    change: str = Field(alias="change")
+    change: str = Field(
+        alias="change",
+    )
     ("전일대비")
-    cttr: str = Field(alias="cttr")
+    cttr: str = Field(
+        alias="cttr",
+    )
     ("체결강도")
-    open: Decimal = Field(alias="open")
+    open: Decimal = Field(
+        alias="open",
+    )
     ("시가")
-    high: Decimal = Field(alias="high")
+    high: Decimal = Field(
+        alias="high",
+    )
     ("고가")
-    low: Decimal = Field(alias="low")
+    low: Decimal = Field(
+        alias="low",
+    )
     ("저가")
-    high52: Decimal = Field(alias="high52")
+    high52: Decimal = Field(
+        alias="high52",
+    )
     ("52주최고가")
-    low52: Decimal = Field(alias="low52")
+    low52: Decimal = Field(
+        alias="low52",
+    )
     ("52주최저가")
-    expprice: Decimal = Field(alias="expprice")
+    expprice: Decimal = Field(
+        alias="expprice",
+    )
     ("예상체결가")
-    expchange: str = Field(alias="expchange")
+    expchange: str = Field(
+        alias="expchange",
+    )
     ("예상대비")
-    expchggrate: Decimal = Field(alias="expchggrate")
+    expchggrate: Decimal = Field(
+        alias="expchggrate",
+    )
     ("예상등락률")
-    expcvol: int = Field(alias="expcvol")
+    expcvol: int = Field(
+        alias="expcvol",
+    )
     ("예상체결수량")
-    chgrate2: Decimal = Field(alias="chgrate2")
+    chgrate2: Decimal = Field(
+        alias="chgrate2",
+    )
     ("전일거래량대비율")
-    expdaebi: str = Field(alias="expdaebi")
+    expdaebi: str = Field(
+        alias="expdaebi",
+    )
     ("예상대비부호")
-    recprice: Decimal = Field(alias="recprice")
+    recprice: Decimal = Field(
+        alias="recprice",
+    )
     ("기준가")
-    uplmtprice: Decimal = Field(alias="uplmtprice")
+    uplmtprice: Decimal = Field(
+        alias="uplmtprice",
+    )
     ("상한가")
-    dnlmtprice: Decimal = Field(alias="dnlmtprice")
+    dnlmtprice: Decimal = Field(
+        alias="dnlmtprice",
+    )
     ("하한가")
-    stotprice: Decimal = Field(alias="stotprice")
+    stotprice: Decimal = Field(
+        alias="stotprice",
+    )
     ("시가총액")
 
 
 class PsearchResultResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output2: list[PsearchResultOutput2] = Field(alias="output2")
+    output2: list[PsearchResultOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세")
 
 
@@ -164,15 +241,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: PsearchResultRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: PsearchResultRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[PsearchResultResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: PsearchResultRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: PsearchResultRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[PsearchResultResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[PsearchResultRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[PsearchResultRequestDict],
         ) -> tuple[PsearchResultResponse, KisResponse]: ...
         def call(
             self,
@@ -221,4 +310,11 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "PsearchResultRequest", "PsearchResultRequestDict", "PsearchResultResponse", "PsearchResultOutput2", "DaebiEnum"]
+__all__ = [
+    "ENDPOINT",
+    "PsearchResultRequest",
+    "PsearchResultRequestDict",
+    "PsearchResultResponse",
+    "PsearchResultOutput2",
+    "DaebiEnum",
+]

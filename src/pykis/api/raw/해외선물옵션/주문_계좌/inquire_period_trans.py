@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -59,23 +72,50 @@ class CrcyCdEnum(KisStrEnum):
 
 
 class InquirePeriodTransRequest(RawModel):
-    INQR_TERM_FROM_DT: KisDate = Field(alias="INQR_TERM_FROM_DT")
+    INQR_TERM_FROM_DT: KisDate = Field(
+        alias="INQR_TERM_FROM_DT",
+    )
     ("조회기간FROM일자")
-    INQR_TERM_TO_DT: KisDate = Field(alias="INQR_TERM_TO_DT")
+    INQR_TERM_TO_DT: KisDate = Field(
+        alias="INQR_TERM_TO_DT",
+    )
     ("조회기간TO일자")
-    CANO: CanoEnum = Field(alias="CANO")
+    CANO: CanoEnum = Field(
+        alias="CANO",
+    )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    ACNT_TR_TYPE_CD: AcntTrTypeCdEnum = Field(alias="ACNT_TR_TYPE_CD")
+    ACNT_TR_TYPE_CD: AcntTrTypeCdEnum = Field(
+        alias="ACNT_TR_TYPE_CD",
+    )
     ("1: 전체, 2:입출금 , 3: 결제")
-    CRCY_CD: CrcyCdEnum = Field(alias="CRCY_CD")
-    ("'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남 '")
-    CTX_AREA_FK100: str | None = Field(default=None, alias="CTX_AREA_FK100", json_schema_extra={"blank_allowed": True})
+    CRCY_CD: CrcyCdEnum = Field(
+        alias="CRCY_CD",
+    )
+    (
+        "'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / "
+        "JPY: 일본 VND: 베트남 '"
+    )
+    CTX_AREA_FK100: str | None = Field(
+        default=None,
+        alias="CTX_AREA_FK100",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_NK100: str | None = Field(default=None, alias="CTX_AREA_NK100", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_NK100: str | None = Field(
+        default=None,
+        alias="CTX_AREA_NK100",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100값 : 다음페이지 조회시(2번째부터)")
-    PWD_CHK_YN: KisBool | None = Field(default=None, alias="PWD_CHK_YN", json_schema_extra={"blank_allowed": True})
+    PWD_CHK_YN: KisBool | None = Field(
+        default=None,
+        alias="PWD_CHK_YN",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공란(Default)")
 
 
@@ -98,64 +138,138 @@ class InquirePeriodTransRequestDict(TypedDict):
         PWD_CHK_YN (KisBool): 공란(Default) optional
     """
 
-    INQR_TERM_FROM_DT: Annotated[KisDate, "조회기간FROM일자"]
-    INQR_TERM_TO_DT: Annotated[KisDate, "조회기간TO일자"]
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    ACNT_TR_TYPE_CD: Annotated[AcntTrTypeCdEnum, "1: 전체, 2:입출금 , 3: 결제"]
-    CRCY_CD: Annotated[
-        CrcyCdEnum, "'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남 '"
+    INQR_TERM_FROM_DT: Annotated[
+        KisDate,
+        "조회기간FROM일자",
     ]
-    CTX_AREA_FK100: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100값 : 다음페이지 조회시(2번째부터)"]]
-    CTX_AREA_NK100: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100값 : 다음페이지 조회시(2번째부터)"]]
-    PWD_CHK_YN: NotRequired[Annotated[KisBool | None, "공란(Default)"]]
+    INQR_TERM_TO_DT: Annotated[
+        KisDate,
+        "조회기간TO일자",
+    ]
+    CANO: Annotated[
+        CanoEnum,
+        "계좌번호 체계(8-2)의 앞 8자리",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        AcntPrdtCdEnum,
+        "계좌번호 체계(8-2)의 뒤 2자리",
+    ]
+    ACNT_TR_TYPE_CD: Annotated[
+        AcntTrTypeCdEnum,
+        "1: 전체, 2:입출금 , 3: 결제",
+    ]
+    CRCY_CD: Annotated[
+        CrcyCdEnum,
+        "'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / "
+        "JPY: 일본 VND: 베트남 '",
+    ]
+    CTX_AREA_FK100: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100값 : 다음페이지 조회시(2번째부터)",
+        ]
+    ]
+    CTX_AREA_NK100: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100값 : 다음페이지 조회시(2번째부터)",
+        ]
+    ]
+    PWD_CHK_YN: NotRequired[
+        Annotated[
+            KisBool | None,
+            "공란(Default)",
+        ]
+    ]
 
 
 class InquirePeriodTransOutput(RawModel):
-    bass_dt: KisDate = Field(alias="bass_dt")
+    bass_dt: KisDate = Field(
+        alias="bass_dt",
+    )
     ("기준일자")
-    cano: str = Field(alias="cano")
+    cano: str = Field(
+        alias="cano",
+    )
     ("종합계좌번호")
-    acnt_prdt_cd: str = Field(alias="acnt_prdt_cd")
+    acnt_prdt_cd: str = Field(
+        alias="acnt_prdt_cd",
+    )
     ("계좌상품코드")
-    fm_ldgr_inog_seq: str = Field(alias="fm_ldgr_inog_seq")
+    fm_ldgr_inog_seq: str = Field(
+        alias="fm_ldgr_inog_seq",
+    )
     ("FM원장출납순번")
-    acnt_tr_type_name: str = Field(alias="acnt_tr_type_name")
+    acnt_tr_type_name: str = Field(
+        alias="acnt_tr_type_name",
+    )
     ("계좌거래유형명")
-    crcy_cd: str = Field(alias="crcy_cd")
+    crcy_cd: str = Field(
+        alias="crcy_cd",
+    )
     ("통화코드")
-    tr_itm_name: str = Field(alias="tr_itm_name")
+    tr_itm_name: str = Field(
+        alias="tr_itm_name",
+    )
     ("거래항목명")
-    fm_iofw_amt: Decimal = Field(alias="fm_iofw_amt")
+    fm_iofw_amt: Decimal = Field(
+        alias="fm_iofw_amt",
+    )
     ("FM입출금액")
-    fm_fee: str = Field(alias="fm_fee")
+    fm_fee: str = Field(
+        alias="fm_fee",
+    )
     ("FM수수료")
-    fm_tax_amt: Decimal = Field(alias="fm_tax_amt")
+    fm_tax_amt: Decimal = Field(
+        alias="fm_tax_amt",
+    )
     ("FM세금금액")
-    fm_sttl_amt: Decimal = Field(alias="fm_sttl_amt")
+    fm_sttl_amt: Decimal = Field(
+        alias="fm_sttl_amt",
+    )
     ("FM결제금액")
-    fm_bf_dncl_amt: Decimal = Field(alias="fm_bf_dncl_amt")
+    fm_bf_dncl_amt: Decimal = Field(
+        alias="fm_bf_dncl_amt",
+    )
     ("FM이전예수금액")
-    fm_dncl_amt: Decimal = Field(alias="fm_dncl_amt")
+    fm_dncl_amt: Decimal = Field(
+        alias="fm_dncl_amt",
+    )
     ("FM예수금액")
-    fm_rcvb_occr_amt: Decimal = Field(alias="fm_rcvb_occr_amt")
+    fm_rcvb_occr_amt: Decimal = Field(
+        alias="fm_rcvb_occr_amt",
+    )
     ("FM미수발생금액")
-    fm_rcvb_pybk_amt: Decimal = Field(alias="fm_rcvb_pybk_amt")
+    fm_rcvb_pybk_amt: Decimal = Field(
+        alias="fm_rcvb_pybk_amt",
+    )
     ("FM미수변제금액")
-    ovdu_int_pybk_amt: Decimal = Field(alias="ovdu_int_pybk_amt")
+    ovdu_int_pybk_amt: Decimal = Field(
+        alias="ovdu_int_pybk_amt",
+    )
     ("연체이자변제금액")
-    rmks_text: str = Field(alias="rmks_text")
+    rmks_text: str = Field(
+        alias="rmks_text",
+    )
     ("비고내용")
 
 
 class InquirePeriodTransResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[InquirePeriodTransOutput] = Field(alias="output")
+    output: list[InquirePeriodTransOutput] = Field(
+        alias="output",
+    )
     ("응답상세1")
 
 
@@ -178,15 +292,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePeriodTransRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePeriodTransRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePeriodTransResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePeriodTransRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePeriodTransRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePeriodTransResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePeriodTransRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquirePeriodTransRequestDict],
         ) -> tuple[InquirePeriodTransResponse, KisResponse]: ...
         def call(
             self,

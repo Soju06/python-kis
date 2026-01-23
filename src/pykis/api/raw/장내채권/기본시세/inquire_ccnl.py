@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisTimeOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisTimeOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,9 +26,13 @@ if TYPE_CHECKING:
 
 
 class InquireCcnlRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("B (업종코드)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("채권종목코드(ex KR2033022D33)")
 
 
@@ -30,35 +46,70 @@ class InquireCcnlRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 채권종목코드(ex KR2033022D33)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "B (업종코드)"]
-    FID_INPUT_ISCD: Annotated[str, "채권종목코드(ex KR2033022D33)"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "B (업종코드)",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "채권종목코드(ex KR2033022D33)",
+    ]
 
 
 class InquireCcnlOutput(RawModel):
-    stck_cntg_hour: KisTimeOptional = Field(default=None, alias="stck_cntg_hour")
+    stck_cntg_hour: KisTimeOptional = Field(
+        default=None,
+        alias="stck_cntg_hour",
+    )
     ("주식 체결 시간")
-    bond_prpr: Decimal | None = Field(default=None, alias="bond_prpr")
+    bond_prpr: Decimal | None = Field(
+        default=None,
+        alias="bond_prpr",
+    )
     ("채권 현재가")
-    bond_prdy_vrss: str | None = Field(default=None, alias="bond_prdy_vrss")
+    bond_prdy_vrss: str | None = Field(
+        default=None,
+        alias="bond_prdy_vrss",
+    )
     ("채권 전일 대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    cntg_vol: int | None = Field(default=None, alias="cntg_vol")
+    cntg_vol: int | None = Field(
+        default=None,
+        alias="cntg_vol",
+    )
     ("체결 거래량")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
+    acml_vol: int | None = Field(
+        default=None,
+        alias="acml_vol",
+    )
     ("누적 거래량")
 
 
 class InquireCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[InquireCcnlOutput] = Field(alias="output")
+    output: list[InquireCcnlOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -81,15 +132,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireCcnlRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireCcnlRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireCcnlRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireCcnlRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireCcnlRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireCcnlRequestDict],
         ) -> tuple[InquireCcnlResponse, KisResponse]: ...
         def call(
             self,
@@ -122,4 +185,10 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "InquireCcnlRequest", "InquireCcnlRequestDict", "InquireCcnlResponse", "InquireCcnlOutput"]
+__all__ = [
+    "ENDPOINT",
+    "InquireCcnlRequest",
+    "InquireCcnlRequestDict",
+    "InquireCcnlResponse",
+    "InquireCcnlOutput",
+]

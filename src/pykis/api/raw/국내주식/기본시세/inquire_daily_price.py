@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -58,14 +70,25 @@ class FlngClsCodeEnum(KisStrEnum):
 
 
 class InquireDailyPriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("J:KRX, NX:NXT, UN:통합")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("종목코드 (ex 005930 삼성전자)")
-    FID_PERIOD_DIV_CODE: FidPeriodDivCodeEnum = Field(alias="FID_PERIOD_DIV_CODE")
+    FID_PERIOD_DIV_CODE: FidPeriodDivCodeEnum = Field(
+        alias="FID_PERIOD_DIV_CODE",
+    )
     ("'D : (일)최근 30거래일 W : (주)최근 30주 M : (월)최근 30개월'")
-    FID_ORG_ADJ_PRC: FidOrgAdjPrcEnum = Field(alias="FID_ORG_ADJ_PRC")
-    ("'0 : 수정주가미반영 1 : 수정주가반영 * 수정주가는 액면분할/액면병합 등 권리 발생 시 과거 시세를 현재 주가에 맞게 보정한 가격'")
+    FID_ORG_ADJ_PRC: FidOrgAdjPrcEnum = Field(
+        alias="FID_ORG_ADJ_PRC",
+    )
+    (
+        "'0 : 수정주가미반영 1 : 수정주가반영 * 수정주가는 액면분할/액면병합 등 권리 발생 시 과거 시세를 "
+        "현재 주가에 맞게 보정한 가격'"
+    )
 
 
 class InquireDailyPriceRequestDict(TypedDict):
@@ -83,54 +106,108 @@ class InquireDailyPriceRequestDict(TypedDict):
         액면분할/액면병합 등 권리 발생 시 과거 시세를 현재 주가에 맞게 보정한 가격'
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드 (ex 005930 삼성전자)"]
-    FID_PERIOD_DIV_CODE: Annotated[FidPeriodDivCodeEnum, "'D : (일)최근 30거래일 W : (주)최근 30주 M : (월)최근 30개월'"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        FidCondMrktDivCodeEnum,
+        "J:KRX, NX:NXT, UN:통합",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "종목코드 (ex 005930 삼성전자)",
+    ]
+    FID_PERIOD_DIV_CODE: Annotated[
+        FidPeriodDivCodeEnum,
+        "'D : (일)최근 30거래일 W : (주)최근 30주 M : (월)최근 30개월'",
+    ]
     FID_ORG_ADJ_PRC: Annotated[
         FidOrgAdjPrcEnum,
-        "'0 : 수정주가미반영 1 : 수정주가반영 * 수정주가는 액면분할/액면병합 등 권리 발생 시 과거 시세를 현재 주가에 맞게 보정한 가격'",
+        "'0 : 수정주가미반영 1 : 수정주가반영 * 수정주가는 액면분할/액면병합 등 권리 발생 시 과거 시세를 "
+        "현재 주가에 맞게 보정한 가격'",
     ]
 
 
 class InquireDailyPriceOutput(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
+    stck_bsop_date: KisDate = Field(
+        alias="stck_bsop_date",
+    )
     ("주식 영업 일자")
-    stck_oprc: Decimal = Field(alias="stck_oprc")
+    stck_oprc: Decimal = Field(
+        alias="stck_oprc",
+    )
     ("주식 시가2")
-    stck_hgpr: Decimal = Field(alias="stck_hgpr")
+    stck_hgpr: Decimal = Field(
+        alias="stck_hgpr",
+    )
     ("주식 최고가")
-    stck_lwpr: Decimal = Field(alias="stck_lwpr")
+    stck_lwpr: Decimal = Field(
+        alias="stck_lwpr",
+    )
     ("주식 최저가")
-    stck_clpr: int = Field(alias="stck_clpr")
+    stck_clpr: int = Field(
+        alias="stck_clpr",
+    )
     ("주식 종가")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    prdy_vrss_vol_rate: Decimal = Field(alias="prdy_vrss_vol_rate", max_digits=12, decimal_places=4)
+    prdy_vrss_vol_rate: Decimal = Field(
+        alias="prdy_vrss_vol_rate",
+        max_digits=12,
+        decimal_places=4,
+    )
     ("13(8.4)")
-    prdy_vrss: int = Field(alias="prdy_vrss")
+    prdy_vrss: int = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: int = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt", max_digits=10, decimal_places=2)
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+        max_digits=10,
+        decimal_places=2,
+    )
     ("11(8.2)")
-    hts_frgn_ehrt: Decimal = Field(alias="hts_frgn_ehrt", max_digits=10, decimal_places=2)
+    hts_frgn_ehrt: Decimal = Field(
+        alias="hts_frgn_ehrt",
+        max_digits=10,
+        decimal_places=2,
+    )
     ("11(8.2)")
-    frgn_ntby_qty: int = Field(alias="frgn_ntby_qty")
+    frgn_ntby_qty: int = Field(
+        alias="frgn_ntby_qty",
+    )
     ("외국인 순매수 수량")
-    flng_cls_code: FlngClsCodeEnum = Field(alias="flng_cls_code")
+    flng_cls_code: FlngClsCodeEnum = Field(
+        alias="flng_cls_code",
+    )
     ("'01 : 권리락 02 : 배당락 03 : 분배락 04 : 권배락 05 : 중간(분기)배당락 06 : 권리중간배당락 07 : 권리분기배당락'")
-    acml_prtt_rate: Decimal = Field(alias="acml_prtt_rate", max_digits=12, decimal_places=4)
+    acml_prtt_rate: Decimal = Field(
+        alias="acml_prtt_rate",
+        max_digits=12,
+        decimal_places=4,
+    )
     ("13(8.4)")
 
 
 class InquireDailyPriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[InquireDailyPriceOutput] = Field(alias="output")
+    output: list[InquireDailyPriceOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -142,7 +219,9 @@ _ENDPOINT: Endpoint[InquireDailyPriceRequest, InquireDailyPriceResponse] = Endpo
     request_model=InquireDailyPriceRequest,
     response_model=InquireDailyPriceResponse,
     description=(
-        "주식현재가 일자별 API입니다. 일/주/월별 주가를 확인할 수 있으며 최근 30일(주,별)로 제한되어 있습니다.\\n[국내주식-010 v1] 주식현재가 일자별"
+        "주식현재가 일자별 API입니다. 일/주/월별 주가를 확인할 수 있으며 최근 30일(주,별)로 제한되어 "
+        "있습니다.\\n"
+        "[국내주식-010 v1] 주식현재가 일자별"
     ),
     real_tr_id="FHKST01010400",
     demo_tr_id="FHKST01010400",
@@ -155,15 +234,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireDailyPriceRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireDailyPriceRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireDailyPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireDailyPriceRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireDailyPriceRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireDailyPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireDailyPriceRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireDailyPriceRequestDict],
         ) -> tuple[InquireDailyPriceResponse, KisResponse]: ...
         def call(
             self,

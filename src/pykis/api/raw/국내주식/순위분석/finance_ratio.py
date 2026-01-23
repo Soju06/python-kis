@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -33,31 +44,57 @@ class FidRankSortClsCodeEnum(KisStrEnum):
 
 
 class FinanceRatioRequest(RawModel):
-    fid_trgt_cls_code: str = Field(alias="fid_trgt_cls_code")
+    fid_trgt_cls_code: str = Field(
+        alias="fid_trgt_cls_code",
+    )
     ("0 : 전체")
-    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(alias="fid_cond_mrkt_div_code")
+    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(
+        alias="fid_cond_mrkt_div_code",
+    )
     ("시장구분코드 (J:KRX, NX:NXT)")
-    fid_cond_scr_div_code: str = Field(alias="fid_cond_scr_div_code")
+    fid_cond_scr_div_code: str = Field(
+        alias="fid_cond_scr_div_code",
+    )
     ("Unique key( 20175 )")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
+    fid_input_iscd: str = Field(
+        alias="fid_input_iscd",
+    )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
-    fid_div_cls_code: str = Field(alias="fid_div_cls_code")
+    fid_div_cls_code: str = Field(
+        alias="fid_div_cls_code",
+    )
     ("0 : 전체")
-    fid_input_price_1: str = Field(alias="fid_input_price_1")
+    fid_input_price_1: str = Field(
+        alias="fid_input_price_1",
+    )
     ("입력값 없을때 전체 (가격 ~)")
-    fid_input_price_2: str = Field(alias="fid_input_price_2")
+    fid_input_price_2: str = Field(
+        alias="fid_input_price_2",
+    )
     ("입력값 없을때 전체 (~ 가격)")
-    fid_vol_cnt: int = Field(alias="fid_vol_cnt")
+    fid_vol_cnt: int = Field(
+        alias="fid_vol_cnt",
+    )
     ("입력값 없을때 전체 (거래량 ~)")
-    fid_input_option_1: str = Field(alias="fid_input_option_1")
+    fid_input_option_1: str = Field(
+        alias="fid_input_option_1",
+    )
     ("회계년도 입력 (ex 2023)")
-    fid_input_option_2: str = Field(alias="fid_input_option_2")
+    fid_input_option_2: str = Field(
+        alias="fid_input_option_2",
+    )
     ("0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산")
-    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(alias="fid_rank_sort_cls_code")
+    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(
+        alias="fid_rank_sort_cls_code",
+    )
     ("7: 수익성 분석, 11 : 안정성 분석, 15: 성장성 분석, 20: 활동성 분석")
-    fid_blng_cls_code: str = Field(alias="fid_blng_cls_code")
+    fid_blng_cls_code: str = Field(
+        alias="fid_blng_cls_code",
+    )
     ("0")
-    fid_trgt_exls_cls_code: str = Field(alias="fid_trgt_exls_cls_code")
+    fid_trgt_exls_cls_code: str = Field(
+        alias="fid_trgt_exls_cls_code",
+    )
     ("0 : 전체")
 
 
@@ -91,86 +128,214 @@ class FinanceRatioRequestDict(TypedDict):
         fid_trgt_exls_cls_code (str): 0 : 전체
     """
 
-    fid_trgt_cls_code: Annotated[str, "0 : 전체"]
-    fid_cond_mrkt_div_code: Annotated[FidCondMrktDivCodeEnum, "시장구분코드 (J:KRX, NX:NXT)"]
-    fid_cond_scr_div_code: Annotated[str, "Unique key( 20175 )"]
-    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200"]
-    fid_div_cls_code: Annotated[str, "0 : 전체"]
-    fid_input_price_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"]
-    fid_input_price_2: Annotated[str, "입력값 없을때 전체 (~ 가격)"]
-    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"]
-    fid_input_option_1: Annotated[str, "회계년도 입력 (ex 2023)"]
-    fid_input_option_2: Annotated[str, "0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산"]
-    fid_rank_sort_cls_code: Annotated[FidRankSortClsCodeEnum, "7: 수익성 분석, 11 : 안정성 분석, 15: 성장성 분석, 20: 활동성 분석"]
-    fid_blng_cls_code: Annotated[str, "0"]
-    fid_trgt_exls_cls_code: Annotated[str, "0 : 전체"]
+    fid_trgt_cls_code: Annotated[
+        str,
+        "0 : 전체",
+    ]
+    fid_cond_mrkt_div_code: Annotated[
+        FidCondMrktDivCodeEnum,
+        "시장구분코드 (J:KRX, NX:NXT)",
+    ]
+    fid_cond_scr_div_code: Annotated[
+        str,
+        "Unique key( 20175 )",
+    ]
+    fid_input_iscd: Annotated[
+        str,
+        "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200",
+    ]
+    fid_div_cls_code: Annotated[
+        str,
+        "0 : 전체",
+    ]
+    fid_input_price_1: Annotated[
+        str,
+        "입력값 없을때 전체 (가격 ~)",
+    ]
+    fid_input_price_2: Annotated[
+        str,
+        "입력값 없을때 전체 (~ 가격)",
+    ]
+    fid_vol_cnt: Annotated[
+        int,
+        "입력값 없을때 전체 (거래량 ~)",
+    ]
+    fid_input_option_1: Annotated[
+        str,
+        "회계년도 입력 (ex 2023)",
+    ]
+    fid_input_option_2: Annotated[
+        str,
+        "0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산",
+    ]
+    fid_rank_sort_cls_code: Annotated[
+        FidRankSortClsCodeEnum,
+        "7: 수익성 분석, 11 : 안정성 분석, 15: 성장성 분석, 20: 활동성 분석",
+    ]
+    fid_blng_cls_code: Annotated[
+        str,
+        "0",
+    ]
+    fid_trgt_exls_cls_code: Annotated[
+        str,
+        "0 : 전체",
+    ]
 
 
 class FinanceRatioOutput(RawModel):
-    data_rank: str | None = Field(default=None, alias="data_rank")
+    data_rank: str | None = Field(
+        default=None,
+        alias="data_rank",
+    )
     ("데이터 순위")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
+    hts_kor_isnm: str | None = Field(
+        default=None,
+        alias="hts_kor_isnm",
+    )
     ("HTS 한글 종목명")
-    mksc_shrn_iscd: str | None = Field(default=None, alias="mksc_shrn_iscd")
+    mksc_shrn_iscd: str | None = Field(
+        default=None,
+        alias="mksc_shrn_iscd",
+    )
     ("유가증권 단축 종목코드")
-    stck_prpr: Decimal | None = Field(default=None, alias="stck_prpr")
+    stck_prpr: Decimal | None = Field(
+        default=None,
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
+    prdy_vrss: str | None = Field(
+        default=None,
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
+    acml_vol: int | None = Field(
+        default=None,
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    cptl_op_prfi: Decimal | None = Field(default=None, alias="cptl_op_prfi")
+    cptl_op_prfi: Decimal | None = Field(
+        default=None,
+        alias="cptl_op_prfi",
+    )
     ("총자본경상이익율")
-    cptl_ntin_rate: Decimal | None = Field(default=None, alias="cptl_ntin_rate")
+    cptl_ntin_rate: Decimal | None = Field(
+        default=None,
+        alias="cptl_ntin_rate",
+    )
     ("총자본 순이익율")
-    sale_totl_rate: Decimal | None = Field(default=None, alias="sale_totl_rate")
+    sale_totl_rate: Decimal | None = Field(
+        default=None,
+        alias="sale_totl_rate",
+    )
     ("매출액 총이익율")
-    sale_ntin_rate: Decimal | None = Field(default=None, alias="sale_ntin_rate")
+    sale_ntin_rate: Decimal | None = Field(
+        default=None,
+        alias="sale_ntin_rate",
+    )
     ("매출액 순이익율")
-    bis: Decimal | None = Field(default=None, alias="bis")
+    bis: Decimal | None = Field(
+        default=None,
+        alias="bis",
+    )
     ("자기자본비율")
-    lblt_rate: Decimal | None = Field(default=None, alias="lblt_rate")
+    lblt_rate: Decimal | None = Field(
+        default=None,
+        alias="lblt_rate",
+    )
     ("부채 비율")
-    bram_depn: str | None = Field(default=None, alias="bram_depn")
+    bram_depn: str | None = Field(
+        default=None,
+        alias="bram_depn",
+    )
     ("차입금 의존도")
-    rsrv_rate: Decimal | None = Field(default=None, alias="rsrv_rate")
+    rsrv_rate: Decimal | None = Field(
+        default=None,
+        alias="rsrv_rate",
+    )
     ("유보 비율")
-    grs: Decimal | None = Field(default=None, alias="grs")
+    grs: Decimal | None = Field(
+        default=None,
+        alias="grs",
+    )
     ("매출액 증가율")
-    op_prfi_inrt: Decimal | None = Field(default=None, alias="op_prfi_inrt")
+    op_prfi_inrt: Decimal | None = Field(
+        default=None,
+        alias="op_prfi_inrt",
+    )
     ("경상 이익 증가율")
-    bsop_prfi_inrt: Decimal | None = Field(default=None, alias="bsop_prfi_inrt")
+    bsop_prfi_inrt: Decimal | None = Field(
+        default=None,
+        alias="bsop_prfi_inrt",
+    )
     ("영업 이익 증가율")
-    ntin_inrt: Decimal | None = Field(default=None, alias="ntin_inrt")
+    ntin_inrt: Decimal | None = Field(
+        default=None,
+        alias="ntin_inrt",
+    )
     ("순이익 증가율")
-    equt_inrt: Decimal | None = Field(default=None, alias="equt_inrt")
+    equt_inrt: Decimal | None = Field(
+        default=None,
+        alias="equt_inrt",
+    )
     ("자기자본 증가율")
-    cptl_tnrt: Decimal | None = Field(default=None, alias="cptl_tnrt")
+    cptl_tnrt: Decimal | None = Field(
+        default=None,
+        alias="cptl_tnrt",
+    )
     ("총자본회전율")
-    sale_bond_tnrt: Decimal | None = Field(default=None, alias="sale_bond_tnrt")
+    sale_bond_tnrt: Decimal | None = Field(
+        default=None,
+        alias="sale_bond_tnrt",
+    )
     ("매출 채권 회전율")
-    totl_aset_inrt: Decimal | None = Field(default=None, alias="totl_aset_inrt")
+    totl_aset_inrt: Decimal | None = Field(
+        default=None,
+        alias="totl_aset_inrt",
+    )
     ("총자산 증가율")
-    stac_month: str | None = Field(default=None, alias="stac_month")
+    stac_month: str | None = Field(
+        default=None,
+        alias="stac_month",
+    )
     ("결산 월")
-    stac_month_cls_code: str | None = Field(default=None, alias="stac_month_cls_code")
+    stac_month_cls_code: str | None = Field(
+        default=None,
+        alias="stac_month_cls_code",
+    )
     ("결산 월 구분 코드")
-    iqry_csnu: int | None = Field(default=None, alias="iqry_csnu")
+    iqry_csnu: int | None = Field(
+        default=None,
+        alias="iqry_csnu",
+    )
     ("조회 건수")
 
 
 class FinanceRatioResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[FinanceRatioOutput] = Field(alias="output")
+    output: list[FinanceRatioOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -204,15 +369,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: FinanceRatioRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: FinanceRatioRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[FinanceRatioResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: FinanceRatioRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: FinanceRatioRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[FinanceRatioResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[FinanceRatioRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[FinanceRatioRequestDict],
         ) -> tuple[FinanceRatioResponse, KisResponse]: ...
         def call(
             self,

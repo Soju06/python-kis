@@ -2,25 +2,27 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
-
-
-class FidCondScrDivCodeEnum(KisStrEnum):
-    UNIQUE = ("Unique", "key(20182)")
-    "key(20182)"
-    VALUE_20182 = ("20182", "Unique key")
-    "Unique key"
-    KEY = ("key", "20182")
-    "20182"
 
 
 class FidDivClsCodeEnum(KisStrEnum):
@@ -33,25 +35,45 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class ExpTransUpdownRequest(RawModel):
-    fid_rank_sort_cls_code: str = Field(alias="fid_rank_sort_cls_code")
+    fid_rank_sort_cls_code: str = Field(
+        alias="fid_rank_sort_cls_code",
+    )
     ("0:상승률1:상승폭2:보합3:하락율4:하락폭5:체결량6:거래대금")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
+    fid_cond_mrkt_div_code: str = Field(
+        alias="fid_cond_mrkt_div_code",
+    )
     ("시장구분코드 (주식 J)")
-    fid_cond_scr_div_code: FidCondScrDivCodeEnum = Field(alias="fid_cond_scr_div_code")
+    fid_cond_scr_div_code: str = Field(
+        alias="fid_cond_scr_div_code",
+    )
     ("Unique key(20182)")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
+    fid_input_iscd: str = Field(
+        alias="fid_input_iscd",
+    )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
+    fid_div_cls_code: FidDivClsCodeEnum = Field(
+        alias="fid_div_cls_code",
+    )
     ("0:전체 1:보통주 2:우선주")
-    fid_aply_rang_prc_1: str = Field(alias="fid_aply_rang_prc_1")
+    fid_aply_rang_prc_1: str = Field(
+        alias="fid_aply_rang_prc_1",
+    )
     ("입력값 없을때 전체 (가격 ~)")
-    fid_vol_cnt: int = Field(alias="fid_vol_cnt")
+    fid_vol_cnt: int = Field(
+        alias="fid_vol_cnt",
+    )
     ("입력값 없을때 전체 (거래량 ~)")
-    fid_pbmn: str = Field(alias="fid_pbmn")
+    fid_pbmn: str = Field(
+        alias="fid_pbmn",
+    )
     ("입력값 없을때 전체 (거래대금 ~) 천원단위")
-    fid_blng_cls_code: str = Field(alias="fid_blng_cls_code")
+    fid_blng_cls_code: str = Field(
+        alias="fid_blng_cls_code",
+    )
     ("0: 전체")
-    fid_mkop_cls_code: str = Field(alias="fid_mkop_cls_code")
+    fid_mkop_cls_code: str = Field(
+        alias="fid_mkop_cls_code",
+    )
     ("0:장전예상1:장마감예상")
 
 
@@ -71,7 +93,7 @@ class ExpTransUpdownRequestDict(TypedDict):
     Request fields:
         fid_rank_sort_cls_code (str): 0:상승률1:상승폭2:보합3:하락율4:하락폭5:체결량6:거래대금
         fid_cond_mrkt_div_code (str): 시장구분코드 (주식 J)
-        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20182)
+        fid_cond_scr_div_code (str): Unique key(20182)
         fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100
         fid_div_cls_code (FidDivClsCodeEnum): 0:전체 1:보통주 2:우선주
         fid_aply_rang_prc_1 (str): 입력값 없을때 전체 (가격 ~)
@@ -81,59 +103,127 @@ class ExpTransUpdownRequestDict(TypedDict):
         fid_mkop_cls_code (str): 0:장전예상1:장마감예상
     """
 
-    fid_rank_sort_cls_code: Annotated[str, "0:상승률1:상승폭2:보합3:하락율4:하락폭5:체결량6:거래대금"]
-    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"]
-    fid_cond_scr_div_code: Annotated[FidCondScrDivCodeEnum, "Unique key(20182)"]
-    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"]
-    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0:전체 1:보통주 2:우선주"]
-    fid_aply_rang_prc_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"]
-    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"]
-    fid_pbmn: Annotated[str, "입력값 없을때 전체 (거래대금 ~) 천원단위"]
-    fid_blng_cls_code: Annotated[str, "0: 전체"]
-    fid_mkop_cls_code: Annotated[str, "0:장전예상1:장마감예상"]
+    fid_rank_sort_cls_code: Annotated[
+        str,
+        "0:상승률1:상승폭2:보합3:하락율4:하락폭5:체결량6:거래대금",
+    ]
+    fid_cond_mrkt_div_code: Annotated[
+        str,
+        "시장구분코드 (주식 J)",
+    ]
+    fid_cond_scr_div_code: Annotated[
+        str,
+        "Unique key(20182)",
+    ]
+    fid_input_iscd: Annotated[
+        str,
+        "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100",
+    ]
+    fid_div_cls_code: Annotated[
+        FidDivClsCodeEnum,
+        "0:전체 1:보통주 2:우선주",
+    ]
+    fid_aply_rang_prc_1: Annotated[
+        str,
+        "입력값 없을때 전체 (가격 ~)",
+    ]
+    fid_vol_cnt: Annotated[
+        int,
+        "입력값 없을때 전체 (거래량 ~)",
+    ]
+    fid_pbmn: Annotated[
+        str,
+        "입력값 없을때 전체 (거래대금 ~) 천원단위",
+    ]
+    fid_blng_cls_code: Annotated[
+        str,
+        "0: 전체",
+    ]
+    fid_mkop_cls_code: Annotated[
+        str,
+        "0:장전예상1:장마감예상",
+    ]
 
 
 class ExpTransUpdownOutput(RawModel):
-    stck_shrn_iscd: str = Field(alias="stck_shrn_iscd")
+    stck_shrn_iscd: str = Field(
+        alias="stck_shrn_iscd",
+    )
     ("주식 단축 종목코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
+    hts_kor_isnm: str = Field(
+        alias="hts_kor_isnm",
+    )
     ("HTS 한글 종목명")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
+    stck_prpr: Decimal = Field(
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
+    prdy_vrss: int = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: int = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    stck_sdpr: int = Field(alias="stck_sdpr")
+    stck_sdpr: int = Field(
+        alias="stck_sdpr",
+    )
     ("주식 기준가")
-    seln_rsqn: int = Field(alias="seln_rsqn")
+    seln_rsqn: int = Field(
+        alias="seln_rsqn",
+    )
     ("매도 잔량")
-    askp: int = Field(alias="askp")
+    askp: int = Field(
+        alias="askp",
+    )
     ("매도호가")
-    bidp: str = Field(alias="bidp")
+    bidp: str = Field(
+        alias="bidp",
+    )
     ("매수호가")
-    shnu_rsqn: int = Field(alias="shnu_rsqn")
+    shnu_rsqn: int = Field(
+        alias="shnu_rsqn",
+    )
     ("매수2 잔량")
-    cntg_vol: int = Field(alias="cntg_vol")
+    cntg_vol: int = Field(
+        alias="cntg_vol",
+    )
     ("체결 거래량")
-    antc_tr_pbmn: Decimal = Field(alias="antc_tr_pbmn")
+    antc_tr_pbmn: Decimal = Field(
+        alias="antc_tr_pbmn",
+    )
     ("체결 거래대금")
-    total_askp_rsqn: int = Field(alias="total_askp_rsqn")
+    total_askp_rsqn: int = Field(
+        alias="total_askp_rsqn",
+    )
     ("총 매도호가 잔량")
-    total_bidp_rsqn: str = Field(alias="total_bidp_rsqn")
+    total_bidp_rsqn: str = Field(
+        alias="total_bidp_rsqn",
+    )
     ("총 매수호가 잔량")
 
 
 class ExpTransUpdownResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[ExpTransUpdownOutput] = Field(alias="output")
+    output: list[ExpTransUpdownOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -167,15 +257,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: ExpTransUpdownRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: ExpTransUpdownRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[ExpTransUpdownResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: ExpTransUpdownRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: ExpTransUpdownRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[ExpTransUpdownResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[ExpTransUpdownRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[ExpTransUpdownRequestDict],
         ) -> tuple[ExpTransUpdownResponse, KisResponse]: ...
         def call(
             self,
@@ -207,7 +309,7 @@ if TYPE_CHECKING:
                         fid_rank_sort_cls_code (str):
                         0:상승률1:상승폭2:보합3:하락율4:하락폭5:체결량6:거래대금
                         fid_cond_mrkt_div_code (str): 시장구분코드 (주식 J)
-                        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20182)
+                        fid_cond_scr_div_code (str): Unique key(20182)
                         fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
                         4001: KRX100
                         fid_div_cls_code (FidDivClsCodeEnum): 0:전체 1:보통주 2:우선주
@@ -232,6 +334,5 @@ __all__ = [
     "ExpTransUpdownRequestDict",
     "ExpTransUpdownResponse",
     "ExpTransUpdownOutput",
-    "FidCondScrDivCodeEnum",
     "FidDivClsCodeEnum",
 ]

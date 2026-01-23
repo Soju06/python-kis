@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -24,23 +37,43 @@ class SortDvsnEnum(KisStrEnum):
 
 
 class InquirePeriodTradeProfitRequest(RawModel):
-    CANO: str = Field(alias="CANO")
+    CANO: str = Field(
+        alias="CANO",
+    )
     ("종합계좌번호")
-    SORT_DVSN: SortDvsnEnum = Field(alias="SORT_DVSN")
+    SORT_DVSN: SortDvsnEnum = Field(
+        alias="SORT_DVSN",
+    )
     ("00: 최근 순, 01: 과거 순, 02: 최근 순")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: str = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("계좌상품코드")
-    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
+    PDNO: str | None = Field(
+        default=None,
+        alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
+    )
     ('""공란입력 시, 전체')
-    INQR_STRT_DT: KisDate = Field(alias="INQR_STRT_DT")
+    INQR_STRT_DT: KisDate = Field(
+        alias="INQR_STRT_DT",
+    )
     ("조회시작일자")
-    INQR_END_DT: KisDate = Field(alias="INQR_END_DT")
+    INQR_END_DT: KisDate = Field(
+        alias="INQR_END_DT",
+    )
     ("조회종료일자")
-    CTX_AREA_NK100: str = Field(alias="CTX_AREA_NK100")
+    CTX_AREA_NK100: str = Field(
+        alias="CTX_AREA_NK100",
+    )
     ("연속조회키100")
-    CBLC_DVSN: str = Field(alias="CBLC_DVSN")
+    CBLC_DVSN: str = Field(
+        alias="CBLC_DVSN",
+    )
     ("00: 전체")
-    CTX_AREA_FK100: str = Field(alias="CTX_AREA_FK100")
+    CTX_AREA_FK100: str = Field(
+        alias="CTX_AREA_FK100",
+    )
     ("연속조회검색조건100")
 
 
@@ -62,107 +95,220 @@ class InquirePeriodTradeProfitRequestDict(TypedDict):
         CTX_AREA_FK100 (str): 연속조회검색조건100
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    SORT_DVSN: Annotated[SortDvsnEnum, "00: 최근 순, 01: 과거 순, 02: 최근 순"]
-    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
-    PDNO: NotRequired[Annotated[str | None, '""공란입력 시, 전체']]
-    INQR_STRT_DT: Annotated[KisDate, "조회시작일자"]
-    INQR_END_DT: Annotated[KisDate, "조회종료일자"]
-    CTX_AREA_NK100: Annotated[str, "연속조회키100"]
-    CBLC_DVSN: Annotated[str, "00: 전체"]
-    CTX_AREA_FK100: Annotated[str, "연속조회검색조건100"]
+    CANO: Annotated[
+        str,
+        "종합계좌번호",
+    ]
+    SORT_DVSN: Annotated[
+        SortDvsnEnum,
+        "00: 최근 순, 01: 과거 순, 02: 최근 순",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        str,
+        "계좌상품코드",
+    ]
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            '""공란입력 시, 전체',
+        ]
+    ]
+    INQR_STRT_DT: Annotated[
+        KisDate,
+        "조회시작일자",
+    ]
+    INQR_END_DT: Annotated[
+        KisDate,
+        "조회종료일자",
+    ]
+    CTX_AREA_NK100: Annotated[
+        str,
+        "연속조회키100",
+    ]
+    CBLC_DVSN: Annotated[
+        str,
+        "00: 전체",
+    ]
+    CTX_AREA_FK100: Annotated[
+        str,
+        "연속조회검색조건100",
+    ]
 
 
 class InquirePeriodTradeProfitOutput1(RawModel):
-    trad_dt: KisDate = Field(alias="trad_dt")
+    trad_dt: KisDate = Field(
+        alias="trad_dt",
+    )
     ("매매일자")
-    pdno: str = Field(alias="pdno")
+    pdno: str = Field(
+        alias="pdno",
+    )
     ("종목번호(뒤 6자리만 해당)")
-    prdt_name: str = Field(alias="prdt_name")
+    prdt_name: str = Field(
+        alias="prdt_name",
+    )
     ("상품명")
-    trad_dvsn_name: str = Field(alias="trad_dvsn_name")
+    trad_dvsn_name: str = Field(
+        alias="trad_dvsn_name",
+    )
     ("매매구분명")
-    loan_dt: KisDate = Field(alias="loan_dt")
+    loan_dt: KisDate = Field(
+        alias="loan_dt",
+    )
     ("대출일자")
-    hldg_qty: int = Field(alias="hldg_qty")
+    hldg_qty: int = Field(
+        alias="hldg_qty",
+    )
     ("보유수량")
-    pchs_unpr: str = Field(alias="pchs_unpr")
+    pchs_unpr: str = Field(
+        alias="pchs_unpr",
+    )
     ("매입단가")
-    buy_qty: int = Field(alias="buy_qty")
+    buy_qty: int = Field(
+        alias="buy_qty",
+    )
     ("매수수량")
-    buy_amt: Decimal = Field(alias="buy_amt")
+    buy_amt: Decimal = Field(
+        alias="buy_amt",
+    )
     ("매수금액")
-    sll_pric: Decimal = Field(alias="sll_pric")
+    sll_pric: Decimal = Field(
+        alias="sll_pric",
+    )
     ("매도가격")
-    sll_qty: int = Field(alias="sll_qty")
+    sll_qty: int = Field(
+        alias="sll_qty",
+    )
     ("매도수량")
-    sll_amt: Decimal = Field(alias="sll_amt")
+    sll_amt: Decimal = Field(
+        alias="sll_amt",
+    )
     ("매도금액")
-    rlzt_pfls: str = Field(alias="rlzt_pfls")
+    rlzt_pfls: str = Field(
+        alias="rlzt_pfls",
+    )
     ("실현손익")
-    pfls_rt: str = Field(alias="pfls_rt")
+    pfls_rt: str = Field(
+        alias="pfls_rt",
+    )
     ("손익률")
-    fee: str = Field(alias="fee")
+    fee: str = Field(
+        alias="fee",
+    )
     ("수수료")
-    tl_tax: str = Field(alias="tl_tax")
+    tl_tax: str = Field(
+        alias="tl_tax",
+    )
     ("제세금")
-    loan_int: str = Field(alias="loan_int")
+    loan_int: str = Field(
+        alias="loan_int",
+    )
     ("대출이자")
 
 
 class InquirePeriodTradeProfitOutput2(RawModel):
-    sll_qty_smtl: int = Field(alias="sll_qty_smtl")
+    sll_qty_smtl: int = Field(
+        alias="sll_qty_smtl",
+    )
     ("매도수량합계")
-    sll_tr_amt_smtl: Decimal = Field(alias="sll_tr_amt_smtl")
+    sll_tr_amt_smtl: Decimal = Field(
+        alias="sll_tr_amt_smtl",
+    )
     ("매도거래금액합계")
-    sll_fee_smtl: str = Field(alias="sll_fee_smtl")
+    sll_fee_smtl: str = Field(
+        alias="sll_fee_smtl",
+    )
     ("매도수수료합계")
-    sll_tltx_smtl: str = Field(alias="sll_tltx_smtl")
+    sll_tltx_smtl: str = Field(
+        alias="sll_tltx_smtl",
+    )
     ("매도제세금합계")
-    sll_excc_amt_smtl: Decimal = Field(alias="sll_excc_amt_smtl")
+    sll_excc_amt_smtl: Decimal = Field(
+        alias="sll_excc_amt_smtl",
+    )
     ("매도정산금액합계")
-    buyqty_smtl: int = Field(alias="buyqty_smtl")
+    buyqty_smtl: int = Field(
+        alias="buyqty_smtl",
+    )
     ("매수수량합계")
-    buy_tr_amt_smtl: Decimal = Field(alias="buy_tr_amt_smtl")
+    buy_tr_amt_smtl: Decimal = Field(
+        alias="buy_tr_amt_smtl",
+    )
     ("매수거래금액합계")
-    buy_fee_smtl: str = Field(alias="buy_fee_smtl")
+    buy_fee_smtl: str = Field(
+        alias="buy_fee_smtl",
+    )
     ("매수수수료합계")
-    buy_tax_smtl: str = Field(alias="buy_tax_smtl")
+    buy_tax_smtl: str = Field(
+        alias="buy_tax_smtl",
+    )
     ("매수제세금합계")
-    buy_excc_amt_smtl: Decimal = Field(alias="buy_excc_amt_smtl")
+    buy_excc_amt_smtl: Decimal = Field(
+        alias="buy_excc_amt_smtl",
+    )
     ("매수정산금액합계")
-    tot_qty: int = Field(alias="tot_qty")
+    tot_qty: int = Field(
+        alias="tot_qty",
+    )
     ("총수량")
-    tot_tr_amt: Decimal = Field(alias="tot_tr_amt")
+    tot_tr_amt: Decimal = Field(
+        alias="tot_tr_amt",
+    )
     ("총거래금액")
-    tot_fee: str = Field(alias="tot_fee")
+    tot_fee: str = Field(
+        alias="tot_fee",
+    )
     ("총수수료")
-    tot_tltx: str = Field(alias="tot_tltx")
+    tot_tltx: str = Field(
+        alias="tot_tltx",
+    )
     ("총제세금")
-    tot_excc_amt: Decimal = Field(alias="tot_excc_amt")
+    tot_excc_amt: Decimal = Field(
+        alias="tot_excc_amt",
+    )
     ("총정산금액")
-    tot_rlzt_pfls: str = Field(alias="tot_rlzt_pfls")
+    tot_rlzt_pfls: str = Field(
+        alias="tot_rlzt_pfls",
+    )
     ("총실현손익")
-    loan_int: str = Field(alias="loan_int")
+    loan_int: str = Field(
+        alias="loan_int",
+    )
     ("대출이자")
-    tot_pftrt: str = Field(alias="tot_pftrt")
+    tot_pftrt: str = Field(
+        alias="tot_pftrt",
+    )
     ("총수익률")
 
 
 class InquirePeriodTradeProfitResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    ctx_area_nk100: str = Field(alias="ctx_area_nk100")
+    ctx_area_nk100: str = Field(
+        alias="ctx_area_nk100",
+    )
     ("연속조회키100")
-    ctx_area_fk100: str = Field(alias="ctx_area_fk100")
+    ctx_area_fk100: str = Field(
+        alias="ctx_area_fk100",
+    )
     ("연속조회검색조건100")
-    output1: list[InquirePeriodTradeProfitOutput1] = Field(alias="output1")
+    output1: list[InquirePeriodTradeProfitOutput1] = Field(
+        alias="output1",
+    )
     ("응답상세")
-    output2: list[InquirePeriodTradeProfitOutput2] = Field(alias="output2")
+    output2: list[InquirePeriodTradeProfitOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세2")
 
 
@@ -189,15 +335,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePeriodTradeProfitRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePeriodTradeProfitRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePeriodTradeProfitResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePeriodTradeProfitRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePeriodTradeProfitRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePeriodTradeProfitResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePeriodTradeProfitRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquirePeriodTradeProfitRequestDict],
         ) -> tuple[InquirePeriodTradeProfitResponse, KisResponse]: ...
         def call(
             self,

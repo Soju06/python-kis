@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisDateTime, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    KisDateTime,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -24,15 +37,25 @@ class MrktDivClsCodeEnum(KisStrEnum):
 
 
 class DailyLoanTransRequest(RawModel):
-    MRKT_DIV_CLS_CODE: MrktDivClsCodeEnum = Field(alias="MRKT_DIV_CLS_CODE")
+    MRKT_DIV_CLS_CODE: MrktDivClsCodeEnum = Field(
+        alias="MRKT_DIV_CLS_CODE",
+    )
     ("1(코스피), 2(코스닥), 3(종목)")
-    MKSC_SHRN_ISCD: str = Field(alias="MKSC_SHRN_ISCD")
+    MKSC_SHRN_ISCD: str = Field(
+        alias="MKSC_SHRN_ISCD",
+    )
     ("종목코드")
-    START_DATE: KisDateTime = Field(alias="START_DATE")
+    START_DATE: KisDateTime = Field(
+        alias="START_DATE",
+    )
     ("조회기간 ~")
-    END_DATE: KisDateTime = Field(alias="END_DATE")
+    END_DATE: KisDateTime = Field(
+        alias="END_DATE",
+    )
     ("~ 조회기간")
-    CTS: str = Field(alias="CTS")
+    CTS: str = Field(
+        alias="CTS",
+    )
     ("이전조회KEY")
 
 
@@ -50,46 +73,91 @@ class DailyLoanTransRequestDict(TypedDict):
         CTS (str): 이전조회KEY
     """
 
-    MRKT_DIV_CLS_CODE: Annotated[MrktDivClsCodeEnum, "1(코스피), 2(코스닥), 3(종목)"]
-    MKSC_SHRN_ISCD: Annotated[str, "종목코드"]
-    START_DATE: Annotated[KisDateTime, "조회기간 ~"]
-    END_DATE: Annotated[KisDateTime, "~ 조회기간"]
-    CTS: Annotated[str, "이전조회KEY"]
+    MRKT_DIV_CLS_CODE: Annotated[
+        MrktDivClsCodeEnum,
+        "1(코스피), 2(코스닥), 3(종목)",
+    ]
+    MKSC_SHRN_ISCD: Annotated[
+        str,
+        "종목코드",
+    ]
+    START_DATE: Annotated[
+        KisDateTime,
+        "조회기간 ~",
+    ]
+    END_DATE: Annotated[
+        KisDateTime,
+        "~ 조회기간",
+    ]
+    CTS: Annotated[
+        str,
+        "이전조회KEY",
+    ]
 
 
 class DailyLoanTransOutput1(RawModel):
-    bsop_date: KisDate = Field(alias="bsop_date")
+    bsop_date: KisDate = Field(
+        alias="bsop_date",
+    )
     ("일자")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
+    stck_prpr: Decimal = Field(
+        alias="stck_prpr",
+    )
     ("주식 종가")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: int = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_vrss: Decimal = Field(alias="prdy_vrss")
+    prdy_vrss: Decimal = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    new_stcn: int = Field(alias="new_stcn")
+    new_stcn: int = Field(
+        alias="new_stcn",
+    )
     ("당일 증가 주수 (체결)")
-    rdmp_stcn: int = Field(alias="rdmp_stcn")
+    rdmp_stcn: int = Field(
+        alias="rdmp_stcn",
+    )
     ("당일 감소 주수 (상환)")
-    prdy_rmnd_vrss: int = Field(alias="prdy_rmnd_vrss")
+    prdy_rmnd_vrss: int = Field(
+        alias="prdy_rmnd_vrss",
+    )
     ("대차거래 증감")
-    rmnd_stcn: int = Field(alias="rmnd_stcn")
+    rmnd_stcn: int = Field(
+        alias="rmnd_stcn",
+    )
     ("당일 잔고 주수")
-    rmnd_amt: Decimal = Field(alias="rmnd_amt")
+    rmnd_amt: Decimal = Field(
+        alias="rmnd_amt",
+    )
     ("당일 잔고 금액")
 
 
 class DailyLoanTransResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: list[DailyLoanTransOutput1] = Field(alias="output1")
+    output1: list[DailyLoanTransOutput1] = Field(
+        alias="output1",
+    )
     ("응답상세")
 
 
@@ -101,7 +169,9 @@ _ENDPOINT: Endpoint[DailyLoanTransRequest, DailyLoanTransResponse] = Endpoint(
     request_model=DailyLoanTransRequest,
     response_model=DailyLoanTransResponse,
     description=(
-        "종목별 일별 대차거래추이 API입니다.\\n한 번의 조회에 최대 100건까지 조회 가능하며, start_date, end_date 를 수정하여 다음 조회가 가능합니다."
+        "종목별 일별 대차거래추이 API입니다.\\n"
+        "한 번의 조회에 최대 100건까지 조회 가능하며, start_date, end_date 를 수정하여 다음 조회가 "
+        "가능합니다."
     ),
     real_tr_id="HHPST074500C0",
     demo_tr_id=None,
@@ -114,15 +184,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DailyLoanTransRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DailyLoanTransRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DailyLoanTransResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DailyLoanTransRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DailyLoanTransRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DailyLoanTransResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[DailyLoanTransRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[DailyLoanTransRequestDict],
         ) -> tuple[DailyLoanTransResponse, KisResponse]: ...
         def call(
             self,
@@ -159,4 +241,11 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "DailyLoanTransRequest", "DailyLoanTransRequestDict", "DailyLoanTransResponse", "DailyLoanTransOutput1", "MrktDivClsCodeEnum"]
+__all__ = [
+    "ENDPOINT",
+    "DailyLoanTransRequest",
+    "DailyLoanTransRequestDict",
+    "DailyLoanTransResponse",
+    "DailyLoanTransOutput1",
+    "MrktDivClsCodeEnum",
+]

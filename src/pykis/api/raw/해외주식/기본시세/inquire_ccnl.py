@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -31,15 +43,32 @@ class MtypEnum(KisStrEnum):
 
 
 class InquireCcnlRequest(RawModel):
-    EXCD: str = Field(alias="EXCD")
-    ("'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '")
-    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
+    EXCD: str = Field(
+        alias="EXCD",
+    )
+    (
+        "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : "
+        "하노이 TSE : 도쿄 '"
+    )
+    AUTH: str | None = Field(
+        default=None,
+        alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
-    KEYB: str | None = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
+    KEYB: str | None = Field(
+        default=None,
+        alias="KEYB",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
-    TDAY: TdayEnum = Field(alias="TDAY")
+    TDAY: TdayEnum = Field(
+        alias="TDAY",
+    )
     ("0:전일, 1:당일")
-    SYMB: str = Field(alias="SYMB")
+    SYMB: str = Field(
+        alias="SYMB",
+    )
     ("해외종목코드")
 
 
@@ -56,46 +85,107 @@ class InquireCcnlRequestDict(TypedDict):
         SYMB (str): 해외종목코드
     """
 
-    EXCD: Annotated[str, "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '"]
-    AUTH: NotRequired[Annotated[str | None, "공백"]]
-    KEYB: NotRequired[Annotated[str | None, "공백"]]
-    TDAY: Annotated[TdayEnum, "0:전일, 1:당일"]
-    SYMB: Annotated[str, "해외종목코드"]
+    EXCD: Annotated[
+        str,
+        "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : "
+        "하노이 TSE : 도쿄 '",
+    ]
+    AUTH: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
+    KEYB: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
+    TDAY: Annotated[
+        TdayEnum,
+        "0:전일, 1:당일",
+    ]
+    SYMB: Annotated[
+        str,
+        "해외종목코드",
+    ]
 
 
 class InquireCcnlOutput1(RawModel):
-    khms: str | None = Field(default=None, alias="khms")
+    khms: str | None = Field(
+        default=None,
+        alias="khms",
+    )
     ("한국기준시간")
-    last: str | None = Field(default=None, alias="last")
+    last: str | None = Field(
+        default=None,
+        alias="last",
+    )
     ("체결가")
-    sign: str | None = Field(default=None, alias="sign")
+    sign: str | None = Field(
+        default=None,
+        alias="sign",
+    )
     ("기호")
-    diff: str | None = Field(default=None, alias="diff")
+    diff: str | None = Field(
+        default=None,
+        alias="diff",
+    )
     ("대비")
-    rate: Decimal | None = Field(default=None, alias="rate")
+    rate: Decimal | None = Field(
+        default=None,
+        alias="rate",
+    )
     ("등락율")
-    evol: int | None = Field(default=None, alias="evol")
+    evol: int | None = Field(
+        default=None,
+        alias="evol",
+    )
     ("체결량")
-    tvol: int | None = Field(default=None, alias="tvol")
+    tvol: int | None = Field(
+        default=None,
+        alias="tvol",
+    )
     ("거래량")
-    mtyp: MtypEnum | None = Field(default=None, alias="mtyp")
+    mtyp: MtypEnum | None = Field(
+        default=None,
+        alias="mtyp",
+    )
     ("0: 장중 1:장전 2:장후")
-    pbid: str | None = Field(default=None, alias="pbid")
+    pbid: str | None = Field(
+        default=None,
+        alias="pbid",
+    )
     ("매수호가")
-    pask: str | None = Field(default=None, alias="pask")
+    pask: str | None = Field(
+        default=None,
+        alias="pask",
+    )
     ("매도호가")
-    vpow: str | None = Field(default=None, alias="vpow")
+    vpow: str | None = Field(
+        default=None,
+        alias="vpow",
+    )
     ("체결강도")
 
 
 class InquireCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: list[InquireCcnlOutput1] = Field(alias="output1")
+    output1: list[InquireCcnlOutput1] = Field(
+        alias="output1",
+    )
     ("응답상세")
 
 
@@ -118,15 +208,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireCcnlRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireCcnlRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireCcnlRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireCcnlRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireCcnlRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireCcnlRequestDict],
         ) -> tuple[InquireCcnlResponse, KisResponse]: ...
         def call(
             self,
@@ -162,4 +264,12 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "InquireCcnlRequest", "InquireCcnlRequestDict", "InquireCcnlResponse", "InquireCcnlOutput1", "TdayEnum", "MtypEnum"]
+__all__ = [
+    "ENDPOINT",
+    "InquireCcnlRequest",
+    "InquireCcnlRequestDict",
+    "InquireCcnlResponse",
+    "InquireCcnlOutput1",
+    "TdayEnum",
+    "MtypEnum",
+]

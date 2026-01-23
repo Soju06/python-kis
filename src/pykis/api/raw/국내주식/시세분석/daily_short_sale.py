@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,13 +27,23 @@ if TYPE_CHECKING:
 
 
 class DailyShortSaleRequest(RawModel):
-    FID_INPUT_DATE_2: str = Field(alias="FID_INPUT_DATE_2")
+    FID_INPUT_DATE_2: str = Field(
+        alias="FID_INPUT_DATE_2",
+    )
     ("~ 누적")
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("시장구분코드 (주식 J)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("종목코드")
-    FID_INPUT_DATE_1: str | None = Field(default=None, alias="FID_INPUT_DATE_1", json_schema_extra={"blank_allowed": True})
+    FID_INPUT_DATE_1: str | None = Field(
+        default=None,
+        alias="FID_INPUT_DATE_1",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백시 전체 (기간 ~)")
 
 
@@ -35,82 +58,160 @@ class DailyShortSaleRequestDict(TypedDict):
         FID_INPUT_DATE_1 (str): 공백시 전체 (기간 ~) optional
     """
 
-    FID_INPUT_DATE_2: Annotated[str, "~ 누적"]
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드"]
-    FID_INPUT_DATE_1: NotRequired[Annotated[str | None, "공백시 전체 (기간 ~)"]]
+    FID_INPUT_DATE_2: Annotated[
+        str,
+        "~ 누적",
+    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "시장구분코드 (주식 J)",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "종목코드",
+    ]
+    FID_INPUT_DATE_1: NotRequired[
+        Annotated[
+            str | None,
+            "공백시 전체 (기간 ~)",
+        ]
+    ]
 
 
 class DailyShortSaleOutput1(RawModel):
-    stck_prpr: Decimal = Field(alias="stck_prpr")
+    stck_prpr: Decimal = Field(
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss: str = Field(alias="prdy_vrss")
+    prdy_vrss: str = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: str = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: str = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    prdy_vol: int = Field(alias="prdy_vol")
+    prdy_vol: int = Field(
+        alias="prdy_vol",
+    )
     ("전일 거래량")
 
 
 class DailyShortSaleOutput2(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
+    stck_bsop_date: KisDate = Field(
+        alias="stck_bsop_date",
+    )
     ("주식 영업 일자")
-    stck_clpr: str = Field(alias="stck_clpr")
+    stck_clpr: str = Field(
+        alias="stck_clpr",
+    )
     ("주식 종가")
-    prdy_vrss: str = Field(alias="prdy_vrss")
+    prdy_vrss: str = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: str = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: str = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    stnd_vol_smtn: int = Field(alias="stnd_vol_smtn")
+    stnd_vol_smtn: int = Field(
+        alias="stnd_vol_smtn",
+    )
     ("기준 거래량 합계")
-    ssts_cntg_qty: int = Field(alias="ssts_cntg_qty")
+    ssts_cntg_qty: int = Field(
+        alias="ssts_cntg_qty",
+    )
     ("공매도 체결 수량")
-    ssts_vol_rlim: Decimal = Field(alias="ssts_vol_rlim")
+    ssts_vol_rlim: Decimal = Field(
+        alias="ssts_vol_rlim",
+    )
     ("공매도 거래량 비중")
-    acml_ssts_cntg_qty: int = Field(alias="acml_ssts_cntg_qty")
+    acml_ssts_cntg_qty: int = Field(
+        alias="acml_ssts_cntg_qty",
+    )
     ("누적 공매도 체결 수량")
-    acml_ssts_cntg_qty_rlim: int = Field(alias="acml_ssts_cntg_qty_rlim")
+    acml_ssts_cntg_qty_rlim: int = Field(
+        alias="acml_ssts_cntg_qty_rlim",
+    )
     ("누적 공매도 체결 수량 비중")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
+    acml_tr_pbmn: Decimal = Field(
+        alias="acml_tr_pbmn",
+    )
     ("누적 거래 대금")
-    stnd_tr_pbmn_smtn: Decimal = Field(alias="stnd_tr_pbmn_smtn")
+    stnd_tr_pbmn_smtn: Decimal = Field(
+        alias="stnd_tr_pbmn_smtn",
+    )
     ("기준 거래대금 합계")
-    ssts_tr_pbmn: Decimal = Field(alias="ssts_tr_pbmn")
+    ssts_tr_pbmn: Decimal = Field(
+        alias="ssts_tr_pbmn",
+    )
     ("공매도 거래 대금")
-    ssts_tr_pbmn_rlim: Decimal = Field(alias="ssts_tr_pbmn_rlim")
+    ssts_tr_pbmn_rlim: Decimal = Field(
+        alias="ssts_tr_pbmn_rlim",
+    )
     ("공매도 거래대금 비중")
-    acml_ssts_tr_pbmn: Decimal = Field(alias="acml_ssts_tr_pbmn")
+    acml_ssts_tr_pbmn: Decimal = Field(
+        alias="acml_ssts_tr_pbmn",
+    )
     ("누적 공매도 거래 대금")
-    acml_ssts_tr_pbmn_rlim: Decimal = Field(alias="acml_ssts_tr_pbmn_rlim")
+    acml_ssts_tr_pbmn_rlim: Decimal = Field(
+        alias="acml_ssts_tr_pbmn_rlim",
+    )
     ("누적 공매도 거래 대금 비중")
-    stck_oprc: Decimal = Field(alias="stck_oprc")
+    stck_oprc: Decimal = Field(
+        alias="stck_oprc",
+    )
     ("주식 시가2")
-    stck_hgpr: Decimal = Field(alias="stck_hgpr")
+    stck_hgpr: Decimal = Field(
+        alias="stck_hgpr",
+    )
     ("주식 최고가")
-    stck_lwpr: Decimal = Field(alias="stck_lwpr")
+    stck_lwpr: Decimal = Field(
+        alias="stck_lwpr",
+    )
     ("주식 최저가")
-    avrg_prc: Decimal = Field(alias="avrg_prc")
+    avrg_prc: Decimal = Field(
+        alias="avrg_prc",
+    )
     ("평균가격")
 
 
 class DailyShortSaleResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: DailyShortSaleOutput1 = Field(alias="output1")
+    output1: DailyShortSaleOutput1 = Field(
+        alias="output1",
+    )
     ("응답상세")
-    output2: list[DailyShortSaleOutput2] = Field(alias="output2")
+    output2: list[DailyShortSaleOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세")
 
 
@@ -133,15 +234,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DailyShortSaleRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DailyShortSaleRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DailyShortSaleResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DailyShortSaleRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DailyShortSaleRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DailyShortSaleResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[DailyShortSaleRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[DailyShortSaleRequestDict],
         ) -> tuple[DailyShortSaleResponse, KisResponse]: ...
         def call(
             self,

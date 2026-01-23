@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -35,45 +47,36 @@ class SllBuyDvsnCdEnum(KisStrEnum):
     "매수"
 
 
-class OrdDvsnCdEnum(KisStrEnum):
-    VALUE_01 = ("01", "지정가")
-    "지정가"
-    VALUE_02 = ("02", "시장가")
-    "시장가"
-    VALUE_03 = ("03", "조건부")
-    "조건부"
-    VALUE_04 = ("04", "최유리")
-    "최유리"
-    VALUE_10 = ("10", "지정가(IOC)")
-    "지정가(IOC)"
-    VALUE_11 = ("11", "지정가(FOK)")
-    "지정가(FOK)"
-    VALUE_12 = ("12", "시장가(IOC)")
-    "시장가(IOC)"
-    VALUE_13 = ("13", "시장가(FOK)")
-    "시장가(FOK)"
-    VALUE_14 = ("14", "최유리(IOC)")
-    "최유리(IOC)"
-    VALUE_15 = ("15", "최유리(FOK)")
-    "최유리(FOK)"
-    IOC = ("IOC", "10 : 지정가")
-    "10 : 지정가"
-    FOK = ("FOK", "11 : 지정가")
-    "11 : 지정가"
-
-
 class InquirePsblOrderRequest(RawModel):
-    CANO: CanoEnum | None = Field(default=None, alias="CANO")
+    CANO: CanoEnum | None = Field(
+        default=None,
+        alias="CANO",
+    )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum | None = Field(default=None, alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: AcntPrdtCdEnum | None = Field(
+        default=None,
+        alias="ACNT_PRDT_CD",
+    )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    PDNO: str | None = Field(default=None, alias="PDNO")
+    PDNO: str | None = Field(
+        default=None,
+        alias="PDNO",
+    )
     ("선물옵션종목코드 선물 6자리 (예: 101S03) 옵션 9자리 (예: 201S03370)")
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum | None = Field(default=None, alias="SLL_BUY_DVSN_CD")
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum | None = Field(
+        default=None,
+        alias="SLL_BUY_DVSN_CD",
+    )
     ("01 : 매도 02 : 매수")
-    UNIT_PRICE: Decimal | None = Field(default=None, alias="UNIT_PRICE")
+    UNIT_PRICE: Decimal | None = Field(
+        default=None,
+        alias="UNIT_PRICE",
+    )
     ("주문가격 ※ 주문가격 '0'일 경우 - 옵션매수 : 현재가 - 그 이외 : 기준가")
-    ORD_DVSN_CD: OrdDvsnCdEnum | None = Field(default=None, alias="ORD_DVSN_CD")
+    ORD_DVSN_CD: str | None = Field(
+        default=None,
+        alias="ORD_DVSN_CD",
+    )
     (
         "01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : "
         "시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK)"
@@ -92,19 +95,43 @@ class InquirePsblOrderRequestDict(TypedDict):
         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 01 : 매도 02 : 매수 optional
         UNIT_PRICE (Decimal): 주문가격 ※ 주문가격 '0'일 경우 - 옵션매수 : 현재가 - 그 이외 : 기준가
         optional
-        ORD_DVSN_CD (OrdDvsnCdEnum): 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 :
-        지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 :
-        최유리(FOK) optional
+        ORD_DVSN_CD (str): 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 :
+        지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK) optional
     """
 
-    CANO: NotRequired[Annotated[CanoEnum | None, "계좌번호 체계(8-2)의 앞 8자리"]]
-    ACNT_PRDT_CD: NotRequired[Annotated[AcntPrdtCdEnum | None, "계좌번호 체계(8-2)의 뒤 2자리"]]
-    PDNO: NotRequired[Annotated[str | None, "선물옵션종목코드 선물 6자리 (예: 101S03) 옵션 9자리 (예: 201S03370)"]]
-    SLL_BUY_DVSN_CD: NotRequired[Annotated[SllBuyDvsnCdEnum | None, "01 : 매도 02 : 매수"]]
-    UNIT_PRICE: NotRequired[Annotated[Decimal | None, "주문가격 ※ 주문가격 '0'일 경우 - 옵션매수 : 현재가 - 그 이외 : 기준가"]]
+    CANO: NotRequired[
+        Annotated[
+            CanoEnum | None,
+            "계좌번호 체계(8-2)의 앞 8자리",
+        ]
+    ]
+    ACNT_PRDT_CD: NotRequired[
+        Annotated[
+            AcntPrdtCdEnum | None,
+            "계좌번호 체계(8-2)의 뒤 2자리",
+        ]
+    ]
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            "선물옵션종목코드 선물 6자리 (예: 101S03) 옵션 9자리 (예: 201S03370)",
+        ]
+    ]
+    SLL_BUY_DVSN_CD: NotRequired[
+        Annotated[
+            SllBuyDvsnCdEnum | None,
+            "01 : 매도 02 : 매수",
+        ]
+    ]
+    UNIT_PRICE: NotRequired[
+        Annotated[
+            Decimal | None,
+            "주문가격 ※ 주문가격 '0'일 경우 - 옵션매수 : 현재가 - 그 이외 : 기준가",
+        ]
+    ]
     ORD_DVSN_CD: NotRequired[
         Annotated[
-            OrdDvsnCdEnum | None,
+            str | None,
             "01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : "
             "시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK)",
         ]
@@ -112,24 +139,40 @@ class InquirePsblOrderRequestDict(TypedDict):
 
 
 class InquirePsblOrderOutput(RawModel):
-    tot_psbl_qty: int = Field(alias="tot_psbl_qty")
+    tot_psbl_qty: int = Field(
+        alias="tot_psbl_qty",
+    )
     ("총가능수량")
-    lqd_psbl_qty1: int = Field(alias="lqd_psbl_qty1")
+    lqd_psbl_qty1: int = Field(
+        alias="lqd_psbl_qty1",
+    )
     ("청산가능수량")
-    ord_psbl_qty: int = Field(alias="ord_psbl_qty")
+    ord_psbl_qty: int = Field(
+        alias="ord_psbl_qty",
+    )
     ("주문가능수량")
-    bass_idx: str = Field(alias="bass_idx")
+    bass_idx: str = Field(
+        alias="bass_idx",
+    )
     ("기준지수")
 
 
 class InquirePsblOrderResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: InquirePsblOrderOutput = Field(alias="output")
+    output: InquirePsblOrderOutput = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -140,7 +183,10 @@ _ENDPOINT: Endpoint[InquirePsblOrderRequest, InquirePsblOrderResponse] = Endpoin
     path="/uapi/domestic-futureoption/v1/trading/inquire-psbl-order",
     request_model=InquirePsblOrderRequest,
     response_model=InquirePsblOrderResponse,
-    description=("선물옵션 주문가능 API입니다. 주문가능 내역과 수량을 확인하실 수 있습니다.\\n[국내선물-005 v1] 선물옵션 주문가능"),
+    description=(
+        "선물옵션 주문가능 API입니다. 주문가능 내역과 수량을 확인하실 수 있습니다.\\n"
+        "[국내선물-005 v1] 선물옵션 주문가능"
+    ),
     real_tr_id="TTTO5105R",
     demo_tr_id="VTTO5105R",
     auth_required=True,
@@ -152,15 +198,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePsblOrderRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePsblOrderRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePsblOrderResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePsblOrderRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePsblOrderRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePsblOrderResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePsblOrderRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquirePsblOrderRequestDict],
         ) -> tuple[InquirePsblOrderResponse, KisResponse]: ...
         def call(
             self,
@@ -188,8 +246,8 @@ if TYPE_CHECKING:
                         SLL_BUY_DVSN_CD (SllBuyDvsnCdEnum): 01 : 매도 02 : 매수 optional
                         UNIT_PRICE (Decimal): 주문가격 ※ 주문가격 '0'일 경우 - 옵션매수 : 현재가 - 그
                         이외 : 기준가 optional
-                        ORD_DVSN_CD (OrdDvsnCdEnum): 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리,
-                        10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 :
+                        ORD_DVSN_CD (str): 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 :
+                        지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 :
                         최유리(IOC) 15 : 최유리(FOK) optional
 
             Returns:
@@ -210,5 +268,4 @@ __all__ = [
     "CanoEnum",
     "AcntPrdtCdEnum",
     "SllBuyDvsnCdEnum",
-    "OrdDvsnCdEnum",
 ]

@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    KisDateOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,9 +27,13 @@ if TYPE_CHECKING:
 
 
 class InquirePriceRequest(RawModel):
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
+    fid_input_iscd: str = Field(
+        alias="fid_input_iscd",
+    )
     ("종목코드")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
+    fid_cond_mrkt_div_code: str = Field(
+        alias="fid_cond_mrkt_div_code",
+    )
     ("J")
 
 
@@ -31,139 +48,277 @@ class InquirePriceRequestDict(TypedDict):
         fid_cond_mrkt_div_code (str): J
     """
 
-    fid_input_iscd: Annotated[str, "종목코드"]
-    fid_cond_mrkt_div_code: Annotated[str, "J"]
+    fid_input_iscd: Annotated[
+        str,
+        "종목코드",
+    ]
+    fid_cond_mrkt_div_code: Annotated[
+        str,
+        "J",
+    ]
 
 
 class InquirePriceOutput(RawModel):
-    stck_prpr: Decimal = Field(alias="stck_prpr")
+    stck_prpr: Decimal = Field(
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: int = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_vrss: int = Field(alias="prdy_vrss")
+    prdy_vrss: int = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    prdy_vol: int = Field(alias="prdy_vol")
+    prdy_vol: int = Field(
+        alias="prdy_vol",
+    )
     ("전일 거래량")
-    stck_mxpr: int = Field(alias="stck_mxpr")
+    stck_mxpr: int = Field(
+        alias="stck_mxpr",
+    )
     ("주식 상한가")
-    stck_llam: int = Field(alias="stck_llam")
+    stck_llam: int = Field(
+        alias="stck_llam",
+    )
     ("주식 하한가")
-    stck_prdy_clpr: int = Field(alias="stck_prdy_clpr")
+    stck_prdy_clpr: int = Field(
+        alias="stck_prdy_clpr",
+    )
     ("주식 전일 종가")
-    stck_oprc: Decimal = Field(alias="stck_oprc")
+    stck_oprc: Decimal = Field(
+        alias="stck_oprc",
+    )
     ("주식 시가2")
-    prdy_clpr_vrss_oprc_rate: Decimal = Field(alias="prdy_clpr_vrss_oprc_rate")
+    prdy_clpr_vrss_oprc_rate: Decimal = Field(
+        alias="prdy_clpr_vrss_oprc_rate",
+    )
     ("전일 종가 대비 시가2 비율")
-    stck_hgpr: Decimal = Field(alias="stck_hgpr")
+    stck_hgpr: Decimal = Field(
+        alias="stck_hgpr",
+    )
     ("주식 최고가")
-    prdy_clpr_vrss_hgpr_rate: Decimal = Field(alias="prdy_clpr_vrss_hgpr_rate")
+    prdy_clpr_vrss_hgpr_rate: Decimal = Field(
+        alias="prdy_clpr_vrss_hgpr_rate",
+    )
     ("전일 종가 대비 최고가 비율")
-    stck_lwpr: Decimal = Field(alias="stck_lwpr")
+    stck_lwpr: Decimal = Field(
+        alias="stck_lwpr",
+    )
     ("주식 최저가")
-    prdy_clpr_vrss_lwpr_rate: Decimal = Field(alias="prdy_clpr_vrss_lwpr_rate")
+    prdy_clpr_vrss_lwpr_rate: Decimal = Field(
+        alias="prdy_clpr_vrss_lwpr_rate",
+    )
     ("전일 종가 대비 최저가 비율")
-    prdy_last_nav: Decimal = Field(alias="prdy_last_nav")
+    prdy_last_nav: Decimal = Field(
+        alias="prdy_last_nav",
+    )
     ("전일 최종 NAV")
-    nav: Decimal = Field(alias="nav")
+    nav: Decimal = Field(
+        alias="nav",
+    )
     ("NAV")
-    nav_prdy_vrss: Decimal = Field(alias="nav_prdy_vrss")
+    nav_prdy_vrss: Decimal = Field(
+        alias="nav_prdy_vrss",
+    )
     ("NAV 전일 대비")
-    nav_prdy_vrss_sign: int = Field(alias="nav_prdy_vrss_sign")
+    nav_prdy_vrss_sign: int = Field(
+        alias="nav_prdy_vrss_sign",
+    )
     ("NAV 전일 대비 부호")
-    nav_prdy_ctrt: Decimal = Field(alias="nav_prdy_ctrt")
+    nav_prdy_ctrt: Decimal = Field(
+        alias="nav_prdy_ctrt",
+    )
     ("NAV 전일 대비율")
-    trc_errt: Decimal = Field(alias="trc_errt")
+    trc_errt: Decimal = Field(
+        alias="trc_errt",
+    )
     ("추적 오차율")
-    stck_sdpr: int = Field(alias="stck_sdpr")
+    stck_sdpr: int = Field(
+        alias="stck_sdpr",
+    )
     ("주식 기준가")
-    stck_sspr: int = Field(alias="stck_sspr")
+    stck_sspr: int = Field(
+        alias="stck_sspr",
+    )
     ("주식 대용가")
-    nmix_ctrt: Decimal | None = Field(default=None, alias="nmix_ctrt")
+    nmix_ctrt: Decimal | None = Field(
+        default=None,
+        alias="nmix_ctrt",
+    )
     ("지수 대비율")
-    etf_crcl_stcn: int = Field(alias="etf_crcl_stcn")
+    etf_crcl_stcn: int = Field(
+        alias="etf_crcl_stcn",
+    )
     ("ETF 유통 주수")
-    etf_ntas_ttam: int = Field(alias="etf_ntas_ttam")
+    etf_ntas_ttam: int = Field(
+        alias="etf_ntas_ttam",
+    )
     ("ETF 순자산 총액")
-    etf_frcr_ntas_ttam: int = Field(alias="etf_frcr_ntas_ttam")
+    etf_frcr_ntas_ttam: int = Field(
+        alias="etf_frcr_ntas_ttam",
+    )
     ("ETF 외화 순자산 총액")
-    frgn_limt_rate: Decimal = Field(alias="frgn_limt_rate")
+    frgn_limt_rate: Decimal = Field(
+        alias="frgn_limt_rate",
+    )
     ("외국인 한도 비율")
-    frgn_oder_able_qty: int = Field(alias="frgn_oder_able_qty")
+    frgn_oder_able_qty: int = Field(
+        alias="frgn_oder_able_qty",
+    )
     ("외국인 주문 가능 수량")
-    etf_cu_unit_scrt_cnt: int = Field(alias="etf_cu_unit_scrt_cnt")
+    etf_cu_unit_scrt_cnt: int = Field(
+        alias="etf_cu_unit_scrt_cnt",
+    )
     ("ETF CU 단위 증권 수")
-    etf_cnfg_issu_cnt: str = Field(alias="etf_cnfg_issu_cnt")
+    etf_cnfg_issu_cnt: str = Field(
+        alias="etf_cnfg_issu_cnt",
+    )
     ("ETF 구성 종목 수")
-    etf_dvdn_cycl: int = Field(alias="etf_dvdn_cycl")
+    etf_dvdn_cycl: int = Field(
+        alias="etf_dvdn_cycl",
+    )
     ("ETF 배당 주기")
-    crcd: str = Field(alias="crcd")
+    crcd: str = Field(
+        alias="crcd",
+    )
     ("통화 코드")
-    etf_crcl_ntas_ttam: int = Field(alias="etf_crcl_ntas_ttam")
+    etf_crcl_ntas_ttam: int = Field(
+        alias="etf_crcl_ntas_ttam",
+    )
     ("ETF 유통 순자산 총액")
-    etf_frcr_crcl_ntas_ttam: int = Field(alias="etf_frcr_crcl_ntas_ttam")
+    etf_frcr_crcl_ntas_ttam: int = Field(
+        alias="etf_frcr_crcl_ntas_ttam",
+    )
     ("ETF 외화 유통 순자산 총액")
-    etf_frcr_last_ntas_wrth_val: int = Field(alias="etf_frcr_last_ntas_wrth_val")
+    etf_frcr_last_ntas_wrth_val: int = Field(
+        alias="etf_frcr_last_ntas_wrth_val",
+    )
     ("ETF 외화 최종 순자산 가치 값")
-    lp_oder_able_cls_code: str = Field(alias="lp_oder_able_cls_code")
+    lp_oder_able_cls_code: str = Field(
+        alias="lp_oder_able_cls_code",
+    )
     ("LP 주문 가능 구분 코드")
-    stck_dryy_hgpr: Decimal = Field(alias="stck_dryy_hgpr")
+    stck_dryy_hgpr: Decimal = Field(
+        alias="stck_dryy_hgpr",
+    )
     ("주식 연중 최고가")
-    dryy_hgpr_vrss_prpr_rate: Decimal = Field(alias="dryy_hgpr_vrss_prpr_rate")
+    dryy_hgpr_vrss_prpr_rate: Decimal = Field(
+        alias="dryy_hgpr_vrss_prpr_rate",
+    )
     ("연중 최고가 대비 현재가 비율")
-    dryy_hgpr_date: KisDate = Field(alias="dryy_hgpr_date")
+    dryy_hgpr_date: KisDate = Field(
+        alias="dryy_hgpr_date",
+    )
     ("연중 최고가 일자")
-    stck_dryy_lwpr: Decimal = Field(alias="stck_dryy_lwpr")
+    stck_dryy_lwpr: Decimal = Field(
+        alias="stck_dryy_lwpr",
+    )
     ("주식 연중 최저가")
-    dryy_lwpr_vrss_prpr_rate: Decimal = Field(alias="dryy_lwpr_vrss_prpr_rate")
+    dryy_lwpr_vrss_prpr_rate: Decimal = Field(
+        alias="dryy_lwpr_vrss_prpr_rate",
+    )
     ("연중 최저가 대비 현재가 비율")
-    dryy_lwpr_date: KisDate = Field(alias="dryy_lwpr_date")
+    dryy_lwpr_date: KisDate = Field(
+        alias="dryy_lwpr_date",
+    )
     ("연중 최저가 일자")
-    bstp_kor_isnm: str | None = Field(default=None, alias="bstp_kor_isnm")
+    bstp_kor_isnm: str | None = Field(
+        default=None,
+        alias="bstp_kor_isnm",
+    )
     ("※ 거래소 정보로 특정 종목은 업종구분이 없어 데이터 미회신")
-    vi_cls_code: str = Field(alias="vi_cls_code")
+    vi_cls_code: str = Field(
+        alias="vi_cls_code",
+    )
     ("VI적용구분코드")
-    lstn_stcn: int = Field(alias="lstn_stcn")
+    lstn_stcn: int = Field(
+        alias="lstn_stcn",
+    )
     ("상장 주수")
-    frgn_hldn_qty: int = Field(alias="frgn_hldn_qty")
+    frgn_hldn_qty: int = Field(
+        alias="frgn_hldn_qty",
+    )
     ("외국인 보유 수량")
-    frgn_hldn_qty_rate: Decimal = Field(alias="frgn_hldn_qty_rate")
+    frgn_hldn_qty_rate: Decimal = Field(
+        alias="frgn_hldn_qty_rate",
+    )
     ("외국인 보유 수량 비율")
-    etf_trc_ert_mltp: Decimal = Field(alias="etf_trc_ert_mltp")
+    etf_trc_ert_mltp: Decimal = Field(
+        alias="etf_trc_ert_mltp",
+    )
     ("ETF 추적 수익률 배수")
-    dprt: Decimal = Field(alias="dprt")
+    dprt: Decimal = Field(
+        alias="dprt",
+    )
     ("괴리율")
-    mbcr_name: str | None = Field(default=None, alias="mbcr_name")
+    mbcr_name: str | None = Field(
+        default=None,
+        alias="mbcr_name",
+    )
     ("회원사 명")
-    stck_lstn_date: KisDate = Field(alias="stck_lstn_date")
+    stck_lstn_date: KisDate = Field(
+        alias="stck_lstn_date",
+    )
     ("주식 상장 일자")
-    mtrt_date: KisDateOptional = Field(default=None, alias="mtrt_date")
+    mtrt_date: KisDateOptional = Field(
+        default=None,
+        alias="mtrt_date",
+    )
     ("만기 일자")
-    shrg_type_code: str | None = Field(default=None, alias="shrg_type_code")
+    shrg_type_code: str | None = Field(
+        default=None,
+        alias="shrg_type_code",
+    )
     ("분배금형태코드")
-    lp_hldn_rate: Decimal = Field(alias="lp_hldn_rate")
+    lp_hldn_rate: Decimal = Field(
+        alias="lp_hldn_rate",
+    )
     ("LP 보유 비율")
-    etf_trgt_nmix_bstp_code: str = Field(alias="etf_trgt_nmix_bstp_code")
+    etf_trgt_nmix_bstp_code: str = Field(
+        alias="etf_trgt_nmix_bstp_code",
+    )
     ("ETF대상지수업종코드")
-    etf_div_name: str = Field(alias="etf_div_name")
+    etf_div_name: str = Field(
+        alias="etf_div_name",
+    )
     ("ETF 분류 명")
-    etf_rprs_bstp_kor_isnm: str | None = Field(default=None, alias="etf_rprs_bstp_kor_isnm")
+    etf_rprs_bstp_kor_isnm: str | None = Field(
+        default=None,
+        alias="etf_rprs_bstp_kor_isnm",
+    )
     ("ETF 대표 업종 한글 종목명")
-    lp_hldn_vol: int = Field(alias="lp_hldn_vol")
+    lp_hldn_vol: int = Field(
+        alias="lp_hldn_vol",
+    )
     ("ETN LP 보유량")
 
 
 class InquirePriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: InquirePriceOutput = Field(alias="output")
+    output: InquirePriceOutput = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -190,15 +345,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePriceRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePriceRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePriceRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePriceRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePriceRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquirePriceRequestDict],
         ) -> tuple[InquirePriceResponse, KisResponse]: ...
         def call(
             self,
@@ -232,4 +399,10 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "InquirePriceRequest", "InquirePriceRequestDict", "InquirePriceResponse", "InquirePriceOutput"]
+__all__ = [
+    "ENDPOINT",
+    "InquirePriceRequest",
+    "InquirePriceRequestDict",
+    "InquirePriceResponse",
+    "InquirePriceOutput",
+]

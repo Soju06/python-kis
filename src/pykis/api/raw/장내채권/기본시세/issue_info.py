@@ -2,31 +2,40 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, KisDateTime, KisTimeOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    KisDateOptional,
+    KisDateTime,
+    KisTimeOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
-from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
-class PrdtTypeCdEnum(KisStrEnum):
-    UNIQUE = ("Unique", "key(302)")
-    "key(302)"
-    VALUE_302 = ("302", "Unique key")
-    "Unique key"
-    KEY = ("key", "302")
-    "302"
-
-
 class IssueInfoRequest(RawModel):
-    PDNO: str = Field(alias="PDNO")
+    PDNO: str = Field(
+        alias="PDNO",
+    )
     ("채권 종목번호(ex. KR6449111CB8)")
-    PRDT_TYPE_CD: PrdtTypeCdEnum = Field(alias="PRDT_TYPE_CD")
+    PRDT_TYPE_CD: str = Field(
+        alias="PRDT_TYPE_CD",
+    )
     ("Unique key(302)")
 
 
@@ -38,196 +47,405 @@ class IssueInfoRequestDict(TypedDict):
 
     Request fields:
         PDNO (str): 채권 종목번호(ex. KR6449111CB8)
-        PRDT_TYPE_CD (PrdtTypeCdEnum): Unique key(302)
+        PRDT_TYPE_CD (str): Unique key(302)
     """
 
-    PDNO: Annotated[str, "채권 종목번호(ex. KR6449111CB8)"]
-    PRDT_TYPE_CD: Annotated[PrdtTypeCdEnum, "Unique key(302)"]
+    PDNO: Annotated[
+        str,
+        "채권 종목번호(ex. KR6449111CB8)",
+    ]
+    PRDT_TYPE_CD: Annotated[
+        str,
+        "Unique key(302)",
+    ]
 
 
 class IssueInfoOutput(RawModel):
-    pdno: str = Field(alias="pdno")
+    pdno: str = Field(
+        alias="pdno",
+    )
     ("상품번호")
-    prdt_type_cd: str = Field(alias="prdt_type_cd")
+    prdt_type_cd: str = Field(
+        alias="prdt_type_cd",
+    )
     ("상품유형코드")
-    prdt_name: str = Field(alias="prdt_name")
+    prdt_name: str = Field(
+        alias="prdt_name",
+    )
     ("상품명")
-    prdt_eng_name: str = Field(alias="prdt_eng_name")
+    prdt_eng_name: str = Field(
+        alias="prdt_eng_name",
+    )
     ("상품영문명")
-    ivst_heed_prdt_yn: KisBool = Field(alias="ivst_heed_prdt_yn")
+    ivst_heed_prdt_yn: KisBool = Field(
+        alias="ivst_heed_prdt_yn",
+    )
     ("투자유의상품여부")
-    exts_yn: KisBool = Field(alias="exts_yn")
+    exts_yn: KisBool = Field(
+        alias="exts_yn",
+    )
     ("연장여부")
-    bond_clsf_cd: str = Field(alias="bond_clsf_cd")
+    bond_clsf_cd: str = Field(
+        alias="bond_clsf_cd",
+    )
     ("채권분류코드")
-    bond_clsf_kor_name: str = Field(alias="bond_clsf_kor_name")
+    bond_clsf_kor_name: str = Field(
+        alias="bond_clsf_kor_name",
+    )
     ("채권분류한글명")
-    papr: int = Field(alias="papr")
+    papr: int = Field(
+        alias="papr",
+    )
     ("액면가")
-    int_mned_dvsn_cd: str = Field(alias="int_mned_dvsn_cd")
+    int_mned_dvsn_cd: str = Field(
+        alias="int_mned_dvsn_cd",
+    )
     ("이자월말구분코드")
-    rvnu_shap_cd: str = Field(alias="rvnu_shap_cd")
+    rvnu_shap_cd: str = Field(
+        alias="rvnu_shap_cd",
+    )
     ("매출형태코드")
-    issu_amt: Decimal = Field(alias="issu_amt")
+    issu_amt: Decimal = Field(
+        alias="issu_amt",
+    )
     ("발행금액")
-    lstg_rmnd: int = Field(alias="lstg_rmnd")
+    lstg_rmnd: int = Field(
+        alias="lstg_rmnd",
+    )
     ("상장잔액")
-    int_dfrm_mcnt: int = Field(alias="int_dfrm_mcnt")
+    int_dfrm_mcnt: int = Field(
+        alias="int_dfrm_mcnt",
+    )
     ("이자지급개월수")
-    bond_int_dfrm_mthd_cd: str = Field(alias="bond_int_dfrm_mthd_cd")
+    bond_int_dfrm_mthd_cd: str = Field(
+        alias="bond_int_dfrm_mthd_cd",
+    )
     ("채권이자지급방법코드")
-    splt_rdpt_rcnt: int = Field(alias="splt_rdpt_rcnt")
+    splt_rdpt_rcnt: int = Field(
+        alias="splt_rdpt_rcnt",
+    )
     ("분할상환횟수")
-    prca_dfmt_term_mcnt: int = Field(alias="prca_dfmt_term_mcnt")
+    prca_dfmt_term_mcnt: int = Field(
+        alias="prca_dfmt_term_mcnt",
+    )
     ("원금거치기간개월수")
-    int_anap_dvsn_cd: str = Field(alias="int_anap_dvsn_cd")
+    int_anap_dvsn_cd: str = Field(
+        alias="int_anap_dvsn_cd",
+    )
     ("이자선후급구분코드")
-    bond_rght_dvsn_cd: str | None = Field(default=None, alias="bond_rght_dvsn_cd")
+    bond_rght_dvsn_cd: str | None = Field(
+        default=None,
+        alias="bond_rght_dvsn_cd",
+    )
     ("채권권리구분코드")
-    prdt_pclc_text: str | None = Field(default=None, alias="prdt_pclc_text")
+    prdt_pclc_text: str | None = Field(
+        default=None,
+        alias="prdt_pclc_text",
+    )
     ("상품특성내용")
-    prdt_abrv_name: str = Field(alias="prdt_abrv_name")
+    prdt_abrv_name: str = Field(
+        alias="prdt_abrv_name",
+    )
     ("상품약어명")
-    prdt_eng_abrv_name: str = Field(alias="prdt_eng_abrv_name")
+    prdt_eng_abrv_name: str = Field(
+        alias="prdt_eng_abrv_name",
+    )
     ("상품영문약어명")
-    sprx_psbl_yn: KisBool = Field(alias="sprx_psbl_yn")
+    sprx_psbl_yn: KisBool = Field(
+        alias="sprx_psbl_yn",
+    )
     ("분리과세가능여부")
-    pbff_pplc_ofrg_mthd_cd: str = Field(alias="pbff_pplc_ofrg_mthd_cd")
+    pbff_pplc_ofrg_mthd_cd: str = Field(
+        alias="pbff_pplc_ofrg_mthd_cd",
+    )
     ("공모사모모집방법코드")
-    cmco_cd: str = Field(alias="cmco_cd")
+    cmco_cd: str = Field(
+        alias="cmco_cd",
+    )
     ("주간사코드")
-    issu_istt_cd: str = Field(alias="issu_istt_cd")
+    issu_istt_cd: str = Field(
+        alias="issu_istt_cd",
+    )
     ("발행기관코드")
-    issu_istt_name: str = Field(alias="issu_istt_name")
+    issu_istt_name: str = Field(
+        alias="issu_istt_name",
+    )
     ("발행기관명")
-    pnia_dfrm_agcy_istt_cd: str = Field(alias="pnia_dfrm_agcy_istt_cd")
+    pnia_dfrm_agcy_istt_cd: str = Field(
+        alias="pnia_dfrm_agcy_istt_cd",
+    )
     ("원리금지급대행기관코드")
-    dsct_ec_rt: Decimal = Field(alias="dsct_ec_rt")
+    dsct_ec_rt: Decimal = Field(
+        alias="dsct_ec_rt",
+    )
     ("할인할증율")
-    srfc_inrt: Decimal = Field(alias="srfc_inrt")
+    srfc_inrt: Decimal = Field(
+        alias="srfc_inrt",
+    )
     ("표면이율")
-    expd_rdpt_rt: Decimal = Field(alias="expd_rdpt_rt")
+    expd_rdpt_rt: Decimal = Field(
+        alias="expd_rdpt_rt",
+    )
     ("만기상환율")
-    expd_asrc_erng_rt: Decimal = Field(alias="expd_asrc_erng_rt")
+    expd_asrc_erng_rt: Decimal = Field(
+        alias="expd_asrc_erng_rt",
+    )
     ("만기보장수익율")
-    bond_grte_istt_name: str = Field(alias="bond_grte_istt_name")
+    bond_grte_istt_name: str = Field(
+        alias="bond_grte_istt_name",
+    )
     ("채권보증기관명")
-    int_dfrm_day_type_cd: str = Field(alias="int_dfrm_day_type_cd")
+    int_dfrm_day_type_cd: str = Field(
+        alias="int_dfrm_day_type_cd",
+    )
     ("이자지급일유형코드")
-    ksd_int_calc_unit_cd: str = Field(alias="ksd_int_calc_unit_cd")
+    ksd_int_calc_unit_cd: str = Field(
+        alias="ksd_int_calc_unit_cd",
+    )
     ("증권예탁결제원이자계산단위코드")
-    int_wunt_uder_prcs_dvsn_cd: str = Field(alias="int_wunt_uder_prcs_dvsn_cd")
+    int_wunt_uder_prcs_dvsn_cd: str = Field(
+        alias="int_wunt_uder_prcs_dvsn_cd",
+    )
     ("이자원화단위미만처리구분코드")
-    rvnu_dt: KisDateOptional = Field(default=None, alias="rvnu_dt")
+    rvnu_dt: KisDateOptional = Field(
+        default=None,
+        alias="rvnu_dt",
+    )
     ("매출일자")
-    issu_dt: KisDate = Field(alias="issu_dt")
+    issu_dt: KisDate = Field(
+        alias="issu_dt",
+    )
     ("발행일자")
-    lstg_dt: KisDate = Field(alias="lstg_dt")
+    lstg_dt: KisDate = Field(
+        alias="lstg_dt",
+    )
     ("상장일자")
-    expd_dt: KisDate = Field(alias="expd_dt")
+    expd_dt: KisDate = Field(
+        alias="expd_dt",
+    )
     ("만기일자")
-    rdpt_dt: KisDate = Field(alias="rdpt_dt")
+    rdpt_dt: KisDate = Field(
+        alias="rdpt_dt",
+    )
     ("상환일자")
-    sbst_pric: Decimal = Field(alias="sbst_pric")
+    sbst_pric: Decimal = Field(
+        alias="sbst_pric",
+    )
     ("대용가격")
-    rgbf_int_dfrm_dt: KisDate = Field(alias="rgbf_int_dfrm_dt")
+    rgbf_int_dfrm_dt: KisDate = Field(
+        alias="rgbf_int_dfrm_dt",
+    )
     ("직전이자지급일자")
-    nxtm_int_dfrm_dt: KisDate = Field(alias="nxtm_int_dfrm_dt")
+    nxtm_int_dfrm_dt: KisDate = Field(
+        alias="nxtm_int_dfrm_dt",
+    )
     ("차기이자지급일자")
-    frst_int_dfrm_dt: KisDateOptional = Field(default=None, alias="frst_int_dfrm_dt")
+    frst_int_dfrm_dt: KisDateOptional = Field(
+        default=None,
+        alias="frst_int_dfrm_dt",
+    )
     ("최초이자지급일자")
-    ecis_pric: Decimal = Field(alias="ecis_pric")
+    ecis_pric: Decimal = Field(
+        alias="ecis_pric",
+    )
     ("행사가격")
-    rght_stck_std_pdno: str | None = Field(default=None, alias="rght_stck_std_pdno")
+    rght_stck_std_pdno: str | None = Field(
+        default=None,
+        alias="rght_stck_std_pdno",
+    )
     ("권리주식표준상품번호")
-    ecis_opng_dt: KisDateOptional = Field(default=None, alias="ecis_opng_dt")
+    ecis_opng_dt: KisDateOptional = Field(
+        default=None,
+        alias="ecis_opng_dt",
+    )
     ("행사개시일자")
-    ecis_end_dt: KisDateOptional = Field(default=None, alias="ecis_end_dt")
+    ecis_end_dt: KisDateOptional = Field(
+        default=None,
+        alias="ecis_end_dt",
+    )
     ("행사종료일자")
-    bond_rvnu_mthd_cd: str | None = Field(default=None, alias="bond_rvnu_mthd_cd")
+    bond_rvnu_mthd_cd: str | None = Field(
+        default=None,
+        alias="bond_rvnu_mthd_cd",
+    )
     ("채권매출방법코드")
-    oprt_stfno: str = Field(alias="oprt_stfno")
+    oprt_stfno: str = Field(
+        alias="oprt_stfno",
+    )
     ("조작직원번호")
-    oprt_stff_name: str | None = Field(default=None, alias="oprt_stff_name")
+    oprt_stff_name: str | None = Field(
+        default=None,
+        alias="oprt_stff_name",
+    )
     ("조작직원명")
-    rgbf_int_dfrm_wday: int = Field(alias="rgbf_int_dfrm_wday")
+    rgbf_int_dfrm_wday: int = Field(
+        alias="rgbf_int_dfrm_wday",
+    )
     ("직전이자지급요일")
-    nxtm_int_dfrm_wday: int = Field(alias="nxtm_int_dfrm_wday")
+    nxtm_int_dfrm_wday: int = Field(
+        alias="nxtm_int_dfrm_wday",
+    )
     ("차기이자지급요일")
-    kis_crdt_grad_text: str | None = Field(default=None, alias="kis_crdt_grad_text")
+    kis_crdt_grad_text: str | None = Field(
+        default=None,
+        alias="kis_crdt_grad_text",
+    )
     ("한국신용평가신용등급내용")
-    kbp_crdt_grad_text: str | None = Field(default=None, alias="kbp_crdt_grad_text")
+    kbp_crdt_grad_text: str | None = Field(
+        default=None,
+        alias="kbp_crdt_grad_text",
+    )
     ("한국채권평가신용등급내용")
-    nice_crdt_grad_text: str | None = Field(default=None, alias="nice_crdt_grad_text")
+    nice_crdt_grad_text: str | None = Field(
+        default=None,
+        alias="nice_crdt_grad_text",
+    )
     ("한국신용정보신용등급내용")
-    fnp_crdt_grad_text: str | None = Field(default=None, alias="fnp_crdt_grad_text")
+    fnp_crdt_grad_text: str | None = Field(
+        default=None,
+        alias="fnp_crdt_grad_text",
+    )
     ("에프앤자산평가신용등급내용")
-    dpsi_psbl_yn: KisBool = Field(alias="dpsi_psbl_yn")
+    dpsi_psbl_yn: KisBool = Field(
+        alias="dpsi_psbl_yn",
+    )
     ("예탁가능여부")
-    pnia_int_calc_unpr: int = Field(alias="pnia_int_calc_unpr")
+    pnia_int_calc_unpr: int = Field(
+        alias="pnia_int_calc_unpr",
+    )
     ("원리금이자계산단가")
-    prcm_idx_bond_yn: KisBool = Field(alias="prcm_idx_bond_yn")
+    prcm_idx_bond_yn: KisBool = Field(
+        alias="prcm_idx_bond_yn",
+    )
     ("물가지수채권여부")
-    expd_exts_srdp_rcnt: int = Field(alias="expd_exts_srdp_rcnt")
+    expd_exts_srdp_rcnt: int = Field(
+        alias="expd_exts_srdp_rcnt",
+    )
     ("만기연장분할상환횟수")
-    expd_exts_srdp_rt: Decimal = Field(alias="expd_exts_srdp_rt")
+    expd_exts_srdp_rt: Decimal = Field(
+        alias="expd_exts_srdp_rt",
+    )
     ("만기연장분할상환율")
-    loan_psbl_yn: KisBool = Field(alias="loan_psbl_yn")
+    loan_psbl_yn: KisBool = Field(
+        alias="loan_psbl_yn",
+    )
     ("대출가능여부")
-    grte_dvsn_cd: str = Field(alias="grte_dvsn_cd")
+    grte_dvsn_cd: str = Field(
+        alias="grte_dvsn_cd",
+    )
     ("보증구분코드")
-    fnrr_rank_dvsn_cd: str = Field(alias="fnrr_rank_dvsn_cd")
+    fnrr_rank_dvsn_cd: str = Field(
+        alias="fnrr_rank_dvsn_cd",
+    )
     ("선후순위구분코드")
-    krx_lstg_abol_dvsn_cd: str = Field(alias="krx_lstg_abol_dvsn_cd")
+    krx_lstg_abol_dvsn_cd: str = Field(
+        alias="krx_lstg_abol_dvsn_cd",
+    )
     ("한국거래소상장폐지구분코드")
-    asst_rqdi_dvsn_cd: str = Field(alias="asst_rqdi_dvsn_cd")
+    asst_rqdi_dvsn_cd: str = Field(
+        alias="asst_rqdi_dvsn_cd",
+    )
     ("자산유동화구분코드")
-    opcb_dvsn_cd: str | None = Field(default=None, alias="opcb_dvsn_cd")
+    opcb_dvsn_cd: str | None = Field(
+        default=None,
+        alias="opcb_dvsn_cd",
+    )
     ("옵션부사채구분코드")
-    crfd_item_yn: KisBool = Field(alias="crfd_item_yn")
+    crfd_item_yn: KisBool = Field(
+        alias="crfd_item_yn",
+    )
     ("크라우드펀딩종목여부")
-    crfd_item_rstc_cclc_dt: KisDateOptional = Field(default=None, alias="crfd_item_rstc_cclc_dt")
+    crfd_item_rstc_cclc_dt: KisDateOptional = Field(
+        default=None,
+        alias="crfd_item_rstc_cclc_dt",
+    )
     ("크라우드펀딩종목제한해지일자")
-    bond_nmpr_unit_pric: Decimal = Field(alias="bond_nmpr_unit_pric")
+    bond_nmpr_unit_pric: Decimal = Field(
+        alias="bond_nmpr_unit_pric",
+    )
     ("채권호가단위가격")
-    ivst_heed_bond_dvsn_name: str | None = Field(default=None, alias="ivst_heed_bond_dvsn_name")
+    ivst_heed_bond_dvsn_name: str | None = Field(
+        default=None,
+        alias="ivst_heed_bond_dvsn_name",
+    )
     ("투자유의채권구분명")
-    add_erng_rt: Decimal = Field(alias="add_erng_rt")
+    add_erng_rt: Decimal = Field(
+        alias="add_erng_rt",
+    )
     ("추가수익율")
-    add_erng_rt_aply_dt: Decimal | None = Field(default=None, alias="add_erng_rt_aply_dt")
+    add_erng_rt_aply_dt: Decimal | None = Field(
+        default=None,
+        alias="add_erng_rt_aply_dt",
+    )
     ("추가수익율적용일자")
-    bond_tr_stop_dvsn_cd: str = Field(alias="bond_tr_stop_dvsn_cd")
+    bond_tr_stop_dvsn_cd: str = Field(
+        alias="bond_tr_stop_dvsn_cd",
+    )
     ("채권거래정지구분코드")
-    ivst_heed_bond_dvsn_cd: str = Field(alias="ivst_heed_bond_dvsn_cd")
+    ivst_heed_bond_dvsn_cd: str = Field(
+        alias="ivst_heed_bond_dvsn_cd",
+    )
     ("투자유의채권구분코드")
-    pclr_cndt_text: str | None = Field(default=None, alias="pclr_cndt_text")
+    pclr_cndt_text: str | None = Field(
+        default=None,
+        alias="pclr_cndt_text",
+    )
     ("특이조건내용")
-    hbbd_yn: KisBool = Field(alias="hbbd_yn")
+    hbbd_yn: KisBool = Field(
+        alias="hbbd_yn",
+    )
     ("하이브리드채권여부")
-    cdtl_cptl_scty_type_cd: str | None = Field(default=None, alias="cdtl_cptl_scty_type_cd")
+    cdtl_cptl_scty_type_cd: str | None = Field(
+        default=None,
+        alias="cdtl_cptl_scty_type_cd",
+    )
     ("조건부자본증권유형코드")
-    elec_scty_yn: KisBool = Field(alias="elec_scty_yn")
+    elec_scty_yn: KisBool = Field(
+        alias="elec_scty_yn",
+    )
     ("전자증권여부")
-    sq1_clop_ecis_opng_dt: KisDateOptional = Field(default=None, alias="sq1_clop_ecis_opng_dt")
+    sq1_clop_ecis_opng_dt: KisDateOptional = Field(
+        default=None,
+        alias="sq1_clop_ecis_opng_dt",
+    )
     ("1차콜옵션행사개시일자")
-    frst_erlm_stfno: str | None = Field(default=None, alias="frst_erlm_stfno")
+    frst_erlm_stfno: str | None = Field(
+        default=None,
+        alias="frst_erlm_stfno",
+    )
     ("최초등록직원번호")
-    frst_erlm_dt: KisDateOptional = Field(default=None, alias="frst_erlm_dt")
+    frst_erlm_dt: KisDateOptional = Field(
+        default=None,
+        alias="frst_erlm_dt",
+    )
     ("최초등록일자")
-    frst_erlm_tmd: KisTimeOptional = Field(default=None, alias="frst_erlm_tmd")
+    frst_erlm_tmd: KisTimeOptional = Field(
+        default=None,
+        alias="frst_erlm_tmd",
+    )
     ("최초등록시각")
-    tlg_rcvg_dtl_dtime: KisDateTime = Field(alias="tlg_rcvg_dtl_dtime")
+    tlg_rcvg_dtl_dtime: KisDateTime = Field(
+        alias="tlg_rcvg_dtl_dtime",
+    )
     ("전문수신상세일시")
 
 
 class IssueInfoResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: IssueInfoOutput = Field(alias="output")
+    output: IssueInfoOutput = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -254,15 +472,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: IssueInfoRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: IssueInfoRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[IssueInfoResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: IssueInfoRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: IssueInfoRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[IssueInfoResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[IssueInfoRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[IssueInfoRequestDict],
         ) -> tuple[IssueInfoResponse, KisResponse]: ...
         def call(
             self,
@@ -285,7 +515,7 @@ if TYPE_CHECKING:
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
                         PDNO (str): 채권 종목번호(ex. KR6449111CB8)
-                        PRDT_TYPE_CD (PrdtTypeCdEnum): Unique key(302)
+                        PRDT_TYPE_CD (str): Unique key(302)
 
             Returns:
                 tuple[IssueInfoResponse, KisResponse]: 응답 모델과 원시 응답
@@ -296,4 +526,10 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "IssueInfoRequest", "IssueInfoRequestDict", "IssueInfoResponse", "IssueInfoOutput", "PrdtTypeCdEnum"]
+__all__ = [
+    "ENDPOINT",
+    "IssueInfoRequest",
+    "IssueInfoRequestDict",
+    "IssueInfoResponse",
+    "IssueInfoOutput",
+]

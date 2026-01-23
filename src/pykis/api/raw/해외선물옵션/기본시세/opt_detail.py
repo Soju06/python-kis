@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, KisTimeOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDateOptional,
+    KisTimeOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,7 +27,9 @@ if TYPE_CHECKING:
 
 
 class OptDetailRequest(RawModel):
-    SRS_CD: str = Field(alias="SRS_CD")
+    SRS_CD: str = Field(
+        alias="SRS_CD",
+    )
     ('ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고')
 
 
@@ -54,65 +69,139 @@ class OptDetailRequestDict(TypedDict):
         해외지수옵션/해외주식옵션" 참고
     """
 
-    SRS_CD: Annotated[str, 'ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고']
+    SRS_CD: Annotated[
+        str,
+        'ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고',
+    ]
 
 
 class OptDetailOutput1(RawModel):
-    exch_cd: str | None = Field(default=None, alias="exch_cd")
+    exch_cd: str | None = Field(
+        default=None,
+        alias="exch_cd",
+    )
     ("거래소코드")
-    clas_cd: str | None = Field(default=None, alias="clas_cd")
+    clas_cd: str | None = Field(
+        default=None,
+        alias="clas_cd",
+    )
     ("품목종류")
-    crc_cd: str | None = Field(default=None, alias="crc_cd")
+    crc_cd: str | None = Field(
+        default=None,
+        alias="crc_cd",
+    )
     ("거래통화")
-    sttl_price: str | None = Field(default=None, alias="sttl_price")
+    sttl_price: str | None = Field(
+        default=None,
+        alias="sttl_price",
+    )
     (
         "(★주의) 정산가 X 전일종가 O 가 수신됨 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 "
         "참고 * 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션"
     )
-    sttl_date: KisDateOptional = Field(default=None, alias="sttl_date")
+    sttl_date: KisDateOptional = Field(
+        default=None,
+        alias="sttl_date",
+    )
     ("정산일")
-    trst_mgn: str | None = Field(default=None, alias="trst_mgn")
+    trst_mgn: str | None = Field(
+        default=None,
+        alias="trst_mgn",
+    )
     ("증거금")
-    disp_digit: Decimal | None = Field(default=None, alias="disp_digit")
+    disp_digit: Decimal | None = Field(
+        default=None,
+        alias="disp_digit",
+    )
     ("가격표시진법")
-    tick_sz: str | None = Field(default=None, alias="tick_sz")
+    tick_sz: str | None = Field(
+        default=None,
+        alias="tick_sz",
+    )
     ("틱사이즈")
-    tick_val: str | None = Field(default=None, alias="tick_val")
+    tick_val: str | None = Field(
+        default=None,
+        alias="tick_val",
+    )
     ("틱가치")
-    mrkt_open_date: KisDateOptional = Field(default=None, alias="mrkt_open_date")
+    mrkt_open_date: KisDateOptional = Field(
+        default=None,
+        alias="mrkt_open_date",
+    )
     ("장개시일자")
-    mrkt_open_time: KisTimeOptional = Field(default=None, alias="mrkt_open_time")
+    mrkt_open_time: KisTimeOptional = Field(
+        default=None,
+        alias="mrkt_open_time",
+    )
     ("장개시시각")
-    mrkt_close_date: KisDateOptional = Field(default=None, alias="mrkt_close_date")
+    mrkt_close_date: KisDateOptional = Field(
+        default=None,
+        alias="mrkt_close_date",
+    )
     ("장마감일자")
-    mrkt_close_time: KisTimeOptional = Field(default=None, alias="mrkt_close_time")
+    mrkt_close_time: KisTimeOptional = Field(
+        default=None,
+        alias="mrkt_close_time",
+    )
     ("장마감시각")
-    trd_fr_date: KisDateOptional = Field(default=None, alias="trd_fr_date")
+    trd_fr_date: KisDateOptional = Field(
+        default=None,
+        alias="trd_fr_date",
+    )
     ("상장일")
-    expr_date: KisDateOptional = Field(default=None, alias="expr_date")
+    expr_date: KisDateOptional = Field(
+        default=None,
+        alias="expr_date",
+    )
     ("만기일")
-    trd_to_date: KisDateOptional = Field(default=None, alias="trd_to_date")
+    trd_to_date: KisDateOptional = Field(
+        default=None,
+        alias="trd_to_date",
+    )
     ("최종거래일")
-    remn_cnt: str | None = Field(default=None, alias="remn_cnt")
+    remn_cnt: str | None = Field(
+        default=None,
+        alias="remn_cnt",
+    )
     ("잔존일수")
-    stat_tp: KisBool | None = Field(default=None, alias="stat_tp")
+    stat_tp: KisBool | None = Field(
+        default=None,
+        alias="stat_tp",
+    )
     ("매매여부")
-    ctrt_size: Decimal | None = Field(default=None, alias="ctrt_size")
+    ctrt_size: Decimal | None = Field(
+        default=None,
+        alias="ctrt_size",
+    )
     ("계약크기")
-    stl_tp: str | None = Field(default=None, alias="stl_tp")
+    stl_tp: str | None = Field(
+        default=None,
+        alias="stl_tp",
+    )
     ("최종결제구분")
-    frst_noti_date: KisDateOptional = Field(default=None, alias="frst_noti_date")
+    frst_noti_date: KisDateOptional = Field(
+        default=None,
+        alias="frst_noti_date",
+    )
     ("최초식별일")
 
 
 class OptDetailResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: OptDetailOutput1 = Field(alias="output1")
+    output1: OptDetailOutput1 = Field(
+        alias="output1",
+    )
     ("응답상세")
 
 
@@ -164,15 +253,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: OptDetailRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: OptDetailRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[OptDetailResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: OptDetailRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: OptDetailRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[OptDetailResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[OptDetailRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[OptDetailRequestDict],
         ) -> tuple[OptDetailResponse, KisResponse]: ...
         def call(
             self,
@@ -231,4 +332,10 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "OptDetailRequest", "OptDetailRequestDict", "OptDetailResponse", "OptDetailOutput1"]
+__all__ = [
+    "ENDPOINT",
+    "OptDetailRequest",
+    "OptDetailRequestDict",
+    "OptDetailResponse",
+    "OptDetailOutput1",
+]

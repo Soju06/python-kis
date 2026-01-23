@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisTimeOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisTimeOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,9 +26,13 @@ if TYPE_CHECKING:
 
 
 class SensitivityTrendCcnlRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("시장구분코드 (W)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("ex) 58J297(KBJ297삼성전자콜)")
 
 
@@ -29,43 +45,90 @@ class SensitivityTrendCcnlRequestDict(TypedDict):
         FID_INPUT_ISCD (str): ex) 58J297(KBJ297삼성전자콜)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"]
-    FID_INPUT_ISCD: Annotated[str, "ex) 58J297(KBJ297삼성전자콜)"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "시장구분코드 (W)",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "ex) 58J297(KBJ297삼성전자콜)",
+    ]
 
 
 class SensitivityTrendCcnlOutput(RawModel):
-    stck_cntg_hour: KisTimeOptional = Field(default=None, alias="stck_cntg_hour")
+    stck_cntg_hour: KisTimeOptional = Field(
+        default=None,
+        alias="stck_cntg_hour",
+    )
     ("주식체결시간")
-    elw_prpr: Decimal | None = Field(default=None, alias="elw_prpr")
+    elw_prpr: Decimal | None = Field(
+        default=None,
+        alias="elw_prpr",
+    )
     ("ELW현재가")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
+    prdy_vrss: str | None = Field(
+        default=None,
+        alias="prdy_vrss",
+    )
     ("전일대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("전일대비부호")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="prdy_ctrt",
+    )
     ("전일대비율")
-    hts_thpr: str | None = Field(default=None, alias="hts_thpr")
+    hts_thpr: str | None = Field(
+        default=None,
+        alias="hts_thpr",
+    )
     ("hts 이론가")
-    delta_val: str | None = Field(default=None, alias="delta_val")
+    delta_val: str | None = Field(
+        default=None,
+        alias="delta_val",
+    )
     ("델타 값")
-    gama: str | None = Field(default=None, alias="gama")
+    gama: str | None = Field(
+        default=None,
+        alias="gama",
+    )
     ("감마")
-    theta: str | None = Field(default=None, alias="theta")
+    theta: str | None = Field(
+        default=None,
+        alias="theta",
+    )
     ("세타")
-    vega: str | None = Field(default=None, alias="vega")
+    vega: str | None = Field(
+        default=None,
+        alias="vega",
+    )
     ("베가")
-    rho: str | None = Field(default=None, alias="rho")
+    rho: str | None = Field(
+        default=None,
+        alias="rho",
+    )
     ("로우")
 
 
 class SensitivityTrendCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[SensitivityTrendCcnlOutput] = Field(alias="output")
+    output: list[SensitivityTrendCcnlOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -88,15 +151,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: SensitivityTrendCcnlRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: SensitivityTrendCcnlRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[SensitivityTrendCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: SensitivityTrendCcnlRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: SensitivityTrendCcnlRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[SensitivityTrendCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[SensitivityTrendCcnlRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[SensitivityTrendCcnlRequestDict],
         ) -> tuple[SensitivityTrendCcnlResponse, KisResponse]: ...
         def call(
             self,
@@ -128,4 +203,10 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "SensitivityTrendCcnlRequest", "SensitivityTrendCcnlRequestDict", "SensitivityTrendCcnlResponse", "SensitivityTrendCcnlOutput"]
+__all__ = [
+    "ENDPOINT",
+    "SensitivityTrendCcnlRequest",
+    "SensitivityTrendCcnlRequestDict",
+    "SensitivityTrendCcnlResponse",
+    "SensitivityTrendCcnlOutput",
+]

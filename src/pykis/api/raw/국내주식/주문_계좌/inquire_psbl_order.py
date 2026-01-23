@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -22,19 +33,33 @@ class OrdDvsnEnum(KisStrEnum):
 
 
 class InquirePsblOrderRequest(RawModel):
-    CANO: str = Field(alias="CANO")
+    CANO: str = Field(
+        alias="CANO",
+    )
     ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: str = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("29")
-    PDNO: str = Field(alias="PDNO")
+    PDNO: str = Field(
+        alias="PDNO",
+    )
     ("상품번호")
-    ACCA_DVSN_CD: str = Field(alias="ACCA_DVSN_CD")
+    ACCA_DVSN_CD: str = Field(
+        alias="ACCA_DVSN_CD",
+    )
     ("00")
-    CMA_EVLU_AMT_ICLD_YN: KisBool = Field(alias="CMA_EVLU_AMT_ICLD_YN")
+    CMA_EVLU_AMT_ICLD_YN: KisBool = Field(
+        alias="CMA_EVLU_AMT_ICLD_YN",
+    )
     ("CMA평가금액포함여부")
-    ORD_DVSN: OrdDvsnEnum = Field(alias="ORD_DVSN")
+    ORD_DVSN: OrdDvsnEnum = Field(
+        alias="ORD_DVSN",
+    )
     ("00 : 지정가 / 01 : 시장가")
-    ORD_UNPR: str = Field(alias="ORD_UNPR")
+    ORD_UNPR: str = Field(
+        alias="ORD_UNPR",
+    )
     ("주문단가")
 
 
@@ -54,36 +79,75 @@ class InquirePsblOrderRequestDict(TypedDict):
         ORD_UNPR (str): 주문단가
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "29"]
-    PDNO: Annotated[str, "상품번호"]
-    ACCA_DVSN_CD: Annotated[str, "00"]
-    CMA_EVLU_AMT_ICLD_YN: Annotated[KisBool, "CMA평가금액포함여부"]
-    ORD_DVSN: Annotated[OrdDvsnEnum, "00 : 지정가 / 01 : 시장가"]
-    ORD_UNPR: Annotated[str, "주문단가"]
+    CANO: Annotated[
+        str,
+        "종합계좌번호",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        str,
+        "29",
+    ]
+    PDNO: Annotated[
+        str,
+        "상품번호",
+    ]
+    ACCA_DVSN_CD: Annotated[
+        str,
+        "00",
+    ]
+    CMA_EVLU_AMT_ICLD_YN: Annotated[
+        KisBool,
+        "CMA평가금액포함여부",
+    ]
+    ORD_DVSN: Annotated[
+        OrdDvsnEnum,
+        "00 : 지정가 / 01 : 시장가",
+    ]
+    ORD_UNPR: Annotated[
+        str,
+        "주문단가",
+    ]
 
 
 class InquirePsblOrderOutput(RawModel):
-    ord_psbl_cash: str = Field(alias="ord_psbl_cash")
+    ord_psbl_cash: str = Field(
+        alias="ord_psbl_cash",
+    )
     ("주문가능현금")
-    ruse_psbl_amt: Decimal = Field(alias="ruse_psbl_amt")
+    ruse_psbl_amt: Decimal = Field(
+        alias="ruse_psbl_amt",
+    )
     ("재사용가능금액")
-    psbl_qty_calc_unpr: int = Field(alias="psbl_qty_calc_unpr")
+    psbl_qty_calc_unpr: int = Field(
+        alias="psbl_qty_calc_unpr",
+    )
     ("가능수량계산단가")
-    max_buy_amt: Decimal = Field(alias="max_buy_amt")
+    max_buy_amt: Decimal = Field(
+        alias="max_buy_amt",
+    )
     ("최대매수금액")
-    max_buy_qty: int = Field(alias="max_buy_qty")
+    max_buy_qty: int = Field(
+        alias="max_buy_qty",
+    )
     ("최대매수수량")
 
 
 class InquirePsblOrderResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: InquirePsblOrderOutput = Field(alias="output")
+    output: InquirePsblOrderOutput = Field(
+        alias="output",
+    )
     ("응답상세1")
 
 
@@ -110,15 +174,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePsblOrderRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePsblOrderRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePsblOrderResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePsblOrderRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePsblOrderRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePsblOrderResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePsblOrderRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquirePsblOrderRequestDict],
         ) -> tuple[InquirePsblOrderResponse, KisResponse]: ...
         def call(
             self,
@@ -158,4 +234,11 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "InquirePsblOrderRequest", "InquirePsblOrderRequestDict", "InquirePsblOrderResponse", "InquirePsblOrderOutput", "OrdDvsnEnum"]
+__all__ = [
+    "ENDPOINT",
+    "InquirePsblOrderRequest",
+    "InquirePsblOrderRequestDict",
+    "InquirePsblOrderResponse",
+    "InquirePsblOrderOutput",
+    "OrdDvsnEnum",
+]

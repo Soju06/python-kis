@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -19,15 +30,6 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
     "KRX"
     NX = ("NX", "NXT")
     "NXT"
-
-
-class FidCondScrDivCodeEnum(KisStrEnum):
-    UNIQUE = ("Unique", "key(20180)")
-    "key(20180)"
-    VALUE_20180 = ("20180", "Unique key")
-    "Unique key"
-    KEY = ("key", "20180")
-    "20180"
 
 
 class FidDivClsCodeEnum(KisStrEnum):
@@ -50,27 +52,49 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class TopInterestStockRequest(RawModel):
-    fid_input_iscd_2: str = Field(alias="fid_input_iscd_2")
+    fid_input_iscd_2: str = Field(
+        alias="fid_input_iscd_2",
+    )
     ("000000 : 필수입력값")
-    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(alias="fid_cond_mrkt_div_code")
+    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(
+        alias="fid_cond_mrkt_div_code",
+    )
     ("시장구분코드 (J:KRX, NX:NXT)")
-    fid_cond_scr_div_code: FidCondScrDivCodeEnum = Field(alias="fid_cond_scr_div_code")
+    fid_cond_scr_div_code: str = Field(
+        alias="fid_cond_scr_div_code",
+    )
     ("Unique key(20180)")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
+    fid_input_iscd: str = Field(
+        alias="fid_input_iscd",
+    )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
-    fid_trgt_cls_code: str = Field(alias="fid_trgt_cls_code")
+    fid_trgt_cls_code: str = Field(
+        alias="fid_trgt_cls_code",
+    )
     ("0 : 전체")
-    fid_trgt_exls_cls_code: str = Field(alias="fid_trgt_exls_cls_code")
+    fid_trgt_exls_cls_code: str = Field(
+        alias="fid_trgt_exls_cls_code",
+    )
     ("0 : 전체")
-    fid_input_price_1: str = Field(alias="fid_input_price_1")
+    fid_input_price_1: str = Field(
+        alias="fid_input_price_1",
+    )
     ("입력값 없을때 전체 (가격 ~)")
-    fid_input_price_2: str = Field(alias="fid_input_price_2")
+    fid_input_price_2: str = Field(
+        alias="fid_input_price_2",
+    )
     ("입력값 없을때 전체 (~ 가격)")
-    fid_vol_cnt: int = Field(alias="fid_vol_cnt")
+    fid_vol_cnt: int = Field(
+        alias="fid_vol_cnt",
+    )
     ("입력값 없을때 전체 (거래량 ~)")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
+    fid_div_cls_code: FidDivClsCodeEnum = Field(
+        alias="fid_div_cls_code",
+    )
     ("0: 전체 1: 관리종목 2: 투자주의 3: 투자경고 4: 투자위험예고 5: 투자위험 6: 보통주 7: 우선주")
-    fid_input_cnt_1: str = Field(alias="fid_input_cnt_1")
+    fid_input_cnt_1: str = Field(
+        alias="fid_input_cnt_1",
+    )
     ("순위검색 입력값(1: 1위부터, 10:10위부터)")
 
 
@@ -90,7 +114,7 @@ class TopInterestStockRequestDict(TypedDict):
     Request fields:
         fid_input_iscd_2 (str): 000000 : 필수입력값
         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
-        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20180)
+        fid_cond_scr_div_code (str): Unique key(20180)
         fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
         fid_trgt_cls_code (str): 0 : 전체
         fid_trgt_exls_cls_code (str): 0 : 전체
@@ -102,56 +126,123 @@ class TopInterestStockRequestDict(TypedDict):
         fid_input_cnt_1 (str): 순위검색 입력값(1: 1위부터, 10:10위부터)
     """
 
-    fid_input_iscd_2: Annotated[str, "000000 : 필수입력값"]
-    fid_cond_mrkt_div_code: Annotated[FidCondMrktDivCodeEnum, "시장구분코드 (J:KRX, NX:NXT)"]
-    fid_cond_scr_div_code: Annotated[FidCondScrDivCodeEnum, "Unique key(20180)"]
-    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200"]
-    fid_trgt_cls_code: Annotated[str, "0 : 전체"]
-    fid_trgt_exls_cls_code: Annotated[str, "0 : 전체"]
-    fid_input_price_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"]
-    fid_input_price_2: Annotated[str, "입력값 없을때 전체 (~ 가격)"]
-    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"]
-    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 전체 1: 관리종목 2: 투자주의 3: 투자경고 4: 투자위험예고 5: 투자위험 6: 보통주 7: 우선주"]
-    fid_input_cnt_1: Annotated[str, "순위검색 입력값(1: 1위부터, 10:10위부터)"]
+    fid_input_iscd_2: Annotated[
+        str,
+        "000000 : 필수입력값",
+    ]
+    fid_cond_mrkt_div_code: Annotated[
+        FidCondMrktDivCodeEnum,
+        "시장구분코드 (J:KRX, NX:NXT)",
+    ]
+    fid_cond_scr_div_code: Annotated[
+        str,
+        "Unique key(20180)",
+    ]
+    fid_input_iscd: Annotated[
+        str,
+        "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200",
+    ]
+    fid_trgt_cls_code: Annotated[
+        str,
+        "0 : 전체",
+    ]
+    fid_trgt_exls_cls_code: Annotated[
+        str,
+        "0 : 전체",
+    ]
+    fid_input_price_1: Annotated[
+        str,
+        "입력값 없을때 전체 (가격 ~)",
+    ]
+    fid_input_price_2: Annotated[
+        str,
+        "입력값 없을때 전체 (~ 가격)",
+    ]
+    fid_vol_cnt: Annotated[
+        int,
+        "입력값 없을때 전체 (거래량 ~)",
+    ]
+    fid_div_cls_code: Annotated[
+        FidDivClsCodeEnum,
+        "0: 전체 1: 관리종목 2: 투자주의 3: 투자경고 4: 투자위험예고 5: 투자위험 6: 보통주 7: 우선주",
+    ]
+    fid_input_cnt_1: Annotated[
+        str,
+        "순위검색 입력값(1: 1위부터, 10:10위부터)",
+    ]
 
 
 class TopInterestStockOutput(RawModel):
-    mrkt_div_cls_name: str = Field(alias="mrkt_div_cls_name")
+    mrkt_div_cls_name: str = Field(
+        alias="mrkt_div_cls_name",
+    )
     ("시장 분류 구분 명")
-    mksc_shrn_iscd: str = Field(alias="mksc_shrn_iscd")
+    mksc_shrn_iscd: str = Field(
+        alias="mksc_shrn_iscd",
+    )
     ("유가증권 단축 종목코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
+    hts_kor_isnm: str = Field(
+        alias="hts_kor_isnm",
+    )
     ("HTS 한글 종목명")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
+    stck_prpr: Decimal = Field(
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
+    prdy_vrss: int = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: int = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
+    acml_tr_pbmn: Decimal = Field(
+        alias="acml_tr_pbmn",
+    )
     ("누적 거래 대금")
-    askp: int = Field(alias="askp")
+    askp: int = Field(
+        alias="askp",
+    )
     ("매도호가")
-    bidp: str = Field(alias="bidp")
+    bidp: str = Field(
+        alias="bidp",
+    )
     ("매수호가")
-    data_rank: int = Field(alias="data_rank")
+    data_rank: int = Field(
+        alias="data_rank",
+    )
     ("데이터 순위")
-    inter_issu_reg_csnu: str = Field(alias="inter_issu_reg_csnu")
+    inter_issu_reg_csnu: str = Field(
+        alias="inter_issu_reg_csnu",
+    )
     ("관심 종목 등록 건수")
 
 
 class TopInterestStockResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[TopInterestStockOutput] = Field(alias="output")
+    output: list[TopInterestStockOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -185,15 +276,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: TopInterestStockRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: TopInterestStockRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[TopInterestStockResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: TopInterestStockRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: TopInterestStockRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[TopInterestStockResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[TopInterestStockRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[TopInterestStockRequestDict],
         ) -> tuple[TopInterestStockResponse, KisResponse]: ...
         def call(
             self,
@@ -224,7 +327,7 @@ if TYPE_CHECKING:
                     Request fields:
                         fid_input_iscd_2 (str): 000000 : 필수입력값
                         fid_cond_mrkt_div_code (FidCondMrktDivCodeEnum): 시장구분코드 (J:KRX, NX:NXT)
-                        fid_cond_scr_div_code (FidCondScrDivCodeEnum): Unique key(20180)
+                        fid_cond_scr_div_code (str): Unique key(20180)
                         fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200
                         fid_trgt_cls_code (str): 0 : 전체
                         fid_trgt_exls_cls_code (str): 0 : 전체
@@ -251,6 +354,5 @@ __all__ = [
     "TopInterestStockResponse",
     "TopInterestStockOutput",
     "FidCondMrktDivCodeEnum",
-    "FidCondScrDivCodeEnum",
     "FidDivClsCodeEnum",
 ]

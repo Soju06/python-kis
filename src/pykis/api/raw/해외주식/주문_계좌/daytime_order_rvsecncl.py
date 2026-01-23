@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisTime, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisTime,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -56,30 +68,52 @@ class RvseCnclDvsnCdEnum(KisStrEnum):
 
 
 class DaytimeOrderRvsecnclRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
+    CANO: CanoEnum = Field(
+        alias="CANO",
+    )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_EXCG_CD: OvrsExcgCdEnum = Field(alias="OVRS_EXCG_CD")
+    OVRS_EXCG_CD: OvrsExcgCdEnum = Field(
+        alias="OVRS_EXCG_CD",
+    )
     ("NASD:나스닥 / NYSE:뉴욕 / AMEX:아멕스")
-    PDNO: str = Field(alias="PDNO")
+    PDNO: str = Field(
+        alias="PDNO",
+    )
     ("종목코드")
-    ORGN_ODNO: OrgnOdnoEnum = Field(alias="ORGN_ODNO")
+    ORGN_ODNO: OrgnOdnoEnum = Field(
+        alias="ORGN_ODNO",
+    )
     (
         "'정정 또는 취소할 원주문번호(매매 TR의 주문번호) - 해외주식 주문체결내역api "
         "(/uapi/overseas-stock/v1/trading/inquire-nccs)에서 odno(주문번호) 참조'"
     )
-    RVSE_CNCL_DVSN_CD: RvseCnclDvsnCdEnum = Field(alias="RVSE_CNCL_DVSN_CD")
+    RVSE_CNCL_DVSN_CD: RvseCnclDvsnCdEnum = Field(
+        alias="RVSE_CNCL_DVSN_CD",
+    )
     ("'01 : 정정 02 : 취소'")
-    ORD_QTY: int = Field(alias="ORD_QTY")
+    ORD_QTY: int = Field(
+        alias="ORD_QTY",
+    )
     ("주문수량")
-    OVRS_ORD_UNPR: Decimal = Field(alias="OVRS_ORD_UNPR")
+    OVRS_ORD_UNPR: Decimal = Field(
+        alias="OVRS_ORD_UNPR",
+    )
     ("소수점 포함, 1주당 가격")
-    CTAC_TLNO: str = Field(alias="CTAC_TLNO")
+    CTAC_TLNO: str = Field(
+        alias="CTAC_TLNO",
+    )
     ('" "')
-    MGCO_APTM_ODNO: str = Field(alias="MGCO_APTM_ODNO")
+    MGCO_APTM_ODNO: str = Field(
+        alias="MGCO_APTM_ODNO",
+    )
     ('" "')
-    ORD_SVR_DVSN_CD: str = Field(alias="ORD_SVR_DVSN_CD")
+    ORD_SVR_DVSN_CD: str = Field(
+        alias="ORD_SVR_DVSN_CD",
+    )
     ('"0"')
 
 
@@ -123,40 +157,84 @@ class DaytimeOrderRvsecnclRequestDict(TypedDict):
         ORD_SVR_DVSN_CD (str): "0"
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    OVRS_EXCG_CD: Annotated[OvrsExcgCdEnum, "NASD:나스닥 / NYSE:뉴욕 / AMEX:아멕스"]
-    PDNO: Annotated[str, "종목코드"]
+    CANO: Annotated[
+        CanoEnum,
+        "계좌번호 체계(8-2)의 앞 8자리",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        AcntPrdtCdEnum,
+        "계좌번호 체계(8-2)의 뒤 2자리",
+    ]
+    OVRS_EXCG_CD: Annotated[
+        OvrsExcgCdEnum,
+        "NASD:나스닥 / NYSE:뉴욕 / AMEX:아멕스",
+    ]
+    PDNO: Annotated[
+        str,
+        "종목코드",
+    ]
     ORGN_ODNO: Annotated[
         OrgnOdnoEnum,
         "'정정 또는 취소할 원주문번호(매매 TR의 주문번호) - 해외주식 주문체결내역api "
         "(/uapi/overseas-stock/v1/trading/inquire-nccs)에서 odno(주문번호) 참조'",
     ]
-    RVSE_CNCL_DVSN_CD: Annotated[RvseCnclDvsnCdEnum, "'01 : 정정 02 : 취소'"]
-    ORD_QTY: Annotated[int, "주문수량"]
-    OVRS_ORD_UNPR: Annotated[Decimal, "소수점 포함, 1주당 가격"]
-    CTAC_TLNO: Annotated[str, '" "']
-    MGCO_APTM_ODNO: Annotated[str, '" "']
-    ORD_SVR_DVSN_CD: Annotated[str, '"0"']
+    RVSE_CNCL_DVSN_CD: Annotated[
+        RvseCnclDvsnCdEnum,
+        "'01 : 정정 02 : 취소'",
+    ]
+    ORD_QTY: Annotated[
+        int,
+        "주문수량",
+    ]
+    OVRS_ORD_UNPR: Annotated[
+        Decimal,
+        "소수점 포함, 1주당 가격",
+    ]
+    CTAC_TLNO: Annotated[
+        str,
+        '" "',
+    ]
+    MGCO_APTM_ODNO: Annotated[
+        str,
+        '" "',
+    ]
+    ORD_SVR_DVSN_CD: Annotated[
+        str,
+        '"0"',
+    ]
 
 
 class DaytimeOrderRvsecnclOutput(RawModel):
-    KRX_FWDG_ORD_ORGNO: str = Field(alias="KRX_FWDG_ORD_ORGNO")
+    KRX_FWDG_ORD_ORGNO: str = Field(
+        alias="KRX_FWDG_ORD_ORGNO",
+    )
     ("주문시 한국투자증권 시스템에서 지정된 영업점코드")
-    ODNO: str = Field(alias="ODNO")
+    ODNO: str = Field(
+        alias="ODNO",
+    )
     ("주문시 한국투자증권 시스템에서 채번된 주문번호")
-    ORD_TMD: KisTime = Field(alias="ORD_TMD")
+    ORD_TMD: KisTime = Field(
+        alias="ORD_TMD",
+    )
     ("주문시각(시분초HHMMSS)")
 
 
 class DaytimeOrderRvsecnclResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: DaytimeOrderRvsecnclOutput = Field(alias="output")
+    output: DaytimeOrderRvsecnclOutput = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -202,15 +280,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DaytimeOrderRvsecnclRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DaytimeOrderRvsecnclRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DaytimeOrderRvsecnclResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DaytimeOrderRvsecnclRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DaytimeOrderRvsecnclRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DaytimeOrderRvsecnclResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[DaytimeOrderRvsecnclRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[DaytimeOrderRvsecnclRequestDict],
         ) -> tuple[DaytimeOrderRvsecnclResponse, KisResponse]: ...
         def call(
             self,

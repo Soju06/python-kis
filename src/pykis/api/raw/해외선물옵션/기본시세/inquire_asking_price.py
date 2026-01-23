@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, KisTimeOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDateOptional,
+    KisTimeOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,7 +27,9 @@ if TYPE_CHECKING:
 
 
 class InquireAskingPriceRequest(RawModel):
-    SRS_CD: str = Field(alias="SRS_CD")
+    SRS_CD: str = Field(
+        alias="SRS_CD",
+    )
     ("종목코드")
 
 
@@ -53,57 +68,118 @@ class InquireAskingPriceRequestDict(TypedDict):
         SRS_CD (str): 종목코드
     """
 
-    SRS_CD: Annotated[str, "종목코드"]
+    SRS_CD: Annotated[
+        str,
+        "종목코드",
+    ]
 
 
 class InquireAskingPriceOutput1(RawModel):
-    open_price: Decimal | None = Field(default=None, alias="open_price")
+    open_price: Decimal | None = Field(
+        default=None,
+        alias="open_price",
+    )
     ("시가")
-    high_price: Decimal | None = Field(default=None, alias="high_price")
+    high_price: Decimal | None = Field(
+        default=None,
+        alias="high_price",
+    )
     ("고가")
-    lowp_rice: Decimal | None = Field(default=None, alias="lowp_rice")
+    lowp_rice: Decimal | None = Field(
+        default=None,
+        alias="lowp_rice",
+    )
     ("저가")
-    last_price: Decimal | None = Field(default=None, alias="last_price")
+    last_price: Decimal | None = Field(
+        default=None,
+        alias="last_price",
+    )
     ("현재가")
-    prev_price: Decimal | None = Field(default=None, alias="prev_price")
+    prev_price: Decimal | None = Field(
+        default=None,
+        alias="prev_price",
+    )
     ("전일종가")
-    vol: int | None = Field(default=None, alias="vol")
+    vol: int | None = Field(
+        default=None,
+        alias="vol",
+    )
     ("거래량")
-    prev_diff_price: Decimal | None = Field(default=None, alias="prev_diff_price")
+    prev_diff_price: Decimal | None = Field(
+        default=None,
+        alias="prev_diff_price",
+    )
     ("전일대비가")
-    prev_diff_rate: Decimal | None = Field(default=None, alias="prev_diff_rate")
+    prev_diff_rate: Decimal | None = Field(
+        default=None,
+        alias="prev_diff_rate",
+    )
     ("전일대비율")
-    quot_date: KisDateOptional = Field(default=None, alias="quot_date")
+    quot_date: KisDateOptional = Field(
+        default=None,
+        alias="quot_date",
+    )
     ("호가수신일자")
-    quot_time: KisTimeOptional = Field(default=None, alias="quot_time")
+    quot_time: KisTimeOptional = Field(
+        default=None,
+        alias="quot_time",
+    )
     ("호가수신시각")
 
 
 class InquireAskingPriceOutput2(RawModel):
-    bid_qntt: str | None = Field(default=None, alias="bid_qntt")
+    bid_qntt: str | None = Field(
+        default=None,
+        alias="bid_qntt",
+    )
     ("매수수량")
-    bid_num: str | None = Field(default=None, alias="bid_num")
+    bid_num: str | None = Field(
+        default=None,
+        alias="bid_num",
+    )
     ("매수번호")
-    bid_price: str | None = Field(default=None, alias="bid_price")
+    bid_price: str | None = Field(
+        default=None,
+        alias="bid_price",
+    )
     ("매수호가")
-    ask_qntt: int | None = Field(default=None, alias="ask_qntt")
+    ask_qntt: int | None = Field(
+        default=None,
+        alias="ask_qntt",
+    )
     ("매도수량")
-    ask_num: str | None = Field(default=None, alias="ask_num")
+    ask_num: str | None = Field(
+        default=None,
+        alias="ask_num",
+    )
     ("매도번호")
-    ask_price: Decimal | None = Field(default=None, alias="ask_price")
+    ask_price: Decimal | None = Field(
+        default=None,
+        alias="ask_price",
+    )
     ("매도호가")
 
 
 class InquireAskingPriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: InquireAskingPriceOutput1 = Field(alias="output1")
+    output1: InquireAskingPriceOutput1 = Field(
+        alias="output1",
+    )
     ("응답상세")
-    output2: list[InquireAskingPriceOutput2] = Field(alias="output2")
+    output2: list[InquireAskingPriceOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세")
 
 
@@ -155,15 +231,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireAskingPriceRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireAskingPriceRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireAskingPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireAskingPriceRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireAskingPriceRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireAskingPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireAskingPriceRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireAskingPriceRequestDict],
         ) -> tuple[InquireAskingPriceResponse, KisResponse]: ...
         def call(
             self,

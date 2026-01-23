@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisTime, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisTime,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -31,21 +43,37 @@ class CcldNccsDvsnEnum(KisStrEnum):
 
 
 class InquireDailyCcldRequest(RawModel):
-    CANO: str = Field(alias="CANO")
+    CANO: str = Field(
+        alias="CANO",
+    )
     ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: str = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("29")
-    USER_DVSN_CD: str = Field(alias="USER_DVSN_CD")
+    USER_DVSN_CD: str = Field(
+        alias="USER_DVSN_CD",
+    )
     ("%%")
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(alias="SLL_BUY_DVSN_CD")
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(
+        alias="SLL_BUY_DVSN_CD",
+    )
     ("00 : 전체 / 01 : 매도 / 02 : 매수")
-    CCLD_NCCS_DVSN: CcldNccsDvsnEnum = Field(alias="CCLD_NCCS_DVSN")
+    CCLD_NCCS_DVSN: CcldNccsDvsnEnum = Field(
+        alias="CCLD_NCCS_DVSN",
+    )
     ("%% : 전체 / 01 : 체결 / 02 : 미체결")
-    INQR_DVSN_3: str = Field(alias="INQR_DVSN_3")
+    INQR_DVSN_3: str = Field(
+        alias="INQR_DVSN_3",
+    )
     ("00 : 전체")
-    CTX_AREA_FK100: str = Field(alias="CTX_AREA_FK100")
+    CTX_AREA_FK100: str = Field(
+        alias="CTX_AREA_FK100",
+    )
     ("연속조회검색조건100")
-    CTX_AREA_NK100: str = Field(alias="CTX_AREA_NK100")
+    CTX_AREA_NK100: str = Field(
+        alias="CTX_AREA_NK100",
+    )
     ("연속조회키100")
 
 
@@ -66,67 +94,139 @@ class InquireDailyCcldRequestDict(TypedDict):
         CTX_AREA_NK100 (str): 연속조회키100
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "29"]
-    USER_DVSN_CD: Annotated[str, "%%"]
-    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "00 : 전체 / 01 : 매도 / 02 : 매수"]
-    CCLD_NCCS_DVSN: Annotated[CcldNccsDvsnEnum, "%% : 전체 / 01 : 체결 / 02 : 미체결"]
-    INQR_DVSN_3: Annotated[str, "00 : 전체"]
-    CTX_AREA_FK100: Annotated[str, "연속조회검색조건100"]
-    CTX_AREA_NK100: Annotated[str, "연속조회키100"]
+    CANO: Annotated[
+        str,
+        "종합계좌번호",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        str,
+        "29",
+    ]
+    USER_DVSN_CD: Annotated[
+        str,
+        "%%",
+    ]
+    SLL_BUY_DVSN_CD: Annotated[
+        SllBuyDvsnCdEnum,
+        "00 : 전체 / 01 : 매도 / 02 : 매수",
+    ]
+    CCLD_NCCS_DVSN: Annotated[
+        CcldNccsDvsnEnum,
+        "%% : 전체 / 01 : 체결 / 02 : 미체결",
+    ]
+    INQR_DVSN_3: Annotated[
+        str,
+        "00 : 전체",
+    ]
+    CTX_AREA_FK100: Annotated[
+        str,
+        "연속조회검색조건100",
+    ]
+    CTX_AREA_NK100: Annotated[
+        str,
+        "연속조회키100",
+    ]
 
 
 class InquireDailyCcldOutput(RawModel):
-    ord_gno_brno: str = Field(alias="ord_gno_brno")
+    ord_gno_brno: str = Field(
+        alias="ord_gno_brno",
+    )
     ("주문채번지점번호")
-    sll_buy_dvsn_cd: str = Field(alias="sll_buy_dvsn_cd")
+    sll_buy_dvsn_cd: str = Field(
+        alias="sll_buy_dvsn_cd",
+    )
     ("매도매수구분코드")
-    trad_dvsn_name: str = Field(alias="trad_dvsn_name")
+    trad_dvsn_name: str = Field(
+        alias="trad_dvsn_name",
+    )
     ("매매구분명")
-    odno: str = Field(alias="odno")
+    odno: str = Field(
+        alias="odno",
+    )
     ("주문번호")
-    pdno: str = Field(alias="pdno")
+    pdno: str = Field(
+        alias="pdno",
+    )
     ("상품번호")
-    prdt_name: str = Field(alias="prdt_name")
+    prdt_name: str = Field(
+        alias="prdt_name",
+    )
     ("상품명")
-    ord_unpr: str = Field(alias="ord_unpr")
+    ord_unpr: str = Field(
+        alias="ord_unpr",
+    )
     ("주문단가")
-    ord_qty: int = Field(alias="ord_qty")
+    ord_qty: int = Field(
+        alias="ord_qty",
+    )
     ("주문수량")
-    tot_ccld_qty: int = Field(alias="tot_ccld_qty")
+    tot_ccld_qty: int = Field(
+        alias="tot_ccld_qty",
+    )
     ("총체결수량")
-    nccs_qty: int = Field(alias="nccs_qty")
+    nccs_qty: int = Field(
+        alias="nccs_qty",
+    )
     ("미체결수량")
-    ord_dvsn_cd: str = Field(alias="ord_dvsn_cd")
+    ord_dvsn_cd: str = Field(
+        alias="ord_dvsn_cd",
+    )
     ("주문구분코드")
-    ord_dvsn_name: str = Field(alias="ord_dvsn_name")
+    ord_dvsn_name: str = Field(
+        alias="ord_dvsn_name",
+    )
     ("주문구분명")
-    orgn_odno: str = Field(alias="orgn_odno")
+    orgn_odno: str = Field(
+        alias="orgn_odno",
+    )
     ("원주문번호")
-    ord_tmd: KisTime = Field(alias="ord_tmd")
+    ord_tmd: KisTime = Field(
+        alias="ord_tmd",
+    )
     ("주문시각")
-    objt_cust_dvsn_name: str = Field(alias="objt_cust_dvsn_name")
+    objt_cust_dvsn_name: str = Field(
+        alias="objt_cust_dvsn_name",
+    )
     ("대상고객구분명")
-    pchs_avg_pric: Decimal = Field(alias="pchs_avg_pric")
+    pchs_avg_pric: Decimal = Field(
+        alias="pchs_avg_pric",
+    )
     ("매입평균가격")
-    stpm_cndt_pric: Decimal = Field(alias="stpm_cndt_pric")
+    stpm_cndt_pric: Decimal = Field(
+        alias="stpm_cndt_pric",
+    )
     ("신규 API용 필드")
-    stpm_efct_occr_dtmd: KisTime = Field(alias="stpm_efct_occr_dtmd")
+    stpm_efct_occr_dtmd: KisTime = Field(
+        alias="stpm_efct_occr_dtmd",
+    )
     ("신규 API용 필드")
-    stpm_efct_occr_yn: KisBool = Field(alias="stpm_efct_occr_yn")
+    stpm_efct_occr_yn: KisBool = Field(
+        alias="stpm_efct_occr_yn",
+    )
     ("신규 API용 필드")
-    excg_id_dvsn_cd: str = Field(alias="excg_id_dvsn_cd")
+    excg_id_dvsn_cd: str = Field(
+        alias="excg_id_dvsn_cd",
+    )
     ("신규 API용 필드")
 
 
 class InquireDailyCcldResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[InquireDailyCcldOutput] = Field(alias="output")
+    output: list[InquireDailyCcldOutput] = Field(
+        alias="output",
+    )
     ("응답상세1")
 
 
@@ -153,15 +253,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireDailyCcldRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireDailyCcldRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireDailyCcldResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireDailyCcldRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireDailyCcldRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireDailyCcldResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireDailyCcldRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireDailyCcldRequestDict],
         ) -> tuple[InquireDailyCcldResponse, KisResponse]: ...
         def call(
             self,

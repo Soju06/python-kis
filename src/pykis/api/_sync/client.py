@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import threading
 import atexit
 import time
 from datetime import date, datetime
@@ -151,7 +152,7 @@ class SyncKisRawClient:
     _client: httpx.Client
     _token_cache: dict[str, KisAccessToken]
     _token_cache_store: KisTokenCache | None
-    _token_lock: asyncio.Lock | None
+    _token_lock: threading.Lock | None
     _revoke_on_close: bool
     _closed: bool
 
@@ -324,9 +325,9 @@ class SyncKisRawClient:
                 context=_error_context(method="POST", path="/oauth2/tokenP", status_code=resp.status_code),
             )
 
-    def _get_token_lock(self) -> asyncio.Lock:
+    def _get_token_lock(self) -> threading.Lock:
         if self._token_lock is None:
-            self._token_lock = asyncio.Lock()
+            self._token_lock = threading.Lock()
         return self._token_lock
 
     def _clear_token(self, base_url: str) -> None:

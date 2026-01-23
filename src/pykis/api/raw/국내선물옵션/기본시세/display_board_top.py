@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,17 +26,37 @@ if TYPE_CHECKING:
 
 
 class DisplayBoardTopRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("시장구분코드 (F: 선물)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("선물최근월물 ex)(101V06)")
-    FID_COND_MRKT_DIV_CODE1: str | None = Field(default=None, alias="FID_COND_MRKT_DIV_CODE1", json_schema_extra={"blank_allowed": True})
+    FID_COND_MRKT_DIV_CODE1: str | None = Field(
+        default=None,
+        alias="FID_COND_MRKT_DIV_CODE1",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
-    FID_COND_SCR_DIV_CODE: str | None = Field(default=None, alias="FID_COND_SCR_DIV_CODE", json_schema_extra={"blank_allowed": True})
+    FID_COND_SCR_DIV_CODE: str | None = Field(
+        default=None,
+        alias="FID_COND_SCR_DIV_CODE",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
-    FID_MTRT_CNT: str | None = Field(default=None, alias="FID_MTRT_CNT", json_schema_extra={"blank_allowed": True})
+    FID_MTRT_CNT: str | None = Field(
+        default=None,
+        alias="FID_MTRT_CNT",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
-    FID_COND_MRKT_CLS_CODE: str | None = Field(default=None, alias="FID_COND_MRKT_CLS_CODE", json_schema_extra={"blank_allowed": True})
+    FID_COND_MRKT_CLS_CODE: str | None = Field(
+        default=None,
+        alias="FID_COND_MRKT_CLS_CODE",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
 
 
@@ -43,52 +75,121 @@ class DisplayBoardTopRequestDict(TypedDict):
         FID_COND_MRKT_CLS_CODE (str): 공백 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (F: 선물)"]
-    FID_INPUT_ISCD: Annotated[str, "선물최근월물 ex)(101V06)"]
-    FID_COND_MRKT_DIV_CODE1: NotRequired[Annotated[str | None, "공백"]]
-    FID_COND_SCR_DIV_CODE: NotRequired[Annotated[str | None, "공백"]]
-    FID_MTRT_CNT: NotRequired[Annotated[str | None, "공백"]]
-    FID_COND_MRKT_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "시장구분코드 (F: 선물)",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "선물최근월물 ex)(101V06)",
+    ]
+    FID_COND_MRKT_DIV_CODE1: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
+    FID_COND_SCR_DIV_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
+    FID_MTRT_CNT: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
+    FID_COND_MRKT_CLS_CODE: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
 
 
 class DisplayBoardTopOutput1(RawModel):
-    unas_prpr: Decimal | None = Field(default=None, alias="unas_prpr")
+    unas_prpr: Decimal | None = Field(
+        default=None,
+        alias="unas_prpr",
+    )
     ("기초자산 현재가")
-    unas_prdy_vrss: str | None = Field(default=None, alias="unas_prdy_vrss")
+    unas_prdy_vrss: str | None = Field(
+        default=None,
+        alias="unas_prdy_vrss",
+    )
     ("기초자산 전일 대비")
-    unas_prdy_vrss_sign: str | None = Field(default=None, alias="unas_prdy_vrss_sign")
+    unas_prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="unas_prdy_vrss_sign",
+    )
     ("기초자산 전일 대비 부호")
-    unas_prdy_ctrt: Decimal | None = Field(default=None, alias="unas_prdy_ctrt")
+    unas_prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="unas_prdy_ctrt",
+    )
     ("기초자산 전일 대비율")
-    unas_acml_vol: int | None = Field(default=None, alias="unas_acml_vol")
+    unas_acml_vol: int | None = Field(
+        default=None,
+        alias="unas_acml_vol",
+    )
     ("기초자산 누적 거래량")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
+    hts_kor_isnm: str | None = Field(
+        default=None,
+        alias="hts_kor_isnm",
+    )
     ("HTS 한글 종목명")
-    futs_prpr: Decimal | None = Field(default=None, alias="futs_prpr")
+    futs_prpr: Decimal | None = Field(
+        default=None,
+        alias="futs_prpr",
+    )
     ("선물 현재가")
-    futs_prdy_vrss: str | None = Field(default=None, alias="futs_prdy_vrss")
+    futs_prdy_vrss: str | None = Field(
+        default=None,
+        alias="futs_prdy_vrss",
+    )
     ("선물 전일 대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    futs_prdy_ctrt: Decimal | None = Field(default=None, alias="futs_prdy_ctrt")
+    futs_prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="futs_prdy_ctrt",
+    )
     ("선물 전일 대비율")
 
 
 class DisplayBoardTopOutput2(RawModel):
-    hts_rmnn_dynu: str | None = Field(default=None, alias="hts_rmnn_dynu")
+    hts_rmnn_dynu: str | None = Field(
+        default=None,
+        alias="hts_rmnn_dynu",
+    )
     ("HTS 잔존 일수")
 
 
 class DisplayBoardTopResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: DisplayBoardTopOutput1 = Field(alias="output1")
+    output1: DisplayBoardTopOutput1 = Field(
+        alias="output1",
+    )
     ("응답상세")
-    output2: list[DisplayBoardTopOutput2] = Field(alias="output2")
+    output2: list[DisplayBoardTopOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세")
 
 
@@ -115,15 +216,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DisplayBoardTopRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DisplayBoardTopRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DisplayBoardTopResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DisplayBoardTopRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DisplayBoardTopRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DisplayBoardTopResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[DisplayBoardTopRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[DisplayBoardTopRequestDict],
         ) -> tuple[DisplayBoardTopResponse, KisResponse]: ...
         def call(
             self,

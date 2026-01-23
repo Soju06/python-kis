@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -22,11 +33,17 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class GrowthRatioRequest(RawModel):
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
+    fid_input_iscd: str = Field(
+        alias="fid_input_iscd",
+    )
     ("ex : 000660")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
+    fid_div_cls_code: FidDivClsCodeEnum = Field(
+        alias="fid_div_cls_code",
+    )
     ("0: 년, 1: 분기")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
+    fid_cond_mrkt_div_code: str = Field(
+        alias="fid_cond_mrkt_div_code",
+    )
     ("시장구분코드 (주식 J)")
 
 
@@ -42,32 +59,59 @@ class GrowthRatioRequestDict(TypedDict):
         fid_cond_mrkt_div_code (str): 시장구분코드 (주식 J)
     """
 
-    fid_input_iscd: Annotated[str, "ex : 000660"]
-    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"]
-    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"]
+    fid_input_iscd: Annotated[
+        str,
+        "ex : 000660",
+    ]
+    fid_div_cls_code: Annotated[
+        FidDivClsCodeEnum,
+        "0: 년, 1: 분기",
+    ]
+    fid_cond_mrkt_div_code: Annotated[
+        str,
+        "시장구분코드 (주식 J)",
+    ]
 
 
 class GrowthRatioOutput(RawModel):
-    stac_yymm: str = Field(alias="stac_yymm")
+    stac_yymm: str = Field(
+        alias="stac_yymm",
+    )
     ("결산 년월")
-    grs: Decimal = Field(alias="grs")
+    grs: Decimal = Field(
+        alias="grs",
+    )
     ("매출액 증가율")
-    bsop_prfi_inrt: Decimal = Field(alias="bsop_prfi_inrt")
+    bsop_prfi_inrt: Decimal = Field(
+        alias="bsop_prfi_inrt",
+    )
     ("영업 이익 증가율")
-    equt_inrt: Decimal = Field(alias="equt_inrt")
+    equt_inrt: Decimal = Field(
+        alias="equt_inrt",
+    )
     ("자기자본 증가율")
-    totl_aset_inrt: Decimal = Field(alias="totl_aset_inrt")
+    totl_aset_inrt: Decimal = Field(
+        alias="totl_aset_inrt",
+    )
     ("총자산 증가율")
 
 
 class GrowthRatioResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[GrowthRatioOutput] = Field(alias="output")
+    output: list[GrowthRatioOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -94,15 +138,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: GrowthRatioRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: GrowthRatioRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[GrowthRatioResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: GrowthRatioRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: GrowthRatioRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[GrowthRatioResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[GrowthRatioRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[GrowthRatioRequestDict],
         ) -> tuple[GrowthRatioResponse, KisResponse]: ...
         def call(
             self,
@@ -137,4 +193,11 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "GrowthRatioRequest", "GrowthRatioRequestDict", "GrowthRatioResponse", "GrowthRatioOutput", "FidDivClsCodeEnum"]
+__all__ = [
+    "ENDPOINT",
+    "GrowthRatioRequest",
+    "GrowthRatioRequestDict",
+    "GrowthRatioResponse",
+    "GrowthRatioOutput",
+    "FidDivClsCodeEnum",
+]

@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -22,11 +33,17 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class StabilityRatioRequest(RawModel):
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
+    fid_input_iscd: str = Field(
+        alias="fid_input_iscd",
+    )
     ("000660 : 종목코드")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
+    fid_div_cls_code: FidDivClsCodeEnum = Field(
+        alias="fid_div_cls_code",
+    )
     ("0: 년, 1: 분기")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
+    fid_cond_mrkt_div_code: str = Field(
+        alias="fid_cond_mrkt_div_code",
+    )
     ("J")
 
 
@@ -42,32 +59,59 @@ class StabilityRatioRequestDict(TypedDict):
         fid_cond_mrkt_div_code (str): J
     """
 
-    fid_input_iscd: Annotated[str, "000660 : 종목코드"]
-    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"]
-    fid_cond_mrkt_div_code: Annotated[str, "J"]
+    fid_input_iscd: Annotated[
+        str,
+        "000660 : 종목코드",
+    ]
+    fid_div_cls_code: Annotated[
+        FidDivClsCodeEnum,
+        "0: 년, 1: 분기",
+    ]
+    fid_cond_mrkt_div_code: Annotated[
+        str,
+        "J",
+    ]
 
 
 class StabilityRatioOutput(RawModel):
-    stac_yymm: str = Field(alias="stac_yymm")
+    stac_yymm: str = Field(
+        alias="stac_yymm",
+    )
     ("결산 년월")
-    lblt_rate: Decimal = Field(alias="lblt_rate")
+    lblt_rate: Decimal = Field(
+        alias="lblt_rate",
+    )
     ("부채 비율")
-    bram_depn: Decimal = Field(alias="bram_depn")
+    bram_depn: Decimal = Field(
+        alias="bram_depn",
+    )
     ("차입금 의존도")
-    crnt_rate: Decimal = Field(alias="crnt_rate")
+    crnt_rate: Decimal = Field(
+        alias="crnt_rate",
+    )
     ("유동 비율")
-    quck_rate: Decimal = Field(alias="quck_rate")
+    quck_rate: Decimal = Field(
+        alias="quck_rate",
+    )
     ("당좌 비율")
 
 
 class StabilityRatioResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[StabilityRatioOutput] = Field(alias="output")
+    output: list[StabilityRatioOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -94,15 +138,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: StabilityRatioRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: StabilityRatioRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[StabilityRatioResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: StabilityRatioRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: StabilityRatioRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[StabilityRatioResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[StabilityRatioRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[StabilityRatioRequestDict],
         ) -> tuple[StabilityRatioResponse, KisResponse]: ...
         def call(
             self,
@@ -137,4 +193,11 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "StabilityRatioRequest", "StabilityRatioRequestDict", "StabilityRatioResponse", "StabilityRatioOutput", "FidDivClsCodeEnum"]
+__all__ = [
+    "ENDPOINT",
+    "StabilityRatioRequest",
+    "StabilityRatioRequestDict",
+    "StabilityRatioResponse",
+    "StabilityRatioOutput",
+    "FidDivClsCodeEnum",
+]

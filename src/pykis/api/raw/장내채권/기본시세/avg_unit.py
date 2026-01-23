@@ -2,50 +2,65 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    KisDateOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
-from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
-class PrdtTypeCdEnum(KisStrEnum):
-    UNIQUE = ("Unique", "key(302)")
-    "key(302)"
-    VALUE_302 = ("302", "Unique key")
-    "Unique key"
-    KEY = ("key", "302")
-    "302"
-
-
-class VrfcKindCdEnum(KisStrEnum):
-    UNIQUE = ("Unique", "key(00)")
-    "key(00)"
-    VALUE_00 = ("00", "Unique key")
-    "Unique key"
-    KEY = ("key", "00")
-    "00"
-
-
 class AvgUnitRequest(RawModel):
-    INQR_STRT_DT: KisDate = Field(alias="INQR_STRT_DT")
+    INQR_STRT_DT: KisDate = Field(
+        alias="INQR_STRT_DT",
+    )
     ("일자 ~")
-    INQR_END_DT: KisDate = Field(alias="INQR_END_DT")
+    INQR_END_DT: KisDate = Field(
+        alias="INQR_END_DT",
+    )
     ("~ 일자")
-    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
+    PDNO: str | None = Field(
+        default=None,
+        alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백: 전체, 특정종목 조회시 : 종목코드")
-    PRDT_TYPE_CD: PrdtTypeCdEnum = Field(alias="PRDT_TYPE_CD")
+    PRDT_TYPE_CD: str = Field(
+        alias="PRDT_TYPE_CD",
+    )
     ("Unique key(302)")
-    VRFC_KIND_CD: VrfcKindCdEnum = Field(alias="VRFC_KIND_CD")
+    VRFC_KIND_CD: str = Field(
+        alias="VRFC_KIND_CD",
+    )
     ("Unique key(00)")
-    CTX_AREA_NK30: str | None = Field(default=None, alias="CTX_AREA_NK30", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_NK30: str | None = Field(
+        default=None,
+        alias="CTX_AREA_NK30",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
-    CTX_AREA_FK100: str | None = Field(default=None, alias="CTX_AREA_FK100", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_FK100: str | None = Field(
+        default=None,
+        alias="CTX_AREA_FK100",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
 
 
@@ -59,140 +74,303 @@ class AvgUnitRequestDict(TypedDict):
         INQR_STRT_DT (KisDate): 일자 ~
         INQR_END_DT (KisDate): ~ 일자
         PDNO (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
-        PRDT_TYPE_CD (PrdtTypeCdEnum): Unique key(302)
-        VRFC_KIND_CD (VrfcKindCdEnum): Unique key(00)
+        PRDT_TYPE_CD (str): Unique key(302)
+        VRFC_KIND_CD (str): Unique key(00)
         CTX_AREA_NK30 (str): 공백 optional
         CTX_AREA_FK100 (str): 공백 optional
     """
 
-    INQR_STRT_DT: Annotated[KisDate, "일자 ~"]
-    INQR_END_DT: Annotated[KisDate, "~ 일자"]
-    PDNO: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
-    PRDT_TYPE_CD: Annotated[PrdtTypeCdEnum, "Unique key(302)"]
-    VRFC_KIND_CD: Annotated[VrfcKindCdEnum, "Unique key(00)"]
-    CTX_AREA_NK30: NotRequired[Annotated[str | None, "공백"]]
-    CTX_AREA_FK100: NotRequired[Annotated[str | None, "공백"]]
+    INQR_STRT_DT: Annotated[
+        KisDate,
+        "일자 ~",
+    ]
+    INQR_END_DT: Annotated[
+        KisDate,
+        "~ 일자",
+    ]
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            "공백: 전체, 특정종목 조회시 : 종목코드",
+        ]
+    ]
+    PRDT_TYPE_CD: Annotated[
+        str,
+        "Unique key(302)",
+    ]
+    VRFC_KIND_CD: Annotated[
+        str,
+        "Unique key(00)",
+    ]
+    CTX_AREA_NK30: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
+    CTX_AREA_FK100: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
 
 
 class AvgUnitOutput1(RawModel):
-    evlu_dt: KisDate = Field(alias="evlu_dt")
+    evlu_dt: KisDate = Field(
+        alias="evlu_dt",
+    )
     ("평가일자")
-    pdno: str = Field(alias="pdno")
+    pdno: str = Field(
+        alias="pdno",
+    )
     ("상품번호")
-    prdt_type_cd: str = Field(alias="prdt_type_cd")
+    prdt_type_cd: str = Field(
+        alias="prdt_type_cd",
+    )
     ("상품유형코드")
-    prdt_name: str = Field(alias="prdt_name")
+    prdt_name: str = Field(
+        alias="prdt_name",
+    )
     ("상품명")
-    kis_unpr: Decimal = Field(alias="kis_unpr")
+    kis_unpr: Decimal = Field(
+        alias="kis_unpr",
+    )
     ("한국신용평가단가")
-    kbp_unpr: Decimal = Field(alias="kbp_unpr")
+    kbp_unpr: Decimal = Field(
+        alias="kbp_unpr",
+    )
     ("한국채권평가단가")
-    nice_evlu_unpr: Decimal = Field(alias="nice_evlu_unpr")
+    nice_evlu_unpr: Decimal = Field(
+        alias="nice_evlu_unpr",
+    )
     ("한국신용정보평가단가")
-    fnp_unpr: Decimal = Field(alias="fnp_unpr")
+    fnp_unpr: Decimal = Field(
+        alias="fnp_unpr",
+    )
     ("에프앤자산평가단가")
-    avg_evlu_unpr: Decimal = Field(alias="avg_evlu_unpr")
+    avg_evlu_unpr: Decimal = Field(
+        alias="avg_evlu_unpr",
+    )
     ("평균평가단가")
-    kis_crdt_grad_text: str = Field(alias="kis_crdt_grad_text")
+    kis_crdt_grad_text: str = Field(
+        alias="kis_crdt_grad_text",
+    )
     ("한국신용평가신용등급내용")
-    kbp_crdt_grad_text: str = Field(alias="kbp_crdt_grad_text")
+    kbp_crdt_grad_text: str = Field(
+        alias="kbp_crdt_grad_text",
+    )
     ("한국채권평가신용등급내용")
-    nice_crdt_grad_text: str = Field(alias="nice_crdt_grad_text")
+    nice_crdt_grad_text: str = Field(
+        alias="nice_crdt_grad_text",
+    )
     ("한국신용정보신용등급내용")
-    fnp_crdt_grad_text: str = Field(alias="fnp_crdt_grad_text")
+    fnp_crdt_grad_text: str = Field(
+        alias="fnp_crdt_grad_text",
+    )
     ("에프앤자산평가신용등급내용")
-    chng_yn: KisBool = Field(alias="chng_yn")
+    chng_yn: KisBool = Field(
+        alias="chng_yn",
+    )
     ("변경여부")
-    kis_erng_rt: Decimal = Field(alias="kis_erng_rt")
+    kis_erng_rt: Decimal = Field(
+        alias="kis_erng_rt",
+    )
     ("한국신용평가수익율")
-    kbp_erng_rt: Decimal = Field(alias="kbp_erng_rt")
+    kbp_erng_rt: Decimal = Field(
+        alias="kbp_erng_rt",
+    )
     ("한국채권평가수익율")
-    nice_evlu_erng_rt: Decimal = Field(alias="nice_evlu_erng_rt")
+    nice_evlu_erng_rt: Decimal = Field(
+        alias="nice_evlu_erng_rt",
+    )
     ("한국신용정보평가수익율")
-    fnp_erng_rt: Decimal = Field(alias="fnp_erng_rt")
+    fnp_erng_rt: Decimal = Field(
+        alias="fnp_erng_rt",
+    )
     ("에프앤자산평가수익율")
-    avg_evlu_erng_rt: Decimal = Field(alias="avg_evlu_erng_rt")
+    avg_evlu_erng_rt: Decimal = Field(
+        alias="avg_evlu_erng_rt",
+    )
     ("평균평가수익율")
-    kis_rf_unpr: Decimal = Field(alias="kis_rf_unpr")
+    kis_rf_unpr: Decimal = Field(
+        alias="kis_rf_unpr",
+    )
     ("한국신용평가RF단가")
-    kbp_rf_unpr: Decimal = Field(alias="kbp_rf_unpr")
+    kbp_rf_unpr: Decimal = Field(
+        alias="kbp_rf_unpr",
+    )
     ("한국채권평가RF단가")
-    nice_evlu_rf_unpr: Decimal = Field(alias="nice_evlu_rf_unpr")
+    nice_evlu_rf_unpr: Decimal = Field(
+        alias="nice_evlu_rf_unpr",
+    )
     ("한국신용정보평가RF단가")
-    avg_evlu_rf_unpr: Decimal = Field(alias="avg_evlu_rf_unpr")
+    avg_evlu_rf_unpr: Decimal = Field(
+        alias="avg_evlu_rf_unpr",
+    )
     ("평균평가RF단가")
 
 
 class AvgUnitOutput2(RawModel):
-    evlu_dt: KisDateOptional = Field(default=None, alias="evlu_dt")
+    evlu_dt: KisDateOptional = Field(
+        default=None,
+        alias="evlu_dt",
+    )
     ("평가일자")
-    pdno: str | None = Field(default=None, alias="pdno")
+    pdno: str | None = Field(
+        default=None,
+        alias="pdno",
+    )
     ("상품번호")
-    prdt_type_cd: str | None = Field(default=None, alias="prdt_type_cd")
+    prdt_type_cd: str | None = Field(
+        default=None,
+        alias="prdt_type_cd",
+    )
     ("상품유형코드")
-    prdt_name: str | None = Field(default=None, alias="prdt_name")
+    prdt_name: str | None = Field(
+        default=None,
+        alias="prdt_name",
+    )
     ("상품명")
-    kis_evlu_amt: Decimal | None = Field(default=None, alias="kis_evlu_amt")
+    kis_evlu_amt: Decimal | None = Field(
+        default=None,
+        alias="kis_evlu_amt",
+    )
     ("한국신용평가평가금액")
-    kbp_evlu_amt: Decimal | None = Field(default=None, alias="kbp_evlu_amt")
+    kbp_evlu_amt: Decimal | None = Field(
+        default=None,
+        alias="kbp_evlu_amt",
+    )
     ("한국채권평가평가금액")
-    nice_evlu_amt: Decimal | None = Field(default=None, alias="nice_evlu_amt")
+    nice_evlu_amt: Decimal | None = Field(
+        default=None,
+        alias="nice_evlu_amt",
+    )
     ("한국신용정보평가금액")
-    fnp_evlu_amt: Decimal | None = Field(default=None, alias="fnp_evlu_amt")
+    fnp_evlu_amt: Decimal | None = Field(
+        default=None,
+        alias="fnp_evlu_amt",
+    )
     ("에프앤자산평가평가금액")
-    avg_evlu_amt: Decimal | None = Field(default=None, alias="avg_evlu_amt")
+    avg_evlu_amt: Decimal | None = Field(
+        default=None,
+        alias="avg_evlu_amt",
+    )
     ("평균평가금액")
-    chng_yn: KisBool | None = Field(default=None, alias="chng_yn")
+    chng_yn: KisBool | None = Field(
+        default=None,
+        alias="chng_yn",
+    )
     ("변경여부")
 
 
 class AvgUnitOutput3(RawModel):
-    evlu_dt: KisDateOptional = Field(default=None, alias="evlu_dt")
+    evlu_dt: KisDateOptional = Field(
+        default=None,
+        alias="evlu_dt",
+    )
     ("평가일자")
-    pdno: str | None = Field(default=None, alias="pdno")
+    pdno: str | None = Field(
+        default=None,
+        alias="pdno",
+    )
     ("상품번호")
-    prdt_type_cd: str | None = Field(default=None, alias="prdt_type_cd")
+    prdt_type_cd: str | None = Field(
+        default=None,
+        alias="prdt_type_cd",
+    )
     ("상품유형코드")
-    prdt_name: str | None = Field(default=None, alias="prdt_name")
+    prdt_name: str | None = Field(
+        default=None,
+        alias="prdt_name",
+    )
     ("상품명")
-    kis_crcy_cd: str | None = Field(default=None, alias="kis_crcy_cd")
+    kis_crcy_cd: str | None = Field(
+        default=None,
+        alias="kis_crcy_cd",
+    )
     ("한국신용평가통화코드")
-    kis_evlu_unit_pric: Decimal | None = Field(default=None, alias="kis_evlu_unit_pric")
+    kis_evlu_unit_pric: Decimal | None = Field(
+        default=None,
+        alias="kis_evlu_unit_pric",
+    )
     ("한국신용평가평가단위가격")
-    kis_evlu_pric: Decimal | None = Field(default=None, alias="kis_evlu_pric")
+    kis_evlu_pric: Decimal | None = Field(
+        default=None,
+        alias="kis_evlu_pric",
+    )
     ("한국신용평가평가가격")
-    kbp_crcy_cd: str | None = Field(default=None, alias="kbp_crcy_cd")
+    kbp_crcy_cd: str | None = Field(
+        default=None,
+        alias="kbp_crcy_cd",
+    )
     ("한국채권평가통화코드")
-    kbp_evlu_unit_pric: Decimal | None = Field(default=None, alias="kbp_evlu_unit_pric")
+    kbp_evlu_unit_pric: Decimal | None = Field(
+        default=None,
+        alias="kbp_evlu_unit_pric",
+    )
     ("한국채권평가평가단위가격")
-    kbp_evlu_pric: Decimal | None = Field(default=None, alias="kbp_evlu_pric")
+    kbp_evlu_pric: Decimal | None = Field(
+        default=None,
+        alias="kbp_evlu_pric",
+    )
     ("한국채권평가평가가격")
-    nice_crcy_cd: str | None = Field(default=None, alias="nice_crcy_cd")
+    nice_crcy_cd: str | None = Field(
+        default=None,
+        alias="nice_crcy_cd",
+    )
     ("한국신용정보통화코드")
-    nice_evlu_unit_pric: Decimal | None = Field(default=None, alias="nice_evlu_unit_pric")
+    nice_evlu_unit_pric: Decimal | None = Field(
+        default=None,
+        alias="nice_evlu_unit_pric",
+    )
     ("한국신용정보평가단위가격")
-    nice_evlu_pric: Decimal | None = Field(default=None, alias="nice_evlu_pric")
+    nice_evlu_pric: Decimal | None = Field(
+        default=None,
+        alias="nice_evlu_pric",
+    )
     ("한국신용정보평가가격")
-    avg_evlu_unit_pric: Decimal | None = Field(default=None, alias="avg_evlu_unit_pric")
+    avg_evlu_unit_pric: Decimal | None = Field(
+        default=None,
+        alias="avg_evlu_unit_pric",
+    )
     ("평균평가단위가격")
-    avg_evlu_pric: Decimal | None = Field(default=None, alias="avg_evlu_pric")
+    avg_evlu_pric: Decimal | None = Field(
+        default=None,
+        alias="avg_evlu_pric",
+    )
     ("평균평가가격")
-    chng_yn: KisBool | None = Field(default=None, alias="chng_yn")
+    chng_yn: KisBool | None = Field(
+        default=None,
+        alias="chng_yn",
+    )
     ("변경여부")
 
 
 class AvgUnitResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: list[AvgUnitOutput1] = Field(alias="output1")
+    output1: list[AvgUnitOutput1] = Field(
+        alias="output1",
+    )
     ("응답상세")
-    output2: list[AvgUnitOutput2] = Field(alias="output2")
+    output2: list[AvgUnitOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세")
-    output3: list[AvgUnitOutput3] = Field(alias="output3")
+    output3: list[AvgUnitOutput3] = Field(
+        alias="output3",
+    )
     ("응답상세")
 
 
@@ -219,15 +397,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: AvgUnitRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: AvgUnitRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[AvgUnitResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: AvgUnitRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: AvgUnitRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[AvgUnitResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[AvgUnitRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[AvgUnitRequestDict],
         ) -> tuple[AvgUnitResponse, KisResponse]: ...
         def call(
             self,
@@ -252,8 +442,8 @@ if TYPE_CHECKING:
                         INQR_STRT_DT (KisDate): 일자 ~
                         INQR_END_DT (KisDate): ~ 일자
                         PDNO (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
-                        PRDT_TYPE_CD (PrdtTypeCdEnum): Unique key(302)
-                        VRFC_KIND_CD (VrfcKindCdEnum): Unique key(00)
+                        PRDT_TYPE_CD (str): Unique key(302)
+                        VRFC_KIND_CD (str): Unique key(00)
                         CTX_AREA_NK30 (str): 공백 optional
                         CTX_AREA_FK100 (str): 공백 optional
 
@@ -274,6 +464,4 @@ __all__ = [
     "AvgUnitOutput1",
     "AvgUnitOutput2",
     "AvgUnitOutput3",
-    "PrdtTypeCdEnum",
-    "VrfcKindCdEnum",
 ]

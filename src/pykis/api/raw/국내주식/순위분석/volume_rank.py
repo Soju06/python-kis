@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -44,27 +56,60 @@ class FidBlngClsCodeEnum(KisStrEnum):
 
 
 class VolumeRankRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("J:KRX, NX:NXT")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: str = Field(
+        alias="FID_COND_SCR_DIV_CODE",
+    )
     ("20171")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("0000(전체) 기타(업종코드)")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
+        alias="FID_DIV_CLS_CODE",
+    )
     ("0(전체) 1(보통주) 2(우선주)")
-    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum = Field(alias="FID_BLNG_CLS_CODE")
+    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum = Field(
+        alias="FID_BLNG_CLS_CODE",
+    )
     ("0 : 평균거래량 1:거래증가율 2:평균거래회전율 3:거래금액순 4:평균거래금액회전율")
-    FID_TRGT_CLS_CODE: str = Field(alias="FID_TRGT_CLS_CODE")
+    FID_TRGT_CLS_CODE: str = Field(
+        alias="FID_TRGT_CLS_CODE",
+    )
     ('1 or 0 9자리 (차례대로 증거금 30% 40% 50% 60% 100% 신용보증금 30% 40% 50% 60%) ex) "111111111"')
-    FID_TRGT_EXLS_CLS_CODE: str = Field(alias="FID_TRGT_EXLS_CLS_CODE")
-    ('1 or 0 10자리 (차례대로 투자위험/경고/주의 관리종목 정리매매 불성실공시 우선주 거래정지 ETF ETN 신용주문불가 SPAC) ex) "0000000000"')
-    FID_INPUT_PRICE_1: str | None = Field(default=None, alias="FID_INPUT_PRICE_1", json_schema_extra={"blank_allowed": True})
+    FID_TRGT_EXLS_CLS_CODE: str = Field(
+        alias="FID_TRGT_EXLS_CLS_CODE",
+    )
+    (
+        "1 or 0 10자리 (차례대로 투자위험/경고/주의 관리종목 정리매매 불성실공시 우선주 거래정지 ETF ETN "
+        '신용주문불가 SPAC) ex) "0000000000"'
+    )
+    FID_INPUT_PRICE_1: str | None = Field(
+        default=None,
+        alias="FID_INPUT_PRICE_1",
+        json_schema_extra={"blank_allowed": True},
+    )
     ('가격 ~ ex) "0" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력')
-    FID_INPUT_PRICE_2: str | None = Field(default=None, alias="FID_INPUT_PRICE_2", json_schema_extra={"blank_allowed": True})
+    FID_INPUT_PRICE_2: str | None = Field(
+        default=None,
+        alias="FID_INPUT_PRICE_2",
+        json_schema_extra={"blank_allowed": True},
+    )
     ('~ 가격 ex) "1000000" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력')
-    FID_VOL_CNT: int | None = Field(default=None, alias="FID_VOL_CNT", json_schema_extra={"blank_allowed": True})
+    FID_VOL_CNT: int | None = Field(
+        default=None,
+        alias="FID_VOL_CNT",
+        json_schema_extra={"blank_allowed": True},
+    )
     ('거래량 ~ ex) "100000" 전체 거래량 대상 조회 시 FID_VOL_CNT ""(공란) 입력')
-    FID_INPUT_DATE_1: str | None = Field(default=None, alias="FID_INPUT_DATE_1", json_schema_extra={"blank_allowed": True})
+    FID_INPUT_DATE_1: str | None = Field(
+        default=None,
+        alias="FID_INPUT_DATE_1",
+        json_schema_extra={"blank_allowed": True},
+    )
     ('""(공란) 입력')
 
 
@@ -105,74 +150,156 @@ class VolumeRankRequestDict(TypedDict):
         FID_INPUT_DATE_1 (str): ""(공란) 입력 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "20171"]
-    FID_INPUT_ISCD: Annotated[str, "0000(전체) 기타(업종코드)"]
-    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0(전체) 1(보통주) 2(우선주)"]
-    FID_BLNG_CLS_CODE: Annotated[FidBlngClsCodeEnum, "0 : 평균거래량 1:거래증가율 2:평균거래회전율 3:거래금액순 4:평균거래금액회전율"]
-    FID_TRGT_CLS_CODE: Annotated[str, '1 or 0 9자리 (차례대로 증거금 30% 40% 50% 60% 100% 신용보증금 30% 40% 50% 60%) ex) "111111111"']
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        FidCondMrktDivCodeEnum,
+        "J:KRX, NX:NXT",
+    ]
+    FID_COND_SCR_DIV_CODE: Annotated[
+        str,
+        "20171",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "0000(전체) 기타(업종코드)",
+    ]
+    FID_DIV_CLS_CODE: Annotated[
+        FidDivClsCodeEnum,
+        "0(전체) 1(보통주) 2(우선주)",
+    ]
+    FID_BLNG_CLS_CODE: Annotated[
+        FidBlngClsCodeEnum,
+        "0 : 평균거래량 1:거래증가율 2:평균거래회전율 3:거래금액순 4:평균거래금액회전율",
+    ]
+    FID_TRGT_CLS_CODE: Annotated[
+        str,
+        '1 or 0 9자리 (차례대로 증거금 30% 40% 50% 60% 100% 신용보증금 30% 40% 50% 60%) ex) "111111111"',
+    ]
     FID_TRGT_EXLS_CLS_CODE: Annotated[
-        str, '1 or 0 10자리 (차례대로 투자위험/경고/주의 관리종목 정리매매 불성실공시 우선주 거래정지 ETF ETN 신용주문불가 SPAC) ex) "0000000000"'
+        str,
+        "1 or 0 10자리 (차례대로 투자위험/경고/주의 관리종목 정리매매 불성실공시 우선주 거래정지 ETF ETN "
+        '신용주문불가 SPAC) ex) "0000000000"',
     ]
     FID_INPUT_PRICE_1: NotRequired[
-        Annotated[str | None, '가격 ~ ex) "0" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력']
+        Annotated[
+            str | None,
+            '가격 ~ ex) "0" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력',
+        ]
     ]
     FID_INPUT_PRICE_2: NotRequired[
-        Annotated[str | None, '~ 가격 ex) "1000000" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력']
+        Annotated[
+            str | None,
+            '~ 가격 ex) "1000000" 전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력',
+        ]
     ]
-    FID_VOL_CNT: NotRequired[Annotated[int | None, '거래량 ~ ex) "100000" 전체 거래량 대상 조회 시 FID_VOL_CNT ""(공란) 입력']]
-    FID_INPUT_DATE_1: NotRequired[Annotated[str | None, '""(공란) 입력']]
+    FID_VOL_CNT: NotRequired[
+        Annotated[
+            int | None,
+            '거래량 ~ ex) "100000" 전체 거래량 대상 조회 시 FID_VOL_CNT ""(공란) 입력',
+        ]
+    ]
+    FID_INPUT_DATE_1: NotRequired[
+        Annotated[
+            str | None,
+            '""(공란) 입력',
+        ]
+    ]
 
 
 class VolumeRankOutput(RawModel):
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
+    hts_kor_isnm: str = Field(
+        alias="hts_kor_isnm",
+    )
     ("HTS 한글 종목명")
-    mksc_shrn_iscd: str = Field(alias="mksc_shrn_iscd")
+    mksc_shrn_iscd: str = Field(
+        alias="mksc_shrn_iscd",
+    )
     ("유가증권 단축 종목코드")
-    data_rank: int = Field(alias="data_rank")
+    data_rank: int = Field(
+        alias="data_rank",
+    )
     ("데이터 순위")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
+    stck_prpr: Decimal = Field(
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: int = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_vrss: int = Field(alias="prdy_vrss")
+    prdy_vrss: int = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    prdy_vol: int = Field(alias="prdy_vol")
+    prdy_vol: int = Field(
+        alias="prdy_vol",
+    )
     ("전일 거래량")
-    lstn_stcn: int = Field(alias="lstn_stcn")
+    lstn_stcn: int = Field(
+        alias="lstn_stcn",
+    )
     ("상장 주수")
-    avrg_vol: int = Field(alias="avrg_vol")
+    avrg_vol: int = Field(
+        alias="avrg_vol",
+    )
     ("평균 거래량")
-    n_befr_clpr_vrss_prpr_rate: Decimal = Field(alias="n_befr_clpr_vrss_prpr_rate")
+    n_befr_clpr_vrss_prpr_rate: Decimal = Field(
+        alias="n_befr_clpr_vrss_prpr_rate",
+    )
     ("N일전종가대비현재가대비율")
-    vol_inrt: Decimal = Field(alias="vol_inrt")
+    vol_inrt: Decimal = Field(
+        alias="vol_inrt",
+    )
     ("거래량증가율")
-    vol_tnrt: Decimal = Field(alias="vol_tnrt")
+    vol_tnrt: Decimal = Field(
+        alias="vol_tnrt",
+    )
     ("거래량 회전율")
-    nday_vol_tnrt: Decimal = Field(alias="nday_vol_tnrt")
+    nday_vol_tnrt: Decimal = Field(
+        alias="nday_vol_tnrt",
+    )
     ("N일 거래량 회전율")
-    avrg_tr_pbmn: Decimal = Field(alias="avrg_tr_pbmn")
+    avrg_tr_pbmn: Decimal = Field(
+        alias="avrg_tr_pbmn",
+    )
     ("평균 거래 대금")
-    tr_pbmn_tnrt: Decimal = Field(alias="tr_pbmn_tnrt")
+    tr_pbmn_tnrt: Decimal = Field(
+        alias="tr_pbmn_tnrt",
+    )
     ("거래대금회전율")
-    nday_tr_pbmn_tnrt: Decimal = Field(alias="nday_tr_pbmn_tnrt")
+    nday_tr_pbmn_tnrt: Decimal = Field(
+        alias="nday_tr_pbmn_tnrt",
+    )
     ("N일 거래대금 회전율")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
+    acml_tr_pbmn: Decimal = Field(
+        alias="acml_tr_pbmn",
+    )
     ("누적 거래 대금")
 
 
 class VolumeRankResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[VolumeRankOutput] = Field(alias="output")
+    output: list[VolumeRankOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -210,15 +337,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: VolumeRankRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: VolumeRankRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[VolumeRankResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: VolumeRankRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: VolumeRankRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[VolumeRankResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[VolumeRankRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[VolumeRankRequestDict],
         ) -> tuple[VolumeRankResponse, KisResponse]: ...
         def call(
             self,

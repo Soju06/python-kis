@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDateOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,14 +26,20 @@ if TYPE_CHECKING:
 
 
 class PriceDetailRequest(RawModel):
-    AUTH: str = Field(alias="AUTH")
+    AUTH: str = Field(
+        alias="AUTH",
+    )
     ("사용자권한정보")
-    EXCD: str = Field(alias="EXCD")
+    EXCD: str = Field(
+        alias="EXCD",
+    )
     (
         "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 "
         "SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)"
     )
-    SYMB: str = Field(alias="SYMB")
+    SYMB: str = Field(
+        alias="SYMB",
+    )
     ("종목코드")
 
 
@@ -72,108 +90,245 @@ class PriceDetailRequestDict(TypedDict):
         SYMB (str): 종목코드
     """
 
-    AUTH: Annotated[str, "사용자권한정보"]
+    AUTH: Annotated[
+        str,
+        "사용자권한정보",
+    ]
     EXCD: Annotated[
         str,
         "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 "
         "SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
     ]
-    SYMB: Annotated[str, "종목코드"]
+    SYMB: Annotated[
+        str,
+        "종목코드",
+    ]
 
 
 class PriceDetailOutput(RawModel):
-    rsym: str | None = Field(default=None, alias="rsym")
+    rsym: str | None = Field(
+        default=None,
+        alias="rsym",
+    )
     ("실시간조회종목코드")
-    pvol: int | None = Field(default=None, alias="pvol")
+    pvol: int | None = Field(
+        default=None,
+        alias="pvol",
+    )
     ("전일거래량")
-    open: Decimal | None = Field(default=None, alias="open")
+    open: Decimal | None = Field(
+        default=None,
+        alias="open",
+    )
     ("시가")
-    high: Decimal | None = Field(default=None, alias="high")
+    high: Decimal | None = Field(
+        default=None,
+        alias="high",
+    )
     ("고가")
-    low: Decimal | None = Field(default=None, alias="low")
+    low: Decimal | None = Field(
+        default=None,
+        alias="low",
+    )
     ("저가")
-    last: Decimal | None = Field(default=None, alias="last")
+    last: Decimal | None = Field(
+        default=None,
+        alias="last",
+    )
     ("현재가")
-    base: str | None = Field(default=None, alias="base")
+    base: str | None = Field(
+        default=None,
+        alias="base",
+    )
     ("전일종가")
-    tomv: Decimal | None = Field(default=None, alias="tomv")
+    tomv: Decimal | None = Field(
+        default=None,
+        alias="tomv",
+    )
     ("시가총액")
-    pamt: Decimal | None = Field(default=None, alias="pamt")
+    pamt: Decimal | None = Field(
+        default=None,
+        alias="pamt",
+    )
     ("전일거래대금")
-    uplp: str | None = Field(default=None, alias="uplp")
+    uplp: str | None = Field(
+        default=None,
+        alias="uplp",
+    )
     ("상한가")
-    dnlp: str | None = Field(default=None, alias="dnlp")
+    dnlp: str | None = Field(
+        default=None,
+        alias="dnlp",
+    )
     ("하한가")
-    h52p: Decimal | None = Field(default=None, alias="h52p")
+    h52p: Decimal | None = Field(
+        default=None,
+        alias="h52p",
+    )
     ("52주최고가")
-    h52d: KisDateOptional = Field(default=None, alias="h52d")
+    h52d: KisDateOptional = Field(
+        default=None,
+        alias="h52d",
+    )
     ("52주최고일자")
-    l52p: Decimal | None = Field(default=None, alias="l52p")
+    l52p: Decimal | None = Field(
+        default=None,
+        alias="l52p",
+    )
     ("52주최저가")
-    l52d: KisDateOptional = Field(default=None, alias="l52d")
+    l52d: KisDateOptional = Field(
+        default=None,
+        alias="l52d",
+    )
     ("52주최저일자")
-    perx: str | None = Field(default=None, alias="perx")
+    perx: str | None = Field(
+        default=None,
+        alias="perx",
+    )
     ("PER")
-    pbrx: str | None = Field(default=None, alias="pbrx")
+    pbrx: str | None = Field(
+        default=None,
+        alias="pbrx",
+    )
     ("PBR")
-    epsx: str | None = Field(default=None, alias="epsx")
+    epsx: str | None = Field(
+        default=None,
+        alias="epsx",
+    )
     ("EPS")
-    bpsx: str | None = Field(default=None, alias="bpsx")
+    bpsx: str | None = Field(
+        default=None,
+        alias="bpsx",
+    )
     ("BPS")
-    shar: str | None = Field(default=None, alias="shar")
+    shar: str | None = Field(
+        default=None,
+        alias="shar",
+    )
     ("상장주수")
-    mcap: str | None = Field(default=None, alias="mcap")
+    mcap: str | None = Field(
+        default=None,
+        alias="mcap",
+    )
     ("자본금")
-    curr: str | None = Field(default=None, alias="curr")
+    curr: str | None = Field(
+        default=None,
+        alias="curr",
+    )
     ("통화")
-    zdiv: str | None = Field(default=None, alias="zdiv")
+    zdiv: str | None = Field(
+        default=None,
+        alias="zdiv",
+    )
     ("소수점자리수")
-    vnit: str | None = Field(default=None, alias="vnit")
+    vnit: str | None = Field(
+        default=None,
+        alias="vnit",
+    )
     ("매매단위")
-    t_xprc: Decimal | None = Field(default=None, alias="t_xprc")
+    t_xprc: Decimal | None = Field(
+        default=None,
+        alias="t_xprc",
+    )
     ("원환산당일가격")
-    t_xdif: str | None = Field(default=None, alias="t_xdif")
+    t_xdif: str | None = Field(
+        default=None,
+        alias="t_xdif",
+    )
     ("원환산당일대비")
-    t_xrat: str | None = Field(default=None, alias="t_xrat")
+    t_xrat: str | None = Field(
+        default=None,
+        alias="t_xrat",
+    )
     ("원환산당일등락")
-    p_xprc: Decimal | None = Field(default=None, alias="p_xprc")
+    p_xprc: Decimal | None = Field(
+        default=None,
+        alias="p_xprc",
+    )
     ("원환산전일가격")
-    p_xdif: str | None = Field(default=None, alias="p_xdif")
+    p_xdif: str | None = Field(
+        default=None,
+        alias="p_xdif",
+    )
     ("원환산전일대비")
-    p_xrat: str | None = Field(default=None, alias="p_xrat")
+    p_xrat: str | None = Field(
+        default=None,
+        alias="p_xrat",
+    )
     ("원환산전일등락")
-    t_rate: Decimal | None = Field(default=None, alias="t_rate")
+    t_rate: Decimal | None = Field(
+        default=None,
+        alias="t_rate",
+    )
     ("당일환율")
-    p_rate: Decimal | None = Field(default=None, alias="p_rate")
+    p_rate: Decimal | None = Field(
+        default=None,
+        alias="p_rate",
+    )
     ("전일환율")
-    t_xsgn: str | None = Field(default=None, alias="t_xsgn")
+    t_xsgn: str | None = Field(
+        default=None,
+        alias="t_xsgn",
+    )
     ("HTS 색상표시용")
-    p_xsng: str | None = Field(default=None, alias="p_xsng")
+    p_xsng: str | None = Field(
+        default=None,
+        alias="p_xsng",
+    )
     ("HTS 색상표시용")
-    e_ordyn: KisBool | None = Field(default=None, alias="e_ordyn")
+    e_ordyn: KisBool | None = Field(
+        default=None,
+        alias="e_ordyn",
+    )
     ("거래가능여부")
-    e_hogau: str | None = Field(default=None, alias="e_hogau")
+    e_hogau: str | None = Field(
+        default=None,
+        alias="e_hogau",
+    )
     ("호가단위")
-    e_icod: str | None = Field(default=None, alias="e_icod")
+    e_icod: str | None = Field(
+        default=None,
+        alias="e_icod",
+    )
     ("업종(섹터)")
-    e_parp: str | None = Field(default=None, alias="e_parp")
+    e_parp: str | None = Field(
+        default=None,
+        alias="e_parp",
+    )
     ("액면가")
-    tvol: int | None = Field(default=None, alias="tvol")
+    tvol: int | None = Field(
+        default=None,
+        alias="tvol",
+    )
     ("거래량")
-    tamt: Decimal | None = Field(default=None, alias="tamt")
+    tamt: Decimal | None = Field(
+        default=None,
+        alias="tamt",
+    )
     ("거래대금")
-    etyp_nm: str | None = Field(default=None, alias="etyp_nm")
+    etyp_nm: str | None = Field(
+        default=None,
+        alias="etyp_nm",
+    )
     ("ETP 분류명")
 
 
 class PriceDetailResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: PriceDetailOutput = Field(alias="output")
+    output: PriceDetailOutput = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -233,15 +388,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: PriceDetailRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: PriceDetailRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[PriceDetailResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: PriceDetailRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: PriceDetailRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[PriceDetailResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[PriceDetailRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[PriceDetailRequestDict],
         ) -> tuple[PriceDetailResponse, KisResponse]: ...
         def call(
             self,
@@ -316,4 +483,10 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "PriceDetailRequest", "PriceDetailRequestDict", "PriceDetailResponse", "PriceDetailOutput"]
+__all__ = [
+    "ENDPOINT",
+    "PriceDetailRequest",
+    "PriceDetailRequestDict",
+    "PriceDetailResponse",
+    "PriceDetailOutput",
+]

@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -83,17 +95,36 @@ class VolRangEnum(KisStrEnum):
 
 
 class UpdownRateRequest(RawModel):
-    KEYB: str | None = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
+    KEYB: str | None = Field(
+        default=None,
+        alias="KEYB",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
-    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
+    AUTH: str | None = Field(
+        default=None,
+        alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
-    EXCD: ExcdEnum = Field(alias="EXCD")
-    ("'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '")
-    GUBN: GubnEnum = Field(alias="GUBN")
+    EXCD: ExcdEnum = Field(
+        alias="EXCD",
+    )
+    (
+        "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : "
+        "하노이 TSE : 도쿄 '"
+    )
+    GUBN: GubnEnum = Field(
+        alias="GUBN",
+    )
     ("0(하락율), 1(상승율)")
-    NDAY: NdayEnum = Field(alias="NDAY")
+    NDAY: NdayEnum = Field(
+        alias="NDAY",
+    )
     ("N일전 : 0(당일), 1(2일), 2(3일), 3(5일), 4(10일), 5(20일전), 6(30일), 7(60일), 8(120일), 9(1년)")
-    VOL_RANG: VolRangEnum = Field(alias="VOL_RANG")
+    VOL_RANG: VolRangEnum = Field(
+        alias="VOL_RANG",
+    )
     ("0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)")
 
 
@@ -113,74 +144,168 @@ class UpdownRateRequestDict(TypedDict):
         5(100만주이상), 6(1000만주이상)
     """
 
-    KEYB: NotRequired[Annotated[str | None, "공백"]]
-    AUTH: NotRequired[Annotated[str | None, "공백"]]
-    EXCD: Annotated[ExcdEnum, "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '"]
-    GUBN: Annotated[GubnEnum, "0(하락율), 1(상승율)"]
-    NDAY: Annotated[NdayEnum, "N일전 : 0(당일), 1(2일), 2(3일), 3(5일), 4(10일), 5(20일전), 6(30일), 7(60일), 8(120일), 9(1년)"]
-    VOL_RANG: Annotated[VolRangEnum, "0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)"]
+    KEYB: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
+    AUTH: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
+    EXCD: Annotated[
+        ExcdEnum,
+        "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : "
+        "하노이 TSE : 도쿄 '",
+    ]
+    GUBN: Annotated[
+        GubnEnum,
+        "0(하락율), 1(상승율)",
+    ]
+    NDAY: Annotated[
+        NdayEnum,
+        "N일전 : 0(당일), 1(2일), 2(3일), 3(5일), 4(10일), 5(20일전), 6(30일), 7(60일), 8(120일), 9(1년)",
+    ]
+    VOL_RANG: Annotated[
+        VolRangEnum,
+        "0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)",
+    ]
 
 
 class UpdownRateOutput1(RawModel):
-    zdiv: int = Field(alias="zdiv")
+    zdiv: int = Field(
+        alias="zdiv",
+    )
     ("소수점자리수")
-    stat: str = Field(alias="stat")
+    stat: str = Field(
+        alias="stat",
+    )
     ("거래상태정보")
-    crec: int = Field(alias="crec")
+    crec: int = Field(
+        alias="crec",
+    )
     ("현재Count")
-    trec: str = Field(alias="trec")
+    trec: str = Field(
+        alias="trec",
+    )
     ("전체조회종목수")
-    nrec: int = Field(alias="nrec")
+    nrec: int = Field(
+        alias="nrec",
+    )
     ("RecordCount")
 
 
 class UpdownRateOutput2(RawModel):
-    rsym: str | None = Field(default=None, alias="rsym")
+    rsym: str | None = Field(
+        default=None,
+        alias="rsym",
+    )
     ("실시간조회심볼")
-    excd: str | None = Field(default=None, alias="excd")
+    excd: str | None = Field(
+        default=None,
+        alias="excd",
+    )
     ("거래소코드")
-    symb: str | None = Field(default=None, alias="symb")
+    symb: str | None = Field(
+        default=None,
+        alias="symb",
+    )
     ("종목코드")
-    name: str | None = Field(default=None, alias="name")
+    name: str | None = Field(
+        default=None,
+        alias="name",
+    )
     ("종목명")
-    last: Decimal | None = Field(default=None, alias="last")
+    last: Decimal | None = Field(
+        default=None,
+        alias="last",
+    )
     ("현재가")
-    sign: str | None = Field(default=None, alias="sign")
+    sign: str | None = Field(
+        default=None,
+        alias="sign",
+    )
     ("기호")
-    diff: str | None = Field(default=None, alias="diff")
+    diff: str | None = Field(
+        default=None,
+        alias="diff",
+    )
     ("대비")
-    rate: Decimal | None = Field(default=None, alias="rate")
+    rate: Decimal | None = Field(
+        default=None,
+        alias="rate",
+    )
     ("등락율")
-    tvol: int | None = Field(default=None, alias="tvol")
+    tvol: int | None = Field(
+        default=None,
+        alias="tvol",
+    )
     ("거래량")
-    pask: str | None = Field(default=None, alias="pask")
+    pask: str | None = Field(
+        default=None,
+        alias="pask",
+    )
     ("매도호가")
-    pbid: str | None = Field(default=None, alias="pbid")
+    pbid: str | None = Field(
+        default=None,
+        alias="pbid",
+    )
     ("매수호가")
-    n_base: Decimal | None = Field(default=None, alias="n_base")
+    n_base: Decimal | None = Field(
+        default=None,
+        alias="n_base",
+    )
     ("기준가격")
-    n_diff: Decimal | None = Field(default=None, alias="n_diff")
+    n_diff: Decimal | None = Field(
+        default=None,
+        alias="n_diff",
+    )
     ("기준가격대비")
-    n_rate: Decimal | None = Field(default=None, alias="n_rate")
+    n_rate: Decimal | None = Field(
+        default=None,
+        alias="n_rate",
+    )
     ("기준가격대비율")
-    rank: str | None = Field(default=None, alias="rank")
+    rank: str | None = Field(
+        default=None,
+        alias="rank",
+    )
     ("순위")
-    ename: str | None = Field(default=None, alias="ename")
+    ename: str | None = Field(
+        default=None,
+        alias="ename",
+    )
     ("영문종목명")
-    e_ordyn: str | None = Field(default=None, alias="e_ordyn")
+    e_ordyn: str | None = Field(
+        default=None,
+        alias="e_ordyn",
+    )
     ("매매가능")
 
 
 class UpdownRateResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: UpdownRateOutput1 = Field(alias="output1")
+    output1: UpdownRateOutput1 = Field(
+        alias="output1",
+    )
     ("응답상세")
-    output2: list[UpdownRateOutput2] = Field(alias="output2")
+    output2: list[UpdownRateOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세")
 
 
@@ -203,15 +328,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: UpdownRateRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: UpdownRateRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[UpdownRateResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: UpdownRateRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: UpdownRateRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[UpdownRateResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[UpdownRateRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[UpdownRateRequestDict],
         ) -> tuple[UpdownRateResponse, KisResponse]: ...
         def call(
             self,

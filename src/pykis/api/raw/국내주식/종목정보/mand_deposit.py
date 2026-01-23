@@ -2,11 +2,25 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    KisDateOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,13 +28,25 @@ if TYPE_CHECKING:
 
 
 class MandDepositRequest(RawModel):
-    T_DT: KisDate = Field(alias="T_DT")
+    T_DT: KisDate = Field(
+        alias="T_DT",
+    )
     ("~ 일자")
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
+    SHT_CD: str | None = Field(
+        default=None,
+        alias="SHT_CD",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백: 전체, 특정종목 조회시 : 종목코드")
-    F_DT: KisDate = Field(alias="F_DT")
+    F_DT: KisDate = Field(
+        alias="F_DT",
+    )
     ("일자 ~")
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
+    CTS: str | None = Field(
+        default=None,
+        alias="CTS",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
 
 
@@ -39,35 +65,77 @@ class MandDepositRequestDict(TypedDict):
         CTS (str): 공백 optional
     """
 
-    T_DT: Annotated[KisDate, "~ 일자"]
-    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    CTS: NotRequired[Annotated[str | None, "공백"]]
+    T_DT: Annotated[
+        KisDate,
+        "~ 일자",
+    ]
+    SHT_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공백: 전체, 특정종목 조회시 : 종목코드",
+        ]
+    ]
+    F_DT: Annotated[
+        KisDate,
+        "일자 ~",
+    ]
+    CTS: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
 
 
 class MandDepositOutput1(RawModel):
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
+    sht_cd: str | None = Field(
+        default=None,
+        alias="sht_cd",
+    )
     ("종목코드")
-    isin_name: str | None = Field(default=None, alias="isin_name")
+    isin_name: str | None = Field(
+        default=None,
+        alias="isin_name",
+    )
     ("종목명")
-    stk_qty: str | None = Field(default=None, alias="stk_qty")
+    stk_qty: str | None = Field(
+        default=None,
+        alias="stk_qty",
+    )
     ("주식수")
-    depo_date: KisDateOptional = Field(default=None, alias="depo_date")
+    depo_date: KisDateOptional = Field(
+        default=None,
+        alias="depo_date",
+    )
     ("예치일")
-    depo_reason: str | None = Field(default=None, alias="depo_reason")
+    depo_reason: str | None = Field(
+        default=None,
+        alias="depo_reason",
+    )
     ("사유")
-    tot_issue_qty_per_rate: Decimal | None = Field(default=None, alias="tot_issue_qty_per_rate")
+    tot_issue_qty_per_rate: Decimal | None = Field(
+        default=None,
+        alias="tot_issue_qty_per_rate",
+    )
     ("총발행주식수대비비율(%)")
 
 
 class MandDepositResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: list[MandDepositOutput1] = Field(alias="output1")
+    output1: list[MandDepositOutput1] = Field(
+        alias="output1",
+    )
     ("응답상세")
 
 
@@ -96,15 +164,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: MandDepositRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: MandDepositRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[MandDepositResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: MandDepositRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: MandDepositRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[MandDepositResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[MandDepositRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[MandDepositRequestDict],
         ) -> tuple[MandDepositResponse, KisResponse]: ...
         def call(
             self,
@@ -142,4 +222,10 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "MandDepositRequest", "MandDepositRequestDict", "MandDepositResponse", "MandDepositOutput1"]
+__all__ = [
+    "ENDPOINT",
+    "MandDepositRequest",
+    "MandDepositRequestDict",
+    "MandDepositResponse",
+    "MandDepositOutput1",
+]

@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -67,24 +78,43 @@ class CrdtTypeEnum(KisStrEnum):
 
 
 class InquireCreditPsamountRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
+    CANO: CanoEnum = Field(
+        alias="CANO",
+    )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    PDNO: str = Field(alias="PDNO")
+    PDNO: str = Field(
+        alias="PDNO",
+    )
     ("종목코드(6자리)")
-    ORD_UNPR: Decimal = Field(alias="ORD_UNPR")
+    ORD_UNPR: Decimal = Field(
+        alias="ORD_UNPR",
+    )
     ('1주당 가격 * 장전 시간외, 장후 시간외, 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력 권고')
-    ORD_DVSN: OrdDvsnEnum = Field(alias="ORD_DVSN")
-    ("00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04 : 최우선지정가 05 : 장전 시간외 06 : 장후 시간외 07 : 시간외 단일가 등")
-    CRDT_TYPE: CrdtTypeEnum = Field(alias="CRDT_TYPE")
+    ORD_DVSN: OrdDvsnEnum = Field(
+        alias="ORD_DVSN",
+    )
+    (
+        "00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04 : 최우선지정가 05 : 장전 시간외 "
+        "06 : 장후 시간외 07 : 시간외 단일가 등"
+    )
+    CRDT_TYPE: CrdtTypeEnum = Field(
+        alias="CRDT_TYPE",
+    )
     (
         "21 : 자기융자신규 23 : 유통융자신규 26 : 유통대주상환 28 : 자기대주상환 25 : 자기융자상환 27 : "
         "유통융자상환 22 : 유통대주신규 24 : 자기대주신규"
     )
-    CMA_EVLU_AMT_ICLD_YN: KisBool = Field(alias="CMA_EVLU_AMT_ICLD_YN")
+    CMA_EVLU_AMT_ICLD_YN: KisBool = Field(
+        alias="CMA_EVLU_AMT_ICLD_YN",
+    )
     ("Y/N")
-    OVRS_ICLD_YN: KisBool = Field(alias="OVRS_ICLD_YN")
+    OVRS_ICLD_YN: KisBool = Field(
+        alias="OVRS_ICLD_YN",
+    )
     ("Y/N")
 
 
@@ -107,58 +137,109 @@ class InquireCreditPsamountRequestDict(TypedDict):
         OVRS_ICLD_YN (KisBool): Y/N
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    PDNO: Annotated[str, "종목코드(6자리)"]
-    ORD_UNPR: Annotated[Decimal, '1주당 가격 * 장전 시간외, 장후 시간외, 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력 권고']
+    CANO: Annotated[
+        CanoEnum,
+        "계좌번호 체계(8-2)의 앞 8자리",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        AcntPrdtCdEnum,
+        "계좌번호 체계(8-2)의 뒤 2자리",
+    ]
+    PDNO: Annotated[
+        str,
+        "종목코드(6자리)",
+    ]
+    ORD_UNPR: Annotated[
+        Decimal,
+        '1주당 가격 * 장전 시간외, 장후 시간외, 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력 권고',
+    ]
     ORD_DVSN: Annotated[
         OrdDvsnEnum,
-        "00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04 : 최우선지정가 05 : 장전 시간외 06 : 장후 시간외 07 : 시간외 단일가 등",
+        "00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04 : 최우선지정가 05 : 장전 시간외 "
+        "06 : 장후 시간외 07 : 시간외 단일가 등",
     ]
     CRDT_TYPE: Annotated[
         CrdtTypeEnum,
         "21 : 자기융자신규 23 : 유통융자신규 26 : 유통대주상환 28 : 자기대주상환 25 : 자기융자상환 27 : "
         "유통융자상환 22 : 유통대주신규 24 : 자기대주신규",
     ]
-    CMA_EVLU_AMT_ICLD_YN: Annotated[KisBool, "Y/N"]
-    OVRS_ICLD_YN: Annotated[KisBool, "Y/N"]
+    CMA_EVLU_AMT_ICLD_YN: Annotated[
+        KisBool,
+        "Y/N",
+    ]
+    OVRS_ICLD_YN: Annotated[
+        KisBool,
+        "Y/N",
+    ]
 
 
 class InquireCreditPsamountOutput(RawModel):
-    ord_psbl_cash: str = Field(alias="ord_psbl_cash")
+    ord_psbl_cash: str = Field(
+        alias="ord_psbl_cash",
+    )
     ("주문가능현금")
-    ord_psbl_sbst: str = Field(alias="ord_psbl_sbst")
+    ord_psbl_sbst: str = Field(
+        alias="ord_psbl_sbst",
+    )
     ("주문가능대용")
-    ruse_psbl_amt: Decimal = Field(alias="ruse_psbl_amt")
+    ruse_psbl_amt: Decimal = Field(
+        alias="ruse_psbl_amt",
+    )
     ("재사용가능금액")
-    fund_rpch_chgs: Decimal = Field(alias="fund_rpch_chgs")
+    fund_rpch_chgs: Decimal = Field(
+        alias="fund_rpch_chgs",
+    )
     ("펀드환매대금")
-    psbl_qty_calc_unpr: int = Field(alias="psbl_qty_calc_unpr")
+    psbl_qty_calc_unpr: int = Field(
+        alias="psbl_qty_calc_unpr",
+    )
     ("가능수량계산단가")
-    nrcvb_buy_amt: Decimal = Field(alias="nrcvb_buy_amt")
+    nrcvb_buy_amt: Decimal = Field(
+        alias="nrcvb_buy_amt",
+    )
     ("미수없는매수금액")
-    nrcvb_buy_qty: int = Field(alias="nrcvb_buy_qty")
+    nrcvb_buy_qty: int = Field(
+        alias="nrcvb_buy_qty",
+    )
     ("미수없는매수수량")
-    max_buy_amt: Decimal = Field(alias="max_buy_amt")
+    max_buy_amt: Decimal = Field(
+        alias="max_buy_amt",
+    )
     ("최대매수금액")
-    max_buy_qty: int = Field(alias="max_buy_qty")
+    max_buy_qty: int = Field(
+        alias="max_buy_qty",
+    )
     ("최대매수수량")
-    cma_evlu_amt: Decimal = Field(alias="cma_evlu_amt")
+    cma_evlu_amt: Decimal = Field(
+        alias="cma_evlu_amt",
+    )
     ("CMA평가금액")
-    ovrs_re_use_amt_wcrc: Decimal = Field(alias="ovrs_re_use_amt_wcrc")
+    ovrs_re_use_amt_wcrc: Decimal = Field(
+        alias="ovrs_re_use_amt_wcrc",
+    )
     ("해외재사용금액원화")
-    ord_psbl_frcr_amt_wcrc: Decimal = Field(alias="ord_psbl_frcr_amt_wcrc")
+    ord_psbl_frcr_amt_wcrc: Decimal = Field(
+        alias="ord_psbl_frcr_amt_wcrc",
+    )
     ("주문가능외화금액원화")
 
 
 class InquireCreditPsamountResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메시지")
-    output: InquireCreditPsamountOutput = Field(alias="output")
+    output: InquireCreditPsamountOutput = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -181,15 +262,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireCreditPsamountRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireCreditPsamountRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireCreditPsamountResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireCreditPsamountRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireCreditPsamountRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireCreditPsamountResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireCreditPsamountRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireCreditPsamountRequestDict],
         ) -> tuple[InquireCreditPsamountResponse, KisResponse]: ...
         def call(
             self,

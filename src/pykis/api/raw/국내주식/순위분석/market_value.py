@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -62,31 +73,57 @@ class FidRankSortClsCodeEnum(KisStrEnum):
 
 
 class MarketValueRequest(RawModel):
-    fid_trgt_cls_code: str = Field(alias="fid_trgt_cls_code")
+    fid_trgt_cls_code: str = Field(
+        alias="fid_trgt_cls_code",
+    )
     ("0 : 전체")
-    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(alias="fid_cond_mrkt_div_code")
+    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(
+        alias="fid_cond_mrkt_div_code",
+    )
     ("시장구분코드 (J:KRX, NX:NXT)")
-    fid_cond_scr_div_code: str = Field(alias="fid_cond_scr_div_code")
+    fid_cond_scr_div_code: str = Field(
+        alias="fid_cond_scr_div_code",
+    )
     ("Unique key( 20179 )")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
+    fid_input_iscd: str = Field(
+        alias="fid_input_iscd",
+    )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
+    fid_div_cls_code: FidDivClsCodeEnum = Field(
+        alias="fid_div_cls_code",
+    )
     ("0: 전체, 1:관리종목, 2:투자주의, 3:투자경고, 4:투자위험예고, 5:투자위험, 6:보톧주, 7:우선주")
-    fid_input_price_1: str = Field(alias="fid_input_price_1")
+    fid_input_price_1: str = Field(
+        alias="fid_input_price_1",
+    )
     ("입력값 없을때 전체 (가격 ~)")
-    fid_input_price_2: str = Field(alias="fid_input_price_2")
+    fid_input_price_2: str = Field(
+        alias="fid_input_price_2",
+    )
     ("입력값 없을때 전체 (~ 가격)")
-    fid_vol_cnt: int = Field(alias="fid_vol_cnt")
+    fid_vol_cnt: int = Field(
+        alias="fid_vol_cnt",
+    )
     ("입력값 없을때 전체 (거래량 ~)")
-    fid_input_option_1: str = Field(alias="fid_input_option_1")
+    fid_input_option_1: str = Field(
+        alias="fid_input_option_1",
+    )
     ("회계연도 입력 (ex 2023)")
-    fid_input_option_2: str = Field(alias="fid_input_option_2")
+    fid_input_option_2: str = Field(
+        alias="fid_input_option_2",
+    )
     ("0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산")
-    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(alias="fid_rank_sort_cls_code")
+    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(
+        alias="fid_rank_sort_cls_code",
+    )
     ("'가치분석(23:PER, 24:PBR, 25:PCR, 26:PSR, 27: EPS, 28:EVA, 29: EBITDA, 30: EV/EBITDA, 31:EBITDA/금융비율'")
-    fid_blng_cls_code: str = Field(alias="fid_blng_cls_code")
+    fid_blng_cls_code: str = Field(
+        alias="fid_blng_cls_code",
+    )
     ("0 : 전체")
-    fid_trgt_exls_cls_code: str = Field(alias="fid_trgt_exls_cls_code")
+    fid_trgt_exls_cls_code: str = Field(
+        alias="fid_trgt_exls_cls_code",
+    )
     ("0 : 전체")
 
 
@@ -121,74 +158,179 @@ class MarketValueRequestDict(TypedDict):
         fid_trgt_exls_cls_code (str): 0 : 전체
     """
 
-    fid_trgt_cls_code: Annotated[str, "0 : 전체"]
-    fid_cond_mrkt_div_code: Annotated[FidCondMrktDivCodeEnum, "시장구분코드 (J:KRX, NX:NXT)"]
-    fid_cond_scr_div_code: Annotated[str, "Unique key( 20179 )"]
-    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200"]
-    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 전체, 1:관리종목, 2:투자주의, 3:투자경고, 4:투자위험예고, 5:투자위험, 6:보톧주, 7:우선주"]
-    fid_input_price_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"]
-    fid_input_price_2: Annotated[str, "입력값 없을때 전체 (~ 가격)"]
-    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"]
-    fid_input_option_1: Annotated[str, "회계연도 입력 (ex 2023)"]
-    fid_input_option_2: Annotated[str, "0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산"]
-    fid_rank_sort_cls_code: Annotated[
-        FidRankSortClsCodeEnum, "'가치분석(23:PER, 24:PBR, 25:PCR, 26:PSR, 27: EPS, 28:EVA, 29: EBITDA, 30: EV/EBITDA, 31:EBITDA/금융비율'"
+    fid_trgt_cls_code: Annotated[
+        str,
+        "0 : 전체",
     ]
-    fid_blng_cls_code: Annotated[str, "0 : 전체"]
-    fid_trgt_exls_cls_code: Annotated[str, "0 : 전체"]
+    fid_cond_mrkt_div_code: Annotated[
+        FidCondMrktDivCodeEnum,
+        "시장구분코드 (J:KRX, NX:NXT)",
+    ]
+    fid_cond_scr_div_code: Annotated[
+        str,
+        "Unique key( 20179 )",
+    ]
+    fid_input_iscd: Annotated[
+        str,
+        "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200",
+    ]
+    fid_div_cls_code: Annotated[
+        FidDivClsCodeEnum,
+        "0: 전체, 1:관리종목, 2:투자주의, 3:투자경고, 4:투자위험예고, 5:투자위험, 6:보톧주, 7:우선주",
+    ]
+    fid_input_price_1: Annotated[
+        str,
+        "입력값 없을때 전체 (가격 ~)",
+    ]
+    fid_input_price_2: Annotated[
+        str,
+        "입력값 없을때 전체 (~ 가격)",
+    ]
+    fid_vol_cnt: Annotated[
+        int,
+        "입력값 없을때 전체 (거래량 ~)",
+    ]
+    fid_input_option_1: Annotated[
+        str,
+        "회계연도 입력 (ex 2023)",
+    ]
+    fid_input_option_2: Annotated[
+        str,
+        "0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산",
+    ]
+    fid_rank_sort_cls_code: Annotated[
+        FidRankSortClsCodeEnum,
+        "'가치분석(23:PER, 24:PBR, 25:PCR, 26:PSR, 27: EPS, 28:EVA, 29: EBITDA, 30: EV/EBITDA, 31:EBITDA/금융비율'",
+    ]
+    fid_blng_cls_code: Annotated[
+        str,
+        "0 : 전체",
+    ]
+    fid_trgt_exls_cls_code: Annotated[
+        str,
+        "0 : 전체",
+    ]
 
 
 class MarketValueOutput(RawModel):
-    data_rank: str | None = Field(default=None, alias="data_rank")
+    data_rank: str | None = Field(
+        default=None,
+        alias="data_rank",
+    )
     ("데이터 순위")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
+    hts_kor_isnm: str | None = Field(
+        default=None,
+        alias="hts_kor_isnm",
+    )
     ("HTS 한글 종목명")
-    mksc_shrn_iscd: str | None = Field(default=None, alias="mksc_shrn_iscd")
+    mksc_shrn_iscd: str | None = Field(
+        default=None,
+        alias="mksc_shrn_iscd",
+    )
     ("유가증권 단축 종목코드")
-    stck_prpr: Decimal | None = Field(default=None, alias="stck_prpr")
+    stck_prpr: Decimal | None = Field(
+        default=None,
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
+    prdy_vrss: str | None = Field(
+        default=None,
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
+    acml_vol: int | None = Field(
+        default=None,
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    per: str | None = Field(default=None, alias="per")
+    per: str | None = Field(
+        default=None,
+        alias="per",
+    )
     ("PER")
-    pbr: str | None = Field(default=None, alias="pbr")
+    pbr: str | None = Field(
+        default=None,
+        alias="pbr",
+    )
     ("PBR")
-    pcr: str | None = Field(default=None, alias="pcr")
+    pcr: str | None = Field(
+        default=None,
+        alias="pcr",
+    )
     ("PCR")
-    psr: str | None = Field(default=None, alias="psr")
+    psr: str | None = Field(
+        default=None,
+        alias="psr",
+    )
     ("PSR")
-    eps: str | None = Field(default=None, alias="eps")
+    eps: str | None = Field(
+        default=None,
+        alias="eps",
+    )
     ("EPS")
-    eva: str | None = Field(default=None, alias="eva")
+    eva: str | None = Field(
+        default=None,
+        alias="eva",
+    )
     ("EVA")
-    ebitda: str | None = Field(default=None, alias="ebitda")
+    ebitda: str | None = Field(
+        default=None,
+        alias="ebitda",
+    )
     ("EBITDA")
-    pv_div_ebitda: str | None = Field(default=None, alias="pv_div_ebitda")
+    pv_div_ebitda: str | None = Field(
+        default=None,
+        alias="pv_div_ebitda",
+    )
     ("PV DIV EBITDA")
-    ebitda_div_fnnc_expn: str | None = Field(default=None, alias="ebitda_div_fnnc_expn")
+    ebitda_div_fnnc_expn: str | None = Field(
+        default=None,
+        alias="ebitda_div_fnnc_expn",
+    )
     ("EBITDA DIV 금융비용")
-    stac_month: str | None = Field(default=None, alias="stac_month")
+    stac_month: str | None = Field(
+        default=None,
+        alias="stac_month",
+    )
     ("결산 월")
-    stac_month_cls_code: str | None = Field(default=None, alias="stac_month_cls_code")
+    stac_month_cls_code: str | None = Field(
+        default=None,
+        alias="stac_month_cls_code",
+    )
     ("결산 월 구분 코드")
-    iqry_csnu: int | None = Field(default=None, alias="iqry_csnu")
+    iqry_csnu: int | None = Field(
+        default=None,
+        alias="iqry_csnu",
+    )
     ("조회 건수")
 
 
 class MarketValueResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[MarketValueOutput] = Field(alias="output")
+    output: list[MarketValueOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -222,15 +364,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: MarketValueRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: MarketValueRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[MarketValueResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: MarketValueRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: MarketValueRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[MarketValueResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[MarketValueRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[MarketValueRequestDict],
         ) -> tuple[MarketValueResponse, KisResponse]: ...
         def call(
             self,

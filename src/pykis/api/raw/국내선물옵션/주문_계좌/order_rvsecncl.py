@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisTime, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisTime,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -55,78 +68,64 @@ class KrxNmprCndtCdEnum(KisStrEnum):
     "FOK"
 
 
-class FuopItemDvsnCdEnum(KisStrEnum):
-    VALUE_01 = ("01", "선물")
-    "선물"
-    VALUE_02 = ("02", "콜옵션")
-    "콜옵션"
-    VALUE_03 = ("03", "풋옵션")
-    "풋옵션"
-    VALUE_04 = ("04", "스프레드")
-    "스프레드"
-    HEADER = ("Header", "tr_id TTTO1103U(선물옵션 정정취소 주간)]")
-    "tr_id TTTO1103U(선물옵션 정정취소 주간)]"
-
-
-class OrdDvsnCdEnum(KisStrEnum):
-    VALUE_01 = ("01", "지정가")
-    "지정가"
-    VALUE_02 = ("02", "시장가")
-    "시장가"
-    VALUE_03 = ("03", "조건부")
-    "조건부"
-    VALUE_04 = ("04", "최유리")
-    "최유리"
-    VALUE_10 = ("10", "지정가(IOC)")
-    "지정가(IOC)"
-    VALUE_11 = ("11", "지정가(FOK)")
-    "지정가(FOK)"
-    VALUE_12 = ("12", "시장가(IOC)")
-    "시장가(IOC)"
-    VALUE_13 = ("13", "시장가(FOK)")
-    "시장가(FOK)"
-    VALUE_14 = ("14", "최유리(IOC)")
-    "최유리(IOC)"
-    VALUE_15 = ("15", "최유리(FOK)")
-    "최유리(FOK)"
-    IOC = ("IOC", "10 : 지정가")
-    "10 : 지정가"
-    FOK = ("FOK", "11 : 지정가")
-    "11 : 지정가"
-
-
 class OrderRvsecnclRequest(RawModel):
-    ORD_PRCS_DVSN_CD: str = Field(alias="ORD_PRCS_DVSN_CD")
+    ORD_PRCS_DVSN_CD: str = Field(
+        alias="ORD_PRCS_DVSN_CD",
+    )
     ("02 : 주문전송")
-    CANO: CanoEnum = Field(alias="CANO")
+    CANO: CanoEnum = Field(
+        alias="CANO",
+    )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    RVSE_CNCL_DVSN_CD: RvseCnclDvsnCdEnum = Field(alias="RVSE_CNCL_DVSN_CD")
+    RVSE_CNCL_DVSN_CD: RvseCnclDvsnCdEnum = Field(
+        alias="RVSE_CNCL_DVSN_CD",
+    )
     ("01 : 정정 02 : 취소")
-    ORGN_ODNO: str = Field(alias="ORGN_ODNO")
+    ORGN_ODNO: str = Field(
+        alias="ORGN_ODNO",
+    )
     ("정정 혹은 취소할 주문의 번호")
-    ORD_QTY: str = Field(alias="ORD_QTY")
+    ORD_QTY: str = Field(
+        alias="ORD_QTY",
+    )
     (
         "[Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 전량일경우 0으로 입력 [Header tr_id "
         "JTCE1002U(선물옵션 정정취소 야간)] 일부수량 정정 및 취소 불가, 주문수량 반드시 입력 (공백 불가) "
         "일부 미체결 시 잔량 전체에 대해서 취소 가능 EX) 2개 매수주문 후 1개 체결, 1개 미체결인 상태에서 "
         "취소주문 시 ORD_QTY는 1로 입력 ※ 모의계좌의 경우, 주문수량 반드시 입력 (공백 불가)"
     )
-    UNIT_PRICE: Decimal = Field(alias="UNIT_PRICE")
+    UNIT_PRICE: Decimal = Field(
+        alias="UNIT_PRICE",
+    )
     ("시장가나 최유리의 경우 0으로 입력 (취소 시에도 0 입력)")
-    NMPR_TYPE_CD: NmprTypeCdEnum = Field(alias="NMPR_TYPE_CD")
+    NMPR_TYPE_CD: NmprTypeCdEnum = Field(
+        alias="NMPR_TYPE_CD",
+    )
     ("01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리")
-    KRX_NMPR_CNDT_CD: KrxNmprCndtCdEnum = Field(alias="KRX_NMPR_CNDT_CD")
+    KRX_NMPR_CNDT_CD: KrxNmprCndtCdEnum = Field(
+        alias="KRX_NMPR_CNDT_CD",
+    )
     ("취소시 0으로 입력 정정시 0 : 없음 3 : IOC 4 : FOK")
-    RMN_QTY_YN: KisBool = Field(alias="RMN_QTY_YN")
+    RMN_QTY_YN: KisBool = Field(
+        alias="RMN_QTY_YN",
+    )
     ("Y : 전량 N : 일부")
-    FUOP_ITEM_DVSN_CD: FuopItemDvsnCdEnum | None = Field(default=None, alias="FUOP_ITEM_DVSN_CD", json_schema_extra={"blank_allowed": True})
+    FUOP_ITEM_DVSN_CD: str | None = Field(
+        default=None,
+        alias="FUOP_ITEM_DVSN_CD",
+        json_schema_extra={"blank_allowed": True},
+    )
     (
         "[Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 공란(Default) [Header tr_id JTCE1002U(선물옵션 "
         "정정취소 야간)] 01 : 선물 02 : 콜옵션 03 : 풋옵션 04 : 스프레드"
     )
-    ORD_DVSN_CD: OrdDvsnCdEnum = Field(alias="ORD_DVSN_CD")
+    ORD_DVSN_CD: str = Field(
+        alias="ORD_DVSN_CD",
+    )
     (
         "[정정] 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : "
         "시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK) [취소] 01 로 입력"
@@ -157,19 +156,34 @@ class OrderRvsecnclRequestDict(TypedDict):
         NMPR_TYPE_CD (NmprTypeCdEnum): 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리
         KRX_NMPR_CNDT_CD (KrxNmprCndtCdEnum): 취소시 0으로 입력 정정시 0 : 없음 3 : IOC 4 : FOK
         RMN_QTY_YN (KisBool): Y : 전량 N : 일부
-        FUOP_ITEM_DVSN_CD (FuopItemDvsnCdEnum): [Header tr_id TTTO1103U(선물옵션 정정취소 주간)]
-        공란(Default) [Header tr_id JTCE1002U(선물옵션 정정취소 야간)] 01 : 선물 02 : 콜옵션 03 :
-        풋옵션 04 : 스프레드 optional
-        ORD_DVSN_CD (OrdDvsnCdEnum): [정정] 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 :
-        지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 :
-        최유리(FOK) [취소] 01 로 입력
+        FUOP_ITEM_DVSN_CD (str): [Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 공란(Default)
+        [Header tr_id JTCE1002U(선물옵션 정정취소 야간)] 01 : 선물 02 : 콜옵션 03 : 풋옵션 04 :
+        스프레드 optional
+        ORD_DVSN_CD (str): [정정] 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC)
+        11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK) [취소]
+        01 로 입력
     """
 
-    ORD_PRCS_DVSN_CD: Annotated[str, "02 : 주문전송"]
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    RVSE_CNCL_DVSN_CD: Annotated[RvseCnclDvsnCdEnum, "01 : 정정 02 : 취소"]
-    ORGN_ODNO: Annotated[str, "정정 혹은 취소할 주문의 번호"]
+    ORD_PRCS_DVSN_CD: Annotated[
+        str,
+        "02 : 주문전송",
+    ]
+    CANO: Annotated[
+        CanoEnum,
+        "계좌번호 체계(8-2)의 앞 8자리",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        AcntPrdtCdEnum,
+        "계좌번호 체계(8-2)의 뒤 2자리",
+    ]
+    RVSE_CNCL_DVSN_CD: Annotated[
+        RvseCnclDvsnCdEnum,
+        "01 : 정정 02 : 취소",
+    ]
+    ORGN_ODNO: Annotated[
+        str,
+        "정정 혹은 취소할 주문의 번호",
+    ]
     ORD_QTY: Annotated[
         str,
         "[Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 전량일경우 0으로 입력 [Header tr_id "
@@ -177,49 +191,83 @@ class OrderRvsecnclRequestDict(TypedDict):
         "일부 미체결 시 잔량 전체에 대해서 취소 가능 EX) 2개 매수주문 후 1개 체결, 1개 미체결인 상태에서 "
         "취소주문 시 ORD_QTY는 1로 입력 ※ 모의계좌의 경우, 주문수량 반드시 입력 (공백 불가)",
     ]
-    UNIT_PRICE: Annotated[Decimal, "시장가나 최유리의 경우 0으로 입력 (취소 시에도 0 입력)"]
-    NMPR_TYPE_CD: Annotated[NmprTypeCdEnum, "01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리"]
-    KRX_NMPR_CNDT_CD: Annotated[KrxNmprCndtCdEnum, "취소시 0으로 입력 정정시 0 : 없음 3 : IOC 4 : FOK"]
-    RMN_QTY_YN: Annotated[KisBool, "Y : 전량 N : 일부"]
+    UNIT_PRICE: Annotated[
+        Decimal,
+        "시장가나 최유리의 경우 0으로 입력 (취소 시에도 0 입력)",
+    ]
+    NMPR_TYPE_CD: Annotated[
+        NmprTypeCdEnum,
+        "01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리",
+    ]
+    KRX_NMPR_CNDT_CD: Annotated[
+        KrxNmprCndtCdEnum,
+        "취소시 0으로 입력 정정시 0 : 없음 3 : IOC 4 : FOK",
+    ]
+    RMN_QTY_YN: Annotated[
+        KisBool,
+        "Y : 전량 N : 일부",
+    ]
     FUOP_ITEM_DVSN_CD: NotRequired[
         Annotated[
-            FuopItemDvsnCdEnum | None,
+            str | None,
             "[Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 공란(Default) [Header tr_id JTCE1002U(선물옵션 "
             "정정취소 야간)] 01 : 선물 02 : 콜옵션 03 : 풋옵션 04 : 스프레드",
         ]
     ]
     ORD_DVSN_CD: Annotated[
-        OrdDvsnCdEnum,
+        str,
         "[정정] 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : "
         "시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK) [취소] 01 로 입력",
     ]
 
 
 class OrderRvsecnclOutput(RawModel):
-    ACNT_NAME: str = Field(alias="ACNT_NAME")
+    ACNT_NAME: str = Field(
+        alias="ACNT_NAME",
+    )
     ("계좌의 고객명")
-    TRAD_DVSN_NAME: str = Field(alias="TRAD_DVSN_NAME")
+    TRAD_DVSN_NAME: str = Field(
+        alias="TRAD_DVSN_NAME",
+    )
     ("매도/매수 등 구분값")
-    ITEM_NAME: str = Field(alias="ITEM_NAME")
+    ITEM_NAME: str = Field(
+        alias="ITEM_NAME",
+    )
     ("주문 종목 명칭")
-    ORD_TMD: KisTime = Field(alias="ORD_TMD")
+    ORD_TMD: KisTime = Field(
+        alias="ORD_TMD",
+    )
     ("주문 접수 시간")
-    ORD_GNO_BRNO: str = Field(alias="ORD_GNO_BRNO")
+    ORD_GNO_BRNO: str = Field(
+        alias="ORD_GNO_BRNO",
+    )
     ("계좌 개설 시 관리점으로 선택한 영업점의 고유번호")
-    ORGN_ODNO: str = Field(alias="ORGN_ODNO")
+    ORGN_ODNO: str = Field(
+        alias="ORGN_ODNO",
+    )
     ("정정 또는 취소 대상 주문의 일련번호")
-    ODNO: str = Field(alias="ODNO")
+    ODNO: str = Field(
+        alias="ODNO",
+    )
     ("접수한 주문(정정 또는 취소)의 일련번호")
 
 
 class OrderRvsecnclResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: OrderRvsecnclOutput = Field(alias="output")
+    output: OrderRvsecnclOutput = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -249,15 +297,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: OrderRvsecnclRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: OrderRvsecnclRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[OrderRvsecnclResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: OrderRvsecnclRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: OrderRvsecnclRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[OrderRvsecnclResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[OrderRvsecnclRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[OrderRvsecnclRequestDict],
         ) -> tuple[OrderRvsecnclResponse, KisResponse]: ...
         def call(
             self,
@@ -297,12 +357,12 @@ if TYPE_CHECKING:
                         KRX_NMPR_CNDT_CD (KrxNmprCndtCdEnum): 취소시 0으로 입력 정정시 0 : 없음 3 :
                         IOC 4 : FOK
                         RMN_QTY_YN (KisBool): Y : 전량 N : 일부
-                        FUOP_ITEM_DVSN_CD (FuopItemDvsnCdEnum): [Header tr_id TTTO1103U(선물옵션
-                        정정취소 주간)] 공란(Default) [Header tr_id JTCE1002U(선물옵션 정정취소 야간)]
-                        01 : 선물 02 : 콜옵션 03 : 풋옵션 04 : 스프레드 optional
-                        ORD_DVSN_CD (OrdDvsnCdEnum): [정정] 01 : 지정가 02 : 시장가 03 : 조건부 04 :
-                        최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14
-                        : 최유리(IOC) 15 : 최유리(FOK) [취소] 01 로 입력
+                        FUOP_ITEM_DVSN_CD (str): [Header tr_id TTTO1103U(선물옵션 정정취소 주간)]
+                        공란(Default) [Header tr_id JTCE1002U(선물옵션 정정취소 야간)] 01 : 선물 02 :
+                        콜옵션 03 : 풋옵션 04 : 스프레드 optional
+                        ORD_DVSN_CD (str): [정정] 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10
+                        : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 :
+                        최유리(IOC) 15 : 최유리(FOK) [취소] 01 로 입력
 
             Returns:
                 tuple[OrderRvsecnclResponse, KisResponse]: 응답 모델과 원시 응답
@@ -324,6 +384,4 @@ __all__ = [
     "RvseCnclDvsnCdEnum",
     "NmprTypeCdEnum",
     "KrxNmprCndtCdEnum",
-    "FuopItemDvsnCdEnum",
-    "OrdDvsnCdEnum",
 ]

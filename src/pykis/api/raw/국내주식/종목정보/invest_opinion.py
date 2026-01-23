@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDateOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,15 +26,25 @@ if TYPE_CHECKING:
 
 
 class InvestOpinionRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("J(시장 구분 코드)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: str = Field(
+        alias="FID_COND_SCR_DIV_CODE",
+    )
     ("16633(Primary key)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("종목코드(ex) 005930(삼성전자))")
-    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
+    FID_INPUT_DATE_1: str = Field(
+        alias="FID_INPUT_DATE_1",
+    )
     ("이후 ~(ex) 0020231113)")
-    FID_INPUT_DATE_2: str = Field(alias="FID_INPUT_DATE_2")
+    FID_INPUT_DATE_2: str = Field(
+        alias="FID_INPUT_DATE_2",
+    )
     ("~ 이전(ex) 0020240513)")
 
 
@@ -43,48 +65,107 @@ class InvestOpinionRequestDict(TypedDict):
         FID_INPUT_DATE_2 (str): ~ 이전(ex) 0020240513)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "J(시장 구분 코드)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "16633(Primary key)"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드(ex) 005930(삼성전자))"]
-    FID_INPUT_DATE_1: Annotated[str, "이후 ~(ex) 0020231113)"]
-    FID_INPUT_DATE_2: Annotated[str, "~ 이전(ex) 0020240513)"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "J(시장 구분 코드)",
+    ]
+    FID_COND_SCR_DIV_CODE: Annotated[
+        str,
+        "16633(Primary key)",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "종목코드(ex) 005930(삼성전자))",
+    ]
+    FID_INPUT_DATE_1: Annotated[
+        str,
+        "이후 ~(ex) 0020231113)",
+    ]
+    FID_INPUT_DATE_2: Annotated[
+        str,
+        "~ 이전(ex) 0020240513)",
+    ]
 
 
 class InvestOpinionOutput(RawModel):
-    stck_bsop_date: KisDateOptional = Field(default=None, alias="stck_bsop_date")
+    stck_bsop_date: KisDateOptional = Field(
+        default=None,
+        alias="stck_bsop_date",
+    )
     ("주식영업일자")
-    invt_opnn: str | None = Field(default=None, alias="invt_opnn")
+    invt_opnn: str | None = Field(
+        default=None,
+        alias="invt_opnn",
+    )
     ("투자의견")
-    invt_opnn_cls_code: str | None = Field(default=None, alias="invt_opnn_cls_code")
+    invt_opnn_cls_code: str | None = Field(
+        default=None,
+        alias="invt_opnn_cls_code",
+    )
     ("투자의견구분코드")
-    rgbf_invt_opnn: str | None = Field(default=None, alias="rgbf_invt_opnn")
+    rgbf_invt_opnn: str | None = Field(
+        default=None,
+        alias="rgbf_invt_opnn",
+    )
     ("직전투자의견")
-    rgbf_invt_opnn_cls_code: str | None = Field(default=None, alias="rgbf_invt_opnn_cls_code")
+    rgbf_invt_opnn_cls_code: str | None = Field(
+        default=None,
+        alias="rgbf_invt_opnn_cls_code",
+    )
     ("직전투자의견구분코드")
-    mbcr_name: str | None = Field(default=None, alias="mbcr_name")
+    mbcr_name: str | None = Field(
+        default=None,
+        alias="mbcr_name",
+    )
     ("회원사명")
-    hts_goal_prc: Decimal | None = Field(default=None, alias="hts_goal_prc")
+    hts_goal_prc: Decimal | None = Field(
+        default=None,
+        alias="hts_goal_prc",
+    )
     ("HTS목표가격")
-    stck_prdy_clpr: str | None = Field(default=None, alias="stck_prdy_clpr")
+    stck_prdy_clpr: str | None = Field(
+        default=None,
+        alias="stck_prdy_clpr",
+    )
     ("주식전일종가")
-    stck_nday_esdg: str | None = Field(default=None, alias="stck_nday_esdg")
+    stck_nday_esdg: str | None = Field(
+        default=None,
+        alias="stck_nday_esdg",
+    )
     ("주식N일괴리도")
-    nday_dprt: Decimal | None = Field(default=None, alias="nday_dprt")
+    nday_dprt: Decimal | None = Field(
+        default=None,
+        alias="nday_dprt",
+    )
     ("N일괴리율")
-    stft_esdg: str | None = Field(default=None, alias="stft_esdg")
+    stft_esdg: str | None = Field(
+        default=None,
+        alias="stft_esdg",
+    )
     ("주식선물괴리도")
-    dprt: Decimal | None = Field(default=None, alias="dprt")
+    dprt: Decimal | None = Field(
+        default=None,
+        alias="dprt",
+    )
     ("괴리율")
 
 
 class InvestOpinionResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[InvestOpinionOutput] = Field(alias="output")
+    output: list[InvestOpinionOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -114,15 +195,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InvestOpinionRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InvestOpinionRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InvestOpinionResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InvestOpinionRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InvestOpinionRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InvestOpinionResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InvestOpinionRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InvestOpinionRequestDict],
         ) -> tuple[InvestOpinionResponse, KisResponse]: ...
         def call(
             self,
@@ -162,4 +255,10 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "InvestOpinionRequest", "InvestOpinionRequestDict", "InvestOpinionResponse", "InvestOpinionOutput"]
+__all__ = [
+    "ENDPOINT",
+    "InvestOpinionRequest",
+    "InvestOpinionRequestDict",
+    "InvestOpinionResponse",
+    "InvestOpinionOutput",
+]

@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -24,9 +36,13 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
 
 
 class InquireInvestorRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("J : KRX, NX : NXT, UN : 통합")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("종목코드 (ex 005930 삼성전자)")
 
 
@@ -44,65 +60,123 @@ class InquireInvestorRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목코드 (ex 005930 삼성전자)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J : KRX, NX : NXT, UN : 통합"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드 (ex 005930 삼성전자)"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        FidCondMrktDivCodeEnum,
+        "J : KRX, NX : NXT, UN : 통합",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "종목코드 (ex 005930 삼성전자)",
+    ]
 
 
 class InquireInvestorOutput(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
+    stck_bsop_date: KisDate = Field(
+        alias="stck_bsop_date",
+    )
     ("주식 영업 일자")
-    stck_clpr: int = Field(alias="stck_clpr")
+    stck_clpr: int = Field(
+        alias="stck_clpr",
+    )
     ("주식 종가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
+    prdy_vrss: int = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: int = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prsn_ntby_qty: int = Field(alias="prsn_ntby_qty")
+    prsn_ntby_qty: int = Field(
+        alias="prsn_ntby_qty",
+    )
     ("개인 순매수 수량")
-    frgn_ntby_qty: int = Field(alias="frgn_ntby_qty")
+    frgn_ntby_qty: int = Field(
+        alias="frgn_ntby_qty",
+    )
     ("외국인 순매수 수량")
-    orgn_ntby_qty: int = Field(alias="orgn_ntby_qty")
+    orgn_ntby_qty: int = Field(
+        alias="orgn_ntby_qty",
+    )
     ("기관계 순매수 수량")
-    prsn_ntby_tr_pbmn: Decimal = Field(alias="prsn_ntby_tr_pbmn")
+    prsn_ntby_tr_pbmn: Decimal = Field(
+        alias="prsn_ntby_tr_pbmn",
+    )
     ("개인 순매수 거래 대금")
-    frgn_ntby_tr_pbmn: Decimal = Field(alias="frgn_ntby_tr_pbmn")
+    frgn_ntby_tr_pbmn: Decimal = Field(
+        alias="frgn_ntby_tr_pbmn",
+    )
     ("외국인 순매수 거래 대금")
-    orgn_ntby_tr_pbmn: Decimal = Field(alias="orgn_ntby_tr_pbmn")
+    orgn_ntby_tr_pbmn: Decimal = Field(
+        alias="orgn_ntby_tr_pbmn",
+    )
     ("기관계 순매수 거래 대금")
-    prsn_shnu_vol: int = Field(alias="prsn_shnu_vol")
+    prsn_shnu_vol: int = Field(
+        alias="prsn_shnu_vol",
+    )
     ("개인 매수2 거래량")
-    frgn_shnu_vol: int = Field(alias="frgn_shnu_vol")
+    frgn_shnu_vol: int = Field(
+        alias="frgn_shnu_vol",
+    )
     ("외국인 매수2 거래량")
-    orgn_shnu_vol: int = Field(alias="orgn_shnu_vol")
+    orgn_shnu_vol: int = Field(
+        alias="orgn_shnu_vol",
+    )
     ("기관계 매수2 거래량")
-    prsn_shnu_tr_pbmn: Decimal = Field(alias="prsn_shnu_tr_pbmn")
+    prsn_shnu_tr_pbmn: Decimal = Field(
+        alias="prsn_shnu_tr_pbmn",
+    )
     ("개인 매수2 거래 대금")
-    frgn_shnu_tr_pbmn: Decimal = Field(alias="frgn_shnu_tr_pbmn")
+    frgn_shnu_tr_pbmn: Decimal = Field(
+        alias="frgn_shnu_tr_pbmn",
+    )
     ("외국인 매수2 거래 대금")
-    orgn_shnu_tr_pbmn: Decimal = Field(alias="orgn_shnu_tr_pbmn")
+    orgn_shnu_tr_pbmn: Decimal = Field(
+        alias="orgn_shnu_tr_pbmn",
+    )
     ("기관계 매수2 거래 대금")
-    prsn_seln_vol: int = Field(alias="prsn_seln_vol")
+    prsn_seln_vol: int = Field(
+        alias="prsn_seln_vol",
+    )
     ("개인 매도 거래량")
-    frgn_seln_vol: int = Field(alias="frgn_seln_vol")
+    frgn_seln_vol: int = Field(
+        alias="frgn_seln_vol",
+    )
     ("외국인 매도 거래량")
-    orgn_seln_vol: int = Field(alias="orgn_seln_vol")
+    orgn_seln_vol: int = Field(
+        alias="orgn_seln_vol",
+    )
     ("기관계 매도 거래량")
-    prsn_seln_tr_pbmn: Decimal = Field(alias="prsn_seln_tr_pbmn")
+    prsn_seln_tr_pbmn: Decimal = Field(
+        alias="prsn_seln_tr_pbmn",
+    )
     ("개인 매도 거래 대금")
-    frgn_seln_tr_pbmn: Decimal = Field(alias="frgn_seln_tr_pbmn")
+    frgn_seln_tr_pbmn: Decimal = Field(
+        alias="frgn_seln_tr_pbmn",
+    )
     ("외국인 매도 거래 대금")
-    orgn_seln_tr_pbmn: Decimal = Field(alias="orgn_seln_tr_pbmn")
+    orgn_seln_tr_pbmn: Decimal = Field(
+        alias="orgn_seln_tr_pbmn",
+    )
     ("기관계 매도 거래 대금")
 
 
 class InquireInvestorResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[InquireInvestorOutput] = Field(alias="output")
+    output: list[InquireInvestorOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -132,15 +206,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireInvestorRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireInvestorRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireInvestorResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireInvestorRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireInvestorRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireInvestorResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireInvestorRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireInvestorRequestDict],
         ) -> tuple[InquireInvestorResponse, KisResponse]: ...
         def call(
             self,

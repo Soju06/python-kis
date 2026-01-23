@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -29,9 +40,13 @@ class AcntPrdtCdEnum(KisStrEnum):
 
 
 class InquireDepositRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
+    CANO: CanoEnum = Field(
+        alias="CANO",
+    )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("계좌번호 체계(8-2)의 뒤 2자리")
 
 
@@ -44,81 +59,155 @@ class InquireDepositRequestDict(TypedDict):
         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
+    CANO: Annotated[
+        CanoEnum,
+        "계좌번호 체계(8-2)의 앞 8자리",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        AcntPrdtCdEnum,
+        "계좌번호 체계(8-2)의 뒤 2자리",
+    ]
 
 
 class InquireDepositOutput(RawModel):
-    dnca_tota: str = Field(alias="dnca_tota")
+    dnca_tota: str = Field(
+        alias="dnca_tota",
+    )
     ("예수금총액")
-    bfdy_chck_amt: Decimal = Field(alias="bfdy_chck_amt")
+    bfdy_chck_amt: Decimal = Field(
+        alias="bfdy_chck_amt",
+    )
     ("전일수표금액")
-    thdt_chck_amt: Decimal = Field(alias="thdt_chck_amt")
+    thdt_chck_amt: Decimal = Field(
+        alias="thdt_chck_amt",
+    )
     ("당일수표금액")
-    rlth_uwdl_dpos_amt: Decimal = Field(alias="rlth_uwdl_dpos_amt")
+    rlth_uwdl_dpos_amt: Decimal = Field(
+        alias="rlth_uwdl_dpos_amt",
+    )
     ("실물인수도예치금액")
-    brkg_mgna_cash: str = Field(alias="brkg_mgna_cash")
+    brkg_mgna_cash: str = Field(
+        alias="brkg_mgna_cash",
+    )
     ("위탁증거금현금")
-    wdrw_psbl_tot_amt: Decimal = Field(alias="wdrw_psbl_tot_amt")
+    wdrw_psbl_tot_amt: Decimal = Field(
+        alias="wdrw_psbl_tot_amt",
+    )
     ("인출가능총금액")
-    ord_psbl_cash: str = Field(alias="ord_psbl_cash")
+    ord_psbl_cash: str = Field(
+        alias="ord_psbl_cash",
+    )
     ("주문가능현금")
-    ord_psbl_tota: str = Field(alias="ord_psbl_tota")
+    ord_psbl_tota: str = Field(
+        alias="ord_psbl_tota",
+    )
     ("주문가능총액")
-    dnca_sbst: str = Field(alias="dnca_sbst")
+    dnca_sbst: str = Field(
+        alias="dnca_sbst",
+    )
     ("예수금대용")
-    scts_sbst_amt: Decimal = Field(alias="scts_sbst_amt")
+    scts_sbst_amt: Decimal = Field(
+        alias="scts_sbst_amt",
+    )
     ("유가증권대용금액")
-    frcr_evlu_amt: Decimal = Field(alias="frcr_evlu_amt")
+    frcr_evlu_amt: Decimal = Field(
+        alias="frcr_evlu_amt",
+    )
     ("외화평가금액")
-    brkg_mgna_sbst: str = Field(alias="brkg_mgna_sbst")
+    brkg_mgna_sbst: str = Field(
+        alias="brkg_mgna_sbst",
+    )
     ("위탁증거금대용")
-    sbst_rlse_psbl_amt: Decimal = Field(alias="sbst_rlse_psbl_amt")
+    sbst_rlse_psbl_amt: Decimal = Field(
+        alias="sbst_rlse_psbl_amt",
+    )
     ("대용해제가능금액")
-    mtnc_rt: Decimal = Field(alias="mtnc_rt")
+    mtnc_rt: Decimal = Field(
+        alias="mtnc_rt",
+    )
     ("유지비율")
-    add_mgna_tota: str = Field(alias="add_mgna_tota")
+    add_mgna_tota: str = Field(
+        alias="add_mgna_tota",
+    )
     ("추가증거금총액")
-    add_mgna_cash: str = Field(alias="add_mgna_cash")
+    add_mgna_cash: str = Field(
+        alias="add_mgna_cash",
+    )
     ("추가증거금현금")
-    rcva: str = Field(alias="rcva")
+    rcva: str = Field(
+        alias="rcva",
+    )
     ("미수금")
-    futr_trad_pfls: str = Field(alias="futr_trad_pfls")
+    futr_trad_pfls: str = Field(
+        alias="futr_trad_pfls",
+    )
     ("선물매매손익")
-    opt_trad_pfls_amt: Decimal = Field(alias="opt_trad_pfls_amt")
+    opt_trad_pfls_amt: Decimal = Field(
+        alias="opt_trad_pfls_amt",
+    )
     ("옵션매매손익금액")
-    trad_pfls_smtl: str = Field(alias="trad_pfls_smtl")
+    trad_pfls_smtl: str = Field(
+        alias="trad_pfls_smtl",
+    )
     ("매매손익합계")
-    futr_evlu_pfls_amt: Decimal = Field(alias="futr_evlu_pfls_amt")
+    futr_evlu_pfls_amt: Decimal = Field(
+        alias="futr_evlu_pfls_amt",
+    )
     ("선물평가손익금액")
-    opt_evlu_pfls_amt: Decimal = Field(alias="opt_evlu_pfls_amt")
+    opt_evlu_pfls_amt: Decimal = Field(
+        alias="opt_evlu_pfls_amt",
+    )
     ("옵션평가손익금액")
-    evlu_pfls_smtl: str = Field(alias="evlu_pfls_smtl")
+    evlu_pfls_smtl: str = Field(
+        alias="evlu_pfls_smtl",
+    )
     ("평가손익합계")
-    excc_dfpa: str = Field(alias="excc_dfpa")
+    excc_dfpa: str = Field(
+        alias="excc_dfpa",
+    )
     ("정산차금")
-    opt_dfpa: str = Field(alias="opt_dfpa")
+    opt_dfpa: str = Field(
+        alias="opt_dfpa",
+    )
     ("옵션차금")
-    brkg_fee: str = Field(alias="brkg_fee")
+    brkg_fee: str = Field(
+        alias="brkg_fee",
+    )
     ("위탁수수료")
-    nxdy_dnca: str = Field(alias="nxdy_dnca")
+    nxdy_dnca: str = Field(
+        alias="nxdy_dnca",
+    )
     ("익일예수금")
-    prsm_dpast_amt: Decimal = Field(alias="prsm_dpast_amt")
+    prsm_dpast_amt: Decimal = Field(
+        alias="prsm_dpast_amt",
+    )
     ("추정예탁자산금액")
-    cash_mntn_amt: Decimal = Field(alias="cash_mntn_amt")
+    cash_mntn_amt: Decimal = Field(
+        alias="cash_mntn_amt",
+    )
     ("현금유지금액")
-    hack_acdt_acnt_move_amt: Decimal = Field(alias="hack_acdt_acnt_move_amt")
+    hack_acdt_acnt_move_amt: Decimal = Field(
+        alias="hack_acdt_acnt_move_amt",
+    )
     ("해킹사고계좌이전금액")
 
 
 class InquireDepositResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: InquireDepositOutput = Field(alias="output")
+    output: InquireDepositOutput = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -141,15 +230,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireDepositRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireDepositRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireDepositResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireDepositRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireDepositRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireDepositResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireDepositRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireDepositRequestDict],
         ) -> tuple[InquireDepositResponse, KisResponse]: ...
         def call(
             self,

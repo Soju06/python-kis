@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisTime, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisTime,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -59,18 +72,18 @@ class OrdDvsnCdEnum(KisStrEnum):
     "장후 시간외"
     VALUE_07 = ("07", "시간외 단일가")
     "시간외 단일가"
-    VALUE_11 = ("11", "IOC지정가 (즉시체결")
-    "IOC지정가 (즉시체결"
-    VALUE_12 = ("12", "FOK지정가 (즉시체결")
-    "FOK지정가 (즉시체결"
-    VALUE_13 = ("13", "IOC시장가 (즉시체결")
-    "IOC시장가 (즉시체결"
-    VALUE_14 = ("14", "FOK시장가 (즉시체결")
-    "FOK시장가 (즉시체결"
-    VALUE_15 = ("15", "IOC최유리 (즉시체결")
-    "IOC최유리 (즉시체결"
-    VALUE_16 = ("16", "FOK최유리 (즉시체결")
-    "FOK최유리 (즉시체결"
+    VALUE_11 = ("11", "IOC지정가 (즉시체결,잔량취소)")
+    "IOC지정가 (즉시체결,잔량취소)"
+    VALUE_12 = ("12", "FOK지정가 (즉시체결,전량취소)")
+    "FOK지정가 (즉시체결,전량취소)"
+    VALUE_13 = ("13", "IOC시장가 (즉시체결,잔량취소)")
+    "IOC시장가 (즉시체결,잔량취소)"
+    VALUE_14 = ("14", "FOK시장가 (즉시체결,전량취소)")
+    "FOK시장가 (즉시체결,전량취소)"
+    VALUE_15 = ("15", "IOC최유리 (즉시체결,잔량취소)")
+    "IOC최유리 (즉시체결,잔량취소)"
+    VALUE_16 = ("16", "FOK최유리 (즉시체결,전량취소)")
+    "FOK최유리 (즉시체결,전량취소)"
     VALUE_21 = ("21", "중간가")
     "중간가"
     VALUE_22 = ("22", "스톱지정가")
@@ -82,17 +95,33 @@ class OrdDvsnCdEnum(KisStrEnum):
 
 
 class InquirePsblRvsecnclRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
+    CANO: CanoEnum = Field(
+        alias="CANO",
+    )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    CTX_AREA_FK100: str | None = Field(default=None, alias="CTX_AREA_FK100", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_FK100: str | None = Field(
+        default=None,
+        alias="CTX_AREA_FK100",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("'공란 : 최초 조회시는 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)'")
-    CTX_AREA_NK100: str | None = Field(default=None, alias="CTX_AREA_NK100", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_NK100: str | None = Field(
+        default=None,
+        alias="CTX_AREA_NK100",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("'공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)'")
-    INQR_DVSN_1: str = Field(alias="INQR_DVSN_1")
+    INQR_DVSN_1: str = Field(
+        alias="INQR_DVSN_1",
+    )
     ("'0 주문 1 종목'")
-    INQR_DVSN_2: InqrDvsn2Enum = Field(alias="INQR_DVSN_2")
+    INQR_DVSN_2: InqrDvsn2Enum = Field(
+        alias="INQR_DVSN_2",
+    )
     ("'0 전체 1 매도 2 매수'")
 
 
@@ -116,44 +145,96 @@ class InquirePsblRvsecnclRequestDict(TypedDict):
         INQR_DVSN_2 (InqrDvsn2Enum): '0 전체 1 매도 2 매수'
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    CTX_AREA_FK100: NotRequired[Annotated[str | None, "'공란 : 최초 조회시는 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)'"]]
-    CTX_AREA_NK100: NotRequired[Annotated[str | None, "'공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)'"]]
-    INQR_DVSN_1: Annotated[str, "'0 주문 1 종목'"]
-    INQR_DVSN_2: Annotated[InqrDvsn2Enum, "'0 전체 1 매도 2 매수'"]
+    CANO: Annotated[
+        CanoEnum,
+        "계좌번호 체계(8-2)의 앞 8자리",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        AcntPrdtCdEnum,
+        "계좌번호 체계(8-2)의 뒤 2자리",
+    ]
+    CTX_AREA_FK100: NotRequired[
+        Annotated[
+            str | None,
+            "'공란 : 최초 조회시는 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)'",
+        ]
+    ]
+    CTX_AREA_NK100: NotRequired[
+        Annotated[
+            str | None,
+            "'공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)'",
+        ]
+    ]
+    INQR_DVSN_1: Annotated[
+        str,
+        "'0 주문 1 종목'",
+    ]
+    INQR_DVSN_2: Annotated[
+        InqrDvsn2Enum,
+        "'0 전체 1 매도 2 매수'",
+    ]
 
 
 class InquirePsblRvsecnclOutput(RawModel):
-    ord_gno_brno: str = Field(alias="ord_gno_brno")
+    ord_gno_brno: str = Field(
+        alias="ord_gno_brno",
+    )
     ("주문시 한국투자증권 시스템에서 지정된 영업점코드")
-    odno: str = Field(alias="odno")
+    odno: str = Field(
+        alias="odno",
+    )
     ("주문시 한국투자증권 시스템에서 채번된 주문번호")
-    orgn_odno: str = Field(alias="orgn_odno")
+    orgn_odno: str = Field(
+        alias="orgn_odno",
+    )
     ("정정/취소주문 인경우 원주문번호")
-    ord_dvsn_name: str = Field(alias="ord_dvsn_name")
+    ord_dvsn_name: str = Field(
+        alias="ord_dvsn_name",
+    )
     ("주문구분명")
-    pdno: str = Field(alias="pdno")
+    pdno: str = Field(
+        alias="pdno",
+    )
     ("종목번호(뒤 6자리만 해당)")
-    prdt_name: str = Field(alias="prdt_name")
+    prdt_name: str = Field(
+        alias="prdt_name",
+    )
     ("종목명")
-    rvse_cncl_dvsn_name: KisBool = Field(alias="rvse_cncl_dvsn_name")
+    rvse_cncl_dvsn_name: KisBool = Field(
+        alias="rvse_cncl_dvsn_name",
+    )
     ("정정 또는 취소 여부 표시")
-    ord_qty: int = Field(alias="ord_qty")
+    ord_qty: int = Field(
+        alias="ord_qty",
+    )
     ("주문수량")
-    ord_unpr: Decimal = Field(alias="ord_unpr")
+    ord_unpr: Decimal = Field(
+        alias="ord_unpr",
+    )
     ("1주당 주문가격")
-    ord_tmd: KisTime = Field(alias="ord_tmd")
+    ord_tmd: KisTime = Field(
+        alias="ord_tmd",
+    )
     ("주문시각(시분초HHMMSS)")
-    tot_ccld_qty: int = Field(alias="tot_ccld_qty")
+    tot_ccld_qty: int = Field(
+        alias="tot_ccld_qty",
+    )
     ("주문 수량 중 체결된 수량")
-    tot_ccld_amt: Decimal = Field(alias="tot_ccld_amt")
+    tot_ccld_amt: Decimal = Field(
+        alias="tot_ccld_amt",
+    )
     ("주문금액 중 체결금액")
-    psbl_qty: int = Field(alias="psbl_qty")
+    psbl_qty: int = Field(
+        alias="psbl_qty",
+    )
     ("정정/취소 주문 가능 수량")
-    sll_buy_dvsn_cd: SllBuyDvsnCdEnum = Field(alias="sll_buy_dvsn_cd")
+    sll_buy_dvsn_cd: SllBuyDvsnCdEnum = Field(
+        alias="sll_buy_dvsn_cd",
+    )
     ("01 : 매도 / 02 : 매수")
-    ord_dvsn_cd: OrdDvsnCdEnum = Field(alias="ord_dvsn_cd")
+    ord_dvsn_cd: OrdDvsnCdEnum = Field(
+        alias="ord_dvsn_cd",
+    )
     (
         "[KRX] 00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04 : 최우선지정가 05 : 장전 "
         "시간외 06 : 장후 시간외 07 : 시간외 단일가 11 : IOC지정가 (즉시체결,잔량취소) 12 : FOK지정가 "
@@ -167,28 +248,48 @@ class InquirePsblRvsecnclOutput(RawModel):
         "FOK지정가 (즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : FOK시장가 "
         "(즉시체결,전량취소) 15 : IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 (즉시체결,전량취소)"
     )
-    mgco_aptm_odno: str = Field(alias="mgco_aptm_odno")
+    mgco_aptm_odno: str = Field(
+        alias="mgco_aptm_odno",
+    )
     ("운용사지정주문번호")
-    excg_dvsn_cd: str = Field(alias="excg_dvsn_cd")
+    excg_dvsn_cd: str = Field(
+        alias="excg_dvsn_cd",
+    )
     ("거래소구분코드")
-    excg_id_dvsn_cd: str = Field(alias="excg_id_dvsn_cd")
+    excg_id_dvsn_cd: str = Field(
+        alias="excg_id_dvsn_cd",
+    )
     ("거래소ID구분코드")
-    excg_id_dvsn_name: str = Field(alias="excg_id_dvsn_name")
+    excg_id_dvsn_name: str = Field(
+        alias="excg_id_dvsn_name",
+    )
     ("거래소ID구분명")
-    stpm_cndt_pric: Decimal = Field(alias="stpm_cndt_pric")
+    stpm_cndt_pric: Decimal = Field(
+        alias="stpm_cndt_pric",
+    )
     ("스톱지정가조건가격")
-    stpm_efct_occr_yn: KisBool = Field(alias="stpm_efct_occr_yn")
+    stpm_efct_occr_yn: KisBool = Field(
+        alias="stpm_efct_occr_yn",
+    )
     ("스톱지정가효력발생여부")
 
 
 class InquirePsblRvsecnclResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[InquirePsblRvsecnclOutput] = Field(alias="output")
+    output: list[InquirePsblRvsecnclOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -218,15 +319,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePsblRvsecnclRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePsblRvsecnclRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePsblRvsecnclResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePsblRvsecnclRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePsblRvsecnclRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePsblRvsecnclResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePsblRvsecnclRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquirePsblRvsecnclRequestDict],
         ) -> tuple[InquirePsblRvsecnclResponse, KisResponse]: ...
         def call(
             self,

@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisTime, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisTime,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -22,21 +35,41 @@ class OrdGnoBrnoEnum(KisStrEnum):
 
 
 class InquireAlgoCcnlRequest(RawModel):
-    CANO: str = Field(alias="CANO")
+    CANO: str = Field(
+        alias="CANO",
+    )
     ("종합계좌번호 8자리")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: str = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("상품코드 2자리 (주식계좌 : 01)")
-    ORD_DT: str = Field(alias="ORD_DT")
+    ORD_DT: str = Field(
+        alias="ORD_DT",
+    )
     ("주문일자 (YYYYMMDD)")
-    ORD_GNO_BRNO: OrdGnoBrnoEnum | None = Field(default=None, alias="ORD_GNO_BRNO")
+    ORD_GNO_BRNO: OrdGnoBrnoEnum | None = Field(
+        default=None,
+        alias="ORD_GNO_BRNO",
+    )
     ("TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력")
-    ODNO: str = Field(alias="ODNO")
+    ODNO: str = Field(
+        alias="ODNO",
+    )
     ("지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력")
-    TTLZ_ICLD_YN: KisBool | None = Field(default=None, alias="TTLZ_ICLD_YN")
+    TTLZ_ICLD_YN: KisBool | None = Field(
+        default=None,
+        alias="TTLZ_ICLD_YN",
+    )
     ("집계포함여부")
-    CTX_AREA_NK200: str | None = Field(default=None, alias="CTX_AREA_NK200")
+    CTX_AREA_NK200: str | None = Field(
+        default=None,
+        alias="CTX_AREA_NK200",
+    )
     ("연속조회 시 사용")
-    CTX_AREA_FK200: str | None = Field(default=None, alias="CTX_AREA_FK200")
+    CTX_AREA_FK200: str | None = Field(
+        default=None,
+        alias="CTX_AREA_FK200",
+    )
     ("연속조회 시 사용")
 
 
@@ -57,72 +90,156 @@ class InquireAlgoCcnlRequestDict(TypedDict):
         CTX_AREA_FK200 (str): 연속조회 시 사용 optional
     """
 
-    CANO: Annotated[str, "종합계좌번호 8자리"]
-    ACNT_PRDT_CD: Annotated[str, "상품코드 2자리 (주식계좌 : 01)"]
-    ORD_DT: Annotated[str, "주문일자 (YYYYMMDD)"]
-    ORD_GNO_BRNO: NotRequired[Annotated[OrdGnoBrnoEnum | None, "TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력"]]
-    ODNO: Annotated[str, "지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력"]
-    TTLZ_ICLD_YN: NotRequired[Annotated[KisBool | None, "집계포함여부"]]
-    CTX_AREA_NK200: NotRequired[Annotated[str | None, "연속조회 시 사용"]]
-    CTX_AREA_FK200: NotRequired[Annotated[str | None, "연속조회 시 사용"]]
+    CANO: Annotated[
+        str,
+        "종합계좌번호 8자리",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        str,
+        "상품코드 2자리 (주식계좌 : 01)",
+    ]
+    ORD_DT: Annotated[
+        str,
+        "주문일자 (YYYYMMDD)",
+    ]
+    ORD_GNO_BRNO: NotRequired[
+        Annotated[
+            OrdGnoBrnoEnum | None,
+            "TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력",
+        ]
+    ]
+    ODNO: Annotated[
+        str,
+        "지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력",
+    ]
+    TTLZ_ICLD_YN: NotRequired[
+        Annotated[
+            KisBool | None,
+            "집계포함여부",
+        ]
+    ]
+    CTX_AREA_NK200: NotRequired[
+        Annotated[
+            str | None,
+            "연속조회 시 사용",
+        ]
+    ]
+    CTX_AREA_FK200: NotRequired[
+        Annotated[
+            str | None,
+            "연속조회 시 사용",
+        ]
+    ]
 
 
 class InquireAlgoCcnlOutput(RawModel):
-    CCLD_SEQ: str = Field(alias="CCLD_SEQ")
+    CCLD_SEQ: str = Field(
+        alias="CCLD_SEQ",
+    )
     ("체결순번")
-    CCLD_BTWN: KisTime = Field(alias="CCLD_BTWN")
+    CCLD_BTWN: KisTime = Field(
+        alias="CCLD_BTWN",
+    )
     ("HHMMSS")
-    PDNO: str = Field(alias="PDNO")
+    PDNO: str = Field(
+        alias="PDNO",
+    )
     ("상품번호")
-    ITEM_NAME: str = Field(alias="ITEM_NAME")
+    ITEM_NAME: str = Field(
+        alias="ITEM_NAME",
+    )
     ("종목명")
-    FT_CCLD_QTY: int | None = Field(default=None, alias="FT_CCLD_QTY")
+    FT_CCLD_QTY: int | None = Field(
+        default=None,
+        alias="FT_CCLD_QTY",
+    )
     ("FT체결수량")
-    FT_CCLD_UNPR3: str = Field(alias="FT_CCLD_UNPR3")
+    FT_CCLD_UNPR3: str = Field(
+        alias="FT_CCLD_UNPR3",
+    )
     ("FT체결단가")
-    FT_CCLD_AMT3: Decimal | None = Field(default=None, alias="FT_CCLD_AMT3")
+    FT_CCLD_AMT3: Decimal | None = Field(
+        default=None,
+        alias="FT_CCLD_AMT3",
+    )
     ("FT체결금액")
 
 
 class InquireAlgoCcnlOutput3(RawModel):
-    ODNO: str = Field(alias="ODNO")
+    ODNO: str = Field(
+        alias="ODNO",
+    )
     ("주문번호")
-    TRAD_DVSN_NAME: str = Field(alias="TRAD_DVSN_NAME")
+    TRAD_DVSN_NAME: str = Field(
+        alias="TRAD_DVSN_NAME",
+    )
     ("매매구분명")
-    PDNO: str = Field(alias="PDNO")
+    PDNO: str = Field(
+        alias="PDNO",
+    )
     ("상품번호")
-    ITEM_NAME: str = Field(alias="ITEM_NAME")
+    ITEM_NAME: str = Field(
+        alias="ITEM_NAME",
+    )
     ("종목명")
-    FT_ORD_QTY: int = Field(alias="FT_ORD_QTY")
+    FT_ORD_QTY: int = Field(
+        alias="FT_ORD_QTY",
+    )
     ("FT주문수량")
-    FT_ORD_UNPR3: str = Field(alias="FT_ORD_UNPR3")
+    FT_ORD_UNPR3: str = Field(
+        alias="FT_ORD_UNPR3",
+    )
     ("FT주문단가")
-    ORD_TMD: KisTime = Field(alias="ORD_TMD")
+    ORD_TMD: KisTime = Field(
+        alias="ORD_TMD",
+    )
     ("주문시각")
-    SPLT_BUY_ATTR_NAME: str = Field(alias="SPLT_BUY_ATTR_NAME")
+    SPLT_BUY_ATTR_NAME: str = Field(
+        alias="SPLT_BUY_ATTR_NAME",
+    )
     ("분할매수속성명")
-    FT_CCLD_QTY: int = Field(alias="FT_CCLD_QTY")
+    FT_CCLD_QTY: int = Field(
+        alias="FT_CCLD_QTY",
+    )
     ("FT체결수량")
-    TR_CRCY: str = Field(alias="TR_CRCY")
+    TR_CRCY: str = Field(
+        alias="TR_CRCY",
+    )
     ("거래통화")
-    FT_CCLD_UNPR3: str = Field(alias="FT_CCLD_UNPR3")
+    FT_CCLD_UNPR3: str = Field(
+        alias="FT_CCLD_UNPR3",
+    )
     ("FT체결단가")
-    FT_CCLD_AMT3: Decimal = Field(alias="FT_CCLD_AMT3")
+    FT_CCLD_AMT3: Decimal = Field(
+        alias="FT_CCLD_AMT3",
+    )
     ("FT체결금액")
-    CCLD_CNT: int = Field(alias="CCLD_CNT")
+    CCLD_CNT: int = Field(
+        alias="CCLD_CNT",
+    )
     ("체결건수")
 
 
 class InquireAlgoCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메시지")
-    output: InquireAlgoCcnlOutput = Field(alias="output")
+    output: InquireAlgoCcnlOutput = Field(
+        alias="output",
+    )
     ("응답상세")
-    output3: list[InquireAlgoCcnlOutput3] = Field(alias="output3")
+    output3: list[InquireAlgoCcnlOutput3] = Field(
+        alias="output3",
+    )
     ("응답상세3")
 
 
@@ -133,7 +250,9 @@ _ENDPOINT: Endpoint[InquireAlgoCcnlRequest, InquireAlgoCcnlResponse] = Endpoint(
     path="/uapi/overseas-stock/v1/trading/inquire-algo-ccnl",
     request_model=InquireAlgoCcnlRequest,
     response_model=InquireAlgoCcnlResponse,
-    description=("해외주식 TWAP, VWAP 주문에 대한 체결내역 조회 API로 지정가 주문번호조회 API를 수행 후 조회해야합니다"),
+    description=(
+        "해외주식 TWAP, VWAP 주문에 대한 체결내역 조회 API로 지정가 주문번호조회 API를 수행 후 조회해야합니다"
+    ),
     real_tr_id="TTTS6059R",
     demo_tr_id=None,
     auth_required=True,
@@ -145,15 +264,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireAlgoCcnlRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireAlgoCcnlRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireAlgoCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireAlgoCcnlRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireAlgoCcnlRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireAlgoCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireAlgoCcnlRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireAlgoCcnlRequestDict],
         ) -> tuple[InquireAlgoCcnlResponse, KisResponse]: ...
         def call(
             self,

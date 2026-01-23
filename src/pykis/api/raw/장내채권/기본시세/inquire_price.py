@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,9 +25,13 @@ if TYPE_CHECKING:
 
 
 class InquirePriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("B (업종코드)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("채권종목코드(ex KR2033022D33)")
 
 
@@ -30,55 +45,106 @@ class InquirePriceRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 채권종목코드(ex KR2033022D33)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "B (업종코드)"]
-    FID_INPUT_ISCD: Annotated[str, "채권종목코드(ex KR2033022D33)"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "B (업종코드)",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "채권종목코드(ex KR2033022D33)",
+    ]
 
 
 class InquirePriceOutput(RawModel):
-    stnd_iscd: str | None = Field(default=None, alias="stnd_iscd")
+    stnd_iscd: str | None = Field(
+        default=None,
+        alias="stnd_iscd",
+    )
     ("표준종목코드")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
+    hts_kor_isnm: str | None = Field(
+        default=None,
+        alias="hts_kor_isnm",
+    )
     ("HTS한글종목명")
-    bond_prpr: Decimal = Field(alias="bond_prpr")
+    bond_prpr: Decimal = Field(
+        alias="bond_prpr",
+    )
     ("채권현재가")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("전일대비부호")
-    bond_prdy_vrss: Decimal = Field(alias="bond_prdy_vrss")
+    bond_prdy_vrss: Decimal = Field(
+        alias="bond_prdy_vrss",
+    )
     ("채권전일대비")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일대비율")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적거래량")
-    bond_prdy_clpr: Decimal = Field(alias="bond_prdy_clpr")
+    bond_prdy_clpr: Decimal = Field(
+        alias="bond_prdy_clpr",
+    )
     ("채권전일종가")
-    bond_oprc: Decimal = Field(alias="bond_oprc")
+    bond_oprc: Decimal = Field(
+        alias="bond_oprc",
+    )
     ("채권시가2")
-    bond_hgpr: Decimal = Field(alias="bond_hgpr")
+    bond_hgpr: Decimal = Field(
+        alias="bond_hgpr",
+    )
     ("채권고가")
-    bond_lwpr: Decimal = Field(alias="bond_lwpr")
+    bond_lwpr: Decimal = Field(
+        alias="bond_lwpr",
+    )
     ("채권저가")
-    ernn_rate: Decimal = Field(alias="ernn_rate")
+    ernn_rate: Decimal = Field(
+        alias="ernn_rate",
+    )
     ("수익비율")
-    oprc_ert: Decimal = Field(alias="oprc_ert")
+    oprc_ert: Decimal = Field(
+        alias="oprc_ert",
+    )
     ("시가2수익률")
-    hgpr_ert: Decimal = Field(alias="hgpr_ert")
+    hgpr_ert: Decimal = Field(
+        alias="hgpr_ert",
+    )
     ("최고가수익률")
-    lwpr_ert: Decimal = Field(alias="lwpr_ert")
+    lwpr_ert: Decimal = Field(
+        alias="lwpr_ert",
+    )
     ("최저가수익률")
-    bond_mxpr: Decimal = Field(alias="bond_mxpr")
+    bond_mxpr: Decimal = Field(
+        alias="bond_mxpr",
+    )
     ("채권상한가")
-    bond_llam: Decimal = Field(alias="bond_llam")
+    bond_llam: Decimal = Field(
+        alias="bond_llam",
+    )
     ("채권하한가")
 
 
 class InquirePriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: InquirePriceOutput = Field(alias="output")
+    output: InquirePriceOutput = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -101,15 +167,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePriceRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePriceRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquirePriceRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquirePriceRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquirePriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePriceRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquirePriceRequestDict],
         ) -> tuple[InquirePriceResponse, KisResponse]: ...
         def call(
             self,
@@ -142,4 +220,10 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "InquirePriceRequest", "InquirePriceRequestDict", "InquirePriceResponse", "InquirePriceOutput"]
+__all__ = [
+    "ENDPOINT",
+    "InquirePriceRequest",
+    "InquirePriceRequestDict",
+    "InquirePriceResponse",
+    "InquirePriceOutput",
+]

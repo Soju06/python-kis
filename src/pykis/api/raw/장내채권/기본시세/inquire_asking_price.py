@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisTime, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisTime,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,9 +26,13 @@ if TYPE_CHECKING:
 
 
 class InquireAskingPriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("B: 장내")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("채권종목코드 ex. KR2088012A16")
 
 
@@ -31,89 +47,171 @@ class InquireAskingPriceRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 채권종목코드 ex. KR2088012A16
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "B: 장내"]
-    FID_INPUT_ISCD: Annotated[str, "채권종목코드 ex. KR2088012A16"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "B: 장내",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "채권종목코드 ex. KR2088012A16",
+    ]
 
 
 class InquireAskingPriceOutput(RawModel):
-    aspr_acpt_hour: KisTime = Field(alias="aspr_acpt_hour")
+    aspr_acpt_hour: KisTime = Field(
+        alias="aspr_acpt_hour",
+    )
     ("호가 접수 시간")
-    bond_askp1: Decimal = Field(alias="bond_askp1")
+    bond_askp1: Decimal = Field(
+        alias="bond_askp1",
+    )
     ("채권 매도호가1")
-    bond_askp2: Decimal = Field(alias="bond_askp2")
+    bond_askp2: Decimal = Field(
+        alias="bond_askp2",
+    )
     ("채권 매도호가2")
-    bond_askp3: Decimal = Field(alias="bond_askp3")
+    bond_askp3: Decimal = Field(
+        alias="bond_askp3",
+    )
     ("채권 매도호가3")
-    bond_askp4: Decimal = Field(alias="bond_askp4")
+    bond_askp4: Decimal = Field(
+        alias="bond_askp4",
+    )
     ("채권 매도호가4")
-    bond_askp5: Decimal = Field(alias="bond_askp5")
+    bond_askp5: Decimal = Field(
+        alias="bond_askp5",
+    )
     ("채권 매도호가5")
-    bond_bidp1: str = Field(alias="bond_bidp1")
+    bond_bidp1: str = Field(
+        alias="bond_bidp1",
+    )
     ("채권 매수호가1")
-    bond_bidp2: str = Field(alias="bond_bidp2")
+    bond_bidp2: str = Field(
+        alias="bond_bidp2",
+    )
     ("채권 매수호가2")
-    bond_bidp3: str = Field(alias="bond_bidp3")
+    bond_bidp3: str = Field(
+        alias="bond_bidp3",
+    )
     ("채권 매수호가3")
-    bond_bidp4: str = Field(alias="bond_bidp4")
+    bond_bidp4: str = Field(
+        alias="bond_bidp4",
+    )
     ("채권 매수호가4")
-    bond_bidp5: str = Field(alias="bond_bidp5")
+    bond_bidp5: str = Field(
+        alias="bond_bidp5",
+    )
     ("채권 매수호가5")
-    askp_rsqn1: int = Field(alias="askp_rsqn1")
+    askp_rsqn1: int = Field(
+        alias="askp_rsqn1",
+    )
     ("매도호가 잔량1")
-    askp_rsqn2: int = Field(alias="askp_rsqn2")
+    askp_rsqn2: int = Field(
+        alias="askp_rsqn2",
+    )
     ("매도호가 잔량2")
-    askp_rsqn3: int = Field(alias="askp_rsqn3")
+    askp_rsqn3: int = Field(
+        alias="askp_rsqn3",
+    )
     ("매도호가 잔량3")
-    askp_rsqn4: int = Field(alias="askp_rsqn4")
+    askp_rsqn4: int = Field(
+        alias="askp_rsqn4",
+    )
     ("매도호가 잔량4")
-    askp_rsqn5: int = Field(alias="askp_rsqn5")
+    askp_rsqn5: int = Field(
+        alias="askp_rsqn5",
+    )
     ("매도호가 잔량5")
-    bidp_rsqn1: str = Field(alias="bidp_rsqn1")
+    bidp_rsqn1: str = Field(
+        alias="bidp_rsqn1",
+    )
     ("매수호가 잔량1")
-    bidp_rsqn2: str = Field(alias="bidp_rsqn2")
+    bidp_rsqn2: str = Field(
+        alias="bidp_rsqn2",
+    )
     ("매수호가 잔량2")
-    bidp_rsqn3: str = Field(alias="bidp_rsqn3")
+    bidp_rsqn3: str = Field(
+        alias="bidp_rsqn3",
+    )
     ("매수호가 잔량3")
-    bidp_rsqn4: str = Field(alias="bidp_rsqn4")
+    bidp_rsqn4: str = Field(
+        alias="bidp_rsqn4",
+    )
     ("매수호가 잔량4")
-    bidp_rsqn5: str = Field(alias="bidp_rsqn5")
+    bidp_rsqn5: str = Field(
+        alias="bidp_rsqn5",
+    )
     ("매수호가 잔량5")
-    total_askp_rsqn: int = Field(alias="total_askp_rsqn")
+    total_askp_rsqn: int = Field(
+        alias="total_askp_rsqn",
+    )
     ("총 매도호가 잔량")
-    total_bidp_rsqn: str = Field(alias="total_bidp_rsqn")
+    total_bidp_rsqn: str = Field(
+        alias="total_bidp_rsqn",
+    )
     ("총 매수호가 잔량")
-    ntby_aspr_rsqn: int = Field(alias="ntby_aspr_rsqn")
+    ntby_aspr_rsqn: int = Field(
+        alias="ntby_aspr_rsqn",
+    )
     ("순매수 호가 잔량")
-    seln_ernn_rate1: Decimal = Field(alias="seln_ernn_rate1")
+    seln_ernn_rate1: Decimal = Field(
+        alias="seln_ernn_rate1",
+    )
     ("매도 수익 비율1")
-    seln_ernn_rate2: Decimal = Field(alias="seln_ernn_rate2")
+    seln_ernn_rate2: Decimal = Field(
+        alias="seln_ernn_rate2",
+    )
     ("매도 수익 비율2")
-    seln_ernn_rate3: Decimal = Field(alias="seln_ernn_rate3")
+    seln_ernn_rate3: Decimal = Field(
+        alias="seln_ernn_rate3",
+    )
     ("매도 수익 비율3")
-    seln_ernn_rate4: Decimal = Field(alias="seln_ernn_rate4")
+    seln_ernn_rate4: Decimal = Field(
+        alias="seln_ernn_rate4",
+    )
     ("매도 수익 비율4")
-    seln_ernn_rate5: Decimal = Field(alias="seln_ernn_rate5")
+    seln_ernn_rate5: Decimal = Field(
+        alias="seln_ernn_rate5",
+    )
     ("매도 수익 비율5")
-    shnu_ernn_rate1: Decimal = Field(alias="shnu_ernn_rate1")
+    shnu_ernn_rate1: Decimal = Field(
+        alias="shnu_ernn_rate1",
+    )
     ("매수2 수익 비율1")
-    shnu_ernn_rate2: Decimal = Field(alias="shnu_ernn_rate2")
+    shnu_ernn_rate2: Decimal = Field(
+        alias="shnu_ernn_rate2",
+    )
     ("매수2 수익 비율2")
-    shnu_ernn_rate3: Decimal = Field(alias="shnu_ernn_rate3")
+    shnu_ernn_rate3: Decimal = Field(
+        alias="shnu_ernn_rate3",
+    )
     ("매수2 수익 비율3")
-    shnu_ernn_rate4: Decimal = Field(alias="shnu_ernn_rate4")
+    shnu_ernn_rate4: Decimal = Field(
+        alias="shnu_ernn_rate4",
+    )
     ("매수2 수익 비율4")
-    shnu_ernn_rate5: Decimal = Field(alias="shnu_ernn_rate5")
+    shnu_ernn_rate5: Decimal = Field(
+        alias="shnu_ernn_rate5",
+    )
     ("매수2 수익 비율5")
 
 
 class InquireAskingPriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: InquireAskingPriceOutput = Field(alias="output")
+    output: InquireAskingPriceOutput = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -140,15 +238,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireAskingPriceRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireAskingPriceRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireAskingPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireAskingPriceRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireAskingPriceRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireAskingPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireAskingPriceRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireAskingPriceRequestDict],
         ) -> tuple[InquireAskingPriceResponse, KisResponse]: ...
         def call(
             self,
@@ -182,4 +292,10 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "InquireAskingPriceRequest", "InquireAskingPriceRequestDict", "InquireAskingPriceResponse", "InquireAskingPriceOutput"]
+__all__ = [
+    "ENDPOINT",
+    "InquireAskingPriceRequest",
+    "InquireAskingPriceRequestDict",
+    "InquireAskingPriceResponse",
+    "InquireAskingPriceOutput",
+]

@@ -2,11 +2,23 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisTime, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisTime,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -24,11 +36,17 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
 
 
 class InquireTimeItemconclusionRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("J:KRX, NX:NXT, UN:통합")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("종목코드 (ex 005930 삼성전자)")
-    FID_INPUT_HOUR_1: str = Field(alias="FID_INPUT_HOUR_1")
+    FID_INPUT_HOUR_1: str = Field(
+        alias="FID_INPUT_HOUR_1",
+    )
     ("입력시간")
 
 
@@ -43,61 +61,115 @@ class InquireTimeItemconclusionRequestDict(TypedDict):
         FID_INPUT_HOUR_1 (str): 입력시간
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드 (ex 005930 삼성전자)"]
-    FID_INPUT_HOUR_1: Annotated[str, "입력시간"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        FidCondMrktDivCodeEnum,
+        "J:KRX, NX:NXT, UN:통합",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "종목코드 (ex 005930 삼성전자)",
+    ]
+    FID_INPUT_HOUR_1: Annotated[
+        str,
+        "입력시간",
+    ]
 
 
 class InquireTimeItemconclusionOutput1(RawModel):
-    stck_prpr: Decimal = Field(alias="stck_prpr")
+    stck_prpr: Decimal = Field(
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
+    prdy_vrss: int = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: int = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    prdy_vol: int = Field(alias="prdy_vol")
+    prdy_vol: int = Field(
+        alias="prdy_vol",
+    )
     ("전일 거래량")
-    rprs_mrkt_kor_name: str = Field(alias="rprs_mrkt_kor_name")
+    rprs_mrkt_kor_name: str = Field(
+        alias="rprs_mrkt_kor_name",
+    )
     ("대표 시장 한글 명")
 
 
 class InquireTimeItemconclusionOutput2(RawModel):
-    stck_cntg_hour: KisTime = Field(alias="stck_cntg_hour")
+    stck_cntg_hour: KisTime = Field(
+        alias="stck_cntg_hour",
+    )
     ("주식 체결 시간")
-    stck_pbpr: Decimal | None = Field(default=None, alias="stck_pbpr")
+    stck_pbpr: Decimal | None = Field(
+        default=None,
+        alias="stck_pbpr",
+    )
     ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
+    prdy_vrss: int = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: int = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    askp: int = Field(alias="askp")
+    askp: int = Field(
+        alias="askp",
+    )
     ("매도호가")
-    bidp: str = Field(alias="bidp")
+    bidp: str = Field(
+        alias="bidp",
+    )
     ("매수호가")
-    tday_rltv: Decimal = Field(alias="tday_rltv")
+    tday_rltv: Decimal = Field(
+        alias="tday_rltv",
+    )
     ("당일 체결강도")
-    acml_vol: int = Field(alias="acml_vol")
+    acml_vol: int = Field(
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    cnqn: int = Field(alias="cnqn")
+    cnqn: int = Field(
+        alias="cnqn",
+    )
     ("체결량")
 
 
 class InquireTimeItemconclusionResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: InquireTimeItemconclusionOutput1 = Field(alias="output1")
+    output1: InquireTimeItemconclusionOutput1 = Field(
+        alias="output1",
+    )
     ("응답상세")
-    output2: list[InquireTimeItemconclusionOutput2] = Field(alias="output2")
+    output2: list[InquireTimeItemconclusionOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세")
 
 
@@ -120,15 +192,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireTimeItemconclusionRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireTimeItemconclusionRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireTimeItemconclusionResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireTimeItemconclusionRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireTimeItemconclusionRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireTimeItemconclusionResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireTimeItemconclusionRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireTimeItemconclusionRequestDict],
         ) -> tuple[InquireTimeItemconclusionResponse, KisResponse]: ...
         def call(
             self,

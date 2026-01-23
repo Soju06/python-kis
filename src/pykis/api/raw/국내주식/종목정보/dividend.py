@@ -2,11 +2,25 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    KisDateOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -24,17 +38,35 @@ class Gb1Enum(KisStrEnum):
 
 
 class DividendRequest(RawModel):
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
+    CTS: str | None = Field(
+        default=None,
+        alias="CTS",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
-    GB1: Gb1Enum = Field(alias="GB1")
+    GB1: Gb1Enum = Field(
+        alias="GB1",
+    )
     ("0:배당전체, 1:결산배당, 2:중간배당")
-    F_DT: KisDate = Field(alias="F_DT")
+    F_DT: KisDate = Field(
+        alias="F_DT",
+    )
     ("일자 ~")
-    T_DT: KisDate = Field(alias="T_DT")
+    T_DT: KisDate = Field(
+        alias="T_DT",
+    )
     ("~ 일자")
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
+    SHT_CD: str | None = Field(
+        default=None,
+        alias="SHT_CD",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백: 전체, 특정종목 조회시 : 종목코드")
-    HIGH_GB: KisBool | None = Field(default=None, alias="HIGH_GB", json_schema_extra={"blank_allowed": True})
+    HIGH_GB: KisBool | None = Field(
+        default=None,
+        alias="HIGH_GB",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공백")
 
 
@@ -57,51 +89,122 @@ class DividendRequestDict(TypedDict):
         HIGH_GB (KisBool): 공백 optional
     """
 
-    CTS: NotRequired[Annotated[str | None, "공백"]]
-    GB1: Annotated[Gb1Enum, "0:배당전체, 1:결산배당, 2:중간배당"]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    T_DT: Annotated[KisDate, "~ 일자"]
-    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
-    HIGH_GB: NotRequired[Annotated[KisBool | None, "공백"]]
+    CTS: NotRequired[
+        Annotated[
+            str | None,
+            "공백",
+        ]
+    ]
+    GB1: Annotated[
+        Gb1Enum,
+        "0:배당전체, 1:결산배당, 2:중간배당",
+    ]
+    F_DT: Annotated[
+        KisDate,
+        "일자 ~",
+    ]
+    T_DT: Annotated[
+        KisDate,
+        "~ 일자",
+    ]
+    SHT_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공백: 전체, 특정종목 조회시 : 종목코드",
+        ]
+    ]
+    HIGH_GB: NotRequired[
+        Annotated[
+            KisBool | None,
+            "공백",
+        ]
+    ]
 
 
 class DividendOutput1(RawModel):
-    record_date: KisDateOptional = Field(default=None, alias="record_date")
+    record_date: KisDateOptional = Field(
+        default=None,
+        alias="record_date",
+    )
     ("기준일")
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
+    sht_cd: str | None = Field(
+        default=None,
+        alias="sht_cd",
+    )
     ("종목코드")
-    isin_name: str | None = Field(default=None, alias="isin_name")
+    isin_name: str | None = Field(
+        default=None,
+        alias="isin_name",
+    )
     ("종목명")
-    divi_kind: str | None = Field(default=None, alias="divi_kind")
+    divi_kind: str | None = Field(
+        default=None,
+        alias="divi_kind",
+    )
     ("배당종류")
-    face_val: str | None = Field(default=None, alias="face_val")
+    face_val: str | None = Field(
+        default=None,
+        alias="face_val",
+    )
     ("액면가")
-    per_sto_divi_amt: str | None = Field(default=None, alias="per_sto_divi_amt")
+    per_sto_divi_amt: str | None = Field(
+        default=None,
+        alias="per_sto_divi_amt",
+    )
     ("현금배당금")
-    divi_rate: Decimal | None = Field(default=None, alias="divi_rate")
+    divi_rate: Decimal | None = Field(
+        default=None,
+        alias="divi_rate",
+    )
     ("현금배당률(%)")
-    stk_divi_rate: Decimal | None = Field(default=None, alias="stk_divi_rate")
+    stk_divi_rate: Decimal | None = Field(
+        default=None,
+        alias="stk_divi_rate",
+    )
     ("주식배당률(%)")
-    divi_pay_dt: KisDateOptional = Field(default=None, alias="divi_pay_dt")
+    divi_pay_dt: KisDateOptional = Field(
+        default=None,
+        alias="divi_pay_dt",
+    )
     ("배당금지급일")
-    stk_div_pay_dt: KisDateOptional = Field(default=None, alias="stk_div_pay_dt")
+    stk_div_pay_dt: KisDateOptional = Field(
+        default=None,
+        alias="stk_div_pay_dt",
+    )
     ("주식배당지급일")
-    odd_pay_dt: KisDateOptional = Field(default=None, alias="odd_pay_dt")
+    odd_pay_dt: KisDateOptional = Field(
+        default=None,
+        alias="odd_pay_dt",
+    )
     ("단주대금지급일")
-    stk_kind: str | None = Field(default=None, alias="stk_kind")
+    stk_kind: str | None = Field(
+        default=None,
+        alias="stk_kind",
+    )
     ("주식종류")
-    high_divi_gb: KisBool | None = Field(default=None, alias="high_divi_gb")
+    high_divi_gb: KisBool | None = Field(
+        default=None,
+        alias="high_divi_gb",
+    )
     ("고배당종목여부")
 
 
 class DividendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: list[DividendOutput1] = Field(alias="output1")
+    output1: list[DividendOutput1] = Field(
+        alias="output1",
+    )
     ("응답상세")
 
 
@@ -132,15 +235,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DividendRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DividendRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DividendResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DividendRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DividendRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DividendResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[DividendRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[DividendRequestDict],
         ) -> tuple[DividendResponse, KisResponse]: ...
         def call(
             self,
@@ -182,4 +297,11 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "DividendRequest", "DividendRequestDict", "DividendResponse", "DividendOutput1", "Gb1Enum"]
+__all__ = [
+    "ENDPOINT",
+    "DividendRequest",
+    "DividendRequestDict",
+    "DividendResponse",
+    "DividendOutput1",
+    "Gb1Enum",
+]

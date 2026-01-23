@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -31,23 +42,41 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class VolumePowerRequest(RawModel):
-    fid_trgt_exls_cls_code: str = Field(alias="fid_trgt_exls_cls_code")
+    fid_trgt_exls_cls_code: str = Field(
+        alias="fid_trgt_exls_cls_code",
+    )
     ("0 : 전체")
-    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(alias="fid_cond_mrkt_div_code")
+    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(
+        alias="fid_cond_mrkt_div_code",
+    )
     ("시장구분코드 (J:KRX, NX:NXT)")
-    fid_cond_scr_div_code: str = Field(alias="fid_cond_scr_div_code")
+    fid_cond_scr_div_code: str = Field(
+        alias="fid_cond_scr_div_code",
+    )
     ("Unique key( 20168 )")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
+    fid_input_iscd: str = Field(
+        alias="fid_input_iscd",
+    )
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
+    fid_div_cls_code: FidDivClsCodeEnum = Field(
+        alias="fid_div_cls_code",
+    )
     ("0: 전체, 1: 보통주 2: 우선주")
-    fid_input_price_1: str = Field(alias="fid_input_price_1")
+    fid_input_price_1: str = Field(
+        alias="fid_input_price_1",
+    )
     ("입력값 없을때 전체 (가격 ~)")
-    fid_input_price_2: str = Field(alias="fid_input_price_2")
+    fid_input_price_2: str = Field(
+        alias="fid_input_price_2",
+    )
     ("입력값 없을때 전체 (~ 가격)")
-    fid_vol_cnt: int = Field(alias="fid_vol_cnt")
+    fid_vol_cnt: int = Field(
+        alias="fid_vol_cnt",
+    )
     ("입력값 없을때 전체 (거래량 ~)")
-    fid_trgt_cls_code: str = Field(alias="fid_trgt_cls_code")
+    fid_trgt_cls_code: str = Field(
+        alias="fid_trgt_cls_code",
+    )
     ("0 : 전체")
 
 
@@ -76,50 +105,118 @@ class VolumePowerRequestDict(TypedDict):
         fid_trgt_cls_code (str): 0 : 전체
     """
 
-    fid_trgt_exls_cls_code: Annotated[str, "0 : 전체"]
-    fid_cond_mrkt_div_code: Annotated[FidCondMrktDivCodeEnum, "시장구분코드 (J:KRX, NX:NXT)"]
-    fid_cond_scr_div_code: Annotated[str, "Unique key( 20168 )"]
-    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200"]
-    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 전체, 1: 보통주 2: 우선주"]
-    fid_input_price_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"]
-    fid_input_price_2: Annotated[str, "입력값 없을때 전체 (~ 가격)"]
-    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"]
-    fid_trgt_cls_code: Annotated[str, "0 : 전체"]
+    fid_trgt_exls_cls_code: Annotated[
+        str,
+        "0 : 전체",
+    ]
+    fid_cond_mrkt_div_code: Annotated[
+        FidCondMrktDivCodeEnum,
+        "시장구분코드 (J:KRX, NX:NXT)",
+    ]
+    fid_cond_scr_div_code: Annotated[
+        str,
+        "Unique key( 20168 )",
+    ]
+    fid_input_iscd: Annotated[
+        str,
+        "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200",
+    ]
+    fid_div_cls_code: Annotated[
+        FidDivClsCodeEnum,
+        "0: 전체, 1: 보통주 2: 우선주",
+    ]
+    fid_input_price_1: Annotated[
+        str,
+        "입력값 없을때 전체 (가격 ~)",
+    ]
+    fid_input_price_2: Annotated[
+        str,
+        "입력값 없을때 전체 (~ 가격)",
+    ]
+    fid_vol_cnt: Annotated[
+        int,
+        "입력값 없을때 전체 (거래량 ~)",
+    ]
+    fid_trgt_cls_code: Annotated[
+        str,
+        "0 : 전체",
+    ]
 
 
 class VolumePowerOutput(RawModel):
-    stck_shrn_iscd: str | None = Field(default=None, alias="stck_shrn_iscd")
+    stck_shrn_iscd: str | None = Field(
+        default=None,
+        alias="stck_shrn_iscd",
+    )
     ("주식 단축 종목코드")
-    data_rank: str | None = Field(default=None, alias="data_rank")
+    data_rank: str | None = Field(
+        default=None,
+        alias="data_rank",
+    )
     ("데이터 순위")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
+    hts_kor_isnm: str | None = Field(
+        default=None,
+        alias="hts_kor_isnm",
+    )
     ("HTS 한글 종목명")
-    stck_prpr: Decimal | None = Field(default=None, alias="stck_prpr")
+    stck_prpr: Decimal | None = Field(
+        default=None,
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
+    prdy_vrss: str | None = Field(
+        default=None,
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
+    acml_vol: int | None = Field(
+        default=None,
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    tday_rltv: str | None = Field(default=None, alias="tday_rltv")
+    tday_rltv: str | None = Field(
+        default=None,
+        alias="tday_rltv",
+    )
     ("당일 체결강도")
-    seln_cnqn_smtn: str | None = Field(default=None, alias="seln_cnqn_smtn")
+    seln_cnqn_smtn: str | None = Field(
+        default=None,
+        alias="seln_cnqn_smtn",
+    )
     ("매도 체결량 합계")
-    shnu_cnqn_smtn: str | None = Field(default=None, alias="shnu_cnqn_smtn")
+    shnu_cnqn_smtn: str | None = Field(
+        default=None,
+        alias="shnu_cnqn_smtn",
+    )
     ("매수2 체결량 합계")
 
 
 class VolumePowerResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[VolumePowerOutput] = Field(alias="output")
+    output: list[VolumePowerOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -153,15 +250,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: VolumePowerRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: VolumePowerRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[VolumePowerResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: VolumePowerRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: VolumePowerRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[VolumePowerResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[VolumePowerRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[VolumePowerRequestDict],
         ) -> tuple[VolumePowerResponse, KisResponse]: ...
         def call(
             self,

@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDateOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -62,19 +75,41 @@ class SignEnum(KisStrEnum):
 
 
 class DailypriceRequest(RawModel):
-    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
+    AUTH: str | None = Field(
+        default=None,
+        alias="AUTH",
+        json_schema_extra={"blank_allowed": True},
+    )
     ('"" (Null 값 설정)')
-    EXCD: ExcdEnum = Field(alias="EXCD")
-    ("HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이")
-    SYMB: str = Field(alias="SYMB")
+    EXCD: ExcdEnum = Field(
+        alias="EXCD",
+    )
+    (
+        "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 "
+        "SZI : 심천지수 HSX : 호치민 HNX : 하노이"
+    )
+    SYMB: str = Field(
+        alias="SYMB",
+    )
     ("종목코드 (ex. TSLA)")
-    GUBN: GubnEnum = Field(alias="GUBN")
+    GUBN: GubnEnum = Field(
+        alias="GUBN",
+    )
     ("0 : 일 1 : 주 2 : 월")
-    BYMD: str | None = Field(default=None, alias="BYMD", json_schema_extra={"blank_allowed": True})
+    BYMD: str | None = Field(
+        default=None,
+        alias="BYMD",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정")
-    MODP: KisBool = Field(alias="MODP")
+    MODP: KisBool = Field(
+        alias="MODP",
+    )
     ("0 : 미반영 1 : 반영")
-    KEYB: str | None = Field(default=None, alias="KEYB")
+    KEYB: str | None = Field(
+        default=None,
+        alias="KEYB",
+    )
     ("응답시 다음값이 있으면 값이 셋팅되어 있으므로 다음 조회시 응답값 그대로 셋팅")
 
 
@@ -128,71 +163,157 @@ class DailypriceRequestDict(TypedDict):
         optional
     """
 
-    AUTH: NotRequired[Annotated[str | None, '"" (Null 값 설정)']]
+    AUTH: NotRequired[
+        Annotated[
+            str | None,
+            '"" (Null 값 설정)',
+        ]
+    ]
     EXCD: Annotated[
         ExcdEnum,
-        "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이",
+        "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 "
+        "SZI : 심천지수 HSX : 호치민 HNX : 하노이",
     ]
-    SYMB: Annotated[str, "종목코드 (ex. TSLA)"]
-    GUBN: Annotated[GubnEnum, "0 : 일 1 : 주 2 : 월"]
-    BYMD: NotRequired[Annotated[str | None, "조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정"]]
-    MODP: Annotated[KisBool, "0 : 미반영 1 : 반영"]
-    KEYB: NotRequired[Annotated[str | None, "응답시 다음값이 있으면 값이 셋팅되어 있으므로 다음 조회시 응답값 그대로 셋팅"]]
+    SYMB: Annotated[
+        str,
+        "종목코드 (ex. TSLA)",
+    ]
+    GUBN: Annotated[
+        GubnEnum,
+        "0 : 일 1 : 주 2 : 월",
+    ]
+    BYMD: NotRequired[
+        Annotated[
+            str | None,
+            "조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정",
+        ]
+    ]
+    MODP: Annotated[
+        KisBool,
+        "0 : 미반영 1 : 반영",
+    ]
+    KEYB: NotRequired[
+        Annotated[
+            str | None,
+            "응답시 다음값이 있으면 값이 셋팅되어 있으므로 다음 조회시 응답값 그대로 셋팅",
+        ]
+    ]
 
 
 class DailypriceOutput1(RawModel):
-    rsym: str | None = Field(default=None, alias="rsym")
+    rsym: str | None = Field(
+        default=None,
+        alias="rsym",
+    )
     (
         "D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : "
         "나스닥, AMS : 아멕스 , TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이"
     )
-    zdiv: str | None = Field(default=None, alias="zdiv")
+    zdiv: str | None = Field(
+        default=None,
+        alias="zdiv",
+    )
     ("소수점자리수")
-    nrec: str | None = Field(default=None, alias="nrec")
+    nrec: str | None = Field(
+        default=None,
+        alias="nrec",
+    )
     ("전일종가")
 
 
 class DailypriceOutput2(RawModel):
-    xymd: str | None = Field(default=None, alias="xymd")
+    xymd: str | None = Field(
+        default=None,
+        alias="xymd",
+    )
     ("일자(YYYYMMDD)")
-    clos: KisDateOptional = Field(default=None, alias="clos")
+    clos: KisDateOptional = Field(
+        default=None,
+        alias="clos",
+    )
     ("해당 일자의 종가")
-    sign: SignEnum | None = Field(default=None, alias="sign")
+    sign: SignEnum | None = Field(
+        default=None,
+        alias="sign",
+    )
     ("1 : 상한 2 : 상승 3 : 보합 4 : 하한 5 : 하락")
-    diff: KisDateOptional = Field(default=None, alias="diff")
+    diff: KisDateOptional = Field(
+        default=None,
+        alias="diff",
+    )
     ("해당 일자의 종가와 해당 전일 종가의 차이 (해당일 종가-해당 전일 종가)")
-    rate: Decimal | None = Field(default=None, alias="rate")
+    rate: Decimal | None = Field(
+        default=None,
+        alias="rate",
+    )
     ("해당 전일 대비 / 해당일 종가 * 100")
-    open: Decimal | None = Field(default=None, alias="open")
+    open: Decimal | None = Field(
+        default=None,
+        alias="open",
+    )
     ("해당일 최초 거래가격")
-    high: Decimal | None = Field(default=None, alias="high")
+    high: Decimal | None = Field(
+        default=None,
+        alias="high",
+    )
     ("해당일 가장 높은 거래가격")
-    low: Decimal | None = Field(default=None, alias="low")
+    low: Decimal | None = Field(
+        default=None,
+        alias="low",
+    )
     ("해당일 가장 낮은 거래가격")
-    tvol: int | None = Field(default=None, alias="tvol")
+    tvol: int | None = Field(
+        default=None,
+        alias="tvol",
+    )
     ("해당일 거래량")
-    tamt: Decimal | None = Field(default=None, alias="tamt")
+    tamt: Decimal | None = Field(
+        default=None,
+        alias="tamt",
+    )
     ("해당일 거래대금")
-    pbid: KisDateOptional = Field(default=None, alias="pbid")
+    pbid: KisDateOptional = Field(
+        default=None,
+        alias="pbid",
+    )
     ("마지막 체결이 발생한 시점의 매수호가 * 해당 일자 거래량 0인 경우 값이 수신되지 않음")
-    vbid: KisDateOptional = Field(default=None, alias="vbid")
+    vbid: KisDateOptional = Field(
+        default=None,
+        alias="vbid",
+    )
     ("* 해당 일자 거래량 0인 경우 값이 수신되지 않음")
-    pask: KisDateOptional = Field(default=None, alias="pask")
+    pask: KisDateOptional = Field(
+        default=None,
+        alias="pask",
+    )
     ("마지막 체결이 발생한 시점의 매도호가 * 해당 일자 거래량 0인 경우 값이 수신되지 않음")
-    vask: KisDateOptional = Field(default=None, alias="vask")
+    vask: KisDateOptional = Field(
+        default=None,
+        alias="vask",
+    )
     ("* 해당 일자 거래량 0인 경우 값이 수신되지 않음")
 
 
 class DailypriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: DailypriceOutput1 = Field(alias="output1")
+    output1: DailypriceOutput1 = Field(
+        alias="output1",
+    )
     ("응답상세1")
-    output2: list[DailypriceOutput2] = Field(alias="output2")
+    output2: list[DailypriceOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세2")
 
 
@@ -251,15 +372,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DailypriceRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DailypriceRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DailypriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: DailypriceRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: DailypriceRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[DailypriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[DailypriceRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[DailypriceRequestDict],
         ) -> tuple[DailypriceResponse, KisResponse]: ...
         def call(
             self,

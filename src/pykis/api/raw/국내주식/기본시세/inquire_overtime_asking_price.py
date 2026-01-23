@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,9 +25,13 @@ if TYPE_CHECKING:
 
 
 class InquireOvertimeAskingPriceRequest(RawModel):
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("종목코드")
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("시장구분코드 (주식 J)")
 
 
@@ -31,169 +46,345 @@ class InquireOvertimeAskingPriceRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 J)
     """
 
-    FID_INPUT_ISCD: Annotated[str, "종목코드"]
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "종목코드",
+    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "시장구분코드 (주식 J)",
+    ]
 
 
 class InquireOvertimeAskingPriceOutput1(RawModel):
-    ovtm_untp_last_hour: Decimal = Field(alias="ovtm_untp_last_hour")
+    ovtm_untp_last_hour: Decimal = Field(
+        alias="ovtm_untp_last_hour",
+    )
     ("시간외 단일가 최종 시간")
-    ovtm_untp_askp1: Decimal = Field(alias="ovtm_untp_askp1")
+    ovtm_untp_askp1: Decimal = Field(
+        alias="ovtm_untp_askp1",
+    )
     ("시간외 단일가 매도호가1")
-    ovtm_untp_askp2: Decimal = Field(alias="ovtm_untp_askp2")
+    ovtm_untp_askp2: Decimal = Field(
+        alias="ovtm_untp_askp2",
+    )
     ("시간외 단일가 매도호가2")
-    ovtm_untp_askp3: Decimal = Field(alias="ovtm_untp_askp3")
+    ovtm_untp_askp3: Decimal = Field(
+        alias="ovtm_untp_askp3",
+    )
     ("시간외 단일가 매도호가3")
-    ovtm_untp_askp4: Decimal = Field(alias="ovtm_untp_askp4")
+    ovtm_untp_askp4: Decimal = Field(
+        alias="ovtm_untp_askp4",
+    )
     ("시간외 단일가 매도호가4")
-    ovtm_untp_askp5: Decimal = Field(alias="ovtm_untp_askp5")
+    ovtm_untp_askp5: Decimal = Field(
+        alias="ovtm_untp_askp5",
+    )
     ("시간외 단일가 매도호가5")
-    ovtm_untp_askp6: Decimal = Field(alias="ovtm_untp_askp6")
+    ovtm_untp_askp6: Decimal = Field(
+        alias="ovtm_untp_askp6",
+    )
     ("시간외 단일가 매도호가6")
-    ovtm_untp_askp7: Decimal = Field(alias="ovtm_untp_askp7")
+    ovtm_untp_askp7: Decimal = Field(
+        alias="ovtm_untp_askp7",
+    )
     ("시간외 단일가 매도호가7")
-    ovtm_untp_askp8: Decimal = Field(alias="ovtm_untp_askp8")
+    ovtm_untp_askp8: Decimal = Field(
+        alias="ovtm_untp_askp8",
+    )
     ("시간외 단일가 매도호가8")
-    ovtm_untp_askp9: Decimal = Field(alias="ovtm_untp_askp9")
+    ovtm_untp_askp9: Decimal = Field(
+        alias="ovtm_untp_askp9",
+    )
     ("시간외 단일가 매도호가9")
-    ovtm_untp_askp10: Decimal = Field(alias="ovtm_untp_askp10")
+    ovtm_untp_askp10: Decimal = Field(
+        alias="ovtm_untp_askp10",
+    )
     ("시간외 단일가 매도호가10")
-    ovtm_untp_bidp1: str = Field(alias="ovtm_untp_bidp1")
+    ovtm_untp_bidp1: str = Field(
+        alias="ovtm_untp_bidp1",
+    )
     ("시간외 단일가 매수호가1")
-    ovtm_untp_bidp2: str = Field(alias="ovtm_untp_bidp2")
+    ovtm_untp_bidp2: str = Field(
+        alias="ovtm_untp_bidp2",
+    )
     ("시간외 단일가 매수호가2")
-    ovtm_untp_bidp3: str = Field(alias="ovtm_untp_bidp3")
+    ovtm_untp_bidp3: str = Field(
+        alias="ovtm_untp_bidp3",
+    )
     ("시간외 단일가 매수호가3")
-    ovtm_untp_bidp4: str = Field(alias="ovtm_untp_bidp4")
+    ovtm_untp_bidp4: str = Field(
+        alias="ovtm_untp_bidp4",
+    )
     ("시간외 단일가 매수호가4")
-    ovtm_untp_bidp5: str = Field(alias="ovtm_untp_bidp5")
+    ovtm_untp_bidp5: str = Field(
+        alias="ovtm_untp_bidp5",
+    )
     ("시간외 단일가 매수호가5")
-    ovtm_untp_bidp6: str = Field(alias="ovtm_untp_bidp6")
+    ovtm_untp_bidp6: str = Field(
+        alias="ovtm_untp_bidp6",
+    )
     ("시간외 단일가 매수호가6")
-    ovtm_untp_bidp7: str = Field(alias="ovtm_untp_bidp7")
+    ovtm_untp_bidp7: str = Field(
+        alias="ovtm_untp_bidp7",
+    )
     ("시간외 단일가 매수호가7")
-    ovtm_untp_bidp8: str = Field(alias="ovtm_untp_bidp8")
+    ovtm_untp_bidp8: str = Field(
+        alias="ovtm_untp_bidp8",
+    )
     ("시간외 단일가 매수호가8")
-    ovtm_untp_bidp9: str = Field(alias="ovtm_untp_bidp9")
+    ovtm_untp_bidp9: str = Field(
+        alias="ovtm_untp_bidp9",
+    )
     ("시간외 단일가 매수호가9")
-    ovtm_untp_bidp10: str = Field(alias="ovtm_untp_bidp10")
+    ovtm_untp_bidp10: str = Field(
+        alias="ovtm_untp_bidp10",
+    )
     ("시간외 단일가 매수호가10")
-    ovtm_untp_askp_icdc1: Decimal = Field(alias="ovtm_untp_askp_icdc1")
+    ovtm_untp_askp_icdc1: Decimal = Field(
+        alias="ovtm_untp_askp_icdc1",
+    )
     ("시간외 단일가 매도호가 증감1")
-    ovtm_untp_askp_icdc2: Decimal = Field(alias="ovtm_untp_askp_icdc2")
+    ovtm_untp_askp_icdc2: Decimal = Field(
+        alias="ovtm_untp_askp_icdc2",
+    )
     ("시간외 단일가 매도호가 증감2")
-    ovtm_untp_askp_icdc3: Decimal = Field(alias="ovtm_untp_askp_icdc3")
+    ovtm_untp_askp_icdc3: Decimal = Field(
+        alias="ovtm_untp_askp_icdc3",
+    )
     ("시간외 단일가 매도호가 증감3")
-    ovtm_untp_askp_icdc4: Decimal | None = Field(default=None, alias="ovtm_untp_askp_icdc4")
+    ovtm_untp_askp_icdc4: Decimal | None = Field(
+        default=None,
+        alias="ovtm_untp_askp_icdc4",
+    )
     ("시간외 단일가 매도호가 증감4")
-    ovtm_untp_askp_icdc5: Decimal | None = Field(default=None, alias="ovtm_untp_askp_icdc5")
+    ovtm_untp_askp_icdc5: Decimal | None = Field(
+        default=None,
+        alias="ovtm_untp_askp_icdc5",
+    )
     ("시간외 단일가 매도호가 증감5")
-    ovtm_untp_askp_icdc6: Decimal | None = Field(default=None, alias="ovtm_untp_askp_icdc6")
+    ovtm_untp_askp_icdc6: Decimal | None = Field(
+        default=None,
+        alias="ovtm_untp_askp_icdc6",
+    )
     ("시간외 단일가 매도호가 증감6")
-    ovtm_untp_askp_icdc7: Decimal | None = Field(default=None, alias="ovtm_untp_askp_icdc7")
+    ovtm_untp_askp_icdc7: Decimal | None = Field(
+        default=None,
+        alias="ovtm_untp_askp_icdc7",
+    )
     ("시간외 단일가 매도호가 증감7")
-    ovtm_untp_askp_icdc8: Decimal | None = Field(default=None, alias="ovtm_untp_askp_icdc8")
+    ovtm_untp_askp_icdc8: Decimal | None = Field(
+        default=None,
+        alias="ovtm_untp_askp_icdc8",
+    )
     ("시간외 단일가 매도호가 증감8")
-    ovtm_untp_askp_icdc9: Decimal | None = Field(default=None, alias="ovtm_untp_askp_icdc9")
+    ovtm_untp_askp_icdc9: Decimal | None = Field(
+        default=None,
+        alias="ovtm_untp_askp_icdc9",
+    )
     ("시간외 단일가 매도호가 증감9")
-    ovtm_untp_askp_icdc10: Decimal | None = Field(default=None, alias="ovtm_untp_askp_icdc10")
+    ovtm_untp_askp_icdc10: Decimal | None = Field(
+        default=None,
+        alias="ovtm_untp_askp_icdc10",
+    )
     ("시간외 단일가 매도호가 증감10")
-    ovtm_untp_bidp_icdc1: str = Field(alias="ovtm_untp_bidp_icdc1")
+    ovtm_untp_bidp_icdc1: str = Field(
+        alias="ovtm_untp_bidp_icdc1",
+    )
     ("시간외 단일가 매수호가 증감1")
-    ovtm_untp_bidp_icdc2: str = Field(alias="ovtm_untp_bidp_icdc2")
+    ovtm_untp_bidp_icdc2: str = Field(
+        alias="ovtm_untp_bidp_icdc2",
+    )
     ("시간외 단일가 매수호가 증감2")
-    ovtm_untp_bidp_icdc3: str = Field(alias="ovtm_untp_bidp_icdc3")
+    ovtm_untp_bidp_icdc3: str = Field(
+        alias="ovtm_untp_bidp_icdc3",
+    )
     ("시간외 단일가 매수호가 증감3")
-    ovtm_untp_bidp_icdc4: str | None = Field(default=None, alias="ovtm_untp_bidp_icdc4")
+    ovtm_untp_bidp_icdc4: str | None = Field(
+        default=None,
+        alias="ovtm_untp_bidp_icdc4",
+    )
     ("시간외 단일가 매수호가 증감4")
-    ovtm_untp_bidp_icdc5: str | None = Field(default=None, alias="ovtm_untp_bidp_icdc5")
+    ovtm_untp_bidp_icdc5: str | None = Field(
+        default=None,
+        alias="ovtm_untp_bidp_icdc5",
+    )
     ("시간외 단일가 매수호가 증감5")
-    ovtm_untp_bidp_icdc6: str | None = Field(default=None, alias="ovtm_untp_bidp_icdc6")
+    ovtm_untp_bidp_icdc6: str | None = Field(
+        default=None,
+        alias="ovtm_untp_bidp_icdc6",
+    )
     ("시간외 단일가 매수호가 증감6")
-    ovtm_untp_bidp_icdc7: str | None = Field(default=None, alias="ovtm_untp_bidp_icdc7")
+    ovtm_untp_bidp_icdc7: str | None = Field(
+        default=None,
+        alias="ovtm_untp_bidp_icdc7",
+    )
     ("시간외 단일가 매수호가 증감7")
-    ovtm_untp_bidp_icdc8: str | None = Field(default=None, alias="ovtm_untp_bidp_icdc8")
+    ovtm_untp_bidp_icdc8: str | None = Field(
+        default=None,
+        alias="ovtm_untp_bidp_icdc8",
+    )
     ("시간외 단일가 매수호가 증감8")
-    ovtm_untp_bidp_icdc9: str | None = Field(default=None, alias="ovtm_untp_bidp_icdc9")
+    ovtm_untp_bidp_icdc9: str | None = Field(
+        default=None,
+        alias="ovtm_untp_bidp_icdc9",
+    )
     ("시간외 단일가 매수호가 증감9")
-    ovtm_untp_bidp_icdc10: str | None = Field(default=None, alias="ovtm_untp_bidp_icdc10")
+    ovtm_untp_bidp_icdc10: str | None = Field(
+        default=None,
+        alias="ovtm_untp_bidp_icdc10",
+    )
     ("시간외 단일가 매수호가 증감10")
-    ovtm_untp_askp_rsqn1: Decimal = Field(alias="ovtm_untp_askp_rsqn1")
+    ovtm_untp_askp_rsqn1: Decimal = Field(
+        alias="ovtm_untp_askp_rsqn1",
+    )
     ("시간외 단일가 매도호가 잔량1")
-    ovtm_untp_askp_rsqn2: Decimal = Field(alias="ovtm_untp_askp_rsqn2")
+    ovtm_untp_askp_rsqn2: Decimal = Field(
+        alias="ovtm_untp_askp_rsqn2",
+    )
     ("시간외 단일가 매도호가 잔량2")
-    ovtm_untp_askp_rsqn3: Decimal = Field(alias="ovtm_untp_askp_rsqn3")
+    ovtm_untp_askp_rsqn3: Decimal = Field(
+        alias="ovtm_untp_askp_rsqn3",
+    )
     ("시간외 단일가 매도호가 잔량3")
-    ovtm_untp_askp_rsqn4: Decimal = Field(alias="ovtm_untp_askp_rsqn4")
+    ovtm_untp_askp_rsqn4: Decimal = Field(
+        alias="ovtm_untp_askp_rsqn4",
+    )
     ("시간외 단일가 매도호가 잔량4")
-    ovtm_untp_askp_rsqn5: Decimal = Field(alias="ovtm_untp_askp_rsqn5")
+    ovtm_untp_askp_rsqn5: Decimal = Field(
+        alias="ovtm_untp_askp_rsqn5",
+    )
     ("시간외 단일가 매도호가 잔량5")
-    ovtm_untp_askp_rsqn6: Decimal = Field(alias="ovtm_untp_askp_rsqn6")
+    ovtm_untp_askp_rsqn6: Decimal = Field(
+        alias="ovtm_untp_askp_rsqn6",
+    )
     ("시간외 단일가 매도호가 잔량6")
-    ovtm_untp_askp_rsqn7: Decimal = Field(alias="ovtm_untp_askp_rsqn7")
+    ovtm_untp_askp_rsqn7: Decimal = Field(
+        alias="ovtm_untp_askp_rsqn7",
+    )
     ("시간외 단일가 매도호가 잔량7")
-    ovtm_untp_askp_rsqn8: Decimal = Field(alias="ovtm_untp_askp_rsqn8")
+    ovtm_untp_askp_rsqn8: Decimal = Field(
+        alias="ovtm_untp_askp_rsqn8",
+    )
     ("시간외 단일가 매도호가 잔량8")
-    ovtm_untp_askp_rsqn9: Decimal = Field(alias="ovtm_untp_askp_rsqn9")
+    ovtm_untp_askp_rsqn9: Decimal = Field(
+        alias="ovtm_untp_askp_rsqn9",
+    )
     ("시간외 단일가 매도호가 잔량9")
-    ovtm_untp_askp_rsqn10: Decimal = Field(alias="ovtm_untp_askp_rsqn10")
+    ovtm_untp_askp_rsqn10: Decimal = Field(
+        alias="ovtm_untp_askp_rsqn10",
+    )
     ("시간외 단일가 매도호가 잔량10")
-    ovtm_untp_bidp_rsqn1: str = Field(alias="ovtm_untp_bidp_rsqn1")
+    ovtm_untp_bidp_rsqn1: str = Field(
+        alias="ovtm_untp_bidp_rsqn1",
+    )
     ("시간외 단일가 매수호가 잔량1")
-    ovtm_untp_bidp_rsqn2: str = Field(alias="ovtm_untp_bidp_rsqn2")
+    ovtm_untp_bidp_rsqn2: str = Field(
+        alias="ovtm_untp_bidp_rsqn2",
+    )
     ("시간외 단일가 매수호가 잔량2")
-    ovtm_untp_bidp_rsqn3: str = Field(alias="ovtm_untp_bidp_rsqn3")
+    ovtm_untp_bidp_rsqn3: str = Field(
+        alias="ovtm_untp_bidp_rsqn3",
+    )
     ("시간외 단일가 매수호가 잔량3")
-    ovtm_untp_bidp_rsqn4: str = Field(alias="ovtm_untp_bidp_rsqn4")
+    ovtm_untp_bidp_rsqn4: str = Field(
+        alias="ovtm_untp_bidp_rsqn4",
+    )
     ("시간외 단일가 매수호가 잔량4")
-    ovtm_untp_bidp_rsqn5: str = Field(alias="ovtm_untp_bidp_rsqn5")
+    ovtm_untp_bidp_rsqn5: str = Field(
+        alias="ovtm_untp_bidp_rsqn5",
+    )
     ("시간외 단일가 매수호가 잔량5")
-    ovtm_untp_bidp_rsqn6: str = Field(alias="ovtm_untp_bidp_rsqn6")
+    ovtm_untp_bidp_rsqn6: str = Field(
+        alias="ovtm_untp_bidp_rsqn6",
+    )
     ("시간외 단일가 매수호가 잔량6")
-    ovtm_untp_bidp_rsqn7: str = Field(alias="ovtm_untp_bidp_rsqn7")
+    ovtm_untp_bidp_rsqn7: str = Field(
+        alias="ovtm_untp_bidp_rsqn7",
+    )
     ("시간외 단일가 매수호가 잔량7")
-    ovtm_untp_bidp_rsqn8: str = Field(alias="ovtm_untp_bidp_rsqn8")
+    ovtm_untp_bidp_rsqn8: str = Field(
+        alias="ovtm_untp_bidp_rsqn8",
+    )
     ("시간외 단일가 매수호가 잔량8")
-    ovtm_untp_bidp_rsqn9: str = Field(alias="ovtm_untp_bidp_rsqn9")
+    ovtm_untp_bidp_rsqn9: str = Field(
+        alias="ovtm_untp_bidp_rsqn9",
+    )
     ("시간외 단일가 매수호가 잔량9")
-    ovtm_untp_bidp_rsqn10: str = Field(alias="ovtm_untp_bidp_rsqn10")
+    ovtm_untp_bidp_rsqn10: str = Field(
+        alias="ovtm_untp_bidp_rsqn10",
+    )
     ("시간외 단일가 매수호가 잔량10")
-    ovtm_untp_total_askp_rsqn: Decimal = Field(alias="ovtm_untp_total_askp_rsqn")
+    ovtm_untp_total_askp_rsqn: Decimal = Field(
+        alias="ovtm_untp_total_askp_rsqn",
+    )
     ("시간외 단일가 총 매도호가 잔량")
-    ovtm_untp_total_bidp_rsqn: str = Field(alias="ovtm_untp_total_bidp_rsqn")
+    ovtm_untp_total_bidp_rsqn: str = Field(
+        alias="ovtm_untp_total_bidp_rsqn",
+    )
     ("시간외 단일가 총 매수호가 잔량")
-    ovtm_untp_total_askp_rsqn_icdc: Decimal = Field(alias="ovtm_untp_total_askp_rsqn_icdc")
+    ovtm_untp_total_askp_rsqn_icdc: Decimal = Field(
+        alias="ovtm_untp_total_askp_rsqn_icdc",
+    )
     ("시간외 단일가 총 매도호가 잔량")
-    ovtm_untp_total_bidp_rsqn_icdc: str = Field(alias="ovtm_untp_total_bidp_rsqn_icdc")
+    ovtm_untp_total_bidp_rsqn_icdc: str = Field(
+        alias="ovtm_untp_total_bidp_rsqn_icdc",
+    )
     ("시간외 단일가 총 매수호가 잔량")
-    ovtm_untp_ntby_bidp_rsqn: str = Field(alias="ovtm_untp_ntby_bidp_rsqn")
+    ovtm_untp_ntby_bidp_rsqn: str = Field(
+        alias="ovtm_untp_ntby_bidp_rsqn",
+    )
     ("시간외 단일가 순매수 호가 잔량")
-    total_askp_rsqn: int = Field(alias="total_askp_rsqn")
+    total_askp_rsqn: int = Field(
+        alias="total_askp_rsqn",
+    )
     ("총 매도호가 잔량")
-    total_bidp_rsqn: str = Field(alias="total_bidp_rsqn")
+    total_bidp_rsqn: str = Field(
+        alias="total_bidp_rsqn",
+    )
     ("총 매수호가 잔량")
-    total_askp_rsqn_icdc: int = Field(alias="total_askp_rsqn_icdc")
+    total_askp_rsqn_icdc: int = Field(
+        alias="total_askp_rsqn_icdc",
+    )
     ("총 매도호가 잔량 증감")
-    total_bidp_rsqn_icdc: str = Field(alias="total_bidp_rsqn_icdc")
+    total_bidp_rsqn_icdc: str = Field(
+        alias="total_bidp_rsqn_icdc",
+    )
     ("총 매수호가 잔량 증감")
-    ovtm_total_askp_rsqn: int = Field(alias="ovtm_total_askp_rsqn")
+    ovtm_total_askp_rsqn: int = Field(
+        alias="ovtm_total_askp_rsqn",
+    )
     ("시간외 총 매도호가 잔량")
-    ovtm_total_bidp_rsqn: str = Field(alias="ovtm_total_bidp_rsqn")
+    ovtm_total_bidp_rsqn: str = Field(
+        alias="ovtm_total_bidp_rsqn",
+    )
     ("시간외 총 매수호가 잔량")
-    ovtm_total_askp_icdc: int = Field(alias="ovtm_total_askp_icdc")
+    ovtm_total_askp_icdc: int = Field(
+        alias="ovtm_total_askp_icdc",
+    )
     ("시간외 총 매도호가 증감")
-    ovtm_total_bidp_icdc: str = Field(alias="ovtm_total_bidp_icdc")
+    ovtm_total_bidp_icdc: str = Field(
+        alias="ovtm_total_bidp_icdc",
+    )
     ("시간외 총 매수호가 증감")
 
 
 class InquireOvertimeAskingPriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: InquireOvertimeAskingPriceOutput1 = Field(alias="output")
+    output1: InquireOvertimeAskingPriceOutput1 = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -220,15 +411,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireOvertimeAskingPriceRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireOvertimeAskingPriceRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireOvertimeAskingPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireOvertimeAskingPriceRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireOvertimeAskingPriceRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireOvertimeAskingPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireOvertimeAskingPriceRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireOvertimeAskingPriceRequestDict],
         ) -> tuple[InquireOvertimeAskingPriceResponse, KisResponse]: ...
         def call(
             self,

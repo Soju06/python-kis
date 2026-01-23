@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDateOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -45,37 +58,77 @@ class PricDvsnCdEnum(KisStrEnum):
 
 
 class OrderRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
+    CANO: CanoEnum = Field(
+        alias="CANO",
+    )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_FUTR_FX_PDNO: str = Field(alias="OVRS_FUTR_FX_PDNO")
+    OVRS_FUTR_FX_PDNO: str = Field(
+        alias="OVRS_FUTR_FX_PDNO",
+    )
     ("해외선물FX상품번호")
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(alias="SLL_BUY_DVSN_CD")
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(
+        alias="SLL_BUY_DVSN_CD",
+    )
     ("01 : 매도 02 : 매수")
-    FM_LQD_USTL_CCLD_DT: KisDateOptional = Field(default=None, alias="FM_LQD_USTL_CCLD_DT")
+    FM_LQD_USTL_CCLD_DT: KisDateOptional = Field(
+        default=None,
+        alias="FM_LQD_USTL_CCLD_DT",
+    )
     ("빈칸 (hedge청산만 이용)")
-    FM_LQD_USTL_CCNO: str | None = Field(default=None, alias="FM_LQD_USTL_CCNO")
+    FM_LQD_USTL_CCNO: str | None = Field(
+        default=None,
+        alias="FM_LQD_USTL_CCNO",
+    )
     ("빈칸 (hedge청산만 이용)")
-    PRIC_DVSN_CD: PricDvsnCdEnum = Field(alias="PRIC_DVSN_CD")
+    PRIC_DVSN_CD: PricDvsnCdEnum = Field(
+        alias="PRIC_DVSN_CD",
+    )
     ("1.지정, 2. 시장, 3. STOP, 4 S/L")
-    FM_LIMIT_ORD_PRIC: Decimal | None = Field(default=None, alias="FM_LIMIT_ORD_PRIC", json_schema_extra={"blank_allowed": True})
+    FM_LIMIT_ORD_PRIC: Decimal | None = Field(
+        default=None,
+        alias="FM_LIMIT_ORD_PRIC",
+        json_schema_extra={"blank_allowed": True},
+    )
     ('지정가인 경우 가격 입력 * 시장가, STOP주문인 경우, 빈칸("") 입력')
-    FM_STOP_ORD_PRIC: Decimal | None = Field(default=None, alias="FM_STOP_ORD_PRIC", json_schema_extra={"blank_allowed": True})
+    FM_STOP_ORD_PRIC: Decimal | None = Field(
+        default=None,
+        alias="FM_STOP_ORD_PRIC",
+        json_schema_extra={"blank_allowed": True},
+    )
     ('STOP 주문 가격 입력 * 시장가, 지정가인 경우, 빈칸("") 입력')
-    FM_ORD_QTY: int = Field(alias="FM_ORD_QTY")
+    FM_ORD_QTY: int = Field(
+        alias="FM_ORD_QTY",
+    )
     ("FM주문수량")
-    FM_LQD_LMT_ORD_PRIC: Decimal | None = Field(default=None, alias="FM_LQD_LMT_ORD_PRIC")
+    FM_LQD_LMT_ORD_PRIC: Decimal | None = Field(
+        default=None,
+        alias="FM_LQD_LMT_ORD_PRIC",
+    )
     ("빈칸 (hedge청산만 이용)")
-    FM_LQD_STOP_ORD_PRIC: Decimal | None = Field(default=None, alias="FM_LQD_STOP_ORD_PRIC")
+    FM_LQD_STOP_ORD_PRIC: Decimal | None = Field(
+        default=None,
+        alias="FM_LQD_STOP_ORD_PRIC",
+    )
     ("빈칸 (hedge청산만 이용)")
-    CCLD_CNDT_CD: str = Field(alias="CCLD_CNDT_CD")
+    CCLD_CNDT_CD: str = Field(
+        alias="CCLD_CNDT_CD",
+    )
     ("일반적으로 6 (EOD, 지정가) GTD인 경우 5, 시장가인 경우만 2")
-    CPLX_ORD_DVSN_CD: str = Field(alias="CPLX_ORD_DVSN_CD")
+    CPLX_ORD_DVSN_CD: str = Field(
+        alias="CPLX_ORD_DVSN_CD",
+    )
     ("0 (hedge청산만 이용)")
-    ECIS_RSVN_ORD_YN: KisBool = Field(alias="ECIS_RSVN_ORD_YN")
+    ECIS_RSVN_ORD_YN: KisBool = Field(
+        alias="ECIS_RSVN_ORD_YN",
+    )
     ("N")
-    FM_HDGE_ORD_SCRN_YN: KisBool = Field(alias="FM_HDGE_ORD_SCRN_YN")
+    FM_HDGE_ORD_SCRN_YN: KisBool = Field(
+        alias="FM_HDGE_ORD_SCRN_YN",
+    )
     ("N")
 
 
@@ -110,39 +163,113 @@ class OrderRequestDict(TypedDict):
         FM_HDGE_ORD_SCRN_YN (KisBool): N
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    OVRS_FUTR_FX_PDNO: Annotated[str, "해외선물FX상품번호"]
-    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "01 : 매도 02 : 매수"]
-    FM_LQD_USTL_CCLD_DT: NotRequired[Annotated[KisDateOptional, "빈칸 (hedge청산만 이용)"]]
-    FM_LQD_USTL_CCNO: NotRequired[Annotated[str | None, "빈칸 (hedge청산만 이용)"]]
-    PRIC_DVSN_CD: Annotated[PricDvsnCdEnum, "1.지정, 2. 시장, 3. STOP, 4 S/L"]
-    FM_LIMIT_ORD_PRIC: NotRequired[Annotated[Decimal | None, '지정가인 경우 가격 입력 * 시장가, STOP주문인 경우, 빈칸("") 입력']]
-    FM_STOP_ORD_PRIC: NotRequired[Annotated[Decimal | None, 'STOP 주문 가격 입력 * 시장가, 지정가인 경우, 빈칸("") 입력']]
-    FM_ORD_QTY: Annotated[int, "FM주문수량"]
-    FM_LQD_LMT_ORD_PRIC: NotRequired[Annotated[Decimal | None, "빈칸 (hedge청산만 이용)"]]
-    FM_LQD_STOP_ORD_PRIC: NotRequired[Annotated[Decimal | None, "빈칸 (hedge청산만 이용)"]]
-    CCLD_CNDT_CD: Annotated[str, "일반적으로 6 (EOD, 지정가) GTD인 경우 5, 시장가인 경우만 2"]
-    CPLX_ORD_DVSN_CD: Annotated[str, "0 (hedge청산만 이용)"]
-    ECIS_RSVN_ORD_YN: Annotated[KisBool, "N"]
-    FM_HDGE_ORD_SCRN_YN: Annotated[KisBool, "N"]
+    CANO: Annotated[
+        CanoEnum,
+        "계좌번호 체계(8-2)의 앞 8자리",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        AcntPrdtCdEnum,
+        "계좌번호 체계(8-2)의 뒤 2자리",
+    ]
+    OVRS_FUTR_FX_PDNO: Annotated[
+        str,
+        "해외선물FX상품번호",
+    ]
+    SLL_BUY_DVSN_CD: Annotated[
+        SllBuyDvsnCdEnum,
+        "01 : 매도 02 : 매수",
+    ]
+    FM_LQD_USTL_CCLD_DT: NotRequired[
+        Annotated[
+            KisDateOptional,
+            "빈칸 (hedge청산만 이용)",
+        ]
+    ]
+    FM_LQD_USTL_CCNO: NotRequired[
+        Annotated[
+            str | None,
+            "빈칸 (hedge청산만 이용)",
+        ]
+    ]
+    PRIC_DVSN_CD: Annotated[
+        PricDvsnCdEnum,
+        "1.지정, 2. 시장, 3. STOP, 4 S/L",
+    ]
+    FM_LIMIT_ORD_PRIC: NotRequired[
+        Annotated[
+            Decimal | None,
+            '지정가인 경우 가격 입력 * 시장가, STOP주문인 경우, 빈칸("") 입력',
+        ]
+    ]
+    FM_STOP_ORD_PRIC: NotRequired[
+        Annotated[
+            Decimal | None,
+            'STOP 주문 가격 입력 * 시장가, 지정가인 경우, 빈칸("") 입력',
+        ]
+    ]
+    FM_ORD_QTY: Annotated[
+        int,
+        "FM주문수량",
+    ]
+    FM_LQD_LMT_ORD_PRIC: NotRequired[
+        Annotated[
+            Decimal | None,
+            "빈칸 (hedge청산만 이용)",
+        ]
+    ]
+    FM_LQD_STOP_ORD_PRIC: NotRequired[
+        Annotated[
+            Decimal | None,
+            "빈칸 (hedge청산만 이용)",
+        ]
+    ]
+    CCLD_CNDT_CD: Annotated[
+        str,
+        "일반적으로 6 (EOD, 지정가) GTD인 경우 5, 시장가인 경우만 2",
+    ]
+    CPLX_ORD_DVSN_CD: Annotated[
+        str,
+        "0 (hedge청산만 이용)",
+    ]
+    ECIS_RSVN_ORD_YN: Annotated[
+        KisBool,
+        "N",
+    ]
+    FM_HDGE_ORD_SCRN_YN: Annotated[
+        KisBool,
+        "N",
+    ]
 
 
 class OrderOutput(RawModel):
-    ORD_DT: KisDateOptional = Field(default=None, alias="ORD_DT")
+    ORD_DT: KisDateOptional = Field(
+        default=None,
+        alias="ORD_DT",
+    )
     ("주문일자")
-    ODNO: str | None = Field(default=None, alias="ODNO")
+    ODNO: str | None = Field(
+        default=None,
+        alias="ODNO",
+    )
     ('접수한 주문의 일련번호(ex. 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송 (ex. ORGN_ODNO : 00360686)')
 
 
 class OrderResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: OrderOutput = Field(alias="output")
+    output: OrderOutput = Field(
+        alias="output",
+    )
 
 
 _ENDPOINT: Endpoint[OrderRequest, OrderResponse] = Endpoint(
@@ -172,15 +299,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: OrderRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: OrderRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[OrderResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: OrderRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: OrderRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[OrderResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[OrderRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[OrderRequestDict],
         ) -> tuple[OrderResponse, KisResponse]: ...
         def call(
             self,

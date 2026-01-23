@@ -2,11 +2,25 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisDateTime, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    KisDateTime,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -66,27 +80,54 @@ class SllBuyDvsnCdEnum(KisStrEnum):
 
 
 class InquireDailyCcldRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
+    CANO: CanoEnum = Field(
+        alias="CANO",
+    )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    STRT_DT: str = Field(alias="STRT_DT")
+    STRT_DT: str = Field(
+        alias="STRT_DT",
+    )
     ("시작일자(YYYYMMDD)")
-    END_DT: str = Field(alias="END_DT")
+    END_DT: str = Field(
+        alias="END_DT",
+    )
     ("종료일자(YYYYMMDD)")
-    FUOP_DVSN_CD: FuopDvsnCdEnum = Field(alias="FUOP_DVSN_CD")
+    FUOP_DVSN_CD: FuopDvsnCdEnum = Field(
+        alias="FUOP_DVSN_CD",
+    )
     ("00:전체 / 01:선물 / 02:옵션")
-    FM_PDGR_CD: str | None = Field(default=None, alias="FM_PDGR_CD", json_schema_extra={"blank_allowed": True})
+    FM_PDGR_CD: str | None = Field(
+        default=None,
+        alias="FM_PDGR_CD",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공란(Default)")
-    CRCY_CD: CrcyCdEnum = Field(alias="CRCY_CD")
-    ("%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남")
-    FM_ITEM_FTNG_YN: KisBool = Field(alias="FM_ITEM_FTNG_YN")
+    CRCY_CD: CrcyCdEnum = Field(
+        alias="CRCY_CD",
+    )
+    (
+        "%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / "
+        "JPY: 일본 VND: 베트남"
+    )
+    FM_ITEM_FTNG_YN: KisBool = Field(
+        alias="FM_ITEM_FTNG_YN",
+    )
     ('"N"(Default)')
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(alias="SLL_BUY_DVSN_CD")
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(
+        alias="SLL_BUY_DVSN_CD",
+    )
     ("%%: 전체 / 01 : 매도 / 02 : 매수")
-    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
+    CTX_AREA_FK200: str = Field(
+        alias="CTX_AREA_FK200",
+    )
     ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
+    CTX_AREA_NK200: str = Field(
+        alias="CTX_AREA_NK200",
+    )
     ("연속조회키200")
 
 
@@ -109,77 +150,161 @@ class InquireDailyCcldRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    STRT_DT: Annotated[str, "시작일자(YYYYMMDD)"]
-    END_DT: Annotated[str, "종료일자(YYYYMMDD)"]
-    FUOP_DVSN_CD: Annotated[FuopDvsnCdEnum, "00:전체 / 01:선물 / 02:옵션"]
-    FM_PDGR_CD: NotRequired[Annotated[str | None, "공란(Default)"]]
-    CRCY_CD: Annotated[
-        CrcyCdEnum, "%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남"
+    CANO: Annotated[
+        CanoEnum,
+        "계좌번호 체계(8-2)의 앞 8자리",
     ]
-    FM_ITEM_FTNG_YN: Annotated[KisBool, '"N"(Default)']
-    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "%%: 전체 / 01 : 매도 / 02 : 매수"]
-    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
-    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
+    ACNT_PRDT_CD: Annotated[
+        AcntPrdtCdEnum,
+        "계좌번호 체계(8-2)의 뒤 2자리",
+    ]
+    STRT_DT: Annotated[
+        str,
+        "시작일자(YYYYMMDD)",
+    ]
+    END_DT: Annotated[
+        str,
+        "종료일자(YYYYMMDD)",
+    ]
+    FUOP_DVSN_CD: Annotated[
+        FuopDvsnCdEnum,
+        "00:전체 / 01:선물 / 02:옵션",
+    ]
+    FM_PDGR_CD: NotRequired[
+        Annotated[
+            str | None,
+            "공란(Default)",
+        ]
+    ]
+    CRCY_CD: Annotated[
+        CrcyCdEnum,
+        "%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / "
+        "JPY: 일본 VND: 베트남",
+    ]
+    FM_ITEM_FTNG_YN: Annotated[
+        KisBool,
+        '"N"(Default)',
+    ]
+    SLL_BUY_DVSN_CD: Annotated[
+        SllBuyDvsnCdEnum,
+        "%%: 전체 / 01 : 매도 / 02 : 매수",
+    ]
+    CTX_AREA_FK200: Annotated[
+        str,
+        "연속조회검색조건200",
+    ]
+    CTX_AREA_NK200: Annotated[
+        str,
+        "연속조회키200",
+    ]
 
 
 class InquireDailyCcldOutput2(RawModel):
-    fm_tot_ccld_qty: int = Field(alias="fm_tot_ccld_qty")
+    fm_tot_ccld_qty: int = Field(
+        alias="fm_tot_ccld_qty",
+    )
     ("FM총체결수량")
-    fm_tot_futr_agrm_amt: Decimal = Field(alias="fm_tot_futr_agrm_amt")
+    fm_tot_futr_agrm_amt: Decimal = Field(
+        alias="fm_tot_futr_agrm_amt",
+    )
     ("FM총선물약정금액")
-    fm_tot_opt_agrm_amt: Decimal = Field(alias="fm_tot_opt_agrm_amt")
+    fm_tot_opt_agrm_amt: Decimal = Field(
+        alias="fm_tot_opt_agrm_amt",
+    )
     ("FM총옵션약정금액")
-    fm_fee_smtl: str = Field(alias="fm_fee_smtl")
+    fm_fee_smtl: str = Field(
+        alias="fm_fee_smtl",
+    )
     ("FM수수료합계")
 
 
 class InquireDailyCcldOutput1(RawModel):
-    dt: KisDate = Field(alias="dt")
+    dt: KisDate = Field(
+        alias="dt",
+    )
     ("일자")
-    ccno: str = Field(alias="ccno")
+    ccno: str = Field(
+        alias="ccno",
+    )
     ("체결번호")
-    ovrs_futr_fx_pdno: str = Field(alias="ovrs_futr_fx_pdno")
+    ovrs_futr_fx_pdno: str = Field(
+        alias="ovrs_futr_fx_pdno",
+    )
     ("해외선물FX상품번호")
-    sll_buy_dvsn_cd: str = Field(alias="sll_buy_dvsn_cd")
+    sll_buy_dvsn_cd: str = Field(
+        alias="sll_buy_dvsn_cd",
+    )
     ("매도매수구분코드")
-    fm_ccld_qty: int = Field(alias="fm_ccld_qty")
+    fm_ccld_qty: int = Field(
+        alias="fm_ccld_qty",
+    )
     ("FM체결수량")
-    fm_ccld_amt: Decimal = Field(alias="fm_ccld_amt")
+    fm_ccld_amt: Decimal = Field(
+        alias="fm_ccld_amt",
+    )
     ("FM체결금액")
-    fm_futr_ccld_amt: Decimal = Field(alias="fm_futr_ccld_amt")
+    fm_futr_ccld_amt: Decimal = Field(
+        alias="fm_futr_ccld_amt",
+    )
     ("FM선물체결금액")
-    fm_opt_ccld_amt: Decimal = Field(alias="fm_opt_ccld_amt")
+    fm_opt_ccld_amt: Decimal = Field(
+        alias="fm_opt_ccld_amt",
+    )
     ("FM옵션체결금액")
-    crcy_cd: str = Field(alias="crcy_cd")
+    crcy_cd: str = Field(
+        alias="crcy_cd",
+    )
     ("통화코드")
-    fm_fee: str = Field(alias="fm_fee")
+    fm_fee: str = Field(
+        alias="fm_fee",
+    )
     ("FM수수료")
-    fm_futr_pure_agrm_amt: Decimal = Field(alias="fm_futr_pure_agrm_amt")
+    fm_futr_pure_agrm_amt: Decimal = Field(
+        alias="fm_futr_pure_agrm_amt",
+    )
     ("FM선물순약정금액")
-    fm_opt_pure_agrm_amt: Decimal = Field(alias="fm_opt_pure_agrm_amt")
+    fm_opt_pure_agrm_amt: Decimal = Field(
+        alias="fm_opt_pure_agrm_amt",
+    )
     ("FM옵션순약정금액")
-    ccld_dtl_dtime: KisDateTime = Field(alias="ccld_dtl_dtime")
+    ccld_dtl_dtime: KisDateTime = Field(
+        alias="ccld_dtl_dtime",
+    )
     ("체결상세일시")
-    ord_dt: KisDate = Field(alias="ord_dt")
+    ord_dt: KisDate = Field(
+        alias="ord_dt",
+    )
     ("주문일자")
-    odno: str = Field(alias="odno")
+    odno: str = Field(
+        alias="odno",
+    )
     ("접수한 주문의 일련번호(ex. 00360686)")
-    ord_mdia_dvsn_name: str = Field(alias="ord_mdia_dvsn_name")
+    ord_mdia_dvsn_name: str = Field(
+        alias="ord_mdia_dvsn_name",
+    )
     ("주문매체구분명")
 
 
 class InquireDailyCcldResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output2: list[InquireDailyCcldOutput2] = Field(alias="output2")
+    output2: list[InquireDailyCcldOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세2")
-    output1: list[InquireDailyCcldOutput1] = Field(alias="output1")
+    output1: list[InquireDailyCcldOutput1] = Field(
+        alias="output1",
+    )
     ("응답상세1")
 
 
@@ -202,15 +327,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireDailyCcldRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireDailyCcldRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireDailyCcldResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireDailyCcldRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireDailyCcldRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireDailyCcldResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireDailyCcldRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireDailyCcldRequestDict],
         ) -> tuple[InquireDailyCcldResponse, KisResponse]: ...
         def call(
             self,

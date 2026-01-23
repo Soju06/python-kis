@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, KisTimeOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDateOptional,
+    KisTimeOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,71 +27,137 @@ if TYPE_CHECKING:
 
 
 class SearchContractDetailRequest(RawModel):
-    QRY_CNT: str = Field(alias="QRY_CNT")
+    QRY_CNT: str = Field(
+        alias="QRY_CNT",
+    )
     ("입력한 코드 개수")
-    SRS_CD_01: int = Field(alias="SRS_CD_01")
+    SRS_CD_01: int = Field(
+        alias="SRS_CD_01",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_02: int = Field(alias="SRS_CD_02")
+    SRS_CD_02: int = Field(
+        alias="SRS_CD_02",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_03: int = Field(alias="SRS_CD_03")
+    SRS_CD_03: int = Field(
+        alias="SRS_CD_03",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_04: int = Field(alias="SRS_CD_04")
+    SRS_CD_04: int = Field(
+        alias="SRS_CD_04",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_05: int = Field(alias="SRS_CD_05")
+    SRS_CD_05: int = Field(
+        alias="SRS_CD_05",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_06: int = Field(alias="SRS_CD_06")
+    SRS_CD_06: int = Field(
+        alias="SRS_CD_06",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_07: int = Field(alias="SRS_CD_07")
+    SRS_CD_07: int = Field(
+        alias="SRS_CD_07",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_08: int = Field(alias="SRS_CD_08")
+    SRS_CD_08: int = Field(
+        alias="SRS_CD_08",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_09: int = Field(alias="SRS_CD_09")
+    SRS_CD_09: int = Field(
+        alias="SRS_CD_09",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_10: int = Field(alias="SRS_CD_10")
+    SRS_CD_10: int = Field(
+        alias="SRS_CD_10",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_11: int = Field(alias="SRS_CD_11")
+    SRS_CD_11: int = Field(
+        alias="SRS_CD_11",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_12: int = Field(alias="SRS_CD_12")
+    SRS_CD_12: int = Field(
+        alias="SRS_CD_12",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_13: int = Field(alias="SRS_CD_13")
+    SRS_CD_13: int = Field(
+        alias="SRS_CD_13",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_14: int = Field(alias="SRS_CD_14")
+    SRS_CD_14: int = Field(
+        alias="SRS_CD_14",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_15: int = Field(alias="SRS_CD_15")
+    SRS_CD_15: int = Field(
+        alias="SRS_CD_15",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_16: int = Field(alias="SRS_CD_16")
+    SRS_CD_16: int = Field(
+        alias="SRS_CD_16",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_17: int = Field(alias="SRS_CD_17")
+    SRS_CD_17: int = Field(
+        alias="SRS_CD_17",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_18: int = Field(alias="SRS_CD_18")
+    SRS_CD_18: int = Field(
+        alias="SRS_CD_18",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_19: int = Field(alias="SRS_CD_19")
+    SRS_CD_19: int = Field(
+        alias="SRS_CD_19",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_20: int = Field(alias="SRS_CD_20")
+    SRS_CD_20: int = Field(
+        alias="SRS_CD_20",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_21: int = Field(alias="SRS_CD_21")
+    SRS_CD_21: int = Field(
+        alias="SRS_CD_21",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_22: int = Field(alias="SRS_CD_22")
+    SRS_CD_22: int = Field(
+        alias="SRS_CD_22",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_23: int = Field(alias="SRS_CD_23")
+    SRS_CD_23: int = Field(
+        alias="SRS_CD_23",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_24: int = Field(alias="SRS_CD_24")
+    SRS_CD_24: int = Field(
+        alias="SRS_CD_24",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_25: int = Field(alias="SRS_CD_25")
+    SRS_CD_25: int = Field(
+        alias="SRS_CD_25",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_26: int = Field(alias="SRS_CD_26")
+    SRS_CD_26: int = Field(
+        alias="SRS_CD_26",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_27: int = Field(alias="SRS_CD_27")
+    SRS_CD_27: int = Field(
+        alias="SRS_CD_27",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_28: int = Field(alias="SRS_CD_28")
+    SRS_CD_28: int = Field(
+        alias="SRS_CD_28",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_29: int = Field(alias="SRS_CD_29")
+    SRS_CD_29: int = Field(
+        alias="SRS_CD_29",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_30: int = Field(alias="SRS_CD_30")
+    SRS_CD_30: int = Field(
+        alias="SRS_CD_30",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_31: int = Field(alias="SRS_CD_31")
+    SRS_CD_31: int = Field(
+        alias="SRS_CD_31",
+    )
     ("최대 32개 까지 가능")
-    SRS_CD_32: int = Field(alias="SRS_CD_32")
+    SRS_CD_32: int = Field(
+        alias="SRS_CD_32",
+    )
     ("최대 32개 까지 가능")
 
 
@@ -124,96 +203,269 @@ class SearchContractDetailRequestDict(TypedDict):
         SRS_CD_32 (int): 최대 32개 까지 가능
     """
 
-    QRY_CNT: Annotated[str, "입력한 코드 개수"]
-    SRS_CD_01: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_02: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_03: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_04: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_05: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_06: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_07: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_08: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_09: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_10: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_11: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_12: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_13: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_14: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_15: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_16: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_17: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_18: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_19: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_20: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_21: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_22: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_23: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_24: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_25: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_26: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_27: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_28: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_29: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_30: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_31: Annotated[int, "최대 32개 까지 가능"]
-    SRS_CD_32: Annotated[int, "최대 32개 까지 가능"]
+    QRY_CNT: Annotated[
+        str,
+        "입력한 코드 개수",
+    ]
+    SRS_CD_01: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_02: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_03: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_04: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_05: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_06: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_07: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_08: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_09: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_10: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_11: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_12: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_13: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_14: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_15: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_16: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_17: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_18: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_19: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_20: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_21: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_22: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_23: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_24: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_25: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_26: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_27: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_28: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_29: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_30: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_31: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
+    SRS_CD_32: Annotated[
+        int,
+        "최대 32개 까지 가능",
+    ]
 
 
 class SearchContractDetailOutput2(RawModel):
-    exch_cd: str | None = Field(default=None, alias="exch_cd")
+    exch_cd: str | None = Field(
+        default=None,
+        alias="exch_cd",
+    )
     ("거래소코드")
-    clas_cd: str | None = Field(default=None, alias="clas_cd")
+    clas_cd: str | None = Field(
+        default=None,
+        alias="clas_cd",
+    )
     ("품목종류")
-    crc_cd: str | None = Field(default=None, alias="crc_cd")
+    crc_cd: str | None = Field(
+        default=None,
+        alias="crc_cd",
+    )
     ("거래통화")
-    sttl_price: Decimal | None = Field(default=None, alias="sttl_price")
+    sttl_price: Decimal | None = Field(
+        default=None,
+        alias="sttl_price",
+    )
     ("정산가")
-    sttl_date: KisDateOptional = Field(default=None, alias="sttl_date")
+    sttl_date: KisDateOptional = Field(
+        default=None,
+        alias="sttl_date",
+    )
     ("정산일")
-    trst_mgn: str | None = Field(default=None, alias="trst_mgn")
+    trst_mgn: str | None = Field(
+        default=None,
+        alias="trst_mgn",
+    )
     ("증거금")
-    disp_digit: Decimal | None = Field(default=None, alias="disp_digit")
+    disp_digit: Decimal | None = Field(
+        default=None,
+        alias="disp_digit",
+    )
     ("가격표시진법")
-    tick_sz: str | None = Field(default=None, alias="tick_sz")
+    tick_sz: str | None = Field(
+        default=None,
+        alias="tick_sz",
+    )
     ("틱사이즈")
-    tick_val: str | None = Field(default=None, alias="tick_val")
+    tick_val: str | None = Field(
+        default=None,
+        alias="tick_val",
+    )
     ("틱가치")
-    mrkt_open_date: KisDateOptional = Field(default=None, alias="mrkt_open_date")
+    mrkt_open_date: KisDateOptional = Field(
+        default=None,
+        alias="mrkt_open_date",
+    )
     ("장개시일자")
-    mrkt_open_time: KisTimeOptional = Field(default=None, alias="mrkt_open_time")
+    mrkt_open_time: KisTimeOptional = Field(
+        default=None,
+        alias="mrkt_open_time",
+    )
     ("장개시시각")
-    mrkt_close_date: KisDateOptional = Field(default=None, alias="mrkt_close_date")
+    mrkt_close_date: KisDateOptional = Field(
+        default=None,
+        alias="mrkt_close_date",
+    )
     ("장마감일자")
-    mrkt_close_time: KisTimeOptional = Field(default=None, alias="mrkt_close_time")
+    mrkt_close_time: KisTimeOptional = Field(
+        default=None,
+        alias="mrkt_close_time",
+    )
     ("장마감시각")
-    trd_fr_date: KisDateOptional = Field(default=None, alias="trd_fr_date")
+    trd_fr_date: KisDateOptional = Field(
+        default=None,
+        alias="trd_fr_date",
+    )
     ("상장일")
-    expr_date: KisDateOptional = Field(default=None, alias="expr_date")
+    expr_date: KisDateOptional = Field(
+        default=None,
+        alias="expr_date",
+    )
     ("만기일")
-    trd_to_date: KisDateOptional = Field(default=None, alias="trd_to_date")
+    trd_to_date: KisDateOptional = Field(
+        default=None,
+        alias="trd_to_date",
+    )
     ("최종거래일")
-    remn_cnt: str | None = Field(default=None, alias="remn_cnt")
+    remn_cnt: str | None = Field(
+        default=None,
+        alias="remn_cnt",
+    )
     ("잔존일수")
-    stat_tp: KisBool | None = Field(default=None, alias="stat_tp")
+    stat_tp: KisBool | None = Field(
+        default=None,
+        alias="stat_tp",
+    )
     ("매매여부")
-    ctrt_size: Decimal | None = Field(default=None, alias="ctrt_size")
+    ctrt_size: Decimal | None = Field(
+        default=None,
+        alias="ctrt_size",
+    )
     ("계약크기")
-    stl_tp: str | None = Field(default=None, alias="stl_tp")
+    stl_tp: str | None = Field(
+        default=None,
+        alias="stl_tp",
+    )
     ("최종결제구분")
-    frst_noti_date: KisDateOptional = Field(default=None, alias="frst_noti_date")
+    frst_noti_date: KisDateOptional = Field(
+        default=None,
+        alias="frst_noti_date",
+    )
     ("최초식별일")
-    sub_exch_nm: str | None = Field(default=None, alias="sub_exch_nm")
+    sub_exch_nm: str | None = Field(
+        default=None,
+        alias="sub_exch_nm",
+    )
     ("서브거래소코드")
 
 
 class SearchContractDetailResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output2: list[SearchContractDetailOutput2] = Field(alias="output2")
+    output2: list[SearchContractDetailOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세")
 
 
@@ -240,15 +492,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: SearchContractDetailRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: SearchContractDetailRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[SearchContractDetailResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: SearchContractDetailRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: SearchContractDetailRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[SearchContractDetailResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[SearchContractDetailRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[SearchContractDetailRequestDict],
         ) -> tuple[SearchContractDetailResponse, KisResponse]: ...
         def call(
             self,

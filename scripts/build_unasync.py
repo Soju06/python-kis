@@ -67,6 +67,7 @@ def _postprocess_api_sync(sync_dir: pathlib.Path) -> None:
     replacements = {
         "httpx.SyncClient": "httpx.Client",
         "asyncio.sleep": "time.sleep",
+        "asyncio.Lock": "threading.Lock",
         "asyncio.run(self.close())": "self.close()",
         "KisRawClient still open; call aclose() explicitly.": "SyncKisRawClient still open; call close() explicitly.",
     }
@@ -75,6 +76,11 @@ def _postprocess_api_sync(sync_dir: pathlib.Path) -> None:
         updated = text
         for before, after in replacements.items():
             updated = updated.replace(before, after)
+        if "threading.Lock" in updated and not _has_import_line(updated, "threading"):
+            if "import asyncio" in updated:
+                updated = updated.replace("import asyncio", "import asyncio\nimport threading")
+            else:
+                updated = "import threading\n" + updated
         if "time.sleep" in updated and not _has_import_line(updated, "time"):
             if "import atexit" in updated:
                 updated = updated.replace("import atexit", "import atexit\nimport time")
@@ -229,6 +235,7 @@ def _targets(root: pathlib.Path) -> list[UnasyncTarget]:
                 "KisRawClient": "SyncKisRawClient",
                 "aclose": "close",
                 "httpx.AsyncClient": "httpx.Client",
+                "asyncio.Lock": "threading.Lock",
             },
             postprocess=_postprocess_api_sync,
         ),

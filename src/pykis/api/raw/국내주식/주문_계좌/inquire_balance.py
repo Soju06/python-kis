@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,17 +25,29 @@ if TYPE_CHECKING:
 
 
 class InquireBalanceRequest(RawModel):
-    CANO: str = Field(alias="CANO")
+    CANO: str = Field(
+        alias="CANO",
+    )
     ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: str = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("29")
-    ACCA_DVSN_CD: str = Field(alias="ACCA_DVSN_CD")
+    ACCA_DVSN_CD: str = Field(
+        alias="ACCA_DVSN_CD",
+    )
     ("00")
-    INQR_DVSN: str = Field(alias="INQR_DVSN")
+    INQR_DVSN: str = Field(
+        alias="INQR_DVSN",
+    )
     ("00 : 전체")
-    CTX_AREA_FK100: str = Field(alias="CTX_AREA_FK100")
+    CTX_AREA_FK100: str = Field(
+        alias="CTX_AREA_FK100",
+    )
     ("연속조회검색조건100")
-    CTX_AREA_NK100: str = Field(alias="CTX_AREA_NK100")
+    CTX_AREA_NK100: str = Field(
+        alias="CTX_AREA_NK100",
+    )
     ("연속조회키100")
 
 
@@ -46,74 +69,146 @@ class InquireBalanceRequestDict(TypedDict):
         CTX_AREA_NK100 (str): 연속조회키100
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "29"]
-    ACCA_DVSN_CD: Annotated[str, "00"]
-    INQR_DVSN: Annotated[str, "00 : 전체"]
-    CTX_AREA_FK100: Annotated[str, "연속조회검색조건100"]
-    CTX_AREA_NK100: Annotated[str, "연속조회키100"]
+    CANO: Annotated[
+        str,
+        "종합계좌번호",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        str,
+        "29",
+    ]
+    ACCA_DVSN_CD: Annotated[
+        str,
+        "00",
+    ]
+    INQR_DVSN: Annotated[
+        str,
+        "00 : 전체",
+    ]
+    CTX_AREA_FK100: Annotated[
+        str,
+        "연속조회검색조건100",
+    ]
+    CTX_AREA_NK100: Annotated[
+        str,
+        "연속조회키100",
+    ]
 
 
 class InquireBalanceOutput1(RawModel):
-    cblc_dvsn_name: str = Field(alias="cblc_dvsn_name")
+    cblc_dvsn_name: str = Field(
+        alias="cblc_dvsn_name",
+    )
     ("잔고구분명")
-    prdt_name: str = Field(alias="prdt_name")
+    prdt_name: str = Field(
+        alias="prdt_name",
+    )
     ("상품명")
-    pdno: str = Field(alias="pdno")
+    pdno: str = Field(
+        alias="pdno",
+    )
     ("상품번호")
-    item_dvsn_name: str = Field(alias="item_dvsn_name")
+    item_dvsn_name: str = Field(
+        alias="item_dvsn_name",
+    )
     ("종목구분명")
-    thdt_buyqty: int = Field(alias="thdt_buyqty")
+    thdt_buyqty: int = Field(
+        alias="thdt_buyqty",
+    )
     ("금일매수수량")
-    thdt_sll_qty: int = Field(alias="thdt_sll_qty")
+    thdt_sll_qty: int = Field(
+        alias="thdt_sll_qty",
+    )
     ("금일매도수량")
-    hldg_qty: int = Field(alias="hldg_qty")
+    hldg_qty: int = Field(
+        alias="hldg_qty",
+    )
     ("보유수량")
-    ord_psbl_qty: int = Field(alias="ord_psbl_qty")
+    ord_psbl_qty: int = Field(
+        alias="ord_psbl_qty",
+    )
     ("주문가능수량")
-    pchs_avg_pric: Decimal = Field(alias="pchs_avg_pric")
+    pchs_avg_pric: Decimal = Field(
+        alias="pchs_avg_pric",
+    )
     ("매입평균가격")
-    pchs_amt: Decimal = Field(alias="pchs_amt")
+    pchs_amt: Decimal = Field(
+        alias="pchs_amt",
+    )
     ("매입금액")
-    prpr: Decimal = Field(alias="prpr")
+    prpr: Decimal = Field(
+        alias="prpr",
+    )
     ("현재가")
-    evlu_amt: Decimal = Field(alias="evlu_amt")
+    evlu_amt: Decimal = Field(
+        alias="evlu_amt",
+    )
     ("평가금액")
-    evlu_pfls_amt: Decimal = Field(alias="evlu_pfls_amt")
+    evlu_pfls_amt: Decimal = Field(
+        alias="evlu_pfls_amt",
+    )
     ("평가손익금액")
-    evlu_erng_rt: Decimal = Field(alias="evlu_erng_rt")
+    evlu_erng_rt: Decimal = Field(
+        alias="evlu_erng_rt",
+    )
     ("평가수익율")
 
 
 class InquireBalanceOutput2(RawModel):
-    dnca_tot_amt: Decimal = Field(alias="dnca_tot_amt")
+    dnca_tot_amt: Decimal = Field(
+        alias="dnca_tot_amt",
+    )
     ("예수금총금액")
-    nxdy_excc_amt: Decimal = Field(alias="nxdy_excc_amt")
+    nxdy_excc_amt: Decimal = Field(
+        alias="nxdy_excc_amt",
+    )
     ("익일정산금액")
-    prvs_rcdl_excc_amt: Decimal = Field(alias="prvs_rcdl_excc_amt")
+    prvs_rcdl_excc_amt: Decimal = Field(
+        alias="prvs_rcdl_excc_amt",
+    )
     ("가수도정산금액")
-    thdt_buy_amt: Decimal = Field(alias="thdt_buy_amt")
+    thdt_buy_amt: Decimal = Field(
+        alias="thdt_buy_amt",
+    )
     ("금일매수금액")
-    thdt_sll_amt: Decimal = Field(alias="thdt_sll_amt")
+    thdt_sll_amt: Decimal = Field(
+        alias="thdt_sll_amt",
+    )
     ("금일매도금액")
-    thdt_tlex_amt: Decimal = Field(alias="thdt_tlex_amt")
+    thdt_tlex_amt: Decimal = Field(
+        alias="thdt_tlex_amt",
+    )
     ("금일제비용금액")
-    scts_evlu_amt: Decimal = Field(alias="scts_evlu_amt")
+    scts_evlu_amt: Decimal = Field(
+        alias="scts_evlu_amt",
+    )
     ("유가평가금액")
-    tot_evlu_amt: Decimal = Field(alias="tot_evlu_amt")
+    tot_evlu_amt: Decimal = Field(
+        alias="tot_evlu_amt",
+    )
     ("총평가금액")
 
 
 class InquireBalanceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: list[InquireBalanceOutput1] = Field(alias="output1")
+    output1: list[InquireBalanceOutput1] = Field(
+        alias="output1",
+    )
     ("응답상세")
-    output2: list[InquireBalanceOutput2] = Field(alias="output2")
+    output2: list[InquireBalanceOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세2")
 
 
@@ -143,15 +238,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireBalanceRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireBalanceRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireBalanceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireBalanceRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireBalanceRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireBalanceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireBalanceRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireBalanceRequestDict],
         ) -> tuple[InquireBalanceResponse, KisResponse]: ...
         def call(
             self,

@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -22,13 +33,21 @@ class FidMkopClsCodeEnum(KisStrEnum):
 
 
 class ExpIndexTrendRequest(RawModel):
-    FID_MKOP_CLS_CODE: FidMkopClsCodeEnum = Field(alias="FID_MKOP_CLS_CODE")
+    FID_MKOP_CLS_CODE: FidMkopClsCodeEnum = Field(
+        alias="FID_MKOP_CLS_CODE",
+    )
     ("1: 장시작전, 2: 장마감")
-    FID_INPUT_HOUR_1: str = Field(alias="FID_INPUT_HOUR_1")
+    FID_INPUT_HOUR_1: str = Field(
+        alias="FID_INPUT_HOUR_1",
+    )
     ("10(10초), 30(30초), 60(1분), 600(10분)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100")
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("시장구분코드 (주식 U)")
 
 
@@ -45,37 +64,78 @@ class ExpIndexTrendRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 U)
     """
 
-    FID_MKOP_CLS_CODE: Annotated[FidMkopClsCodeEnum, "1: 장시작전, 2: 장마감"]
-    FID_INPUT_HOUR_1: Annotated[str, "10(10초), 30(30초), 60(1분), 600(10분)"]
-    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100"]
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 U)"]
+    FID_MKOP_CLS_CODE: Annotated[
+        FidMkopClsCodeEnum,
+        "1: 장시작전, 2: 장마감",
+    ]
+    FID_INPUT_HOUR_1: Annotated[
+        str,
+        "10(10초), 30(30초), 60(1분), 600(10분)",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100",
+    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "시장구분코드 (주식 U)",
+    ]
 
 
 class ExpIndexTrendOutput(RawModel):
-    stck_cntg_hour: str | None = Field(default=None, alias="stck_cntg_hour")
+    stck_cntg_hour: str | None = Field(
+        default=None,
+        alias="stck_cntg_hour",
+    )
     ("주식 단축 종목코드")
-    bstp_nmix_prpr: str | None = Field(default=None, alias="bstp_nmix_prpr")
+    bstp_nmix_prpr: str | None = Field(
+        default=None,
+        alias="bstp_nmix_prpr",
+    )
     ("HTS 한글 종목명")
-    prdy_vrss_sign: Decimal | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: Decimal | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("주식 현재가")
-    bstp_nmix_prdy_vrss: str | None = Field(default=None, alias="bstp_nmix_prdy_vrss")
+    bstp_nmix_prdy_vrss: str | None = Field(
+        default=None,
+        alias="bstp_nmix_prdy_vrss",
+    )
     ("전일 대비")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="prdy_ctrt",
+    )
     ("전일 대비 부호")
-    acml_vol: Decimal | None = Field(default=None, alias="acml_vol")
+    acml_vol: Decimal | None = Field(
+        default=None,
+        alias="acml_vol",
+    )
     ("전일 대비율")
-    acml_tr_pbmn: Decimal | None = Field(default=None, alias="acml_tr_pbmn")
+    acml_tr_pbmn: Decimal | None = Field(
+        default=None,
+        alias="acml_tr_pbmn",
+    )
     ("기준가 대비 현재가")
 
 
 class ExpIndexTrendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output: list[ExpIndexTrendOutput] = Field(alias="output")
+    output: list[ExpIndexTrendOutput] = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -102,15 +162,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: ExpIndexTrendRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: ExpIndexTrendRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[ExpIndexTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: ExpIndexTrendRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: ExpIndexTrendRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[ExpIndexTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[ExpIndexTrendRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[ExpIndexTrendRequestDict],
         ) -> tuple[ExpIndexTrendResponse, KisResponse]: ...
         def call(
             self,
@@ -147,4 +219,11 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "ExpIndexTrendRequest", "ExpIndexTrendRequestDict", "ExpIndexTrendResponse", "ExpIndexTrendOutput", "FidMkopClsCodeEnum"]
+__all__ = [
+    "ENDPOINT",
+    "ExpIndexTrendRequest",
+    "ExpIndexTrendRequestDict",
+    "ExpIndexTrendResponse",
+    "ExpIndexTrendOutput",
+    "FidMkopClsCodeEnum",
+]

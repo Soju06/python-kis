@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -14,11 +25,17 @@ if TYPE_CHECKING:
 
 
 class InquireComponentStockPriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: str = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+    )
     ("시장구분코드 (J)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD: str = Field(
+        alias="FID_INPUT_ISCD",
+    )
     ("종목코드")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: str = Field(
+        alias="FID_COND_SCR_DIV_CODE",
+    )
     ("Unique key( 11216 )")
 
 
@@ -34,89 +51,185 @@ class InquireComponentStockPriceRequestDict(TypedDict):
         FID_COND_SCR_DIV_CODE (str): Unique key( 11216 )
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (J)"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key( 11216 )"]
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        str,
+        "시장구분코드 (J)",
+    ]
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "종목코드",
+    ]
+    FID_COND_SCR_DIV_CODE: Annotated[
+        str,
+        "Unique key( 11216 )",
+    ]
 
 
 class InquireComponentStockPriceOutput1(RawModel):
-    stck_prpr: Decimal = Field(alias="stck_prpr")
+    stck_prpr: Decimal = Field(
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
+    prdy_vrss: int = Field(
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
+    prdy_vrss_sign: int = Field(
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
+    prdy_ctrt: Decimal = Field(
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    etf_cnfg_issu_avls: str = Field(alias="etf_cnfg_issu_avls")
+    etf_cnfg_issu_avls: str = Field(
+        alias="etf_cnfg_issu_avls",
+    )
     ("ETF구성종목시가총액")
-    nav: Decimal = Field(alias="nav")
+    nav: Decimal = Field(
+        alias="nav",
+    )
     ("NAV")
-    nav_prdy_vrss_sign: int = Field(alias="nav_prdy_vrss_sign")
+    nav_prdy_vrss_sign: int = Field(
+        alias="nav_prdy_vrss_sign",
+    )
     ("NAV 전일 대비 부호")
-    nav_prdy_vrss: Decimal = Field(alias="nav_prdy_vrss")
+    nav_prdy_vrss: Decimal = Field(
+        alias="nav_prdy_vrss",
+    )
     ("NAV 전일 대비")
-    nav_prdy_ctrt: Decimal = Field(alias="nav_prdy_ctrt")
+    nav_prdy_ctrt: Decimal = Field(
+        alias="nav_prdy_ctrt",
+    )
     ("NAV 전일 대비율")
-    etf_ntas_ttam: int = Field(alias="etf_ntas_ttam")
+    etf_ntas_ttam: int = Field(
+        alias="etf_ntas_ttam",
+    )
     ("ETF 순자산 총액")
-    prdy_clpr_nav: Decimal = Field(alias="prdy_clpr_nav")
+    prdy_clpr_nav: Decimal = Field(
+        alias="prdy_clpr_nav",
+    )
     ("NAV전일종가")
-    oprc_nav: Decimal = Field(alias="oprc_nav")
+    oprc_nav: Decimal = Field(
+        alias="oprc_nav",
+    )
     ("NAV시가")
-    hprc_nav: Decimal = Field(alias="hprc_nav")
+    hprc_nav: Decimal = Field(
+        alias="hprc_nav",
+    )
     ("NAV고가")
-    lprc_nav: Decimal = Field(alias="lprc_nav")
+    lprc_nav: Decimal = Field(
+        alias="lprc_nav",
+    )
     ("NAV저가")
-    etf_cu_unit_scrt_cnt: int = Field(alias="etf_cu_unit_scrt_cnt")
+    etf_cu_unit_scrt_cnt: int = Field(
+        alias="etf_cu_unit_scrt_cnt",
+    )
     ("ETF CU 단위 증권 수")
-    etf_cnfg_issu_cnt: str = Field(alias="etf_cnfg_issu_cnt")
+    etf_cnfg_issu_cnt: str = Field(
+        alias="etf_cnfg_issu_cnt",
+    )
     ("ETF 구성 종목 수")
 
 
 class InquireComponentStockPriceOutput2(RawModel):
-    stck_shrn_iscd: str | None = Field(default=None, alias="stck_shrn_iscd")
+    stck_shrn_iscd: str | None = Field(
+        default=None,
+        alias="stck_shrn_iscd",
+    )
     ("주식 단축 종목코드")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
+    hts_kor_isnm: str | None = Field(
+        default=None,
+        alias="hts_kor_isnm",
+    )
     ("HTS 한글 종목명")
-    stck_prpr: Decimal | None = Field(default=None, alias="stck_prpr")
+    stck_prpr: Decimal | None = Field(
+        default=None,
+        alias="stck_prpr",
+    )
     ("주식 현재가")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
+    prdy_vrss: str | None = Field(
+        default=None,
+        alias="prdy_vrss",
+    )
     ("전일 대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: str | None = Field(
+        default=None,
+        alias="prdy_vrss_sign",
+    )
     ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
+    prdy_ctrt: Decimal | None = Field(
+        default=None,
+        alias="prdy_ctrt",
+    )
     ("전일 대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
+    acml_vol: int | None = Field(
+        default=None,
+        alias="acml_vol",
+    )
     ("누적 거래량")
-    acml_tr_pbmn: Decimal | None = Field(default=None, alias="acml_tr_pbmn")
+    acml_tr_pbmn: Decimal | None = Field(
+        default=None,
+        alias="acml_tr_pbmn",
+    )
     ("누적 거래 대금")
-    tday_rsfl_rate: Decimal | None = Field(default=None, alias="tday_rsfl_rate")
+    tday_rsfl_rate: Decimal | None = Field(
+        default=None,
+        alias="tday_rsfl_rate",
+    )
     ("당일 등락 비율")
-    prdy_vrss_vol: int | None = Field(default=None, alias="prdy_vrss_vol")
+    prdy_vrss_vol: int | None = Field(
+        default=None,
+        alias="prdy_vrss_vol",
+    )
     ("전일 대비 거래량")
-    tr_pbmn_tnrt: Decimal | None = Field(default=None, alias="tr_pbmn_tnrt")
+    tr_pbmn_tnrt: Decimal | None = Field(
+        default=None,
+        alias="tr_pbmn_tnrt",
+    )
     ("거래대금회전율")
-    hts_avls: Decimal | None = Field(default=None, alias="hts_avls")
+    hts_avls: Decimal | None = Field(
+        default=None,
+        alias="hts_avls",
+    )
     ("HTS 시가총액")
-    etf_cnfg_issu_avls: str | None = Field(default=None, alias="etf_cnfg_issu_avls")
+    etf_cnfg_issu_avls: str | None = Field(
+        default=None,
+        alias="etf_cnfg_issu_avls",
+    )
     ("ETF구성종목시가총액")
-    etf_cnfg_issu_rlim: str | None = Field(default=None, alias="etf_cnfg_issu_rlim")
+    etf_cnfg_issu_rlim: str | None = Field(
+        default=None,
+        alias="etf_cnfg_issu_rlim",
+    )
     ("ETF구성종목비중")
-    etf_vltn_amt: str | None = Field(default=None, alias="etf_vltn_amt")
+    etf_vltn_amt: str | None = Field(
+        default=None,
+        alias="etf_vltn_amt",
+    )
     ("ETF구성종목내평가금액")
 
 
 class InquireComponentStockPriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    output1: InquireComponentStockPriceOutput1 = Field(alias="output1")
+    output1: InquireComponentStockPriceOutput1 = Field(
+        alias="output1",
+    )
     ("응답상세")
-    output2: list[InquireComponentStockPriceOutput2] = Field(alias="output2")
+    output2: list[InquireComponentStockPriceOutput2] = Field(
+        alias="output2",
+    )
     ("응답상세")
 
 
@@ -143,15 +256,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireComponentStockPriceRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireComponentStockPriceRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireComponentStockPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireComponentStockPriceRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireComponentStockPriceRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireComponentStockPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireComponentStockPriceRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireComponentStockPriceRequestDict],
         ) -> tuple[InquireComponentStockPriceResponse, KisResponse]: ...
         def call(
             self,

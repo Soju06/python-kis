@@ -2,11 +2,24 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDateOptional,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -72,37 +85,70 @@ class OrdObjtCblcDvsnCdEnum(KisStrEnum):
 
 
 class OrderResvRvsecnclRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
+    CANO: CanoEnum = Field(
+        alias="CANO",
+    )
     ("[정정/취소] 계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("[정정/취소] 계좌번호 체계(8-2)의 뒤 2자리")
-    PDNO: str = Field(alias="PDNO")
+    PDNO: str = Field(
+        alias="PDNO",
+    )
     ("[정정]")
-    ORD_QTY: int = Field(alias="ORD_QTY")
+    ORD_QTY: int = Field(
+        alias="ORD_QTY",
+    )
     ("[정정] 주문주식수")
-    ORD_UNPR: Decimal = Field(alias="ORD_UNPR")
+    ORD_UNPR: Decimal = Field(
+        alias="ORD_UNPR",
+    )
     ('[정정] 1주당 가격 * 장전 시간외, 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력 권고')
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(alias="SLL_BUY_DVSN_CD")
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(
+        alias="SLL_BUY_DVSN_CD",
+    )
     ("[정정] 01 : 매도 02 : 매수")
-    ORD_DVSN_CD: OrdDvsnCdEnum = Field(alias="ORD_DVSN_CD")
+    ORD_DVSN_CD: OrdDvsnCdEnum = Field(
+        alias="ORD_DVSN_CD",
+    )
     ("[정정] 00 : 지정가 01 : 시장가 02 : 조건부지정가 05 : 장전 시간외")
-    ORD_OBJT_CBLC_DVSN_CD: OrdObjtCblcDvsnCdEnum = Field(alias="ORD_OBJT_CBLC_DVSN_CD")
+    ORD_OBJT_CBLC_DVSN_CD: OrdObjtCblcDvsnCdEnum = Field(
+        alias="ORD_OBJT_CBLC_DVSN_CD",
+    )
     (
         "[정정] 10 : 현금 12 : 주식담보대출 14 : 대여상환 21 : 자기융자신규 22 : 유통대주신규 23 : "
         "유통융자신규 24 : 자기대주신규 25 : 자기융자상환 26 : 유통대주상환 27 : 유통융자상환 28 : "
         "자기대주상환"
     )
-    LOAN_DT: KisDateOptional = Field(default=None, alias="LOAN_DT")
+    LOAN_DT: KisDateOptional = Field(
+        default=None,
+        alias="LOAN_DT",
+    )
     ("[정정]")
-    RSVN_ORD_END_DT: KisDateOptional = Field(default=None, alias="RSVN_ORD_END_DT")
+    RSVN_ORD_END_DT: KisDateOptional = Field(
+        default=None,
+        alias="RSVN_ORD_END_DT",
+    )
     ("[정정]")
-    CTAL_TLNO: str | None = Field(default=None, alias="CTAL_TLNO")
+    CTAL_TLNO: str | None = Field(
+        default=None,
+        alias="CTAL_TLNO",
+    )
     ("[정정]")
-    RSVN_ORD_SEQ: str = Field(alias="RSVN_ORD_SEQ")
+    RSVN_ORD_SEQ: str = Field(
+        alias="RSVN_ORD_SEQ",
+    )
     ("[정정/취소]")
-    RSVN_ORD_ORGNO: str | None = Field(default=None, alias="RSVN_ORD_ORGNO")
+    RSVN_ORD_ORGNO: str | None = Field(
+        default=None,
+        alias="RSVN_ORD_ORGNO",
+    )
     ("[정정/취소]")
-    RSVN_ORD_ORD_DT: KisDateOptional = Field(default=None, alias="RSVN_ORD_ORD_DT")
+    RSVN_ORD_ORD_DT: KisDateOptional = Field(
+        default=None,
+        alias="RSVN_ORD_ORD_DT",
+    )
     ("[정정/취소]")
 
 
@@ -137,40 +183,99 @@ class OrderResvRvsecnclRequestDict(TypedDict):
         RSVN_ORD_ORD_DT (KisDate): [정정/취소] optional
     """
 
-    CANO: Annotated[CanoEnum, "[정정/취소] 계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "[정정/취소] 계좌번호 체계(8-2)의 뒤 2자리"]
-    PDNO: Annotated[str, "[정정]"]
-    ORD_QTY: Annotated[int, "[정정] 주문주식수"]
-    ORD_UNPR: Annotated[Decimal, '[정정] 1주당 가격 * 장전 시간외, 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력 권고']
-    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "[정정] 01 : 매도 02 : 매수"]
-    ORD_DVSN_CD: Annotated[OrdDvsnCdEnum, "[정정] 00 : 지정가 01 : 시장가 02 : 조건부지정가 05 : 장전 시간외"]
+    CANO: Annotated[
+        CanoEnum,
+        "[정정/취소] 계좌번호 체계(8-2)의 앞 8자리",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        AcntPrdtCdEnum,
+        "[정정/취소] 계좌번호 체계(8-2)의 뒤 2자리",
+    ]
+    PDNO: Annotated[
+        str,
+        "[정정]",
+    ]
+    ORD_QTY: Annotated[
+        int,
+        "[정정] 주문주식수",
+    ]
+    ORD_UNPR: Annotated[
+        Decimal,
+        '[정정] 1주당 가격 * 장전 시간외, 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력 권고',
+    ]
+    SLL_BUY_DVSN_CD: Annotated[
+        SllBuyDvsnCdEnum,
+        "[정정] 01 : 매도 02 : 매수",
+    ]
+    ORD_DVSN_CD: Annotated[
+        OrdDvsnCdEnum,
+        "[정정] 00 : 지정가 01 : 시장가 02 : 조건부지정가 05 : 장전 시간외",
+    ]
     ORD_OBJT_CBLC_DVSN_CD: Annotated[
         OrdObjtCblcDvsnCdEnum,
         "[정정] 10 : 현금 12 : 주식담보대출 14 : 대여상환 21 : 자기융자신규 22 : 유통대주신규 23 : "
         "유통융자신규 24 : 자기대주신규 25 : 자기융자상환 26 : 유통대주상환 27 : 유통융자상환 28 : "
         "자기대주상환",
     ]
-    LOAN_DT: NotRequired[Annotated[KisDateOptional, "[정정]"]]
-    RSVN_ORD_END_DT: NotRequired[Annotated[KisDateOptional, "[정정]"]]
-    CTAL_TLNO: NotRequired[Annotated[str | None, "[정정]"]]
-    RSVN_ORD_SEQ: Annotated[str, "[정정/취소]"]
-    RSVN_ORD_ORGNO: NotRequired[Annotated[str | None, "[정정/취소]"]]
-    RSVN_ORD_ORD_DT: NotRequired[Annotated[KisDateOptional, "[정정/취소]"]]
+    LOAN_DT: NotRequired[
+        Annotated[
+            KisDateOptional,
+            "[정정]",
+        ]
+    ]
+    RSVN_ORD_END_DT: NotRequired[
+        Annotated[
+            KisDateOptional,
+            "[정정]",
+        ]
+    ]
+    CTAL_TLNO: NotRequired[
+        Annotated[
+            str | None,
+            "[정정]",
+        ]
+    ]
+    RSVN_ORD_SEQ: Annotated[
+        str,
+        "[정정/취소]",
+    ]
+    RSVN_ORD_ORGNO: NotRequired[
+        Annotated[
+            str | None,
+            "[정정/취소]",
+        ]
+    ]
+    RSVN_ORD_ORD_DT: NotRequired[
+        Annotated[
+            KisDateOptional,
+            "[정정/취소]",
+        ]
+    ]
 
 
 class OrderResvRvsecnclOutput(RawModel):
-    nrml_prcs_yn: KisBool = Field(alias="nrml_prcs_yn")
+    nrml_prcs_yn: KisBool = Field(
+        alias="nrml_prcs_yn",
+    )
     ("정상처리여부")
 
 
 class OrderResvRvsecnclResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg: str = Field(alias="msg")
+    msg: str = Field(
+        alias="msg",
+    )
     ("응답메세지")
-    output: OrderResvRvsecnclOutput = Field(alias="output")
+    output: OrderResvRvsecnclOutput = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -201,15 +306,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: OrderResvRvsecnclRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: OrderResvRvsecnclRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[OrderResvRvsecnclResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: OrderResvRvsecnclRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: OrderResvRvsecnclRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[OrderResvRvsecnclResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[OrderResvRvsecnclRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[OrderResvRvsecnclRequestDict],
         ) -> tuple[OrderResvRvsecnclResponse, KisResponse]: ...
         def call(
             self,

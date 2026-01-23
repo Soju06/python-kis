@@ -2,11 +2,26 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Mapping,
+    NotRequired,
+    Protocol,
+    TypedDict,
+    Unpack,
+    overload,
+)
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, KisTime, RawModel
+from pykis.api.raw.base import (
+    KisBool,
+    KisDate,
+    KisDateOptional,
+    KisTime,
+    RawModel,
+)
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -47,8 +62,8 @@ class CcldNccsDvsnEnum(KisStrEnum):
 
 
 class OvrsExcgCdEnum(KisStrEnum):
-    NASD = ("NASD", "미국시장 전체(나스닥")
-    "미국시장 전체(나스닥"
+    NASD = ("NASD", "미국시장 전체(나스닥, 뉴욕, 아멕스)")
+    "미국시장 전체(나스닥, 뉴욕, 아멕스)"
     NYSE = ("NYSE", "뉴욕")
     "뉴욕"
     AMEX = ("AMEX", "아멕스")
@@ -144,37 +159,79 @@ class LoanTypeCdEnum(KisStrEnum):
 
 
 class InquireCcnlRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
+    CANO: CanoEnum = Field(
+        alias="CANO",
+    )
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
+        alias="ACNT_PRDT_CD",
+    )
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
+    PDNO: str | None = Field(
+        default=None,
+        alias="PDNO",
+        json_schema_extra={"blank_allowed": True},
+    )
     ('전종목일 경우 "%" 입력 ※ 모의투자계좌의 경우 ""(전체 조회)만 가능')
-    ORD_STRT_DT: str = Field(alias="ORD_STRT_DT")
+    ORD_STRT_DT: str = Field(
+        alias="ORD_STRT_DT",
+    )
     ("YYYYMMDD 형식 (현지시각 기준)")
-    ORD_END_DT: str = Field(alias="ORD_END_DT")
+    ORD_END_DT: str = Field(
+        alias="ORD_END_DT",
+    )
     ("YYYYMMDD 형식 (현지시각 기준)")
-    SLL_BUY_DVSN: SllBuyDvsnEnum = Field(alias="SLL_BUY_DVSN")
+    SLL_BUY_DVSN: SllBuyDvsnEnum = Field(
+        alias="SLL_BUY_DVSN",
+    )
     ('00 : 전체 01 : 매도 02 : 매수 ※ 모의투자계좌의 경우 "00"(전체 조회)만 가능')
-    CCLD_NCCS_DVSN: CcldNccsDvsnEnum = Field(alias="CCLD_NCCS_DVSN")
+    CCLD_NCCS_DVSN: CcldNccsDvsnEnum = Field(
+        alias="CCLD_NCCS_DVSN",
+    )
     ('00 : 전체 01 : 체결 02 : 미체결 ※ 모의투자계좌의 경우 "00"(전체 조회)만 가능')
-    OVRS_EXCG_CD: OvrsExcgCdEnum | None = Field(default=None, alias="OVRS_EXCG_CD", json_schema_extra={"blank_allowed": True})
+    OVRS_EXCG_CD: OvrsExcgCdEnum | None = Field(
+        default=None,
+        alias="OVRS_EXCG_CD",
+        json_schema_extra={"blank_allowed": True},
+    )
     (
         '전종목일 경우 "%" 입력 NASD : 미국시장 전체(나스닥, 뉴욕, 아멕스) NYSE : 뉴욕 AMEX : 아멕스 SEHK '
         ": 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민 ※ "
         '모의투자계좌의 경우 ""(전체 조회)만 가능'
     )
-    SORT_SQN: SortSqnEnum = Field(alias="SORT_SQN")
+    SORT_SQN: SortSqnEnum = Field(
+        alias="SORT_SQN",
+    )
     ("DS : 정순 AS : 역순 ※ 모의투자계좌의 경우 정렬순서 사용불가(Default : DS(정순))")
-    ORD_DT: KisDateOptional = Field(default=None, alias="ORD_DT", json_schema_extra={"blank_allowed": True})
+    ORD_DT: KisDateOptional = Field(
+        default=None,
+        alias="ORD_DT",
+        json_schema_extra={"blank_allowed": True},
+    )
     ('"" (Null 값 설정)')
-    ORD_GNO_BRNO: str | None = Field(default=None, alias="ORD_GNO_BRNO", json_schema_extra={"blank_allowed": True})
+    ORD_GNO_BRNO: str | None = Field(
+        default=None,
+        alias="ORD_GNO_BRNO",
+        json_schema_extra={"blank_allowed": True},
+    )
     ('"" (Null 값 설정)')
-    ODNO: str | None = Field(default=None, alias="ODNO", json_schema_extra={"blank_allowed": True})
+    ODNO: str | None = Field(
+        default=None,
+        alias="ODNO",
+        json_schema_extra={"blank_allowed": True},
+    )
     ('"" (Null 값 설정) ※ 주문번호로 검색 불가능합니다. 반드시 ""(Null 값 설정) 바랍니다.')
-    CTX_AREA_NK200: str | None = Field(default=None, alias="CTX_AREA_NK200", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_NK200: str | None = Field(
+        default=None,
+        alias="CTX_AREA_NK200",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_FK200: str | None = Field(default=None, alias="CTX_AREA_FK200", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_FK200: str | None = Field(
+        default=None,
+        alias="CTX_AREA_FK200",
+        json_schema_extra={"blank_allowed": True},
+    )
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)")
 
 
@@ -225,13 +282,36 @@ class InquireCcnlRequestDict(TypedDict):
         조회시(2번째부터) optional
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    PDNO: NotRequired[Annotated[str | None, '전종목일 경우 "%" 입력 ※ 모의투자계좌의 경우 ""(전체 조회)만 가능']]
-    ORD_STRT_DT: Annotated[str, "YYYYMMDD 형식 (현지시각 기준)"]
-    ORD_END_DT: Annotated[str, "YYYYMMDD 형식 (현지시각 기준)"]
-    SLL_BUY_DVSN: Annotated[SllBuyDvsnEnum, '00 : 전체 01 : 매도 02 : 매수 ※ 모의투자계좌의 경우 "00"(전체 조회)만 가능']
-    CCLD_NCCS_DVSN: Annotated[CcldNccsDvsnEnum, '00 : 전체 01 : 체결 02 : 미체결 ※ 모의투자계좌의 경우 "00"(전체 조회)만 가능']
+    CANO: Annotated[
+        CanoEnum,
+        "계좌번호 체계(8-2)의 앞 8자리",
+    ]
+    ACNT_PRDT_CD: Annotated[
+        AcntPrdtCdEnum,
+        "계좌번호 체계(8-2)의 뒤 2자리",
+    ]
+    PDNO: NotRequired[
+        Annotated[
+            str | None,
+            '전종목일 경우 "%" 입력 ※ 모의투자계좌의 경우 ""(전체 조회)만 가능',
+        ]
+    ]
+    ORD_STRT_DT: Annotated[
+        str,
+        "YYYYMMDD 형식 (현지시각 기준)",
+    ]
+    ORD_END_DT: Annotated[
+        str,
+        "YYYYMMDD 형식 (현지시각 기준)",
+    ]
+    SLL_BUY_DVSN: Annotated[
+        SllBuyDvsnEnum,
+        '00 : 전체 01 : 매도 02 : 매수 ※ 모의투자계좌의 경우 "00"(전체 조회)만 가능',
+    ]
+    CCLD_NCCS_DVSN: Annotated[
+        CcldNccsDvsnEnum,
+        '00 : 전체 01 : 체결 02 : 미체결 ※ 모의투자계좌의 경우 "00"(전체 조회)만 가능',
+    ]
     OVRS_EXCG_CD: NotRequired[
         Annotated[
             OvrsExcgCdEnum | None,
@@ -240,70 +320,157 @@ class InquireCcnlRequestDict(TypedDict):
             '모의투자계좌의 경우 ""(전체 조회)만 가능',
         ]
     ]
-    SORT_SQN: Annotated[SortSqnEnum, "DS : 정순 AS : 역순 ※ 모의투자계좌의 경우 정렬순서 사용불가(Default : DS(정순))"]
-    ORD_DT: NotRequired[Annotated[KisDateOptional, '"" (Null 값 설정)']]
-    ORD_GNO_BRNO: NotRequired[Annotated[str | None, '"" (Null 값 설정)']]
-    ODNO: NotRequired[Annotated[str | None, '"" (Null 값 설정) ※ 주문번호로 검색 불가능합니다. 반드시 ""(Null 값 설정) 바랍니다.']]
-    CTX_AREA_NK200: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)"]]
-    CTX_AREA_FK200: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)"]]
+    SORT_SQN: Annotated[
+        SortSqnEnum,
+        "DS : 정순 AS : 역순 ※ 모의투자계좌의 경우 정렬순서 사용불가(Default : DS(정순))",
+    ]
+    ORD_DT: NotRequired[
+        Annotated[
+            KisDateOptional,
+            '"" (Null 값 설정)',
+        ]
+    ]
+    ORD_GNO_BRNO: NotRequired[
+        Annotated[
+            str | None,
+            '"" (Null 값 설정)',
+        ]
+    ]
+    ODNO: NotRequired[
+        Annotated[
+            str | None,
+            '"" (Null 값 설정) ※ 주문번호로 검색 불가능합니다. 반드시 ""(Null 값 설정) 바랍니다.',
+        ]
+    ]
+    CTX_AREA_NK200: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)",
+        ]
+    ]
+    CTX_AREA_FK200: NotRequired[
+        Annotated[
+            str | None,
+            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)",
+        ]
+    ]
 
 
 class InquireCcnlOutput(RawModel):
-    ord_dt: KisDate = Field(alias="ord_dt")
+    ord_dt: KisDate = Field(
+        alias="ord_dt",
+    )
     ("주문접수 일자 (현지시각 기준)")
-    ord_gno_brno: str = Field(alias="ord_gno_brno")
+    ord_gno_brno: str = Field(
+        alias="ord_gno_brno",
+    )
     ("계좌 개설 시 관리점으로 선택한 영업점의 고유번호")
-    odno: str = Field(alias="odno")
+    odno: str = Field(
+        alias="odno",
+    )
     ("접수한 주문의 일련번호 ※ 정정취소주문 시, 해당 값 odno(주문번호) 넣어서 사용")
-    orgn_odno: str = Field(alias="orgn_odno")
+    orgn_odno: str = Field(
+        alias="orgn_odno",
+    )
     ("정정 또는 취소 대상 주문의 일련번호")
-    sll_buy_dvsn_cd: SllBuyDvsnCdEnum = Field(alias="sll_buy_dvsn_cd")
+    sll_buy_dvsn_cd: SllBuyDvsnCdEnum = Field(
+        alias="sll_buy_dvsn_cd",
+    )
     ("01 : 매도 02 : 매수")
-    sll_buy_dvsn_cd_name: str = Field(alias="sll_buy_dvsn_cd_name")
+    sll_buy_dvsn_cd_name: str = Field(
+        alias="sll_buy_dvsn_cd_name",
+    )
     ("매도매수구분코드명")
-    rvse_cncl_dvsn: RvseCnclDvsnEnum = Field(alias="rvse_cncl_dvsn")
+    rvse_cncl_dvsn: RvseCnclDvsnEnum = Field(
+        alias="rvse_cncl_dvsn",
+    )
     ("01 : 정정 02 : 취소")
-    rvse_cncl_dvsn_name: str = Field(alias="rvse_cncl_dvsn_name")
+    rvse_cncl_dvsn_name: str = Field(
+        alias="rvse_cncl_dvsn_name",
+    )
     ("정정취소구분명")
-    pdno: str = Field(alias="pdno")
+    pdno: str = Field(
+        alias="pdno",
+    )
     ("상품번호")
-    prdt_name: str = Field(alias="prdt_name")
+    prdt_name: str = Field(
+        alias="prdt_name",
+    )
     ("상품명")
-    ft_ord_qty: int = Field(alias="ft_ord_qty")
+    ft_ord_qty: int = Field(
+        alias="ft_ord_qty",
+    )
     ("주문수량")
-    ft_ord_unpr3: Decimal = Field(alias="ft_ord_unpr3")
+    ft_ord_unpr3: Decimal = Field(
+        alias="ft_ord_unpr3",
+    )
     ("주문가격")
-    ft_ccld_qty: int = Field(alias="ft_ccld_qty")
+    ft_ccld_qty: int = Field(
+        alias="ft_ccld_qty",
+    )
     ("체결된 수량")
-    ft_ccld_unpr3: Decimal = Field(alias="ft_ccld_unpr3")
+    ft_ccld_unpr3: Decimal = Field(
+        alias="ft_ccld_unpr3",
+    )
     ("체결된 가격")
-    ft_ccld_amt3: Decimal = Field(alias="ft_ccld_amt3")
+    ft_ccld_amt3: Decimal = Field(
+        alias="ft_ccld_amt3",
+    )
     ("체결된 금액")
-    nccs_qty: int = Field(alias="nccs_qty")
+    nccs_qty: int = Field(
+        alias="nccs_qty",
+    )
     ("미체결수량")
-    prcs_stat_name: str = Field(alias="prcs_stat_name")
+    prcs_stat_name: str = Field(
+        alias="prcs_stat_name",
+    )
     ("완료, 거부, 전송")
-    rjct_rson: str = Field(alias="rjct_rson")
+    rjct_rson: str = Field(
+        alias="rjct_rson",
+    )
     ("정상 처리되지 못하고 거부된 주문의 사유")
-    rjct_rson_name: str = Field(alias="rjct_rson_name")
+    rjct_rson_name: str = Field(
+        alias="rjct_rson_name",
+    )
     ("거부사유명")
-    ord_tmd: KisTime = Field(alias="ord_tmd")
+    ord_tmd: KisTime = Field(
+        alias="ord_tmd",
+    )
     ("주문 접수 시간")
-    tr_mket_name: str = Field(alias="tr_mket_name")
+    tr_mket_name: str = Field(
+        alias="tr_mket_name",
+    )
     ("거래시장명")
-    tr_natn: str = Field(alias="tr_natn")
+    tr_natn: str = Field(
+        alias="tr_natn",
+    )
     ("거래국가")
-    tr_natn_name: str = Field(alias="tr_natn_name")
+    tr_natn_name: str = Field(
+        alias="tr_natn_name",
+    )
     ("거래국가명")
-    ovrs_excg_cd: OvrsExcgCdEnum = Field(alias="ovrs_excg_cd")
-    ("NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민")
-    tr_crcy_cd: str = Field(alias="tr_crcy_cd")
+    ovrs_excg_cd: OvrsExcgCdEnum = Field(
+        alias="ovrs_excg_cd",
+    )
+    (
+        "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 "
+        "HASE : 베트남 하노이 VNSE : 베트남 호치민"
+    )
+    tr_crcy_cd: str = Field(
+        alias="tr_crcy_cd",
+    )
     ("거래통화코드")
-    dmst_ord_dt: KisDate = Field(alias="dmst_ord_dt")
+    dmst_ord_dt: KisDate = Field(
+        alias="dmst_ord_dt",
+    )
     ("국내주문일자")
-    thco_ord_tmd: KisTime = Field(alias="thco_ord_tmd")
+    thco_ord_tmd: KisTime = Field(
+        alias="thco_ord_tmd",
+    )
     ("당사주문시각")
-    loan_type_cd: LoanTypeCdEnum = Field(alias="loan_type_cd")
+    loan_type_cd: LoanTypeCdEnum = Field(
+        alias="loan_type_cd",
+    )
     (
         "00 : 해당사항없음 01 : 자기융자일반형 03 : 자기융자투자형 05 : 유통융자일반형 06 : "
         "유통융자투자형 07 : 자기대주 09 : 유통대주 10 : 현금 11 : 주식담보대출 12 : 수익증권담보대출 13 "
@@ -311,28 +478,48 @@ class InquireCcnlOutput(RawModel):
         ": 매도담보대출 42 : 환매자금대출 43 : 매입환매자금대출 44 : 대여매도담보대출 81 : 대차거래 82 : "
         "법인CMA론 91 : 공모주청약자금대출 92 : 매입자금 93 : 미수론서비스 94 : 대여"
     )
-    loan_dt: KisDate = Field(alias="loan_dt")
+    loan_dt: KisDate = Field(
+        alias="loan_dt",
+    )
     ("대출일자")
-    mdia_dvsn_name: str = Field(alias="mdia_dvsn_name")
+    mdia_dvsn_name: str = Field(
+        alias="mdia_dvsn_name",
+    )
     ("ex) OpenAPI, 모바일")
-    usa_amk_exts_rqst_yn: KisBool = Field(alias="usa_amk_exts_rqst_yn")
+    usa_amk_exts_rqst_yn: KisBool = Field(
+        alias="usa_amk_exts_rqst_yn",
+    )
     ("Y/N")
-    splt_buy_attr_name: str = Field(alias="splt_buy_attr_name")
+    splt_buy_attr_name: str = Field(
+        alias="splt_buy_attr_name",
+    )
     ("정규장 종료 주문 시에는 '정규장 종료', 시간 입력 시에는 from ~ to 시간 표시")
 
 
 class InquireCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
+    rt_cd: KisBool = Field(
+        alias="rt_cd",
+    )
     ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
+    msg_cd: str = Field(
+        alias="msg_cd",
+    )
     ("응답코드")
-    msg1: str = Field(alias="msg1")
+    msg1: str = Field(
+        alias="msg1",
+    )
     ("응답메세지")
-    ctx_area_fk200: str = Field(alias="ctx_area_fk200")
+    ctx_area_fk200: str = Field(
+        alias="ctx_area_fk200",
+    )
     ("연속조회검색조건200")
-    ctx_area_nk200: str = Field(alias="ctx_area_nk200")
+    ctx_area_nk200: str = Field(
+        alias="ctx_area_nk200",
+    )
     ("연속조회키200")
-    output: InquireCcnlOutput = Field(alias="output")
+    output: InquireCcnlOutput = Field(
+        alias="output",
+    )
     ("응답상세")
 
 
@@ -374,15 +561,27 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireCcnlRequest, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireCcnlRequest,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, request: InquireCcnlRequestDict, *, headers: Mapping[str, str] | None = None
+            self,
+            client: SyncKisRawClient,
+            request: InquireCcnlRequestDict,
+            *,
+            headers: Mapping[str, str] | None = None,
         ) -> tuple[InquireCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireCcnlRequestDict]
+            self,
+            client: SyncKisRawClient,
+            *,
+            headers: Mapping[str, str] | None = None,
+            **kwargs: Unpack[InquireCcnlRequestDict],
         ) -> tuple[InquireCcnlResponse, KisResponse]: ...
         def call(
             self,
