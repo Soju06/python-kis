@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import asyncio
 import atexit
-import threading
 import time
 from datetime import date, datetime
 from datetime import time as time_value
@@ -152,7 +151,7 @@ class SyncKisRawClient:
     _client: httpx.Client
     _token_cache: dict[str, KisAccessToken]
     _token_cache_store: KisTokenCache | None
-    _token_lock: threading.Lock
+    _token_lock: asyncio.Lock | None
     _revoke_on_close: bool
     _closed: bool
 
@@ -211,7 +210,7 @@ class SyncKisRawClient:
         self._client = client or httpx.Client(timeout=client_timeout, transport=transport)
         self._token_cache = {}
         self._token_cache_store = None
-        self._token_lock = threading.Lock()
+        self._token_lock = None
         if keep_token:
             cache_dir = default_token_cache_dir() if keep_token is True else Path(keep_token).expanduser()
             self._token_cache_store = KisTokenCache(cache_dir, auth)
@@ -325,13 +324,19 @@ class SyncKisRawClient:
                 context=_error_context(method="POST", path="/oauth2/tokenP", status_code=resp.status_code),
             )
 
+    def _get_token_lock(self) -> asyncio.Lock:
+        if self._token_lock is None:
+            self._token_lock = asyncio.Lock()
+        return self._token_lock
+
     def _clear_token(self, base_url: str) -> None:
         self._token_cache.pop(base_url, None)
         if self._token_cache_store:
             self._token_cache_store.clear(base_url)
 
     def _get_token(self, base_url: str) -> KisAccessToken:
-        with self._token_lock:
+        lock = self._get_token_lock()
+        with lock:
             token = self._token_cache.get(base_url)
             if token and not token.expired:
                 return token
@@ -351,7 +356,8 @@ class SyncKisRawClient:
             return token
 
     def _refresh_token(self, base_url: str, used_token: str | None) -> None:
-        with self._token_lock:
+        lock = self._get_token_lock()
+        with lock:
             current = self._token_cache.get(base_url)
             if current and used_token and current.token != used_token:
                 return

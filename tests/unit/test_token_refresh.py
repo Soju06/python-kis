@@ -5,8 +5,8 @@ from concurrent.futures import ThreadPoolExecutor
 from threading import Barrier
 
 import httpx
-from pydantic import BaseModel, ConfigDict
 import pytest
+from pydantic import BaseModel, ConfigDict
 
 from pykis.api.auth import KisAuth
 from pykis.api.client import KisRawClient, SyncKisRawClient
