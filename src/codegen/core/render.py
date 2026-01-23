@@ -6,7 +6,7 @@ from typing import Any
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
-from codegen.core.text import wrap_display_text
+from codegen.core.text import format_string_literal, wrap_display_text
 
 
 def _template_dir() -> Path:
@@ -24,6 +24,7 @@ def _env() -> Environment:
         undefined=StrictUndefined,
     )
     env.filters["repr"] = repr
+    env.filters["string_literal"] = format_string_literal
     env.filters["wrap_text"] = _wrap_text
     return env
 

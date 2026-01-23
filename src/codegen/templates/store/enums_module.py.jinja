@@ -7,9 +7,9 @@ from pykis.common.enums import KisStrEnum
 class {{ enum.name }}(KisStrEnum):
 {% if enum.members %}
 {% for member in enum.members %}
-    {{ member.name }} = ({{ member.value | repr }}, {{ member.desc | repr }})
+    {{ member.name }} = ({{ member.value | repr }}, {{ member.desc | string_literal }})
 {% if member.desc %}
-    {{ member.desc | repr }}
+    {{ member.desc | string_literal }}
 {% endif %}
 {% endfor %}
 {% else %}
