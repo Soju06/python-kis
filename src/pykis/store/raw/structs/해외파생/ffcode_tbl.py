@@ -3,104 +3,54 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from pykis.store.parser.base import (
-    StoreBool,
-    StoreDecimal,
-    StoreInt,
-    StoreModel,
-)
+from pykis.store.parser.base import StoreBool, StoreDecimal, StoreInt, StoreModel
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
-from pykis.store.raw.structs._enums import (
-    SnearflgdtEnum,
-    SnearflgEnum,
-)
+from pykis.store.raw.structs._enums import SnearflgdtEnum, SnearflgEnum
 
 
 class FFCODE_TBL(StoreModel):
-    sSrsCd: str = Field(
-        json_schema_extra={"length": 32},
-    )
+    sSrsCd: str = Field(json_schema_extra={"length": 32})
     ("종목코드")
-    sAutoOrdGnrlYN: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    sAutoOrdGnrlYN: StoreBool = Field(json_schema_extra={"length": 1})
     ("서버자동주문 가능 종목 여부")
-    sAutoOrdTwapYN: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    sAutoOrdTwapYN: StoreBool = Field(json_schema_extra={"length": 1})
     ("서버자동주문 TWAP 가능 종목 여부")
-    sAutoOrdEcnmYN: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    sAutoOrdEcnmYN: StoreBool = Field(json_schema_extra={"length": 1})
     ("서버자동 경제지표 주문 가능 종목 여부")
-    sFiller: str = Field(
-        json_schema_extra={"length": 47},
-    )
+    sFiller: str = Field(json_schema_extra={"length": 47})
     ("필러")
-    sSeriesKrNm: str = Field(
-        json_schema_extra={"length": 50},
-    )
+    sSeriesKrNm: str = Field(json_schema_extra={"length": 50})
     ("종목한글명")
-    sExchCd: str = Field(
-        json_schema_extra={"length": 10},
-    )
+    sExchCd: str = Field(json_schema_extra={"length": 10})
     ("거래소코드 (ISAM KEY 1)")
-    sMrktCd: str = Field(
-        json_schema_extra={"length": 10},
-    )
+    sMrktCd: str = Field(json_schema_extra={"length": 10})
     ("품목코드 (ISAM KEY 2)")
-    sClasCd: StoreInt = Field(
-        json_schema_extra={"length": 3},
-    )
+    sClasCd: StoreInt = Field(json_schema_extra={"length": 3})
     ("품목종류")
-    sDispDesz: StoreInt = Field(
-        json_schema_extra={"length": 5},
-    )
+    sDispDesz: StoreInt = Field(json_schema_extra={"length": 5})
     ("출력 소수점")
-    sCalcDesz: StoreInt = Field(
-        json_schema_extra={"length": 5},
-    )
+    sCalcDesz: StoreInt = Field(json_schema_extra={"length": 5})
     ("계산 소수점")
-    sTickSz: StoreDecimal = Field(
-        json_schema_extra={"length": 14},
-    )
+    sTickSz: StoreDecimal = Field(json_schema_extra={"length": 14})
     ("틱사이즈")
-    sTickVal: StoreDecimal = Field(
-        json_schema_extra={"length": 14},
-    )
+    sTickVal: StoreDecimal = Field(json_schema_extra={"length": 14})
     ("틱가치")
-    sCtrtSz: StoreDecimal = Field(
-        json_schema_extra={"length": 10},
-    )
+    sCtrtSz: StoreDecimal = Field(json_schema_extra={"length": 10})
     ("계약크기")
-    sDispDigit: StoreInt = Field(
-        json_schema_extra={"length": 4},
-    )
+    sDispDigit: StoreInt = Field(json_schema_extra={"length": 4})
     ("가격표시진법")
-    sMultiplier: StoreDecimal = Field(
-        json_schema_extra={"length": 10},
-    )
+    sMultiplier: StoreDecimal = Field(json_schema_extra={"length": 10})
     ("환산승수")
-    sNearFlg: SnearflgEnum = Field(
-        json_schema_extra={"length": 1, "enum": ["0", "1"], "enum_desc": {"0": "원월물", "1": "최다월물"}},
-    )
+    sNearFlg: SnearflgEnum = Field(json_schema_extra={"length": 1, "enum": ["0", "1"], "enum_desc": {"0": "원월물", "1": "최다월물"}})
     ("최다월물여부 0:원월물 1:최다월물")
-    sNearFlgDt: SnearflgdtEnum = Field(
-        json_schema_extra={"length": 1, "enum": ["0", "1"], "enum_desc": {"0": "원월물", "1": "최근월물"}},
-    )
+    sNearFlgDt: SnearflgdtEnum = Field(json_schema_extra={"length": 1, "enum": ["0", "1"], "enum_desc": {"0": "원월물", "1": "최근월물"}})
     ("최근월물여부 0:원월물 1:최근월물")
-    sSprdYN: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    sSprdYN: StoreBool = Field(json_schema_extra={"length": 1})
     ("스프레드여부")
-    sSprdLeg1YN: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    sSprdLeg1YN: StoreBool = Field(json_schema_extra={"length": 1})
     ("스프레드기준종목 LEG1 여부 Y/N")
-    sExchSubCd: str = Field(
-        json_schema_extra={"length": 2},
-    )
+    sExchSubCd: str = Field(json_schema_extra={"length": 2})
     ("서브 거래소 코드")
 
 
@@ -135,7 +85,4 @@ STRUCT_DEF = StructDef(
     ),
 )
 
-__all__ = [
-    "FFCODE_TBL",
-    "STRUCT_DEF",
-]
+__all__ = ["FFCODE_TBL", "STRUCT_DEF"]

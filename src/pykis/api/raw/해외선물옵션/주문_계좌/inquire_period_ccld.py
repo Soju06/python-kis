@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -69,41 +57,23 @@ class FuopDvsnEnum(KisStrEnum):
 
 
 class InquirePeriodCcldRequest(RawModel):
-    INQR_TERM_FROM_DT: KisDate = Field(
-        alias="INQR_TERM_FROM_DT",
-    )
+    INQR_TERM_FROM_DT: KisDate = Field(alias="INQR_TERM_FROM_DT")
     ("조회기간FROM일자")
-    INQR_TERM_TO_DT: KisDate = Field(
-        alias="INQR_TERM_TO_DT",
-    )
+    INQR_TERM_TO_DT: KisDate = Field(alias="INQR_TERM_TO_DT")
     ("조회기간TO일자")
-    CANO: CanoEnum = Field(
-        alias="CANO",
-    )
+    CANO: CanoEnum = Field(alias="CANO")
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    CRCY_CD: CrcyCdEnum = Field(
-        alias="CRCY_CD",
-    )
+    CRCY_CD: CrcyCdEnum = Field(alias="CRCY_CD")
     ("'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본'")
-    WHOL_TRSL_YN: KisBool = Field(
-        alias="WHOL_TRSL_YN",
-    )
+    WHOL_TRSL_YN: KisBool = Field(alias="WHOL_TRSL_YN")
     ("N")
-    FUOP_DVSN: FuopDvsnEnum = Field(
-        alias="FUOP_DVSN",
-    )
+    FUOP_DVSN: FuopDvsnEnum = Field(alias="FUOP_DVSN")
     ("00:전체 / 01:선물 / 02:옵션")
-    CTX_AREA_FK200: str = Field(
-        alias="CTX_AREA_FK200",
-    )
+    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
     ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(
-        alias="CTX_AREA_NK200",
-    )
+    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
     ("연속조회키200")
 
 
@@ -124,199 +94,97 @@ class InquirePeriodCcldRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    INQR_TERM_FROM_DT: Annotated[
-        KisDate,
-        "조회기간FROM일자",
-    ]
-    INQR_TERM_TO_DT: Annotated[
-        KisDate,
-        "조회기간TO일자",
-    ]
-    CANO: Annotated[
-        CanoEnum,
-        "계좌번호 체계(8-2)의 앞 8자리",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        AcntPrdtCdEnum,
-        "계좌번호 체계(8-2)의 뒤 2자리",
-    ]
-    CRCY_CD: Annotated[
-        CrcyCdEnum,
-        "'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본'",
-    ]
-    WHOL_TRSL_YN: Annotated[
-        KisBool,
-        "N",
-    ]
-    FUOP_DVSN: Annotated[
-        FuopDvsnEnum,
-        "00:전체 / 01:선물 / 02:옵션",
-    ]
-    CTX_AREA_FK200: Annotated[
-        str,
-        "연속조회검색조건200",
-    ]
-    CTX_AREA_NK200: Annotated[
-        str,
-        "연속조회키200",
-    ]
+    INQR_TERM_FROM_DT: Annotated[KisDate, "조회기간FROM일자"]
+    INQR_TERM_TO_DT: Annotated[KisDate, "조회기간TO일자"]
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
+    CRCY_CD: Annotated[CrcyCdEnum, "'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본'"]
+    WHOL_TRSL_YN: Annotated[KisBool, "N"]
+    FUOP_DVSN: Annotated[FuopDvsnEnum, "00:전체 / 01:선물 / 02:옵션"]
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
 
 
 class InquirePeriodCcldOutput1(RawModel):
-    cano: str = Field(
-        alias="cano",
-    )
+    cano: str = Field(alias="cano")
     ("종합계좌번호")
-    acnt_prdt_cd: str | None = Field(
-        default=None,
-        alias="acnt_prdt_cd",
-    )
+    acnt_prdt_cd: str | None = Field(default=None, alias="acnt_prdt_cd")
     ("계좌상품코드")
-    crcy_cd: str = Field(
-        alias="crcy_cd",
-    )
+    crcy_cd: str = Field(alias="crcy_cd")
     ("통화코드")
-    fm_buy_qty: int = Field(
-        alias="fm_buy_qty",
-    )
+    fm_buy_qty: int = Field(alias="fm_buy_qty")
     ("FM매수수량")
-    fm_sll_qty: int = Field(
-        alias="fm_sll_qty",
-    )
+    fm_sll_qty: int = Field(alias="fm_sll_qty")
     ("FM매도수량")
-    fm_lqd_pfls_amt: Decimal = Field(
-        alias="fm_lqd_pfls_amt",
-    )
+    fm_lqd_pfls_amt: Decimal = Field(alias="fm_lqd_pfls_amt")
     ("FM청산손익금액")
-    fm_fee: str = Field(
-        alias="fm_fee",
-    )
+    fm_fee: str = Field(alias="fm_fee")
     ("FM수수료")
-    fm_net_pfls_amt: Decimal = Field(
-        alias="fm_net_pfls_amt",
-    )
+    fm_net_pfls_amt: Decimal = Field(alias="fm_net_pfls_amt")
     ("FM순손익금액")
-    fm_ustl_buy_qty: int = Field(
-        alias="fm_ustl_buy_qty",
-    )
+    fm_ustl_buy_qty: int = Field(alias="fm_ustl_buy_qty")
     ("FM미결제매수수량")
-    fm_ustl_sll_qty: int = Field(
-        alias="fm_ustl_sll_qty",
-    )
+    fm_ustl_sll_qty: int = Field(alias="fm_ustl_sll_qty")
     ("FM미결제매도수량")
-    fm_ustl_evlu_pfls_amt: Decimal = Field(
-        alias="fm_ustl_evlu_pfls_amt",
-    )
+    fm_ustl_evlu_pfls_amt: Decimal = Field(alias="fm_ustl_evlu_pfls_amt")
     ("FM미결제평가손익금액")
-    fm_ustl_evlu_pfls_amt2: Decimal = Field(
-        alias="fm_ustl_evlu_pfls_amt2",
-    )
+    fm_ustl_evlu_pfls_amt2: Decimal = Field(alias="fm_ustl_evlu_pfls_amt2")
     ("FM미결제평가손익금액2")
-    fm_ustl_evlu_pfls_icdc_amt: Decimal = Field(
-        alias="fm_ustl_evlu_pfls_icdc_amt",
-    )
+    fm_ustl_evlu_pfls_icdc_amt: Decimal = Field(alias="fm_ustl_evlu_pfls_icdc_amt")
     ("FM미결제평가손익증감금액")
-    fm_ustl_agrm_amt: Decimal = Field(
-        alias="fm_ustl_agrm_amt",
-    )
+    fm_ustl_agrm_amt: Decimal = Field(alias="fm_ustl_agrm_amt")
     ("FM미결제약정금액")
-    fm_opt_lqd_amt: Decimal = Field(
-        alias="fm_opt_lqd_amt",
-    )
+    fm_opt_lqd_amt: Decimal = Field(alias="fm_opt_lqd_amt")
     ("FM옵션청산금액")
 
 
 class InquirePeriodCcldOutput2(RawModel):
-    cano: str = Field(
-        alias="cano",
-    )
+    cano: str = Field(alias="cano")
     ("종합계좌번호")
-    acnt_prdt_cd: str = Field(
-        alias="acnt_prdt_cd",
-    )
+    acnt_prdt_cd: str = Field(alias="acnt_prdt_cd")
     ("계좌상품코드")
-    ovrs_futr_fx_pdno: str = Field(
-        alias="ovrs_futr_fx_pdno",
-    )
+    ovrs_futr_fx_pdno: str = Field(alias="ovrs_futr_fx_pdno")
     ("해외선물FX상품번호")
-    crcy_cd: str = Field(
-        alias="crcy_cd",
-    )
+    crcy_cd: str = Field(alias="crcy_cd")
     ("통화코드")
-    fm_buy_qty: int = Field(
-        alias="fm_buy_qty",
-    )
+    fm_buy_qty: int = Field(alias="fm_buy_qty")
     ("FM매수수량")
-    fm_sll_qty: int = Field(
-        alias="fm_sll_qty",
-    )
+    fm_sll_qty: int = Field(alias="fm_sll_qty")
     ("FM매도수량")
-    fm_lqd_pfls_amt: Decimal = Field(
-        alias="fm_lqd_pfls_amt",
-    )
+    fm_lqd_pfls_amt: Decimal = Field(alias="fm_lqd_pfls_amt")
     ("FM청산손익금액")
-    fm_fee: str = Field(
-        alias="fm_fee",
-    )
+    fm_fee: str = Field(alias="fm_fee")
     ("FM수수료")
-    fm_net_pfls_amt: Decimal = Field(
-        alias="fm_net_pfls_amt",
-    )
+    fm_net_pfls_amt: Decimal = Field(alias="fm_net_pfls_amt")
     ("FM순손익금액")
-    fm_ustl_buy_qty: int = Field(
-        alias="fm_ustl_buy_qty",
-    )
+    fm_ustl_buy_qty: int = Field(alias="fm_ustl_buy_qty")
     ("FM미결제매수수량")
-    fm_ustl_sll_qty: int = Field(
-        alias="fm_ustl_sll_qty",
-    )
+    fm_ustl_sll_qty: int = Field(alias="fm_ustl_sll_qty")
     ("FM미결제매도수량")
-    fm_ustl_evlu_pfls_amt: Decimal = Field(
-        alias="fm_ustl_evlu_pfls_amt",
-    )
+    fm_ustl_evlu_pfls_amt: Decimal = Field(alias="fm_ustl_evlu_pfls_amt")
     ("FM미결제평가손익금액")
-    fm_ustl_evlu_pfls_amt2: Decimal = Field(
-        alias="fm_ustl_evlu_pfls_amt2",
-    )
+    fm_ustl_evlu_pfls_amt2: Decimal = Field(alias="fm_ustl_evlu_pfls_amt2")
     ("FM미결제평가손익금액2")
-    fm_ustl_evlu_pfls_icdc_amt: Decimal = Field(
-        alias="fm_ustl_evlu_pfls_icdc_amt",
-    )
+    fm_ustl_evlu_pfls_icdc_amt: Decimal = Field(alias="fm_ustl_evlu_pfls_icdc_amt")
     ("FM미결제평가손익증감금액")
-    fm_ccld_avg_pric: Decimal = Field(
-        alias="fm_ccld_avg_pric",
-    )
+    fm_ccld_avg_pric: Decimal = Field(alias="fm_ccld_avg_pric")
     ("FM체결평균가격")
-    fm_ustl_agrm_amt: Decimal = Field(
-        alias="fm_ustl_agrm_amt",
-    )
+    fm_ustl_agrm_amt: Decimal = Field(alias="fm_ustl_agrm_amt")
     ("FM미결제약정금액")
-    fm_opt_lqd_amt: Decimal = Field(
-        alias="fm_opt_lqd_amt",
-    )
+    fm_opt_lqd_amt: Decimal = Field(alias="fm_opt_lqd_amt")
     ("FM옵션청산금액")
 
 
 class InquirePeriodCcldResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: list[InquirePeriodCcldOutput1] = Field(
-        alias="output1",
-    )
+    output1: list[InquirePeriodCcldOutput1] = Field(alias="output1")
     ("응답상세1")
-    output2: list[InquirePeriodCcldOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[InquirePeriodCcldOutput2] = Field(alias="output2")
     ("응답상세2")
 
 
@@ -339,27 +207,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePeriodCcldRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePeriodCcldRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePeriodCcldResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePeriodCcldRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePeriodCcldRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePeriodCcldResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquirePeriodCcldRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePeriodCcldRequestDict]
         ) -> tuple[InquirePeriodCcldResponse, KisResponse]: ...
         def call(
             self,

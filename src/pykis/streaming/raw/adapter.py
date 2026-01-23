@@ -7,12 +7,7 @@ from typing import Callable, Mapping, Protocol
 from pykis.streaming.raw.context import StreamingParseContext, TimeProvider
 from pykis.streaming.raw.market import resolve_timezone_from_fields
 from pykis.streaming.raw.overrides import NullOverrideLogger, OverrideLogger
-from pykis.streaming.raw.parser import (
-    PayloadDecryptor,
-    StreamingParseError,
-    parse_streaming_frame,
-    split_streaming_frame,
-)
+from pykis.streaming.raw.parser import PayloadDecryptor, StreamingParseError, parse_streaming_frame, split_streaming_frame
 from pykis.streaming.raw.specs import SpecRegistry, StreamingSpec
 
 
@@ -55,12 +50,7 @@ class StaticContextProvider:
             tz = self.domestic_timezone
         else:
             tz = self.overseas_timezones.get(spec.tr_id) or self.overseas_timezone or "UTC"
-        return StreamingParseContext(
-            tz,
-            business_date=self.business_date,
-            time_provider=self.time_provider,
-            zdiv=self.zdiv,
-        )
+        return StreamingParseContext(tz, business_date=self.business_date, time_provider=self.time_provider, zdiv=self.zdiv)
 
 
 @dataclass(slots=True)
@@ -102,13 +92,7 @@ class StreamingFrameHandler:
             raise StreamingParseError("Unknown tr_id", tr_id=tr_id, payload=frame)
         context = self.context_provider.context_for(spec)
         context = self._apply_timezone_override(spec, payload, context)
-        result = parse_streaming_frame(
-            frame,
-            registry=self.registry,
-            context=context,
-            override_logger=self.override_logger,
-            decryptor=self.decryptor,
-        )
+        result = parse_streaming_frame(frame, registry=self.registry, context=context, override_logger=self.override_logger, decryptor=self.decryptor)
         if result is None:
             return None
         if self.on_event is not None:
@@ -116,12 +100,7 @@ class StreamingFrameHandler:
                 self.on_event(result.tr_id, record)
         return result.records
 
-    def _apply_timezone_override(
-        self,
-        spec: StreamingSpec,
-        payload: str,
-        context: StreamingParseContext,
-    ) -> StreamingParseContext:
+    def _apply_timezone_override(self, spec: StreamingSpec, payload: str, context: StreamingParseContext) -> StreamingParseContext:
         if spec.market == "domestic":
             return context
         raw_fields = _build_raw_fields(payload, spec)

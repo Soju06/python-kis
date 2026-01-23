@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisTime,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -100,38 +87,22 @@ class OrdDvsnEnum(KisStrEnum):
 
 
 class OrderCreditRequest(RawModel):
-    CANO: CanoEnum = Field(
-        alias="CANO",
-    )
+    CANO: CanoEnum = Field(alias="CANO")
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    PDNO: str = Field(
-        alias="PDNO",
-    )
+    PDNO: str = Field(alias="PDNO")
     ("종목코드(6자리)")
-    SLL_TYPE: str | None = Field(
-        default=None,
-        alias="SLL_TYPE",
-        json_schema_extra={"blank_allowed": True},
-    )
+    SLL_TYPE: str | None = Field(default=None, alias="SLL_TYPE", json_schema_extra={"blank_allowed": True})
     ("공란 입력")
-    CRDT_TYPE: CrdtTypeEnum = Field(
-        alias="CRDT_TYPE",
-    )
+    CRDT_TYPE: CrdtTypeEnum = Field(alias="CRDT_TYPE")
     (
         "[매도] 22 : 유통대주신규, 24 : 자기대주신규, 25 : 자기융자상환, 27 : 유통융자상환 [매수] 21 : "
         "자기융자신규, 23 : 유통융자신규 , 26 : 유통대주상환, 28 : 자기대주상환"
     )
-    LOAN_DT: str = Field(
-        alias="LOAN_DT",
-    )
+    LOAN_DT: str = Field(alias="LOAN_DT")
     ("[신용매수] 신규 대출로, 오늘날짜(yyyyMMdd)) 입력 [신용매도] 매도할 종목의 대출일자(yyyyMMdd)) 입력")
-    ORD_DVSN: OrdDvsnEnum = Field(
-        alias="ORD_DVSN",
-    )
+    ORD_DVSN: OrdDvsnEnum = Field(alias="ORD_DVSN")
     (
         "[KRX] 00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04 : 최우선지정가 05 : 장전 "
         "시간외 06 : 장후 시간외 07 : 시간외 단일가 11 : IOC지정가 (즉시체결,잔량취소) 12 : FOK지정가 "
@@ -145,94 +116,42 @@ class OrderCreditRequest(RawModel):
         "FOK지정가 (즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : FOK시장가 "
         "(즉시체결,전량취소) 15 : IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 (즉시체결,전량취소)"
     )
-    ORD_QTY: int = Field(
-        alias="ORD_QTY",
-    )
+    ORD_QTY: int = Field(alias="ORD_QTY")
     ("주문수량")
-    ORD_UNPR: Decimal = Field(
-        alias="ORD_UNPR",
-    )
+    ORD_UNPR: Decimal = Field(alias="ORD_UNPR")
     ('1주당 가격 * 장전 시간외, 장후 시간외, 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력 권고')
-    RSVN_ORD_YN: KisBool | None = Field(
-        default=None,
-        alias="RSVN_ORD_YN",
-    )
+    RSVN_ORD_YN: KisBool | None = Field(default=None, alias="RSVN_ORD_YN")
     (
         "정규 증권시장이 열리지 않는 시간 (15:10분 ~ 익일 7:30분) 에 주문을 미리 설정 하여 다음 영업일 "
         "또는 설정한 기간 동안 아침 동시 호가에 주문하는 것 Y : 예약주문 N : 신용주문"
     )
-    EMGC_ORD_YN: KisBool | None = Field(
-        default=None,
-        alias="EMGC_ORD_YN",
-    )
+    EMGC_ORD_YN: KisBool | None = Field(default=None, alias="EMGC_ORD_YN")
     ("비상주문여부")
-    PGTR_DVSN: str | None = Field(
-        default=None,
-        alias="PGTR_DVSN",
-    )
+    PGTR_DVSN: str | None = Field(default=None, alias="PGTR_DVSN")
     ("프로그램매매구분")
-    MGCO_APTM_ODNO: str | None = Field(
-        default=None,
-        alias="MGCO_APTM_ODNO",
-    )
+    MGCO_APTM_ODNO: str | None = Field(default=None, alias="MGCO_APTM_ODNO")
     ("운용사지정주문번호")
-    LQTY_TR_NGTN_DTL_NO: str | None = Field(
-        default=None,
-        alias="LQTY_TR_NGTN_DTL_NO",
-    )
+    LQTY_TR_NGTN_DTL_NO: str | None = Field(default=None, alias="LQTY_TR_NGTN_DTL_NO")
     ("대량거래협상상세번호")
-    LQTY_TR_AGMT_NO: str | None = Field(
-        default=None,
-        alias="LQTY_TR_AGMT_NO",
-    )
+    LQTY_TR_AGMT_NO: str | None = Field(default=None, alias="LQTY_TR_AGMT_NO")
     ("대량거래협정번호")
-    LQTY_TR_NGTN_ID: str | None = Field(
-        default=None,
-        alias="LQTY_TR_NGTN_ID",
-    )
+    LQTY_TR_NGTN_ID: str | None = Field(default=None, alias="LQTY_TR_NGTN_ID")
     ("대량거래협상자Id")
-    LP_ORD_YN: KisBool | None = Field(
-        default=None,
-        alias="LP_ORD_YN",
-    )
+    LP_ORD_YN: KisBool | None = Field(default=None, alias="LP_ORD_YN")
     ("LP주문여부")
-    MDIA_ODNO: str | None = Field(
-        default=None,
-        alias="MDIA_ODNO",
-    )
+    MDIA_ODNO: str | None = Field(default=None, alias="MDIA_ODNO")
     ("매체주문번호")
-    ORD_SVR_DVSN_CD: str | None = Field(
-        default=None,
-        alias="ORD_SVR_DVSN_CD",
-    )
+    ORD_SVR_DVSN_CD: str | None = Field(default=None, alias="ORD_SVR_DVSN_CD")
     ("주문서버구분코드")
-    PGM_NMPR_STMT_DVSN_CD: str | None = Field(
-        default=None,
-        alias="PGM_NMPR_STMT_DVSN_CD",
-    )
+    PGM_NMPR_STMT_DVSN_CD: str | None = Field(default=None, alias="PGM_NMPR_STMT_DVSN_CD")
     ("프로그램호가신고구분코드")
-    CVRG_SLCT_RSON_CD: str | None = Field(
-        default=None,
-        alias="CVRG_SLCT_RSON_CD",
-    )
+    CVRG_SLCT_RSON_CD: str | None = Field(default=None, alias="CVRG_SLCT_RSON_CD")
     ("반대매매선정사유코드")
-    CVRG_SEQ: str | None = Field(
-        default=None,
-        alias="CVRG_SEQ",
-    )
+    CVRG_SEQ: str | None = Field(default=None, alias="CVRG_SEQ")
     ("반대매매순번")
-    EXCG_ID_DVSN_CD: str | None = Field(
-        default=None,
-        alias="EXCG_ID_DVSN_CD",
-    )
-    (
-        "한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order Routing) : SOR → 미입력시 "
-        "KRX로 진행되며, 모의투자는 KRX만 가능"
-    )
-    CNDT_PRIC: Decimal | None = Field(
-        default=None,
-        alias="CNDT_PRIC",
-    )
+    EXCG_ID_DVSN_CD: str | None = Field(default=None, alias="EXCG_ID_DVSN_CD")
+    ("한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능")
+    CNDT_PRIC: Decimal | None = Field(default=None, alias="CNDT_PRIC")
     ("스탑지정가호가에서 사용")
 
 
@@ -290,33 +209,16 @@ class OrderCreditRequestDict(TypedDict):
         CNDT_PRIC (Decimal): 스탑지정가호가에서 사용 optional
     """
 
-    CANO: Annotated[
-        CanoEnum,
-        "계좌번호 체계(8-2)의 앞 8자리",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        AcntPrdtCdEnum,
-        "계좌번호 체계(8-2)의 뒤 2자리",
-    ]
-    PDNO: Annotated[
-        str,
-        "종목코드(6자리)",
-    ]
-    SLL_TYPE: NotRequired[
-        Annotated[
-            str | None,
-            "공란 입력",
-        ]
-    ]
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
+    PDNO: Annotated[str, "종목코드(6자리)"]
+    SLL_TYPE: NotRequired[Annotated[str | None, "공란 입력"]]
     CRDT_TYPE: Annotated[
         CrdtTypeEnum,
         "[매도] 22 : 유통대주신규, 24 : 자기대주신규, 25 : 자기융자상환, 27 : 유통융자상환 [매수] 21 : "
         "자기융자신규, 23 : 유통융자신규 , 26 : 유통대주상환, 28 : 자기대주상환",
     ]
-    LOAN_DT: Annotated[
-        str,
-        "[신용매수] 신규 대출로, 오늘날짜(yyyyMMdd)) 입력 [신용매도] 매도할 종목의 대출일자(yyyyMMdd)) 입력",
-    ]
+    LOAN_DT: Annotated[str, "[신용매수] 신규 대출로, 오늘날짜(yyyyMMdd)) 입력 [신용매도] 매도할 종목의 대출일자(yyyyMMdd)) 입력"]
     ORD_DVSN: Annotated[
         OrdDvsnEnum,
         "[KRX] 00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04 : 최우선지정가 05 : 장전 "
@@ -331,14 +233,8 @@ class OrderCreditRequestDict(TypedDict):
         "FOK지정가 (즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : FOK시장가 "
         "(즉시체결,전량취소) 15 : IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 (즉시체결,전량취소)",
     ]
-    ORD_QTY: Annotated[
-        int,
-        "주문수량",
-    ]
-    ORD_UNPR: Annotated[
-        Decimal,
-        '1주당 가격 * 장전 시간외, 장후 시간외, 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력 권고',
-    ]
+    ORD_QTY: Annotated[int, "주문수량"]
+    ORD_UNPR: Annotated[Decimal, '1주당 가격 * 장전 시간외, 장후 시간외, 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력 권고']
     RSVN_ORD_YN: NotRequired[
         Annotated[
             KisBool | None,
@@ -346,124 +242,44 @@ class OrderCreditRequestDict(TypedDict):
             "또는 설정한 기간 동안 아침 동시 호가에 주문하는 것 Y : 예약주문 N : 신용주문",
         ]
     ]
-    EMGC_ORD_YN: NotRequired[
-        Annotated[
-            KisBool | None,
-            "비상주문여부",
-        ]
-    ]
-    PGTR_DVSN: NotRequired[
-        Annotated[
-            str | None,
-            "프로그램매매구분",
-        ]
-    ]
-    MGCO_APTM_ODNO: NotRequired[
-        Annotated[
-            str | None,
-            "운용사지정주문번호",
-        ]
-    ]
-    LQTY_TR_NGTN_DTL_NO: NotRequired[
-        Annotated[
-            str | None,
-            "대량거래협상상세번호",
-        ]
-    ]
-    LQTY_TR_AGMT_NO: NotRequired[
-        Annotated[
-            str | None,
-            "대량거래협정번호",
-        ]
-    ]
-    LQTY_TR_NGTN_ID: NotRequired[
-        Annotated[
-            str | None,
-            "대량거래협상자Id",
-        ]
-    ]
-    LP_ORD_YN: NotRequired[
-        Annotated[
-            KisBool | None,
-            "LP주문여부",
-        ]
-    ]
-    MDIA_ODNO: NotRequired[
-        Annotated[
-            str | None,
-            "매체주문번호",
-        ]
-    ]
-    ORD_SVR_DVSN_CD: NotRequired[
-        Annotated[
-            str | None,
-            "주문서버구분코드",
-        ]
-    ]
-    PGM_NMPR_STMT_DVSN_CD: NotRequired[
-        Annotated[
-            str | None,
-            "프로그램호가신고구분코드",
-        ]
-    ]
-    CVRG_SLCT_RSON_CD: NotRequired[
-        Annotated[
-            str | None,
-            "반대매매선정사유코드",
-        ]
-    ]
-    CVRG_SEQ: NotRequired[
-        Annotated[
-            str | None,
-            "반대매매순번",
-        ]
-    ]
+    EMGC_ORD_YN: NotRequired[Annotated[KisBool | None, "비상주문여부"]]
+    PGTR_DVSN: NotRequired[Annotated[str | None, "프로그램매매구분"]]
+    MGCO_APTM_ODNO: NotRequired[Annotated[str | None, "운용사지정주문번호"]]
+    LQTY_TR_NGTN_DTL_NO: NotRequired[Annotated[str | None, "대량거래협상상세번호"]]
+    LQTY_TR_AGMT_NO: NotRequired[Annotated[str | None, "대량거래협정번호"]]
+    LQTY_TR_NGTN_ID: NotRequired[Annotated[str | None, "대량거래협상자Id"]]
+    LP_ORD_YN: NotRequired[Annotated[KisBool | None, "LP주문여부"]]
+    MDIA_ODNO: NotRequired[Annotated[str | None, "매체주문번호"]]
+    ORD_SVR_DVSN_CD: NotRequired[Annotated[str | None, "주문서버구분코드"]]
+    PGM_NMPR_STMT_DVSN_CD: NotRequired[Annotated[str | None, "프로그램호가신고구분코드"]]
+    CVRG_SLCT_RSON_CD: NotRequired[Annotated[str | None, "반대매매선정사유코드"]]
+    CVRG_SEQ: NotRequired[Annotated[str | None, "반대매매순번"]]
     EXCG_ID_DVSN_CD: NotRequired[
         Annotated[
             str | None,
-            "한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order Routing) : SOR → 미입력시 "
-            "KRX로 진행되며, 모의투자는 KRX만 가능",
+            "한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능",
         ]
     ]
-    CNDT_PRIC: NotRequired[
-        Annotated[
-            Decimal | None,
-            "스탑지정가호가에서 사용",
-        ]
-    ]
+    CNDT_PRIC: NotRequired[Annotated[Decimal | None, "스탑지정가호가에서 사용"]]
 
 
 class OrderCreditOutput(RawModel):
-    krx_fwdg_ord_orgno: str = Field(
-        alias="krx_fwdg_ord_orgno",
-    )
+    krx_fwdg_ord_orgno: str = Field(alias="krx_fwdg_ord_orgno")
     ("한국거래소전송주문조직번호")
-    odno: str = Field(
-        alias="odno",
-    )
+    odno: str = Field(alias="odno")
     ("주문번호")
-    ord_tmd: KisTime = Field(
-        alias="ord_tmd",
-    )
+    ord_tmd: KisTime = Field(alias="ord_tmd")
     ("주문시간")
 
 
 class OrderCreditResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: OrderCreditOutput = Field(
-        alias="output",
-    )
+    output: OrderCreditOutput = Field(alias="output")
     ("응답상세")
 
 
@@ -493,27 +309,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OrderCreditRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OrderCreditRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OrderCreditResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OrderCreditRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OrderCreditRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OrderCreditResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[OrderCreditRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[OrderCreditRequestDict]
         ) -> tuple[OrderCreditResponse, KisResponse]: ...
         def call(
             self,

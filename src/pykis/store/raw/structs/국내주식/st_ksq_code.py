@@ -3,16 +3,7 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from pykis.store.parser.base import (
-    StoreBool,
-    StoreBoolOptional,
-    StoreDate,
-    StoreDateOptional,
-    StoreDecimal,
-    StoreInt,
-    StoreIntOptional,
-    StoreModel,
-)
+from pykis.store.parser.base import StoreBool, StoreBoolOptional, StoreDate, StoreDateOptional, StoreDecimal, StoreInt, StoreIntOptional, StoreModel
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
 from pykis.store.raw.structs._enums import (
@@ -29,17 +20,11 @@ from pykis.store.raw.structs._enums import (
 
 
 class ST_KSQ_CODE(StoreModel):
-    mksc_shrn_iscd: str = Field(
-        json_schema_extra={"length": 9},
-    )
+    mksc_shrn_iscd: str = Field(json_schema_extra={"length": 9})
     ("단축코드")
-    stnd_iscd: str = Field(
-        json_schema_extra={"length": 12},
-    )
+    stnd_iscd: str = Field(json_schema_extra={"length": 12})
     ("표준코드")
-    hts_kor_isnm: str = Field(
-        json_schema_extra={"length": 40},
-    )
+    hts_kor_isnm: str = Field(json_schema_extra={"length": 40})
     ("한글종목명")
     scrt_grp_cls_code: ScrtGrpClsCodeEnum = Field(
         json_schema_extra={
@@ -60,7 +45,7 @@ class ST_KSQ_CODE(StoreModel):
                 "FE": "해외ETF",
                 "FS": "외국주권",
             },
-        },
+        }
     )
     (
         "증권그룹구분코드 "
@@ -79,174 +64,92 @@ class ST_KSQ_CODE(StoreModel):
         },
     )
     ("시가총액 규모 구분 코드 유가 0:제외 1:KOSDAQ100 2:KOSDAQmid300 3:KOSDAQsmall)")
-    bstp_larg_div_code: str = Field(
-        json_schema_extra={"length": 4},
-    )
+    bstp_larg_div_code: str = Field(json_schema_extra={"length": 4})
     ("지수업종 대분류 코드")
-    bstp_medm_div_code: str = Field(
-        json_schema_extra={"length": 4},
-    )
+    bstp_medm_div_code: str = Field(json_schema_extra={"length": 4})
     ("지수 업종 중분류 코드")
-    bstp_smal_div_code: str = Field(
-        json_schema_extra={"length": 4},
-    )
+    bstp_smal_div_code: str = Field(json_schema_extra={"length": 4})
     ("지수업종 소분류 코드")
-    vntr_issu_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    vntr_issu_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("벤처기업 여부 (Y/N)")
-    low_current_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    low_current_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("저유동성종목 여부")
-    krx_issu_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    krx_issu_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("KRX 종목 여부")
     etp_prod_cls_code: EtpProdClsCodeEnum | None = Field(
         default=None,
         json_schema_extra={
             "length": 1,
             "enum": ["0", "1", "2", "3", "4", "ETP"],
-            "enum_desc": {
-                "0": "해당없음",
-                "1": "투자회사형",
-                "2": "수익증권형",
-                "3": "ETN",
-                "4": "손실제한ETN",
-                "ETP": "상품구분코드",
-            },
+            "enum_desc": {"0": "해당없음", "1": "투자회사형", "2": "수익증권형", "3": "ETN", "4": "손실제한ETN", "ETP": "상품구분코드"},
         },
     )
     ("ETP 상품구분코드 0:해당없음 1:투자회사형 2:수익증권형 3:ETN 4:손실제한ETN")
-    krx100_issu_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    krx100_issu_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("KRX100 종목 여부 (Y/N)")
-    krx_car_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    krx_car_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("KRX 자동차 여부")
-    krx_smcn_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    krx_smcn_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("KRX 반도체 여부")
-    krx_bio_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    krx_bio_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("KRX 바이오 여부")
-    krx_bank_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    krx_bank_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("KRX 은행 여부")
-    etpr_undt_objt_co_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    etpr_undt_objt_co_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("기업인수목적회사여부")
-    krx_enrg_chms_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    krx_enrg_chms_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("KRX 에너지 화학 여부")
-    krx_stel_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    krx_stel_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("KRX 철강 여부")
     short_over_cls_code: ShortOverClsCodeEnum = Field(
         json_schema_extra={
             "length": 1,
             "enum": ["0", "1", "2", "3"],
             "enum_desc": {"0": "해당없음", "1": "지정예고", "2": "지정", "3": "지정연장(해제연기)"},
-        },
+        }
     )
     ("단기과열종목구분코드 0:해당없음 1:지정예고 2:지정 3:지정연장(해제연기)")
-    krx_medi_cmnc_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    krx_medi_cmnc_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("KRX 미디어 통신 여부")
-    krx_cnst_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    krx_cnst_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("KRX 건설 여부")
-    invt_alrm_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    invt_alrm_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("(코스닥)투자주의환기종목여부")
-    krx_scrt_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    krx_scrt_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("KRX 증권 구분")
-    krx_ship_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    krx_ship_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("KRX 선박 구분")
-    krx_insu_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    krx_insu_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("KRX섹터지수 보험여부")
-    krx_trnp_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    krx_trnp_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("KRX섹터지수 운송여부")
-    ksq150_nmix_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    ksq150_nmix_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("KOSDAQ150지수여부 (Y,N)")
-    stck_sdpr: StoreInt = Field(
-        json_schema_extra={"length": 9},
-    )
+    stck_sdpr: StoreInt = Field(json_schema_extra={"length": 9})
     ("주식 기준가")
-    frml_mrkt_deal_qty_unit: StoreInt = Field(
-        json_schema_extra={"length": 5},
-    )
+    frml_mrkt_deal_qty_unit: StoreInt = Field(json_schema_extra={"length": 5})
     ("정규 시장 매매 수량 단위")
-    ovtm_mrkt_deal_qty_unit: StoreInt = Field(
-        json_schema_extra={"length": 5},
-    )
+    ovtm_mrkt_deal_qty_unit: StoreInt = Field(json_schema_extra={"length": 5})
     ("시간외 시장 매매 수량 단위")
-    trht_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    trht_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("거래정지 여부")
-    sltr_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    sltr_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("정리매매 여부")
-    mang_issu_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    mang_issu_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("관리 종목 여부")
     mrkt_alrm_cls_code: MrktAlrmClsCodeEnum = Field(
         json_schema_extra={
             "length": 2,
             "enum": ["00", "01", "02", "03"],
             "enum_desc": {"00": "해당없음", "01": "투자주의", "02": "투자경고", "03": "투자위험"},
-        },
+        }
     )
     ("시장 경고 구분 코드 (00:해당없음 01:투자주의 02:투자경고 03:투자위험)")
-    mrkt_alrm_risk_adnt_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    mrkt_alrm_risk_adnt_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("시장 경고위험 예고 여부")
-    insn_pbnt_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    insn_pbnt_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("불성실 공시 여부")
-    byps_lstn_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    byps_lstn_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("우회 상장 여부")
     flng_cls_code: FlngClsCodeEnum = Field(
         json_schema_extra={
@@ -263,20 +166,15 @@ class ST_KSQ_CODE(StoreModel):
                 "99": "기타",
                 "SPACE": "EW는 미해당",
             },
-        },
+        }
     )
-    (
-        "락구분 코드 (00:해당사항없음 01:권리락 "
-        "02:배당락 03:분배락 04:권배락 05:중간배당락 "
-        "06:권리중간배당락 99:기타 "
-        "SW,SR,EW는 미해당(SPACE)"
-    )
+    ("락구분 코드 (00:해당사항없음 01:권리락 02:배당락 03:분배락 04:권배락 05:중간배당락 06:권리중간배당락 99:기타 SW,SR,EW는 미해당(SPACE)")
     fcam_mod_cls_code: FcamModClsCodeEnum = Field(
         json_schema_extra={
             "length": 2,
             "enum": ["00", "01", "02", "99"],
             "enum_desc": {"00": "해당없음", "01": "액면분할", "02": "액면병합", "99": "기타"},
-        },
+        }
     )
     ("액면가 변경 구분 코드 (00:해당없음 01:액면분할 02:액면병합 99:기타")
     icic_cls_code: IcicClsCodeEnum = Field(
@@ -284,117 +182,60 @@ class ST_KSQ_CODE(StoreModel):
             "length": 2,
             "enum": ["00", "01", "02", "03", "99"],
             "enum_desc": {"00": "해당없음", "01": "유상증자", "02": "무상증자", "03": "유무상증자", "99": "기타"},
-        },
+        }
     )
     ("증자 구분 코드 (00:해당없음 01:유상증자 02:무상증자 03:유무상증자 99:기타)")
-    marg_rate: StoreDecimal = Field(
-        json_schema_extra={"length": 3},
-    )
+    marg_rate: StoreDecimal = Field(json_schema_extra={"length": 3})
     ("증거금 비율")
-    crdt_able: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    crdt_able: StoreBool = Field(json_schema_extra={"length": 1})
     ("신용주문 가능 여부")
-    crdt_days: StoreInt = Field(
-        json_schema_extra={"length": 3},
-    )
+    crdt_days: StoreInt = Field(json_schema_extra={"length": 3})
     ("신용기간")
-    prdy_vol: StoreInt = Field(
-        json_schema_extra={"length": 12},
-    )
+    prdy_vol: StoreInt = Field(json_schema_extra={"length": 12})
     ("전일 거래량")
-    stck_fcam: StoreInt = Field(
-        json_schema_extra={"length": 12},
-    )
+    stck_fcam: StoreInt = Field(json_schema_extra={"length": 12})
     ("주식 액면가")
-    stck_lstn_date: StoreDate = Field(
-        json_schema_extra={"length": 8},
-    )
+    stck_lstn_date: StoreDate = Field(json_schema_extra={"length": 8})
     ("주식 상장 일자")
-    lstn_stcn: StoreInt = Field(
-        json_schema_extra={"length": 15},
-    )
+    lstn_stcn: StoreInt = Field(json_schema_extra={"length": 15})
     ("상장 주수(천)")
-    cpfn: StoreInt = Field(
-        json_schema_extra={"length": 21},
-    )
+    cpfn: StoreInt = Field(json_schema_extra={"length": 21})
     ("자본금")
-    stac_month: StoreIntOptional = Field(
-        default=None,
-        json_schema_extra={"length": 2},
-    )
+    stac_month: StoreIntOptional = Field(default=None, json_schema_extra={"length": 2})
     ("결산 월")
-    po_prc: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 7},
-    )
+    po_prc: str | None = Field(default=None, json_schema_extra={"length": 7})
     ("공모 가격")
     prst_cls_code: PrstClsCodeEnum = Field(
-        json_schema_extra={
-            "length": 1,
-            "enum": ["0", "1", "2", "9"],
-            "enum_desc": {"0": "해당없음(보통주)", "1": "구형우선주", "2": "신형우선주"},
-        },
+        json_schema_extra={"length": 1, "enum": ["0", "1", "2", "9"], "enum_desc": {"0": "해당없음(보통주)", "1": "구형우선주", "2": "신형우선주"}}
     )
     ("우선주 구분 코드 (0:해당없음(보통주) 1:구형우선주 2:신형우선주")
-    ssts_hot_yn: StoreBoolOptional = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    ssts_hot_yn: StoreBoolOptional = Field(default=None, json_schema_extra={"length": 1})
     ("공매도과열종목여부")
-    stange_runup_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    stange_runup_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("이상급등종목여부")
-    krx300_issu_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    krx300_issu_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("KRX300 종목 여부 (Y/N)")
-    sale_account: StoreInt = Field(
-        json_schema_extra={"length": 9},
-    )
+    sale_account: StoreInt = Field(json_schema_extra={"length": 9})
     ("매출액")
-    bsop_prfi: StoreInt = Field(
-        json_schema_extra={"length": 9},
-    )
+    bsop_prfi: StoreInt = Field(json_schema_extra={"length": 9})
     ("영업이익")
-    op_prfi: StoreInt = Field(
-        json_schema_extra={"length": 9},
-    )
+    op_prfi: StoreInt = Field(json_schema_extra={"length": 9})
     ("경상이익")
-    thtr_ntin: StoreInt = Field(
-        json_schema_extra={"length": 5},
-    )
+    thtr_ntin: StoreInt = Field(json_schema_extra={"length": 5})
     ("당기순이익")
-    roe: StoreInt = Field(
-        json_schema_extra={"length": 9},
-    )
+    roe: StoreInt = Field(json_schema_extra={"length": 9})
     ("ROE(자기자본이익률)")
-    base_date: StoreDateOptional = Field(
-        default=None,
-        json_schema_extra={"length": 8},
-    )
+    base_date: StoreDateOptional = Field(default=None, json_schema_extra={"length": 8})
     ("기준년월")
-    prdy_avls_scal: StoreDecimal = Field(
-        json_schema_extra={"length": 9},
-    )
+    prdy_avls_scal: StoreDecimal = Field(json_schema_extra={"length": 9})
     ("전일기준 시가총액 (억)")
-    grp_code: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 3},
-    )
+    grp_code: str | None = Field(default=None, json_schema_extra={"length": 3})
     ("그룹사 코드")
-    co_crdt_limt_over_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    co_crdt_limt_over_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("회사신용한도초과여부")
-    secu_lend_able_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    secu_lend_able_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("담보대출가능여부")
-    stln_able_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    stln_able_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("대주가능여부")
 
 
@@ -475,7 +316,4 @@ STRUCT_DEF = StructDef(
     ),
 )
 
-__all__ = [
-    "ST_KSQ_CODE",
-    "STRUCT_DEF",
-]
+__all__ = ["ST_KSQ_CODE", "STRUCT_DEF"]

@@ -3,96 +3,51 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from pykis.store.parser.base import (
-    StoreBool,
-    StoreDecimal,
-    StoreInt,
-    StoreModel,
-)
+from pykis.store.parser.base import StoreBool, StoreDecimal, StoreInt, StoreModel
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
-from pykis.store.raw.structs._enums import (
-    EtypEnum,
-    MetmEnum,
-    MstmEnum,
-    SjongEnum,
-    StisEnum,
-)
+from pykis.store.raw.structs._enums import EtypEnum, MetmEnum, MstmEnum, SjongEnum, StisEnum
 
 
 class mastcode(StoreModel):
-    ncod: str = Field(
-        json_schema_extra={"length": 3},
-    )
+    ncod: str = Field(json_schema_extra={"length": 3})
     ("National code")
-    exid: str = Field(
-        json_schema_extra={"length": 4},
-    )
+    exid: str = Field(json_schema_extra={"length": 4})
     ("Exchange id")
-    excd: str = Field(
-        json_schema_extra={"length": 4},
-    )
+    excd: str = Field(json_schema_extra={"length": 4})
     ("Exchange code")
-    exnm: str = Field(
-        json_schema_extra={"length": 17},
-    )
+    exnm: str = Field(json_schema_extra={"length": 17})
     ("Exchange name")
-    symb: str = Field(
-        json_schema_extra={"length": 17},
-    )
+    symb: str = Field(json_schema_extra={"length": 17})
     ("Symbol")
-    rsym: str = Field(
-        json_schema_extra={"length": 17},
-    )
+    rsym: str = Field(json_schema_extra={"length": 17})
     ("realtime symbol")
-    knam: str = Field(
-        json_schema_extra={"length": 65},
-    )
+    knam: str = Field(json_schema_extra={"length": 65})
     ("Korea name")
-    enam: str = Field(
-        json_schema_extra={"length": 65},
-    )
+    enam: str = Field(json_schema_extra={"length": 65})
     ("English name")
     stis: StisEnum = Field(
         json_schema_extra={
             "length": 2,
             "enum": ["1", "2", "3", "4", "ETF", "ETP"],
             "enum_desc": {"1": "Index", "2": "Stock", "3": "ETP(ETF)", "4": "Warrant", "ETF": "3:ETP", "ETP": "ETF"},
-        },
+        }
     )
     ("Security type 1:Index 2:Stock 3:ETP(ETF) 4:Warrant")
-    curr: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 5},
-    )
+    curr: str | None = Field(default=None, json_schema_extra={"length": 5})
     ("currency")
-    zdiv: StoreInt = Field(
-        json_schema_extra={"length": 2},
-    )
+    zdiv: StoreInt = Field(json_schema_extra={"length": 2})
     ("float position")
-    ztyp: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 2},
-    )
+    ztyp: str | None = Field(default=None, json_schema_extra={"length": 2})
     ("data type")
-    base: StoreDecimal = Field(
-        json_schema_extra={"length": 13},
-    )
+    base: StoreDecimal = Field(json_schema_extra={"length": 13})
     ("base price")
-    bnit: StoreInt = Field(
-        json_schema_extra={"length": 9},
-    )
+    bnit: StoreInt = Field(json_schema_extra={"length": 9})
     ("Bid order size")
-    anit: StoreInt = Field(
-        json_schema_extra={"length": 9},
-    )
+    anit: StoreInt = Field(json_schema_extra={"length": 9})
     ("Ask order size")
     mstm: MstmEnum = Field(
-        json_schema_extra={
-            "length": 5,
-            "enum": ["HHMM", "time", "930", "900", "915"],
-            "enum_desc": {"HHMM": "market start time", "time": "HHMM"},
-        },
+        json_schema_extra={"length": 5, "enum": ["HHMM", "time", "930", "900", "915"], "enum_desc": {"HHMM": "market start time", "time": "HHMM"}}
     )
     ("market start time(HHMM)")
     metm: MetmEnum = Field(
@@ -100,51 +55,29 @@ class mastcode(StoreModel):
             "length": 5,
             "enum": ["HHMM", "time", "1600", "1500", "1610", "1530"],
             "enum_desc": {"HHMM": "market end time", "time": "HHMM"},
-        },
+        }
     )
     ("market end time(HHMM)")
-    isdr: StoreBool = Field(
-        json_schema_extra={"length": 2},
-    )
+    isdr: StoreBool = Field(json_schema_extra={"length": 2})
     ("DR 여부 :Y, N")
-    drcd: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 3},
-    )
+    drcd: str | None = Field(default=None, json_schema_extra={"length": 3})
     ("DR 국가코드")
-    icod: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 5},
-    )
+    icod: str | None = Field(default=None, json_schema_extra={"length": 5})
     ("업종분류코드")
-    sjong: SjongEnum = Field(
-        json_schema_extra={"length": 2, "enum": ["0", "1"], "enum_desc": {"0": "구성종목없음", "1": "구성종목있음"}},
-    )
+    sjong: SjongEnum = Field(json_schema_extra={"length": 2, "enum": ["0", "1"], "enum_desc": {"0": "구성종목없음", "1": "구성종목있음"}})
     ("지수구성종목 존재 여부 0:구성종목없음 1:구성종목있음")
-    ttyp: StoreInt = Field(
-        json_schema_extra={"length": 2},
-    )
+    ttyp: StoreInt = Field(json_schema_extra={"length": 2})
     ("Tick size Type")
     etyp: EtypEnum | None = Field(
         default=None,
         json_schema_extra={
             "length": 4,
             "enum": ["001", "002", "003", "004", "005", "006", "000"],
-            "enum_desc": {
-                "001": "ETF",
-                "002": "ETN",
-                "003": "ETC",
-                "004": "Others",
-                "005": "VIX Underlying ETF",
-                "006": "VIX Underlying ETN",
-            },
+            "enum_desc": {"001": "ETF", "002": "ETN", "003": "ETC", "004": "Others", "005": "VIX Underlying ETF", "006": "VIX Underlying ETN"},
         },
     )
     ("001: ETF 002: ETN 003: ETC 004: Others 005: VIX Underlying ETF 006: VIX Underlying ETN")
-    ttyp_sb: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 4},
-    )
+    ttyp_sb: str | None = Field(default=None, json_schema_extra={"length": 4})
     ("Tick size type 상세 (ttyp 9일 경우 사용) : 런던 제트라 유로넥스트")
 
 
@@ -182,7 +115,4 @@ STRUCT_DEF = StructDef(
     ),
 )
 
-__all__ = [
-    "mastcode",
-    "STRUCT_DEF",
-]
+__all__ = ["mastcode", "STRUCT_DEF"]

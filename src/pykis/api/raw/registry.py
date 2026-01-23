@@ -4,157 +4,71 @@ from __future__ import annotations
 from typing import cast
 
 from pykis.api.raw.types import Endpoint
-from pykis.api.raw.국내선물옵션.기본시세.display_board_callput import (
-    ENDPOINT as ENDPOINT_d9b0e346_a67d_43c6_938a_508e2d8507c6,
-)
-from pykis.api.raw.국내선물옵션.기본시세.display_board_futures import (
-    ENDPOINT as ENDPOINT_8362a35a_e7c2_4944_a4a2_5a716737388c,
-)
-from pykis.api.raw.국내선물옵션.기본시세.display_board_option_list import (
-    ENDPOINT as ENDPOINT_89e1ffde_0cda_4426_8277_72710c193cf2,
-)
-from pykis.api.raw.국내선물옵션.기본시세.display_board_top import (
-    ENDPOINT as ENDPOINT_4112fd5d_43b7_4dc4_bf44_33df58981847,
-)
-from pykis.api.raw.국내선물옵션.기본시세.exp_price_trend import (
-    ENDPOINT as ENDPOINT_498e6384_f887_4fb2_9055_2cbc95790087,
-)
-from pykis.api.raw.국내선물옵션.기본시세.inquire_asking_price import (
-    ENDPOINT as ENDPOINT_bec98736_8f5a_49a0_b325_5f6c40ff13b3,
-)
-from pykis.api.raw.국내선물옵션.기본시세.inquire_daily_fuopchartprice import (
-    ENDPOINT as ENDPOINT_77de2a74_b26c_40ca_a5b7_f87e2ef64f9f,
-)
+from pykis.api.raw.국내선물옵션.기본시세.display_board_callput import ENDPOINT as ENDPOINT_d9b0e346_a67d_43c6_938a_508e2d8507c6
+from pykis.api.raw.국내선물옵션.기본시세.display_board_futures import ENDPOINT as ENDPOINT_8362a35a_e7c2_4944_a4a2_5a716737388c
+from pykis.api.raw.국내선물옵션.기본시세.display_board_option_list import ENDPOINT as ENDPOINT_89e1ffde_0cda_4426_8277_72710c193cf2
+from pykis.api.raw.국내선물옵션.기본시세.display_board_top import ENDPOINT as ENDPOINT_4112fd5d_43b7_4dc4_bf44_33df58981847
+from pykis.api.raw.국내선물옵션.기본시세.exp_price_trend import ENDPOINT as ENDPOINT_498e6384_f887_4fb2_9055_2cbc95790087
+from pykis.api.raw.국내선물옵션.기본시세.inquire_asking_price import ENDPOINT as ENDPOINT_bec98736_8f5a_49a0_b325_5f6c40ff13b3
+from pykis.api.raw.국내선물옵션.기본시세.inquire_daily_fuopchartprice import ENDPOINT as ENDPOINT_77de2a74_b26c_40ca_a5b7_f87e2ef64f9f
 from pykis.api.raw.국내선물옵션.기본시세.inquire_price import ENDPOINT as ENDPOINT_0bb05819_d759_4789_8eda_27a0b88f02aa
-from pykis.api.raw.국내선물옵션.기본시세.inquire_time_fuopchartprice import (
-    ENDPOINT as ENDPOINT_86194480_c8f0_4b0b_9d3d_001c2fc33422,
-)
-from pykis.api.raw.국내선물옵션.주문_계좌.inquire_balance import (
-    ENDPOINT as ENDPOINT_71356fc2_c4ca_4d5f_b564_cd16b8155ecc,
-)
-from pykis.api.raw.국내선물옵션.주문_계좌.inquire_balance_settlement_pl import (
-    ENDPOINT as ENDPOINT_d352ed8c_30eb_4de2_83b4_62f6830b6208,
-)
-from pykis.api.raw.국내선물옵션.주문_계좌.inquire_balance_valuation_pl import (
-    ENDPOINT as ENDPOINT_7e749979_58f8_4b71_980d_2d91ba1266e8,
-)
+from pykis.api.raw.국내선물옵션.기본시세.inquire_time_fuopchartprice import ENDPOINT as ENDPOINT_86194480_c8f0_4b0b_9d3d_001c2fc33422
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_balance import ENDPOINT as ENDPOINT_71356fc2_c4ca_4d5f_b564_cd16b8155ecc
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_balance_settlement_pl import ENDPOINT as ENDPOINT_d352ed8c_30eb_4de2_83b4_62f6830b6208
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_balance_valuation_pl import ENDPOINT as ENDPOINT_7e749979_58f8_4b71_980d_2d91ba1266e8
 from pykis.api.raw.국내선물옵션.주문_계좌.inquire_ccnl import ENDPOINT as ENDPOINT_b14b5187_8dbd_4fde_a4b6_73a8a3c19f1a
-from pykis.api.raw.국내선물옵션.주문_계좌.inquire_ccnl_bstime import (
-    ENDPOINT as ENDPOINT_f64db1b8_012a_4e92_ab1c_e9b3b264b2b7,
-)
-from pykis.api.raw.국내선물옵션.주문_계좌.inquire_daily_amount_fee import (
-    ENDPOINT as ENDPOINT_2bb020d7_ae3f_4f65_88ac_e9f598544825,
-)
-from pykis.api.raw.국내선물옵션.주문_계좌.inquire_deposit import (
-    ENDPOINT as ENDPOINT_24abcfa1_a95b_4344_bb7f_11f2523f8355,
-)
-from pykis.api.raw.국내선물옵션.주문_계좌.inquire_ngt_balance import (
-    ENDPOINT as ENDPOINT_3af368ec_3627_4fdc_9bb9_4e4ff1a1968f,
-)
-from pykis.api.raw.국내선물옵션.주문_계좌.inquire_ngt_ccnl import (
-    ENDPOINT as ENDPOINT_b5f12325_af4e_4fcd_a8b2_c8047dd317d2,
-)
-from pykis.api.raw.국내선물옵션.주문_계좌.inquire_psbl_ngt_order import (
-    ENDPOINT as ENDPOINT_bca48008_6f73_4753_ab4b_aa8506145340,
-)
-from pykis.api.raw.국내선물옵션.주문_계좌.inquire_psbl_order import (
-    ENDPOINT as ENDPOINT_d66ffd69_8d60_4490_99d0_becf63aabf41,
-)
-from pykis.api.raw.국내선물옵션.주문_계좌.ngt_margin_detail import (
-    ENDPOINT as ENDPOINT_07126b90_256e_4b93_b0be_e1e59dfc89f0,
-)
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_ccnl_bstime import ENDPOINT as ENDPOINT_f64db1b8_012a_4e92_ab1c_e9b3b264b2b7
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_daily_amount_fee import ENDPOINT as ENDPOINT_2bb020d7_ae3f_4f65_88ac_e9f598544825
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_deposit import ENDPOINT as ENDPOINT_24abcfa1_a95b_4344_bb7f_11f2523f8355
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_ngt_balance import ENDPOINT as ENDPOINT_3af368ec_3627_4fdc_9bb9_4e4ff1a1968f
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_ngt_ccnl import ENDPOINT as ENDPOINT_b5f12325_af4e_4fcd_a8b2_c8047dd317d2
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_psbl_ngt_order import ENDPOINT as ENDPOINT_bca48008_6f73_4753_ab4b_aa8506145340
+from pykis.api.raw.국내선물옵션.주문_계좌.inquire_psbl_order import ENDPOINT as ENDPOINT_d66ffd69_8d60_4490_99d0_becf63aabf41
+from pykis.api.raw.국내선물옵션.주문_계좌.ngt_margin_detail import ENDPOINT as ENDPOINT_07126b90_256e_4b93_b0be_e1e59dfc89f0
 from pykis.api.raw.국내선물옵션.주문_계좌.order import ENDPOINT as ENDPOINT_73a1bb73_fd91_4d70_bba1_f3241f12e7ff
-from pykis.api.raw.국내선물옵션.주문_계좌.order_rvsecncl import (
-    ENDPOINT as ENDPOINT_a3c3305a_7624_4049_b0f3_6bcca689d1f5,
-)
+from pykis.api.raw.국내선물옵션.주문_계좌.order_rvsecncl import ENDPOINT as ENDPOINT_a3c3305a_7624_4049_b0f3_6bcca689d1f5
 from pykis.api.raw.국내주식.ELW_시세.compare_stocks import ENDPOINT as ENDPOINT_ca2e71e1_5ef4_4489_b4c4_118e10588690
 from pykis.api.raw.국내주식.ELW_시세.cond_search import ENDPOINT as ENDPOINT_264533d3_00eb_4794_984a_fecb84350f39
 from pykis.api.raw.국내주식.ELW_시세.expiration_stocks import ENDPOINT as ENDPOINT_d99d058d_4319_41ce_bce0_53c44a894ddb
 from pykis.api.raw.국내주식.ELW_시세.indicator import ENDPOINT as ENDPOINT_8869c0c3_efd8_461b_ba87_5ab468afeea2
-from pykis.api.raw.국내주식.ELW_시세.indicator_trend_ccnl import (
-    ENDPOINT as ENDPOINT_937eb413_9db9_4479_887d_4cf172dcf344,
-)
-from pykis.api.raw.국내주식.ELW_시세.indicator_trend_daily import (
-    ENDPOINT as ENDPOINT_1e0869f4_5639_4f22_be71_a28897242457,
-)
-from pykis.api.raw.국내주식.ELW_시세.indicator_trend_minute import (
-    ENDPOINT as ENDPOINT_4af6e358_255c_4e4e_b691_388610068216,
-)
+from pykis.api.raw.국내주식.ELW_시세.indicator_trend_ccnl import ENDPOINT as ENDPOINT_937eb413_9db9_4479_887d_4cf172dcf344
+from pykis.api.raw.국내주식.ELW_시세.indicator_trend_daily import ENDPOINT as ENDPOINT_1e0869f4_5639_4f22_be71_a28897242457
+from pykis.api.raw.국내주식.ELW_시세.indicator_trend_minute import ENDPOINT as ENDPOINT_4af6e358_255c_4e4e_b691_388610068216
 from pykis.api.raw.국내주식.ELW_시세.inquire_elw_price import ENDPOINT as ENDPOINT_07313e08_45f2_4423_abb2_2a49752910ae
 from pykis.api.raw.국내주식.ELW_시세.lp_trade_trend import ENDPOINT as ENDPOINT_e5f413ec_3e68_47d7_931f_d7eb263990d9
 from pykis.api.raw.국내주식.ELW_시세.newly_listed import ENDPOINT as ENDPOINT_147e81db_e0d2_40cd_95f5_d8da90c2d998
 from pykis.api.raw.국내주식.ELW_시세.quick_change import ENDPOINT as ENDPOINT_4769336b_3280_419e_b69d_7531195b2221
 from pykis.api.raw.국내주식.ELW_시세.sensitivity import ENDPOINT as ENDPOINT_246842f0_450e_464b_8dbc_356133d12b42
-from pykis.api.raw.국내주식.ELW_시세.sensitivity_trend_ccnl import (
-    ENDPOINT as ENDPOINT_e9be5d05_448e_4222_bb05_7f0e27a91d69,
-)
-from pykis.api.raw.국내주식.ELW_시세.sensitivity_trend_daily import (
-    ENDPOINT as ENDPOINT_a64dc948_de6c_4e7a_988b_9769ac8fd5b2,
-)
+from pykis.api.raw.국내주식.ELW_시세.sensitivity_trend_ccnl import ENDPOINT as ENDPOINT_e9be5d05_448e_4222_bb05_7f0e27a91d69
+from pykis.api.raw.국내주식.ELW_시세.sensitivity_trend_daily import ENDPOINT as ENDPOINT_a64dc948_de6c_4e7a_988b_9769ac8fd5b2
 from pykis.api.raw.국내주식.ELW_시세.udrl_asset_list import ENDPOINT as ENDPOINT_4e082d62_bbad_48bb_92dc_aceac46e9a8d
 from pykis.api.raw.국내주식.ELW_시세.udrl_asset_price import ENDPOINT as ENDPOINT_263ef907_db8c_4bf6_8da9_388c8fb4cf10
 from pykis.api.raw.국내주식.ELW_시세.updown_rate import ENDPOINT as ENDPOINT_9f6b3c41_d44a_4ae1_8324_aa222d19c6bf
-from pykis.api.raw.국내주식.ELW_시세.volatility_trend_ccnl import (
-    ENDPOINT as ENDPOINT_40403e7f_bd31_4e12_ae87_553e7be28b12,
-)
-from pykis.api.raw.국내주식.ELW_시세.volatility_trend_daily import (
-    ENDPOINT as ENDPOINT_5bd31e17_ea4d_4e76_8e03_f8dfb3be25e7,
-)
-from pykis.api.raw.국내주식.ELW_시세.volatility_trend_minute import (
-    ENDPOINT as ENDPOINT_31081a30_ba59_4b42_a9f2_c1fe850fadb1,
-)
-from pykis.api.raw.국내주식.ELW_시세.volatility_trend_tick import (
-    ENDPOINT as ENDPOINT_f1ce6099_5bf2_4b4e_915e_e0c7020af4bf,
-)
+from pykis.api.raw.국내주식.ELW_시세.volatility_trend_ccnl import ENDPOINT as ENDPOINT_40403e7f_bd31_4e12_ae87_553e7be28b12
+from pykis.api.raw.국내주식.ELW_시세.volatility_trend_daily import ENDPOINT as ENDPOINT_5bd31e17_ea4d_4e76_8e03_f8dfb3be25e7
+from pykis.api.raw.국내주식.ELW_시세.volatility_trend_minute import ENDPOINT as ENDPOINT_31081a30_ba59_4b42_a9f2_c1fe850fadb1
+from pykis.api.raw.국내주식.ELW_시세.volatility_trend_tick import ENDPOINT as ENDPOINT_f1ce6099_5bf2_4b4e_915e_e0c7020af4bf
 from pykis.api.raw.국내주식.ELW_시세.volume_rank import ENDPOINT as ENDPOINT_6bd62480_d165_415e_9d82_bffe2f43aa7e
 from pykis.api.raw.국내주식.기본시세.exp_closing_price import ENDPOINT as ENDPOINT_ebf1dc17_7b48_4192_841d_0ccb6ce3f016
-from pykis.api.raw.국내주식.기본시세.inquire_asking_price_exp_ccn import (
-    ENDPOINT as ENDPOINT_af3d3794_92c0_4f3b_8041_4ca4ddcda5de,
-)
+from pykis.api.raw.국내주식.기본시세.inquire_asking_price_exp_ccn import ENDPOINT as ENDPOINT_af3d3794_92c0_4f3b_8041_4ca4ddcda5de
 from pykis.api.raw.국내주식.기본시세.inquire_ccnl import ENDPOINT as ENDPOINT_b72d1ba6_b37c_4b7c_91ae_9d02835444f6
-from pykis.api.raw.국내주식.기본시세.inquire_component_stock_price import (
-    ENDPOINT as ENDPOINT_3871dd9b_e9a5_471b_a0ce_d9ceb207ac5b,
-)
-from pykis.api.raw.국내주식.기본시세.inquire_daily_itemchartprice import (
-    ENDPOINT as ENDPOINT_a08c3421_e50f_4f24_b1fe_64c12f723c77,
-)
-from pykis.api.raw.국내주식.기본시세.inquire_daily_overtimeprice import (
-    ENDPOINT as ENDPOINT_4ea57616_0e63_4f8c_a607_f096f1304183,
-)
-from pykis.api.raw.국내주식.기본시세.inquire_daily_price import (
-    ENDPOINT as ENDPOINT_011d4de2_a4a0_47c0_aa47_20c65a26a763,
-)
+from pykis.api.raw.국내주식.기본시세.inquire_component_stock_price import ENDPOINT as ENDPOINT_3871dd9b_e9a5_471b_a0ce_d9ceb207ac5b
+from pykis.api.raw.국내주식.기본시세.inquire_daily_itemchartprice import ENDPOINT as ENDPOINT_a08c3421_e50f_4f24_b1fe_64c12f723c77
+from pykis.api.raw.국내주식.기본시세.inquire_daily_overtimeprice import ENDPOINT as ENDPOINT_4ea57616_0e63_4f8c_a607_f096f1304183
+from pykis.api.raw.국내주식.기본시세.inquire_daily_price import ENDPOINT as ENDPOINT_011d4de2_a4a0_47c0_aa47_20c65a26a763
 from pykis.api.raw.국내주식.기본시세.inquire_investor import ENDPOINT as ENDPOINT_e27baf2f_6ec0_4029_b4fd_4c873f340478
 from pykis.api.raw.국내주식.기본시세.inquire_member import ENDPOINT as ENDPOINT_cf3b44a4_1864_4cc3_8650_ba4e2dbcbf06
-from pykis.api.raw.국내주식.기본시세.inquire_overtime_asking_price import (
-    ENDPOINT as ENDPOINT_6b0b388e_f815_4009_b46d_e08e47575ca7,
-)
-from pykis.api.raw.국내주식.기본시세.inquire_overtime_price import (
-    ENDPOINT as ENDPOINT_1e375270_7d8d_4e4b_bcac_d11cb41542cb,
-)
+from pykis.api.raw.국내주식.기본시세.inquire_overtime_asking_price import ENDPOINT as ENDPOINT_6b0b388e_f815_4009_b46d_e08e47575ca7
+from pykis.api.raw.국내주식.기본시세.inquire_overtime_price import ENDPOINT as ENDPOINT_1e375270_7d8d_4e4b_bcac_d11cb41542cb
 from pykis.api.raw.국내주식.기본시세.inquire_price import ENDPOINT as ENDPOINT_e53eb2e6_b292_4e2b_b150_22d92b401453
 from pykis.api.raw.국내주식.기본시세.inquire_price_2 import ENDPOINT as ENDPOINT_995f745a_aa8a_491b_85ef_0d4697094b58
-from pykis.api.raw.국내주식.기본시세.inquire_time_dailychartprice import (
-    ENDPOINT as ENDPOINT_9fece97b_401f_4379_9e9d_4365b63c1126,
-)
-from pykis.api.raw.국내주식.기본시세.inquire_time_itemchartprice import (
-    ENDPOINT as ENDPOINT_eddbb36a_1d55_461a_b242_3067ba1e5640,
-)
-from pykis.api.raw.국내주식.기본시세.inquire_time_itemconclusion import (
-    ENDPOINT as ENDPOINT_81b30d9e_1bce_439f_9cf0_56f0ea1a4f95,
-)
-from pykis.api.raw.국내주식.기본시세.inquire_time_overtimeconclusion import (
-    ENDPOINT as ENDPOINT_3dfc942e_0ed3_4c81_9e8d_9a96f1c5c669,
-)
-from pykis.api.raw.국내주식.기본시세.nav_comparison_daily_trend import (
-    ENDPOINT as ENDPOINT_ade0f812_3677_48c0_9cce_ddfb4a689add,
-)
-from pykis.api.raw.국내주식.기본시세.nav_comparison_time_trend import (
-    ENDPOINT as ENDPOINT_dd867a76_745d_4268_8ff8_b3e7f71e6e83,
-)
-from pykis.api.raw.국내주식.기본시세.nav_comparison_trend import (
-    ENDPOINT as ENDPOINT_46eea904_3984_4354_b4e9_8918f503fd79,
-)
+from pykis.api.raw.국내주식.기본시세.inquire_time_dailychartprice import ENDPOINT as ENDPOINT_9fece97b_401f_4379_9e9d_4365b63c1126
+from pykis.api.raw.국내주식.기본시세.inquire_time_itemchartprice import ENDPOINT as ENDPOINT_eddbb36a_1d55_461a_b242_3067ba1e5640
+from pykis.api.raw.국내주식.기본시세.inquire_time_itemconclusion import ENDPOINT as ENDPOINT_81b30d9e_1bce_439f_9cf0_56f0ea1a4f95
+from pykis.api.raw.국내주식.기본시세.inquire_time_overtimeconclusion import ENDPOINT as ENDPOINT_3dfc942e_0ed3_4c81_9e8d_9a96f1c5c669
+from pykis.api.raw.국내주식.기본시세.nav_comparison_daily_trend import ENDPOINT as ENDPOINT_ade0f812_3677_48c0_9cce_ddfb4a689add
+from pykis.api.raw.국내주식.기본시세.nav_comparison_time_trend import ENDPOINT as ENDPOINT_dd867a76_745d_4268_8ff8_b3e7f71e6e83
+from pykis.api.raw.국내주식.기본시세.nav_comparison_trend import ENDPOINT as ENDPOINT_46eea904_3984_4354_b4e9_8918f503fd79
 from pykis.api.raw.국내주식.순위분석.after_hour_balance import ENDPOINT as ENDPOINT_4490b65c_3c6e_4e8b_b525_f5b48fe88710
 from pykis.api.raw.국내주식.순위분석.bulk_trans_num import ENDPOINT as ENDPOINT_7bdbff93_1334_496f_a9b8_7da6032f7407
 from pykis.api.raw.국내주식.순위분석.credit_balance import ENDPOINT as ENDPOINT_0c2760ca_7fc9_4f41_9abd_33b2f5ff3b3b
@@ -167,13 +81,9 @@ from pykis.api.raw.국내주식.순위분석.hts_top_view import ENDPOINT as END
 from pykis.api.raw.국내주식.순위분석.market_cap import ENDPOINT as ENDPOINT_bdb401cd_03ea_4329_928d_18b3e9af066e
 from pykis.api.raw.국내주식.순위분석.market_value import ENDPOINT as ENDPOINT_dfd2502e_0d5c_4999_8a24_84ff15a74696
 from pykis.api.raw.국내주식.순위분석.near_new_highlow import ENDPOINT as ENDPOINT_72e63cb2_2ab1_41a0_8ab9_62cbeaa5eea0
-from pykis.api.raw.국내주식.순위분석.overtime_fluctuation import (
-    ENDPOINT as ENDPOINT_f5c2c9d8_8d11_4a70_8694_1b71e3fc3640,
-)
+from pykis.api.raw.국내주식.순위분석.overtime_fluctuation import ENDPOINT as ENDPOINT_f5c2c9d8_8d11_4a70_8694_1b71e3fc3640
 from pykis.api.raw.국내주식.순위분석.overtime_volume import ENDPOINT as ENDPOINT_16958dd0_0304_4554_b12d_ec56e7874e71
-from pykis.api.raw.국내주식.순위분석.prefer_disparate_ratio import (
-    ENDPOINT as ENDPOINT_798040e2_7ae9_410c_80ce_4fa7de012046,
-)
+from pykis.api.raw.국내주식.순위분석.prefer_disparate_ratio import ENDPOINT as ENDPOINT_798040e2_7ae9_410c_80ce_4fa7de012046
 from pykis.api.raw.국내주식.순위분석.profit_asset_index import ENDPOINT as ENDPOINT_7185c44d_0bc5_4c0f_b64d_71ac9ea796f1
 from pykis.api.raw.국내주식.순위분석.quote_balance import ENDPOINT as ENDPOINT_09dff633_6f3b_486a_b894_bbed4e77aaf6
 from pykis.api.raw.국내주식.순위분석.short_sale import ENDPOINT as ENDPOINT_4745d669_557b_413c_aa0b_522e620cd832
@@ -182,65 +92,31 @@ from pykis.api.raw.국내주식.순위분석.traded_by_company import ENDPOINT a
 from pykis.api.raw.국내주식.순위분석.volume_power import ENDPOINT as ENDPOINT_f2d34ad7_9fc4_40b8_b857_3825fd772c44
 from pykis.api.raw.국내주식.순위분석.volume_rank import ENDPOINT as ENDPOINT_6df56964_f22b_43d4_9457_f06264018e5b
 from pykis.api.raw.국내주식.시세분석.capture_uplowprice import ENDPOINT as ENDPOINT_30654e7a_8eda_42ac_8b54_9f0287bde15d
-from pykis.api.raw.국내주식.시세분석.comp_program_trade_daily import (
-    ENDPOINT as ENDPOINT_3b0af8ef_13b4_4514_a07a_1bc718d07005,
-)
-from pykis.api.raw.국내주식.시세분석.comp_program_trade_today import (
-    ENDPOINT as ENDPOINT_0843477a_156b_4ac5_bf65_199b124b072f,
-)
-from pykis.api.raw.국내주식.시세분석.daily_credit_balance import (
-    ENDPOINT as ENDPOINT_0aad2cef_b338_4f4f_a8a0_b19c67a390b3,
-)
+from pykis.api.raw.국내주식.시세분석.comp_program_trade_daily import ENDPOINT as ENDPOINT_3b0af8ef_13b4_4514_a07a_1bc718d07005
+from pykis.api.raw.국내주식.시세분석.comp_program_trade_today import ENDPOINT as ENDPOINT_0843477a_156b_4ac5_bf65_199b124b072f
+from pykis.api.raw.국내주식.시세분석.daily_credit_balance import ENDPOINT as ENDPOINT_0aad2cef_b338_4f4f_a8a0_b19c67a390b3
 from pykis.api.raw.국내주식.시세분석.daily_loan_trans import ENDPOINT as ENDPOINT_3ed0247e_d717_43ed_85e9_51f952844687
 from pykis.api.raw.국내주식.시세분석.daily_short_sale import ENDPOINT as ENDPOINT_1069f2bf_962f_48db_8dc4_54d362065431
 from pykis.api.raw.국내주식.시세분석.exp_price_trend import ENDPOINT as ENDPOINT_c4d31a39_d602_4848_9c00_1d9d3f494e63
-from pykis.api.raw.국내주식.시세분석.foreign_institution_total import (
-    ENDPOINT as ENDPOINT_4a077f43_7053_47be_b811_8e35be4ea745,
-)
+from pykis.api.raw.국내주식.시세분석.foreign_institution_total import ENDPOINT as ENDPOINT_4a077f43_7053_47be_b811_8e35be4ea745
 from pykis.api.raw.국내주식.시세분석.frgnmem_pchs_trend import ENDPOINT as ENDPOINT_fdecab0c_4c48_499b_9436_4ac3d32dbd09
-from pykis.api.raw.국내주식.시세분석.frgnmem_trade_estimate import (
-    ENDPOINT as ENDPOINT_f13f5e30_1065_451b_bcd3_06543b840a2e,
-)
-from pykis.api.raw.국내주식.시세분석.frgnmem_trade_trend import (
-    ENDPOINT as ENDPOINT_ce9f2a8f_e3cb_4bd3_83ba_7b6034eafae9,
-)
-from pykis.api.raw.국내주식.시세분석.inquire_daily_trade_volume import (
-    ENDPOINT as ENDPOINT_abc1a594_7f67_4a6b_9f02_67310c435b61,
-)
-from pykis.api.raw.국내주식.시세분석.inquire_investor_daily_by_market import (
-    ENDPOINT as ENDPOINT_0cc848c0_4928_4b89_bca4_62df430e4a45,
-)
-from pykis.api.raw.국내주식.시세분석.inquire_investor_time_by_market import (
-    ENDPOINT as ENDPOINT_e5c6c050_e63f_4ab7_b339_d1a645d3239b,
-)
-from pykis.api.raw.국내주식.시세분석.inquire_member_daily import (
-    ENDPOINT as ENDPOINT_50775574_8832_4db8_aeb5_51a32c8250ed,
-)
+from pykis.api.raw.국내주식.시세분석.frgnmem_trade_estimate import ENDPOINT as ENDPOINT_f13f5e30_1065_451b_bcd3_06543b840a2e
+from pykis.api.raw.국내주식.시세분석.frgnmem_trade_trend import ENDPOINT as ENDPOINT_ce9f2a8f_e3cb_4bd3_83ba_7b6034eafae9
+from pykis.api.raw.국내주식.시세분석.inquire_daily_trade_volume import ENDPOINT as ENDPOINT_abc1a594_7f67_4a6b_9f02_67310c435b61
+from pykis.api.raw.국내주식.시세분석.inquire_investor_daily_by_market import ENDPOINT as ENDPOINT_0cc848c0_4928_4b89_bca4_62df430e4a45
+from pykis.api.raw.국내주식.시세분석.inquire_investor_time_by_market import ENDPOINT as ENDPOINT_e5c6c050_e63f_4ab7_b339_d1a645d3239b
+from pykis.api.raw.국내주식.시세분석.inquire_member_daily import ENDPOINT as ENDPOINT_50775574_8832_4db8_aeb5_51a32c8250ed
 from pykis.api.raw.국내주식.시세분석.intstock_grouplist import ENDPOINT as ENDPOINT_6723d437_b275_4c10_b7fb_9ba788cad75e
 from pykis.api.raw.국내주식.시세분석.intstock_multprice import ENDPOINT as ENDPOINT_fee465d1_7fd5_4c66_b4a4_731b813d569d
-from pykis.api.raw.국내주식.시세분석.intstock_stocklist_by_group import (
-    ENDPOINT as ENDPOINT_4d8c6e7a_a026_4f8d_8c64_9e7ecbc3d97e,
-)
-from pykis.api.raw.국내주식.시세분석.investor_program_trade_today import (
-    ENDPOINT as ENDPOINT_b664e9df_7ab6_4b89_89a0_5537ae380caf,
-)
-from pykis.api.raw.국내주식.시세분석.investor_trade_by_stock_daily import (
-    ENDPOINT as ENDPOINT_141f0f11_ef30_4e52_9388_a6e78502d5c2,
-)
-from pykis.api.raw.국내주식.시세분석.investor_trend_estimate import (
-    ENDPOINT as ENDPOINT_7fcf90d5_5e84_484a_8000_9121fb0a81d7,
-)
+from pykis.api.raw.국내주식.시세분석.intstock_stocklist_by_group import ENDPOINT as ENDPOINT_4d8c6e7a_a026_4f8d_8c64_9e7ecbc3d97e
+from pykis.api.raw.국내주식.시세분석.investor_program_trade_today import ENDPOINT as ENDPOINT_b664e9df_7ab6_4b89_89a0_5537ae380caf
+from pykis.api.raw.국내주식.시세분석.investor_trade_by_stock_daily import ENDPOINT as ENDPOINT_141f0f11_ef30_4e52_9388_a6e78502d5c2
+from pykis.api.raw.국내주식.시세분석.investor_trend_estimate import ENDPOINT as ENDPOINT_7fcf90d5_5e84_484a_8000_9121fb0a81d7
 from pykis.api.raw.국내주식.시세분석.mktfunds import ENDPOINT as ENDPOINT_b8c4fb5f_c3ef_4f6c_bfab_5471f43fb0ae
-from pykis.api.raw.국내주식.시세분석.overtime_exp_trans_fluct import (
-    ENDPOINT as ENDPOINT_fc52daa5_9919_4f80_b926_ee35ef298c54,
-)
+from pykis.api.raw.국내주식.시세분석.overtime_exp_trans_fluct import ENDPOINT as ENDPOINT_fc52daa5_9919_4f80_b926_ee35ef298c54
 from pykis.api.raw.국내주식.시세분석.pbar_tratio import ENDPOINT as ENDPOINT_49cc5311_ae48_44e5_bc5c_7618f1ee61cd
-from pykis.api.raw.국내주식.시세분석.program_trade_by_stock import (
-    ENDPOINT as ENDPOINT_eed4c960_21af_45b7_8fc7_cc95911ee239,
-)
-from pykis.api.raw.국내주식.시세분석.program_trade_by_stock_daily import (
-    ENDPOINT as ENDPOINT_5ff6b5de_85e8_47e3_bb41_3e427c487bb3,
-)
+from pykis.api.raw.국내주식.시세분석.program_trade_by_stock import ENDPOINT as ENDPOINT_eed4c960_21af_45b7_8fc7_cc95911ee239
+from pykis.api.raw.국내주식.시세분석.program_trade_by_stock_daily import ENDPOINT as ENDPOINT_5ff6b5de_85e8_47e3_bb41_3e427c487bb3
 from pykis.api.raw.국내주식.시세분석.psearch_result import ENDPOINT as ENDPOINT_3f2f6823_fcdf_4713_a594_a03c7154096e
 from pykis.api.raw.국내주식.시세분석.psearch_title import ENDPOINT as ENDPOINT_24413e7f_cca6_4ab4_8598_b9d4e2d4305d
 from pykis.api.raw.국내주식.시세분석.tradprt_byamt import ENDPOINT as ENDPOINT_b290d16e_aa18_4e41_9c08_f4d941efe9a1
@@ -248,27 +124,13 @@ from pykis.api.raw.국내주식.업종_기타.chk_holiday import ENDPOINT as END
 from pykis.api.raw.국내주식.업종_기타.comp_interest import ENDPOINT as ENDPOINT_ecc36b93_6f99_4cd2_b16d_79b46734769a
 from pykis.api.raw.국내주식.업종_기타.exp_index_trend import ENDPOINT as ENDPOINT_020c2367_4e2c_4e9a_85b4_c5daaa73f600
 from pykis.api.raw.국내주식.업종_기타.exp_total_index import ENDPOINT as ENDPOINT_7d1b2345_32f8_463b_9f41_8b4602387d52
-from pykis.api.raw.국내주식.업종_기타.inquire_daily_indexchartprice import (
-    ENDPOINT as ENDPOINT_184519fc_37b5_4687_bebf_d3ddf5659729,
-)
-from pykis.api.raw.국내주식.업종_기타.inquire_index_category_price import (
-    ENDPOINT as ENDPOINT_27bef4b4_cf83_4698_8f1e_16138cb09817,
-)
-from pykis.api.raw.국내주식.업종_기타.inquire_index_daily_price import (
-    ENDPOINT as ENDPOINT_b11002e2_63c7_401b_a6fd_3136cb28040a,
-)
-from pykis.api.raw.국내주식.업종_기타.inquire_index_price import (
-    ENDPOINT as ENDPOINT_868b0fe2_fdb5_4a32_bdb2_00db12269230,
-)
-from pykis.api.raw.국내주식.업종_기타.inquire_index_tickprice import (
-    ENDPOINT as ENDPOINT_a87c0275_f467_4199_866a_876a8fcdccb0,
-)
-from pykis.api.raw.국내주식.업종_기타.inquire_index_timeprice import (
-    ENDPOINT as ENDPOINT_1d150774_eafa_49f8_9e77_67099bc28771,
-)
-from pykis.api.raw.국내주식.업종_기타.inquire_time_indexchartprice import (
-    ENDPOINT as ENDPOINT_5613b629_b622_4a22_8175_31a4376c36b4,
-)
+from pykis.api.raw.국내주식.업종_기타.inquire_daily_indexchartprice import ENDPOINT as ENDPOINT_184519fc_37b5_4687_bebf_d3ddf5659729
+from pykis.api.raw.국내주식.업종_기타.inquire_index_category_price import ENDPOINT as ENDPOINT_27bef4b4_cf83_4698_8f1e_16138cb09817
+from pykis.api.raw.국내주식.업종_기타.inquire_index_daily_price import ENDPOINT as ENDPOINT_b11002e2_63c7_401b_a6fd_3136cb28040a
+from pykis.api.raw.국내주식.업종_기타.inquire_index_price import ENDPOINT as ENDPOINT_868b0fe2_fdb5_4a32_bdb2_00db12269230
+from pykis.api.raw.국내주식.업종_기타.inquire_index_tickprice import ENDPOINT as ENDPOINT_a87c0275_f467_4199_866a_876a8fcdccb0
+from pykis.api.raw.국내주식.업종_기타.inquire_index_timeprice import ENDPOINT as ENDPOINT_1d150774_eafa_49f8_9e77_67099bc28771
+from pykis.api.raw.국내주식.업종_기타.inquire_time_indexchartprice import ENDPOINT as ENDPOINT_5613b629_b622_4a22_8175_31a4376c36b4
 from pykis.api.raw.국내주식.업종_기타.inquire_vi_status import ENDPOINT as ENDPOINT_f54caf9c_65db_42ee_aa7e_a337c5a41778
 from pykis.api.raw.국내주식.업종_기타.market_time import ENDPOINT as ENDPOINT_8eab76ff_a534_4d31_afe1_0fef1ff46682
 from pykis.api.raw.국내주식.업종_기타.news_title import ENDPOINT as ENDPOINT_fbfe7300_7096_4938_840b_9f7c328cc5fd
@@ -284,9 +146,7 @@ from pykis.api.raw.국내주식.종목정보.growth_ratio import ENDPOINT as END
 from pykis.api.raw.국내주식.종목정보.income_statement import ENDPOINT as ENDPOINT_c5933de1_4016_485a_a9ff_729818881d28
 from pykis.api.raw.국내주식.종목정보.invest_opbysec import ENDPOINT as ENDPOINT_3a588de4_df48_49ac_88ca_9765998c00e1
 from pykis.api.raw.국내주식.종목정보.invest_opinion import ENDPOINT as ENDPOINT_9de56f62_938c_40df_970e_8fd13a59b445
-from pykis.api.raw.국내주식.종목정보.lendable_by_company import (
-    ENDPOINT as ENDPOINT_ca0f8e3e_9f99_4ebd_a81c_c5f8017c4d65,
-)
+from pykis.api.raw.국내주식.종목정보.lendable_by_company import ENDPOINT as ENDPOINT_ca0f8e3e_9f99_4ebd_a81c_c5f8017c4d65
 from pykis.api.raw.국내주식.종목정보.list_info import ENDPOINT as ENDPOINT_01fd59f1_e7f6_4192_8b02_d52e5dd7c8f3
 from pykis.api.raw.국내주식.종목정보.mand_deposit import ENDPOINT as ENDPOINT_b742d5ef_6d97_4e75_ae25_52daf2f08021
 from pykis.api.raw.국내주식.종목정보.merger_split import ENDPOINT as ENDPOINT_fa9583fd_0340_4f24_a755_45fdfb5e5bab
@@ -300,154 +160,82 @@ from pykis.api.raw.국내주식.종목정보.search_info import ENDPOINT as ENDP
 from pykis.api.raw.국내주식.종목정보.search_stock_info import ENDPOINT as ENDPOINT_da0485b5_31f1_4c62_a3d4_294a4311ad39
 from pykis.api.raw.국내주식.종목정보.sharehld_meet import ENDPOINT as ENDPOINT_e2633b78_811f_40b8_a933_dcba64c3e0e8
 from pykis.api.raw.국내주식.종목정보.stability_ratio import ENDPOINT as ENDPOINT_a27c026a_744f_4ddd_9d35_c35b285af74c
-from pykis.api.raw.국내주식.주문_계좌.inquire_account_balance import (
-    ENDPOINT as ENDPOINT_052c663e_73db_43ee_b1a0_702a14de31fc,
-)
+from pykis.api.raw.국내주식.주문_계좌.inquire_account_balance import ENDPOINT as ENDPOINT_052c663e_73db_43ee_b1a0_702a14de31fc
 from pykis.api.raw.국내주식.주문_계좌.inquire_balance import ENDPOINT as ENDPOINT_fe014543_4baa_4452_a388_2d6558d1e212
-from pykis.api.raw.국내주식.주문_계좌.inquire_balance_rlz_pl import (
-    ENDPOINT as ENDPOINT_ff79302e_6014_495e_a188_6dca69fc952e,
-)
-from pykis.api.raw.국내주식.주문_계좌.inquire_credit_psamount import (
-    ENDPOINT as ENDPOINT_262e63bf_95bd_4540_b252_092d36df750a,
-)
-from pykis.api.raw.국내주식.주문_계좌.inquire_daily_ccld import (
-    ENDPOINT as ENDPOINT_380e7913_c8dc_4bea_9ceb_b200f16b3a09,
-)
+from pykis.api.raw.국내주식.주문_계좌.inquire_balance_rlz_pl import ENDPOINT as ENDPOINT_ff79302e_6014_495e_a188_6dca69fc952e
+from pykis.api.raw.국내주식.주문_계좌.inquire_credit_psamount import ENDPOINT as ENDPOINT_262e63bf_95bd_4540_b252_092d36df750a
+from pykis.api.raw.국내주식.주문_계좌.inquire_daily_ccld import ENDPOINT as ENDPOINT_380e7913_c8dc_4bea_9ceb_b200f16b3a09
 from pykis.api.raw.국내주식.주문_계좌.inquire_deposit import ENDPOINT as ENDPOINT_095877d8_43c9_45cd_998b_114598e0c812
-from pykis.api.raw.국내주식.주문_계좌.inquire_period_profit import (
-    ENDPOINT as ENDPOINT_9748985e_43bc_4b8f_be73_cd9434666099,
-)
-from pykis.api.raw.국내주식.주문_계좌.inquire_period_trade_profit import (
-    ENDPOINT as ENDPOINT_4755efc7_31c4_411c_af45_3e6948611f0a,
-)
-from pykis.api.raw.국내주식.주문_계좌.inquire_present_balance import (
-    ENDPOINT as ENDPOINT_6e8dc8ed_f026_497c_a40c_098448a94241,
-)
-from pykis.api.raw.국내주식.주문_계좌.inquire_psbl_order import (
-    ENDPOINT as ENDPOINT_64e81099_cb25_4f86_86d9_b53e6ed7d1a8,
-)
-from pykis.api.raw.국내주식.주문_계좌.inquire_psbl_rvsecncl import (
-    ENDPOINT as ENDPOINT_d4537e9c_73f7_414c_9fb0_4eae3bc397d0,
-)
+from pykis.api.raw.국내주식.주문_계좌.inquire_period_profit import ENDPOINT as ENDPOINT_9748985e_43bc_4b8f_be73_cd9434666099
+from pykis.api.raw.국내주식.주문_계좌.inquire_period_trade_profit import ENDPOINT as ENDPOINT_4755efc7_31c4_411c_af45_3e6948611f0a
+from pykis.api.raw.국내주식.주문_계좌.inquire_present_balance import ENDPOINT as ENDPOINT_6e8dc8ed_f026_497c_a40c_098448a94241
+from pykis.api.raw.국내주식.주문_계좌.inquire_psbl_order import ENDPOINT as ENDPOINT_64e81099_cb25_4f86_86d9_b53e6ed7d1a8
+from pykis.api.raw.국내주식.주문_계좌.inquire_psbl_rvsecncl import ENDPOINT as ENDPOINT_d4537e9c_73f7_414c_9fb0_4eae3bc397d0
 from pykis.api.raw.국내주식.주문_계좌.inquire_psbl_sell import ENDPOINT as ENDPOINT_b71fba6a_5759_4efa_a7e0_5e93e7e0e02d
 from pykis.api.raw.국내주식.주문_계좌.intgr_margin import ENDPOINT as ENDPOINT_32b7ac44_2d64_466d_9343_7e9d4e7ab0e4
 from pykis.api.raw.국내주식.주문_계좌.order_cash import ENDPOINT as ENDPOINT_aade4c72_5fb7_418a_9ff2_254b4d5f0ceb
 from pykis.api.raw.국내주식.주문_계좌.order_credit import ENDPOINT as ENDPOINT_f5769e4a_24d5_44f9_a2d8_232d45abf988
 from pykis.api.raw.국내주식.주문_계좌.order_resv import ENDPOINT as ENDPOINT_f350887c_35a2_4b65_98aa_9524eb47bb6d
 from pykis.api.raw.국내주식.주문_계좌.order_resv_ccnl import ENDPOINT as ENDPOINT_4da32292_291d_4b58_9ab4_f9d40ca983a6
-from pykis.api.raw.국내주식.주문_계좌.order_resv_rvsecncl import (
-    ENDPOINT as ENDPOINT_09cd3a87_6b6a_4741_bc7d_f6565c93d6d8,
-)
+from pykis.api.raw.국내주식.주문_계좌.order_resv_rvsecncl import ENDPOINT as ENDPOINT_09cd3a87_6b6a_4741_bc7d_f6565c93d6d8
 from pykis.api.raw.국내주식.주문_계좌.order_rvsecncl import ENDPOINT as ENDPOINT_4bfdfb2b_34a7_43f6_935a_e637724f960a
 from pykis.api.raw.국내주식.주문_계좌.period_rights import ENDPOINT as ENDPOINT_04275bfe_007a_45f6_8d4d_0682320a0741
 from pykis.api.raw.장내채권.기본시세.avg_unit import ENDPOINT as ENDPOINT_aacab59c_7559_414b_bf73_b0d15f3d62f1
-from pykis.api.raw.장내채권.기본시세.inquire_asking_price import (
-    ENDPOINT as ENDPOINT_0a5782f0_0c05_4feb_90f4_b86f09b45327,
-)
+from pykis.api.raw.장내채권.기본시세.inquire_asking_price import ENDPOINT as ENDPOINT_0a5782f0_0c05_4feb_90f4_b86f09b45327
 from pykis.api.raw.장내채권.기본시세.inquire_ccnl import ENDPOINT as ENDPOINT_34d1b922_ab20_4839_9f15_ab1fe242a81f
-from pykis.api.raw.장내채권.기본시세.inquire_daily_itemchartprice import (
-    ENDPOINT as ENDPOINT_f5dcbbc3_bee6_4b83_a236_5f3a5bb59d72,
-)
-from pykis.api.raw.장내채권.기본시세.inquire_daily_price import (
-    ENDPOINT as ENDPOINT_7d6d8ba7_bcae_4d7c_8d5b_4b51cd42a94a,
-)
+from pykis.api.raw.장내채권.기본시세.inquire_daily_itemchartprice import ENDPOINT as ENDPOINT_f5dcbbc3_bee6_4b83_a236_5f3a5bb59d72
+from pykis.api.raw.장내채권.기본시세.inquire_daily_price import ENDPOINT as ENDPOINT_7d6d8ba7_bcae_4d7c_8d5b_4b51cd42a94a
 from pykis.api.raw.장내채권.기본시세.inquire_price import ENDPOINT as ENDPOINT_a274b685_7ea8_441d_a2fe_3087becb6bf2
 from pykis.api.raw.장내채권.기본시세.issue_info import ENDPOINT as ENDPOINT_cf45db98_43d0_476a_8774_d9690365300a
 from pykis.api.raw.장내채권.기본시세.search_bond_info import ENDPOINT as ENDPOINT_56cf546c_a74f_467c_98b1_005967535e9e
 from pykis.api.raw.장내채권.주문_계좌.buy import ENDPOINT as ENDPOINT_51c1a249_5fde_412d_9c8f_be5ef2f8dc3b
 from pykis.api.raw.장내채권.주문_계좌.inquire_balance import ENDPOINT as ENDPOINT_13a96552_4b77_411c_9ef6_5eed7192a76a
-from pykis.api.raw.장내채권.주문_계좌.inquire_daily_ccld import (
-    ENDPOINT as ENDPOINT_4803d486_0b85_4d6f_9bc1_164fef860905,
-)
-from pykis.api.raw.장내채권.주문_계좌.inquire_psbl_order import (
-    ENDPOINT as ENDPOINT_75fdcac1_6dfc_439c_a9f0_176dc27abb4f,
-)
-from pykis.api.raw.장내채권.주문_계좌.inquire_psbl_rvsecncl import (
-    ENDPOINT as ENDPOINT_daf83679_be80_4ce8_9f1d_88e123a9ee0c,
-)
+from pykis.api.raw.장내채권.주문_계좌.inquire_daily_ccld import ENDPOINT as ENDPOINT_4803d486_0b85_4d6f_9bc1_164fef860905
+from pykis.api.raw.장내채권.주문_계좌.inquire_psbl_order import ENDPOINT as ENDPOINT_75fdcac1_6dfc_439c_a9f0_176dc27abb4f
+from pykis.api.raw.장내채권.주문_계좌.inquire_psbl_rvsecncl import ENDPOINT as ENDPOINT_daf83679_be80_4ce8_9f1d_88e123a9ee0c
 from pykis.api.raw.장내채권.주문_계좌.order_rvsecncl import ENDPOINT as ENDPOINT_e48e54a7_f72b_4282_a18b_8d5e52b725fb
 from pykis.api.raw.장내채권.주문_계좌.sell import ENDPOINT as ENDPOINT_2261a45e_8e04_4cdf_8f4d_d52a45a0380d
 from pykis.api.raw.해외선물옵션.기본시세.daily_ccnl import ENDPOINT as ENDPOINT_8c473311_ecfd_428f_9ec2_0b574d8592b9
-from pykis.api.raw.해외선물옵션.기본시세.inquire_asking_price import (
-    ENDPOINT as ENDPOINT_1a07c21c_5fca_4d8f_a780_d861a7f80eb8,
-)
+from pykis.api.raw.해외선물옵션.기본시세.inquire_asking_price import ENDPOINT as ENDPOINT_1a07c21c_5fca_4d8f_a780_d861a7f80eb8
 from pykis.api.raw.해외선물옵션.기본시세.inquire_price import ENDPOINT as ENDPOINT_3d3ad086_7c1b_41cb_9b76_ba05ccf6ba95
-from pykis.api.raw.해외선물옵션.기본시세.inquire_time_futurechartprice import (
-    ENDPOINT as ENDPOINT_31d46ebe_2a19_4467_9dfb_a2d21adb1e61,
-)
-from pykis.api.raw.해외선물옵션.기본시세.inquire_time_optchartprice import (
-    ENDPOINT as ENDPOINT_9fa44d82_f5f3_4edc_adec_8bad25800bd3,
-)
-from pykis.api.raw.해외선물옵션.기본시세.investor_unpd_trend import (
-    ENDPOINT as ENDPOINT_d5dc7247_6f82_4cd7_8133_afabd8f003f7,
-)
+from pykis.api.raw.해외선물옵션.기본시세.inquire_time_futurechartprice import ENDPOINT as ENDPOINT_31d46ebe_2a19_4467_9dfb_a2d21adb1e61
+from pykis.api.raw.해외선물옵션.기본시세.inquire_time_optchartprice import ENDPOINT as ENDPOINT_9fa44d82_f5f3_4edc_adec_8bad25800bd3
+from pykis.api.raw.해외선물옵션.기본시세.investor_unpd_trend import ENDPOINT as ENDPOINT_d5dc7247_6f82_4cd7_8133_afabd8f003f7
 from pykis.api.raw.해외선물옵션.기본시세.market_time import ENDPOINT as ENDPOINT_3acd4025_6e95_46dc_a90d_b38215912d11
 from pykis.api.raw.해외선물옵션.기본시세.monthly_ccnl import ENDPOINT as ENDPOINT_8702dab4_008d_4849_8f24_a91b57872a80
-from pykis.api.raw.해외선물옵션.기본시세.opt_asking_price import (
-    ENDPOINT as ENDPOINT_506cd6e9_97d9_4c4b_82bc_6a6c13586885,
-)
+from pykis.api.raw.해외선물옵션.기본시세.opt_asking_price import ENDPOINT as ENDPOINT_506cd6e9_97d9_4c4b_82bc_6a6c13586885
 from pykis.api.raw.해외선물옵션.기본시세.opt_daily_ccnl import ENDPOINT as ENDPOINT_1ecba681_1f73_4fb7_98b0_b7feef13b354
 from pykis.api.raw.해외선물옵션.기본시세.opt_detail import ENDPOINT as ENDPOINT_89c2f9ea_62be_4c4a_bd07_66f3fe3234a6
-from pykis.api.raw.해외선물옵션.기본시세.opt_monthly_ccnl import (
-    ENDPOINT as ENDPOINT_94959cbc_bbb7_4776_8cd0_7058138a08aa,
-)
+from pykis.api.raw.해외선물옵션.기본시세.opt_monthly_ccnl import ENDPOINT as ENDPOINT_94959cbc_bbb7_4776_8cd0_7058138a08aa
 from pykis.api.raw.해외선물옵션.기본시세.opt_price import ENDPOINT as ENDPOINT_621bdd34_a902_4117_98b8_57733197742a
 from pykis.api.raw.해외선물옵션.기본시세.opt_tick_ccnl import ENDPOINT as ENDPOINT_41290e2a_6e25_49c0_91a1_99b96ce53efe
-from pykis.api.raw.해외선물옵션.기본시세.opt_weekly_ccnl import (
-    ENDPOINT as ENDPOINT_14431ddf_c0d5_4c33_a945_86e77bcf6486,
-)
-from pykis.api.raw.해외선물옵션.기본시세.search_contract_detail import (
-    ENDPOINT as ENDPOINT_48c30d93_ffc0_47c7_a6ba_da728b0b3d5d,
-)
-from pykis.api.raw.해외선물옵션.기본시세.search_opt_detail import (
-    ENDPOINT as ENDPOINT_42e2e7bd_c2ad_469b_91b2_3962c9931b79,
-)
+from pykis.api.raw.해외선물옵션.기본시세.opt_weekly_ccnl import ENDPOINT as ENDPOINT_14431ddf_c0d5_4c33_a945_86e77bcf6486
+from pykis.api.raw.해외선물옵션.기본시세.search_contract_detail import ENDPOINT as ENDPOINT_48c30d93_ffc0_47c7_a6ba_da728b0b3d5d
+from pykis.api.raw.해외선물옵션.기본시세.search_opt_detail import ENDPOINT as ENDPOINT_42e2e7bd_c2ad_469b_91b2_3962c9931b79
 from pykis.api.raw.해외선물옵션.기본시세.stock_detail import ENDPOINT as ENDPOINT_f9f83090_60d0_4dcf_99c9_a4b36852848e
 from pykis.api.raw.해외선물옵션.기본시세.tick_ccnl import ENDPOINT as ENDPOINT_c7be7c01_6f43_4576_b1fd_84d0102ce4c3
 from pykis.api.raw.해외선물옵션.기본시세.weekly_ccnl import ENDPOINT as ENDPOINT_cd2e4d9a_7e3d_44ff_9b68_36d971655c24
 from pykis.api.raw.해외선물옵션.주문_계좌.inquire_ccld import ENDPOINT as ENDPOINT_d1d7b8f1_6dc8_4439_a27f_5aa2c73b12f3
-from pykis.api.raw.해외선물옵션.주문_계좌.inquire_daily_ccld import (
-    ENDPOINT as ENDPOINT_17cfbb44_0389_4b56_9d0c_7410930747d4,
-)
-from pykis.api.raw.해외선물옵션.주문_계좌.inquire_daily_order import (
-    ENDPOINT as ENDPOINT_ca3e5ee4_a1f3_48a6_ab11_cd298ebef686,
-)
-from pykis.api.raw.해외선물옵션.주문_계좌.inquire_deposit import (
-    ENDPOINT as ENDPOINT_df4f0faf_db31_4650_b320_64a44ebdecf6,
-)
-from pykis.api.raw.해외선물옵션.주문_계좌.inquire_period_ccld import (
-    ENDPOINT as ENDPOINT_aab037bf_5ea2_4e25_99f1_c45d09f02a31,
-)
-from pykis.api.raw.해외선물옵션.주문_계좌.inquire_period_trans import (
-    ENDPOINT as ENDPOINT_11cc8ad0_d3cc_4c55_8c2f_4923e8b87ee4,
-)
-from pykis.api.raw.해외선물옵션.주문_계좌.inquire_psamount import (
-    ENDPOINT as ENDPOINT_fbe60d47_02bd_4d48_8169_e0df9e74c57c,
-)
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_daily_ccld import ENDPOINT as ENDPOINT_17cfbb44_0389_4b56_9d0c_7410930747d4
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_daily_order import ENDPOINT as ENDPOINT_ca3e5ee4_a1f3_48a6_ab11_cd298ebef686
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_deposit import ENDPOINT as ENDPOINT_df4f0faf_db31_4650_b320_64a44ebdecf6
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_period_ccld import ENDPOINT as ENDPOINT_aab037bf_5ea2_4e25_99f1_c45d09f02a31
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_period_trans import ENDPOINT as ENDPOINT_11cc8ad0_d3cc_4c55_8c2f_4923e8b87ee4
+from pykis.api.raw.해외선물옵션.주문_계좌.inquire_psamount import ENDPOINT as ENDPOINT_fbe60d47_02bd_4d48_8169_e0df9e74c57c
 from pykis.api.raw.해외선물옵션.주문_계좌.inquire_unpd import ENDPOINT as ENDPOINT_81fa9968_fe8e_45af_811e_270816f4d12c
 from pykis.api.raw.해외선물옵션.주문_계좌.margin_detail import ENDPOINT as ENDPOINT_5ff633c1_c50d_4494_9456_0c558031c678
 from pykis.api.raw.해외선물옵션.주문_계좌.order import ENDPOINT as ENDPOINT_749c8e3b_7e40_4f5b_82a3_11cad0a10e8d
-from pykis.api.raw.해외선물옵션.주문_계좌.order_rvsecncl import (
-    ENDPOINT as ENDPOINT_a0822304_5dba_4912_b62d_d82bd88858fa,
-)
+from pykis.api.raw.해외선물옵션.주문_계좌.order_rvsecncl import ENDPOINT as ENDPOINT_a0822304_5dba_4912_b62d_d82bd88858fa
 from pykis.api.raw.해외주식.기본시세.countries_holiday import ENDPOINT as ENDPOINT_1394ba1d_e17d_42c8_8e53_6bed5dce7588
 from pykis.api.raw.해외주식.기본시세.dailyprice import ENDPOINT as ENDPOINT_0e9fb2ba_bbac_4735_925a_a35e08c9a790
 from pykis.api.raw.해외주식.기본시세.industry_price import ENDPOINT as ENDPOINT_b03e2301_db2c_4144_ac63_9297b5d637bc
 from pykis.api.raw.해외주식.기본시세.industry_theme import ENDPOINT as ENDPOINT_e8fcb701_6f36_4ba5_bbc7_84a577beec50
-from pykis.api.raw.해외주식.기본시세.inquire_asking_price import (
-    ENDPOINT as ENDPOINT_ed60877a_6183_433a_9a8c_ef56ed9bc679,
-)
+from pykis.api.raw.해외주식.기본시세.inquire_asking_price import ENDPOINT as ENDPOINT_ed60877a_6183_433a_9a8c_ef56ed9bc679
 from pykis.api.raw.해외주식.기본시세.inquire_ccnl import ENDPOINT as ENDPOINT_0a0f2b43_8a3f_44a4_80b7_f8cf4d6e2f37
-from pykis.api.raw.해외주식.기본시세.inquire_daily_chartprice import (
-    ENDPOINT as ENDPOINT_da63a88a_e288_426f_9498_42db0b537bf3,
-)
+from pykis.api.raw.해외주식.기본시세.inquire_daily_chartprice import ENDPOINT as ENDPOINT_da63a88a_e288_426f_9498_42db0b537bf3
 from pykis.api.raw.해외주식.기본시세.inquire_search import ENDPOINT as ENDPOINT_65db61e3_49a5_4a95_9cf3_61298c7b8461
-from pykis.api.raw.해외주식.기본시세.inquire_time_indexchartprice import (
-    ENDPOINT as ENDPOINT_81269474_9c66_404f_bdfe_4bb472975330,
-)
-from pykis.api.raw.해외주식.기본시세.inquire_time_itemchartprice import (
-    ENDPOINT as ENDPOINT_852d7e45_4f34_418b_b6a1_a4552bbcdf90,
-)
+from pykis.api.raw.해외주식.기본시세.inquire_time_indexchartprice import ENDPOINT as ENDPOINT_81269474_9c66_404f_bdfe_4bb472975330
+from pykis.api.raw.해외주식.기본시세.inquire_time_itemchartprice import ENDPOINT as ENDPOINT_852d7e45_4f34_418b_b6a1_a4552bbcdf90
 from pykis.api.raw.해외주식.기본시세.price import ENDPOINT as ENDPOINT_3eeac674_072d_4674_a5a7_f0ed01194a81
 from pykis.api.raw.해외주식.기본시세.price_detail import ENDPOINT as ENDPOINT_abc66a03_8103_4f6d_8ba8_450c2b935e14
 from pykis.api.raw.해외주식.기본시세.search_info import ENDPOINT as ENDPOINT_7f77a12b_b23c_4605_93ea_4e1b3c0356fb
@@ -468,26 +256,16 @@ from pykis.api.raw.해외주식.시세분석.volume_power import ENDPOINT as END
 from pykis.api.raw.해외주식.시세분석.volume_surge import ENDPOINT as ENDPOINT_40409c43_9bc7_447a_b09a_171d14b437f9
 from pykis.api.raw.해외주식.주문_계좌.algo_ordno import ENDPOINT as ENDPOINT_f737550b_909d_4b5d_ba03_568c8a06b5b1
 from pykis.api.raw.해외주식.주문_계좌.daytime_order import ENDPOINT as ENDPOINT_9efc47d7_58ec_4f9e_8068_37795580fe67
-from pykis.api.raw.해외주식.주문_계좌.daytime_order_rvsecncl import (
-    ENDPOINT as ENDPOINT_67d53cfe_fba6_4d46_a72a_b4ced4d03dd0,
-)
+from pykis.api.raw.해외주식.주문_계좌.daytime_order_rvsecncl import ENDPOINT as ENDPOINT_67d53cfe_fba6_4d46_a72a_b4ced4d03dd0
 from pykis.api.raw.해외주식.주문_계좌.foreign_margin import ENDPOINT as ENDPOINT_f8d92c02_7537_4ae5_88ca_fe3d0a7155db
 from pykis.api.raw.해외주식.주문_계좌.inquire_algo_ccnl import ENDPOINT as ENDPOINT_1187c231_1de6_4947_b942_bfca6b3d27e7
 from pykis.api.raw.해외주식.주문_계좌.inquire_balance import ENDPOINT as ENDPOINT_0482dfb1_154c_476c_8a3b_6fc1da498dbf
 from pykis.api.raw.해외주식.주문_계좌.inquire_ccnl import ENDPOINT as ENDPOINT_6d715b38_566f_4045_a08c_4a594d3a3314
 from pykis.api.raw.해외주식.주문_계좌.inquire_nccs import ENDPOINT as ENDPOINT_60cae69d_c121_4dd9_902c_1112567fd88e
-from pykis.api.raw.해외주식.주문_계좌.inquire_paymt_stdr_balance import (
-    ENDPOINT as ENDPOINT_8e78ed2f_8c3d_424e_b400_82fc94ca4a6b,
-)
-from pykis.api.raw.해외주식.주문_계좌.inquire_period_profit import (
-    ENDPOINT as ENDPOINT_147d1d34_3001_4958_b970_106935a19fe7,
-)
-from pykis.api.raw.해외주식.주문_계좌.inquire_period_trans import (
-    ENDPOINT as ENDPOINT_8e874fea_8e55_464d_b535_75df64fc3048,
-)
-from pykis.api.raw.해외주식.주문_계좌.inquire_present_balance import (
-    ENDPOINT as ENDPOINT_09baff2a_6e9d_4502_ba66_d7bb94094b67,
-)
+from pykis.api.raw.해외주식.주문_계좌.inquire_paymt_stdr_balance import ENDPOINT as ENDPOINT_8e78ed2f_8c3d_424e_b400_82fc94ca4a6b
+from pykis.api.raw.해외주식.주문_계좌.inquire_period_profit import ENDPOINT as ENDPOINT_147d1d34_3001_4958_b970_106935a19fe7
+from pykis.api.raw.해외주식.주문_계좌.inquire_period_trans import ENDPOINT as ENDPOINT_8e874fea_8e55_464d_b535_75df64fc3048
+from pykis.api.raw.해외주식.주문_계좌.inquire_present_balance import ENDPOINT as ENDPOINT_09baff2a_6e9d_4502_ba66_d7bb94094b67
 from pykis.api.raw.해외주식.주문_계좌.inquire_psamount import ENDPOINT as ENDPOINT_2a155fee_882f_4d80_8183_559f2f6983e9
 from pykis.api.raw.해외주식.주문_계좌.order import ENDPOINT as ENDPOINT_e4a7e5fd_eed5_4a85_93f0_f46b804dae5f
 from pykis.api.raw.해외주식.주문_계좌.order_resv import ENDPOINT as ENDPOINT_55095c42_8c7d_47fc_a34b_947e12481678

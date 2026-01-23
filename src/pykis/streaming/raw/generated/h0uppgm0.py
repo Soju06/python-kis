@@ -369,9 +369,7 @@ FIELD_SOURCES = {
     "ACML_VOL": FieldSource.DOC_TYPE,
     "ACML_TR_PBMN": FieldSource.DOC_TYPE,
 }
-DATETIME_RULES = {
-    "BSOP_HOUR": DateTimeRule(kind="time_only", format="HHMMSS", timezone="Asia/Seoul", date_field="business_date"),
-}
+DATETIME_RULES = {"BSOP_HOUR": DateTimeRule(kind="time_only", format="HHMMSS", timezone="Asia/Seoul", date_field="business_date")}
 DECIMAL_RULES = {}
 SPEC = StreamingSpec(
     tr_id="H0UPPGM0",
@@ -388,13 +386,4 @@ SPEC = StreamingSpec(
     requires_business_date=True,
 )
 
-__all__ = [
-    "H0UPPGM0",
-    "SPEC",
-    "FIELD_ORDER",
-    "FIELD_ALIASES",
-    "FIELD_TYPES",
-    "FIELD_SOURCES",
-    "DATETIME_RULES",
-    "DECIMAL_RULES",
-]
+__all__ = ["H0UPPGM0", "SPEC", "FIELD_ORDER", "FIELD_ALIASES", "FIELD_TYPES", "FIELD_SOURCES", "DATETIME_RULES", "DECIMAL_RULES"]

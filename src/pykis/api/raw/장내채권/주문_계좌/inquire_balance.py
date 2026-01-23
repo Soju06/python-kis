@@ -2,25 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    KisDateOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -36,37 +22,19 @@ class InqrCndtEnum(KisStrEnum):
 
 
 class InquireBalanceRequest(RawModel):
-    CANO: str = Field(
-        alias="CANO",
-    )
+    CANO: str = Field(alias="CANO")
     ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
     ("계좌상품코드")
-    INQR_CNDT: InqrCndtEnum = Field(
-        alias="INQR_CNDT",
-    )
+    INQR_CNDT: InqrCndtEnum = Field(alias="INQR_CNDT")
     ("00: 전체, 01: 상품번호단위")
-    PDNO: str | None = Field(
-        default=None,
-        alias="PDNO",
-        json_schema_extra={"blank_allowed": True},
-    )
+    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
     ("공백")
-    BUY_DT: KisDateOptional = Field(
-        default=None,
-        alias="BUY_DT",
-        json_schema_extra={"blank_allowed": True},
-    )
+    BUY_DT: KisDateOptional = Field(default=None, alias="BUY_DT", json_schema_extra={"blank_allowed": True})
     ("공백")
-    CTX_AREA_FK200: str = Field(
-        alias="CTX_AREA_FK200",
-    )
+    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
     ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(
-        alias="CTX_AREA_NK200",
-    )
+    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
     ("연속조회키200")
 
 
@@ -86,107 +54,50 @@ class InquireBalanceRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    CANO: Annotated[
-        str,
-        "종합계좌번호",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        str,
-        "계좌상품코드",
-    ]
-    INQR_CNDT: Annotated[
-        InqrCndtEnum,
-        "00: 전체, 01: 상품번호단위",
-    ]
-    PDNO: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    BUY_DT: NotRequired[
-        Annotated[
-            KisDateOptional,
-            "공백",
-        ]
-    ]
-    CTX_AREA_FK200: Annotated[
-        str,
-        "연속조회검색조건200",
-    ]
-    CTX_AREA_NK200: Annotated[
-        str,
-        "연속조회키200",
-    ]
+    CANO: Annotated[str, "종합계좌번호"]
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
+    INQR_CNDT: Annotated[InqrCndtEnum, "00: 전체, 01: 상품번호단위"]
+    PDNO: NotRequired[Annotated[str | None, "공백"]]
+    BUY_DT: NotRequired[Annotated[KisDateOptional, "공백"]]
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
 
 
 class InquireBalanceOutput(RawModel):
-    pdno: str = Field(
-        alias="pdno",
-    )
+    pdno: str = Field(alias="pdno")
     ("상품번호")
-    prdt_name: str = Field(
-        alias="prdt_name",
-    )
+    prdt_name: str = Field(alias="prdt_name")
     ("상품명")
-    buy_dt: KisDate = Field(
-        alias="buy_dt",
-    )
+    buy_dt: KisDate = Field(alias="buy_dt")
     ("매수일자")
-    buy_sqno: str = Field(
-        alias="buy_sqno",
-    )
+    buy_sqno: str = Field(alias="buy_sqno")
     ("매수일련번호")
-    cblc_qty: int = Field(
-        alias="cblc_qty",
-    )
+    cblc_qty: int = Field(alias="cblc_qty")
     ("잔고수량")
-    agrx_qty: int = Field(
-        alias="agrx_qty",
-    )
+    agrx_qty: int = Field(alias="agrx_qty")
     ("종합과세수량")
-    sprx_qty: int = Field(
-        alias="sprx_qty",
-    )
+    sprx_qty: int = Field(alias="sprx_qty")
     ("분리과세수량")
-    exdt: str = Field(
-        alias="exdt",
-    )
+    exdt: str = Field(alias="exdt")
     ("만기일")
-    buy_erng_rt: Decimal = Field(
-        alias="buy_erng_rt",
-    )
+    buy_erng_rt: Decimal = Field(alias="buy_erng_rt")
     ("매수수익율")
-    buy_unpr: str = Field(
-        alias="buy_unpr",
-    )
+    buy_unpr: str = Field(alias="buy_unpr")
     ("매수단가")
-    buy_amt: Decimal = Field(
-        alias="buy_amt",
-    )
+    buy_amt: Decimal = Field(alias="buy_amt")
     ("매수금액")
-    ord_psbl_qty: int = Field(
-        alias="ord_psbl_qty",
-    )
+    ord_psbl_qty: int = Field(alias="ord_psbl_qty")
     ("주문가능수량")
 
 
 class InquireBalanceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[InquireBalanceOutput] = Field(
-        alias="output",
-    )
+    output: list[InquireBalanceOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -213,27 +124,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireBalanceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireBalanceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireBalanceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireBalanceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireBalanceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireBalanceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireBalanceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireBalanceRequestDict]
         ) -> tuple[InquireBalanceResponse, KisResponse]: ...
         def call(
             self,
@@ -272,11 +171,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "InquireBalanceRequest",
-    "InquireBalanceRequestDict",
-    "InquireBalanceResponse",
-    "InquireBalanceOutput",
-    "InqrCndtEnum",
-]
+__all__ = ["ENDPOINT", "InquireBalanceRequest", "InquireBalanceRequestDict", "InquireBalanceResponse", "InquireBalanceOutput", "InqrCndtEnum"]

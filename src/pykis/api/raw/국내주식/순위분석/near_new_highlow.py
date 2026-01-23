@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -79,53 +68,29 @@ class FidTrgtExlsClsCodeEnum(KisStrEnum):
 
 
 class NearNewHighlowRequest(RawModel):
-    fid_aply_rang_vol: FidAplyRangVolEnum = Field(
-        alias="fid_aply_rang_vol",
-    )
+    fid_aply_rang_vol: FidAplyRangVolEnum = Field(alias="fid_aply_rang_vol")
     ("0: 전체, 100: 100주 이상")
-    fid_cond_mrkt_div_code: str = Field(
-        alias="fid_cond_mrkt_div_code",
-    )
+    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
     ("시장구분코드 (주식 J)")
-    fid_cond_scr_div_code: FidCondScrDivCodeEnum = Field(
-        alias="fid_cond_scr_div_code",
-    )
+    fid_cond_scr_div_code: FidCondScrDivCodeEnum = Field(alias="fid_cond_scr_div_code")
     ("Unique key(20187)")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(
-        alias="fid_div_cls_code",
-    )
+    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
     ("0:전체, 1:관리종목, 2:투자주의, 3:투자경고")
-    fid_input_cnt_1: str = Field(
-        alias="fid_input_cnt_1",
-    )
+    fid_input_cnt_1: str = Field(alias="fid_input_cnt_1")
     ("괴리율 최소")
-    fid_input_cnt_2: str = Field(
-        alias="fid_input_cnt_2",
-    )
+    fid_input_cnt_2: str = Field(alias="fid_input_cnt_2")
     ("괴리율 최대")
-    fid_prc_cls_code: FidPrcClsCodeEnum = Field(
-        alias="fid_prc_cls_code",
-    )
+    fid_prc_cls_code: FidPrcClsCodeEnum = Field(alias="fid_prc_cls_code")
     ("0:신고근접, 1:신저근접")
-    fid_input_iscd: str = Field(
-        alias="fid_input_iscd",
-    )
+    fid_input_iscd: str = Field(alias="fid_input_iscd")
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
-    fid_trgt_cls_code: str = Field(
-        alias="fid_trgt_cls_code",
-    )
+    fid_trgt_cls_code: str = Field(alias="fid_trgt_cls_code")
     ("0: 전체")
-    fid_trgt_exls_cls_code: FidTrgtExlsClsCodeEnum = Field(
-        alias="fid_trgt_exls_cls_code",
-    )
+    fid_trgt_exls_cls_code: FidTrgtExlsClsCodeEnum = Field(alias="fid_trgt_exls_cls_code")
     ("0:전체, 1:관리종목, 2:투자주의, 3:투자경고, 4:투자위험예고, 5:투자위험, 6:보통주, 7:우선주")
-    fid_aply_rang_prc_1: str = Field(
-        alias="fid_aply_rang_prc_1",
-    )
+    fid_aply_rang_prc_1: str = Field(alias="fid_aply_rang_prc_1")
     ("가격 ~")
-    fid_aply_rang_prc_2: str = Field(
-        alias="fid_aply_rang_prc_2",
-    )
+    fid_aply_rang_prc_2: str = Field(alias="fid_aply_rang_prc_2")
     ("~ 가격")
 
 
@@ -158,139 +123,65 @@ class NearNewHighlowRequestDict(TypedDict):
         fid_aply_rang_prc_2 (str): ~ 가격
     """
 
-    fid_aply_rang_vol: Annotated[
-        FidAplyRangVolEnum,
-        "0: 전체, 100: 100주 이상",
-    ]
-    fid_cond_mrkt_div_code: Annotated[
-        str,
-        "시장구분코드 (주식 J)",
-    ]
-    fid_cond_scr_div_code: Annotated[
-        FidCondScrDivCodeEnum,
-        "Unique key(20187)",
-    ]
-    fid_div_cls_code: Annotated[
-        FidDivClsCodeEnum,
-        "0:전체, 1:관리종목, 2:투자주의, 3:투자경고",
-    ]
-    fid_input_cnt_1: Annotated[
-        str,
-        "괴리율 최소",
-    ]
-    fid_input_cnt_2: Annotated[
-        str,
-        "괴리율 최대",
-    ]
-    fid_prc_cls_code: Annotated[
-        FidPrcClsCodeEnum,
-        "0:신고근접, 1:신저근접",
-    ]
-    fid_input_iscd: Annotated[
-        str,
-        "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100",
-    ]
-    fid_trgt_cls_code: Annotated[
-        str,
-        "0: 전체",
-    ]
+    fid_aply_rang_vol: Annotated[FidAplyRangVolEnum, "0: 전체, 100: 100주 이상"]
+    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"]
+    fid_cond_scr_div_code: Annotated[FidCondScrDivCodeEnum, "Unique key(20187)"]
+    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0:전체, 1:관리종목, 2:투자주의, 3:투자경고"]
+    fid_input_cnt_1: Annotated[str, "괴리율 최소"]
+    fid_input_cnt_2: Annotated[str, "괴리율 최대"]
+    fid_prc_cls_code: Annotated[FidPrcClsCodeEnum, "0:신고근접, 1:신저근접"]
+    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"]
+    fid_trgt_cls_code: Annotated[str, "0: 전체"]
     fid_trgt_exls_cls_code: Annotated[
-        FidTrgtExlsClsCodeEnum,
-        "0:전체, 1:관리종목, 2:투자주의, 3:투자경고, 4:투자위험예고, 5:투자위험, 6:보통주, 7:우선주",
+        FidTrgtExlsClsCodeEnum, "0:전체, 1:관리종목, 2:투자주의, 3:투자경고, 4:투자위험예고, 5:투자위험, 6:보통주, 7:우선주"
     ]
-    fid_aply_rang_prc_1: Annotated[
-        str,
-        "가격 ~",
-    ]
-    fid_aply_rang_prc_2: Annotated[
-        str,
-        "~ 가격",
-    ]
+    fid_aply_rang_prc_1: Annotated[str, "가격 ~"]
+    fid_aply_rang_prc_2: Annotated[str, "~ 가격"]
 
 
 class NearNewHighlowOutput(RawModel):
-    hts_kor_isnm: str = Field(
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
     ("HTS 한글 종목명")
-    mksc_shrn_iscd: str = Field(
-        alias="mksc_shrn_iscd",
-    )
+    mksc_shrn_iscd: str = Field(alias="mksc_shrn_iscd")
     ("유가증권 단축 종목코드")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식 현재가")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일 대비")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일 대비율")
-    askp: int = Field(
-        alias="askp",
-    )
+    askp: int = Field(alias="askp")
     ("매도호가")
-    askp_rsqn1: int = Field(
-        alias="askp_rsqn1",
-    )
+    askp_rsqn1: int = Field(alias="askp_rsqn1")
     ("매도호가 잔량1")
-    bidp: str = Field(
-        alias="bidp",
-    )
+    bidp: str = Field(alias="bidp")
     ("매수호가")
-    bidp_rsqn1: str = Field(
-        alias="bidp_rsqn1",
-    )
+    bidp_rsqn1: str = Field(alias="bidp_rsqn1")
     ("매수호가 잔량1")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적 거래량")
-    new_hgpr: Decimal = Field(
-        alias="new_hgpr",
-    )
+    new_hgpr: Decimal = Field(alias="new_hgpr")
     ("신 최고가")
-    hprc_near_rate: Decimal = Field(
-        alias="hprc_near_rate",
-    )
+    hprc_near_rate: Decimal = Field(alias="hprc_near_rate")
     ("고가 근접 비율")
-    new_lwpr: Decimal = Field(
-        alias="new_lwpr",
-    )
+    new_lwpr: Decimal = Field(alias="new_lwpr")
     ("신 최저가")
-    lwpr_near_rate: Decimal = Field(
-        alias="lwpr_near_rate",
-    )
+    lwpr_near_rate: Decimal = Field(alias="lwpr_near_rate")
     ("저가 근접 비율")
-    stck_sdpr: int = Field(
-        alias="stck_sdpr",
-    )
+    stck_sdpr: int = Field(alias="stck_sdpr")
     ("주식 기준가")
 
 
 class NearNewHighlowResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[NearNewHighlowOutput] = Field(
-        alias="output",
-    )
+    output: list[NearNewHighlowOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -324,27 +215,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: NearNewHighlowRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: NearNewHighlowRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[NearNewHighlowResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: NearNewHighlowRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: NearNewHighlowRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[NearNewHighlowResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[NearNewHighlowRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[NearNewHighlowRequestDict]
         ) -> tuple[NearNewHighlowResponse, KisResponse]: ...
         def call(
             self,

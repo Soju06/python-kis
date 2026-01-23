@@ -3,30 +3,19 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from pykis.store.parser.base import (
-    StoreModel,
-)
+from pykis.store.parser.base import StoreModel
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
 
 
 class THEME_CODE(StoreModel):
-    theme_code: str = Field(
-        json_schema_extra={"length": 3},
-    )
+    theme_code: str = Field(json_schema_extra={"length": 3})
     ("테마코드")
-    theme_name: str = Field(
-        json_schema_extra={"length": 40},
-    )
+    theme_name: str = Field(json_schema_extra={"length": 40})
     ("데마명")
-    shrn_iscd: str = Field(
-        json_schema_extra={"length": 6},
-    )
+    shrn_iscd: str = Field(json_schema_extra={"length": 6})
     ("단축코드(종목코드)")
-    filler: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 3},
-    )
+    filler: str | None = Field(default=None, json_schema_extra={"length": 3})
     ("filler")
 
 
@@ -44,7 +33,4 @@ STRUCT_DEF = StructDef(
     ),
 )
 
-__all__ = [
-    "THEME_CODE",
-    "STRUCT_DEF",
-]
+__all__ = ["THEME_CODE", "STRUCT_DEF"]

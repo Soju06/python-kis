@@ -16,16 +16,7 @@ class H0STNAV0(StreamingRawModel):
     LPRC_NAV: str
 
 
-FIELD_ORDER = [
-    "MKSC_SHRN_ISCD",
-    "NAV",
-    "NAV_PRDY_VRSS_SIGN",
-    "NAV_PRDY_VRSS",
-    "NAV_PRDY_CTRT",
-    "OPRC_NAV",
-    "HPRC_NAV",
-    "LPRC_NAV",
-]
+FIELD_ORDER = ["MKSC_SHRN_ISCD", "NAV", "NAV_PRDY_VRSS_SIGN", "NAV_PRDY_VRSS", "NAV_PRDY_CTRT", "OPRC_NAV", "HPRC_NAV", "LPRC_NAV"]
 FIELD_ALIASES = {}
 FIELD_TYPES = {
     "MKSC_SHRN_ISCD": FieldType.STR,
@@ -64,13 +55,4 @@ SPEC = StreamingSpec(
     requires_business_date=True,
 )
 
-__all__ = [
-    "H0STNAV0",
-    "SPEC",
-    "FIELD_ORDER",
-    "FIELD_ALIASES",
-    "FIELD_TYPES",
-    "FIELD_SOURCES",
-    "DATETIME_RULES",
-    "DECIMAL_RULES",
-]
+__all__ = ["H0STNAV0", "SPEC", "FIELD_ORDER", "FIELD_ALIASES", "FIELD_TYPES", "FIELD_SOURCES", "DATETIME_RULES", "DECIMAL_RULES"]

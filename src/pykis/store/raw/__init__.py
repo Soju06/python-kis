@@ -22,13 +22,7 @@ from pykis.store.parser.base import (
 from pykis.store.parser.io import iter_fixed_width_blocks
 from pykis.store.parser.models import RawRecord, RawSource
 from pykis.store.parser.parser import FixedWidthParser
-from pykis.store.parser.reader import (
-    DelimitedReader,
-    FixedWidthReader,
-    RecordReader,
-    is_delimited_file,
-    is_line_fixed_file,
-)
+from pykis.store.parser.reader import DelimitedReader, FixedWidthReader, RecordReader, is_delimited_file, is_line_fixed_file
 from pykis.store.parser.spec import FieldSpec, RecordSpec
 
 __all__ = [

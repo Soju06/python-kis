@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -33,17 +22,11 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class OtherMajorRatiosRequest(RawModel):
-    fid_input_iscd: str = Field(
-        alias="fid_input_iscd",
-    )
+    fid_input_iscd: str = Field(alias="fid_input_iscd")
     ("000660 : 종목코드")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(
-        alias="fid_div_cls_code",
-    )
+    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
     ("0: 년, 1: 분기")
-    fid_cond_mrkt_div_code: str = Field(
-        alias="fid_cond_mrkt_div_code",
-    )
+    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
     ("J")
 
 
@@ -59,59 +42,32 @@ class OtherMajorRatiosRequestDict(TypedDict):
         fid_cond_mrkt_div_code (str): J
     """
 
-    fid_input_iscd: Annotated[
-        str,
-        "000660 : 종목코드",
-    ]
-    fid_div_cls_code: Annotated[
-        FidDivClsCodeEnum,
-        "0: 년, 1: 분기",
-    ]
-    fid_cond_mrkt_div_code: Annotated[
-        str,
-        "J",
-    ]
+    fid_input_iscd: Annotated[str, "000660 : 종목코드"]
+    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"]
+    fid_cond_mrkt_div_code: Annotated[str, "J"]
 
 
 class OtherMajorRatiosOutput(RawModel):
-    stac_yymm: str = Field(
-        alias="stac_yymm",
-    )
+    stac_yymm: str = Field(alias="stac_yymm")
     ("결산 년월")
-    payout_rate: Decimal = Field(
-        alias="payout_rate",
-    )
+    payout_rate: Decimal = Field(alias="payout_rate")
     ("비정상 출력되는 데이터로 무시")
-    eva: Decimal = Field(
-        alias="eva",
-    )
+    eva: Decimal = Field(alias="eva")
     ("EVA")
-    ebitda: Decimal = Field(
-        alias="ebitda",
-    )
+    ebitda: Decimal = Field(alias="ebitda")
     ("EBITDA")
-    ev_ebitda: Decimal = Field(
-        alias="ev_ebitda",
-    )
+    ev_ebitda: Decimal = Field(alias="ev_ebitda")
     ("EV_EBITDA")
 
 
 class OtherMajorRatiosResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[OtherMajorRatiosOutput] = Field(
-        alias="output",
-    )
+    output: list[OtherMajorRatiosOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -138,27 +94,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OtherMajorRatiosRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OtherMajorRatiosRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OtherMajorRatiosResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OtherMajorRatiosRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OtherMajorRatiosRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OtherMajorRatiosResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[OtherMajorRatiosRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[OtherMajorRatiosRequestDict]
         ) -> tuple[OtherMajorRatiosResponse, KisResponse]: ...
         def call(
             self,

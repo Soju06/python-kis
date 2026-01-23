@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisTime,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -103,55 +90,27 @@ class AlgoOrdTmdDvsnCdEnum(KisStrEnum):
 
 
 class OrderRequest(RawModel):
-    CANO: CanoEnum = Field(
-        alias="CANO",
-    )
+    CANO: CanoEnum = Field(alias="CANO")
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_EXCG_CD: OvrsExcgCdEnum = Field(
-        alias="OVRS_EXCG_CD",
-    )
-    (
-        "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 "
-        "HASE : 베트남 하노이 VNSE : 베트남 호치민"
-    )
-    PDNO: str = Field(
-        alias="PDNO",
-    )
+    OVRS_EXCG_CD: OvrsExcgCdEnum = Field(alias="OVRS_EXCG_CD")
+    ("NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민")
+    PDNO: str = Field(alias="PDNO")
     ("종목코드")
-    ORD_QTY: int = Field(
-        alias="ORD_QTY",
-    )
+    ORD_QTY: int = Field(alias="ORD_QTY")
     ("주문수량 (해외거래소 별 최소 주문수량 및 주문단위 확인 필요)")
-    OVRS_ORD_UNPR: Decimal = Field(
-        alias="OVRS_ORD_UNPR",
-    )
+    OVRS_ORD_UNPR: Decimal = Field(alias="OVRS_ORD_UNPR")
     ('1주당 가격 * 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력')
-    CTAC_TLNO: str | None = Field(
-        default=None,
-        alias="CTAC_TLNO",
-    )
+    CTAC_TLNO: str | None = Field(default=None, alias="CTAC_TLNO")
     ("연락전화번호")
-    MGCO_APTM_ODNO: str | None = Field(
-        default=None,
-        alias="MGCO_APTM_ODNO",
-    )
+    MGCO_APTM_ODNO: str | None = Field(default=None, alias="MGCO_APTM_ODNO")
     ("운용사지정주문번호")
-    SLL_TYPE: str | None = Field(
-        default=None,
-        alias="SLL_TYPE",
-    )
+    SLL_TYPE: str | None = Field(default=None, alias="SLL_TYPE")
     ("제거 : 매수 00 : 매도")
-    ORD_SVR_DVSN_CD: str = Field(
-        alias="ORD_SVR_DVSN_CD",
-    )
+    ORD_SVR_DVSN_CD: str = Field(alias="ORD_SVR_DVSN_CD")
     ('"0"(Default)')
-    ORD_DVSN: OrdDvsnEnum = Field(
-        alias="ORD_DVSN",
-    )
+    ORD_DVSN: OrdDvsnEnum = Field(alias="ORD_DVSN")
     (
         "[Header tr_id TTTT1002U(미국 매수 주문)] 00 : 지정가 32 : LOO(장개시지정가) 34 : "
         "LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP (거래량가중평균) * 모의투자 VTTT1002U(미국 "
@@ -162,26 +121,11 @@ class OrderRequest(RawModel):
         "필수 [Header tr_id TTTS1001U(홍콩 매도 주문)] 00 : 지정가 50 : 단주지정가 * 모의투자 "
         "VTTS1001U(홍콩 매도 주문)로는 00:지정가만 가능 [그외 tr_id] 제거 ※ TWAP, VWAP 주문은 정정 불가"
     )
-    START_TIME: str | None = Field(
-        default=None,
-        alias="START_TIME",
-    )
-    (
-        "※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 "
-        "입력 시 정규장 종료 5분전까지 입력 가능"
-    )
-    END_TIME: str | None = Field(
-        default=None,
-        alias="END_TIME",
-    )
-    (
-        "※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 "
-        "입력 시 정규장 종료 5분전까지 입력 가능"
-    )
-    ALGO_ORD_TMD_DVSN_CD: AlgoOrdTmdDvsnCdEnum | None = Field(
-        default=None,
-        alias="ALGO_ORD_TMD_DVSN_CD",
-    )
+    START_TIME: str | None = Field(default=None, alias="START_TIME")
+    ("※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 입력 시 정규장 종료 5분전까지 입력 가능")
+    END_TIME: str | None = Field(default=None, alias="END_TIME")
+    ("※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 입력 시 정규장 종료 5분전까지 입력 가능")
+    ALGO_ORD_TMD_DVSN_CD: AlgoOrdTmdDvsnCdEnum | None = Field(default=None, alias="ALGO_ORD_TMD_DVSN_CD")
     ("00 : 분할주문 시간 직접입력 , 02 : 정규장 종료시까지")
 
 
@@ -247,53 +191,19 @@ class OrderRequestDict(TypedDict):
         종료시까지 optional
     """
 
-    CANO: Annotated[
-        CanoEnum,
-        "계좌번호 체계(8-2)의 앞 8자리",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        AcntPrdtCdEnum,
-        "계좌번호 체계(8-2)의 뒤 2자리",
-    ]
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
     OVRS_EXCG_CD: Annotated[
         OvrsExcgCdEnum,
-        "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 "
-        "HASE : 베트남 하노이 VNSE : 베트남 호치민",
+        "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민",
     ]
-    PDNO: Annotated[
-        str,
-        "종목코드",
-    ]
-    ORD_QTY: Annotated[
-        int,
-        "주문수량 (해외거래소 별 최소 주문수량 및 주문단위 확인 필요)",
-    ]
-    OVRS_ORD_UNPR: Annotated[
-        Decimal,
-        '1주당 가격 * 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력',
-    ]
-    CTAC_TLNO: NotRequired[
-        Annotated[
-            str | None,
-            "연락전화번호",
-        ]
-    ]
-    MGCO_APTM_ODNO: NotRequired[
-        Annotated[
-            str | None,
-            "운용사지정주문번호",
-        ]
-    ]
-    SLL_TYPE: NotRequired[
-        Annotated[
-            str | None,
-            "제거 : 매수 00 : 매도",
-        ]
-    ]
-    ORD_SVR_DVSN_CD: Annotated[
-        str,
-        '"0"(Default)',
-    ]
+    PDNO: Annotated[str, "종목코드"]
+    ORD_QTY: Annotated[int, "주문수량 (해외거래소 별 최소 주문수량 및 주문단위 확인 필요)"]
+    OVRS_ORD_UNPR: Annotated[Decimal, '1주당 가격 * 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력']
+    CTAC_TLNO: NotRequired[Annotated[str | None, "연락전화번호"]]
+    MGCO_APTM_ODNO: NotRequired[Annotated[str | None, "운용사지정주문번호"]]
+    SLL_TYPE: NotRequired[Annotated[str | None, "제거 : 매수 00 : 매도"]]
+    ORD_SVR_DVSN_CD: Annotated[str, '"0"(Default)']
     ORD_DVSN: Annotated[
         OrdDvsnEnum,
         "[Header tr_id TTTT1002U(미국 매수 주문)] 00 : 지정가 32 : LOO(장개시지정가) 34 : "
@@ -308,56 +218,35 @@ class OrderRequestDict(TypedDict):
     START_TIME: NotRequired[
         Annotated[
             str | None,
-            "※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 "
-            "입력 시 정규장 종료 5분전까지 입력 가능",
+            "※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 입력 시 정규장 종료 5분전까지 입력 가능",
         ]
     ]
     END_TIME: NotRequired[
         Annotated[
             str | None,
-            "※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 "
-            "입력 시 정규장 종료 5분전까지 입력 가능",
+            "※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 입력 시 정규장 종료 5분전까지 입력 가능",
         ]
     ]
-    ALGO_ORD_TMD_DVSN_CD: NotRequired[
-        Annotated[
-            AlgoOrdTmdDvsnCdEnum | None,
-            "00 : 분할주문 시간 직접입력 , 02 : 정규장 종료시까지",
-        ]
-    ]
+    ALGO_ORD_TMD_DVSN_CD: NotRequired[Annotated[AlgoOrdTmdDvsnCdEnum | None, "00 : 분할주문 시간 직접입력 , 02 : 정규장 종료시까지"]]
 
 
 class OrderOutput(RawModel):
-    KRX_FWDG_ORD_ORGNO: str = Field(
-        alias="KRX_FWDG_ORD_ORGNO",
-    )
+    KRX_FWDG_ORD_ORGNO: str = Field(alias="KRX_FWDG_ORD_ORGNO")
     ("주문시 한국투자증권 시스템에서 지정된 영업점코드")
-    ODNO: str = Field(
-        alias="ODNO",
-    )
+    ODNO: str = Field(alias="ODNO")
     ("주문시 한국투자증권 시스템에서 채번된 주문번호")
-    ORD_TMD: KisTime = Field(
-        alias="ORD_TMD",
-    )
+    ORD_TMD: KisTime = Field(alias="ORD_TMD")
     ("주문시각(시분초HHMMSS)")
 
 
 class OrderResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: OrderOutput = Field(
-        alias="output",
-    )
+    output: OrderOutput = Field(alias="output")
     ("응답상세")
 
 
@@ -410,27 +299,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OrderRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OrderRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OrderResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OrderRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OrderRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OrderResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[OrderRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[OrderRequestDict]
         ) -> tuple[OrderResponse, KisResponse]: ...
         def call(
             self,

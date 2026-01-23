@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDateOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -38,29 +26,17 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class InvestOpbysecRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("J(시장 구분 코드)")
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("16634(Primary key)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
-        alias="FID_DIV_CLS_CODE",
-    )
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
     ("전체(0) 매수(1) 중립(2) 매도(3)")
-    FID_INPUT_DATE_1: str = Field(
-        alias="FID_INPUT_DATE_1",
-    )
+    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
     ("이후 ~")
-    FID_INPUT_DATE_2: str = Field(
-        alias="FID_INPUT_DATE_2",
-    )
+    FID_INPUT_DATE_2: str = Field(alias="FID_INPUT_DATE_2")
     ("~ 이전")
 
 
@@ -83,123 +59,57 @@ class InvestOpbysecRequestDict(TypedDict):
         FID_INPUT_DATE_2 (str): ~ 이전
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "J(시장 구분 코드)",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "16634(Primary key)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)",
-    ]
-    FID_DIV_CLS_CODE: Annotated[
-        FidDivClsCodeEnum,
-        "전체(0) 매수(1) 중립(2) 매도(3)",
-    ]
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "이후 ~",
-    ]
-    FID_INPUT_DATE_2: Annotated[
-        str,
-        "~ 이전",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "J(시장 구분 코드)"]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "16634(Primary key)"]
+    FID_INPUT_ISCD: Annotated[str, "회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)"]
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "전체(0) 매수(1) 중립(2) 매도(3)"]
+    FID_INPUT_DATE_1: Annotated[str, "이후 ~"]
+    FID_INPUT_DATE_2: Annotated[str, "~ 이전"]
 
 
 class InvestOpbysecOutput(RawModel):
-    stck_bsop_date: KisDateOptional = Field(
-        default=None,
-        alias="stck_bsop_date",
-    )
+    stck_bsop_date: KisDateOptional = Field(default=None, alias="stck_bsop_date")
     ("주식영업일자")
-    stck_shrn_iscd: str | None = Field(
-        default=None,
-        alias="stck_shrn_iscd",
-    )
+    stck_shrn_iscd: str | None = Field(default=None, alias="stck_shrn_iscd")
     ("주식단축종목코드")
-    hts_kor_isnm: str | None = Field(
-        default=None,
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
     ("HTS한글종목명")
-    invt_opnn: str | None = Field(
-        default=None,
-        alias="invt_opnn",
-    )
+    invt_opnn: str | None = Field(default=None, alias="invt_opnn")
     ("투자의견")
-    invt_opnn_cls_code: str = Field(
-        alias="invt_opnn_cls_code",
-    )
+    invt_opnn_cls_code: str = Field(alias="invt_opnn_cls_code")
     ("투자의견구분코드")
-    rgbf_invt_opnn: str | None = Field(
-        default=None,
-        alias="rgbf_invt_opnn",
-    )
+    rgbf_invt_opnn: str | None = Field(default=None, alias="rgbf_invt_opnn")
     ("직전투자의견")
-    rgbf_invt_opnn_cls_code: str = Field(
-        alias="rgbf_invt_opnn_cls_code",
-    )
+    rgbf_invt_opnn_cls_code: str = Field(alias="rgbf_invt_opnn_cls_code")
     ("직전투자의견구분코드")
-    mbcr_name: str | None = Field(
-        default=None,
-        alias="mbcr_name",
-    )
+    mbcr_name: str | None = Field(default=None, alias="mbcr_name")
     ("회원사명")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식현재가")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일대비")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
     ("전일대비부호")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일대비율")
-    hts_goal_prc: Decimal = Field(
-        alias="hts_goal_prc",
-    )
+    hts_goal_prc: Decimal = Field(alias="hts_goal_prc")
     ("HTS목표가격")
-    stck_prdy_clpr: int = Field(
-        alias="stck_prdy_clpr",
-    )
+    stck_prdy_clpr: int = Field(alias="stck_prdy_clpr")
     ("주식전일종가")
-    stft_esdg: Decimal = Field(
-        alias="stft_esdg",
-    )
+    stft_esdg: Decimal = Field(alias="stft_esdg")
     ("주식선물괴리도")
-    dprt: Decimal | None = Field(
-        default=None,
-        alias="dprt",
-    )
+    dprt: Decimal | None = Field(default=None, alias="dprt")
     ("괴리율")
 
 
 class InvestOpbysecResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[InvestOpbysecOutput] = Field(
-        alias="output",
-    )
+    output: list[InvestOpbysecOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -229,27 +139,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InvestOpbysecRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InvestOpbysecRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InvestOpbysecResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InvestOpbysecRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InvestOpbysecRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InvestOpbysecResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InvestOpbysecRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InvestOpbysecRequestDict]
         ) -> tuple[InvestOpbysecResponse, KisResponse]: ...
         def call(
             self,
@@ -291,11 +189,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "InvestOpbysecRequest",
-    "InvestOpbysecRequestDict",
-    "InvestOpbysecResponse",
-    "InvestOpbysecOutput",
-    "FidDivClsCodeEnum",
-]
+__all__ = ["ENDPOINT", "InvestOpbysecRequest", "InvestOpbysecRequestDict", "InvestOpbysecResponse", "InvestOpbysecOutput", "FidDivClsCodeEnum"]

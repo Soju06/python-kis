@@ -3,159 +3,76 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from pykis.store.parser.base import (
-    StoreBool,
-    StoreDate,
-    StoreDecimal,
-    StoreInt,
-    StoreModel,
-)
+from pykis.store.parser.base import StoreBool, StoreDate, StoreDecimal, StoreInt, StoreModel
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
-from pykis.store.raw.structs._enums import (
-    ElwNvltOptnClsCodeEnum,
-    RghtTypeClsCodeEnum,
-)
+from pykis.store.raw.structs._enums import ElwNvltOptnClsCodeEnum, RghtTypeClsCodeEnum
 
 
 class ST_ELW_CODE(StoreModel):
-    mksc_shrn_iscd: str = Field(
-        json_schema_extra={"length": 9},
-    )
+    mksc_shrn_iscd: str = Field(json_schema_extra={"length": 9})
     ("단축코드")
-    stnd_iscd: str = Field(
-        json_schema_extra={"length": 12},
-    )
+    stnd_iscd: str = Field(json_schema_extra={"length": 12})
     ("표준코드")
-    hts_kor_isnm: str = Field(
-        json_schema_extra={"length": 40},
-    )
+    hts_kor_isnm: str = Field(json_schema_extra={"length": 40})
     ("한글종목명")
     elw_nvlt_optn_cls_code: ElwNvltOptnClsCodeEnum = Field(
-        json_schema_extra={
-            "length": 1,
-            "enum": ["0", "1", "2"],
-            "enum_desc": {"0": "표준옵션", "1": "디지털옵현", "2": "조기종료 옵션"},
-        },
+        json_schema_extra={"length": 1, "enum": ["0", "1", "2"], "enum_desc": {"0": "표준옵션", "1": "디지털옵현", "2": "조기종료 옵션"}}
     )
     ("ELW권리형태 0 : 표준옵션 1 : 디지털옵현 2: 조기종료 옵션")
-    elw_ko_barrier: StoreDecimal = Field(
-        json_schema_extra={"length": 13},
-    )
+    elw_ko_barrier: StoreDecimal = Field(json_schema_extra={"length": 13})
     ("ELW조기종료발생기준가격")
-    bskt_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    bskt_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("바스켓 여부 (Y/N)")
-    unas_iscd1: str = Field(
-        json_schema_extra={"length": 9},
-    )
+    unas_iscd1: str = Field(json_schema_extra={"length": 9})
     ("기초자산코드")
-    unas_iscd2: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 9},
-    )
+    unas_iscd2: str | None = Field(default=None, json_schema_extra={"length": 9})
     ("기초자산코드")
-    unas_iscd3: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 9},
-    )
+    unas_iscd3: str | None = Field(default=None, json_schema_extra={"length": 9})
     ("기초자산코드")
-    unas_iscd4: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 9},
-    )
+    unas_iscd4: str | None = Field(default=None, json_schema_extra={"length": 9})
     ("기초자산코드")
-    unas_iscd5: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 9},
-    )
+    unas_iscd5: str | None = Field(default=None, json_schema_extra={"length": 9})
     ("기초자산코드")
-    elw_pblc_istu_name: str = Field(
-        json_schema_extra={"length": 40},
-    )
+    elw_pblc_istu_name: str = Field(json_schema_extra={"length": 40})
     ("발행사 한글 종목명")
-    elw_pblc_mrkt_prtt_no: str = Field(
-        json_schema_extra={"length": 5},
-    )
+    elw_pblc_mrkt_prtt_no: str = Field(json_schema_extra={"length": 5})
     ("발행사코드")
-    acpr: StoreInt = Field(
-        json_schema_extra={"length": 9},
-    )
+    acpr: StoreInt = Field(json_schema_extra={"length": 9})
     ("행사가")
-    stck_last_tr_month: StoreDate = Field(
-        json_schema_extra={"length": 8},
-    )
+    stck_last_tr_month: StoreDate = Field(json_schema_extra={"length": 8})
     ("최종거래일")
-    rmnn_dynu: StoreBool = Field(
-        json_schema_extra={"length": 4},
-    )
+    rmnn_dynu: StoreBool = Field(json_schema_extra={"length": 4})
     ("잔존 일수")
     rght_type_cls_code: RghtTypeClsCodeEnum = Field(
-        json_schema_extra={"length": 1, "enum": ["C", "E", "P"], "enum_desc": {"C": "콜", "E": "기타", "P": "풋"}},
+        json_schema_extra={"length": 1, "enum": ["C", "E", "P"], "enum_desc": {"C": "콜", "E": "기타", "P": "풋"}}
     )
     ("권리 유형 구분 코드 'C':콜 'E':기타 'P':풋")
-    paym_date: StoreDate = Field(
-        json_schema_extra={"length": 8},
-    )
+    paym_date: StoreDate = Field(json_schema_extra={"length": 8})
     ("지급일")
-    prdy_avls: StoreDecimal = Field(
-        json_schema_extra={"length": 9},
-    )
+    prdy_avls: StoreDecimal = Field(json_schema_extra={"length": 9})
     ("전일시가총액(억)")
-    lstn_stcn: StoreInt = Field(
-        json_schema_extra={"length": 15},
-    )
+    lstn_stcn: StoreInt = Field(json_schema_extra={"length": 15})
     ("상장주수(천)")
-    mrkt_prtt_no1: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 5},
-    )
+    mrkt_prtt_no1: str | None = Field(default=None, json_schema_extra={"length": 5})
     ("시장 참가자 번호1")
-    mrkt_prtt_no2: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 5},
-    )
+    mrkt_prtt_no2: str | None = Field(default=None, json_schema_extra={"length": 5})
     ("시장 참가자 번호2")
-    mrkt_prtt_no3: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 5},
-    )
+    mrkt_prtt_no3: str | None = Field(default=None, json_schema_extra={"length": 5})
     ("시장 참가자 번호3")
-    mrkt_prtt_no4: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 5},
-    )
+    mrkt_prtt_no4: str | None = Field(default=None, json_schema_extra={"length": 5})
     ("시장 참가자 번호4")
-    mrkt_prtt_no5: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 5},
-    )
+    mrkt_prtt_no5: str | None = Field(default=None, json_schema_extra={"length": 5})
     ("시장 참가자 번호5")
-    mrkt_prtt_no6: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 5},
-    )
+    mrkt_prtt_no6: str | None = Field(default=None, json_schema_extra={"length": 5})
     ("시장 참가자 번호6")
-    mrkt_prtt_no7: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 5},
-    )
+    mrkt_prtt_no7: str | None = Field(default=None, json_schema_extra={"length": 5})
     ("시장 참가자 번호7")
-    mrkt_prtt_no8: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 5},
-    )
+    mrkt_prtt_no8: str | None = Field(default=None, json_schema_extra={"length": 5})
     ("시장 참가자 번호8")
-    mrkt_prtt_no9: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 5},
-    )
+    mrkt_prtt_no9: str | None = Field(default=None, json_schema_extra={"length": 5})
     ("시장 참가자 번호9")
-    mrkt_prtt_no10: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 5},
-    )
+    mrkt_prtt_no10: str | None = Field(default=None, json_schema_extra={"length": 5})
     ("시장 참가자 번호10")
 
 
@@ -199,7 +116,4 @@ STRUCT_DEF = StructDef(
     ),
 )
 
-__all__ = [
-    "ST_ELW_CODE",
-    "STRUCT_DEF",
-]
+__all__ = ["ST_ELW_CODE", "STRUCT_DEF"]

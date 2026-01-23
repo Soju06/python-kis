@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisTime,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -57,16 +45,9 @@ class PrdyVrssSignEnum(KisStrEnum):
 
 
 class InquireAskingPriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
-    (
-        "F: 지수선물, O:지수옵션 JF: 주식선물, JO:주식옵션 CF: 상품선물(금), 금리선물(국채), "
-        "통화선물(달러) CM: 야간선물, EU: 야간옵션"
-    )
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
+    ("F: 지수선물, O:지수옵션 JF: 주식선물, JO:주식옵션 CF: 상품선물(금), 금리선물(국채), 통화선물(달러) CM: 야간선물, EU: 야간옵션")
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("종목코드 (예: 101S03)")
 
 
@@ -83,213 +64,113 @@ class InquireAskingPriceRequestDict(TypedDict):
 
     FID_COND_MRKT_DIV_CODE: Annotated[
         FidCondMrktDivCodeEnum,
-        "F: 지수선물, O:지수옵션 JF: 주식선물, JO:주식옵션 CF: 상품선물(금), 금리선물(국채), "
-        "통화선물(달러) CM: 야간선물, EU: 야간옵션",
+        "F: 지수선물, O:지수옵션 JF: 주식선물, JO:주식옵션 CF: 상품선물(금), 금리선물(국채), 통화선물(달러) CM: 야간선물, EU: 야간옵션",
     ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "종목코드 (예: 101S03)",
-    ]
+    FID_INPUT_ISCD: Annotated[str, "종목코드 (예: 101S03)"]
 
 
 class InquireAskingPriceOutput1(RawModel):
-    hts_kor_isnm: str = Field(
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
     ("종목명")
-    futs_prpr: Decimal = Field(
-        alias="futs_prpr",
-    )
+    futs_prpr: Decimal = Field(alias="futs_prpr")
     ("선물의 현재가격")
-    prdy_vrss_sign: PrdyVrssSignEnum = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: PrdyVrssSignEnum = Field(alias="prdy_vrss_sign")
     ("1 : 상한 2 : 상승 3 : 보합 4 : 하한 5 : 하락")
-    futs_prdy_vrss: Decimal = Field(
-        alias="futs_prdy_vrss",
-    )
+    futs_prdy_vrss: Decimal = Field(alias="futs_prdy_vrss")
     ("선물의 전일 종가와 당일 현재가의 차이 (당일 현재가-전일 종가)")
-    futs_prdy_ctrt: Decimal = Field(
-        alias="futs_prdy_ctrt",
-    )
+    futs_prdy_ctrt: Decimal = Field(alias="futs_prdy_ctrt")
     ("선물 전일 대비 / 당일 현재가 * 100")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("당일 조회시점까지 전체 거래량")
-    futs_prdy_clpr: str = Field(
-        alias="futs_prdy_clpr",
-    )
+    futs_prdy_clpr: str = Field(alias="futs_prdy_clpr")
     ("해당 선물 종목의 전일 종가")
-    futs_shrn_iscd: str = Field(
-        alias="futs_shrn_iscd",
-    )
+    futs_shrn_iscd: str = Field(alias="futs_shrn_iscd")
     ("선물 단축 종목코드")
 
 
 class InquireAskingPriceOutput2(RawModel):
-    futs_askp1: str = Field(
-        alias="futs_askp1",
-    )
+    futs_askp1: str = Field(alias="futs_askp1")
     ("해당 종목의 매도호가 중 1번째 낮은 호가")
-    futs_askp2: str = Field(
-        alias="futs_askp2",
-    )
+    futs_askp2: str = Field(alias="futs_askp2")
     ("해당 종목의 매도호가 중 2번째 낮은 호가")
-    futs_askp3: str = Field(
-        alias="futs_askp3",
-    )
+    futs_askp3: str = Field(alias="futs_askp3")
     ("해당 종목의 매도호가 중 3번째 낮은 호가")
-    futs_askp4: str = Field(
-        alias="futs_askp4",
-    )
+    futs_askp4: str = Field(alias="futs_askp4")
     ("해당 종목의 매도호가 중 4번째 낮은 호가")
-    futs_askp5: str = Field(
-        alias="futs_askp5",
-    )
+    futs_askp5: str = Field(alias="futs_askp5")
     ("해당 종목의 매도호가 중 5번째 낮은 호가")
-    futs_bidp1: str = Field(
-        alias="futs_bidp1",
-    )
+    futs_bidp1: str = Field(alias="futs_bidp1")
     ("해당 종목의 매수호가 중 가장 높은 호가")
-    futs_bidp2: str = Field(
-        alias="futs_bidp2",
-    )
+    futs_bidp2: str = Field(alias="futs_bidp2")
     ("해당 종목의 매수호가 중 2번째 높은 호가")
-    futs_bidp3: str = Field(
-        alias="futs_bidp3",
-    )
+    futs_bidp3: str = Field(alias="futs_bidp3")
     ("해당 종목의 매수호가 중 3번째 높은 호가")
-    futs_bidp4: str = Field(
-        alias="futs_bidp4",
-    )
+    futs_bidp4: str = Field(alias="futs_bidp4")
     ("해당 종목의 매수호가 중 4번째 높은 호가")
-    futs_bidp5: str = Field(
-        alias="futs_bidp5",
-    )
+    futs_bidp5: str = Field(alias="futs_bidp5")
     ("해당 종목의 매수호가 중 5번째 높은 호가")
-    askp_rsqn1: int = Field(
-        alias="askp_rsqn1",
-    )
+    askp_rsqn1: int = Field(alias="askp_rsqn1")
     ("매도호가 1의 미체결수량")
-    askp_rsqn2: int = Field(
-        alias="askp_rsqn2",
-    )
+    askp_rsqn2: int = Field(alias="askp_rsqn2")
     ("매도호가 2의 미체결수량")
-    askp_rsqn3: int = Field(
-        alias="askp_rsqn3",
-    )
+    askp_rsqn3: int = Field(alias="askp_rsqn3")
     ("매도호가 3의 미체결수량")
-    askp_rsqn4: int = Field(
-        alias="askp_rsqn4",
-    )
+    askp_rsqn4: int = Field(alias="askp_rsqn4")
     ("매도호가 4의 미체결수량")
-    askp_rsqn5: int = Field(
-        alias="askp_rsqn5",
-    )
+    askp_rsqn5: int = Field(alias="askp_rsqn5")
     ("매도호가 5의 미체결수량")
-    bidp_rsqn1: str = Field(
-        alias="bidp_rsqn1",
-    )
+    bidp_rsqn1: str = Field(alias="bidp_rsqn1")
     ("매수호가 1의 미체결수량")
-    bidp_rsqn2: str = Field(
-        alias="bidp_rsqn2",
-    )
+    bidp_rsqn2: str = Field(alias="bidp_rsqn2")
     ("매수호가 2의 미체결수량")
-    bidp_rsqn3: str = Field(
-        alias="bidp_rsqn3",
-    )
+    bidp_rsqn3: str = Field(alias="bidp_rsqn3")
     ("매수호가 3의 미체결수량")
-    bidp_rsqn4: str = Field(
-        alias="bidp_rsqn4",
-    )
+    bidp_rsqn4: str = Field(alias="bidp_rsqn4")
     ("매수호가 4의 미체결수량")
-    bidp_rsqn5: str = Field(
-        alias="bidp_rsqn5",
-    )
+    bidp_rsqn5: str = Field(alias="bidp_rsqn5")
     ("매수호가 5의 미체결수량")
-    askp_csnu1: int = Field(
-        alias="askp_csnu1",
-    )
+    askp_csnu1: int = Field(alias="askp_csnu1")
     ("매도호가 1의 미체결 주문 건수")
-    askp_csnu2: int = Field(
-        alias="askp_csnu2",
-    )
+    askp_csnu2: int = Field(alias="askp_csnu2")
     ("매도호가 2의 미체결 주문 건수")
-    askp_csnu3: int = Field(
-        alias="askp_csnu3",
-    )
+    askp_csnu3: int = Field(alias="askp_csnu3")
     ("매도호가 3의 미체결 주문 건수")
-    askp_csnu4: int = Field(
-        alias="askp_csnu4",
-    )
+    askp_csnu4: int = Field(alias="askp_csnu4")
     ("매도호가 4의 미체결 주문 건수")
-    askp_csnu5: int = Field(
-        alias="askp_csnu5",
-    )
+    askp_csnu5: int = Field(alias="askp_csnu5")
     ("매도호가 5의 미체결 주문 건수")
-    bidp_csnu1: str = Field(
-        alias="bidp_csnu1",
-    )
+    bidp_csnu1: str = Field(alias="bidp_csnu1")
     ("매수호가 1의 미체결 주문 건수")
-    bidp_csnu2: str = Field(
-        alias="bidp_csnu2",
-    )
+    bidp_csnu2: str = Field(alias="bidp_csnu2")
     ("매수호가 2의 미체결 주문 건수")
-    bidp_csnu3: str = Field(
-        alias="bidp_csnu3",
-    )
+    bidp_csnu3: str = Field(alias="bidp_csnu3")
     ("매수호가 3의 미체결 주문 건수")
-    bidp_csnu4: str = Field(
-        alias="bidp_csnu4",
-    )
+    bidp_csnu4: str = Field(alias="bidp_csnu4")
     ("매수호가 4의 미체결 주문 건수")
-    bidp_csnu5: str = Field(
-        alias="bidp_csnu5",
-    )
+    bidp_csnu5: str = Field(alias="bidp_csnu5")
     ("매수호가 5의 미체결 주문 건수")
-    total_askp_rsqn: int = Field(
-        alias="total_askp_rsqn",
-    )
+    total_askp_rsqn: int = Field(alias="total_askp_rsqn")
     ("매도호가 1~5의 잔량 합계")
-    total_bidp_rsqn: str = Field(
-        alias="total_bidp_rsqn",
-    )
+    total_bidp_rsqn: str = Field(alias="total_bidp_rsqn")
     ("매수호가 1~5의 잔량 합계")
-    total_askp_csnu: int = Field(
-        alias="total_askp_csnu",
-    )
+    total_askp_csnu: int = Field(alias="total_askp_csnu")
     ("매도호가 1~5의 미체결 주문 건수 합계")
-    total_bidp_csnu: str = Field(
-        alias="total_bidp_csnu",
-    )
+    total_bidp_csnu: str = Field(alias="total_bidp_csnu")
     ("매수호가 1~5의 미체결 주문 건수 합계")
-    aspr_acpt_hour: KisTime = Field(
-        alias="aspr_acpt_hour",
-    )
+    aspr_acpt_hour: KisTime = Field(alias="aspr_acpt_hour")
     ("가장 최근 호가의 접수 시간")
 
 
 class InquireAskingPriceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: InquireAskingPriceOutput1 = Field(
-        alias="output1",
-    )
+    output1: InquireAskingPriceOutput1 = Field(alias="output1")
     ("응답상세1")
-    output2: InquireAskingPriceOutput2 = Field(
-        alias="output2",
-    )
+    output2: InquireAskingPriceOutput2 = Field(alias="output2")
     ("응답상세2")
 
 
@@ -312,27 +193,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireAskingPriceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireAskingPriceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireAskingPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireAskingPriceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireAskingPriceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireAskingPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireAskingPriceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireAskingPriceRequestDict]
         ) -> tuple[InquireAskingPriceResponse, KisResponse]: ...
         def call(
             self,

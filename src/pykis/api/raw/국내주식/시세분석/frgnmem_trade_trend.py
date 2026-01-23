@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisTime,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -42,32 +30,17 @@ class FidMrktClsCodeEnum(KisStrEnum):
 
 
 class FrgnmemTradeTrendRequest(RawModel):
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("20432(primary key)")
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("J 고정 입력")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("ex. 005930(삼성전자) ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력")
-    FID_INPUT_ISCD_2: str = Field(
-        alias="FID_INPUT_ISCD_2",
-    )
+    FID_INPUT_ISCD_2: str = Field(alias="FID_INPUT_ISCD_2")
     ("ex. 99999(전체) ※ 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)")
-    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(
-        alias="FID_MRKT_CLS_CODE",
-    )
-    (
-        "A(전체),K(코스피), Q(코스닥), K2(코스피200), W(ELW) ※ FID_INPUT_ISCD(종목코드) 혹은 "
-        "FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력"
-    )
-    FID_VOL_CNT: int = Field(
-        alias="FID_VOL_CNT",
-    )
+    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(alias="FID_MRKT_CLS_CODE")
+    ("A(전체),K(코스피), Q(코스닥), K2(코스피200), W(ELW) ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력")
+    FID_VOL_CNT: int = Field(alias="FID_VOL_CNT")
     ("거래량 ~")
 
 
@@ -91,109 +64,57 @@ class FrgnmemTradeTrendRequestDict(TypedDict):
         FID_VOL_CNT (int): 거래량 ~
     """
 
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "20432(primary key)",
-    ]
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "J 고정 입력",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "ex. 005930(삼성전자) ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력",
-    ]
-    FID_INPUT_ISCD_2: Annotated[
-        str,
-        "ex. 99999(전체) ※ 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)",
-    ]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "20432(primary key)"]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "J 고정 입력"]
+    FID_INPUT_ISCD: Annotated[str, "ex. 005930(삼성전자) ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력"]
+    FID_INPUT_ISCD_2: Annotated[str, "ex. 99999(전체) ※ 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)"]
     FID_MRKT_CLS_CODE: Annotated[
         FidMrktClsCodeEnum,
-        "A(전체),K(코스피), Q(코스닥), K2(코스피200), W(ELW) ※ FID_INPUT_ISCD(종목코드) 혹은 "
-        "FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력",
+        "A(전체),K(코스피), Q(코스닥), K2(코스피200), W(ELW) ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력",
     ]
-    FID_VOL_CNT: Annotated[
-        int,
-        "거래량 ~",
-    ]
+    FID_VOL_CNT: Annotated[int, "거래량 ~"]
 
 
 class FrgnmemTradeTrendOutput1(RawModel):
-    total_seln_qty: int | None = Field(
-        default=None,
-        alias="total_seln_qty",
-    )
+    total_seln_qty: int | None = Field(default=None, alias="total_seln_qty")
     ("총매도수량")
-    total_shnu_qty: int | None = Field(
-        default=None,
-        alias="total_shnu_qty",
-    )
+    total_shnu_qty: int | None = Field(default=None, alias="total_shnu_qty")
     ("총매수2수량")
 
 
 class FrgnmemTradeTrendOutput2(RawModel):
-    bsop_hour: KisTime = Field(
-        alias="bsop_hour",
-    )
+    bsop_hour: KisTime = Field(alias="bsop_hour")
     ("영업시간")
-    mbcr_name: str = Field(
-        alias="mbcr_name",
-    )
+    mbcr_name: str = Field(alias="mbcr_name")
     ("회원사명")
-    hts_kor_isnm: str = Field(
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
     ("HTS한글종목명")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식현재가")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일대비부호")
-    cntg_vol: int = Field(
-        alias="cntg_vol",
-    )
+    cntg_vol: int = Field(alias="cntg_vol")
     ("체결거래량")
-    acml_ntby_qty: int = Field(
-        alias="acml_ntby_qty",
-    )
+    acml_ntby_qty: int = Field(alias="acml_ntby_qty")
     ("누적순매수수량")
-    glob_ntby_qty: int = Field(
-        alias="glob_ntby_qty",
-    )
+    glob_ntby_qty: int = Field(alias="glob_ntby_qty")
     ("외국계순매수수량")
-    frgn_ntby_qty_icdc: int = Field(
-        alias="frgn_ntby_qty_icdc",
-    )
+    frgn_ntby_qty_icdc: int = Field(alias="frgn_ntby_qty_icdc")
     ("외국인순매수수량증감")
 
 
 class FrgnmemTradeTrendResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: list[FrgnmemTradeTrendOutput1] = Field(
-        alias="output1",
-    )
+    output1: list[FrgnmemTradeTrendOutput1] = Field(alias="output1")
     ("응답상세")
-    output2: list[FrgnmemTradeTrendOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[FrgnmemTradeTrendOutput2] = Field(alias="output2")
     ("응답상세")
 
 
@@ -222,27 +143,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: FrgnmemTradeTrendRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: FrgnmemTradeTrendRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[FrgnmemTradeTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: FrgnmemTradeTrendRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: FrgnmemTradeTrendRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[FrgnmemTradeTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[FrgnmemTradeTrendRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[FrgnmemTradeTrendRequestDict]
         ) -> tuple[FrgnmemTradeTrendResponse, KisResponse]: ...
         def call(
             self,

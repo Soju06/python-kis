@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -25,25 +14,15 @@ if TYPE_CHECKING:
 
 
 class InquirePsblOrderRequest(RawModel):
-    CANO: str = Field(
-        alias="CANO",
-    )
+    CANO: str = Field(alias="CANO")
     ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
     ("계좌상품코드")
-    PDNO: str = Field(
-        alias="PDNO",
-    )
+    PDNO: str = Field(alias="PDNO")
     ("상품번호")
-    BOND_ORD_UNPR: str = Field(
-        alias="BOND_ORD_UNPR",
-    )
+    BOND_ORD_UNPR: str = Field(alias="BOND_ORD_UNPR")
     ("채권주문단가")
-    SAMT_MKET_PTCI_YN: KisBool = Field(
-        alias="SAMT_MKET_PTCI_YN",
-    )
+    SAMT_MKET_PTCI_YN: KisBool = Field(alias="SAMT_MKET_PTCI_YN")
     ("Y(소액시장) N (일반시장)")
 
 
@@ -65,75 +44,38 @@ class InquirePsblOrderRequestDict(TypedDict):
         SAMT_MKET_PTCI_YN (KisBool): Y(소액시장) N (일반시장)
     """
 
-    CANO: Annotated[
-        str,
-        "종합계좌번호",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        str,
-        "계좌상품코드",
-    ]
-    PDNO: Annotated[
-        str,
-        "상품번호",
-    ]
-    BOND_ORD_UNPR: Annotated[
-        str,
-        "채권주문단가",
-    ]
-    SAMT_MKET_PTCI_YN: Annotated[
-        KisBool,
-        "Y(소액시장) N (일반시장)",
-    ]
+    CANO: Annotated[str, "종합계좌번호"]
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
+    PDNO: Annotated[str, "상품번호"]
+    BOND_ORD_UNPR: Annotated[str, "채권주문단가"]
+    SAMT_MKET_PTCI_YN: Annotated[KisBool, "Y(소액시장) N (일반시장)"]
 
 
 class InquirePsblOrderOutput(RawModel):
-    ord_psbl_cash: str = Field(
-        alias="ord_psbl_cash",
-    )
+    ord_psbl_cash: str = Field(alias="ord_psbl_cash")
     ("주문가능현금")
-    ord_psbl_sbst: str = Field(
-        alias="ord_psbl_sbst",
-    )
+    ord_psbl_sbst: str = Field(alias="ord_psbl_sbst")
     ("주문가능대용")
-    ruse_psbl_amt: Decimal = Field(
-        alias="ruse_psbl_amt",
-    )
+    ruse_psbl_amt: Decimal = Field(alias="ruse_psbl_amt")
     ("재사용가능금액")
-    bond_ord_unpr2: str = Field(
-        alias="bond_ord_unpr2",
-    )
+    bond_ord_unpr2: str = Field(alias="bond_ord_unpr2")
     ("채권주문단가2")
-    buy_psbl_amt: Decimal = Field(
-        alias="buy_psbl_amt",
-    )
+    buy_psbl_amt: Decimal = Field(alias="buy_psbl_amt")
     ("매수가능금액")
-    buy_psbl_qty: Decimal = Field(
-        alias="buy_psbl_qty",
-    )
+    buy_psbl_qty: Decimal = Field(alias="buy_psbl_qty")
     ("매수가능수량(buy_psbl_qty) = 매수가능금액(buy_psbl_amt) / 채권주문단가2(bond_ord_unpr2) * 10")
-    cma_evlu_amt: Decimal = Field(
-        alias="cma_evlu_amt",
-    )
+    cma_evlu_amt: Decimal = Field(alias="cma_evlu_amt")
     ("CMA평가금액")
 
 
 class InquirePsblOrderResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[InquirePsblOrderOutput] = Field(
-        alias="output",
-    )
+    output: list[InquirePsblOrderOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -164,27 +106,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePsblOrderRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePsblOrderRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePsblOrderResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePsblOrderRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePsblOrderRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePsblOrderResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquirePsblOrderRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePsblOrderRequestDict]
         ) -> tuple[InquirePsblOrderResponse, KisResponse]: ...
         def call(
             self,
@@ -225,10 +155,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "InquirePsblOrderRequest",
-    "InquirePsblOrderRequestDict",
-    "InquirePsblOrderResponse",
-    "InquirePsblOrderOutput",
-]
+__all__ = ["ENDPOINT", "InquirePsblOrderRequest", "InquirePsblOrderRequestDict", "InquirePsblOrderResponse", "InquirePsblOrderOutput"]

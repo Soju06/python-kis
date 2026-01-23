@@ -2,25 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDateOptional,
-    KisTimeOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDateOptional, KisTimeOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -58,74 +44,36 @@ class FidPrcClsCodeEnum(KisStrEnum):
 
 
 class FluctuationRequest(RawModel):
-    fid_rsfl_rate2: str | None = Field(
-        default=None,
-        alias="fid_rsfl_rate2",
-        json_schema_extra={"blank_allowed": True},
-    )
+    fid_rsfl_rate2: str | None = Field(default=None, alias="fid_rsfl_rate2", json_schema_extra={"blank_allowed": True})
     ("공백 입력 시 전체 (~ 비율")
-    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(
-        alias="fid_cond_mrkt_div_code",
-    )
+    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(alias="fid_cond_mrkt_div_code")
     ("시장구분코드 (J:KRX, NX:NXT)")
-    fid_cond_scr_div_code: str = Field(
-        alias="fid_cond_scr_div_code",
-    )
+    fid_cond_scr_div_code: str = Field(alias="fid_cond_scr_div_code")
     ("Unique key( 20170 )")
-    fid_input_iscd: str = Field(
-        alias="fid_input_iscd",
-    )
+    fid_input_iscd: str = Field(alias="fid_input_iscd")
     ("0000(전체) 코스피(0001), 코스닥(1001), 코스피200(2001)")
-    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(
-        alias="fid_rank_sort_cls_code",
-    )
+    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(alias="fid_rank_sort_cls_code")
     ("0:상승율순 1:하락율순 2:시가대비상승율 3:시가대비하락율 4:변동율")
-    fid_input_cnt_1: str = Field(
-        alias="fid_input_cnt_1",
-    )
+    fid_input_cnt_1: str = Field(alias="fid_input_cnt_1")
     ("0:전체 , 누적일수 입력")
-    fid_prc_cls_code: FidPrcClsCodeEnum = Field(
-        alias="fid_prc_cls_code",
-    )
+    fid_prc_cls_code: FidPrcClsCodeEnum = Field(alias="fid_prc_cls_code")
     (
         "'fid_rank_sort_cls_code :0 상승율 순일때 (0:저가대비, 1:종가대비) fid_rank_sort_cls_code :1 "
         "하락율 순일때 (0:고가대비, 1:종가대비) fid_rank_sort_cls_code : 기타 (0:전체)'"
     )
-    fid_input_price_1: str | None = Field(
-        default=None,
-        alias="fid_input_price_1",
-        json_schema_extra={"blank_allowed": True},
-    )
+    fid_input_price_1: str | None = Field(default=None, alias="fid_input_price_1", json_schema_extra={"blank_allowed": True})
     ("공백 입력 시 전체 (가격 ~)")
-    fid_input_price_2: str | None = Field(
-        default=None,
-        alias="fid_input_price_2",
-        json_schema_extra={"blank_allowed": True},
-    )
+    fid_input_price_2: str | None = Field(default=None, alias="fid_input_price_2", json_schema_extra={"blank_allowed": True})
     ("공백 입력 시 전체 (~ 가격)")
-    fid_vol_cnt: int | None = Field(
-        default=None,
-        alias="fid_vol_cnt",
-        json_schema_extra={"blank_allowed": True},
-    )
+    fid_vol_cnt: int | None = Field(default=None, alias="fid_vol_cnt", json_schema_extra={"blank_allowed": True})
     ("공백 입력 시 전체 (거래량 ~)")
-    fid_trgt_cls_code: str = Field(
-        alias="fid_trgt_cls_code",
-    )
+    fid_trgt_cls_code: str = Field(alias="fid_trgt_cls_code")
     ("0:전체")
-    fid_trgt_exls_cls_code: str = Field(
-        alias="fid_trgt_exls_cls_code",
-    )
+    fid_trgt_exls_cls_code: str = Field(alias="fid_trgt_exls_cls_code")
     ("0:전체")
-    fid_div_cls_code: str = Field(
-        alias="fid_div_cls_code",
-    )
+    fid_div_cls_code: str = Field(alias="fid_div_cls_code")
     ("0:전체")
-    fid_rsfl_rate1: str | None = Field(
-        default=None,
-        alias="fid_rsfl_rate1",
-        json_schema_extra={"blank_allowed": True},
-    )
+    fid_rsfl_rate1: str | None = Field(default=None, alias="fid_rsfl_rate1", json_schema_extra={"blank_allowed": True})
     ("공백 입력 시 전체 (비율 ~)")
 
 
@@ -162,214 +110,85 @@ class FluctuationRequestDict(TypedDict):
         fid_rsfl_rate1 (str): 공백 입력 시 전체 (비율 ~) optional
     """
 
-    fid_rsfl_rate2: NotRequired[
-        Annotated[
-            str | None,
-            "공백 입력 시 전체 (~ 비율",
-        ]
-    ]
-    fid_cond_mrkt_div_code: Annotated[
-        FidCondMrktDivCodeEnum,
-        "시장구분코드 (J:KRX, NX:NXT)",
-    ]
-    fid_cond_scr_div_code: Annotated[
-        str,
-        "Unique key( 20170 )",
-    ]
-    fid_input_iscd: Annotated[
-        str,
-        "0000(전체) 코스피(0001), 코스닥(1001), 코스피200(2001)",
-    ]
-    fid_rank_sort_cls_code: Annotated[
-        FidRankSortClsCodeEnum,
-        "0:상승율순 1:하락율순 2:시가대비상승율 3:시가대비하락율 4:변동율",
-    ]
-    fid_input_cnt_1: Annotated[
-        str,
-        "0:전체 , 누적일수 입력",
-    ]
+    fid_rsfl_rate2: NotRequired[Annotated[str | None, "공백 입력 시 전체 (~ 비율"]]
+    fid_cond_mrkt_div_code: Annotated[FidCondMrktDivCodeEnum, "시장구분코드 (J:KRX, NX:NXT)"]
+    fid_cond_scr_div_code: Annotated[str, "Unique key( 20170 )"]
+    fid_input_iscd: Annotated[str, "0000(전체) 코스피(0001), 코스닥(1001), 코스피200(2001)"]
+    fid_rank_sort_cls_code: Annotated[FidRankSortClsCodeEnum, "0:상승율순 1:하락율순 2:시가대비상승율 3:시가대비하락율 4:변동율"]
+    fid_input_cnt_1: Annotated[str, "0:전체 , 누적일수 입력"]
     fid_prc_cls_code: Annotated[
         FidPrcClsCodeEnum,
         "'fid_rank_sort_cls_code :0 상승율 순일때 (0:저가대비, 1:종가대비) fid_rank_sort_cls_code :1 "
         "하락율 순일때 (0:고가대비, 1:종가대비) fid_rank_sort_cls_code : 기타 (0:전체)'",
     ]
-    fid_input_price_1: NotRequired[
-        Annotated[
-            str | None,
-            "공백 입력 시 전체 (가격 ~)",
-        ]
-    ]
-    fid_input_price_2: NotRequired[
-        Annotated[
-            str | None,
-            "공백 입력 시 전체 (~ 가격)",
-        ]
-    ]
-    fid_vol_cnt: NotRequired[
-        Annotated[
-            int | None,
-            "공백 입력 시 전체 (거래량 ~)",
-        ]
-    ]
-    fid_trgt_cls_code: Annotated[
-        str,
-        "0:전체",
-    ]
-    fid_trgt_exls_cls_code: Annotated[
-        str,
-        "0:전체",
-    ]
-    fid_div_cls_code: Annotated[
-        str,
-        "0:전체",
-    ]
-    fid_rsfl_rate1: NotRequired[
-        Annotated[
-            str | None,
-            "공백 입력 시 전체 (비율 ~)",
-        ]
-    ]
+    fid_input_price_1: NotRequired[Annotated[str | None, "공백 입력 시 전체 (가격 ~)"]]
+    fid_input_price_2: NotRequired[Annotated[str | None, "공백 입력 시 전체 (~ 가격)"]]
+    fid_vol_cnt: NotRequired[Annotated[int | None, "공백 입력 시 전체 (거래량 ~)"]]
+    fid_trgt_cls_code: Annotated[str, "0:전체"]
+    fid_trgt_exls_cls_code: Annotated[str, "0:전체"]
+    fid_div_cls_code: Annotated[str, "0:전체"]
+    fid_rsfl_rate1: NotRequired[Annotated[str | None, "공백 입력 시 전체 (비율 ~)"]]
 
 
 class FluctuationOutput(RawModel):
-    stck_shrn_iscd: str | None = Field(
-        default=None,
-        alias="stck_shrn_iscd",
-    )
+    stck_shrn_iscd: str | None = Field(default=None, alias="stck_shrn_iscd")
     ("주식 단축 종목코드")
-    data_rank: str | None = Field(
-        default=None,
-        alias="data_rank",
-    )
+    data_rank: str | None = Field(default=None, alias="data_rank")
     ("데이터 순위")
-    hts_kor_isnm: str | None = Field(
-        default=None,
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
     ("HTS 한글 종목명")
-    stck_prpr: Decimal | None = Field(
-        default=None,
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal | None = Field(default=None, alias="stck_prpr")
     ("주식 현재가")
-    prdy_vrss: str | None = Field(
-        default=None,
-        alias="prdy_vrss",
-    )
+    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
     ("전일 대비")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(
-        default=None,
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
     ("전일 대비율")
-    acml_vol: int | None = Field(
-        default=None,
-        alias="acml_vol",
-    )
+    acml_vol: int | None = Field(default=None, alias="acml_vol")
     ("누적 거래량")
-    stck_hgpr: Decimal | None = Field(
-        default=None,
-        alias="stck_hgpr",
-    )
+    stck_hgpr: Decimal | None = Field(default=None, alias="stck_hgpr")
     ("주식 최고가")
-    hgpr_hour: KisTimeOptional = Field(
-        default=None,
-        alias="hgpr_hour",
-    )
+    hgpr_hour: KisTimeOptional = Field(default=None, alias="hgpr_hour")
     ("최고가 시간")
-    acml_hgpr_date: KisDateOptional = Field(
-        default=None,
-        alias="acml_hgpr_date",
-    )
+    acml_hgpr_date: KisDateOptional = Field(default=None, alias="acml_hgpr_date")
     ("누적 최고가 일자")
-    stck_lwpr: Decimal | None = Field(
-        default=None,
-        alias="stck_lwpr",
-    )
+    stck_lwpr: Decimal | None = Field(default=None, alias="stck_lwpr")
     ("주식 최저가")
-    lwpr_hour: KisTimeOptional = Field(
-        default=None,
-        alias="lwpr_hour",
-    )
+    lwpr_hour: KisTimeOptional = Field(default=None, alias="lwpr_hour")
     ("최저가 시간")
-    acml_lwpr_date: KisDateOptional = Field(
-        default=None,
-        alias="acml_lwpr_date",
-    )
+    acml_lwpr_date: KisDateOptional = Field(default=None, alias="acml_lwpr_date")
     ("누적 최저가 일자")
-    lwpr_vrss_prpr_rate: Decimal | None = Field(
-        default=None,
-        alias="lwpr_vrss_prpr_rate",
-    )
+    lwpr_vrss_prpr_rate: Decimal | None = Field(default=None, alias="lwpr_vrss_prpr_rate")
     ("최저가 대비 현재가 비율")
-    dsgt_date_clpr_vrss_prpr_rate: Decimal | None = Field(
-        default=None,
-        alias="dsgt_date_clpr_vrss_prpr_rate",
-    )
+    dsgt_date_clpr_vrss_prpr_rate: Decimal | None = Field(default=None, alias="dsgt_date_clpr_vrss_prpr_rate")
     ("지정 일자 종가 대비 현재가 비")
-    cnnt_ascn_dynu: str | None = Field(
-        default=None,
-        alias="cnnt_ascn_dynu",
-    )
+    cnnt_ascn_dynu: str | None = Field(default=None, alias="cnnt_ascn_dynu")
     ("연속 상승 일수")
-    hgpr_vrss_prpr_rate: Decimal | None = Field(
-        default=None,
-        alias="hgpr_vrss_prpr_rate",
-    )
+    hgpr_vrss_prpr_rate: Decimal | None = Field(default=None, alias="hgpr_vrss_prpr_rate")
     ("최고가 대비 현재가 비율")
-    cnnt_down_dynu: str | None = Field(
-        default=None,
-        alias="cnnt_down_dynu",
-    )
+    cnnt_down_dynu: str | None = Field(default=None, alias="cnnt_down_dynu")
     ("연속 하락 일수")
-    oprc_vrss_prpr_sign: Decimal | None = Field(
-        default=None,
-        alias="oprc_vrss_prpr_sign",
-    )
+    oprc_vrss_prpr_sign: Decimal | None = Field(default=None, alias="oprc_vrss_prpr_sign")
     ("시가2 대비 현재가 부호")
-    oprc_vrss_prpr: Decimal | None = Field(
-        default=None,
-        alias="oprc_vrss_prpr",
-    )
+    oprc_vrss_prpr: Decimal | None = Field(default=None, alias="oprc_vrss_prpr")
     ("시가2 대비 현재가")
-    oprc_vrss_prpr_rate: Decimal | None = Field(
-        default=None,
-        alias="oprc_vrss_prpr_rate",
-    )
+    oprc_vrss_prpr_rate: Decimal | None = Field(default=None, alias="oprc_vrss_prpr_rate")
     ("시가2 대비 현재가 비율")
-    prd_rsfl: str | None = Field(
-        default=None,
-        alias="prd_rsfl",
-    )
+    prd_rsfl: str | None = Field(default=None, alias="prd_rsfl")
     ("기간 등락")
-    prd_rsfl_rate: Decimal | None = Field(
-        default=None,
-        alias="prd_rsfl_rate",
-    )
+    prd_rsfl_rate: Decimal | None = Field(default=None, alias="prd_rsfl_rate")
     ("기간 등락 비율")
 
 
 class FluctuationResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[FluctuationOutput] = Field(
-        alias="output",
-    )
+    output: list[FluctuationOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -403,27 +222,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: FluctuationRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: FluctuationRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[FluctuationResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: FluctuationRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: FluctuationRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[FluctuationResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[FluctuationRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[FluctuationRequestDict]
         ) -> tuple[FluctuationResponse, KisResponse]: ...
         def call(
             self,

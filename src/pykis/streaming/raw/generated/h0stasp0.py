@@ -254,9 +254,7 @@ FIELD_SOURCES = {
     "OVTM_TOTAL_BIDP_ICDC": FieldSource.DOC_TYPE,
     "STCK_DEAL_CLS_CODE": FieldSource.DOC_TYPE,
 }
-DATETIME_RULES = {
-    "BSOP_HOUR": DateTimeRule(kind="time_only", format="HHMMSS", timezone="Asia/Seoul", date_field="business_date"),
-}
+DATETIME_RULES = {"BSOP_HOUR": DateTimeRule(kind="time_only", format="HHMMSS", timezone="Asia/Seoul", date_field="business_date")}
 DECIMAL_RULES = {}
 SPEC = StreamingSpec(
     tr_id="H0STASP0",
@@ -273,13 +271,4 @@ SPEC = StreamingSpec(
     requires_business_date=True,
 )
 
-__all__ = [
-    "H0STASP0",
-    "SPEC",
-    "FIELD_ORDER",
-    "FIELD_ALIASES",
-    "FIELD_TYPES",
-    "FIELD_SOURCES",
-    "DATETIME_RULES",
-    "DECIMAL_RULES",
-]
+__all__ = ["H0STASP0", "SPEC", "FIELD_ORDER", "FIELD_ALIASES", "FIELD_TYPES", "FIELD_SOURCES", "DATETIME_RULES", "DECIMAL_RULES"]

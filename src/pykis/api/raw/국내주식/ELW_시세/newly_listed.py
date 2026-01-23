@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -54,33 +42,19 @@ class FidBlncClsCodeEnum(KisStrEnum):
 
 
 class NewlyListedRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("시장구분코드 (W)")
-    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(alias="FID_COND_SCR_DIV_CODE")
     ("Unique key(11548)")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
-        alias="FID_DIV_CLS_CODE",
-    )
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
     ("전체(02), 콜(00), 풋(01)")
-    FID_UNAS_INPUT_ISCD: str = Field(
-        alias="FID_UNAS_INPUT_ISCD",
-    )
+    FID_UNAS_INPUT_ISCD: str = Field(alias="FID_UNAS_INPUT_ISCD")
     ("'ex) 000000(전체), 2001(코스피200) , 3003(코스닥150), 005930(삼성전자) '")
-    FID_INPUT_ISCD_2: str = Field(
-        alias="FID_INPUT_ISCD_2",
-    )
+    FID_INPUT_ISCD_2: str = Field(alias="FID_INPUT_ISCD_2")
     ("'00003(한국투자증권), 00017(KB증권), 00005(미래에셋증권)'")
-    FID_INPUT_DATE_1: str = Field(
-        alias="FID_INPUT_DATE_1",
-    )
+    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
     ("날짜 (ex) 20240402)")
-    FID_BLNC_CLS_CODE: FidBlncClsCodeEnum = Field(
-        alias="FID_BLNC_CLS_CODE",
-    )
+    FID_BLNC_CLS_CODE: FidBlncClsCodeEnum = Field(alias="FID_BLNC_CLS_CODE")
     ("0(전체), 1(일반), 2(조기종료)")
 
 
@@ -101,94 +75,44 @@ class NewlyListedRequestDict(TypedDict):
         FID_BLNC_CLS_CODE (FidBlncClsCodeEnum): 0(전체), 1(일반), 2(조기종료)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "시장구분코드 (W)",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        FidCondScrDivCodeEnum,
-        "Unique key(11548)",
-    ]
-    FID_DIV_CLS_CODE: Annotated[
-        FidDivClsCodeEnum,
-        "전체(02), 콜(00), 풋(01)",
-    ]
-    FID_UNAS_INPUT_ISCD: Annotated[
-        str,
-        "'ex) 000000(전체), 2001(코스피200) , 3003(코스닥150), 005930(삼성전자) '",
-    ]
-    FID_INPUT_ISCD_2: Annotated[
-        str,
-        "'00003(한국투자증권), 00017(KB증권), 00005(미래에셋증권)'",
-    ]
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "날짜 (ex) 20240402)",
-    ]
-    FID_BLNC_CLS_CODE: Annotated[
-        FidBlncClsCodeEnum,
-        "0(전체), 1(일반), 2(조기종료)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"]
+    FID_COND_SCR_DIV_CODE: Annotated[FidCondScrDivCodeEnum, "Unique key(11548)"]
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "전체(02), 콜(00), 풋(01)"]
+    FID_UNAS_INPUT_ISCD: Annotated[str, "'ex) 000000(전체), 2001(코스피200) , 3003(코스닥150), 005930(삼성전자) '"]
+    FID_INPUT_ISCD_2: Annotated[str, "'00003(한국투자증권), 00017(KB증권), 00005(미래에셋증권)'"]
+    FID_INPUT_DATE_1: Annotated[str, "날짜 (ex) 20240402)"]
+    FID_BLNC_CLS_CODE: Annotated[FidBlncClsCodeEnum, "0(전체), 1(일반), 2(조기종료)"]
 
 
 class NewlyListedOutput(RawModel):
-    stck_lstn_date: KisDate = Field(
-        alias="stck_lstn_date",
-    )
+    stck_lstn_date: KisDate = Field(alias="stck_lstn_date")
     ("주식상장일자")
-    elw_kor_isnm: str = Field(
-        alias="elw_kor_isnm",
-    )
+    elw_kor_isnm: str = Field(alias="elw_kor_isnm")
     ("ELW한글종목명")
-    elw_shrn_iscd: str = Field(
-        alias="elw_shrn_iscd",
-    )
+    elw_shrn_iscd: str = Field(alias="elw_shrn_iscd")
     ("ELW단축종목코드")
-    unas_isnm: str = Field(
-        alias="unas_isnm",
-    )
+    unas_isnm: str = Field(alias="unas_isnm")
     ("기초자산종목명")
-    pblc_co_name: str = Field(
-        alias="pblc_co_name",
-    )
+    pblc_co_name: str = Field(alias="pblc_co_name")
     ("발행회사명")
-    lstn_stcn: str = Field(
-        alias="lstn_stcn",
-    )
+    lstn_stcn: str = Field(alias="lstn_stcn")
     ("상장주수")
-    acpr: str = Field(
-        alias="acpr",
-    )
+    acpr: str = Field(alias="acpr")
     ("행사가")
-    stck_last_tr_date: KisDate = Field(
-        alias="stck_last_tr_date",
-    )
+    stck_last_tr_date: KisDate = Field(alias="stck_last_tr_date")
     ("주식최종거래일자")
-    elw_ko_barrier: Decimal = Field(
-        alias="elw_ko_barrier",
-    )
+    elw_ko_barrier: Decimal = Field(alias="elw_ko_barrier")
     ("조기종료발생기준가격")
 
 
 class NewlyListedResponse(RawModel):
-    rt_cd: KisBool | None = Field(
-        default=None,
-        alias="rt_cd",
-    )
+    rt_cd: KisBool | None = Field(default=None, alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str | None = Field(
-        default=None,
-        alias="msg_cd",
-    )
+    msg_cd: str | None = Field(default=None, alias="msg_cd")
     ("응답코드")
-    msg1: str | None = Field(
-        default=None,
-        alias="msg1",
-    )
+    msg1: str | None = Field(default=None, alias="msg1")
     ("응답메세지")
-    output: list[NewlyListedOutput] = Field(
-        alias="output",
-    )
+    output: list[NewlyListedOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -215,27 +139,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: NewlyListedRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: NewlyListedRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[NewlyListedResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: NewlyListedRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: NewlyListedRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[NewlyListedResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[NewlyListedRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[NewlyListedRequestDict]
         ) -> tuple[NewlyListedResponse, KisResponse]: ...
         def call(
             self,

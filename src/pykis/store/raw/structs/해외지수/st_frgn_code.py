@@ -3,17 +3,10 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from pykis.store.parser.base import (
-    StoreModel,
-)
+from pykis.store.parser.base import StoreModel
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
-from pykis.store.raw.structs._enums import (
-    ClsCodeEnum,
-    Dow30YnEnum,
-    Nasdaq100YnEnum,
-    Snp500YnEnum,
-)
+from pykis.store.raw.structs._enums import ClsCodeEnum, Dow30YnEnum, Nasdaq100YnEnum, Snp500YnEnum
 
 
 class ST_FRGN_CODE(StoreModel):
@@ -36,7 +29,7 @@ class ST_FRGN_CODE(StoreModel):
                 "L": "리보금리",
                 "B": "주요국정부채",
             },
-        },
+        }
     )
     (
         "구분코드 "
@@ -54,23 +47,13 @@ class ST_FRGN_CODE(StoreModel):
         "L : 리보금리 "
         "B : 주요국정부채"
     )
-    symb: str = Field(
-        json_schema_extra={"length": 10},
-    )
+    symb: str = Field(json_schema_extra={"length": 10})
     ("심볼")
-    hts_eng_isnm: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 39},
-    )
+    hts_eng_isnm: str | None = Field(default=None, json_schema_extra={"length": 39})
     ("영문명")
-    hts_kor_isnm: str = Field(
-        json_schema_extra={"length": 40},
-    )
+    hts_kor_isnm: str = Field(json_schema_extra={"length": 40})
     ("한글명")
-    bstp_cls_code: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 4},
-    )
+    bstp_cls_code: str | None = Field(default=None, json_schema_extra={"length": 4})
     ("종목업종코드")
     dow_30_yn: Dow30YnEnum | None = Field(
         default=None,
@@ -201,15 +184,9 @@ class ST_FRGN_CODE(StoreModel):
         },
     )
     ("S&P 500 편입종목여부 0:미편입 1:편입")
-    exch_cls_code: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 4},
-    )
+    exch_cls_code: str | None = Field(default=None, json_schema_extra={"length": 4})
     ("거래소코드")
-    ntnl_cls_code: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 3},
-    )
+    ntnl_cls_code: str | None = Field(default=None, json_schema_extra={"length": 3})
     ("국가구분코드")
 
 
@@ -233,7 +210,4 @@ STRUCT_DEF = StructDef(
     ),
 )
 
-__all__ = [
-    "ST_FRGN_CODE",
-    "STRUCT_DEF",
-]
+__all__ = ["ST_FRGN_CODE", "STRUCT_DEF"]

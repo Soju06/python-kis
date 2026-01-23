@@ -286,6 +286,4 @@ SOURCE_DEFS: dict[str, SourceDef] = {
     "tsemst": TSEMST_SOURCE,
 }
 
-__all__ = [
-    "SOURCE_DEFS",
-]
+__all__ = ["SOURCE_DEFS"]

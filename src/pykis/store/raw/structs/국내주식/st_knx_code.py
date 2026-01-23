@@ -3,13 +3,7 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from pykis.store.parser.base import (
-    StoreBool,
-    StoreDate,
-    StoreDecimal,
-    StoreInt,
-    StoreModel,
-)
+from pykis.store.parser.base import StoreBool, StoreDate, StoreDecimal, StoreInt, StoreModel
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
 from pykis.store.raw.structs._enums import (
@@ -23,65 +17,39 @@ from pykis.store.raw.structs._enums import (
 
 
 class ST_KNX_CODE(StoreModel):
-    mksc_shrn_iscd: str = Field(
-        json_schema_extra={"length": 9},
-    )
+    mksc_shrn_iscd: str = Field(json_schema_extra={"length": 9})
     ("단축코드")
-    stnd_iscd: str = Field(
-        json_schema_extra={"length": 12},
-    )
+    stnd_iscd: str = Field(json_schema_extra={"length": 12})
     ("표준코드")
-    hts_kor_isnm: str = Field(
-        json_schema_extra={"length": 40},
-    )
+    hts_kor_isnm: str = Field(json_schema_extra={"length": 40})
     ("한글종목명")
-    scrt_grp_cls_code: str = Field(
-        json_schema_extra={"length": 2},
-    )
+    scrt_grp_cls_code: str = Field(json_schema_extra={"length": 2})
     ("증권그룹구분코드 KN:코넥스")
-    stck_sdpr: StoreInt = Field(
-        json_schema_extra={"length": 9},
-    )
+    stck_sdpr: StoreInt = Field(json_schema_extra={"length": 9})
     ("주식 기준가")
-    frml_mrkt_deal_qty_unit: StoreInt = Field(
-        json_schema_extra={"length": 5},
-    )
+    frml_mrkt_deal_qty_unit: StoreInt = Field(json_schema_extra={"length": 5})
     ("정규 시장 매매 수량 단위")
-    ovtm_mrkt_deal_qty_unit: StoreInt = Field(
-        json_schema_extra={"length": 5},
-    )
+    ovtm_mrkt_deal_qty_unit: StoreInt = Field(json_schema_extra={"length": 5})
     ("시간외 시장 매매 수량 단위")
-    trht_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    trht_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("거래정지 여부")
-    sltr_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    sltr_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("정리매매 여부")
-    mang_issu_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    mang_issu_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("관리 종목 여부")
     mrkt_alrm_cls_code: MrktAlrmClsCodeEnum = Field(
         json_schema_extra={
             "length": 2,
             "enum": ["00", "01", "02", "03"],
             "enum_desc": {"00": "해당없음", "01": "투자주의", "02": "투자경고", "03": "투자위험"},
-        },
+        }
     )
     ("시장 경고 구분 코드 (00:해당없음 01:투자주의 02:투자경고 03:투자위험")
-    mrkt_alrm_risk_adnt_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    mrkt_alrm_risk_adnt_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("시장 경고위험 예고 여부")
-    insn_pbnt_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    insn_pbnt_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("불성실 공시 여부")
-    byps_lstn_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    byps_lstn_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("우회 상장 여부")
     flng_cls_code: FlngClsCodeEnum = Field(
         json_schema_extra={
@@ -97,7 +65,7 @@ class ST_KNX_CODE(StoreModel):
                 "06": "권리중간배당락",
                 "99": "기타",
             },
-        },
+        }
     )
     (
         "락구분 코드 "
@@ -111,7 +79,7 @@ class ST_KNX_CODE(StoreModel):
             "length": 2,
             "enum": ["00", "01", "02", "99"],
             "enum_desc": {"00": "해당없음", "01": "액면분할", "02": "액면병합", "99": "기타"},
-        },
+        }
     )
     ("액면가 변경 구분 코드 (00:해당없음 01:액면분할 02:액면병합 99:기타)")
     icic_cls_code: IcicClsCodeEnum = Field(
@@ -119,115 +87,60 @@ class ST_KNX_CODE(StoreModel):
             "length": 2,
             "enum": ["00", "01", "02", "03", "99"],
             "enum_desc": {"00": "해당없음", "01": "유상증자", "02": "무상증자", "03": "유무상증자", "99": "기타"},
-        },
+        }
     )
     ("증자 구분 코드 (00:해당없음 01:유상증자 02:무상증자 03:유무상증자 99:기타)")
-    marg_rate: StoreDecimal = Field(
-        json_schema_extra={"length": 3},
-    )
+    marg_rate: StoreDecimal = Field(json_schema_extra={"length": 3})
     ("증거금 비율")
-    crdt_able: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    crdt_able: StoreBool = Field(json_schema_extra={"length": 1})
     ("신용주문 가능 여부")
-    crdt_days: StoreInt = Field(
-        json_schema_extra={"length": 3},
-    )
+    crdt_days: StoreInt = Field(json_schema_extra={"length": 3})
     ("신용기간")
-    prdy_vol: StoreInt = Field(
-        json_schema_extra={"length": 12},
-    )
+    prdy_vol: StoreInt = Field(json_schema_extra={"length": 12})
     ("전일 거래량")
-    stck_fcam: StoreInt = Field(
-        json_schema_extra={"length": 12},
-    )
+    stck_fcam: StoreInt = Field(json_schema_extra={"length": 12})
     ("주식 액면가")
-    stck_lstn_date: StoreDate = Field(
-        json_schema_extra={"length": 8},
-    )
+    stck_lstn_date: StoreDate = Field(json_schema_extra={"length": 8})
     ("주식 상장 일자")
-    lstn_stcn: StoreInt = Field(
-        json_schema_extra={"length": 15},
-    )
+    lstn_stcn: StoreInt = Field(json_schema_extra={"length": 15})
     ("상장 주수(천)")
-    cpfn: StoreInt = Field(
-        json_schema_extra={"length": 21},
-    )
+    cpfn: StoreInt = Field(json_schema_extra={"length": 21})
     ("자본금")
-    stac_month: StoreInt = Field(
-        json_schema_extra={"length": 2},
-    )
+    stac_month: StoreInt = Field(json_schema_extra={"length": 2})
     ("결산 월")
-    po_prc: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 7},
-    )
+    po_prc: str | None = Field(default=None, json_schema_extra={"length": 7})
     ("공모 가격")
     prst_cls_code: PrstClsCodeEnum = Field(
-        json_schema_extra={
-            "length": 1,
-            "enum": ["0", "1", "2"],
-            "enum_desc": {"0": "해당없음(보통주)", "1": "구형우선주", "2": "신형우선주"},
-        },
+        json_schema_extra={"length": 1, "enum": ["0", "1", "2"], "enum_desc": {"0": "해당없음(보통주)", "1": "구형우선주", "2": "신형우선주"}}
     )
     ("우선주 구분 코드 (0:해당없음(보통주) 1:구형우선주 2:신형우선주)")
-    ssts_hot_yn: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 1},
-    )
+    ssts_hot_yn: str | None = Field(default=None, json_schema_extra={"length": 1})
     ("공매도과열종목여부")
-    stange_runup_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    stange_runup_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("이상급등종목여부")
     krx300_issu_yn: Krx300IssuYnEnum | None = Field(
-        default=None,
-        json_schema_extra={
-            "length": 1,
-            "enum": ["KRX300", "N"],
-            "enum_desc": {"KRX300": "종목 여부 (Y", "N": "(실제적으로 필러)"},
-        },
+        default=None, json_schema_extra={"length": 1, "enum": ["KRX300", "N"], "enum_desc": {"KRX300": "종목 여부 (Y", "N": "(실제적으로 필러)"}}
     )
     ("KRX300 종목 여부 (Y/N) (실제적으로 필러)")
-    sale_account: StoreInt = Field(
-        json_schema_extra={"length": 9},
-    )
+    sale_account: StoreInt = Field(json_schema_extra={"length": 9})
     ("매출액")
-    bsop_prfi: StoreInt = Field(
-        json_schema_extra={"length": 9},
-    )
+    bsop_prfi: StoreInt = Field(json_schema_extra={"length": 9})
     ("영업이익")
-    op_prfi: StoreInt = Field(
-        json_schema_extra={"length": 9},
-    )
+    op_prfi: StoreInt = Field(json_schema_extra={"length": 9})
     ("경상이익")
-    thtr_ntin: StoreInt = Field(
-        json_schema_extra={"length": 5},
-    )
+    thtr_ntin: StoreInt = Field(json_schema_extra={"length": 5})
     ("단기순이익")
-    roe: StoreInt = Field(
-        json_schema_extra={"length": 9},
-    )
+    roe: StoreInt = Field(json_schema_extra={"length": 9})
     ("ROE(자기자본이익률)")
-    base_date: StoreDate = Field(
-        json_schema_extra={"length": 8},
-    )
+    base_date: StoreDate = Field(json_schema_extra={"length": 8})
     ("기준년월")
-    prdy_avls_scal: StoreDecimal = Field(
-        json_schema_extra={"length": 9},
-    )
+    prdy_avls_scal: StoreDecimal = Field(json_schema_extra={"length": 9})
     ("전일기준 시가총액 (억)")
-    co_crdt_limt_over_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    co_crdt_limt_over_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("회사신용한도초과여부")
-    secu_lend_able_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    secu_lend_able_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("담보대출가능여부")
-    stln_able_yn: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    stln_able_yn: StoreBool = Field(json_schema_extra={"length": 1})
     ("대주가능여부")
 
 
@@ -282,7 +195,4 @@ STRUCT_DEF = StructDef(
     ),
 )
 
-__all__ = [
-    "ST_KNX_CODE",
-    "STRUCT_DEF",
-]
+__all__ = ["ST_KNX_CODE", "STRUCT_DEF"]

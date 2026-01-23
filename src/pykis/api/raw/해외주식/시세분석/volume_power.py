@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -88,35 +76,15 @@ class VolRangEnum(KisStrEnum):
 
 
 class VolumePowerRequest(RawModel):
-    KEYB: str | None = Field(
-        default=None,
-        alias="KEYB",
-        json_schema_extra={"blank_allowed": True},
-    )
+    KEYB: str | None = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
     ("공백")
-    AUTH: str | None = Field(
-        default=None,
-        alias="AUTH",
-        json_schema_extra={"blank_allowed": True},
-    )
+    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
     ("공백")
-    EXCD: ExcdEnum = Field(
-        alias="EXCD",
-    )
-    (
-        "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : "
-        "하노이 TSE : 도쿄 '"
-    )
-    NDAY: NdayEnum = Field(
-        alias="NDAY",
-    )
-    (
-        "N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전), 6(20분전), 7(30분전), "
-        "8(60분전), 9(120분전)"
-    )
-    VOL_RANG: VolRangEnum = Field(
-        alias="VOL_RANG",
-    )
+    EXCD: ExcdEnum = Field(alias="EXCD")
+    ("'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '")
+    NDAY: NdayEnum = Field(alias="NDAY")
+    ("N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전), 6(20분전), 7(30분전), 8(60분전), 9(120분전)")
+    VOL_RANG: VolRangEnum = Field(alias="VOL_RANG")
     ("0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)")
 
 
@@ -135,132 +103,65 @@ class VolumePowerRequestDict(TypedDict):
         5(100만주이상), 6(1000만주이상)
     """
 
-    KEYB: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    AUTH: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    EXCD: Annotated[
-        ExcdEnum,
-        "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : "
-        "하노이 TSE : 도쿄 '",
-    ]
-    NDAY: Annotated[
-        NdayEnum,
-        "N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전), 6(20분전), 7(30분전), "
-        "8(60분전), 9(120분전)",
-    ]
-    VOL_RANG: Annotated[
-        VolRangEnum,
-        "0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)",
-    ]
+    KEYB: NotRequired[Annotated[str | None, "공백"]]
+    AUTH: NotRequired[Annotated[str | None, "공백"]]
+    EXCD: Annotated[ExcdEnum, "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '"]
+    NDAY: Annotated[NdayEnum, "N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전), 6(20분전), 7(30분전), 8(60분전), 9(120분전)"]
+    VOL_RANG: Annotated[VolRangEnum, "0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)"]
 
 
 class VolumePowerOutput1(RawModel):
-    zdiv: str = Field(
-        alias="zdiv",
-    )
+    zdiv: str = Field(alias="zdiv")
     ("소수점자리수")
-    stat: str = Field(
-        alias="stat",
-    )
+    stat: str = Field(alias="stat")
     ("거래상태")
-    nrec: int = Field(
-        alias="nrec",
-    )
+    nrec: int = Field(alias="nrec")
     ("RecordCount")
 
 
 class VolumePowerOutput2(RawModel):
-    rsym: str = Field(
-        alias="rsym",
-    )
+    rsym: str = Field(alias="rsym")
     ("실시간조회심볼")
-    excd: str = Field(
-        alias="excd",
-    )
+    excd: str = Field(alias="excd")
     ("거래소코드")
-    symb: str = Field(
-        alias="symb",
-    )
+    symb: str = Field(alias="symb")
     ("종목코드")
-    knam: str = Field(
-        alias="knam",
-    )
+    knam: str = Field(alias="knam")
     ("종목명")
-    last: Decimal = Field(
-        alias="last",
-    )
+    last: Decimal = Field(alias="last")
     ("현재가")
-    sign: str = Field(
-        alias="sign",
-    )
+    sign: str = Field(alias="sign")
     ("기호")
-    diff: str = Field(
-        alias="diff",
-    )
+    diff: str = Field(alias="diff")
     ("대비")
-    rate: Decimal = Field(
-        alias="rate",
-    )
+    rate: Decimal = Field(alias="rate")
     ("등락율")
-    tvol: int = Field(
-        alias="tvol",
-    )
+    tvol: int = Field(alias="tvol")
     ("거래량")
-    pask: str = Field(
-        alias="pask",
-    )
+    pask: str = Field(alias="pask")
     ("매도호가")
-    pbid: str = Field(
-        alias="pbid",
-    )
+    pbid: str = Field(alias="pbid")
     ("매수호가")
-    tpow: str = Field(
-        alias="tpow",
-    )
+    tpow: str = Field(alias="tpow")
     ("당일체결강도")
-    powx: str = Field(
-        alias="powx",
-    )
+    powx: str = Field(alias="powx")
     ("체결강도")
-    enam: str = Field(
-        alias="enam",
-    )
+    enam: str = Field(alias="enam")
     ("영문종목명")
-    e_ordyn: str = Field(
-        alias="e_ordyn",
-    )
+    e_ordyn: str = Field(alias="e_ordyn")
     ("매매가능")
 
 
 class VolumePowerResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: VolumePowerOutput1 = Field(
-        alias="output1",
-    )
+    output1: VolumePowerOutput1 = Field(alias="output1")
     ("응답상세")
-    output2: list[VolumePowerOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[VolumePowerOutput2] = Field(alias="output2")
     ("응답상세")
 
 
@@ -283,27 +184,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: VolumePowerRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: VolumePowerRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[VolumePowerResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: VolumePowerRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: VolumePowerRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[VolumePowerResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[VolumePowerRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[VolumePowerRequestDict]
         ) -> tuple[VolumePowerResponse, KisResponse]: ...
         def call(
             self,

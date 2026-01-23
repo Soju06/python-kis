@@ -3,17 +3,10 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from pykis.store.parser.base import (
-    StoreDecimal,
-    StoreModel,
-)
+from pykis.store.parser.base import StoreDecimal, StoreModel
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
-from pykis.store.raw.structs._enums import (
-    AtmClsCodeEnum,
-    InfoTypeEnum,
-    MmscClsCodeEnum,
-)
+from pykis.store.raw.structs._enums import AtmClsCodeEnum, InfoTypeEnum, MmscClsCodeEnum
 
 
 class ST_FO_IDX_CODE(StoreModel):
@@ -68,7 +61,7 @@ class ST_FO_IDX_CODE(StoreModel):
                 "L": "위클리콜옵션",
                 "M": "위클리풋옵션",
             },
-        },
+        }
     )
     (
         "1:지수선물 2:지수SP 3:스타선물 4:스타SP "
@@ -80,26 +73,17 @@ class ST_FO_IDX_CODE(StoreModel):
         "J:코스닥150콜옵션 K:코스닥150풋옵션 "
         "L:위클리콜옵션 M:위클리풋옵션"
     )
-    shrn_iscd: str = Field(
-        json_schema_extra={"length": 9},
-    )
+    shrn_iscd: str = Field(json_schema_extra={"length": 9})
     ("단축코드")
-    stnd_iscd: str = Field(
-        json_schema_extra={"length": 12},
-    )
+    stnd_iscd: str = Field(json_schema_extra={"length": 12})
     ("표준코드")
-    kor_name: str = Field(
-        json_schema_extra={"length": 40},
-    )
+    kor_name: str = Field(json_schema_extra={"length": 40})
     ("한글종목명")
     atm_cls_code: AtmClsCodeEnum | None = Field(
-        default=None,
-        json_schema_extra={"length": 1, "enum": ["1", "2", "3"], "enum_desc": {"1": "ATM", "2": "ITM", "3": "OTM"}},
+        default=None, json_schema_extra={"length": 1, "enum": ["1", "2", "3"], "enum_desc": {"1": "ATM", "2": "ITM", "3": "OTM"}}
     )
     ("ATM구분(1:ATM,2:ITM,3:OTM)")
-    acpr: StoreDecimal = Field(
-        json_schema_extra={"length": 8},
-    )
+    acpr: StoreDecimal = Field(json_schema_extra={"length": 8})
     ("행사가")
     mmsc_cls_code: MmscClsCodeEnum | None = Field(
         default=None,
@@ -110,13 +94,9 @@ class ST_FO_IDX_CODE(StoreModel):
         },
     )
     ("월물구분코드 (0:연결선물, 1:최근월물 2:차근월물 3:차차근월물 4:차차차근월물")
-    unas_shrn_iscd: str = Field(
-        json_schema_extra={"length": 9},
-    )
+    unas_shrn_iscd: str = Field(json_schema_extra={"length": 9})
     ("기초자산 단축코드")
-    unas_kor_name: str = Field(
-        json_schema_extra={"length": 40},
-    )
+    unas_kor_name: str = Field(json_schema_extra={"length": 40})
     ("기초자산 명")
 
 
@@ -139,7 +119,4 @@ STRUCT_DEF = StructDef(
     ),
 )
 
-__all__ = [
-    "ST_FO_IDX_CODE",
-    "STRUCT_DEF",
-]
+__all__ = ["ST_FO_IDX_CODE", "STRUCT_DEF"]

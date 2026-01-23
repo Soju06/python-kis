@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -44,25 +31,13 @@ class FidMrktClsCodeEnum(KisStrEnum):
 
 
 class CompProgramTradeDailyRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("J : KRX, NX : NXT, UN : 통합")
-    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(
-        alias="FID_MRKT_CLS_CODE",
-    )
+    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(alias="FID_MRKT_CLS_CODE")
     ("K:코스피, Q:코스닥")
-    FID_INPUT_DATE_1: str | None = Field(
-        default=None,
-        alias="FID_INPUT_DATE_1",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_INPUT_DATE_1: str | None = Field(default=None, alias="FID_INPUT_DATE_1", json_schema_extra={"blank_allowed": True})
     ("공백 입력, 입력 시 ~ 입력일자까지 조회됨 * 8개월 이상 과거 조회 불가")
-    FID_INPUT_DATE_2: str | None = Field(
-        default=None,
-        alias="FID_INPUT_DATE_2",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_INPUT_DATE_2: str | None = Field(default=None, alias="FID_INPUT_DATE_2", json_schema_extra={"blank_allowed": True})
     ("공백 입력")
 
 
@@ -82,447 +57,223 @@ class CompProgramTradeDailyRequestDict(TypedDict):
         FID_INPUT_DATE_2 (str): 공백 입력 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
-        "J : KRX, NX : NXT, UN : 통합",
-    ]
-    FID_MRKT_CLS_CODE: Annotated[
-        FidMrktClsCodeEnum,
-        "K:코스피, Q:코스닥",
-    ]
-    FID_INPUT_DATE_1: NotRequired[
-        Annotated[
-            str | None,
-            "공백 입력, 입력 시 ~ 입력일자까지 조회됨 * 8개월 이상 과거 조회 불가",
-        ]
-    ]
-    FID_INPUT_DATE_2: NotRequired[
-        Annotated[
-            str | None,
-            "공백 입력",
-        ]
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J : KRX, NX : NXT, UN : 통합"]
+    FID_MRKT_CLS_CODE: Annotated[FidMrktClsCodeEnum, "K:코스피, Q:코스닥"]
+    FID_INPUT_DATE_1: NotRequired[Annotated[str | None, "공백 입력, 입력 시 ~ 입력일자까지 조회됨 * 8개월 이상 과거 조회 불가"]]
+    FID_INPUT_DATE_2: NotRequired[Annotated[str | None, "공백 입력"]]
 
 
 class CompProgramTradeDailyOutput(RawModel):
-    stck_bsop_date: KisDate = Field(
-        alias="stck_bsop_date",
-    )
+    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
     ("주식 영업 일자")
-    nabt_entm_seln_tr_pbmn: Decimal = Field(
-        alias="nabt_entm_seln_tr_pbmn",
-    )
+    nabt_entm_seln_tr_pbmn: Decimal = Field(alias="nabt_entm_seln_tr_pbmn")
     ("비차익 위탁 매도 거래 대금")
-    nabt_onsl_seln_vol: int = Field(
-        alias="nabt_onsl_seln_vol",
-    )
+    nabt_onsl_seln_vol: int = Field(alias="nabt_onsl_seln_vol")
     ("비차익 자기 매도 거래량")
-    whol_onsl_seln_tr_pbmn: Decimal = Field(
-        alias="whol_onsl_seln_tr_pbmn",
-    )
+    whol_onsl_seln_tr_pbmn: Decimal = Field(alias="whol_onsl_seln_tr_pbmn")
     ("전체 자기 매도 거래 대금")
-    arbt_smtn_shnu_vol: int = Field(
-        alias="arbt_smtn_shnu_vol",
-    )
+    arbt_smtn_shnu_vol: int = Field(alias="arbt_smtn_shnu_vol")
     ("차익 합계 매수2 거래량")
-    nabt_smtn_shnu_tr_pbmn: Decimal = Field(
-        alias="nabt_smtn_shnu_tr_pbmn",
-    )
+    nabt_smtn_shnu_tr_pbmn: Decimal = Field(alias="nabt_smtn_shnu_tr_pbmn")
     ("비차익 합계 매수2 거래 대금")
-    arbt_entm_ntby_qty: int = Field(
-        alias="arbt_entm_ntby_qty",
-    )
+    arbt_entm_ntby_qty: int = Field(alias="arbt_entm_ntby_qty")
     ("차익 위탁 순매수 수량")
-    nabt_entm_ntby_tr_pbmn: Decimal = Field(
-        alias="nabt_entm_ntby_tr_pbmn",
-    )
+    nabt_entm_ntby_tr_pbmn: Decimal = Field(alias="nabt_entm_ntby_tr_pbmn")
     ("비차익 위탁 순매수 거래 대금")
-    arbt_entm_seln_vol: int = Field(
-        alias="arbt_entm_seln_vol",
-    )
+    arbt_entm_seln_vol: int = Field(alias="arbt_entm_seln_vol")
     ("차익 위탁 매도 거래량")
-    nabt_entm_seln_vol_rate: Decimal = Field(
-        alias="nabt_entm_seln_vol_rate",
-    )
+    nabt_entm_seln_vol_rate: Decimal = Field(alias="nabt_entm_seln_vol_rate")
     ("비차익 위탁 매도 거래량 비율")
-    nabt_onsl_seln_vol_rate: Decimal = Field(
-        alias="nabt_onsl_seln_vol_rate",
-    )
+    nabt_onsl_seln_vol_rate: Decimal = Field(alias="nabt_onsl_seln_vol_rate")
     ("비차익 자기 매도 거래량 비율")
-    whol_onsl_seln_tr_pbmn_rate: Decimal = Field(
-        alias="whol_onsl_seln_tr_pbmn_rate",
-    )
+    whol_onsl_seln_tr_pbmn_rate: Decimal = Field(alias="whol_onsl_seln_tr_pbmn_rate")
     ("전체 자기 매도 거래 대금 비율")
-    arbt_smtm_shun_vol_rate: Decimal = Field(
-        alias="arbt_smtm_shun_vol_rate",
-    )
+    arbt_smtm_shun_vol_rate: Decimal = Field(alias="arbt_smtm_shun_vol_rate")
     ("차익 합계 매수 거래량 비율")
-    nabt_smtm_shun_tr_pbmn_rate: Decimal = Field(
-        alias="nabt_smtm_shun_tr_pbmn_rate",
-    )
+    nabt_smtm_shun_tr_pbmn_rate: Decimal = Field(alias="nabt_smtm_shun_tr_pbmn_rate")
     ("비차익 합계 매수 거래대금 비율")
-    arbt_entm_ntby_qty_rate: Decimal = Field(
-        alias="arbt_entm_ntby_qty_rate",
-    )
+    arbt_entm_ntby_qty_rate: Decimal = Field(alias="arbt_entm_ntby_qty_rate")
     ("차익 위탁 순매수 수량 비율")
-    nabt_entm_ntby_tr_pbmn_rate: Decimal = Field(
-        alias="nabt_entm_ntby_tr_pbmn_rate",
-    )
+    nabt_entm_ntby_tr_pbmn_rate: Decimal = Field(alias="nabt_entm_ntby_tr_pbmn_rate")
     ("비차익 위탁 순매수 거래 대금")
-    arbt_entm_seln_vol_rate: Decimal = Field(
-        alias="arbt_entm_seln_vol_rate",
-    )
+    arbt_entm_seln_vol_rate: Decimal = Field(alias="arbt_entm_seln_vol_rate")
     ("차익 위탁 매도 거래량 비율")
-    nabt_entm_seln_tr_pbmn_rate: Decimal = Field(
-        alias="nabt_entm_seln_tr_pbmn_rate",
-    )
+    nabt_entm_seln_tr_pbmn_rate: Decimal = Field(alias="nabt_entm_seln_tr_pbmn_rate")
     ("비차익 위탁 매도 거래 대금 비")
-    nabt_onsl_seln_tr_pbmn: Decimal = Field(
-        alias="nabt_onsl_seln_tr_pbmn",
-    )
+    nabt_onsl_seln_tr_pbmn: Decimal = Field(alias="nabt_onsl_seln_tr_pbmn")
     ("비차익 자기 매도 거래 대금")
-    whol_smtn_seln_vol: int = Field(
-        alias="whol_smtn_seln_vol",
-    )
+    whol_smtn_seln_vol: int = Field(alias="whol_smtn_seln_vol")
     ("전체 합계 매도 거래량")
-    arbt_smtn_shnu_tr_pbmn: Decimal = Field(
-        alias="arbt_smtn_shnu_tr_pbmn",
-    )
+    arbt_smtn_shnu_tr_pbmn: Decimal = Field(alias="arbt_smtn_shnu_tr_pbmn")
     ("차익 합계 매수2 거래 대금")
-    whol_entm_shnu_vol: int = Field(
-        alias="whol_entm_shnu_vol",
-    )
+    whol_entm_shnu_vol: int = Field(alias="whol_entm_shnu_vol")
     ("전체 위탁 매수2 거래량")
-    arbt_entm_ntby_tr_pbmn: Decimal = Field(
-        alias="arbt_entm_ntby_tr_pbmn",
-    )
+    arbt_entm_ntby_tr_pbmn: Decimal = Field(alias="arbt_entm_ntby_tr_pbmn")
     ("차익 위탁 순매수 거래 대금")
-    nabt_onsl_ntby_qty: int = Field(
-        alias="nabt_onsl_ntby_qty",
-    )
+    nabt_onsl_ntby_qty: int = Field(alias="nabt_onsl_ntby_qty")
     ("비차익 자기 순매수 수량")
-    arbt_entm_seln_tr_pbmn: Decimal = Field(
-        alias="arbt_entm_seln_tr_pbmn",
-    )
+    arbt_entm_seln_tr_pbmn: Decimal = Field(alias="arbt_entm_seln_tr_pbmn")
     ("차익 위탁 매도 거래 대금")
-    nabt_onsl_seln_tr_pbmn_rate: Decimal = Field(
-        alias="nabt_onsl_seln_tr_pbmn_rate",
-    )
+    nabt_onsl_seln_tr_pbmn_rate: Decimal = Field(alias="nabt_onsl_seln_tr_pbmn_rate")
     ("비차익 자기 매도 거래 대금 비")
-    whol_seln_vol_rate: Decimal = Field(
-        alias="whol_seln_vol_rate",
-    )
+    whol_seln_vol_rate: Decimal = Field(alias="whol_seln_vol_rate")
     ("전체 매도 거래량 비율")
-    arbt_smtm_shun_tr_pbmn_rate: Decimal = Field(
-        alias="arbt_smtm_shun_tr_pbmn_rate",
-    )
+    arbt_smtm_shun_tr_pbmn_rate: Decimal = Field(alias="arbt_smtm_shun_tr_pbmn_rate")
     ("차익 합계 매수 거래대금 비율")
-    whol_entm_shnu_vol_rate: Decimal = Field(
-        alias="whol_entm_shnu_vol_rate",
-    )
+    whol_entm_shnu_vol_rate: Decimal = Field(alias="whol_entm_shnu_vol_rate")
     ("전체 위탁 매수 거래량 비율")
-    arbt_entm_ntby_tr_pbmn_rate: Decimal = Field(
-        alias="arbt_entm_ntby_tr_pbmn_rate",
-    )
+    arbt_entm_ntby_tr_pbmn_rate: Decimal = Field(alias="arbt_entm_ntby_tr_pbmn_rate")
     ("차익 위탁 순매수 거래 대금 비")
-    nabt_onsl_ntby_qty_rate: Decimal = Field(
-        alias="nabt_onsl_ntby_qty_rate",
-    )
+    nabt_onsl_ntby_qty_rate: Decimal = Field(alias="nabt_onsl_ntby_qty_rate")
     ("비차익 자기 순매수 수량 비율")
-    arbt_entm_seln_tr_pbmn_rate: Decimal = Field(
-        alias="arbt_entm_seln_tr_pbmn_rate",
-    )
+    arbt_entm_seln_tr_pbmn_rate: Decimal = Field(alias="arbt_entm_seln_tr_pbmn_rate")
     ("차익 위탁 매도 거래 대금 비율")
-    nabt_smtn_seln_vol: int = Field(
-        alias="nabt_smtn_seln_vol",
-    )
+    nabt_smtn_seln_vol: int = Field(alias="nabt_smtn_seln_vol")
     ("비차익 합계 매도 거래량")
-    whol_smtn_seln_tr_pbmn: Decimal = Field(
-        alias="whol_smtn_seln_tr_pbmn",
-    )
+    whol_smtn_seln_tr_pbmn: Decimal = Field(alias="whol_smtn_seln_tr_pbmn")
     ("전체 합계 매도 거래 대금")
-    nabt_entm_shnu_vol: int = Field(
-        alias="nabt_entm_shnu_vol",
-    )
+    nabt_entm_shnu_vol: int = Field(alias="nabt_entm_shnu_vol")
     ("비차익 위탁 매수2 거래량")
-    whol_entm_shnu_tr_pbmn: Decimal = Field(
-        alias="whol_entm_shnu_tr_pbmn",
-    )
+    whol_entm_shnu_tr_pbmn: Decimal = Field(alias="whol_entm_shnu_tr_pbmn")
     ("전체 위탁 매수2 거래 대금")
-    arbt_onsl_ntby_qty: int = Field(
-        alias="arbt_onsl_ntby_qty",
-    )
+    arbt_onsl_ntby_qty: int = Field(alias="arbt_onsl_ntby_qty")
     ("차익 자기 순매수 수량")
-    nabt_onsl_ntby_tr_pbmn: Decimal = Field(
-        alias="nabt_onsl_ntby_tr_pbmn",
-    )
+    nabt_onsl_ntby_tr_pbmn: Decimal = Field(alias="nabt_onsl_ntby_tr_pbmn")
     ("비차익 자기 순매수 거래 대금")
-    arbt_onsl_seln_tr_pbmn: Decimal = Field(
-        alias="arbt_onsl_seln_tr_pbmn",
-    )
+    arbt_onsl_seln_tr_pbmn: Decimal = Field(alias="arbt_onsl_seln_tr_pbmn")
     ("차익 자기 매도 거래 대금")
-    nabt_smtm_seln_vol_rate: Decimal = Field(
-        alias="nabt_smtm_seln_vol_rate",
-    )
+    nabt_smtm_seln_vol_rate: Decimal = Field(alias="nabt_smtm_seln_vol_rate")
     ("비차익 합계 매도 거래량 비율")
-    whol_seln_tr_pbmn_rate: Decimal = Field(
-        alias="whol_seln_tr_pbmn_rate",
-    )
+    whol_seln_tr_pbmn_rate: Decimal = Field(alias="whol_seln_tr_pbmn_rate")
     ("전체 매도 거래대금 비율")
-    nabt_entm_shnu_vol_rate: Decimal = Field(
-        alias="nabt_entm_shnu_vol_rate",
-    )
+    nabt_entm_shnu_vol_rate: Decimal = Field(alias="nabt_entm_shnu_vol_rate")
     ("비차익 위탁 매수 거래량 비율")
-    whol_entm_shnu_tr_pbmn_rate: Decimal = Field(
-        alias="whol_entm_shnu_tr_pbmn_rate",
-    )
+    whol_entm_shnu_tr_pbmn_rate: Decimal = Field(alias="whol_entm_shnu_tr_pbmn_rate")
     ("전체 위탁 매수 거래 대금 비율")
-    arbt_onsl_ntby_qty_rate: Decimal = Field(
-        alias="arbt_onsl_ntby_qty_rate",
-    )
+    arbt_onsl_ntby_qty_rate: Decimal = Field(alias="arbt_onsl_ntby_qty_rate")
     ("차익 자기 순매수 수량 비율")
-    nabt_onsl_ntby_tr_pbmn_rate: Decimal = Field(
-        alias="nabt_onsl_ntby_tr_pbmn_rate",
-    )
+    nabt_onsl_ntby_tr_pbmn_rate: Decimal = Field(alias="nabt_onsl_ntby_tr_pbmn_rate")
     ("비차익 자기 순매수 거래 대금")
-    arbt_onsl_seln_tr_pbmn_rate: Decimal = Field(
-        alias="arbt_onsl_seln_tr_pbmn_rate",
-    )
+    arbt_onsl_seln_tr_pbmn_rate: Decimal = Field(alias="arbt_onsl_seln_tr_pbmn_rate")
     ("차익 자기 매도 거래 대금 비율")
-    nabt_smtn_seln_tr_pbmn: Decimal = Field(
-        alias="nabt_smtn_seln_tr_pbmn",
-    )
+    nabt_smtn_seln_tr_pbmn: Decimal = Field(alias="nabt_smtn_seln_tr_pbmn")
     ("비차익 합계 매도 거래 대금")
-    arbt_entm_shnu_vol: int = Field(
-        alias="arbt_entm_shnu_vol",
-    )
+    arbt_entm_shnu_vol: int = Field(alias="arbt_entm_shnu_vol")
     ("차익 위탁 매수2 거래량")
-    nabt_entm_shnu_tr_pbmn: Decimal = Field(
-        alias="nabt_entm_shnu_tr_pbmn",
-    )
+    nabt_entm_shnu_tr_pbmn: Decimal = Field(alias="nabt_entm_shnu_tr_pbmn")
     ("비차익 위탁 매수2 거래 대금")
-    whol_onsl_shnu_vol: int = Field(
-        alias="whol_onsl_shnu_vol",
-    )
+    whol_onsl_shnu_vol: int = Field(alias="whol_onsl_shnu_vol")
     ("전체 자기 매수2 거래량")
-    arbt_onsl_ntby_tr_pbmn: Decimal = Field(
-        alias="arbt_onsl_ntby_tr_pbmn",
-    )
+    arbt_onsl_ntby_tr_pbmn: Decimal = Field(alias="arbt_onsl_ntby_tr_pbmn")
     ("차익 자기 순매수 거래 대금")
-    nabt_smtn_ntby_qty: int = Field(
-        alias="nabt_smtn_ntby_qty",
-    )
+    nabt_smtn_ntby_qty: int = Field(alias="nabt_smtn_ntby_qty")
     ("비차익 합계 순매수 수량")
-    arbt_onsl_seln_vol: int = Field(
-        alias="arbt_onsl_seln_vol",
-    )
+    arbt_onsl_seln_vol: int = Field(alias="arbt_onsl_seln_vol")
     ("차익 자기 매도 거래량")
-    nabt_smtm_seln_tr_pbmn_rate: Decimal = Field(
-        alias="nabt_smtm_seln_tr_pbmn_rate",
-    )
+    nabt_smtm_seln_tr_pbmn_rate: Decimal = Field(alias="nabt_smtm_seln_tr_pbmn_rate")
     ("비차익 합계 매도 거래대금 비율")
-    arbt_entm_shnu_vol_rate: Decimal = Field(
-        alias="arbt_entm_shnu_vol_rate",
-    )
+    arbt_entm_shnu_vol_rate: Decimal = Field(alias="arbt_entm_shnu_vol_rate")
     ("차익 위탁 매수 거래량 비율")
-    nabt_entm_shnu_tr_pbmn_rate: Decimal = Field(
-        alias="nabt_entm_shnu_tr_pbmn_rate",
-    )
+    nabt_entm_shnu_tr_pbmn_rate: Decimal = Field(alias="nabt_entm_shnu_tr_pbmn_rate")
     ("비차익 위탁 매수 거래 대금 비")
-    whol_onsl_shnu_tr_pbmn: Decimal = Field(
-        alias="whol_onsl_shnu_tr_pbmn",
-    )
+    whol_onsl_shnu_tr_pbmn: Decimal = Field(alias="whol_onsl_shnu_tr_pbmn")
     ("전체 자기 매수2 거래 대금")
-    arbt_onsl_ntby_tr_pbmn_rate: Decimal = Field(
-        alias="arbt_onsl_ntby_tr_pbmn_rate",
-    )
+    arbt_onsl_ntby_tr_pbmn_rate: Decimal = Field(alias="arbt_onsl_ntby_tr_pbmn_rate")
     ("차익 자기 순매수 거래 대금 비")
-    nabt_smtm_ntby_qty_rate: Decimal = Field(
-        alias="nabt_smtm_ntby_qty_rate",
-    )
+    nabt_smtm_ntby_qty_rate: Decimal = Field(alias="nabt_smtm_ntby_qty_rate")
     ("비차익 합계 순매수 수량 비율")
-    arbt_onsl_seln_vol_rate: Decimal = Field(
-        alias="arbt_onsl_seln_vol_rate",
-    )
+    arbt_onsl_seln_vol_rate: Decimal = Field(alias="arbt_onsl_seln_vol_rate")
     ("차익 자기 매도 거래량 비율")
-    whol_entm_seln_vol: int = Field(
-        alias="whol_entm_seln_vol",
-    )
+    whol_entm_seln_vol: int = Field(alias="whol_entm_seln_vol")
     ("전체 위탁 매도 거래량")
-    arbt_entm_shnu_tr_pbmn: Decimal = Field(
-        alias="arbt_entm_shnu_tr_pbmn",
-    )
+    arbt_entm_shnu_tr_pbmn: Decimal = Field(alias="arbt_entm_shnu_tr_pbmn")
     ("차익 위탁 매수2 거래 대금")
-    nabt_onsl_shnu_vol: int = Field(
-        alias="nabt_onsl_shnu_vol",
-    )
+    nabt_onsl_shnu_vol: int = Field(alias="nabt_onsl_shnu_vol")
     ("비차익 자기 매수2 거래량")
-    whol_onsl_shnu_tr_pbmn_rate: Decimal = Field(
-        alias="whol_onsl_shnu_tr_pbmn_rate",
-    )
+    whol_onsl_shnu_tr_pbmn_rate: Decimal = Field(alias="whol_onsl_shnu_tr_pbmn_rate")
     ("전체 자기 매수 거래 대금 비율")
-    arbt_smtn_ntby_qty: int = Field(
-        alias="arbt_smtn_ntby_qty",
-    )
+    arbt_smtn_ntby_qty: int = Field(alias="arbt_smtn_ntby_qty")
     ("차익 합계 순매수 수량")
-    nabt_smtn_ntby_tr_pbmn: Decimal = Field(
-        alias="nabt_smtn_ntby_tr_pbmn",
-    )
+    nabt_smtn_ntby_tr_pbmn: Decimal = Field(alias="nabt_smtn_ntby_tr_pbmn")
     ("비차익 합계 순매수 거래 대금")
-    arbt_smtn_seln_vol: int = Field(
-        alias="arbt_smtn_seln_vol",
-    )
+    arbt_smtn_seln_vol: int = Field(alias="arbt_smtn_seln_vol")
     ("차익 합계 매도 거래량")
-    whol_entm_seln_tr_pbmn: Decimal = Field(
-        alias="whol_entm_seln_tr_pbmn",
-    )
+    whol_entm_seln_tr_pbmn: Decimal = Field(alias="whol_entm_seln_tr_pbmn")
     ("전체 위탁 매도 거래 대금")
-    arbt_entm_shnu_tr_pbmn_rate: Decimal = Field(
-        alias="arbt_entm_shnu_tr_pbmn_rate",
-    )
+    arbt_entm_shnu_tr_pbmn_rate: Decimal = Field(alias="arbt_entm_shnu_tr_pbmn_rate")
     ("차익 위탁 매수 거래 대금 비율")
-    nabt_onsl_shnu_vol_rate: Decimal = Field(
-        alias="nabt_onsl_shnu_vol_rate",
-    )
+    nabt_onsl_shnu_vol_rate: Decimal = Field(alias="nabt_onsl_shnu_vol_rate")
     ("비차익 자기 매수 거래량 비율")
-    whol_onsl_shnu_vol_rate: Decimal = Field(
-        alias="whol_onsl_shnu_vol_rate",
-    )
+    whol_onsl_shnu_vol_rate: Decimal = Field(alias="whol_onsl_shnu_vol_rate")
     ("전체 자기 매수 거래량 비율")
-    arbt_smtm_ntby_qty_rate: Decimal = Field(
-        alias="arbt_smtm_ntby_qty_rate",
-    )
+    arbt_smtm_ntby_qty_rate: Decimal = Field(alias="arbt_smtm_ntby_qty_rate")
     ("차익 합계 순매수 수량 비율")
-    nabt_smtm_ntby_tr_pbmn_rate: Decimal = Field(
-        alias="nabt_smtm_ntby_tr_pbmn_rate",
-    )
+    nabt_smtm_ntby_tr_pbmn_rate: Decimal = Field(alias="nabt_smtm_ntby_tr_pbmn_rate")
     ("비차익 합계 순매수 거래대금 비")
-    arbt_smtm_seln_vol_rate: Decimal = Field(
-        alias="arbt_smtm_seln_vol_rate",
-    )
+    arbt_smtm_seln_vol_rate: Decimal = Field(alias="arbt_smtm_seln_vol_rate")
     ("차익 합계 매도 거래량 비율")
-    whol_entm_seln_vol_rate: Decimal = Field(
-        alias="whol_entm_seln_vol_rate",
-    )
+    whol_entm_seln_vol_rate: Decimal = Field(alias="whol_entm_seln_vol_rate")
     ("전체 위탁 매도 거래량 비율")
-    arbt_onsl_shnu_vol: int = Field(
-        alias="arbt_onsl_shnu_vol",
-    )
+    arbt_onsl_shnu_vol: int = Field(alias="arbt_onsl_shnu_vol")
     ("차익 자기 매수2 거래량")
-    nabt_onsl_shnu_tr_pbmn: Decimal = Field(
-        alias="nabt_onsl_shnu_tr_pbmn",
-    )
+    nabt_onsl_shnu_tr_pbmn: Decimal = Field(alias="nabt_onsl_shnu_tr_pbmn")
     ("비차익 자기 매수2 거래 대금")
-    whol_smtn_shnu_vol: int = Field(
-        alias="whol_smtn_shnu_vol",
-    )
+    whol_smtn_shnu_vol: int = Field(alias="whol_smtn_shnu_vol")
     ("전체 합계 매수2 거래량")
-    arbt_smtn_ntby_tr_pbmn: Decimal = Field(
-        alias="arbt_smtn_ntby_tr_pbmn",
-    )
+    arbt_smtn_ntby_tr_pbmn: Decimal = Field(alias="arbt_smtn_ntby_tr_pbmn")
     ("차익 합계 순매수 거래 대금")
-    whol_entm_ntby_qty: int = Field(
-        alias="whol_entm_ntby_qty",
-    )
+    whol_entm_ntby_qty: int = Field(alias="whol_entm_ntby_qty")
     ("전체 위탁 순매수 수량")
-    arbt_smtn_seln_tr_pbmn: Decimal = Field(
-        alias="arbt_smtn_seln_tr_pbmn",
-    )
+    arbt_smtn_seln_tr_pbmn: Decimal = Field(alias="arbt_smtn_seln_tr_pbmn")
     ("차익 합계 매도 거래 대금")
-    whol_entm_seln_tr_pbmn_rate: Decimal = Field(
-        alias="whol_entm_seln_tr_pbmn_rate",
-    )
+    whol_entm_seln_tr_pbmn_rate: Decimal = Field(alias="whol_entm_seln_tr_pbmn_rate")
     ("전체 위탁 매도 거래 대금 비율")
-    arbt_onsl_shnu_vol_rate: Decimal = Field(
-        alias="arbt_onsl_shnu_vol_rate",
-    )
+    arbt_onsl_shnu_vol_rate: Decimal = Field(alias="arbt_onsl_shnu_vol_rate")
     ("차익 자기 매수 거래량 비율")
-    nabt_onsl_shnu_tr_pbmn_rate: Decimal = Field(
-        alias="nabt_onsl_shnu_tr_pbmn_rate",
-    )
+    nabt_onsl_shnu_tr_pbmn_rate: Decimal = Field(alias="nabt_onsl_shnu_tr_pbmn_rate")
     ("비차익 자기 매수 거래 대금 비")
-    whol_shun_vol_rate: Decimal = Field(
-        alias="whol_shun_vol_rate",
-    )
+    whol_shun_vol_rate: Decimal = Field(alias="whol_shun_vol_rate")
     ("전체 매수 거래량 비율")
-    arbt_smtm_ntby_tr_pbmn_rate: Decimal = Field(
-        alias="arbt_smtm_ntby_tr_pbmn_rate",
-    )
+    arbt_smtm_ntby_tr_pbmn_rate: Decimal = Field(alias="arbt_smtm_ntby_tr_pbmn_rate")
     ("차익 합계 순매수 거래대금 비율")
-    whol_entm_ntby_qty_rate: Decimal = Field(
-        alias="whol_entm_ntby_qty_rate",
-    )
+    whol_entm_ntby_qty_rate: Decimal = Field(alias="whol_entm_ntby_qty_rate")
     ("전체 위탁 순매수 수량 비율")
-    arbt_smtm_seln_tr_pbmn_rate: Decimal = Field(
-        alias="arbt_smtm_seln_tr_pbmn_rate",
-    )
+    arbt_smtm_seln_tr_pbmn_rate: Decimal = Field(alias="arbt_smtm_seln_tr_pbmn_rate")
     ("차익 합계 매도 거래대금 비율")
-    whol_onsl_seln_vol: int = Field(
-        alias="whol_onsl_seln_vol",
-    )
+    whol_onsl_seln_vol: int = Field(alias="whol_onsl_seln_vol")
     ("전체 자기 매도 거래량")
-    arbt_onsl_shnu_tr_pbmn: Decimal = Field(
-        alias="arbt_onsl_shnu_tr_pbmn",
-    )
+    arbt_onsl_shnu_tr_pbmn: Decimal = Field(alias="arbt_onsl_shnu_tr_pbmn")
     ("차익 자기 매수2 거래 대금")
-    nabt_smtn_shnu_vol: int = Field(
-        alias="nabt_smtn_shnu_vol",
-    )
+    nabt_smtn_shnu_vol: int = Field(alias="nabt_smtn_shnu_vol")
     ("비차익 합계 매수2 거래량")
-    whol_smtn_shnu_tr_pbmn: Decimal = Field(
-        alias="whol_smtn_shnu_tr_pbmn",
-    )
+    whol_smtn_shnu_tr_pbmn: Decimal = Field(alias="whol_smtn_shnu_tr_pbmn")
     ("전체 합계 매수2 거래 대금")
-    nabt_entm_ntby_qty: int = Field(
-        alias="nabt_entm_ntby_qty",
-    )
+    nabt_entm_ntby_qty: int = Field(alias="nabt_entm_ntby_qty")
     ("비차익 위탁 순매수 수량")
-    whol_entm_ntby_tr_pbmn: Decimal = Field(
-        alias="whol_entm_ntby_tr_pbmn",
-    )
+    whol_entm_ntby_tr_pbmn: Decimal = Field(alias="whol_entm_ntby_tr_pbmn")
     ("전체 위탁 순매수 거래 대금")
-    nabt_entm_seln_vol: int = Field(
-        alias="nabt_entm_seln_vol",
-    )
+    nabt_entm_seln_vol: int = Field(alias="nabt_entm_seln_vol")
     ("비차익 위탁 매도 거래량")
-    whol_onsl_seln_vol_rate: Decimal = Field(
-        alias="whol_onsl_seln_vol_rate",
-    )
+    whol_onsl_seln_vol_rate: Decimal = Field(alias="whol_onsl_seln_vol_rate")
     ("전체 자기 매도 거래량 비율")
-    arbt_onsl_shnu_tr_pbmn_rate: Decimal = Field(
-        alias="arbt_onsl_shnu_tr_pbmn_rate",
-    )
+    arbt_onsl_shnu_tr_pbmn_rate: Decimal = Field(alias="arbt_onsl_shnu_tr_pbmn_rate")
     ("차익 자기 매수 거래 대금 비율")
-    nabt_smtm_shun_vol_rate: Decimal = Field(
-        alias="nabt_smtm_shun_vol_rate",
-    )
+    nabt_smtm_shun_vol_rate: Decimal = Field(alias="nabt_smtm_shun_vol_rate")
     ("비차익 합계 매수 거래량 비율")
-    whol_shun_tr_pbmn_rate: Decimal = Field(
-        alias="whol_shun_tr_pbmn_rate",
-    )
+    whol_shun_tr_pbmn_rate: Decimal = Field(alias="whol_shun_tr_pbmn_rate")
     ("전체 매수 거래대금 비율")
-    nabt_entm_ntby_qty_rate: Decimal = Field(
-        alias="nabt_entm_ntby_qty_rate",
-    )
+    nabt_entm_ntby_qty_rate: Decimal = Field(alias="nabt_entm_ntby_qty_rate")
     ("비차익 위탁 순매수 수량 비율")
 
 
 class CompProgramTradeDailyResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[CompProgramTradeDailyOutput] = Field(
-        alias="output",
-    )
+    output: list[CompProgramTradeDailyOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -551,27 +302,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: CompProgramTradeDailyRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: CompProgramTradeDailyRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[CompProgramTradeDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: CompProgramTradeDailyRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: CompProgramTradeDailyRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[CompProgramTradeDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[CompProgramTradeDailyRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[CompProgramTradeDailyRequestDict]
         ) -> tuple[CompProgramTradeDailyResponse, KisResponse]: ...
         def call(
             self,

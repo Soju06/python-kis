@@ -3,28 +3,18 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from pykis.store.parser.base import (
-    StoreModel,
-)
+from pykis.store.parser.base import StoreModel
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
-from pykis.store.raw.structs._enums import (
-    GlobYnEnum,
-)
+from pykis.store.raw.structs._enums import GlobYnEnum
 
 
 class ST_MEM_CODE(StoreModel):
-    mbcr_no: str = Field(
-        json_schema_extra={"length": 5},
-    )
+    mbcr_no: str = Field(json_schema_extra={"length": 5})
     ("회원사코드")
-    mbcr_name: str = Field(
-        json_schema_extra={"length": 20},
-    )
+    mbcr_name: str = Field(json_schema_extra={"length": 20})
     ("회원사명")
-    glob_yn: GlobYnEnum = Field(
-        json_schema_extra={"length": 1, "enum": ["0", "1"], "enum_desc": {"0": "국내", "1": "외국"}},
-    )
+    glob_yn: GlobYnEnum = Field(json_schema_extra={"length": 1, "enum": ["0", "1"], "enum_desc": {"0": "국내", "1": "외국"}})
     ("구분 0=국내, 1=외국")
 
 
@@ -33,15 +23,8 @@ STRUCT_DEF = StructDef(
     header_url="https://raw.githubusercontent.com/koreainvestment/open-trading-api/main/stocks_info/%EC%A2%85%EB%AA%A9%EB%A7%88%EC%8A%A4%ED%84%B0%EC%A0%95%EB%B3%B4%28%ED%9A%8C%EC%9B%90%EC%82%AC%29.h",
     record_spec=RecordSpec(
         record_length=26,
-        fields=(
-            FieldSpec(name="mbcr_no", start=0, end=5),
-            FieldSpec(name="mbcr_name", start=5, end=25),
-            FieldSpec(name="glob_yn", start=25, end=26),
-        ),
+        fields=(FieldSpec(name="mbcr_no", start=0, end=5), FieldSpec(name="mbcr_name", start=5, end=25), FieldSpec(name="glob_yn", start=25, end=26)),
     ),
 )
 
-__all__ = [
-    "ST_MEM_CODE",
-    "STRUCT_DEF",
-]
+__all__ = ["ST_MEM_CODE", "STRUCT_DEF"]

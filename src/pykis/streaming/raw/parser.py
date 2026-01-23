@@ -59,12 +59,7 @@ def parse_streaming_frame(
         if decryptor is None:
             raise StreamingParseError("Encrypted payload without decryptor", tr_id=tr_id, payload=payload)
         payload = decryptor.decrypt(tr_id, payload)
-    records = _parse_payload(
-        payload,
-        spec,
-        context,
-        override_logger=override_logger or NullOverrideLogger(),
-    )
+    records = _parse_payload(payload, spec, context, override_logger=override_logger or NullOverrideLogger())
 
     if expected_count is not None and expected_count != len(records):
         _record_candidate(
@@ -77,12 +72,7 @@ def parse_streaming_frame(
             payload=payload,
         )
 
-    return StreamingParseResult(
-        tr_id=tr_id,
-        encrypted=encrypted,
-        expected_count=expected_count,
-        records=records,
-    )
+    return StreamingParseResult(tr_id=tr_id, encrypted=encrypted, expected_count=expected_count, records=records)
 
 
 def split_streaming_frame(frame: str) -> tuple[bool, str, int | None, str]:
@@ -97,23 +87,13 @@ def split_streaming_frame(frame: str) -> tuple[bool, str, int | None, str]:
     return encrypted, tr_id.strip(), expected_count, payload
 
 
-def _parse_payload(
-    payload: str,
-    spec: StreamingSpec,
-    context: StreamingParseContext,
-    *,
-    override_logger: OverrideLogger,
-) -> list[object]:
+def _parse_payload(payload: str, spec: StreamingSpec, context: StreamingParseContext, *, override_logger: OverrideLogger) -> list[object]:
     values = payload.split("^")
     field_count = len(spec.field_order)
     if field_count == 0:
         raise StreamingParseError("Spec has no fields", tr_id=spec.tr_id, payload=payload)
     if len(values) % field_count != 0:
-        raise StreamingParseError(
-            "Payload length is not a multiple of field_count",
-            tr_id=spec.tr_id,
-            payload=payload,
-        )
+        raise StreamingParseError("Payload length is not a multiple of field_count", tr_id=spec.tr_id, payload=payload)
 
     records: list[object] = []
     for offset in range(0, len(values), field_count):
@@ -124,11 +104,7 @@ def _parse_payload(
 
 
 def _parse_record(
-    values: Iterable[str],
-    spec: StreamingSpec,
-    context: StreamingParseContext,
-    override_logger: OverrideLogger,
-    payload: str,
+    values: Iterable[str], spec: StreamingSpec, context: StreamingParseContext, override_logger: OverrideLogger, payload: str
 ) -> object:
     values_list = list(values)
     field_names = _field_names(spec)
@@ -150,29 +126,13 @@ def _parse_record(
             continue
         if field_type == FieldType.DECIMAL:
             rule = spec.decimal_rules.get(name)
-            parsed[name] = _parse_decimal(
-                raw_value,
-                rule,
-                zdiv_value,
-                spec,
-                name,
-                override_logger,
-                payload,
-            )
+            parsed[name] = _parse_decimal(raw_value, rule, zdiv_value, spec, name, override_logger, payload)
             continue
         if field_type == FieldType.DATETIME:
             rule = spec.datetime_rules.get(name)
             if rule is None:
                 raise StreamingParseError("Missing datetime rule", tr_id=spec.tr_id, payload=payload)
-            parsed[name] = _parse_datetime(
-                raw_value,
-                rule,
-                spec,
-                context,
-                raw_map,
-                override_logger,
-                payload,
-            )
+            parsed[name] = _parse_datetime(raw_value, rule, spec, context, raw_map, override_logger, payload)
             continue
 
     try:
@@ -189,11 +149,7 @@ def _field_names(spec: StreamingSpec) -> list[str]:
 
 
 def _resolve_zdiv(
-    raw_map: dict[str, str],
-    spec: StreamingSpec,
-    context: StreamingParseContext,
-    override_logger: OverrideLogger,
-    payload: str,
+    raw_map: dict[str, str], spec: StreamingSpec, context: StreamingParseContext, override_logger: OverrideLogger, payload: str
 ) -> int | None:
     if context.zdiv is not None:
         return context.zdiv
@@ -201,129 +157,56 @@ def _resolve_zdiv(
         return None
     value = raw_map.get("ZDIV")
     if not value:
-        _record_candidate(
-            override_logger,
-            spec,
-            field="ZDIV",
-            raw_value=value or "",
-            decision="int",
-            reason="zdiv_missing",
-            payload=payload,
-        )
+        _record_candidate(override_logger, spec, field="ZDIV", raw_value=value or "", decision="int", reason="zdiv_missing", payload=payload)
         return None
     try:
         return int(value)
     except ValueError:
-        _record_candidate(
-            override_logger,
-            spec,
-            field="ZDIV",
-            raw_value=value,
-            decision="int",
-            reason="zdiv_invalid",
-            payload=payload,
-        )
+        _record_candidate(override_logger, spec, field="ZDIV", raw_value=value, decision="int", reason="zdiv_invalid", payload=payload)
         return None
 
 
-def _parse_int(
-    raw_value: str,
-    spec: StreamingSpec,
-    field: str,
-    override_logger: OverrideLogger,
-    payload: str,
-) -> int:
+def _parse_int(raw_value: str, spec: StreamingSpec, field: str, override_logger: OverrideLogger, payload: str) -> int:
     if raw_value == "":
         raise StreamingParseError("Empty int field", tr_id=spec.tr_id, payload=payload)
     try:
         return int(raw_value)
     except ValueError as exc:
-        _record_candidate(
-            override_logger,
-            spec,
-            field=field,
-            raw_value=raw_value,
-            decision="int",
-            reason="int_parse_error",
-            payload=payload,
-        )
+        _record_candidate(override_logger, spec, field=field, raw_value=raw_value, decision="int", reason="int_parse_error", payload=payload)
         raise StreamingParseError("Invalid int field", tr_id=spec.tr_id, payload=payload) from exc
 
 
 def _parse_decimal(
-    raw_value: str,
-    rule,
-    zdiv_value: int | None,
-    spec: StreamingSpec,
-    field: str,
-    override_logger: OverrideLogger,
-    payload: str,
+    raw_value: str, rule, zdiv_value: int | None, spec: StreamingSpec, field: str, override_logger: OverrideLogger, payload: str
 ) -> Decimal:
     if raw_value == "":
         raise StreamingParseError("Empty decimal field", tr_id=spec.tr_id, payload=payload)
     try:
         value = Decimal(raw_value)
     except InvalidOperation as exc:
-        _record_candidate(
-            override_logger,
-            spec,
-            field=field,
-            raw_value=raw_value,
-            decision="decimal",
-            reason="decimal_parse_error",
-            payload=payload,
-        )
+        _record_candidate(override_logger, spec, field=field, raw_value=raw_value, decision="decimal", reason="decimal_parse_error", payload=payload)
         raise StreamingParseError("Invalid decimal field", tr_id=spec.tr_id, payload=payload) from exc
 
     if rule is not None:
         if zdiv_value is None:
-            _record_candidate(
-                override_logger,
-                spec,
-                field=field,
-                raw_value=raw_value,
-                decision="decimal",
-                reason="zdiv_missing",
-                payload=payload,
-            )
+            _record_candidate(override_logger, spec, field=field, raw_value=raw_value, decision="decimal", reason="zdiv_missing", payload=payload)
             return value
         try:
             value = value / (Decimal(10) ** zdiv_value)
         except InvalidOperation as exc:
-            _record_candidate(
-                override_logger,
-                spec,
-                field=field,
-                raw_value=raw_value,
-                decision="decimal",
-                reason="zdiv_scale_error",
-                payload=payload,
-            )
+            _record_candidate(override_logger, spec, field=field, raw_value=raw_value, decision="decimal", reason="zdiv_scale_error", payload=payload)
             raise StreamingParseError("Decimal scale error", tr_id=spec.tr_id, payload=payload) from exc
 
     source = spec.field_sources.get(field)
     if source == FieldSource.HEURISTIC:
         _record_candidate(
-            override_logger,
-            spec,
-            field=field,
-            raw_value=raw_value,
-            decision="decimal",
-            reason="heuristic_decimal",
-            payload=payload,
-            confidence=0.5,
+            override_logger, spec, field=field, raw_value=raw_value, decision="decimal", reason="heuristic_decimal", payload=payload, confidence=0.5
         )
     return value
 
 
 def _parse_datetime(
-    raw_value: str,
-    rule,
-    spec: StreamingSpec,
-    context: StreamingParseContext,
-    raw_map: dict[str, str],
-    override_logger: OverrideLogger,
-    payload: str,
+    raw_value: str, rule, spec: StreamingSpec, context: StreamingParseContext, raw_map: dict[str, str], override_logger: OverrideLogger, payload: str
 ) -> datetime:
     if raw_value == "":
         raise StreamingParseError("Empty datetime field", tr_id=spec.tr_id, payload=payload)
@@ -345,12 +228,7 @@ def _parse_datetime(
 
 
 def _resolve_date_field(
-    date_field: str,
-    spec: StreamingSpec,
-    context: StreamingParseContext,
-    raw_map: dict[str, str],
-    override_logger: OverrideLogger,
-    payload: str,
+    date_field: str, spec: StreamingSpec, context: StreamingParseContext, raw_map: dict[str, str], override_logger: OverrideLogger, payload: str
 ) -> date:
     if date_field == "business_date":
         resolved = context.resolve_business_date()
@@ -371,13 +249,7 @@ def _resolve_date_field(
     rule = spec.datetime_rules.get(date_field)
     if rule is None:
         _record_candidate(
-            override_logger,
-            spec,
-            field=date_field,
-            raw_value=raw_value,
-            decision="datetime",
-            reason="missing_date_rule",
-            payload=payload,
+            override_logger, spec, field=date_field, raw_value=raw_value, decision="datetime", reason="missing_date_rule", payload=payload
         )
         raise StreamingParseError("Missing date rule for dependent field", tr_id=spec.tr_id, payload=payload)
     tzinfo = _resolve_timezone(rule.timezone, context)
@@ -385,12 +257,7 @@ def _resolve_date_field(
     return parsed_date
 
 
-def _parse_date(
-    raw_value: str,
-    fmt: str,
-    tzinfo: ZoneInfo,
-    context: StreamingParseContext,
-) -> date:
+def _parse_date(raw_value: str, fmt: str, tzinfo: ZoneInfo, context: StreamingParseContext) -> date:
     text = raw_value.strip()
     if fmt == "YYYYMMDD":
         return datetime.strptime(text, "%Y%m%d").date()
@@ -416,15 +283,7 @@ def _resolve_timezone(value: str, context: StreamingParseContext) -> ZoneInfo:
 
 
 def _record_candidate(
-    logger: OverrideLogger,
-    spec: StreamingSpec,
-    *,
-    field: str,
-    raw_value: str,
-    decision: str,
-    reason: str,
-    payload: str,
-    confidence: float = 0.8,
+    logger: OverrideLogger, spec: StreamingSpec, *, field: str, raw_value: str, decision: str, reason: str, payload: str, confidence: float = 0.8
 ) -> None:
     logger.record(
         OverrideCandidate(

@@ -3,41 +3,20 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from pykis.store.parser.base import (
-    StoreBool,
-    StoreDate,
-    StoreDecimal,
-    StoreInt,
-    StoreModel,
-    StoreTime,
-)
+from pykis.store.parser.base import StoreBool, StoreDate, StoreDecimal, StoreInt, StoreModel, StoreTime
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
-from pykis.store.raw.structs._enums import (
-    SatmflgEnum,
-    SclascdEnum,
-    SexchsubcdEnum,
-    SnearflgEnum,
-    SsymbolEnum,
-)
+from pykis.store.raw.structs._enums import SatmflgEnum, SclascdEnum, SexchsubcdEnum, SnearflgEnum, SsymbolEnum
 
 
 class FOCODE_TBL(StoreModel):
-    sSrsCd: str = Field(
-        json_schema_extra={"length": 32},
-    )
+    sSrsCd: str = Field(json_schema_extra={"length": 32})
     ("종목코드 (UNIQ-KEY)")
-    sAutoOrdGnrlYN: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    sAutoOrdGnrlYN: StoreBool = Field(json_schema_extra={"length": 1})
     ("서버자동주문 가능 종목 여부")
-    sAutoOrdTwapYN: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    sAutoOrdTwapYN: StoreBool = Field(json_schema_extra={"length": 1})
     ("서버자동주문 TWAP 가능 종목 여부")
-    sAutoOrdEcnmYN: StoreBool = Field(
-        json_schema_extra={"length": 1},
-    )
+    sAutoOrdEcnmYN: StoreBool = Field(json_schema_extra={"length": 1})
     ("서버자동 경제지표 주문 가능 종목 여부")
     sExchSubCd: SexchsubcdEnum = Field(
         json_schema_extra={
@@ -109,7 +88,7 @@ class FOCODE_TBL(StoreModel):
                 "O0": "TMX",
                 "P0": "HNX",
             },
-        },
+        }
     )
     (
         "서브 거래소 코드 2019.12.27 "
@@ -122,21 +101,13 @@ class FOCODE_TBL(StoreModel):
         "I0:MEFF J0:NYSE K0:OSE L0:SGX "
         "M0:SSE N0:TFEX O0:TMX P0:HNX"
     )
-    sFiller: StoreDate = Field(
-        json_schema_extra={"length": 45},
-    )
+    sFiller: StoreDate = Field(json_schema_extra={"length": 45})
     ("필러")
-    sSeriesKrNm: str = Field(
-        json_schema_extra={"length": 50},
-    )
+    sSeriesKrNm: str = Field(json_schema_extra={"length": 50})
     ("종목한글명")
-    sExchCd: str = Field(
-        json_schema_extra={"length": 10},
-    )
+    sExchCd: str = Field(json_schema_extra={"length": 10})
     ("거래소코드")
-    sMrktCd: str = Field(
-        json_schema_extra={"length": 10},
-    )
+    sMrktCd: str = Field(json_schema_extra={"length": 10})
     ("품목코드")
     sClasCd: SclascdEnum = Field(
         json_schema_extra={
@@ -151,78 +122,42 @@ class FOCODE_TBL(StoreModel):
                 "M": "2: 주식옵션",
                 "W": "5: 주식옵션",
             },
-        },
+        }
     )
     ("품목종류 1: 지수옵션 2: 주식옵션 (M) 3: 현물옵션 4: 선물옵션 5: 주식옵션 (W)")
-    sDispDesz: StoreInt = Field(
-        json_schema_extra={"length": 5},
-    )
+    sDispDesz: StoreInt = Field(json_schema_extra={"length": 5})
     ("출력 소수점")
-    sCalcDesz: StoreInt = Field(
-        json_schema_extra={"length": 5},
-    )
+    sCalcDesz: StoreInt = Field(json_schema_extra={"length": 5})
     ("계산 소수점")
-    sTickSz: StoreDecimal = Field(
-        json_schema_extra={"length": 14},
-    )
+    sTickSz: StoreDecimal = Field(json_schema_extra={"length": 14})
     ("틱사이즈")
-    sTickVal: StoreDecimal = Field(
-        json_schema_extra={"length": 14},
-    )
+    sTickVal: StoreDecimal = Field(json_schema_extra={"length": 14})
     ("틱가치")
-    sCtrtSz: StoreDecimal = Field(
-        json_schema_extra={"length": 10},
-    )
+    sCtrtSz: StoreDecimal = Field(json_schema_extra={"length": 10})
     ("계약크기")
-    sDispDigit: StoreInt = Field(
-        json_schema_extra={"length": 4},
-    )
+    sDispDigit: StoreInt = Field(json_schema_extra={"length": 4})
     ("가격표시진법")
-    sMultiplier: StoreInt = Field(
-        json_schema_extra={"length": 10},
-    )
+    sMultiplier: StoreInt = Field(json_schema_extra={"length": 10})
     ("환산승수")
-    sSymbol: SsymbolEnum = Field(
-        json_schema_extra={"length": 1, "enum": ["C", "P"]},
-    )
+    sSymbol: SsymbolEnum = Field(json_schema_extra={"length": 1, "enum": ["C", "P"]})
     ("옵션 구분 C, P")
-    sStkPrc: StoreDecimal = Field(
-        json_schema_extra={"length": 20},
-    )
+    sStkPrc: StoreDecimal = Field(json_schema_extra={"length": 20})
     ("Strike Price")
-    sUndrInstr: str = Field(
-        json_schema_extra={"length": 10},
-    )
+    sUndrInstr: str = Field(json_schema_extra={"length": 10})
     ("관련선물코드 해외선물 품목 코드 주식옵션인 경우 거래소 코드 ex: NAS, NYS, AMS")
-    sUndrAsset: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 32},
-    )
+    sUndrAsset: str | None = Field(default=None, json_schema_extra={"length": 32})
     ("관련선물종목 해외선물 기초자산 종목코드 주식옵션인 경우 Ticker 코드 AAPL, TSLA")
-    sRefrAsset: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 32},
-    )
+    sRefrAsset: str | None = Field(default=None, json_schema_extra={"length": 32})
     ("참조자산 Index등 지수인경우 지수명 해외선물인경우 관련 선물 종목코드")
-    sIncTickPrc: StoreDecimal = Field(
-        json_schema_extra={"length": 19},
-    )
+    sIncTickPrc: StoreDecimal = Field(json_schema_extra={"length": 19})
     ("틱증가기준가")
-    sIncTickSz: StoreDecimal = Field(
-        json_schema_extra={"length": 5},
-    )
+    sIncTickSz: StoreDecimal = Field(json_schema_extra={"length": 5})
     ("틱증가배수")
-    sYearMon: StoreTime = Field(
-        json_schema_extra={"length": 6},
-    )
+    sYearMon: StoreTime = Field(json_schema_extra={"length": 6})
     ("년월")
-    sAtmFlg: SatmflgEnum = Field(
-        json_schema_extra={"length": 1, "enum": ["A", "I", "O"], "enum_desc": {"A": "ATM", "I": "ITM", "O": "OTM"}},
-    )
+    sAtmFlg: SatmflgEnum = Field(json_schema_extra={"length": 1, "enum": ["A", "I", "O"], "enum_desc": {"A": "ATM", "I": "ITM", "O": "OTM"}})
     ("A: ATM, I:ITM, O:OTM")
-    sNearFlg: SnearflgEnum = Field(
-        json_schema_extra={"length": 1, "enum": ["0", "1"], "enum_desc": {"0": "원월물", "1": "근월물"}},
-    )
+    sNearFlg: SnearflgEnum = Field(json_schema_extra={"length": 1, "enum": ["0", "1"], "enum_desc": {"0": "원월물", "1": "근월물"}})
     ("근월물여부 0:원월물 1:근월물")
 
 
@@ -263,7 +198,4 @@ STRUCT_DEF = StructDef(
     ),
 )
 
-__all__ = [
-    "FOCODE_TBL",
-    "STRUCT_DEF",
-]
+__all__ = ["FOCODE_TBL", "STRUCT_DEF"]

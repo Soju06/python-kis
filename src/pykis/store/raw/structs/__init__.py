@@ -3,96 +3,36 @@ from __future__ import annotations
 
 from pykis.store.parser.base import StoreModel
 from pykis.store.parser.definitions import StructDef
-from pykis.store.raw.structs.국내기타.st_mem_code import (
-    ST_MEM_CODE,
-)
-from pykis.store.raw.structs.국내기타.st_mem_code import (
-    STRUCT_DEF as ST_MEM_CODE_DEF,
-)
-from pykis.store.raw.structs.국내기타.theme_code import (
-    STRUCT_DEF as THEME_CODE_DEF,
-)
-from pykis.store.raw.structs.국내기타.theme_code import (
-    THEME_CODE,
-)
-from pykis.store.raw.structs.국내주식.st_elw_code import (
-    ST_ELW_CODE,
-)
-from pykis.store.raw.structs.국내주식.st_elw_code import (
-    STRUCT_DEF as ST_ELW_CODE_DEF,
-)
-from pykis.store.raw.structs.국내주식.st_knx_code import (
-    ST_KNX_CODE,
-)
-from pykis.store.raw.structs.국내주식.st_knx_code import (
-    STRUCT_DEF as ST_KNX_CODE_DEF,
-)
-from pykis.store.raw.structs.국내주식.st_ksp_code import (
-    ST_KSP_CODE,
-)
-from pykis.store.raw.structs.국내주식.st_ksp_code import (
-    STRUCT_DEF as ST_KSP_CODE_DEF,
-)
-from pykis.store.raw.structs.국내주식.st_ksq_code import (
-    ST_KSQ_CODE,
-)
-from pykis.store.raw.structs.국내주식.st_ksq_code import (
-    STRUCT_DEF as ST_KSQ_CODE_DEF,
-)
-from pykis.store.raw.structs.국내지수.idx_code import (
-    IDX_CODE,
-)
-from pykis.store.raw.structs.국내지수.idx_code import (
-    STRUCT_DEF as IDX_CODE_DEF,
-)
-from pykis.store.raw.structs.국내파생.st_fo_com_code import (
-    ST_FO_COM_CODE,
-)
-from pykis.store.raw.structs.국내파생.st_fo_com_code import (
-    STRUCT_DEF as ST_FO_COM_CODE_DEF,
-)
-from pykis.store.raw.structs.국내파생.st_fo_idx_code import (
-    ST_FO_IDX_CODE,
-)
-from pykis.store.raw.structs.국내파생.st_fo_idx_code import (
-    STRUCT_DEF as ST_FO_IDX_CODE_DEF,
-)
-from pykis.store.raw.structs.국내파생.st_fo_stk_code import (
-    ST_FO_STK_CODE,
-)
-from pykis.store.raw.structs.국내파생.st_fo_stk_code import (
-    STRUCT_DEF as ST_FO_STK_CODE_DEF,
-)
-from pykis.store.raw.structs.장내채권.st_bond_code import (
-    ST_BOND_CODE,
-)
-from pykis.store.raw.structs.장내채권.st_bond_code import (
-    STRUCT_DEF as ST_BOND_CODE_DEF,
-)
-from pykis.store.raw.structs.해외주식.mastcode import (
-    STRUCT_DEF as mastcode_DEF,
-)
-from pykis.store.raw.structs.해외주식.mastcode import (
-    mastcode,
-)
-from pykis.store.raw.structs.해외지수.st_frgn_code import (
-    ST_FRGN_CODE,
-)
-from pykis.store.raw.structs.해외지수.st_frgn_code import (
-    STRUCT_DEF as ST_FRGN_CODE_DEF,
-)
-from pykis.store.raw.structs.해외파생.ffcode_tbl import (
-    FFCODE_TBL,
-)
-from pykis.store.raw.structs.해외파생.ffcode_tbl import (
-    STRUCT_DEF as FFCODE_TBL_DEF,
-)
-from pykis.store.raw.structs.해외파생.focode_tbl import (
-    FOCODE_TBL,
-)
-from pykis.store.raw.structs.해외파생.focode_tbl import (
-    STRUCT_DEF as FOCODE_TBL_DEF,
-)
+from pykis.store.raw.structs.국내기타.st_mem_code import ST_MEM_CODE
+from pykis.store.raw.structs.국내기타.st_mem_code import STRUCT_DEF as ST_MEM_CODE_DEF
+from pykis.store.raw.structs.국내기타.theme_code import STRUCT_DEF as THEME_CODE_DEF
+from pykis.store.raw.structs.국내기타.theme_code import THEME_CODE
+from pykis.store.raw.structs.국내주식.st_elw_code import ST_ELW_CODE
+from pykis.store.raw.structs.국내주식.st_elw_code import STRUCT_DEF as ST_ELW_CODE_DEF
+from pykis.store.raw.structs.국내주식.st_knx_code import ST_KNX_CODE
+from pykis.store.raw.structs.국내주식.st_knx_code import STRUCT_DEF as ST_KNX_CODE_DEF
+from pykis.store.raw.structs.국내주식.st_ksp_code import ST_KSP_CODE
+from pykis.store.raw.structs.국내주식.st_ksp_code import STRUCT_DEF as ST_KSP_CODE_DEF
+from pykis.store.raw.structs.국내주식.st_ksq_code import ST_KSQ_CODE
+from pykis.store.raw.structs.국내주식.st_ksq_code import STRUCT_DEF as ST_KSQ_CODE_DEF
+from pykis.store.raw.structs.국내지수.idx_code import IDX_CODE
+from pykis.store.raw.structs.국내지수.idx_code import STRUCT_DEF as IDX_CODE_DEF
+from pykis.store.raw.structs.국내파생.st_fo_com_code import ST_FO_COM_CODE
+from pykis.store.raw.structs.국내파생.st_fo_com_code import STRUCT_DEF as ST_FO_COM_CODE_DEF
+from pykis.store.raw.structs.국내파생.st_fo_idx_code import ST_FO_IDX_CODE
+from pykis.store.raw.structs.국내파생.st_fo_idx_code import STRUCT_DEF as ST_FO_IDX_CODE_DEF
+from pykis.store.raw.structs.국내파생.st_fo_stk_code import ST_FO_STK_CODE
+from pykis.store.raw.structs.국내파생.st_fo_stk_code import STRUCT_DEF as ST_FO_STK_CODE_DEF
+from pykis.store.raw.structs.장내채권.st_bond_code import ST_BOND_CODE
+from pykis.store.raw.structs.장내채권.st_bond_code import STRUCT_DEF as ST_BOND_CODE_DEF
+from pykis.store.raw.structs.해외주식.mastcode import STRUCT_DEF as mastcode_DEF
+from pykis.store.raw.structs.해외주식.mastcode import mastcode
+from pykis.store.raw.structs.해외지수.st_frgn_code import ST_FRGN_CODE
+from pykis.store.raw.structs.해외지수.st_frgn_code import STRUCT_DEF as ST_FRGN_CODE_DEF
+from pykis.store.raw.structs.해외파생.ffcode_tbl import FFCODE_TBL
+from pykis.store.raw.structs.해외파생.ffcode_tbl import STRUCT_DEF as FFCODE_TBL_DEF
+from pykis.store.raw.structs.해외파생.focode_tbl import FOCODE_TBL
+from pykis.store.raw.structs.해외파생.focode_tbl import STRUCT_DEF as FOCODE_TBL_DEF
 
 STRUCT_DEFS: dict[str, StructDef] = {
     "FFCODE_TBL": FFCODE_TBL_DEF,
@@ -130,7 +70,4 @@ STRUCT_MODELS: dict[str, type[StoreModel]] = {
     "mastcode": mastcode,
 }
 
-__all__ = [
-    "STRUCT_DEFS",
-    "STRUCT_MODELS",
-]
+__all__ = ["STRUCT_DEFS", "STRUCT_MODELS"]

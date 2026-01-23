@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -206,63 +193,29 @@ class RghtCblcTypeCdEnum(KisStrEnum):
 
 
 class PeriodRightsRequest(RawModel):
-    INQR_DVSN: str = Field(
-        alias="INQR_DVSN",
-    )
+    INQR_DVSN: str = Field(alias="INQR_DVSN")
     ("03 입력")
-    CUST_RNCNO25: str | None = Field(
-        default=None,
-        alias="CUST_RNCNO25",
-        json_schema_extra={"blank_allowed": True},
-    )
+    CUST_RNCNO25: str | None = Field(default=None, alias="CUST_RNCNO25", json_schema_extra={"blank_allowed": True})
     ("공란")
-    HMID: str | None = Field(
-        default=None,
-        alias="HMID",
-        json_schema_extra={"blank_allowed": True},
-    )
+    HMID: str | None = Field(default=None, alias="HMID", json_schema_extra={"blank_allowed": True})
     ("공란")
-    CANO: str = Field(
-        alias="CANO",
-    )
+    CANO: str = Field(alias="CANO")
     ("계좌번호 8자리 입력 (ex.12345678)")
-    ACNT_PRDT_CD: str = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
     ("상품계좌번호 2자리 입력(ex. 01 or 22)")
-    INQR_STRT_DT: str = Field(
-        alias="INQR_STRT_DT",
-    )
+    INQR_STRT_DT: str = Field(alias="INQR_STRT_DT")
     ("조회시작일자(YYYYMMDD)")
-    INQR_END_DT: str = Field(
-        alias="INQR_END_DT",
-    )
+    INQR_END_DT: str = Field(alias="INQR_END_DT")
     ("조회종료일자(YYYYMMDD)")
-    RGHT_TYPE_CD: str | None = Field(
-        default=None,
-        alias="RGHT_TYPE_CD",
-        json_schema_extra={"blank_allowed": True},
-    )
+    RGHT_TYPE_CD: str | None = Field(default=None, alias="RGHT_TYPE_CD", json_schema_extra={"blank_allowed": True})
     ("공란")
-    PDNO: str | None = Field(
-        default=None,
-        alias="PDNO",
-        json_schema_extra={"blank_allowed": True},
-    )
+    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
     ("공란")
-    PRDT_TYPE_CD: str | None = Field(
-        default=None,
-        alias="PRDT_TYPE_CD",
-        json_schema_extra={"blank_allowed": True},
-    )
+    PRDT_TYPE_CD: str | None = Field(default=None, alias="PRDT_TYPE_CD", json_schema_extra={"blank_allowed": True})
     ("공란")
-    CTX_AREA_NK100: str = Field(
-        alias="CTX_AREA_NK100",
-    )
+    CTX_AREA_NK100: str = Field(alias="CTX_AREA_NK100")
     ("다음조회시 입력")
-    CTX_AREA_FK100: str = Field(
-        alias="CTX_AREA_FK100",
-    )
+    CTX_AREA_FK100: str = Field(alias="CTX_AREA_FK100")
     ("다음조회시 입력")
 
 
@@ -287,74 +240,24 @@ class PeriodRightsRequestDict(TypedDict):
         CTX_AREA_FK100 (str): 다음조회시 입력
     """
 
-    INQR_DVSN: Annotated[
-        str,
-        "03 입력",
-    ]
-    CUST_RNCNO25: NotRequired[
-        Annotated[
-            str | None,
-            "공란",
-        ]
-    ]
-    HMID: NotRequired[
-        Annotated[
-            str | None,
-            "공란",
-        ]
-    ]
-    CANO: Annotated[
-        str,
-        "계좌번호 8자리 입력 (ex.12345678)",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        str,
-        "상품계좌번호 2자리 입력(ex. 01 or 22)",
-    ]
-    INQR_STRT_DT: Annotated[
-        str,
-        "조회시작일자(YYYYMMDD)",
-    ]
-    INQR_END_DT: Annotated[
-        str,
-        "조회종료일자(YYYYMMDD)",
-    ]
-    RGHT_TYPE_CD: NotRequired[
-        Annotated[
-            str | None,
-            "공란",
-        ]
-    ]
-    PDNO: NotRequired[
-        Annotated[
-            str | None,
-            "공란",
-        ]
-    ]
-    PRDT_TYPE_CD: NotRequired[
-        Annotated[
-            str | None,
-            "공란",
-        ]
-    ]
-    CTX_AREA_NK100: Annotated[
-        str,
-        "다음조회시 입력",
-    ]
-    CTX_AREA_FK100: Annotated[
-        str,
-        "다음조회시 입력",
-    ]
+    INQR_DVSN: Annotated[str, "03 입력"]
+    CUST_RNCNO25: NotRequired[Annotated[str | None, "공란"]]
+    HMID: NotRequired[Annotated[str | None, "공란"]]
+    CANO: Annotated[str, "계좌번호 8자리 입력 (ex.12345678)"]
+    ACNT_PRDT_CD: Annotated[str, "상품계좌번호 2자리 입력(ex. 01 or 22)"]
+    INQR_STRT_DT: Annotated[str, "조회시작일자(YYYYMMDD)"]
+    INQR_END_DT: Annotated[str, "조회종료일자(YYYYMMDD)"]
+    RGHT_TYPE_CD: NotRequired[Annotated[str | None, "공란"]]
+    PDNO: NotRequired[Annotated[str | None, "공란"]]
+    PRDT_TYPE_CD: NotRequired[Annotated[str | None, "공란"]]
+    CTX_AREA_NK100: Annotated[str, "다음조회시 입력"]
+    CTX_AREA_FK100: Annotated[str, "다음조회시 입력"]
 
 
 class PeriodRightsOutput1(RawModel):
-    acno10: str = Field(
-        alias="acno10",
-    )
+    acno10: str = Field(alias="acno10")
     ("계좌번호10")
-    rght_type_cd: RghtTypeCdEnum = Field(
-        alias="rght_type_cd",
-    )
+    rght_type_cd: RghtTypeCdEnum = Field(alias="rght_type_cd")
     (
         "1 유상 2 무상 3 배당 4 매수청구 5 공개매수 6 주주총회 7 신주인수권증서 8 반대의사 9 "
         "신주인수권증권 11 합병 12 회사분할 13 주식교환 14 액면분할 15 액면병합 16 종목변경 17 감자 18 "
@@ -367,137 +270,75 @@ class PeriodRightsOutput1(RawModel):
         "해외분배금(조기상환) 83 해외분배금(상장폐지) 84 DR FEE 85 SECTION 871M 86 종목전환 87 재매수 88 "
         "종목교환 89 기타이벤트 91 공모주 92 청약 93 환매 99 기타권리사유"
     )
-    bass_dt: KisDate = Field(
-        alias="bass_dt",
-    )
+    bass_dt: KisDate = Field(alias="bass_dt")
     ("기준일자")
-    rght_cblc_type_cd: RghtCblcTypeCdEnum = Field(
-        alias="rght_cblc_type_cd",
-    )
+    rght_cblc_type_cd: RghtCblcTypeCdEnum = Field(alias="rght_cblc_type_cd")
     (
         "1 입고 2 출고 3 출고입고 4 출고입금 5 출고출금 10 현금입금 11 단수주대금입금 12 교부금입금 13 "
         "유상감자대금입금 14 지연이자입금 15 이자지급 16 대주권리금출금 17 분할상환 18 만기상환 19 "
         "조기상환 20 출금 21 입고&입금 22 입고&입금&단수주대금입금 25 유상환불금입금 26 중도상환 27 "
         "분할합병세금출금"
     )
-    rptt_pdno: str = Field(
-        alias="rptt_pdno",
-    )
+    rptt_pdno: str = Field(alias="rptt_pdno")
     ("대표상품번호")
-    pdno: str = Field(
-        alias="pdno",
-    )
+    pdno: str = Field(alias="pdno")
     ("상품번호")
-    prdt_type_cd: str = Field(
-        alias="prdt_type_cd",
-    )
+    prdt_type_cd: str = Field(alias="prdt_type_cd")
     ("상품유형코드")
-    shtn_pdno: str = Field(
-        alias="shtn_pdno",
-    )
+    shtn_pdno: str = Field(alias="shtn_pdno")
     ("단축상품번호")
-    prdt_name: str = Field(
-        alias="prdt_name",
-    )
+    prdt_name: str = Field(alias="prdt_name")
     ("상품명")
-    cblc_qty: int = Field(
-        alias="cblc_qty",
-    )
+    cblc_qty: int = Field(alias="cblc_qty")
     ("잔고수량")
-    last_alct_qty: int = Field(
-        alias="last_alct_qty",
-    )
+    last_alct_qty: int = Field(alias="last_alct_qty")
     ("최종배정수량")
-    excs_alct_qty: int = Field(
-        alias="excs_alct_qty",
-    )
+    excs_alct_qty: int = Field(alias="excs_alct_qty")
     ("초과배정수량")
-    tot_alct_qty: int = Field(
-        alias="tot_alct_qty",
-    )
+    tot_alct_qty: int = Field(alias="tot_alct_qty")
     ("총배정수량")
-    last_ftsk_qty: int = Field(
-        alias="last_ftsk_qty",
-    )
+    last_ftsk_qty: int = Field(alias="last_ftsk_qty")
     ("최종단수주수량")
-    last_alct_amt: Decimal = Field(
-        alias="last_alct_amt",
-    )
+    last_alct_amt: Decimal = Field(alias="last_alct_amt")
     ("최종배정금액")
-    last_ftsk_chgs: Decimal = Field(
-        alias="last_ftsk_chgs",
-    )
+    last_ftsk_chgs: Decimal = Field(alias="last_ftsk_chgs")
     ("최종단수주대금")
-    rdpt_prca: str = Field(
-        alias="rdpt_prca",
-    )
+    rdpt_prca: str = Field(alias="rdpt_prca")
     ("상환원금")
-    dlay_int_amt: Decimal = Field(
-        alias="dlay_int_amt",
-    )
+    dlay_int_amt: Decimal = Field(alias="dlay_int_amt")
     ("지연이자금액")
-    lstg_dt: KisDate = Field(
-        alias="lstg_dt",
-    )
+    lstg_dt: KisDate = Field(alias="lstg_dt")
     ("상장일자")
-    sbsc_end_dt: KisDate = Field(
-        alias="sbsc_end_dt",
-    )
+    sbsc_end_dt: KisDate = Field(alias="sbsc_end_dt")
     ("청약종료일자")
-    cash_dfrm_dt: KisDate = Field(
-        alias="cash_dfrm_dt",
-    )
+    cash_dfrm_dt: KisDate = Field(alias="cash_dfrm_dt")
     ("현금지급일자")
-    rqst_qty: int = Field(
-        alias="rqst_qty",
-    )
+    rqst_qty: int = Field(alias="rqst_qty")
     ("신청수량")
-    rqst_amt: Decimal = Field(
-        alias="rqst_amt",
-    )
+    rqst_amt: Decimal = Field(alias="rqst_amt")
     ("신청금액")
-    rqst_dt: KisDate = Field(
-        alias="rqst_dt",
-    )
+    rqst_dt: KisDate = Field(alias="rqst_dt")
     ("신청일자")
-    rfnd_dt: KisDate = Field(
-        alias="rfnd_dt",
-    )
+    rfnd_dt: KisDate = Field(alias="rfnd_dt")
     ("환불일자")
-    rfnd_amt: Decimal = Field(
-        alias="rfnd_amt",
-    )
+    rfnd_amt: Decimal = Field(alias="rfnd_amt")
     ("환불금액")
-    lstg_stqt: str = Field(
-        alias="lstg_stqt",
-    )
+    lstg_stqt: str = Field(alias="lstg_stqt")
     ("상장주수")
-    tax_amt: Decimal = Field(
-        alias="tax_amt",
-    )
+    tax_amt: Decimal = Field(alias="tax_amt")
     ("세금금액")
-    sbsc_unpr: str = Field(
-        alias="sbsc_unpr",
-    )
+    sbsc_unpr: str = Field(alias="sbsc_unpr")
     ("청약단가")
 
 
 class PeriodRightsResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: list[PeriodRightsOutput1] = Field(
-        alias="output1",
-    )
+    output1: list[PeriodRightsOutput1] = Field(alias="output1")
     ("응답상세")
 
 
@@ -524,27 +365,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: PeriodRightsRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: PeriodRightsRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[PeriodRightsResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: PeriodRightsRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: PeriodRightsRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[PeriodRightsResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[PeriodRightsRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[PeriodRightsRequestDict]
         ) -> tuple[PeriodRightsResponse, KisResponse]: ...
         def call(
             self,

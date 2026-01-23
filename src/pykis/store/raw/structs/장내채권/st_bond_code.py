@@ -3,17 +3,10 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from pykis.store.parser.base import (
-    StoreDateOptional,
-    StoreModel,
-)
+from pykis.store.parser.base import StoreDateOptional, StoreModel
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
-from pykis.store.raw.structs._enums import (
-    BondClsCodeEnum,
-    BondIntClsCodeEnum,
-    TypeEnum,
-)
+from pykis.store.raw.structs._enums import BondClsCodeEnum, BondIntClsCodeEnum, TypeEnum
 
 
 class ST_BOND_CODE(StoreModel):
@@ -22,7 +15,7 @@ class ST_BOND_CODE(StoreModel):
             "length": 2,
             "enum": ["A0", "F9", "C0"],
             "enum_desc": {"A0": "장내소매채권", "F9": "(주식관련사채, 소액채권)", "C0": "국고채권"},
-        },
+        }
     )
     ("A0:장내소매채권, F9:(주식관련사채, 소액채권), C0:국고채권")
     bond_cls_code: BondClsCodeEnum = Field(
@@ -42,45 +35,20 @@ class ST_BOND_CODE(StoreModel):
                 "MB": "지방채",
                 "99": "기타",
             },
-        },
+        }
     )
     (
         "A0: GA:국고채 MA:통안채 BA:금융채 SA:비금융특수채 CA:회사채 "
         "F9: 03:장내소액채권 02:기타채권 04:장내주식관련사채 MM:매매종류별 "
         "C0: GA:국고채 MA:통안채 BA:금융채 SA:비금융특수채 MB:지방채 99:기타"
     )
-    stnd_iscd: str = Field(
-        json_schema_extra={"length": 12},
-    )
-    sname: str = Field(
-        json_schema_extra={"length": 40},
-    )
+    stnd_iscd: str = Field(json_schema_extra={"length": 12})
+    sname: str = Field(json_schema_extra={"length": 40})
     bond_int_cls_code: BondIntClsCodeEnum | None = Field(
         default=None,
         json_schema_extra={
             "length": 2,
-            "enum": [
-                "01",
-                "02",
-                "03",
-                "04",
-                "05",
-                "06",
-                "07",
-                "08",
-                "09",
-                "A0",
-                "11",
-                "12",
-                "13",
-                "14",
-                "15",
-                "19",
-                "21",
-                "22",
-                "23",
-                "29",
-            ],
+            "enum": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "A0", "11", "12", "13", "14", "15", "19", "21", "22", "23", "29"],
             "enum_desc": {
                 "01": "할인",
                 "02": "복리",
@@ -111,35 +79,17 @@ class ST_BOND_CODE(StoreModel):
         "A0 : 고정금리형 11:할인채 12:복리채 13:이표채 14:단리채 15:복5단2 19:기타 "
         "A0 : 변동금리형 21:이표채 22:복리채 23:단리채 29:기타"
     )
-    lstn_date: StoreDateOptional = Field(
-        default=None,
-        json_schema_extra={"length": 8},
-    )
+    lstn_date: StoreDateOptional = Field(default=None, json_schema_extra={"length": 8})
     ("상장일")
-    pblc_date: StoreDateOptional = Field(
-        default=None,
-        json_schema_extra={"length": 8},
-    )
+    pblc_date: StoreDateOptional = Field(default=None, json_schema_extra={"length": 8})
     ("발행 일자")
-    rdmp_date: StoreDateOptional = Field(
-        default=None,
-        json_schema_extra={"length": 8},
-    )
+    rdmp_date: StoreDateOptional = Field(default=None, json_schema_extra={"length": 8})
     ("상환 일자")
-    sale_date: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 8},
-    )
+    sale_date: str | None = Field(default=None, json_schema_extra={"length": 8})
     ("매출 일자")
-    srfc_intrt: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 8},
-    )
+    srfc_intrt: str | None = Field(default=None, json_schema_extra={"length": 8})
     ("표면 이자율(사용안함)")
-    rdmt_rate: str | None = Field(
-        default=None,
-        json_schema_extra={"length": 8},
-    )
+    rdmt_rate: str | None = Field(default=None, json_schema_extra={"length": 8})
     ("만기 상환 비율(사용안함)")
 
 
@@ -164,7 +114,4 @@ STRUCT_DEF = StructDef(
     ),
 )
 
-__all__ = [
-    "ST_BOND_CODE",
-    "STRUCT_DEF",
-]
+__all__ = ["ST_BOND_CODE", "STRUCT_DEF"]

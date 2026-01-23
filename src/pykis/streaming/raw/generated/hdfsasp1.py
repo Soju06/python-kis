@@ -92,10 +92,7 @@ DATETIME_RULES = {
     "KYMD": DateTimeRule(kind="date_only", format="YYYYMMDD", timezone="Asia/Seoul"),
     "KHMS": DateTimeRule(kind="time_only", format="HHMMSS", timezone="Asia/Seoul", date_field="KYMD"),
 }
-DECIMAL_RULES = {
-    "PBID1": DecimalRule(scale="zdiv", zdiv_field="ZDIV"),
-    "PASK1": DecimalRule(scale="zdiv", zdiv_field="ZDIV"),
-}
+DECIMAL_RULES = {"PBID1": DecimalRule(scale="zdiv", zdiv_field="ZDIV"), "PASK1": DecimalRule(scale="zdiv", zdiv_field="ZDIV")}
 SPEC = StreamingSpec(
     tr_id="HDFSASP1",
     endpoint_uuid="22cadc7e-10e1-4b97-a0e0-f1f41b0b67ac",
@@ -111,13 +108,4 @@ SPEC = StreamingSpec(
     requires_business_date=False,
 )
 
-__all__ = [
-    "HDFSASP1",
-    "SPEC",
-    "FIELD_ORDER",
-    "FIELD_ALIASES",
-    "FIELD_TYPES",
-    "FIELD_SOURCES",
-    "DATETIME_RULES",
-    "DECIMAL_RULES",
-]
+__all__ = ["HDFSASP1", "SPEC", "FIELD_ORDER", "FIELD_ALIASES", "FIELD_TYPES", "FIELD_SOURCES", "DATETIME_RULES", "DECIMAL_RULES"]

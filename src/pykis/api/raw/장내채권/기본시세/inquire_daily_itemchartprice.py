@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -36,13 +24,9 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
 
 
 class InquireDailyItemchartpriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("Unique key(B)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("종목코드")
 
 
@@ -59,59 +43,33 @@ class InquireDailyItemchartpriceRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목코드
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
-        "Unique key(B)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "종목코드",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "Unique key(B)"]
+    FID_INPUT_ISCD: Annotated[str, "종목코드"]
 
 
 class InquireDailyItemchartpriceOutput(RawModel):
-    stck_bsop_date: KisDate = Field(
-        alias="stck_bsop_date",
-    )
+    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
     ("주식영업일자")
-    bond_oprc: Decimal = Field(
-        alias="bond_oprc",
-    )
+    bond_oprc: Decimal = Field(alias="bond_oprc")
     ("채권시가2")
-    bond_hgpr: Decimal = Field(
-        alias="bond_hgpr",
-    )
+    bond_hgpr: Decimal = Field(alias="bond_hgpr")
     ("채권고가")
-    bond_lwpr: Decimal = Field(
-        alias="bond_lwpr",
-    )
+    bond_lwpr: Decimal = Field(alias="bond_lwpr")
     ("채권저가")
-    bond_prpr: Decimal = Field(
-        alias="bond_prpr",
-    )
+    bond_prpr: Decimal = Field(alias="bond_prpr")
     ("채권현재가")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적거래량")
 
 
 class InquireDailyItemchartpriceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[InquireDailyItemchartpriceOutput] = Field(
-        alias="output",
-    )
+    output: list[InquireDailyItemchartpriceOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -140,27 +98,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireDailyItemchartpriceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireDailyItemchartpriceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireDailyItemchartpriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireDailyItemchartpriceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireDailyItemchartpriceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireDailyItemchartpriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireDailyItemchartpriceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireDailyItemchartpriceRequestDict]
         ) -> tuple[InquireDailyItemchartpriceResponse, KisResponse]: ...
         def call(
             self,

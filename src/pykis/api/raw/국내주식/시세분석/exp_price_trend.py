@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    KisTime,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -35,17 +22,11 @@ class FidMkopClsCodeEnum(KisStrEnum):
 
 
 class ExpPriceTrendRequest(RawModel):
-    fid_mkop_cls_code: FidMkopClsCodeEnum = Field(
-        alias="fid_mkop_cls_code",
-    )
+    fid_mkop_cls_code: FidMkopClsCodeEnum = Field(alias="fid_mkop_cls_code")
     ("0:전체, 4:체결량 0 제외")
-    fid_cond_mrkt_div_code: str = Field(
-        alias="fid_cond_mrkt_div_code",
-    )
+    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
     ("시장구분코드 (주식 J)")
-    fid_input_iscd: str = Field(
-        alias="fid_input_iscd",
-    )
+    fid_input_iscd: str = Field(alias="fid_input_iscd")
     ("종목코드(ex. 005930)")
 
 
@@ -62,102 +43,55 @@ class ExpPriceTrendRequestDict(TypedDict):
         fid_input_iscd (str): 종목코드(ex. 005930)
     """
 
-    fid_mkop_cls_code: Annotated[
-        FidMkopClsCodeEnum,
-        "0:전체, 4:체결량 0 제외",
-    ]
-    fid_cond_mrkt_div_code: Annotated[
-        str,
-        "시장구분코드 (주식 J)",
-    ]
-    fid_input_iscd: Annotated[
-        str,
-        "종목코드(ex. 005930)",
-    ]
+    fid_mkop_cls_code: Annotated[FidMkopClsCodeEnum, "0:전체, 4:체결량 0 제외"]
+    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"]
+    fid_input_iscd: Annotated[str, "종목코드(ex. 005930)"]
 
 
 class ExpPriceTrendOutput1(RawModel):
-    rprs_mrkt_kor_name: str = Field(
-        alias="rprs_mrkt_kor_name",
-    )
+    rprs_mrkt_kor_name: str = Field(alias="rprs_mrkt_kor_name")
     ("대표 시장 한글 명")
-    antc_cnpr: int = Field(
-        alias="antc_cnpr",
-    )
+    antc_cnpr: int = Field(alias="antc_cnpr")
     ("예상 체결가")
-    antc_cntg_vrss_sign: int = Field(
-        alias="antc_cntg_vrss_sign",
-    )
+    antc_cntg_vrss_sign: int = Field(alias="antc_cntg_vrss_sign")
     ("예상 체결 대비 부호")
-    antc_cntg_vrss: int = Field(
-        alias="antc_cntg_vrss",
-    )
+    antc_cntg_vrss: int = Field(alias="antc_cntg_vrss")
     ("예상 체결 대비")
-    antc_cntg_prdy_ctrt: Decimal = Field(
-        alias="antc_cntg_prdy_ctrt",
-    )
+    antc_cntg_prdy_ctrt: Decimal = Field(alias="antc_cntg_prdy_ctrt")
     ("예상 체결 전일 대비율")
-    antc_vol: int = Field(
-        alias="antc_vol",
-    )
+    antc_vol: int = Field(alias="antc_vol")
     ("예상 거래량")
-    antc_tr_pbmn: Decimal = Field(
-        alias="antc_tr_pbmn",
-    )
+    antc_tr_pbmn: Decimal = Field(alias="antc_tr_pbmn")
     ("예상 거래대금")
 
 
 class ExpPriceTrendOutput2(RawModel):
-    stck_bsop_date: KisDate = Field(
-        alias="stck_bsop_date",
-    )
+    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
     ("주식 영업 일자")
-    stck_cntg_hour: KisTime = Field(
-        alias="stck_cntg_hour",
-    )
+    stck_cntg_hour: KisTime = Field(alias="stck_cntg_hour")
     ("주식 체결 시간")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식 현재가")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일 대비")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일 대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적 거래량")
 
 
 class ExpPriceTrendResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: ExpPriceTrendOutput1 = Field(
-        alias="output1",
-    )
+    output1: ExpPriceTrendOutput1 = Field(alias="output1")
     ("응답상세")
-    output2: list[ExpPriceTrendOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[ExpPriceTrendOutput2] = Field(alias="output2")
     ("응답상세")
 
 
@@ -185,27 +119,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: ExpPriceTrendRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: ExpPriceTrendRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[ExpPriceTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: ExpPriceTrendRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: ExpPriceTrendRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[ExpPriceTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[ExpPriceTrendRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[ExpPriceTrendRequestDict]
         ) -> tuple[ExpPriceTrendResponse, KisResponse]: ...
         def call(
             self,

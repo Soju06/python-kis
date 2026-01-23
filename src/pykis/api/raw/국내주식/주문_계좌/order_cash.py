@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisTime,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -67,26 +54,15 @@ class OrdDvsnEnum(KisStrEnum):
 
 
 class OrderCashRequest(RawModel):
-    CANO: str = Field(
-        alias="CANO",
-    )
+    CANO: str = Field(alias="CANO")
     ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
     ("상품유형코드")
-    PDNO: str = Field(
-        alias="PDNO",
-    )
+    PDNO: str = Field(alias="PDNO")
     ("종목코드(6자리) , ETN의 경우 7자리 입력")
-    SLL_TYPE: str | None = Field(
-        default=None,
-        alias="SLL_TYPE",
-    )
+    SLL_TYPE: str | None = Field(default=None, alias="SLL_TYPE")
     ("01@일반매도 02@임의매매 05@대차매도 → 미입력시 01 일반매도로 진행")
-    ORD_DVSN: OrdDvsnEnum = Field(
-        alias="ORD_DVSN",
-    )
+    ORD_DVSN: OrdDvsnEnum = Field(alias="ORD_DVSN")
     (
         "[KRX] 00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04 : 최우선지정가 05 : 장전 "
         "시간외 06 : 장후 시간외 07 : 시간외 단일가 11 : IOC지정가 (즉시체결,잔량취소) 12 : FOK지정가 "
@@ -100,27 +76,14 @@ class OrderCashRequest(RawModel):
         "FOK지정가 (즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : FOK시장가 "
         "(즉시체결,전량취소) 15 : IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 (즉시체결,전량취소)"
     )
-    ORD_QTY: int = Field(
-        alias="ORD_QTY",
-    )
+    ORD_QTY: int = Field(alias="ORD_QTY")
     ("주문수량")
-    ORD_UNPR: str = Field(
-        alias="ORD_UNPR",
-    )
+    ORD_UNPR: str = Field(alias="ORD_UNPR")
     ('주문단가 시장가 등 주문시, "0"으로 입력')
-    CNDT_PRIC: Decimal | None = Field(
-        default=None,
-        alias="CNDT_PRIC",
-    )
+    CNDT_PRIC: Decimal | None = Field(default=None, alias="CNDT_PRIC")
     ("스탑지정가호가 주문 (ORD_DVSN이 22) 사용 시에만 필수")
-    EXCG_ID_DVSN_CD: str | None = Field(
-        default=None,
-        alias="EXCG_ID_DVSN_CD",
-    )
-    (
-        "한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order Routing) : SOR → 미입력시 "
-        "KRX로 진행되며, 모의투자는 KRX만 가능"
-    )
+    EXCG_ID_DVSN_CD: str | None = Field(default=None, alias="EXCG_ID_DVSN_CD")
+    ("한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능")
 
 
 class OrderCashRequestDict(TypedDict):
@@ -167,24 +130,10 @@ class OrderCashRequestDict(TypedDict):
         Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능 optional
     """
 
-    CANO: Annotated[
-        str,
-        "종합계좌번호",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        str,
-        "상품유형코드",
-    ]
-    PDNO: Annotated[
-        str,
-        "종목코드(6자리) , ETN의 경우 7자리 입력",
-    ]
-    SLL_TYPE: NotRequired[
-        Annotated[
-            str | None,
-            "01@일반매도 02@임의매매 05@대차매도 → 미입력시 01 일반매도로 진행",
-        ]
-    ]
+    CANO: Annotated[str, "종합계좌번호"]
+    ACNT_PRDT_CD: Annotated[str, "상품유형코드"]
+    PDNO: Annotated[str, "종목코드(6자리) , ETN의 경우 7자리 입력"]
+    SLL_TYPE: NotRequired[Annotated[str | None, "01@일반매도 02@임의매매 05@대차매도 → 미입력시 01 일반매도로 진행"]]
     ORD_DVSN: Annotated[
         OrdDvsnEnum,
         "[KRX] 00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04 : 최우선지정가 05 : 장전 "
@@ -199,60 +148,34 @@ class OrderCashRequestDict(TypedDict):
         "FOK지정가 (즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : FOK시장가 "
         "(즉시체결,전량취소) 15 : IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 (즉시체결,전량취소)",
     ]
-    ORD_QTY: Annotated[
-        int,
-        "주문수량",
-    ]
-    ORD_UNPR: Annotated[
-        str,
-        '주문단가 시장가 등 주문시, "0"으로 입력',
-    ]
-    CNDT_PRIC: NotRequired[
-        Annotated[
-            Decimal | None,
-            "스탑지정가호가 주문 (ORD_DVSN이 22) 사용 시에만 필수",
-        ]
-    ]
+    ORD_QTY: Annotated[int, "주문수량"]
+    ORD_UNPR: Annotated[str, '주문단가 시장가 등 주문시, "0"으로 입력']
+    CNDT_PRIC: NotRequired[Annotated[Decimal | None, "스탑지정가호가 주문 (ORD_DVSN이 22) 사용 시에만 필수"]]
     EXCG_ID_DVSN_CD: NotRequired[
         Annotated[
             str | None,
-            "한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order Routing) : SOR → 미입력시 "
-            "KRX로 진행되며, 모의투자는 KRX만 가능",
+            "한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능",
         ]
     ]
 
 
 class OrderCashOutput(RawModel):
-    KRX_FWDG_ORD_ORGNO: str = Field(
-        alias="KRX_FWDG_ORD_ORGNO",
-    )
+    KRX_FWDG_ORD_ORGNO: str = Field(alias="KRX_FWDG_ORD_ORGNO")
     ("거래소코드")
-    ODNO: str = Field(
-        alias="ODNO",
-    )
+    ODNO: str = Field(alias="ODNO")
     ("주문번호")
-    ORD_TMD: KisTime = Field(
-        alias="ORD_TMD",
-    )
+    ORD_TMD: KisTime = Field(alias="ORD_TMD")
     ("주문시간")
 
 
 class OrderCashResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: OrderCashOutput = Field(
-        alias="output",
-    )
+    output: OrderCashOutput = Field(alias="output")
     ("응답상세")
 
 
@@ -293,27 +216,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OrderCashRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OrderCashRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OrderCashResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OrderCashRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OrderCashRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OrderCashResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[OrderCashRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[OrderCashRequestDict]
         ) -> tuple[OrderCashResponse, KisResponse]: ...
         def call(
             self,
@@ -385,11 +296,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "OrderCashRequest",
-    "OrderCashRequestDict",
-    "OrderCashResponse",
-    "OrderCashOutput",
-    "OrdDvsnEnum",
-]
+__all__ = ["ENDPOINT", "OrderCashRequest", "OrderCashRequestDict", "OrderCashResponse", "OrderCashOutput", "OrdDvsnEnum"]

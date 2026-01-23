@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -72,57 +61,31 @@ class FidBlngClsCodeEnum(KisStrEnum):
 
 
 class SensitivityRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("시장구분코드 (W)")
-    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: FidCondScrDivCodeEnum = Field(alias="FID_COND_SCR_DIV_CODE")
     ("Unique key(20285)")
-    FID_UNAS_INPUT_ISCD: str = Field(
-        alias="FID_UNAS_INPUT_ISCD",
-    )
+    FID_UNAS_INPUT_ISCD: str = Field(alias="FID_UNAS_INPUT_ISCD")
     ("'000000(전체), 2001(코스피200) , 3003(코스닥150), 005930(삼성전자) '")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("'00000(전체), 00003(한국투자증권) , 00017(KB증권), 00005(미래에셋주식회사)'")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
-        alias="FID_DIV_CLS_CODE",
-    )
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
     ("0(전체), 1(콜), 2(풋)")
-    FID_INPUT_PRICE_1: str = Field(
-        alias="FID_INPUT_PRICE_1",
-    )
+    FID_INPUT_PRICE_1: str = Field(alias="FID_INPUT_PRICE_1")
     ("가격(이상)")
-    FID_INPUT_PRICE_2: str = Field(
-        alias="FID_INPUT_PRICE_2",
-    )
+    FID_INPUT_PRICE_2: str = Field(alias="FID_INPUT_PRICE_2")
     ("가격(이하)")
-    FID_INPUT_VOL_1: str = Field(
-        alias="FID_INPUT_VOL_1",
-    )
+    FID_INPUT_VOL_1: str = Field(alias="FID_INPUT_VOL_1")
     ("거래량(이상)")
-    FID_INPUT_VOL_2: str = Field(
-        alias="FID_INPUT_VOL_2",
-    )
+    FID_INPUT_VOL_2: str = Field(alias="FID_INPUT_VOL_2")
     ("거래량(이하)")
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
-        alias="FID_RANK_SORT_CLS_CODE",
-    )
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
     ("'0(이론가), 1(델타), 2(감마), 3(로), 4(베가) , 5(로) , 6(내재변동성), 7(90일변동성)'")
-    FID_INPUT_RMNN_DYNU_1: str = Field(
-        alias="FID_INPUT_RMNN_DYNU_1",
-    )
+    FID_INPUT_RMNN_DYNU_1: str = Field(alias="FID_INPUT_RMNN_DYNU_1")
     ("잔존일수(이상)")
-    FID_INPUT_DATE_1: str = Field(
-        alias="FID_INPUT_DATE_1",
-    )
+    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
     ("조회기준일")
-    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum = Field(
-        alias="FID_BLNG_CLS_CODE",
-    )
+    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum = Field(alias="FID_BLNG_CLS_CODE")
     ("0(전체), 1(일반), 2(조기종료)")
 
 
@@ -151,154 +114,62 @@ class SensitivityRequestDict(TypedDict):
         FID_BLNG_CLS_CODE (FidBlngClsCodeEnum): 0(전체), 1(일반), 2(조기종료)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "시장구분코드 (W)",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        FidCondScrDivCodeEnum,
-        "Unique key(20285)",
-    ]
-    FID_UNAS_INPUT_ISCD: Annotated[
-        str,
-        "'000000(전체), 2001(코스피200) , 3003(코스닥150), 005930(삼성전자) '",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "'00000(전체), 00003(한국투자증권) , 00017(KB증권), 00005(미래에셋주식회사)'",
-    ]
-    FID_DIV_CLS_CODE: Annotated[
-        FidDivClsCodeEnum,
-        "0(전체), 1(콜), 2(풋)",
-    ]
-    FID_INPUT_PRICE_1: Annotated[
-        str,
-        "가격(이상)",
-    ]
-    FID_INPUT_PRICE_2: Annotated[
-        str,
-        "가격(이하)",
-    ]
-    FID_INPUT_VOL_1: Annotated[
-        str,
-        "거래량(이상)",
-    ]
-    FID_INPUT_VOL_2: Annotated[
-        str,
-        "거래량(이하)",
-    ]
-    FID_RANK_SORT_CLS_CODE: Annotated[
-        FidRankSortClsCodeEnum,
-        "'0(이론가), 1(델타), 2(감마), 3(로), 4(베가) , 5(로) , 6(내재변동성), 7(90일변동성)'",
-    ]
-    FID_INPUT_RMNN_DYNU_1: Annotated[
-        str,
-        "잔존일수(이상)",
-    ]
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "조회기준일",
-    ]
-    FID_BLNG_CLS_CODE: Annotated[
-        FidBlngClsCodeEnum,
-        "0(전체), 1(일반), 2(조기종료)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"]
+    FID_COND_SCR_DIV_CODE: Annotated[FidCondScrDivCodeEnum, "Unique key(20285)"]
+    FID_UNAS_INPUT_ISCD: Annotated[str, "'000000(전체), 2001(코스피200) , 3003(코스닥150), 005930(삼성전자) '"]
+    FID_INPUT_ISCD: Annotated[str, "'00000(전체), 00003(한국투자증권) , 00017(KB증권), 00005(미래에셋주식회사)'"]
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0(전체), 1(콜), 2(풋)"]
+    FID_INPUT_PRICE_1: Annotated[str, "가격(이상)"]
+    FID_INPUT_PRICE_2: Annotated[str, "가격(이하)"]
+    FID_INPUT_VOL_1: Annotated[str, "거래량(이상)"]
+    FID_INPUT_VOL_2: Annotated[str, "거래량(이하)"]
+    FID_RANK_SORT_CLS_CODE: Annotated[FidRankSortClsCodeEnum, "'0(이론가), 1(델타), 2(감마), 3(로), 4(베가) , 5(로) , 6(내재변동성), 7(90일변동성)'"]
+    FID_INPUT_RMNN_DYNU_1: Annotated[str, "잔존일수(이상)"]
+    FID_INPUT_DATE_1: Annotated[str, "조회기준일"]
+    FID_BLNG_CLS_CODE: Annotated[FidBlngClsCodeEnum, "0(전체), 1(일반), 2(조기종료)"]
 
 
 class SensitivityOutput(RawModel):
-    elw_shrn_iscd: str | None = Field(
-        default=None,
-        alias="elw_shrn_iscd",
-    )
+    elw_shrn_iscd: str | None = Field(default=None, alias="elw_shrn_iscd")
     ("ELW단축종목코드")
-    elw_kor_isnm: str | None = Field(
-        default=None,
-        alias="elw_kor_isnm",
-    )
+    elw_kor_isnm: str | None = Field(default=None, alias="elw_kor_isnm")
     ("ELW한글종목명")
-    elw_prpr: Decimal | None = Field(
-        default=None,
-        alias="elw_prpr",
-    )
+    elw_prpr: Decimal | None = Field(default=None, alias="elw_prpr")
     ("ELW현재가")
-    prdy_vrss: str | None = Field(
-        default=None,
-        alias="prdy_vrss",
-    )
+    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
     ("전일대비")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
     ("전일대비부호")
-    prdy_ctrt: Decimal | None = Field(
-        default=None,
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
     ("전일대비율")
-    acml_vol: int | None = Field(
-        default=None,
-        alias="acml_vol",
-    )
+    acml_vol: int | None = Field(default=None, alias="acml_vol")
     ("누적거래량")
-    hts_thpr: str | None = Field(
-        default=None,
-        alias="hts_thpr",
-    )
+    hts_thpr: str | None = Field(default=None, alias="hts_thpr")
     ("HTS이론가")
-    delta_val: str | None = Field(
-        default=None,
-        alias="delta_val",
-    )
+    delta_val: str | None = Field(default=None, alias="delta_val")
     ("델타값")
-    gama: str | None = Field(
-        default=None,
-        alias="gama",
-    )
+    gama: str | None = Field(default=None, alias="gama")
     ("감마")
-    theta: str | None = Field(
-        default=None,
-        alias="theta",
-    )
+    theta: str | None = Field(default=None, alias="theta")
     ("세타")
-    vega: str | None = Field(
-        default=None,
-        alias="vega",
-    )
+    vega: str | None = Field(default=None, alias="vega")
     ("베가")
-    rho: str | None = Field(
-        default=None,
-        alias="rho",
-    )
+    rho: str | None = Field(default=None, alias="rho")
     ("로우")
-    hts_ints_vltl: str | None = Field(
-        default=None,
-        alias="hts_ints_vltl",
-    )
+    hts_ints_vltl: str | None = Field(default=None, alias="hts_ints_vltl")
     ("HTS내재변동성")
-    d90_hist_vltl: str | None = Field(
-        default=None,
-        alias="d90_hist_vltl",
-    )
+    d90_hist_vltl: str | None = Field(default=None, alias="d90_hist_vltl")
     ("90일역사적변동성")
 
 
 class SensitivityResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[SensitivityOutput] = Field(
-        alias="output",
-    )
+    output: list[SensitivityOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -325,27 +196,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: SensitivityRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: SensitivityRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[SensitivityResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: SensitivityRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: SensitivityRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[SensitivityResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[SensitivityRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[SensitivityRequestDict]
         ) -> tuple[SensitivityResponse, KisResponse]: ...
         def call(
             self,

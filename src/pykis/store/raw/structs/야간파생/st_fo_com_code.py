@@ -3,61 +3,37 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from pykis.store.parser.base import (
-    StoreDecimal,
-    StoreModel,
-)
+from pykis.store.parser.base import StoreDecimal, StoreModel
 from pykis.store.parser.definitions import StructDef
 from pykis.store.parser.spec import FieldSpec, RecordSpec
-from pykis.store.raw.structs._enums import (
-    AtmClsCodeEnum,
-    ComTypeEnum,
-    InfoTypeEnum,
-    MmscClsCodeEnum,
-    ProdNoEnum,
-)
+from pykis.store.raw.structs._enums import AtmClsCodeEnum, ComTypeEnum, InfoTypeEnum, MmscClsCodeEnum, ProdNoEnum
 
 
 class ST_FO_COM_CODE(StoreModel):
-    com_type: ComTypeEnum = Field(
-        json_schema_extra={"length": 1, "enum": ["1", "2", "3"], "enum_desc": {"1": "금리", "2": "통화", "3": "상품"}},
-    )
+    com_type: ComTypeEnum = Field(json_schema_extra={"length": 1, "enum": ["1", "2", "3"], "enum_desc": {"1": "금리", "2": "통화", "3": "상품"}})
     ("상품구분 1:금리 2:통화 3:상품")
     info_type: InfoTypeEnum = Field(
-        json_schema_extra={
-            "length": 1,
-            "enum": ["1", "2", "5", "6"],
-            "enum_desc": {"1": "선물", "2": "SP선물", "5": "콜옵션", "6": "풋옵션"},
-        },
+        json_schema_extra={"length": 1, "enum": ["1", "2", "5", "6"], "enum_desc": {"1": "선물", "2": "SP선물", "5": "콜옵션", "6": "풋옵션"}}
     )
     ("1:선물 2:SP선물 5:콜옵션 6:풋옵션")
-    shrn_iscd: str = Field(
-        json_schema_extra={"length": 9},
-    )
+    shrn_iscd: str = Field(json_schema_extra={"length": 9})
     ("단축코드 (SZ_SHRNCODE=9)")
-    stnd_iscd: str = Field(
-        json_schema_extra={"length": 12},
-    )
+    stnd_iscd: str = Field(json_schema_extra={"length": 12})
     ("표준코드 (SZ_STNDCODE=12)")
-    kor_name: str = Field(
-        json_schema_extra={"length": 40},
-    )
+    kor_name: str = Field(json_schema_extra={"length": 40})
     ("한글종목명 (SZ_KORNAME=40)")
     atm_cls_code: AtmClsCodeEnum | None = Field(
-        default=None,
-        json_schema_extra={"length": 1, "enum": ["1", "2", "3"], "enum_desc": {"1": "ATM", "2": "ITM", "3": "OTM"}},
+        default=None, json_schema_extra={"length": 1, "enum": ["1", "2", "3"], "enum_desc": {"1": "ATM", "2": "ITM", "3": "OTM"}}
     )
     ("ATM구분(1:ATM,2:ITM,3:OTM)")
-    acpr: StoreDecimal = Field(
-        json_schema_extra={"length": 8},
-    )
+    acpr: StoreDecimal = Field(json_schema_extra={"length": 8})
     ("행사가")
     mmsc_cls_code: MmscClsCodeEnum = Field(
         json_schema_extra={
             "length": 1,
             "enum": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
             "enum_desc": {"0": "연결선물", "1": "최근월물", "2": "차근월물", "3": "차차근월물", "4": "차차차근월물"},
-        },
+        }
     )
     ("월물구분코드 (0:연결선물, 1:최근월물 2:차근월물 3:차차근월물 4:차차차근월물 SP 는 무조건 1")
     prod_no: ProdNoEnum = Field(
@@ -99,7 +75,7 @@ class ST_FO_COM_CODE(StoreModel):
                 "CMU": "CME미국달러",
                 "RFR": "3개월무위험금리",
             },
-        },
+        }
     )
     (
         "기초자산 단축코드 "
@@ -110,9 +86,7 @@ class ST_FO_COM_CODE(StoreModel):
         "LHG : 돈육 CMU : CME미국달러 "
         "RFR : 3개월무위험금리"
     )
-    prod_name: str = Field(
-        json_schema_extra={"length": 40},
-    )
+    prod_name: str = Field(json_schema_extra={"length": 40})
     ("기초자산 명 (SZ_KORNAME=40)")
 
 
@@ -136,7 +110,4 @@ STRUCT_DEF = StructDef(
     ),
 )
 
-__all__ = [
-    "ST_FO_COM_CODE",
-    "STRUCT_DEF",
-]
+__all__ = ["ST_FO_COM_CODE", "STRUCT_DEF"]

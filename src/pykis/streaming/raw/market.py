@@ -38,11 +38,7 @@ def extract_market_code(value: str | None) -> str | None:
     return match.group(1)
 
 
-def resolve_timezone_from_symbol(
-    value: str | None,
-    fallback: str | None,
-    mapping: dict[str, str] | None = None,
-) -> str | None:
+def resolve_timezone_from_symbol(value: str | None, fallback: str | None, mapping: dict[str, str] | None = None) -> str | None:
     code = extract_market_code(value)
     if code is None:
         return fallback
@@ -50,11 +46,7 @@ def resolve_timezone_from_symbol(
     return table.get(code, fallback)
 
 
-def resolve_timezone_from_fields(
-    fields: dict[str, str],
-    fallback: str | None,
-    mapping: dict[str, str] | None = None,
-) -> str | None:
+def resolve_timezone_from_fields(fields: dict[str, str], fallback: str | None, mapping: dict[str, str] | None = None) -> str | None:
     for key in ("RSYM", "TR_KEY"):
         if key in fields:
             tz = resolve_timezone_from_symbol(fields.get(key), fallback, mapping)

@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -75,57 +62,27 @@ class WcrcFrcrDvsnCdEnum(KisStrEnum):
 
 
 class InquirePeriodProfitRequest(RawModel):
-    CANO: CanoEnum = Field(
-        alias="CANO",
-    )
+    CANO: CanoEnum = Field(alias="CANO")
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_EXCG_CD: OvrsExcgCdEnum | None = Field(
-        default=None,
-        alias="OVRS_EXCG_CD",
-        json_schema_extra={"blank_allowed": True},
-    )
+    OVRS_EXCG_CD: OvrsExcgCdEnum | None = Field(default=None, alias="OVRS_EXCG_CD", json_schema_extra={"blank_allowed": True})
     ("공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE : 일본, HASE : 베트남")
-    NATN_CD: str | None = Field(
-        default=None,
-        alias="NATN_CD",
-        json_schema_extra={"blank_allowed": True},
-    )
+    NATN_CD: str | None = Field(default=None, alias="NATN_CD", json_schema_extra={"blank_allowed": True})
     ("공란(Default)")
-    CRCY_CD: CrcyCdEnum | None = Field(
-        default=None,
-        alias="CRCY_CD",
-        json_schema_extra={"blank_allowed": True},
-    )
+    CRCY_CD: CrcyCdEnum | None = Field(default=None, alias="CRCY_CD", json_schema_extra={"blank_allowed": True})
     ("공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY : 일본엔화, VND : 베트남동")
-    PDNO: str | None = Field(
-        default=None,
-        alias="PDNO",
-        json_schema_extra={"blank_allowed": True},
-    )
+    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
     ("공란 : 전체")
-    INQR_STRT_DT: str = Field(
-        alias="INQR_STRT_DT",
-    )
+    INQR_STRT_DT: str = Field(alias="INQR_STRT_DT")
     ("YYYYMMDD")
-    INQR_END_DT: str = Field(
-        alias="INQR_END_DT",
-    )
+    INQR_END_DT: str = Field(alias="INQR_END_DT")
     ("YYYYMMDD")
-    WCRC_FRCR_DVSN_CD: WcrcFrcrDvsnCdEnum = Field(
-        alias="WCRC_FRCR_DVSN_CD",
-    )
+    WCRC_FRCR_DVSN_CD: WcrcFrcrDvsnCdEnum = Field(alias="WCRC_FRCR_DVSN_CD")
     ("01 : 외화, 02 : 원화")
-    CTX_AREA_FK200: str = Field(
-        alias="CTX_AREA_FK200",
-    )
+    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
     ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(
-        alias="CTX_AREA_NK200",
-    )
+    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
     ("연속조회키200")
 
 
@@ -165,179 +122,79 @@ class InquirePeriodProfitRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    CANO: Annotated[
-        CanoEnum,
-        "계좌번호 체계(8-2)의 앞 8자리",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        AcntPrdtCdEnum,
-        "계좌번호 체계(8-2)의 뒤 2자리",
-    ]
-    OVRS_EXCG_CD: NotRequired[
-        Annotated[
-            OvrsExcgCdEnum | None,
-            "공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE : 일본, HASE : 베트남",
-        ]
-    ]
-    NATN_CD: NotRequired[
-        Annotated[
-            str | None,
-            "공란(Default)",
-        ]
-    ]
-    CRCY_CD: NotRequired[
-        Annotated[
-            CrcyCdEnum | None,
-            "공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY : 일본엔화, VND : 베트남동",
-        ]
-    ]
-    PDNO: NotRequired[
-        Annotated[
-            str | None,
-            "공란 : 전체",
-        ]
-    ]
-    INQR_STRT_DT: Annotated[
-        str,
-        "YYYYMMDD",
-    ]
-    INQR_END_DT: Annotated[
-        str,
-        "YYYYMMDD",
-    ]
-    WCRC_FRCR_DVSN_CD: Annotated[
-        WcrcFrcrDvsnCdEnum,
-        "01 : 외화, 02 : 원화",
-    ]
-    CTX_AREA_FK200: Annotated[
-        str,
-        "연속조회검색조건200",
-    ]
-    CTX_AREA_NK200: Annotated[
-        str,
-        "연속조회키200",
-    ]
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
+    OVRS_EXCG_CD: NotRequired[Annotated[OvrsExcgCdEnum | None, "공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE : 일본, HASE : 베트남"]]
+    NATN_CD: NotRequired[Annotated[str | None, "공란(Default)"]]
+    CRCY_CD: NotRequired[Annotated[CrcyCdEnum | None, "공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY : 일본엔화, VND : 베트남동"]]
+    PDNO: NotRequired[Annotated[str | None, "공란 : 전체"]]
+    INQR_STRT_DT: Annotated[str, "YYYYMMDD"]
+    INQR_END_DT: Annotated[str, "YYYYMMDD"]
+    WCRC_FRCR_DVSN_CD: Annotated[WcrcFrcrDvsnCdEnum, "01 : 외화, 02 : 원화"]
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
 
 
 class InquirePeriodProfitOutput1(RawModel):
-    trad_day: str = Field(
-        alias="trad_day",
-    )
+    trad_day: str = Field(alias="trad_day")
     ("매매일")
-    ovrs_pdno: str = Field(
-        alias="ovrs_pdno",
-    )
+    ovrs_pdno: str = Field(alias="ovrs_pdno")
     ("해외상품번호")
-    ovrs_item_name: str = Field(
-        alias="ovrs_item_name",
-    )
+    ovrs_item_name: str = Field(alias="ovrs_item_name")
     ("해외종목명")
-    slcl_qty: int = Field(
-        alias="slcl_qty",
-    )
+    slcl_qty: int = Field(alias="slcl_qty")
     ("매도청산수량")
-    pchs_avg_pric: Decimal = Field(
-        alias="pchs_avg_pric",
-    )
+    pchs_avg_pric: Decimal = Field(alias="pchs_avg_pric")
     ("매입평균가격")
-    frcr_pchs_amt1: Decimal = Field(
-        alias="frcr_pchs_amt1",
-    )
+    frcr_pchs_amt1: Decimal = Field(alias="frcr_pchs_amt1")
     ("외화매입금액1")
-    avg_sll_unpr: str = Field(
-        alias="avg_sll_unpr",
-    )
+    avg_sll_unpr: str = Field(alias="avg_sll_unpr")
     ("평균매도단가")
-    frcr_sll_amt_smtl1: Decimal = Field(
-        alias="frcr_sll_amt_smtl1",
-    )
+    frcr_sll_amt_smtl1: Decimal = Field(alias="frcr_sll_amt_smtl1")
     ("외화매도금액합계1")
-    stck_sll_tlex: str = Field(
-        alias="stck_sll_tlex",
-    )
+    stck_sll_tlex: str = Field(alias="stck_sll_tlex")
     ("주식매도제비용")
-    ovrs_rlzt_pfls_amt: Decimal = Field(
-        alias="ovrs_rlzt_pfls_amt",
-    )
+    ovrs_rlzt_pfls_amt: Decimal = Field(alias="ovrs_rlzt_pfls_amt")
     ("해외실현손익금액")
-    pftrt: str = Field(
-        alias="pftrt",
-    )
+    pftrt: str = Field(alias="pftrt")
     ("수익률")
-    exrt: Decimal = Field(
-        alias="exrt",
-    )
+    exrt: Decimal = Field(alias="exrt")
     ("환율")
-    ovrs_excg_cd: str = Field(
-        alias="ovrs_excg_cd",
-    )
+    ovrs_excg_cd: str = Field(alias="ovrs_excg_cd")
     ("해외거래소코드")
-    frst_bltn_exrt: Decimal = Field(
-        alias="frst_bltn_exrt",
-    )
+    frst_bltn_exrt: Decimal = Field(alias="frst_bltn_exrt")
     ("최초고시환율")
 
 
 class InquirePeriodProfitOutput2(RawModel):
-    stck_sll_amt_smtl: str = Field(
-        alias="stck_sll_amt_smtl",
-        json_schema_extra={"blank_allowed": True},
-    )
+    stck_sll_amt_smtl: str = Field(alias="stck_sll_amt_smtl", json_schema_extra={"blank_allowed": True})
     ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
-    stck_buy_amt_smtl: str = Field(
-        alias="stck_buy_amt_smtl",
-        json_schema_extra={"blank_allowed": True},
-    )
+    stck_buy_amt_smtl: str = Field(alias="stck_buy_amt_smtl", json_schema_extra={"blank_allowed": True})
     ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
-    smtl_fee1: str = Field(
-        alias="smtl_fee1",
-        json_schema_extra={"blank_allowed": True},
-    )
+    smtl_fee1: str = Field(alias="smtl_fee1", json_schema_extra={"blank_allowed": True})
     ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
-    excc_dfrm_amt: str = Field(
-        alias="excc_dfrm_amt",
-        json_schema_extra={"blank_allowed": True},
-    )
+    excc_dfrm_amt: str = Field(alias="excc_dfrm_amt", json_schema_extra={"blank_allowed": True})
     ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
-    ovrs_rlzt_pfls_tot_amt: str = Field(
-        alias="ovrs_rlzt_pfls_tot_amt",
-        json_schema_extra={"blank_allowed": True},
-    )
+    ovrs_rlzt_pfls_tot_amt: str = Field(alias="ovrs_rlzt_pfls_tot_amt", json_schema_extra={"blank_allowed": True})
     ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
-    tot_pftrt: str = Field(
-        alias="tot_pftrt",
-    )
+    tot_pftrt: str = Field(alias="tot_pftrt")
     ("총수익률")
-    bass_dt: KisDate = Field(
-        alias="bass_dt",
-    )
+    bass_dt: KisDate = Field(alias="bass_dt")
     ("기준일자")
-    exrt: Decimal = Field(
-        alias="exrt",
-    )
+    exrt: Decimal = Field(alias="exrt")
     ("환율")
 
 
 class InquirePeriodProfitResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: list[InquirePeriodProfitOutput1] = Field(
-        alias="output1",
-    )
+    output1: list[InquirePeriodProfitOutput1] = Field(alias="output1")
     ("응답상세")
-    output2: list[InquirePeriodProfitOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[InquirePeriodProfitOutput2] = Field(alias="output2")
     ("응답상세2")
 
 
@@ -378,27 +235,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePeriodProfitRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePeriodProfitRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePeriodProfitResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePeriodProfitRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePeriodProfitRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePeriodProfitResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquirePeriodProfitRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePeriodProfitRequestDict]
         ) -> tuple[InquirePeriodProfitResponse, KisResponse]: ...
         def call(
             self,
