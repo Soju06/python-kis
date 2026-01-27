@@ -27,6 +27,8 @@ class FieldSpec:
     desc: str | None = None
     datetime_rule: DateTimeRule | None = None
     decimal_rule: DecimalRule | None = None
+    enum: tuple[str, ...] | None = None
+    enum_desc: dict[str, str] | None = None
 
 
 @dataclass(frozen=True, slots=True)

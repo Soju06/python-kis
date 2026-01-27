@@ -357,8 +357,19 @@ def _build_model_fields(
         used_names.add(name)
         hint = hints.get(field.code) if hints else None
         base_type, _, field_args = _field_type(field, hint)
+        extra: dict[str, object] = {}
+        enum_values, enum_desc = _enum_hint(hint)
+        if enum_values:
+            extra["enum"] = enum_values
+            if enum_desc:
+                extra["enum_desc"] = enum_desc
         if is_blank_description(field.description):
-            field_args.append('json_schema_extra={"blank_allowed": True}')
+            extra["blank_allowed"] = True
+        if extra:
+            if extra.keys() == {"blank_allowed"}:
+                field_args.append('json_schema_extra={"blank_allowed": True}')
+            else:
+                field_args.append(f"json_schema_extra={extra!r}")
         required = field.required
         if hint and hint.required is not None:
             required = hint.required
