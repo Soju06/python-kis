@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDateOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -26,9 +14,7 @@ if TYPE_CHECKING:
 
 
 class EstimatePerformRequest(RawModel):
-    SHT_CD: str = Field(
-        alias="SHT_CD",
-    )
+    SHT_CD: str = Field(alias="SHT_CD")
     ("ex) 265520")
 
 
@@ -47,143 +33,70 @@ class EstimatePerformRequestDict(TypedDict):
         SHT_CD (str): ex) 265520
     """
 
-    SHT_CD: Annotated[
-        str,
-        "ex) 265520",
-    ]
+    SHT_CD: Annotated[str, "ex) 265520"]
 
 
 class EstimatePerformOutput1(RawModel):
-    sht_cd: str | None = Field(
-        default=None,
-        alias="sht_cd",
-    )
+    sht_cd: str | None = Field(default=None, alias="sht_cd")
     ("ELW단축종목코드")
-    item_kor_nm: str | None = Field(
-        default=None,
-        alias="item_kor_nm",
-    )
+    item_kor_nm: str | None = Field(default=None, alias="item_kor_nm")
     ("HTS한글종목명")
-    name1: str | None = Field(
-        default=None,
-        alias="name1",
-    )
+    name1: str | None = Field(default=None, alias="name1")
     ("ELW현재가")
-    name2: str | None = Field(
-        default=None,
-        alias="name2",
-    )
+    name2: str | None = Field(default=None, alias="name2")
     ("전일대비")
-    estdate: KisDateOptional = Field(
-        default=None,
-        alias="estdate",
-    )
+    estdate: KisDateOptional = Field(default=None, alias="estdate")
     ("전일대비부호")
-    rcmd_name: str | None = Field(
-        default=None,
-        alias="rcmd_name",
-    )
+    rcmd_name: str | None = Field(default=None, alias="rcmd_name")
     ("전일대비율")
-    capital: Decimal = Field(
-        alias="capital",
-    )
+    capital: Decimal = Field(alias="capital")
     ("누적거래량")
-    forn_item_lmtrt: Decimal = Field(
-        alias="forn_item_lmtrt",
-    )
+    forn_item_lmtrt: Decimal = Field(alias="forn_item_lmtrt")
     ("행사가")
 
 
 class EstimatePerformOutput2(RawModel):
-    data1: str | None = Field(
-        default=None,
-        alias="data1",
-    )
+    data1: str | None = Field(default=None, alias="data1")
     ("결산연월(outblock4) 참조")
-    data2: str | None = Field(
-        default=None,
-        alias="data2",
-    )
+    data2: str | None = Field(default=None, alias="data2")
     ("결산연월(outblock4) 참조")
-    data3: str | None = Field(
-        default=None,
-        alias="data3",
-    )
+    data3: str | None = Field(default=None, alias="data3")
     ("결산연월(outblock4) 참조")
-    data4: str | None = Field(
-        default=None,
-        alias="data4",
-    )
+    data4: str | None = Field(default=None, alias="data4")
     ("결산연월(outblock4) 참조")
-    data5: str | None = Field(
-        default=None,
-        alias="data5",
-    )
+    data5: str | None = Field(default=None, alias="data5")
     ("결산연월(outblock4) 참조")
 
 
 class EstimatePerformOutput3(RawModel):
-    data1: str | None = Field(
-        default=None,
-        alias="data1",
-    )
+    data1: str | None = Field(default=None, alias="data1")
     ("결산연월(outblock4) 참조")
-    data2: str | None = Field(
-        default=None,
-        alias="data2",
-    )
+    data2: str | None = Field(default=None, alias="data2")
     ("결산연월(outblock4) 참조")
-    data3: str | None = Field(
-        default=None,
-        alias="data3",
-    )
+    data3: str | None = Field(default=None, alias="data3")
     ("결산연월(outblock4) 참조")
-    data4: str | None = Field(
-        default=None,
-        alias="data4",
-    )
+    data4: str | None = Field(default=None, alias="data4")
     ("결산연월(outblock4) 참조")
-    data5: str | None = Field(
-        default=None,
-        alias="data5",
-    )
+    data5: str | None = Field(default=None, alias="data5")
     ("결산연월(outblock4) 참조")
-    output4: object | None = Field(
-        default=None,
-        alias="output4",
-    )
+    output4: object | None = Field(default=None, alias="output4")
     ("array")
-    dt: str | None = Field(
-        default=None,
-        alias="dt",
-    )
+    dt: str | None = Field(default=None, alias="dt")
     ("DATA1 ~5 결산월 정보")
 
 
 class EstimatePerformResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: EstimatePerformOutput1 = Field(
-        alias="output1",
-    )
+    output1: EstimatePerformOutput1 = Field(alias="output1")
     ("응답상세")
-    output2: list[EstimatePerformOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[EstimatePerformOutput2] = Field(alias="output2")
     ("응답상세")
-    output3: list[EstimatePerformOutput3] = Field(
-        alias="output3",
-    )
+    output3: list[EstimatePerformOutput3] = Field(alias="output3")
     ("응답상세")
 
 
@@ -215,27 +128,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: EstimatePerformRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: EstimatePerformRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[EstimatePerformResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: EstimatePerformRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: EstimatePerformRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[EstimatePerformResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[EstimatePerformRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[EstimatePerformRequestDict]
         ) -> tuple[EstimatePerformResponse, KisResponse]: ...
         def call(
             self,

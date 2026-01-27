@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -49,59 +36,29 @@ class PrcsDvsnEnum(KisStrEnum):
 
 
 class InquireBalanceRlzPlRequest(RawModel):
-    CANO: CanoEnum = Field(
-        alias="CANO",
-    )
+    CANO: CanoEnum = Field(alias="CANO")
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    AFHR_FLPR_YN: KisBool = Field(
-        alias="AFHR_FLPR_YN",
-    )
+    AFHR_FLPR_YN: KisBool = Field(alias="AFHR_FLPR_YN")
     ("'N : 기본값 Y : 시간외단일가'")
-    OFL_YN: KisBool | None = Field(
-        default=None,
-        alias="OFL_YN",
-        json_schema_extra={"blank_allowed": True},
-    )
+    OFL_YN: KisBool | None = Field(default=None, alias="OFL_YN", json_schema_extra={"blank_allowed": True})
     ("공란")
-    INQR_DVSN: str = Field(
-        alias="INQR_DVSN",
-    )
+    INQR_DVSN: str = Field(alias="INQR_DVSN")
     ("00 : 전체")
-    UNPR_DVSN: str = Field(
-        alias="UNPR_DVSN",
-    )
+    UNPR_DVSN: str = Field(alias="UNPR_DVSN")
     ("01 : 기본값")
-    FUND_STTL_ICLD_YN: KisBool = Field(
-        alias="FUND_STTL_ICLD_YN",
-    )
+    FUND_STTL_ICLD_YN: KisBool = Field(alias="FUND_STTL_ICLD_YN")
     ("N : 포함하지 않음 Y : 포함")
-    FNCG_AMT_AUTO_RDPT_YN: KisBool = Field(
-        alias="FNCG_AMT_AUTO_RDPT_YN",
-    )
+    FNCG_AMT_AUTO_RDPT_YN: KisBool = Field(alias="FNCG_AMT_AUTO_RDPT_YN")
     ("N : 기본값")
-    PRCS_DVSN: PrcsDvsnEnum = Field(
-        alias="PRCS_DVSN",
-    )
+    PRCS_DVSN: PrcsDvsnEnum = Field(alias="PRCS_DVSN")
     ("00 : 전일매매포함 01 : 전일매매미포함")
-    COST_ICLD_YN: KisBool = Field(
-        alias="COST_ICLD_YN",
-    )
+    COST_ICLD_YN: KisBool = Field(alias="COST_ICLD_YN")
     ("비용포함여부")
-    CTX_AREA_FK100: str | None = Field(
-        default=None,
-        alias="CTX_AREA_FK100",
-        json_schema_extra={"blank_allowed": True},
-    )
+    CTX_AREA_FK100: str | None = Field(default=None, alias="CTX_AREA_FK100", json_schema_extra={"blank_allowed": True})
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_NK100: str | None = Field(
-        default=None,
-        alias="CTX_AREA_NK100",
-        json_schema_extra={"blank_allowed": True},
-    )
+    CTX_AREA_NK100: str | None = Field(default=None, alias="CTX_AREA_NK100", json_schema_extra={"blank_allowed": True})
     ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)")
 
 
@@ -129,292 +86,138 @@ class InquireBalanceRlzPlRequestDict(TypedDict):
         조회시(2번째부터) optional
     """
 
-    CANO: Annotated[
-        CanoEnum,
-        "계좌번호 체계(8-2)의 앞 8자리",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        AcntPrdtCdEnum,
-        "계좌번호 체계(8-2)의 뒤 2자리",
-    ]
-    AFHR_FLPR_YN: Annotated[
-        KisBool,
-        "'N : 기본값 Y : 시간외단일가'",
-    ]
-    OFL_YN: NotRequired[
-        Annotated[
-            KisBool | None,
-            "공란",
-        ]
-    ]
-    INQR_DVSN: Annotated[
-        str,
-        "00 : 전체",
-    ]
-    UNPR_DVSN: Annotated[
-        str,
-        "01 : 기본값",
-    ]
-    FUND_STTL_ICLD_YN: Annotated[
-        KisBool,
-        "N : 포함하지 않음 Y : 포함",
-    ]
-    FNCG_AMT_AUTO_RDPT_YN: Annotated[
-        KisBool,
-        "N : 기본값",
-    ]
-    PRCS_DVSN: Annotated[
-        PrcsDvsnEnum,
-        "00 : 전일매매포함 01 : 전일매매미포함",
-    ]
-    COST_ICLD_YN: Annotated[
-        KisBool,
-        "비용포함여부",
-    ]
-    CTX_AREA_FK100: NotRequired[
-        Annotated[
-            str | None,
-            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)",
-        ]
-    ]
-    CTX_AREA_NK100: NotRequired[
-        Annotated[
-            str | None,
-            "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)",
-        ]
-    ]
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
+    AFHR_FLPR_YN: Annotated[KisBool, "'N : 기본값 Y : 시간외단일가'"]
+    OFL_YN: NotRequired[Annotated[KisBool | None, "공란"]]
+    INQR_DVSN: Annotated[str, "00 : 전체"]
+    UNPR_DVSN: Annotated[str, "01 : 기본값"]
+    FUND_STTL_ICLD_YN: Annotated[KisBool, "N : 포함하지 않음 Y : 포함"]
+    FNCG_AMT_AUTO_RDPT_YN: Annotated[KisBool, "N : 기본값"]
+    PRCS_DVSN: Annotated[PrcsDvsnEnum, "00 : 전일매매포함 01 : 전일매매미포함"]
+    COST_ICLD_YN: Annotated[KisBool, "비용포함여부"]
+    CTX_AREA_FK100: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)"]]
+    CTX_AREA_NK100: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)"]]
 
 
 class InquireBalanceRlzPlOutput1(RawModel):
-    pdno: str = Field(
-        alias="pdno",
-    )
+    pdno: str = Field(alias="pdno")
     ("종목번호(뒷 6자리)")
-    prdt_name: str = Field(
-        alias="prdt_name",
-    )
+    prdt_name: str = Field(alias="prdt_name")
     ("종목명")
-    trad_dvsn_name: str = Field(
-        alias="trad_dvsn_name",
-    )
+    trad_dvsn_name: str = Field(alias="trad_dvsn_name")
     ("매수매도구분")
-    bfdy_buy_qty: int = Field(
-        alias="bfdy_buy_qty",
-    )
+    bfdy_buy_qty: int = Field(alias="bfdy_buy_qty")
     ("전일매수수량")
-    bfdy_sll_qty: int = Field(
-        alias="bfdy_sll_qty",
-    )
+    bfdy_sll_qty: int = Field(alias="bfdy_sll_qty")
     ("전일매도수량")
-    thdt_buyqty: int = Field(
-        alias="thdt_buyqty",
-    )
+    thdt_buyqty: int = Field(alias="thdt_buyqty")
     ("금일매수수량")
-    thdt_sll_qty: int = Field(
-        alias="thdt_sll_qty",
-    )
+    thdt_sll_qty: int = Field(alias="thdt_sll_qty")
     ("금일매도수량")
-    hldg_qty: int = Field(
-        alias="hldg_qty",
-    )
+    hldg_qty: int = Field(alias="hldg_qty")
     ("보유수량")
-    ord_psbl_qty: int = Field(
-        alias="ord_psbl_qty",
-    )
+    ord_psbl_qty: int = Field(alias="ord_psbl_qty")
     ("주문가능수량")
-    pchs_avg_pric: Decimal = Field(
-        alias="pchs_avg_pric",
-    )
+    pchs_avg_pric: Decimal = Field(alias="pchs_avg_pric")
     ("매입금액 / 보유수량")
-    pchs_amt: Decimal = Field(
-        alias="pchs_amt",
-    )
+    pchs_amt: Decimal = Field(alias="pchs_amt")
     ("매입금액")
-    prpr: Decimal = Field(
-        alias="prpr",
-    )
+    prpr: Decimal = Field(alias="prpr")
     ("현재가")
-    evlu_amt: Decimal = Field(
-        alias="evlu_amt",
-    )
+    evlu_amt: Decimal = Field(alias="evlu_amt")
     ("평가금액")
-    evlu_pfls_amt: Decimal = Field(
-        alias="evlu_pfls_amt",
-    )
+    evlu_pfls_amt: Decimal = Field(alias="evlu_pfls_amt")
     ("평가금액 - 매입금액")
-    evlu_pfls_rt: Decimal = Field(
-        alias="evlu_pfls_rt",
-    )
+    evlu_pfls_rt: Decimal = Field(alias="evlu_pfls_rt")
     ("평가손익율")
-    evlu_erng_rt: Decimal = Field(
-        alias="evlu_erng_rt",
-    )
+    evlu_erng_rt: Decimal = Field(alias="evlu_erng_rt")
     ("평가수익율")
-    loan_dt: KisDate = Field(
-        alias="loan_dt",
-    )
+    loan_dt: KisDate = Field(alias="loan_dt")
     ("대출일자")
-    loan_amt: Decimal = Field(
-        alias="loan_amt",
-    )
+    loan_amt: Decimal = Field(alias="loan_amt")
     ("대출금액")
-    stln_slng_chgs: Decimal = Field(
-        alias="stln_slng_chgs",
-    )
+    stln_slng_chgs: Decimal = Field(alias="stln_slng_chgs")
     ("신용 거래에서, 고객이 증권 회사로부터 대부받은 주식의 매각 대금")
-    expd_dt: KisDate = Field(
-        alias="expd_dt",
-    )
+    expd_dt: KisDate = Field(alias="expd_dt")
     ("만기일자")
-    stck_loan_unpr: str = Field(
-        alias="stck_loan_unpr",
-    )
+    stck_loan_unpr: str = Field(alias="stck_loan_unpr")
     ("주식대출단가")
-    bfdy_cprs_icdc: str = Field(
-        alias="bfdy_cprs_icdc",
-    )
+    bfdy_cprs_icdc: str = Field(alias="bfdy_cprs_icdc")
     ("전일대비증감")
-    fltt_rt: Decimal = Field(
-        alias="fltt_rt",
-    )
+    fltt_rt: Decimal = Field(alias="fltt_rt")
     ("등락율")
 
 
 class InquireBalanceRlzPlOutput2(RawModel):
-    dnca_tot_amt: Decimal = Field(
-        alias="dnca_tot_amt",
-    )
+    dnca_tot_amt: Decimal = Field(alias="dnca_tot_amt")
     ("예수금총금액")
-    nxdy_excc_amt: Decimal = Field(
-        alias="nxdy_excc_amt",
-    )
+    nxdy_excc_amt: Decimal = Field(alias="nxdy_excc_amt")
     ("익일정산금액")
-    prvs_rcdl_excc_amt: Decimal = Field(
-        alias="prvs_rcdl_excc_amt",
-    )
+    prvs_rcdl_excc_amt: Decimal = Field(alias="prvs_rcdl_excc_amt")
     ("가수도정산금액")
-    cma_evlu_amt: Decimal = Field(
-        alias="cma_evlu_amt",
-    )
+    cma_evlu_amt: Decimal = Field(alias="cma_evlu_amt")
     ("CMA평가금액")
-    bfdy_buy_amt: Decimal = Field(
-        alias="bfdy_buy_amt",
-    )
+    bfdy_buy_amt: Decimal = Field(alias="bfdy_buy_amt")
     ("전일매수금액")
-    thdt_buy_amt: Decimal = Field(
-        alias="thdt_buy_amt",
-    )
+    thdt_buy_amt: Decimal = Field(alias="thdt_buy_amt")
     ("금일매수금액")
-    nxdy_auto_rdpt_amt: KisDate = Field(
-        alias="nxdy_auto_rdpt_amt",
-    )
+    nxdy_auto_rdpt_amt: KisDate = Field(alias="nxdy_auto_rdpt_amt")
     ("익일자동상환금액")
-    bfdy_sll_amt: Decimal = Field(
-        alias="bfdy_sll_amt",
-    )
+    bfdy_sll_amt: Decimal = Field(alias="bfdy_sll_amt")
     ("전일매도금액")
-    thdt_sll_amt: Decimal = Field(
-        alias="thdt_sll_amt",
-    )
+    thdt_sll_amt: Decimal = Field(alias="thdt_sll_amt")
     ("금일매도금액")
-    d2_auto_rdpt_amt: Decimal = Field(
-        alias="d2_auto_rdpt_amt",
-    )
+    d2_auto_rdpt_amt: Decimal = Field(alias="d2_auto_rdpt_amt")
     ("D+2자동상환금액")
-    bfdy_tlex_amt: Decimal = Field(
-        alias="bfdy_tlex_amt",
-    )
+    bfdy_tlex_amt: Decimal = Field(alias="bfdy_tlex_amt")
     ("전일제비용금액")
-    thdt_tlex_amt: Decimal = Field(
-        alias="thdt_tlex_amt",
-    )
+    thdt_tlex_amt: Decimal = Field(alias="thdt_tlex_amt")
     ("금일제비용금액")
-    tot_loan_amt: Decimal = Field(
-        alias="tot_loan_amt",
-    )
+    tot_loan_amt: Decimal = Field(alias="tot_loan_amt")
     ("총대출금액")
-    scts_evlu_amt: Decimal = Field(
-        alias="scts_evlu_amt",
-    )
+    scts_evlu_amt: Decimal = Field(alias="scts_evlu_amt")
     ("유가평가금액")
-    tot_evlu_amt: Decimal = Field(
-        alias="tot_evlu_amt",
-    )
+    tot_evlu_amt: Decimal = Field(alias="tot_evlu_amt")
     ("총평가금액")
-    nass_amt: Decimal = Field(
-        alias="nass_amt",
-    )
+    nass_amt: Decimal = Field(alias="nass_amt")
     ("순자산금액")
-    fncg_gld_auto_rdpt_yn: KisBool = Field(
-        alias="fncg_gld_auto_rdpt_yn",
-    )
+    fncg_gld_auto_rdpt_yn: KisBool = Field(alias="fncg_gld_auto_rdpt_yn")
     ("융자금자동상환여부")
-    pchs_amt_smtl_amt: Decimal = Field(
-        alias="pchs_amt_smtl_amt",
-    )
+    pchs_amt_smtl_amt: Decimal = Field(alias="pchs_amt_smtl_amt")
     ("매입금액합계금액")
-    evlu_amt_smtl_amt: Decimal = Field(
-        alias="evlu_amt_smtl_amt",
-    )
+    evlu_amt_smtl_amt: Decimal = Field(alias="evlu_amt_smtl_amt")
     ("평가금액합계금액")
-    evlu_pfls_smtl_amt: Decimal = Field(
-        alias="evlu_pfls_smtl_amt",
-    )
+    evlu_pfls_smtl_amt: Decimal = Field(alias="evlu_pfls_smtl_amt")
     ("평가손익합계금액")
-    tot_stln_slng_chgs: Decimal = Field(
-        alias="tot_stln_slng_chgs",
-    )
+    tot_stln_slng_chgs: Decimal = Field(alias="tot_stln_slng_chgs")
     ("총대주매각대금")
-    bfdy_tot_asst_evlu_amt: Decimal = Field(
-        alias="bfdy_tot_asst_evlu_amt",
-    )
+    bfdy_tot_asst_evlu_amt: Decimal = Field(alias="bfdy_tot_asst_evlu_amt")
     ("전일총자산평가금액")
-    asst_icdc_amt: str = Field(
-        alias="asst_icdc_amt",
-    )
+    asst_icdc_amt: str = Field(alias="asst_icdc_amt")
     ("자산증감액")
-    asst_icdc_erng_rt: Decimal = Field(
-        alias="asst_icdc_erng_rt",
-    )
+    asst_icdc_erng_rt: Decimal = Field(alias="asst_icdc_erng_rt")
     ("자산증감수익율")
-    rlzt_pfls: str = Field(
-        alias="rlzt_pfls",
-    )
+    rlzt_pfls: str = Field(alias="rlzt_pfls")
     ("실현손익")
-    rlzt_erng_rt: Decimal = Field(
-        alias="rlzt_erng_rt",
-    )
+    rlzt_erng_rt: Decimal = Field(alias="rlzt_erng_rt")
     ("실현수익율")
-    real_evlu_pfls: str = Field(
-        alias="real_evlu_pfls",
-    )
+    real_evlu_pfls: str = Field(alias="real_evlu_pfls")
     ("실평가손익")
-    real_evlu_pfls_erng_rt: Decimal = Field(
-        alias="real_evlu_pfls_erng_rt",
-    )
+    real_evlu_pfls_erng_rt: Decimal = Field(alias="real_evlu_pfls_erng_rt")
     ("실평가손익수익율")
 
 
 class InquireBalanceRlzPlResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: list[InquireBalanceRlzPlOutput1] = Field(
-        alias="output1",
-    )
+    output1: list[InquireBalanceRlzPlOutput1] = Field(alias="output1")
     ("응답상세")
-    output2: list[InquireBalanceRlzPlOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[InquireBalanceRlzPlOutput2] = Field(alias="output2")
     ("응답상세2")
 
 
@@ -442,27 +245,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireBalanceRlzPlRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireBalanceRlzPlRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireBalanceRlzPlResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireBalanceRlzPlRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireBalanceRlzPlRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireBalanceRlzPlResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireBalanceRlzPlRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireBalanceRlzPlRequestDict]
         ) -> tuple[InquireBalanceRlzPlResponse, KisResponse]: ...
         def call(
             self,

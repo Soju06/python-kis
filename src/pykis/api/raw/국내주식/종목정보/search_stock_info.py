@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    KisDateOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -166,13 +153,9 @@ class StckKindCdEnum(KisStrEnum):
 
 
 class SearchStockInfoRequest(RawModel):
-    PRDT_TYPE_CD: PrdtTypeCdEnum = Field(
-        alias="PRDT_TYPE_CD",
-    )
+    PRDT_TYPE_CD: PrdtTypeCdEnum = Field(alias="PRDT_TYPE_CD")
     ("300: 주식, ETF, ETN, ELW 301 : 선물옵션 302 : 채권 306 : ELS'")
-    PDNO: str = Field(
-        alias="PDNO",
-    )
+    PDNO: str = Field(alias="PDNO")
     ("종목번호 (6자리) ETN의 경우, Q로 시작 (EX. Q500001)")
 
 
@@ -186,247 +169,129 @@ class SearchStockInfoRequestDict(TypedDict):
         PDNO (str): 종목번호 (6자리) ETN의 경우, Q로 시작 (EX. Q500001)
     """
 
-    PRDT_TYPE_CD: Annotated[
-        PrdtTypeCdEnum,
-        "300: 주식, ETF, ETN, ELW 301 : 선물옵션 302 : 채권 306 : ELS'",
-    ]
-    PDNO: Annotated[
-        str,
-        "종목번호 (6자리) ETN의 경우, Q로 시작 (EX. Q500001)",
-    ]
+    PRDT_TYPE_CD: Annotated[PrdtTypeCdEnum, "300: 주식, ETF, ETN, ELW 301 : 선물옵션 302 : 채권 306 : ELS'"]
+    PDNO: Annotated[str, "종목번호 (6자리) ETN의 경우, Q로 시작 (EX. Q500001)"]
 
 
 class SearchStockInfoOutput(RawModel):
-    pdno: str = Field(
-        alias="pdno",
-    )
+    pdno: str = Field(alias="pdno")
     ("상품번호")
-    prdt_type_cd: str = Field(
-        alias="prdt_type_cd",
-    )
+    prdt_type_cd: str = Field(alias="prdt_type_cd")
     ("상품유형코드")
-    mket_id_cd: MketIdCdEnum = Field(
-        alias="mket_id_cd",
-    )
+    mket_id_cd: MketIdCdEnum = Field(alias="mket_id_cd")
     (
         "AGR.농축산물파생 BON.채권파생 CMD.일반상품시장 CUR.통화파생 ENG.에너지파생 EQU.주식파생 "
         "ETF.ETF파생 IRT.금리파생 KNX.코넥스 KSQ.코스닥 MTL.금속파생 SPI.주가지수파생 STK.유가증권"
     )
-    scty_grp_id_cd: SctyGrpIdCdEnum = Field(
-        alias="scty_grp_id_cd",
-    )
+    scty_grp_id_cd: SctyGrpIdCdEnum = Field(alias="scty_grp_id_cd")
     (
         "BC.수익증권 DR.주식예탁증서 EF.ETF EN.ETN EW.ELW FE.해외ETF FO.선물옵션 FS.외국주권 FU.선물 "
         "FX.플렉스 선물 GD.금현물 IC.투자계약증권 IF.사회간접자본투융자회사 KN.코넥스주권 MF.투자회사 "
         "OP.옵션 RT.부동산투자회사 SC.선박투자회사 SR.신주인수권증서 ST.주권 SW.신주인수권증권 "
         "TC.신탁수익증권"
     )
-    excg_dvsn_cd: str = Field(
-        alias="excg_dvsn_cd",
-    )
+    excg_dvsn_cd: str = Field(alias="excg_dvsn_cd")
     (
         "01.한국증권 02.증권거래소 03.코스닥 04.K-OTC 05.선물거래소 06.CME 07.EUREX 21.금현물 50.미국주간 "
         "51.홍콩 52.상해B 53.심천 54.홍콩거래소 55.미국 56.일본 57.상해A 58.심천A 59.베트남 "
         "61.장전시간외시장 64.경쟁대량매매 65.경매매시장 81.시간외단일가시장"
     )
-    setl_mmdd: int = Field(
-        alias="setl_mmdd",
-    )
+    setl_mmdd: int = Field(alias="setl_mmdd")
     ("결산월일")
-    lstg_stqt: int = Field(
-        alias="lstg_stqt",
-    )
+    lstg_stqt: int = Field(alias="lstg_stqt")
     ("상장주수")
-    lstg_cptl_amt: Decimal = Field(
-        alias="lstg_cptl_amt",
-    )
+    lstg_cptl_amt: Decimal = Field(alias="lstg_cptl_amt")
     ("상장자본금액")
-    cpta: int = Field(
-        alias="cpta",
-    )
+    cpta: int = Field(alias="cpta")
     ("자본금")
-    papr: int = Field(
-        alias="papr",
-    )
+    papr: int = Field(alias="papr")
     ("액면가")
-    issu_pric: Decimal = Field(
-        alias="issu_pric",
-    )
+    issu_pric: Decimal = Field(alias="issu_pric")
     ("발행가격")
-    kospi200_item_yn: KisBool = Field(
-        alias="kospi200_item_yn",
-    )
+    kospi200_item_yn: KisBool = Field(alias="kospi200_item_yn")
     ("코스피200종목여부")
-    scts_mket_lstg_dt: KisDate = Field(
-        alias="scts_mket_lstg_dt",
-    )
+    scts_mket_lstg_dt: KisDate = Field(alias="scts_mket_lstg_dt")
     ("유가증권시장상장일자")
-    scts_mket_lstg_abol_dt: KisDateOptional = Field(
-        default=None,
-        alias="scts_mket_lstg_abol_dt",
-    )
+    scts_mket_lstg_abol_dt: KisDateOptional = Field(default=None, alias="scts_mket_lstg_abol_dt")
     ("유가증권시장상장폐지일자")
-    kosdaq_mket_lstg_dt: KisDateOptional = Field(
-        default=None,
-        alias="kosdaq_mket_lstg_dt",
-    )
+    kosdaq_mket_lstg_dt: KisDateOptional = Field(default=None, alias="kosdaq_mket_lstg_dt")
     ("코스닥시장상장일자")
-    kosdaq_mket_lstg_abol_dt: KisDateOptional = Field(
-        default=None,
-        alias="kosdaq_mket_lstg_abol_dt",
-    )
+    kosdaq_mket_lstg_abol_dt: KisDateOptional = Field(default=None, alias="kosdaq_mket_lstg_abol_dt")
     ("코스닥시장상장폐지일자")
-    frbd_mket_lstg_dt: KisDate = Field(
-        alias="frbd_mket_lstg_dt",
-    )
+    frbd_mket_lstg_dt: KisDate = Field(alias="frbd_mket_lstg_dt")
     ("프리보드시장상장일자")
-    frbd_mket_lstg_abol_dt: KisDateOptional = Field(
-        default=None,
-        alias="frbd_mket_lstg_abol_dt",
-    )
+    frbd_mket_lstg_abol_dt: KisDateOptional = Field(default=None, alias="frbd_mket_lstg_abol_dt")
     ("프리보드시장상장폐지일자")
-    reits_kind_cd: str | None = Field(
-        default=None,
-        alias="reits_kind_cd",
-    )
+    reits_kind_cd: str | None = Field(default=None, alias="reits_kind_cd")
     ("리츠종류코드")
-    etf_dvsn_cd: str = Field(
-        alias="etf_dvsn_cd",
-    )
+    etf_dvsn_cd: str = Field(alias="etf_dvsn_cd")
     ("ETF구분코드")
-    oilf_fund_yn: KisBool = Field(
-        alias="oilf_fund_yn",
-    )
+    oilf_fund_yn: KisBool = Field(alias="oilf_fund_yn")
     ("유전펀드여부")
-    idx_bztp_lcls_cd: str = Field(
-        alias="idx_bztp_lcls_cd",
-    )
+    idx_bztp_lcls_cd: str = Field(alias="idx_bztp_lcls_cd")
     ("지수업종대분류코드")
-    idx_bztp_mcls_cd: str = Field(
-        alias="idx_bztp_mcls_cd",
-    )
+    idx_bztp_mcls_cd: str = Field(alias="idx_bztp_mcls_cd")
     ("지수업종중분류코드")
-    idx_bztp_scls_cd: str = Field(
-        alias="idx_bztp_scls_cd",
-    )
+    idx_bztp_scls_cd: str = Field(alias="idx_bztp_scls_cd")
     ("지수업종소분류코드")
-    stck_kind_cd: StckKindCdEnum = Field(
-        alias="stck_kind_cd",
-    )
+    stck_kind_cd: StckKindCdEnum = Field(alias="stck_kind_cd")
     (
         "000.해당사항없음 101.보통주 201.우선주 202.2우선주 203.3우선주 204.4우선주 205.5우선주 "
         "206.6우선주 207.7우선주 208.8우선주 209.9우선주 210.10우선주 211.11우선주 212.12우선주 "
         "213.13우선주 214.14우선주 215.15우선주 216.16우선주 217.17우선주 218.18우선주 219.19우선주 "
         "220.20우선주 301.후배주 401.혼합주"
     )
-    mfnd_opng_dt: KisDateOptional = Field(
-        default=None,
-        alias="mfnd_opng_dt",
-    )
+    mfnd_opng_dt: KisDateOptional = Field(default=None, alias="mfnd_opng_dt")
     ("뮤추얼펀드개시일자")
-    mfnd_end_dt: KisDateOptional = Field(
-        default=None,
-        alias="mfnd_end_dt",
-    )
+    mfnd_end_dt: KisDateOptional = Field(default=None, alias="mfnd_end_dt")
     ("뮤추얼펀드종료일자")
-    dpsi_erlm_cncl_dt: KisDateOptional = Field(
-        default=None,
-        alias="dpsi_erlm_cncl_dt",
-    )
+    dpsi_erlm_cncl_dt: KisDateOptional = Field(default=None, alias="dpsi_erlm_cncl_dt")
     ("예탁등록취소일자")
-    etf_cu_qty: int = Field(
-        alias="etf_cu_qty",
-    )
+    etf_cu_qty: int = Field(alias="etf_cu_qty")
     ("ETFCU수량")
-    prdt_name: str = Field(
-        alias="prdt_name",
-    )
+    prdt_name: str = Field(alias="prdt_name")
     ("상품명")
-    prdt_name120: str = Field(
-        alias="prdt_name120",
-    )
+    prdt_name120: str = Field(alias="prdt_name120")
     ("상품명120")
-    prdt_abrv_name: str = Field(
-        alias="prdt_abrv_name",
-    )
+    prdt_abrv_name: str = Field(alias="prdt_abrv_name")
     ("상품약어명")
-    std_pdno: str = Field(
-        alias="std_pdno",
-    )
+    std_pdno: str = Field(alias="std_pdno")
     ("표준상품번호")
-    prdt_eng_name: str = Field(
-        alias="prdt_eng_name",
-    )
+    prdt_eng_name: str = Field(alias="prdt_eng_name")
     ("상품영문명")
-    prdt_eng_name120: str = Field(
-        alias="prdt_eng_name120",
-    )
+    prdt_eng_name120: str = Field(alias="prdt_eng_name120")
     ("상품영문명120")
-    prdt_eng_abrv_name: str = Field(
-        alias="prdt_eng_abrv_name",
-    )
+    prdt_eng_abrv_name: str = Field(alias="prdt_eng_abrv_name")
     ("상품영문약어명")
-    dpsi_aptm_erlm_yn: KisBool = Field(
-        alias="dpsi_aptm_erlm_yn",
-    )
+    dpsi_aptm_erlm_yn: KisBool = Field(alias="dpsi_aptm_erlm_yn")
     ("예탁지정등록여부")
-    etf_txtn_type_cd: str = Field(
-        alias="etf_txtn_type_cd",
-    )
+    etf_txtn_type_cd: str = Field(alias="etf_txtn_type_cd")
     ("ETF과세유형코드")
-    etf_type_cd: str | None = Field(
-        default=None,
-        alias="etf_type_cd",
-    )
+    etf_type_cd: str | None = Field(default=None, alias="etf_type_cd")
     ("ETF유형코드")
-    lstg_abol_dt: KisDateOptional = Field(
-        default=None,
-        alias="lstg_abol_dt",
-    )
+    lstg_abol_dt: KisDateOptional = Field(default=None, alias="lstg_abol_dt")
     ("상장폐지일자")
-    nwst_odst_dvsn_cd: str = Field(
-        alias="nwst_odst_dvsn_cd",
-    )
+    nwst_odst_dvsn_cd: str = Field(alias="nwst_odst_dvsn_cd")
     ("신주구주구분코드")
-    sbst_pric: Decimal = Field(
-        alias="sbst_pric",
-    )
+    sbst_pric: Decimal = Field(alias="sbst_pric")
     ("대용가격")
-    thco_sbst_pric: Decimal = Field(
-        alias="thco_sbst_pric",
-    )
+    thco_sbst_pric: Decimal = Field(alias="thco_sbst_pric")
     ("당사대용가격")
-    thco_sbst_pric_chng_dt: KisDate = Field(
-        alias="thco_sbst_pric_chng_dt",
-    )
+    thco_sbst_pric_chng_dt: KisDate = Field(alias="thco_sbst_pric_chng_dt")
     ("당사대용가격변경일자")
-    tr_stop_yn: KisBool = Field(
-        alias="tr_stop_yn",
-    )
+    tr_stop_yn: KisBool = Field(alias="tr_stop_yn")
     ("거래정지여부")
-    admn_item_yn: KisBool = Field(
-        alias="admn_item_yn",
-    )
+    admn_item_yn: KisBool = Field(alias="admn_item_yn")
     ("관리종목여부")
-    thdt_clpr: int = Field(
-        alias="thdt_clpr",
-    )
+    thdt_clpr: int = Field(alias="thdt_clpr")
     ("당일종가")
-    bfdy_clpr: int = Field(
-        alias="bfdy_clpr",
-    )
+    bfdy_clpr: int = Field(alias="bfdy_clpr")
     ("전일종가")
-    clpr_chng_dt: KisDate = Field(
-        alias="clpr_chng_dt",
-    )
+    clpr_chng_dt: KisDate = Field(alias="clpr_chng_dt")
     ("종가변경일자")
-    std_idst_clsf_cd: str = Field(
-        alias="std_idst_clsf_cd",
-    )
+    std_idst_clsf_cd: str = Field(alias="std_idst_clsf_cd")
     ("표준산업분류코드")
-    std_idst_clsf_cd_name: str = Field(
-        alias="std_idst_clsf_cd_name",
-    )
+    std_idst_clsf_cd_name: str = Field(alias="std_idst_clsf_cd_name")
     (
         "표준산업소분류코드 000000 해당사항없음 010101 작물 재배업 010102 축산업 010103 작물재배 및 축산 "
         "복합농업 010104 작물재배 및 축산 관련 서비스업 010105 수렵 및 관련 서비스업 010201 임업 010301 "
@@ -501,9 +366,7 @@ class SearchStockInfoOutput(RawModel):
         "209801 자가 소비를 위한 가사 생산 활동 209802 자가 소비를 위한 가사 서비스 활동 219901 국제 및 "
         "외국기관"
     )
-    idx_bztp_lcls_cd_name: str = Field(
-        alias="idx_bztp_lcls_cd_name",
-    )
+    idx_bztp_lcls_cd_name: str = Field(alias="idx_bztp_lcls_cd_name")
     (
         "표준산업대분류코드 00 해당사항없음 01 농업, 임업 및 어업 02 광업 03 제조업 04 전기, 가스, 증기 "
         "및 수도사업 05 하수-폐기물 처리, 원료재생 및환경복원업 06 건설업 07 도매 및 소매업 08 운수업 09 "
@@ -513,9 +376,7 @@ class SearchStockInfoOutput(RawModel):
         "협회 및 단체, 수리 및 기타 개인 서비스업 20 가구내 고용활동 및 달리 분류되지 않은 "
         "자가소비생산활동 21 국제 및 외국기관"
     )
-    idx_bztp_mcls_cd_name: str = Field(
-        alias="idx_bztp_mcls_cd_name",
-    )
+    idx_bztp_mcls_cd_name: str = Field(alias="idx_bztp_mcls_cd_name")
     (
         "표준산업중분류코드 0000 해당사항없음 0101 농업 0102 임업 0103 어업 0205 석탄, 원유 및 천연가스 "
         "광업 0206 금속 광업 0207 비금속광물 광업; 연료용 제외 0208 광업 지원 서비스업 0310 식료품 제조업 "
@@ -541,84 +402,44 @@ class SearchStockInfoOutput(RawModel):
         "고용활동 2098 달리 분류되지 않은 자가소비를 위한가구의 재화 및 서비스 생산활동 2199 국제 및 "
         "외국기관"
     )
-    idx_bztp_scls_cd_name: str = Field(
-        alias="idx_bztp_scls_cd_name",
-    )
+    idx_bztp_scls_cd_name: str = Field(alias="idx_bztp_scls_cd_name")
     ("표준산업소분류코드 참조")
-    ocr_no: str = Field(
-        alias="ocr_no",
-    )
+    ocr_no: str = Field(alias="ocr_no")
     ("OCR번호")
-    crfd_item_yn: KisBool | None = Field(
-        default=None,
-        alias="crfd_item_yn",
-    )
+    crfd_item_yn: KisBool | None = Field(default=None, alias="crfd_item_yn")
     ("크라우드펀딩종목여부")
-    elec_scty_yn: KisBool = Field(
-        alias="elec_scty_yn",
-    )
+    elec_scty_yn: KisBool = Field(alias="elec_scty_yn")
     ("전자증권여부")
-    issu_istt_cd: str = Field(
-        alias="issu_istt_cd",
-    )
+    issu_istt_cd: str = Field(alias="issu_istt_cd")
     ("발행기관코드")
-    etf_chas_erng_rt_dbnb: Decimal = Field(
-        alias="etf_chas_erng_rt_dbnb",
-    )
+    etf_chas_erng_rt_dbnb: Decimal = Field(alias="etf_chas_erng_rt_dbnb")
     ("ETF추적수익율배수")
-    etf_etn_ivst_heed_item_yn: KisBool = Field(
-        alias="etf_etn_ivst_heed_item_yn",
-    )
+    etf_etn_ivst_heed_item_yn: KisBool = Field(alias="etf_etn_ivst_heed_item_yn")
     ("ETFETN투자유의종목여부")
-    stln_int_rt_dvsn_cd: str = Field(
-        alias="stln_int_rt_dvsn_cd",
-    )
+    stln_int_rt_dvsn_cd: str = Field(alias="stln_int_rt_dvsn_cd")
     ("대주이자율구분코드")
-    frnr_psnl_lmt_rt: Decimal = Field(
-        alias="frnr_psnl_lmt_rt",
-    )
+    frnr_psnl_lmt_rt: Decimal = Field(alias="frnr_psnl_lmt_rt")
     ("외국인개인한도비율")
-    lstg_rqsr_issu_istt_cd: str | None = Field(
-        default=None,
-        alias="lstg_rqsr_issu_istt_cd",
-    )
+    lstg_rqsr_issu_istt_cd: str | None = Field(default=None, alias="lstg_rqsr_issu_istt_cd")
     ("상장신청인발행기관코드")
-    lstg_rqsr_item_cd: str | None = Field(
-        default=None,
-        alias="lstg_rqsr_item_cd",
-    )
+    lstg_rqsr_item_cd: str | None = Field(default=None, alias="lstg_rqsr_item_cd")
     ("상장신청인종목코드")
-    trst_istt_issu_istt_cd: str | None = Field(
-        default=None,
-        alias="trst_istt_issu_istt_cd",
-    )
+    trst_istt_issu_istt_cd: str | None = Field(default=None, alias="trst_istt_issu_istt_cd")
     ("신탁기관발행기관코드")
-    cptt_trad_tr_psbl_yn: KisBool = Field(
-        alias="cptt_trad_tr_psbl_yn",
-    )
+    cptt_trad_tr_psbl_yn: KisBool = Field(alias="cptt_trad_tr_psbl_yn")
     ("NXT 거래가능한 종목은 Y, 그 외 종목은 N")
-    nxt_tr_stop_yn: KisBool = Field(
-        alias="nxt_tr_stop_yn",
-    )
+    nxt_tr_stop_yn: KisBool = Field(alias="nxt_tr_stop_yn")
     ("NXT 거래종목 중 거래정지가 된 종목은 Y, 그 외 모든 종목은 N")
 
 
 class SearchStockInfoResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: SearchStockInfoOutput = Field(
-        alias="output",
-    )
+    output: SearchStockInfoOutput = Field(alias="output")
     ("응답상세1")
 
 
@@ -641,27 +462,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: SearchStockInfoRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: SearchStockInfoRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[SearchStockInfoResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: SearchStockInfoRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: SearchStockInfoRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[SearchStockInfoResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[SearchStockInfoRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[SearchStockInfoRequestDict]
         ) -> tuple[SearchStockInfoResponse, KisResponse]: ...
         def call(
             self,

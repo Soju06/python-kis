@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -33,17 +22,11 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class IncomeStatementRequest(RawModel):
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
-        alias="FID_DIV_CLS_CODE",
-    )
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
     ("0: 년, 1: 분기 ※ 분기데이터는 연단위 누적합산")
-    fid_cond_mrkt_div_code: str = Field(
-        alias="fid_cond_mrkt_div_code",
-    )
+    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
     ("J")
-    fid_input_iscd: str = Field(
-        alias="fid_input_iscd",
-    )
+    fid_input_iscd: str = Field(alias="fid_input_iscd")
     ("000660 : 종목코드")
 
 
@@ -59,91 +42,48 @@ class IncomeStatementRequestDict(TypedDict):
         fid_input_iscd (str): 000660 : 종목코드
     """
 
-    FID_DIV_CLS_CODE: Annotated[
-        FidDivClsCodeEnum,
-        "0: 년, 1: 분기 ※ 분기데이터는 연단위 누적합산",
-    ]
-    fid_cond_mrkt_div_code: Annotated[
-        str,
-        "J",
-    ]
-    fid_input_iscd: Annotated[
-        str,
-        "000660 : 종목코드",
-    ]
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기 ※ 분기데이터는 연단위 누적합산"]
+    fid_cond_mrkt_div_code: Annotated[str, "J"]
+    fid_input_iscd: Annotated[str, "000660 : 종목코드"]
 
 
 class IncomeStatementOutput(RawModel):
-    stac_yymm: str = Field(
-        alias="stac_yymm",
-    )
+    stac_yymm: str = Field(alias="stac_yymm")
     ("결산 년월")
-    sale_account: Decimal = Field(
-        alias="sale_account",
-    )
+    sale_account: Decimal = Field(alias="sale_account")
     ("매출액")
-    sale_cost: Decimal = Field(
-        alias="sale_cost",
-    )
+    sale_cost: Decimal = Field(alias="sale_cost")
     ("매출 원가")
-    sale_totl_prfi: int = Field(
-        alias="sale_totl_prfi",
-    )
+    sale_totl_prfi: int = Field(alias="sale_totl_prfi")
     ("매출 총 이익")
-    depr_cost: Decimal = Field(
-        alias="depr_cost",
-    )
+    depr_cost: Decimal = Field(alias="depr_cost")
     ("출력되지 않는 데이터(99.99 로 표시)")
-    sell_mang: Decimal = Field(
-        alias="sell_mang",
-    )
+    sell_mang: Decimal = Field(alias="sell_mang")
     ("출력되지 않는 데이터(99.99 로 표시)")
-    bsop_prti: Decimal = Field(
-        alias="bsop_prti",
-    )
+    bsop_prti: Decimal = Field(alias="bsop_prti")
     ("영업 이익")
-    bsop_non_ernn: Decimal = Field(
-        alias="bsop_non_ernn",
-    )
+    bsop_non_ernn: Decimal = Field(alias="bsop_non_ernn")
     ("출력되지 않는 데이터(99.99 로 표시)")
-    bsop_non_expn: Decimal = Field(
-        alias="bsop_non_expn",
-    )
+    bsop_non_expn: Decimal = Field(alias="bsop_non_expn")
     ("출력되지 않는 데이터(99.99 로 표시)")
-    op_prfi: Decimal = Field(
-        alias="op_prfi",
-    )
+    op_prfi: Decimal = Field(alias="op_prfi")
     ("경상 이익")
-    spec_prfi: Decimal = Field(
-        alias="spec_prfi",
-    )
+    spec_prfi: Decimal = Field(alias="spec_prfi")
     ("특별 이익")
-    spec_loss: Decimal = Field(
-        alias="spec_loss",
-    )
+    spec_loss: Decimal = Field(alias="spec_loss")
     ("특별 손실")
-    thtr_ntin: Decimal = Field(
-        alias="thtr_ntin",
-    )
+    thtr_ntin: Decimal = Field(alias="thtr_ntin")
     ("당기순이익")
 
 
 class IncomeStatementResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[IncomeStatementOutput] = Field(
-        alias="output",
-    )
+    output: list[IncomeStatementOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -170,27 +110,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: IncomeStatementRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: IncomeStatementRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[IncomeStatementResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: IncomeStatementRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: IncomeStatementRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[IncomeStatementResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[IncomeStatementRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[IncomeStatementRequestDict]
         ) -> tuple[IncomeStatementResponse, KisResponse]: ...
         def call(
             self,

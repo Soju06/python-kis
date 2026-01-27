@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -42,53 +29,25 @@ class AcntPrdtCdEnum(KisStrEnum):
 
 
 class OrderRvsecnclRequest(RawModel):
-    CANO: CanoEnum = Field(
-        alias="CANO",
-    )
+    CANO: CanoEnum = Field(alias="CANO")
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    ORGN_ORD_DT: KisDate = Field(
-        alias="ORGN_ORD_DT",
-    )
+    ORGN_ORD_DT: KisDate = Field(alias="ORGN_ORD_DT")
     ("원 주문 시 출력되는 ORD_DT 값을 입력 (현지거래일)")
-    ORGN_ODNO: str = Field(
-        alias="ORGN_ODNO",
-    )
-    (
-        '정정/취소시 주문번호(ODNO) 8자리를 문자열처럼 "0"을 포함해서 전송 (원 주문 시 출력된 ODNO 값 '
-        "활용) (ex. ORGN_ODNO : 00360686)"
-    )
-    FM_LIMIT_ORD_PRIC: Decimal | None = Field(
-        default=None,
-        alias="FM_LIMIT_ORD_PRIC",
-    )
+    ORGN_ODNO: str = Field(alias="ORGN_ODNO")
+    ('정정/취소시 주문번호(ODNO) 8자리를 문자열처럼 "0"을 포함해서 전송 (원 주문 시 출력된 ODNO 값 활용) (ex. ORGN_ODNO : 00360686)')
+    FM_LIMIT_ORD_PRIC: Decimal | None = Field(default=None, alias="FM_LIMIT_ORD_PRIC")
     ("OTFM3002U(해외선물옵션주문정정)만 사용")
-    FM_STOP_ORD_PRIC: Decimal | None = Field(
-        default=None,
-        alias="FM_STOP_ORD_PRIC",
-    )
+    FM_STOP_ORD_PRIC: Decimal | None = Field(default=None, alias="FM_STOP_ORD_PRIC")
     ("OTFM3002U(해외선물옵션주문정정)만 사용")
-    FM_LQD_LMT_ORD_PRIC: Decimal | None = Field(
-        default=None,
-        alias="FM_LQD_LMT_ORD_PRIC",
-    )
+    FM_LQD_LMT_ORD_PRIC: Decimal | None = Field(default=None, alias="FM_LQD_LMT_ORD_PRIC")
     ("OTFM3002U(해외선물옵션주문정정)만 사용")
-    FM_LQD_STOP_ORD_PRIC: Decimal | None = Field(
-        default=None,
-        alias="FM_LQD_STOP_ORD_PRIC",
-    )
+    FM_LQD_STOP_ORD_PRIC: Decimal | None = Field(default=None, alias="FM_LQD_STOP_ORD_PRIC")
     ("OTFM3002U(해외선물옵션주문정정)만 사용")
-    FM_HDGE_ORD_SCRN_YN: KisBool = Field(
-        alias="FM_HDGE_ORD_SCRN_YN",
-    )
+    FM_HDGE_ORD_SCRN_YN: KisBool = Field(alias="FM_HDGE_ORD_SCRN_YN")
     ("N")
-    FM_MKPR_CVSN_YN: KisBool | None = Field(
-        default=None,
-        alias="FM_MKPR_CVSN_YN",
-    )
+    FM_MKPR_CVSN_YN: KisBool | None = Field(default=None, alias="FM_MKPR_CVSN_YN")
     (
         "OTFM3003U(해외선물옵션주문취소)만 사용 ※ FM_MKPR_CVSN_YN 항목에 'Y'로 설정하여 취소주문을 접수할 "
         "경우, 주문 취소확인이 들어오면 원장에서 시장가주문을 하나 또 내줌"
@@ -118,51 +77,17 @@ class OrderRvsecnclRequestDict(TypedDict):
         또 내줌 optional
     """
 
-    CANO: Annotated[
-        CanoEnum,
-        "계좌번호 체계(8-2)의 앞 8자리",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        AcntPrdtCdEnum,
-        "계좌번호 체계(8-2)의 뒤 2자리",
-    ]
-    ORGN_ORD_DT: Annotated[
-        KisDate,
-        "원 주문 시 출력되는 ORD_DT 값을 입력 (현지거래일)",
-    ]
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
+    ORGN_ORD_DT: Annotated[KisDate, "원 주문 시 출력되는 ORD_DT 값을 입력 (현지거래일)"]
     ORGN_ODNO: Annotated[
-        str,
-        '정정/취소시 주문번호(ODNO) 8자리를 문자열처럼 "0"을 포함해서 전송 (원 주문 시 출력된 ODNO 값 '
-        "활용) (ex. ORGN_ODNO : 00360686)",
+        str, '정정/취소시 주문번호(ODNO) 8자리를 문자열처럼 "0"을 포함해서 전송 (원 주문 시 출력된 ODNO 값 활용) (ex. ORGN_ODNO : 00360686)'
     ]
-    FM_LIMIT_ORD_PRIC: NotRequired[
-        Annotated[
-            Decimal | None,
-            "OTFM3002U(해외선물옵션주문정정)만 사용",
-        ]
-    ]
-    FM_STOP_ORD_PRIC: NotRequired[
-        Annotated[
-            Decimal | None,
-            "OTFM3002U(해외선물옵션주문정정)만 사용",
-        ]
-    ]
-    FM_LQD_LMT_ORD_PRIC: NotRequired[
-        Annotated[
-            Decimal | None,
-            "OTFM3002U(해외선물옵션주문정정)만 사용",
-        ]
-    ]
-    FM_LQD_STOP_ORD_PRIC: NotRequired[
-        Annotated[
-            Decimal | None,
-            "OTFM3002U(해외선물옵션주문정정)만 사용",
-        ]
-    ]
-    FM_HDGE_ORD_SCRN_YN: Annotated[
-        KisBool,
-        "N",
-    ]
+    FM_LIMIT_ORD_PRIC: NotRequired[Annotated[Decimal | None, "OTFM3002U(해외선물옵션주문정정)만 사용"]]
+    FM_STOP_ORD_PRIC: NotRequired[Annotated[Decimal | None, "OTFM3002U(해외선물옵션주문정정)만 사용"]]
+    FM_LQD_LMT_ORD_PRIC: NotRequired[Annotated[Decimal | None, "OTFM3002U(해외선물옵션주문정정)만 사용"]]
+    FM_LQD_STOP_ORD_PRIC: NotRequired[Annotated[Decimal | None, "OTFM3002U(해외선물옵션주문정정)만 사용"]]
+    FM_HDGE_ORD_SCRN_YN: Annotated[KisBool, "N"]
     FM_MKPR_CVSN_YN: NotRequired[
         Annotated[
             KisBool | None,
@@ -173,34 +98,20 @@ class OrderRvsecnclRequestDict(TypedDict):
 
 
 class OrderRvsecnclOutput(RawModel):
-    ORD_DT: str | None = Field(
-        default=None,
-        alias="ORD_DT",
-    )
+    ORD_DT: str | None = Field(default=None, alias="ORD_DT")
     ("YYYYMMDD(ex. 20230811)")
-    ODNO: str | None = Field(
-        default=None,
-        alias="ODNO",
-    )
+    ODNO: str | None = Field(default=None, alias="ODNO")
     ('접수한 주문의 일련번호(ex. 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송 (ex. ORGN_ODNO : 00360686)')
 
 
 class OrderRvsecnclResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: OrderRvsecnclOutput = Field(
-        alias="output",
-    )
+    output: OrderRvsecnclOutput = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[OrderRvsecnclRequest, OrderRvsecnclResponse] = Endpoint(
@@ -227,27 +138,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OrderRvsecnclRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OrderRvsecnclRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OrderRvsecnclResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OrderRvsecnclRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OrderRvsecnclRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OrderRvsecnclResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[OrderRvsecnclRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[OrderRvsecnclRequestDict]
         ) -> tuple[OrderRvsecnclResponse, KisResponse]: ...
         def call(
             self,

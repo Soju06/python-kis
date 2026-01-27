@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -44,21 +32,13 @@ class CrcyCdEnum(KisStrEnum):
 
 
 class MarginDetailRequest(RawModel):
-    CANO: str = Field(
-        alias="CANO",
-    )
+    CANO: str = Field(alias="CANO")
     ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
     ("계좌상품코드")
-    CRCY_CD: CrcyCdEnum = Field(
-        alias="CRCY_CD",
-    )
+    CRCY_CD: CrcyCdEnum = Field(alias="CRCY_CD")
     ("'TKR(TOT_KRW), TUS(TOT_USD), USD(미국달러), HKD(홍콩달러), CNY(중국위안화), JPY )일본엔화), VND(베트남동)'")
-    INQR_DT: KisDate = Field(
-        alias="INQR_DT",
-    )
+    INQR_DT: KisDate = Field(alias="INQR_DT")
     ("조회일자")
 
 
@@ -116,239 +96,121 @@ class MarginDetailRequestDict(TypedDict):
         INQR_DT (KisDate): 조회일자
     """
 
-    CANO: Annotated[
-        str,
-        "종합계좌번호",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        str,
-        "계좌상품코드",
-    ]
-    CRCY_CD: Annotated[
-        CrcyCdEnum,
-        "'TKR(TOT_KRW), TUS(TOT_USD), USD(미국달러), HKD(홍콩달러), CNY(중국위안화), JPY )일본엔화), VND(베트남동)'",
-    ]
-    INQR_DT: Annotated[
-        KisDate,
-        "조회일자",
-    ]
+    CANO: Annotated[str, "종합계좌번호"]
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
+    CRCY_CD: Annotated[CrcyCdEnum, "'TKR(TOT_KRW), TUS(TOT_USD), USD(미국달러), HKD(홍콩달러), CNY(중국위안화), JPY )일본엔화), VND(베트남동)'"]
+    INQR_DT: Annotated[KisDate, "조회일자"]
 
 
 class MarginDetailOutput(RawModel):
-    cano: str = Field(
-        alias="cano",
-    )
+    cano: str = Field(alias="cano")
     ("종합계좌번호")
-    acnt_prdt_cd: str = Field(
-        alias="acnt_prdt_cd",
-    )
+    acnt_prdt_cd: str = Field(alias="acnt_prdt_cd")
     ("계좌상품코드")
-    crcy_cd: str = Field(
-        alias="crcy_cd",
-    )
+    crcy_cd: str = Field(alias="crcy_cd")
     ("통화코드")
-    resp_dt: KisDate = Field(
-        alias="resp_dt",
-    )
+    resp_dt: KisDate = Field(alias="resp_dt")
     ("응답일자")
-    acnt_net_risk_mgna_aply_yn: KisBool = Field(
-        alias="acnt_net_risk_mgna_aply_yn",
-    )
+    acnt_net_risk_mgna_aply_yn: KisBool = Field(alias="acnt_net_risk_mgna_aply_yn")
     ("계좌순위험증거금적용여부")
-    fm_ord_psbl_amt: Decimal = Field(
-        alias="fm_ord_psbl_amt",
-    )
+    fm_ord_psbl_amt: Decimal = Field(alias="fm_ord_psbl_amt")
     ("FM주문가능금액")
-    fm_add_mgn_amt: Decimal = Field(
-        alias="fm_add_mgn_amt",
-    )
+    fm_add_mgn_amt: Decimal = Field(alias="fm_add_mgn_amt")
     ("FM추가증거금액")
-    fm_brkg_mgn_amt: Decimal = Field(
-        alias="fm_brkg_mgn_amt",
-    )
+    fm_brkg_mgn_amt: Decimal = Field(alias="fm_brkg_mgn_amt")
     ("FM위탁증거금액")
-    fm_excc_brkg_mgn_amt: Decimal = Field(
-        alias="fm_excc_brkg_mgn_amt",
-    )
+    fm_excc_brkg_mgn_amt: Decimal = Field(alias="fm_excc_brkg_mgn_amt")
     ("FM정산위탁증거금액")
-    fm_ustl_mgn_amt: Decimal = Field(
-        alias="fm_ustl_mgn_amt",
-    )
+    fm_ustl_mgn_amt: Decimal = Field(alias="fm_ustl_mgn_amt")
     ("FM미결제증거금액")
-    fm_mntn_mgn_amt: Decimal = Field(
-        alias="fm_mntn_mgn_amt",
-    )
+    fm_mntn_mgn_amt: Decimal = Field(alias="fm_mntn_mgn_amt")
     ("FM유지증거금액")
-    fm_ord_mgn_amt: Decimal = Field(
-        alias="fm_ord_mgn_amt",
-    )
+    fm_ord_mgn_amt: Decimal = Field(alias="fm_ord_mgn_amt")
     ("FM주문증거금액")
-    fm_futr_ord_mgn_amt: Decimal = Field(
-        alias="fm_futr_ord_mgn_amt",
-    )
+    fm_futr_ord_mgn_amt: Decimal = Field(alias="fm_futr_ord_mgn_amt")
     ("FM선물주문증거금액")
-    fm_opt_buy_ord_amt: Decimal = Field(
-        alias="fm_opt_buy_ord_amt",
-    )
+    fm_opt_buy_ord_amt: Decimal = Field(alias="fm_opt_buy_ord_amt")
     ("FM옵션매수주문금액")
-    fm_opt_sll_ord_mgn_amt: Decimal = Field(
-        alias="fm_opt_sll_ord_mgn_amt",
-    )
+    fm_opt_sll_ord_mgn_amt: Decimal = Field(alias="fm_opt_sll_ord_mgn_amt")
     ("FM옵션매도주문증거금액")
-    fm_opt_buy_ord_mgn_amt: Decimal = Field(
-        alias="fm_opt_buy_ord_mgn_amt",
-    )
+    fm_opt_buy_ord_mgn_amt: Decimal = Field(alias="fm_opt_buy_ord_mgn_amt")
     ("FM옵션매수주문증거금액")
-    fm_ecis_rsvn_mgn_amt: Decimal = Field(
-        alias="fm_ecis_rsvn_mgn_amt",
-    )
+    fm_ecis_rsvn_mgn_amt: Decimal = Field(alias="fm_ecis_rsvn_mgn_amt")
     ("FM행사예약증거금액")
-    fm_span_brkg_mgn_amt: Decimal = Field(
-        alias="fm_span_brkg_mgn_amt",
-    )
+    fm_span_brkg_mgn_amt: Decimal = Field(alias="fm_span_brkg_mgn_amt")
     ("FMSPAN위탁증거금액")
-    fm_span_pric_altr_mgn_amt: Decimal = Field(
-        alias="fm_span_pric_altr_mgn_amt",
-    )
+    fm_span_pric_altr_mgn_amt: Decimal = Field(alias="fm_span_pric_altr_mgn_amt")
     ("FMSPAN가격변동증거금액")
-    fm_span_term_sprd_mgn_amt: Decimal = Field(
-        alias="fm_span_term_sprd_mgn_amt",
-    )
+    fm_span_term_sprd_mgn_amt: Decimal = Field(alias="fm_span_term_sprd_mgn_amt")
     ("FMSPAN기간스프레드증거금액")
-    fm_span_buy_opt_min_mgn_amt: Decimal = Field(
-        alias="fm_span_buy_opt_min_mgn_amt",
-    )
+    fm_span_buy_opt_min_mgn_amt: Decimal = Field(alias="fm_span_buy_opt_min_mgn_amt")
     ("FMSPAN옵션가격증거금액")
-    fm_span_opt_min_mgn_amt: Decimal = Field(
-        alias="fm_span_opt_min_mgn_amt",
-    )
+    fm_span_opt_min_mgn_amt: Decimal = Field(alias="fm_span_opt_min_mgn_amt")
     ("FMSPAN옵션최소증거금액")
-    fm_span_tot_risk_mgn_amt: Decimal = Field(
-        alias="fm_span_tot_risk_mgn_amt",
-    )
+    fm_span_tot_risk_mgn_amt: Decimal = Field(alias="fm_span_tot_risk_mgn_amt")
     ("FMSPAN총위험증거금액")
-    fm_span_mntn_mgn_amt: Decimal = Field(
-        alias="fm_span_mntn_mgn_amt",
-    )
+    fm_span_mntn_mgn_amt: Decimal = Field(alias="fm_span_mntn_mgn_amt")
     ("FMSPAN유지증거금액")
-    fm_span_mntn_pric_altr_mgn_amt: Decimal = Field(
-        alias="fm_span_mntn_pric_altr_mgn_amt",
-    )
+    fm_span_mntn_pric_altr_mgn_amt: Decimal = Field(alias="fm_span_mntn_pric_altr_mgn_amt")
     ("FMSPAN유지가격변동증거금액")
-    fm_span_mntn_term_sprd_mgn_amt: Decimal = Field(
-        alias="fm_span_mntn_term_sprd_mgn_amt",
-    )
+    fm_span_mntn_term_sprd_mgn_amt: Decimal = Field(alias="fm_span_mntn_term_sprd_mgn_amt")
     ("FMSPAN유지기간스프레드증거금액")
-    fm_span_mntn_opt_pric_mgn_amt: Decimal = Field(
-        alias="fm_span_mntn_opt_pric_mgn_amt",
-    )
+    fm_span_mntn_opt_pric_mgn_amt: Decimal = Field(alias="fm_span_mntn_opt_pric_mgn_amt")
     ("FMSPAN유지옵션가격증거금액")
-    fm_span_mntn_opt_min_mgn_amt: Decimal = Field(
-        alias="fm_span_mntn_opt_min_mgn_amt",
-    )
+    fm_span_mntn_opt_min_mgn_amt: Decimal = Field(alias="fm_span_mntn_opt_min_mgn_amt")
     ("FMSPAN유지옵션최소증거금액")
-    fm_span_mntn_tot_risk_mgn_amt: Decimal = Field(
-        alias="fm_span_mntn_tot_risk_mgn_amt",
-    )
+    fm_span_mntn_tot_risk_mgn_amt: Decimal = Field(alias="fm_span_mntn_tot_risk_mgn_amt")
     ("FMSPAN유지총위험증거금액")
-    fm_eurx_brkg_mgn_amt: Decimal = Field(
-        alias="fm_eurx_brkg_mgn_amt",
-    )
+    fm_eurx_brkg_mgn_amt: Decimal = Field(alias="fm_eurx_brkg_mgn_amt")
     ("FMEUREX위탁증거금액")
-    fm_eurx_pric_altr_mgn_amt: Decimal = Field(
-        alias="fm_eurx_pric_altr_mgn_amt",
-    )
+    fm_eurx_pric_altr_mgn_amt: Decimal = Field(alias="fm_eurx_pric_altr_mgn_amt")
     ("FMEUREX가격변동증거금액")
-    fm_eurx_term_sprd_mgn_amt: Decimal = Field(
-        alias="fm_eurx_term_sprd_mgn_amt",
-    )
+    fm_eurx_term_sprd_mgn_amt: Decimal = Field(alias="fm_eurx_term_sprd_mgn_amt")
     ("FMEUREX기간스프레드증거금액")
-    fm_eurx_opt_pric_mgn_amt: Decimal = Field(
-        alias="fm_eurx_opt_pric_mgn_amt",
-    )
+    fm_eurx_opt_pric_mgn_amt: Decimal = Field(alias="fm_eurx_opt_pric_mgn_amt")
     ("FMEUREX옵션가격증거금액")
-    fm_eurx_buy_opt_min_mgn_amt: Decimal = Field(
-        alias="fm_eurx_buy_opt_min_mgn_amt",
-    )
+    fm_eurx_buy_opt_min_mgn_amt: Decimal = Field(alias="fm_eurx_buy_opt_min_mgn_amt")
     ("FMEUREX매수옵션최소증거금액")
-    fm_eurx_tot_risk_mgn_amt: Decimal = Field(
-        alias="fm_eurx_tot_risk_mgn_amt",
-    )
+    fm_eurx_tot_risk_mgn_amt: Decimal = Field(alias="fm_eurx_tot_risk_mgn_amt")
     ("FMEUREX총위험증거금액")
-    fm_eurx_mntn_mgn_amt: Decimal = Field(
-        alias="fm_eurx_mntn_mgn_amt",
-    )
+    fm_eurx_mntn_mgn_amt: Decimal = Field(alias="fm_eurx_mntn_mgn_amt")
     ("FMEUREX유지증거금액")
-    fm_eurx_mntn_pric_altr_mgn_amt: Decimal = Field(
-        alias="fm_eurx_mntn_pric_altr_mgn_amt",
-    )
+    fm_eurx_mntn_pric_altr_mgn_amt: Decimal = Field(alias="fm_eurx_mntn_pric_altr_mgn_amt")
     ("FMEUREX유지가격변동증거금액")
-    fm_eurx_mntn_term_sprd_mgn_amt: Decimal = Field(
-        alias="fm_eurx_mntn_term_sprd_mgn_amt",
-    )
+    fm_eurx_mntn_term_sprd_mgn_amt: Decimal = Field(alias="fm_eurx_mntn_term_sprd_mgn_amt")
     ("FMEUREX기간스프레드증거금액")
-    fm_eurx_mntn_opt_pric_mgn_amt: Decimal = Field(
-        alias="fm_eurx_mntn_opt_pric_mgn_amt",
-    )
+    fm_eurx_mntn_opt_pric_mgn_amt: Decimal = Field(alias="fm_eurx_mntn_opt_pric_mgn_amt")
     ("FMEUREX유지옵션가격증거금액")
-    fm_eurx_mntn_tot_risk_mgn_amt: Decimal = Field(
-        alias="fm_eurx_mntn_tot_risk_mgn_amt",
-    )
+    fm_eurx_mntn_tot_risk_mgn_amt: Decimal = Field(alias="fm_eurx_mntn_tot_risk_mgn_amt")
     ("FMEUREX유지총위험증거금액")
-    fm_gnrl_brkg_mgn_amt: Decimal = Field(
-        alias="fm_gnrl_brkg_mgn_amt",
-    )
+    fm_gnrl_brkg_mgn_amt: Decimal = Field(alias="fm_gnrl_brkg_mgn_amt")
     ("FM일반위탁증거금액")
-    fm_futr_ustl_mgn_amt: Decimal = Field(
-        alias="fm_futr_ustl_mgn_amt",
-    )
+    fm_futr_ustl_mgn_amt: Decimal = Field(alias="fm_futr_ustl_mgn_amt")
     ("FM선물미결제증거금액")
-    fm_sll_opt_ustl_mgn_amt: Decimal = Field(
-        alias="fm_sll_opt_ustl_mgn_amt",
-    )
+    fm_sll_opt_ustl_mgn_amt: Decimal = Field(alias="fm_sll_opt_ustl_mgn_amt")
     ("FM매도옵션미결제증거금액")
-    fm_buy_opt_ustl_mgn_amt: Decimal = Field(
-        alias="fm_buy_opt_ustl_mgn_amt",
-    )
+    fm_buy_opt_ustl_mgn_amt: Decimal = Field(alias="fm_buy_opt_ustl_mgn_amt")
     ("FM매수옵션미결제증거금액")
-    fm_sprd_ustl_mgn_amt: Decimal = Field(
-        alias="fm_sprd_ustl_mgn_amt",
-    )
+    fm_sprd_ustl_mgn_amt: Decimal = Field(alias="fm_sprd_ustl_mgn_amt")
     ("FM스프레드미결제증거금액")
-    fm_avg_dsct_mgn_amt: Decimal = Field(
-        alias="fm_avg_dsct_mgn_amt",
-    )
+    fm_avg_dsct_mgn_amt: Decimal = Field(alias="fm_avg_dsct_mgn_amt")
     ("FMAVG할인증거금액")
-    fm_gnrl_mntn_mgn_amt: Decimal = Field(
-        alias="fm_gnrl_mntn_mgn_amt",
-    )
+    fm_gnrl_mntn_mgn_amt: Decimal = Field(alias="fm_gnrl_mntn_mgn_amt")
     ("FM일반유지증거금액")
-    fm_futr_mntn_mgn_amt: Decimal = Field(
-        alias="fm_futr_mntn_mgn_amt",
-    )
+    fm_futr_mntn_mgn_amt: Decimal = Field(alias="fm_futr_mntn_mgn_amt")
     ("FM선물유지증거금액")
-    fm_opt_mntn_mgn_amt: Decimal = Field(
-        alias="fm_opt_mntn_mgn_amt",
-    )
+    fm_opt_mntn_mgn_amt: Decimal = Field(alias="fm_opt_mntn_mgn_amt")
     ("FM옵션유지증거금액")
 
 
 class MarginDetailResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: MarginDetailOutput = Field(
-        alias="output",
-    )
+    output: MarginDetailOutput = Field(alias="output")
     ("응답상세")
 
 
@@ -415,27 +277,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: MarginDetailRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: MarginDetailRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[MarginDetailResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: MarginDetailRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: MarginDetailRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[MarginDetailResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[MarginDetailRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[MarginDetailRequestDict]
         ) -> tuple[MarginDetailResponse, KisResponse]: ...
         def call(
             self,
@@ -515,11 +365,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "MarginDetailRequest",
-    "MarginDetailRequestDict",
-    "MarginDetailResponse",
-    "MarginDetailOutput",
-    "CrcyCdEnum",
-]
+__all__ = ["ENDPOINT", "MarginDetailRequest", "MarginDetailRequestDict", "MarginDetailResponse", "MarginDetailOutput", "CrcyCdEnum"]

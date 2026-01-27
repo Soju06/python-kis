@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -46,25 +35,15 @@ class FidBlngClsCodeEnum(KisStrEnum):
 
 
 class ExpClosingPriceRequest(RawModel):
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
-        alias="FID_RANK_SORT_CLS_CODE",
-    )
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
     ("0:전체, 1:상한가마감예상, 2:하한가마감예상, 3:직전대비상승률상위 ,4:직전대비하락률상위")
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("시장구분코드 (주식 J)")
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("Unique key(11173)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
-    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum = Field(
-        alias="FID_BLNG_CLS_CODE",
-    )
+    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum = Field(alias="FID_BLNG_CLS_CODE")
     ("0:전체, 1:종가범위연장")
 
 
@@ -84,82 +63,43 @@ class ExpClosingPriceRequestDict(TypedDict):
     """
 
     FID_RANK_SORT_CLS_CODE: Annotated[
-        FidRankSortClsCodeEnum,
-        "0:전체, 1:상한가마감예상, 2:하한가마감예상, 3:직전대비상승률상위 ,4:직전대비하락률상위",
+        FidRankSortClsCodeEnum, "0:전체, 1:상한가마감예상, 2:하한가마감예상, 3:직전대비상승률상위 ,4:직전대비하락률상위"
     ]
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "시장구분코드 (주식 J)",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "Unique key(11173)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100",
-    ]
-    FID_BLNG_CLS_CODE: Annotated[
-        FidBlngClsCodeEnum,
-        "0:전체, 1:종가범위연장",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(11173)"]
+    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"]
+    FID_BLNG_CLS_CODE: Annotated[FidBlngClsCodeEnum, "0:전체, 1:종가범위연장"]
 
 
 class ExpClosingPriceOutput1(RawModel):
-    stck_shrn_iscd: str = Field(
-        alias="stck_shrn_iscd",
-    )
+    stck_shrn_iscd: str = Field(alias="stck_shrn_iscd")
     ("주식 단축 종목코드")
-    hts_kor_isnm: str = Field(
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
     ("HTS 한글 종목명")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식 현재가")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일 대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일 대비율")
-    sdpr_vrss_prpr: Decimal = Field(
-        alias="sdpr_vrss_prpr",
-    )
+    sdpr_vrss_prpr: Decimal = Field(alias="sdpr_vrss_prpr")
     ("기준가 대비 현재가")
-    sdpr_vrss_prpr_rate: Decimal = Field(
-        alias="sdpr_vrss_prpr_rate",
-    )
+    sdpr_vrss_prpr_rate: Decimal = Field(alias="sdpr_vrss_prpr_rate")
     ("기준가 대비 현재가 비율")
-    cntg_vol: int = Field(
-        alias="cntg_vol",
-    )
+    cntg_vol: int = Field(alias="cntg_vol")
     ("체결 거래량")
 
 
 class ExpClosingPriceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: list[ExpClosingPriceOutput1] = Field(
-        alias="output",
-    )
+    output1: list[ExpClosingPriceOutput1] = Field(alias="output")
     ("응답상세")
 
 
@@ -186,27 +126,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: ExpClosingPriceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: ExpClosingPriceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[ExpClosingPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: ExpClosingPriceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: ExpClosingPriceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[ExpClosingPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[ExpClosingPriceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[ExpClosingPriceRequestDict]
         ) -> tuple[ExpClosingPriceResponse, KisResponse]: ...
         def call(
             self,

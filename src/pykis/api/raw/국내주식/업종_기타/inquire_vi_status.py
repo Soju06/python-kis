@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDateOptional,
-    KisTimeOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDateOptional, KisTimeOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -46,37 +33,21 @@ class ViKindCodeEnum(KisStrEnum):
 
 
 class InquireViStatusRequest(RawModel):
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
-        alias="FID_DIV_CLS_CODE",
-    )
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
     ("0:전체 1:상승 2:하락")
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("20139")
-    FID_MRKT_CLS_CODE: str = Field(
-        alias="FID_MRKT_CLS_CODE",
-    )
+    FID_MRKT_CLS_CODE: str = Field(alias="FID_MRKT_CLS_CODE")
     ("0:전체 K:거래소 Q:코스닥")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("FID 입력 종목코드")
-    FID_RANK_SORT_CLS_CODE: str = Field(
-        alias="FID_RANK_SORT_CLS_CODE",
-    )
+    FID_RANK_SORT_CLS_CODE: str = Field(alias="FID_RANK_SORT_CLS_CODE")
     ("0:전체1:정적2:동적3:정적&동적")
-    FID_INPUT_DATE_1: str = Field(
-        alias="FID_INPUT_DATE_1",
-    )
+    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
     ("영업일")
-    FID_TRGT_CLS_CODE: str = Field(
-        alias="FID_TRGT_CLS_CODE",
-    )
+    FID_TRGT_CLS_CODE: str = Field(alias="FID_TRGT_CLS_CODE")
     ("FID 대상 구분 코드")
-    FID_TRGT_EXLS_CLS_CODE: str = Field(
-        alias="FID_TRGT_EXLS_CLS_CODE",
-    )
+    FID_TRGT_EXLS_CLS_CODE: str = Field(alias="FID_TRGT_EXLS_CLS_CODE")
     ("FID 대상 제외 구분 코드")
 
 
@@ -97,124 +68,53 @@ class InquireViStatusRequestDict(TypedDict):
         FID_TRGT_EXLS_CLS_CODE (str): FID 대상 제외 구분 코드
     """
 
-    FID_DIV_CLS_CODE: Annotated[
-        FidDivClsCodeEnum,
-        "0:전체 1:상승 2:하락",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "20139",
-    ]
-    FID_MRKT_CLS_CODE: Annotated[
-        str,
-        "0:전체 K:거래소 Q:코스닥",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "FID 입력 종목코드",
-    ]
-    FID_RANK_SORT_CLS_CODE: Annotated[
-        str,
-        "0:전체1:정적2:동적3:정적&동적",
-    ]
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "영업일",
-    ]
-    FID_TRGT_CLS_CODE: Annotated[
-        str,
-        "FID 대상 구분 코드",
-    ]
-    FID_TRGT_EXLS_CLS_CODE: Annotated[
-        str,
-        "FID 대상 제외 구분 코드",
-    ]
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0:전체 1:상승 2:하락"]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "20139"]
+    FID_MRKT_CLS_CODE: Annotated[str, "0:전체 K:거래소 Q:코스닥"]
+    FID_INPUT_ISCD: Annotated[str, "FID 입력 종목코드"]
+    FID_RANK_SORT_CLS_CODE: Annotated[str, "0:전체1:정적2:동적3:정적&동적"]
+    FID_INPUT_DATE_1: Annotated[str, "영업일"]
+    FID_TRGT_CLS_CODE: Annotated[str, "FID 대상 구분 코드"]
+    FID_TRGT_EXLS_CLS_CODE: Annotated[str, "FID 대상 제외 구분 코드"]
 
 
 class InquireViStatusOutput(RawModel):
-    hts_kor_isnm: str | None = Field(
-        default=None,
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
     ("HTS 한글 종목명")
-    mksc_shrn_iscd: str | None = Field(
-        default=None,
-        alias="mksc_shrn_iscd",
-    )
+    mksc_shrn_iscd: str | None = Field(default=None, alias="mksc_shrn_iscd")
     ("유가증권 단축 종목코드")
-    vi_cls_code: KisBool | None = Field(
-        default=None,
-        alias="vi_cls_code",
-    )
+    vi_cls_code: KisBool | None = Field(default=None, alias="vi_cls_code")
     ("Y: 발동 / N: 해제")
-    bsop_date: KisDateOptional = Field(
-        default=None,
-        alias="bsop_date",
-    )
+    bsop_date: KisDateOptional = Field(default=None, alias="bsop_date")
     ("영업 일자")
-    cntg_vi_hour: KisTimeOptional = Field(
-        default=None,
-        alias="cntg_vi_hour",
-    )
+    cntg_vi_hour: KisTimeOptional = Field(default=None, alias="cntg_vi_hour")
     ("VI발동시간")
-    vi_cncl_hour: KisTimeOptional = Field(
-        default=None,
-        alias="vi_cncl_hour",
-    )
+    vi_cncl_hour: KisTimeOptional = Field(default=None, alias="vi_cncl_hour")
     ("VI해제시간")
-    vi_kind_code: ViKindCodeEnum | None = Field(
-        default=None,
-        alias="vi_kind_code",
-    )
+    vi_kind_code: ViKindCodeEnum | None = Field(default=None, alias="vi_kind_code")
     ("1:정적 2:동적 3:정적&동적")
-    vi_prc: Decimal | None = Field(
-        default=None,
-        alias="vi_prc",
-    )
+    vi_prc: Decimal | None = Field(default=None, alias="vi_prc")
     ("VI발동가격")
-    vi_stnd_prc: Decimal | None = Field(
-        default=None,
-        alias="vi_stnd_prc",
-    )
+    vi_stnd_prc: Decimal | None = Field(default=None, alias="vi_stnd_prc")
     ("정적VI발동기준가격")
-    vi_dprt: Decimal | None = Field(
-        default=None,
-        alias="vi_dprt",
-    )
+    vi_dprt: Decimal | None = Field(default=None, alias="vi_dprt")
     ("%")
-    vi_dmc_stnd_prc: Decimal | None = Field(
-        default=None,
-        alias="vi_dmc_stnd_prc",
-    )
+    vi_dmc_stnd_prc: Decimal | None = Field(default=None, alias="vi_dmc_stnd_prc")
     ("동적VI발동기준가격")
-    vi_dmc_dprt: Decimal | None = Field(
-        default=None,
-        alias="vi_dmc_dprt",
-    )
+    vi_dmc_dprt: Decimal | None = Field(default=None, alias="vi_dmc_dprt")
     ("%")
-    vi_count: int | None = Field(
-        default=None,
-        alias="vi_count",
-    )
+    vi_count: int | None = Field(default=None, alias="vi_count")
     ("VI발동횟수")
 
 
 class InquireViStatusResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[InquireViStatusOutput] = Field(
-        alias="output",
-    )
+    output: list[InquireViStatusOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -225,11 +125,7 @@ _ENDPOINT: Endpoint[InquireViStatusRequest, InquireViStatusResponse] = Endpoint(
     path="/uapi/domestic-stock/v1/quotations/inquire-vi-status",
     request_model=InquireViStatusRequest,
     response_model=InquireViStatusResponse,
-    description=(
-        "HTS(eFriend Plus) [0139] 변동성 완화장치(VI) 현황 데이터를 확인할 수 있는 API입니다.\\n"
-        "\\n"
-        "최근 30건까지 확인 가능합니다."
-    ),
+    description=("HTS(eFriend Plus) [0139] 변동성 완화장치(VI) 현황 데이터를 확인할 수 있는 API입니다.\\n\\n최근 30건까지 확인 가능합니다."),
     real_tr_id="FHPST01390000",
     demo_tr_id=None,
     auth_required=True,
@@ -241,27 +137,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireViStatusRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireViStatusRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireViStatusResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireViStatusRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireViStatusRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireViStatusResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireViStatusRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireViStatusRequestDict]
         ) -> tuple[InquireViStatusResponse, KisResponse]: ...
         def call(
             self,

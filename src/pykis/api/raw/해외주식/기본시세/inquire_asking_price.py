@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDateOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -55,22 +42,14 @@ class ExcdEnum(KisStrEnum):
 
 
 class InquireAskingPriceRequest(RawModel):
-    AUTH: str | None = Field(
-        default=None,
-        alias="AUTH",
-        json_schema_extra={"blank_allowed": True},
-    )
+    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
     ("공백")
-    EXCD: ExcdEnum = Field(
-        alias="EXCD",
-    )
+    EXCD: ExcdEnum = Field(alias="EXCD")
     (
         "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 "
         "TSE : 도쿄 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)"
     )
-    SYMB: str = Field(
-        alias="SYMB",
-    )
+    SYMB: str = Field(alias="SYMB")
     ("종목코드 예)TSLA")
 
 
@@ -114,486 +93,208 @@ class InquireAskingPriceRequestDict(TypedDict):
         SYMB (str): 종목코드 예)TSLA
     """
 
-    AUTH: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
+    AUTH: NotRequired[Annotated[str | None, "공백"]]
     EXCD: Annotated[
         ExcdEnum,
         "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 "
         "TSE : 도쿄 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
     ]
-    SYMB: Annotated[
-        str,
-        "종목코드 예)TSLA",
-    ]
+    SYMB: Annotated[str, "종목코드 예)TSLA"]
 
 
 class InquireAskingPriceOutput1(RawModel):
-    rsym: str | None = Field(
-        default=None,
-        alias="rsym",
-    )
+    rsym: str | None = Field(default=None, alias="rsym")
     ("실시간조회종목코드")
-    zdiv: str | None = Field(
-        default=None,
-        alias="zdiv",
-    )
+    zdiv: str | None = Field(default=None, alias="zdiv")
     ("소수점자리수")
-    curr: str | None = Field(
-        default=None,
-        alias="curr",
-    )
+    curr: str | None = Field(default=None, alias="curr")
     ("통화")
-    base: str | None = Field(
-        default=None,
-        alias="base",
-    )
+    base: str | None = Field(default=None, alias="base")
     ("전일종가")
-    open: Decimal | None = Field(
-        default=None,
-        alias="open",
-    )
+    open: Decimal | None = Field(default=None, alias="open")
     ("시가")
-    high: Decimal | None = Field(
-        default=None,
-        alias="high",
-    )
+    high: Decimal | None = Field(default=None, alias="high")
     ("고가")
-    low: Decimal | None = Field(
-        default=None,
-        alias="low",
-    )
+    low: Decimal | None = Field(default=None, alias="low")
     ("저가")
-    last: Decimal | None = Field(
-        default=None,
-        alias="last",
-    )
+    last: Decimal | None = Field(default=None, alias="last")
     ("현재가")
-    dymd: KisDateOptional = Field(
-        default=None,
-        alias="dymd",
-    )
+    dymd: KisDateOptional = Field(default=None, alias="dymd")
     ("호가일자")
-    dhms: str | None = Field(
-        default=None,
-        alias="dhms",
-    )
+    dhms: str | None = Field(default=None, alias="dhms")
     ("호가시간")
-    bvol: int | None = Field(
-        default=None,
-        alias="bvol",
-    )
+    bvol: int | None = Field(default=None, alias="bvol")
     ("매수호가총잔량")
-    avol: int | None = Field(
-        default=None,
-        alias="avol",
-    )
+    avol: int | None = Field(default=None, alias="avol")
     ("매도호가총잔량")
-    bdvl: str | None = Field(
-        default=None,
-        alias="bdvl",
-    )
+    bdvl: str | None = Field(default=None, alias="bdvl")
     ("매수호가총잔량대비")
-    advl: str | None = Field(
-        default=None,
-        alias="advl",
-    )
+    advl: str | None = Field(default=None, alias="advl")
     ("매도호가총잔량대비")
-    code: str | None = Field(
-        default=None,
-        alias="code",
-    )
+    code: str | None = Field(default=None, alias="code")
     ("종목코드")
-    ropen: Decimal | None = Field(
-        default=None,
-        alias="ropen",
-    )
+    ropen: Decimal | None = Field(default=None, alias="ropen")
     ("시가율")
-    rhigh: Decimal | None = Field(
-        default=None,
-        alias="rhigh",
-    )
+    rhigh: Decimal | None = Field(default=None, alias="rhigh")
     ("고가율")
-    rlow: Decimal | None = Field(
-        default=None,
-        alias="rlow",
-    )
+    rlow: Decimal | None = Field(default=None, alias="rlow")
     ("저가율")
-    rclose: Decimal | None = Field(
-        default=None,
-        alias="rclose",
-    )
+    rclose: Decimal | None = Field(default=None, alias="rclose")
     ("현재가율")
 
 
 class InquireAskingPriceOutput2(RawModel):
-    pbid1: str | None = Field(
-        default=None,
-        alias="pbid1",
-    )
+    pbid1: str | None = Field(default=None, alias="pbid1")
     ("매수호가가격1")
-    pask1: Decimal | None = Field(
-        default=None,
-        alias="pask1",
-    )
+    pask1: Decimal | None = Field(default=None, alias="pask1")
     ("매도호가가격1")
-    vbid1: str | None = Field(
-        default=None,
-        alias="vbid1",
-    )
+    vbid1: str | None = Field(default=None, alias="vbid1")
     ("매수호가잔량1")
-    vask1: str | None = Field(
-        default=None,
-        alias="vask1",
-    )
+    vask1: str | None = Field(default=None, alias="vask1")
     ("매도호가잔량1")
-    dbid1: str | None = Field(
-        default=None,
-        alias="dbid1",
-    )
+    dbid1: str | None = Field(default=None, alias="dbid1")
     ("매수호가대비1")
-    dask1: str | None = Field(
-        default=None,
-        alias="dask1",
-    )
+    dask1: str | None = Field(default=None, alias="dask1")
     ("매도호가대비1")
-    pbid2: str | None = Field(
-        default=None,
-        alias="pbid2",
-    )
+    pbid2: str | None = Field(default=None, alias="pbid2")
     ("미국 거래소만 수신")
-    pask2: Decimal | None = Field(
-        default=None,
-        alias="pask2",
-    )
+    pask2: Decimal | None = Field(default=None, alias="pask2")
     ("미국 거래소만 수신")
-    vbid2: str | None = Field(
-        default=None,
-        alias="vbid2",
-    )
+    vbid2: str | None = Field(default=None, alias="vbid2")
     ("미국 거래소만 수신")
-    vask2: str | None = Field(
-        default=None,
-        alias="vask2",
-    )
+    vask2: str | None = Field(default=None, alias="vask2")
     ("미국 거래소만 수신")
-    dbid2: str | None = Field(
-        default=None,
-        alias="dbid2",
-    )
+    dbid2: str | None = Field(default=None, alias="dbid2")
     ("미국 거래소만 수신")
-    dask2: str | None = Field(
-        default=None,
-        alias="dask2",
-    )
+    dask2: str | None = Field(default=None, alias="dask2")
     ("미국 거래소만 수신")
-    pbid3: str | None = Field(
-        default=None,
-        alias="pbid3",
-    )
+    pbid3: str | None = Field(default=None, alias="pbid3")
     ("미국 거래소만 수신")
-    pask3: Decimal | None = Field(
-        default=None,
-        alias="pask3",
-    )
+    pask3: Decimal | None = Field(default=None, alias="pask3")
     ("미국 거래소만 수신")
-    vbid3: str | None = Field(
-        default=None,
-        alias="vbid3",
-    )
+    vbid3: str | None = Field(default=None, alias="vbid3")
     ("미국 거래소만 수신")
-    vask3: str | None = Field(
-        default=None,
-        alias="vask3",
-    )
+    vask3: str | None = Field(default=None, alias="vask3")
     ("미국 거래소만 수신")
-    dbid3: str | None = Field(
-        default=None,
-        alias="dbid3",
-    )
+    dbid3: str | None = Field(default=None, alias="dbid3")
     ("미국 거래소만 수신")
-    dask3: str | None = Field(
-        default=None,
-        alias="dask3",
-    )
+    dask3: str | None = Field(default=None, alias="dask3")
     ("미국 거래소만 수신")
-    pbid4: str | None = Field(
-        default=None,
-        alias="pbid4",
-    )
+    pbid4: str | None = Field(default=None, alias="pbid4")
     ("미국 거래소만 수신")
-    pask4: Decimal | None = Field(
-        default=None,
-        alias="pask4",
-    )
+    pask4: Decimal | None = Field(default=None, alias="pask4")
     ("미국 거래소만 수신")
-    vbid4: str | None = Field(
-        default=None,
-        alias="vbid4",
-    )
+    vbid4: str | None = Field(default=None, alias="vbid4")
     ("미국 거래소만 수신")
-    vask4: str | None = Field(
-        default=None,
-        alias="vask4",
-    )
+    vask4: str | None = Field(default=None, alias="vask4")
     ("미국 거래소만 수신")
-    dbid4: str | None = Field(
-        default=None,
-        alias="dbid4",
-    )
+    dbid4: str | None = Field(default=None, alias="dbid4")
     ("미국 거래소만 수신")
-    dask4: str | None = Field(
-        default=None,
-        alias="dask4",
-    )
+    dask4: str | None = Field(default=None, alias="dask4")
     ("미국 거래소만 수신")
-    pbid5: str | None = Field(
-        default=None,
-        alias="pbid5",
-    )
+    pbid5: str | None = Field(default=None, alias="pbid5")
     ("미국 거래소만 수신")
-    pask5: Decimal | None = Field(
-        default=None,
-        alias="pask5",
-    )
+    pask5: Decimal | None = Field(default=None, alias="pask5")
     ("미국 거래소만 수신")
-    vbid5: str | None = Field(
-        default=None,
-        alias="vbid5",
-    )
+    vbid5: str | None = Field(default=None, alias="vbid5")
     ("미국 거래소만 수신")
-    vask5: str | None = Field(
-        default=None,
-        alias="vask5",
-    )
+    vask5: str | None = Field(default=None, alias="vask5")
     ("미국 거래소만 수신")
-    dbid5: str | None = Field(
-        default=None,
-        alias="dbid5",
-    )
+    dbid5: str | None = Field(default=None, alias="dbid5")
     ("미국 거래소만 수신")
-    dask5: str | None = Field(
-        default=None,
-        alias="dask5",
-    )
+    dask5: str | None = Field(default=None, alias="dask5")
     ("미국 거래소만 수신")
-    pbid6: str | None = Field(
-        default=None,
-        alias="pbid6",
-    )
+    pbid6: str | None = Field(default=None, alias="pbid6")
     ("미국 거래소만 수신")
-    pask6: Decimal | None = Field(
-        default=None,
-        alias="pask6",
-    )
+    pask6: Decimal | None = Field(default=None, alias="pask6")
     ("미국 거래소만 수신")
-    vbid6: str | None = Field(
-        default=None,
-        alias="vbid6",
-    )
+    vbid6: str | None = Field(default=None, alias="vbid6")
     ("미국 거래소만 수신")
-    vask6: str | None = Field(
-        default=None,
-        alias="vask6",
-    )
+    vask6: str | None = Field(default=None, alias="vask6")
     ("미국 거래소만 수신")
-    dbid6: str | None = Field(
-        default=None,
-        alias="dbid6",
-    )
+    dbid6: str | None = Field(default=None, alias="dbid6")
     ("미국 거래소만 수신")
-    dask6: str | None = Field(
-        default=None,
-        alias="dask6",
-    )
+    dask6: str | None = Field(default=None, alias="dask6")
     ("미국 거래소만 수신")
-    pbid7: str | None = Field(
-        default=None,
-        alias="pbid7",
-    )
+    pbid7: str | None = Field(default=None, alias="pbid7")
     ("미국 거래소만 수신")
-    pask7: Decimal | None = Field(
-        default=None,
-        alias="pask7",
-    )
+    pask7: Decimal | None = Field(default=None, alias="pask7")
     ("미국 거래소만 수신")
-    vbid7: str | None = Field(
-        default=None,
-        alias="vbid7",
-    )
+    vbid7: str | None = Field(default=None, alias="vbid7")
     ("미국 거래소만 수신")
-    vask7: str | None = Field(
-        default=None,
-        alias="vask7",
-    )
+    vask7: str | None = Field(default=None, alias="vask7")
     ("미국 거래소만 수신")
-    dbid7: str | None = Field(
-        default=None,
-        alias="dbid7",
-    )
+    dbid7: str | None = Field(default=None, alias="dbid7")
     ("미국 거래소만 수신")
-    dask7: str | None = Field(
-        default=None,
-        alias="dask7",
-    )
+    dask7: str | None = Field(default=None, alias="dask7")
     ("미국 거래소만 수신")
-    pbid8: str | None = Field(
-        default=None,
-        alias="pbid8",
-    )
+    pbid8: str | None = Field(default=None, alias="pbid8")
     ("미국 거래소만 수신")
-    pask8: Decimal | None = Field(
-        default=None,
-        alias="pask8",
-    )
+    pask8: Decimal | None = Field(default=None, alias="pask8")
     ("미국 거래소만 수신")
-    vbid8: str | None = Field(
-        default=None,
-        alias="vbid8",
-    )
+    vbid8: str | None = Field(default=None, alias="vbid8")
     ("미국 거래소만 수신")
-    vask8: str | None = Field(
-        default=None,
-        alias="vask8",
-    )
+    vask8: str | None = Field(default=None, alias="vask8")
     ("미국 거래소만 수신")
-    dbid8: str | None = Field(
-        default=None,
-        alias="dbid8",
-    )
+    dbid8: str | None = Field(default=None, alias="dbid8")
     ("미국 거래소만 수신")
-    dask8: str | None = Field(
-        default=None,
-        alias="dask8",
-    )
+    dask8: str | None = Field(default=None, alias="dask8")
     ("미국 거래소만 수신")
-    pbid9: str | None = Field(
-        default=None,
-        alias="pbid9",
-    )
+    pbid9: str | None = Field(default=None, alias="pbid9")
     ("미국 거래소만 수신")
-    pask9: Decimal | None = Field(
-        default=None,
-        alias="pask9",
-    )
+    pask9: Decimal | None = Field(default=None, alias="pask9")
     ("미국 거래소만 수신")
-    vbid9: str | None = Field(
-        default=None,
-        alias="vbid9",
-    )
+    vbid9: str | None = Field(default=None, alias="vbid9")
     ("미국 거래소만 수신")
-    vask9: str | None = Field(
-        default=None,
-        alias="vask9",
-    )
+    vask9: str | None = Field(default=None, alias="vask9")
     ("미국 거래소만 수신")
-    dbid9: str | None = Field(
-        default=None,
-        alias="dbid9",
-    )
+    dbid9: str | None = Field(default=None, alias="dbid9")
     ("미국 거래소만 수신")
-    dask9: str | None = Field(
-        default=None,
-        alias="dask9",
-    )
+    dask9: str | None = Field(default=None, alias="dask9")
     ("미국 거래소만 수신")
-    pbid10: str | None = Field(
-        default=None,
-        alias="pbid10",
-    )
+    pbid10: str | None = Field(default=None, alias="pbid10")
     ("미국 거래소만 수신")
-    pask10: Decimal | None = Field(
-        default=None,
-        alias="pask10",
-    )
+    pask10: Decimal | None = Field(default=None, alias="pask10")
     ("미국 거래소만 수신")
-    vbid10: str | None = Field(
-        default=None,
-        alias="vbid10",
-    )
+    vbid10: str | None = Field(default=None, alias="vbid10")
     ("미국 거래소만 수신")
-    vask10: str | None = Field(
-        default=None,
-        alias="vask10",
-    )
+    vask10: str | None = Field(default=None, alias="vask10")
     ("미국 거래소만 수신")
-    dbid10: str | None = Field(
-        default=None,
-        alias="dbid10",
-    )
+    dbid10: str | None = Field(default=None, alias="dbid10")
     ("미국 거래소만 수신")
-    dask10: str | None = Field(
-        default=None,
-        alias="dask10",
-    )
+    dask10: str | None = Field(default=None, alias="dask10")
     ("미국 거래소만 수신")
 
 
 class InquireAskingPriceOutput3(RawModel):
-    vstm: str | None = Field(
-        default=None,
-        alias="vstm",
-    )
+    vstm: str | None = Field(default=None, alias="vstm")
     ("데이터 없음")
-    vetm: str | None = Field(
-        default=None,
-        alias="vetm",
-    )
+    vetm: str | None = Field(default=None, alias="vetm")
     ("데이터 없음")
-    csbp: str | None = Field(
-        default=None,
-        alias="csbp",
-    )
+    csbp: str | None = Field(default=None, alias="csbp")
     ("데이터 없음")
-    cshi: Decimal | None = Field(
-        default=None,
-        alias="cshi",
-    )
+    cshi: Decimal | None = Field(default=None, alias="cshi")
     ("데이터 없음")
-    cslo: Decimal | None = Field(
-        default=None,
-        alias="cslo",
-    )
+    cslo: Decimal | None = Field(default=None, alias="cslo")
     ("데이터 없음")
-    iep: str | None = Field(
-        default=None,
-        alias="iep",
-    )
+    iep: str | None = Field(default=None, alias="iep")
     ("데이터 없음")
-    iev: str | None = Field(
-        default=None,
-        alias="iev",
-    )
+    iev: str | None = Field(default=None, alias="iev")
     ("데이터 없음")
 
 
 class InquireAskingPriceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: InquireAskingPriceOutput1 = Field(
-        alias="output1",
-    )
+    output1: InquireAskingPriceOutput1 = Field(alias="output1")
     ("응답상세")
-    output2: InquireAskingPriceOutput2 = Field(
-        alias="output2",
-    )
+    output2: InquireAskingPriceOutput2 = Field(alias="output2")
     ("응답상세")
-    output3: InquireAskingPriceOutput3 = Field(
-        alias="output3",
-    )
+    output3: InquireAskingPriceOutput3 = Field(alias="output3")
     ("응답상세")
 
 
@@ -647,27 +348,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireAskingPriceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireAskingPriceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireAskingPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireAskingPriceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireAskingPriceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireAskingPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireAskingPriceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireAskingPriceRequestDict]
         ) -> tuple[InquireAskingPriceResponse, KisResponse]: ...
         def call(
             self,

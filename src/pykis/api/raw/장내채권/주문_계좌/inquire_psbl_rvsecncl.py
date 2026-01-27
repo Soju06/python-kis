@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    KisTime,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -27,29 +14,17 @@ if TYPE_CHECKING:
 
 
 class InquirePsblRvsecnclRequest(RawModel):
-    CANO: str = Field(
-        alias="CANO",
-    )
+    CANO: str = Field(alias="CANO")
     ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
     ("계좌상품코드")
-    ORD_DT: KisDate = Field(
-        alias="ORD_DT",
-    )
+    ORD_DT: KisDate = Field(alias="ORD_DT")
     ("주문일자")
-    ODNO: str = Field(
-        alias="ODNO",
-    )
+    ODNO: str = Field(alias="ODNO")
     ("주문번호")
-    CTX_AREA_FK200: str = Field(
-        alias="CTX_AREA_FK200",
-    )
+    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
     ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(
-        alias="CTX_AREA_NK200",
-    )
+    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
     ("연속조회키200")
 
 
@@ -67,111 +42,55 @@ class InquirePsblRvsecnclRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    CANO: Annotated[
-        str,
-        "종합계좌번호",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        str,
-        "계좌상품코드",
-    ]
-    ORD_DT: Annotated[
-        KisDate,
-        "주문일자",
-    ]
-    ODNO: Annotated[
-        str,
-        "주문번호",
-    ]
-    CTX_AREA_FK200: Annotated[
-        str,
-        "연속조회검색조건200",
-    ]
-    CTX_AREA_NK200: Annotated[
-        str,
-        "연속조회키200",
-    ]
+    CANO: Annotated[str, "종합계좌번호"]
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
+    ORD_DT: Annotated[KisDate, "주문일자"]
+    ODNO: Annotated[str, "주문번호"]
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
 
 
 class InquirePsblRvsecnclOutput(RawModel):
-    odno: str = Field(
-        alias="odno",
-    )
+    odno: str = Field(alias="odno")
     ("주문번호")
-    pdno: str = Field(
-        alias="pdno",
-    )
+    pdno: str = Field(alias="pdno")
     ("상품번호")
-    rvse_cncl_dvsn_name: str = Field(
-        alias="rvse_cncl_dvsn_name",
-    )
+    rvse_cncl_dvsn_name: str = Field(alias="rvse_cncl_dvsn_name")
     ("정정취소구분명")
-    ord_qty: int = Field(
-        alias="ord_qty",
-    )
+    ord_qty: int = Field(alias="ord_qty")
     ("주문수량")
-    bond_ord_unpr: str = Field(
-        alias="bond_ord_unpr",
-    )
+    bond_ord_unpr: str = Field(alias="bond_ord_unpr")
     ("채권주문단가")
-    ord_tmd: KisTime = Field(
-        alias="ord_tmd",
-    )
+    ord_tmd: KisTime = Field(alias="ord_tmd")
     ("주문시각")
-    tot_ccld_qty: int = Field(
-        alias="tot_ccld_qty",
-    )
+    tot_ccld_qty: int = Field(alias="tot_ccld_qty")
     ("총체결수량")
-    tot_ccld_amt: Decimal = Field(
-        alias="tot_ccld_amt",
-    )
+    tot_ccld_amt: Decimal = Field(alias="tot_ccld_amt")
     ("총체결금액")
-    ord_psbl_qty: int = Field(
-        alias="ord_psbl_qty",
-    )
+    ord_psbl_qty: int = Field(alias="ord_psbl_qty")
     ("주문가능수량")
-    orgn_odno: str = Field(
-        alias="orgn_odno",
-    )
+    orgn_odno: str = Field(alias="orgn_odno")
     ("원주문번호")
-    sll_buy_dvsn_cd: str = Field(
-        alias="sll_buy_dvsn_cd",
-    )
+    sll_buy_dvsn_cd: str = Field(alias="sll_buy_dvsn_cd")
     ("매도매수구분코드")
-    ord_dvsn_cd: str = Field(
-        alias="ord_dvsn_cd",
-    )
+    ord_dvsn_cd: str = Field(alias="ord_dvsn_cd")
     ("주문구분코드")
-    mgco_aptm_odno: str = Field(
-        alias="mgco_aptm_odno",
-    )
+    mgco_aptm_odno: str = Field(alias="mgco_aptm_odno")
     ("운용사지정주문번호")
-    samt_mket_ptci_yn: KisBool = Field(
-        alias="samt_mket_ptci_yn",
-    )
+    samt_mket_ptci_yn: KisBool = Field(alias="samt_mket_ptci_yn")
     ("소액시장참여여부")
-    prdt_abrv_name: str = Field(
-        alias="prdt_abrv_name",
-    )
+    prdt_abrv_name: str = Field(alias="prdt_abrv_name")
     ("상품약어명")
 
 
 class InquirePsblRvsecnclResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[InquirePsblRvsecnclOutput] = Field(
-        alias="output",
-    )
+    output: list[InquirePsblRvsecnclOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -194,27 +113,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePsblRvsecnclRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePsblRvsecnclRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePsblRvsecnclResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePsblRvsecnclRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePsblRvsecnclRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePsblRvsecnclResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquirePsblRvsecnclRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePsblRvsecnclRequestDict]
         ) -> tuple[InquirePsblRvsecnclResponse, KisResponse]: ...
         def call(
             self,
@@ -251,10 +158,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "InquirePsblRvsecnclRequest",
-    "InquirePsblRvsecnclRequestDict",
-    "InquirePsblRvsecnclResponse",
-    "InquirePsblRvsecnclOutput",
-]
+__all__ = ["ENDPOINT", "InquirePsblRvsecnclRequest", "InquirePsblRvsecnclRequestDict", "InquirePsblRvsecnclResponse", "InquirePsblRvsecnclOutput"]

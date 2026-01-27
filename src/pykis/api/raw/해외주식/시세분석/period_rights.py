@@ -2,25 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    KisDateOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -69,49 +55,25 @@ class InqrDvsnCdEnum(KisStrEnum):
 
 
 class PeriodRightsRequest(RawModel):
-    RGHT_TYPE_CD: RghtTypeCdEnum = Field(
-        alias="RGHT_TYPE_CD",
-    )
+    RGHT_TYPE_CD: RghtTypeCdEnum = Field(alias="RGHT_TYPE_CD")
     (
         "'%%(전체), 01(유상), 02(무상), 03(배당), 11(합병), 14(액면분할), 15(액면병합), 17(감자), "
         "54(WR청구), 61(원리금상환), 71(WR소멸), 74(배당옵션), 75(특별배당), 76(ISINCODE변경), "
         "77(실권주청약)'"
     )
-    INQR_DVSN_CD: InqrDvsnCdEnum = Field(
-        alias="INQR_DVSN_CD",
-    )
+    INQR_DVSN_CD: InqrDvsnCdEnum = Field(alias="INQR_DVSN_CD")
     ("02(현지기준일), 03(청약시작일), 04(청약종료일)")
-    INQR_STRT_DT: KisDate = Field(
-        alias="INQR_STRT_DT",
-    )
+    INQR_STRT_DT: KisDate = Field(alias="INQR_STRT_DT")
     ("일자 ~")
-    INQR_END_DT: KisDate = Field(
-        alias="INQR_END_DT",
-    )
+    INQR_END_DT: KisDate = Field(alias="INQR_END_DT")
     ("~ 일자")
-    PDNO: str | None = Field(
-        default=None,
-        alias="PDNO",
-        json_schema_extra={"blank_allowed": True},
-    )
+    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
     ("공백")
-    PRDT_TYPE_CD: str | None = Field(
-        default=None,
-        alias="PRDT_TYPE_CD",
-        json_schema_extra={"blank_allowed": True},
-    )
+    PRDT_TYPE_CD: str | None = Field(default=None, alias="PRDT_TYPE_CD", json_schema_extra={"blank_allowed": True})
     ("공백")
-    CTX_AREA_NK50: str | None = Field(
-        default=None,
-        alias="CTX_AREA_NK50",
-        json_schema_extra={"blank_allowed": True},
-    )
+    CTX_AREA_NK50: str | None = Field(default=None, alias="CTX_AREA_NK50", json_schema_extra={"blank_allowed": True})
     ("공백")
-    CTX_AREA_FK50: str | None = Field(
-        default=None,
-        alias="CTX_AREA_FK50",
-        json_schema_extra={"blank_allowed": True},
-    )
+    CTX_AREA_FK50: str | None = Field(default=None, alias="CTX_AREA_FK50", json_schema_extra={"blank_allowed": True})
     ("공백")
 
 
@@ -143,173 +105,70 @@ class PeriodRightsRequestDict(TypedDict):
         "54(WR청구), 61(원리금상환), 71(WR소멸), 74(배당옵션), 75(특별배당), 76(ISINCODE변경), "
         "77(실권주청약)'",
     ]
-    INQR_DVSN_CD: Annotated[
-        InqrDvsnCdEnum,
-        "02(현지기준일), 03(청약시작일), 04(청약종료일)",
-    ]
-    INQR_STRT_DT: Annotated[
-        KisDate,
-        "일자 ~",
-    ]
-    INQR_END_DT: Annotated[
-        KisDate,
-        "~ 일자",
-    ]
-    PDNO: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    PRDT_TYPE_CD: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    CTX_AREA_NK50: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    CTX_AREA_FK50: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
+    INQR_DVSN_CD: Annotated[InqrDvsnCdEnum, "02(현지기준일), 03(청약시작일), 04(청약종료일)"]
+    INQR_STRT_DT: Annotated[KisDate, "일자 ~"]
+    INQR_END_DT: Annotated[KisDate, "~ 일자"]
+    PDNO: NotRequired[Annotated[str | None, "공백"]]
+    PRDT_TYPE_CD: NotRequired[Annotated[str | None, "공백"]]
+    CTX_AREA_NK50: NotRequired[Annotated[str | None, "공백"]]
+    CTX_AREA_FK50: NotRequired[Annotated[str | None, "공백"]]
 
 
 class PeriodRightsOutput(RawModel):
-    bass_dt: KisDateOptional = Field(
-        default=None,
-        alias="bass_dt",
-    )
+    bass_dt: KisDateOptional = Field(default=None, alias="bass_dt")
     ("기준일자")
-    rght_type_cd: str | None = Field(
-        default=None,
-        alias="rght_type_cd",
-    )
+    rght_type_cd: str | None = Field(default=None, alias="rght_type_cd")
     ("권리유형코드")
-    pdno: str | None = Field(
-        default=None,
-        alias="pdno",
-    )
+    pdno: str | None = Field(default=None, alias="pdno")
     ("상품번호")
-    prdt_name: str | None = Field(
-        default=None,
-        alias="prdt_name",
-    )
+    prdt_name: str | None = Field(default=None, alias="prdt_name")
     ("상품명")
-    prdt_type_cd: str | None = Field(
-        default=None,
-        alias="prdt_type_cd",
-    )
+    prdt_type_cd: str | None = Field(default=None, alias="prdt_type_cd")
     ("상품유형코드")
-    std_pdno: str | None = Field(
-        default=None,
-        alias="std_pdno",
-    )
+    std_pdno: str | None = Field(default=None, alias="std_pdno")
     ("표준상품번호")
-    acpl_bass_dt: KisDateOptional = Field(
-        default=None,
-        alias="acpl_bass_dt",
-    )
+    acpl_bass_dt: KisDateOptional = Field(default=None, alias="acpl_bass_dt")
     ("현지기준일자")
-    sbsc_strt_dt: KisDateOptional = Field(
-        default=None,
-        alias="sbsc_strt_dt",
-    )
+    sbsc_strt_dt: KisDateOptional = Field(default=None, alias="sbsc_strt_dt")
     ("청약시작일자")
-    sbsc_end_dt: KisDateOptional = Field(
-        default=None,
-        alias="sbsc_end_dt",
-    )
+    sbsc_end_dt: KisDateOptional = Field(default=None, alias="sbsc_end_dt")
     ("청약종료일자")
-    cash_alct_rt: Decimal | None = Field(
-        default=None,
-        alias="cash_alct_rt",
-    )
+    cash_alct_rt: Decimal | None = Field(default=None, alias="cash_alct_rt")
     ("현금배정비율")
-    stck_alct_rt: Decimal | None = Field(
-        default=None,
-        alias="stck_alct_rt",
-    )
+    stck_alct_rt: Decimal | None = Field(default=None, alias="stck_alct_rt")
     ("주식배정비율")
-    crcy_cd: str | None = Field(
-        default=None,
-        alias="crcy_cd",
-    )
+    crcy_cd: str | None = Field(default=None, alias="crcy_cd")
     ("통화코드")
-    crcy_cd2: str | None = Field(
-        default=None,
-        alias="crcy_cd2",
-    )
+    crcy_cd2: str | None = Field(default=None, alias="crcy_cd2")
     ("통화코드2")
-    crcy_cd3: str | None = Field(
-        default=None,
-        alias="crcy_cd3",
-    )
+    crcy_cd3: str | None = Field(default=None, alias="crcy_cd3")
     ("통화코드3")
-    crcy_cd4: str | None = Field(
-        default=None,
-        alias="crcy_cd4",
-    )
+    crcy_cd4: str | None = Field(default=None, alias="crcy_cd4")
     ("통화코드4")
-    alct_frcr_unpr: str | None = Field(
-        default=None,
-        alias="alct_frcr_unpr",
-    )
+    alct_frcr_unpr: str | None = Field(default=None, alias="alct_frcr_unpr")
     ("배정외화단가")
-    stkp_dvdn_frcr_amt2: Decimal | None = Field(
-        default=None,
-        alias="stkp_dvdn_frcr_amt2",
-    )
+    stkp_dvdn_frcr_amt2: Decimal | None = Field(default=None, alias="stkp_dvdn_frcr_amt2")
     ("주당배당외화금액2")
-    stkp_dvdn_frcr_amt3: Decimal | None = Field(
-        default=None,
-        alias="stkp_dvdn_frcr_amt3",
-    )
+    stkp_dvdn_frcr_amt3: Decimal | None = Field(default=None, alias="stkp_dvdn_frcr_amt3")
     ("주당배당외화금액3")
-    stkp_dvdn_frcr_amt4: Decimal | None = Field(
-        default=None,
-        alias="stkp_dvdn_frcr_amt4",
-    )
+    stkp_dvdn_frcr_amt4: Decimal | None = Field(default=None, alias="stkp_dvdn_frcr_amt4")
     ("주당배당외화금액4")
-    dfnt_yn: KisBool | None = Field(
-        default=None,
-        alias="dfnt_yn",
-    )
+    dfnt_yn: KisBool | None = Field(default=None, alias="dfnt_yn")
     ("확정여부")
 
 
 class PeriodRightsResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    ctx_area_nk50: str | None = Field(
-        default=None,
-        alias="ctx_area_nk50",
-    )
+    ctx_area_nk50: str | None = Field(default=None, alias="ctx_area_nk50")
     ("inferred from raw payload")
-    ctx_area_fk50: str | None = Field(
-        default=None,
-        alias="ctx_area_fk50",
-    )
+    ctx_area_fk50: str | None = Field(default=None, alias="ctx_area_fk50")
     ("inferred from raw payload")
-    output: list[PeriodRightsOutput] = Field(
-        alias="output",
-    )
+    output: list[PeriodRightsOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -339,27 +198,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: PeriodRightsRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: PeriodRightsRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[PeriodRightsResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: PeriodRightsRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: PeriodRightsRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[PeriodRightsResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[PeriodRightsRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[PeriodRightsRequestDict]
         ) -> tuple[PeriodRightsResponse, KisResponse]: ...
         def call(
             self,

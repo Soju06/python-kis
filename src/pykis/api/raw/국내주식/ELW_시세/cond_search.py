@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -113,240 +101,123 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class CondSearchRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("ELW(W)")
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("화면번호(11510)")
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
-        alias="FID_RANK_SORT_CLS_CODE",
-    )
-    (
-        "'정렬1정렬안함(0)종목코드(1)현재가(2)대비율(3)거래량(4)행사가격(5) "
-        "전환비율(6)상장일(7)만기일(8)잔존일수(9)레버리지(10)'"
-    )
-    FID_INPUT_CNT_1: str = Field(
-        alias="FID_INPUT_CNT_1",
-    )
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
+    ("'정렬1정렬안함(0)종목코드(1)현재가(2)대비율(3)거래량(4)행사가격(5) 전환비율(6)상장일(7)만기일(8)잔존일수(9)레버리지(10)'")
+    FID_INPUT_CNT_1: str = Field(alias="FID_INPUT_CNT_1")
     ("정렬1기준 - 상위(1)하위(2)")
-    FID_RANK_SORT_CLS_CODE_2: str = Field(
-        alias="FID_RANK_SORT_CLS_CODE_2",
-    )
+    FID_RANK_SORT_CLS_CODE_2: str = Field(alias="FID_RANK_SORT_CLS_CODE_2")
     ("정렬2")
-    FID_INPUT_CNT_2: str = Field(
-        alias="FID_INPUT_CNT_2",
-    )
+    FID_INPUT_CNT_2: str = Field(alias="FID_INPUT_CNT_2")
     ("정렬2기준 - 상위(1)하위(2)")
-    FID_RANK_SORT_CLS_CODE_3: str = Field(
-        alias="FID_RANK_SORT_CLS_CODE_3",
-    )
+    FID_RANK_SORT_CLS_CODE_3: str = Field(alias="FID_RANK_SORT_CLS_CODE_3")
     ("정렬3")
-    FID_INPUT_CNT_3: str = Field(
-        alias="FID_INPUT_CNT_3",
-    )
+    FID_INPUT_CNT_3: str = Field(alias="FID_INPUT_CNT_3")
     ("정렬3기준 - 상위(1)하위(2)")
-    FID_TRGT_CLS_CODE: FidTrgtClsCodeEnum = Field(
-        alias="FID_TRGT_CLS_CODE",
-    )
+    FID_TRGT_CLS_CODE: FidTrgtClsCodeEnum = Field(alias="FID_TRGT_CLS_CODE")
     (
         "0:발행회사종목코드,1:기초자산종목코드,2:FID시장구분코드,3:FID입력날짜1(상장일), "
         "4:FID입력날짜2(만기일),5:LP회원사종목코드,6:행사가기초자산비교>=(1) <=(2), 7:잔존일 이상 이하, "
         "8:현재가, 9:전일대비율, 10:거래량, 11:최종거래일, 12:레버리지"
     )
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("발행사종목코드전체(00000)")
-    FID_UNAS_INPUT_ISCD: str = Field(
-        alias="FID_UNAS_INPUT_ISCD",
-    )
+    FID_UNAS_INPUT_ISCD: str = Field(alias="FID_UNAS_INPUT_ISCD")
     ("기초자산입력종목코드")
-    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(
-        alias="FID_MRKT_CLS_CODE",
-    )
+    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(alias="FID_MRKT_CLS_CODE")
     ("권리유형전체(A)콜(CO)풋(PO)")
-    FID_INPUT_DATE_1: str = Field(
-        alias="FID_INPUT_DATE_1",
-    )
+    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
     ("상장일전체(0)금일(1)7일이하(2)8~30일(3)31~90일(4)")
-    FID_INPUT_DATE_2: str = Field(
-        alias="FID_INPUT_DATE_2",
-    )
+    FID_INPUT_DATE_2: str = Field(alias="FID_INPUT_DATE_2")
     ("만기일전체(0)1개월(1)1~2(2)2~3(3)3~6(4)6~9(5)9~12(6)12이상(7)")
-    FID_INPUT_ISCD_2: str = Field(
-        alias="FID_INPUT_ISCD_2",
-    )
+    FID_INPUT_ISCD_2: str = Field(alias="FID_INPUT_ISCD_2")
     ("입력종목코드2")
-    FID_ETC_CLS_CODE: FidEtcClsCodeEnum = Field(
-        alias="FID_ETC_CLS_CODE",
-    )
+    FID_ETC_CLS_CODE: FidEtcClsCodeEnum = Field(alias="FID_ETC_CLS_CODE")
     ("행사가전체(0)>=(1)")
-    FID_INPUT_RMNN_DYNU_1: str = Field(
-        alias="FID_INPUT_RMNN_DYNU_1",
-    )
+    FID_INPUT_RMNN_DYNU_1: str = Field(alias="FID_INPUT_RMNN_DYNU_1")
     ("잔존일이상")
-    FID_INPUT_RMNN_DYNU_2: str = Field(
-        alias="FID_INPUT_RMNN_DYNU_2",
-    )
+    FID_INPUT_RMNN_DYNU_2: str = Field(alias="FID_INPUT_RMNN_DYNU_2")
     ("잔존일이하")
-    FID_PRPR_CNT1: str = Field(
-        alias="FID_PRPR_CNT1",
-    )
+    FID_PRPR_CNT1: str = Field(alias="FID_PRPR_CNT1")
     ("현재가이상")
-    FID_PRPR_CNT2: str = Field(
-        alias="FID_PRPR_CNT2",
-    )
+    FID_PRPR_CNT2: str = Field(alias="FID_PRPR_CNT2")
     ("현재가이하")
-    FID_RSFL_RATE1: str = Field(
-        alias="FID_RSFL_RATE1",
-    )
+    FID_RSFL_RATE1: str = Field(alias="FID_RSFL_RATE1")
     ("전일대비율이상")
-    FID_RSFL_RATE2: str = Field(
-        alias="FID_RSFL_RATE2",
-    )
+    FID_RSFL_RATE2: str = Field(alias="FID_RSFL_RATE2")
     ("전일대비율이하")
-    FID_VOL1: int = Field(
-        alias="FID_VOL1",
-    )
+    FID_VOL1: int = Field(alias="FID_VOL1")
     ("거래량이상")
-    FID_VOL2: int = Field(
-        alias="FID_VOL2",
-    )
+    FID_VOL2: int = Field(alias="FID_VOL2")
     ("거래량이하")
-    FID_APLY_RANG_PRC_1: str = Field(
-        alias="FID_APLY_RANG_PRC_1",
-    )
+    FID_APLY_RANG_PRC_1: str = Field(alias="FID_APLY_RANG_PRC_1")
     ("최종거래일from")
-    FID_APLY_RANG_PRC_2: str = Field(
-        alias="FID_APLY_RANG_PRC_2",
-    )
+    FID_APLY_RANG_PRC_2: str = Field(alias="FID_APLY_RANG_PRC_2")
     ("최종거래일to")
-    FID_LVRG_VAL1: str = Field(
-        alias="FID_LVRG_VAL1",
-    )
+    FID_LVRG_VAL1: str = Field(alias="FID_LVRG_VAL1")
     ("레버리지값1")
-    FID_LVRG_VAL2: str = Field(
-        alias="FID_LVRG_VAL2",
-    )
+    FID_LVRG_VAL2: str = Field(alias="FID_LVRG_VAL2")
     ("레버리지값2")
-    FID_VOL3: int = Field(
-        alias="FID_VOL3",
-    )
+    FID_VOL3: int = Field(alias="FID_VOL3")
     ("LP종료일from")
-    FID_VOL4: int = Field(
-        alias="FID_VOL4",
-    )
+    FID_VOL4: int = Field(alias="FID_VOL4")
     ("LP종료일to")
-    FID_INTS_VLTL1: str = Field(
-        alias="FID_INTS_VLTL1",
-    )
+    FID_INTS_VLTL1: str = Field(alias="FID_INTS_VLTL1")
     ("내재변동성이상")
-    FID_INTS_VLTL2: str = Field(
-        alias="FID_INTS_VLTL2",
-    )
+    FID_INTS_VLTL2: str = Field(alias="FID_INTS_VLTL2")
     ("내재변동성이하")
-    FID_PRMM_VAL1: str = Field(
-        alias="FID_PRMM_VAL1",
-    )
+    FID_PRMM_VAL1: str = Field(alias="FID_PRMM_VAL1")
     ("프리미엄이상")
-    FID_PRMM_VAL2: str = Field(
-        alias="FID_PRMM_VAL2",
-    )
+    FID_PRMM_VAL2: str = Field(alias="FID_PRMM_VAL2")
     ("프리미엄이하")
-    FID_GEAR1: str = Field(
-        alias="FID_GEAR1",
-    )
+    FID_GEAR1: str = Field(alias="FID_GEAR1")
     ("기어링이상")
-    FID_GEAR2: str = Field(
-        alias="FID_GEAR2",
-    )
+    FID_GEAR2: str = Field(alias="FID_GEAR2")
     ("기어링이하")
-    FID_PRLS_QRYR_RATE1: str = Field(
-        alias="FID_PRLS_QRYR_RATE1",
-    )
+    FID_PRLS_QRYR_RATE1: str = Field(alias="FID_PRLS_QRYR_RATE1")
     ("손익분기이상")
-    FID_PRLS_QRYR_RATE2: str = Field(
-        alias="FID_PRLS_QRYR_RATE2",
-    )
+    FID_PRLS_QRYR_RATE2: str = Field(alias="FID_PRLS_QRYR_RATE2")
     ("손익분기이하")
-    FID_DELTA1: str = Field(
-        alias="FID_DELTA1",
-    )
+    FID_DELTA1: str = Field(alias="FID_DELTA1")
     ("델타이상")
-    FID_DELTA2: str = Field(
-        alias="FID_DELTA2",
-    )
+    FID_DELTA2: str = Field(alias="FID_DELTA2")
     ("델타이하")
-    FID_ACPR1: str = Field(
-        alias="FID_ACPR1",
-    )
+    FID_ACPR1: str = Field(alias="FID_ACPR1")
     ("행사가1")
-    FID_ACPR2: str = Field(
-        alias="FID_ACPR2",
-    )
+    FID_ACPR2: str = Field(alias="FID_ACPR2")
     ("행사가2")
-    FID_STCK_CNVR_RATE1: str = Field(
-        alias="FID_STCK_CNVR_RATE1",
-    )
+    FID_STCK_CNVR_RATE1: str = Field(alias="FID_STCK_CNVR_RATE1")
     ("전환비율이상")
-    FID_STCK_CNVR_RATE2: str = Field(
-        alias="FID_STCK_CNVR_RATE2",
-    )
+    FID_STCK_CNVR_RATE2: str = Field(alias="FID_STCK_CNVR_RATE2")
     ("전환비율이하")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
-        alias="FID_DIV_CLS_CODE",
-    )
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
     ("0:전체,1:일반,2:조기종료")
-    FID_PRIT1: str = Field(
-        alias="FID_PRIT1",
-    )
+    FID_PRIT1: str = Field(alias="FID_PRIT1")
     ("패리티이상")
-    FID_PRIT2: str = Field(
-        alias="FID_PRIT2",
-    )
+    FID_PRIT2: str = Field(alias="FID_PRIT2")
     ("패리티이하")
-    FID_CFP1: str = Field(
-        alias="FID_CFP1",
-    )
+    FID_CFP1: str = Field(alias="FID_CFP1")
     ("배리어이상")
-    FID_CFP2: str = Field(
-        alias="FID_CFP2",
-    )
+    FID_CFP2: str = Field(alias="FID_CFP2")
     ("배리어이하")
-    FID_INPUT_NMIX_PRICE_1: str = Field(
-        alias="FID_INPUT_NMIX_PRICE_1",
-    )
+    FID_INPUT_NMIX_PRICE_1: str = Field(alias="FID_INPUT_NMIX_PRICE_1")
     ("LP보유비율이상")
-    FID_INPUT_NMIX_PRICE_2: str = Field(
-        alias="FID_INPUT_NMIX_PRICE_2",
-    )
+    FID_INPUT_NMIX_PRICE_2: str = Field(alias="FID_INPUT_NMIX_PRICE_2")
     ("LP보유비율이하")
-    FID_EGEA_VAL1: str = Field(
-        alias="FID_EGEA_VAL1",
-    )
+    FID_EGEA_VAL1: str = Field(alias="FID_EGEA_VAL1")
     ("접근도이상")
-    FID_EGEA_VAL2: str = Field(
-        alias="FID_EGEA_VAL2",
-    )
+    FID_EGEA_VAL2: str = Field(alias="FID_EGEA_VAL2")
     ("접근도이하")
-    FID_INPUT_DVDN_ERT: str = Field(
-        alias="FID_INPUT_DVDN_ERT",
-    )
+    FID_INPUT_DVDN_ERT: str = Field(alias="FID_INPUT_DVDN_ERT")
     ("손익분기점이상")
-    FID_INPUT_HIST_VLTL: str = Field(
-        alias="FID_INPUT_HIST_VLTL",
-    )
+    FID_INPUT_HIST_VLTL: str = Field(alias="FID_INPUT_HIST_VLTL")
     ("손익분기점이하")
-    FID_THETA1: str = Field(
-        alias="FID_THETA1",
-    )
+    FID_THETA1: str = Field(alias="FID_THETA1")
     ("MONEYNESS이상")
-    FID_THETA2: str = Field(
-        alias="FID_THETA2",
-    )
+    FID_THETA2: str = Field(alias="FID_THETA2")
     ("MONEYNESS이하")
 
 
@@ -422,430 +293,170 @@ class CondSearchRequestDict(TypedDict):
         FID_THETA2 (str): MONEYNESS이하
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
-        "ELW(W)",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "화면번호(11510)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "ELW(W)"]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "화면번호(11510)"]
     FID_RANK_SORT_CLS_CODE: Annotated[
         FidRankSortClsCodeEnum,
-        "'정렬1정렬안함(0)종목코드(1)현재가(2)대비율(3)거래량(4)행사가격(5) "
-        "전환비율(6)상장일(7)만기일(8)잔존일수(9)레버리지(10)'",
+        "'정렬1정렬안함(0)종목코드(1)현재가(2)대비율(3)거래량(4)행사가격(5) 전환비율(6)상장일(7)만기일(8)잔존일수(9)레버리지(10)'",
     ]
-    FID_INPUT_CNT_1: Annotated[
-        str,
-        "정렬1기준 - 상위(1)하위(2)",
-    ]
-    FID_RANK_SORT_CLS_CODE_2: Annotated[
-        str,
-        "정렬2",
-    ]
-    FID_INPUT_CNT_2: Annotated[
-        str,
-        "정렬2기준 - 상위(1)하위(2)",
-    ]
-    FID_RANK_SORT_CLS_CODE_3: Annotated[
-        str,
-        "정렬3",
-    ]
-    FID_INPUT_CNT_3: Annotated[
-        str,
-        "정렬3기준 - 상위(1)하위(2)",
-    ]
+    FID_INPUT_CNT_1: Annotated[str, "정렬1기준 - 상위(1)하위(2)"]
+    FID_RANK_SORT_CLS_CODE_2: Annotated[str, "정렬2"]
+    FID_INPUT_CNT_2: Annotated[str, "정렬2기준 - 상위(1)하위(2)"]
+    FID_RANK_SORT_CLS_CODE_3: Annotated[str, "정렬3"]
+    FID_INPUT_CNT_3: Annotated[str, "정렬3기준 - 상위(1)하위(2)"]
     FID_TRGT_CLS_CODE: Annotated[
         FidTrgtClsCodeEnum,
         "0:발행회사종목코드,1:기초자산종목코드,2:FID시장구분코드,3:FID입력날짜1(상장일), "
         "4:FID입력날짜2(만기일),5:LP회원사종목코드,6:행사가기초자산비교>=(1) <=(2), 7:잔존일 이상 이하, "
         "8:현재가, 9:전일대비율, 10:거래량, 11:최종거래일, 12:레버리지",
     ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "발행사종목코드전체(00000)",
-    ]
-    FID_UNAS_INPUT_ISCD: Annotated[
-        str,
-        "기초자산입력종목코드",
-    ]
-    FID_MRKT_CLS_CODE: Annotated[
-        FidMrktClsCodeEnum,
-        "권리유형전체(A)콜(CO)풋(PO)",
-    ]
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "상장일전체(0)금일(1)7일이하(2)8~30일(3)31~90일(4)",
-    ]
-    FID_INPUT_DATE_2: Annotated[
-        str,
-        "만기일전체(0)1개월(1)1~2(2)2~3(3)3~6(4)6~9(5)9~12(6)12이상(7)",
-    ]
-    FID_INPUT_ISCD_2: Annotated[
-        str,
-        "입력종목코드2",
-    ]
-    FID_ETC_CLS_CODE: Annotated[
-        FidEtcClsCodeEnum,
-        "행사가전체(0)>=(1)",
-    ]
-    FID_INPUT_RMNN_DYNU_1: Annotated[
-        str,
-        "잔존일이상",
-    ]
-    FID_INPUT_RMNN_DYNU_2: Annotated[
-        str,
-        "잔존일이하",
-    ]
-    FID_PRPR_CNT1: Annotated[
-        str,
-        "현재가이상",
-    ]
-    FID_PRPR_CNT2: Annotated[
-        str,
-        "현재가이하",
-    ]
-    FID_RSFL_RATE1: Annotated[
-        str,
-        "전일대비율이상",
-    ]
-    FID_RSFL_RATE2: Annotated[
-        str,
-        "전일대비율이하",
-    ]
-    FID_VOL1: Annotated[
-        int,
-        "거래량이상",
-    ]
-    FID_VOL2: Annotated[
-        int,
-        "거래량이하",
-    ]
-    FID_APLY_RANG_PRC_1: Annotated[
-        str,
-        "최종거래일from",
-    ]
-    FID_APLY_RANG_PRC_2: Annotated[
-        str,
-        "최종거래일to",
-    ]
-    FID_LVRG_VAL1: Annotated[
-        str,
-        "레버리지값1",
-    ]
-    FID_LVRG_VAL2: Annotated[
-        str,
-        "레버리지값2",
-    ]
-    FID_VOL3: Annotated[
-        int,
-        "LP종료일from",
-    ]
-    FID_VOL4: Annotated[
-        int,
-        "LP종료일to",
-    ]
-    FID_INTS_VLTL1: Annotated[
-        str,
-        "내재변동성이상",
-    ]
-    FID_INTS_VLTL2: Annotated[
-        str,
-        "내재변동성이하",
-    ]
-    FID_PRMM_VAL1: Annotated[
-        str,
-        "프리미엄이상",
-    ]
-    FID_PRMM_VAL2: Annotated[
-        str,
-        "프리미엄이하",
-    ]
-    FID_GEAR1: Annotated[
-        str,
-        "기어링이상",
-    ]
-    FID_GEAR2: Annotated[
-        str,
-        "기어링이하",
-    ]
-    FID_PRLS_QRYR_RATE1: Annotated[
-        str,
-        "손익분기이상",
-    ]
-    FID_PRLS_QRYR_RATE2: Annotated[
-        str,
-        "손익분기이하",
-    ]
-    FID_DELTA1: Annotated[
-        str,
-        "델타이상",
-    ]
-    FID_DELTA2: Annotated[
-        str,
-        "델타이하",
-    ]
-    FID_ACPR1: Annotated[
-        str,
-        "행사가1",
-    ]
-    FID_ACPR2: Annotated[
-        str,
-        "행사가2",
-    ]
-    FID_STCK_CNVR_RATE1: Annotated[
-        str,
-        "전환비율이상",
-    ]
-    FID_STCK_CNVR_RATE2: Annotated[
-        str,
-        "전환비율이하",
-    ]
-    FID_DIV_CLS_CODE: Annotated[
-        FidDivClsCodeEnum,
-        "0:전체,1:일반,2:조기종료",
-    ]
-    FID_PRIT1: Annotated[
-        str,
-        "패리티이상",
-    ]
-    FID_PRIT2: Annotated[
-        str,
-        "패리티이하",
-    ]
-    FID_CFP1: Annotated[
-        str,
-        "배리어이상",
-    ]
-    FID_CFP2: Annotated[
-        str,
-        "배리어이하",
-    ]
-    FID_INPUT_NMIX_PRICE_1: Annotated[
-        str,
-        "LP보유비율이상",
-    ]
-    FID_INPUT_NMIX_PRICE_2: Annotated[
-        str,
-        "LP보유비율이하",
-    ]
-    FID_EGEA_VAL1: Annotated[
-        str,
-        "접근도이상",
-    ]
-    FID_EGEA_VAL2: Annotated[
-        str,
-        "접근도이하",
-    ]
-    FID_INPUT_DVDN_ERT: Annotated[
-        str,
-        "손익분기점이상",
-    ]
-    FID_INPUT_HIST_VLTL: Annotated[
-        str,
-        "손익분기점이하",
-    ]
-    FID_THETA1: Annotated[
-        str,
-        "MONEYNESS이상",
-    ]
-    FID_THETA2: Annotated[
-        str,
-        "MONEYNESS이하",
-    ]
+    FID_INPUT_ISCD: Annotated[str, "발행사종목코드전체(00000)"]
+    FID_UNAS_INPUT_ISCD: Annotated[str, "기초자산입력종목코드"]
+    FID_MRKT_CLS_CODE: Annotated[FidMrktClsCodeEnum, "권리유형전체(A)콜(CO)풋(PO)"]
+    FID_INPUT_DATE_1: Annotated[str, "상장일전체(0)금일(1)7일이하(2)8~30일(3)31~90일(4)"]
+    FID_INPUT_DATE_2: Annotated[str, "만기일전체(0)1개월(1)1~2(2)2~3(3)3~6(4)6~9(5)9~12(6)12이상(7)"]
+    FID_INPUT_ISCD_2: Annotated[str, "입력종목코드2"]
+    FID_ETC_CLS_CODE: Annotated[FidEtcClsCodeEnum, "행사가전체(0)>=(1)"]
+    FID_INPUT_RMNN_DYNU_1: Annotated[str, "잔존일이상"]
+    FID_INPUT_RMNN_DYNU_2: Annotated[str, "잔존일이하"]
+    FID_PRPR_CNT1: Annotated[str, "현재가이상"]
+    FID_PRPR_CNT2: Annotated[str, "현재가이하"]
+    FID_RSFL_RATE1: Annotated[str, "전일대비율이상"]
+    FID_RSFL_RATE2: Annotated[str, "전일대비율이하"]
+    FID_VOL1: Annotated[int, "거래량이상"]
+    FID_VOL2: Annotated[int, "거래량이하"]
+    FID_APLY_RANG_PRC_1: Annotated[str, "최종거래일from"]
+    FID_APLY_RANG_PRC_2: Annotated[str, "최종거래일to"]
+    FID_LVRG_VAL1: Annotated[str, "레버리지값1"]
+    FID_LVRG_VAL2: Annotated[str, "레버리지값2"]
+    FID_VOL3: Annotated[int, "LP종료일from"]
+    FID_VOL4: Annotated[int, "LP종료일to"]
+    FID_INTS_VLTL1: Annotated[str, "내재변동성이상"]
+    FID_INTS_VLTL2: Annotated[str, "내재변동성이하"]
+    FID_PRMM_VAL1: Annotated[str, "프리미엄이상"]
+    FID_PRMM_VAL2: Annotated[str, "프리미엄이하"]
+    FID_GEAR1: Annotated[str, "기어링이상"]
+    FID_GEAR2: Annotated[str, "기어링이하"]
+    FID_PRLS_QRYR_RATE1: Annotated[str, "손익분기이상"]
+    FID_PRLS_QRYR_RATE2: Annotated[str, "손익분기이하"]
+    FID_DELTA1: Annotated[str, "델타이상"]
+    FID_DELTA2: Annotated[str, "델타이하"]
+    FID_ACPR1: Annotated[str, "행사가1"]
+    FID_ACPR2: Annotated[str, "행사가2"]
+    FID_STCK_CNVR_RATE1: Annotated[str, "전환비율이상"]
+    FID_STCK_CNVR_RATE2: Annotated[str, "전환비율이하"]
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0:전체,1:일반,2:조기종료"]
+    FID_PRIT1: Annotated[str, "패리티이상"]
+    FID_PRIT2: Annotated[str, "패리티이하"]
+    FID_CFP1: Annotated[str, "배리어이상"]
+    FID_CFP2: Annotated[str, "배리어이하"]
+    FID_INPUT_NMIX_PRICE_1: Annotated[str, "LP보유비율이상"]
+    FID_INPUT_NMIX_PRICE_2: Annotated[str, "LP보유비율이하"]
+    FID_EGEA_VAL1: Annotated[str, "접근도이상"]
+    FID_EGEA_VAL2: Annotated[str, "접근도이하"]
+    FID_INPUT_DVDN_ERT: Annotated[str, "손익분기점이상"]
+    FID_INPUT_HIST_VLTL: Annotated[str, "손익분기점이하"]
+    FID_THETA1: Annotated[str, "MONEYNESS이상"]
+    FID_THETA2: Annotated[str, "MONEYNESS이하"]
 
 
 class CondSearchOutput1(RawModel):
-    bond_shrn_iscd: str = Field(
-        alias="bond_shrn_iscd",
-    )
+    bond_shrn_iscd: str = Field(alias="bond_shrn_iscd")
     ("채권단축종목코드")
-    hts_kor_isnm: str = Field(
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
     ("HTS한글종목명")
-    rght_type_name: str = Field(
-        alias="rght_type_name",
-    )
+    rght_type_name: str = Field(alias="rght_type_name")
     ("권리유형명")
-    elw_prpr: Decimal = Field(
-        alias="elw_prpr",
-    )
+    elw_prpr: Decimal = Field(alias="elw_prpr")
     ("ELW현재가")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일대비부호")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적거래량")
-    acpr: Decimal = Field(
-        alias="acpr",
-    )
+    acpr: Decimal = Field(alias="acpr")
     ("행사가")
-    stck_cnvr_rate: Decimal = Field(
-        alias="stck_cnvr_rate",
-    )
+    stck_cnvr_rate: Decimal = Field(alias="stck_cnvr_rate")
     ("주식전환비율")
-    stck_lstn_date: KisDate = Field(
-        alias="stck_lstn_date",
-    )
+    stck_lstn_date: KisDate = Field(alias="stck_lstn_date")
     ("주식상장일자")
-    stck_last_tr_date: KisDate = Field(
-        alias="stck_last_tr_date",
-    )
+    stck_last_tr_date: KisDate = Field(alias="stck_last_tr_date")
     ("주식최종거래일자")
-    hts_rmnn_dynu: int = Field(
-        alias="hts_rmnn_dynu",
-    )
+    hts_rmnn_dynu: int = Field(alias="hts_rmnn_dynu")
     ("HTS잔존일수")
-    unas_isnm: str = Field(
-        alias="unas_isnm",
-    )
+    unas_isnm: str = Field(alias="unas_isnm")
     ("기초자산종목명")
-    unas_prpr: Decimal = Field(
-        alias="unas_prpr",
-    )
+    unas_prpr: Decimal = Field(alias="unas_prpr")
     ("기초자산현재가")
-    unas_prdy_vrss: Decimal = Field(
-        alias="unas_prdy_vrss",
-    )
+    unas_prdy_vrss: Decimal = Field(alias="unas_prdy_vrss")
     ("기초자산전일대비")
-    unas_prdy_vrss_sign: int = Field(
-        alias="unas_prdy_vrss_sign",
-    )
+    unas_prdy_vrss_sign: int = Field(alias="unas_prdy_vrss_sign")
     ("기초자산전일대비부호")
-    unas_prdy_ctrt: Decimal = Field(
-        alias="unas_prdy_ctrt",
-    )
+    unas_prdy_ctrt: Decimal = Field(alias="unas_prdy_ctrt")
     ("기초자산전일대비율")
-    unas_acml_vol: int = Field(
-        alias="unas_acml_vol",
-    )
+    unas_acml_vol: int = Field(alias="unas_acml_vol")
     ("기초자산누적거래량")
-    moneyness: Decimal = Field(
-        alias="moneyness",
-    )
+    moneyness: Decimal = Field(alias="moneyness")
     ("MONEYNESS")
-    atm_cls_name: str = Field(
-        alias="atm_cls_name",
-    )
+    atm_cls_name: str = Field(alias="atm_cls_name")
     ("ATM구분명")
-    prit: Decimal = Field(
-        alias="prit",
-    )
+    prit: Decimal = Field(alias="prit")
     ("패리티")
-    delta_val: Decimal = Field(
-        alias="delta_val",
-    )
+    delta_val: Decimal = Field(alias="delta_val")
     ("델타값")
-    hts_ints_vltl: Decimal = Field(
-        alias="hts_ints_vltl",
-    )
+    hts_ints_vltl: Decimal = Field(alias="hts_ints_vltl")
     ("HTS내재변동성")
-    tmvl_val: Decimal = Field(
-        alias="tmvl_val",
-    )
+    tmvl_val: Decimal = Field(alias="tmvl_val")
     ("시간가치값")
-    gear: Decimal = Field(
-        alias="gear",
-    )
+    gear: Decimal = Field(alias="gear")
     ("기어링")
-    lvrg_val: Decimal = Field(
-        alias="lvrg_val",
-    )
+    lvrg_val: Decimal = Field(alias="lvrg_val")
     ("레버리지값")
-    prls_qryr_rate: Decimal = Field(
-        alias="prls_qryr_rate",
-    )
+    prls_qryr_rate: Decimal = Field(alias="prls_qryr_rate")
     ("손익분기비율")
-    cfp: Decimal = Field(
-        alias="cfp",
-    )
+    cfp: Decimal = Field(alias="cfp")
     ("자본지지점")
-    lstn_stcn: int = Field(
-        alias="lstn_stcn",
-    )
+    lstn_stcn: int = Field(alias="lstn_stcn")
     ("상장주수")
-    pblc_co_name: str = Field(
-        alias="pblc_co_name",
-    )
+    pblc_co_name: str = Field(alias="pblc_co_name")
     ("발행회사명")
-    lp_mbcr_name: str = Field(
-        alias="lp_mbcr_name",
-    )
+    lp_mbcr_name: str = Field(alias="lp_mbcr_name")
     ("LP회원사명")
-    lp_hldn_rate: Decimal = Field(
-        alias="lp_hldn_rate",
-    )
+    lp_hldn_rate: Decimal = Field(alias="lp_hldn_rate")
     ("LP보유비율")
-    elw_rght_form: str = Field(
-        alias="elw_rght_form",
-    )
+    elw_rght_form: str = Field(alias="elw_rght_form")
     ("ELW권리형태")
-    elw_ko_barrier: Decimal = Field(
-        alias="elw_ko_barrier",
-    )
+    elw_ko_barrier: Decimal = Field(alias="elw_ko_barrier")
     ("조기종료발생기준가격")
-    apprch_rate: Decimal = Field(
-        alias="apprch_rate",
-    )
+    apprch_rate: Decimal = Field(alias="apprch_rate")
     ("접근도")
-    unas_shrn_iscd: str = Field(
-        alias="unas_shrn_iscd",
-    )
+    unas_shrn_iscd: str = Field(alias="unas_shrn_iscd")
     ("기초자산단축종목코드")
-    mtrt_date: KisDate = Field(
-        alias="mtrt_date",
-    )
+    mtrt_date: KisDate = Field(alias="mtrt_date")
     ("만기일자")
-    prmm_val: Decimal = Field(
-        alias="prmm_val",
-    )
+    prmm_val: Decimal = Field(alias="prmm_val")
     ("프리미엄값")
-    stck_lp_fin_date: KisDate = Field(
-        alias="stck_lp_fin_date",
-    )
+    stck_lp_fin_date: KisDate = Field(alias="stck_lp_fin_date")
     ("주식LP종료일자")
-    tick_conv_prc: Decimal = Field(
-        alias="tick_conv_prc",
-    )
+    tick_conv_prc: Decimal = Field(alias="tick_conv_prc")
     ("틱환산가")
-    prls_qryr_stpr_prc: Decimal = Field(
-        alias="prls_qryr_stpr_prc",
-    )
+    prls_qryr_stpr_prc: Decimal = Field(alias="prls_qryr_stpr_prc")
     ("손익분기주가가격")
-    lp_hvol: int = Field(
-        alias="lp_hvol",
-    )
+    lp_hvol: int = Field(alias="lp_hvol")
     ("LP보유량")
 
 
 class CondSearchResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: list[CondSearchOutput1] = Field(
-        alias="output",
-    )
+    output1: list[CondSearchOutput1] = Field(alias="output")
     ("응답상세")
 
 
@@ -873,27 +484,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: CondSearchRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: CondSearchRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[CondSearchResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: CondSearchRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: CondSearchRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[CondSearchResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[CondSearchRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[CondSearchRequestDict]
         ) -> tuple[CondSearchResponse, KisResponse]: ...
         def call(
             self,

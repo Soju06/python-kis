@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -40,9 +28,7 @@ class PrdyVrssSignEnum(KisStrEnum):
 
 
 class MktfundsRequest(RawModel):
-    FID_INPUT_DATE_1: str = Field(
-        alias="FID_INPUT_DATE_1",
-    )
+    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
     ("입력날짜1")
 
 
@@ -60,99 +46,54 @@ class MktfundsRequestDict(TypedDict):
         FID_INPUT_DATE_1 (str): 입력날짜1
     """
 
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "입력날짜1",
-    ]
+    FID_INPUT_DATE_1: Annotated[str, "입력날짜1"]
 
 
 class MktfundsOutput(RawModel):
-    bsop_date: KisDate = Field(
-        alias="bsop_date",
-    )
+    bsop_date: KisDate = Field(alias="bsop_date")
     ("영업일자")
-    bstp_nmix_prpr: Decimal = Field(
-        alias="bstp_nmix_prpr",
-    )
+    bstp_nmix_prpr: Decimal = Field(alias="bstp_nmix_prpr")
     ("업종지수현재가")
-    bstp_nmix_prdy_vrss: Decimal = Field(
-        alias="bstp_nmix_prdy_vrss",
-    )
+    bstp_nmix_prdy_vrss: Decimal = Field(alias="bstp_nmix_prdy_vrss")
     ("업종지수전일대비")
-    prdy_vrss_sign: PrdyVrssSignEnum = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: PrdyVrssSignEnum = Field(alias="prdy_vrss_sign")
     ("1. 상한 2. 상승 3. 보합 4. 하한 5. 하락")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일대비율")
-    hts_avls: Decimal = Field(
-        alias="hts_avls",
-    )
+    hts_avls: Decimal = Field(alias="hts_avls")
     ("단위: 백만원")
-    cust_dpmn_amt: Decimal = Field(
-        alias="cust_dpmn_amt",
-    )
+    cust_dpmn_amt: Decimal = Field(alias="cust_dpmn_amt")
     ("단위: 억원")
-    cust_dpmn_amt_prdy_vrss: Decimal = Field(
-        alias="cust_dpmn_amt_prdy_vrss",
-    )
+    cust_dpmn_amt_prdy_vrss: Decimal = Field(alias="cust_dpmn_amt_prdy_vrss")
     ("고객예탁금금액전일대비")
-    amt_tnrt: Decimal = Field(
-        alias="amt_tnrt",
-    )
+    amt_tnrt: Decimal = Field(alias="amt_tnrt")
     ("금액회전율")
-    uncl_amt: Decimal = Field(
-        alias="uncl_amt",
-    )
+    uncl_amt: Decimal = Field(alias="uncl_amt")
     ("단위: 억원")
-    crdt_loan_rmnd: int = Field(
-        alias="crdt_loan_rmnd",
-    )
+    crdt_loan_rmnd: int = Field(alias="crdt_loan_rmnd")
     ("단위: 억원")
-    futs_tfam_amt: Decimal = Field(
-        alias="futs_tfam_amt",
-    )
+    futs_tfam_amt: Decimal = Field(alias="futs_tfam_amt")
     ("단위: 억원")
-    sttp_amt: Decimal = Field(
-        alias="sttp_amt",
-    )
+    sttp_amt: Decimal = Field(alias="sttp_amt")
     ("단위: 억원")
-    mxtp_amt: Decimal = Field(
-        alias="mxtp_amt",
-    )
+    mxtp_amt: Decimal = Field(alias="mxtp_amt")
     ("단위: 억원")
-    bntp_amt: Decimal = Field(
-        alias="bntp_amt",
-    )
+    bntp_amt: Decimal = Field(alias="bntp_amt")
     ("단위: 억원")
-    mmf_amt: Decimal = Field(
-        alias="mmf_amt",
-    )
+    mmf_amt: Decimal = Field(alias="mmf_amt")
     ("단위: 억원")
-    secu_lend_amt: Decimal = Field(
-        alias="secu_lend_amt",
-    )
+    secu_lend_amt: Decimal = Field(alias="secu_lend_amt")
     ("단위: 억원")
 
 
 class MktfundsResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[MktfundsOutput] = Field(
-        alias="output",
-    )
+    output: list[MktfundsOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -183,27 +124,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: MktfundsRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: MktfundsRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[MktfundsResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: MktfundsRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: MktfundsRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[MktfundsResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[MktfundsRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[MktfundsRequestDict]
         ) -> tuple[MktfundsResponse, KisResponse]: ...
         def call(
             self,
@@ -240,11 +169,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "MktfundsRequest",
-    "MktfundsRequestDict",
-    "MktfundsResponse",
-    "MktfundsOutput",
-    "PrdyVrssSignEnum",
-]
+__all__ = ["ENDPOINT", "MktfundsRequest", "MktfundsRequestDict", "MktfundsResponse", "MktfundsOutput", "PrdyVrssSignEnum"]

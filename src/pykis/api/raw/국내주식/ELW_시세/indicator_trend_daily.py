@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -26,13 +14,9 @@ if TYPE_CHECKING:
 
 
 class IndicatorTrendDailyRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("W")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("ex. 57K281")
 
 
@@ -47,95 +31,51 @@ class IndicatorTrendDailyRequestDict(TypedDict):
         FID_INPUT_ISCD (str): ex. 57K281
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "W",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "ex. 57K281",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "W"]
+    FID_INPUT_ISCD: Annotated[str, "ex. 57K281"]
 
 
 class IndicatorTrendDailyOutput(RawModel):
-    stck_bsop_date: KisDate = Field(
-        alias="stck_bsop_date",
-    )
+    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
     ("주식영업일자")
-    elw_prpr: Decimal = Field(
-        alias="elw_prpr",
-    )
+    elw_prpr: Decimal = Field(alias="elw_prpr")
     ("ELW현재가")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일대비부호")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일대비")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적거래량")
-    lvrg_val: Decimal = Field(
-        alias="lvrg_val",
-    )
+    lvrg_val: Decimal = Field(alias="lvrg_val")
     ("레버리지값")
-    gear: Decimal = Field(
-        alias="gear",
-    )
+    gear: Decimal = Field(alias="gear")
     ("기어링")
-    tmvl_val: Decimal = Field(
-        alias="tmvl_val",
-    )
+    tmvl_val: Decimal = Field(alias="tmvl_val")
     ("시간가치값")
-    invl_val: Decimal = Field(
-        alias="invl_val",
-    )
+    invl_val: Decimal = Field(alias="invl_val")
     ("내재가치값")
-    prit: Decimal = Field(
-        alias="prit",
-    )
+    prit: Decimal = Field(alias="prit")
     ("패리티")
-    elw_oprc: Decimal = Field(
-        alias="elw_oprc",
-    )
+    elw_oprc: Decimal = Field(alias="elw_oprc")
     ("ELW시가2")
-    elw_hgpr: Decimal = Field(
-        alias="elw_hgpr",
-    )
+    elw_hgpr: Decimal = Field(alias="elw_hgpr")
     ("ELW최고가")
-    elw_lwpr: Decimal = Field(
-        alias="elw_lwpr",
-    )
+    elw_lwpr: Decimal = Field(alias="elw_lwpr")
     ("ELW최저가")
-    apprch_rate: Decimal = Field(
-        alias="apprch_rate",
-    )
+    apprch_rate: Decimal = Field(alias="apprch_rate")
     ("접근도")
 
 
 class IndicatorTrendDailyResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[IndicatorTrendDailyOutput] = Field(
-        alias="output",
-    )
+    output: list[IndicatorTrendDailyOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -162,27 +102,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: IndicatorTrendDailyRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: IndicatorTrendDailyRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[IndicatorTrendDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: IndicatorTrendDailyRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: IndicatorTrendDailyRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[IndicatorTrendDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[IndicatorTrendDailyRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[IndicatorTrendDailyRequestDict]
         ) -> tuple[IndicatorTrendDailyResponse, KisResponse]: ...
         def call(
             self,
@@ -216,10 +144,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "IndicatorTrendDailyRequest",
-    "IndicatorTrendDailyRequestDict",
-    "IndicatorTrendDailyResponse",
-    "IndicatorTrendDailyOutput",
-]
+__all__ = ["ENDPOINT", "IndicatorTrendDailyRequest", "IndicatorTrendDailyRequestDict", "IndicatorTrendDailyResponse", "IndicatorTrendDailyOutput"]

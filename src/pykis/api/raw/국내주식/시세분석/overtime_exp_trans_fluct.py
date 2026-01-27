@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -59,39 +47,21 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class OvertimeExpTransFluctRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("시장구분코드 (J: 주식)")
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("Unique key(11186)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("0000(전체), 0001(코스피), 1001(코스닥)")
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
-        alias="FID_RANK_SORT_CLS_CODE",
-    )
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
     ("0(상승률), 1(상승폭), 2(보합), 3(하락률), 4(하락폭)")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
-        alias="FID_DIV_CLS_CODE",
-    )
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
     ("'0(전체), 1(관리종목), 2(투자주의), 3(투자경고), 4(투자위험예고), 5(투자위험), 6(보통주), 7(우선주)'")
-    FID_INPUT_PRICE_1: str = Field(
-        alias="FID_INPUT_PRICE_1",
-    )
+    FID_INPUT_PRICE_1: str = Field(alias="FID_INPUT_PRICE_1")
     ("가격 ~")
-    FID_INPUT_PRICE_2: str | None = Field(
-        default=None,
-        alias="FID_INPUT_PRICE_2",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_INPUT_PRICE_2: str | None = Field(default=None, alias="FID_INPUT_PRICE_2", json_schema_extra={"blank_allowed": True})
     ("공백")
-    FID_INPUT_VOL_1: str = Field(
-        alias="FID_INPUT_VOL_1",
-    )
+    FID_INPUT_VOL_1: str = Field(alias="FID_INPUT_VOL_1")
     ("거래량 ~")
 
 
@@ -114,114 +84,55 @@ class OvertimeExpTransFluctRequestDict(TypedDict):
         FID_INPUT_VOL_1 (str): 거래량 ~
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "시장구분코드 (J: 주식)",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "Unique key(11186)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "0000(전체), 0001(코스피), 1001(코스닥)",
-    ]
-    FID_RANK_SORT_CLS_CODE: Annotated[
-        FidRankSortClsCodeEnum,
-        "0(상승률), 1(상승폭), 2(보합), 3(하락률), 4(하락폭)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (J: 주식)"]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(11186)"]
+    FID_INPUT_ISCD: Annotated[str, "0000(전체), 0001(코스피), 1001(코스닥)"]
+    FID_RANK_SORT_CLS_CODE: Annotated[FidRankSortClsCodeEnum, "0(상승률), 1(상승폭), 2(보합), 3(하락률), 4(하락폭)"]
     FID_DIV_CLS_CODE: Annotated[
-        FidDivClsCodeEnum,
-        "'0(전체), 1(관리종목), 2(투자주의), 3(투자경고), 4(투자위험예고), 5(투자위험), 6(보통주), 7(우선주)'",
+        FidDivClsCodeEnum, "'0(전체), 1(관리종목), 2(투자주의), 3(투자경고), 4(투자위험예고), 5(투자위험), 6(보통주), 7(우선주)'"
     ]
-    FID_INPUT_PRICE_1: Annotated[
-        str,
-        "가격 ~",
-    ]
-    FID_INPUT_PRICE_2: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    FID_INPUT_VOL_1: Annotated[
-        str,
-        "거래량 ~",
-    ]
+    FID_INPUT_PRICE_1: Annotated[str, "가격 ~"]
+    FID_INPUT_PRICE_2: NotRequired[Annotated[str | None, "공백"]]
+    FID_INPUT_VOL_1: Annotated[str, "거래량 ~"]
 
 
 class OvertimeExpTransFluctOutput(RawModel):
-    data_rank: int = Field(
-        alias="data_rank",
-    )
+    data_rank: int = Field(alias="data_rank")
     ("데이터 순위")
-    iscd_stat_cls_code: str = Field(
-        alias="iscd_stat_cls_code",
-    )
+    iscd_stat_cls_code: str = Field(alias="iscd_stat_cls_code")
     ("종목 상태 구분 코드")
-    stck_shrn_iscd: str = Field(
-        alias="stck_shrn_iscd",
-    )
+    stck_shrn_iscd: str = Field(alias="stck_shrn_iscd")
     ("주식 단축 종목코드")
-    hts_kor_isnm: str = Field(
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
     ("HTS 한글 종목명")
-    ovtm_untp_antc_cnpr: Decimal = Field(
-        alias="ovtm_untp_antc_cnpr",
-    )
+    ovtm_untp_antc_cnpr: Decimal = Field(alias="ovtm_untp_antc_cnpr")
     ("시간외 단일가 예상 체결가")
-    ovtm_untp_antc_cntg_vrss: Decimal = Field(
-        alias="ovtm_untp_antc_cntg_vrss",
-    )
+    ovtm_untp_antc_cntg_vrss: Decimal = Field(alias="ovtm_untp_antc_cntg_vrss")
     ("시간외 단일가 예상 체결 대비")
-    ovtm_untp_antc_cntg_vrsssign: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_antc_cntg_vrsssign",
-    )
+    ovtm_untp_antc_cntg_vrsssign: Decimal | None = Field(default=None, alias="ovtm_untp_antc_cntg_vrsssign")
     ("시간외 단일가 예상 체결 대비")
-    ovtm_untp_antc_cntg_ctrt: Decimal = Field(
-        alias="ovtm_untp_antc_cntg_ctrt",
-    )
+    ovtm_untp_antc_cntg_ctrt: Decimal = Field(alias="ovtm_untp_antc_cntg_ctrt")
     ("시간외 단일가 예상 체결 대비율")
-    ovtm_untp_askp_rsqn1: Decimal = Field(
-        alias="ovtm_untp_askp_rsqn1",
-    )
+    ovtm_untp_askp_rsqn1: Decimal = Field(alias="ovtm_untp_askp_rsqn1")
     ("시간외 단일가 매도호가 잔량1")
-    ovtm_untp_bidp_rsqn1: str = Field(
-        alias="ovtm_untp_bidp_rsqn1",
-    )
+    ovtm_untp_bidp_rsqn1: str = Field(alias="ovtm_untp_bidp_rsqn1")
     ("시간외 단일가 매수호가 잔량1")
-    ovtm_untp_antc_cnqn: Decimal = Field(
-        alias="ovtm_untp_antc_cnqn",
-    )
+    ovtm_untp_antc_cnqn: Decimal = Field(alias="ovtm_untp_antc_cnqn")
     ("시간외 단일가 예상 체결량")
-    itmt_vol: int = Field(
-        alias="itmt_vol",
-    )
+    itmt_vol: int = Field(alias="itmt_vol")
     ("장중 거래량")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식 현재가")
 
 
 class OvertimeExpTransFluctResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[OvertimeExpTransFluctOutput] = Field(
-        alias="output",
-    )
+    output: list[OvertimeExpTransFluctOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -248,27 +159,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OvertimeExpTransFluctRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OvertimeExpTransFluctRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OvertimeExpTransFluctResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OvertimeExpTransFluctRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OvertimeExpTransFluctRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OvertimeExpTransFluctResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[OvertimeExpTransFluctRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[OvertimeExpTransFluctRequestDict]
         ) -> tuple[OvertimeExpTransFluctResponse, KisResponse]: ...
         def call(
             self,

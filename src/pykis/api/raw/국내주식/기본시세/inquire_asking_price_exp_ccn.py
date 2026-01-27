@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisTime,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -36,13 +24,9 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
 
 
 class InquireAskingPriceExpCcnRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("J:KRX, NX:NXT, UN:통합")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("종목코드 (ex 005930 삼성전자)")
 
 
@@ -57,300 +41,152 @@ class InquireAskingPriceExpCcnRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목코드 (ex 005930 삼성전자)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
-        "J:KRX, NX:NXT, UN:통합",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "종목코드 (ex 005930 삼성전자)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"]
+    FID_INPUT_ISCD: Annotated[str, "종목코드 (ex 005930 삼성전자)"]
 
 
 class InquireAskingPriceExpCcnOutput1(RawModel):
-    aspr_acpt_hour: KisTime = Field(
-        alias="aspr_acpt_hour",
-    )
+    aspr_acpt_hour: KisTime = Field(alias="aspr_acpt_hour")
     ("호가 접수 시간")
-    askp1: int = Field(
-        alias="askp1",
-    )
+    askp1: int = Field(alias="askp1")
     ("매도호가1")
-    askp2: int = Field(
-        alias="askp2",
-    )
+    askp2: int = Field(alias="askp2")
     ("매도호가2")
-    askp3: int = Field(
-        alias="askp3",
-    )
+    askp3: int = Field(alias="askp3")
     ("매도호가3")
-    askp4: int = Field(
-        alias="askp4",
-    )
+    askp4: int = Field(alias="askp4")
     ("매도호가4")
-    askp5: int = Field(
-        alias="askp5",
-    )
+    askp5: int = Field(alias="askp5")
     ("매도호가5")
-    askp6: int = Field(
-        alias="askp6",
-    )
+    askp6: int = Field(alias="askp6")
     ("매도호가6")
-    askp7: int = Field(
-        alias="askp7",
-    )
+    askp7: int = Field(alias="askp7")
     ("매도호가7")
-    askp8: int = Field(
-        alias="askp8",
-    )
+    askp8: int = Field(alias="askp8")
     ("매도호가8")
-    askp9: int = Field(
-        alias="askp9",
-    )
+    askp9: int = Field(alias="askp9")
     ("매도호가9")
-    askp10: int = Field(
-        alias="askp10",
-    )
+    askp10: int = Field(alias="askp10")
     ("매도호가10")
-    bidp1: str = Field(
-        alias="bidp1",
-    )
+    bidp1: str = Field(alias="bidp1")
     ("매수호가1")
-    bidp2: str = Field(
-        alias="bidp2",
-    )
+    bidp2: str = Field(alias="bidp2")
     ("매수호가2")
-    bidp3: str = Field(
-        alias="bidp3",
-    )
+    bidp3: str = Field(alias="bidp3")
     ("매수호가3")
-    bidp4: str = Field(
-        alias="bidp4",
-    )
+    bidp4: str = Field(alias="bidp4")
     ("매수호가4")
-    bidp5: str = Field(
-        alias="bidp5",
-    )
+    bidp5: str = Field(alias="bidp5")
     ("매수호가5")
-    bidp6: str = Field(
-        alias="bidp6",
-    )
+    bidp6: str = Field(alias="bidp6")
     ("매수호가6")
-    bidp7: str = Field(
-        alias="bidp7",
-    )
+    bidp7: str = Field(alias="bidp7")
     ("매수호가7")
-    bidp8: str = Field(
-        alias="bidp8",
-    )
+    bidp8: str = Field(alias="bidp8")
     ("매수호가8")
-    bidp9: str = Field(
-        alias="bidp9",
-    )
+    bidp9: str = Field(alias="bidp9")
     ("매수호가9")
-    bidp10: str = Field(
-        alias="bidp10",
-    )
+    bidp10: str = Field(alias="bidp10")
     ("매수호가10")
-    askp_rsqn1: int = Field(
-        alias="askp_rsqn1",
-    )
+    askp_rsqn1: int = Field(alias="askp_rsqn1")
     ("매도호가 잔량1")
-    askp_rsqn2: int = Field(
-        alias="askp_rsqn2",
-    )
+    askp_rsqn2: int = Field(alias="askp_rsqn2")
     ("매도호가 잔량2")
-    askp_rsqn3: int = Field(
-        alias="askp_rsqn3",
-    )
+    askp_rsqn3: int = Field(alias="askp_rsqn3")
     ("매도호가 잔량3")
-    askp_rsqn4: int = Field(
-        alias="askp_rsqn4",
-    )
+    askp_rsqn4: int = Field(alias="askp_rsqn4")
     ("매도호가 잔량4")
-    askp_rsqn5: int = Field(
-        alias="askp_rsqn5",
-    )
+    askp_rsqn5: int = Field(alias="askp_rsqn5")
     ("매도호가 잔량5")
-    askp_rsqn6: int = Field(
-        alias="askp_rsqn6",
-    )
+    askp_rsqn6: int = Field(alias="askp_rsqn6")
     ("매도호가 잔량6")
-    askp_rsqn7: int = Field(
-        alias="askp_rsqn7",
-    )
+    askp_rsqn7: int = Field(alias="askp_rsqn7")
     ("매도호가 잔량7")
-    askp_rsqn8: int = Field(
-        alias="askp_rsqn8",
-    )
+    askp_rsqn8: int = Field(alias="askp_rsqn8")
     ("매도호가 잔량8")
-    askp_rsqn9: int = Field(
-        alias="askp_rsqn9",
-    )
+    askp_rsqn9: int = Field(alias="askp_rsqn9")
     ("매도호가 잔량9")
-    askp_rsqn10: int = Field(
-        alias="askp_rsqn10",
-    )
+    askp_rsqn10: int = Field(alias="askp_rsqn10")
     ("매도호가 잔량10")
-    bidp_rsqn1: str = Field(
-        alias="bidp_rsqn1",
-    )
+    bidp_rsqn1: str = Field(alias="bidp_rsqn1")
     ("매수호가 잔량1")
-    bidp_rsqn2: str = Field(
-        alias="bidp_rsqn2",
-    )
+    bidp_rsqn2: str = Field(alias="bidp_rsqn2")
     ("매수호가 잔량2")
-    bidp_rsqn3: str = Field(
-        alias="bidp_rsqn3",
-    )
+    bidp_rsqn3: str = Field(alias="bidp_rsqn3")
     ("매수호가 잔량3")
-    bidp_rsqn4: str = Field(
-        alias="bidp_rsqn4",
-    )
+    bidp_rsqn4: str = Field(alias="bidp_rsqn4")
     ("매수호가 잔량4")
-    bidp_rsqn5: str = Field(
-        alias="bidp_rsqn5",
-    )
+    bidp_rsqn5: str = Field(alias="bidp_rsqn5")
     ("매수호가 잔량5")
-    bidp_rsqn6: str = Field(
-        alias="bidp_rsqn6",
-    )
+    bidp_rsqn6: str = Field(alias="bidp_rsqn6")
     ("매수호가 잔량6")
-    bidp_rsqn7: str = Field(
-        alias="bidp_rsqn7",
-    )
+    bidp_rsqn7: str = Field(alias="bidp_rsqn7")
     ("매수호가 잔량7")
-    bidp_rsqn8: str = Field(
-        alias="bidp_rsqn8",
-    )
+    bidp_rsqn8: str = Field(alias="bidp_rsqn8")
     ("매수호가 잔량8")
-    bidp_rsqn9: str = Field(
-        alias="bidp_rsqn9",
-    )
+    bidp_rsqn9: str = Field(alias="bidp_rsqn9")
     ("매수호가 잔량9")
-    bidp_rsqn10: str = Field(
-        alias="bidp_rsqn10",
-    )
+    bidp_rsqn10: str = Field(alias="bidp_rsqn10")
     ("매수호가 잔량10")
-    askp_rsqn_icdc1: int = Field(
-        alias="askp_rsqn_icdc1",
-    )
+    askp_rsqn_icdc1: int = Field(alias="askp_rsqn_icdc1")
     ("매도호가 잔량 증감1")
-    askp_rsqn_icdc2: int = Field(
-        alias="askp_rsqn_icdc2",
-    )
+    askp_rsqn_icdc2: int = Field(alias="askp_rsqn_icdc2")
     ("매도호가 잔량 증감2")
-    askp_rsqn_icdc3: int = Field(
-        alias="askp_rsqn_icdc3",
-    )
+    askp_rsqn_icdc3: int = Field(alias="askp_rsqn_icdc3")
     ("매도호가 잔량 증감3")
-    askp_rsqn_icdc4: int = Field(
-        alias="askp_rsqn_icdc4",
-    )
+    askp_rsqn_icdc4: int = Field(alias="askp_rsqn_icdc4")
     ("매도호가 잔량 증감4")
-    askp_rsqn_icdc5: int = Field(
-        alias="askp_rsqn_icdc5",
-    )
+    askp_rsqn_icdc5: int = Field(alias="askp_rsqn_icdc5")
     ("매도호가 잔량 증감5")
-    askp_rsqn_icdc6: int = Field(
-        alias="askp_rsqn_icdc6",
-    )
+    askp_rsqn_icdc6: int = Field(alias="askp_rsqn_icdc6")
     ("매도호가 잔량 증감6")
-    askp_rsqn_icdc7: int = Field(
-        alias="askp_rsqn_icdc7",
-    )
+    askp_rsqn_icdc7: int = Field(alias="askp_rsqn_icdc7")
     ("매도호가 잔량 증감7")
-    askp_rsqn_icdc8: int = Field(
-        alias="askp_rsqn_icdc8",
-    )
+    askp_rsqn_icdc8: int = Field(alias="askp_rsqn_icdc8")
     ("매도호가 잔량 증감8")
-    askp_rsqn_icdc9: int = Field(
-        alias="askp_rsqn_icdc9",
-    )
+    askp_rsqn_icdc9: int = Field(alias="askp_rsqn_icdc9")
     ("매도호가 잔량 증감9")
-    askp_rsqn_icdc10: int = Field(
-        alias="askp_rsqn_icdc10",
-    )
+    askp_rsqn_icdc10: int = Field(alias="askp_rsqn_icdc10")
     ("매도호가 잔량 증감10")
-    bidp_rsqn_icdc1: str = Field(
-        alias="bidp_rsqn_icdc1",
-    )
+    bidp_rsqn_icdc1: str = Field(alias="bidp_rsqn_icdc1")
     ("매수호가 잔량 증감1")
-    bidp_rsqn_icdc2: str = Field(
-        alias="bidp_rsqn_icdc2",
-    )
+    bidp_rsqn_icdc2: str = Field(alias="bidp_rsqn_icdc2")
     ("매수호가 잔량 증감2")
-    bidp_rsqn_icdc3: str = Field(
-        alias="bidp_rsqn_icdc3",
-    )
+    bidp_rsqn_icdc3: str = Field(alias="bidp_rsqn_icdc3")
     ("매수호가 잔량 증감3")
-    bidp_rsqn_icdc4: str = Field(
-        alias="bidp_rsqn_icdc4",
-    )
+    bidp_rsqn_icdc4: str = Field(alias="bidp_rsqn_icdc4")
     ("매수호가 잔량 증감4")
-    bidp_rsqn_icdc5: str = Field(
-        alias="bidp_rsqn_icdc5",
-    )
+    bidp_rsqn_icdc5: str = Field(alias="bidp_rsqn_icdc5")
     ("매수호가 잔량 증감5")
-    bidp_rsqn_icdc6: str = Field(
-        alias="bidp_rsqn_icdc6",
-    )
+    bidp_rsqn_icdc6: str = Field(alias="bidp_rsqn_icdc6")
     ("매수호가 잔량 증감6")
-    bidp_rsqn_icdc7: str = Field(
-        alias="bidp_rsqn_icdc7",
-    )
+    bidp_rsqn_icdc7: str = Field(alias="bidp_rsqn_icdc7")
     ("매수호가 잔량 증감7")
-    bidp_rsqn_icdc8: str = Field(
-        alias="bidp_rsqn_icdc8",
-    )
+    bidp_rsqn_icdc8: str = Field(alias="bidp_rsqn_icdc8")
     ("매수호가 잔량 증감8")
-    bidp_rsqn_icdc9: str = Field(
-        alias="bidp_rsqn_icdc9",
-    )
+    bidp_rsqn_icdc9: str = Field(alias="bidp_rsqn_icdc9")
     ("매수호가 잔량 증감9")
-    bidp_rsqn_icdc10: str = Field(
-        alias="bidp_rsqn_icdc10",
-    )
+    bidp_rsqn_icdc10: str = Field(alias="bidp_rsqn_icdc10")
     ("매수호가 잔량 증감10")
-    total_askp_rsqn: int = Field(
-        alias="total_askp_rsqn",
-    )
+    total_askp_rsqn: int = Field(alias="total_askp_rsqn")
     ("총 매도호가 잔량")
-    total_bidp_rsqn: str = Field(
-        alias="total_bidp_rsqn",
-    )
+    total_bidp_rsqn: str = Field(alias="total_bidp_rsqn")
     ("총 매수호가 잔량")
-    total_askp_rsqn_icdc: int = Field(
-        alias="total_askp_rsqn_icdc",
-    )
+    total_askp_rsqn_icdc: int = Field(alias="total_askp_rsqn_icdc")
     ("총 매도호가 잔량 증감")
-    total_bidp_rsqn_icdc: str = Field(
-        alias="total_bidp_rsqn_icdc",
-    )
+    total_bidp_rsqn_icdc: str = Field(alias="total_bidp_rsqn_icdc")
     ("총 매수호가 잔량 증감")
-    ovtm_total_askp_icdc: int = Field(
-        alias="ovtm_total_askp_icdc",
-    )
+    ovtm_total_askp_icdc: int = Field(alias="ovtm_total_askp_icdc")
     ("시간외 총 매도호가 증감")
-    ovtm_total_bidp_icdc: str = Field(
-        alias="ovtm_total_bidp_icdc",
-    )
+    ovtm_total_bidp_icdc: str = Field(alias="ovtm_total_bidp_icdc")
     ("시간외 총 매수호가 증감")
-    ovtm_total_askp_rsqn: int = Field(
-        alias="ovtm_total_askp_rsqn",
-    )
+    ovtm_total_askp_rsqn: int = Field(alias="ovtm_total_askp_rsqn")
     ("시간외 총 매도호가 잔량")
-    ovtm_total_bidp_rsqn: str = Field(
-        alias="ovtm_total_bidp_rsqn",
-    )
+    ovtm_total_bidp_rsqn: str = Field(alias="ovtm_total_bidp_rsqn")
     ("시간외 총 매수호가 잔량")
-    ntby_aspr_rsqn: int = Field(
-        alias="ntby_aspr_rsqn",
-    )
+    ntby_aspr_rsqn: int = Field(alias="ntby_aspr_rsqn")
     ("순매수 호가 잔량")
-    new_mkop_cls_code: str = Field(
-        alias="new_mkop_cls_code",
-    )
+    new_mkop_cls_code: str = Field(alias="new_mkop_cls_code")
     (
         "' '00' : 장전 예상체결가와 장마감 동시호가 '49' : 장후 예상체결가 (1) 첫 번째 비트 1 : 장개시전 "
         "2 : 장중 3 : 장종료후 4 : 시간외단일가 7 : 일반Buy-in 8 : 당일Buy-in (2) 두 번째 비트 0 : 보통 1 "
@@ -359,80 +195,44 @@ class InquireAskingPriceExpCcnOutput1(RawModel):
 
 
 class InquireAskingPriceExpCcnOutput2(RawModel):
-    antc_mkop_cls_code: str = Field(
-        alias="antc_mkop_cls_code",
-    )
+    antc_mkop_cls_code: str = Field(alias="antc_mkop_cls_code")
     ("예상 장운영 구분 코드")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식 현재가")
-    stck_oprc: Decimal = Field(
-        alias="stck_oprc",
-    )
+    stck_oprc: Decimal = Field(alias="stck_oprc")
     ("주식 시가2")
-    stck_hgpr: Decimal = Field(
-        alias="stck_hgpr",
-    )
+    stck_hgpr: Decimal = Field(alias="stck_hgpr")
     ("주식 최고가")
-    stck_lwpr: Decimal = Field(
-        alias="stck_lwpr",
-    )
+    stck_lwpr: Decimal = Field(alias="stck_lwpr")
     ("주식 최저가")
-    stck_sdpr: int = Field(
-        alias="stck_sdpr",
-    )
+    stck_sdpr: int = Field(alias="stck_sdpr")
     ("주식 기준가")
-    antc_cnpr: int = Field(
-        alias="antc_cnpr",
-    )
+    antc_cnpr: int = Field(alias="antc_cnpr")
     ("예상 체결가")
-    antc_cntg_vrss_sign: int = Field(
-        alias="antc_cntg_vrss_sign",
-    )
+    antc_cntg_vrss_sign: int = Field(alias="antc_cntg_vrss_sign")
     ("예상 체결 대비 부호")
-    antc_cntg_vrss: int = Field(
-        alias="antc_cntg_vrss",
-    )
+    antc_cntg_vrss: int = Field(alias="antc_cntg_vrss")
     ("예상 체결 대비")
-    antc_cntg_prdy_ctrt: Decimal = Field(
-        alias="antc_cntg_prdy_ctrt",
-    )
+    antc_cntg_prdy_ctrt: Decimal = Field(alias="antc_cntg_prdy_ctrt")
     ("예상 체결 전일 대비율")
-    antc_vol: int = Field(
-        alias="antc_vol",
-    )
+    antc_vol: int = Field(alias="antc_vol")
     ("예상 거래량")
-    stck_shrn_iscd: str = Field(
-        alias="stck_shrn_iscd",
-    )
+    stck_shrn_iscd: str = Field(alias="stck_shrn_iscd")
     ("주식 단축 종목코드")
-    vi_cls_code: str = Field(
-        alias="vi_cls_code",
-    )
+    vi_cls_code: str = Field(alias="vi_cls_code")
     ("VI적용구분코드")
 
 
 class InquireAskingPriceExpCcnResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: InquireAskingPriceExpCcnOutput1 = Field(
-        alias="output1",
-    )
+    output1: InquireAskingPriceExpCcnOutput1 = Field(alias="output1")
     ("응답상세")
-    output2: InquireAskingPriceExpCcnOutput2 = Field(
-        alias="output2",
-    )
+    output2: InquireAskingPriceExpCcnOutput2 = Field(alias="output2")
     ("응답상세")
 
 
@@ -459,27 +259,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireAskingPriceExpCcnRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireAskingPriceExpCcnRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireAskingPriceExpCcnResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireAskingPriceExpCcnRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireAskingPriceExpCcnRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireAskingPriceExpCcnResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireAskingPriceExpCcnRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireAskingPriceExpCcnRequestDict]
         ) -> tuple[InquireAskingPriceExpCcnResponse, KisResponse]: ...
         def call(
             self,

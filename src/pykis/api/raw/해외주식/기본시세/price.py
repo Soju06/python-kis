@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -71,22 +59,14 @@ class SignEnum(KisStrEnum):
 
 
 class PriceRequest(RawModel):
-    AUTH: str | None = Field(
-        default=None,
-        alias="AUTH",
-        json_schema_extra={"blank_allowed": True},
-    )
+    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
     ('"" (Null 값 설정)')
-    EXCD: ExcdEnum = Field(
-        alias="EXCD",
-    )
+    EXCD: ExcdEnum = Field(alias="EXCD")
     (
         "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 "
         "SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)"
     )
-    SYMB: str = Field(
-        alias="SYMB",
-    )
+    SYMB: str = Field(alias="SYMB")
     ("종목코드")
 
 
@@ -143,100 +123,51 @@ class PriceRequestDict(TypedDict):
         SYMB (str): 종목코드
     """
 
-    AUTH: NotRequired[
-        Annotated[
-            str | None,
-            '"" (Null 값 설정)',
-        ]
-    ]
+    AUTH: NotRequired[Annotated[str | None, '"" (Null 값 설정)']]
     EXCD: Annotated[
         ExcdEnum,
         "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 "
         "SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
     ]
-    SYMB: Annotated[
-        str,
-        "종목코드",
-    ]
+    SYMB: Annotated[str, "종목코드"]
 
 
 class PriceOutput(RawModel):
-    rsym: str | None = Field(
-        default=None,
-        alias="rsym",
-    )
+    rsym: str | None = Field(default=None, alias="rsym")
     (
         "D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : "
         "나스닥, AMS : 아멕스 , TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이"
     )
-    zdiv: str | None = Field(
-        default=None,
-        alias="zdiv",
-    )
+    zdiv: str | None = Field(default=None, alias="zdiv")
     ("소수점자리수")
-    base: str | None = Field(
-        default=None,
-        alias="base",
-    )
+    base: str | None = Field(default=None, alias="base")
     ("전일의 종가")
-    pvol: int | None = Field(
-        default=None,
-        alias="pvol",
-    )
+    pvol: int | None = Field(default=None, alias="pvol")
     ("전일의 거래량")
-    last: Decimal | None = Field(
-        default=None,
-        alias="last",
-    )
+    last: Decimal | None = Field(default=None, alias="last")
     ("당일 조회시점의 현재 가격")
-    sign: SignEnum | None = Field(
-        default=None,
-        alias="sign",
-    )
+    sign: SignEnum | None = Field(default=None, alias="sign")
     ("1 : 상한 2 : 상승 3 : 보합 4 : 하한 5 : 하락")
-    diff: Decimal | None = Field(
-        default=None,
-        alias="diff",
-    )
+    diff: Decimal | None = Field(default=None, alias="diff")
     ("전일 종가와 당일 현재가의 차이 (당일 현재가-전일 종가)")
-    rate: Decimal | None = Field(
-        default=None,
-        alias="rate",
-    )
+    rate: Decimal | None = Field(default=None, alias="rate")
     ("전일 대비 / 당일 현재가 * 100")
-    tvol: int | None = Field(
-        default=None,
-        alias="tvol",
-    )
+    tvol: int | None = Field(default=None, alias="tvol")
     ("당일 조회시점까지 전체 거래량")
-    tamt: Decimal | None = Field(
-        default=None,
-        alias="tamt",
-    )
+    tamt: Decimal | None = Field(default=None, alias="tamt")
     ("당일 조회시점까지 전체 거래금액")
-    ordy: KisBool | None = Field(
-        default=None,
-        alias="ordy",
-    )
+    ordy: KisBool | None = Field(default=None, alias="ordy")
     ("매수주문 가능 종목 여부")
 
 
 class PriceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: PriceOutput = Field(
-        alias="output",
-    )
+    output: PriceOutput = Field(alias="output")
     ("응답상세")
 
 
@@ -302,27 +233,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: PriceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: PriceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[PriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: PriceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: PriceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[PriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[PriceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[PriceRequestDict]
         ) -> tuple[PriceResponse, KisResponse]: ...
         def call(
             self,
@@ -403,12 +322,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "PriceRequest",
-    "PriceRequestDict",
-    "PriceResponse",
-    "PriceOutput",
-    "ExcdEnum",
-    "SignEnum",
-]
+__all__ = ["ENDPOINT", "PriceRequest", "PriceRequestDict", "PriceResponse", "PriceOutput", "ExcdEnum", "SignEnum"]

@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDateOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -62,53 +49,27 @@ class NminEnum(KisStrEnum):
 
 
 class InquireTimeItemchartpriceRequest(RawModel):
-    AUTH: str | None = Field(
-        default=None,
-        alias="AUTH",
-        json_schema_extra={"blank_allowed": True},
-    )
+    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
     ('"" 공백으로 입력')
-    EXCD: ExcdEnum = Field(
-        alias="EXCD",
-    )
+    EXCD: ExcdEnum = Field(alias="EXCD")
     (
         "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 "
         "TSE : 도쿄 ※ 주간거래는 최대 1일치 분봉만 조회 가능 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : "
         "아멕스(주간)"
     )
-    SYMB: str = Field(
-        alias="SYMB",
-    )
+    SYMB: str = Field(alias="SYMB")
     ("종목코드(ex. TSLA)")
-    NMIN: NminEnum = Field(
-        alias="NMIN",
-    )
+    NMIN: NminEnum = Field(alias="NMIN")
     ("분단위(1: 1분봉, 2: 2분봉, ...)")
-    PINC: KisBool = Field(
-        alias="PINC",
-    )
+    PINC: KisBool = Field(alias="PINC")
     ('0:당일 1:전일포함 ※ 다음조회 시 반드시 "1"로 입력')
-    NEXT: KisBool | None = Field(
-        default=None,
-        alias="NEXT",
-        json_schema_extra={"blank_allowed": True},
-    )
+    NEXT: KisBool | None = Field(default=None, alias="NEXT", json_schema_extra={"blank_allowed": True})
     ('처음조회 시, "" 공백 입력 다음조회 시, "1" 입력')
-    NREC: str = Field(
-        alias="NREC",
-    )
+    NREC: str = Field(alias="NREC")
     ("레코드요청갯수 (최대 120)")
-    FILL: int | None = Field(
-        default=None,
-        alias="FILL",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FILL: int | None = Field(default=None, alias="FILL", json_schema_extra={"blank_allowed": True})
     ('"" 공백으로 입력')
-    KEYB: str | None = Field(
-        default=None,
-        alias="KEYB",
-        json_schema_extra={"blank_allowed": True},
-    )
+    KEYB: str | None = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
     (
         '처음 조회 시, "" 공백 입력 다음 조회 시, 이전 조회 결과의 마지막 분봉 데이터를 이용하여, 1분 전 '
         "혹은 n분 전의 시간을 입력 (형식: YYYYMMDDHHMMSS, ex. 20241014140100)"
@@ -184,46 +145,19 @@ class InquireTimeItemchartpriceRequestDict(TypedDict):
         optional
     """
 
-    AUTH: NotRequired[
-        Annotated[
-            str | None,
-            '"" 공백으로 입력',
-        ]
-    ]
+    AUTH: NotRequired[Annotated[str | None, '"" 공백으로 입력']]
     EXCD: Annotated[
         ExcdEnum,
         "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 "
         "TSE : 도쿄 ※ 주간거래는 최대 1일치 분봉만 조회 가능 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : "
         "아멕스(주간)",
     ]
-    SYMB: Annotated[
-        str,
-        "종목코드(ex. TSLA)",
-    ]
-    NMIN: Annotated[
-        NminEnum,
-        "분단위(1: 1분봉, 2: 2분봉, ...)",
-    ]
-    PINC: Annotated[
-        KisBool,
-        '0:당일 1:전일포함 ※ 다음조회 시 반드시 "1"로 입력',
-    ]
-    NEXT: NotRequired[
-        Annotated[
-            KisBool | None,
-            '처음조회 시, "" 공백 입력 다음조회 시, "1" 입력',
-        ]
-    ]
-    NREC: Annotated[
-        str,
-        "레코드요청갯수 (최대 120)",
-    ]
-    FILL: NotRequired[
-        Annotated[
-            int | None,
-            '"" 공백으로 입력',
-        ]
-    ]
+    SYMB: Annotated[str, "종목코드(ex. TSLA)"]
+    NMIN: Annotated[NminEnum, "분단위(1: 1분봉, 2: 2분봉, ...)"]
+    PINC: Annotated[KisBool, '0:당일 1:전일포함 ※ 다음조회 시 반드시 "1"로 입력']
+    NEXT: NotRequired[Annotated[KisBool | None, '처음조회 시, "" 공백 입력 다음조회 시, "1" 입력']]
+    NREC: Annotated[str, "레코드요청갯수 (최대 120)"]
+    FILL: NotRequired[Annotated[int | None, '"" 공백으로 입력']]
     KEYB: NotRequired[
         Annotated[
             str | None,
@@ -234,131 +168,61 @@ class InquireTimeItemchartpriceRequestDict(TypedDict):
 
 
 class InquireTimeItemchartpriceOutput1(RawModel):
-    rsym: str | None = Field(
-        default=None,
-        alias="rsym",
-    )
+    rsym: str | None = Field(default=None, alias="rsym")
     ("실시간종목코드")
-    zdiv: str | None = Field(
-        default=None,
-        alias="zdiv",
-    )
+    zdiv: str | None = Field(default=None, alias="zdiv")
     ("소수점자리수")
-    stim: str | None = Field(
-        default=None,
-        alias="stim",
-    )
+    stim: str | None = Field(default=None, alias="stim")
     ("장시작현지시간")
-    etim: str | None = Field(
-        default=None,
-        alias="etim",
-    )
+    etim: str | None = Field(default=None, alias="etim")
     ("장종료현지시간")
-    sktm: str | None = Field(
-        default=None,
-        alias="sktm",
-    )
+    sktm: str | None = Field(default=None, alias="sktm")
     ("장시작한국시간")
-    ektm: str | None = Field(
-        default=None,
-        alias="ektm",
-    )
+    ektm: str | None = Field(default=None, alias="ektm")
     ("장종료한국시간")
-    next: KisBool | None = Field(
-        default=None,
-        alias="next",
-    )
+    next: KisBool | None = Field(default=None, alias="next")
     ("다음가능여부")
-    more: KisBool | None = Field(
-        default=None,
-        alias="more",
-    )
+    more: KisBool | None = Field(default=None, alias="more")
     ("추가데이타여부")
-    nrec: str | None = Field(
-        default=None,
-        alias="nrec",
-    )
+    nrec: str | None = Field(default=None, alias="nrec")
     ("레코드갯수")
 
 
 class InquireTimeItemchartpriceOutput2(RawModel):
-    tymd: KisDateOptional = Field(
-        default=None,
-        alias="tymd",
-    )
+    tymd: KisDateOptional = Field(default=None, alias="tymd")
     ("현지영업일자")
-    xymd: KisDateOptional = Field(
-        default=None,
-        alias="xymd",
-    )
+    xymd: KisDateOptional = Field(default=None, alias="xymd")
     ("현지기준일자")
-    xhms: str | None = Field(
-        default=None,
-        alias="xhms",
-    )
+    xhms: str | None = Field(default=None, alias="xhms")
     ("현지기준시간")
-    kymd: KisDateOptional = Field(
-        default=None,
-        alias="kymd",
-    )
+    kymd: KisDateOptional = Field(default=None, alias="kymd")
     ("한국기준일자")
-    khms: str | None = Field(
-        default=None,
-        alias="khms",
-    )
+    khms: str | None = Field(default=None, alias="khms")
     ("한국기준시간")
-    open: Decimal | None = Field(
-        default=None,
-        alias="open",
-    )
+    open: Decimal | None = Field(default=None, alias="open")
     ("시가")
-    high: Decimal | None = Field(
-        default=None,
-        alias="high",
-    )
+    high: Decimal | None = Field(default=None, alias="high")
     ("고가")
-    low: Decimal | None = Field(
-        default=None,
-        alias="low",
-    )
+    low: Decimal | None = Field(default=None, alias="low")
     ("저가")
-    last: str | None = Field(
-        default=None,
-        alias="last",
-    )
+    last: str | None = Field(default=None, alias="last")
     ("종가")
-    evol: int | None = Field(
-        default=None,
-        alias="evol",
-    )
+    evol: int | None = Field(default=None, alias="evol")
     ("체결량")
-    eamt: Decimal | None = Field(
-        default=None,
-        alias="eamt",
-    )
+    eamt: Decimal | None = Field(default=None, alias="eamt")
     ("체결대금")
 
 
 class InquireTimeItemchartpriceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: InquireTimeItemchartpriceOutput1 = Field(
-        alias="output1",
-    )
+    output1: InquireTimeItemchartpriceOutput1 = Field(alias="output1")
     ("응답상세")
-    output2: list[InquireTimeItemchartpriceOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[InquireTimeItemchartpriceOutput2] = Field(alias="output2")
     ("응답상세2")
 
 
@@ -432,27 +296,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireTimeItemchartpriceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireTimeItemchartpriceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireTimeItemchartpriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireTimeItemchartpriceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireTimeItemchartpriceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireTimeItemchartpriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireTimeItemchartpriceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireTimeItemchartpriceRequestDict]
         ) -> tuple[InquireTimeItemchartpriceResponse, KisResponse]: ...
         def call(
             self,

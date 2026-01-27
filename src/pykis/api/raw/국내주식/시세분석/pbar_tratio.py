@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -36,23 +24,13 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
 
 
 class PbarTratioRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("J:KRX, NX:NXT, UN:통합")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("주식단축종목코드")
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("Uniquekey(20113)")
-    FID_INPUT_HOUR_1: str | None = Field(
-        default=None,
-        alias="FID_INPUT_HOUR_1",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_INPUT_HOUR_1: str | None = Field(default=None, alias="FID_INPUT_HOUR_1", json_schema_extra={"blank_allowed": True})
     ("공백")
 
 
@@ -69,112 +47,58 @@ class PbarTratioRequestDict(TypedDict):
         FID_INPUT_HOUR_1 (str): 공백 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
-        "J:KRX, NX:NXT, UN:통합",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "주식단축종목코드",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "Uniquekey(20113)",
-    ]
-    FID_INPUT_HOUR_1: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"]
+    FID_INPUT_ISCD: Annotated[str, "주식단축종목코드"]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Uniquekey(20113)"]
+    FID_INPUT_HOUR_1: NotRequired[Annotated[str | None, "공백"]]
 
 
 class PbarTratioOutput1(RawModel):
-    rprs_mrkt_kor_name: str = Field(
-        alias="rprs_mrkt_kor_name",
-    )
+    rprs_mrkt_kor_name: str = Field(alias="rprs_mrkt_kor_name")
     ("대표시장한글명")
-    stck_shrn_iscd: str = Field(
-        alias="stck_shrn_iscd",
-    )
+    stck_shrn_iscd: str = Field(alias="stck_shrn_iscd")
     ("주식단축종목코드")
-    hts_kor_isnm: str = Field(
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
     ("HTS한글종목명")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식현재가")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일대비부호")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일대비")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적거래량")
-    prdy_vol: int = Field(
-        alias="prdy_vol",
-    )
+    prdy_vol: int = Field(alias="prdy_vol")
     ("전일거래량")
-    wghn_avrg_stck_prc: Decimal = Field(
-        alias="wghn_avrg_stck_prc",
-    )
+    wghn_avrg_stck_prc: Decimal = Field(alias="wghn_avrg_stck_prc")
     ("가중평균주식가격")
-    lstn_stcn: int = Field(
-        alias="lstn_stcn",
-    )
+    lstn_stcn: int = Field(alias="lstn_stcn")
     ("상장주수")
 
 
 class PbarTratioOutput2(RawModel):
-    data_rank: int = Field(
-        alias="data_rank",
-    )
+    data_rank: int = Field(alias="data_rank")
     ("데이터순위")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식현재가")
-    cntg_vol: int = Field(
-        alias="cntg_vol",
-    )
+    cntg_vol: int = Field(alias="cntg_vol")
     ("체결거래량")
-    acml_vol_rlim: Decimal = Field(
-        alias="acml_vol_rlim",
-    )
+    acml_vol_rlim: Decimal = Field(alias="acml_vol_rlim")
     ("누적거래량비중")
 
 
 class PbarTratioResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: PbarTratioOutput1 = Field(
-        alias="output1",
-    )
+    output1: PbarTratioOutput1 = Field(alias="output1")
     ("응답상세")
-    output2: list[PbarTratioOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[PbarTratioOutput2] = Field(alias="output2")
     ("응답상세")
 
 
@@ -201,27 +125,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: PbarTratioRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: PbarTratioRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[PbarTratioResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: PbarTratioRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: PbarTratioRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[PbarTratioResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[PbarTratioRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[PbarTratioRequestDict]
         ) -> tuple[PbarTratioResponse, KisResponse]: ...
         def call(
             self,

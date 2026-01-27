@@ -2,25 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    KisDateOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -28,25 +14,13 @@ if TYPE_CHECKING:
 
 
 class ForfeitRequest(RawModel):
-    SHT_CD: str | None = Field(
-        default=None,
-        alias="SHT_CD",
-        json_schema_extra={"blank_allowed": True},
-    )
+    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
     ("공백: 전체, 특정종목 조회시 : 종목코드")
-    T_DT: KisDate = Field(
-        alias="T_DT",
-    )
+    T_DT: KisDate = Field(alias="T_DT")
     ("~ 일자")
-    F_DT: KisDate = Field(
-        alias="F_DT",
-    )
+    F_DT: KisDate = Field(alias="F_DT")
     ("일자 ~")
-    CTS: str | None = Field(
-        default=None,
-        alias="CTS",
-        json_schema_extra={"blank_allowed": True},
-    )
+    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
     ("공백")
 
 
@@ -65,92 +39,41 @@ class ForfeitRequestDict(TypedDict):
         CTS (str): 공백 optional
     """
 
-    SHT_CD: NotRequired[
-        Annotated[
-            str | None,
-            "공백: 전체, 특정종목 조회시 : 종목코드",
-        ]
-    ]
-    T_DT: Annotated[
-        KisDate,
-        "~ 일자",
-    ]
-    F_DT: Annotated[
-        KisDate,
-        "일자 ~",
-    ]
-    CTS: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
+    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
+    T_DT: Annotated[KisDate, "~ 일자"]
+    F_DT: Annotated[KisDate, "일자 ~"]
+    CTS: NotRequired[Annotated[str | None, "공백"]]
 
 
 class ForfeitOutput1(RawModel):
-    record_date: KisDateOptional = Field(
-        default=None,
-        alias="record_date",
-    )
+    record_date: KisDateOptional = Field(default=None, alias="record_date")
     ("기준일")
-    sht_cd: str | None = Field(
-        default=None,
-        alias="sht_cd",
-    )
+    sht_cd: str | None = Field(default=None, alias="sht_cd")
     ("종목코드")
-    isin_name: str | None = Field(
-        default=None,
-        alias="isin_name",
-    )
+    isin_name: str | None = Field(default=None, alias="isin_name")
     ("종목명")
-    subscr_dt: KisDateOptional = Field(
-        default=None,
-        alias="subscr_dt",
-    )
+    subscr_dt: KisDateOptional = Field(default=None, alias="subscr_dt")
     ("청약일")
-    subscr_price: Decimal | None = Field(
-        default=None,
-        alias="subscr_price",
-    )
+    subscr_price: Decimal | None = Field(default=None, alias="subscr_price")
     ("공모가")
-    subscr_stk_qty: str | None = Field(
-        default=None,
-        alias="subscr_stk_qty",
-    )
+    subscr_stk_qty: str | None = Field(default=None, alias="subscr_stk_qty")
     ("공모주식수")
-    refund_dt: KisDateOptional = Field(
-        default=None,
-        alias="refund_dt",
-    )
+    refund_dt: KisDateOptional = Field(default=None, alias="refund_dt")
     ("환불일")
-    list_dt: KisDateOptional = Field(
-        default=None,
-        alias="list_dt",
-    )
+    list_dt: KisDateOptional = Field(default=None, alias="list_dt")
     ("상장/등록일")
-    lead_mgr: str | None = Field(
-        default=None,
-        alias="lead_mgr",
-    )
+    lead_mgr: str | None = Field(default=None, alias="lead_mgr")
     ("주간사")
 
 
 class ForfeitResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: list[ForfeitOutput1] = Field(
-        alias="output1",
-    )
+    output1: list[ForfeitOutput1] = Field(alias="output1")
     ("응답상세")
 
 
@@ -179,27 +102,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: ForfeitRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: ForfeitRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[ForfeitResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: ForfeitRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: ForfeitRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[ForfeitResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[ForfeitRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[ForfeitRequestDict]
         ) -> tuple[ForfeitResponse, KisResponse]: ...
         def call(
             self,
@@ -237,10 +148,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "ForfeitRequest",
-    "ForfeitRequestDict",
-    "ForfeitResponse",
-    "ForfeitOutput1",
-]
+__all__ = ["ENDPOINT", "ForfeitRequest", "ForfeitRequestDict", "ForfeitResponse", "ForfeitOutput1"]

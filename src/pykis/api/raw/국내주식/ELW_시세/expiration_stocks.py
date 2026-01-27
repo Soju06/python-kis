@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDateOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -46,49 +33,25 @@ class FidBlngClsCodeEnum(KisStrEnum):
 
 
 class ExpirationStocksRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("W 입력")
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("11547 입력")
-    FID_INPUT_DATE_1: str = Field(
-        alias="FID_INPUT_DATE_1",
-    )
+    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
     ("입력날짜 ~ (ex) 20240402)")
-    FID_INPUT_DATE_2: str = Field(
-        alias="FID_INPUT_DATE_2",
-    )
+    FID_INPUT_DATE_2: str = Field(alias="FID_INPUT_DATE_2")
     ("~입력날짜 (ex) 20240408)")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
-        alias="FID_DIV_CLS_CODE",
-    )
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
     ("0(콜),1(풋),2(전체)")
-    FID_ETC_CLS_CODE: str | None = Field(
-        default=None,
-        alias="FID_ETC_CLS_CODE",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_ETC_CLS_CODE: str | None = Field(default=None, alias="FID_ETC_CLS_CODE", json_schema_extra={"blank_allowed": True})
     ("공백 입력")
-    FID_UNAS_INPUT_ISCD: str = Field(
-        alias="FID_UNAS_INPUT_ISCD",
-    )
+    FID_UNAS_INPUT_ISCD: str = Field(alias="FID_UNAS_INPUT_ISCD")
     ("000000(전체), 2001(KOSPI 200), 기초자산코드(종목코드 ex. 삼성전자-005930)")
-    FID_INPUT_ISCD_2: str = Field(
-        alias="FID_INPUT_ISCD_2",
-    )
+    FID_INPUT_ISCD_2: str = Field(alias="FID_INPUT_ISCD_2")
     ("00000(전체), 00003(한국투자증권), 00017(KB증권), 00005(미래에셋증권)")
-    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum = Field(
-        alias="FID_BLNG_CLS_CODE",
-    )
+    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum = Field(alias="FID_BLNG_CLS_CODE")
     ("0(전체),1(일반),2(조기종료)")
-    FID_INPUT_OPTION_1: str | None = Field(
-        default=None,
-        alias="FID_INPUT_OPTION_1",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_INPUT_OPTION_1: str | None = Field(default=None, alias="FID_INPUT_OPTION_1", json_schema_extra={"blank_allowed": True})
     ("공백 입력")
 
 
@@ -114,176 +77,71 @@ class ExpirationStocksRequestDict(TypedDict):
         FID_INPUT_OPTION_1 (str): 공백 입력 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "W 입력",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "11547 입력",
-    ]
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "입력날짜 ~ (ex) 20240402)",
-    ]
-    FID_INPUT_DATE_2: Annotated[
-        str,
-        "~입력날짜 (ex) 20240408)",
-    ]
-    FID_DIV_CLS_CODE: Annotated[
-        FidDivClsCodeEnum,
-        "0(콜),1(풋),2(전체)",
-    ]
-    FID_ETC_CLS_CODE: NotRequired[
-        Annotated[
-            str | None,
-            "공백 입력",
-        ]
-    ]
-    FID_UNAS_INPUT_ISCD: Annotated[
-        str,
-        "000000(전체), 2001(KOSPI 200), 기초자산코드(종목코드 ex. 삼성전자-005930)",
-    ]
-    FID_INPUT_ISCD_2: Annotated[
-        str,
-        "00000(전체), 00003(한국투자증권), 00017(KB증권), 00005(미래에셋증권)",
-    ]
-    FID_BLNG_CLS_CODE: Annotated[
-        FidBlngClsCodeEnum,
-        "0(전체),1(일반),2(조기종료)",
-    ]
-    FID_INPUT_OPTION_1: NotRequired[
-        Annotated[
-            str | None,
-            "공백 입력",
-        ]
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "W 입력"]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "11547 입력"]
+    FID_INPUT_DATE_1: Annotated[str, "입력날짜 ~ (ex) 20240402)"]
+    FID_INPUT_DATE_2: Annotated[str, "~입력날짜 (ex) 20240408)"]
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0(콜),1(풋),2(전체)"]
+    FID_ETC_CLS_CODE: NotRequired[Annotated[str | None, "공백 입력"]]
+    FID_UNAS_INPUT_ISCD: Annotated[str, "000000(전체), 2001(KOSPI 200), 기초자산코드(종목코드 ex. 삼성전자-005930)"]
+    FID_INPUT_ISCD_2: Annotated[str, "00000(전체), 00003(한국투자증권), 00017(KB증권), 00005(미래에셋증권)"]
+    FID_BLNG_CLS_CODE: Annotated[FidBlngClsCodeEnum, "0(전체),1(일반),2(조기종료)"]
+    FID_INPUT_OPTION_1: NotRequired[Annotated[str | None, "공백 입력"]]
 
 
 class ExpirationStocksOutput1(RawModel):
-    elw_shrn_iscd: str | None = Field(
-        default=None,
-        alias="elw_shrn_iscd",
-    )
+    elw_shrn_iscd: str | None = Field(default=None, alias="elw_shrn_iscd")
     ("ELW단축종목코드")
-    elw_kor_isnm: str | None = Field(
-        default=None,
-        alias="elw_kor_isnm",
-    )
+    elw_kor_isnm: str | None = Field(default=None, alias="elw_kor_isnm")
     ("ELW한글종목명")
-    unas_isnm: str | None = Field(
-        default=None,
-        alias="unas_isnm",
-    )
+    unas_isnm: str | None = Field(default=None, alias="unas_isnm")
     ("기초자산종목명")
-    unas_prpr: Decimal | None = Field(
-        default=None,
-        alias="unas_prpr",
-    )
+    unas_prpr: Decimal | None = Field(default=None, alias="unas_prpr")
     ("기초자산현재가")
-    acpr: str | None = Field(
-        default=None,
-        alias="acpr",
-    )
+    acpr: str | None = Field(default=None, alias="acpr")
     ("행사가")
-    stck_cnvr_rate: Decimal | None = Field(
-        default=None,
-        alias="stck_cnvr_rate",
-    )
+    stck_cnvr_rate: Decimal | None = Field(default=None, alias="stck_cnvr_rate")
     ("주식전환비율")
-    elw_prpr: Decimal | None = Field(
-        default=None,
-        alias="elw_prpr",
-    )
+    elw_prpr: Decimal | None = Field(default=None, alias="elw_prpr")
     ("ELW현재가")
-    stck_lstn_date: KisDateOptional = Field(
-        default=None,
-        alias="stck_lstn_date",
-    )
+    stck_lstn_date: KisDateOptional = Field(default=None, alias="stck_lstn_date")
     ("주식상장일자")
-    stck_last_tr_date: KisDateOptional = Field(
-        default=None,
-        alias="stck_last_tr_date",
-    )
+    stck_last_tr_date: KisDateOptional = Field(default=None, alias="stck_last_tr_date")
     ("주식최종거래일자")
-    total_rdmp_amt: Decimal | None = Field(
-        default=None,
-        alias="total_rdmp_amt",
-    )
+    total_rdmp_amt: Decimal | None = Field(default=None, alias="total_rdmp_amt")
     ("총상환금액")
-    rdmp_amt: Decimal | None = Field(
-        default=None,
-        alias="rdmp_amt",
-    )
+    rdmp_amt: Decimal | None = Field(default=None, alias="rdmp_amt")
     ("상환금액")
-    lstn_stcn: str | None = Field(
-        default=None,
-        alias="lstn_stcn",
-    )
+    lstn_stcn: str | None = Field(default=None, alias="lstn_stcn")
     ("상장주수")
-    lp_hvol: int | None = Field(
-        default=None,
-        alias="lp_hvol",
-    )
+    lp_hvol: int | None = Field(default=None, alias="lp_hvol")
     ("LP보유량")
-    ccls_paym_prc: Decimal | None = Field(
-        default=None,
-        alias="ccls_paym_prc",
-    )
+    ccls_paym_prc: Decimal | None = Field(default=None, alias="ccls_paym_prc")
     ("확정지급2가격")
-    mtrt_vltn_amt: Decimal | None = Field(
-        default=None,
-        alias="mtrt_vltn_amt",
-    )
+    mtrt_vltn_amt: Decimal | None = Field(default=None, alias="mtrt_vltn_amt")
     ("만기평가금액")
-    evnt_prd_fin_date: KisDateOptional = Field(
-        default=None,
-        alias="evnt_prd_fin_date",
-    )
+    evnt_prd_fin_date: KisDateOptional = Field(default=None, alias="evnt_prd_fin_date")
     ("행사2기간종료일자")
-    stlm_date: KisDateOptional = Field(
-        default=None,
-        alias="stlm_date",
-    )
+    stlm_date: KisDateOptional = Field(default=None, alias="stlm_date")
     ("결제일자")
-    pblc_prc: Decimal | None = Field(
-        default=None,
-        alias="pblc_prc",
-    )
+    pblc_prc: Decimal | None = Field(default=None, alias="pblc_prc")
     ("발행가격")
-    unas_shrn_iscd: str | None = Field(
-        default=None,
-        alias="unas_shrn_iscd",
-    )
+    unas_shrn_iscd: str | None = Field(default=None, alias="unas_shrn_iscd")
     ("기초자산단축종목코드")
-    stnd_iscd: str | None = Field(
-        default=None,
-        alias="stnd_iscd",
-    )
+    stnd_iscd: str | None = Field(default=None, alias="stnd_iscd")
     ("표준종목코드")
-    rdmp_ask_amt: Decimal | None = Field(
-        default=None,
-        alias="rdmp_ask_amt",
-    )
+    rdmp_ask_amt: Decimal | None = Field(default=None, alias="rdmp_ask_amt")
     ("상환청구금액")
 
 
 class ExpirationStocksResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: list[ExpirationStocksOutput1] = Field(
-        alias="output",
-    )
+    output1: list[ExpirationStocksOutput1] = Field(alias="output")
     ("응답상세")
 
 
@@ -312,27 +170,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: ExpirationStocksRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: ExpirationStocksRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[ExpirationStocksResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: ExpirationStocksRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: ExpirationStocksRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[ExpirationStocksResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[ExpirationStocksRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[ExpirationStocksRequestDict]
         ) -> tuple[ExpirationStocksResponse, KisResponse]: ...
         def call(
             self,
