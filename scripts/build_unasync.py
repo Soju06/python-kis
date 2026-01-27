@@ -77,15 +77,21 @@ def _postprocess_api_sync(sync_dir: pathlib.Path) -> None:
         for before, after in replacements.items():
             updated = updated.replace(before, after)
         if "threading.Lock" in updated and not _has_import_line(updated, "threading"):
-            if "import asyncio" in updated:
+            if "import atexit" in updated:
+                updated = updated.replace("import atexit", "import atexit\nimport threading")
+            elif "import asyncio" in updated:
                 updated = updated.replace("import asyncio", "import asyncio\nimport threading")
             else:
                 updated = "import threading\n" + updated
         if "time.sleep" in updated and not _has_import_line(updated, "time"):
-            if "import atexit" in updated:
+            if "import threading" in updated:
+                updated = updated.replace("import threading", "import threading\nimport time")
+            elif "import atexit" in updated:
                 updated = updated.replace("import atexit", "import atexit\nimport time")
-            else:
+            elif "import asyncio" in updated:
                 updated = updated.replace("import asyncio", "import asyncio\nimport time")
+            else:
+                updated = "import time\n" + updated
         if updated != text:
             path.write_text(updated, encoding="utf-8")
 

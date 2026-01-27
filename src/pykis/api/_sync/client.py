@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import asyncio
-import threading
 import atexit
+import threading
 import time
 from datetime import date, datetime
 from datetime import time as time_value
