@@ -134,6 +134,17 @@ def wrap_display_text(value: str, width: int = 100) -> str:
     return "\n".join(wrap_display_lines(value, width=width))
 
 
+def _escape_inline_literal(text: str) -> str:
+    escaped = text.replace("\\", "\\\\")
+    escaped = escaped.replace('"', '\\"')
+    escaped = escaped.replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t")
+    return escaped
+
+
+def format_inline_literal(text: str) -> str:
+    return f'"{_escape_inline_literal(text)}"'
+
+
 def _escape_triple_literal(text: str) -> str:
     escaped = text.replace("\\", "\\\\")
     return escaped.replace('"', '\\"')
@@ -189,15 +200,16 @@ def format_string_literal(text: str, indent: int = 12, line_limit: int = 150) ->
     return f"(\n{literal_lines}\n{base_indent})"
 
 
-def format_annotated_type(py_type: str, description: str | None, *, indent: int = 12) -> str:
+def format_annotated_type(py_type: str, description: str | None) -> str:
     if not description:
         return py_type
-    literal = format_string_literal(description, indent=indent)
+    literal = format_inline_literal(description)
     return f"Annotated[{py_type}, {literal}]"
 
 
 __all__ = [
     "format_annotated_type",
+    "format_inline_literal",
     "format_string_literal",
     "is_blank_description",
     "is_demo_unavailable",
