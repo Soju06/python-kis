@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -35,54 +22,25 @@ class FidPeriodDivCodeEnum(KisStrEnum):
 
 
 class ShortSaleRequest(RawModel):
-    FID_APLY_RANG_VOL: int | None = Field(
-        default=None,
-        alias="FID_APLY_RANG_VOL",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_APLY_RANG_VOL: int | None = Field(default=None, alias="FID_APLY_RANG_VOL", json_schema_extra={"blank_allowed": True})
     ("공백")
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("시장구분코드 (주식 J)")
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("Unique key(20482)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100, 3003: 코스닥150")
-    FID_PERIOD_DIV_CODE: FidPeriodDivCodeEnum = Field(
-        alias="FID_PERIOD_DIV_CODE",
-    )
+    FID_PERIOD_DIV_CODE: FidPeriodDivCodeEnum = Field(alias="FID_PERIOD_DIV_CODE")
     ("조회구분 (일/월) D: 일, M:월")
-    FID_INPUT_CNT_1: str = Field(
-        alias="FID_INPUT_CNT_1",
-    )
-    (
-        "'조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일, 3:4일, 4:1주일, 9:2주일, 14:3주일, 조회구분(M) "
-        "1:1개월, 2:2개월, 3:3개월'"
-    )
-    FID_TRGT_EXLS_CLS_CODE: str | None = Field(
-        default=None,
-        alias="FID_TRGT_EXLS_CLS_CODE",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_INPUT_CNT_1: str = Field(alias="FID_INPUT_CNT_1")
+    ("'조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일, 3:4일, 4:1주일, 9:2주일, 14:3주일, 조회구분(M) 1:1개월, 2:2개월, 3:3개월'")
+    FID_TRGT_EXLS_CLS_CODE: str | None = Field(default=None, alias="FID_TRGT_EXLS_CLS_CODE", json_schema_extra={"blank_allowed": True})
     ("공백")
-    FID_TRGT_CLS_CODE: str | None = Field(
-        default=None,
-        alias="FID_TRGT_CLS_CODE",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_TRGT_CLS_CODE: str | None = Field(default=None, alias="FID_TRGT_CLS_CODE", json_schema_extra={"blank_allowed": True})
     ("공백")
-    FID_APLY_RANG_PRC_1: str = Field(
-        alias="FID_APLY_RANG_PRC_1",
-    )
+    FID_APLY_RANG_PRC_1: str = Field(alias="FID_APLY_RANG_PRC_1")
     ("가격 ~")
-    FID_APLY_RANG_PRC_2: str = Field(
-        alias="FID_APLY_RANG_PRC_2",
-    )
+    FID_APLY_RANG_PRC_2: str = Field(alias="FID_APLY_RANG_PRC_2")
     ("~ 가격")
 
 
@@ -114,134 +72,61 @@ class ShortSaleRequestDict(TypedDict):
         FID_APLY_RANG_PRC_2 (str): ~ 가격
     """
 
-    FID_APLY_RANG_VOL: NotRequired[
-        Annotated[
-            int | None,
-            "공백",
-        ]
-    ]
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "시장구분코드 (주식 J)",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "Unique key(20482)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100, 3003: 코스닥150",
-    ]
-    FID_PERIOD_DIV_CODE: Annotated[
-        FidPeriodDivCodeEnum,
-        "조회구분 (일/월) D: 일, M:월",
-    ]
+    FID_APLY_RANG_VOL: NotRequired[Annotated[int | None, "공백"]]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(20482)"]
+    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100, 3003: 코스닥150"]
+    FID_PERIOD_DIV_CODE: Annotated[FidPeriodDivCodeEnum, "조회구분 (일/월) D: 일, M:월"]
     FID_INPUT_CNT_1: Annotated[
-        str,
-        "'조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일, 3:4일, 4:1주일, 9:2주일, 14:3주일, 조회구분(M) "
-        "1:1개월, 2:2개월, 3:3개월'",
+        str, "'조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일, 3:4일, 4:1주일, 9:2주일, 14:3주일, 조회구분(M) 1:1개월, 2:2개월, 3:3개월'"
     ]
-    FID_TRGT_EXLS_CLS_CODE: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    FID_TRGT_CLS_CODE: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    FID_APLY_RANG_PRC_1: Annotated[
-        str,
-        "가격 ~",
-    ]
-    FID_APLY_RANG_PRC_2: Annotated[
-        str,
-        "~ 가격",
-    ]
+    FID_TRGT_EXLS_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
+    FID_TRGT_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
+    FID_APLY_RANG_PRC_1: Annotated[str, "가격 ~"]
+    FID_APLY_RANG_PRC_2: Annotated[str, "~ 가격"]
 
 
 class ShortSaleOutput(RawModel):
-    mksc_shrn_iscd: str = Field(
-        alias="mksc_shrn_iscd",
-    )
+    mksc_shrn_iscd: str = Field(alias="mksc_shrn_iscd")
     ("유가증권 단축 종목코드")
-    hts_kor_isnm: str = Field(
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
     ("HTS 한글 종목명")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식 현재가")
-    prdy_vrss: str = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: str = Field(alias="prdy_vrss")
     ("전일 대비")
-    prdy_vrss_sign: str = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: str = Field(alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일 대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(
-        alias="acml_tr_pbmn",
-    )
+    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
     ("누적 거래 대금")
-    ssts_cntg_qty: int = Field(
-        alias="ssts_cntg_qty",
-    )
+    ssts_cntg_qty: int = Field(alias="ssts_cntg_qty")
     ("공매도 체결 수량")
-    ssts_vol_rlim: Decimal = Field(
-        alias="ssts_vol_rlim",
-    )
+    ssts_vol_rlim: Decimal = Field(alias="ssts_vol_rlim")
     ("공매도 거래량 비중")
-    ssts_tr_pbmn: Decimal = Field(
-        alias="ssts_tr_pbmn",
-    )
+    ssts_tr_pbmn: Decimal = Field(alias="ssts_tr_pbmn")
     ("공매도 거래 대금")
-    ssts_tr_pbmn_rlim: Decimal = Field(
-        alias="ssts_tr_pbmn_rlim",
-    )
+    ssts_tr_pbmn_rlim: Decimal = Field(alias="ssts_tr_pbmn_rlim")
     ("공매도 거래대금 비중")
-    stnd_date1: KisDate = Field(
-        alias="stnd_date1",
-    )
+    stnd_date1: KisDate = Field(alias="stnd_date1")
     ("기준 일자1")
-    stnd_date2: KisDate = Field(
-        alias="stnd_date2",
-    )
+    stnd_date2: KisDate = Field(alias="stnd_date2")
     ("기준 일자2")
-    avrg_prc: Decimal = Field(
-        alias="avrg_prc",
-    )
+    avrg_prc: Decimal = Field(alias="avrg_prc")
     ("평균가격")
 
 
 class ShortSaleResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[ShortSaleOutput] = Field(
-        alias="output",
-    )
+    output: list[ShortSaleOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -275,27 +160,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: ShortSaleRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: ShortSaleRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[ShortSaleResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: ShortSaleRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: ShortSaleRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[ShortSaleResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[ShortSaleRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[ShortSaleRequestDict]
         ) -> tuple[ShortSaleResponse, KisResponse]: ...
         def call(
             self,
@@ -346,11 +219,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "ShortSaleRequest",
-    "ShortSaleRequestDict",
-    "ShortSaleResponse",
-    "ShortSaleOutput",
-    "FidPeriodDivCodeEnum",
-]
+__all__ = ["ENDPOINT", "ShortSaleRequest", "ShortSaleRequestDict", "ShortSaleResponse", "ShortSaleOutput", "FidPeriodDivCodeEnum"]

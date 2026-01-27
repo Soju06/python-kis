@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -35,13 +24,9 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
 
 
 class InquireMemberRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("J:KRX, NX:NXT, UN:통합")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("종목번호 (6자리) ETN의 경우, Q로 시작 (EX. Q500001)")
 
 
@@ -55,303 +40,155 @@ class InquireMemberRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목번호 (6자리) ETN의 경우, Q로 시작 (EX. Q500001)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
-        "J:KRX, NX:NXT, UN:통합",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "종목번호 (6자리) ETN의 경우, Q로 시작 (EX. Q500001)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"]
+    FID_INPUT_ISCD: Annotated[str, "종목번호 (6자리) ETN의 경우, Q로 시작 (EX. Q500001)"]
 
 
 class InquireMemberOutput(RawModel):
-    seln_mbcr_no1: str = Field(
-        alias="seln_mbcr_no1",
-    )
+    seln_mbcr_no1: str = Field(alias="seln_mbcr_no1")
     ("매도 회원사 번호1")
-    seln_mbcr_no2: str = Field(
-        alias="seln_mbcr_no2",
-    )
+    seln_mbcr_no2: str = Field(alias="seln_mbcr_no2")
     ("매도 회원사 번호2")
-    seln_mbcr_no3: str = Field(
-        alias="seln_mbcr_no3",
-    )
+    seln_mbcr_no3: str = Field(alias="seln_mbcr_no3")
     ("매도 회원사 번호3")
-    seln_mbcr_no4: str = Field(
-        alias="seln_mbcr_no4",
-    )
+    seln_mbcr_no4: str = Field(alias="seln_mbcr_no4")
     ("매도 회원사 번호4")
-    seln_mbcr_no5: str = Field(
-        alias="seln_mbcr_no5",
-    )
+    seln_mbcr_no5: str = Field(alias="seln_mbcr_no5")
     ("매도 회원사 번호5")
-    seln_mbcr_name1: str = Field(
-        alias="seln_mbcr_name1",
-    )
+    seln_mbcr_name1: str = Field(alias="seln_mbcr_name1")
     ("매도 회원사 명1")
-    seln_mbcr_name2: str = Field(
-        alias="seln_mbcr_name2",
-    )
+    seln_mbcr_name2: str = Field(alias="seln_mbcr_name2")
     ("매도 회원사 명2")
-    seln_mbcr_name3: str = Field(
-        alias="seln_mbcr_name3",
-    )
+    seln_mbcr_name3: str = Field(alias="seln_mbcr_name3")
     ("매도 회원사 명3")
-    seln_mbcr_name4: str = Field(
-        alias="seln_mbcr_name4",
-    )
+    seln_mbcr_name4: str = Field(alias="seln_mbcr_name4")
     ("매도 회원사 명4")
-    seln_mbcr_name5: str = Field(
-        alias="seln_mbcr_name5",
-    )
+    seln_mbcr_name5: str = Field(alias="seln_mbcr_name5")
     ("매도 회원사 명5")
-    total_seln_qty1: int = Field(
-        alias="total_seln_qty1",
-    )
+    total_seln_qty1: int = Field(alias="total_seln_qty1")
     ("총 매도 수량1")
-    total_seln_qty2: int = Field(
-        alias="total_seln_qty2",
-    )
+    total_seln_qty2: int = Field(alias="total_seln_qty2")
     ("총 매도 수량2")
-    total_seln_qty3: int = Field(
-        alias="total_seln_qty3",
-    )
+    total_seln_qty3: int = Field(alias="total_seln_qty3")
     ("총 매도 수량3")
-    total_seln_qty4: int = Field(
-        alias="total_seln_qty4",
-    )
+    total_seln_qty4: int = Field(alias="total_seln_qty4")
     ("총 매도 수량4")
-    total_seln_qty5: int = Field(
-        alias="total_seln_qty5",
-    )
+    total_seln_qty5: int = Field(alias="total_seln_qty5")
     ("총 매도 수량5")
-    seln_mbcr_rlim1: Decimal = Field(
-        alias="seln_mbcr_rlim1",
-    )
+    seln_mbcr_rlim1: Decimal = Field(alias="seln_mbcr_rlim1")
     ("매도 회원사 비중1")
-    seln_mbcr_rlim2: Decimal = Field(
-        alias="seln_mbcr_rlim2",
-    )
+    seln_mbcr_rlim2: Decimal = Field(alias="seln_mbcr_rlim2")
     ("매도 회원사 비중2")
-    seln_mbcr_rlim3: Decimal = Field(
-        alias="seln_mbcr_rlim3",
-    )
+    seln_mbcr_rlim3: Decimal = Field(alias="seln_mbcr_rlim3")
     ("매도 회원사 비중3")
-    seln_mbcr_rlim4: Decimal = Field(
-        alias="seln_mbcr_rlim4",
-    )
+    seln_mbcr_rlim4: Decimal = Field(alias="seln_mbcr_rlim4")
     ("매도 회원사 비중4")
-    seln_mbcr_rlim5: Decimal = Field(
-        alias="seln_mbcr_rlim5",
-    )
+    seln_mbcr_rlim5: Decimal = Field(alias="seln_mbcr_rlim5")
     ("매도 회원사 비중5")
-    seln_qty_icdc1: int = Field(
-        alias="seln_qty_icdc1",
-    )
+    seln_qty_icdc1: int = Field(alias="seln_qty_icdc1")
     ("매도 수량 증감1")
-    seln_qty_icdc2: int = Field(
-        alias="seln_qty_icdc2",
-    )
+    seln_qty_icdc2: int = Field(alias="seln_qty_icdc2")
     ("매도 수량 증감2")
-    seln_qty_icdc3: int = Field(
-        alias="seln_qty_icdc3",
-    )
+    seln_qty_icdc3: int = Field(alias="seln_qty_icdc3")
     ("매도 수량 증감3")
-    seln_qty_icdc4: int = Field(
-        alias="seln_qty_icdc4",
-    )
+    seln_qty_icdc4: int = Field(alias="seln_qty_icdc4")
     ("매도 수량 증감4")
-    seln_qty_icdc5: int = Field(
-        alias="seln_qty_icdc5",
-    )
+    seln_qty_icdc5: int = Field(alias="seln_qty_icdc5")
     ("매도 수량 증감5")
-    shnu_mbcr_no1: str = Field(
-        alias="shnu_mbcr_no1",
-    )
+    shnu_mbcr_no1: str = Field(alias="shnu_mbcr_no1")
     ("매수2 회원사 번호1")
-    shnu_mbcr_no2: str = Field(
-        alias="shnu_mbcr_no2",
-    )
+    shnu_mbcr_no2: str = Field(alias="shnu_mbcr_no2")
     ("매수2 회원사 번호2")
-    shnu_mbcr_no3: str = Field(
-        alias="shnu_mbcr_no3",
-    )
+    shnu_mbcr_no3: str = Field(alias="shnu_mbcr_no3")
     ("매수2 회원사 번호3")
-    shnu_mbcr_no4: str = Field(
-        alias="shnu_mbcr_no4",
-    )
+    shnu_mbcr_no4: str = Field(alias="shnu_mbcr_no4")
     ("매수2 회원사 번호4")
-    shnu_mbcr_no5: str = Field(
-        alias="shnu_mbcr_no5",
-    )
+    shnu_mbcr_no5: str = Field(alias="shnu_mbcr_no5")
     ("매수2 회원사 번호5")
-    shnu_mbcr_name1: str = Field(
-        alias="shnu_mbcr_name1",
-    )
+    shnu_mbcr_name1: str = Field(alias="shnu_mbcr_name1")
     ("매수2 회원사 명1")
-    shnu_mbcr_name2: str = Field(
-        alias="shnu_mbcr_name2",
-    )
+    shnu_mbcr_name2: str = Field(alias="shnu_mbcr_name2")
     ("매수2 회원사 명2")
-    shnu_mbcr_name3: str = Field(
-        alias="shnu_mbcr_name3",
-    )
+    shnu_mbcr_name3: str = Field(alias="shnu_mbcr_name3")
     ("매수2 회원사 명3")
-    shnu_mbcr_name4: str = Field(
-        alias="shnu_mbcr_name4",
-    )
+    shnu_mbcr_name4: str = Field(alias="shnu_mbcr_name4")
     ("매수2 회원사 명4")
-    shnu_mbcr_name5: str = Field(
-        alias="shnu_mbcr_name5",
-    )
+    shnu_mbcr_name5: str = Field(alias="shnu_mbcr_name5")
     ("매수2 회원사 명5")
-    total_shnu_qty1: int = Field(
-        alias="total_shnu_qty1",
-    )
+    total_shnu_qty1: int = Field(alias="total_shnu_qty1")
     ("총 매수2 수량1")
-    total_shnu_qty2: int = Field(
-        alias="total_shnu_qty2",
-    )
+    total_shnu_qty2: int = Field(alias="total_shnu_qty2")
     ("총 매수2 수량2")
-    total_shnu_qty3: int = Field(
-        alias="total_shnu_qty3",
-    )
+    total_shnu_qty3: int = Field(alias="total_shnu_qty3")
     ("총 매수2 수량3")
-    total_shnu_qty4: int = Field(
-        alias="total_shnu_qty4",
-    )
+    total_shnu_qty4: int = Field(alias="total_shnu_qty4")
     ("총 매수2 수량4")
-    total_shnu_qty5: int = Field(
-        alias="total_shnu_qty5",
-    )
+    total_shnu_qty5: int = Field(alias="total_shnu_qty5")
     ("총 매수2 수량5")
-    shnu_mbcr_rlim1: Decimal = Field(
-        alias="shnu_mbcr_rlim1",
-    )
+    shnu_mbcr_rlim1: Decimal = Field(alias="shnu_mbcr_rlim1")
     ("매수2 회원사 비중1")
-    shnu_mbcr_rlim2: Decimal = Field(
-        alias="shnu_mbcr_rlim2",
-    )
+    shnu_mbcr_rlim2: Decimal = Field(alias="shnu_mbcr_rlim2")
     ("매수2 회원사 비중2")
-    shnu_mbcr_rlim3: Decimal = Field(
-        alias="shnu_mbcr_rlim3",
-    )
+    shnu_mbcr_rlim3: Decimal = Field(alias="shnu_mbcr_rlim3")
     ("매수2 회원사 비중3")
-    shnu_mbcr_rlim4: Decimal = Field(
-        alias="shnu_mbcr_rlim4",
-    )
+    shnu_mbcr_rlim4: Decimal = Field(alias="shnu_mbcr_rlim4")
     ("매수2 회원사 비중4")
-    shnu_mbcr_rlim5: Decimal = Field(
-        alias="shnu_mbcr_rlim5",
-    )
+    shnu_mbcr_rlim5: Decimal = Field(alias="shnu_mbcr_rlim5")
     ("매수2 회원사 비중5")
-    shnu_qty_icdc1: int = Field(
-        alias="shnu_qty_icdc1",
-    )
+    shnu_qty_icdc1: int = Field(alias="shnu_qty_icdc1")
     ("매수2 수량 증감1")
-    shnu_qty_icdc2: int = Field(
-        alias="shnu_qty_icdc2",
-    )
+    shnu_qty_icdc2: int = Field(alias="shnu_qty_icdc2")
     ("매수2 수량 증감2")
-    shnu_qty_icdc3: int = Field(
-        alias="shnu_qty_icdc3",
-    )
+    shnu_qty_icdc3: int = Field(alias="shnu_qty_icdc3")
     ("매수2 수량 증감3")
-    shnu_qty_icdc4: int = Field(
-        alias="shnu_qty_icdc4",
-    )
+    shnu_qty_icdc4: int = Field(alias="shnu_qty_icdc4")
     ("매수2 수량 증감4")
-    shnu_qty_icdc5: int = Field(
-        alias="shnu_qty_icdc5",
-    )
+    shnu_qty_icdc5: int = Field(alias="shnu_qty_icdc5")
     ("매수2 수량 증감5")
-    glob_total_seln_qty: int = Field(
-        alias="glob_total_seln_qty",
-    )
+    glob_total_seln_qty: int = Field(alias="glob_total_seln_qty")
     ("외국계 총 매도 수량")
-    glob_seln_rlim: Decimal = Field(
-        alias="glob_seln_rlim",
-    )
+    glob_seln_rlim: Decimal = Field(alias="glob_seln_rlim")
     ("외국계 매도 비중")
-    glob_ntby_qty: int = Field(
-        alias="glob_ntby_qty",
-    )
+    glob_ntby_qty: int = Field(alias="glob_ntby_qty")
     ("외국계 순매수 수량")
-    glob_total_shnu_qty: int = Field(
-        alias="glob_total_shnu_qty",
-    )
+    glob_total_shnu_qty: int = Field(alias="glob_total_shnu_qty")
     ("외국계 총 매수2 수량")
-    glob_shnu_rlim: Decimal = Field(
-        alias="glob_shnu_rlim",
-    )
+    glob_shnu_rlim: Decimal = Field(alias="glob_shnu_rlim")
     ("외국계 매수2 비중")
-    seln_mbcr_glob_yn_1: KisBool = Field(
-        alias="seln_mbcr_glob_yn_1",
-    )
+    seln_mbcr_glob_yn_1: KisBool = Field(alias="seln_mbcr_glob_yn_1")
     ("매도 회원사 외국계 여부1")
-    seln_mbcr_glob_yn_2: KisBool = Field(
-        alias="seln_mbcr_glob_yn_2",
-    )
+    seln_mbcr_glob_yn_2: KisBool = Field(alias="seln_mbcr_glob_yn_2")
     ("매도 회원사 외국계 여부2")
-    seln_mbcr_glob_yn_3: KisBool = Field(
-        alias="seln_mbcr_glob_yn_3",
-    )
+    seln_mbcr_glob_yn_3: KisBool = Field(alias="seln_mbcr_glob_yn_3")
     ("매도 회원사 외국계 여부3")
-    seln_mbcr_glob_yn_4: KisBool = Field(
-        alias="seln_mbcr_glob_yn_4",
-    )
+    seln_mbcr_glob_yn_4: KisBool = Field(alias="seln_mbcr_glob_yn_4")
     ("매도 회원사 외국계 여부4")
-    seln_mbcr_glob_yn_5: KisBool = Field(
-        alias="seln_mbcr_glob_yn_5",
-    )
+    seln_mbcr_glob_yn_5: KisBool = Field(alias="seln_mbcr_glob_yn_5")
     ("매도 회원사 외국계 여부5")
-    shnu_mbcr_glob_yn_1: KisBool = Field(
-        alias="shnu_mbcr_glob_yn_1",
-    )
+    shnu_mbcr_glob_yn_1: KisBool = Field(alias="shnu_mbcr_glob_yn_1")
     ("매수2 회원사 외국계 여부1")
-    shnu_mbcr_glob_yn_2: KisBool = Field(
-        alias="shnu_mbcr_glob_yn_2",
-    )
+    shnu_mbcr_glob_yn_2: KisBool = Field(alias="shnu_mbcr_glob_yn_2")
     ("매수2 회원사 외국계 여부2")
-    shnu_mbcr_glob_yn_3: KisBool = Field(
-        alias="shnu_mbcr_glob_yn_3",
-    )
+    shnu_mbcr_glob_yn_3: KisBool = Field(alias="shnu_mbcr_glob_yn_3")
     ("매수2 회원사 외국계 여부3")
-    shnu_mbcr_glob_yn_4: KisBool = Field(
-        alias="shnu_mbcr_glob_yn_4",
-    )
+    shnu_mbcr_glob_yn_4: KisBool = Field(alias="shnu_mbcr_glob_yn_4")
     ("매수2 회원사 외국계 여부4")
-    shnu_mbcr_glob_yn_5: KisBool = Field(
-        alias="shnu_mbcr_glob_yn_5",
-    )
+    shnu_mbcr_glob_yn_5: KisBool = Field(alias="shnu_mbcr_glob_yn_5")
     ("매수2 회원사 외국계 여부5")
-    glob_total_seln_qty_icdc: int = Field(
-        alias="glob_total_seln_qty_icdc",
-    )
+    glob_total_seln_qty_icdc: int = Field(alias="glob_total_seln_qty_icdc")
     ("외국계 총 매도 수량 증감")
-    glob_total_shnu_qty_icdc: int = Field(
-        alias="glob_total_shnu_qty_icdc",
-    )
+    glob_total_shnu_qty_icdc: int = Field(alias="glob_total_shnu_qty_icdc")
     ("외국계 총 매수2 수량 증감")
 
 
 class InquireMemberResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부 성공 : 0 실패 : 0외 값")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: InquireMemberOutput = Field(
-        alias="output",
-    )
+    output: InquireMemberOutput = Field(alias="output")
     ("응답상세")
 
 
@@ -362,9 +199,7 @@ _ENDPOINT: Endpoint[InquireMemberRequest, InquireMemberResponse] = Endpoint(
     path="/uapi/domestic-stock/v1/quotations/inquire-member",
     request_model=InquireMemberRequest,
     response_model=InquireMemberResponse,
-    description=(
-        "주식 현재가 회원사 API입니다. 회원사의 투자 정보를 확인할 수 있습니다.\\n[국내주식-013 v1] 주식현재가 회원사"
-    ),
+    description=("주식 현재가 회원사 API입니다. 회원사의 투자 정보를 확인할 수 있습니다.\\n[국내주식-013 v1] 주식현재가 회원사"),
     real_tr_id="FHKST01010600",
     demo_tr_id="FHKST01010600",
     auth_required=True,
@@ -376,27 +211,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireMemberRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireMemberRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireMemberResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireMemberRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireMemberRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireMemberResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireMemberRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireMemberRequestDict]
         ) -> tuple[InquireMemberResponse, KisResponse]: ...
         def call(
             self,
@@ -429,11 +252,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "InquireMemberRequest",
-    "InquireMemberRequestDict",
-    "InquireMemberResponse",
-    "InquireMemberOutput",
-    "FidCondMrktDivCodeEnum",
-]
+__all__ = ["ENDPOINT", "InquireMemberRequest", "InquireMemberRequestDict", "InquireMemberResponse", "InquireMemberOutput", "FidCondMrktDivCodeEnum"]

@@ -185,13 +185,13 @@ response:
     length: '80'
     required: true
     description: ''
-  - code: output
+  - code: output1
     name: 응답상세
     type: A0005
     type_name: Object
     length: ' '
     required: true
-    description: object
+    description: array
   - code: elw_shrn_iscd
     name: ELW 단축 종목코드
     type: A0001

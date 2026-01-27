@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -37,29 +24,15 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
 
 
 class InvestorTradeByStockDailyRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("J:KRX, NX:NXT, UN:통합")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("종목번호 (6자리)")
-    FID_INPUT_DATE_1: str = Field(
-        alias="FID_INPUT_DATE_1",
-    )
+    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
     ("입력 날짜(20250812) (해당일 조회는 장 종료 후 정상 조회 가능)")
-    FID_ORG_ADJ_PRC: str | None = Field(
-        default=None,
-        alias="FID_ORG_ADJ_PRC",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_ORG_ADJ_PRC: str | None = Field(default=None, alias="FID_ORG_ADJ_PRC", json_schema_extra={"blank_allowed": True})
     ("공란 입력")
-    FID_ETC_CLS_CODE: str | None = Field(
-        default=None,
-        alias="FID_ETC_CLS_CODE",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_ETC_CLS_CODE: str | None = Field(default=None, alias="FID_ETC_CLS_CODE", json_schema_extra={"blank_allowed": True})
     ("공란 입력")
 
 
@@ -79,490 +52,245 @@ class InvestorTradeByStockDailyRequestDict(TypedDict):
         FID_ETC_CLS_CODE (str): 공란 입력 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
-        "J:KRX, NX:NXT, UN:통합",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "종목번호 (6자리)",
-    ]
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "입력 날짜(20250812) (해당일 조회는 장 종료 후 정상 조회 가능)",
-    ]
-    FID_ORG_ADJ_PRC: NotRequired[
-        Annotated[
-            str | None,
-            "공란 입력",
-        ]
-    ]
-    FID_ETC_CLS_CODE: NotRequired[
-        Annotated[
-            str | None,
-            "공란 입력",
-        ]
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"]
+    FID_INPUT_ISCD: Annotated[str, "종목번호 (6자리)"]
+    FID_INPUT_DATE_1: Annotated[str, "입력 날짜(20250812) (해당일 조회는 장 종료 후 정상 조회 가능)"]
+    FID_ORG_ADJ_PRC: NotRequired[Annotated[str | None, "공란 입력"]]
+    FID_ETC_CLS_CODE: NotRequired[Annotated[str | None, "공란 입력"]]
 
 
 class InvestorTradeByStockDailyOutput1(RawModel):
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식 현재가")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일 대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일 대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적 거래량")
-    prdy_vol: int = Field(
-        alias="prdy_vol",
-    )
+    prdy_vol: int = Field(alias="prdy_vol")
     ("전일 거래량")
-    rprs_mrkt_kor_name: str = Field(
-        alias="rprs_mrkt_kor_name",
-    )
+    rprs_mrkt_kor_name: str = Field(alias="rprs_mrkt_kor_name")
     ("대표 시장 한글 명")
 
 
 class InvestorTradeByStockDailyOutput2(RawModel):
-    stck_bsop_date: KisDate = Field(
-        alias="stck_bsop_date",
-    )
+    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
     ("주식 영업 일자")
-    stck_clpr: int = Field(
-        alias="stck_clpr",
-    )
+    stck_clpr: int = Field(alias="stck_clpr")
     ("주식 종가")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일 대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일 대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("단위 : 주")
-    acml_tr_pbmn: Decimal = Field(
-        alias="acml_tr_pbmn",
-    )
+    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
     ("단위 : 백만원")
-    stck_oprc: Decimal = Field(
-        alias="stck_oprc",
-    )
+    stck_oprc: Decimal = Field(alias="stck_oprc")
     ("주식 시가2")
-    stck_hgpr: Decimal = Field(
-        alias="stck_hgpr",
-    )
+    stck_hgpr: Decimal = Field(alias="stck_hgpr")
     ("주식 최고가")
-    stck_lwpr: Decimal = Field(
-        alias="stck_lwpr",
-    )
+    stck_lwpr: Decimal = Field(alias="stck_lwpr")
     ("주식 최저가")
-    frgn_ntby_qty: int = Field(
-        alias="frgn_ntby_qty",
-    )
+    frgn_ntby_qty: int = Field(alias="frgn_ntby_qty")
     ("단위 : 주")
-    frgn_reg_ntby_qty: int = Field(
-        alias="frgn_reg_ntby_qty",
-    )
+    frgn_reg_ntby_qty: int = Field(alias="frgn_reg_ntby_qty")
     ("외국인 등록 순매수 수량")
-    frgn_nreg_ntby_qty: int = Field(
-        alias="frgn_nreg_ntby_qty",
-    )
+    frgn_nreg_ntby_qty: int = Field(alias="frgn_nreg_ntby_qty")
     ("외국인 비등록 순매수 수량")
-    prsn_ntby_qty: int = Field(
-        alias="prsn_ntby_qty",
-    )
+    prsn_ntby_qty: int = Field(alias="prsn_ntby_qty")
     ("개인 순매수 수량")
-    orgn_ntby_qty: int = Field(
-        alias="orgn_ntby_qty",
-    )
+    orgn_ntby_qty: int = Field(alias="orgn_ntby_qty")
     ("기관계 순매수 수량")
-    scrt_ntby_qty: int = Field(
-        alias="scrt_ntby_qty",
-    )
+    scrt_ntby_qty: int = Field(alias="scrt_ntby_qty")
     ("증권 순매수 수량")
-    ivtr_ntby_qty: int = Field(
-        alias="ivtr_ntby_qty",
-    )
+    ivtr_ntby_qty: int = Field(alias="ivtr_ntby_qty")
     ("투자신탁 순매수 수량")
-    pe_fund_ntby_vol: int = Field(
-        alias="pe_fund_ntby_vol",
-    )
+    pe_fund_ntby_vol: int = Field(alias="pe_fund_ntby_vol")
     ("사모 펀드 순매수 거래량")
-    bank_ntby_qty: int = Field(
-        alias="bank_ntby_qty",
-    )
+    bank_ntby_qty: int = Field(alias="bank_ntby_qty")
     ("은행 순매수 수량")
-    insu_ntby_qty: int = Field(
-        alias="insu_ntby_qty",
-    )
+    insu_ntby_qty: int = Field(alias="insu_ntby_qty")
     ("보험 순매수 수량")
-    mrbn_ntby_qty: int = Field(
-        alias="mrbn_ntby_qty",
-    )
+    mrbn_ntby_qty: int = Field(alias="mrbn_ntby_qty")
     ("종금 순매수 수량")
-    fund_ntby_qty: int = Field(
-        alias="fund_ntby_qty",
-    )
+    fund_ntby_qty: int = Field(alias="fund_ntby_qty")
     ("기금 순매수 수량")
-    etc_ntby_qty: int = Field(
-        alias="etc_ntby_qty",
-    )
+    etc_ntby_qty: int = Field(alias="etc_ntby_qty")
     ("기타 순매수 수량")
-    etc_corp_ntby_vol: int = Field(
-        alias="etc_corp_ntby_vol",
-    )
+    etc_corp_ntby_vol: int = Field(alias="etc_corp_ntby_vol")
     ("기타 법인 순매수 거래량")
-    etc_orgt_ntby_vol: int = Field(
-        alias="etc_orgt_ntby_vol",
-    )
+    etc_orgt_ntby_vol: int = Field(alias="etc_orgt_ntby_vol")
     ("기타 단체 순매수 거래량")
-    frgn_reg_ntby_pbmn: Decimal = Field(
-        alias="frgn_reg_ntby_pbmn",
-    )
+    frgn_reg_ntby_pbmn: Decimal = Field(alias="frgn_reg_ntby_pbmn")
     ("단위 : 백만원")
-    frgn_ntby_tr_pbmn: Decimal = Field(
-        alias="frgn_ntby_tr_pbmn",
-    )
+    frgn_ntby_tr_pbmn: Decimal = Field(alias="frgn_ntby_tr_pbmn")
     ("외국인 순매수 거래 대금")
-    frgn_nreg_ntby_pbmn: Decimal = Field(
-        alias="frgn_nreg_ntby_pbmn",
-    )
+    frgn_nreg_ntby_pbmn: Decimal = Field(alias="frgn_nreg_ntby_pbmn")
     ("외국인 비등록 순매수 대금")
-    prsn_ntby_tr_pbmn: Decimal = Field(
-        alias="prsn_ntby_tr_pbmn",
-    )
+    prsn_ntby_tr_pbmn: Decimal = Field(alias="prsn_ntby_tr_pbmn")
     ("개인 순매수 거래 대금")
-    orgn_ntby_tr_pbmn: Decimal = Field(
-        alias="orgn_ntby_tr_pbmn",
-    )
+    orgn_ntby_tr_pbmn: Decimal = Field(alias="orgn_ntby_tr_pbmn")
     ("기관계 순매수 거래 대금")
-    scrt_ntby_tr_pbmn: Decimal = Field(
-        alias="scrt_ntby_tr_pbmn",
-    )
+    scrt_ntby_tr_pbmn: Decimal = Field(alias="scrt_ntby_tr_pbmn")
     ("증권 순매수 거래 대금")
-    pe_fund_ntby_tr_pbmn: Decimal = Field(
-        alias="pe_fund_ntby_tr_pbmn",
-    )
+    pe_fund_ntby_tr_pbmn: Decimal = Field(alias="pe_fund_ntby_tr_pbmn")
     ("사모 펀드 순매수 거래 대금")
-    ivtr_ntby_tr_pbmn: Decimal = Field(
-        alias="ivtr_ntby_tr_pbmn",
-    )
+    ivtr_ntby_tr_pbmn: Decimal = Field(alias="ivtr_ntby_tr_pbmn")
     ("투자신탁 순매수 거래 대금")
-    bank_ntby_tr_pbmn: Decimal = Field(
-        alias="bank_ntby_tr_pbmn",
-    )
+    bank_ntby_tr_pbmn: Decimal = Field(alias="bank_ntby_tr_pbmn")
     ("은행 순매수 거래 대금")
-    insu_ntby_tr_pbmn: Decimal = Field(
-        alias="insu_ntby_tr_pbmn",
-    )
+    insu_ntby_tr_pbmn: Decimal = Field(alias="insu_ntby_tr_pbmn")
     ("보험 순매수 거래 대금")
-    mrbn_ntby_tr_pbmn: Decimal = Field(
-        alias="mrbn_ntby_tr_pbmn",
-    )
+    mrbn_ntby_tr_pbmn: Decimal = Field(alias="mrbn_ntby_tr_pbmn")
     ("종금 순매수 거래 대금")
-    fund_ntby_tr_pbmn: Decimal = Field(
-        alias="fund_ntby_tr_pbmn",
-    )
+    fund_ntby_tr_pbmn: Decimal = Field(alias="fund_ntby_tr_pbmn")
     ("기금 순매수 거래 대금")
-    etc_ntby_tr_pbmn: Decimal = Field(
-        alias="etc_ntby_tr_pbmn",
-    )
+    etc_ntby_tr_pbmn: Decimal = Field(alias="etc_ntby_tr_pbmn")
     ("기타 순매수 거래 대금")
-    etc_corp_ntby_tr_pbmn: Decimal = Field(
-        alias="etc_corp_ntby_tr_pbmn",
-    )
+    etc_corp_ntby_tr_pbmn: Decimal = Field(alias="etc_corp_ntby_tr_pbmn")
     ("기타 법인 순매수 거래 대금")
-    etc_orgt_ntby_tr_pbmn: Decimal = Field(
-        alias="etc_orgt_ntby_tr_pbmn",
-    )
+    etc_orgt_ntby_tr_pbmn: Decimal = Field(alias="etc_orgt_ntby_tr_pbmn")
     ("기타 단체 순매수 거래 대금")
-    frgn_seln_vol: int = Field(
-        alias="frgn_seln_vol",
-    )
+    frgn_seln_vol: int = Field(alias="frgn_seln_vol")
     ("외국인 매도 거래량")
-    frgn_shnu_vol: int = Field(
-        alias="frgn_shnu_vol",
-    )
+    frgn_shnu_vol: int = Field(alias="frgn_shnu_vol")
     ("외국인 매수2 거래량")
-    frgn_seln_tr_pbmn: Decimal = Field(
-        alias="frgn_seln_tr_pbmn",
-    )
+    frgn_seln_tr_pbmn: Decimal = Field(alias="frgn_seln_tr_pbmn")
     ("외국인 매도 거래 대금")
-    frgn_shnu_tr_pbmn: Decimal = Field(
-        alias="frgn_shnu_tr_pbmn",
-    )
+    frgn_shnu_tr_pbmn: Decimal = Field(alias="frgn_shnu_tr_pbmn")
     ("외국인 매수2 거래 대금")
-    frgn_reg_askp_qty: int = Field(
-        alias="frgn_reg_askp_qty",
-    )
+    frgn_reg_askp_qty: int = Field(alias="frgn_reg_askp_qty")
     ("외국인 등록 매도 수량")
-    frgn_reg_bidp_qty: str = Field(
-        alias="frgn_reg_bidp_qty",
-    )
+    frgn_reg_bidp_qty: str = Field(alias="frgn_reg_bidp_qty")
     ("외국인 등록 매수 수량")
-    frgn_reg_askp_pbmn: Decimal = Field(
-        alias="frgn_reg_askp_pbmn",
-    )
+    frgn_reg_askp_pbmn: Decimal = Field(alias="frgn_reg_askp_pbmn")
     ("외국인 등록 매도 대금")
-    frgn_reg_bidp_pbmn: str = Field(
-        alias="frgn_reg_bidp_pbmn",
-    )
+    frgn_reg_bidp_pbmn: str = Field(alias="frgn_reg_bidp_pbmn")
     ("외국인 등록 매수 대금")
-    frgn_nreg_askp_qty: int = Field(
-        alias="frgn_nreg_askp_qty",
-    )
+    frgn_nreg_askp_qty: int = Field(alias="frgn_nreg_askp_qty")
     ("외국인 비등록 매도 수량")
-    frgn_nreg_bidp_qty: str = Field(
-        alias="frgn_nreg_bidp_qty",
-    )
+    frgn_nreg_bidp_qty: str = Field(alias="frgn_nreg_bidp_qty")
     ("외국인 비등록 매수 수량")
-    frgn_nreg_askp_pbmn: Decimal = Field(
-        alias="frgn_nreg_askp_pbmn",
-    )
+    frgn_nreg_askp_pbmn: Decimal = Field(alias="frgn_nreg_askp_pbmn")
     ("외국인 비등록 매도 대금")
-    frgn_nreg_bidp_pbmn: str = Field(
-        alias="frgn_nreg_bidp_pbmn",
-    )
+    frgn_nreg_bidp_pbmn: str = Field(alias="frgn_nreg_bidp_pbmn")
     ("외국인 비등록 매수 대금")
-    prsn_seln_vol: int = Field(
-        alias="prsn_seln_vol",
-    )
+    prsn_seln_vol: int = Field(alias="prsn_seln_vol")
     ("개인 매도 거래량")
-    prsn_shnu_vol: int = Field(
-        alias="prsn_shnu_vol",
-    )
+    prsn_shnu_vol: int = Field(alias="prsn_shnu_vol")
     ("개인 매수2 거래량")
-    prsn_seln_tr_pbmn: Decimal = Field(
-        alias="prsn_seln_tr_pbmn",
-    )
+    prsn_seln_tr_pbmn: Decimal = Field(alias="prsn_seln_tr_pbmn")
     ("개인 매도 거래 대금")
-    prsn_shnu_tr_pbmn: Decimal = Field(
-        alias="prsn_shnu_tr_pbmn",
-    )
+    prsn_shnu_tr_pbmn: Decimal = Field(alias="prsn_shnu_tr_pbmn")
     ("개인 매수2 거래 대금")
-    orgn_seln_vol: int = Field(
-        alias="orgn_seln_vol",
-    )
+    orgn_seln_vol: int = Field(alias="orgn_seln_vol")
     ("기관계 매도 거래량")
-    orgn_shnu_vol: int = Field(
-        alias="orgn_shnu_vol",
-    )
+    orgn_shnu_vol: int = Field(alias="orgn_shnu_vol")
     ("기관계 매수2 거래량")
-    orgn_seln_tr_pbmn: Decimal = Field(
-        alias="orgn_seln_tr_pbmn",
-    )
+    orgn_seln_tr_pbmn: Decimal = Field(alias="orgn_seln_tr_pbmn")
     ("기관계 매도 거래 대금")
-    orgn_shnu_tr_pbmn: Decimal = Field(
-        alias="orgn_shnu_tr_pbmn",
-    )
+    orgn_shnu_tr_pbmn: Decimal = Field(alias="orgn_shnu_tr_pbmn")
     ("기관계 매수2 거래 대금")
-    scrt_seln_vol: int = Field(
-        alias="scrt_seln_vol",
-    )
+    scrt_seln_vol: int = Field(alias="scrt_seln_vol")
     ("증권 매도 거래량")
-    scrt_shnu_vol: int = Field(
-        alias="scrt_shnu_vol",
-    )
+    scrt_shnu_vol: int = Field(alias="scrt_shnu_vol")
     ("증권 매수2 거래량")
-    scrt_seln_tr_pbmn: Decimal = Field(
-        alias="scrt_seln_tr_pbmn",
-    )
+    scrt_seln_tr_pbmn: Decimal = Field(alias="scrt_seln_tr_pbmn")
     ("증권 매도 거래 대금")
-    scrt_shnu_tr_pbmn: Decimal = Field(
-        alias="scrt_shnu_tr_pbmn",
-    )
+    scrt_shnu_tr_pbmn: Decimal = Field(alias="scrt_shnu_tr_pbmn")
     ("증권 매수2 거래 대금")
-    ivtr_seln_vol: int = Field(
-        alias="ivtr_seln_vol",
-    )
+    ivtr_seln_vol: int = Field(alias="ivtr_seln_vol")
     ("투자신탁 매도 거래량")
-    ivtr_shnu_vol: int = Field(
-        alias="ivtr_shnu_vol",
-    )
+    ivtr_shnu_vol: int = Field(alias="ivtr_shnu_vol")
     ("투자신탁 매수2 거래량")
-    ivtr_seln_tr_pbmn: Decimal = Field(
-        alias="ivtr_seln_tr_pbmn",
-    )
+    ivtr_seln_tr_pbmn: Decimal = Field(alias="ivtr_seln_tr_pbmn")
     ("투자신탁 매도 거래 대금")
-    ivtr_shnu_tr_pbmn: Decimal = Field(
-        alias="ivtr_shnu_tr_pbmn",
-    )
+    ivtr_shnu_tr_pbmn: Decimal = Field(alias="ivtr_shnu_tr_pbmn")
     ("투자신탁 매수2 거래 대금")
-    pe_fund_seln_tr_pbmn: Decimal = Field(
-        alias="pe_fund_seln_tr_pbmn",
-    )
+    pe_fund_seln_tr_pbmn: Decimal = Field(alias="pe_fund_seln_tr_pbmn")
     ("사모 펀드 매도 거래 대금")
-    pe_fund_seln_vol: int = Field(
-        alias="pe_fund_seln_vol",
-    )
+    pe_fund_seln_vol: int = Field(alias="pe_fund_seln_vol")
     ("사모 펀드 매도 거래량")
-    pe_fund_shnu_tr_pbmn: Decimal = Field(
-        alias="pe_fund_shnu_tr_pbmn",
-    )
+    pe_fund_shnu_tr_pbmn: Decimal = Field(alias="pe_fund_shnu_tr_pbmn")
     ("사모 펀드 매수2 거래 대금")
-    pe_fund_shnu_vol: int = Field(
-        alias="pe_fund_shnu_vol",
-    )
+    pe_fund_shnu_vol: int = Field(alias="pe_fund_shnu_vol")
     ("사모 펀드 매수2 거래량")
-    bank_seln_vol: int = Field(
-        alias="bank_seln_vol",
-    )
+    bank_seln_vol: int = Field(alias="bank_seln_vol")
     ("은행 매도 거래량")
-    bank_shnu_vol: int = Field(
-        alias="bank_shnu_vol",
-    )
+    bank_shnu_vol: int = Field(alias="bank_shnu_vol")
     ("은행 매수2 거래량")
-    bank_seln_tr_pbmn: Decimal = Field(
-        alias="bank_seln_tr_pbmn",
-    )
+    bank_seln_tr_pbmn: Decimal = Field(alias="bank_seln_tr_pbmn")
     ("은행 매도 거래 대금")
-    bank_shnu_tr_pbmn: Decimal = Field(
-        alias="bank_shnu_tr_pbmn",
-    )
+    bank_shnu_tr_pbmn: Decimal = Field(alias="bank_shnu_tr_pbmn")
     ("은행 매수2 거래 대금")
-    insu_seln_vol: int = Field(
-        alias="insu_seln_vol",
-    )
+    insu_seln_vol: int = Field(alias="insu_seln_vol")
     ("보험 매도 거래량")
-    insu_shnu_vol: int = Field(
-        alias="insu_shnu_vol",
-    )
+    insu_shnu_vol: int = Field(alias="insu_shnu_vol")
     ("보험 매수2 거래량")
-    insu_seln_tr_pbmn: Decimal = Field(
-        alias="insu_seln_tr_pbmn",
-    )
+    insu_seln_tr_pbmn: Decimal = Field(alias="insu_seln_tr_pbmn")
     ("보험 매도 거래 대금")
-    insu_shnu_tr_pbmn: Decimal = Field(
-        alias="insu_shnu_tr_pbmn",
-    )
+    insu_shnu_tr_pbmn: Decimal = Field(alias="insu_shnu_tr_pbmn")
     ("보험 매수2 거래 대금")
-    mrbn_seln_vol: int = Field(
-        alias="mrbn_seln_vol",
-    )
+    mrbn_seln_vol: int = Field(alias="mrbn_seln_vol")
     ("종금 매도 거래량")
-    mrbn_shnu_vol: int = Field(
-        alias="mrbn_shnu_vol",
-    )
+    mrbn_shnu_vol: int = Field(alias="mrbn_shnu_vol")
     ("종금 매수2 거래량")
-    mrbn_seln_tr_pbmn: Decimal = Field(
-        alias="mrbn_seln_tr_pbmn",
-    )
+    mrbn_seln_tr_pbmn: Decimal = Field(alias="mrbn_seln_tr_pbmn")
     ("종금 매도 거래 대금")
-    mrbn_shnu_tr_pbmn: Decimal = Field(
-        alias="mrbn_shnu_tr_pbmn",
-    )
+    mrbn_shnu_tr_pbmn: Decimal = Field(alias="mrbn_shnu_tr_pbmn")
     ("종금 매수2 거래 대금")
-    fund_seln_vol: int = Field(
-        alias="fund_seln_vol",
-    )
+    fund_seln_vol: int = Field(alias="fund_seln_vol")
     ("기금 매도 거래량")
-    fund_shnu_vol: int = Field(
-        alias="fund_shnu_vol",
-    )
+    fund_shnu_vol: int = Field(alias="fund_shnu_vol")
     ("기금 매수2 거래량")
-    fund_seln_tr_pbmn: Decimal = Field(
-        alias="fund_seln_tr_pbmn",
-    )
+    fund_seln_tr_pbmn: Decimal = Field(alias="fund_seln_tr_pbmn")
     ("기금 매도 거래 대금")
-    fund_shnu_tr_pbmn: Decimal = Field(
-        alias="fund_shnu_tr_pbmn",
-    )
+    fund_shnu_tr_pbmn: Decimal = Field(alias="fund_shnu_tr_pbmn")
     ("기금 매수2 거래 대금")
-    etc_seln_vol: int = Field(
-        alias="etc_seln_vol",
-    )
+    etc_seln_vol: int = Field(alias="etc_seln_vol")
     ("기타 매도 거래량")
-    etc_shnu_vol: int = Field(
-        alias="etc_shnu_vol",
-    )
+    etc_shnu_vol: int = Field(alias="etc_shnu_vol")
     ("기타 매수2 거래량")
-    etc_seln_tr_pbmn: Decimal = Field(
-        alias="etc_seln_tr_pbmn",
-    )
+    etc_seln_tr_pbmn: Decimal = Field(alias="etc_seln_tr_pbmn")
     ("기타 매도 거래 대금")
-    etc_shnu_tr_pbmn: Decimal = Field(
-        alias="etc_shnu_tr_pbmn",
-    )
+    etc_shnu_tr_pbmn: Decimal = Field(alias="etc_shnu_tr_pbmn")
     ("기타 매수2 거래 대금")
-    etc_orgt_seln_vol: int = Field(
-        alias="etc_orgt_seln_vol",
-    )
+    etc_orgt_seln_vol: int = Field(alias="etc_orgt_seln_vol")
     ("기타 단체 매도 거래량")
-    etc_orgt_shnu_vol: int = Field(
-        alias="etc_orgt_shnu_vol",
-    )
+    etc_orgt_shnu_vol: int = Field(alias="etc_orgt_shnu_vol")
     ("기타 단체 매수2 거래량")
-    etc_orgt_seln_tr_pbmn: Decimal = Field(
-        alias="etc_orgt_seln_tr_pbmn",
-    )
+    etc_orgt_seln_tr_pbmn: Decimal = Field(alias="etc_orgt_seln_tr_pbmn")
     ("기타 단체 매도 거래 대금")
-    etc_orgt_shnu_tr_pbmn: Decimal = Field(
-        alias="etc_orgt_shnu_tr_pbmn",
-    )
+    etc_orgt_shnu_tr_pbmn: Decimal = Field(alias="etc_orgt_shnu_tr_pbmn")
     ("기타 단체 매수2 거래 대금")
-    etc_corp_seln_vol: int = Field(
-        alias="etc_corp_seln_vol",
-    )
+    etc_corp_seln_vol: int = Field(alias="etc_corp_seln_vol")
     ("기타 법인 매도 거래량")
-    etc_corp_shnu_vol: int = Field(
-        alias="etc_corp_shnu_vol",
-    )
+    etc_corp_shnu_vol: int = Field(alias="etc_corp_shnu_vol")
     ("기타 법인 매수2 거래량")
-    etc_corp_seln_tr_pbmn: Decimal = Field(
-        alias="etc_corp_seln_tr_pbmn",
-    )
+    etc_corp_seln_tr_pbmn: Decimal = Field(alias="etc_corp_seln_tr_pbmn")
     ("기타 법인 매도 거래 대금")
-    etc_corp_shnu_tr_pbmn: Decimal = Field(
-        alias="etc_corp_shnu_tr_pbmn",
-    )
+    etc_corp_shnu_tr_pbmn: Decimal = Field(alias="etc_corp_shnu_tr_pbmn")
     ("기타 법인 매수2 거래 대금")
-    bold_yn: KisBool = Field(
-        alias="bold_yn",
-    )
+    bold_yn: KisBool = Field(alias="bold_yn")
     ("BOLD 여부")
 
 
 class InvestorTradeByStockDailyResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: InvestorTradeByStockDailyOutput1 = Field(
-        alias="output1",
-    )
+    output1: InvestorTradeByStockDailyOutput1 = Field(alias="output1")
     ("응답상세")
-    output2: list[InvestorTradeByStockDailyOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[InvestorTradeByStockDailyOutput2] = Field(alias="output2")
     ("응답상세")
 
 
@@ -591,27 +319,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InvestorTradeByStockDailyRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InvestorTradeByStockDailyRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InvestorTradeByStockDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InvestorTradeByStockDailyRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InvestorTradeByStockDailyRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InvestorTradeByStockDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InvestorTradeByStockDailyRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InvestorTradeByStockDailyRequestDict]
         ) -> tuple[InvestorTradeByStockDailyResponse, KisResponse]: ...
         def call(
             self,

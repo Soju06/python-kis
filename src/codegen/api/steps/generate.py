@@ -1,17 +1,20 @@
 from __future__ import annotations
 
 import re
-import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
 from codegen.api.models import EndpointSpec, SpecField
 from codegen.api.types import EndpointHints, FieldHint, TypeOverrides
+from codegen.core.cleanup import clean_dir_keep_files, raw_keep_files
 from codegen.core.format import run_ruff_fix, run_ruff_format
 from codegen.core.render import render_template
 from codegen.core.text import is_blank_description, wrap_display_lines
 
 __all__ = ["generate_raw", "normalize_filename", "section_path"]
+
+RAW_STATIC_FILES = {"base.py", "types.py", "registry.py", "__init__.py"}
+RAW_KEEP_FILES = raw_keep_files(*RAW_STATIC_FILES)
 
 
 @dataclass(slots=True)
@@ -56,9 +59,6 @@ class ModelDef:
 class TypedDictField:
     code: str
     type_lines: list[str]
-    required: bool
-    desc: str
-    doc_type: str
 
 
 @dataclass(slots=True)
@@ -293,13 +293,6 @@ def _clean_doc_lines(text: str) -> list[str]:
     return lines
 
 
-def _literal_pieces(text: str, *, width: int = 96) -> list[str]:
-    lines = wrap_display_lines(text, width=width)
-    if len(lines) <= 1:
-        return lines
-    return [f"{line} " for line in lines[:-1]] + [lines[-1]]
-
-
 def _multiline_literal_pieces(text: str | None, *, width: int = 96) -> list[str] | None:
     if text is None:
         return None
@@ -320,22 +313,10 @@ def _multiline_literal_pieces(text: str | None, *, width: int = 96) -> list[str]
     return pieces
 
 
-def _render_typed_dict_type(py_type: str, desc: str, required: bool) -> list[str]:
-    if not desc:
-        return [py_type] if required else [f"NotRequired[{py_type}]"]
-
-    desc_pieces = [repr(piece) for piece in _literal_pieces(desc, width=96)]
-    desc_pieces[-1] = f"{desc_pieces[-1]},"
-    annotated_lines = [
-        "Annotated[",
-        f"    {py_type},",
-        *[f"    {piece}" for piece in desc_pieces],
-        "]",
-    ]
+def _render_typed_dict_type(py_type: str, required: bool) -> list[str]:
     if required:
-        return annotated_lines
-    indented = [f"    {line}" for line in annotated_lines]
-    return ["NotRequired[", *indented, "]"]
+        return [py_type]
+    return [f"NotRequired[{py_type}]"]
 
 
 def _build_model_fields(
@@ -354,8 +335,19 @@ def _build_model_fields(
         used_names.add(name)
         hint = hints.get(field.code) if hints else None
         base_type, _, field_args = _field_type(field, hint)
+        extra: dict[str, object] = {}
+        enum_values, enum_desc = _enum_hint(hint)
+        if enum_values:
+            extra["enum"] = enum_values
+            if enum_desc:
+                extra["enum_desc"] = enum_desc
         if is_blank_description(field.description):
-            field_args.append('json_schema_extra={"blank_allowed": True}')
+            extra["blank_allowed"] = True
+        if extra:
+            if extra.keys() == {"blank_allowed"}:
+                field_args.append('json_schema_extra={"blank_allowed": True}')
+            else:
+                field_args.append(f"json_schema_extra={extra!r}")
         required = field.required
         if hint and hint.required is not None:
             required = hint.required
@@ -389,15 +381,11 @@ def _build_typed_dict_fields(
             required = hint.required
         base_type, _, _ = _field_type(field, hint)
         py_type = base_type if required else _optional_type(base_type, set())
-        desc = _inline_doc(field.description or field.name or "")
-        type_lines = _render_typed_dict_type(py_type, desc, required)
+        type_lines = _render_typed_dict_type(py_type, required)
         items.append(
             TypedDictField(
                 code=field.code,
                 type_lines=type_lines,
-                required=required,
-                desc=desc,
-                doc_type=base_type,
             )
         )
     return items
@@ -429,13 +417,8 @@ def generate_raw(
     update_registry: bool = True,
 ) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
-    keep_files = {"base.py", "types.py", "registry.py", "__init__.py"}
     if not keep_existing:
-        for child in out_dir.iterdir():
-            if child.is_dir():
-                shutil.rmtree(child)
-            elif child.is_file() and child.name not in keep_files:
-                child.unlink()
+        clean_dir_keep_files(out_dir, RAW_KEEP_FILES)
 
     static_files: list[str] = ["base.py", "types.py", "__init__.py"]
     for filename in static_files:
@@ -548,7 +531,6 @@ def generate_raw(
             *enum_export_names,
         ]
         typing_items = [
-            "Annotated",
             "Mapping",
             "NotRequired",
             "Protocol",

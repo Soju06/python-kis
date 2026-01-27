@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -26,13 +14,9 @@ if TYPE_CHECKING:
 
 
 class SensitivityTrendDailyRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("시장구분코드 (W)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("ex)(58J438(KBJ438삼성전자풋)")
 
 
@@ -47,79 +31,43 @@ class SensitivityTrendDailyRequestDict(TypedDict):
         FID_INPUT_ISCD (str): ex)(58J438(KBJ438삼성전자풋)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "시장구분코드 (W)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "ex)(58J438(KBJ438삼성전자풋)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"]
+    FID_INPUT_ISCD: Annotated[str, "ex)(58J438(KBJ438삼성전자풋)"]
 
 
 class SensitivityTrendDailyOutput(RawModel):
-    stck_bsop_date: KisDate = Field(
-        alias="stck_bsop_date",
-    )
+    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
     ("주식영업일자")
-    elw_prpr: Decimal = Field(
-        alias="elw_prpr",
-    )
+    elw_prpr: Decimal = Field(alias="elw_prpr")
     ("ELW현재가")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일대비부호")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일대비율")
-    hts_thpr: Decimal = Field(
-        alias="hts_thpr",
-    )
+    hts_thpr: Decimal = Field(alias="hts_thpr")
     ("HTS이론가")
-    delta_val: Decimal = Field(
-        alias="delta_val",
-    )
+    delta_val: Decimal = Field(alias="delta_val")
     ("델타값")
-    gama: Decimal = Field(
-        alias="gama",
-    )
+    gama: Decimal = Field(alias="gama")
     ("감마")
-    theta: Decimal = Field(
-        alias="theta",
-    )
+    theta: Decimal = Field(alias="theta")
     ("세타")
-    vega: Decimal = Field(
-        alias="vega",
-    )
+    vega: Decimal = Field(alias="vega")
     ("베가")
-    rho: Decimal = Field(
-        alias="rho",
-    )
+    rho: Decimal = Field(alias="rho")
     ("로우")
 
 
 class SensitivityTrendDailyResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[SensitivityTrendDailyOutput] = Field(
-        alias="output",
-    )
+    output: list[SensitivityTrendDailyOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -146,27 +94,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: SensitivityTrendDailyRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: SensitivityTrendDailyRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[SensitivityTrendDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: SensitivityTrendDailyRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: SensitivityTrendDailyRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[SensitivityTrendDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[SensitivityTrendDailyRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[SensitivityTrendDailyRequestDict]
         ) -> tuple[SensitivityTrendDailyResponse, KisResponse]: ...
         def call(
             self,

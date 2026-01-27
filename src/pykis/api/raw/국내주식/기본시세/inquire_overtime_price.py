@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -25,13 +14,9 @@ if TYPE_CHECKING:
 
 
 class InquireOvertimePriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("시장구분코드 (주식 J)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("종목코드")
 
 
@@ -46,182 +31,91 @@ class InquireOvertimePriceRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목코드
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "시장구분코드 (주식 J)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "종목코드",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"]
+    FID_INPUT_ISCD: Annotated[str, "종목코드"]
 
 
 class InquireOvertimePriceOutput(RawModel):
-    bstp_kor_isnm: str | None = Field(
-        default=None,
-        alias="bstp_kor_isnm",
-    )
+    bstp_kor_isnm: str | None = Field(default=None, alias="bstp_kor_isnm")
     ("※ 거래소 정보로 특정 종목은 업종구분이 없어 데이터 미회신")
-    mang_issu_cls_name: str | None = Field(
-        default=None,
-        alias="mang_issu_cls_name",
-    )
+    mang_issu_cls_name: str | None = Field(default=None, alias="mang_issu_cls_name")
     ("관리 종목 구분 명")
-    ovtm_untp_prpr: Decimal = Field(
-        alias="ovtm_untp_prpr",
-    )
+    ovtm_untp_prpr: Decimal = Field(alias="ovtm_untp_prpr")
     ("시간외 단일가 현재가")
-    ovtm_untp_prdy_vrss: Decimal = Field(
-        alias="ovtm_untp_prdy_vrss",
-    )
+    ovtm_untp_prdy_vrss: Decimal = Field(alias="ovtm_untp_prdy_vrss")
     ("시간외 단일가 전일 대비")
-    ovtm_untp_prdy_vrss_sign: Decimal = Field(
-        alias="ovtm_untp_prdy_vrss_sign",
-    )
+    ovtm_untp_prdy_vrss_sign: Decimal = Field(alias="ovtm_untp_prdy_vrss_sign")
     ("시간외 단일가 전일 대비 부호")
-    ovtm_untp_prdy_ctrt: Decimal = Field(
-        alias="ovtm_untp_prdy_ctrt",
-    )
+    ovtm_untp_prdy_ctrt: Decimal = Field(alias="ovtm_untp_prdy_ctrt")
     ("시간외 단일가 전일 대비율")
-    ovtm_untp_vol: int = Field(
-        alias="ovtm_untp_vol",
-    )
+    ovtm_untp_vol: int = Field(alias="ovtm_untp_vol")
     ("시간외 단일가 거래량")
-    ovtm_untp_tr_pbmn: Decimal = Field(
-        alias="ovtm_untp_tr_pbmn",
-    )
+    ovtm_untp_tr_pbmn: Decimal = Field(alias="ovtm_untp_tr_pbmn")
     ("시간외 단일가 거래 대금")
-    ovtm_untp_mxpr: Decimal = Field(
-        alias="ovtm_untp_mxpr",
-    )
+    ovtm_untp_mxpr: Decimal = Field(alias="ovtm_untp_mxpr")
     ("시간외 단일가 상한가")
-    ovtm_untp_llam: Decimal = Field(
-        alias="ovtm_untp_llam",
-    )
+    ovtm_untp_llam: Decimal = Field(alias="ovtm_untp_llam")
     ("시간외 단일가 하한가")
-    ovtm_untp_oprc: Decimal = Field(
-        alias="ovtm_untp_oprc",
-    )
+    ovtm_untp_oprc: Decimal = Field(alias="ovtm_untp_oprc")
     ("시간외 단일가 시가2")
-    ovtm_untp_hgpr: Decimal = Field(
-        alias="ovtm_untp_hgpr",
-    )
+    ovtm_untp_hgpr: Decimal = Field(alias="ovtm_untp_hgpr")
     ("시간외 단일가 최고가")
-    ovtm_untp_lwpr: Decimal = Field(
-        alias="ovtm_untp_lwpr",
-    )
+    ovtm_untp_lwpr: Decimal = Field(alias="ovtm_untp_lwpr")
     ("시간외 단일가 최저가")
-    marg_rate: Decimal = Field(
-        alias="marg_rate",
-    )
+    marg_rate: Decimal = Field(alias="marg_rate")
     ("증거금 비율")
-    ovtm_untp_antc_cnpr: Decimal = Field(
-        alias="ovtm_untp_antc_cnpr",
-    )
+    ovtm_untp_antc_cnpr: Decimal = Field(alias="ovtm_untp_antc_cnpr")
     ("시간외 단일가 예상 체결가")
-    ovtm_untp_antc_cntg_vrss: Decimal = Field(
-        alias="ovtm_untp_antc_cntg_vrss",
-    )
+    ovtm_untp_antc_cntg_vrss: Decimal = Field(alias="ovtm_untp_antc_cntg_vrss")
     ("시간외 단일가 예상 체결 대비")
-    ovtm_untp_antc_cntg_vrss_sign: Decimal = Field(
-        alias="ovtm_untp_antc_cntg_vrss_sign",
-    )
+    ovtm_untp_antc_cntg_vrss_sign: Decimal = Field(alias="ovtm_untp_antc_cntg_vrss_sign")
     ("시간외 단일가 예상 체결 대비")
-    ovtm_untp_antc_cntg_ctrt: Decimal = Field(
-        alias="ovtm_untp_antc_cntg_ctrt",
-    )
+    ovtm_untp_antc_cntg_ctrt: Decimal = Field(alias="ovtm_untp_antc_cntg_ctrt")
     ("시간외 단일가 예상 체결 대비율")
-    ovtm_untp_antc_cnqn: Decimal = Field(
-        alias="ovtm_untp_antc_cnqn",
-    )
+    ovtm_untp_antc_cnqn: Decimal = Field(alias="ovtm_untp_antc_cnqn")
     ("시간외 단일가 예상 체결량")
-    crdt_able_yn: KisBool = Field(
-        alias="crdt_able_yn",
-    )
+    crdt_able_yn: KisBool = Field(alias="crdt_able_yn")
     ("신용 가능 여부")
-    new_lstn_cls_name: str | None = Field(
-        default=None,
-        alias="new_lstn_cls_name",
-    )
+    new_lstn_cls_name: str | None = Field(default=None, alias="new_lstn_cls_name")
     ("신규 상장 구분 명")
-    sltr_yn: KisBool = Field(
-        alias="sltr_yn",
-    )
+    sltr_yn: KisBool = Field(alias="sltr_yn")
     ("정리매매 여부")
-    mang_issu_yn: KisBool = Field(
-        alias="mang_issu_yn",
-    )
+    mang_issu_yn: KisBool = Field(alias="mang_issu_yn")
     ("관리 종목 여부")
-    mrkt_warn_cls_code: str = Field(
-        alias="mrkt_warn_cls_code",
-    )
+    mrkt_warn_cls_code: str = Field(alias="mrkt_warn_cls_code")
     ("시장 경고 구분 코드")
-    trht_yn: KisBool = Field(
-        alias="trht_yn",
-    )
+    trht_yn: KisBool = Field(alias="trht_yn")
     ("거래정지 여부")
-    vlnt_deal_cls_name: str | None = Field(
-        default=None,
-        alias="vlnt_deal_cls_name",
-    )
+    vlnt_deal_cls_name: str | None = Field(default=None, alias="vlnt_deal_cls_name")
     ("임의 매매 구분 명")
-    ovtm_untp_sdpr: Decimal = Field(
-        alias="ovtm_untp_sdpr",
-    )
+    ovtm_untp_sdpr: Decimal = Field(alias="ovtm_untp_sdpr")
     ("시간외 단일가 기준가")
-    mrkt_warn_cls_name: str | None = Field(
-        default=None,
-        alias="mrkt_warn_cls_name",
-    )
+    mrkt_warn_cls_name: str | None = Field(default=None, alias="mrkt_warn_cls_name")
     ("시장 경구 구분 명")
-    revl_issu_reas_name: str | None = Field(
-        default=None,
-        alias="revl_issu_reas_name",
-    )
+    revl_issu_reas_name: str | None = Field(default=None, alias="revl_issu_reas_name")
     ("재평가 종목 사유 명")
-    insn_pbnt_yn: KisBool = Field(
-        alias="insn_pbnt_yn",
-    )
+    insn_pbnt_yn: KisBool = Field(alias="insn_pbnt_yn")
     ("불성실 공시 여부")
-    flng_cls_name: str | None = Field(
-        default=None,
-        alias="flng_cls_name",
-    )
+    flng_cls_name: str | None = Field(default=None, alias="flng_cls_name")
     ("락 구분 이름")
-    rprs_mrkt_kor_name: str = Field(
-        alias="rprs_mrkt_kor_name",
-    )
+    rprs_mrkt_kor_name: str = Field(alias="rprs_mrkt_kor_name")
     ("대표 시장 한글 명")
-    ovtm_vi_cls_code: str = Field(
-        alias="ovtm_vi_cls_code",
-    )
+    ovtm_vi_cls_code: str = Field(alias="ovtm_vi_cls_code")
     ("시간외단일가VI적용구분코드")
-    bidp: str = Field(
-        alias="bidp",
-    )
+    bidp: str = Field(alias="bidp")
     ("매수호가")
-    askp: int = Field(
-        alias="askp",
-    )
+    askp: int = Field(alias="askp")
     ("매도호가")
 
 
 class InquireOvertimePriceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: InquireOvertimePriceOutput = Field(
-        alias="output",
-    )
+    output: InquireOvertimePriceOutput = Field(alias="output")
     ("응답상세")
 
 
@@ -248,27 +142,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireOvertimePriceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireOvertimePriceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireOvertimePriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireOvertimePriceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireOvertimePriceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireOvertimePriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireOvertimePriceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireOvertimePriceRequestDict]
         ) -> tuple[InquireOvertimePriceResponse, KisResponse]: ...
         def call(
             self,
@@ -302,10 +184,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "InquireOvertimePriceRequest",
-    "InquireOvertimePriceRequestDict",
-    "InquireOvertimePriceResponse",
-    "InquireOvertimePriceOutput",
-]
+__all__ = ["ENDPOINT", "InquireOvertimePriceRequest", "InquireOvertimePriceRequestDict", "InquireOvertimePriceResponse", "InquireOvertimePriceOutput"]

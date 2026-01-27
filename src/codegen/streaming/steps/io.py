@@ -143,8 +143,11 @@ def _ensure_alias_specs(
             name=alias,
             field_type=original_spec.field_type,
             source=original_spec.source,
+            desc=original_spec.desc,
             datetime_rule=original_spec.datetime_rule,
             decimal_rule=original_spec.decimal_rule,
+            enum=original_spec.enum,
+            enum_desc=original_spec.enum_desc,
         )
 
 
@@ -155,6 +158,7 @@ def _parse_field_spec(name: str, data: Mapping[str, object]) -> FieldSpec:
     source = data.get("source", "rule")
     if not isinstance(source, str):
         raise SpecError(f"field_specs.{name}.source must be str")
+    desc = _optional_str(data.get("desc") or data.get("description"))
 
     datetime_rule = None
     datetime_data = data.get("datetime")
@@ -181,10 +185,27 @@ def _parse_field_spec(name: str, data: Mapping[str, object]) -> FieldSpec:
             zdiv_field=str(decimal_data.get("zdiv_field")),
         )
 
+    enum_values: tuple[str, ...] | None = None
+    enum_raw = data.get("enum")
+    if enum_raw is not None:
+        if not isinstance(enum_raw, list):
+            raise SpecError(f"field_specs.{name}.enum must be list")
+        enum_values = tuple(str(value) for value in enum_raw)
+
+    enum_desc: dict[str, str] | None = None
+    enum_desc_raw = data.get("enum_desc")
+    if enum_desc_raw is not None:
+        if not isinstance(enum_desc_raw, Mapping):
+            raise SpecError(f"field_specs.{name}.enum_desc must be mapping")
+        enum_desc = {str(key): str(value) for key, value in enum_desc_raw.items()}
+
     return FieldSpec(
         name=name,
         field_type=str(field_type),
         source=source,
+        desc=desc,
         datetime_rule=datetime_rule,
         decimal_rule=decimal_rule,
+        enum=enum_values,
+        enum_desc=enum_desc,
     )

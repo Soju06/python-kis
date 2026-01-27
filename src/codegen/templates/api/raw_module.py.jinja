@@ -73,14 +73,11 @@ class {{ enum.name }}(KisStrEnum):
 class {{ model.name }}(RawModel):
 {% if model.fields %}
 {% for field in model.fields %}
-    {{ field.name }}: {{ field.type }} = Field(
+    {{ field.name }}: {{ field.type | annotated_type(field.desc) }} = Field(
 {% for arg in field.init_args %}
         {{ arg }},
 {% endfor %}
     )
-{% if field.desc %}
-    {{ field.desc | string_literal(8) }}
-{% endif %}
 {% endfor %}
 {% else %}
     pass

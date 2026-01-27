@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -33,33 +22,19 @@ class SllBuyDvsnCdEnum(KisStrEnum):
 
 
 class InquirePsblNgtOrderRequest(RawModel):
-    CANO: str = Field(
-        alias="CANO",
-    )
+    CANO: str = Field(alias="CANO")
     ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
     ("계좌상품코드")
-    PDNO: str = Field(
-        alias="PDNO",
-    )
+    PDNO: str = Field(alias="PDNO")
     ("상품번호")
-    PRDT_TYPE_CD: str = Field(
-        alias="PRDT_TYPE_CD",
-    )
+    PRDT_TYPE_CD: str = Field(alias="PRDT_TYPE_CD")
     ("301 : 선물옵션")
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(
-        alias="SLL_BUY_DVSN_CD",
-    )
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(alias="SLL_BUY_DVSN_CD")
     ("01 : 매도 , 02 : 매수")
-    UNIT_PRICE: Decimal = Field(
-        alias="UNIT_PRICE",
-    )
+    UNIT_PRICE: Decimal = Field(alias="UNIT_PRICE")
     ("주문가격1")
-    ORD_DVSN_CD: str = Field(
-        alias="ORD_DVSN_CD",
-    )
+    ORD_DVSN_CD: str = Field(alias="ORD_DVSN_CD")
     (
         "'01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : "
         "시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK)'"
@@ -82,30 +57,12 @@ class InquirePsblNgtOrderRequestDict(TypedDict):
         지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK)'
     """
 
-    CANO: Annotated[
-        str,
-        "종합계좌번호",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        str,
-        "계좌상품코드",
-    ]
-    PDNO: Annotated[
-        str,
-        "상품번호",
-    ]
-    PRDT_TYPE_CD: Annotated[
-        str,
-        "301 : 선물옵션",
-    ]
-    SLL_BUY_DVSN_CD: Annotated[
-        SllBuyDvsnCdEnum,
-        "01 : 매도 , 02 : 매수",
-    ]
-    UNIT_PRICE: Annotated[
-        Decimal,
-        "주문가격1",
-    ]
+    CANO: Annotated[str, "종합계좌번호"]
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
+    PDNO: Annotated[str, "상품번호"]
+    PRDT_TYPE_CD: Annotated[str, "301 : 선물옵션"]
+    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "01 : 매도 , 02 : 매수"]
+    UNIT_PRICE: Annotated[Decimal, "주문가격1"]
     ORD_DVSN_CD: Annotated[
         str,
         "'01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : "
@@ -114,48 +71,28 @@ class InquirePsblNgtOrderRequestDict(TypedDict):
 
 
 class InquirePsblNgtOrderOutput(RawModel):
-    max_ord_psbl_qty: int = Field(
-        alias="max_ord_psbl_qty",
-    )
+    max_ord_psbl_qty: int = Field(alias="max_ord_psbl_qty")
     ("최대주문가능수량 (신규 TR 미사용 필드)")
-    tot_psbl_qty: int = Field(
-        alias="tot_psbl_qty",
-    )
+    tot_psbl_qty: int = Field(alias="tot_psbl_qty")
     ("최대주문가능수량")
-    lqd_psbl_qty: int = Field(
-        alias="lqd_psbl_qty",
-    )
+    lqd_psbl_qty: int = Field(alias="lqd_psbl_qty")
     ("청산가능수량")
-    lqd_psbl_qty_1: int = Field(
-        alias="lqd_psbl_qty_1",
-    )
+    lqd_psbl_qty_1: int = Field(alias="lqd_psbl_qty_1")
     ("신규 TR 사용 필드")
-    ord_psbl_qty: int = Field(
-        alias="ord_psbl_qty",
-    )
+    ord_psbl_qty: int = Field(alias="ord_psbl_qty")
     ("주문가능수량")
-    bass_idx: str = Field(
-        alias="bass_idx",
-    )
+    bass_idx: str = Field(alias="bass_idx")
     ("신규 TR 사용 필드")
 
 
 class InquirePsblNgtOrderResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: InquirePsblNgtOrderOutput = Field(
-        alias="output",
-    )
+    output: InquirePsblNgtOrderOutput = Field(alias="output")
     ("응답상세1")
 
 
@@ -178,27 +115,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePsblNgtOrderRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePsblNgtOrderRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePsblNgtOrderResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePsblNgtOrderRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePsblNgtOrderRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePsblNgtOrderResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquirePsblNgtOrderRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePsblNgtOrderRequestDict]
         ) -> tuple[InquirePsblNgtOrderResponse, KisResponse]: ...
         def call(
             self,

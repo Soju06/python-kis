@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -54,25 +43,15 @@ class FwexCtrtFrcrDvsnCdEnum(KisStrEnum):
 
 
 class IntgrMarginRequest(RawModel):
-    CANO: CanoEnum = Field(
-        alias="CANO",
-    )
+    CANO: CanoEnum = Field(alias="CANO")
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    CMA_EVLU_AMT_ICLD_YN: KisBool = Field(
-        alias="CMA_EVLU_AMT_ICLD_YN",
-    )
+    CMA_EVLU_AMT_ICLD_YN: KisBool = Field(alias="CMA_EVLU_AMT_ICLD_YN")
     ("N 입력")
-    WCRC_FRCR_DVSN_CD: WcrcFrcrDvsnCdEnum = Field(
-        alias="WCRC_FRCR_DVSN_CD",
-    )
+    WCRC_FRCR_DVSN_CD: WcrcFrcrDvsnCdEnum = Field(alias="WCRC_FRCR_DVSN_CD")
     ("01(외화기준),02(원화기준)")
-    FWEX_CTRT_FRCR_DVSN_CD: FwexCtrtFrcrDvsnCdEnum = Field(
-        alias="FWEX_CTRT_FRCR_DVSN_CD",
-    )
+    FWEX_CTRT_FRCR_DVSN_CD: FwexCtrtFrcrDvsnCdEnum = Field(alias="FWEX_CTRT_FRCR_DVSN_CD")
     ("01(외화기준),02(원화기준)")
 
 
@@ -95,463 +74,232 @@ class IntgrMarginRequestDict(TypedDict):
         FWEX_CTRT_FRCR_DVSN_CD (FwexCtrtFrcrDvsnCdEnum): 01(외화기준),02(원화기준)
     """
 
-    CANO: Annotated[
-        CanoEnum,
-        "계좌번호 체계(8-2)의 앞 8자리",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        AcntPrdtCdEnum,
-        "계좌번호 체계(8-2)의 뒤 2자리",
-    ]
-    CMA_EVLU_AMT_ICLD_YN: Annotated[
-        KisBool,
-        "N 입력",
-    ]
-    WCRC_FRCR_DVSN_CD: Annotated[
-        WcrcFrcrDvsnCdEnum,
-        "01(외화기준),02(원화기준)",
-    ]
-    FWEX_CTRT_FRCR_DVSN_CD: Annotated[
-        FwexCtrtFrcrDvsnCdEnum,
-        "01(외화기준),02(원화기준)",
-    ]
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
+    CMA_EVLU_AMT_ICLD_YN: Annotated[KisBool, "N 입력"]
+    WCRC_FRCR_DVSN_CD: Annotated[WcrcFrcrDvsnCdEnum, "01(외화기준),02(원화기준)"]
+    FWEX_CTRT_FRCR_DVSN_CD: Annotated[FwexCtrtFrcrDvsnCdEnum, "01(외화기준),02(원화기준)"]
 
 
 class IntgrMarginOutput(RawModel):
-    acmga_rt: Decimal = Field(
-        alias="acmga_rt",
-    )
+    acmga_rt: Decimal = Field(alias="acmga_rt")
     ("계좌증거금율")
-    acmga_pct100_aptm_rson: Decimal = Field(
-        alias="acmga_pct100_aptm_rson",
-    )
+    acmga_pct100_aptm_rson: Decimal = Field(alias="acmga_pct100_aptm_rson")
     ("계좌증거금100퍼센트지정사유")
-    stck_cash_objt_amt: Decimal = Field(
-        alias="stck_cash_objt_amt",
-    )
+    stck_cash_objt_amt: Decimal = Field(alias="stck_cash_objt_amt")
     ("주식현금대상금액")
-    stck_sbst_objt_amt: Decimal = Field(
-        alias="stck_sbst_objt_amt",
-    )
+    stck_sbst_objt_amt: Decimal = Field(alias="stck_sbst_objt_amt")
     ("주식대용대상금액")
-    stck_evlu_objt_amt: Decimal = Field(
-        alias="stck_evlu_objt_amt",
-    )
+    stck_evlu_objt_amt: Decimal = Field(alias="stck_evlu_objt_amt")
     ("주식평가대상금액")
-    stck_ruse_psbl_objt_amt: Decimal = Field(
-        alias="stck_ruse_psbl_objt_amt",
-    )
+    stck_ruse_psbl_objt_amt: Decimal = Field(alias="stck_ruse_psbl_objt_amt")
     ("주식재사용가능대상금액")
-    stck_fund_rpch_chgs_objt_amt: Decimal = Field(
-        alias="stck_fund_rpch_chgs_objt_amt",
-    )
+    stck_fund_rpch_chgs_objt_amt: Decimal = Field(alias="stck_fund_rpch_chgs_objt_amt")
     ("주식펀드환매대금대상금액")
-    stck_fncg_rdpt_objt_atm: Decimal = Field(
-        alias="stck_fncg_rdpt_objt_atm",
-    )
+    stck_fncg_rdpt_objt_atm: Decimal = Field(alias="stck_fncg_rdpt_objt_atm")
     ("주식융자상환금대상금액")
-    bond_ruse_psbl_objt_amt: Decimal = Field(
-        alias="bond_ruse_psbl_objt_amt",
-    )
+    bond_ruse_psbl_objt_amt: Decimal = Field(alias="bond_ruse_psbl_objt_amt")
     ("채권재사용가능대상금액")
-    stck_cash_use_amt: Decimal = Field(
-        alias="stck_cash_use_amt",
-    )
+    stck_cash_use_amt: Decimal = Field(alias="stck_cash_use_amt")
     ("주식현금사용금액")
-    stck_sbst_use_amt: Decimal = Field(
-        alias="stck_sbst_use_amt",
-    )
+    stck_sbst_use_amt: Decimal = Field(alias="stck_sbst_use_amt")
     ("주식대용사용금액")
-    stck_evlu_use_amt: Decimal = Field(
-        alias="stck_evlu_use_amt",
-    )
+    stck_evlu_use_amt: Decimal = Field(alias="stck_evlu_use_amt")
     ("주식평가사용금액")
-    stck_ruse_psbl_amt_use_amt: Decimal = Field(
-        alias="stck_ruse_psbl_amt_use_amt",
-    )
+    stck_ruse_psbl_amt_use_amt: Decimal = Field(alias="stck_ruse_psbl_amt_use_amt")
     ("주식재사용가능금사용금액")
-    stck_fund_rpch_chgs_use_amt: Decimal = Field(
-        alias="stck_fund_rpch_chgs_use_amt",
-    )
+    stck_fund_rpch_chgs_use_amt: Decimal = Field(alias="stck_fund_rpch_chgs_use_amt")
     ("주식펀드환매대금사용금액")
-    stck_fncg_rdpt_amt_use_amt: Decimal = Field(
-        alias="stck_fncg_rdpt_amt_use_amt",
-    )
+    stck_fncg_rdpt_amt_use_amt: Decimal = Field(alias="stck_fncg_rdpt_amt_use_amt")
     ("주식융자상환금사용금액")
-    bond_ruse_psbl_amt_use_amt: Decimal = Field(
-        alias="bond_ruse_psbl_amt_use_amt",
-    )
+    bond_ruse_psbl_amt_use_amt: Decimal = Field(alias="bond_ruse_psbl_amt_use_amt")
     ("채권재사용가능금사용금액")
-    stck_cash_ord_psbl_amt: Decimal = Field(
-        alias="stck_cash_ord_psbl_amt",
-    )
+    stck_cash_ord_psbl_amt: Decimal = Field(alias="stck_cash_ord_psbl_amt")
     ("주식현금주문가능금액")
-    stck_sbst_ord_psbl_amt: Decimal = Field(
-        alias="stck_sbst_ord_psbl_amt",
-    )
+    stck_sbst_ord_psbl_amt: Decimal = Field(alias="stck_sbst_ord_psbl_amt")
     ("주식대용주문가능금액")
-    stck_evlu_ord_psbl_amt: Decimal = Field(
-        alias="stck_evlu_ord_psbl_amt",
-    )
+    stck_evlu_ord_psbl_amt: Decimal = Field(alias="stck_evlu_ord_psbl_amt")
     ("주식평가주문가능금액")
-    stck_ruse_psbl_ord_psbl_amt: Decimal = Field(
-        alias="stck_ruse_psbl_ord_psbl_amt",
-    )
+    stck_ruse_psbl_ord_psbl_amt: Decimal = Field(alias="stck_ruse_psbl_ord_psbl_amt")
     ("주식재사용가능주문가능금액")
-    stck_fund_rpch_ord_psbl_amt: Decimal = Field(
-        alias="stck_fund_rpch_ord_psbl_amt",
-    )
+    stck_fund_rpch_ord_psbl_amt: Decimal = Field(alias="stck_fund_rpch_ord_psbl_amt")
     ("주식펀드환매주문가능금액")
-    bond_ruse_psbl_ord_psbl_amt: Decimal = Field(
-        alias="bond_ruse_psbl_ord_psbl_amt",
-    )
+    bond_ruse_psbl_ord_psbl_amt: Decimal = Field(alias="bond_ruse_psbl_ord_psbl_amt")
     ("채권재사용가능주문가능금액")
-    rcvb_amt: Decimal = Field(
-        alias="rcvb_amt",
-    )
+    rcvb_amt: Decimal = Field(alias="rcvb_amt")
     ("미수금액")
-    stck_loan_grta_ruse_psbl_amt: Decimal = Field(
-        alias="stck_loan_grta_ruse_psbl_amt",
-    )
+    stck_loan_grta_ruse_psbl_amt: Decimal = Field(alias="stck_loan_grta_ruse_psbl_amt")
     ("주식대출보증금재사용가능금액")
-    stck_cash20_max_ord_psbl_amt: Decimal = Field(
-        alias="stck_cash20_max_ord_psbl_amt",
-    )
+    stck_cash20_max_ord_psbl_amt: Decimal = Field(alias="stck_cash20_max_ord_psbl_amt")
     ("주식현금20최대주문가능금액")
-    stck_cash30_max_ord_psbl_amt: Decimal = Field(
-        alias="stck_cash30_max_ord_psbl_amt",
-    )
+    stck_cash30_max_ord_psbl_amt: Decimal = Field(alias="stck_cash30_max_ord_psbl_amt")
     ("주식현금30최대주문가능금액")
-    stck_cash40_max_ord_psbl_amt: Decimal = Field(
-        alias="stck_cash40_max_ord_psbl_amt",
-    )
+    stck_cash40_max_ord_psbl_amt: Decimal = Field(alias="stck_cash40_max_ord_psbl_amt")
     ("주식현금40최대주문가능금액")
-    stck_cash50_max_ord_psbl_amt: Decimal = Field(
-        alias="stck_cash50_max_ord_psbl_amt",
-    )
+    stck_cash50_max_ord_psbl_amt: Decimal = Field(alias="stck_cash50_max_ord_psbl_amt")
     ("주식현금50최대주문가능금액")
-    stck_cash60_max_ord_psbl_amt: Decimal = Field(
-        alias="stck_cash60_max_ord_psbl_amt",
-    )
+    stck_cash60_max_ord_psbl_amt: Decimal = Field(alias="stck_cash60_max_ord_psbl_amt")
     ("주식현금60최대주문가능금액")
-    stck_cash100_max_ord_psbl_amt: Decimal = Field(
-        alias="stck_cash100_max_ord_psbl_amt",
-    )
+    stck_cash100_max_ord_psbl_amt: Decimal = Field(alias="stck_cash100_max_ord_psbl_amt")
     ("주식현금100최대주문가능금액")
-    stck_rsip100_max_ord_psbl_amt: str = Field(
-        alias="stck_rsip100_max_ord_psbl_amt",
-    )
+    stck_rsip100_max_ord_psbl_amt: str = Field(alias="stck_rsip100_max_ord_psbl_amt")
     ("주식재사용불가100최대주문가능")
-    bond_max_ord_psbl_amt: Decimal = Field(
-        alias="bond_max_ord_psbl_amt",
-    )
+    bond_max_ord_psbl_amt: Decimal = Field(alias="bond_max_ord_psbl_amt")
     ("채권최대주문가능금액")
-    stck_fncg45_max_ord_psbl_amt: Decimal = Field(
-        alias="stck_fncg45_max_ord_psbl_amt",
-    )
+    stck_fncg45_max_ord_psbl_amt: Decimal = Field(alias="stck_fncg45_max_ord_psbl_amt")
     ("주식융자45최대주문가능금액")
-    stck_fncg50_max_ord_psbl_amt: Decimal = Field(
-        alias="stck_fncg50_max_ord_psbl_amt",
-    )
+    stck_fncg50_max_ord_psbl_amt: Decimal = Field(alias="stck_fncg50_max_ord_psbl_amt")
     ("주식융자50최대주문가능금액")
-    stck_fncg60_max_ord_psbl_amt: Decimal = Field(
-        alias="stck_fncg60_max_ord_psbl_amt",
-    )
+    stck_fncg60_max_ord_psbl_amt: Decimal = Field(alias="stck_fncg60_max_ord_psbl_amt")
     ("주식융자60최대주문가능금액")
-    stck_fncg70_max_ord_psbl_amt: Decimal = Field(
-        alias="stck_fncg70_max_ord_psbl_amt",
-    )
+    stck_fncg70_max_ord_psbl_amt: Decimal = Field(alias="stck_fncg70_max_ord_psbl_amt")
     ("주식융자70최대주문가능금액")
-    stck_stln_max_ord_psbl_amt: Decimal = Field(
-        alias="stck_stln_max_ord_psbl_amt",
-    )
+    stck_stln_max_ord_psbl_amt: Decimal = Field(alias="stck_stln_max_ord_psbl_amt")
     ("주식대주최대주문가능금액")
-    lmt_amt: Decimal = Field(
-        alias="lmt_amt",
-    )
+    lmt_amt: Decimal = Field(alias="lmt_amt")
     ("한도금액")
-    ovrs_stck_itgr_mgna_dvsn_name: str = Field(
-        alias="ovrs_stck_itgr_mgna_dvsn_name",
-    )
+    ovrs_stck_itgr_mgna_dvsn_name: str = Field(alias="ovrs_stck_itgr_mgna_dvsn_name")
     ("해외주식통합증거금구분명")
-    usd_objt_amt: Decimal = Field(
-        alias="usd_objt_amt",
-    )
+    usd_objt_amt: Decimal = Field(alias="usd_objt_amt")
     ("미화대상금액")
-    usd_use_amt: Decimal = Field(
-        alias="usd_use_amt",
-    )
+    usd_use_amt: Decimal = Field(alias="usd_use_amt")
     ("미화사용금액")
-    usd_ord_psbl_amt: Decimal = Field(
-        alias="usd_ord_psbl_amt",
-    )
+    usd_ord_psbl_amt: Decimal = Field(alias="usd_ord_psbl_amt")
     ("미화주문가능금액")
-    hkd_objt_amt: Decimal = Field(
-        alias="hkd_objt_amt",
-    )
+    hkd_objt_amt: Decimal = Field(alias="hkd_objt_amt")
     ("홍콩달러대상금액")
-    hkd_use_amt: Decimal = Field(
-        alias="hkd_use_amt",
-    )
+    hkd_use_amt: Decimal = Field(alias="hkd_use_amt")
     ("홍콩달러사용금액")
-    hkd_ord_psbl_amt: Decimal = Field(
-        alias="hkd_ord_psbl_amt",
-    )
+    hkd_ord_psbl_amt: Decimal = Field(alias="hkd_ord_psbl_amt")
     ("홍콩달러주문가능금액")
-    jpy_objt_amt: Decimal = Field(
-        alias="jpy_objt_amt",
-    )
+    jpy_objt_amt: Decimal = Field(alias="jpy_objt_amt")
     ("엔화대상금액")
-    jpy_use_amt: Decimal = Field(
-        alias="jpy_use_amt",
-    )
+    jpy_use_amt: Decimal = Field(alias="jpy_use_amt")
     ("엔화사용금액")
-    jpy_ord_psbl_amt: Decimal = Field(
-        alias="jpy_ord_psbl_amt",
-    )
+    jpy_ord_psbl_amt: Decimal = Field(alias="jpy_ord_psbl_amt")
     ("엔화주문가능금액")
-    cny_objt_amt: Decimal = Field(
-        alias="cny_objt_amt",
-    )
+    cny_objt_amt: Decimal = Field(alias="cny_objt_amt")
     ("위안화대상금액")
-    cny_use_amt: Decimal = Field(
-        alias="cny_use_amt",
-    )
+    cny_use_amt: Decimal = Field(alias="cny_use_amt")
     ("위안화사용금액")
-    cny_ord_psbl_amt: Decimal = Field(
-        alias="cny_ord_psbl_amt",
-    )
+    cny_ord_psbl_amt: Decimal = Field(alias="cny_ord_psbl_amt")
     ("위안화주문가능금액")
-    usd_ruse_objt_amt: Decimal = Field(
-        alias="usd_ruse_objt_amt",
-    )
+    usd_ruse_objt_amt: Decimal = Field(alias="usd_ruse_objt_amt")
     ("미화재사용대상금액")
-    usd_ruse_amt: Decimal = Field(
-        alias="usd_ruse_amt",
-    )
+    usd_ruse_amt: Decimal = Field(alias="usd_ruse_amt")
     ("미화재사용금액")
-    usd_ruse_ord_psbl_amt: Decimal = Field(
-        alias="usd_ruse_ord_psbl_amt",
-    )
+    usd_ruse_ord_psbl_amt: Decimal = Field(alias="usd_ruse_ord_psbl_amt")
     ("미화재사용주문가능금액")
-    hkd_ruse_objt_amt: Decimal = Field(
-        alias="hkd_ruse_objt_amt",
-    )
+    hkd_ruse_objt_amt: Decimal = Field(alias="hkd_ruse_objt_amt")
     ("홍콩달러재사용대상금액")
-    hkd_ruse_amt: Decimal = Field(
-        alias="hkd_ruse_amt",
-    )
+    hkd_ruse_amt: Decimal = Field(alias="hkd_ruse_amt")
     ("홍콩달러재사용금액")
-    hkd_ruse_ord_psbl_amt: Decimal = Field(
-        alias="hkd_ruse_ord_psbl_amt",
-    )
+    hkd_ruse_ord_psbl_amt: Decimal = Field(alias="hkd_ruse_ord_psbl_amt")
     ("홍콩달러재사용주문가능금액")
-    jpy_ruse_objt_amt: Decimal = Field(
-        alias="jpy_ruse_objt_amt",
-    )
+    jpy_ruse_objt_amt: Decimal = Field(alias="jpy_ruse_objt_amt")
     ("엔화재사용대상금액")
-    jpy_ruse_amt: Decimal = Field(
-        alias="jpy_ruse_amt",
-    )
+    jpy_ruse_amt: Decimal = Field(alias="jpy_ruse_amt")
     ("엔화재사용금액")
-    jpy_ruse_ord_psbl_amt: Decimal = Field(
-        alias="jpy_ruse_ord_psbl_amt",
-    )
+    jpy_ruse_ord_psbl_amt: Decimal = Field(alias="jpy_ruse_ord_psbl_amt")
     ("엔화재사용주문가능금액")
-    cny_ruse_objt_amt: Decimal = Field(
-        alias="cny_ruse_objt_amt",
-    )
+    cny_ruse_objt_amt: Decimal = Field(alias="cny_ruse_objt_amt")
     ("위안화재사용대상금액")
-    cny_ruse_amt: Decimal = Field(
-        alias="cny_ruse_amt",
-    )
+    cny_ruse_amt: Decimal = Field(alias="cny_ruse_amt")
     ("위안화재사용금액")
-    cny_ruse_ord_psbl_amt: Decimal = Field(
-        alias="cny_ruse_ord_psbl_amt",
-    )
+    cny_ruse_ord_psbl_amt: Decimal = Field(alias="cny_ruse_ord_psbl_amt")
     ("위안화재사용주문가능금액")
-    usd_gnrl_ord_psbl_amt: Decimal = Field(
-        alias="usd_gnrl_ord_psbl_amt",
-    )
+    usd_gnrl_ord_psbl_amt: Decimal = Field(alias="usd_gnrl_ord_psbl_amt")
     ("미화일반주문가능금액")
-    usd_itgr_ord_psbl_amt: Decimal = Field(
-        alias="usd_itgr_ord_psbl_amt",
-    )
+    usd_itgr_ord_psbl_amt: Decimal = Field(alias="usd_itgr_ord_psbl_amt")
     ("미화통합주문가능금액")
-    hkd_gnrl_ord_psbl_amt: Decimal = Field(
-        alias="hkd_gnrl_ord_psbl_amt",
-    )
+    hkd_gnrl_ord_psbl_amt: Decimal = Field(alias="hkd_gnrl_ord_psbl_amt")
     ("홍콩달러일반주문가능금액")
-    hkd_itgr_ord_psbl_amt: Decimal = Field(
-        alias="hkd_itgr_ord_psbl_amt",
-    )
+    hkd_itgr_ord_psbl_amt: Decimal = Field(alias="hkd_itgr_ord_psbl_amt")
     ("홍콩달러통합주문가능금액")
-    jpy_gnrl_ord_psbl_amt: Decimal = Field(
-        alias="jpy_gnrl_ord_psbl_amt",
-    )
+    jpy_gnrl_ord_psbl_amt: Decimal = Field(alias="jpy_gnrl_ord_psbl_amt")
     ("엔화일반주문가능금액")
-    jpy_itgr_ord_psbl_amt: Decimal = Field(
-        alias="jpy_itgr_ord_psbl_amt",
-    )
+    jpy_itgr_ord_psbl_amt: Decimal = Field(alias="jpy_itgr_ord_psbl_amt")
     ("엔화통합주문가능금액")
-    cny_gnrl_ord_psbl_amt: Decimal = Field(
-        alias="cny_gnrl_ord_psbl_amt",
-    )
+    cny_gnrl_ord_psbl_amt: Decimal = Field(alias="cny_gnrl_ord_psbl_amt")
     ("위안화일반주문가능금액")
-    cny_itgr_ord_psbl_amt: Decimal = Field(
-        alias="cny_itgr_ord_psbl_amt",
-    )
+    cny_itgr_ord_psbl_amt: Decimal = Field(alias="cny_itgr_ord_psbl_amt")
     ("위안화통합주문가능금액")
-    stck_itgr_cash20_ord_psbl_amt: Decimal = Field(
-        alias="stck_itgr_cash20_ord_psbl_amt",
-    )
+    stck_itgr_cash20_ord_psbl_amt: Decimal = Field(alias="stck_itgr_cash20_ord_psbl_amt")
     ("주식통합현금20주문가능금액")
-    stck_itgr_cash30_ord_psbl_amt: Decimal = Field(
-        alias="stck_itgr_cash30_ord_psbl_amt",
-    )
+    stck_itgr_cash30_ord_psbl_amt: Decimal = Field(alias="stck_itgr_cash30_ord_psbl_amt")
     ("주식통합현금30주문가능금액")
-    stck_itgr_cash40_ord_psbl_amt: Decimal = Field(
-        alias="stck_itgr_cash40_ord_psbl_amt",
-    )
+    stck_itgr_cash40_ord_psbl_amt: Decimal = Field(alias="stck_itgr_cash40_ord_psbl_amt")
     ("주식통합현금40주문가능금액")
-    stck_itgr_cash50_ord_psbl_amt: Decimal = Field(
-        alias="stck_itgr_cash50_ord_psbl_amt",
-    )
+    stck_itgr_cash50_ord_psbl_amt: Decimal = Field(alias="stck_itgr_cash50_ord_psbl_amt")
     ("주식통합현금50주문가능금액")
-    stck_itgr_cash60_ord_psbl_amt: Decimal = Field(
-        alias="stck_itgr_cash60_ord_psbl_amt",
-    )
+    stck_itgr_cash60_ord_psbl_amt: Decimal = Field(alias="stck_itgr_cash60_ord_psbl_amt")
     ("주식통합현금60주문가능금액")
-    stck_itgr_cash100_ord_psbl_amt: Decimal = Field(
-        alias="stck_itgr_cash100_ord_psbl_amt",
-    )
+    stck_itgr_cash100_ord_psbl_amt: Decimal = Field(alias="stck_itgr_cash100_ord_psbl_amt")
     ("주식통합현금100주문가능금액")
-    stck_itgr_100_ord_psbl_amt: Decimal = Field(
-        alias="stck_itgr_100_ord_psbl_amt",
-    )
+    stck_itgr_100_ord_psbl_amt: Decimal = Field(alias="stck_itgr_100_ord_psbl_amt")
     ("주식통합100주문가능금액")
-    stck_itgr_fncg45_ord_psbl_amt: Decimal = Field(
-        alias="stck_itgr_fncg45_ord_psbl_amt",
-    )
+    stck_itgr_fncg45_ord_psbl_amt: Decimal = Field(alias="stck_itgr_fncg45_ord_psbl_amt")
     ("주식통합융자45주문가능금액")
-    stck_itgr_fncg50_ord_psbl_amt: Decimal = Field(
-        alias="stck_itgr_fncg50_ord_psbl_amt",
-    )
+    stck_itgr_fncg50_ord_psbl_amt: Decimal = Field(alias="stck_itgr_fncg50_ord_psbl_amt")
     ("주식통합융자50주문가능금액")
-    stck_itgr_fncg60_ord_psbl_amt: Decimal = Field(
-        alias="stck_itgr_fncg60_ord_psbl_amt",
-    )
+    stck_itgr_fncg60_ord_psbl_amt: Decimal = Field(alias="stck_itgr_fncg60_ord_psbl_amt")
     ("주식통합융자60주문가능금액")
-    stck_itgr_fncg70_ord_psbl_amt: Decimal = Field(
-        alias="stck_itgr_fncg70_ord_psbl_amt",
-    )
+    stck_itgr_fncg70_ord_psbl_amt: Decimal = Field(alias="stck_itgr_fncg70_ord_psbl_amt")
     ("주식통합융자70주문가능금액")
-    stck_itgr_stln_ord_psbl_amt: Decimal = Field(
-        alias="stck_itgr_stln_ord_psbl_amt",
-    )
+    stck_itgr_stln_ord_psbl_amt: Decimal = Field(alias="stck_itgr_stln_ord_psbl_amt")
     ("주식통합대주주문가능금액")
-    bond_itgr_ord_psbl_amt: Decimal = Field(
-        alias="bond_itgr_ord_psbl_amt",
-    )
+    bond_itgr_ord_psbl_amt: Decimal = Field(alias="bond_itgr_ord_psbl_amt")
     ("채권통합주문가능금액")
-    stck_cash_ovrs_use_amt: Decimal = Field(
-        alias="stck_cash_ovrs_use_amt",
-    )
+    stck_cash_ovrs_use_amt: Decimal = Field(alias="stck_cash_ovrs_use_amt")
     ("주식현금해외사용금액")
-    stck_sbst_ovrs_use_amt: Decimal = Field(
-        alias="stck_sbst_ovrs_use_amt",
-    )
+    stck_sbst_ovrs_use_amt: Decimal = Field(alias="stck_sbst_ovrs_use_amt")
     ("주식대용해외사용금액")
-    stck_evlu_ovrs_use_amt: Decimal = Field(
-        alias="stck_evlu_ovrs_use_amt",
-    )
+    stck_evlu_ovrs_use_amt: Decimal = Field(alias="stck_evlu_ovrs_use_amt")
     ("주식평가해외사용금액")
-    stck_re_use_amt_ovrs_use_amt: Decimal = Field(
-        alias="stck_re_use_amt_ovrs_use_amt",
-    )
+    stck_re_use_amt_ovrs_use_amt: Decimal = Field(alias="stck_re_use_amt_ovrs_use_amt")
     ("주식재사용금액해외사용금액")
-    stck_fund_rpch_ovrs_use_amt: Decimal = Field(
-        alias="stck_fund_rpch_ovrs_use_amt",
-    )
+    stck_fund_rpch_ovrs_use_amt: Decimal = Field(alias="stck_fund_rpch_ovrs_use_amt")
     ("주식펀드환매해외사용금액")
-    stck_fncg_rdpt_ovrs_use_amt: Decimal = Field(
-        alias="stck_fncg_rdpt_ovrs_use_amt",
-    )
+    stck_fncg_rdpt_ovrs_use_amt: Decimal = Field(alias="stck_fncg_rdpt_ovrs_use_amt")
     ("주식융자상환해외사용금액")
-    bond_re_use_ovrs_use_amt: Decimal = Field(
-        alias="bond_re_use_ovrs_use_amt",
-    )
+    bond_re_use_ovrs_use_amt: Decimal = Field(alias="bond_re_use_ovrs_use_amt")
     ("채권재사용해외사용금액")
-    usd_oth_mket_use_amt: Decimal = Field(
-        alias="usd_oth_mket_use_amt",
-    )
+    usd_oth_mket_use_amt: Decimal = Field(alias="usd_oth_mket_use_amt")
     ("미화타시장사용금액")
-    jpy_oth_mket_use_amt: Decimal = Field(
-        alias="jpy_oth_mket_use_amt",
-    )
+    jpy_oth_mket_use_amt: Decimal = Field(alias="jpy_oth_mket_use_amt")
     ("엔화타시장사용금액")
-    cny_oth_mket_use_amt: Decimal = Field(
-        alias="cny_oth_mket_use_amt",
-    )
+    cny_oth_mket_use_amt: Decimal = Field(alias="cny_oth_mket_use_amt")
     ("위안화타시장사용금액")
-    hkd_oth_mket_use_amt: Decimal = Field(
-        alias="hkd_oth_mket_use_amt",
-    )
+    hkd_oth_mket_use_amt: Decimal = Field(alias="hkd_oth_mket_use_amt")
     ("홍콩달러타시장사용금액")
-    usd_re_use_oth_mket_use_amt: Decimal = Field(
-        alias="usd_re_use_oth_mket_use_amt",
-    )
+    usd_re_use_oth_mket_use_amt: Decimal = Field(alias="usd_re_use_oth_mket_use_amt")
     ("미화재사용타시장사용금액")
-    jpy_re_use_oth_mket_use_amt: Decimal = Field(
-        alias="jpy_re_use_oth_mket_use_amt",
-    )
+    jpy_re_use_oth_mket_use_amt: Decimal = Field(alias="jpy_re_use_oth_mket_use_amt")
     ("엔화재사용타시장사용금액")
-    cny_re_use_oth_mket_use_amt: Decimal = Field(
-        alias="cny_re_use_oth_mket_use_amt",
-    )
+    cny_re_use_oth_mket_use_amt: Decimal = Field(alias="cny_re_use_oth_mket_use_amt")
     ("위안화재사용타시장사용금액")
-    hkd_re_use_oth_mket_use_amt: Decimal = Field(
-        alias="hkd_re_use_oth_mket_use_amt",
-    )
+    hkd_re_use_oth_mket_use_amt: Decimal = Field(alias="hkd_re_use_oth_mket_use_amt")
     ("홍콩달러재사용타시장사용금액")
-    hgkg_cny_re_use_amt: Decimal = Field(
-        alias="hgkg_cny_re_use_amt",
-    )
+    hgkg_cny_re_use_amt: Decimal = Field(alias="hgkg_cny_re_use_amt")
     ("홍콩위안화재사용금액")
-    usd_frst_bltn_exrt: Decimal = Field(
-        alias="usd_frst_bltn_exrt",
-    )
+    usd_frst_bltn_exrt: Decimal = Field(alias="usd_frst_bltn_exrt")
     ("미국달러최초고시환율")
-    hkd_frst_bltn_exrt: Decimal = Field(
-        alias="hkd_frst_bltn_exrt",
-    )
+    hkd_frst_bltn_exrt: Decimal = Field(alias="hkd_frst_bltn_exrt")
     ("홍콩달러최초고시환율")
-    jpy_frst_bltn_exrt: Decimal = Field(
-        alias="jpy_frst_bltn_exrt",
-    )
+    jpy_frst_bltn_exrt: Decimal = Field(alias="jpy_frst_bltn_exrt")
     ("일본엔화최초고시환율")
-    cny_frst_bltn_exrt: Decimal = Field(
-        alias="cny_frst_bltn_exrt",
-    )
+    cny_frst_bltn_exrt: Decimal = Field(alias="cny_frst_bltn_exrt")
     ("중국위안화최초고시환율")
 
 
 class IntgrMarginResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: IntgrMarginOutput = Field(
-        alias="output",
-    )
+    output: IntgrMarginOutput = Field(alias="output")
     ("응답상세")
 
 
@@ -583,27 +331,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: IntgrMarginRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: IntgrMarginRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[IntgrMarginResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: IntgrMarginRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: IntgrMarginRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[IntgrMarginResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[IntgrMarginRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[IntgrMarginRequestDict]
         ) -> tuple[IntgrMarginResponse, KisResponse]: ...
         def call(
             self,

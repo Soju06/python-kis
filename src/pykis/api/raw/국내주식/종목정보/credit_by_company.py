@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -33,25 +22,15 @@ class FidRankSortClsCodeEnum(KisStrEnum):
 
 
 class CreditByCompanyRequest(RawModel):
-    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(
-        alias="fid_rank_sort_cls_code",
-    )
+    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(alias="fid_rank_sort_cls_code")
     ("0:코드순, 1:이름순")
-    fid_slct_yn: KisBool = Field(
-        alias="fid_slct_yn",
-    )
+    fid_slct_yn: KisBool = Field(alias="fid_slct_yn")
     ("0:신용주문가능, 1: 신용주문불가")
-    fid_input_iscd: str = Field(
-        alias="fid_input_iscd",
-    )
+    fid_input_iscd: str = Field(alias="fid_input_iscd")
     ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
-    fid_cond_scr_div_code: str = Field(
-        alias="fid_cond_scr_div_code",
-    )
+    fid_cond_scr_div_code: str = Field(alias="fid_cond_scr_div_code")
     ("Unique key(20477)")
-    fid_cond_mrkt_div_code: str = Field(
-        alias="fid_cond_mrkt_div_code",
-    )
+    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
     ("시장구분코드 (주식 J)")
 
 
@@ -70,59 +49,30 @@ class CreditByCompanyRequestDict(TypedDict):
         fid_cond_mrkt_div_code (str): 시장구분코드 (주식 J)
     """
 
-    fid_rank_sort_cls_code: Annotated[
-        FidRankSortClsCodeEnum,
-        "0:코드순, 1:이름순",
-    ]
-    fid_slct_yn: Annotated[
-        KisBool,
-        "0:신용주문가능, 1: 신용주문불가",
-    ]
-    fid_input_iscd: Annotated[
-        str,
-        "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100",
-    ]
-    fid_cond_scr_div_code: Annotated[
-        str,
-        "Unique key(20477)",
-    ]
-    fid_cond_mrkt_div_code: Annotated[
-        str,
-        "시장구분코드 (주식 J)",
-    ]
+    fid_rank_sort_cls_code: Annotated[FidRankSortClsCodeEnum, "0:코드순, 1:이름순"]
+    fid_slct_yn: Annotated[KisBool, "0:신용주문가능, 1: 신용주문불가"]
+    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"]
+    fid_cond_scr_div_code: Annotated[str, "Unique key(20477)"]
+    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"]
 
 
 class CreditByCompanyOutput(RawModel):
-    stck_shrn_iscd: str = Field(
-        alias="stck_shrn_iscd",
-    )
+    stck_shrn_iscd: str = Field(alias="stck_shrn_iscd")
     ("주식 단축 종목코드")
-    hts_kor_isnm: str = Field(
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
     ("HTS 한글 종목명")
-    crdt_rate: Decimal = Field(
-        alias="crdt_rate",
-    )
+    crdt_rate: Decimal = Field(alias="crdt_rate")
     ("신용 비율")
 
 
 class CreditByCompanyResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[CreditByCompanyOutput] = Field(
-        alias="output",
-    )
+    output: list[CreditByCompanyOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -150,27 +100,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: CreditByCompanyRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: CreditByCompanyRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[CreditByCompanyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: CreditByCompanyRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: CreditByCompanyRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[CreditByCompanyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[CreditByCompanyRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[CreditByCompanyRequestDict]
         ) -> tuple[CreditByCompanyResponse, KisResponse]: ...
         def call(
             self,

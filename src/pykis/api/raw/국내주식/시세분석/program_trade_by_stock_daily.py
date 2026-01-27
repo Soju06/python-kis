@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -26,17 +14,11 @@ if TYPE_CHECKING:
 
 
 class ProgramTradeByStockDailyRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("KRX : J , NXT : NX, 통합 : UN")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("종목코드")
-    FID_INPUT_DATE_1: str = Field(
-        alias="FID_INPUT_DATE_1",
-    )
+    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
     ("기준일 (ex 0020240308), 미입력시 당일부터 조회")
 
 
@@ -53,99 +35,52 @@ class ProgramTradeByStockDailyRequestDict(TypedDict):
         FID_INPUT_DATE_1 (str): 기준일 (ex 0020240308), 미입력시 당일부터 조회
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "KRX : J , NXT : NX, 통합 : UN",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "종목코드",
-    ]
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "기준일 (ex 0020240308), 미입력시 당일부터 조회",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "KRX : J , NXT : NX, 통합 : UN"]
+    FID_INPUT_ISCD: Annotated[str, "종목코드"]
+    FID_INPUT_DATE_1: Annotated[str, "기준일 (ex 0020240308), 미입력시 당일부터 조회"]
 
 
 class ProgramTradeByStockDailyOutput(RawModel):
-    stck_bsop_date: KisDate = Field(
-        alias="stck_bsop_date",
-    )
+    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
     ("주식 영업 일자")
-    stck_clpr: int = Field(
-        alias="stck_clpr",
-    )
+    stck_clpr: int = Field(alias="stck_clpr")
     ("주식 종가")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일 대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일 대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(
-        alias="acml_tr_pbmn",
-    )
+    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
     ("누적 거래 대금")
-    whol_smtn_seln_vol: int = Field(
-        alias="whol_smtn_seln_vol",
-    )
+    whol_smtn_seln_vol: int = Field(alias="whol_smtn_seln_vol")
     ("전체 합계 매도 거래량")
-    whol_smtn_shnu_vol: int = Field(
-        alias="whol_smtn_shnu_vol",
-    )
+    whol_smtn_shnu_vol: int = Field(alias="whol_smtn_shnu_vol")
     ("전체 합계 매수2 거래량")
-    whol_smtn_ntby_qty: int = Field(
-        alias="whol_smtn_ntby_qty",
-    )
+    whol_smtn_ntby_qty: int = Field(alias="whol_smtn_ntby_qty")
     ("전체 합계 순매수 수량")
-    whol_smtn_seln_tr_pbmn: Decimal = Field(
-        alias="whol_smtn_seln_tr_pbmn",
-    )
+    whol_smtn_seln_tr_pbmn: Decimal = Field(alias="whol_smtn_seln_tr_pbmn")
     ("전체 합계 매도 거래 대금")
-    whol_smtn_shnu_tr_pbmn: Decimal = Field(
-        alias="whol_smtn_shnu_tr_pbmn",
-    )
+    whol_smtn_shnu_tr_pbmn: Decimal = Field(alias="whol_smtn_shnu_tr_pbmn")
     ("전체 합계 매수2 거래 대금")
-    whol_smtn_ntby_tr_pbmn: Decimal = Field(
-        alias="whol_smtn_ntby_tr_pbmn",
-    )
+    whol_smtn_ntby_tr_pbmn: Decimal = Field(alias="whol_smtn_ntby_tr_pbmn")
     ("전체 합계 순매수 거래 대금")
-    whol_ntby_vol_icdc: int = Field(
-        alias="whol_ntby_vol_icdc",
-    )
+    whol_ntby_vol_icdc: int = Field(alias="whol_ntby_vol_icdc")
     ("전체 순매수 거래량 증감")
-    whol_ntby_tr_pbmn_icdc2: Decimal = Field(
-        alias="whol_ntby_tr_pbmn_icdc2",
-    )
+    whol_ntby_tr_pbmn_icdc2: Decimal = Field(alias="whol_ntby_tr_pbmn_icdc2")
     ("전체 순매수 거래 대금 증감2")
 
 
 class ProgramTradeByStockDailyResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[ProgramTradeByStockDailyOutput] = Field(
-        alias="output",
-    )
+    output: list[ProgramTradeByStockDailyOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -173,27 +108,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: ProgramTradeByStockDailyRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: ProgramTradeByStockDailyRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[ProgramTradeByStockDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: ProgramTradeByStockDailyRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: ProgramTradeByStockDailyRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[ProgramTradeByStockDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[ProgramTradeByStockDailyRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[ProgramTradeByStockDailyRequestDict]
         ) -> tuple[ProgramTradeByStockDailyResponse, KisResponse]: ...
         def call(
             self,

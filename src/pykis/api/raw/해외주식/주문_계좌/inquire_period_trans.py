@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -37,55 +24,25 @@ class SllBuyDvsnCdEnum(KisStrEnum):
 
 
 class InquirePeriodTransRequest(RawModel):
-    CANO: str = Field(
-        alias="CANO",
-    )
+    CANO: str = Field(alias="CANO")
     ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
     ("계좌상품코드")
-    ERLM_STRT_DT: KisDate = Field(
-        alias="ERLM_STRT_DT",
-    )
+    ERLM_STRT_DT: KisDate = Field(alias="ERLM_STRT_DT")
     ("입력날짜 ~ (ex) 20240420)")
-    ERLM_END_DT: KisDate = Field(
-        alias="ERLM_END_DT",
-    )
+    ERLM_END_DT: KisDate = Field(alias="ERLM_END_DT")
     ("~입력날짜 (ex) 20240520)")
-    OVRS_EXCG_CD: str | None = Field(
-        default=None,
-        alias="OVRS_EXCG_CD",
-        json_schema_extra={"blank_allowed": True},
-    )
+    OVRS_EXCG_CD: str | None = Field(default=None, alias="OVRS_EXCG_CD", json_schema_extra={"blank_allowed": True})
     ("공백")
-    PDNO: str | None = Field(
-        default=None,
-        alias="PDNO",
-        json_schema_extra={"blank_allowed": True},
-    )
+    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
     ("공백 (전체조회), 개별종목 조회는 상품번호입력")
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(
-        alias="SLL_BUY_DVSN_CD",
-    )
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(alias="SLL_BUY_DVSN_CD")
     ("00(전체), 01(매도), 02(매수)")
-    LOAN_DVSN_CD: str | None = Field(
-        default=None,
-        alias="LOAN_DVSN_CD",
-        json_schema_extra={"blank_allowed": True},
-    )
+    LOAN_DVSN_CD: str | None = Field(default=None, alias="LOAN_DVSN_CD", json_schema_extra={"blank_allowed": True})
     ("공백")
-    CTX_AREA_FK100: str | None = Field(
-        default=None,
-        alias="CTX_AREA_FK100",
-        json_schema_extra={"blank_allowed": True},
-    )
+    CTX_AREA_FK100: str | None = Field(default=None, alias="CTX_AREA_FK100", json_schema_extra={"blank_allowed": True})
     ("공백")
-    CTX_AREA_NK100: str | None = Field(
-        default=None,
-        alias="CTX_AREA_NK100",
-        json_schema_extra={"blank_allowed": True},
-    )
+    CTX_AREA_NK100: str | None = Field(default=None, alias="CTX_AREA_NK100", json_schema_extra={"blank_allowed": True})
     ("공백")
 
 
@@ -112,200 +69,92 @@ class InquirePeriodTransRequestDict(TypedDict):
         CTX_AREA_NK100 (str): 공백 optional
     """
 
-    CANO: Annotated[
-        str,
-        "종합계좌번호",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        str,
-        "계좌상품코드",
-    ]
-    ERLM_STRT_DT: Annotated[
-        KisDate,
-        "입력날짜 ~ (ex) 20240420)",
-    ]
-    ERLM_END_DT: Annotated[
-        KisDate,
-        "~입력날짜 (ex) 20240520)",
-    ]
-    OVRS_EXCG_CD: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    PDNO: NotRequired[
-        Annotated[
-            str | None,
-            "공백 (전체조회), 개별종목 조회는 상품번호입력",
-        ]
-    ]
-    SLL_BUY_DVSN_CD: Annotated[
-        SllBuyDvsnCdEnum,
-        "00(전체), 01(매도), 02(매수)",
-    ]
-    LOAN_DVSN_CD: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    CTX_AREA_FK100: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    CTX_AREA_NK100: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
+    CANO: Annotated[str, "종합계좌번호"]
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
+    ERLM_STRT_DT: Annotated[KisDate, "입력날짜 ~ (ex) 20240420)"]
+    ERLM_END_DT: Annotated[KisDate, "~입력날짜 (ex) 20240520)"]
+    OVRS_EXCG_CD: NotRequired[Annotated[str | None, "공백"]]
+    PDNO: NotRequired[Annotated[str | None, "공백 (전체조회), 개별종목 조회는 상품번호입력"]]
+    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "00(전체), 01(매도), 02(매수)"]
+    LOAN_DVSN_CD: NotRequired[Annotated[str | None, "공백"]]
+    CTX_AREA_FK100: NotRequired[Annotated[str | None, "공백"]]
+    CTX_AREA_NK100: NotRequired[Annotated[str | None, "공백"]]
 
 
 class InquirePeriodTransOutput1(RawModel):
-    trad_dt: KisDate = Field(
-        alias="trad_dt",
-    )
+    trad_dt: KisDate = Field(alias="trad_dt")
     ("매매일자")
-    sttl_dt: KisDate = Field(
-        alias="sttl_dt",
-    )
+    sttl_dt: KisDate = Field(alias="sttl_dt")
     ("결제일자")
-    sll_buy_dvsn_cd: str = Field(
-        alias="sll_buy_dvsn_cd",
-    )
+    sll_buy_dvsn_cd: str = Field(alias="sll_buy_dvsn_cd")
     ("매도매수구분코드")
-    sll_buy_dvsn_name: str = Field(
-        alias="sll_buy_dvsn_name",
-    )
+    sll_buy_dvsn_name: str = Field(alias="sll_buy_dvsn_name")
     ("매도매수구분명")
-    pdno: str = Field(
-        alias="pdno",
-    )
+    pdno: str = Field(alias="pdno")
     ("상품번호")
-    ovrs_item_name: str = Field(
-        alias="ovrs_item_name",
-    )
+    ovrs_item_name: str = Field(alias="ovrs_item_name")
     ("해외종목명")
-    ccld_qty: int = Field(
-        alias="ccld_qty",
-    )
+    ccld_qty: int = Field(alias="ccld_qty")
     ("체결수량")
-    amt_unit_ccld_qty: Decimal = Field(
-        alias="amt_unit_ccld_qty",
-    )
+    amt_unit_ccld_qty: Decimal = Field(alias="amt_unit_ccld_qty")
     ("금액단위체결수량")
-    ft_ccld_unpr2: str = Field(
-        alias="ft_ccld_unpr2",
-    )
+    ft_ccld_unpr2: str = Field(alias="ft_ccld_unpr2")
     ("FT체결단가2")
-    ovrs_stck_ccld_unpr: str = Field(
-        alias="ovrs_stck_ccld_unpr",
-    )
+    ovrs_stck_ccld_unpr: str = Field(alias="ovrs_stck_ccld_unpr")
     ("해외주식체결단가")
-    tr_frcr_amt2: Decimal = Field(
-        alias="tr_frcr_amt2",
-    )
+    tr_frcr_amt2: Decimal = Field(alias="tr_frcr_amt2")
     ("거래외화금액2")
-    tr_amt: Decimal = Field(
-        alias="tr_amt",
-    )
+    tr_amt: Decimal = Field(alias="tr_amt")
     ("거래금액")
-    frcr_excc_amt_1: Decimal = Field(
-        alias="frcr_excc_amt_1",
-    )
+    frcr_excc_amt_1: Decimal = Field(alias="frcr_excc_amt_1")
     ("외화정산금액1")
-    wcrc_excc_amt: Decimal = Field(
-        alias="wcrc_excc_amt",
-    )
+    wcrc_excc_amt: Decimal = Field(alias="wcrc_excc_amt")
     ("원화정산금액")
-    dmst_frcr_fee1: str = Field(
-        alias="dmst_frcr_fee1",
-    )
+    dmst_frcr_fee1: str = Field(alias="dmst_frcr_fee1")
     ("국내외화수수료1")
-    frcr_fee1: str = Field(
-        alias="frcr_fee1",
-    )
+    frcr_fee1: str = Field(alias="frcr_fee1")
     ("외화수수료1")
-    dmst_wcrc_fee: str = Field(
-        alias="dmst_wcrc_fee",
-    )
+    dmst_wcrc_fee: str = Field(alias="dmst_wcrc_fee")
     ("국내원화수수료")
-    ovrs_wcrc_fee: str = Field(
-        alias="ovrs_wcrc_fee",
-    )
+    ovrs_wcrc_fee: str = Field(alias="ovrs_wcrc_fee")
     ("해외원화수수료")
-    crcy_cd: str = Field(
-        alias="crcy_cd",
-    )
+    crcy_cd: str = Field(alias="crcy_cd")
     ("통화코드")
-    std_pdno: str = Field(
-        alias="std_pdno",
-    )
+    std_pdno: str = Field(alias="std_pdno")
     ("표준상품번호")
-    erlm_exrt: Decimal = Field(
-        alias="erlm_exrt",
-    )
+    erlm_exrt: Decimal = Field(alias="erlm_exrt")
     ("등록환율")
-    loan_dvsn_cd: str = Field(
-        alias="loan_dvsn_cd",
-    )
+    loan_dvsn_cd: str = Field(alias="loan_dvsn_cd")
     ("대출구분코드")
-    loan_dvsn_name: str = Field(
-        alias="loan_dvsn_name",
-    )
+    loan_dvsn_name: str = Field(alias="loan_dvsn_name")
     ("대출구분명")
 
 
 class InquirePeriodTransOutput2(RawModel):
-    frcr_buy_amt_smtl: Decimal = Field(
-        alias="frcr_buy_amt_smtl",
-    )
+    frcr_buy_amt_smtl: Decimal = Field(alias="frcr_buy_amt_smtl")
     ("외화매수금액합계")
-    frcr_sll_amt_smtl: Decimal = Field(
-        alias="frcr_sll_amt_smtl",
-    )
+    frcr_sll_amt_smtl: Decimal = Field(alias="frcr_sll_amt_smtl")
     ("외화매도금액합계")
-    dmst_fee_smtl: str = Field(
-        alias="dmst_fee_smtl",
-    )
+    dmst_fee_smtl: str = Field(alias="dmst_fee_smtl")
     ("국내수수료합계")
-    ovrs_fee_smtl: str = Field(
-        alias="ovrs_fee_smtl",
-    )
+    ovrs_fee_smtl: str = Field(alias="ovrs_fee_smtl")
     ("해외수수료합계")
 
 
 class InquirePeriodTransResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    ctx_area_fk100: str = Field(
-        alias="ctx_area_fk100",
-    )
+    ctx_area_fk100: str = Field(alias="ctx_area_fk100")
     ("연속조회검색조건100")
-    ctx_area_nk100: str = Field(
-        alias="ctx_area_nk100",
-    )
+    ctx_area_nk100: str = Field(alias="ctx_area_nk100")
     ("연속조회키100")
-    output1: list[InquirePeriodTransOutput1] = Field(
-        alias="output1",
-    )
+    output1: list[InquirePeriodTransOutput1] = Field(alias="output1")
     ("응답상세")
-    output2: list[InquirePeriodTransOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[InquirePeriodTransOutput2] = Field(alias="output2")
     ("응답상세")
 
 
@@ -336,27 +185,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePeriodTransRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePeriodTransRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePeriodTransResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePeriodTransRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePeriodTransRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePeriodTransResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquirePeriodTransRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePeriodTransRequestDict]
         ) -> tuple[InquirePeriodTransResponse, KisResponse]: ...
         def call(
             self,

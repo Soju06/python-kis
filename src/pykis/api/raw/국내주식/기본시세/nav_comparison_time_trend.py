@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisTime,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -32,17 +20,11 @@ class FidHourClsCodeEnum(KisStrEnum):
 
 
 class NavComparisonTimeTrendRequest(RawModel):
-    fid_hour_cls_code: FidHourClsCodeEnum = Field(
-        alias="fid_hour_cls_code",
-    )
+    fid_hour_cls_code: FidHourClsCodeEnum = Field(alias="fid_hour_cls_code")
     ("1분 :60, 3분: 180 … 120분:7200")
-    fid_cond_mrkt_div_code: str = Field(
-        alias="fid_cond_mrkt_div_code",
-    )
+    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
     ("E - 고정값")
-    fid_input_iscd: str = Field(
-        alias="fid_input_iscd",
-    )
+    fid_input_iscd: str = Field(alias="fid_input_iscd")
     ("종목코드")
 
 
@@ -59,91 +41,48 @@ class NavComparisonTimeTrendRequestDict(TypedDict):
         fid_input_iscd (str): 종목코드
     """
 
-    fid_hour_cls_code: Annotated[
-        FidHourClsCodeEnum,
-        "1분 :60, 3분: 180 … 120분:7200",
-    ]
-    fid_cond_mrkt_div_code: Annotated[
-        str,
-        "E - 고정값",
-    ]
-    fid_input_iscd: Annotated[
-        str,
-        "종목코드",
-    ]
+    fid_hour_cls_code: Annotated[FidHourClsCodeEnum, "1분 :60, 3분: 180 … 120분:7200"]
+    fid_cond_mrkt_div_code: Annotated[str, "E - 고정값"]
+    fid_input_iscd: Annotated[str, "종목코드"]
 
 
 class NavComparisonTimeTrendOutput(RawModel):
-    bsop_hour: KisTime = Field(
-        alias="bsop_hour",
-    )
+    bsop_hour: KisTime = Field(alias="bsop_hour")
     ("영업 시간")
-    nav: Decimal = Field(
-        alias="nav",
-    )
+    nav: Decimal = Field(alias="nav")
     ("NAV")
-    nav_prdy_vrss_sign: int = Field(
-        alias="nav_prdy_vrss_sign",
-    )
+    nav_prdy_vrss_sign: int = Field(alias="nav_prdy_vrss_sign")
     ("NAV 전일 대비 부호")
-    nav_prdy_vrss: Decimal = Field(
-        alias="nav_prdy_vrss",
-    )
+    nav_prdy_vrss: Decimal = Field(alias="nav_prdy_vrss")
     ("NAV 전일 대비")
-    nav_prdy_ctrt: Decimal = Field(
-        alias="nav_prdy_ctrt",
-    )
+    nav_prdy_ctrt: Decimal = Field(alias="nav_prdy_ctrt")
     ("NAV 전일 대비율")
-    nav_vrss_prpr: Decimal = Field(
-        alias="nav_vrss_prpr",
-    )
+    nav_vrss_prpr: Decimal = Field(alias="nav_vrss_prpr")
     ("NAV 대비 현재가")
-    dprt: Decimal = Field(
-        alias="dprt",
-    )
+    dprt: Decimal = Field(alias="dprt")
     ("괴리율")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식 현재가")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일 대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일 대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적 거래량")
-    cntg_vol: int = Field(
-        alias="cntg_vol",
-    )
+    cntg_vol: int = Field(alias="cntg_vol")
     ("체결 거래량")
 
 
 class NavComparisonTimeTrendResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[NavComparisonTimeTrendOutput] = Field(
-        alias="output",
-    )
+    output: list[NavComparisonTimeTrendOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -171,27 +110,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: NavComparisonTimeTrendRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: NavComparisonTimeTrendRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[NavComparisonTimeTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: NavComparisonTimeTrendRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: NavComparisonTimeTrendRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[NavComparisonTimeTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[NavComparisonTimeTrendRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[NavComparisonTimeTrendRequestDict]
         ) -> tuple[NavComparisonTimeTrendResponse, KisResponse]: ...
         def call(
             self,

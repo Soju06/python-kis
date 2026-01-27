@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -36,45 +24,23 @@ class FidRankSortClsCodeEnum(KisStrEnum):
 
 
 class OvertimeVolumeRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("시장구분코드 (J: 주식)")
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("Unique key(20235)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("0000(전체), 0001(코스피), 1001(코스닥)")
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
-        alias="FID_RANK_SORT_CLS_CODE",
-    )
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
     ("0(매수잔량), 1(매도잔량), 2(거래량)")
-    FID_INPUT_PRICE_1: str = Field(
-        alias="FID_INPUT_PRICE_1",
-    )
+    FID_INPUT_PRICE_1: str = Field(alias="FID_INPUT_PRICE_1")
     ("가격 ~")
-    FID_INPUT_PRICE_2: str = Field(
-        alias="FID_INPUT_PRICE_2",
-    )
+    FID_INPUT_PRICE_2: str = Field(alias="FID_INPUT_PRICE_2")
     ("~ 가격")
-    FID_VOL_CNT: int = Field(
-        alias="FID_VOL_CNT",
-    )
+    FID_VOL_CNT: int = Field(alias="FID_VOL_CNT")
     ("거래량 ~")
-    FID_TRGT_CLS_CODE: str | None = Field(
-        default=None,
-        alias="FID_TRGT_CLS_CODE",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_TRGT_CLS_CODE: str | None = Field(default=None, alias="FID_TRGT_CLS_CODE", json_schema_extra={"blank_allowed": True})
     ("공백")
-    FID_TRGT_EXLS_CLS_CODE: str | None = Field(
-        default=None,
-        alias="FID_TRGT_EXLS_CLS_CODE",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_TRGT_EXLS_CLS_CODE: str | None = Field(default=None, alias="FID_TRGT_EXLS_CLS_CODE", json_schema_extra={"blank_allowed": True})
     ("공백")
 
 
@@ -97,146 +63,69 @@ class OvertimeVolumeRequestDict(TypedDict):
         FID_TRGT_EXLS_CLS_CODE (str): 공백 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "시장구분코드 (J: 주식)",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "Unique key(20235)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "0000(전체), 0001(코스피), 1001(코스닥)",
-    ]
-    FID_RANK_SORT_CLS_CODE: Annotated[
-        FidRankSortClsCodeEnum,
-        "0(매수잔량), 1(매도잔량), 2(거래량)",
-    ]
-    FID_INPUT_PRICE_1: Annotated[
-        str,
-        "가격 ~",
-    ]
-    FID_INPUT_PRICE_2: Annotated[
-        str,
-        "~ 가격",
-    ]
-    FID_VOL_CNT: Annotated[
-        int,
-        "거래량 ~",
-    ]
-    FID_TRGT_CLS_CODE: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    FID_TRGT_EXLS_CLS_CODE: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (J: 주식)"]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(20235)"]
+    FID_INPUT_ISCD: Annotated[str, "0000(전체), 0001(코스피), 1001(코스닥)"]
+    FID_RANK_SORT_CLS_CODE: Annotated[FidRankSortClsCodeEnum, "0(매수잔량), 1(매도잔량), 2(거래량)"]
+    FID_INPUT_PRICE_1: Annotated[str, "가격 ~"]
+    FID_INPUT_PRICE_2: Annotated[str, "~ 가격"]
+    FID_VOL_CNT: Annotated[int, "거래량 ~"]
+    FID_TRGT_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
+    FID_TRGT_EXLS_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
 
 
 class OvertimeVolumeOutput1(RawModel):
-    ovtm_untp_exch_vol: int = Field(
-        alias="ovtm_untp_exch_vol",
-    )
+    ovtm_untp_exch_vol: int = Field(alias="ovtm_untp_exch_vol")
     ("시간외 단일가 거래소 거래량")
-    ovtm_untp_exch_tr_pbmn: Decimal = Field(
-        alias="ovtm_untp_exch_tr_pbmn",
-    )
+    ovtm_untp_exch_tr_pbmn: Decimal = Field(alias="ovtm_untp_exch_tr_pbmn")
     ("시간외 단일가 거래소 거래대금")
-    ovtm_untp_kosdaq_vol: int = Field(
-        alias="ovtm_untp_kosdaq_vol",
-    )
+    ovtm_untp_kosdaq_vol: int = Field(alias="ovtm_untp_kosdaq_vol")
     ("시간외 단일가 KOSDAQ 거래량")
-    ovtm_untp_kosdaq_tr_pbmn: Decimal = Field(
-        alias="ovtm_untp_kosdaq_tr_pbmn",
-    )
+    ovtm_untp_kosdaq_tr_pbmn: Decimal = Field(alias="ovtm_untp_kosdaq_tr_pbmn")
     ("시간외 단일가 KOSDAQ 거래대금")
 
 
 class OvertimeVolumeOutput2(RawModel):
-    stck_shrn_iscd: str = Field(
-        alias="stck_shrn_iscd",
-    )
+    stck_shrn_iscd: str = Field(alias="stck_shrn_iscd")
     ("주식 단축 종목코드")
-    hts_kor_isnm: str = Field(
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
     ("HTS 한글 종목명")
-    ovtm_untp_prpr: Decimal = Field(
-        alias="ovtm_untp_prpr",
-    )
+    ovtm_untp_prpr: Decimal = Field(alias="ovtm_untp_prpr")
     ("시간외 단일가 현재가")
-    ovtm_untp_prdy_vrss: Decimal = Field(
-        alias="ovtm_untp_prdy_vrss",
-    )
+    ovtm_untp_prdy_vrss: Decimal = Field(alias="ovtm_untp_prdy_vrss")
     ("시간외 단일가 전일 대비")
-    ovtm_untp_prdy_vrss_sign: Decimal = Field(
-        alias="ovtm_untp_prdy_vrss_sign",
-    )
+    ovtm_untp_prdy_vrss_sign: Decimal = Field(alias="ovtm_untp_prdy_vrss_sign")
     ("시간외 단일가 전일 대비 부호")
-    ovtm_untp_prdy_ctrt: Decimal = Field(
-        alias="ovtm_untp_prdy_ctrt",
-    )
+    ovtm_untp_prdy_ctrt: Decimal = Field(alias="ovtm_untp_prdy_ctrt")
     ("시간외 단일가 전일 대비율")
-    ovtm_untp_seln_rsqn: Decimal = Field(
-        alias="ovtm_untp_seln_rsqn",
-    )
+    ovtm_untp_seln_rsqn: Decimal = Field(alias="ovtm_untp_seln_rsqn")
     ("시간외 단일가 매도 잔량")
-    ovtm_untp_shnu_rsqn: Decimal = Field(
-        alias="ovtm_untp_shnu_rsqn",
-    )
+    ovtm_untp_shnu_rsqn: Decimal = Field(alias="ovtm_untp_shnu_rsqn")
     ("시간외 단일가 매수 잔량")
-    ovtm_untp_vol: int = Field(
-        alias="ovtm_untp_vol",
-    )
+    ovtm_untp_vol: int = Field(alias="ovtm_untp_vol")
     ("시간외 단일가 거래량")
-    ovtm_vrss_acml_vol_rlim: Decimal = Field(
-        alias="ovtm_vrss_acml_vol_rlim",
-    )
+    ovtm_vrss_acml_vol_rlim: Decimal = Field(alias="ovtm_vrss_acml_vol_rlim")
     ("시간외 대비 누적 거래량 비중")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식 현재가")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적 거래량")
-    bidp: str = Field(
-        alias="bidp",
-    )
+    bidp: str = Field(alias="bidp")
     ("매수호가")
-    askp: int = Field(
-        alias="askp",
-    )
+    askp: int = Field(alias="askp")
     ("매도호가")
 
 
 class OvertimeVolumeResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: OvertimeVolumeOutput1 = Field(
-        alias="output1",
-    )
+    output1: OvertimeVolumeOutput1 = Field(alias="output1")
     ("응답상세")
-    output2: list[OvertimeVolumeOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[OvertimeVolumeOutput2] = Field(alias="output2")
     ("응답상세")
 
 
@@ -264,27 +153,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OvertimeVolumeRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OvertimeVolumeRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OvertimeVolumeResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OvertimeVolumeRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OvertimeVolumeRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OvertimeVolumeResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[OvertimeVolumeRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[OvertimeVolumeRequestDict]
         ) -> tuple[OvertimeVolumeResponse, KisResponse]: ...
         def call(
             self,

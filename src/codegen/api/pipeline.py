@@ -18,7 +18,7 @@ from codegen.api.report_models import (
 )
 from codegen.api.reporting import write_api_report
 from codegen.api.steps.augment import run_augmentation
-from codegen.api.steps.generate import generate_raw, normalize_filename, section_path
+from codegen.api.steps.generate import RAW_KEEP_FILES, generate_raw, normalize_filename, section_path
 from codegen.api.steps.infer import infer_types, validate_samples
 from codegen.api.steps.io import (
     iter_yaml_files,
@@ -30,6 +30,7 @@ from codegen.api.steps.normalize import normalize_doc
 from codegen.api.steps.smoke import run_smoke
 from codegen.api.steps.validate import validate_doc
 from codegen.api.types import TypeOverrides
+from codegen.core.cleanup import clean_dir_keep_files
 from codegen.core.issues import IssueLevel, IssueReport, SpecIssue
 from codegen.core.paths import docs_root, project_root
 from codegen.core.report_models import IssueItem, ParseError
@@ -484,21 +485,7 @@ def _clean_generated_dirs() -> None:
             if sub.is_dir():
                 sub.rmdir()
 
-    keep_files = {"base.py", "registry.py", "types.py", "__init__.py"}
-    if GENERATED_API_RAW_DIR.exists():
-        for child in GENERATED_API_RAW_DIR.iterdir():
-            if child.is_file() and child.name in keep_files:
-                continue
-            if child.is_file():
-                child.unlink()
-            elif child.is_dir():
-                for sub in child.rglob("*"):
-                    if sub.is_file():
-                        sub.unlink()
-                for sub in sorted(child.rglob("*"), reverse=True):
-                    if sub.is_dir():
-                        sub.rmdir()
-                child.rmdir()
+    clean_dir_keep_files(GENERATED_API_RAW_DIR, RAW_KEEP_FILES)
 
 
 def _reload_registry() -> dict[str, Endpoint]:

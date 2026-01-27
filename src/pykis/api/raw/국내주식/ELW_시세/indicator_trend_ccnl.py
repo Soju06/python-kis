@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisTimeOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisTimeOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -26,13 +14,9 @@ if TYPE_CHECKING:
 
 
 class IndicatorTrendCcnlRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("시장구분코드 (W)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("ex) 58J297(KBJ297삼성전자콜)")
 
 
@@ -47,95 +31,45 @@ class IndicatorTrendCcnlRequestDict(TypedDict):
         FID_INPUT_ISCD (str): ex) 58J297(KBJ297삼성전자콜)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "시장구분코드 (W)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "ex) 58J297(KBJ297삼성전자콜)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"]
+    FID_INPUT_ISCD: Annotated[str, "ex) 58J297(KBJ297삼성전자콜)"]
 
 
 class IndicatorTrendCcnlOutput(RawModel):
-    stck_cntg_hour: KisTimeOptional = Field(
-        default=None,
-        alias="stck_cntg_hour",
-    )
+    stck_cntg_hour: KisTimeOptional = Field(default=None, alias="stck_cntg_hour")
     ("주식체결시간")
-    elw_prpr: Decimal | None = Field(
-        default=None,
-        alias="elw_prpr",
-    )
+    elw_prpr: Decimal | None = Field(default=None, alias="elw_prpr")
     ("ELW현재가")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
     ("전일대비부호")
-    prdy_vrss: str | None = Field(
-        default=None,
-        alias="prdy_vrss",
-    )
+    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
     ("전일대비")
-    prdy_ctrt: Decimal | None = Field(
-        default=None,
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
     ("전일대비율")
-    acml_vol: int | None = Field(
-        default=None,
-        alias="acml_vol",
-    )
+    acml_vol: int | None = Field(default=None, alias="acml_vol")
     ("누적거래량")
-    lvrg_val: str | None = Field(
-        default=None,
-        alias="lvrg_val",
-    )
+    lvrg_val: str | None = Field(default=None, alias="lvrg_val")
     ("레버리지값")
-    gear: str | None = Field(
-        default=None,
-        alias="gear",
-    )
+    gear: str | None = Field(default=None, alias="gear")
     ("기어링")
-    tmvl_val: str | None = Field(
-        default=None,
-        alias="tmvl_val",
-    )
+    tmvl_val: str | None = Field(default=None, alias="tmvl_val")
     ("시간가치값")
-    invl_val: str | None = Field(
-        default=None,
-        alias="invl_val",
-    )
+    invl_val: str | None = Field(default=None, alias="invl_val")
     ("내재가치값")
-    prit: str | None = Field(
-        default=None,
-        alias="prit",
-    )
+    prit: str | None = Field(default=None, alias="prit")
     ("패리티")
-    apprch_rate: Decimal | None = Field(
-        default=None,
-        alias="apprch_rate",
-    )
+    apprch_rate: Decimal | None = Field(default=None, alias="apprch_rate")
     ("접근도")
 
 
 class IndicatorTrendCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[IndicatorTrendCcnlOutput] = Field(
-        alias="output",
-    )
+    output: list[IndicatorTrendCcnlOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -162,27 +96,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: IndicatorTrendCcnlRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: IndicatorTrendCcnlRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[IndicatorTrendCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: IndicatorTrendCcnlRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: IndicatorTrendCcnlRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[IndicatorTrendCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[IndicatorTrendCcnlRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[IndicatorTrendCcnlRequestDict]
         ) -> tuple[IndicatorTrendCcnlResponse, KisResponse]: ...
         def call(
             self,
@@ -216,10 +138,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "IndicatorTrendCcnlRequest",
-    "IndicatorTrendCcnlRequestDict",
-    "IndicatorTrendCcnlResponse",
-    "IndicatorTrendCcnlOutput",
-]
+__all__ = ["ENDPOINT", "IndicatorTrendCcnlRequest", "IndicatorTrendCcnlRequestDict", "IndicatorTrendCcnlResponse", "IndicatorTrendCcnlOutput"]

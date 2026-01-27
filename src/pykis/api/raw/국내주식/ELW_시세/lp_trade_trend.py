@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -26,13 +14,9 @@ if TYPE_CHECKING:
 
 
 class LpTradeTrendRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("시장구분(W)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("입력종목코드(ex 52K577(미래 K577KOSDAQ150콜)")
 
 
@@ -47,159 +31,84 @@ class LpTradeTrendRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 입력종목코드(ex 52K577(미래 K577KOSDAQ150콜)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "시장구분(W)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "입력종목코드(ex 52K577(미래 K577KOSDAQ150콜)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분(W)"]
+    FID_INPUT_ISCD: Annotated[str, "입력종목코드(ex 52K577(미래 K577KOSDAQ150콜)"]
 
 
 class LpTradeTrendOutput1(RawModel):
-    elw_prpr: Decimal = Field(
-        alias="elw_prpr",
-    )
+    elw_prpr: Decimal = Field(alias="elw_prpr")
     ("ELW현재가")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
     ("전일대비부호")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일대비")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적거래량")
-    prdy_vol: int = Field(
-        alias="prdy_vol",
-    )
+    prdy_vol: int = Field(alias="prdy_vol")
     ("전일거래량")
-    stck_cnvr_rate: Decimal = Field(
-        alias="stck_cnvr_rate",
-    )
+    stck_cnvr_rate: Decimal = Field(alias="stck_cnvr_rate")
     ("주식전환비율")
-    prit: Decimal = Field(
-        alias="prit",
-    )
+    prit: Decimal = Field(alias="prit")
     ("패리티")
-    lvrg_val: Decimal = Field(
-        alias="lvrg_val",
-    )
+    lvrg_val: Decimal = Field(alias="lvrg_val")
     ("레버리지값")
-    gear: Decimal = Field(
-        alias="gear",
-    )
+    gear: Decimal = Field(alias="gear")
     ("기어링")
-    prls_qryr_rate: Decimal = Field(
-        alias="prls_qryr_rate",
-    )
+    prls_qryr_rate: Decimal = Field(alias="prls_qryr_rate")
     ("손익분기비율")
-    cfp: Decimal = Field(
-        alias="cfp",
-    )
+    cfp: Decimal = Field(alias="cfp")
     ("자본지지점")
-    invl_val: Decimal = Field(
-        alias="invl_val",
-    )
+    invl_val: Decimal = Field(alias="invl_val")
     ("내재가치값")
-    tmvl_val: Decimal = Field(
-        alias="tmvl_val",
-    )
+    tmvl_val: Decimal = Field(alias="tmvl_val")
     ("시간가치값")
-    acpr: Decimal = Field(
-        alias="acpr",
-    )
+    acpr: Decimal = Field(alias="acpr")
     ("행사가")
-    elw_ko_barrier: Decimal = Field(
-        alias="elw_ko_barrier",
-    )
+    elw_ko_barrier: Decimal = Field(alias="elw_ko_barrier")
     ("조기종료발생기준가격")
 
 
 class LpTradeTrendOutput2(RawModel):
-    stck_bsop_date: KisDate = Field(
-        alias="stck_bsop_date",
-    )
+    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
     ("주식영업일자")
-    elw_prpr: Decimal = Field(
-        alias="elw_prpr",
-    )
+    elw_prpr: Decimal = Field(alias="elw_prpr")
     ("ELW현재가")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일대비부호")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일대비")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일대비율")
-    lp_seln_qty: int = Field(
-        alias="lp_seln_qty",
-    )
+    lp_seln_qty: int = Field(alias="lp_seln_qty")
     ("LP매도수량")
-    lp_seln_avrg_unpr: int = Field(
-        alias="lp_seln_avrg_unpr",
-    )
+    lp_seln_avrg_unpr: int = Field(alias="lp_seln_avrg_unpr")
     ("LP매도평균단가")
-    lp_shnu_qty: int = Field(
-        alias="lp_shnu_qty",
-    )
+    lp_shnu_qty: int = Field(alias="lp_shnu_qty")
     ("LP매수수량")
-    lp_shnu_avrg_unpr: int = Field(
-        alias="lp_shnu_avrg_unpr",
-    )
+    lp_shnu_avrg_unpr: int = Field(alias="lp_shnu_avrg_unpr")
     ("LP매수평균단가")
-    lp_hvol: int = Field(
-        alias="lp_hvol",
-    )
+    lp_hvol: int = Field(alias="lp_hvol")
     ("LP보유량")
-    lp_hldn_rate: Decimal = Field(
-        alias="lp_hldn_rate",
-    )
+    lp_hldn_rate: Decimal = Field(alias="lp_hldn_rate")
     ("LP보유비율")
-    prsn_deal_qty: int = Field(
-        alias="prsn_deal_qty",
-    )
+    prsn_deal_qty: int = Field(alias="prsn_deal_qty")
     ("개인매매수량")
-    apprch_rate: Decimal = Field(
-        alias="apprch_rate",
-    )
+    apprch_rate: Decimal = Field(alias="apprch_rate")
     ("접근도")
 
 
 class LpTradeTrendResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: LpTradeTrendOutput1 = Field(
-        alias="output1",
-    )
+    output1: LpTradeTrendOutput1 = Field(alias="output1")
     ("응답상세")
-    output2: list[LpTradeTrendOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[LpTradeTrendOutput2] = Field(alias="output2")
     ("응답상세")
 
 
@@ -226,27 +135,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: LpTradeTrendRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: LpTradeTrendRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[LpTradeTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: LpTradeTrendRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: LpTradeTrendRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[LpTradeTrendResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[LpTradeTrendRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[LpTradeTrendRequestDict]
         ) -> tuple[LpTradeTrendResponse, KisResponse]: ...
         def call(
             self,
@@ -280,11 +177,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "LpTradeTrendRequest",
-    "LpTradeTrendRequestDict",
-    "LpTradeTrendResponse",
-    "LpTradeTrendOutput1",
-    "LpTradeTrendOutput2",
-]
+__all__ = ["ENDPOINT", "LpTradeTrendRequest", "LpTradeTrendRequestDict", "LpTradeTrendResponse", "LpTradeTrendOutput1", "LpTradeTrendOutput2"]

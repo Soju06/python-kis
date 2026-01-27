@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    KisTime,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -43,21 +30,13 @@ class FidHourClsCodeEnum(KisStrEnum):
 
 
 class VolatilityTrendMinuteRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("W(Unique key)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("ex) 58J297(KBJ297삼성전자콜)")
-    FID_HOUR_CLS_CODE: FidHourClsCodeEnum = Field(
-        alias="FID_HOUR_CLS_CODE",
-    )
+    FID_HOUR_CLS_CODE: FidHourClsCodeEnum = Field(alias="FID_HOUR_CLS_CODE")
     ("'60(1분), 180(3분), 300(5분), 600(10분), 1800(30분), 3600(60분) '")
-    FID_PW_DATA_INCU_YN: KisBool = Field(
-        alias="FID_PW_DATA_INCU_YN",
-    )
+    FID_PW_DATA_INCU_YN: KisBool = Field(alias="FID_PW_DATA_INCU_YN")
     ("N(과거데이터포함X),Y(과거데이터포함O)")
 
 
@@ -75,76 +54,39 @@ class VolatilityTrendMinuteRequestDict(TypedDict):
         FID_PW_DATA_INCU_YN (KisBool): N(과거데이터포함X),Y(과거데이터포함O)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "W(Unique key)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "ex) 58J297(KBJ297삼성전자콜)",
-    ]
-    FID_HOUR_CLS_CODE: Annotated[
-        FidHourClsCodeEnum,
-        "'60(1분), 180(3분), 300(5분), 600(10분), 1800(30분), 3600(60분) '",
-    ]
-    FID_PW_DATA_INCU_YN: Annotated[
-        KisBool,
-        "N(과거데이터포함X),Y(과거데이터포함O)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "W(Unique key)"]
+    FID_INPUT_ISCD: Annotated[str, "ex) 58J297(KBJ297삼성전자콜)"]
+    FID_HOUR_CLS_CODE: Annotated[FidHourClsCodeEnum, "'60(1분), 180(3분), 300(5분), 600(10분), 1800(30분), 3600(60분) '"]
+    FID_PW_DATA_INCU_YN: Annotated[KisBool, "N(과거데이터포함X),Y(과거데이터포함O)"]
 
 
 class VolatilityTrendMinuteOutput(RawModel):
-    stck_bsop_date: KisDate = Field(
-        alias="stck_bsop_date",
-    )
+    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
     ("주식 영업 일자")
-    stck_cntg_hour: KisTime = Field(
-        alias="stck_cntg_hour",
-    )
+    stck_cntg_hour: KisTime = Field(alias="stck_cntg_hour")
     ("주식 체결 시간")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식 현재가")
-    elw_oprc: Decimal = Field(
-        alias="elw_oprc",
-    )
+    elw_oprc: Decimal = Field(alias="elw_oprc")
     ("ELW 시가2")
-    elw_hgpr: Decimal = Field(
-        alias="elw_hgpr",
-    )
+    elw_hgpr: Decimal = Field(alias="elw_hgpr")
     ("ELW 최고가")
-    elw_lwpr: Decimal = Field(
-        alias="elw_lwpr",
-    )
+    elw_lwpr: Decimal = Field(alias="elw_lwpr")
     ("ELW 최저가")
-    hts_ints_vltl: Decimal = Field(
-        alias="hts_ints_vltl",
-    )
+    hts_ints_vltl: Decimal = Field(alias="hts_ints_vltl")
     ("HTS 내재 변동성")
-    hist_vltl: str | None = Field(
-        default=None,
-        alias="hist_vltl",
-    )
+    hist_vltl: str | None = Field(default=None, alias="hist_vltl")
     ("역사적 변동성")
 
 
 class VolatilityTrendMinuteResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[VolatilityTrendMinuteOutput] = Field(
-        alias="output",
-    )
+    output: list[VolatilityTrendMinuteOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -171,27 +113,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: VolatilityTrendMinuteRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: VolatilityTrendMinuteRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[VolatilityTrendMinuteResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: VolatilityTrendMinuteRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: VolatilityTrendMinuteRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[VolatilityTrendMinuteResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[VolatilityTrendMinuteRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[VolatilityTrendMinuteRequestDict]
         ) -> tuple[VolatilityTrendMinuteResponse, KisResponse]: ...
         def call(
             self,

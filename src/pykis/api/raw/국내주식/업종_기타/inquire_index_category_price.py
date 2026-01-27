@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -36,25 +24,15 @@ class FidMrktClsCodeEnum(KisStrEnum):
 
 
 class InquireIndexCategoryPriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("시장구분코드 (업종 U)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("코스피(0001), 코스닥(1001), 코스피200(2001) ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)")
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("Unique key( 20214 )")
-    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(
-        alias="FID_MRKT_CLS_CODE",
-    )
+    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(alias="FID_MRKT_CLS_CODE")
     ("시장구분코드(K:거래소, Q:코스닥, K2:코스피200)")
-    FID_BLNG_CLS_CODE: str = Field(
-        alias="FID_BLNG_CLS_CODE",
-    )
+    FID_BLNG_CLS_CODE: str = Field(alias="FID_BLNG_CLS_CODE")
     (
         "시장구분코드에 따라 아래와 같이 입력 시장구분코드(K:거래소) 0:전업종, 1:기타구분, 2:자본금구분 "
         "3:상업별구분 시장구분코드(Q:코스닥) 0:전업종, 1:기타구분, 2:벤처구분 3:일반구분 "
@@ -79,22 +57,10 @@ class InquireIndexCategoryPriceRequestDict(TypedDict):
         2:벤처구분 3:일반구분 시장구분코드(K2:코스닥) 0:전업종
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "시장구분코드 (업종 U)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "코스피(0001), 코스닥(1001), 코스피200(2001) ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "Unique key( 20214 )",
-    ]
-    FID_MRKT_CLS_CODE: Annotated[
-        FidMrktClsCodeEnum,
-        "시장구분코드(K:거래소, Q:코스닥, K2:코스피200)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (업종 U)"]
+    FID_INPUT_ISCD: Annotated[str, "코스피(0001), 코스닥(1001), 코스피200(2001) ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)"]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key( 20214 )"]
+    FID_MRKT_CLS_CODE: Annotated[FidMrktClsCodeEnum, "시장구분코드(K:거래소, Q:코스닥, K2:코스피200)"]
     FID_BLNG_CLS_CODE: Annotated[
         str,
         "시장구분코드에 따라 아래와 같이 입력 시장구분코드(K:거래소) 0:전업종, 1:기타구분, 2:자본금구분 "
@@ -104,152 +70,81 @@ class InquireIndexCategoryPriceRequestDict(TypedDict):
 
 
 class InquireIndexCategoryPriceOutput1(RawModel):
-    bstp_nmix_prpr: Decimal = Field(
-        alias="bstp_nmix_prpr",
-    )
+    bstp_nmix_prpr: Decimal = Field(alias="bstp_nmix_prpr")
     ("업종 지수 현재가")
-    bstp_nmix_prdy_vrss: Decimal = Field(
-        alias="bstp_nmix_prdy_vrss",
-    )
+    bstp_nmix_prdy_vrss: Decimal = Field(alias="bstp_nmix_prdy_vrss")
     ("업종 지수 전일 대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    bstp_nmix_prdy_ctrt: Decimal = Field(
-        alias="bstp_nmix_prdy_ctrt",
-    )
+    bstp_nmix_prdy_ctrt: Decimal = Field(alias="bstp_nmix_prdy_ctrt")
     ("업종 지수 전일 대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(
-        alias="acml_tr_pbmn",
-    )
+    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
     ("누적 거래 대금")
-    bstp_nmix_oprc: Decimal = Field(
-        alias="bstp_nmix_oprc",
-    )
+    bstp_nmix_oprc: Decimal = Field(alias="bstp_nmix_oprc")
     ("업종 지수 시가2")
-    bstp_nmix_hgpr: Decimal = Field(
-        alias="bstp_nmix_hgpr",
-    )
+    bstp_nmix_hgpr: Decimal = Field(alias="bstp_nmix_hgpr")
     ("업종 지수 최고가")
-    bstp_nmix_lwpr: Decimal = Field(
-        alias="bstp_nmix_lwpr",
-    )
+    bstp_nmix_lwpr: Decimal = Field(alias="bstp_nmix_lwpr")
     ("업종 지수 최저가")
-    prdy_vol: int = Field(
-        alias="prdy_vol",
-    )
+    prdy_vol: int = Field(alias="prdy_vol")
     ("전일 거래량")
-    ascn_issu_cnt: str = Field(
-        alias="ascn_issu_cnt",
-    )
+    ascn_issu_cnt: str = Field(alias="ascn_issu_cnt")
     ("상승 종목 수")
-    down_issu_cnt: str = Field(
-        alias="down_issu_cnt",
-    )
+    down_issu_cnt: str = Field(alias="down_issu_cnt")
     ("하락 종목 수")
-    stnr_issu_cnt: str = Field(
-        alias="stnr_issu_cnt",
-    )
+    stnr_issu_cnt: str = Field(alias="stnr_issu_cnt")
     ("보합 종목 수")
-    uplm_issu_cnt: str = Field(
-        alias="uplm_issu_cnt",
-    )
+    uplm_issu_cnt: str = Field(alias="uplm_issu_cnt")
     ("상한 종목 수")
-    lslm_issu_cnt: str = Field(
-        alias="lslm_issu_cnt",
-    )
+    lslm_issu_cnt: str = Field(alias="lslm_issu_cnt")
     ("하한 종목 수")
-    prdy_tr_pbmn: Decimal = Field(
-        alias="prdy_tr_pbmn",
-    )
+    prdy_tr_pbmn: Decimal = Field(alias="prdy_tr_pbmn")
     ("전일 거래 대금")
-    dryy_bstp_nmix_hgpr_date: KisDate = Field(
-        alias="dryy_bstp_nmix_hgpr_date",
-    )
+    dryy_bstp_nmix_hgpr_date: KisDate = Field(alias="dryy_bstp_nmix_hgpr_date")
     ("연중업종지수최고가일자")
-    dryy_bstp_nmix_hgpr: Decimal = Field(
-        alias="dryy_bstp_nmix_hgpr",
-    )
+    dryy_bstp_nmix_hgpr: Decimal = Field(alias="dryy_bstp_nmix_hgpr")
     ("연중업종지수최고가")
-    dryy_bstp_nmix_lwpr: Decimal = Field(
-        alias="dryy_bstp_nmix_lwpr",
-    )
+    dryy_bstp_nmix_lwpr: Decimal = Field(alias="dryy_bstp_nmix_lwpr")
     ("연중업종지수최저가")
-    dryy_bstp_nmix_lwpr_date: KisDate = Field(
-        alias="dryy_bstp_nmix_lwpr_date",
-    )
+    dryy_bstp_nmix_lwpr_date: KisDate = Field(alias="dryy_bstp_nmix_lwpr_date")
     ("연중업종지수최저가일자")
 
 
 class InquireIndexCategoryPriceOutput2(RawModel):
-    bstp_cls_code: str = Field(
-        alias="bstp_cls_code",
-    )
+    bstp_cls_code: str = Field(alias="bstp_cls_code")
     ("업종 구분 코드")
-    hts_kor_isnm: str = Field(
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
     ("HTS 한글 종목명")
-    bstp_nmix_prpr: Decimal = Field(
-        alias="bstp_nmix_prpr",
-    )
+    bstp_nmix_prpr: Decimal = Field(alias="bstp_nmix_prpr")
     ("업종 지수 현재가")
-    bstp_nmix_prdy_vrss: Decimal = Field(
-        alias="bstp_nmix_prdy_vrss",
-    )
+    bstp_nmix_prdy_vrss: Decimal = Field(alias="bstp_nmix_prdy_vrss")
     ("업종 지수 전일 대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    bstp_nmix_prdy_ctrt: Decimal = Field(
-        alias="bstp_nmix_prdy_ctrt",
-    )
+    bstp_nmix_prdy_ctrt: Decimal = Field(alias="bstp_nmix_prdy_ctrt")
     ("업종 지수 전일 대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(
-        alias="acml_tr_pbmn",
-    )
+    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
     ("누적 거래 대금")
-    acml_vol_rlim: Decimal = Field(
-        alias="acml_vol_rlim",
-    )
+    acml_vol_rlim: Decimal = Field(alias="acml_vol_rlim")
     ("누적 거래량 비중")
-    acml_tr_pbmn_rlim: Decimal | None = Field(
-        default=None,
-        alias="acml_tr_pbmn_rlim",
-    )
+    acml_tr_pbmn_rlim: Decimal | None = Field(default=None, alias="acml_tr_pbmn_rlim")
     ("누적 거래 대금 비중")
 
 
 class InquireIndexCategoryPriceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: InquireIndexCategoryPriceOutput1 = Field(
-        alias="output1",
-    )
+    output1: InquireIndexCategoryPriceOutput1 = Field(alias="output1")
     ("응답상세1")
-    output2: list[InquireIndexCategoryPriceOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[InquireIndexCategoryPriceOutput2] = Field(alias="output2")
     ("응답상세2")
 
 
@@ -276,27 +171,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireIndexCategoryPriceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireIndexCategoryPriceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireIndexCategoryPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireIndexCategoryPriceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireIndexCategoryPriceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireIndexCategoryPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireIndexCategoryPriceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireIndexCategoryPriceRequestDict]
         ) -> tuple[InquireIndexCategoryPriceResponse, KisResponse]: ...
         def call(
             self,

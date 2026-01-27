@@ -189,7 +189,15 @@ def format_string_literal(text: str, indent: int = 12, line_limit: int = 150) ->
     return f"(\n{literal_lines}\n{base_indent})"
 
 
+def format_annotated_type(py_type: str, description: str | None, *, indent: int = 12) -> str:
+    if not description:
+        return py_type
+    literal = format_string_literal(description, indent=indent)
+    return f"Annotated[{py_type}, {literal}]"
+
+
 __all__ = [
+    "format_annotated_type",
     "format_string_literal",
     "is_blank_description",
     "is_demo_unavailable",

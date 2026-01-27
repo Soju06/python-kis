@@ -14,7 +14,7 @@ from codegen.streaming.steps.validate import validate_spec
 ROOT = project_root()
 REPORT_DIR = ROOT / "tmp" / "docs" / "reports"
 DEFAULT_SPEC_PATH = REPORT_DIR / "streaming_fieldspec_draft.yaml"
-DEFAULT_OUTPUT_DIR = ROOT / "src" / "pykis" / "streaming" / "raw" / "generated"
+DEFAULT_OUTPUT_DIR = ROOT / "src" / "pykis" / "streaming" / "raw" / "structs"
 
 
 def run_pipeline(

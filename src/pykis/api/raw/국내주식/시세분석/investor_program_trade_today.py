@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -42,13 +31,9 @@ class MrktDivClsCodeEnum(KisStrEnum):
 
 
 class InvestorProgramTradeTodayRequest(RawModel):
-    EXCH_DIV_CLS_CODE: ExchDivClsCodeEnum = Field(
-        alias="EXCH_DIV_CLS_CODE",
-    )
+    EXCH_DIV_CLS_CODE: ExchDivClsCodeEnum = Field(alias="EXCH_DIV_CLS_CODE")
     ("J : KRX, NX : NXT, UN : 통합")
-    MRKT_DIV_CLS_CODE: MrktDivClsCodeEnum = Field(
-        alias="MRKT_DIV_CLS_CODE",
-    )
+    MRKT_DIV_CLS_CODE: MrktDivClsCodeEnum = Field(alias="MRKT_DIV_CLS_CODE")
     ("1:코스피, 4:코스닥")
 
 
@@ -63,115 +48,61 @@ class InvestorProgramTradeTodayRequestDict(TypedDict):
         MRKT_DIV_CLS_CODE (MrktDivClsCodeEnum): 1:코스피, 4:코스닥
     """
 
-    EXCH_DIV_CLS_CODE: Annotated[
-        ExchDivClsCodeEnum,
-        "J : KRX, NX : NXT, UN : 통합",
-    ]
-    MRKT_DIV_CLS_CODE: Annotated[
-        MrktDivClsCodeEnum,
-        "1:코스피, 4:코스닥",
-    ]
+    EXCH_DIV_CLS_CODE: Annotated[ExchDivClsCodeEnum, "J : KRX, NX : NXT, UN : 통합"]
+    MRKT_DIV_CLS_CODE: Annotated[MrktDivClsCodeEnum, "1:코스피, 4:코스닥"]
 
 
 class InvestorProgramTradeTodayOutput1(RawModel):
-    invr_cls_code: str = Field(
-        alias="invr_cls_code",
-    )
+    invr_cls_code: str = Field(alias="invr_cls_code")
     ("투자자코드")
-    all_seln_qty: int = Field(
-        alias="all_seln_qty",
-    )
+    all_seln_qty: int = Field(alias="all_seln_qty")
     ("전체매도수량")
-    all_seln_amt: Decimal = Field(
-        alias="all_seln_amt",
-    )
+    all_seln_amt: Decimal = Field(alias="all_seln_amt")
     ("전체매도대금")
-    invr_cls_name: str = Field(
-        alias="invr_cls_name",
-    )
+    invr_cls_name: str = Field(alias="invr_cls_name")
     ("투자자 구분 명")
-    all_shnu_qty: int = Field(
-        alias="all_shnu_qty",
-    )
+    all_shnu_qty: int = Field(alias="all_shnu_qty")
     ("전체매수수량")
-    all_shnu_amt: Decimal = Field(
-        alias="all_shnu_amt",
-    )
+    all_shnu_amt: Decimal = Field(alias="all_shnu_amt")
     ("전체매수대금")
-    all_ntby_amt: Decimal = Field(
-        alias="all_ntby_amt",
-    )
+    all_ntby_amt: Decimal = Field(alias="all_ntby_amt")
     ("전체순매수대금")
-    arbt_seln_qty: int = Field(
-        alias="arbt_seln_qty",
-    )
+    arbt_seln_qty: int = Field(alias="arbt_seln_qty")
     ("차익매도수량")
-    all_ntby_qty: int = Field(
-        alias="all_ntby_qty",
-    )
+    all_ntby_qty: int = Field(alias="all_ntby_qty")
     ("전체순매수수량")
-    arbt_shnu_qty: int = Field(
-        alias="arbt_shnu_qty",
-    )
+    arbt_shnu_qty: int = Field(alias="arbt_shnu_qty")
     ("차익매수수량")
-    arbt_ntby_qty: int = Field(
-        alias="arbt_ntby_qty",
-    )
+    arbt_ntby_qty: int = Field(alias="arbt_ntby_qty")
     ("차익순매수수량")
-    arbt_seln_amt: Decimal = Field(
-        alias="arbt_seln_amt",
-    )
+    arbt_seln_amt: Decimal = Field(alias="arbt_seln_amt")
     ("차익매도대금")
-    arbt_shnu_amt: Decimal = Field(
-        alias="arbt_shnu_amt",
-    )
+    arbt_shnu_amt: Decimal = Field(alias="arbt_shnu_amt")
     ("차익매수대금")
-    arbt_ntby_amt: Decimal = Field(
-        alias="arbt_ntby_amt",
-    )
+    arbt_ntby_amt: Decimal = Field(alias="arbt_ntby_amt")
     ("차익순매수대금")
-    nabt_seln_qty: int = Field(
-        alias="nabt_seln_qty",
-    )
+    nabt_seln_qty: int = Field(alias="nabt_seln_qty")
     ("비차익매도수량")
-    nabt_shnu_qty: int = Field(
-        alias="nabt_shnu_qty",
-    )
+    nabt_shnu_qty: int = Field(alias="nabt_shnu_qty")
     ("비차익매수수량")
-    nabt_ntby_qty: int = Field(
-        alias="nabt_ntby_qty",
-    )
+    nabt_ntby_qty: int = Field(alias="nabt_ntby_qty")
     ("비차익순매수수량")
-    nabt_seln_amt: Decimal = Field(
-        alias="nabt_seln_amt",
-    )
+    nabt_seln_amt: Decimal = Field(alias="nabt_seln_amt")
     ("비차익매도대금")
-    nabt_shnu_amt: Decimal = Field(
-        alias="nabt_shnu_amt",
-    )
+    nabt_shnu_amt: Decimal = Field(alias="nabt_shnu_amt")
     ("비차익매수대금")
-    nabt_ntby_amt: Decimal = Field(
-        alias="nabt_ntby_amt",
-    )
+    nabt_ntby_amt: Decimal = Field(alias="nabt_ntby_amt")
     ("비차익순매수대금")
 
 
 class InvestorProgramTradeTodayResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: list[InvestorProgramTradeTodayOutput1] = Field(
-        alias="output1",
-    )
+    output1: list[InvestorProgramTradeTodayOutput1] = Field(alias="output1")
     ("응답상세")
 
 
@@ -198,27 +129,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InvestorProgramTradeTodayRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InvestorProgramTradeTodayRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InvestorProgramTradeTodayResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InvestorProgramTradeTodayRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InvestorProgramTradeTodayRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InvestorProgramTradeTodayResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InvestorProgramTradeTodayRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InvestorProgramTradeTodayRequestDict]
         ) -> tuple[InvestorProgramTradeTodayResponse, KisResponse]: ...
         def call(
             self,

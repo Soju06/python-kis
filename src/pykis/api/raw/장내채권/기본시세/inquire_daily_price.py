@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -26,13 +14,9 @@ if TYPE_CHECKING:
 
 
 class InquireDailyPriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("B (업종코드)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("채권종목코드(ex KR2033022D33)")
 
 
@@ -46,71 +30,39 @@ class InquireDailyPriceRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 채권종목코드(ex KR2033022D33)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "B (업종코드)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "채권종목코드(ex KR2033022D33)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "B (업종코드)"]
+    FID_INPUT_ISCD: Annotated[str, "채권종목코드(ex KR2033022D33)"]
 
 
 class InquireDailyPriceOutput(RawModel):
-    stck_bsop_date: KisDate = Field(
-        alias="stck_bsop_date",
-    )
+    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
     ("주식영업일자")
-    bond_prpr: Decimal = Field(
-        alias="bond_prpr",
-    )
+    bond_prpr: Decimal = Field(alias="bond_prpr")
     ("채권현재가")
-    bond_prdy_vrss: Decimal = Field(
-        alias="bond_prdy_vrss",
-    )
+    bond_prdy_vrss: Decimal = Field(alias="bond_prdy_vrss")
     ("채권전일대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일대비부호")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적거래량")
-    bond_oprc: Decimal = Field(
-        alias="bond_oprc",
-    )
+    bond_oprc: Decimal = Field(alias="bond_oprc")
     ("채권시가2")
-    bond_hgpr: Decimal = Field(
-        alias="bond_hgpr",
-    )
+    bond_hgpr: Decimal = Field(alias="bond_hgpr")
     ("채권고가")
-    bond_lwpr: Decimal = Field(
-        alias="bond_lwpr",
-    )
+    bond_lwpr: Decimal = Field(alias="bond_lwpr")
     ("채권저가")
 
 
 class InquireDailyPriceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[InquireDailyPriceOutput] = Field(
-        alias="output",
-    )
+    output: list[InquireDailyPriceOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -133,27 +85,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireDailyPriceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireDailyPriceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireDailyPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireDailyPriceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireDailyPriceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireDailyPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireDailyPriceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireDailyPriceRequestDict]
         ) -> tuple[InquireDailyPriceResponse, KisResponse]: ...
         def call(
             self,
@@ -186,10 +126,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "InquireDailyPriceRequest",
-    "InquireDailyPriceRequestDict",
-    "InquireDailyPriceResponse",
-    "InquireDailyPriceOutput",
-]
+__all__ = ["ENDPOINT", "InquireDailyPriceRequest", "InquireDailyPriceRequestDict", "InquireDailyPriceResponse", "InquireDailyPriceOutput"]
