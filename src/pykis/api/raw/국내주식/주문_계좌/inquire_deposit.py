@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -25,17 +14,11 @@ if TYPE_CHECKING:
 
 
 class InquireDepositRequest(RawModel):
-    CANO: str = Field(
-        alias="CANO",
-    )
+    CANO: str = Field(alias="CANO")
     ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
     ("29")
-    ACCA_DVSN_CD: str = Field(
-        alias="ACCA_DVSN_CD",
-    )
+    ACCA_DVSN_CD: str = Field(alias="ACCA_DVSN_CD")
     ("00")
 
 
@@ -51,55 +34,30 @@ class InquireDepositRequestDict(TypedDict):
         ACCA_DVSN_CD (str): 00
     """
 
-    CANO: Annotated[
-        str,
-        "종합계좌번호",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        str,
-        "29",
-    ]
-    ACCA_DVSN_CD: Annotated[
-        str,
-        "00",
-    ]
+    CANO: Annotated[str, "종합계좌번호"]
+    ACNT_PRDT_CD: Annotated[str, "29"]
+    ACCA_DVSN_CD: Annotated[str, "00"]
 
 
 class InquireDepositOutput(RawModel):
-    dnca_tota: str = Field(
-        alias="dnca_tota",
-    )
+    dnca_tota: str = Field(alias="dnca_tota")
     ("예수금총액")
-    nxdy_excc_amt: str = Field(
-        alias="nxdy_excc_amt",
-    )
+    nxdy_excc_amt: str = Field(alias="nxdy_excc_amt")
     ("익일정산액")
-    nxdy_sttl_amt: Decimal = Field(
-        alias="nxdy_sttl_amt",
-    )
+    nxdy_sttl_amt: Decimal = Field(alias="nxdy_sttl_amt")
     ("익일결제금액")
-    nx2_day_sttl_amt: Decimal = Field(
-        alias="nx2_day_sttl_amt",
-    )
+    nx2_day_sttl_amt: Decimal = Field(alias="nx2_day_sttl_amt")
     ("2익일결제금액")
 
 
 class InquireDepositResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: InquireDepositOutput = Field(
-        alias="output",
-    )
+    output: InquireDepositOutput = Field(alias="output")
     ("응답상세1")
 
 
@@ -126,27 +84,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireDepositRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireDepositRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireDepositResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireDepositRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireDepositRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireDepositResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireDepositRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireDepositRequestDict]
         ) -> tuple[InquireDepositResponse, KisResponse]: ...
         def call(
             self,
@@ -182,10 +128,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "InquireDepositRequest",
-    "InquireDepositRequestDict",
-    "InquireDepositResponse",
-    "InquireDepositOutput",
-]
+__all__ = ["ENDPOINT", "InquireDepositRequest", "InquireDepositRequestDict", "InquireDepositResponse", "InquireDepositOutput"]

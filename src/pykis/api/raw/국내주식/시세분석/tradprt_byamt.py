@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -35,17 +24,11 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
 
 
 class TradprtByamtRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("J: KRX, NX: NXT, UN: 통합")
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("Uniquekey(11119)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("종목코드(ex)(005930 (삼성전자))")
 
 
@@ -61,94 +44,44 @@ class TradprtByamtRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목코드(ex)(005930 (삼성전자))
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
-        "J: KRX, NX: NXT, UN: 통합",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "Uniquekey(11119)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "종목코드(ex)(005930 (삼성전자))",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J: KRX, NX: NXT, UN: 통합"]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Uniquekey(11119)"]
+    FID_INPUT_ISCD: Annotated[str, "종목코드(ex)(005930 (삼성전자))"]
 
 
 class TradprtByamtOutput(RawModel):
-    prpr_name: str | None = Field(
-        default=None,
-        alias="prpr_name",
-    )
+    prpr_name: str | None = Field(default=None, alias="prpr_name")
     ("가격명")
-    smtn_avrg_prpr: Decimal | None = Field(
-        default=None,
-        alias="smtn_avrg_prpr",
-    )
+    smtn_avrg_prpr: Decimal | None = Field(default=None, alias="smtn_avrg_prpr")
     ("합계 평균가격")
-    acml_vol: int | None = Field(
-        default=None,
-        alias="acml_vol",
-    )
+    acml_vol: int | None = Field(default=None, alias="acml_vol")
     ("합계 거래량")
-    whol_ntby_qty_rate: Decimal | None = Field(
-        default=None,
-        alias="whol_ntby_qty_rate",
-    )
+    whol_ntby_qty_rate: Decimal | None = Field(default=None, alias="whol_ntby_qty_rate")
     ("합계 순매수비율")
-    ntby_cntg_csnu: int | None = Field(
-        default=None,
-        alias="ntby_cntg_csnu",
-    )
+    ntby_cntg_csnu: int | None = Field(default=None, alias="ntby_cntg_csnu")
     ("합계 순매수건수")
-    seln_cnqn_smtn: int | None = Field(
-        default=None,
-        alias="seln_cnqn_smtn",
-    )
+    seln_cnqn_smtn: int | None = Field(default=None, alias="seln_cnqn_smtn")
     ("매도 거래량")
-    whol_seln_vol_rate: Decimal | None = Field(
-        default=None,
-        alias="whol_seln_vol_rate",
-    )
+    whol_seln_vol_rate: Decimal | None = Field(default=None, alias="whol_seln_vol_rate")
     ("매도 거래량비율")
-    seln_cntg_csnu: int | None = Field(
-        default=None,
-        alias="seln_cntg_csnu",
-    )
+    seln_cntg_csnu: int | None = Field(default=None, alias="seln_cntg_csnu")
     ("매도 건수")
-    shnu_cnqn_smtn: int | None = Field(
-        default=None,
-        alias="shnu_cnqn_smtn",
-    )
+    shnu_cnqn_smtn: int | None = Field(default=None, alias="shnu_cnqn_smtn")
     ("매수 거래량")
-    whol_shun_vol_rate: Decimal | None = Field(
-        default=None,
-        alias="whol_shun_vol_rate",
-    )
+    whol_shun_vol_rate: Decimal | None = Field(default=None, alias="whol_shun_vol_rate")
     ("매수 거래량비율")
-    shnu_cntg_csnu: int | None = Field(
-        default=None,
-        alias="shnu_cntg_csnu",
-    )
+    shnu_cntg_csnu: int | None = Field(default=None, alias="shnu_cntg_csnu")
     ("매수 건수")
 
 
 class TradprtByamtResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[TradprtByamtOutput] = Field(
-        alias="output",
-    )
+    output: list[TradprtByamtOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -175,27 +108,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: TradprtByamtRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: TradprtByamtRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[TradprtByamtResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: TradprtByamtRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: TradprtByamtRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[TradprtByamtResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[TradprtByamtRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[TradprtByamtRequestDict]
         ) -> tuple[TradprtByamtResponse, KisResponse]: ...
         def call(
             self,
@@ -230,11 +151,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "TradprtByamtRequest",
-    "TradprtByamtRequestDict",
-    "TradprtByamtResponse",
-    "TradprtByamtOutput",
-    "FidCondMrktDivCodeEnum",
-]
+__all__ = ["ENDPOINT", "TradprtByamtRequest", "TradprtByamtRequestDict", "TradprtByamtResponse", "TradprtByamtOutput", "FidCondMrktDivCodeEnum"]

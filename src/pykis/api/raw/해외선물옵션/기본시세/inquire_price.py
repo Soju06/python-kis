@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDateOptional,
-    KisTimeOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDateOptional, KisTimeOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -41,9 +28,7 @@ class PrevDiffFlagEnum(KisStrEnum):
 
 
 class InquirePriceRequest(RawModel):
-    SRS_CD: str = Field(
-        alias="SRS_CD",
-    )
+    SRS_CD: str = Field(alias="SRS_CD")
     ('ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물" 참고')
 
 
@@ -85,191 +70,84 @@ class InquirePriceRequestDict(TypedDict):
         참고
     """
 
-    SRS_CD: Annotated[
-        str,
-        'ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물" 참고',
-    ]
+    SRS_CD: Annotated[str, 'ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물" 참고']
 
 
 class InquirePriceOutput1(RawModel):
-    proc_date: KisDateOptional = Field(
-        default=None,
-        alias="proc_date",
-    )
+    proc_date: KisDateOptional = Field(default=None, alias="proc_date")
     ("최종처리일자")
-    high_price: str | None = Field(
-        default=None,
-        alias="high_price",
-    )
+    high_price: str | None = Field(default=None, alias="high_price")
     ("고가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    proc_time: KisTimeOptional = Field(
-        default=None,
-        alias="proc_time",
-    )
+    proc_time: KisTimeOptional = Field(default=None, alias="proc_time")
     ("최종처리시각")
-    open_price: str | None = Field(
-        default=None,
-        alias="open_price",
-    )
+    open_price: str | None = Field(default=None, alias="open_price")
     ("시가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    trst_mgn: str | None = Field(
-        default=None,
-        alias="trst_mgn",
-    )
+    trst_mgn: str | None = Field(default=None, alias="trst_mgn")
     ("증거금")
-    low_price: str | None = Field(
-        default=None,
-        alias="low_price",
-    )
+    low_price: str | None = Field(default=None, alias="low_price")
     ("저가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    last_price: str | None = Field(
-        default=None,
-        alias="last_price",
-    )
+    last_price: str | None = Field(default=None, alias="last_price")
     ("현재가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    vol: int | None = Field(
-        default=None,
-        alias="vol",
-    )
+    vol: int | None = Field(default=None, alias="vol")
     ("누적거래수량")
-    prev_diff_flag: PrevDiffFlagEnum | None = Field(
-        default=None,
-        alias="prev_diff_flag",
-    )
+    prev_diff_flag: PrevDiffFlagEnum | None = Field(default=None, alias="prev_diff_flag")
     ("전일대비구분 '1':상한 '2':상승 '3':보합 '4':하한 '5':하락")
-    prev_diff_price: Decimal | None = Field(
-        default=None,
-        alias="prev_diff_price",
-    )
+    prev_diff_price: Decimal | None = Field(default=None, alias="prev_diff_price")
     ("전일대비가격")
-    prev_diff_rate: Decimal | None = Field(
-        default=None,
-        alias="prev_diff_rate",
-    )
+    prev_diff_rate: Decimal | None = Field(default=None, alias="prev_diff_rate")
     ("전일대비율")
-    bid_qntt: str | None = Field(
-        default=None,
-        alias="bid_qntt",
-    )
+    bid_qntt: str | None = Field(default=None, alias="bid_qntt")
     ("매수1수량")
-    bid_price: str | None = Field(
-        default=None,
-        alias="bid_price",
-    )
+    bid_price: str | None = Field(default=None, alias="bid_price")
     ("매수1호가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    ask_qntt: int | None = Field(
-        default=None,
-        alias="ask_qntt",
-    )
+    ask_qntt: int | None = Field(default=None, alias="ask_qntt")
     ("매도1수량")
-    ask_price: str | None = Field(
-        default=None,
-        alias="ask_price",
-    )
+    ask_price: str | None = Field(default=None, alias="ask_price")
     ("매도1호가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    prev_price: str | None = Field(
-        default=None,
-        alias="prev_price",
-    )
+    prev_price: str | None = Field(default=None, alias="prev_price")
     ("전일종가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    exch_cd: str | None = Field(
-        default=None,
-        alias="exch_cd",
-    )
+    exch_cd: str | None = Field(default=None, alias="exch_cd")
     ("거래소코드")
-    crc_cd: str | None = Field(
-        default=None,
-        alias="crc_cd",
-    )
+    crc_cd: str | None = Field(default=None, alias="crc_cd")
     ("거래통화")
-    trd_fr_date: KisDateOptional = Field(
-        default=None,
-        alias="trd_fr_date",
-    )
+    trd_fr_date: KisDateOptional = Field(default=None, alias="trd_fr_date")
     ("상장일")
-    expr_date: KisDateOptional = Field(
-        default=None,
-        alias="expr_date",
-    )
+    expr_date: KisDateOptional = Field(default=None, alias="expr_date")
     ("만기일")
-    trd_to_date: KisDateOptional = Field(
-        default=None,
-        alias="trd_to_date",
-    )
+    trd_to_date: KisDateOptional = Field(default=None, alias="trd_to_date")
     ("최종거래일")
-    remn_cnt: str | None = Field(
-        default=None,
-        alias="remn_cnt",
-    )
+    remn_cnt: str | None = Field(default=None, alias="remn_cnt")
     ("잔존일수")
-    last_qntt: str | None = Field(
-        default=None,
-        alias="last_qntt",
-    )
+    last_qntt: str | None = Field(default=None, alias="last_qntt")
     ("체결량")
-    tot_ask_qntt: str | None = Field(
-        default=None,
-        alias="tot_ask_qntt",
-    )
+    tot_ask_qntt: str | None = Field(default=None, alias="tot_ask_qntt")
     ("총매도잔량")
-    tot_bid_qntt: str | None = Field(
-        default=None,
-        alias="tot_bid_qntt",
-    )
+    tot_bid_qntt: str | None = Field(default=None, alias="tot_bid_qntt")
     ("총매수잔량")
-    tick_size: str | None = Field(
-        default=None,
-        alias="tick_size",
-    )
+    tick_size: str | None = Field(default=None, alias="tick_size")
     ("틱사이즈")
-    open_date: KisDateOptional = Field(
-        default=None,
-        alias="open_date",
-    )
+    open_date: KisDateOptional = Field(default=None, alias="open_date")
     ("장개시일자")
-    open_time: KisTimeOptional = Field(
-        default=None,
-        alias="open_time",
-    )
+    open_time: KisTimeOptional = Field(default=None, alias="open_time")
     ("장개시시각")
-    close_date: KisDateOptional = Field(
-        default=None,
-        alias="close_date",
-    )
+    close_date: KisDateOptional = Field(default=None, alias="close_date")
     ("장종료일자")
-    close_time: KisTimeOptional = Field(
-        default=None,
-        alias="close_time",
-    )
+    close_time: KisTimeOptional = Field(default=None, alias="close_time")
     ("장종료시각")
-    sbsnsdate: KisDateOptional = Field(
-        default=None,
-        alias="sbsnsdate",
-    )
+    sbsnsdate: KisDateOptional = Field(default=None, alias="sbsnsdate")
     ("영업일자")
-    sttl_price: Decimal | None = Field(
-        default=None,
-        alias="sttl_price",
-    )
+    sttl_price: Decimal | None = Field(default=None, alias="sttl_price")
     ("정산가")
 
 
 class InquirePriceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: InquirePriceOutput1 = Field(
-        alias="output1",
-    )
+    output1: InquirePriceOutput1 = Field(alias="output1")
     ("응답상세1")
 
 
@@ -323,27 +201,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePriceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePriceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePriceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePriceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquirePriceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePriceRequestDict]
         ) -> tuple[InquirePriceResponse, KisResponse]: ...
         def call(
             self,
@@ -406,11 +272,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "InquirePriceRequest",
-    "InquirePriceRequestDict",
-    "InquirePriceResponse",
-    "InquirePriceOutput1",
-    "PrevDiffFlagEnum",
-]
+__all__ = ["ENDPOINT", "InquirePriceRequest", "InquirePriceRequestDict", "InquirePriceResponse", "InquirePriceOutput1", "PrevDiffFlagEnum"]

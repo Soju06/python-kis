@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -113,25 +101,15 @@ class ItemLnkgExcgCdEnum(KisStrEnum):
 
 
 class InquirePresentBalanceRequest(RawModel):
-    CANO: CanoEnum = Field(
-        alias="CANO",
-    )
+    CANO: CanoEnum = Field(alias="CANO")
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    WCRC_FRCR_DVSN_CD: WcrcFrcrDvsnCdEnum = Field(
-        alias="WCRC_FRCR_DVSN_CD",
-    )
+    WCRC_FRCR_DVSN_CD: WcrcFrcrDvsnCdEnum = Field(alias="WCRC_FRCR_DVSN_CD")
     ("01 : 원화 02 : 외화")
-    NATN_CD: NatnCdEnum = Field(
-        alias="NATN_CD",
-    )
+    NATN_CD: NatnCdEnum = Field(alias="NATN_CD")
     ("000 전체 840 미국 344 홍콩 156 중국 392 일본 704 베트남")
-    TR_MKET_CD: str = Field(
-        alias="TR_MKET_CD",
-    )
+    TR_MKET_CD: str = Field(alias="TR_MKET_CD")
     (
         "[Request body NATN_CD 000 설정] 00 : 전체 [Request body NATN_CD 840 설정] 00 : 전체 01 : "
         "나스닥(NASD) 02 : 뉴욕거래소(NYSE) 03 : 미국(PINK SHEETS) 04 : 미국(OTCBB) 05 : 아멕스(AMEX) "
@@ -139,9 +117,7 @@ class InquirePresentBalanceRequest(RawModel):
         "body NATN_CD 392 설정] 01 : 일본 [Request body NATN_CD 704 설정] 01 : 하노이거래 02 : "
         "호치민거래소 [Request body NATN_CD 344 설정] 01 : 홍콩 02 : 홍콩CNY 03 : 홍콩USD"
     )
-    INQR_DVSN_CD: InqrDvsnCdEnum = Field(
-        alias="INQR_DVSN_CD",
-    )
+    INQR_DVSN_CD: InqrDvsnCdEnum = Field(alias="INQR_DVSN_CD")
     ("00 : 전체 01 : 일반해외주식 02 : 미니스탁")
 
 
@@ -201,22 +177,10 @@ class InquirePresentBalanceRequestDict(TypedDict):
         INQR_DVSN_CD (InqrDvsnCdEnum): 00 : 전체 01 : 일반해외주식 02 : 미니스탁
     """
 
-    CANO: Annotated[
-        CanoEnum,
-        "계좌번호 체계(8-2)의 앞 8자리",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        AcntPrdtCdEnum,
-        "계좌번호 체계(8-2)의 뒤 2자리",
-    ]
-    WCRC_FRCR_DVSN_CD: Annotated[
-        WcrcFrcrDvsnCdEnum,
-        "01 : 원화 02 : 외화",
-    ]
-    NATN_CD: Annotated[
-        NatnCdEnum,
-        "000 전체 840 미국 344 홍콩 156 중국 392 일본 704 베트남",
-    ]
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
+    WCRC_FRCR_DVSN_CD: Annotated[WcrcFrcrDvsnCdEnum, "01 : 원화 02 : 외화"]
+    NATN_CD: Annotated[NatnCdEnum, "000 전체 840 미국 344 홍콩 156 중국 392 일본 704 베트남"]
     TR_MKET_CD: Annotated[
         str,
         "[Request body NATN_CD 000 설정] 00 : 전체 [Request body NATN_CD 840 설정] 00 : 전체 01 : "
@@ -225,296 +189,154 @@ class InquirePresentBalanceRequestDict(TypedDict):
         "body NATN_CD 392 설정] 01 : 일본 [Request body NATN_CD 704 설정] 01 : 하노이거래 02 : "
         "호치민거래소 [Request body NATN_CD 344 설정] 01 : 홍콩 02 : 홍콩CNY 03 : 홍콩USD",
     ]
-    INQR_DVSN_CD: Annotated[
-        InqrDvsnCdEnum,
-        "00 : 전체 01 : 일반해외주식 02 : 미니스탁",
-    ]
+    INQR_DVSN_CD: Annotated[InqrDvsnCdEnum, "00 : 전체 01 : 일반해외주식 02 : 미니스탁"]
 
 
 class InquirePresentBalanceOutput1(RawModel):
-    prdt_name: str = Field(
-        alias="prdt_name",
-    )
+    prdt_name: str = Field(alias="prdt_name")
     ("종목명")
-    cblc_qty13: int = Field(
-        alias="cblc_qty13",
-    )
+    cblc_qty13: int = Field(alias="cblc_qty13")
     ("결제보유수량")
-    thdt_buy_ccld_qty1: int = Field(
-        alias="thdt_buy_ccld_qty1",
-    )
+    thdt_buy_ccld_qty1: int = Field(alias="thdt_buy_ccld_qty1")
     ("당일 매수 체결 완료 수량")
-    thdt_sll_ccld_qty1: int = Field(
-        alias="thdt_sll_ccld_qty1",
-    )
+    thdt_sll_ccld_qty1: int = Field(alias="thdt_sll_ccld_qty1")
     ("당일 매도 체결 완료 수량")
-    ccld_qty_smtl1: int = Field(
-        alias="ccld_qty_smtl1",
-    )
+    ccld_qty_smtl1: int = Field(alias="ccld_qty_smtl1")
     ("체결기준 현재 보유수량")
-    ord_psbl_qty1: int = Field(
-        alias="ord_psbl_qty1",
-    )
+    ord_psbl_qty1: int = Field(alias="ord_psbl_qty1")
     ("주문 가능한 주문 수량")
-    frcr_pchs_amt: str = Field(
-        alias="frcr_pchs_amt",
-    )
+    frcr_pchs_amt: str = Field(alias="frcr_pchs_amt")
     ("해당 종목의 외화 기준 매입금액")
-    frcr_evlu_amt2: str = Field(
-        alias="frcr_evlu_amt2",
-    )
+    frcr_evlu_amt2: str = Field(alias="frcr_evlu_amt2")
     ("해당 종목의 외화 기준 평가금액")
-    evlu_pfls_amt2: str = Field(
-        alias="evlu_pfls_amt2",
-    )
+    evlu_pfls_amt2: str = Field(alias="evlu_pfls_amt2")
     ("해당 종목의 매입금액과 평가금액의 외회기준 비교 손익")
-    evlu_pfls_rt1: str = Field(
-        alias="evlu_pfls_rt1",
-    )
+    evlu_pfls_rt1: str = Field(alias="evlu_pfls_rt1")
     ("해당 종목의 평가손익을 기준으로 한 수익률")
-    pdno: str = Field(
-        alias="pdno",
-    )
+    pdno: str = Field(alias="pdno")
     ("종목코드")
-    bass_exrt: Decimal = Field(
-        alias="bass_exrt",
-    )
+    bass_exrt: Decimal = Field(alias="bass_exrt")
     ("원화 평가 시 적용 환율")
-    buy_crcy_cd: BuyCrcyCdEnum = Field(
-        alias="buy_crcy_cd",
-    )
+    buy_crcy_cd: BuyCrcyCdEnum = Field(alias="buy_crcy_cd")
     ("USD : 미국달러 HKD : 홍콩달러 CNY : 중국위안화 JPY : 일본엔화 VND : 베트남동")
-    ovrs_now_pric1: str = Field(
-        alias="ovrs_now_pric1",
-    )
+    ovrs_now_pric1: str = Field(alias="ovrs_now_pric1")
     ("해당 종목의 현재가")
-    avg_unpr3: str = Field(
-        alias="avg_unpr3",
-    )
+    avg_unpr3: str = Field(alias="avg_unpr3")
     ("해당 종목의 매수 평균 단가")
-    tr_mket_name: str = Field(
-        alias="tr_mket_name",
-    )
+    tr_mket_name: str = Field(alias="tr_mket_name")
     ("해당 종목의 거래시장명")
-    natn_kor_name: str = Field(
-        alias="natn_kor_name",
-    )
+    natn_kor_name: str = Field(alias="natn_kor_name")
     ("거래 국가명")
-    pchs_rmnd_wcrc_amt: Decimal = Field(
-        alias="pchs_rmnd_wcrc_amt",
-    )
+    pchs_rmnd_wcrc_amt: Decimal = Field(alias="pchs_rmnd_wcrc_amt")
     ("매입잔액원화금액")
-    thdt_buy_ccld_frcr_amt: Decimal = Field(
-        alias="thdt_buy_ccld_frcr_amt",
-    )
+    thdt_buy_ccld_frcr_amt: Decimal = Field(alias="thdt_buy_ccld_frcr_amt")
     ("당일 매수 외화금액 (Type: Object X String O)")
-    thdt_sll_ccld_frcr_amt: Decimal = Field(
-        alias="thdt_sll_ccld_frcr_amt",
-    )
+    thdt_sll_ccld_frcr_amt: Decimal = Field(alias="thdt_sll_ccld_frcr_amt")
     ("당일 매도 외화금액")
-    unit_amt: Decimal = Field(
-        alias="unit_amt",
-    )
+    unit_amt: Decimal = Field(alias="unit_amt")
     ("단위금액")
-    std_pdno: str = Field(
-        alias="std_pdno",
-    )
+    std_pdno: str = Field(alias="std_pdno")
     ("표준상품번호")
-    prdt_type_cd: str = Field(
-        alias="prdt_type_cd",
-    )
+    prdt_type_cd: str = Field(alias="prdt_type_cd")
     ("상품유형코드")
-    scts_dvsn_name: str = Field(
-        alias="scts_dvsn_name",
-    )
+    scts_dvsn_name: str = Field(alias="scts_dvsn_name")
     ("유가증권구분명")
-    loan_rmnd: Decimal = Field(
-        alias="loan_rmnd",
-    )
+    loan_rmnd: Decimal = Field(alias="loan_rmnd")
     ("대출 미상환 금액")
-    loan_dt: KisDate = Field(
-        alias="loan_dt",
-    )
+    loan_dt: KisDate = Field(alias="loan_dt")
     ("대출 실행일자")
-    loan_expd_dt: KisDate = Field(
-        alias="loan_expd_dt",
-    )
+    loan_expd_dt: KisDate = Field(alias="loan_expd_dt")
     ("대출 만기일자")
-    ovrs_excg_cd: OvrsExcgCdEnum = Field(
-        alias="ovrs_excg_cd",
-    )
-    (
-        "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 "
-        "HASE : 하노이거래소 VNSE : 호치민거래소"
-    )
-    item_lnkg_excg_cd: ItemLnkgExcgCdEnum = Field(
-        alias="item_lnkg_excg_cd",
-    )
+    ovrs_excg_cd: OvrsExcgCdEnum = Field(alias="ovrs_excg_cd")
+    ("NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 하노이거래소 VNSE : 호치민거래소")
+    item_lnkg_excg_cd: ItemLnkgExcgCdEnum = Field(alias="item_lnkg_excg_cd")
     ("prdt_dvsn(상품구분) : 직원용 데이터(Type: String, Length:2)")
 
 
 class InquirePresentBalanceOutput2(RawModel):
-    crcy_cd: str = Field(
-        alias="crcy_cd",
-    )
+    crcy_cd: str = Field(alias="crcy_cd")
     ("통화코드")
-    crcy_cd_name: str = Field(
-        alias="crcy_cd_name",
-    )
+    crcy_cd_name: str = Field(alias="crcy_cd_name")
     ("통화코드명")
-    frcr_buy_amt_smtl: str = Field(
-        alias="frcr_buy_amt_smtl",
-    )
+    frcr_buy_amt_smtl: str = Field(alias="frcr_buy_amt_smtl")
     ("해당 통화로 매수한 종목 전체의 매수금액")
-    frcr_sll_amt_smtl: str = Field(
-        alias="frcr_sll_amt_smtl",
-    )
+    frcr_sll_amt_smtl: str = Field(alias="frcr_sll_amt_smtl")
     ("해당 통화로 매도한 종목 전체의 매수금액")
-    frcr_dncl_amt_2: Decimal = Field(
-        alias="frcr_dncl_amt_2",
-    )
+    frcr_dncl_amt_2: Decimal = Field(alias="frcr_dncl_amt_2")
     ("외화로 표시된 외화사용가능금액")
-    frst_bltn_exrt: Decimal = Field(
-        alias="frst_bltn_exrt",
-    )
+    frst_bltn_exrt: Decimal = Field(alias="frst_bltn_exrt")
     ("최초고시환율")
-    frcr_buy_mgn_amt: Decimal = Field(
-        alias="frcr_buy_mgn_amt",
-    )
+    frcr_buy_mgn_amt: Decimal = Field(alias="frcr_buy_mgn_amt")
     ("매수증거금으로 사용된 외화금액")
-    frcr_etc_mgna: str = Field(
-        alias="frcr_etc_mgna",
-    )
+    frcr_etc_mgna: str = Field(alias="frcr_etc_mgna")
     ("외화기타증거금")
-    frcr_drwg_psbl_amt_1: Decimal = Field(
-        alias="frcr_drwg_psbl_amt_1",
-    )
+    frcr_drwg_psbl_amt_1: Decimal = Field(alias="frcr_drwg_psbl_amt_1")
     ("출금가능한 외화금액")
-    frcr_evlu_amt2: Decimal = Field(
-        alias="frcr_evlu_amt2",
-    )
+    frcr_evlu_amt2: Decimal = Field(alias="frcr_evlu_amt2")
     ("출금가능한 원화금액")
-    acpl_cstd_crcy_yn: KisBool = Field(
-        alias="acpl_cstd_crcy_yn",
-    )
+    acpl_cstd_crcy_yn: KisBool = Field(alias="acpl_cstd_crcy_yn")
     ("현지보관통화여부")
-    nxdy_frcr_drwg_psbl_amt: Decimal = Field(
-        alias="nxdy_frcr_drwg_psbl_amt",
-    )
+    nxdy_frcr_drwg_psbl_amt: Decimal = Field(alias="nxdy_frcr_drwg_psbl_amt")
     ("익일외화출금가능금액")
 
 
 class InquirePresentBalanceOutput3(RawModel):
-    pchs_amt_smtl: Decimal = Field(
-        alias="pchs_amt_smtl",
-    )
+    pchs_amt_smtl: Decimal = Field(alias="pchs_amt_smtl")
     ("해외유가증권 매수금액의 원화 환산 금액")
-    evlu_amt_smtl: Decimal = Field(
-        alias="evlu_amt_smtl",
-    )
+    evlu_amt_smtl: Decimal = Field(alias="evlu_amt_smtl")
     ("해외유가증권 평가금액의 원화 환산 금액")
-    evlu_pfls_amt_smtl: Decimal = Field(
-        alias="evlu_pfls_amt_smtl",
-    )
+    evlu_pfls_amt_smtl: Decimal = Field(alias="evlu_pfls_amt_smtl")
     ("해외유가증권 평가손익의 원화 환산 금액")
-    dncl_amt: Decimal = Field(
-        alias="dncl_amt",
-    )
+    dncl_amt: Decimal = Field(alias="dncl_amt")
     ("예수금액")
-    cma_evlu_amt: Decimal = Field(
-        alias="cma_evlu_amt",
-    )
+    cma_evlu_amt: Decimal = Field(alias="cma_evlu_amt")
     ("CMA평가금액")
-    tot_dncl_amt: Decimal = Field(
-        alias="tot_dncl_amt",
-    )
+    tot_dncl_amt: Decimal = Field(alias="tot_dncl_amt")
     ("총예수금액")
-    etc_mgna: str = Field(
-        alias="etc_mgna",
-    )
+    etc_mgna: str = Field(alias="etc_mgna")
     ("기타증거금")
-    wdrw_psbl_tot_amt: Decimal = Field(
-        alias="wdrw_psbl_tot_amt",
-    )
+    wdrw_psbl_tot_amt: Decimal = Field(alias="wdrw_psbl_tot_amt")
     ("인출가능총금액")
-    frcr_evlu_tota: str = Field(
-        alias="frcr_evlu_tota",
-    )
+    frcr_evlu_tota: str = Field(alias="frcr_evlu_tota")
     ("외화평가총액")
-    evlu_erng_rt1: Decimal = Field(
-        alias="evlu_erng_rt1",
-    )
+    evlu_erng_rt1: Decimal = Field(alias="evlu_erng_rt1")
     ("평가수익율1")
-    pchs_amt_smtl_amt: Decimal = Field(
-        alias="pchs_amt_smtl_amt",
-    )
+    pchs_amt_smtl_amt: Decimal = Field(alias="pchs_amt_smtl_amt")
     ("매입금액합계금액")
-    evlu_amt_smtl_amt: Decimal = Field(
-        alias="evlu_amt_smtl_amt",
-    )
+    evlu_amt_smtl_amt: Decimal = Field(alias="evlu_amt_smtl_amt")
     ("평가금액합계금액")
-    tot_evlu_pfls_amt: Decimal = Field(
-        alias="tot_evlu_pfls_amt",
-    )
+    tot_evlu_pfls_amt: Decimal = Field(alias="tot_evlu_pfls_amt")
     ("총평가손익금액")
-    tot_asst_amt: Decimal = Field(
-        alias="tot_asst_amt",
-    )
+    tot_asst_amt: Decimal = Field(alias="tot_asst_amt")
     ("총자산금액")
-    buy_mgn_amt: Decimal = Field(
-        alias="buy_mgn_amt",
-    )
+    buy_mgn_amt: Decimal = Field(alias="buy_mgn_amt")
     ("매수증거금액")
-    mgna_tota: str = Field(
-        alias="mgna_tota",
-    )
+    mgna_tota: str = Field(alias="mgna_tota")
     ("증거금총액")
-    frcr_use_psbl_amt: Decimal = Field(
-        alias="frcr_use_psbl_amt",
-    )
+    frcr_use_psbl_amt: Decimal = Field(alias="frcr_use_psbl_amt")
     ("외화사용가능금액")
-    ustl_sll_amt_smtl: Decimal = Field(
-        alias="ustl_sll_amt_smtl",
-    )
+    ustl_sll_amt_smtl: Decimal = Field(alias="ustl_sll_amt_smtl")
     ("미결제매도금액합계")
-    ustl_buy_amt_smtl: Decimal = Field(
-        alias="ustl_buy_amt_smtl",
-    )
+    ustl_buy_amt_smtl: Decimal = Field(alias="ustl_buy_amt_smtl")
     ("미결제매수금액합계")
-    tot_frcr_cblc_smtl: str = Field(
-        alias="tot_frcr_cblc_smtl",
-    )
+    tot_frcr_cblc_smtl: str = Field(alias="tot_frcr_cblc_smtl")
     ("총외화잔고합계")
-    tot_loan_amt: Decimal = Field(
-        alias="tot_loan_amt",
-    )
+    tot_loan_amt: Decimal = Field(alias="tot_loan_amt")
     ("총대출금액")
 
 
 class InquirePresentBalanceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: InquirePresentBalanceOutput1 = Field(
-        alias="output1",
-    )
+    output1: InquirePresentBalanceOutput1 = Field(alias="output1")
     ("응답상세1 (체결기준 잔고)")
-    output2: list[InquirePresentBalanceOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[InquirePresentBalanceOutput2] = Field(alias="output2")
     ("응답상세2")
-    output3: list[InquirePresentBalanceOutput3] = Field(
-        alias="output3",
-    )
+    output3: list[InquirePresentBalanceOutput3] = Field(alias="output3")
     ("응답상세3")
 
 
@@ -577,27 +399,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePresentBalanceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePresentBalanceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePresentBalanceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePresentBalanceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePresentBalanceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePresentBalanceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquirePresentBalanceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePresentBalanceRequestDict]
         ) -> tuple[InquirePresentBalanceResponse, KisResponse]: ...
         def call(
             self,

@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -41,25 +29,13 @@ class AcntPrdtCdEnum(KisStrEnum):
 
 
 class InquireAccountBalanceRequest(RawModel):
-    CANO: CanoEnum = Field(
-        alias="CANO",
-    )
+    CANO: CanoEnum = Field(alias="CANO")
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    INQR_DVSN_1: str | None = Field(
-        default=None,
-        alias="INQR_DVSN_1",
-        json_schema_extra={"blank_allowed": True},
-    )
+    INQR_DVSN_1: str | None = Field(default=None, alias="INQR_DVSN_1", json_schema_extra={"blank_allowed": True})
     ("공백입력")
-    BSPR_BF_DT_APLY_YN: KisBool | None = Field(
-        default=None,
-        alias="BSPR_BF_DT_APLY_YN",
-        json_schema_extra={"blank_allowed": True},
-    )
+    BSPR_BF_DT_APLY_YN: KisBool | None = Field(default=None, alias="BSPR_BF_DT_APLY_YN", json_schema_extra={"blank_allowed": True})
     ("공백입력")
 
 
@@ -77,178 +53,90 @@ class InquireAccountBalanceRequestDict(TypedDict):
         BSPR_BF_DT_APLY_YN (KisBool): 공백입력 optional
     """
 
-    CANO: Annotated[
-        CanoEnum,
-        "계좌번호 체계(8-2)의 앞 8자리",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        AcntPrdtCdEnum,
-        "계좌번호 체계(8-2)의 뒤 2자리",
-    ]
-    INQR_DVSN_1: NotRequired[
-        Annotated[
-            str | None,
-            "공백입력",
-        ]
-    ]
-    BSPR_BF_DT_APLY_YN: NotRequired[
-        Annotated[
-            KisBool | None,
-            "공백입력",
-        ]
-    ]
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
+    INQR_DVSN_1: NotRequired[Annotated[str | None, "공백입력"]]
+    BSPR_BF_DT_APLY_YN: NotRequired[Annotated[KisBool | None, "공백입력"]]
 
 
 class InquireAccountBalanceOutput1(RawModel):
-    pchs_amt: Decimal = Field(
-        alias="pchs_amt",
-    )
+    pchs_amt: Decimal = Field(alias="pchs_amt")
     ("매입금액")
-    evlu_amt: Decimal = Field(
-        alias="evlu_amt",
-    )
+    evlu_amt: Decimal = Field(alias="evlu_amt")
     ("평가금액")
-    evlu_pfls_amt: Decimal = Field(
-        alias="evlu_pfls_amt",
-    )
+    evlu_pfls_amt: Decimal = Field(alias="evlu_pfls_amt")
     ("평가손익금액")
-    crdt_lnd_amt: Decimal = Field(
-        alias="crdt_lnd_amt",
-    )
+    crdt_lnd_amt: Decimal = Field(alias="crdt_lnd_amt")
     ("신용대출금액")
-    real_nass_amt: Decimal = Field(
-        alias="real_nass_amt",
-    )
+    real_nass_amt: Decimal = Field(alias="real_nass_amt")
     ("실제순자산금액")
-    whol_weit_rt: Decimal = Field(
-        alias="whol_weit_rt",
-    )
+    whol_weit_rt: Decimal = Field(alias="whol_weit_rt")
     ("전체비중율")
 
 
 class InquireAccountBalanceOutput2(RawModel):
-    pchs_amt_smtl: Decimal = Field(
-        alias="pchs_amt_smtl",
-    )
+    pchs_amt_smtl: Decimal = Field(alias="pchs_amt_smtl")
     ("유가매입금액")
-    nass_tot_amt: Decimal = Field(
-        alias="nass_tot_amt",
-    )
+    nass_tot_amt: Decimal = Field(alias="nass_tot_amt")
     ("순자산총금액")
-    loan_amt_smtl: Decimal = Field(
-        alias="loan_amt_smtl",
-    )
+    loan_amt_smtl: Decimal = Field(alias="loan_amt_smtl")
     ("대출금액합계")
-    evlu_pfls_amt_smtl: Decimal = Field(
-        alias="evlu_pfls_amt_smtl",
-    )
+    evlu_pfls_amt_smtl: Decimal = Field(alias="evlu_pfls_amt_smtl")
     ("평가손익금액")
-    evlu_amt_smtl: Decimal = Field(
-        alias="evlu_amt_smtl",
-    )
+    evlu_amt_smtl: Decimal = Field(alias="evlu_amt_smtl")
     ("유가평가금액")
-    tot_asst_amt: Decimal = Field(
-        alias="tot_asst_amt",
-    )
+    tot_asst_amt: Decimal = Field(alias="tot_asst_amt")
     ("총 자산금액")
-    tot_lnda_tot_ulst_lnda: Decimal = Field(
-        alias="tot_lnda_tot_ulst_lnda",
-    )
+    tot_lnda_tot_ulst_lnda: Decimal = Field(alias="tot_lnda_tot_ulst_lnda")
     ("총대출금액총융자대출금액")
-    cma_auto_loan_amt: Decimal = Field(
-        alias="cma_auto_loan_amt",
-    )
+    cma_auto_loan_amt: Decimal = Field(alias="cma_auto_loan_amt")
     ("CMA자동대출금액")
-    tot_mgln_amt: Decimal = Field(
-        alias="tot_mgln_amt",
-    )
+    tot_mgln_amt: Decimal = Field(alias="tot_mgln_amt")
     ("총담보대출금액")
-    stln_evlu_amt: Decimal = Field(
-        alias="stln_evlu_amt",
-    )
+    stln_evlu_amt: Decimal = Field(alias="stln_evlu_amt")
     ("대주평가금액")
-    crdt_fncg_amt: Decimal = Field(
-        alias="crdt_fncg_amt",
-    )
+    crdt_fncg_amt: Decimal = Field(alias="crdt_fncg_amt")
     ("신용융자금액")
-    ocl_apl_loan_amt: Decimal = Field(
-        alias="ocl_apl_loan_amt",
-    )
+    ocl_apl_loan_amt: Decimal = Field(alias="ocl_apl_loan_amt")
     ("OCL_APL대출금액")
-    pldg_stup_amt: Decimal = Field(
-        alias="pldg_stup_amt",
-    )
+    pldg_stup_amt: Decimal = Field(alias="pldg_stup_amt")
     ("질권설정금액")
-    frcr_evlu_tota: str = Field(
-        alias="frcr_evlu_tota",
-    )
+    frcr_evlu_tota: str = Field(alias="frcr_evlu_tota")
     ("외화평가총액")
-    tot_dncl_amt: Decimal = Field(
-        alias="tot_dncl_amt",
-    )
+    tot_dncl_amt: Decimal = Field(alias="tot_dncl_amt")
     ("총예수금액")
-    cma_evlu_amt: Decimal = Field(
-        alias="cma_evlu_amt",
-    )
+    cma_evlu_amt: Decimal = Field(alias="cma_evlu_amt")
     ("CMA평가금액")
-    dncl_amt: Decimal = Field(
-        alias="dncl_amt",
-    )
+    dncl_amt: Decimal = Field(alias="dncl_amt")
     ("예수금액")
-    tot_sbst_amt: Decimal = Field(
-        alias="tot_sbst_amt",
-    )
+    tot_sbst_amt: Decimal = Field(alias="tot_sbst_amt")
     ("총대용금액")
-    thdt_rcvb_amt: Decimal = Field(
-        alias="thdt_rcvb_amt",
-    )
+    thdt_rcvb_amt: Decimal = Field(alias="thdt_rcvb_amt")
     ("당일미수금액")
-    ovrs_stck_evlu_amt1: Decimal = Field(
-        alias="ovrs_stck_evlu_amt1",
-    )
+    ovrs_stck_evlu_amt1: Decimal = Field(alias="ovrs_stck_evlu_amt1")
     ("해외주식평가금액1")
-    ovrs_bond_evlu_amt: Decimal = Field(
-        alias="ovrs_bond_evlu_amt",
-    )
+    ovrs_bond_evlu_amt: Decimal = Field(alias="ovrs_bond_evlu_amt")
     ("해외채권평가금액")
-    mmf_cma_mgge_loan_amt: Decimal = Field(
-        alias="mmf_cma_mgge_loan_amt",
-    )
+    mmf_cma_mgge_loan_amt: Decimal = Field(alias="mmf_cma_mgge_loan_amt")
     ("MMFCMA담보대출금액")
-    sbsc_dncl_amt: Decimal = Field(
-        alias="sbsc_dncl_amt",
-    )
+    sbsc_dncl_amt: Decimal = Field(alias="sbsc_dncl_amt")
     ("청약예수금액")
-    pbst_sbsc_fnds_loan_use_amt: Decimal = Field(
-        alias="pbst_sbsc_fnds_loan_use_amt",
-    )
+    pbst_sbsc_fnds_loan_use_amt: Decimal = Field(alias="pbst_sbsc_fnds_loan_use_amt")
     ("공모주청약자금대출사용금액")
-    etpr_crdt_grnt_loan_amt: Decimal = Field(
-        alias="etpr_crdt_grnt_loan_amt",
-    )
+    etpr_crdt_grnt_loan_amt: Decimal = Field(alias="etpr_crdt_grnt_loan_amt")
     ("기업신용공여대출금액")
 
 
 class InquireAccountBalanceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: list[InquireAccountBalanceOutput1] = Field(
-        alias="output1",
-    )
+    output1: list[InquireAccountBalanceOutput1] = Field(alias="output1")
     ("응답상세")
-    output2: list[InquireAccountBalanceOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[InquireAccountBalanceOutput2] = Field(alias="output2")
     ("응답상세2")
 
 
@@ -276,27 +164,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireAccountBalanceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireAccountBalanceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireAccountBalanceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireAccountBalanceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireAccountBalanceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireAccountBalanceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireAccountBalanceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireAccountBalanceRequestDict]
         ) -> tuple[InquireAccountBalanceResponse, KisResponse]: ...
         def call(
             self,

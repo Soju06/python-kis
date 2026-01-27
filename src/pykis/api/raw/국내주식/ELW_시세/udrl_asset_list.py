@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -43,20 +32,11 @@ class FidRankSortClsCodeEnum(KisStrEnum):
 
 
 class UdrlAssetListRequest(RawModel):
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("11541(Primary key)")
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(
-        alias="FID_RANK_SORT_CLS_CODE",
-    )
-    (
-        "0(종목명순), 1(콜발행종목순), 2(풋발행종목순), 3(전일대비 상승율순), 4(전일대비 하락율순), "
-        "5(현재가 크기순), 6(종목코드순)"
-    )
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
+    ("0(종목명순), 1(콜발행종목순), 2(풋발행종목순), 3(전일대비 상승율순), 4(전일대비 하락율순), 5(현재가 크기순), 6(종목코드순)")
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("00000(전체), 00003(한국투자증권), 00017(KB증권), 00005(미래에셋)")
 
 
@@ -73,70 +53,37 @@ class UdrlAssetListRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 00000(전체), 00003(한국투자증권), 00017(KB증권), 00005(미래에셋)
     """
 
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "11541(Primary key)",
-    ]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "11541(Primary key)"]
     FID_RANK_SORT_CLS_CODE: Annotated[
         FidRankSortClsCodeEnum,
-        "0(종목명순), 1(콜발행종목순), 2(풋발행종목순), 3(전일대비 상승율순), 4(전일대비 하락율순), "
-        "5(현재가 크기순), 6(종목코드순)",
+        "0(종목명순), 1(콜발행종목순), 2(풋발행종목순), 3(전일대비 상승율순), 4(전일대비 하락율순), 5(현재가 크기순), 6(종목코드순)",
     ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "00000(전체), 00003(한국투자증권), 00017(KB증권), 00005(미래에셋)",
-    ]
+    FID_INPUT_ISCD: Annotated[str, "00000(전체), 00003(한국투자증권), 00017(KB증권), 00005(미래에셋)"]
 
 
 class UdrlAssetListOutput(RawModel):
-    unas_shrn_iscd: str | None = Field(
-        default=None,
-        alias="unas_shrn_iscd",
-    )
+    unas_shrn_iscd: str | None = Field(default=None, alias="unas_shrn_iscd")
     ("기초자산단축종목코드")
-    unas_isnm: str | None = Field(
-        default=None,
-        alias="unas_isnm",
-    )
+    unas_isnm: str | None = Field(default=None, alias="unas_isnm")
     ("기초자산종목명")
-    unas_prpr: Decimal | None = Field(
-        default=None,
-        alias="unas_prpr",
-    )
+    unas_prpr: Decimal | None = Field(default=None, alias="unas_prpr")
     ("기초자산현재가")
-    unas_prdy_vrss: str | None = Field(
-        default=None,
-        alias="unas_prdy_vrss",
-    )
+    unas_prdy_vrss: str | None = Field(default=None, alias="unas_prdy_vrss")
     ("기초자산전일대비")
-    unas_prdy_vrss_sign: str | None = Field(
-        default=None,
-        alias="unas_prdy_vrss_sign",
-    )
+    unas_prdy_vrss_sign: str | None = Field(default=None, alias="unas_prdy_vrss_sign")
     ("기초자산전일대비부호")
-    unas_prdy_ctrt: Decimal | None = Field(
-        default=None,
-        alias="unas_prdy_ctrt",
-    )
+    unas_prdy_ctrt: Decimal | None = Field(default=None, alias="unas_prdy_ctrt")
     ("기초자산전일대비율")
 
 
 class UdrlAssetListResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[UdrlAssetListOutput] = Field(
-        alias="output",
-    )
+    output: list[UdrlAssetListOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -163,27 +110,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: UdrlAssetListRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: UdrlAssetListRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[UdrlAssetListResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: UdrlAssetListRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: UdrlAssetListRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[UdrlAssetListResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[UdrlAssetListRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[UdrlAssetListRequestDict]
         ) -> tuple[UdrlAssetListResponse, KisResponse]: ...
         def call(
             self,
@@ -221,11 +156,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "UdrlAssetListRequest",
-    "UdrlAssetListRequestDict",
-    "UdrlAssetListResponse",
-    "UdrlAssetListOutput",
-    "FidRankSortClsCodeEnum",
-]
+__all__ = ["ENDPOINT", "UdrlAssetListRequest", "UdrlAssetListRequestDict", "UdrlAssetListResponse", "UdrlAssetListOutput", "FidRankSortClsCodeEnum"]

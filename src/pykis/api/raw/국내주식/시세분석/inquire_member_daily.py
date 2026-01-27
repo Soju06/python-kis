@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -37,31 +24,17 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
 
 
 class InquireMemberDailyRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("J: KRX, NX: NXT, UN: 통합")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("주식종목코드입력")
-    FID_INPUT_ISCD_2: str = Field(
-        alias="FID_INPUT_ISCD_2",
-    )
+    FID_INPUT_ISCD_2: str = Field(alias="FID_INPUT_ISCD_2")
     ("회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) > 회원사 참조)")
-    FID_INPUT_DATE_1: str = Field(
-        alias="FID_INPUT_DATE_1",
-    )
+    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
     ("날짜 ~")
-    FID_INPUT_DATE_2: str = Field(
-        alias="FID_INPUT_DATE_2",
-    )
+    FID_INPUT_DATE_2: str = Field(alias="FID_INPUT_DATE_2")
     ("~ 날짜")
-    FID_SCTN_CLS_CODE: str | None = Field(
-        default=None,
-        alias="FID_SCTN_CLS_CODE",
-        json_schema_extra={"blank_allowed": True},
-    )
+    FID_SCTN_CLS_CODE: str | None = Field(default=None, alias="FID_SCTN_CLS_CODE", json_schema_extra={"blank_allowed": True})
     ("공백")
 
 
@@ -81,89 +54,43 @@ class InquireMemberDailyRequestDict(TypedDict):
         FID_SCTN_CLS_CODE (str): 공백 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
-        "J: KRX, NX: NXT, UN: 통합",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "주식종목코드입력",
-    ]
-    FID_INPUT_ISCD_2: Annotated[
-        str,
-        "회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) > 회원사 참조)",
-    ]
-    FID_INPUT_DATE_1: Annotated[
-        str,
-        "날짜 ~",
-    ]
-    FID_INPUT_DATE_2: Annotated[
-        str,
-        "~ 날짜",
-    ]
-    FID_SCTN_CLS_CODE: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J: KRX, NX: NXT, UN: 통합"]
+    FID_INPUT_ISCD: Annotated[str, "주식종목코드입력"]
+    FID_INPUT_ISCD_2: Annotated[str, "회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) > 회원사 참조)"]
+    FID_INPUT_DATE_1: Annotated[str, "날짜 ~"]
+    FID_INPUT_DATE_2: Annotated[str, "~ 날짜"]
+    FID_SCTN_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
 
 
 class InquireMemberDailyOutput(RawModel):
-    stck_bsop_date: KisDate = Field(
-        alias="stck_bsop_date",
-    )
+    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
     ("주식영업일자")
-    total_seln_qty: int = Field(
-        alias="total_seln_qty",
-    )
+    total_seln_qty: int = Field(alias="total_seln_qty")
     ("총매도수량")
-    total_shnu_qty: int = Field(
-        alias="total_shnu_qty",
-    )
+    total_shnu_qty: int = Field(alias="total_shnu_qty")
     ("총매수2수량")
-    ntby_qty: int = Field(
-        alias="ntby_qty",
-    )
+    ntby_qty: int = Field(alias="ntby_qty")
     ("순매수수량")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식현재가")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일대비부호")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일대비율")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적거래량")
 
 
 class InquireMemberDailyResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[InquireMemberDailyOutput] = Field(
-        alias="output",
-    )
+    output: list[InquireMemberDailyOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -190,27 +117,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireMemberDailyRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireMemberDailyRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireMemberDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireMemberDailyRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireMemberDailyRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireMemberDailyResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireMemberDailyRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireMemberDailyRequestDict]
         ) -> tuple[InquireMemberDailyResponse, KisResponse]: ...
         def call(
             self,

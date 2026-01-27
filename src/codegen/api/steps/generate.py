@@ -1,17 +1,20 @@
 from __future__ import annotations
 
 import re
-import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
 from codegen.api.models import EndpointSpec, SpecField
 from codegen.api.types import EndpointHints, FieldHint, TypeOverrides
+from codegen.core.cleanup import clean_dir_keep_files, raw_keep_files
 from codegen.core.format import run_ruff_fix, run_ruff_format
 from codegen.core.render import render_template
 from codegen.core.text import is_blank_description, wrap_display_lines
 
 __all__ = ["generate_raw", "normalize_filename", "section_path"]
+
+RAW_STATIC_FILES = {"base.py", "types.py", "registry.py", "__init__.py"}
+RAW_KEEP_FILES = raw_keep_files(*RAW_STATIC_FILES)
 
 
 @dataclass(slots=True)
@@ -44,17 +47,6 @@ class ModelField:
         args.append(f"alias={self.alias!r}")
         args.extend(self.field_args)
         return args
-
-    @property
-    def desc_lines(self) -> list[str]:
-        if not self.desc:
-            return []
-        lines = wrap_display_lines(self.desc, width=96)
-        if not lines:
-            return []
-        if len(lines) == 1:
-            return lines
-        return [f"{line} " for line in lines[:-1]] + [lines[-1]]
 
 
 @dataclass(slots=True)
@@ -440,13 +432,8 @@ def generate_raw(
     update_registry: bool = True,
 ) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
-    keep_files = {"base.py", "types.py", "registry.py", "__init__.py"}
     if not keep_existing:
-        for child in out_dir.iterdir():
-            if child.is_dir():
-                shutil.rmtree(child)
-            elif child.is_file() and child.name not in keep_files:
-                child.unlink()
+        clean_dir_keep_files(out_dir, RAW_KEEP_FILES)
 
     static_files: list[str] = ["base.py", "types.py", "__init__.py"]
     for filename in static_files:

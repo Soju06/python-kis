@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -47,29 +36,17 @@ class SllBuyDvsnCdEnum(KisStrEnum):
 
 
 class InquirePsamountRequest(RawModel):
-    CANO: CanoEnum = Field(
-        alias="CANO",
-    )
+    CANO: CanoEnum = Field(alias="CANO")
     ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(
-        alias="ACNT_PRDT_CD",
-    )
+    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
     ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_FUTR_FX_PDNO: str = Field(
-        alias="OVRS_FUTR_FX_PDNO",
-    )
+    OVRS_FUTR_FX_PDNO: str = Field(alias="OVRS_FUTR_FX_PDNO")
     ("해외선물FX상품번호")
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(
-        alias="SLL_BUY_DVSN_CD",
-    )
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(alias="SLL_BUY_DVSN_CD")
     ("01 : 매도 / 02 : 매수")
-    FM_ORD_PRIC: Decimal = Field(
-        alias="FM_ORD_PRIC",
-    )
+    FM_ORD_PRIC: Decimal = Field(alias="FM_ORD_PRIC")
     ("N")
-    ECIS_RSVN_ORD_YN: KisBool = Field(
-        alias="ECIS_RSVN_ORD_YN",
-    )
+    ECIS_RSVN_ORD_YN: KisBool = Field(alias="ECIS_RSVN_ORD_YN")
     ("N")
 
 
@@ -87,101 +64,45 @@ class InquirePsamountRequestDict(TypedDict):
         ECIS_RSVN_ORD_YN (KisBool): N
     """
 
-    CANO: Annotated[
-        CanoEnum,
-        "계좌번호 체계(8-2)의 앞 8자리",
-    ]
-    ACNT_PRDT_CD: Annotated[
-        AcntPrdtCdEnum,
-        "계좌번호 체계(8-2)의 뒤 2자리",
-    ]
-    OVRS_FUTR_FX_PDNO: Annotated[
-        str,
-        "해외선물FX상품번호",
-    ]
-    SLL_BUY_DVSN_CD: Annotated[
-        SllBuyDvsnCdEnum,
-        "01 : 매도 / 02 : 매수",
-    ]
-    FM_ORD_PRIC: Annotated[
-        Decimal,
-        "N",
-    ]
-    ECIS_RSVN_ORD_YN: Annotated[
-        KisBool,
-        "N",
-    ]
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
+    OVRS_FUTR_FX_PDNO: Annotated[str, "해외선물FX상품번호"]
+    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "01 : 매도 / 02 : 매수"]
+    FM_ORD_PRIC: Annotated[Decimal, "N"]
+    ECIS_RSVN_ORD_YN: Annotated[KisBool, "N"]
 
 
 class InquirePsamountOutput(RawModel):
-    cano: str | None = Field(
-        default=None,
-        alias="cano",
-    )
+    cano: str | None = Field(default=None, alias="cano")
     ("종합계좌번호")
-    acnt_prdt_cd: str | None = Field(
-        default=None,
-        alias="acnt_prdt_cd",
-    )
+    acnt_prdt_cd: str | None = Field(default=None, alias="acnt_prdt_cd")
     ("계좌상품코드")
-    ovrs_futr_fx_pdno: str | None = Field(
-        default=None,
-        alias="ovrs_futr_fx_pdno",
-    )
+    ovrs_futr_fx_pdno: str | None = Field(default=None, alias="ovrs_futr_fx_pdno")
     ("해외선물FX상품번호")
-    crcy_cd: str | None = Field(
-        default=None,
-        alias="crcy_cd",
-    )
+    crcy_cd: str | None = Field(default=None, alias="crcy_cd")
     ("통화코드")
-    sll_buy_dvsn_cd: str | None = Field(
-        default=None,
-        alias="sll_buy_dvsn_cd",
-    )
+    sll_buy_dvsn_cd: str | None = Field(default=None, alias="sll_buy_dvsn_cd")
     ("매도매수구분코드")
-    fm_ustl_qty: int | None = Field(
-        default=None,
-        alias="fm_ustl_qty",
-    )
+    fm_ustl_qty: int | None = Field(default=None, alias="fm_ustl_qty")
     ("FM미결제수량")
-    fm_lqd_psbl_qty: int | None = Field(
-        default=None,
-        alias="fm_lqd_psbl_qty",
-    )
+    fm_lqd_psbl_qty: int | None = Field(default=None, alias="fm_lqd_psbl_qty")
     ("FM청산가능수량")
-    fm_new_ord_psbl_qty: int | None = Field(
-        default=None,
-        alias="fm_new_ord_psbl_qty",
-    )
+    fm_new_ord_psbl_qty: int | None = Field(default=None, alias="fm_new_ord_psbl_qty")
     ("FM신규주문가능수량")
-    fm_tot_ord_psbl_qty: int | None = Field(
-        default=None,
-        alias="fm_tot_ord_psbl_qty",
-    )
+    fm_tot_ord_psbl_qty: int | None = Field(default=None, alias="fm_tot_ord_psbl_qty")
     ("FM총주문가능수량")
-    fm_mkpr_tot_ord_psbl_qty: int | None = Field(
-        default=None,
-        alias="fm_mkpr_tot_ord_psbl_qty",
-    )
+    fm_mkpr_tot_ord_psbl_qty: int | None = Field(default=None, alias="fm_mkpr_tot_ord_psbl_qty")
     ("FM시장가총주문가능수량")
 
 
 class InquirePsamountResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: InquirePsamountOutput = Field(
-        alias="output",
-    )
+    output: InquirePsamountOutput = Field(alias="output")
     ("응답상세1")
 
 
@@ -204,27 +125,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePsamountRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePsamountRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePsamountResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquirePsamountRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquirePsamountRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquirePsamountResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquirePsamountRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquirePsamountRequestDict]
         ) -> tuple[InquirePsamountResponse, KisResponse]: ...
         def call(
             self,

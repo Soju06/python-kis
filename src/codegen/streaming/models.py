@@ -24,6 +24,7 @@ class FieldSpec:
     name: str
     field_type: str
     source: str
+    desc: str | None = None
     datetime_rule: DateTimeRule | None = None
     decimal_rule: DecimalRule | None = None
 

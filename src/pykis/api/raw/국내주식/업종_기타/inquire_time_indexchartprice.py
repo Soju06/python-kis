@@ -2,24 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDate,
-    KisTimeOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDate, KisTimeOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -35,25 +22,15 @@ class FidEtcClsCodeEnum(KisStrEnum):
 
 
 class InquireTimeIndexchartpriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("U")
-    FID_ETC_CLS_CODE: FidEtcClsCodeEnum = Field(
-        alias="FID_ETC_CLS_CODE",
-    )
+    FID_ETC_CLS_CODE: FidEtcClsCodeEnum = Field(alias="FID_ETC_CLS_CODE")
     ("0: 기본 1:장마감,시간외 제외")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("0001 : 종합 0002 : 대형주 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)")
-    FID_INPUT_HOUR_1: str = Field(
-        alias="FID_INPUT_HOUR_1",
-    )
+    FID_INPUT_HOUR_1: str = Field(alias="FID_INPUT_HOUR_1")
     ("30, 60 -> 1분, 600-> 10분, 3600 -> 1시간")
-    FID_PW_DATA_INCU_YN: KisBool = Field(
-        alias="FID_PW_DATA_INCU_YN",
-    )
+    FID_PW_DATA_INCU_YN: KisBool = Field(alias="FID_PW_DATA_INCU_YN")
     ("Y (과거) / N (당일)")
 
 
@@ -71,151 +48,77 @@ class InquireTimeIndexchartpriceRequestDict(TypedDict):
         FID_PW_DATA_INCU_YN (KisBool): Y (과거) / N (당일)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "U",
-    ]
-    FID_ETC_CLS_CODE: Annotated[
-        FidEtcClsCodeEnum,
-        "0: 기본 1:장마감,시간외 제외",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "0001 : 종합 0002 : 대형주 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)",
-    ]
-    FID_INPUT_HOUR_1: Annotated[
-        str,
-        "30, 60 -> 1분, 600-> 10분, 3600 -> 1시간",
-    ]
-    FID_PW_DATA_INCU_YN: Annotated[
-        KisBool,
-        "Y (과거) / N (당일)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "U"]
+    FID_ETC_CLS_CODE: Annotated[FidEtcClsCodeEnum, "0: 기본 1:장마감,시간외 제외"]
+    FID_INPUT_ISCD: Annotated[str, "0001 : 종합 0002 : 대형주 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)"]
+    FID_INPUT_HOUR_1: Annotated[str, "30, 60 -> 1분, 600-> 10분, 3600 -> 1시간"]
+    FID_PW_DATA_INCU_YN: Annotated[KisBool, "Y (과거) / N (당일)"]
 
 
 class InquireTimeIndexchartpriceOutput1(RawModel):
-    bstp_nmix_prdy_vrss: Decimal = Field(
-        alias="bstp_nmix_prdy_vrss",
-    )
+    bstp_nmix_prdy_vrss: Decimal = Field(alias="bstp_nmix_prdy_vrss")
     ("업종 지수 전일 대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    bstp_nmix_prdy_ctrt: Decimal = Field(
-        alias="bstp_nmix_prdy_ctrt",
-    )
+    bstp_nmix_prdy_ctrt: Decimal = Field(alias="bstp_nmix_prdy_ctrt")
     ("업종 지수 전일 대비율")
-    prdy_nmix: Decimal = Field(
-        alias="prdy_nmix",
-    )
+    prdy_nmix: Decimal = Field(alias="prdy_nmix")
     ("전일 지수")
-    acml_vol: int = Field(
-        alias="acml_vol",
-    )
+    acml_vol: int = Field(alias="acml_vol")
     ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(
-        alias="acml_tr_pbmn",
-    )
+    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
     ("누적 거래 대금")
-    hts_kor_isnm: str = Field(
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
     ("HTS 한글 종목명")
-    bstp_nmix_prpr: Decimal = Field(
-        alias="bstp_nmix_prpr",
-    )
+    bstp_nmix_prpr: Decimal = Field(alias="bstp_nmix_prpr")
     ("업종 지수 현재가")
-    bstp_cls_code: str = Field(
-        alias="bstp_cls_code",
-    )
+    bstp_cls_code: str = Field(alias="bstp_cls_code")
     ("업종 구분 코드")
-    prdy_vol: int = Field(
-        alias="prdy_vol",
-    )
+    prdy_vol: int = Field(alias="prdy_vol")
     ("전일 거래량")
-    bstp_nmix_oprc: Decimal = Field(
-        alias="bstp_nmix_oprc",
-    )
+    bstp_nmix_oprc: Decimal = Field(alias="bstp_nmix_oprc")
     ("업종 지수 시가2")
-    bstp_nmix_hgpr: Decimal = Field(
-        alias="bstp_nmix_hgpr",
-    )
+    bstp_nmix_hgpr: Decimal = Field(alias="bstp_nmix_hgpr")
     ("업종 지수 최고가")
-    bstp_nmix_lwpr: Decimal = Field(
-        alias="bstp_nmix_lwpr",
-    )
+    bstp_nmix_lwpr: Decimal = Field(alias="bstp_nmix_lwpr")
     ("업종 지수 최저가")
-    futs_prdy_oprc: Decimal = Field(
-        alias="futs_prdy_oprc",
-    )
+    futs_prdy_oprc: Decimal = Field(alias="futs_prdy_oprc")
     ("선물 전일 시가")
-    futs_prdy_hgpr: Decimal = Field(
-        alias="futs_prdy_hgpr",
-    )
+    futs_prdy_hgpr: Decimal = Field(alias="futs_prdy_hgpr")
     ("선물 전일 최고가")
-    futs_prdy_lwpr: Decimal = Field(
-        alias="futs_prdy_lwpr",
-    )
+    futs_prdy_lwpr: Decimal = Field(alias="futs_prdy_lwpr")
     ("선물 전일 최저가")
 
 
 class InquireTimeIndexchartpriceOutput2(RawModel):
-    stck_bsop_date: KisDate = Field(
-        alias="stck_bsop_date",
-    )
+    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
     ("주식 영업 일자")
-    stck_cntg_hour: KisTimeOptional = Field(
-        default=None,
-        alias="stck_cntg_hour",
-    )
+    stck_cntg_hour: KisTimeOptional = Field(default=None, alias="stck_cntg_hour")
     ("주식 체결 시간")
-    bstp_nmix_prpr: Decimal = Field(
-        alias="bstp_nmix_prpr",
-    )
+    bstp_nmix_prpr: Decimal = Field(alias="bstp_nmix_prpr")
     ("업종 지수 현재가")
-    bstp_nmix_oprc: Decimal = Field(
-        alias="bstp_nmix_oprc",
-    )
+    bstp_nmix_oprc: Decimal = Field(alias="bstp_nmix_oprc")
     ("업종 지수 시가2")
-    bstp_nmix_hgpr: Decimal = Field(
-        alias="bstp_nmix_hgpr",
-    )
+    bstp_nmix_hgpr: Decimal = Field(alias="bstp_nmix_hgpr")
     ("업종 지수 최고가")
-    bstp_nmix_lwpr: Decimal = Field(
-        alias="bstp_nmix_lwpr",
-    )
+    bstp_nmix_lwpr: Decimal = Field(alias="bstp_nmix_lwpr")
     ("업종 지수 최저가")
-    cntg_vol: int = Field(
-        alias="cntg_vol",
-    )
+    cntg_vol: int = Field(alias="cntg_vol")
     ("체결 거래량")
-    acml_tr_pbmn: Decimal = Field(
-        alias="acml_tr_pbmn",
-    )
+    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
     ("누적 거래 대금")
 
 
 class InquireTimeIndexchartpriceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: InquireTimeIndexchartpriceOutput1 = Field(
-        alias="output1",
-    )
+    output1: InquireTimeIndexchartpriceOutput1 = Field(alias="output1")
     ("응답상세")
-    output2: list[InquireTimeIndexchartpriceOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[InquireTimeIndexchartpriceOutput2] = Field(alias="output2")
     ("응답상세2")
 
 
@@ -238,27 +141,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireTimeIndexchartpriceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireTimeIndexchartpriceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireTimeIndexchartpriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireTimeIndexchartpriceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireTimeIndexchartpriceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireTimeIndexchartpriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireTimeIndexchartpriceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireTimeIndexchartpriceRequestDict]
         ) -> tuple[InquireTimeIndexchartpriceResponse, KisResponse]: ...
         def call(
             self,

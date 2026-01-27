@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisTimeOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisTimeOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -26,17 +14,11 @@ if TYPE_CHECKING:
 
 
 class InquireTimeOvertimeconclusionRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("J : 주식, ETF, ETN")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("종목번호 (6자리) ETN의 경우, Q로 시작 (EX. Q500001)")
-    FID_HOUR_CLS_CODE: str = Field(
-        alias="FID_HOUR_CLS_CODE",
-    )
+    FID_HOUR_CLS_CODE: str = Field(alias="FID_HOUR_CLS_CODE")
     ("1 : 시간외 (Default)")
 
 
@@ -51,181 +33,81 @@ class InquireTimeOvertimeconclusionRequestDict(TypedDict):
         FID_HOUR_CLS_CODE (str): 1 : 시간외 (Default)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "J : 주식, ETF, ETN",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "종목번호 (6자리) ETN의 경우, Q로 시작 (EX. Q500001)",
-    ]
-    FID_HOUR_CLS_CODE: Annotated[
-        str,
-        "1 : 시간외 (Default)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "J : 주식, ETF, ETN"]
+    FID_INPUT_ISCD: Annotated[str, "종목번호 (6자리) ETN의 경우, Q로 시작 (EX. Q500001)"]
+    FID_HOUR_CLS_CODE: Annotated[str, "1 : 시간외 (Default)"]
 
 
 class InquireTimeOvertimeconclusionOutput1(RawModel):
-    ovtm_untp_prpr: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_prpr",
-    )
+    ovtm_untp_prpr: Decimal | None = Field(default=None, alias="ovtm_untp_prpr")
     ("시간외 단일가 현재가")
-    ovtm_untp_prdy_vrss: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_prdy_vrss",
-    )
+    ovtm_untp_prdy_vrss: Decimal | None = Field(default=None, alias="ovtm_untp_prdy_vrss")
     ("시간외 단일가 전일 대비")
-    ovtm_untp_prdy_vrss_sign: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_prdy_vrss_sign",
-    )
+    ovtm_untp_prdy_vrss_sign: Decimal | None = Field(default=None, alias="ovtm_untp_prdy_vrss_sign")
     ("시간외 단일가 전일 대비 부호")
-    ovtm_untp_prdy_ctrt: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_prdy_ctrt",
-    )
+    ovtm_untp_prdy_ctrt: Decimal | None = Field(default=None, alias="ovtm_untp_prdy_ctrt")
     ("시간외 단일가 전일 대비율")
-    ovtm_untp_vol: int | None = Field(
-        default=None,
-        alias="ovtm_untp_vol",
-    )
+    ovtm_untp_vol: int | None = Field(default=None, alias="ovtm_untp_vol")
     ("시간외 단일가 거래량")
-    ovtm_untp_tr_pbmn: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_tr_pbmn",
-    )
+    ovtm_untp_tr_pbmn: Decimal | None = Field(default=None, alias="ovtm_untp_tr_pbmn")
     ("시간외 단일가 거래 대금")
-    ovtm_untp_mxpr: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_mxpr",
-    )
+    ovtm_untp_mxpr: Decimal | None = Field(default=None, alias="ovtm_untp_mxpr")
     ("시간외 단일가 상한가")
-    ovtm_untp_llam: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_llam",
-    )
+    ovtm_untp_llam: Decimal | None = Field(default=None, alias="ovtm_untp_llam")
     ("시간외 단일가 하한가")
-    ovtm_untp_oprc: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_oprc",
-    )
+    ovtm_untp_oprc: Decimal | None = Field(default=None, alias="ovtm_untp_oprc")
     ("시간외 단일가 시가2")
-    ovtm_untp_hgpr: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_hgpr",
-    )
+    ovtm_untp_hgpr: Decimal | None = Field(default=None, alias="ovtm_untp_hgpr")
     ("시간외 단일가 최고가")
-    ovtm_untp_lwpr: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_lwpr",
-    )
+    ovtm_untp_lwpr: Decimal | None = Field(default=None, alias="ovtm_untp_lwpr")
     ("시간외 단일가 최저가")
-    ovtm_untp_antc_cnpr: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_antc_cnpr",
-    )
+    ovtm_untp_antc_cnpr: Decimal | None = Field(default=None, alias="ovtm_untp_antc_cnpr")
     ("시간외 단일가 예상 체결가")
-    ovtm_untp_antc_cntg_vrss: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_antc_cntg_vrss",
-    )
+    ovtm_untp_antc_cntg_vrss: Decimal | None = Field(default=None, alias="ovtm_untp_antc_cntg_vrss")
     ("시간외 단일가 예상 체결 대비")
-    ovtm_untp_antc_cntg_vrss_sign: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_antc_cntg_vrss_sign",
-    )
+    ovtm_untp_antc_cntg_vrss_sign: Decimal | None = Field(default=None, alias="ovtm_untp_antc_cntg_vrss_sign")
     ("시간외 단일가 예상 체결 대비")
-    ovtm_untp_antc_cntg_ctrt: Decimal | None = Field(
-        default=None,
-        alias="ovtm_untp_antc_cntg_ctrt",
-    )
+    ovtm_untp_antc_cntg_ctrt: Decimal | None = Field(default=None, alias="ovtm_untp_antc_cntg_ctrt")
     ("시간외 단일가 예상 체결 대비율")
-    ovtm_untp_antc_vol: int | None = Field(
-        default=None,
-        alias="ovtm_untp_antc_vol",
-    )
+    ovtm_untp_antc_vol: int | None = Field(default=None, alias="ovtm_untp_antc_vol")
     ("시간외 단일가 예상 거래량")
-    uplm_sign: int | None = Field(
-        default=None,
-        alias="uplm_sign",
-    )
+    uplm_sign: int | None = Field(default=None, alias="uplm_sign")
     ("상한 부호")
-    lslm_sign: int | None = Field(
-        default=None,
-        alias="lslm_sign",
-    )
+    lslm_sign: int | None = Field(default=None, alias="lslm_sign")
     ("하한 부호")
 
 
 class InquireTimeOvertimeconclusionOutput2(RawModel):
-    stck_cntg_hour: KisTimeOptional = Field(
-        default=None,
-        alias="stck_cntg_hour",
-    )
+    stck_cntg_hour: KisTimeOptional = Field(default=None, alias="stck_cntg_hour")
     ("주식 체결 시간")
-    stck_prpr: Decimal | None = Field(
-        default=None,
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal | None = Field(default=None, alias="stck_prpr")
     ("주식 현재가")
-    prdy_vrss: str | None = Field(
-        default=None,
-        alias="prdy_vrss",
-    )
+    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
     ("전일 대비")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(
-        default=None,
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
     ("전일 대비율")
-    askp: str | None = Field(
-        default=None,
-        alias="askp",
-    )
+    askp: str | None = Field(default=None, alias="askp")
     ("매도호가")
-    bidp: str | None = Field(
-        default=None,
-        alias="bidp",
-    )
+    bidp: str | None = Field(default=None, alias="bidp")
     ("매수호가")
-    acml_vol: int | None = Field(
-        default=None,
-        alias="acml_vol",
-    )
+    acml_vol: int | None = Field(default=None, alias="acml_vol")
     ("누적 거래량")
-    cntg_vol: int | None = Field(
-        default=None,
-        alias="cntg_vol",
-    )
+    cntg_vol: int | None = Field(default=None, alias="cntg_vol")
     ("체결 거래량")
 
 
 class InquireTimeOvertimeconclusionResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: InquireTimeOvertimeconclusionOutput1 = Field(
-        alias="output1",
-    )
+    output1: InquireTimeOvertimeconclusionOutput1 = Field(alias="output1")
     ("응답상세1")
-    output2: list[InquireTimeOvertimeconclusionOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[InquireTimeOvertimeconclusionOutput2] = Field(alias="output2")
     ("응답상세2")
 
 
@@ -248,27 +130,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireTimeOvertimeconclusionRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireTimeOvertimeconclusionRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireTimeOvertimeconclusionResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireTimeOvertimeconclusionRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireTimeOvertimeconclusionRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireTimeOvertimeconclusionResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireTimeOvertimeconclusionRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireTimeOvertimeconclusionRequestDict]
         ) -> tuple[InquireTimeOvertimeconclusionResponse, KisResponse]: ...
         def call(
             self,

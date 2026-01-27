@@ -7,6 +7,7 @@ from pathlib import Path
 
 import yaml
 
+from codegen.core.cleanup import clean_structs_dir
 from codegen.core.format import run_ruff_fix, run_ruff_format
 from codegen.core.render import render_template
 from codegen.core.text import wrap_display_lines
@@ -346,7 +347,6 @@ def generate_structs(
     enum_overrides: dict[tuple[str, str], EnumOverride] | None = None,
 ) -> list[EnumConflict]:
     structs_dir = raw_dir / "structs"
-    structs_dir.mkdir(parents=True, exist_ok=True)
 
     struct_groups: dict[str, set[str]] = {}
     for source in catalog.sources:
@@ -355,18 +355,15 @@ def generate_structs(
         struct_groups.setdefault(struct.name, {"unknown"})
 
     target_groups = {group for groups in struct_groups.values() for group in groups}
-    for path in structs_dir.glob("*.py"):
-        if path.name not in {"__init__.py", "_enums.py"}:
-            path.unlink()
-    for path in structs_dir.iterdir():
-        if path.is_dir() and path.name not in target_groups:
-            shutil.rmtree(path)
+    clean_structs_dir(
+        structs_dir,
+        root_keep_files={"__init__.py", "_enums.py"},
+        keep_dirs=target_groups,
+        group_keep_files={"__init__.py"},
+    )
     for group in target_groups:
         group_dir = structs_dir / group
         group_dir.mkdir(parents=True, exist_ok=True)
-        for path in group_dir.glob("*.py"):
-            if path.name != "__init__.py":
-                path.unlink()
 
     struct_inference = inference.structs if inference else {}
     struct_entries: list[StructInitEntry] = []

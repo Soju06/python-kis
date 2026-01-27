@@ -10,28 +10,34 @@ from pykis.streaming.normalize.models import (
     NormalizedOrderBookLevel,
     NormalizedTrade,
 )
+from pykis.streaming.raw import RAW_REGISTRY
 from pykis.streaming.raw.base import StreamingRawModel
-from pykis.streaming.raw.generated.h0nxasp0 import H0NXASP0
-from pykis.streaming.raw.generated.h0nxcnt0 import H0NXCNT0
-from pykis.streaming.raw.generated.h0stasp0 import H0STASP0
-from pykis.streaming.raw.generated.h0stcnt0 import H0STCNT0
-from pykis.streaming.raw.generated.h0unasp0 import H0UNASP0
-from pykis.streaming.raw.generated.h0uncnt0 import H0UNCNT0
-from pykis.streaming.raw.generated.h0upcnt0 import H0UPCNT0
-from pykis.streaming.raw.generated.hdfsasp0 import HDFSASP0
-from pykis.streaming.raw.generated.hdfsasp1 import HDFSASP1
-from pykis.streaming.raw.generated.hdfscnt0 import HDFSCNT0
+
+
+def _model_for(tr_id: str) -> type[StreamingRawModel]:
+    spec = RAW_REGISTRY.get(tr_id)
+    if spec is None:
+        raise RuntimeError(f"Missing streaming spec for {tr_id}. Regenerate streaming raw models.")
+    return spec.model
+
+
+DOMESTIC_TRADE_TYPES = tuple(_model_for(tr_id) for tr_id in ("H0STCNT0", "H0NXCNT0", "H0UNCNT0", "H0UPCNT0"))
+DOMESTIC_ORDERBOOK_TYPES = tuple(_model_for(tr_id) for tr_id in ("H0STASP0", "H0NXASP0", "H0UNASP0"))
+OVERSEAS_TRADE_TYPES = (_model_for("HDFSCNT0"),)
+OVERSEAS_ORDERBOOK_V1 = _model_for("HDFSASP0")
+OVERSEAS_ORDERBOOK_V2 = _model_for("HDFSASP1")
+OVERSEAS_ORDERBOOK_TYPES = (OVERSEAS_ORDERBOOK_V1, OVERSEAS_ORDERBOOK_V2)
 
 
 def normalize_event(tr_id: str, record: StreamingRawModel) -> NormalizedEvent | None:
-    if isinstance(record, (H0STCNT0, H0NXCNT0, H0UNCNT0, H0UPCNT0)):
+    if isinstance(record, DOMESTIC_TRADE_TYPES):
         return _normalize_domestic_trade(cast(DomesticTradeRaw, record), tr_id)
-    if isinstance(record, HDFSCNT0):
-        return _normalize_overseas_trade(record, tr_id)
-    if isinstance(record, (H0STASP0, H0NXASP0, H0UNASP0)):
+    if isinstance(record, OVERSEAS_TRADE_TYPES):
+        return _normalize_overseas_trade(cast(OverseasTradeRaw, record), tr_id)
+    if isinstance(record, DOMESTIC_ORDERBOOK_TYPES):
         return _normalize_domestic_orderbook(cast(DomesticOrderBookRaw, record), tr_id)
-    if isinstance(record, (HDFSASP0, HDFSASP1)):
-        return _normalize_overseas_orderbook(record, tr_id)
+    if isinstance(record, OVERSEAS_ORDERBOOK_TYPES):
+        return _normalize_overseas_orderbook(cast(OverseasOrderBookRaw, record), tr_id)
     return None
 
 
@@ -97,6 +103,26 @@ class DomesticOrderBookRaw(Protocol):
     TOTAL_ASKP_RSQN: Decimal | str
 
 
+class OverseasTradeRaw(Protocol):
+    RSYM: str
+    XHMS: datetime
+    LAST: Decimal | str
+    EVOL: Decimal | str
+    OPEN: Decimal | str
+    HIGH: Decimal | str
+    LOW: Decimal | str
+    DIFF: Decimal | str
+    RATE: Decimal | str
+    TAMT: Decimal | str
+    PBID: Decimal | str
+    PASK: Decimal | str
+
+
+class OverseasOrderBookRaw(Protocol):
+    RSYM: str
+    XHMS: datetime
+
+
 def _normalize_domestic_trade(record: DomesticTradeRaw, tr_id: str) -> NormalizedTrade:
     return NormalizedTrade(
         symbol=record.MKSC_SHRN_ISCD,
@@ -116,21 +142,21 @@ def _normalize_domestic_trade(record: DomesticTradeRaw, tr_id: str) -> Normalize
     )
 
 
-def _normalize_overseas_trade(record: HDFSCNT0, tr_id: str) -> NormalizedTrade:
+def _normalize_overseas_trade(record: OverseasTradeRaw, tr_id: str) -> NormalizedTrade:
     return NormalizedTrade(
         symbol=record.RSYM,
         market="overseas",
         timestamp_utc=record.XHMS,
-        price=record.LAST,
-        volume=record.EVOL,
-        open=record.OPEN,
-        high=record.HIGH,
-        low=record.LOW,
-        change=record.DIFF,
-        change_rate=record.RATE,
-        turnover=record.TAMT,
-        bid=record.PBID,
-        ask=record.PASK,
+        price=_decimal_required(record.LAST),
+        volume=_decimal_required(record.EVOL),
+        open=_decimal_optional(record.OPEN),
+        high=_decimal_optional(record.HIGH),
+        low=_decimal_optional(record.LOW),
+        change=_decimal_optional(record.DIFF),
+        change_rate=_decimal_optional(record.RATE),
+        turnover=_decimal_optional(record.TAMT),
+        bid=_decimal_optional(record.PBID),
+        ask=_decimal_optional(record.PASK),
         source_tr_id=tr_id,
     )
 
@@ -207,7 +233,7 @@ def _normalize_domestic_orderbook(record: DomesticOrderBookRaw, tr_id: str) -> N
 
 
 def _normalize_overseas_orderbook(
-    record: HDFSASP0 | HDFSASP1,
+    record: OverseasOrderBookRaw,
     tr_id: str,
 ) -> NormalizedOrderBook:
     price_fields = _overseas_price_fields(record)
@@ -228,8 +254,8 @@ def _normalize_overseas_orderbook(
     )
 
 
-def _overseas_price_fields(record: HDFSASP0 | HDFSASP1) -> dict[str, list[str]]:
-    if isinstance(record, HDFSASP0):
+def _overseas_price_fields(record: OverseasOrderBookRaw) -> dict[str, list[str]]:
+    if isinstance(record, OVERSEAS_ORDERBOOK_V1):
         bid = [
             "PBID1",
             "PBID2",
@@ -284,8 +310,8 @@ def _overseas_price_fields(record: HDFSASP0 | HDFSASP1) -> dict[str, list[str]]:
     return {"bid": bid, "ask": ask}
 
 
-def _overseas_size_fields(record: HDFSASP0 | HDFSASP1) -> dict[str, list[str]]:
-    if isinstance(record, HDFSASP0):
+def _overseas_size_fields(record: OverseasOrderBookRaw) -> dict[str, list[str]]:
+    if isinstance(record, OVERSEAS_ORDERBOOK_V1):
         bid = [
             "VBID1",
             "VBID2",
@@ -354,7 +380,7 @@ def _pair_levels(
 
 
 def _levels_from_attrs(
-    record: HDFSASP0 | HDFSASP1,
+    record: OverseasOrderBookRaw,
     prices: list[str],
     sizes: list[str],
 ) -> tuple[NormalizedOrderBookLevel, ...]:

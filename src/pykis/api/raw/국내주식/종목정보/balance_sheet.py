@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -33,17 +22,11 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class BalanceSheetRequest(RawModel):
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
-        alias="FID_DIV_CLS_CODE",
-    )
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
     ("0: 년, 1: 분기")
-    fid_cond_mrkt_div_code: str = Field(
-        alias="fid_cond_mrkt_div_code",
-    )
+    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
     ("J")
-    fid_input_iscd: str = Field(
-        alias="fid_input_iscd",
-    )
+    fid_input_iscd: str = Field(alias="fid_input_iscd")
     ("000660 : 종목코드")
 
 
@@ -59,83 +42,44 @@ class BalanceSheetRequestDict(TypedDict):
         fid_input_iscd (str): 000660 : 종목코드
     """
 
-    FID_DIV_CLS_CODE: Annotated[
-        FidDivClsCodeEnum,
-        "0: 년, 1: 분기",
-    ]
-    fid_cond_mrkt_div_code: Annotated[
-        str,
-        "J",
-    ]
-    fid_input_iscd: Annotated[
-        str,
-        "000660 : 종목코드",
-    ]
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"]
+    fid_cond_mrkt_div_code: Annotated[str, "J"]
+    fid_input_iscd: Annotated[str, "000660 : 종목코드"]
 
 
 class BalanceSheetOutput(RawModel):
-    stac_yymm: str = Field(
-        alias="stac_yymm",
-    )
+    stac_yymm: str = Field(alias="stac_yymm")
     ("결산 년월")
-    cras: Decimal = Field(
-        alias="cras",
-    )
+    cras: Decimal = Field(alias="cras")
     ("유동자산")
-    fxas: Decimal = Field(
-        alias="fxas",
-    )
+    fxas: Decimal = Field(alias="fxas")
     ("고정자산")
-    total_aset: Decimal = Field(
-        alias="total_aset",
-    )
+    total_aset: Decimal = Field(alias="total_aset")
     ("자산총계")
-    flow_lblt: Decimal = Field(
-        alias="flow_lblt",
-    )
+    flow_lblt: Decimal = Field(alias="flow_lblt")
     ("유동부채")
-    fix_lblt: Decimal = Field(
-        alias="fix_lblt",
-    )
+    fix_lblt: Decimal = Field(alias="fix_lblt")
     ("고정부채")
-    total_lblt: Decimal = Field(
-        alias="total_lblt",
-    )
+    total_lblt: Decimal = Field(alias="total_lblt")
     ("부채총계")
-    cpfn: int = Field(
-        alias="cpfn",
-    )
+    cpfn: int = Field(alias="cpfn")
     ("자본금")
-    cfp_surp: Decimal = Field(
-        alias="cfp_surp",
-    )
+    cfp_surp: Decimal = Field(alias="cfp_surp")
     ("출력되지 않는 데이터(99.99 로 표시)")
-    prfi_surp: Decimal = Field(
-        alias="prfi_surp",
-    )
+    prfi_surp: Decimal = Field(alias="prfi_surp")
     ("출력되지 않는 데이터(99.99 로 표시)")
-    total_cptl: Decimal = Field(
-        alias="total_cptl",
-    )
+    total_cptl: Decimal = Field(alias="total_cptl")
     ("자본총계")
 
 
 class BalanceSheetResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[BalanceSheetOutput] = Field(
-        alias="output",
-    )
+    output: list[BalanceSheetOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -162,27 +106,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: BalanceSheetRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: BalanceSheetRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[BalanceSheetResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: BalanceSheetRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: BalanceSheetRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[BalanceSheetResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[BalanceSheetRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[BalanceSheetRequestDict]
         ) -> tuple[BalanceSheetResponse, KisResponse]: ...
         def call(
             self,
@@ -217,11 +149,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "BalanceSheetRequest",
-    "BalanceSheetRequestDict",
-    "BalanceSheetResponse",
-    "BalanceSheetOutput",
-    "FidDivClsCodeEnum",
-]
+__all__ = ["ENDPOINT", "BalanceSheetRequest", "BalanceSheetRequestDict", "BalanceSheetResponse", "BalanceSheetOutput", "FidDivClsCodeEnum"]

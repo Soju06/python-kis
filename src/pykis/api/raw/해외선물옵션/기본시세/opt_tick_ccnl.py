@@ -2,26 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    NotRequired,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDateOptional,
-    KisDateTimeOptional,
-    KisTimeOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDateOptional, KisDateTimeOptional, KisTimeOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -37,43 +22,21 @@ class QryTpEnum(KisStrEnum):
 
 
 class OptTickCcnlRequest(RawModel):
-    SRS_CD: str = Field(
-        alias="SRS_CD",
-    )
+    SRS_CD: str = Field(alias="SRS_CD")
     ('ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고')
-    EXCH_CD: str = Field(
-        alias="EXCH_CD",
-    )
+    EXCH_CD: str = Field(alias="EXCH_CD")
     ("종목코드에 맞는 거래소 코드 ex) CME")
-    START_DATE_TIME: KisDateTimeOptional = Field(
-        default=None,
-        alias="START_DATE_TIME",
-        json_schema_extra={"blank_allowed": True},
-    )
+    START_DATE_TIME: KisDateTimeOptional = Field(default=None, alias="START_DATE_TIME", json_schema_extra={"blank_allowed": True})
     ('"" 공란 입력')
-    CLOSE_DATE_TIME: KisDateTimeOptional = Field(
-        default=None,
-        alias="CLOSE_DATE_TIME",
-        json_schema_extra={"blank_allowed": True},
-    )
+    CLOSE_DATE_TIME: KisDateTimeOptional = Field(default=None, alias="CLOSE_DATE_TIME", json_schema_extra={"blank_allowed": True})
     ('"" 공란 입력 ※ 날짜 입력해도 처리 안됨')
-    QRY_TP: QryTpEnum = Field(
-        alias="QRY_TP",
-    )
+    QRY_TP: QryTpEnum = Field(alias="QRY_TP")
     ("Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시")
-    QRY_CNT: int = Field(
-        alias="QRY_CNT",
-    )
+    QRY_CNT: int = Field(alias="QRY_CNT")
     ("예) 30 (최대 40)")
-    QRY_GAP: str | None = Field(
-        default=None,
-        alias="QRY_GAP",
-        json_schema_extra={"blank_allowed": True},
-    )
+    QRY_GAP: str | None = Field(default=None, alias="QRY_GAP", json_schema_extra={"blank_allowed": True})
     ("공백")
-    INDEX_KEY: str = Field(
-        alias="INDEX_KEY",
-    )
+    INDEX_KEY: str = Field(alias="INDEX_KEY")
     ('다음조회(QRY_TP를 P로 입력) 시, 이전 호출의 "output1 > index_key" 기입하여 조회')
 
 
@@ -124,143 +87,60 @@ class OptTickCcnlRequestDict(TypedDict):
         조회
     """
 
-    SRS_CD: Annotated[
-        str,
-        'ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고',
-    ]
-    EXCH_CD: Annotated[
-        str,
-        "종목코드에 맞는 거래소 코드 ex) CME",
-    ]
-    START_DATE_TIME: NotRequired[
-        Annotated[
-            KisDateTimeOptional,
-            '"" 공란 입력',
-        ]
-    ]
-    CLOSE_DATE_TIME: NotRequired[
-        Annotated[
-            KisDateTimeOptional,
-            '"" 공란 입력 ※ 날짜 입력해도 처리 안됨',
-        ]
-    ]
-    QRY_TP: Annotated[
-        QryTpEnum,
-        "Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시",
-    ]
-    QRY_CNT: Annotated[
-        int,
-        "예) 30 (최대 40)",
-    ]
-    QRY_GAP: NotRequired[
-        Annotated[
-            str | None,
-            "공백",
-        ]
-    ]
-    INDEX_KEY: Annotated[
-        str,
-        '다음조회(QRY_TP를 P로 입력) 시, 이전 호출의 "output1 > index_key" 기입하여 조회',
-    ]
+    SRS_CD: Annotated[str, 'ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고']
+    EXCH_CD: Annotated[str, "종목코드에 맞는 거래소 코드 ex) CME"]
+    START_DATE_TIME: NotRequired[Annotated[KisDateTimeOptional, '"" 공란 입력']]
+    CLOSE_DATE_TIME: NotRequired[Annotated[KisDateTimeOptional, '"" 공란 입력 ※ 날짜 입력해도 처리 안됨']]
+    QRY_TP: Annotated[QryTpEnum, "Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시"]
+    QRY_CNT: Annotated[int, "예) 30 (최대 40)"]
+    QRY_GAP: NotRequired[Annotated[str | None, "공백"]]
+    INDEX_KEY: Annotated[str, '다음조회(QRY_TP를 P로 입력) 시, 이전 호출의 "output1 > index_key" 기입하여 조회']
 
 
 class OptTickCcnlOutput1(RawModel):
-    ret_cnt: int = Field(
-        alias="ret_cnt",
-    )
+    ret_cnt: int = Field(alias="ret_cnt")
     ("자료개수")
-    last_n_cnt: int = Field(
-        alias="last_n_cnt",
-    )
+    last_n_cnt: int = Field(alias="last_n_cnt")
     ("N틱최종개수")
-    index_key: str | None = Field(
-        default=None,
-        alias="index_key",
-    )
+    index_key: str | None = Field(default=None, alias="index_key")
     ("이전조회KEY")
 
 
 class OptTickCcnlOutput2(RawModel):
-    data_date: KisDateOptional = Field(
-        default=None,
-        alias="data_date",
-    )
+    data_date: KisDateOptional = Field(default=None, alias="data_date")
     ("과거일자 ~ 최근일자 순으로 조회됨")
-    data_time: KisTimeOptional = Field(
-        default=None,
-        alias="data_time",
-    )
+    data_time: KisTimeOptional = Field(default=None, alias="data_time")
     ("HHMMSS")
-    open_price: Decimal | None = Field(
-        default=None,
-        alias="open_price",
-    )
+    open_price: Decimal | None = Field(default=None, alias="open_price")
     ("시가")
-    high_price: Decimal | None = Field(
-        default=None,
-        alias="high_price",
-    )
+    high_price: Decimal | None = Field(default=None, alias="high_price")
     ("고가")
-    low_price: Decimal | None = Field(
-        default=None,
-        alias="low_price",
-    )
+    low_price: Decimal | None = Field(default=None, alias="low_price")
     ("저가")
-    last_price: str | None = Field(
-        default=None,
-        alias="last_price",
-    )
-    (
-        "체결가격 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고 * 포럼 > FAQ > 종목정보 "
-        "다운로드(해외) - 해외지수옵션/해외주식옵션"
-    )
-    last_qntt: int | None = Field(
-        default=None,
-        alias="last_qntt",
-    )
+    last_price: str | None = Field(default=None, alias="last_price")
+    ("체결가격 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고 * 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션")
+    last_qntt: int | None = Field(default=None, alias="last_qntt")
     ("체결수량")
-    vol: int | None = Field(
-        default=None,
-        alias="vol",
-    )
+    vol: int | None = Field(default=None, alias="vol")
     ("누적거래수량")
-    prev_diff_flag: str | None = Field(
-        default=None,
-        alias="prev_diff_flag",
-    )
+    prev_diff_flag: str | None = Field(default=None, alias="prev_diff_flag")
     ("전일대비구분")
-    prev_diff_price: Decimal | None = Field(
-        default=None,
-        alias="prev_diff_price",
-    )
+    prev_diff_price: Decimal | None = Field(default=None, alias="prev_diff_price")
     ("전일대비가격")
-    prev_diff_rate: Decimal | None = Field(
-        default=None,
-        alias="prev_diff_rate",
-    )
+    prev_diff_rate: Decimal | None = Field(default=None, alias="prev_diff_rate")
     ("전일대비율")
 
 
 class OptTickCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output1: OptTickCcnlOutput1 = Field(
-        alias="output1",
-    )
+    output1: OptTickCcnlOutput1 = Field(alias="output1")
     ("응답상세")
-    output2: list[OptTickCcnlOutput2] = Field(
-        alias="output2",
-    )
+    output2: list[OptTickCcnlOutput2] = Field(alias="output2")
     ("응답상세")
 
 
@@ -315,27 +195,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OptTickCcnlRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OptTickCcnlRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OptTickCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: OptTickCcnlRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: OptTickCcnlRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[OptTickCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[OptTickCcnlRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[OptTickCcnlRequestDict]
         ) -> tuple[OptTickCcnlResponse, KisResponse]: ...
         def call(
             self,
@@ -405,12 +273,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "OptTickCcnlRequest",
-    "OptTickCcnlRequestDict",
-    "OptTickCcnlResponse",
-    "OptTickCcnlOutput1",
-    "OptTickCcnlOutput2",
-    "QryTpEnum",
-]
+__all__ = ["ENDPOINT", "OptTickCcnlRequest", "OptTickCcnlRequestDict", "OptTickCcnlResponse", "OptTickCcnlOutput1", "OptTickCcnlOutput2", "QryTpEnum"]

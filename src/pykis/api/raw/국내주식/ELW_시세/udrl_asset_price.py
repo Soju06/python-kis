@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisDateOptional,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -54,69 +42,37 @@ class FidOptionEnum(KisStrEnum):
 
 
 class UdrlAssetPriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("시장구분(W)")
-    FID_COND_SCR_DIV_CODE: str = Field(
-        alias="FID_COND_SCR_DIV_CODE",
-    )
+    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
     ("Uniquekey(11541)")
-    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(
-        alias="FID_MRKT_CLS_CODE",
-    )
+    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(alias="FID_MRKT_CLS_CODE")
     ("전체(A),콜(C),풋(P)")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("'00000(전체), 00003(한국투자증권) , 00017(KB증권), 00005(미래에셋주식회사)'")
-    FID_UNAS_INPUT_ISCD: str = Field(
-        alias="FID_UNAS_INPUT_ISCD",
-    )
+    FID_UNAS_INPUT_ISCD: str = Field(alias="FID_UNAS_INPUT_ISCD")
     ("기초자산입력종목코드")
-    FID_VOL_CNT: int = Field(
-        alias="FID_VOL_CNT",
-    )
+    FID_VOL_CNT: int = Field(alias="FID_VOL_CNT")
     ("전일거래량(정수량미만)")
-    FID_TRGT_EXLS_CLS_CODE: FidTrgtExlsClsCodeEnum = Field(
-        alias="FID_TRGT_EXLS_CLS_CODE",
-    )
+    FID_TRGT_EXLS_CLS_CODE: FidTrgtExlsClsCodeEnum = Field(alias="FID_TRGT_EXLS_CLS_CODE")
     ("거래불가종목제외(0:미체크,1:체크)")
-    FID_INPUT_PRICE_1: str = Field(
-        alias="FID_INPUT_PRICE_1",
-    )
+    FID_INPUT_PRICE_1: str = Field(alias="FID_INPUT_PRICE_1")
     ("가격~원이상")
-    FID_INPUT_PRICE_2: str = Field(
-        alias="FID_INPUT_PRICE_2",
-    )
+    FID_INPUT_PRICE_2: str = Field(alias="FID_INPUT_PRICE_2")
     ("가격~월이하")
-    FID_INPUT_VOL_1: str = Field(
-        alias="FID_INPUT_VOL_1",
-    )
+    FID_INPUT_VOL_1: str = Field(alias="FID_INPUT_VOL_1")
     ("거래량~계약이상")
-    FID_INPUT_VOL_2: str = Field(
-        alias="FID_INPUT_VOL_2",
-    )
+    FID_INPUT_VOL_2: str = Field(alias="FID_INPUT_VOL_2")
     ("거래량~계약이하")
-    FID_INPUT_RMNN_DYNU_1: str = Field(
-        alias="FID_INPUT_RMNN_DYNU_1",
-    )
+    FID_INPUT_RMNN_DYNU_1: str = Field(alias="FID_INPUT_RMNN_DYNU_1")
     ("잔존일(~일이상)")
-    FID_INPUT_RMNN_DYNU_2: str = Field(
-        alias="FID_INPUT_RMNN_DYNU_2",
-    )
+    FID_INPUT_RMNN_DYNU_2: str = Field(alias="FID_INPUT_RMNN_DYNU_2")
     ("잔존일(~일이하)")
-    FID_OPTION: FidOptionEnum = Field(
-        alias="FID_OPTION",
-    )
+    FID_OPTION: FidOptionEnum = Field(alias="FID_OPTION")
     ("옵션상태(0:없음,1:ATM,2:ITM,3:OTM)")
-    FID_INPUT_OPTION_1: str = Field(
-        alias="FID_INPUT_OPTION_1",
-    )
+    FID_INPUT_OPTION_1: str = Field(alias="FID_INPUT_OPTION_1")
     ("입력옵션1")
-    FID_INPUT_OPTION_2: str = Field(
-        alias="FID_INPUT_OPTION_2",
-    )
+    FID_INPUT_OPTION_2: str = Field(alias="FID_INPUT_OPTION_2")
     ("입력옵션2")
 
 
@@ -146,236 +102,93 @@ class UdrlAssetPriceRequestDict(TypedDict):
         FID_INPUT_OPTION_2 (str): 입력옵션2
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        str,
-        "시장구분(W)",
-    ]
-    FID_COND_SCR_DIV_CODE: Annotated[
-        str,
-        "Uniquekey(11541)",
-    ]
-    FID_MRKT_CLS_CODE: Annotated[
-        FidMrktClsCodeEnum,
-        "전체(A),콜(C),풋(P)",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "'00000(전체), 00003(한국투자증권) , 00017(KB증권), 00005(미래에셋주식회사)'",
-    ]
-    FID_UNAS_INPUT_ISCD: Annotated[
-        str,
-        "기초자산입력종목코드",
-    ]
-    FID_VOL_CNT: Annotated[
-        int,
-        "전일거래량(정수량미만)",
-    ]
-    FID_TRGT_EXLS_CLS_CODE: Annotated[
-        FidTrgtExlsClsCodeEnum,
-        "거래불가종목제외(0:미체크,1:체크)",
-    ]
-    FID_INPUT_PRICE_1: Annotated[
-        str,
-        "가격~원이상",
-    ]
-    FID_INPUT_PRICE_2: Annotated[
-        str,
-        "가격~월이하",
-    ]
-    FID_INPUT_VOL_1: Annotated[
-        str,
-        "거래량~계약이상",
-    ]
-    FID_INPUT_VOL_2: Annotated[
-        str,
-        "거래량~계약이하",
-    ]
-    FID_INPUT_RMNN_DYNU_1: Annotated[
-        str,
-        "잔존일(~일이상)",
-    ]
-    FID_INPUT_RMNN_DYNU_2: Annotated[
-        str,
-        "잔존일(~일이하)",
-    ]
-    FID_OPTION: Annotated[
-        FidOptionEnum,
-        "옵션상태(0:없음,1:ATM,2:ITM,3:OTM)",
-    ]
-    FID_INPUT_OPTION_1: Annotated[
-        str,
-        "입력옵션1",
-    ]
-    FID_INPUT_OPTION_2: Annotated[
-        str,
-        "입력옵션2",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분(W)"]
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Uniquekey(11541)"]
+    FID_MRKT_CLS_CODE: Annotated[FidMrktClsCodeEnum, "전체(A),콜(C),풋(P)"]
+    FID_INPUT_ISCD: Annotated[str, "'00000(전체), 00003(한국투자증권) , 00017(KB증권), 00005(미래에셋주식회사)'"]
+    FID_UNAS_INPUT_ISCD: Annotated[str, "기초자산입력종목코드"]
+    FID_VOL_CNT: Annotated[int, "전일거래량(정수량미만)"]
+    FID_TRGT_EXLS_CLS_CODE: Annotated[FidTrgtExlsClsCodeEnum, "거래불가종목제외(0:미체크,1:체크)"]
+    FID_INPUT_PRICE_1: Annotated[str, "가격~원이상"]
+    FID_INPUT_PRICE_2: Annotated[str, "가격~월이하"]
+    FID_INPUT_VOL_1: Annotated[str, "거래량~계약이상"]
+    FID_INPUT_VOL_2: Annotated[str, "거래량~계약이하"]
+    FID_INPUT_RMNN_DYNU_1: Annotated[str, "잔존일(~일이상)"]
+    FID_INPUT_RMNN_DYNU_2: Annotated[str, "잔존일(~일이하)"]
+    FID_OPTION: Annotated[FidOptionEnum, "옵션상태(0:없음,1:ATM,2:ITM,3:OTM)"]
+    FID_INPUT_OPTION_1: Annotated[str, "입력옵션1"]
+    FID_INPUT_OPTION_2: Annotated[str, "입력옵션2"]
 
 
 class UdrlAssetPriceOutput(RawModel):
-    elw_shrn_iscd: str | None = Field(
-        default=None,
-        alias="elw_shrn_iscd",
-    )
+    elw_shrn_iscd: str | None = Field(default=None, alias="elw_shrn_iscd")
     ("ELW단축종목코드")
-    hts_kor_isnm: str | None = Field(
-        default=None,
-        alias="hts_kor_isnm",
-    )
+    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
     ("HTS한글종목명")
-    elw_prpr: Decimal | None = Field(
-        default=None,
-        alias="elw_prpr",
-    )
+    elw_prpr: Decimal | None = Field(default=None, alias="elw_prpr")
     ("ELW현재가")
-    prdy_vrss: str | None = Field(
-        default=None,
-        alias="prdy_vrss",
-    )
+    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
     ("전일대비")
-    prdy_vrss_sign: str | None = Field(
-        default=None,
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
     ("전일대비부호")
-    prdy_ctrt: Decimal | None = Field(
-        default=None,
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
     ("전일대비율")
-    acml_vol: int | None = Field(
-        default=None,
-        alias="acml_vol",
-    )
+    acml_vol: int | None = Field(default=None, alias="acml_vol")
     ("누적거래량")
-    acpr: str | None = Field(
-        default=None,
-        alias="acpr",
-    )
+    acpr: str | None = Field(default=None, alias="acpr")
     ("행사가")
-    prls_qryr_stpr_prc: Decimal | None = Field(
-        default=None,
-        alias="prls_qryr_stpr_prc",
-    )
+    prls_qryr_stpr_prc: Decimal | None = Field(default=None, alias="prls_qryr_stpr_prc")
     ("손익분기주가가격")
-    hts_rmnn_dynu: str | None = Field(
-        default=None,
-        alias="hts_rmnn_dynu",
-    )
+    hts_rmnn_dynu: str | None = Field(default=None, alias="hts_rmnn_dynu")
     ("HTS잔존일수")
-    hts_ints_vltl: str | None = Field(
-        default=None,
-        alias="hts_ints_vltl",
-    )
+    hts_ints_vltl: str | None = Field(default=None, alias="hts_ints_vltl")
     ("HTS내재변동성")
-    stck_cnvr_rate: Decimal | None = Field(
-        default=None,
-        alias="stck_cnvr_rate",
-    )
+    stck_cnvr_rate: Decimal | None = Field(default=None, alias="stck_cnvr_rate")
     ("주식전환비율")
-    lp_hvol: int | None = Field(
-        default=None,
-        alias="lp_hvol",
-    )
+    lp_hvol: int | None = Field(default=None, alias="lp_hvol")
     ("LP보유량")
-    lp_rlim: str | None = Field(
-        default=None,
-        alias="lp_rlim",
-    )
+    lp_rlim: str | None = Field(default=None, alias="lp_rlim")
     ("LP비중")
-    lvrg_val: str | None = Field(
-        default=None,
-        alias="lvrg_val",
-    )
+    lvrg_val: str | None = Field(default=None, alias="lvrg_val")
     ("레버리지값")
-    gear: str | None = Field(
-        default=None,
-        alias="gear",
-    )
+    gear: str | None = Field(default=None, alias="gear")
     ("기어링")
-    delta_val: str | None = Field(
-        default=None,
-        alias="delta_val",
-    )
+    delta_val: str | None = Field(default=None, alias="delta_val")
     ("델타값")
-    gama: str | None = Field(
-        default=None,
-        alias="gama",
-    )
+    gama: str | None = Field(default=None, alias="gama")
     ("감마")
-    vega: str | None = Field(
-        default=None,
-        alias="vega",
-    )
+    vega: str | None = Field(default=None, alias="vega")
     ("베가")
-    theta: str | None = Field(
-        default=None,
-        alias="theta",
-    )
+    theta: str | None = Field(default=None, alias="theta")
     ("세타")
-    prls_qryr_rate: Decimal | None = Field(
-        default=None,
-        alias="prls_qryr_rate",
-    )
+    prls_qryr_rate: Decimal | None = Field(default=None, alias="prls_qryr_rate")
     ("손익분기비율")
-    cfp: str | None = Field(
-        default=None,
-        alias="cfp",
-    )
+    cfp: str | None = Field(default=None, alias="cfp")
     ("자본지지점")
-    prit: str | None = Field(
-        default=None,
-        alias="prit",
-    )
+    prit: str | None = Field(default=None, alias="prit")
     ("패리티")
-    invl_val: str | None = Field(
-        default=None,
-        alias="invl_val",
-    )
+    invl_val: str | None = Field(default=None, alias="invl_val")
     ("내재가치값")
-    tmvl_val: str | None = Field(
-        default=None,
-        alias="tmvl_val",
-    )
+    tmvl_val: str | None = Field(default=None, alias="tmvl_val")
     ("시간가치값")
-    hts_thpr: str | None = Field(
-        default=None,
-        alias="hts_thpr",
-    )
+    hts_thpr: str | None = Field(default=None, alias="hts_thpr")
     ("HTS이론가")
-    stck_lstn_date: KisDateOptional = Field(
-        default=None,
-        alias="stck_lstn_date",
-    )
+    stck_lstn_date: KisDateOptional = Field(default=None, alias="stck_lstn_date")
     ("주식상장일자")
-    stck_last_tr_date: KisDateOptional = Field(
-        default=None,
-        alias="stck_last_tr_date",
-    )
+    stck_last_tr_date: KisDateOptional = Field(default=None, alias="stck_last_tr_date")
     ("주식최종거래일자")
-    lp_ntby_qty: str | None = Field(
-        default=None,
-        alias="lp_ntby_qty",
-    )
+    lp_ntby_qty: str | None = Field(default=None, alias="lp_ntby_qty")
     ("LP순매도량")
 
 
 class UdrlAssetPriceResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[UdrlAssetPriceOutput] = Field(
-        alias="output",
-    )
+    output: list[UdrlAssetPriceOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -402,27 +215,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: UdrlAssetPriceRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: UdrlAssetPriceRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[UdrlAssetPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: UdrlAssetPriceRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: UdrlAssetPriceRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[UdrlAssetPriceResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[UdrlAssetPriceRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[UdrlAssetPriceRequestDict]
         ) -> tuple[UdrlAssetPriceResponse, KisResponse]: ...
         def call(
             self,

@@ -143,6 +143,7 @@ def _ensure_alias_specs(
             name=alias,
             field_type=original_spec.field_type,
             source=original_spec.source,
+            desc=original_spec.desc,
             datetime_rule=original_spec.datetime_rule,
             decimal_rule=original_spec.decimal_rule,
         )
@@ -155,6 +156,7 @@ def _parse_field_spec(name: str, data: Mapping[str, object]) -> FieldSpec:
     source = data.get("source", "rule")
     if not isinstance(source, str):
         raise SpecError(f"field_specs.{name}.source must be str")
+    desc = _optional_str(data.get("desc") or data.get("description"))
 
     datetime_rule = None
     datetime_data = data.get("datetime")
@@ -185,6 +187,7 @@ def _parse_field_spec(name: str, data: Mapping[str, object]) -> FieldSpec:
         name=name,
         field_type=str(field_type),
         source=source,
+        desc=desc,
         datetime_rule=datetime_rule,
         decimal_rule=decimal_rule,
     )

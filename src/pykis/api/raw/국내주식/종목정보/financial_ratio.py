@@ -2,22 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -33,17 +22,11 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class FinancialRatioRequest(RawModel):
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(
-        alias="FID_DIV_CLS_CODE",
-    )
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
     ("0: 년, 1: 분기")
-    fid_cond_mrkt_div_code: str = Field(
-        alias="fid_cond_mrkt_div_code",
-    )
+    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
     ("J")
-    fid_input_iscd: str = Field(
-        alias="fid_input_iscd",
-    )
+    fid_input_iscd: str = Field(alias="fid_input_iscd")
     ("000660 : 종목코드")
 
 
@@ -59,79 +42,42 @@ class FinancialRatioRequestDict(TypedDict):
         fid_input_iscd (str): 000660 : 종목코드
     """
 
-    FID_DIV_CLS_CODE: Annotated[
-        FidDivClsCodeEnum,
-        "0: 년, 1: 분기",
-    ]
-    fid_cond_mrkt_div_code: Annotated[
-        str,
-        "J",
-    ]
-    fid_input_iscd: Annotated[
-        str,
-        "000660 : 종목코드",
-    ]
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"]
+    fid_cond_mrkt_div_code: Annotated[str, "J"]
+    fid_input_iscd: Annotated[str, "000660 : 종목코드"]
 
 
 class FinancialRatioOutput(RawModel):
-    stac_yymm: str = Field(
-        alias="stac_yymm",
-    )
+    stac_yymm: str = Field(alias="stac_yymm")
     ("결산 년월")
-    grs: Decimal = Field(
-        alias="grs",
-    )
+    grs: Decimal = Field(alias="grs")
     ("매출액 증가율")
-    bsop_prfi_inrt: Decimal = Field(
-        alias="bsop_prfi_inrt",
-    )
+    bsop_prfi_inrt: Decimal = Field(alias="bsop_prfi_inrt")
     ("적자지속, 흑자전환, 적자전환인 경우 0으로 표시")
-    ntin_inrt: Decimal = Field(
-        alias="ntin_inrt",
-    )
+    ntin_inrt: Decimal = Field(alias="ntin_inrt")
     ("순이익 증가율")
-    roe_val: Decimal = Field(
-        alias="roe_val",
-    )
+    roe_val: Decimal = Field(alias="roe_val")
     ("ROE 값")
-    eps: Decimal = Field(
-        alias="eps",
-    )
+    eps: Decimal = Field(alias="eps")
     ("EPS")
-    sps: int = Field(
-        alias="sps",
-    )
+    sps: int = Field(alias="sps")
     ("주당매출액")
-    bps: Decimal = Field(
-        alias="bps",
-    )
+    bps: Decimal = Field(alias="bps")
     ("BPS")
-    rsrv_rate: Decimal = Field(
-        alias="rsrv_rate",
-    )
+    rsrv_rate: Decimal = Field(alias="rsrv_rate")
     ("유보 비율")
-    lblt_rate: Decimal = Field(
-        alias="lblt_rate",
-    )
+    lblt_rate: Decimal = Field(alias="lblt_rate")
     ("부채 비율")
 
 
 class FinancialRatioResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[FinancialRatioOutput] = Field(
-        alias="output",
-    )
+    output: list[FinancialRatioOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -158,27 +104,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: FinancialRatioRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: FinancialRatioRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[FinancialRatioResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: FinancialRatioRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: FinancialRatioRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[FinancialRatioResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[FinancialRatioRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[FinancialRatioRequestDict]
         ) -> tuple[FinancialRatioResponse, KisResponse]: ...
         def call(
             self,
@@ -213,11 +147,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "FinancialRatioRequest",
-    "FinancialRatioRequestDict",
-    "FinancialRatioResponse",
-    "FinancialRatioOutput",
-    "FidDivClsCodeEnum",
-]
+__all__ = ["ENDPOINT", "FinancialRatioRequest", "FinancialRatioRequestDict", "FinancialRatioResponse", "FinancialRatioOutput", "FidDivClsCodeEnum"]

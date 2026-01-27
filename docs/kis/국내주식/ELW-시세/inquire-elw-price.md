@@ -82,7 +82,7 @@ ELW 현재가 시세
 | `rt_cd` | 성공 실패 여부 | String | 1 | Y |  |
 | `msg_cd` | 응답코드 | String | 8 | Y |  |
 | `msg1` | 응답메세지 | String | 80 | Y |  |
-| `output` | 응답상세 | Object |   | Y | object |
+| `output1` | 응답상세 | Object |   | Y | array |
 | `elw_shrn_iscd` | ELW 단축 종목코드 | String | 9 | Y |  |
 | `hts_kor_isnm` | HTS 한글 종목명 | String | 40 | Y |  |
 | `elw_prpr` | ELW 현재가 | String | 10 | Y |  |
@@ -166,3 +166,4 @@ ELW 현재가 시세
   "msg1": "정상처리 되었습니다!"
 }
 ```
+

@@ -20,6 +20,7 @@ _ENUM_PAREN_CODE_RE = re.compile(r"(?P<desc>[^()\n,;/]+?)\s*\((?P<code>[A-Za-z0-
 _ENUM_PAREN_DESC_RE = re.compile(r"(?<![A-Za-z0-9_])(?P<code>[A-Za-z0-9]{1,5})\s*\((?P<desc>[^()\n,;/]+?)\)")
 _ENUM_EXAMPLE_RE = re.compile(r"(?i)\bex\b|e\.g\.|예시|예\)|예:")
 _ENUM_EXAMPLE_LIST_HINT_RE = re.compile(r"(?i)\bticker\b|티커")
+_UNIQUE_KEY_HINT_RE = re.compile(r"(?i)\bunique\s*key\b")
 
 
 @dataclass(frozen=True, slots=True)
@@ -29,8 +30,6 @@ class EnumEntry:
 
 
 _CLEAN_CODE_RE = re.compile(r"[^A-Za-z0-9]+")
-_ALPHA_CODE_RE = re.compile(r"^[A-Za-z]+$")
-_NUMERIC_CODE_RE = re.compile(r"^\d+$")
 
 
 def _normalize_description(text: str) -> str:
@@ -71,22 +70,6 @@ def _strip_unbalanced_trailing_paren(text: str) -> str:
 def _clean_code(token: str) -> str:
     cleaned = token.strip().strip("()[]{}<>.,;")
     return cleaned
-
-
-def _has_inconsistent_code_formats(entries: list[EnumEntry]) -> bool:
-    has_alpha = False
-    has_numeric = False
-    for entry in entries:
-        code = _clean_code(entry.code)
-        if not code:
-            continue
-        if _NUMERIC_CODE_RE.fullmatch(code):
-            has_numeric = True
-        elif _ALPHA_CODE_RE.fullmatch(code):
-            has_alpha = True
-        if has_alpha and has_numeric:
-            return True
-    return False
 
 
 def _is_code_token(token: str) -> bool:
@@ -210,6 +193,9 @@ def parse_enum_entries(description: str | None) -> list[EnumEntry]:
     if not desc:
         return []
 
+    if _UNIQUE_KEY_HINT_RE.search(desc):
+        return []
+
     normalized = _normalize_description(desc)
     candidates: list[EnumEntry] = []
 
@@ -241,8 +227,6 @@ def parse_enum_entries(description: str | None) -> list[EnumEntry]:
 
     entries = list(unique.values())
     if len(entries) < 2:
-        return []
-    if _has_inconsistent_code_formats(entries):
         return []
     return entries
 

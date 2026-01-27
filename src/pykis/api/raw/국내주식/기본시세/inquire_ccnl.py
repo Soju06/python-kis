@@ -2,23 +2,11 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import (
-    TYPE_CHECKING,
-    Annotated,
-    Mapping,
-    Protocol,
-    TypedDict,
-    Unpack,
-    overload,
-)
+from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpack, overload
 
 from pydantic import Field
 
-from pykis.api.raw.base import (
-    KisBool,
-    KisTime,
-    RawModel,
-)
+from pykis.api.raw.base import KisBool, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -36,13 +24,9 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
 
 
 class InquireCcnlRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(
-        alias="FID_COND_MRKT_DIV_CODE",
-    )
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
     ("J:KRX, NX:NXT, UN:통합")
-    FID_INPUT_ISCD: str = Field(
-        alias="FID_INPUT_ISCD",
-    )
+    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
     ("종목코드 (ex 005930 삼성전자)")
 
 
@@ -56,63 +40,35 @@ class InquireCcnlRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목코드 (ex 005930 삼성전자)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
-        "J:KRX, NX:NXT, UN:통합",
-    ]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "종목코드 (ex 005930 삼성전자)",
-    ]
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"]
+    FID_INPUT_ISCD: Annotated[str, "종목코드 (ex 005930 삼성전자)"]
 
 
 class InquireCcnlOutput(RawModel):
-    stck_cntg_hour: KisTime = Field(
-        alias="stck_cntg_hour",
-    )
+    stck_cntg_hour: KisTime = Field(alias="stck_cntg_hour")
     ("주식 체결 시간")
-    stck_prpr: Decimal = Field(
-        alias="stck_prpr",
-    )
+    stck_prpr: Decimal = Field(alias="stck_prpr")
     ("주식 현재가")
-    prdy_vrss: int = Field(
-        alias="prdy_vrss",
-    )
+    prdy_vrss: int = Field(alias="prdy_vrss")
     ("전일 대비")
-    prdy_vrss_sign: int = Field(
-        alias="prdy_vrss_sign",
-    )
+    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
     ("전일 대비 부호")
-    cntg_vol: int = Field(
-        alias="cntg_vol",
-    )
+    cntg_vol: int = Field(alias="cntg_vol")
     ("체결 거래량")
-    tday_rltv: Decimal = Field(
-        alias="tday_rltv",
-    )
+    tday_rltv: Decimal = Field(alias="tday_rltv")
     ("당일 체결강도")
-    prdy_ctrt: Decimal = Field(
-        alias="prdy_ctrt",
-    )
+    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
     ("전일 대비율")
 
 
 class InquireCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(
-        alias="rt_cd",
-    )
+    rt_cd: KisBool = Field(alias="rt_cd")
     ("성공 실패 여부")
-    msg_cd: str = Field(
-        alias="msg_cd",
-    )
+    msg_cd: str = Field(alias="msg_cd")
     ("응답코드")
-    msg1: str = Field(
-        alias="msg1",
-    )
+    msg1: str = Field(alias="msg1")
     ("응답메세지")
-    output: list[InquireCcnlOutput] = Field(
-        alias="output",
-    )
+    output: list[InquireCcnlOutput] = Field(alias="output")
     ("응답상세")
 
 
@@ -123,9 +79,7 @@ _ENDPOINT: Endpoint[InquireCcnlRequest, InquireCcnlResponse] = Endpoint(
     path="/uapi/domestic-stock/v1/quotations/inquire-ccnl",
     request_model=InquireCcnlRequest,
     response_model=InquireCcnlResponse,
-    description=(
-        "국내현재가 체결 API 입니다. 종목의 체결 정보를 확인할 수 있습니다.\\n[국내주식-009 v1] 주식현재가 체결"
-    ),
+    description=("국내현재가 체결 API 입니다. 종목의 체결 정보를 확인할 수 있습니다.\\n[국내주식-009 v1] 주식현재가 체결"),
     real_tr_id="FHKST01010300",
     demo_tr_id="FHKST01010300",
     auth_required=True,
@@ -137,27 +91,15 @@ if TYPE_CHECKING:
     class _EndpointWithCall(Protocol):
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireCcnlRequest,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireCcnlRequest, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            request: InquireCcnlRequestDict,
-            *,
-            headers: Mapping[str, str] | None = None,
+            self, client: SyncKisRawClient, request: InquireCcnlRequestDict, *, headers: Mapping[str, str] | None = None
         ) -> tuple[InquireCcnlResponse, KisResponse]: ...
         @overload
         def call(
-            self,
-            client: SyncKisRawClient,
-            *,
-            headers: Mapping[str, str] | None = None,
-            **kwargs: Unpack[InquireCcnlRequestDict],
+            self, client: SyncKisRawClient, *, headers: Mapping[str, str] | None = None, **kwargs: Unpack[InquireCcnlRequestDict]
         ) -> tuple[InquireCcnlResponse, KisResponse]: ...
         def call(
             self,
@@ -190,11 +132,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "InquireCcnlRequest",
-    "InquireCcnlRequestDict",
-    "InquireCcnlResponse",
-    "InquireCcnlOutput",
-    "FidCondMrktDivCodeEnum",
-]
+__all__ = ["ENDPOINT", "InquireCcnlRequest", "InquireCcnlRequestDict", "InquireCcnlResponse", "InquireCcnlOutput", "FidCondMrktDivCodeEnum"]
