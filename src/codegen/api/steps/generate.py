@@ -59,9 +59,6 @@ class ModelDef:
 class TypedDictField:
     code: str
     type_lines: list[str]
-    required: bool
-    desc: str
-    doc_type: str
 
 
 @dataclass(slots=True)
@@ -296,13 +293,6 @@ def _clean_doc_lines(text: str) -> list[str]:
     return lines
 
 
-def _literal_pieces(text: str, *, width: int = 96) -> list[str]:
-    lines = wrap_display_lines(text, width=width)
-    if len(lines) <= 1:
-        return lines
-    return [f"{line} " for line in lines[:-1]] + [lines[-1]]
-
-
 def _multiline_literal_pieces(text: str | None, *, width: int = 96) -> list[str] | None:
     if text is None:
         return None
@@ -323,22 +313,10 @@ def _multiline_literal_pieces(text: str | None, *, width: int = 96) -> list[str]
     return pieces
 
 
-def _render_typed_dict_type(py_type: str, desc: str, required: bool) -> list[str]:
-    if not desc:
-        return [py_type] if required else [f"NotRequired[{py_type}]"]
-
-    desc_pieces = [repr(piece) for piece in _literal_pieces(desc, width=96)]
-    desc_pieces[-1] = f"{desc_pieces[-1]},"
-    annotated_lines = [
-        "Annotated[",
-        f"    {py_type},",
-        *[f"    {piece}" for piece in desc_pieces],
-        "]",
-    ]
+def _render_typed_dict_type(py_type: str, required: bool) -> list[str]:
     if required:
-        return annotated_lines
-    indented = [f"    {line}" for line in annotated_lines]
-    return ["NotRequired[", *indented, "]"]
+        return [py_type]
+    return [f"NotRequired[{py_type}]"]
 
 
 def _build_model_fields(
@@ -403,15 +381,11 @@ def _build_typed_dict_fields(
             required = hint.required
         base_type, _, _ = _field_type(field, hint)
         py_type = base_type if required else _optional_type(base_type, set())
-        desc = _inline_doc(field.description or field.name or "")
-        type_lines = _render_typed_dict_type(py_type, desc, required)
+        type_lines = _render_typed_dict_type(py_type, required)
         items.append(
             TypedDictField(
                 code=field.code,
                 type_lines=type_lines,
-                required=required,
-                desc=desc,
-                doc_type=base_type,
             )
         )
     return items
@@ -557,7 +531,6 @@ def generate_raw(
             *enum_export_names,
         ]
         typing_items = [
-            "Annotated",
             "Mapping",
             "NotRequired",
             "Protocol",
