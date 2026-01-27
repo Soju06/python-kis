@@ -16,45 +16,48 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class MgnaDvsnEnum(KisStrEnum):
     VALUE_01 = ("01", "개시")
-    "개시"
+    """개시"""
     VALUE_02 = ("02", "유지")
-    "유지"
+    """유지"""
 
 
 class ExccStatCdEnum(KisStrEnum):
     VALUE_1 = ("1", "정산 (정산가격으로 잔고 조회)")
-    "정산 (정산가격으로 잔고 조회)"
+    """정산 (정산가격으로 잔고 조회)"""
     VALUE_2 = ("2", "본정산 (매입가격으로 잔고 조회)")
-    "본정산 (매입가격으로 잔고 조회)"
+    """본정산 (매입가격으로 잔고 조회)"""
 
 
 class InquireBalanceValuationPlRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    MGNA_DVSN: MgnaDvsnEnum = Field(alias="MGNA_DVSN")
-    ("01 : 개시, 02 : 유지")
-    EXCC_STAT_CD: ExccStatCdEnum = Field(alias="EXCC_STAT_CD")
-    ("1 : 정산 (정산가격으로 잔고 조회) 2 : 본정산 (매입가격으로 잔고 조회)")
-    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
-    ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
-    ("연속조회키200")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    MGNA_DVSN: Annotated[MgnaDvsnEnum, "01 : 개시, 02 : 유지"] = Field(
+        alias="MGNA_DVSN", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "개시", "02": "유지"}}
+    )
+    EXCC_STAT_CD: Annotated[ExccStatCdEnum, "1 : 정산 (정산가격으로 잔고 조회) 2 : 본정산 (매입가격으로 잔고 조회)"] = Field(
+        alias="EXCC_STAT_CD",
+        json_schema_extra={"enum": ["1", "2"], "enum_desc": {"1": "정산 (정산가격으로 잔고 조회)", "2": "본정산 (매입가격으로 잔고 조회)"}},
+    )
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"] = Field(alias="CTX_AREA_FK200")
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"] = Field(alias="CTX_AREA_NK200")
 
 
 class InquireBalanceValuationPlRequestDict(TypedDict):
@@ -71,121 +74,71 @@ class InquireBalanceValuationPlRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    MGNA_DVSN: Annotated[MgnaDvsnEnum, "01 : 개시, 02 : 유지"]
-    EXCC_STAT_CD: Annotated[ExccStatCdEnum, "1 : 정산 (정산가격으로 잔고 조회) 2 : 본정산 (매입가격으로 잔고 조회)"]
-    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
-    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    MGNA_DVSN: MgnaDvsnEnum
+    EXCC_STAT_CD: ExccStatCdEnum
+    CTX_AREA_FK200: str
+    CTX_AREA_NK200: str
 
 
 class InquireBalanceValuationPlOutput2(RawModel):
-    dnca_cash: str = Field(alias="dnca_cash")
-    ("예수금현금")
-    frcr_dncl_amt: Decimal = Field(alias="frcr_dncl_amt")
-    ("외화예수금액")
-    dnca_sbst: str = Field(alias="dnca_sbst")
-    ("예수금대용")
-    tot_dncl_amt: Decimal = Field(alias="tot_dncl_amt")
-    ("총예수금액")
-    tot_ccld_amt: Decimal = Field(alias="tot_ccld_amt")
-    ("총체결금액")
-    cash_mgna: str = Field(alias="cash_mgna")
-    ("현금증거금")
-    sbst_mgna: str = Field(alias="sbst_mgna")
-    ("대용증거금")
-    mgna_tota: str = Field(alias="mgna_tota")
-    ("증거금총액")
-    opt_dfpa: str = Field(alias="opt_dfpa")
-    ("옵션차금")
-    thdt_dfpa: str = Field(alias="thdt_dfpa")
-    ("당일차금")
-    rnwl_dfpa: str = Field(alias="rnwl_dfpa")
-    ("갱신차금")
-    fee: str = Field(alias="fee")
-    ("수수료")
-    nxdy_dnca: str = Field(alias="nxdy_dnca")
-    ("익일예수금")
-    nxdy_dncl_amt: Decimal = Field(alias="nxdy_dncl_amt")
-    ("익일예수금액")
-    prsm_dpast: str = Field(alias="prsm_dpast")
-    ("추정예탁자산")
-    prsm_dpast_amt: Decimal = Field(alias="prsm_dpast_amt")
-    ("추정예탁자산금액")
-    pprt_ord_psbl_cash: str = Field(alias="pprt_ord_psbl_cash")
-    ("적정주문가능현금")
-    add_mgna_cash: str = Field(alias="add_mgna_cash")
-    ("추가증거금현금")
-    add_mgna_tota: str = Field(alias="add_mgna_tota")
-    ("추가증거금총액")
-    futr_trad_pfls_amt: Decimal = Field(alias="futr_trad_pfls_amt")
-    ("선물매매손익금액")
-    opt_trad_pfls_amt: Decimal = Field(alias="opt_trad_pfls_amt")
-    ("옵션매매손익금액")
-    futr_evlu_pfls_amt: Decimal = Field(alias="futr_evlu_pfls_amt")
-    ("선물평가손익금액")
-    opt_evlu_pfls_amt: Decimal = Field(alias="opt_evlu_pfls_amt")
-    ("옵션평가손익금액")
-    trad_pfls_amt_smtl: Decimal = Field(alias="trad_pfls_amt_smtl")
-    ("매매손익금액합계")
-    evlu_pfls_amt_smtl: Decimal = Field(alias="evlu_pfls_amt_smtl")
-    ("평가손익금액합계")
-    wdrw_psbl_tot_amt: Decimal = Field(alias="wdrw_psbl_tot_amt")
-    ("인출가능총금액")
-    ord_psbl_cash: str = Field(alias="ord_psbl_cash")
-    ("주문가능현금")
-    ord_psbl_sbst: str = Field(alias="ord_psbl_sbst")
-    ("주문가능대용")
-    ord_psbl_tota: str = Field(alias="ord_psbl_tota")
-    ("주문가능총액")
+    dnca_cash: Annotated[str, "예수금현금"] = Field(alias="dnca_cash")
+    frcr_dncl_amt: Annotated[Decimal, "외화예수금액"] = Field(alias="frcr_dncl_amt")
+    dnca_sbst: Annotated[str, "예수금대용"] = Field(alias="dnca_sbst")
+    tot_dncl_amt: Annotated[Decimal, "총예수금액"] = Field(alias="tot_dncl_amt")
+    tot_ccld_amt: Annotated[Decimal, "총체결금액"] = Field(alias="tot_ccld_amt")
+    cash_mgna: Annotated[str, "현금증거금"] = Field(alias="cash_mgna")
+    sbst_mgna: Annotated[str, "대용증거금"] = Field(alias="sbst_mgna")
+    mgna_tota: Annotated[str, "증거금총액"] = Field(alias="mgna_tota")
+    opt_dfpa: Annotated[str, "옵션차금"] = Field(alias="opt_dfpa")
+    thdt_dfpa: Annotated[str, "당일차금"] = Field(alias="thdt_dfpa")
+    rnwl_dfpa: Annotated[str, "갱신차금"] = Field(alias="rnwl_dfpa")
+    fee: Annotated[str, "수수료"] = Field(alias="fee")
+    nxdy_dnca: Annotated[str, "익일예수금"] = Field(alias="nxdy_dnca")
+    nxdy_dncl_amt: Annotated[Decimal, "익일예수금액"] = Field(alias="nxdy_dncl_amt")
+    prsm_dpast: Annotated[str, "추정예탁자산"] = Field(alias="prsm_dpast")
+    prsm_dpast_amt: Annotated[Decimal, "추정예탁자산금액"] = Field(alias="prsm_dpast_amt")
+    pprt_ord_psbl_cash: Annotated[str, "적정주문가능현금"] = Field(alias="pprt_ord_psbl_cash")
+    add_mgna_cash: Annotated[str, "추가증거금현금"] = Field(alias="add_mgna_cash")
+    add_mgna_tota: Annotated[str, "추가증거금총액"] = Field(alias="add_mgna_tota")
+    futr_trad_pfls_amt: Annotated[Decimal, "선물매매손익금액"] = Field(alias="futr_trad_pfls_amt")
+    opt_trad_pfls_amt: Annotated[Decimal, "옵션매매손익금액"] = Field(alias="opt_trad_pfls_amt")
+    futr_evlu_pfls_amt: Annotated[Decimal, "선물평가손익금액"] = Field(alias="futr_evlu_pfls_amt")
+    opt_evlu_pfls_amt: Annotated[Decimal, "옵션평가손익금액"] = Field(alias="opt_evlu_pfls_amt")
+    trad_pfls_amt_smtl: Annotated[Decimal, "매매손익금액합계"] = Field(alias="trad_pfls_amt_smtl")
+    evlu_pfls_amt_smtl: Annotated[Decimal, "평가손익금액합계"] = Field(alias="evlu_pfls_amt_smtl")
+    wdrw_psbl_tot_amt: Annotated[Decimal, "인출가능총금액"] = Field(alias="wdrw_psbl_tot_amt")
+    ord_psbl_cash: Annotated[str, "주문가능현금"] = Field(alias="ord_psbl_cash")
+    ord_psbl_sbst: Annotated[str, "주문가능대용"] = Field(alias="ord_psbl_sbst")
+    ord_psbl_tota: Annotated[str, "주문가능총액"] = Field(alias="ord_psbl_tota")
 
 
 class InquireBalanceValuationPlOutput1(RawModel):
-    cano: str = Field(alias="cano")
-    ("종합계좌번호")
-    acnt_prdt_cd: str = Field(alias="acnt_prdt_cd")
-    ("계좌상품코드")
-    pdno: str = Field(alias="pdno")
-    ("상품번호")
-    prdt_type_cd: str = Field(alias="prdt_type_cd")
-    ("상품유형코드")
-    shtn_pdno: str = Field(alias="shtn_pdno")
-    ("단축상품번호")
-    prdt_name: str = Field(alias="prdt_name")
-    ("상품명")
-    sll_buy_dvsn_name: str = Field(alias="sll_buy_dvsn_name")
-    ("매도매수구분명")
-    cblc_qty1: int = Field(alias="cblc_qty1")
-    ("잔고수량1")
-    excc_unpr: str = Field(alias="excc_unpr")
-    ("정산단가")
-    ccld_avg_unpr1: str = Field(alias="ccld_avg_unpr1")
-    ("체결평균단가1")
-    idx_clpr: str = Field(alias="idx_clpr")
-    ("지수종가")
-    pchs_amt: Decimal = Field(alias="pchs_amt")
-    ("매입금액")
-    evlu_amt: Decimal = Field(alias="evlu_amt")
-    ("평가금액")
-    evlu_pfls_amt: Decimal = Field(alias="evlu_pfls_amt")
-    ("평가손익금액")
-    trad_pfls_amt: Decimal = Field(alias="trad_pfls_amt")
-    ("매매손익금액")
-    lqd_psbl_qty: int = Field(alias="lqd_psbl_qty")
-    ("청산가능수량")
+    cano: Annotated[str, "종합계좌번호"] = Field(alias="cano")
+    acnt_prdt_cd: Annotated[str, "계좌상품코드"] = Field(alias="acnt_prdt_cd")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    prdt_type_cd: Annotated[str, "상품유형코드"] = Field(alias="prdt_type_cd")
+    shtn_pdno: Annotated[str, "단축상품번호"] = Field(alias="shtn_pdno")
+    prdt_name: Annotated[str, "상품명"] = Field(alias="prdt_name")
+    sll_buy_dvsn_name: Annotated[str, "매도매수구분명"] = Field(alias="sll_buy_dvsn_name")
+    cblc_qty1: Annotated[int, "잔고수량1"] = Field(alias="cblc_qty1")
+    excc_unpr: Annotated[str, "정산단가"] = Field(alias="excc_unpr")
+    ccld_avg_unpr1: Annotated[str, "체결평균단가1"] = Field(alias="ccld_avg_unpr1")
+    idx_clpr: Annotated[str, "지수종가"] = Field(alias="idx_clpr")
+    pchs_amt: Annotated[Decimal, "매입금액"] = Field(alias="pchs_amt")
+    evlu_amt: Annotated[Decimal, "평가금액"] = Field(alias="evlu_amt")
+    evlu_pfls_amt: Annotated[Decimal, "평가손익금액"] = Field(alias="evlu_pfls_amt")
+    trad_pfls_amt: Annotated[Decimal, "매매손익금액"] = Field(alias="trad_pfls_amt")
+    lqd_psbl_qty: Annotated[int, "청산가능수량"] = Field(alias="lqd_psbl_qty")
 
 
 class InquireBalanceValuationPlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output2: list[InquireBalanceValuationPlOutput2] = Field(alias="output2")
-    ("응답상세")
-    output1: list[InquireBalanceValuationPlOutput1] = Field(alias="output1")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output2: Annotated[list[InquireBalanceValuationPlOutput2], "응답상세"] = Field(alias="output2")
+    output1: Annotated[list[InquireBalanceValuationPlOutput1], "응답상세2"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[InquireBalanceValuationPlRequest, InquireBalanceValuationPlResponse] = Endpoint(

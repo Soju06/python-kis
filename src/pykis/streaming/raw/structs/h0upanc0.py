@@ -2,13 +2,14 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Annotated
 
 from pykis.streaming.raw.base import StreamingRawModel
 from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, StreamingSpec
 
 
 class H0UPANC0(StreamingRawModel):
-    BSTP_CLS_CODE: str
+    BSTP_CLS_CODE: Annotated[str, "'각 항목사이에는 구분자로 ^ 사용,\n모든 데이터타입은 String으로 변환되어 push 처리됨'"]
     BSOP_HOUR: datetime
     PRPR_NMIX: str
     PRDY_VRSS_SIGN: str

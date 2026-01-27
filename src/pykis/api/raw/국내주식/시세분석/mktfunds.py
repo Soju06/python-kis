@@ -16,20 +16,19 @@ if TYPE_CHECKING:
 
 class PrdyVrssSignEnum(KisStrEnum):
     VALUE_1 = ("1", "상한")
-    "상한"
+    """상한"""
     VALUE_2 = ("2", "상승")
-    "상승"
+    """상승"""
     VALUE_3 = ("3", "보합")
-    "보합"
+    """보합"""
     VALUE_4 = ("4", "하한")
-    "하한"
+    """하한"""
     VALUE_5 = ("5", "하락")
-    "하락"
+    """하락"""
 
 
 class MktfundsRequest(RawModel):
-    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
-    ("입력날짜1")
+    FID_INPUT_DATE_1: Annotated[str, "입력날짜1"] = Field(alias="FID_INPUT_DATE_1")
 
 
 class MktfundsRequestDict(TypedDict):
@@ -46,55 +45,37 @@ class MktfundsRequestDict(TypedDict):
         FID_INPUT_DATE_1 (str): 입력날짜1
     """
 
-    FID_INPUT_DATE_1: Annotated[str, "입력날짜1"]
+    FID_INPUT_DATE_1: str
 
 
 class MktfundsOutput(RawModel):
-    bsop_date: KisDate = Field(alias="bsop_date")
-    ("영업일자")
-    bstp_nmix_prpr: Decimal = Field(alias="bstp_nmix_prpr")
-    ("업종지수현재가")
-    bstp_nmix_prdy_vrss: Decimal = Field(alias="bstp_nmix_prdy_vrss")
-    ("업종지수전일대비")
-    prdy_vrss_sign: PrdyVrssSignEnum = Field(alias="prdy_vrss_sign")
-    ("1. 상한 2. 상승 3. 보합 4. 하한 5. 하락")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일대비율")
-    hts_avls: Decimal = Field(alias="hts_avls")
-    ("단위: 백만원")
-    cust_dpmn_amt: Decimal = Field(alias="cust_dpmn_amt")
-    ("단위: 억원")
-    cust_dpmn_amt_prdy_vrss: Decimal = Field(alias="cust_dpmn_amt_prdy_vrss")
-    ("고객예탁금금액전일대비")
-    amt_tnrt: Decimal = Field(alias="amt_tnrt")
-    ("금액회전율")
-    uncl_amt: Decimal = Field(alias="uncl_amt")
-    ("단위: 억원")
-    crdt_loan_rmnd: int = Field(alias="crdt_loan_rmnd")
-    ("단위: 억원")
-    futs_tfam_amt: Decimal = Field(alias="futs_tfam_amt")
-    ("단위: 억원")
-    sttp_amt: Decimal = Field(alias="sttp_amt")
-    ("단위: 억원")
-    mxtp_amt: Decimal = Field(alias="mxtp_amt")
-    ("단위: 억원")
-    bntp_amt: Decimal = Field(alias="bntp_amt")
-    ("단위: 억원")
-    mmf_amt: Decimal = Field(alias="mmf_amt")
-    ("단위: 억원")
-    secu_lend_amt: Decimal = Field(alias="secu_lend_amt")
-    ("단위: 억원")
+    bsop_date: Annotated[KisDate, "영업일자"] = Field(alias="bsop_date")
+    bstp_nmix_prpr: Annotated[Decimal, "업종지수현재가"] = Field(alias="bstp_nmix_prpr")
+    bstp_nmix_prdy_vrss: Annotated[Decimal, "업종지수전일대비"] = Field(alias="bstp_nmix_prdy_vrss")
+    prdy_vrss_sign: Annotated[PrdyVrssSignEnum, "1. 상한 2. 상승 3. 보합 4. 하한 5. 하락"] = Field(
+        alias="prdy_vrss_sign",
+        json_schema_extra={"enum": ["1", "2", "3", "4", "5"], "enum_desc": {"1": "상한", "2": "상승", "3": "보합", "4": "하한", "5": "하락"}},
+    )
+    prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
+    hts_avls: Annotated[Decimal, "단위: 백만원"] = Field(alias="hts_avls")
+    cust_dpmn_amt: Annotated[Decimal, "단위: 억원"] = Field(alias="cust_dpmn_amt")
+    cust_dpmn_amt_prdy_vrss: Annotated[Decimal, "고객예탁금금액전일대비"] = Field(alias="cust_dpmn_amt_prdy_vrss")
+    amt_tnrt: Annotated[Decimal, "금액회전율"] = Field(alias="amt_tnrt")
+    uncl_amt: Annotated[Decimal, "단위: 억원"] = Field(alias="uncl_amt")
+    crdt_loan_rmnd: Annotated[int, "단위: 억원"] = Field(alias="crdt_loan_rmnd")
+    futs_tfam_amt: Annotated[Decimal, "단위: 억원"] = Field(alias="futs_tfam_amt")
+    sttp_amt: Annotated[Decimal, "단위: 억원"] = Field(alias="sttp_amt")
+    mxtp_amt: Annotated[Decimal, "단위: 억원"] = Field(alias="mxtp_amt")
+    bntp_amt: Annotated[Decimal, "단위: 억원"] = Field(alias="bntp_amt")
+    mmf_amt: Annotated[Decimal, "단위: 억원"] = Field(alias="mmf_amt")
+    secu_lend_amt: Annotated[Decimal, "단위: 억원"] = Field(alias="secu_lend_amt")
 
 
 class MktfundsResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[MktfundsOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[MktfundsOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[MktfundsRequest, MktfundsResponse] = Endpoint(

@@ -16,53 +16,65 @@ if TYPE_CHECKING:
 
 class FidRankSortClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "상승률")
-    "상승률"
+    """상승률"""
     VALUE_1 = ("1", "상승폭")
-    "상승폭"
+    """상승폭"""
     VALUE_2 = ("2", "보합")
-    "보합"
+    """보합"""
     VALUE_3 = ("3", "하락률")
-    "하락률"
+    """하락률"""
     VALUE_4 = ("4", "하락폭")
-    "하락폭"
+    """하락폭"""
 
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "관리종목")
-    "관리종목"
+    """관리종목"""
     VALUE_2 = ("2", "투자주의")
-    "투자주의"
+    """투자주의"""
     VALUE_3 = ("3", "투자경고")
-    "투자경고"
+    """투자경고"""
     VALUE_4 = ("4", "투자위험예고")
-    "투자위험예고"
+    """투자위험예고"""
     VALUE_5 = ("5", "투자위험")
-    "투자위험"
+    """투자위험"""
     VALUE_6 = ("6", "보통주")
-    "보통주"
+    """보통주"""
     VALUE_7 = ("7", "우선주")
-    "우선주"
+    """우선주"""
 
 
 class OvertimeExpTransFluctRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (J: 주식)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("Unique key(11186)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("0000(전체), 0001(코스피), 1001(코스닥)")
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
-    ("0(상승률), 1(상승폭), 2(보합), 3(하락률), 4(하락폭)")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
-    ("'0(전체), 1(관리종목), 2(투자주의), 3(투자경고), 4(투자위험예고), 5(투자위험), 6(보통주), 7(우선주)'")
-    FID_INPUT_PRICE_1: str = Field(alias="FID_INPUT_PRICE_1")
-    ("가격 ~")
-    FID_INPUT_PRICE_2: str | None = Field(default=None, alias="FID_INPUT_PRICE_2", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_INPUT_VOL_1: str = Field(alias="FID_INPUT_VOL_1")
-    ("거래량 ~")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (J: 주식)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(11186)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "0000(전체), 0001(코스피), 1001(코스닥)"] = Field(alias="FID_INPUT_ISCD")
+    FID_RANK_SORT_CLS_CODE: Annotated[FidRankSortClsCodeEnum, "0(상승률), 1(상승폭), 2(보합), 3(하락률), 4(하락폭)"] = Field(
+        alias="FID_RANK_SORT_CLS_CODE",
+        json_schema_extra={"enum": ["0", "1", "2", "3", "4"], "enum_desc": {"0": "상승률", "1": "상승폭", "2": "보합", "3": "하락률", "4": "하락폭"}},
+    )
+    FID_DIV_CLS_CODE: Annotated[
+        FidDivClsCodeEnum, "'0(전체), 1(관리종목), 2(투자주의), 3(투자경고), 4(투자위험예고), 5(투자위험), 6(보통주), 7(우선주)'"
+    ] = Field(
+        alias="FID_DIV_CLS_CODE",
+        json_schema_extra={
+            "enum": ["0", "1", "2", "3", "4", "5", "6", "7"],
+            "enum_desc": {
+                "0": "전체",
+                "1": "관리종목",
+                "2": "투자주의",
+                "3": "투자경고",
+                "4": "투자위험예고",
+                "5": "투자위험",
+                "6": "보통주",
+                "7": "우선주",
+            },
+        },
+    )
+    FID_INPUT_PRICE_1: Annotated[str, "가격 ~"] = Field(alias="FID_INPUT_PRICE_1")
+    FID_INPUT_PRICE_2: Annotated[str | None, "공백"] = Field(default=None, alias="FID_INPUT_PRICE_2", json_schema_extra={"blank_allowed": True})
+    FID_INPUT_VOL_1: Annotated[str, "거래량 ~"] = Field(alias="FID_INPUT_VOL_1")
 
 
 class OvertimeExpTransFluctRequestDict(TypedDict):
@@ -84,56 +96,39 @@ class OvertimeExpTransFluctRequestDict(TypedDict):
         FID_INPUT_VOL_1 (str): 거래량 ~
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (J: 주식)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(11186)"]
-    FID_INPUT_ISCD: Annotated[str, "0000(전체), 0001(코스피), 1001(코스닥)"]
-    FID_RANK_SORT_CLS_CODE: Annotated[FidRankSortClsCodeEnum, "0(상승률), 1(상승폭), 2(보합), 3(하락률), 4(하락폭)"]
-    FID_DIV_CLS_CODE: Annotated[
-        FidDivClsCodeEnum, "'0(전체), 1(관리종목), 2(투자주의), 3(투자경고), 4(투자위험예고), 5(투자위험), 6(보통주), 7(우선주)'"
-    ]
-    FID_INPUT_PRICE_1: Annotated[str, "가격 ~"]
-    FID_INPUT_PRICE_2: NotRequired[Annotated[str | None, "공백"]]
-    FID_INPUT_VOL_1: Annotated[str, "거래량 ~"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_COND_SCR_DIV_CODE: str
+    FID_INPUT_ISCD: str
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum
+    FID_INPUT_PRICE_1: str
+    FID_INPUT_PRICE_2: NotRequired[str | None]
+    FID_INPUT_VOL_1: str
 
 
 class OvertimeExpTransFluctOutput(RawModel):
-    data_rank: int = Field(alias="data_rank")
-    ("데이터 순위")
-    iscd_stat_cls_code: str = Field(alias="iscd_stat_cls_code")
-    ("종목 상태 구분 코드")
-    stck_shrn_iscd: str = Field(alias="stck_shrn_iscd")
-    ("주식 단축 종목코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    ovtm_untp_antc_cnpr: Decimal = Field(alias="ovtm_untp_antc_cnpr")
-    ("시간외 단일가 예상 체결가")
-    ovtm_untp_antc_cntg_vrss: Decimal = Field(alias="ovtm_untp_antc_cntg_vrss")
-    ("시간외 단일가 예상 체결 대비")
-    ovtm_untp_antc_cntg_vrsssign: Decimal | None = Field(default=None, alias="ovtm_untp_antc_cntg_vrsssign")
-    ("시간외 단일가 예상 체결 대비")
-    ovtm_untp_antc_cntg_ctrt: Decimal = Field(alias="ovtm_untp_antc_cntg_ctrt")
-    ("시간외 단일가 예상 체결 대비율")
-    ovtm_untp_askp_rsqn1: Decimal = Field(alias="ovtm_untp_askp_rsqn1")
-    ("시간외 단일가 매도호가 잔량1")
-    ovtm_untp_bidp_rsqn1: str = Field(alias="ovtm_untp_bidp_rsqn1")
-    ("시간외 단일가 매수호가 잔량1")
-    ovtm_untp_antc_cnqn: Decimal = Field(alias="ovtm_untp_antc_cnqn")
-    ("시간외 단일가 예상 체결량")
-    itmt_vol: int = Field(alias="itmt_vol")
-    ("장중 거래량")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
+    data_rank: Annotated[int, "데이터 순위"] = Field(alias="data_rank")
+    iscd_stat_cls_code: Annotated[str, "종목 상태 구분 코드"] = Field(alias="iscd_stat_cls_code")
+    stck_shrn_iscd: Annotated[str, "주식 단축 종목코드"] = Field(alias="stck_shrn_iscd")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    ovtm_untp_antc_cnpr: Annotated[Decimal, "시간외 단일가 예상 체결가"] = Field(alias="ovtm_untp_antc_cnpr")
+    ovtm_untp_antc_cntg_vrss: Annotated[Decimal, "시간외 단일가 예상 체결 대비"] = Field(alias="ovtm_untp_antc_cntg_vrss")
+    ovtm_untp_antc_cntg_vrsssign: Annotated[Decimal | None, "시간외 단일가 예상 체결 대비"] = Field(
+        default=None, alias="ovtm_untp_antc_cntg_vrsssign"
+    )
+    ovtm_untp_antc_cntg_ctrt: Annotated[Decimal, "시간외 단일가 예상 체결 대비율"] = Field(alias="ovtm_untp_antc_cntg_ctrt")
+    ovtm_untp_askp_rsqn1: Annotated[Decimal, "시간외 단일가 매도호가 잔량1"] = Field(alias="ovtm_untp_askp_rsqn1")
+    ovtm_untp_bidp_rsqn1: Annotated[str, "시간외 단일가 매수호가 잔량1"] = Field(alias="ovtm_untp_bidp_rsqn1")
+    ovtm_untp_antc_cnqn: Annotated[Decimal, "시간외 단일가 예상 체결량"] = Field(alias="ovtm_untp_antc_cnqn")
+    itmt_vol: Annotated[int, "장중 거래량"] = Field(alias="itmt_vol")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
 
 
 class OvertimeExpTransFluctResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[OvertimeExpTransFluctOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[OvertimeExpTransFluctOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[OvertimeExpTransFluctRequest, OvertimeExpTransFluctResponse] = Endpoint(

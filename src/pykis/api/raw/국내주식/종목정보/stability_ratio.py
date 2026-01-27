@@ -16,18 +16,17 @@ if TYPE_CHECKING:
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "년")
-    "년"
+    """년"""
     VALUE_1 = ("1", "분기")
-    "분기"
+    """분기"""
 
 
 class StabilityRatioRequest(RawModel):
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("000660 : 종목코드")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
-    ("0: 년, 1: 분기")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
-    ("J")
+    fid_input_iscd: Annotated[str, "000660 : 종목코드"] = Field(alias="fid_input_iscd")
+    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"] = Field(
+        alias="fid_div_cls_code", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "년", "1": "분기"}}
+    )
+    fid_cond_mrkt_div_code: Annotated[str, "J"] = Field(alias="fid_cond_mrkt_div_code")
 
 
 class StabilityRatioRequestDict(TypedDict):
@@ -42,33 +41,24 @@ class StabilityRatioRequestDict(TypedDict):
         fid_cond_mrkt_div_code (str): J
     """
 
-    fid_input_iscd: Annotated[str, "000660 : 종목코드"]
-    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"]
-    fid_cond_mrkt_div_code: Annotated[str, "J"]
+    fid_input_iscd: str
+    fid_div_cls_code: FidDivClsCodeEnum
+    fid_cond_mrkt_div_code: str
 
 
 class StabilityRatioOutput(RawModel):
-    stac_yymm: str = Field(alias="stac_yymm")
-    ("결산 년월")
-    lblt_rate: Decimal = Field(alias="lblt_rate")
-    ("부채 비율")
-    bram_depn: Decimal = Field(alias="bram_depn")
-    ("차입금 의존도")
-    crnt_rate: Decimal = Field(alias="crnt_rate")
-    ("유동 비율")
-    quck_rate: Decimal = Field(alias="quck_rate")
-    ("당좌 비율")
+    stac_yymm: Annotated[str, "결산 년월"] = Field(alias="stac_yymm")
+    lblt_rate: Annotated[Decimal, "부채 비율"] = Field(alias="lblt_rate")
+    bram_depn: Annotated[Decimal, "차입금 의존도"] = Field(alias="bram_depn")
+    crnt_rate: Annotated[Decimal, "유동 비율"] = Field(alias="crnt_rate")
+    quck_rate: Annotated[Decimal, "당좌 비율"] = Field(alias="quck_rate")
 
 
 class StabilityRatioResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[StabilityRatioOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[StabilityRatioOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[StabilityRatioRequest, StabilityRatioResponse] = Endpoint(

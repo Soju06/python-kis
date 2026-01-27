@@ -18,11 +18,7 @@ class FOCODE_TBL(StoreModel):
     sAutoOrdEcnmYN: Annotated[StoreBool, "서버자동 경제지표 주문 가능 종목 여부"] = Field(json_schema_extra={"length": 1})
     sExchSubCd: Annotated[
         SexchsubcdEnum,
-        (
-            "서브 거래소 코드 2019.12.27 10:ASX 20:BALTIC 30:BMF 40:CBOE 50:CME 51:CME_CBOT 52:CME_NYMEX 53:CME_COMEX 60:EUREX 70:FTX 80:HKEx "
-            "90:ICE_US 91:ICE_금융 92:ICE_상품 93:ICE_SG A0:ISE B0:ITA C0:JSE D0:KCBT E0:LBMA F0:LME G0:MDEX H0:MDX I0:MEFF J0:NYSE K0:OSE L0:SGX "
-            "M0:SSE N0:TFEX O0:TMX P0:HNX"
-        ),
+        "서브 거래소 코드 2019.12.27 10:ASX 20:BALTIC 30:BMF 40:CBOE 50:CME 51:CME_CBOT 52:CME_NYMEX 53:CME_COMEX 60:EUREX 70:FTX 80:HKEx 90:ICE_US 91:ICE_금융 92:ICE_상품 93:ICE_SG A0:ISE B0:ITA C0:JSE D0:KCBT E0:LBMA F0:LME G0:MDEX H0:MDX I0:MEFF J0:NYSE K0:OSE L0:SGX M0:SSE N0:TFEX O0:TMX P0:HNX",
     ] = Field(
         json_schema_extra={
             "length": 2,

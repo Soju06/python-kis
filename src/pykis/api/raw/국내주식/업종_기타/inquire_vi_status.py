@@ -16,39 +16,44 @@ if TYPE_CHECKING:
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "상승")
-    "상승"
+    """상승"""
     VALUE_2 = ("2", "하락")
-    "하락"
+    """하락"""
+
+
+class FidMrktClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "전체")
+    """전체"""
+    K = ("K", "거래소")
+    """거래소"""
+    Q = ("Q", "코스닥")
+    """코스닥"""
 
 
 class ViKindCodeEnum(KisStrEnum):
     VALUE_1 = ("1", "정적")
-    "정적"
+    """정적"""
     VALUE_2 = ("2", "동적")
-    "동적"
+    """동적"""
     VALUE_3 = ("3", "정적&동적")
-    "정적&동적"
+    """정적&동적"""
 
 
 class InquireViStatusRequest(RawModel):
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
-    ("0:전체 1:상승 2:하락")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("20139")
-    FID_MRKT_CLS_CODE: str = Field(alias="FID_MRKT_CLS_CODE")
-    ("0:전체 K:거래소 Q:코스닥")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("FID 입력 종목코드")
-    FID_RANK_SORT_CLS_CODE: str = Field(alias="FID_RANK_SORT_CLS_CODE")
-    ("0:전체1:정적2:동적3:정적&동적")
-    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
-    ("영업일")
-    FID_TRGT_CLS_CODE: str = Field(alias="FID_TRGT_CLS_CODE")
-    ("FID 대상 구분 코드")
-    FID_TRGT_EXLS_CLS_CODE: str = Field(alias="FID_TRGT_EXLS_CLS_CODE")
-    ("FID 대상 제외 구분 코드")
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0:전체 1:상승 2:하락"] = Field(
+        alias="FID_DIV_CLS_CODE", json_schema_extra={"enum": ["0", "1", "2"], "enum_desc": {"0": "전체", "1": "상승", "2": "하락"}}
+    )
+    FID_COND_SCR_DIV_CODE: Annotated[str, "20139"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_MRKT_CLS_CODE: Annotated[FidMrktClsCodeEnum, "0:전체 K:거래소 Q:코스닥"] = Field(
+        alias="FID_MRKT_CLS_CODE", json_schema_extra={"enum": ["0", "K", "Q"], "enum_desc": {"0": "전체", "K": "거래소", "Q": "코스닥"}}
+    )
+    FID_INPUT_ISCD: Annotated[str, "FID 입력 종목코드"] = Field(alias="FID_INPUT_ISCD")
+    FID_RANK_SORT_CLS_CODE: Annotated[str, "0:전체1:정적2:동적3:정적&동적"] = Field(alias="FID_RANK_SORT_CLS_CODE")
+    FID_INPUT_DATE_1: Annotated[str, "영업일"] = Field(alias="FID_INPUT_DATE_1")
+    FID_TRGT_CLS_CODE: Annotated[str, "FID 대상 구분 코드"] = Field(alias="FID_TRGT_CLS_CODE")
+    FID_TRGT_EXLS_CLS_CODE: Annotated[str, "FID 대상 제외 구분 코드"] = Field(alias="FID_TRGT_EXLS_CLS_CODE")
 
 
 class InquireViStatusRequestDict(TypedDict):
@@ -60,7 +65,7 @@ class InquireViStatusRequestDict(TypedDict):
     Request fields:
         FID_DIV_CLS_CODE (FidDivClsCodeEnum): 0:전체 1:상승 2:하락
         FID_COND_SCR_DIV_CODE (str): 20139
-        FID_MRKT_CLS_CODE (str): 0:전체 K:거래소 Q:코스닥
+        FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): 0:전체 K:거래소 Q:코스닥
         FID_INPUT_ISCD (str): FID 입력 종목코드
         FID_RANK_SORT_CLS_CODE (str): 0:전체1:정적2:동적3:정적&동적
         FID_INPUT_DATE_1 (str): 영업일
@@ -68,54 +73,39 @@ class InquireViStatusRequestDict(TypedDict):
         FID_TRGT_EXLS_CLS_CODE (str): FID 대상 제외 구분 코드
     """
 
-    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0:전체 1:상승 2:하락"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "20139"]
-    FID_MRKT_CLS_CODE: Annotated[str, "0:전체 K:거래소 Q:코스닥"]
-    FID_INPUT_ISCD: Annotated[str, "FID 입력 종목코드"]
-    FID_RANK_SORT_CLS_CODE: Annotated[str, "0:전체1:정적2:동적3:정적&동적"]
-    FID_INPUT_DATE_1: Annotated[str, "영업일"]
-    FID_TRGT_CLS_CODE: Annotated[str, "FID 대상 구분 코드"]
-    FID_TRGT_EXLS_CLS_CODE: Annotated[str, "FID 대상 제외 구분 코드"]
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum
+    FID_COND_SCR_DIV_CODE: str
+    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum
+    FID_INPUT_ISCD: str
+    FID_RANK_SORT_CLS_CODE: str
+    FID_INPUT_DATE_1: str
+    FID_TRGT_CLS_CODE: str
+    FID_TRGT_EXLS_CLS_CODE: str
 
 
 class InquireViStatusOutput(RawModel):
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    mksc_shrn_iscd: str | None = Field(default=None, alias="mksc_shrn_iscd")
-    ("유가증권 단축 종목코드")
-    vi_cls_code: KisBool | None = Field(default=None, alias="vi_cls_code")
-    ("Y: 발동 / N: 해제")
-    bsop_date: KisDateOptional = Field(default=None, alias="bsop_date")
-    ("영업 일자")
-    cntg_vi_hour: KisTimeOptional = Field(default=None, alias="cntg_vi_hour")
-    ("VI발동시간")
-    vi_cncl_hour: KisTimeOptional = Field(default=None, alias="vi_cncl_hour")
-    ("VI해제시간")
-    vi_kind_code: ViKindCodeEnum | None = Field(default=None, alias="vi_kind_code")
-    ("1:정적 2:동적 3:정적&동적")
-    vi_prc: Decimal | None = Field(default=None, alias="vi_prc")
-    ("VI발동가격")
-    vi_stnd_prc: Decimal | None = Field(default=None, alias="vi_stnd_prc")
-    ("정적VI발동기준가격")
-    vi_dprt: Decimal | None = Field(default=None, alias="vi_dprt")
-    ("%")
-    vi_dmc_stnd_prc: Decimal | None = Field(default=None, alias="vi_dmc_stnd_prc")
-    ("동적VI발동기준가격")
-    vi_dmc_dprt: Decimal | None = Field(default=None, alias="vi_dmc_dprt")
-    ("%")
-    vi_count: int | None = Field(default=None, alias="vi_count")
-    ("VI발동횟수")
+    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
+    mksc_shrn_iscd: Annotated[str | None, "유가증권 단축 종목코드"] = Field(default=None, alias="mksc_shrn_iscd")
+    vi_cls_code: Annotated[KisBool | None, "Y: 발동 / N: 해제"] = Field(default=None, alias="vi_cls_code")
+    bsop_date: Annotated[KisDateOptional, "영업 일자"] = Field(default=None, alias="bsop_date")
+    cntg_vi_hour: Annotated[KisTimeOptional, "VI발동시간"] = Field(default=None, alias="cntg_vi_hour")
+    vi_cncl_hour: Annotated[KisTimeOptional, "VI해제시간"] = Field(default=None, alias="vi_cncl_hour")
+    vi_kind_code: Annotated[ViKindCodeEnum | None, "1:정적 2:동적 3:정적&동적"] = Field(
+        default=None, alias="vi_kind_code", json_schema_extra={"enum": ["1", "2", "3"], "enum_desc": {"1": "정적", "2": "동적", "3": "정적&동적"}}
+    )
+    vi_prc: Annotated[Decimal | None, "VI발동가격"] = Field(default=None, alias="vi_prc")
+    vi_stnd_prc: Annotated[Decimal | None, "정적VI발동기준가격"] = Field(default=None, alias="vi_stnd_prc")
+    vi_dprt: Annotated[Decimal | None, "%"] = Field(default=None, alias="vi_dprt")
+    vi_dmc_stnd_prc: Annotated[Decimal | None, "동적VI발동기준가격"] = Field(default=None, alias="vi_dmc_stnd_prc")
+    vi_dmc_dprt: Annotated[Decimal | None, "%"] = Field(default=None, alias="vi_dmc_dprt")
+    vi_count: Annotated[int | None, "VI발동횟수"] = Field(default=None, alias="vi_count")
 
 
 class InquireViStatusResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquireViStatusOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquireViStatusOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireViStatusRequest, InquireViStatusResponse] = Endpoint(
@@ -169,7 +159,7 @@ if TYPE_CHECKING:
                     Request fields:
                         FID_DIV_CLS_CODE (FidDivClsCodeEnum): 0:전체 1:상승 2:하락
                         FID_COND_SCR_DIV_CODE (str): 20139
-                        FID_MRKT_CLS_CODE (str): 0:전체 K:거래소 Q:코스닥
+                        FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): 0:전체 K:거래소 Q:코스닥
                         FID_INPUT_ISCD (str): FID 입력 종목코드
                         FID_RANK_SORT_CLS_CODE (str): 0:전체1:정적2:동적3:정적&동적
                         FID_INPUT_DATE_1 (str): 영업일
@@ -192,5 +182,6 @@ __all__ = [
     "InquireViStatusResponse",
     "InquireViStatusOutput",
     "FidDivClsCodeEnum",
+    "FidMrktClsCodeEnum",
     "ViKindCodeEnum",
 ]

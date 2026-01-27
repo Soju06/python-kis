@@ -16,29 +16,29 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     N = ("N", "해외지수")
-    "해외지수"
+    """해외지수"""
     X = ("X", "환율")
-    "환율"
+    """환율"""
     KX = ("KX", "원화환율")
-    "원화환율"
+    """원화환율"""
 
 
 class FidHourClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "정규장")
-    "정규장"
+    """정규장"""
     VALUE_1 = ("1", "시간외")
-    "시간외"
+    """시간외"""
 
 
 class InquireTimeIndexchartpriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("N 해외지수 X 환율 KX 원화환율")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목번호(ex. TSLA)")
-    FID_HOUR_CLS_CODE: FidHourClsCodeEnum = Field(alias="FID_HOUR_CLS_CODE")
-    ("0: 정규장, 1: 시간외")
-    FID_PW_DATA_INCU_YN: KisBool = Field(alias="FID_PW_DATA_INCU_YN")
-    ("Y/N")
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "N 해외지수 X 환율 KX 원화환율"] = Field(
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["N", "X", "KX"], "enum_desc": {"N": "해외지수", "X": "환율", "KX": "원화환율"}}
+    )
+    FID_INPUT_ISCD: Annotated[str, "종목번호(ex. TSLA)"] = Field(alias="FID_INPUT_ISCD")
+    FID_HOUR_CLS_CODE: Annotated[FidHourClsCodeEnum, "0: 정규장, 1: 시간외"] = Field(
+        alias="FID_HOUR_CLS_CODE", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "정규장", "1": "시간외"}}
+    )
+    FID_PW_DATA_INCU_YN: Annotated[KisBool, "Y/N"] = Field(alias="FID_PW_DATA_INCU_YN")
 
 
 class InquireTimeIndexchartpriceRequestDict(TypedDict):
@@ -53,65 +53,42 @@ class InquireTimeIndexchartpriceRequestDict(TypedDict):
         FID_PW_DATA_INCU_YN (KisBool): Y/N
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "N 해외지수 X 환율 KX 원화환율"]
-    FID_INPUT_ISCD: Annotated[str, "종목번호(ex. TSLA)"]
-    FID_HOUR_CLS_CODE: Annotated[FidHourClsCodeEnum, "0: 정규장, 1: 시간외"]
-    FID_PW_DATA_INCU_YN: Annotated[KisBool, "Y/N"]
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
+    FID_INPUT_ISCD: str
+    FID_HOUR_CLS_CODE: FidHourClsCodeEnum
+    FID_PW_DATA_INCU_YN: KisBool
 
 
 class InquireTimeIndexchartpriceOutput1(RawModel):
-    ovrs_nmix_prdy_vrss: Decimal = Field(alias="ovrs_nmix_prdy_vrss")
-    ("해외 지수 전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    ovrs_nmix_prdy_clpr: Decimal = Field(alias="ovrs_nmix_prdy_clpr")
-    ("해외 지수 전일 종가")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    ovrs_nmix_prpr: Decimal = Field(alias="ovrs_nmix_prpr")
-    ("해외 지수 현재가")
-    stck_shrn_iscd: str | None = Field(default=None, alias="stck_shrn_iscd")
-    ("주식 단축 종목코드")
-    ovrs_prod_oprc: Decimal = Field(alias="ovrs_prod_oprc")
-    ("시가")
-    ovrs_prod_hgpr: Decimal = Field(alias="ovrs_prod_hgpr")
-    ("최고가")
-    ovrs_prod_lwpr: Decimal = Field(alias="ovrs_prod_lwpr")
-    ("최저가")
+    ovrs_nmix_prdy_vrss: Annotated[Decimal, "해외 지수 전일 대비"] = Field(alias="ovrs_nmix_prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    ovrs_nmix_prdy_clpr: Annotated[Decimal, "해외 지수 전일 종가"] = Field(alias="ovrs_nmix_prdy_clpr")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    ovrs_nmix_prpr: Annotated[Decimal, "해외 지수 현재가"] = Field(alias="ovrs_nmix_prpr")
+    stck_shrn_iscd: Annotated[str | None, "주식 단축 종목코드"] = Field(default=None, alias="stck_shrn_iscd")
+    ovrs_prod_oprc: Annotated[Decimal, "시가"] = Field(alias="ovrs_prod_oprc")
+    ovrs_prod_hgpr: Annotated[Decimal, "최고가"] = Field(alias="ovrs_prod_hgpr")
+    ovrs_prod_lwpr: Annotated[Decimal, "최저가"] = Field(alias="ovrs_prod_lwpr")
 
 
 class InquireTimeIndexchartpriceOutput2(RawModel):
-    stck_bsop_date: KisDateOptional = Field(default=None, alias="stck_bsop_date")
-    ("영업 일자")
-    stck_cntg_hour: KisTimeOptional = Field(default=None, alias="stck_cntg_hour")
-    ("체결 시간")
-    optn_prpr: Decimal | None = Field(default=None, alias="optn_prpr")
-    ("현재가")
-    optn_oprc: Decimal | None = Field(default=None, alias="optn_oprc")
-    ("시가")
-    optn_hgpr: Decimal | None = Field(default=None, alias="optn_hgpr")
-    ("최고가")
-    optn_lwpr: Decimal | None = Field(default=None, alias="optn_lwpr")
-    ("최저가")
-    cntg_vol: int | None = Field(default=None, alias="cntg_vol")
-    ("체결 거래량")
+    stck_bsop_date: Annotated[KisDateOptional, "영업 일자"] = Field(default=None, alias="stck_bsop_date")
+    stck_cntg_hour: Annotated[KisTimeOptional, "체결 시간"] = Field(default=None, alias="stck_cntg_hour")
+    optn_prpr: Annotated[Decimal | None, "현재가"] = Field(default=None, alias="optn_prpr")
+    optn_oprc: Annotated[Decimal | None, "시가"] = Field(default=None, alias="optn_oprc")
+    optn_hgpr: Annotated[Decimal | None, "최고가"] = Field(default=None, alias="optn_hgpr")
+    optn_lwpr: Annotated[Decimal | None, "최저가"] = Field(default=None, alias="optn_lwpr")
+    cntg_vol: Annotated[int | None, "체결 거래량"] = Field(default=None, alias="cntg_vol")
 
 
 class InquireTimeIndexchartpriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquireTimeIndexchartpriceOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquireTimeIndexchartpriceOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquireTimeIndexchartpriceOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquireTimeIndexchartpriceOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireTimeIndexchartpriceRequest, InquireTimeIndexchartpriceResponse] = Endpoint(

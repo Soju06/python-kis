@@ -36,7 +36,7 @@ class ST_ELW_CODE(StoreModel):
     paym_date: Annotated[StoreDate, "지급일"] = Field(json_schema_extra={"length": 8})
     prdy_avls: Annotated[StoreDecimal, "전일시가총액(억)"] = Field(json_schema_extra={"length": 9})
     lstn_stcn: Annotated[StoreInt, "상장주수(천)"] = Field(json_schema_extra={"length": 15})
-    mrkt_prtt_no1: Annotated[str, "시장 참가자 번호1"] = Field(json_schema_extra={"length": 5})
+    mrkt_prtt_no1: Annotated[str | None, "시장 참가자 번호1"] = Field(default=None, json_schema_extra={"length": 5})
     mrkt_prtt_no2: Annotated[str | None, "시장 참가자 번호2"] = Field(default=None, json_schema_extra={"length": 5})
     mrkt_prtt_no3: Annotated[str | None, "시장 참가자 번호3"] = Field(default=None, json_schema_extra={"length": 5})
     mrkt_prtt_no4: Annotated[str | None, "시장 참가자 번호4"] = Field(default=None, json_schema_extra={"length": 5})

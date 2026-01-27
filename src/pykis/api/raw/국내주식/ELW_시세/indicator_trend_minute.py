@@ -16,30 +16,32 @@ if TYPE_CHECKING:
 
 class FidHourClsCodeEnum(KisStrEnum):
     VALUE_60 = ("60", "1분")
-    "1분"
+    """1분"""
     VALUE_180 = ("180", "3분")
-    "3분"
+    """3분"""
     VALUE_300 = ("300", "5분")
-    "5분"
+    """5분"""
     VALUE_600 = ("600", "10분")
-    "10분"
+    """10분"""
     VALUE_1800 = ("1800", "30분")
-    "30분"
+    """30분"""
     VALUE_3600 = ("3600", "60분")
-    "60분"
+    """60분"""
     VALUE_7200 = ("7200", "60분")
-    "60분"
+    """60분"""
 
 
 class IndicatorTrendMinuteRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (W)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("ex) 58J297(KBJ297삼성전자콜)")
-    FID_HOUR_CLS_CODE: FidHourClsCodeEnum = Field(alias="FID_HOUR_CLS_CODE")
-    ("'60(1분), 180(3분), 300(5분), 600(10분), 1800(30분), 3600(60분), 7200(60분) '")
-    FID_PW_DATA_INCU_YN: KisBool = Field(alias="FID_PW_DATA_INCU_YN")
-    ("N(과거데이터포함X),Y(과거데이터포함O)")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "ex) 58J297(KBJ297삼성전자콜)"] = Field(alias="FID_INPUT_ISCD")
+    FID_HOUR_CLS_CODE: Annotated[FidHourClsCodeEnum, "'60(1분), 180(3분), 300(5분), 600(10분), 1800(30분), 3600(60분), 7200(60분) '"] = Field(
+        alias="FID_HOUR_CLS_CODE",
+        json_schema_extra={
+            "enum": ["60", "180", "300", "600", "1800", "3600", "7200"],
+            "enum_desc": {"60": "1분", "180": "3분", "300": "5분", "600": "10분", "1800": "30분", "3600": "60분", "7200": "60분"},
+        },
+    )
+    FID_PW_DATA_INCU_YN: Annotated[KisBool, "N(과거데이터포함X),Y(과거데이터포함O)"] = Field(alias="FID_PW_DATA_INCU_YN")
 
 
 class IndicatorTrendMinuteRequestDict(TypedDict):
@@ -56,50 +58,33 @@ class IndicatorTrendMinuteRequestDict(TypedDict):
         FID_PW_DATA_INCU_YN (KisBool): N(과거데이터포함X),Y(과거데이터포함O)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"]
-    FID_INPUT_ISCD: Annotated[str, "ex) 58J297(KBJ297삼성전자콜)"]
-    FID_HOUR_CLS_CODE: Annotated[FidHourClsCodeEnum, "'60(1분), 180(3분), 300(5분), 600(10분), 1800(30분), 3600(60분), 7200(60분) '"]
-    FID_PW_DATA_INCU_YN: Annotated[KisBool, "N(과거데이터포함X),Y(과거데이터포함O)"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
+    FID_HOUR_CLS_CODE: FidHourClsCodeEnum
+    FID_PW_DATA_INCU_YN: KisBool
 
 
 class IndicatorTrendMinuteOutput(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
-    ("주식영업일자")
-    stck_cntg_hour: KisTime = Field(alias="stck_cntg_hour")
-    ("주식체결시간")
-    elw_prpr: Decimal = Field(alias="elw_prpr")
-    ("ELW현재가")
-    elw_oprc: Decimal = Field(alias="elw_oprc")
-    ("ELW시가2")
-    elw_hgpr: Decimal = Field(alias="elw_hgpr")
-    ("ELW최고가")
-    elw_lwpr: Decimal = Field(alias="elw_lwpr")
-    ("ELW최저가")
-    lvrg_val: Decimal = Field(alias="lvrg_val")
-    ("레버리지값")
-    gear: Decimal = Field(alias="gear")
-    ("기어링")
-    prmm_val: Decimal = Field(alias="prmm_val")
-    ("프리미엄값")
-    invl_val: Decimal = Field(alias="invl_val")
-    ("내재가치값")
-    prit: Decimal = Field(alias="prit")
-    ("패리티")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적거래량")
-    cntg_vol: int = Field(alias="cntg_vol")
-    ("체결거래량")
+    stck_bsop_date: Annotated[KisDate, "주식영업일자"] = Field(alias="stck_bsop_date")
+    stck_cntg_hour: Annotated[KisTime, "주식체결시간"] = Field(alias="stck_cntg_hour")
+    elw_prpr: Annotated[Decimal, "ELW현재가"] = Field(alias="elw_prpr")
+    elw_oprc: Annotated[Decimal, "ELW시가2"] = Field(alias="elw_oprc")
+    elw_hgpr: Annotated[Decimal, "ELW최고가"] = Field(alias="elw_hgpr")
+    elw_lwpr: Annotated[Decimal, "ELW최저가"] = Field(alias="elw_lwpr")
+    lvrg_val: Annotated[Decimal, "레버리지값"] = Field(alias="lvrg_val")
+    gear: Annotated[Decimal, "기어링"] = Field(alias="gear")
+    prmm_val: Annotated[Decimal, "프리미엄값"] = Field(alias="prmm_val")
+    invl_val: Annotated[Decimal, "내재가치값"] = Field(alias="invl_val")
+    prit: Annotated[Decimal, "패리티"] = Field(alias="prit")
+    acml_vol: Annotated[int, "누적거래량"] = Field(alias="acml_vol")
+    cntg_vol: Annotated[int, "체결거래량"] = Field(alias="cntg_vol")
 
 
 class IndicatorTrendMinuteResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[IndicatorTrendMinuteOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[IndicatorTrendMinuteOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[IndicatorTrendMinuteRequest, IndicatorTrendMinuteResponse] = Endpoint(

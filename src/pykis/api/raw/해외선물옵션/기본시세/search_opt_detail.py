@@ -14,68 +14,37 @@ if TYPE_CHECKING:
 
 
 class SearchOptDetailRequest(RawModel):
-    QRY_CNT: str = Field(alias="QRY_CNT")
-    ("입력한 코드 개수")
-    SRS_CD_01: str = Field(alias="SRS_CD_01")
-    ("SRS_CD_01부터 차례로 입력(ex ) OESU24 C5500 최대 30개 까지 가능")
-    SRS_CD_02: str = Field(alias="SRS_CD_02")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_03: str = Field(alias="SRS_CD_03")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_04: str = Field(alias="SRS_CD_04")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_05: str = Field(alias="SRS_CD_05")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_06: str = Field(alias="SRS_CD_06")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_07: str = Field(alias="SRS_CD_07")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_08: str = Field(alias="SRS_CD_08")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_09: str = Field(alias="SRS_CD_09")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_10: str = Field(alias="SRS_CD_10")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_11: str = Field(alias="SRS_CD_11")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_12: str = Field(alias="SRS_CD_12")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_13: str = Field(alias="SRS_CD_13")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_14: str = Field(alias="SRS_CD_14")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_15: str = Field(alias="SRS_CD_15")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_16: str = Field(alias="SRS_CD_16")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_17: str = Field(alias="SRS_CD_17")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_18: str = Field(alias="SRS_CD_18")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_19: str = Field(alias="SRS_CD_19")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_20: str = Field(alias="SRS_CD_20")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_21: str = Field(alias="SRS_CD_21")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_22: str = Field(alias="SRS_CD_22")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_23: str = Field(alias="SRS_CD_23")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_24: str = Field(alias="SRS_CD_24")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_25: str = Field(alias="SRS_CD_25")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_26: str = Field(alias="SRS_CD_26")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_27: str = Field(alias="SRS_CD_27")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_28: str = Field(alias="SRS_CD_28")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_29: str = Field(alias="SRS_CD_29")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
-    SRS_CD_30: str = Field(alias="SRS_CD_30")
-    ("SRS_CD_01부터 차례로 입력 최대 30개 까지 가능")
+    QRY_CNT: Annotated[str, "입력한 코드 개수"] = Field(alias="QRY_CNT")
+    SRS_CD_01: Annotated[str, "SRS_CD_01부터 차례로 입력(ex ) OESU24 C5500 최대 30개 까지 가능"] = Field(alias="SRS_CD_01")
+    SRS_CD_02: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_02")
+    SRS_CD_03: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_03")
+    SRS_CD_04: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_04")
+    SRS_CD_05: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_05")
+    SRS_CD_06: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_06")
+    SRS_CD_07: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_07")
+    SRS_CD_08: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_08")
+    SRS_CD_09: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_09")
+    SRS_CD_10: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_10")
+    SRS_CD_11: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_11")
+    SRS_CD_12: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_12")
+    SRS_CD_13: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_13")
+    SRS_CD_14: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_14")
+    SRS_CD_15: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_15")
+    SRS_CD_16: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_16")
+    SRS_CD_17: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_17")
+    SRS_CD_18: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_18")
+    SRS_CD_19: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_19")
+    SRS_CD_20: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_20")
+    SRS_CD_21: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_21")
+    SRS_CD_22: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_22")
+    SRS_CD_23: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_23")
+    SRS_CD_24: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_24")
+    SRS_CD_25: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_25")
+    SRS_CD_26: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_26")
+    SRS_CD_27: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_27")
+    SRS_CD_28: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_28")
+    SRS_CD_29: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_29")
+    SRS_CD_30: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"] = Field(alias="SRS_CD_30")
 
 
 class SearchOptDetailRequestDict(TypedDict):
@@ -140,93 +109,71 @@ class SearchOptDetailRequestDict(TypedDict):
         SRS_CD_30 (str): SRS_CD_01부터 차례로 입력 최대 30개 까지 가능
     """
 
-    QRY_CNT: Annotated[str, "입력한 코드 개수"]
-    SRS_CD_01: Annotated[str, "SRS_CD_01부터 차례로 입력(ex ) OESU24 C5500 최대 30개 까지 가능"]
-    SRS_CD_02: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_03: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_04: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_05: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_06: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_07: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_08: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_09: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_10: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_11: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_12: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_13: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_14: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_15: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_16: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_17: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_18: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_19: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_20: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_21: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_22: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_23: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_24: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_25: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_26: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_27: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_28: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_29: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
-    SRS_CD_30: Annotated[str, "SRS_CD_01부터 차례로 입력 최대 30개 까지 가능"]
+    QRY_CNT: str
+    SRS_CD_01: str
+    SRS_CD_02: str
+    SRS_CD_03: str
+    SRS_CD_04: str
+    SRS_CD_05: str
+    SRS_CD_06: str
+    SRS_CD_07: str
+    SRS_CD_08: str
+    SRS_CD_09: str
+    SRS_CD_10: str
+    SRS_CD_11: str
+    SRS_CD_12: str
+    SRS_CD_13: str
+    SRS_CD_14: str
+    SRS_CD_15: str
+    SRS_CD_16: str
+    SRS_CD_17: str
+    SRS_CD_18: str
+    SRS_CD_19: str
+    SRS_CD_20: str
+    SRS_CD_21: str
+    SRS_CD_22: str
+    SRS_CD_23: str
+    SRS_CD_24: str
+    SRS_CD_25: str
+    SRS_CD_26: str
+    SRS_CD_27: str
+    SRS_CD_28: str
+    SRS_CD_29: str
+    SRS_CD_30: str
 
 
 class SearchOptDetailOutput2(RawModel):
-    exch_cd: str | None = Field(default=None, alias="exch_cd")
-    ("거래소코드")
-    clas_cd: str | None = Field(default=None, alias="clas_cd")
-    ("품목종류")
-    crc_cd: str | None = Field(default=None, alias="crc_cd")
-    ("거래통화")
-    sttl_price: str | None = Field(default=None, alias="sttl_price")
-    ("정산가 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고 * 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션")
-    sttl_date: KisDateOptional = Field(default=None, alias="sttl_date")
-    ("정산일")
-    trst_mgn: str | None = Field(default=None, alias="trst_mgn")
-    ("증거금")
-    disp_digit: Decimal | None = Field(default=None, alias="disp_digit")
-    ("가격표시진법")
-    tick_sz: str | None = Field(default=None, alias="tick_sz")
-    ("틱사이즈")
-    tick_val: str | None = Field(default=None, alias="tick_val")
-    ("틱가치")
-    mrkt_open_date: KisDateOptional = Field(default=None, alias="mrkt_open_date")
-    ("장개시일자")
-    mrkt_open_time: KisTimeOptional = Field(default=None, alias="mrkt_open_time")
-    ("장개시시각")
-    mrkt_close_date: KisDateOptional = Field(default=None, alias="mrkt_close_date")
-    ("장마감일자")
-    mrkt_close_time: KisTimeOptional = Field(default=None, alias="mrkt_close_time")
-    ("장마감시각")
-    trd_fr_date: KisDateOptional = Field(default=None, alias="trd_fr_date")
-    ("상장일")
-    expr_date: KisDateOptional = Field(default=None, alias="expr_date")
-    ("만기일")
-    trd_to_date: KisDateOptional = Field(default=None, alias="trd_to_date")
-    ("최종거래일")
-    remn_cnt: str | None = Field(default=None, alias="remn_cnt")
-    ("잔존일수")
-    stat_tp: KisBool | None = Field(default=None, alias="stat_tp")
-    ("매매여부")
-    ctrt_size: Decimal | None = Field(default=None, alias="ctrt_size")
-    ("계약크기")
-    stl_tp: str | None = Field(default=None, alias="stl_tp")
-    ("최종결제구분")
-    frst_noti_date: KisDateOptional = Field(default=None, alias="frst_noti_date")
-    ("최초식별일")
+    exch_cd: Annotated[str | None, "거래소코드"] = Field(default=None, alias="exch_cd")
+    clas_cd: Annotated[str | None, "품목종류"] = Field(default=None, alias="clas_cd")
+    crc_cd: Annotated[str | None, "거래통화"] = Field(default=None, alias="crc_cd")
+    sttl_price: Annotated[
+        str | None,
+        "정산가 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고 * 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션",
+    ] = Field(default=None, alias="sttl_price")
+    sttl_date: Annotated[KisDateOptional, "정산일"] = Field(default=None, alias="sttl_date")
+    trst_mgn: Annotated[str | None, "증거금"] = Field(default=None, alias="trst_mgn")
+    disp_digit: Annotated[Decimal | None, "가격표시진법"] = Field(default=None, alias="disp_digit")
+    tick_sz: Annotated[str | None, "틱사이즈"] = Field(default=None, alias="tick_sz")
+    tick_val: Annotated[str | None, "틱가치"] = Field(default=None, alias="tick_val")
+    mrkt_open_date: Annotated[KisDateOptional, "장개시일자"] = Field(default=None, alias="mrkt_open_date")
+    mrkt_open_time: Annotated[KisTimeOptional, "장개시시각"] = Field(default=None, alias="mrkt_open_time")
+    mrkt_close_date: Annotated[KisDateOptional, "장마감일자"] = Field(default=None, alias="mrkt_close_date")
+    mrkt_close_time: Annotated[KisTimeOptional, "장마감시각"] = Field(default=None, alias="mrkt_close_time")
+    trd_fr_date: Annotated[KisDateOptional, "상장일"] = Field(default=None, alias="trd_fr_date")
+    expr_date: Annotated[KisDateOptional, "만기일"] = Field(default=None, alias="expr_date")
+    trd_to_date: Annotated[KisDateOptional, "최종거래일"] = Field(default=None, alias="trd_to_date")
+    remn_cnt: Annotated[str | None, "잔존일수"] = Field(default=None, alias="remn_cnt")
+    stat_tp: Annotated[KisBool | None, "매매여부"] = Field(default=None, alias="stat_tp")
+    ctrt_size: Annotated[Decimal | None, "계약크기"] = Field(default=None, alias="ctrt_size")
+    stl_tp: Annotated[str | None, "최종결제구분"] = Field(default=None, alias="stl_tp")
+    frst_noti_date: Annotated[KisDateOptional, "최초식별일"] = Field(default=None, alias="frst_noti_date")
 
 
 class SearchOptDetailResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output2: list[SearchOptDetailOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output2: Annotated[list[SearchOptDetailOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[SearchOptDetailRequest, SearchOptDetailResponse] = Endpoint(

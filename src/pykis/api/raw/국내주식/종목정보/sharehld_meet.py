@@ -13,14 +13,12 @@ if TYPE_CHECKING:
 
 
 class SharehldMeetRequest(RawModel):
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    F_DT: KisDate = Field(alias="F_DT")
-    ("일자 ~")
-    T_DT: KisDate = Field(alias="T_DT")
-    ("~ 일자")
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
-    ("공백: 전체, 특정종목 조회시 : 종목코드")
+    CTS: Annotated[str | None, "공백"] = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
+    F_DT: Annotated[KisDate, "일자 ~"] = Field(alias="F_DT")
+    T_DT: Annotated[KisDate, "~ 일자"] = Field(alias="T_DT")
+    SHT_CD: Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"] = Field(
+        default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True}
+    )
 
 
 class SharehldMeetRequestDict(TypedDict):
@@ -38,38 +36,27 @@ class SharehldMeetRequestDict(TypedDict):
         SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
     """
 
-    CTS: NotRequired[Annotated[str | None, "공백"]]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    T_DT: Annotated[KisDate, "~ 일자"]
-    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
+    CTS: NotRequired[str | None]
+    F_DT: KisDate
+    T_DT: KisDate
+    SHT_CD: NotRequired[str | None]
 
 
 class SharehldMeetOutput1(RawModel):
-    record_date: KisDateOptional = Field(default=None, alias="record_date")
-    ("기준일")
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
-    ("종목코드")
-    isin_name: str | None = Field(default=None, alias="isin_name")
-    ("종목명")
-    gen_meet_dt: KisDateOptional = Field(default=None, alias="gen_meet_dt")
-    ("주총일자")
-    gen_meet_type: str | None = Field(default=None, alias="gen_meet_type")
-    ("주총사유")
-    agenda: str | None = Field(default=None, alias="agenda")
-    ("주총의안")
-    vote_tot_qty: str | None = Field(default=None, alias="vote_tot_qty")
-    ("의결권주식총수")
+    record_date: Annotated[KisDateOptional, "기준일"] = Field(default=None, alias="record_date")
+    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
+    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
+    gen_meet_dt: Annotated[KisDateOptional, "주총일자"] = Field(default=None, alias="gen_meet_dt")
+    gen_meet_type: Annotated[str | None, "주총사유"] = Field(default=None, alias="gen_meet_type")
+    agenda: Annotated[str | None, "주총의안"] = Field(default=None, alias="agenda")
+    vote_tot_qty: Annotated[str | None, "의결권주식총수"] = Field(default=None, alias="vote_tot_qty")
 
 
 class SharehldMeetResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[SharehldMeetOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[SharehldMeetOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[SharehldMeetRequest, SharehldMeetResponse] = Endpoint(

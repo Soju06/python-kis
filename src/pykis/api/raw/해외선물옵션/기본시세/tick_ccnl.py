@@ -16,28 +16,22 @@ if TYPE_CHECKING:
 
 class QryTpEnum(KisStrEnum):
     Q = ("Q", "최초조회시")
-    "최초조회시"
+    """최초조회시"""
     P = ("P", "다음키(INDEX_KEY) 입력하여 조회시")
-    "다음키(INDEX_KEY) 입력하여 조회시"
+    """다음키(INDEX_KEY) 입력하여 조회시"""
 
 
 class TickCcnlRequest(RawModel):
-    SRS_CD: str = Field(alias="SRS_CD")
-    ("예) 6AM24")
-    EXCH_CD: str = Field(alias="EXCH_CD")
-    ("예) CME")
-    START_DATE_TIME: KisDateTimeOptional = Field(default=None, alias="START_DATE_TIME", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    CLOSE_DATE_TIME: KisDateTime = Field(alias="CLOSE_DATE_TIME")
-    ("예) 20240402")
-    QRY_TP: QryTpEnum = Field(alias="QRY_TP")
-    ("Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시")
-    QRY_CNT: int = Field(alias="QRY_CNT")
-    ("예) 30 (최대 40)")
-    QRY_GAP: str | None = Field(default=None, alias="QRY_GAP", json_schema_extra={"blank_allowed": True})
-    ("공백 (분만 사용)")
-    INDEX_KEY: str | None = Field(default=None, alias="INDEX_KEY", json_schema_extra={"blank_allowed": True})
-    ("공백")
+    SRS_CD: Annotated[str, "예) 6AM24"] = Field(alias="SRS_CD")
+    EXCH_CD: Annotated[str, "예) CME"] = Field(alias="EXCH_CD")
+    START_DATE_TIME: Annotated[KisDateTimeOptional, "공백"] = Field(default=None, alias="START_DATE_TIME", json_schema_extra={"blank_allowed": True})
+    CLOSE_DATE_TIME: Annotated[KisDateTime, "예) 20240402"] = Field(alias="CLOSE_DATE_TIME")
+    QRY_TP: Annotated[QryTpEnum, "Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시"] = Field(
+        alias="QRY_TP", json_schema_extra={"enum": ["Q", "P"], "enum_desc": {"Q": "최초조회시", "P": "다음키(INDEX_KEY) 입력하여 조회시"}}
+    )
+    QRY_CNT: Annotated[int, "예) 30 (최대 40)"] = Field(alias="QRY_CNT")
+    QRY_GAP: Annotated[str | None, "공백 (분만 사용)"] = Field(default=None, alias="QRY_GAP", json_schema_extra={"blank_allowed": True})
+    INDEX_KEY: Annotated[str | None, "공백"] = Field(default=None, alias="INDEX_KEY", json_schema_extra={"blank_allowed": True})
 
 
 class TickCcnlRequestDict(TypedDict):
@@ -80,63 +74,45 @@ class TickCcnlRequestDict(TypedDict):
         INDEX_KEY (str): 공백 optional
     """
 
-    SRS_CD: Annotated[str, "예) 6AM24"]
-    EXCH_CD: Annotated[str, "예) CME"]
-    START_DATE_TIME: NotRequired[Annotated[KisDateTimeOptional, "공백"]]
-    CLOSE_DATE_TIME: Annotated[KisDateTime, "예) 20240402"]
-    QRY_TP: Annotated[QryTpEnum, "Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시"]
-    QRY_CNT: Annotated[int, "예) 30 (최대 40)"]
-    QRY_GAP: NotRequired[Annotated[str | None, "공백 (분만 사용)"]]
-    INDEX_KEY: NotRequired[Annotated[str | None, "공백"]]
+    SRS_CD: str
+    EXCH_CD: str
+    START_DATE_TIME: NotRequired[KisDateTimeOptional]
+    CLOSE_DATE_TIME: KisDateTime
+    QRY_TP: QryTpEnum
+    QRY_CNT: int
+    QRY_GAP: NotRequired[str | None]
+    INDEX_KEY: NotRequired[str | None]
 
 
 class TickCcnlOutput1(RawModel):
-    tret_cnt: str | None = Field(default=None, alias="tret_cnt")
-    ("자료개수")
-    last_n_cnt: int = Field(alias="last_n_cnt")
-    ("N틱최종개수")
-    index_key: str | None = Field(default=None, alias="index_key")
-    ("이전조회KEY")
-    ret_cnt: int | None = Field(default=None, alias="ret_cnt")
-    ("inferred from live response")
+    tret_cnt: Annotated[str | None, "자료개수"] = Field(default=None, alias="tret_cnt")
+    last_n_cnt: Annotated[int, "N틱최종개수"] = Field(alias="last_n_cnt")
+    index_key: Annotated[str | None, "이전조회KEY"] = Field(default=None, alias="index_key")
+    ret_cnt: Annotated[int | None, "inferred from live response"] = Field(default=None, alias="ret_cnt")
 
 
 class TickCcnlOutput2(RawModel):
-    data_date: KisDateOptional = Field(default=None, alias="data_date")
-    ("일자")
-    data_time: KisTimeOptional = Field(default=None, alias="data_time")
-    ("시각")
-    open_price: Decimal | None = Field(default=None, alias="open_price")
-    ("시가")
-    high_price: Decimal | None = Field(default=None, alias="high_price")
-    ("고가")
-    low_price: Decimal | None = Field(default=None, alias="low_price")
-    ("저가")
-    last_price: str | None = Field(default=None, alias="last_price")
-    ("체결가격 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    last_qntt: int | None = Field(default=None, alias="last_qntt")
-    ("체결수량")
-    vol: int | None = Field(default=None, alias="vol")
-    ("누적거래수량")
-    prev_diff_flag: str | None = Field(default=None, alias="prev_diff_flag")
-    ("전일대비구분")
-    prev_diff_price: Decimal | None = Field(default=None, alias="prev_diff_price")
-    ("전일대비가격")
-    prev_diff_rate: Decimal | None = Field(default=None, alias="prev_diff_rate")
-    ("전일대비율")
+    data_date: Annotated[KisDateOptional, "일자"] = Field(default=None, alias="data_date")
+    data_time: Annotated[KisTimeOptional, "시각"] = Field(default=None, alias="data_time")
+    open_price: Annotated[Decimal | None, "시가"] = Field(default=None, alias="open_price")
+    high_price: Annotated[Decimal | None, "고가"] = Field(default=None, alias="high_price")
+    low_price: Annotated[Decimal | None, "저가"] = Field(default=None, alias="low_price")
+    last_price: Annotated[str | None, "체결가격 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고"] = Field(
+        default=None, alias="last_price"
+    )
+    last_qntt: Annotated[int | None, "체결수량"] = Field(default=None, alias="last_qntt")
+    vol: Annotated[int | None, "누적거래수량"] = Field(default=None, alias="vol")
+    prev_diff_flag: Annotated[str | None, "전일대비구분"] = Field(default=None, alias="prev_diff_flag")
+    prev_diff_price: Annotated[Decimal | None, "전일대비가격"] = Field(default=None, alias="prev_diff_price")
+    prev_diff_rate: Annotated[Decimal | None, "전일대비율"] = Field(default=None, alias="prev_diff_rate")
 
 
 class TickCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: TickCcnlOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[TickCcnlOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[TickCcnlOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[TickCcnlOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[TickCcnlRequest, TickCcnlResponse] = Endpoint(

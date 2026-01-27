@@ -14,8 +14,7 @@ if TYPE_CHECKING:
 
 
 class StockDetailRequest(RawModel):
-    SRS_CD: str = Field(alias="SRS_CD")
-    ('ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물" 참고')
+    SRS_CD: Annotated[str, 'ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물" 참고'] = Field(alias="SRS_CD")
 
 
 class StockDetailRequestDict(TypedDict):
@@ -51,67 +50,42 @@ class StockDetailRequestDict(TypedDict):
         참고
     """
 
-    SRS_CD: Annotated[str, 'ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물" 참고']
+    SRS_CD: str
 
 
 class StockDetailOutput1(RawModel):
-    exch_cd: str | None = Field(default=None, alias="exch_cd")
-    ("거래소코드")
-    tick_sz: str | None = Field(default=None, alias="tick_sz")
-    ("틱사이즈")
-    disp_digit: Decimal | None = Field(default=None, alias="disp_digit")
-    ("가격표시진법")
-    trst_mgn: str | None = Field(default=None, alias="trst_mgn")
-    ("증거금")
-    sttl_date: KisDateOptional = Field(default=None, alias="sttl_date")
-    ("정산일")
-    prev_price: str | None = Field(default=None, alias="prev_price")
-    ("전일종가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    crc_cd: str | None = Field(default=None, alias="crc_cd")
-    ("거래통화")
-    clas_cd: str | None = Field(default=None, alias="clas_cd")
-    ("품목종류")
-    tick_val: str | None = Field(default=None, alias="tick_val")
-    ("틱가치")
-    mrkt_open_date: KisDateOptional = Field(default=None, alias="mrkt_open_date")
-    ("장개시일자")
-    mrkt_open_time: KisTimeOptional = Field(default=None, alias="mrkt_open_time")
-    ("장개시시각")
-    mrkt_close_date: KisDateOptional = Field(default=None, alias="mrkt_close_date")
-    ("장마감일자")
-    mrkt_close_time: KisTimeOptional = Field(default=None, alias="mrkt_close_time")
-    ("장마감시각")
-    trd_fr_date: KisDateOptional = Field(default=None, alias="trd_fr_date")
-    ("상장일")
-    expr_date: KisDateOptional = Field(default=None, alias="expr_date")
-    ("만기일")
-    trd_to_date: KisDateOptional = Field(default=None, alias="trd_to_date")
-    ("최종거래일")
-    remn_cnt: str | None = Field(default=None, alias="remn_cnt")
-    ("잔존일수")
-    stat_tp: KisBool | None = Field(default=None, alias="stat_tp")
-    ("매매여부")
-    ctrt_size: Decimal | None = Field(default=None, alias="ctrt_size")
-    ("계약크기")
-    stl_tp: str | None = Field(default=None, alias="stl_tp")
-    ("최종결제구분")
-    frst_noti_date: KisDateOptional = Field(default=None, alias="frst_noti_date")
-    ("최초식별일")
-    sprd_srs_cd1: str | None = Field(default=None, alias="sprd_srs_cd1")
-    ("스프레드 종목 #1")
-    sprd_srs_cd2: str | None = Field(default=None, alias="sprd_srs_cd2")
-    ("스프레드 종목 #2")
+    exch_cd: Annotated[str | None, "거래소코드"] = Field(default=None, alias="exch_cd")
+    tick_sz: Annotated[str | None, "틱사이즈"] = Field(default=None, alias="tick_sz")
+    disp_digit: Annotated[Decimal | None, "가격표시진법"] = Field(default=None, alias="disp_digit")
+    trst_mgn: Annotated[str | None, "증거금"] = Field(default=None, alias="trst_mgn")
+    sttl_date: Annotated[KisDateOptional, "정산일"] = Field(default=None, alias="sttl_date")
+    prev_price: Annotated[str | None, "전일종가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고"] = Field(
+        default=None, alias="prev_price"
+    )
+    crc_cd: Annotated[str | None, "거래통화"] = Field(default=None, alias="crc_cd")
+    clas_cd: Annotated[str | None, "품목종류"] = Field(default=None, alias="clas_cd")
+    tick_val: Annotated[str | None, "틱가치"] = Field(default=None, alias="tick_val")
+    mrkt_open_date: Annotated[KisDateOptional, "장개시일자"] = Field(default=None, alias="mrkt_open_date")
+    mrkt_open_time: Annotated[KisTimeOptional, "장개시시각"] = Field(default=None, alias="mrkt_open_time")
+    mrkt_close_date: Annotated[KisDateOptional, "장마감일자"] = Field(default=None, alias="mrkt_close_date")
+    mrkt_close_time: Annotated[KisTimeOptional, "장마감시각"] = Field(default=None, alias="mrkt_close_time")
+    trd_fr_date: Annotated[KisDateOptional, "상장일"] = Field(default=None, alias="trd_fr_date")
+    expr_date: Annotated[KisDateOptional, "만기일"] = Field(default=None, alias="expr_date")
+    trd_to_date: Annotated[KisDateOptional, "최종거래일"] = Field(default=None, alias="trd_to_date")
+    remn_cnt: Annotated[str | None, "잔존일수"] = Field(default=None, alias="remn_cnt")
+    stat_tp: Annotated[KisBool | None, "매매여부"] = Field(default=None, alias="stat_tp")
+    ctrt_size: Annotated[Decimal | None, "계약크기"] = Field(default=None, alias="ctrt_size")
+    stl_tp: Annotated[str | None, "최종결제구분"] = Field(default=None, alias="stl_tp")
+    frst_noti_date: Annotated[KisDateOptional, "최초식별일"] = Field(default=None, alias="frst_noti_date")
+    sprd_srs_cd1: Annotated[str | None, "스프레드 종목 #1"] = Field(default=None, alias="sprd_srs_cd1")
+    sprd_srs_cd2: Annotated[str | None, "스프레드 종목 #2"] = Field(default=None, alias="sprd_srs_cd2")
 
 
 class StockDetailResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: StockDetailOutput1 = Field(alias="output1")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[StockDetailOutput1, "응답상세1"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[StockDetailRequest, StockDetailResponse] = Endpoint(

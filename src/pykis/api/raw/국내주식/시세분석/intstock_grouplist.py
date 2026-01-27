@@ -13,12 +13,9 @@ if TYPE_CHECKING:
 
 
 class IntstockGrouplistRequest(RawModel):
-    TYPE: str = Field(alias="TYPE")
-    ("Unique key(1)")
-    FID_ETC_CLS_CODE: str = Field(alias="FID_ETC_CLS_CODE")
-    ("Unique key(00)")
-    USER_ID: str = Field(alias="USER_ID")
-    ("HTS_ID 입력")
+    TYPE: Annotated[str, "Unique key(1)"] = Field(alias="TYPE")
+    FID_ETC_CLS_CODE: Annotated[str, "Unique key(00)"] = Field(alias="FID_ETC_CLS_CODE")
+    USER_ID: Annotated[str, "HTS_ID 입력"] = Field(alias="USER_ID")
 
 
 class IntstockGrouplistRequestDict(TypedDict):
@@ -38,35 +35,25 @@ class IntstockGrouplistRequestDict(TypedDict):
         USER_ID (str): HTS_ID 입력
     """
 
-    TYPE: Annotated[str, "Unique key(1)"]
-    FID_ETC_CLS_CODE: Annotated[str, "Unique key(00)"]
-    USER_ID: Annotated[str, "HTS_ID 입력"]
+    TYPE: str
+    FID_ETC_CLS_CODE: str
+    USER_ID: str
 
 
 class IntstockGrouplistOutput2(RawModel):
-    date: KisDate = Field(alias="date")
-    ("일자")
-    trnm_hour: KisTime = Field(alias="trnm_hour")
-    ("전송 시간")
-    data_rank: int = Field(alias="data_rank")
-    ("데이터 순위")
-    inter_grp_code: str = Field(alias="inter_grp_code")
-    ("관심 그룹 코드")
-    inter_grp_name: str = Field(alias="inter_grp_name")
-    ("관심 그룹 명")
-    ask_cnt: int = Field(alias="ask_cnt")
-    ("요청 개수")
+    date: Annotated[KisDate, "일자"] = Field(alias="date")
+    trnm_hour: Annotated[KisTime, "전송 시간"] = Field(alias="trnm_hour")
+    data_rank: Annotated[int, "데이터 순위"] = Field(alias="data_rank")
+    inter_grp_code: Annotated[str, "관심 그룹 코드"] = Field(alias="inter_grp_code")
+    inter_grp_name: Annotated[str, "관심 그룹 명"] = Field(alias="inter_grp_name")
+    ask_cnt: Annotated[int, "요청 개수"] = Field(alias="ask_cnt")
 
 
 class IntstockGrouplistResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output2: list[IntstockGrouplistOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output2: Annotated[list[IntstockGrouplistOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[IntstockGrouplistRequest, IntstockGrouplistResponse] = Endpoint(

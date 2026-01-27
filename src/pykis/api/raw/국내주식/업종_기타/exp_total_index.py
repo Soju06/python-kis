@@ -14,24 +14,32 @@ if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class FidMrktClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "전체")
+    """전체"""
+    K = ("K", "거래소")
+    """거래소"""
+    Q = ("Q", "코스닥")
+    """코스닥"""
+
+
 class FidMkopClsCodeEnum(KisStrEnum):
     VALUE_1 = ("1", "장시작전")
-    "장시작전"
+    """장시작전"""
     VALUE_2 = ("2", "장마감")
-    "장마감"
+    """장마감"""
 
 
 class ExpTotalIndexRequest(RawModel):
-    fid_mrkt_cls_code: str = Field(alias="fid_mrkt_cls_code")
-    ("0:전체 K:거래소 Q:코스닥")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
-    ("시장구분코드 (업종 U)")
-    fid_cond_scr_div_code: str = Field(alias="fid_cond_scr_div_code")
-    ("Unique key(11175)")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
-    fid_mkop_cls_code: FidMkopClsCodeEnum = Field(alias="fid_mkop_cls_code")
-    ("1:장시작전, 2:장마감")
+    fid_mrkt_cls_code: Annotated[FidMrktClsCodeEnum, "0:전체 K:거래소 Q:코스닥"] = Field(
+        alias="fid_mrkt_cls_code", json_schema_extra={"enum": ["0", "K", "Q"], "enum_desc": {"0": "전체", "K": "거래소", "Q": "코스닥"}}
+    )
+    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (업종 U)"] = Field(alias="fid_cond_mrkt_div_code")
+    fid_cond_scr_div_code: Annotated[str, "Unique key(11175)"] = Field(alias="fid_cond_scr_div_code")
+    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"] = Field(alias="fid_input_iscd")
+    fid_mkop_cls_code: Annotated[FidMkopClsCodeEnum, "1:장시작전, 2:장마감"] = Field(
+        alias="fid_mkop_cls_code", json_schema_extra={"enum": ["1", "2"], "enum_desc": {"1": "장시작전", "2": "장마감"}}
+    )
 
 
 class ExpTotalIndexRequestDict(TypedDict):
@@ -41,75 +49,51 @@ class ExpTotalIndexRequestDict(TypedDict):
     화면을 참고하시면 기능을 이해하기 쉽습니다.
 
     Request fields:
-        fid_mrkt_cls_code (str): 0:전체 K:거래소 Q:코스닥
+        fid_mrkt_cls_code (FidMrktClsCodeEnum): 0:전체 K:거래소 Q:코스닥
         fid_cond_mrkt_div_code (str): 시장구분코드 (업종 U)
         fid_cond_scr_div_code (str): Unique key(11175)
         fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100
         fid_mkop_cls_code (FidMkopClsCodeEnum): 1:장시작전, 2:장마감
     """
 
-    fid_mrkt_cls_code: Annotated[str, "0:전체 K:거래소 Q:코스닥"]
-    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (업종 U)"]
-    fid_cond_scr_div_code: Annotated[str, "Unique key(11175)"]
-    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"]
-    fid_mkop_cls_code: Annotated[FidMkopClsCodeEnum, "1:장시작전, 2:장마감"]
+    fid_mrkt_cls_code: FidMrktClsCodeEnum
+    fid_cond_mrkt_div_code: str
+    fid_cond_scr_div_code: str
+    fid_input_iscd: str
+    fid_mkop_cls_code: FidMkopClsCodeEnum
 
 
 class ExpTotalIndexOutput1(RawModel):
-    bstp_nmix_prpr: Decimal = Field(alias="bstp_nmix_prpr")
-    ("업종 지수 현재가")
-    bstp_nmix_prdy_vrss: Decimal = Field(alias="bstp_nmix_prdy_vrss")
-    ("업종 지수 전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    ascn_issu_cnt: str = Field(alias="ascn_issu_cnt")
-    ("상승 종목 수")
-    down_issu_cnt: str = Field(alias="down_issu_cnt")
-    ("하락 종목 수")
-    stnr_issu_cnt: str = Field(alias="stnr_issu_cnt")
-    ("보합 종목 수")
-    bstp_cls_code: str | None = Field(default=None, alias="bstp_cls_code")
-    ("업종 구분 코드")
+    bstp_nmix_prpr: Annotated[Decimal, "업종 지수 현재가"] = Field(alias="bstp_nmix_prpr")
+    bstp_nmix_prdy_vrss: Annotated[Decimal, "업종 지수 전일 대비"] = Field(alias="bstp_nmix_prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    ascn_issu_cnt: Annotated[str, "상승 종목 수"] = Field(alias="ascn_issu_cnt")
+    down_issu_cnt: Annotated[str, "하락 종목 수"] = Field(alias="down_issu_cnt")
+    stnr_issu_cnt: Annotated[str, "보합 종목 수"] = Field(alias="stnr_issu_cnt")
+    bstp_cls_code: Annotated[str | None, "업종 구분 코드"] = Field(default=None, alias="bstp_cls_code")
 
 
 class ExpTotalIndexOutput2(RawModel):
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    bstp_nmix_prpr: Decimal = Field(alias="bstp_nmix_prpr")
-    ("업종 지수 현재가")
-    bstp_nmix_prdy_vrss: Decimal = Field(alias="bstp_nmix_prdy_vrss")
-    ("업종 지수 전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    bstp_nmix_prdy_ctrt: Decimal = Field(alias="bstp_nmix_prdy_ctrt")
-    ("업종 지수 전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    nmix_sdpr: Decimal = Field(alias="nmix_sdpr")
-    ("지수 기준가")
-    ascn_issu_cnt: str = Field(alias="ascn_issu_cnt")
-    ("상승 종목 수")
-    stnr_issu_cnt: str = Field(alias="stnr_issu_cnt")
-    ("보합 종목 수")
-    down_issu_cnt: str = Field(alias="down_issu_cnt")
-    ("하락 종목 수")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    bstp_nmix_prpr: Annotated[Decimal, "업종 지수 현재가"] = Field(alias="bstp_nmix_prpr")
+    bstp_nmix_prdy_vrss: Annotated[Decimal, "업종 지수 전일 대비"] = Field(alias="bstp_nmix_prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    bstp_nmix_prdy_ctrt: Annotated[Decimal, "업종 지수 전일 대비율"] = Field(alias="bstp_nmix_prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    nmix_sdpr: Annotated[Decimal, "지수 기준가"] = Field(alias="nmix_sdpr")
+    ascn_issu_cnt: Annotated[str, "상승 종목 수"] = Field(alias="ascn_issu_cnt")
+    stnr_issu_cnt: Annotated[str, "보합 종목 수"] = Field(alias="stnr_issu_cnt")
+    down_issu_cnt: Annotated[str, "하락 종목 수"] = Field(alias="down_issu_cnt")
 
 
 class ExpTotalIndexResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: ExpTotalIndexOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[ExpTotalIndexOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[ExpTotalIndexOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[ExpTotalIndexOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[ExpTotalIndexRequest, ExpTotalIndexResponse] = Endpoint(
@@ -165,7 +149,7 @@ if TYPE_CHECKING:
                 **kwargs (ExpTotalIndexRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        fid_mrkt_cls_code (str): 0:전체 K:거래소 Q:코스닥
+                        fid_mrkt_cls_code (FidMrktClsCodeEnum): 0:전체 K:거래소 Q:코스닥
                         fid_cond_mrkt_div_code (str): 시장구분코드 (업종 U)
                         fid_cond_scr_div_code (str): Unique key(11175)
                         fid_input_iscd (str): 0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,
@@ -188,5 +172,6 @@ __all__ = [
     "ExpTotalIndexResponse",
     "ExpTotalIndexOutput1",
     "ExpTotalIndexOutput2",
+    "FidMrktClsCodeEnum",
     "FidMkopClsCodeEnum",
 ]

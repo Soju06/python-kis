@@ -16,66 +16,84 @@ if TYPE_CHECKING:
 
 class ExcdEnum(KisStrEnum):
     HKS = ("HKS", "홍콩")
-    "홍콩"
+    """홍콩"""
     NYS = ("NYS", "뉴욕")
-    "뉴욕"
+    """뉴욕"""
     NAS = ("NAS", "나스닥")
-    "나스닥"
+    """나스닥"""
     AMS = ("AMS", "아멕스")
-    "아멕스"
+    """아멕스"""
     TSE = ("TSE", "도쿄")
-    "도쿄"
+    """도쿄"""
     SHS = ("SHS", "상해")
-    "상해"
+    """상해"""
     SZS = ("SZS", "심천")
-    "심천"
+    """심천"""
     SHI = ("SHI", "상해지수")
-    "상해지수"
+    """상해지수"""
     SZI = ("SZI", "심천지수")
-    "심천지수"
+    """심천지수"""
     HSX = ("HSX", "호치민")
-    "호치민"
+    """호치민"""
     HNX = ("HNX", "하노이")
-    "하노이"
+    """하노이"""
 
 
 class GubnEnum(KisStrEnum):
     VALUE_0 = ("0", "일")
-    "일"
+    """일"""
     VALUE_1 = ("1", "주")
-    "주"
+    """주"""
     VALUE_2 = ("2", "월")
-    "월"
+    """월"""
 
 
 class SignEnum(KisStrEnum):
     VALUE_1 = ("1", "상한")
-    "상한"
+    """상한"""
     VALUE_2 = ("2", "상승")
-    "상승"
+    """상승"""
     VALUE_3 = ("3", "보합")
-    "보합"
+    """보합"""
     VALUE_4 = ("4", "하한")
-    "하한"
+    """하한"""
     VALUE_5 = ("5", "하락")
-    "하락"
+    """하락"""
 
 
 class DailypriceRequest(RawModel):
-    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
-    ('"" (Null 값 설정)')
-    EXCD: ExcdEnum = Field(alias="EXCD")
-    ("HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이")
-    SYMB: str = Field(alias="SYMB")
-    ("종목코드 (ex. TSLA)")
-    GUBN: GubnEnum = Field(alias="GUBN")
-    ("0 : 일 1 : 주 2 : 월")
-    BYMD: str | None = Field(default=None, alias="BYMD", json_schema_extra={"blank_allowed": True})
-    ("조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정")
-    MODP: KisBool = Field(alias="MODP")
-    ("0 : 미반영 1 : 반영")
-    KEYB: str | None = Field(default=None, alias="KEYB")
-    ("응답시 다음값이 있으면 값이 셋팅되어 있으므로 다음 조회시 응답값 그대로 셋팅")
+    AUTH: Annotated[str | None, '"" (Null 값 설정)'] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
+    EXCD: Annotated[
+        ExcdEnum,
+        "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이",
+    ] = Field(
+        alias="EXCD",
+        json_schema_extra={
+            "enum": ["HKS", "NYS", "NAS", "AMS", "TSE", "SHS", "SZS", "SHI", "SZI", "HSX", "HNX"],
+            "enum_desc": {
+                "HKS": "홍콩",
+                "NYS": "뉴욕",
+                "NAS": "나스닥",
+                "AMS": "아멕스",
+                "TSE": "도쿄",
+                "SHS": "상해",
+                "SZS": "심천",
+                "SHI": "상해지수",
+                "SZI": "심천지수",
+                "HSX": "호치민",
+                "HNX": "하노이",
+            },
+        },
+    )
+    SYMB: Annotated[str, "종목코드 (ex. TSLA)"] = Field(alias="SYMB")
+    GUBN: Annotated[GubnEnum, "0 : 일 1 : 주 2 : 월"] = Field(
+        alias="GUBN", json_schema_extra={"enum": ["0", "1", "2"], "enum_desc": {"0": "일", "1": "주", "2": "월"}}
+    )
+    BYMD: Annotated[str | None, "조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정"] = Field(
+        default=None, alias="BYMD", json_schema_extra={"blank_allowed": True}
+    )
+    MODP: Annotated[KisBool, "0 : 미반영 1 : 반영"] = Field(alias="MODP")
+    KEYB: Annotated[str | None, "응답시 다음값이 있으면 값이 셋팅되어 있으므로 다음 조회시 응답값 그대로 셋팅"] = Field(default=None, alias="KEYB")
 
 
 class DailypriceRequestDict(TypedDict):
@@ -128,72 +146,55 @@ class DailypriceRequestDict(TypedDict):
         optional
     """
 
-    AUTH: NotRequired[Annotated[str | None, '"" (Null 값 설정)']]
-    EXCD: Annotated[
-        ExcdEnum,
-        "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이",
-    ]
-    SYMB: Annotated[str, "종목코드 (ex. TSLA)"]
-    GUBN: Annotated[GubnEnum, "0 : 일 1 : 주 2 : 월"]
-    BYMD: NotRequired[Annotated[str | None, "조회기준일자(YYYYMMDD) ※ 공란 설정 시, 기준일 오늘 날짜로 설정"]]
-    MODP: Annotated[KisBool, "0 : 미반영 1 : 반영"]
-    KEYB: NotRequired[Annotated[str | None, "응답시 다음값이 있으면 값이 셋팅되어 있으므로 다음 조회시 응답값 그대로 셋팅"]]
+    AUTH: NotRequired[str | None]
+    EXCD: ExcdEnum
+    SYMB: str
+    GUBN: GubnEnum
+    BYMD: NotRequired[str | None]
+    MODP: KisBool
+    KEYB: NotRequired[str | None]
 
 
 class DailypriceOutput1(RawModel):
-    rsym: str | None = Field(default=None, alias="rsym")
-    (
-        "D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : "
-        "나스닥, AMS : 아멕스 , TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이"
-    )
-    zdiv: str | None = Field(default=None, alias="zdiv")
-    ("소수점자리수")
-    nrec: str | None = Field(default=None, alias="nrec")
-    ("전일종가")
+    rsym: Annotated[
+        str | None,
+        "D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이",
+    ] = Field(default=None, alias="rsym")
+    zdiv: Annotated[str | None, "소수점자리수"] = Field(default=None, alias="zdiv")
+    nrec: Annotated[str | None, "전일종가"] = Field(default=None, alias="nrec")
 
 
 class DailypriceOutput2(RawModel):
-    xymd: str | None = Field(default=None, alias="xymd")
-    ("일자(YYYYMMDD)")
-    clos: KisDateOptional = Field(default=None, alias="clos")
-    ("해당 일자의 종가")
-    sign: SignEnum | None = Field(default=None, alias="sign")
-    ("1 : 상한 2 : 상승 3 : 보합 4 : 하한 5 : 하락")
-    diff: KisDateOptional = Field(default=None, alias="diff")
-    ("해당 일자의 종가와 해당 전일 종가의 차이 (해당일 종가-해당 전일 종가)")
-    rate: Decimal | None = Field(default=None, alias="rate")
-    ("해당 전일 대비 / 해당일 종가 * 100")
-    open: Decimal | None = Field(default=None, alias="open")
-    ("해당일 최초 거래가격")
-    high: Decimal | None = Field(default=None, alias="high")
-    ("해당일 가장 높은 거래가격")
-    low: Decimal | None = Field(default=None, alias="low")
-    ("해당일 가장 낮은 거래가격")
-    tvol: int | None = Field(default=None, alias="tvol")
-    ("해당일 거래량")
-    tamt: Decimal | None = Field(default=None, alias="tamt")
-    ("해당일 거래대금")
-    pbid: KisDateOptional = Field(default=None, alias="pbid")
-    ("마지막 체결이 발생한 시점의 매수호가 * 해당 일자 거래량 0인 경우 값이 수신되지 않음")
-    vbid: KisDateOptional = Field(default=None, alias="vbid")
-    ("* 해당 일자 거래량 0인 경우 값이 수신되지 않음")
-    pask: KisDateOptional = Field(default=None, alias="pask")
-    ("마지막 체결이 발생한 시점의 매도호가 * 해당 일자 거래량 0인 경우 값이 수신되지 않음")
-    vask: KisDateOptional = Field(default=None, alias="vask")
-    ("* 해당 일자 거래량 0인 경우 값이 수신되지 않음")
+    xymd: Annotated[str | None, "일자(YYYYMMDD)"] = Field(default=None, alias="xymd")
+    clos: Annotated[KisDateOptional, "해당 일자의 종가"] = Field(default=None, alias="clos")
+    sign: Annotated[SignEnum | None, "1 : 상한 2 : 상승 3 : 보합 4 : 하한 5 : 하락"] = Field(
+        default=None,
+        alias="sign",
+        json_schema_extra={"enum": ["1", "2", "3", "4", "5"], "enum_desc": {"1": "상한", "2": "상승", "3": "보합", "4": "하한", "5": "하락"}},
+    )
+    diff: Annotated[KisDateOptional, "해당 일자의 종가와 해당 전일 종가의 차이 (해당일 종가-해당 전일 종가)"] = Field(default=None, alias="diff")
+    rate: Annotated[Decimal | None, "해당 전일 대비 / 해당일 종가 * 100"] = Field(default=None, alias="rate")
+    open: Annotated[Decimal | None, "해당일 최초 거래가격"] = Field(default=None, alias="open")
+    high: Annotated[Decimal | None, "해당일 가장 높은 거래가격"] = Field(default=None, alias="high")
+    low: Annotated[Decimal | None, "해당일 가장 낮은 거래가격"] = Field(default=None, alias="low")
+    tvol: Annotated[int | None, "해당일 거래량"] = Field(default=None, alias="tvol")
+    tamt: Annotated[Decimal | None, "해당일 거래대금"] = Field(default=None, alias="tamt")
+    pbid: Annotated[KisDateOptional, "마지막 체결이 발생한 시점의 매수호가 * 해당 일자 거래량 0인 경우 값이 수신되지 않음"] = Field(
+        default=None, alias="pbid"
+    )
+    vbid: Annotated[KisDateOptional, "* 해당 일자 거래량 0인 경우 값이 수신되지 않음"] = Field(default=None, alias="vbid")
+    pask: Annotated[KisDateOptional, "마지막 체결이 발생한 시점의 매도호가 * 해당 일자 거래량 0인 경우 값이 수신되지 않음"] = Field(
+        default=None, alias="pask"
+    )
+    vask: Annotated[KisDateOptional, "* 해당 일자 거래량 0인 경우 값이 수신되지 않음"] = Field(default=None, alias="vask")
 
 
 class DailypriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: DailypriceOutput1 = Field(alias="output1")
-    ("응답상세1")
-    output2: list[DailypriceOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "0 : 성공 0 이외의 값 : 실패"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[DailypriceOutput1, "응답상세1"] = Field(alias="output1")
+    output2: Annotated[list[DailypriceOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[DailypriceRequest, DailypriceResponse] = Endpoint(

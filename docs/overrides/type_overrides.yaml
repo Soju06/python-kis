@@ -638,3 +638,16 @@ overrides:
             length: "4"
             required: false
             description: "inferred from live response"
+- id: c3b78a4a-de38-43fb-a78d-4018b1ea4d4f
+  approved_by: user
+  approved_at: '2026-01-27'
+  reason: Sentinel time value (000000) appears in live response; allow optional.
+  evidence: tmp/docs/augment/c3b78a4a-de38-43fb-a78d-4018b1ea4d4f/raw.json
+  source: augment/raw mismatch (2026-01-27)
+  changes:
+    outputs:
+      output:
+        hgpr_hour:
+          required: false
+        lwpr_hour:
+          required: false

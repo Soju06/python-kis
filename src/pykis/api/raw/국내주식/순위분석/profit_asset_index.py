@@ -16,55 +16,60 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     J = ("J", "KRX")
-    "KRX"
+    """KRX"""
     NX = ("NX", "NXT")
-    "NXT"
+    """NXT"""
 
 
 class FidRankSortClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "매출이익")
-    "매출이익"
+    """매출이익"""
     VALUE_1 = ("1", "영업이익")
-    "영업이익"
+    """영업이익"""
     VALUE_2 = ("2", "경상이익")
-    "경상이익"
+    """경상이익"""
     VALUE_3 = ("3", "당기순이익")
-    "당기순이익"
+    """당기순이익"""
     VALUE_4 = ("4", "자산총계")
-    "자산총계"
+    """자산총계"""
     VALUE_5 = ("5", "부채총계")
-    "부채총계"
+    """부채총계"""
     VALUE_6 = ("6", "자본총계")
-    "자본총계"
+    """자본총계"""
 
 
 class ProfitAssetIndexRequest(RawModel):
-    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(alias="fid_cond_mrkt_div_code")
-    ("시장구분코드 (J:KRX, NX:NXT)")
-    fid_trgt_cls_code: str = Field(alias="fid_trgt_cls_code")
-    ("0:전체")
-    fid_cond_scr_div_code: str = Field(alias="fid_cond_scr_div_code")
-    ("Unique key( 20173 )")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
-    fid_div_cls_code: str = Field(alias="fid_div_cls_code")
-    ("0:전체")
-    fid_input_price_1: str = Field(alias="fid_input_price_1")
-    ("입력값 없을때 전체 (가격 ~)")
-    fid_input_price_2: str = Field(alias="fid_input_price_2")
-    ("입력값 없을때 전체 (~ 가격)")
-    fid_vol_cnt: int = Field(alias="fid_vol_cnt")
-    ("입력값 없을때 전체 (거래량 ~)")
-    fid_input_option_1: str = Field(alias="fid_input_option_1")
-    ("회계연도 (2023)")
-    fid_input_option_2: str = Field(alias="fid_input_option_2")
-    ("0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산")
-    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(alias="fid_rank_sort_cls_code")
-    ("0:매출이익 1:영업이익 2:경상이익 3:당기순이익 4:자산총계 5:부채총계 6:자본총계")
-    fid_blng_cls_code: str = Field(alias="fid_blng_cls_code")
-    ("0:전체")
-    fid_trgt_exls_cls_code: str = Field(alias="fid_trgt_exls_cls_code")
-    ("0:전체")
+    fid_cond_mrkt_div_code: Annotated[FidCondMrktDivCodeEnum, "시장구분코드 (J:KRX, NX:NXT)"] = Field(
+        alias="fid_cond_mrkt_div_code", json_schema_extra={"enum": ["J", "NX"], "enum_desc": {"J": "KRX", "NX": "NXT"}}
+    )
+    fid_trgt_cls_code: Annotated[str, "0:전체"] = Field(alias="fid_trgt_cls_code")
+    fid_cond_scr_div_code: Annotated[str, "Unique key( 20173 )"] = Field(alias="fid_cond_scr_div_code")
+    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200"] = Field(alias="fid_input_iscd")
+    fid_div_cls_code: Annotated[str, "0:전체"] = Field(alias="fid_div_cls_code")
+    fid_input_price_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"] = Field(alias="fid_input_price_1")
+    fid_input_price_2: Annotated[str, "입력값 없을때 전체 (~ 가격)"] = Field(alias="fid_input_price_2")
+    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"] = Field(alias="fid_vol_cnt")
+    fid_input_option_1: Annotated[str, "회계연도 (2023)"] = Field(alias="fid_input_option_1")
+    fid_input_option_2: Annotated[str, "0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산"] = Field(alias="fid_input_option_2")
+    fid_rank_sort_cls_code: Annotated[FidRankSortClsCodeEnum, "0:매출이익 1:영업이익 2:경상이익 3:당기순이익 4:자산총계 5:부채총계 6:자본총계"] = (
+        Field(
+            alias="fid_rank_sort_cls_code",
+            json_schema_extra={
+                "enum": ["0", "1", "2", "3", "4", "5", "6"],
+                "enum_desc": {
+                    "0": "매출이익",
+                    "1": "영업이익",
+                    "2": "경상이익",
+                    "3": "당기순이익",
+                    "4": "자산총계",
+                    "5": "부채총계",
+                    "6": "자본총계",
+                },
+            },
+        )
+    )
+    fid_blng_cls_code: Annotated[str, "0:전체"] = Field(alias="fid_blng_cls_code")
+    fid_trgt_exls_cls_code: Annotated[str, "0:전체"] = Field(alias="fid_trgt_exls_cls_code")
 
 
 class ProfitAssetIndexRequestDict(TypedDict):
@@ -97,69 +102,47 @@ class ProfitAssetIndexRequestDict(TypedDict):
         fid_trgt_exls_cls_code (str): 0:전체
     """
 
-    fid_cond_mrkt_div_code: Annotated[FidCondMrktDivCodeEnum, "시장구분코드 (J:KRX, NX:NXT)"]
-    fid_trgt_cls_code: Annotated[str, "0:전체"]
-    fid_cond_scr_div_code: Annotated[str, "Unique key( 20173 )"]
-    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200"]
-    fid_div_cls_code: Annotated[str, "0:전체"]
-    fid_input_price_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"]
-    fid_input_price_2: Annotated[str, "입력값 없을때 전체 (~ 가격)"]
-    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"]
-    fid_input_option_1: Annotated[str, "회계연도 (2023)"]
-    fid_input_option_2: Annotated[str, "0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산"]
-    fid_rank_sort_cls_code: Annotated[FidRankSortClsCodeEnum, "0:매출이익 1:영업이익 2:경상이익 3:당기순이익 4:자산총계 5:부채총계 6:자본총계"]
-    fid_blng_cls_code: Annotated[str, "0:전체"]
-    fid_trgt_exls_cls_code: Annotated[str, "0:전체"]
+    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum
+    fid_trgt_cls_code: str
+    fid_cond_scr_div_code: str
+    fid_input_iscd: str
+    fid_div_cls_code: str
+    fid_input_price_1: str
+    fid_input_price_2: str
+    fid_vol_cnt: int
+    fid_input_option_1: str
+    fid_input_option_2: str
+    fid_rank_sort_cls_code: FidRankSortClsCodeEnum
+    fid_blng_cls_code: str
+    fid_trgt_exls_cls_code: str
 
 
 class ProfitAssetIndexOutput(RawModel):
-    data_rank: str | None = Field(default=None, alias="data_rank")
-    ("데이터 순위")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    mksc_shrn_iscd: str | None = Field(default=None, alias="mksc_shrn_iscd")
-    ("유가증권 단축 종목코드")
-    stck_prpr: Decimal | None = Field(default=None, alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
-    ("전일 대비")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
-    ("누적 거래량")
-    sale_totl_prfi: str | None = Field(default=None, alias="sale_totl_prfi")
-    ("매출 총 이익")
-    bsop_prti: str | None = Field(default=None, alias="bsop_prti")
-    ("영업 이익")
-    op_prfi: str | None = Field(default=None, alias="op_prfi")
-    ("경상 이익")
-    thtr_ntin: str | None = Field(default=None, alias="thtr_ntin")
-    ("당기순이익")
-    total_aset: str | None = Field(default=None, alias="total_aset")
-    ("자산총계")
-    total_lblt: str | None = Field(default=None, alias="total_lblt")
-    ("부채총계")
-    total_cptl: str | None = Field(default=None, alias="total_cptl")
-    ("자본총계")
-    stac_month: str | None = Field(default=None, alias="stac_month")
-    ("결산 월")
-    stac_month_cls_code: str | None = Field(default=None, alias="stac_month_cls_code")
-    ("결산 월 구분 코드")
-    iqry_csnu: int | None = Field(default=None, alias="iqry_csnu")
-    ("조회 건수")
+    data_rank: Annotated[str | None, "데이터 순위"] = Field(default=None, alias="data_rank")
+    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
+    prdy_vrss_sign: Annotated[str | None, "전일 대비 부호"] = Field(default=None, alias="prdy_vrss_sign")
+    mksc_shrn_iscd: Annotated[str | None, "유가증권 단축 종목코드"] = Field(default=None, alias="mksc_shrn_iscd")
+    stck_prpr: Annotated[Decimal | None, "주식 현재가"] = Field(default=None, alias="stck_prpr")
+    prdy_vrss: Annotated[str | None, "전일 대비"] = Field(default=None, alias="prdy_vrss")
+    prdy_ctrt: Annotated[Decimal | None, "전일 대비율"] = Field(default=None, alias="prdy_ctrt")
+    acml_vol: Annotated[int | None, "누적 거래량"] = Field(default=None, alias="acml_vol")
+    sale_totl_prfi: Annotated[str | None, "매출 총 이익"] = Field(default=None, alias="sale_totl_prfi")
+    bsop_prti: Annotated[str | None, "영업 이익"] = Field(default=None, alias="bsop_prti")
+    op_prfi: Annotated[str | None, "경상 이익"] = Field(default=None, alias="op_prfi")
+    thtr_ntin: Annotated[str | None, "당기순이익"] = Field(default=None, alias="thtr_ntin")
+    total_aset: Annotated[str | None, "자산총계"] = Field(default=None, alias="total_aset")
+    total_lblt: Annotated[str | None, "부채총계"] = Field(default=None, alias="total_lblt")
+    total_cptl: Annotated[str | None, "자본총계"] = Field(default=None, alias="total_cptl")
+    stac_month: Annotated[str | None, "결산 월"] = Field(default=None, alias="stac_month")
+    stac_month_cls_code: Annotated[str | None, "결산 월 구분 코드"] = Field(default=None, alias="stac_month_cls_code")
+    iqry_csnu: Annotated[int | None, "조회 건수"] = Field(default=None, alias="iqry_csnu")
 
 
 class ProfitAssetIndexResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[ProfitAssetIndexOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[ProfitAssetIndexOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[ProfitAssetIndexRequest, ProfitAssetIndexResponse] = Endpoint(

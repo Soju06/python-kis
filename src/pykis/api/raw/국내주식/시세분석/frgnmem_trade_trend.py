@@ -16,32 +16,39 @@ if TYPE_CHECKING:
 
 class FidMrktClsCodeEnum(KisStrEnum):
     ELW = ("ELW", "W")
-    "W"
+    """W"""
     A = ("A", "전체")
-    "전체"
+    """전체"""
     K = ("K", "코스피")
-    "코스피"
+    """코스피"""
     Q = ("Q", "코스닥")
-    "코스닥"
+    """코스닥"""
     K2 = ("K2", "코스피200")
-    "코스피200"
+    """코스피200"""
     W = ("W", "ELW")
-    "ELW"
+    """ELW"""
 
 
 class FrgnmemTradeTrendRequest(RawModel):
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("20432(primary key)")
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("J 고정 입력")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("ex. 005930(삼성전자) ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력")
-    FID_INPUT_ISCD_2: str = Field(alias="FID_INPUT_ISCD_2")
-    ("ex. 99999(전체) ※ 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)")
-    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum = Field(alias="FID_MRKT_CLS_CODE")
-    ("A(전체),K(코스피), Q(코스닥), K2(코스피200), W(ELW) ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력")
-    FID_VOL_CNT: int = Field(alias="FID_VOL_CNT")
-    ("거래량 ~")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "20432(primary key)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "J 고정 입력"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "ex. 005930(삼성전자) ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력"] = Field(
+        alias="FID_INPUT_ISCD"
+    )
+    FID_INPUT_ISCD_2: Annotated[str, "ex. 99999(전체) ※ 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)"] = Field(
+        alias="FID_INPUT_ISCD_2"
+    )
+    FID_MRKT_CLS_CODE: Annotated[
+        FidMrktClsCodeEnum,
+        "A(전체),K(코스피), Q(코스닥), K2(코스피200), W(ELW) ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력",
+    ] = Field(
+        alias="FID_MRKT_CLS_CODE",
+        json_schema_extra={
+            "enum": ["ELW", "A", "K", "Q", "K2", "W"],
+            "enum_desc": {"ELW": "W", "A": "전체", "K": "코스피", "Q": "코스닥", "K2": "코스피200", "W": "ELW"},
+        },
+    )
+    FID_VOL_CNT: Annotated[int, "거래량 ~"] = Field(alias="FID_VOL_CNT")
 
 
 class FrgnmemTradeTrendRequestDict(TypedDict):
@@ -64,58 +71,38 @@ class FrgnmemTradeTrendRequestDict(TypedDict):
         FID_VOL_CNT (int): 거래량 ~
     """
 
-    FID_COND_SCR_DIV_CODE: Annotated[str, "20432(primary key)"]
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "J 고정 입력"]
-    FID_INPUT_ISCD: Annotated[str, "ex. 005930(삼성전자) ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력"]
-    FID_INPUT_ISCD_2: Annotated[str, "ex. 99999(전체) ※ 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)"]
-    FID_MRKT_CLS_CODE: Annotated[
-        FidMrktClsCodeEnum,
-        "A(전체),K(코스피), Q(코스닥), K2(코스피200), W(ELW) ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력",
-    ]
-    FID_VOL_CNT: Annotated[int, "거래량 ~"]
+    FID_COND_SCR_DIV_CODE: str
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
+    FID_INPUT_ISCD_2: str
+    FID_MRKT_CLS_CODE: FidMrktClsCodeEnum
+    FID_VOL_CNT: int
 
 
 class FrgnmemTradeTrendOutput1(RawModel):
-    total_seln_qty: int | None = Field(default=None, alias="total_seln_qty")
-    ("총매도수량")
-    total_shnu_qty: int | None = Field(default=None, alias="total_shnu_qty")
-    ("총매수2수량")
+    total_seln_qty: Annotated[int, "총매도수량"] = Field(alias="total_seln_qty")
+    total_shnu_qty: Annotated[int, "총매수2수량"] = Field(alias="total_shnu_qty")
 
 
 class FrgnmemTradeTrendOutput2(RawModel):
-    bsop_hour: KisTime = Field(alias="bsop_hour")
-    ("영업시간")
-    mbcr_name: str = Field(alias="mbcr_name")
-    ("회원사명")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS한글종목명")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일대비부호")
-    cntg_vol: int = Field(alias="cntg_vol")
-    ("체결거래량")
-    acml_ntby_qty: int = Field(alias="acml_ntby_qty")
-    ("누적순매수수량")
-    glob_ntby_qty: int = Field(alias="glob_ntby_qty")
-    ("외국계순매수수량")
-    frgn_ntby_qty_icdc: int = Field(alias="frgn_ntby_qty_icdc")
-    ("외국인순매수수량증감")
+    bsop_hour: Annotated[KisTime, "영업시간"] = Field(alias="bsop_hour")
+    mbcr_name: Annotated[str, "회원사명"] = Field(alias="mbcr_name")
+    hts_kor_isnm: Annotated[str, "HTS한글종목명"] = Field(alias="hts_kor_isnm")
+    stck_prpr: Annotated[Decimal, "주식현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일대비부호"] = Field(alias="prdy_vrss_sign")
+    cntg_vol: Annotated[int, "체결거래량"] = Field(alias="cntg_vol")
+    acml_ntby_qty: Annotated[int, "누적순매수수량"] = Field(alias="acml_ntby_qty")
+    glob_ntby_qty: Annotated[int, "외국계순매수수량"] = Field(alias="glob_ntby_qty")
+    frgn_ntby_qty_icdc: Annotated[int, "외국인순매수수량증감"] = Field(alias="frgn_ntby_qty_icdc")
 
 
 class FrgnmemTradeTrendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[FrgnmemTradeTrendOutput1] = Field(alias="output1")
-    ("응답상세")
-    output2: list[FrgnmemTradeTrendOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[FrgnmemTradeTrendOutput1], "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[FrgnmemTradeTrendOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[FrgnmemTradeTrendRequest, FrgnmemTradeTrendResponse] = Endpoint(

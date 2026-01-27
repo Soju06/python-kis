@@ -16,64 +16,77 @@ if TYPE_CHECKING:
 
 class ExcdEnum(KisStrEnum):
     NYS = ("NYS", "뉴욕")
-    "뉴욕"
+    """뉴욕"""
     NAS = ("NAS", "나스닥")
-    "나스닥"
+    """나스닥"""
     AMS = ("AMS", "아멕스")
-    "아멕스"
+    """아멕스"""
     HKS = ("HKS", "홍콩")
-    "홍콩"
+    """홍콩"""
     SHS = ("SHS", "상해")
-    "상해"
+    """상해"""
     SZS = ("SZS", "심천")
-    "심천"
+    """심천"""
     HSX = ("HSX", "호치민")
-    "호치민"
+    """호치민"""
     HNX = ("HNX", "하노이")
-    "하노이"
+    """하노이"""
     TSE = ("TSE", "도쿄")
-    "도쿄"
+    """도쿄"""
     BAY = ("BAY", "뉴욕(주간)")
-    "뉴욕(주간)"
+    """뉴욕(주간)"""
     BAQ = ("BAQ", "나스닥(주간)")
-    "나스닥(주간)"
+    """나스닥(주간)"""
     BAA = ("BAA", "아멕스(주간)")
-    "아멕스(주간)"
+    """아멕스(주간)"""
 
 
 class NminEnum(KisStrEnum):
     VALUE_1 = ("1", "1분봉")
-    "1분봉"
+    """1분봉"""
     VALUE_2 = ("2", "2분봉, ...")
-    "2분봉, ..."
+    """2분봉, ..."""
 
 
 class InquireTimeItemchartpriceRequest(RawModel):
-    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
-    ('"" 공백으로 입력')
-    EXCD: ExcdEnum = Field(alias="EXCD")
-    (
-        "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 "
-        "TSE : 도쿄 ※ 주간거래는 최대 1일치 분봉만 조회 가능 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : "
-        "아멕스(주간)"
+    AUTH: Annotated[str | None, '"" 공백으로 입력'] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
+    EXCD: Annotated[
+        ExcdEnum,
+        "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 TSE : 도쿄 ※ 주간거래는 최대 1일치 분봉만 조회 가능 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
+    ] = Field(
+        alias="EXCD",
+        json_schema_extra={
+            "enum": ["NYS", "NAS", "AMS", "HKS", "SHS", "SZS", "HSX", "HNX", "TSE", "BAY", "BAQ", "BAA"],
+            "enum_desc": {
+                "NYS": "뉴욕",
+                "NAS": "나스닥",
+                "AMS": "아멕스",
+                "HKS": "홍콩",
+                "SHS": "상해",
+                "SZS": "심천",
+                "HSX": "호치민",
+                "HNX": "하노이",
+                "TSE": "도쿄",
+                "BAY": "뉴욕(주간)",
+                "BAQ": "나스닥(주간)",
+                "BAA": "아멕스(주간)",
+            },
+        },
     )
-    SYMB: str = Field(alias="SYMB")
-    ("종목코드(ex. TSLA)")
-    NMIN: NminEnum = Field(alias="NMIN")
-    ("분단위(1: 1분봉, 2: 2분봉, ...)")
-    PINC: KisBool = Field(alias="PINC")
-    ('0:당일 1:전일포함 ※ 다음조회 시 반드시 "1"로 입력')
-    NEXT: KisBool | None = Field(default=None, alias="NEXT", json_schema_extra={"blank_allowed": True})
-    ('처음조회 시, "" 공백 입력 다음조회 시, "1" 입력')
-    NREC: str = Field(alias="NREC")
-    ("레코드요청갯수 (최대 120)")
-    FILL: int | None = Field(default=None, alias="FILL", json_schema_extra={"blank_allowed": True})
-    ('"" 공백으로 입력')
-    KEYB: str | None = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
-    (
-        '처음 조회 시, "" 공백 입력 다음 조회 시, 이전 조회 결과의 마지막 분봉 데이터를 이용하여, 1분 전 '
-        "혹은 n분 전의 시간을 입력 (형식: YYYYMMDDHHMMSS, ex. 20241014140100)"
+    SYMB: Annotated[str, "종목코드(ex. TSLA)"] = Field(alias="SYMB")
+    NMIN: Annotated[NminEnum, "분단위(1: 1분봉, 2: 2분봉, ...)"] = Field(
+        alias="NMIN", json_schema_extra={"enum": ["1", "2"], "enum_desc": {"1": "1분봉", "2": "2분봉, ..."}}
     )
+    PINC: Annotated[KisBool, '0:당일 1:전일포함 ※ 다음조회 시 반드시 "1"로 입력'] = Field(alias="PINC")
+    NEXT: Annotated[KisBool | None, '처음조회 시, "" 공백 입력 다음조회 시, "1" 입력'] = Field(
+        default=None, alias="NEXT", json_schema_extra={"blank_allowed": True}
+    )
+    NREC: Annotated[str, "레코드요청갯수 (최대 120)"] = Field(alias="NREC")
+    FILL: Annotated[int | None, '"" 공백으로 입력'] = Field(default=None, alias="FILL", json_schema_extra={"blank_allowed": True})
+    KEYB: Annotated[
+        str | None,
+        '처음 조회 시, "" 공백 입력 다음 조회 시, 이전 조회 결과의 마지막 분봉 데이터를 이용하여, 1분 전 혹은 n분 전의 시간을 입력 (형식: YYYYMMDDHHMMSS, ex. 20241014140100)',
+    ] = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
 
 
 class InquireTimeItemchartpriceRequestDict(TypedDict):
@@ -145,85 +158,49 @@ class InquireTimeItemchartpriceRequestDict(TypedDict):
         optional
     """
 
-    AUTH: NotRequired[Annotated[str | None, '"" 공백으로 입력']]
-    EXCD: Annotated[
-        ExcdEnum,
-        "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 "
-        "TSE : 도쿄 ※ 주간거래는 최대 1일치 분봉만 조회 가능 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : "
-        "아멕스(주간)",
-    ]
-    SYMB: Annotated[str, "종목코드(ex. TSLA)"]
-    NMIN: Annotated[NminEnum, "분단위(1: 1분봉, 2: 2분봉, ...)"]
-    PINC: Annotated[KisBool, '0:당일 1:전일포함 ※ 다음조회 시 반드시 "1"로 입력']
-    NEXT: NotRequired[Annotated[KisBool | None, '처음조회 시, "" 공백 입력 다음조회 시, "1" 입력']]
-    NREC: Annotated[str, "레코드요청갯수 (최대 120)"]
-    FILL: NotRequired[Annotated[int | None, '"" 공백으로 입력']]
-    KEYB: NotRequired[
-        Annotated[
-            str | None,
-            '처음 조회 시, "" 공백 입력 다음 조회 시, 이전 조회 결과의 마지막 분봉 데이터를 이용하여, 1분 전 '
-            "혹은 n분 전의 시간을 입력 (형식: YYYYMMDDHHMMSS, ex. 20241014140100)",
-        ]
-    ]
+    AUTH: NotRequired[str | None]
+    EXCD: ExcdEnum
+    SYMB: str
+    NMIN: NminEnum
+    PINC: KisBool
+    NEXT: NotRequired[KisBool | None]
+    NREC: str
+    FILL: NotRequired[int | None]
+    KEYB: NotRequired[str | None]
 
 
 class InquireTimeItemchartpriceOutput1(RawModel):
-    rsym: str | None = Field(default=None, alias="rsym")
-    ("실시간종목코드")
-    zdiv: str | None = Field(default=None, alias="zdiv")
-    ("소수점자리수")
-    stim: str | None = Field(default=None, alias="stim")
-    ("장시작현지시간")
-    etim: str | None = Field(default=None, alias="etim")
-    ("장종료현지시간")
-    sktm: str | None = Field(default=None, alias="sktm")
-    ("장시작한국시간")
-    ektm: str | None = Field(default=None, alias="ektm")
-    ("장종료한국시간")
-    next: KisBool | None = Field(default=None, alias="next")
-    ("다음가능여부")
-    more: KisBool | None = Field(default=None, alias="more")
-    ("추가데이타여부")
-    nrec: str | None = Field(default=None, alias="nrec")
-    ("레코드갯수")
+    rsym: Annotated[str | None, "실시간종목코드"] = Field(default=None, alias="rsym")
+    zdiv: Annotated[str | None, "소수점자리수"] = Field(default=None, alias="zdiv")
+    stim: Annotated[str | None, "장시작현지시간"] = Field(default=None, alias="stim")
+    etim: Annotated[str | None, "장종료현지시간"] = Field(default=None, alias="etim")
+    sktm: Annotated[str | None, "장시작한국시간"] = Field(default=None, alias="sktm")
+    ektm: Annotated[str | None, "장종료한국시간"] = Field(default=None, alias="ektm")
+    next: Annotated[KisBool | None, "다음가능여부"] = Field(default=None, alias="next")
+    more: Annotated[KisBool | None, "추가데이타여부"] = Field(default=None, alias="more")
+    nrec: Annotated[str | None, "레코드갯수"] = Field(default=None, alias="nrec")
 
 
 class InquireTimeItemchartpriceOutput2(RawModel):
-    tymd: KisDateOptional = Field(default=None, alias="tymd")
-    ("현지영업일자")
-    xymd: KisDateOptional = Field(default=None, alias="xymd")
-    ("현지기준일자")
-    xhms: str | None = Field(default=None, alias="xhms")
-    ("현지기준시간")
-    kymd: KisDateOptional = Field(default=None, alias="kymd")
-    ("한국기준일자")
-    khms: str | None = Field(default=None, alias="khms")
-    ("한국기준시간")
-    open: Decimal | None = Field(default=None, alias="open")
-    ("시가")
-    high: Decimal | None = Field(default=None, alias="high")
-    ("고가")
-    low: Decimal | None = Field(default=None, alias="low")
-    ("저가")
-    last: str | None = Field(default=None, alias="last")
-    ("종가")
-    evol: int | None = Field(default=None, alias="evol")
-    ("체결량")
-    eamt: Decimal | None = Field(default=None, alias="eamt")
-    ("체결대금")
+    tymd: Annotated[KisDateOptional, "현지영업일자"] = Field(default=None, alias="tymd")
+    xymd: Annotated[KisDateOptional, "현지기준일자"] = Field(default=None, alias="xymd")
+    xhms: Annotated[str | None, "현지기준시간"] = Field(default=None, alias="xhms")
+    kymd: Annotated[KisDateOptional, "한국기준일자"] = Field(default=None, alias="kymd")
+    khms: Annotated[str | None, "한국기준시간"] = Field(default=None, alias="khms")
+    open: Annotated[Decimal | None, "시가"] = Field(default=None, alias="open")
+    high: Annotated[Decimal | None, "고가"] = Field(default=None, alias="high")
+    low: Annotated[Decimal | None, "저가"] = Field(default=None, alias="low")
+    last: Annotated[str | None, "종가"] = Field(default=None, alias="last")
+    evol: Annotated[int | None, "체결량"] = Field(default=None, alias="evol")
+    eamt: Annotated[Decimal | None, "체결대금"] = Field(default=None, alias="eamt")
 
 
 class InquireTimeItemchartpriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquireTimeItemchartpriceOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquireTimeItemchartpriceOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquireTimeItemchartpriceOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquireTimeItemchartpriceOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireTimeItemchartpriceRequest, InquireTimeItemchartpriceResponse] = Endpoint(

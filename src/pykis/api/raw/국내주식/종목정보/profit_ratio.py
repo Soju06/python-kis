@@ -16,18 +16,17 @@ if TYPE_CHECKING:
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "년")
-    "년"
+    """년"""
     VALUE_1 = ("1", "분기")
-    "분기"
+    """분기"""
 
 
 class ProfitRatioRequest(RawModel):
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("000660 : 종목코드")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
-    ("0: 년, 1: 분기")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
-    ("J")
+    fid_input_iscd: Annotated[str, "000660 : 종목코드"] = Field(alias="fid_input_iscd")
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"] = Field(
+        alias="FID_DIV_CLS_CODE", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "년", "1": "분기"}}
+    )
+    fid_cond_mrkt_div_code: Annotated[str, "J"] = Field(alias="fid_cond_mrkt_div_code")
 
 
 class ProfitRatioRequestDict(TypedDict):
@@ -42,33 +41,24 @@ class ProfitRatioRequestDict(TypedDict):
         fid_cond_mrkt_div_code (str): J
     """
 
-    fid_input_iscd: Annotated[str, "000660 : 종목코드"]
-    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"]
-    fid_cond_mrkt_div_code: Annotated[str, "J"]
+    fid_input_iscd: str
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum
+    fid_cond_mrkt_div_code: str
 
 
 class ProfitRatioOutput(RawModel):
-    stac_yymm: str = Field(alias="stac_yymm")
-    ("결산 년월")
-    cptl_ntin_rate: Decimal = Field(alias="cptl_ntin_rate")
-    ("총자본 순이익율")
-    self_cptl_ntin_inrt: Decimal = Field(alias="self_cptl_ntin_inrt")
-    ("자기자본 순이익율")
-    sale_ntin_rate: Decimal = Field(alias="sale_ntin_rate")
-    ("매출액 순이익율")
-    sale_totl_rate: Decimal = Field(alias="sale_totl_rate")
-    ("매출액 총이익율")
+    stac_yymm: Annotated[str, "결산 년월"] = Field(alias="stac_yymm")
+    cptl_ntin_rate: Annotated[Decimal, "총자본 순이익율"] = Field(alias="cptl_ntin_rate")
+    self_cptl_ntin_inrt: Annotated[Decimal, "자기자본 순이익율"] = Field(alias="self_cptl_ntin_inrt")
+    sale_ntin_rate: Annotated[Decimal, "매출액 순이익율"] = Field(alias="sale_ntin_rate")
+    sale_totl_rate: Annotated[Decimal, "매출액 총이익율"] = Field(alias="sale_totl_rate")
 
 
 class ProfitRatioResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[ProfitRatioOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[ProfitRatioOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[ProfitRatioRequest, ProfitRatioResponse] = Endpoint(

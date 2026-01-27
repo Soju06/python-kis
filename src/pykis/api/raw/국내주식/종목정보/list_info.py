@@ -14,14 +14,12 @@ if TYPE_CHECKING:
 
 
 class ListInfoRequest(RawModel):
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
-    ("공백: 전체, 특정종목 조회시 : 종목코드")
-    T_DT: KisDate = Field(alias="T_DT")
-    ("~ 일자")
-    F_DT: KisDate = Field(alias="F_DT")
-    ("일자 ~")
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
-    ("공백")
+    SHT_CD: Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"] = Field(
+        default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True}
+    )
+    T_DT: Annotated[KisDate, "~ 일자"] = Field(alias="T_DT")
+    F_DT: Annotated[KisDate, "일자 ~"] = Field(alias="F_DT")
+    CTS: Annotated[str | None, "공백"] = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
 
 
 class ListInfoRequestDict(TypedDict):
@@ -39,40 +37,28 @@ class ListInfoRequestDict(TypedDict):
         CTS (str): 공백 optional
     """
 
-    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
-    T_DT: Annotated[KisDate, "~ 일자"]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    CTS: NotRequired[Annotated[str | None, "공백"]]
+    SHT_CD: NotRequired[str | None]
+    T_DT: KisDate
+    F_DT: KisDate
+    CTS: NotRequired[str | None]
 
 
 class ListInfoOutput1(RawModel):
-    list_dt: KisDateOptional = Field(default=None, alias="list_dt")
-    ("상장/등록일")
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
-    ("종목코드")
-    isin_name: str | None = Field(default=None, alias="isin_name")
-    ("종목명")
-    stk_kind: str | None = Field(default=None, alias="stk_kind")
-    ("주식종류")
-    issue_type: str | None = Field(default=None, alias="issue_type")
-    ("사유")
-    issue_stk_qty: str | None = Field(default=None, alias="issue_stk_qty")
-    ("상장주식수")
-    tot_issue_stk_qty: str | None = Field(default=None, alias="tot_issue_stk_qty")
-    ("총발행주식수")
-    issue_price: Decimal | None = Field(default=None, alias="issue_price")
-    ("발행가")
+    list_dt: Annotated[KisDateOptional, "상장/등록일"] = Field(default=None, alias="list_dt")
+    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
+    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
+    stk_kind: Annotated[str | None, "주식종류"] = Field(default=None, alias="stk_kind")
+    issue_type: Annotated[str | None, "사유"] = Field(default=None, alias="issue_type")
+    issue_stk_qty: Annotated[str | None, "상장주식수"] = Field(default=None, alias="issue_stk_qty")
+    tot_issue_stk_qty: Annotated[str | None, "총발행주식수"] = Field(default=None, alias="tot_issue_stk_qty")
+    issue_price: Annotated[Decimal | None, "발행가"] = Field(default=None, alias="issue_price")
 
 
 class ListInfoResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[ListInfoOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[ListInfoOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[ListInfoRequest, ListInfoResponse] = Endpoint(

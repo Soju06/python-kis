@@ -14,8 +14,7 @@ if TYPE_CHECKING:
 
 
 class InquireAskingPriceRequest(RawModel):
-    SRS_CD: str = Field(alias="SRS_CD")
-    ("종목코드")
+    SRS_CD: Annotated[str, "종목코드"] = Field(alias="SRS_CD")
 
 
 class InquireAskingPriceRequestDict(TypedDict):
@@ -53,58 +52,37 @@ class InquireAskingPriceRequestDict(TypedDict):
         SRS_CD (str): 종목코드
     """
 
-    SRS_CD: Annotated[str, "종목코드"]
+    SRS_CD: str
 
 
 class InquireAskingPriceOutput1(RawModel):
-    open_price: Decimal | None = Field(default=None, alias="open_price")
-    ("시가")
-    high_price: Decimal | None = Field(default=None, alias="high_price")
-    ("고가")
-    lowp_rice: Decimal | None = Field(default=None, alias="lowp_rice")
-    ("저가")
-    last_price: Decimal | None = Field(default=None, alias="last_price")
-    ("현재가")
-    prev_price: Decimal | None = Field(default=None, alias="prev_price")
-    ("전일종가")
-    vol: int | None = Field(default=None, alias="vol")
-    ("거래량")
-    prev_diff_price: Decimal | None = Field(default=None, alias="prev_diff_price")
-    ("전일대비가")
-    prev_diff_rate: Decimal | None = Field(default=None, alias="prev_diff_rate")
-    ("전일대비율")
-    quot_date: KisDateOptional = Field(default=None, alias="quot_date")
-    ("호가수신일자")
-    quot_time: KisTimeOptional = Field(default=None, alias="quot_time")
-    ("호가수신시각")
+    open_price: Annotated[Decimal | None, "시가"] = Field(default=None, alias="open_price")
+    high_price: Annotated[Decimal | None, "고가"] = Field(default=None, alias="high_price")
+    lowp_rice: Annotated[Decimal | None, "저가"] = Field(default=None, alias="lowp_rice")
+    last_price: Annotated[Decimal | None, "현재가"] = Field(default=None, alias="last_price")
+    prev_price: Annotated[Decimal | None, "전일종가"] = Field(default=None, alias="prev_price")
+    vol: Annotated[int | None, "거래량"] = Field(default=None, alias="vol")
+    prev_diff_price: Annotated[Decimal | None, "전일대비가"] = Field(default=None, alias="prev_diff_price")
+    prev_diff_rate: Annotated[Decimal | None, "전일대비율"] = Field(default=None, alias="prev_diff_rate")
+    quot_date: Annotated[KisDateOptional, "호가수신일자"] = Field(default=None, alias="quot_date")
+    quot_time: Annotated[KisTimeOptional, "호가수신시각"] = Field(default=None, alias="quot_time")
 
 
 class InquireAskingPriceOutput2(RawModel):
-    bid_qntt: str | None = Field(default=None, alias="bid_qntt")
-    ("매수수량")
-    bid_num: str | None = Field(default=None, alias="bid_num")
-    ("매수번호")
-    bid_price: str | None = Field(default=None, alias="bid_price")
-    ("매수호가")
-    ask_qntt: int | None = Field(default=None, alias="ask_qntt")
-    ("매도수량")
-    ask_num: str | None = Field(default=None, alias="ask_num")
-    ("매도번호")
-    ask_price: Decimal | None = Field(default=None, alias="ask_price")
-    ("매도호가")
+    bid_qntt: Annotated[str | None, "매수수량"] = Field(default=None, alias="bid_qntt")
+    bid_num: Annotated[str | None, "매수번호"] = Field(default=None, alias="bid_num")
+    bid_price: Annotated[str | None, "매수호가"] = Field(default=None, alias="bid_price")
+    ask_qntt: Annotated[int | None, "매도수량"] = Field(default=None, alias="ask_qntt")
+    ask_num: Annotated[str | None, "매도번호"] = Field(default=None, alias="ask_num")
+    ask_price: Annotated[Decimal | None, "매도호가"] = Field(default=None, alias="ask_price")
 
 
 class InquireAskingPriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquireAskingPriceOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquireAskingPriceOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquireAskingPriceOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquireAskingPriceOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireAskingPriceRequest, InquireAskingPriceResponse] = Endpoint(

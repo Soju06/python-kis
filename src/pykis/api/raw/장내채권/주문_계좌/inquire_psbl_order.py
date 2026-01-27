@@ -14,16 +14,11 @@ if TYPE_CHECKING:
 
 
 class InquirePsblOrderRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("계좌상품코드")
-    PDNO: str = Field(alias="PDNO")
-    ("상품번호")
-    BOND_ORD_UNPR: str = Field(alias="BOND_ORD_UNPR")
-    ("채권주문단가")
-    SAMT_MKET_PTCI_YN: KisBool = Field(alias="SAMT_MKET_PTCI_YN")
-    ("Y(소액시장) N (일반시장)")
+    CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"] = Field(alias="ACNT_PRDT_CD")
+    PDNO: Annotated[str, "상품번호"] = Field(alias="PDNO")
+    BOND_ORD_UNPR: Annotated[str, "채권주문단가"] = Field(alias="BOND_ORD_UNPR")
+    SAMT_MKET_PTCI_YN: Annotated[KisBool, "Y(소액시장) N (일반시장)"] = Field(alias="SAMT_MKET_PTCI_YN")
 
 
 class InquirePsblOrderRequestDict(TypedDict):
@@ -44,39 +39,30 @@ class InquirePsblOrderRequestDict(TypedDict):
         SAMT_MKET_PTCI_YN (KisBool): Y(소액시장) N (일반시장)
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
-    PDNO: Annotated[str, "상품번호"]
-    BOND_ORD_UNPR: Annotated[str, "채권주문단가"]
-    SAMT_MKET_PTCI_YN: Annotated[KisBool, "Y(소액시장) N (일반시장)"]
+    CANO: str
+    ACNT_PRDT_CD: str
+    PDNO: str
+    BOND_ORD_UNPR: str
+    SAMT_MKET_PTCI_YN: KisBool
 
 
 class InquirePsblOrderOutput(RawModel):
-    ord_psbl_cash: str = Field(alias="ord_psbl_cash")
-    ("주문가능현금")
-    ord_psbl_sbst: str = Field(alias="ord_psbl_sbst")
-    ("주문가능대용")
-    ruse_psbl_amt: Decimal = Field(alias="ruse_psbl_amt")
-    ("재사용가능금액")
-    bond_ord_unpr2: str = Field(alias="bond_ord_unpr2")
-    ("채권주문단가2")
-    buy_psbl_amt: Decimal = Field(alias="buy_psbl_amt")
-    ("매수가능금액")
-    buy_psbl_qty: Decimal = Field(alias="buy_psbl_qty")
-    ("매수가능수량(buy_psbl_qty) = 매수가능금액(buy_psbl_amt) / 채권주문단가2(bond_ord_unpr2) * 10")
-    cma_evlu_amt: Decimal = Field(alias="cma_evlu_amt")
-    ("CMA평가금액")
+    ord_psbl_cash: Annotated[str, "주문가능현금"] = Field(alias="ord_psbl_cash")
+    ord_psbl_sbst: Annotated[str, "주문가능대용"] = Field(alias="ord_psbl_sbst")
+    ruse_psbl_amt: Annotated[Decimal, "재사용가능금액"] = Field(alias="ruse_psbl_amt")
+    bond_ord_unpr2: Annotated[str, "채권주문단가2"] = Field(alias="bond_ord_unpr2")
+    buy_psbl_amt: Annotated[Decimal, "매수가능금액"] = Field(alias="buy_psbl_amt")
+    buy_psbl_qty: Annotated[Decimal, "매수가능수량(buy_psbl_qty) = 매수가능금액(buy_psbl_amt) / 채권주문단가2(bond_ord_unpr2) * 10"] = Field(
+        alias="buy_psbl_qty"
+    )
+    cma_evlu_amt: Annotated[Decimal, "CMA평가금액"] = Field(alias="cma_evlu_amt")
 
 
 class InquirePsblOrderResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquirePsblOrderOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquirePsblOrderOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquirePsblOrderRequest, InquirePsblOrderResponse] = Endpoint(

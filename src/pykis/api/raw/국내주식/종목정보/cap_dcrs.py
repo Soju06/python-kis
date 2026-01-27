@@ -14,14 +14,12 @@ if TYPE_CHECKING:
 
 
 class CapDcrsRequest(RawModel):
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    F_DT: KisDate = Field(alias="F_DT")
-    ("일자 ~")
-    T_DT: KisDate = Field(alias="T_DT")
-    ("~ 일자")
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
-    ("공백: 전체, 특정종목 조회시 : 종목코드")
+    CTS: Annotated[str | None, "공백"] = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
+    F_DT: Annotated[KisDate, "일자 ~"] = Field(alias="F_DT")
+    T_DT: Annotated[KisDate, "~ 일자"] = Field(alias="T_DT")
+    SHT_CD: Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"] = Field(
+        default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True}
+    )
 
 
 class CapDcrsRequestDict(TypedDict):
@@ -39,42 +37,29 @@ class CapDcrsRequestDict(TypedDict):
         SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
     """
 
-    CTS: NotRequired[Annotated[str | None, "공백"]]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    T_DT: Annotated[KisDate, "~ 일자"]
-    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
+    CTS: NotRequired[str | None]
+    F_DT: KisDate
+    T_DT: KisDate
+    SHT_CD: NotRequired[str | None]
 
 
 class CapDcrsOutput1(RawModel):
-    record_date: KisDateOptional = Field(default=None, alias="record_date")
-    ("기준일")
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
-    ("종목코드")
-    isin_name: str | None = Field(default=None, alias="isin_name")
-    ("종목명")
-    stk_kind: str | None = Field(default=None, alias="stk_kind")
-    ("주식종류")
-    reduce_cap_type: str | None = Field(default=None, alias="reduce_cap_type")
-    ("감자구분")
-    reduce_cap_rate: Decimal | None = Field(default=None, alias="reduce_cap_rate")
-    ("감자배정율")
-    comp_way: str | None = Field(default=None, alias="comp_way")
-    ("계산방법")
-    td_stop_dt: KisDateOptional = Field(default=None, alias="td_stop_dt")
-    ("매매거래정지기간")
-    list_dt: KisDateOptional = Field(default=None, alias="list_dt")
-    ("상장/등록일")
+    record_date: Annotated[KisDateOptional, "기준일"] = Field(default=None, alias="record_date")
+    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
+    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
+    stk_kind: Annotated[str | None, "주식종류"] = Field(default=None, alias="stk_kind")
+    reduce_cap_type: Annotated[str | None, "감자구분"] = Field(default=None, alias="reduce_cap_type")
+    reduce_cap_rate: Annotated[Decimal | None, "감자배정율"] = Field(default=None, alias="reduce_cap_rate")
+    comp_way: Annotated[str | None, "계산방법"] = Field(default=None, alias="comp_way")
+    td_stop_dt: Annotated[KisDateOptional, "매매거래정지기간"] = Field(default=None, alias="td_stop_dt")
+    list_dt: Annotated[KisDateOptional, "상장/등록일"] = Field(default=None, alias="list_dt")
 
 
 class CapDcrsResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[CapDcrsOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[CapDcrsOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[CapDcrsRequest, CapDcrsResponse] = Endpoint(

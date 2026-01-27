@@ -13,16 +13,11 @@ if TYPE_CHECKING:
 
 
 class AlgoOrdnoRequest(RawModel):
-    TRAD_DT: str = Field(alias="TRAD_DT")
-    ("YYYYMMDD")
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호 (8자리)")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("계좌상품코드 (2자리) : 주식계좌는 01")
-    CTX_AREA_NK200: str | None = Field(default=None, alias="CTX_AREA_NK200")
-    ("연속조회키200")
-    CTX_AREA_FK200: str | None = Field(default=None, alias="CTX_AREA_FK200")
-    ("연속조회조건200")
+    TRAD_DT: Annotated[str, "YYYYMMDD"] = Field(alias="TRAD_DT")
+    CANO: Annotated[str, "종합계좌번호 (8자리)"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드 (2자리) : 주식계좌는 01"] = Field(alias="ACNT_PRDT_CD")
+    CTX_AREA_NK200: Annotated[str | None, "연속조회키200"] = Field(default=None, alias="CTX_AREA_NK200")
+    CTX_AREA_FK200: Annotated[str | None, "연속조회조건200"] = Field(default=None, alias="CTX_AREA_FK200")
 
 
 class AlgoOrdnoRequestDict(TypedDict):
@@ -37,47 +32,32 @@ class AlgoOrdnoRequestDict(TypedDict):
         CTX_AREA_FK200 (str): 연속조회조건200 optional
     """
 
-    TRAD_DT: Annotated[str, "YYYYMMDD"]
-    CANO: Annotated[str, "종합계좌번호 (8자리)"]
-    ACNT_PRDT_CD: Annotated[str, "계좌상품코드 (2자리) : 주식계좌는 01"]
-    CTX_AREA_NK200: NotRequired[Annotated[str | None, "연속조회키200"]]
-    CTX_AREA_FK200: NotRequired[Annotated[str | None, "연속조회조건200"]]
+    TRAD_DT: str
+    CANO: str
+    ACNT_PRDT_CD: str
+    CTX_AREA_NK200: NotRequired[str | None]
+    CTX_AREA_FK200: NotRequired[str | None]
 
 
 class AlgoOrdnoOutput(RawModel):
-    odno: str = Field(alias="odno")
-    ("주문번호")
-    trad_dvsn_name: str = Field(alias="trad_dvsn_name")
-    ("매매구분명")
-    pdno: str = Field(alias="pdno")
-    ("상품번호")
-    item_name: str = Field(alias="item_name")
-    ("종목명")
-    ft_ord_qty: int = Field(alias="ft_ord_qty")
-    ("FT주문수량")
-    ft_ord_unpr3: str = Field(alias="ft_ord_unpr3")
-    ("FT주문단가")
-    splt_buy_attr_name: str = Field(alias="splt_buy_attr_name")
-    ("분할매수속성명")
-    ft_ccld_qty: int = Field(alias="ft_ccld_qty")
-    ("FT체결수량")
-    ord_gno_brno: str | None = Field(default=None, alias="ord_gno_brno")
-    ("주문채번지점번호")
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    ctx_area_fk200: str = Field(alias="ctx_area_fk200")
-    ("연속조회검색조건200")
-    ctx_area_nk200: str = Field(alias="ctx_area_nk200")
-    ("연속조회키200")
+    odno: Annotated[str, "주문번호"] = Field(alias="odno")
+    trad_dvsn_name: Annotated[str, "매매구분명"] = Field(alias="trad_dvsn_name")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    item_name: Annotated[str, "종목명"] = Field(alias="item_name")
+    ft_ord_qty: Annotated[int, "FT주문수량"] = Field(alias="ft_ord_qty")
+    ft_ord_unpr3: Annotated[str, "FT주문단가"] = Field(alias="ft_ord_unpr3")
+    splt_buy_attr_name: Annotated[str, "분할매수속성명"] = Field(alias="splt_buy_attr_name")
+    ft_ccld_qty: Annotated[int, "FT체결수량"] = Field(alias="ft_ccld_qty")
+    ord_gno_brno: Annotated[str | None, "주문채번지점번호"] = Field(default=None, alias="ord_gno_brno")
+    rt_cd: Annotated[KisBool, "0 : 성공 0 이외의 값 : 실패"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    ctx_area_fk200: Annotated[str, "연속조회검색조건200"] = Field(alias="ctx_area_fk200")
+    ctx_area_nk200: Annotated[str, "연속조회키200"] = Field(alias="ctx_area_nk200")
 
 
 class AlgoOrdnoResponse(RawModel):
-    output: AlgoOrdnoOutput = Field(alias="output")
-    ("응답상세")
+    output: Annotated[AlgoOrdnoOutput, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[AlgoOrdnoRequest, AlgoOrdnoResponse] = Endpoint(

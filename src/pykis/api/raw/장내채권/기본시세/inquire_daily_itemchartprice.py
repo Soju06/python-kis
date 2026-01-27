@@ -8,26 +8,14 @@ from pydantic import Field
 
 from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
-from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
-class FidCondMrktDivCodeEnum(KisStrEnum):
-    UNIQUE = ("Unique", "key(B)")
-    "key(B)"
-    B = ("B", "Unique key")
-    "Unique key"
-    KEY = ("key", "B")
-    "B"
-
-
 class InquireDailyItemchartpriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("Unique key(B)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목코드")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "Unique key(B)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "종목코드"] = Field(alias="FID_INPUT_ISCD")
 
 
 class InquireDailyItemchartpriceRequestDict(TypedDict):
@@ -39,38 +27,28 @@ class InquireDailyItemchartpriceRequestDict(TypedDict):
     최근 30건까지 데이터 확인이 가능합니다.
 
     Request fields:
-        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): Unique key(B)
+        FID_COND_MRKT_DIV_CODE (str): Unique key(B)
         FID_INPUT_ISCD (str): 종목코드
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "Unique key(B)"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
 
 
 class InquireDailyItemchartpriceOutput(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
-    ("주식영업일자")
-    bond_oprc: Decimal = Field(alias="bond_oprc")
-    ("채권시가2")
-    bond_hgpr: Decimal = Field(alias="bond_hgpr")
-    ("채권고가")
-    bond_lwpr: Decimal = Field(alias="bond_lwpr")
-    ("채권저가")
-    bond_prpr: Decimal = Field(alias="bond_prpr")
-    ("채권현재가")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적거래량")
+    stck_bsop_date: Annotated[KisDate, "주식영업일자"] = Field(alias="stck_bsop_date")
+    bond_oprc: Annotated[Decimal, "채권시가2"] = Field(alias="bond_oprc")
+    bond_hgpr: Annotated[Decimal, "채권고가"] = Field(alias="bond_hgpr")
+    bond_lwpr: Annotated[Decimal, "채권저가"] = Field(alias="bond_lwpr")
+    bond_prpr: Annotated[Decimal, "채권현재가"] = Field(alias="bond_prpr")
+    acml_vol: Annotated[int, "누적거래량"] = Field(alias="acml_vol")
 
 
 class InquireDailyItemchartpriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquireDailyItemchartpriceOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquireDailyItemchartpriceOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireDailyItemchartpriceRequest, InquireDailyItemchartpriceResponse] = Endpoint(
@@ -130,7 +108,7 @@ if TYPE_CHECKING:
                 **kwargs (InquireDailyItemchartpriceRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): Unique key(B)
+                        FID_COND_MRKT_DIV_CODE (str): Unique key(B)
                         FID_INPUT_ISCD (str): 종목코드
 
             Returns:
@@ -148,5 +126,4 @@ __all__ = [
     "InquireDailyItemchartpriceRequestDict",
     "InquireDailyItemchartpriceResponse",
     "InquireDailyItemchartpriceOutput",
-    "FidCondMrktDivCodeEnum",
 ]

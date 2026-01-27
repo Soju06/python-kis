@@ -16,51 +16,79 @@ if TYPE_CHECKING:
 
 class ExcdEnum(KisStrEnum):
     NYS = ("NYS", "뉴욕")
-    "뉴욕"
+    """뉴욕"""
     NAS = ("NAS", "나스닥")
-    "나스닥"
+    """나스닥"""
     AMS = ("AMS", "아멕스")
-    "아멕스"
+    """아멕스"""
     HKS = ("HKS", "홍콩")
-    "홍콩"
+    """홍콩"""
     SHS = ("SHS", "상해")
-    "상해"
+    """상해"""
     SZS = ("SZS", "심천")
-    "심천"
+    """심천"""
     HSX = ("HSX", "호치민")
-    "호치민"
+    """호치민"""
     HNX = ("HNX", "하노이")
-    "하노이"
+    """하노이"""
     TSE = ("TSE", "도쿄 '")
-    "도쿄 '"
+    """도쿄 '"""
 
 
 class VolRangEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "1백주이상")
-    "1백주이상"
+    """1백주이상"""
     VALUE_2 = ("2", "1천주이상")
-    "1천주이상"
+    """1천주이상"""
     VALUE_3 = ("3", "1만주이상")
-    "1만주이상"
+    """1만주이상"""
     VALUE_4 = ("4", "10만주이상")
-    "10만주이상"
+    """10만주이상"""
     VALUE_5 = ("5", "100만주이상")
-    "100만주이상"
+    """100만주이상"""
     VALUE_6 = ("6", "1000만주이상")
-    "1000만주이상"
+    """1000만주이상"""
 
 
 class MarketCapRequest(RawModel):
-    KEYB: str | None = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    EXCD: ExcdEnum = Field(alias="EXCD")
-    ("'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '")
-    VOL_RANG: VolRangEnum = Field(alias="VOL_RANG")
-    ("0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)")
+    KEYB: Annotated[str | None, "공백"] = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
+    AUTH: Annotated[str | None, "공백"] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
+    EXCD: Annotated[
+        ExcdEnum, "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '"
+    ] = Field(
+        alias="EXCD",
+        json_schema_extra={
+            "enum": ["NYS", "NAS", "AMS", "HKS", "SHS", "SZS", "HSX", "HNX", "TSE"],
+            "enum_desc": {
+                "NYS": "뉴욕",
+                "NAS": "나스닥",
+                "AMS": "아멕스",
+                "HKS": "홍콩",
+                "SHS": "상해",
+                "SZS": "심천",
+                "HSX": "호치민",
+                "HNX": "하노이",
+                "TSE": "도쿄 '",
+            },
+        },
+    )
+    VOL_RANG: Annotated[VolRangEnum, "0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)"] = Field(
+        alias="VOL_RANG",
+        json_schema_extra={
+            "enum": ["0", "1", "2", "3", "4", "5", "6"],
+            "enum_desc": {
+                "0": "전체",
+                "1": "1백주이상",
+                "2": "1천주이상",
+                "3": "1만주이상",
+                "4": "10만주이상",
+                "5": "100만주이상",
+                "6": "1000만주이상",
+            },
+        },
+    )
 
 
 class MarketCapRequestDict(TypedDict):
@@ -76,69 +104,44 @@ class MarketCapRequestDict(TypedDict):
         5(100만주이상), 6(1000만주이상)
     """
 
-    KEYB: NotRequired[Annotated[str | None, "공백"]]
-    AUTH: NotRequired[Annotated[str | None, "공백"]]
-    EXCD: Annotated[ExcdEnum, "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '"]
-    VOL_RANG: Annotated[VolRangEnum, "0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)"]
+    KEYB: NotRequired[str | None]
+    AUTH: NotRequired[str | None]
+    EXCD: ExcdEnum
+    VOL_RANG: VolRangEnum
 
 
 class MarketCapOutput1(RawModel):
-    zdiv: str = Field(alias="zdiv")
-    ("소수점자리수")
-    stat: str = Field(alias="stat")
-    ("거래상태정보")
-    crec: str = Field(alias="crec")
-    ("현재조회종목수")
-    trec: str = Field(alias="trec")
-    ("전체조회종목수")
-    nrec: int = Field(alias="nrec")
-    ("RecordCount")
+    zdiv: Annotated[str, "소수점자리수"] = Field(alias="zdiv")
+    stat: Annotated[str, "거래상태정보"] = Field(alias="stat")
+    crec: Annotated[str, "현재조회종목수"] = Field(alias="crec")
+    trec: Annotated[str, "전체조회종목수"] = Field(alias="trec")
+    nrec: Annotated[int, "RecordCount"] = Field(alias="nrec")
 
 
 class MarketCapOutput2(RawModel):
-    rsym: str | None = Field(default=None, alias="rsym")
-    ("실시간조회심볼")
-    excd: str | None = Field(default=None, alias="excd")
-    ("거래소코드")
-    symb: str | None = Field(default=None, alias="symb")
-    ("종목코드")
-    name: str | None = Field(default=None, alias="name")
-    ("종목명")
-    last: Decimal | None = Field(default=None, alias="last")
-    ("현재가")
-    sign: str | None = Field(default=None, alias="sign")
-    ("기호")
-    diff: str | None = Field(default=None, alias="diff")
-    ("대비")
-    rate: Decimal | None = Field(default=None, alias="rate")
-    ("등락율")
-    tvol: int | None = Field(default=None, alias="tvol")
-    ("거래량")
-    shar: str | None = Field(default=None, alias="shar")
-    ("상장주식수")
-    tomv: Decimal | None = Field(default=None, alias="tomv")
-    ("시가총액")
-    grav: str | None = Field(default=None, alias="grav")
-    ("비중")
-    rank: str | None = Field(default=None, alias="rank")
-    ("순위")
-    ename: str | None = Field(default=None, alias="ename")
-    ("영문종목명")
-    e_ordyn: str | None = Field(default=None, alias="e_ordyn")
-    ("매매가능")
+    rsym: Annotated[str, "실시간조회심볼"] = Field(alias="rsym")
+    excd: Annotated[str, "거래소코드"] = Field(alias="excd")
+    symb: Annotated[str, "종목코드"] = Field(alias="symb")
+    name: Annotated[str, "종목명"] = Field(alias="name")
+    last: Annotated[Decimal, "현재가"] = Field(alias="last")
+    sign: Annotated[int, "기호"] = Field(alias="sign")
+    diff: Annotated[Decimal, "대비"] = Field(alias="diff")
+    rate: Annotated[Decimal, "등락율"] = Field(alias="rate")
+    tvol: Annotated[int, "거래량"] = Field(alias="tvol")
+    shar: Annotated[int, "상장주식수"] = Field(alias="shar")
+    tomv: Annotated[Decimal, "시가총액"] = Field(alias="tomv")
+    grav: Annotated[Decimal, "비중"] = Field(alias="grav")
+    rank: Annotated[int, "순위"] = Field(alias="rank")
+    ename: Annotated[str, "영문종목명"] = Field(alias="ename")
+    e_ordyn: Annotated[str, "매매가능"] = Field(alias="e_ordyn")
 
 
 class MarketCapResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: MarketCapOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[MarketCapOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[MarketCapOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[MarketCapOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[MarketCapRequest, MarketCapResponse] = Endpoint(

@@ -16,58 +16,76 @@ if TYPE_CHECKING:
 
 class ExcdEnum(KisStrEnum):
     HKS = ("HKS", "홍콩")
-    "홍콩"
+    """홍콩"""
     NYS = ("NYS", "뉴욕")
-    "뉴욕"
+    """뉴욕"""
     NAS = ("NAS", "나스닥")
-    "나스닥"
+    """나스닥"""
     AMS = ("AMS", "아멕스")
-    "아멕스"
+    """아멕스"""
     TSE = ("TSE", "도쿄")
-    "도쿄"
+    """도쿄"""
     SHS = ("SHS", "상해")
-    "상해"
+    """상해"""
     SZS = ("SZS", "심천")
-    "심천"
+    """심천"""
     SHI = ("SHI", "상해지수")
-    "상해지수"
+    """상해지수"""
     SZI = ("SZI", "심천지수")
-    "심천지수"
+    """심천지수"""
     HSX = ("HSX", "호치민")
-    "호치민"
+    """호치민"""
     HNX = ("HNX", "하노이")
-    "하노이"
+    """하노이"""
     BAY = ("BAY", "뉴욕(주간)")
-    "뉴욕(주간)"
+    """뉴욕(주간)"""
     BAQ = ("BAQ", "나스닥(주간)")
-    "나스닥(주간)"
+    """나스닥(주간)"""
     BAA = ("BAA", "아멕스(주간)")
-    "아멕스(주간)"
+    """아멕스(주간)"""
 
 
 class SignEnum(KisStrEnum):
     VALUE_1 = ("1", "상한")
-    "상한"
+    """상한"""
     VALUE_2 = ("2", "상승")
-    "상승"
+    """상승"""
     VALUE_3 = ("3", "보합")
-    "보합"
+    """보합"""
     VALUE_4 = ("4", "하한")
-    "하한"
+    """하한"""
     VALUE_5 = ("5", "하락")
-    "하락"
+    """하락"""
 
 
 class PriceRequest(RawModel):
-    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
-    ('"" (Null 값 설정)')
-    EXCD: ExcdEnum = Field(alias="EXCD")
-    (
-        "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 "
-        "SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)"
+    AUTH: Annotated[str | None, '"" (Null 값 설정)'] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
+    EXCD: Annotated[
+        ExcdEnum,
+        "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
+    ] = Field(
+        alias="EXCD",
+        json_schema_extra={
+            "enum": ["HKS", "NYS", "NAS", "AMS", "TSE", "SHS", "SZS", "SHI", "SZI", "HSX", "HNX", "BAY", "BAQ", "BAA"],
+            "enum_desc": {
+                "HKS": "홍콩",
+                "NYS": "뉴욕",
+                "NAS": "나스닥",
+                "AMS": "아멕스",
+                "TSE": "도쿄",
+                "SHS": "상해",
+                "SZS": "심천",
+                "SHI": "상해지수",
+                "SZI": "심천지수",
+                "HSX": "호치민",
+                "HNX": "하노이",
+                "BAY": "뉴욕(주간)",
+                "BAQ": "나스닥(주간)",
+                "BAA": "아멕스(주간)",
+            },
+        },
     )
-    SYMB: str = Field(alias="SYMB")
-    ("종목코드")
+    SYMB: Annotated[str, "종목코드"] = Field(alias="SYMB")
 
 
 class PriceRequestDict(TypedDict):
@@ -123,52 +141,37 @@ class PriceRequestDict(TypedDict):
         SYMB (str): 종목코드
     """
 
-    AUTH: NotRequired[Annotated[str | None, '"" (Null 값 설정)']]
-    EXCD: Annotated[
-        ExcdEnum,
-        "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 "
-        "SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
-    ]
-    SYMB: Annotated[str, "종목코드"]
+    AUTH: NotRequired[str | None]
+    EXCD: ExcdEnum
+    SYMB: str
 
 
 class PriceOutput(RawModel):
-    rsym: str | None = Field(default=None, alias="rsym")
-    (
-        "D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : "
-        "나스닥, AMS : 아멕스 , TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이"
+    rsym: Annotated[
+        str | None,
+        "D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이",
+    ] = Field(default=None, alias="rsym")
+    zdiv: Annotated[str | None, "소수점자리수"] = Field(default=None, alias="zdiv")
+    base: Annotated[str | None, "전일의 종가"] = Field(default=None, alias="base")
+    pvol: Annotated[int | None, "전일의 거래량"] = Field(default=None, alias="pvol")
+    last: Annotated[Decimal | None, "당일 조회시점의 현재 가격"] = Field(default=None, alias="last")
+    sign: Annotated[SignEnum | None, "1 : 상한 2 : 상승 3 : 보합 4 : 하한 5 : 하락"] = Field(
+        default=None,
+        alias="sign",
+        json_schema_extra={"enum": ["1", "2", "3", "4", "5"], "enum_desc": {"1": "상한", "2": "상승", "3": "보합", "4": "하한", "5": "하락"}},
     )
-    zdiv: str | None = Field(default=None, alias="zdiv")
-    ("소수점자리수")
-    base: str | None = Field(default=None, alias="base")
-    ("전일의 종가")
-    pvol: int | None = Field(default=None, alias="pvol")
-    ("전일의 거래량")
-    last: Decimal | None = Field(default=None, alias="last")
-    ("당일 조회시점의 현재 가격")
-    sign: SignEnum | None = Field(default=None, alias="sign")
-    ("1 : 상한 2 : 상승 3 : 보합 4 : 하한 5 : 하락")
-    diff: Decimal | None = Field(default=None, alias="diff")
-    ("전일 종가와 당일 현재가의 차이 (당일 현재가-전일 종가)")
-    rate: Decimal | None = Field(default=None, alias="rate")
-    ("전일 대비 / 당일 현재가 * 100")
-    tvol: int | None = Field(default=None, alias="tvol")
-    ("당일 조회시점까지 전체 거래량")
-    tamt: Decimal | None = Field(default=None, alias="tamt")
-    ("당일 조회시점까지 전체 거래금액")
-    ordy: KisBool | None = Field(default=None, alias="ordy")
-    ("매수주문 가능 종목 여부")
+    diff: Annotated[Decimal | None, "전일 종가와 당일 현재가의 차이 (당일 현재가-전일 종가)"] = Field(default=None, alias="diff")
+    rate: Annotated[Decimal | None, "전일 대비 / 당일 현재가 * 100"] = Field(default=None, alias="rate")
+    tvol: Annotated[int | None, "당일 조회시점까지 전체 거래량"] = Field(default=None, alias="tvol")
+    tamt: Annotated[Decimal | None, "당일 조회시점까지 전체 거래금액"] = Field(default=None, alias="tamt")
+    ordy: Annotated[KisBool | None, "매수주문 가능 종목 여부"] = Field(default=None, alias="ordy")
 
 
 class PriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: PriceOutput = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "0 : 성공 0 이외의 값 : 실패"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[PriceOutput, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[PriceRequest, PriceResponse] = Endpoint(

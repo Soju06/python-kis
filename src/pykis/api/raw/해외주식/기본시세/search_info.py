@@ -16,76 +16,128 @@ if TYPE_CHECKING:
 
 class PrdtTypeCdEnum(KisStrEnum):
     VALUE_512 = ("512", "미국 나스닥")
-    "미국 나스닥"
+    """미국 나스닥"""
     VALUE_513 = ("513", "미국 뉴욕")
-    "미국 뉴욕"
+    """미국 뉴욕"""
     VALUE_529 = ("529", "미국 아멕스")
-    "미국 아멕스"
+    """미국 아멕스"""
     VALUE_515 = ("515", "일본")
-    "일본"
+    """일본"""
     VALUE_501 = ("501", "홍콩")
-    "홍콩"
+    """홍콩"""
     VALUE_543 = ("543", "홍콩CNY")
-    "홍콩CNY"
+    """홍콩CNY"""
     VALUE_558 = ("558", "홍콩USD")
-    "홍콩USD"
+    """홍콩USD"""
     VALUE_507 = ("507", "베트남 하노이")
-    "베트남 하노이"
+    """베트남 하노이"""
     VALUE_508 = ("508", "베트남 호치민")
-    "베트남 호치민"
+    """베트남 호치민"""
     VALUE_551 = ("551", "중국 상해A")
-    "중국 상해A"
+    """중국 상해A"""
     VALUE_552 = ("552", "중국 심천A")
-    "중국 심천A"
+    """중국 심천A"""
 
 
 class OvrsStckDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "주식")
-    "주식"
+    """주식"""
     VALUE_02 = ("02", "WARRANT")
-    "WARRANT"
+    """WARRANT"""
     VALUE_03 = ("03", "ETF")
-    "ETF"
+    """ETF"""
     VALUE_04 = ("04", "우선주")
-    "우선주"
+    """우선주"""
+
+
+class OvrsStckTrStopDvsnCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "정상")
+    """정상"""
+    VALUE_02 = ("02", "거래정지(")
+    """거래정지("""
+    VALUE_03 = ("03", "거래중단")
+    """거래중단"""
+    VALUE_04 = ("04", "매도정지")
+    """매도정지"""
+    VALUE_05 = ("05", "거래정지(위탁)")
+    """거래정지(위탁)"""
+    VALUE_06 = ("06", "매수정지")
+    """매수정지"""
+    ALL = ("ALL", "02.거래정지")
+    """02.거래정지"""
+
+
+class OvrsStckEtfRiskDrtpCdEnum(KisStrEnum):
+    MUTUAL = ("Mutual", "Fund")
+    """Fund"""
+    VALUE_001 = ("001", "ETF")
+    """ETF"""
+    VALUE_002 = ("002", "ETN")
+    """ETN"""
+    VALUE_003 = ("003", "ETC(Exchage Traded Commodity)")
+    """ETC(Exchage Traded Commodity)"""
+    VALUE_004 = ("004", "Others(REIT's, Mutual")
+    """Others(REIT's, Mutual"""
+    VALUE_005 = ("005", "VIX Underlying ETF")
+    """VIX Underlying ETF"""
+    VALUE_006 = ("006", "VIX Underlying ETN")
+    """VIX Underlying ETN"""
+    ETC = ("ETC", "Exchage Traded Commodity")
+    """Exchage Traded Commodity"""
 
 
 class OvrsStckStopRsonCdEnum(KisStrEnum):
     VALUE_01 = ("01", "권리발생")
-    "권리발생"
+    """권리발생"""
     VALUE_02 = ("02", "ISIN상이")
-    "ISIN상이"
+    """ISIN상이"""
     VALUE_03 = ("03", "기타")
-    "기타"
+    """기타"""
     VALUE_04 = ("04", "급등락종목")
-    "급등락종목"
+    """급등락종목"""
     VALUE_05 = ("05", "상장폐지(예정)")
-    "상장폐지(예정)"
+    """상장폐지(예정)"""
     VALUE_06 = ("06", "종목코드,거래소변경")
-    "종목코드,거래소변경"
+    """종목코드,거래소변경"""
     VALUE_07 = ("07", "PTP종목")
-    "PTP종목"
+    """PTP종목"""
 
 
 class MiniStkTrStatDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "정상")
-    "정상"
+    """정상"""
     VALUE_02 = ("02", "매매 불가")
-    "매매 불가"
+    """매매 불가"""
     VALUE_03 = ("03", "매수 불가")
-    "매수 불가"
+    """매수 불가"""
     VALUE_04 = ("04", "매도 불가")
-    "매도 불가"
+    """매도 불가"""
 
 
 class SearchInfoRequest(RawModel):
-    PRDT_TYPE_CD: PrdtTypeCdEnum = Field(alias="PRDT_TYPE_CD")
-    (
-        "512 미국 나스닥 / 513 미국 뉴욕 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558 홍콩USD "
-        "507 베트남 하노이 / 508 베트남 호치민 551 중국 상해A / 552 중국 심천A"
+    PRDT_TYPE_CD: Annotated[
+        PrdtTypeCdEnum,
+        "512 미국 나스닥 / 513 미국 뉴욕 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558 홍콩USD 507 베트남 하노이 / 508 베트남 호치민 551 중국 상해A / 552 중국 심천A",
+    ] = Field(
+        alias="PRDT_TYPE_CD",
+        json_schema_extra={
+            "enum": ["512", "513", "529", "515", "501", "543", "558", "507", "508", "551", "552"],
+            "enum_desc": {
+                "512": "미국 나스닥",
+                "513": "미국 뉴욕",
+                "529": "미국 아멕스",
+                "515": "일본",
+                "501": "홍콩",
+                "543": "홍콩CNY",
+                "558": "홍콩USD",
+                "507": "베트남 하노이",
+                "508": "베트남 호치민",
+                "551": "중국 상해A",
+                "552": "중국 심천A",
+            },
+        },
     )
-    PDNO: str = Field(alias="PDNO")
-    ("예) AAPL (애플)")
+    PDNO: Annotated[str, "예) AAPL (애플)"] = Field(alias="PDNO")
 
 
 class SearchInfoRequestDict(TypedDict):
@@ -104,136 +156,132 @@ class SearchInfoRequestDict(TypedDict):
         PDNO (str): 예) AAPL (애플)
     """
 
-    PRDT_TYPE_CD: Annotated[
-        PrdtTypeCdEnum,
-        "512 미국 나스닥 / 513 미국 뉴욕 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558 홍콩USD "
-        "507 베트남 하노이 / 508 베트남 호치민 551 중국 상해A / 552 중국 심천A",
-    ]
-    PDNO: Annotated[str, "예) AAPL (애플)"]
+    PRDT_TYPE_CD: PrdtTypeCdEnum
+    PDNO: str
 
 
 class SearchInfoOutput(RawModel):
-    std_pdno: str = Field(alias="std_pdno")
-    ("표준상품번호")
-    prdt_eng_name: str = Field(alias="prdt_eng_name")
-    ("상품영문명")
-    natn_cd: str = Field(alias="natn_cd")
-    ("국가코드")
-    natn_name: str = Field(alias="natn_name")
-    ("국가명")
-    tr_mket_cd: str = Field(alias="tr_mket_cd")
-    ("거래시장코드")
-    tr_mket_name: str = Field(alias="tr_mket_name")
-    ("거래시장명")
-    ovrs_excg_cd: str = Field(alias="ovrs_excg_cd")
-    ("해외거래소코드")
-    ovrs_excg_name: str = Field(alias="ovrs_excg_name")
-    ("해외거래소명")
-    tr_crcy_cd: str = Field(alias="tr_crcy_cd")
-    ("거래통화코드")
-    ovrs_papr: Decimal = Field(alias="ovrs_papr")
-    ("해외액면가")
-    crcy_name: str = Field(alias="crcy_name")
-    ("통화명")
-    ovrs_stck_dvsn_cd: OvrsStckDvsnCdEnum = Field(alias="ovrs_stck_dvsn_cd")
-    ("01.주식 02.WARRANT 03.ETF 04.우선주")
-    prdt_clsf_cd: str = Field(alias="prdt_clsf_cd")
-    ("상품분류코드")
-    prdt_clsf_name: str = Field(alias="prdt_clsf_name")
-    ("상품분류명")
-    sll_unit_qty: int = Field(alias="sll_unit_qty")
-    ("매도단위수량")
-    buy_unit_qty: int = Field(alias="buy_unit_qty")
-    ("매수단위수량")
-    tr_unit_amt: Decimal = Field(alias="tr_unit_amt")
-    ("거래단위금액")
-    lstg_stck_num: int = Field(alias="lstg_stck_num")
-    ("상장주식수")
-    lstg_dt: KisDateOptional = Field(default=None, alias="lstg_dt")
-    ("상장일자")
-    ovrs_stck_tr_stop_dvsn_cd: str = Field(alias="ovrs_stck_tr_stop_dvsn_cd")
-    ("※ 해당 값 지연 반영될 수 있는 점 유의 부탁드립니다. 01.정상 02.거래정지(ALL) 03.거래중단 04.매도정지 05.거래정지(위탁) 06.매수정지")
-    lstg_abol_item_yn: KisBool = Field(alias="lstg_abol_item_yn")
-    ("상장폐지종목여부")
-    ovrs_stck_prdt_grp_no: str = Field(alias="ovrs_stck_prdt_grp_no")
-    ("해외주식상품그룹번호")
-    lstg_yn: KisBool = Field(alias="lstg_yn")
-    ("상장여부")
-    tax_levy_yn: KisBool = Field(alias="tax_levy_yn")
-    ("세금징수여부")
-    ovrs_stck_erlm_rosn_cd: str = Field(alias="ovrs_stck_erlm_rosn_cd")
-    ("해외주식등록사유코드")
-    ovrs_stck_hist_rght_dvsn_cd: str = Field(alias="ovrs_stck_hist_rght_dvsn_cd")
-    ("해외주식이력권리구분코드")
-    chng_bf_pdno: str | None = Field(default=None, alias="chng_bf_pdno")
-    ("변경전상품번호")
-    prdt_type_cd_2: str | None = Field(default=None, alias="prdt_type_cd_2")
-    ("상품유형코드2")
-    ovrs_item_name: str | None = Field(default=None, alias="ovrs_item_name")
-    ("해외종목명")
-    sedol_no: str = Field(alias="sedol_no")
-    ("SEDOL번호")
-    blbg_tckr_text: str = Field(alias="blbg_tckr_text")
-    ("블름버그티커내용")
-    ovrs_stck_etf_risk_drtp_cd: str | None = Field(default=None, alias="ovrs_stck_etf_risk_drtp_cd")
-    ("001.ETF 002.ETN 003.ETC(Exchage Traded Commodity) 004.Others(REIT's, Mutual Fund) 005.VIX Underlying ETF 006.VIX Underlying ETN")
-    etp_chas_erng_rt_dbnb: Decimal = Field(alias="etp_chas_erng_rt_dbnb")
-    ("ETP추적수익율배수")
-    istt_usge_isin_cd: str = Field(alias="istt_usge_isin_cd")
-    ("기관용도ISIN코드")
-    mint_svc_yn: KisBool = Field(alias="mint_svc_yn")
-    ("MINT서비스여부")
-    mint_svc_yn_chng_dt: KisBool = Field(alias="mint_svc_yn_chng_dt")
-    ("MINT서비스여부변경일자")
-    prdt_name: str = Field(alias="prdt_name")
-    ("상품명")
-    lei_cd: str = Field(alias="lei_cd")
-    ("LEI코드")
-    ovrs_stck_stop_rson_cd: OvrsStckStopRsonCdEnum | None = Field(default=None, alias="ovrs_stck_stop_rson_cd")
-    ("01.권리발생 02.ISIN상이 03.기타 04.급등락종목 05.상장폐지(예정) 06.종목코드,거래소변경 07.PTP종목")
-    lstg_abol_dt: KisDateOptional = Field(default=None, alias="lstg_abol_dt")
-    ("상장폐지일자")
-    mini_stk_tr_stat_dvsn_cd: MiniStkTrStatDvsnCdEnum = Field(alias="mini_stk_tr_stat_dvsn_cd")
-    ("01.정상 02.매매 불가 03.매수 불가 04.매도 불가")
-    mint_frst_svc_erlm_dt: KisDate = Field(alias="mint_frst_svc_erlm_dt")
-    ("MINT최초서비스등록일자")
-    mint_dcpt_trad_psbl_yn: KisBool = Field(alias="mint_dcpt_trad_psbl_yn")
-    ("MINT소수점매매가능여부")
-    mint_fnum_trad_psbl_yn: KisBool = Field(alias="mint_fnum_trad_psbl_yn")
-    ("MINT정수매매가능여부")
-    mint_cblc_cvsn_ipsb_yn: KisBool = Field(alias="mint_cblc_cvsn_ipsb_yn")
-    ("MINT잔고전환불가여부")
-    ptp_item_yn: KisBool = Field(alias="ptp_item_yn")
-    ("PTP종목여부")
-    ptp_item_trfx_exmt_yn: KisBool = Field(alias="ptp_item_trfx_exmt_yn")
-    ("PTP종목양도세면제여부")
-    ptp_item_trfx_exmt_strt_dt: KisDateOptional = Field(default=None, alias="ptp_item_trfx_exmt_strt_dt")
-    ("PTP종목양도세면제시작일자")
-    ptp_item_trfx_exmt_end_dt: KisDateOptional = Field(default=None, alias="ptp_item_trfx_exmt_end_dt")
-    ("PTP종목양도세면제종료일자")
-    dtm_tr_psbl_yn: KisBool = Field(alias="dtm_tr_psbl_yn")
-    ("주간거래가능여부")
-    sdrf_stop_ecls_yn: KisBool = Field(alias="sdrf_stop_ecls_yn")
-    ("급등락정지제외여부")
-    sdrf_stop_ecls_erlm_dt: KisDateOptional = Field(default=None, alias="sdrf_stop_ecls_erlm_dt")
-    ("급등락정지제외등록일자")
-    memo_text1: str | None = Field(default=None, alias="memo_text1")
-    ("메모내용1")
-    ovrs_now_pric1: Decimal = Field(alias="ovrs_now_pric1")
-    ("23.5")
-    last_rcvg_dtime: KisDateTime = Field(alias="last_rcvg_dtime")
-    ("최종수신일시")
+    std_pdno: Annotated[str, "표준상품번호"] = Field(alias="std_pdno")
+    prdt_eng_name: Annotated[str, "상품영문명"] = Field(alias="prdt_eng_name")
+    natn_cd: Annotated[str, "국가코드"] = Field(alias="natn_cd")
+    natn_name: Annotated[str, "국가명"] = Field(alias="natn_name")
+    tr_mket_cd: Annotated[str, "거래시장코드"] = Field(alias="tr_mket_cd")
+    tr_mket_name: Annotated[str, "거래시장명"] = Field(alias="tr_mket_name")
+    ovrs_excg_cd: Annotated[str, "해외거래소코드"] = Field(alias="ovrs_excg_cd")
+    ovrs_excg_name: Annotated[str, "해외거래소명"] = Field(alias="ovrs_excg_name")
+    tr_crcy_cd: Annotated[str, "거래통화코드"] = Field(alias="tr_crcy_cd")
+    ovrs_papr: Annotated[Decimal, "해외액면가"] = Field(alias="ovrs_papr")
+    crcy_name: Annotated[str, "통화명"] = Field(alias="crcy_name")
+    ovrs_stck_dvsn_cd: Annotated[OvrsStckDvsnCdEnum, "01.주식 02.WARRANT 03.ETF 04.우선주"] = Field(
+        alias="ovrs_stck_dvsn_cd",
+        json_schema_extra={"enum": ["01", "02", "03", "04"], "enum_desc": {"01": "주식", "02": "WARRANT", "03": "ETF", "04": "우선주"}},
+    )
+    prdt_clsf_cd: Annotated[str, "상품분류코드"] = Field(alias="prdt_clsf_cd")
+    prdt_clsf_name: Annotated[str, "상품분류명"] = Field(alias="prdt_clsf_name")
+    sll_unit_qty: Annotated[int, "매도단위수량"] = Field(alias="sll_unit_qty")
+    buy_unit_qty: Annotated[int, "매수단위수량"] = Field(alias="buy_unit_qty")
+    tr_unit_amt: Annotated[Decimal, "거래단위금액"] = Field(alias="tr_unit_amt")
+    lstg_stck_num: Annotated[int, "상장주식수"] = Field(alias="lstg_stck_num")
+    lstg_dt: Annotated[KisDateOptional, "상장일자"] = Field(default=None, alias="lstg_dt")
+    ovrs_stck_tr_stop_dvsn_cd: Annotated[
+        OvrsStckTrStopDvsnCdEnum,
+        "※ 해당 값 지연 반영될 수 있는 점 유의 부탁드립니다. 01.정상 02.거래정지(ALL) 03.거래중단 04.매도정지 05.거래정지(위탁) 06.매수정지",
+    ] = Field(
+        alias="ovrs_stck_tr_stop_dvsn_cd",
+        json_schema_extra={
+            "enum": ["01", "02", "03", "04", "05", "06", "ALL"],
+            "enum_desc": {
+                "01": "정상",
+                "02": "거래정지(",
+                "03": "거래중단",
+                "04": "매도정지",
+                "05": "거래정지(위탁)",
+                "06": "매수정지",
+                "ALL": "02.거래정지",
+            },
+        },
+    )
+    lstg_abol_item_yn: Annotated[KisBool, "상장폐지종목여부"] = Field(alias="lstg_abol_item_yn")
+    ovrs_stck_prdt_grp_no: Annotated[str, "해외주식상품그룹번호"] = Field(alias="ovrs_stck_prdt_grp_no")
+    lstg_yn: Annotated[KisBool, "상장여부"] = Field(alias="lstg_yn")
+    tax_levy_yn: Annotated[KisBool, "세금징수여부"] = Field(alias="tax_levy_yn")
+    ovrs_stck_erlm_rosn_cd: Annotated[str, "해외주식등록사유코드"] = Field(alias="ovrs_stck_erlm_rosn_cd")
+    ovrs_stck_hist_rght_dvsn_cd: Annotated[str, "해외주식이력권리구분코드"] = Field(alias="ovrs_stck_hist_rght_dvsn_cd")
+    chng_bf_pdno: Annotated[str | None, "변경전상품번호"] = Field(default=None, alias="chng_bf_pdno")
+    prdt_type_cd_2: Annotated[str | None, "상품유형코드2"] = Field(default=None, alias="prdt_type_cd_2")
+    ovrs_item_name: Annotated[str | None, "해외종목명"] = Field(default=None, alias="ovrs_item_name")
+    sedol_no: Annotated[str, "SEDOL번호"] = Field(alias="sedol_no")
+    blbg_tckr_text: Annotated[str, "블름버그티커내용"] = Field(alias="blbg_tckr_text")
+    ovrs_stck_etf_risk_drtp_cd: Annotated[
+        OvrsStckEtfRiskDrtpCdEnum | None,
+        "001.ETF 002.ETN 003.ETC(Exchage Traded Commodity) 004.Others(REIT's, Mutual Fund) 005.VIX Underlying ETF 006.VIX Underlying ETN",
+    ] = Field(
+        default=None,
+        alias="ovrs_stck_etf_risk_drtp_cd",
+        json_schema_extra={
+            "enum": ["Mutual", "001", "002", "003", "004", "005", "006", "ETC"],
+            "enum_desc": {
+                "Mutual": "Fund",
+                "001": "ETF",
+                "002": "ETN",
+                "003": "ETC(Exchage Traded Commodity)",
+                "004": "Others(REIT's, Mutual",
+                "005": "VIX Underlying ETF",
+                "006": "VIX Underlying ETN",
+                "ETC": "Exchage Traded Commodity",
+            },
+        },
+    )
+    etp_chas_erng_rt_dbnb: Annotated[Decimal, "ETP추적수익율배수"] = Field(alias="etp_chas_erng_rt_dbnb")
+    istt_usge_isin_cd: Annotated[str, "기관용도ISIN코드"] = Field(alias="istt_usge_isin_cd")
+    mint_svc_yn: Annotated[KisBool, "MINT서비스여부"] = Field(alias="mint_svc_yn")
+    mint_svc_yn_chng_dt: Annotated[KisBool, "MINT서비스여부변경일자"] = Field(alias="mint_svc_yn_chng_dt")
+    prdt_name: Annotated[str, "상품명"] = Field(alias="prdt_name")
+    lei_cd: Annotated[str, "LEI코드"] = Field(alias="lei_cd")
+    ovrs_stck_stop_rson_cd: Annotated[
+        OvrsStckStopRsonCdEnum | None, "01.권리발생 02.ISIN상이 03.기타 04.급등락종목 05.상장폐지(예정) 06.종목코드,거래소변경 07.PTP종목"
+    ] = Field(
+        default=None,
+        alias="ovrs_stck_stop_rson_cd",
+        json_schema_extra={
+            "enum": ["01", "02", "03", "04", "05", "06", "07"],
+            "enum_desc": {
+                "01": "권리발생",
+                "02": "ISIN상이",
+                "03": "기타",
+                "04": "급등락종목",
+                "05": "상장폐지(예정)",
+                "06": "종목코드,거래소변경",
+                "07": "PTP종목",
+            },
+        },
+    )
+    lstg_abol_dt: Annotated[KisDateOptional, "상장폐지일자"] = Field(default=None, alias="lstg_abol_dt")
+    mini_stk_tr_stat_dvsn_cd: Annotated[MiniStkTrStatDvsnCdEnum, "01.정상 02.매매 불가 03.매수 불가 04.매도 불가"] = Field(
+        alias="mini_stk_tr_stat_dvsn_cd",
+        json_schema_extra={"enum": ["01", "02", "03", "04"], "enum_desc": {"01": "정상", "02": "매매 불가", "03": "매수 불가", "04": "매도 불가"}},
+    )
+    mint_frst_svc_erlm_dt: Annotated[KisDate, "MINT최초서비스등록일자"] = Field(alias="mint_frst_svc_erlm_dt")
+    mint_dcpt_trad_psbl_yn: Annotated[KisBool, "MINT소수점매매가능여부"] = Field(alias="mint_dcpt_trad_psbl_yn")
+    mint_fnum_trad_psbl_yn: Annotated[KisBool, "MINT정수매매가능여부"] = Field(alias="mint_fnum_trad_psbl_yn")
+    mint_cblc_cvsn_ipsb_yn: Annotated[KisBool, "MINT잔고전환불가여부"] = Field(alias="mint_cblc_cvsn_ipsb_yn")
+    ptp_item_yn: Annotated[KisBool, "PTP종목여부"] = Field(alias="ptp_item_yn")
+    ptp_item_trfx_exmt_yn: Annotated[KisBool, "PTP종목양도세면제여부"] = Field(alias="ptp_item_trfx_exmt_yn")
+    ptp_item_trfx_exmt_strt_dt: Annotated[KisDateOptional, "PTP종목양도세면제시작일자"] = Field(default=None, alias="ptp_item_trfx_exmt_strt_dt")
+    ptp_item_trfx_exmt_end_dt: Annotated[KisDateOptional, "PTP종목양도세면제종료일자"] = Field(default=None, alias="ptp_item_trfx_exmt_end_dt")
+    dtm_tr_psbl_yn: Annotated[KisBool, "주간거래가능여부"] = Field(alias="dtm_tr_psbl_yn")
+    sdrf_stop_ecls_yn: Annotated[KisBool, "급등락정지제외여부"] = Field(alias="sdrf_stop_ecls_yn")
+    sdrf_stop_ecls_erlm_dt: Annotated[KisDateOptional, "급등락정지제외등록일자"] = Field(default=None, alias="sdrf_stop_ecls_erlm_dt")
+    memo_text1: Annotated[str | None, "메모내용1"] = Field(default=None, alias="memo_text1")
+    ovrs_now_pric1: Annotated[Decimal, "23.5"] = Field(alias="ovrs_now_pric1")
+    last_rcvg_dtime: Annotated[KisDateTime, "최종수신일시"] = Field(alias="last_rcvg_dtime")
 
 
 class SearchInfoResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: SearchInfoOutput = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[SearchInfoOutput, "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[SearchInfoRequest, SearchInfoResponse] = Endpoint(
@@ -318,6 +366,8 @@ __all__ = [
     "SearchInfoOutput",
     "PrdtTypeCdEnum",
     "OvrsStckDvsnCdEnum",
+    "OvrsStckTrStopDvsnCdEnum",
+    "OvrsStckEtfRiskDrtpCdEnum",
     "OvrsStckStopRsonCdEnum",
     "MiniStkTrStatDvsnCdEnum",
 ]

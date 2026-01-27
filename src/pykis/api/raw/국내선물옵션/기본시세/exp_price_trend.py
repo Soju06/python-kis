@@ -16,16 +16,16 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     F = ("F", "지수선물")
-    "지수선물"
+    """지수선물"""
     VALUE_O = ("O", "지수옵션")
-    "지수옵션"
+    """지수옵션"""
 
 
 class ExpPriceTrendRequest(RawModel):
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목번호 (지수선물:6자리, 지수옵션 9자리)")
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("F : 지수선물, O : 지수옵션")
+    FID_INPUT_ISCD: Annotated[str, "종목번호 (지수선물:6자리, 지수옵션 9자리)"] = Field(alias="FID_INPUT_ISCD")
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "F : 지수선물, O : 지수옵션"] = Field(
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["F", "O"], "enum_desc": {"F": "지수선물", "O": "지수옵션"}}
+    )
 
 
 class ExpPriceTrendRequestDict(TypedDict):
@@ -39,49 +39,33 @@ class ExpPriceTrendRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): F : 지수선물, O : 지수옵션
     """
 
-    FID_INPUT_ISCD: Annotated[str, "종목번호 (지수선물:6자리, 지수옵션 9자리)"]
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "F : 지수선물, O : 지수옵션"]
+    FID_INPUT_ISCD: str
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
 
 
 class ExpPriceTrendOutput1(RawModel):
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("영업 시간")
-    futs_antc_cnpr: Decimal = Field(alias="futs_antc_cnpr")
-    ("업종 지수 현재가")
-    antc_cntg_vrss_sign: Decimal = Field(alias="antc_cntg_vrss_sign")
-    ("업종 지수 전일 대비")
-    futs_antc_cntg_vrss: Decimal = Field(alias="futs_antc_cntg_vrss")
-    ("전일 대비 부호")
-    antc_cntg_prdy_ctrt: Decimal = Field(alias="antc_cntg_prdy_ctrt")
-    ("업종 지수 전일 대비율")
-    futs_sdpr: Decimal = Field(alias="futs_sdpr")
-    ("누적 거래 대금")
+    hts_kor_isnm: Annotated[str, "영업 시간"] = Field(alias="hts_kor_isnm")
+    futs_antc_cnpr: Annotated[Decimal, "업종 지수 현재가"] = Field(alias="futs_antc_cnpr")
+    antc_cntg_vrss_sign: Annotated[Decimal, "업종 지수 전일 대비"] = Field(alias="antc_cntg_vrss_sign")
+    futs_antc_cntg_vrss: Annotated[Decimal, "전일 대비 부호"] = Field(alias="futs_antc_cntg_vrss")
+    antc_cntg_prdy_ctrt: Annotated[Decimal, "업종 지수 전일 대비율"] = Field(alias="antc_cntg_prdy_ctrt")
+    futs_sdpr: Annotated[Decimal, "누적 거래 대금"] = Field(alias="futs_sdpr")
 
 
 class ExpPriceTrendOutput2(RawModel):
-    stck_cntg_hour: KisTime = Field(alias="stck_cntg_hour")
-    ("주식체결시간")
-    futs_antc_cnpr: Decimal = Field(alias="futs_antc_cnpr")
-    ("선물예상체결가")
-    antc_cntg_vrss_sign: int = Field(alias="antc_cntg_vrss_sign")
-    ("예상체결대비부호")
-    futs_antc_cntg_vrss: Decimal = Field(alias="futs_antc_cntg_vrss")
-    ("선물예상체결대비")
-    antc_cntg_prdy_ctrt: Decimal = Field(alias="antc_cntg_prdy_ctrt")
-    ("예상체결전일대비율")
+    stck_cntg_hour: Annotated[KisTime, "주식체결시간"] = Field(alias="stck_cntg_hour")
+    futs_antc_cnpr: Annotated[Decimal, "선물예상체결가"] = Field(alias="futs_antc_cnpr")
+    antc_cntg_vrss_sign: Annotated[int, "예상체결대비부호"] = Field(alias="antc_cntg_vrss_sign")
+    futs_antc_cntg_vrss: Annotated[Decimal, "선물예상체결대비"] = Field(alias="futs_antc_cntg_vrss")
+    antc_cntg_prdy_ctrt: Annotated[Decimal, "예상체결전일대비율"] = Field(alias="antc_cntg_prdy_ctrt")
 
 
 class ExpPriceTrendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: ExpPriceTrendOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[ExpPriceTrendOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[ExpPriceTrendOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[ExpPriceTrendOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[ExpPriceTrendRequest, ExpPriceTrendResponse] = Endpoint(

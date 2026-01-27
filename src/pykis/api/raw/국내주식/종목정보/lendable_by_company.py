@@ -15,33 +15,33 @@ if TYPE_CHECKING:
 
 class ExcgDvsnCdEnum(KisStrEnum):
     VALUE_00 = ("00", "전체")
-    "전체"
+    """전체"""
     VALUE_02 = ("02", "거래소")
-    "거래소"
+    """거래소"""
     VALUE_03 = ("03", "코스닥")
-    "코스닥"
+    """코스닥"""
 
 
 class InqrDvsn1Enum(KisStrEnum):
     VALUE_0 = ("0", "전체조회")
-    "전체조회"
+    """전체조회"""
     VALUE_1 = ("1", "종목코드순 정렬")
-    "종목코드순 정렬"
+    """종목코드순 정렬"""
 
 
 class LendableByCompanyRequest(RawModel):
-    EXCG_DVSN_CD: ExcgDvsnCdEnum = Field(alias="EXCG_DVSN_CD")
-    ("00(전체), 02(거래소), 03(코스닥)")
-    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
-    ("공백 : 전체조회, 종목코드 입력 시 해당종목만 조회")
-    THCO_STLN_PSBL_YN: KisBool = Field(alias="THCO_STLN_PSBL_YN")
-    ("Y")
-    INQR_DVSN_1: InqrDvsn1Enum = Field(alias="INQR_DVSN_1")
-    ("0 : 전체조회, 1: 종목코드순 정렬")
-    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
-    ("미입력 (다음조회 불가)")
-    CTX_AREA_NK100: str = Field(alias="CTX_AREA_NK100")
-    ("미입력 (다음조회 불가)")
+    EXCG_DVSN_CD: Annotated[ExcgDvsnCdEnum, "00(전체), 02(거래소), 03(코스닥)"] = Field(
+        alias="EXCG_DVSN_CD", json_schema_extra={"enum": ["00", "02", "03"], "enum_desc": {"00": "전체", "02": "거래소", "03": "코스닥"}}
+    )
+    PDNO: Annotated[str | None, "공백 : 전체조회, 종목코드 입력 시 해당종목만 조회"] = Field(
+        default=None, alias="PDNO", json_schema_extra={"blank_allowed": True}
+    )
+    THCO_STLN_PSBL_YN: Annotated[KisBool, "Y"] = Field(alias="THCO_STLN_PSBL_YN")
+    INQR_DVSN_1: Annotated[InqrDvsn1Enum, "0 : 전체조회, 1: 종목코드순 정렬"] = Field(
+        alias="INQR_DVSN_1", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "전체조회", "1": "종목코드순 정렬"}}
+    )
+    CTX_AREA_FK200: Annotated[str, "미입력 (다음조회 불가)"] = Field(alias="CTX_AREA_FK200")
+    CTX_AREA_NK100: Annotated[str, "미입력 (다음조회 불가)"] = Field(alias="CTX_AREA_NK100")
 
 
 class LendableByCompanyRequestDict(TypedDict):
@@ -61,63 +61,42 @@ class LendableByCompanyRequestDict(TypedDict):
         CTX_AREA_NK100 (str): 미입력 (다음조회 불가)
     """
 
-    EXCG_DVSN_CD: Annotated[ExcgDvsnCdEnum, "00(전체), 02(거래소), 03(코스닥)"]
-    PDNO: NotRequired[Annotated[str | None, "공백 : 전체조회, 종목코드 입력 시 해당종목만 조회"]]
-    THCO_STLN_PSBL_YN: Annotated[KisBool, "Y"]
-    INQR_DVSN_1: Annotated[InqrDvsn1Enum, "0 : 전체조회, 1: 종목코드순 정렬"]
-    CTX_AREA_FK200: Annotated[str, "미입력 (다음조회 불가)"]
-    CTX_AREA_NK100: Annotated[str, "미입력 (다음조회 불가)"]
+    EXCG_DVSN_CD: ExcgDvsnCdEnum
+    PDNO: NotRequired[str | None]
+    THCO_STLN_PSBL_YN: KisBool
+    INQR_DVSN_1: InqrDvsn1Enum
+    CTX_AREA_FK200: str
+    CTX_AREA_NK100: str
 
 
 class LendableByCompanyOutput1(RawModel):
-    pdno: str | None = Field(default=None, alias="pdno")
-    ("상품번호")
-    prdt_name: str | None = Field(default=None, alias="prdt_name")
-    ("상품명")
-    papr: str | None = Field(default=None, alias="papr")
-    ("액면가")
-    bfdy_clpr: str | None = Field(default=None, alias="bfdy_clpr")
-    ("전일종가")
-    sbst_prvs: str | None = Field(default=None, alias="sbst_prvs")
-    ("대용가")
-    tr_stop_dvsn_name: str | None = Field(default=None, alias="tr_stop_dvsn_name")
-    ("거래정지구분명")
-    psbl_yn_name: KisBool | None = Field(default=None, alias="psbl_yn_name")
-    ("가능여부명")
-    lmt_qty1: int | None = Field(default=None, alias="lmt_qty1")
-    ("한도수량1")
-    use_qty1: int | None = Field(default=None, alias="use_qty1")
-    ("사용수량1")
-    trad_psbl_qty2: int | None = Field(default=None, alias="trad_psbl_qty2")
-    ("가능수량")
-    rght_type_cd: str | None = Field(default=None, alias="rght_type_cd")
-    ("권리유형코드")
-    bass_dt: KisDateOptional = Field(default=None, alias="bass_dt")
-    ("기준일자")
-    psbl_yn: KisBool | None = Field(default=None, alias="psbl_yn")
-    ("가능여부")
+    pdno: Annotated[str | None, "상품번호"] = Field(default=None, alias="pdno")
+    prdt_name: Annotated[str | None, "상품명"] = Field(default=None, alias="prdt_name")
+    papr: Annotated[str | None, "액면가"] = Field(default=None, alias="papr")
+    bfdy_clpr: Annotated[str | None, "전일종가"] = Field(default=None, alias="bfdy_clpr")
+    sbst_prvs: Annotated[str | None, "대용가"] = Field(default=None, alias="sbst_prvs")
+    tr_stop_dvsn_name: Annotated[str | None, "거래정지구분명"] = Field(default=None, alias="tr_stop_dvsn_name")
+    psbl_yn_name: Annotated[KisBool | None, "가능여부명"] = Field(default=None, alias="psbl_yn_name")
+    lmt_qty1: Annotated[int | None, "한도수량1"] = Field(default=None, alias="lmt_qty1")
+    use_qty1: Annotated[int | None, "사용수량1"] = Field(default=None, alias="use_qty1")
+    trad_psbl_qty2: Annotated[int | None, "가능수량"] = Field(default=None, alias="trad_psbl_qty2")
+    rght_type_cd: Annotated[str | None, "권리유형코드"] = Field(default=None, alias="rght_type_cd")
+    bass_dt: Annotated[KisDateOptional, "기준일자"] = Field(default=None, alias="bass_dt")
+    psbl_yn: Annotated[KisBool | None, "가능여부"] = Field(default=None, alias="psbl_yn")
 
 
 class LendableByCompanyOutput2(RawModel):
-    tot_stup_lmt_qty: int = Field(alias="tot_stup_lmt_qty")
-    ("총설정한도수량")
-    brch_lmt_qty: int = Field(alias="brch_lmt_qty")
-    ("지점한도수량")
-    rqst_psbl_qty: int = Field(alias="rqst_psbl_qty")
-    ("신청가능수량")
+    tot_stup_lmt_qty: Annotated[int, "총설정한도수량"] = Field(alias="tot_stup_lmt_qty")
+    brch_lmt_qty: Annotated[int, "지점한도수량"] = Field(alias="brch_lmt_qty")
+    rqst_psbl_qty: Annotated[int, "신청가능수량"] = Field(alias="rqst_psbl_qty")
 
 
 class LendableByCompanyResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[LendableByCompanyOutput1] = Field(alias="output1")
-    ("응답상세")
-    output2: LendableByCompanyOutput2 = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[LendableByCompanyOutput1], "응답상세"] = Field(alias="output1")
+    output2: Annotated[LendableByCompanyOutput2, "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[LendableByCompanyRequest, LendableByCompanyResponse] = Endpoint(

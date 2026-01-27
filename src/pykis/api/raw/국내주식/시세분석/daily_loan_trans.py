@@ -16,24 +16,21 @@ if TYPE_CHECKING:
 
 class MrktDivClsCodeEnum(KisStrEnum):
     VALUE_1 = ("1", "코스피")
-    "코스피"
+    """코스피"""
     VALUE_2 = ("2", "코스닥")
-    "코스닥"
+    """코스닥"""
     VALUE_3 = ("3", "종목")
-    "종목"
+    """종목"""
 
 
 class DailyLoanTransRequest(RawModel):
-    MRKT_DIV_CLS_CODE: MrktDivClsCodeEnum = Field(alias="MRKT_DIV_CLS_CODE")
-    ("1(코스피), 2(코스닥), 3(종목)")
-    MKSC_SHRN_ISCD: str = Field(alias="MKSC_SHRN_ISCD")
-    ("종목코드")
-    START_DATE: KisDateTime = Field(alias="START_DATE")
-    ("조회기간 ~")
-    END_DATE: KisDateTime = Field(alias="END_DATE")
-    ("~ 조회기간")
-    CTS: str = Field(alias="CTS")
-    ("이전조회KEY")
+    MRKT_DIV_CLS_CODE: Annotated[MrktDivClsCodeEnum, "1(코스피), 2(코스닥), 3(종목)"] = Field(
+        alias="MRKT_DIV_CLS_CODE", json_schema_extra={"enum": ["1", "2", "3"], "enum_desc": {"1": "코스피", "2": "코스닥", "3": "종목"}}
+    )
+    MKSC_SHRN_ISCD: Annotated[str, "종목코드"] = Field(alias="MKSC_SHRN_ISCD")
+    START_DATE: Annotated[KisDateTime, "조회기간 ~"] = Field(alias="START_DATE")
+    END_DATE: Annotated[KisDateTime, "~ 조회기간"] = Field(alias="END_DATE")
+    CTS: Annotated[str, "이전조회KEY"] = Field(alias="CTS")
 
 
 class DailyLoanTransRequestDict(TypedDict):
@@ -50,47 +47,32 @@ class DailyLoanTransRequestDict(TypedDict):
         CTS (str): 이전조회KEY
     """
 
-    MRKT_DIV_CLS_CODE: Annotated[MrktDivClsCodeEnum, "1(코스피), 2(코스닥), 3(종목)"]
-    MKSC_SHRN_ISCD: Annotated[str, "종목코드"]
-    START_DATE: Annotated[KisDateTime, "조회기간 ~"]
-    END_DATE: Annotated[KisDateTime, "~ 조회기간"]
-    CTS: Annotated[str, "이전조회KEY"]
+    MRKT_DIV_CLS_CODE: MrktDivClsCodeEnum
+    MKSC_SHRN_ISCD: str
+    START_DATE: KisDateTime
+    END_DATE: KisDateTime
+    CTS: str
 
 
 class DailyLoanTransOutput1(RawModel):
-    bsop_date: KisDate = Field(alias="bsop_date")
-    ("일자")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 종가")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_vrss: Decimal = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    new_stcn: int = Field(alias="new_stcn")
-    ("당일 증가 주수 (체결)")
-    rdmp_stcn: int = Field(alias="rdmp_stcn")
-    ("당일 감소 주수 (상환)")
-    prdy_rmnd_vrss: int = Field(alias="prdy_rmnd_vrss")
-    ("대차거래 증감")
-    rmnd_stcn: int = Field(alias="rmnd_stcn")
-    ("당일 잔고 주수")
-    rmnd_amt: Decimal = Field(alias="rmnd_amt")
-    ("당일 잔고 금액")
+    bsop_date: Annotated[KisDate, "일자"] = Field(alias="bsop_date")
+    stck_prpr: Annotated[Decimal, "주식 종가"] = Field(alias="stck_prpr")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_vrss: Annotated[Decimal, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    new_stcn: Annotated[int, "당일 증가 주수 (체결)"] = Field(alias="new_stcn")
+    rdmp_stcn: Annotated[int, "당일 감소 주수 (상환)"] = Field(alias="rdmp_stcn")
+    prdy_rmnd_vrss: Annotated[int, "대차거래 증감"] = Field(alias="prdy_rmnd_vrss")
+    rmnd_stcn: Annotated[int, "당일 잔고 주수"] = Field(alias="rmnd_stcn")
+    rmnd_amt: Annotated[Decimal, "당일 잔고 금액"] = Field(alias="rmnd_amt")
 
 
 class DailyLoanTransResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[DailyLoanTransOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[DailyLoanTransOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[DailyLoanTransRequest, DailyLoanTransResponse] = Endpoint(

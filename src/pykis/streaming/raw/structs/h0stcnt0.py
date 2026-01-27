@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from decimal import Decimal
+from typing import Annotated
 
 from pykis.streaming.raw.base import StreamingRawModel
 from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, StreamingSpec
@@ -11,8 +12,8 @@ from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, Stre
 class H0STCNT0(StreamingRawModel):
     MKSC_SHRN_ISCD: str
     STCK_CNTG_HOUR: datetime
-    STCK_PRPR: Decimal
-    PRDY_VRSS_SIGN: str
+    STCK_PRPR: Annotated[Decimal, "체결가격"]
+    PRDY_VRSS_SIGN: Annotated[str, "1 : 상한\n2 : 상승\n3 : 보합\n4 : 하한\n5 : 하락"]
     PRDY_VRSS: Decimal
     PRDY_CTRT: Decimal
     WGHN_AVRG_STCK_PRC: Decimal
@@ -30,21 +31,24 @@ class H0STCNT0(StreamingRawModel):
     CTTR: Decimal
     SELN_CNTG_SMTN: Decimal
     SHNU_CNTG_SMTN: Decimal
-    CCLD_DVSN: str
+    CCLD_DVSN: Annotated[str, "1:매수(+) \n3:장전 \n5:매도(-)"]
     SHNU_RATE: Decimal
     PRDY_VOL_VRSS_ACML_VOL_RATE: Decimal
     OPRC_HOUR: datetime
-    OPRC_VRSS_PRPR_SIGN: str
+    OPRC_VRSS_PRPR_SIGN: Annotated[str, "1 : 상한\n2 : 상승\n3 : 보합\n4 : 하한\n5 : 하락"]
     OPRC_VRSS_PRPR: Decimal
     HGPR_HOUR: datetime
-    HGPR_VRSS_PRPR_SIGN: str
+    HGPR_VRSS_PRPR_SIGN: Annotated[str, "1 : 상한\n2 : 상승\n3 : 보합\n4 : 하한\n5 : 하락"]
     HGPR_VRSS_PRPR: Decimal
     LWPR_HOUR: datetime
-    LWPR_VRSS_PRPR_SIGN: str
+    LWPR_VRSS_PRPR_SIGN: Annotated[str, "1 : 상한\n2 : 상승\n3 : 보합\n4 : 하한\n5 : 하락"]
     LWPR_VRSS_PRPR: Decimal
     BSOP_DATE: datetime
-    NEW_MKOP_CLS_CODE: str
-    TRHT_YN: str
+    NEW_MKOP_CLS_CODE: Annotated[
+        str,
+        "(1) 첫 번째 비트\n1 : 장개시전\n2 : 장중\n3 : 장종료후\n4 : 시간외단일가\n7 : 일반Buy-in\n8 : 당일Buy-in\n\n(2) 두 번째 비트\n0 : 보통\n1 : 종가\n2 : 대량\n3 : 바스켓\n7 : 정리매매\n8 : Buy-in",
+    ]
+    TRHT_YN: Annotated[str, "Y : 정지\nN : 정상거래"]
     ASKP_RSQN1: Decimal
     BIDP_RSQN1: Decimal
     TOTAL_ASKP_RSQN: Decimal
@@ -52,7 +56,7 @@ class H0STCNT0(StreamingRawModel):
     VOL_TNRT: Decimal
     PRDY_SMNS_HOUR_ACML_VOL: Decimal
     PRDY_SMNS_HOUR_ACML_VOL_RATE: Decimal
-    HOUR_CLS_CODE: str
+    HOUR_CLS_CODE: Annotated[str, "0 : 장중\nA : 장후예상\nB : 장전예상\nC : 9시이후의 예상가, VI발동\nD : 시간외 단일가 예상"]
     MRKT_TRTM_CLS_CODE: str
     VI_STND_PRC: Decimal
 

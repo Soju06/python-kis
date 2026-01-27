@@ -15,30 +15,30 @@ if TYPE_CHECKING:
 
 class NationCdEnum(KisStrEnum):
     CN = ("CN", "중국")
-    "중국"
+    """중국"""
     HK = ("HK", "홍콩")
-    "홍콩"
+    """홍콩"""
     US = ("US", "미국")
-    "미국"
+    """미국"""
 
 
 class NewsTitleRequest(RawModel):
-    INFO_GB: str | None = Field(default=None, alias="INFO_GB", json_schema_extra={"blank_allowed": True})
-    ("전체: 공백")
-    CLASS_CD: str | None = Field(default=None, alias="CLASS_CD", json_schema_extra={"blank_allowed": True})
-    ("전체: 공백")
-    NATION_CD: NationCdEnum | None = Field(default=None, alias="NATION_CD", json_schema_extra={"blank_allowed": True})
-    ("전체: 공백 CN(중국), HK(홍콩), US(미국)")
-    EXCHANGE_CD: str | None = Field(default=None, alias="EXCHANGE_CD", json_schema_extra={"blank_allowed": True})
-    ("전체: 공백")
-    SYMB: str | None = Field(default=None, alias="SYMB", json_schema_extra={"blank_allowed": True})
-    ("전체: 공백")
-    DATA_DT: str | None = Field(default=None, alias="DATA_DT", json_schema_extra={"blank_allowed": True})
-    ("전체: 공백 특정일자(YYYYMMDD) ex. 20240502")
-    DATA_TM: KisTimeOptional = Field(default=None, alias="DATA_TM", json_schema_extra={"blank_allowed": True})
-    ("전체: 공백 전체: 공백 특정시간(HHMMSS) ex. 093500")
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
-    ("공백 입력")
+    INFO_GB: Annotated[str | None, "전체: 공백"] = Field(default=None, alias="INFO_GB", json_schema_extra={"blank_allowed": True})
+    CLASS_CD: Annotated[str | None, "전체: 공백"] = Field(default=None, alias="CLASS_CD", json_schema_extra={"blank_allowed": True})
+    NATION_CD: Annotated[NationCdEnum | None, "전체: 공백 CN(중국), HK(홍콩), US(미국)"] = Field(
+        default=None,
+        alias="NATION_CD",
+        json_schema_extra={"enum": ["CN", "HK", "US"], "enum_desc": {"CN": "중국", "HK": "홍콩", "US": "미국"}, "blank_allowed": True},
+    )
+    EXCHANGE_CD: Annotated[str | None, "전체: 공백"] = Field(default=None, alias="EXCHANGE_CD", json_schema_extra={"blank_allowed": True})
+    SYMB: Annotated[str | None, "전체: 공백"] = Field(default=None, alias="SYMB", json_schema_extra={"blank_allowed": True})
+    DATA_DT: Annotated[str | None, "전체: 공백 특정일자(YYYYMMDD) ex. 20240502"] = Field(
+        default=None, alias="DATA_DT", json_schema_extra={"blank_allowed": True}
+    )
+    DATA_TM: Annotated[KisTimeOptional, "전체: 공백 전체: 공백 특정시간(HHMMSS) ex. 093500"] = Field(
+        default=None, alias="DATA_TM", json_schema_extra={"blank_allowed": True}
+    )
+    CTS: Annotated[str | None, "공백 입력"] = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
 
 
 class NewsTitleRequestDict(TypedDict):
@@ -58,49 +58,33 @@ class NewsTitleRequestDict(TypedDict):
         CTS (str): 공백 입력 optional
     """
 
-    INFO_GB: NotRequired[Annotated[str | None, "전체: 공백"]]
-    CLASS_CD: NotRequired[Annotated[str | None, "전체: 공백"]]
-    NATION_CD: NotRequired[Annotated[NationCdEnum | None, "전체: 공백 CN(중국), HK(홍콩), US(미국)"]]
-    EXCHANGE_CD: NotRequired[Annotated[str | None, "전체: 공백"]]
-    SYMB: NotRequired[Annotated[str | None, "전체: 공백"]]
-    DATA_DT: NotRequired[Annotated[str | None, "전체: 공백 특정일자(YYYYMMDD) ex. 20240502"]]
-    DATA_TM: NotRequired[Annotated[KisTimeOptional, "전체: 공백 전체: 공백 특정시간(HHMMSS) ex. 093500"]]
-    CTS: NotRequired[Annotated[str | None, "공백 입력"]]
+    INFO_GB: NotRequired[str | None]
+    CLASS_CD: NotRequired[str | None]
+    NATION_CD: NotRequired[NationCdEnum | None]
+    EXCHANGE_CD: NotRequired[str | None]
+    SYMB: NotRequired[str | None]
+    DATA_DT: NotRequired[str | None]
+    DATA_TM: NotRequired[KisTimeOptional]
+    CTS: NotRequired[str | None]
 
 
 class NewsTitleResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    outblock1: object = Field(alias="outblock1")
-    ("array")
-    info_gb: str | None = Field(default=None, alias="info_gb")
-    ("뉴스구분")
-    news_key: str | None = Field(default=None, alias="news_key")
-    ("뉴스키")
-    data_dt: KisDateOptional = Field(default=None, alias="data_dt")
-    ("조회일자")
-    data_tm: KisTimeOptional = Field(default=None, alias="data_tm")
-    ("조회시간")
-    class_cd: str | None = Field(default=None, alias="class_cd")
-    ("중분류")
-    class_name: str | None = Field(default=None, alias="class_name")
-    ("중분류명")
-    source: str | None = Field(default=None, alias="source")
-    ("자료원")
-    nation_cd: str | None = Field(default=None, alias="nation_cd")
-    ("국가코드")
-    exchange_cd: str | None = Field(default=None, alias="exchange_cd")
-    ("거래소코드")
-    symb: str | None = Field(default=None, alias="symb")
-    ("종목코드")
-    symb_name: str | None = Field(default=None, alias="symb_name")
-    ("종목명")
-    title: str | None = Field(default=None, alias="title")
-    ("제목")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    outblock1: Annotated[object, "array"] = Field(alias="outblock1")
+    info_gb: Annotated[str | None, "뉴스구분"] = Field(default=None, alias="info_gb")
+    news_key: Annotated[str | None, "뉴스키"] = Field(default=None, alias="news_key")
+    data_dt: Annotated[KisDateOptional, "조회일자"] = Field(default=None, alias="data_dt")
+    data_tm: Annotated[KisTimeOptional, "조회시간"] = Field(default=None, alias="data_tm")
+    class_cd: Annotated[str | None, "중분류"] = Field(default=None, alias="class_cd")
+    class_name: Annotated[str | None, "중분류명"] = Field(default=None, alias="class_name")
+    source: Annotated[str | None, "자료원"] = Field(default=None, alias="source")
+    nation_cd: Annotated[str | None, "국가코드"] = Field(default=None, alias="nation_cd")
+    exchange_cd: Annotated[str | None, "거래소코드"] = Field(default=None, alias="exchange_cd")
+    symb: Annotated[str | None, "종목코드"] = Field(default=None, alias="symb")
+    symb_name: Annotated[str | None, "종목명"] = Field(default=None, alias="symb_name")
+    title: Annotated[str | None, "제목"] = Field(default=None, alias="title")
 
 
 _ENDPOINT: Endpoint[NewsTitleRequest, NewsTitleResponse] = Endpoint(

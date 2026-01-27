@@ -16,53 +16,70 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class OvrsExcgCdEnum(KisStrEnum):
     NASD = ("NASD", "나스닥 /")
-    "나스닥 /"
+    """나스닥 /"""
     NYSE = ("NYSE", "뉴욕 /")
-    "뉴욕 /"
+    """뉴욕 /"""
     AMEX = ("AMEX", "아멕스")
-    "아멕스"
+    """아멕스"""
     SEHK = ("SEHK", "홍콩 /")
-    "홍콩 /"
+    """홍콩 /"""
     SHAA = ("SHAA", "중국상해 /")
-    "중국상해 /"
+    """중국상해 /"""
     SZAA = ("SZAA", "중국심천")
-    "중국심천"
+    """중국심천"""
     TKSE = ("TKSE", "일본 /")
-    "일본 /"
+    """일본 /"""
     HASE = ("HASE", "하노이거래소 /")
-    "하노이거래소 /"
+    """하노이거래소 /"""
     VNSE = ("VNSE", "호치민거래소")
-    "호치민거래소"
+    """호치민거래소"""
 
 
 class InquirePsamountRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_EXCG_CD: OvrsExcgCdEnum = Field(alias="OVRS_EXCG_CD")
-    (
-        "NASD : 나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / SZAA : 중국심천 TKSE "
-        ": 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소"
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
     )
-    OVRS_ORD_UNPR: Decimal = Field(alias="OVRS_ORD_UNPR", max_digits=31, decimal_places=8)
-    ("해외주문단가 (23.8) 정수부분 23자리, 소수부분 8자리")
-    ITEM_CD: str = Field(alias="ITEM_CD")
-    ("종목코드")
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    OVRS_EXCG_CD: Annotated[
+        OvrsExcgCdEnum,
+        "NASD : 나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / SZAA : 중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소",
+    ] = Field(
+        alias="OVRS_EXCG_CD",
+        json_schema_extra={
+            "enum": ["NASD", "NYSE", "AMEX", "SEHK", "SHAA", "SZAA", "TKSE", "HASE", "VNSE"],
+            "enum_desc": {
+                "NASD": "나스닥 /",
+                "NYSE": "뉴욕 /",
+                "AMEX": "아멕스",
+                "SEHK": "홍콩 /",
+                "SHAA": "중국상해 /",
+                "SZAA": "중국심천",
+                "TKSE": "일본 /",
+                "HASE": "하노이거래소 /",
+                "VNSE": "호치민거래소",
+            },
+        },
+    )
+    OVRS_ORD_UNPR: Annotated[Decimal, "해외주문단가 (23.8) 정수부분 23자리, 소수부분 8자리"] = Field(
+        alias="OVRS_ORD_UNPR", max_digits=31, decimal_places=8
+    )
+    ITEM_CD: Annotated[str, "종목코드"] = Field(alias="ITEM_CD")
 
 
 class InquirePsamountRequestDict(TypedDict):
@@ -82,57 +99,42 @@ class InquirePsamountRequestDict(TypedDict):
         ITEM_CD (str): 종목코드
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    OVRS_EXCG_CD: Annotated[
-        OvrsExcgCdEnum,
-        "NASD : 나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / SZAA : 중국심천 TKSE "
-        ": 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소",
-    ]
-    OVRS_ORD_UNPR: Annotated[Decimal, "해외주문단가 (23.8) 정수부분 23자리, 소수부분 8자리"]
-    ITEM_CD: Annotated[str, "종목코드"]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    OVRS_EXCG_CD: OvrsExcgCdEnum
+    OVRS_ORD_UNPR: Decimal
+    ITEM_CD: str
 
 
 class InquirePsamountOutput(RawModel):
-    tr_crcy_cd: str | None = Field(default=None, alias="tr_crcy_cd")
-    ("18.2")
-    ord_psbl_frcr_amt: Decimal | None = Field(default=None, alias="ord_psbl_frcr_amt")
-    ("18.2")
-    sll_ruse_psbl_amt: Decimal | None = Field(default=None, alias="sll_ruse_psbl_amt")
-    ("가능금액 산정 시 사용")
-    ovrs_ord_psbl_amt: Decimal | None = Field(default=None, alias="ovrs_ord_psbl_amt")
-    ('- 한국투자 앱 해외주식 주문화면내 "외화" 인경우 주문가능금액')
-    max_ord_psbl_qty: int | None = Field(default=None, alias="max_ord_psbl_qty")
-    (
-        '- 한국투자 앱 해외주식 주문화면내 "외화" 인경우 주문가능수량 - 매수 시 수량단위 절사해서 사용 예 '
-        ": (100주단위) 545 주 -> 500 주 / (10주단위) 545 주 -> 540 주"
+    tr_crcy_cd: Annotated[str | None, "18.2"] = Field(default=None, alias="tr_crcy_cd")
+    ord_psbl_frcr_amt: Annotated[Decimal | None, "18.2"] = Field(default=None, alias="ord_psbl_frcr_amt")
+    sll_ruse_psbl_amt: Annotated[Decimal | None, "가능금액 산정 시 사용"] = Field(default=None, alias="sll_ruse_psbl_amt")
+    ovrs_ord_psbl_amt: Annotated[Decimal | None, '- 한국투자 앱 해외주식 주문화면내 "외화" 인경우 주문가능금액'] = Field(
+        default=None, alias="ovrs_ord_psbl_amt"
     )
-    echm_af_ord_psbl_amt: Decimal | None = Field(default=None, alias="echm_af_ord_psbl_amt")
-    ("사용되지 않는 사항(0으로 출력)")
-    echm_af_ord_psbl_qty: int | None = Field(default=None, alias="echm_af_ord_psbl_qty")
-    ("사용되지 않는 사항(0으로 출력)")
-    ord_psbl_qty: Decimal | None = Field(default=None, alias="ord_psbl_qty", max_digits=21, decimal_places=1)
-    ("22(20.1)")
-    exrt: Decimal | None = Field(default=None, alias="exrt", max_digits=24, decimal_places=6)
-    ("25(18.6)")
-    frcr_ord_psbl_amt1: Decimal | None = Field(default=None, alias="frcr_ord_psbl_amt1")
-    ('- 한국투자 앱 해외주식 주문화면내 "통합" 인경우 주문가능금액')
-    ovrs_max_ord_psbl_qty: int | None = Field(default=None, alias="ovrs_max_ord_psbl_qty")
-    (
-        '- 한국투자 앱 해외주식 주문화면내 "통합" 인경우 주문가능수량 - 매수 시 수량단위 절사해서 사용 예 '
-        ": (100주단위) 545 주 -> 500 주 / (10주단위) 545 주 -> 540 주"
+    max_ord_psbl_qty: Annotated[
+        int | None,
+        '- 한국투자 앱 해외주식 주문화면내 "외화" 인경우 주문가능수량 - 매수 시 수량단위 절사해서 사용 예 : (100주단위) 545 주 -> 500 주 / (10주단위) 545 주 -> 540 주',
+    ] = Field(default=None, alias="max_ord_psbl_qty")
+    echm_af_ord_psbl_amt: Annotated[Decimal | None, "사용되지 않는 사항(0으로 출력)"] = Field(default=None, alias="echm_af_ord_psbl_amt")
+    echm_af_ord_psbl_qty: Annotated[int | None, "사용되지 않는 사항(0으로 출력)"] = Field(default=None, alias="echm_af_ord_psbl_qty")
+    ord_psbl_qty: Annotated[Decimal | None, "22(20.1)"] = Field(default=None, alias="ord_psbl_qty", max_digits=21, decimal_places=1)
+    exrt: Annotated[Decimal | None, "25(18.6)"] = Field(default=None, alias="exrt", max_digits=24, decimal_places=6)
+    frcr_ord_psbl_amt1: Annotated[Decimal | None, '- 한국투자 앱 해외주식 주문화면내 "통합" 인경우 주문가능금액'] = Field(
+        default=None, alias="frcr_ord_psbl_amt1"
     )
+    ovrs_max_ord_psbl_qty: Annotated[
+        int | None,
+        '- 한국투자 앱 해외주식 주문화면내 "통합" 인경우 주문가능수량 - 매수 시 수량단위 절사해서 사용 예 : (100주단위) 545 주 -> 500 주 / (10주단위) 545 주 -> 540 주',
+    ] = Field(default=None, alias="ovrs_max_ord_psbl_qty")
 
 
 class InquirePsamountResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: InquirePsamountOutput = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[InquirePsamountOutput, "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquirePsamountRequest, InquirePsamountResponse] = Endpoint(

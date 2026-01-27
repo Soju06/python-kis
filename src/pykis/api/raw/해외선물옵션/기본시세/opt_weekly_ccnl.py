@@ -14,22 +14,20 @@ if TYPE_CHECKING:
 
 
 class OptWeeklyCcnlRequest(RawModel):
-    SRS_CD: str = Field(alias="SRS_CD")
-    ('ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고')
-    EXCH_CD: str = Field(alias="EXCH_CD")
-    ("종목코드에 맞는 거래소 코드 ex) CME")
-    START_DATE_TIME: KisDateTimeOptional = Field(default=None, alias="START_DATE_TIME", json_schema_extra={"blank_allowed": True})
-    ('"" 공란 입력')
-    CLOSE_DATE_TIME: KisDateTimeOptional = Field(default=None, alias="CLOSE_DATE_TIME", json_schema_extra={"blank_allowed": True})
-    ('"" 공란 입력')
-    QRY_TP: str = Field(alias="QRY_TP")
-    ("Q")
-    QRY_CNT: int = Field(alias="QRY_CNT")
-    ("예) 20 (최대 120)")
-    QRY_GAP: str | None = Field(default=None, alias="QRY_GAP", json_schema_extra={"blank_allowed": True})
-    ('"" 공란 입력')
-    INDEX_KEY: str | None = Field(default=None, alias="INDEX_KEY", json_schema_extra={"blank_allowed": True})
-    ('"" 공란 입력')
+    SRS_CD: Annotated[str, 'ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고'] = Field(
+        alias="SRS_CD"
+    )
+    EXCH_CD: Annotated[str, "종목코드에 맞는 거래소 코드 ex) CME"] = Field(alias="EXCH_CD")
+    START_DATE_TIME: Annotated[KisDateTimeOptional, '"" 공란 입력'] = Field(
+        default=None, alias="START_DATE_TIME", json_schema_extra={"blank_allowed": True}
+    )
+    CLOSE_DATE_TIME: Annotated[KisDateTimeOptional, '"" 공란 입력'] = Field(
+        default=None, alias="CLOSE_DATE_TIME", json_schema_extra={"blank_allowed": True}
+    )
+    QRY_TP: Annotated[str, "Q"] = Field(alias="QRY_TP")
+    QRY_CNT: Annotated[int, "예) 20 (최대 120)"] = Field(alias="QRY_CNT")
+    QRY_GAP: Annotated[str | None, '"" 공란 입력'] = Field(default=None, alias="QRY_GAP", json_schema_extra={"blank_allowed": True})
+    INDEX_KEY: Annotated[str | None, '"" 공란 입력'] = Field(default=None, alias="INDEX_KEY", json_schema_extra={"blank_allowed": True})
 
 
 class OptWeeklyCcnlRequestDict(TypedDict):
@@ -73,61 +71,45 @@ class OptWeeklyCcnlRequestDict(TypedDict):
         INDEX_KEY (str): "" 공란 입력 optional
     """
 
-    SRS_CD: Annotated[str, 'ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고']
-    EXCH_CD: Annotated[str, "종목코드에 맞는 거래소 코드 ex) CME"]
-    START_DATE_TIME: NotRequired[Annotated[KisDateTimeOptional, '"" 공란 입력']]
-    CLOSE_DATE_TIME: NotRequired[Annotated[KisDateTimeOptional, '"" 공란 입력']]
-    QRY_TP: Annotated[str, "Q"]
-    QRY_CNT: Annotated[int, "예) 20 (최대 120)"]
-    QRY_GAP: NotRequired[Annotated[str | None, '"" 공란 입력']]
-    INDEX_KEY: NotRequired[Annotated[str | None, '"" 공란 입력']]
+    SRS_CD: str
+    EXCH_CD: str
+    START_DATE_TIME: NotRequired[KisDateTimeOptional]
+    CLOSE_DATE_TIME: NotRequired[KisDateTimeOptional]
+    QRY_TP: str
+    QRY_CNT: int
+    QRY_GAP: NotRequired[str | None]
+    INDEX_KEY: NotRequired[str | None]
 
 
 class OptWeeklyCcnlOutput1(RawModel):
-    ret_cnt: int = Field(alias="ret_cnt")
-    ("자료개수")
-    last_n_cnt: str | None = Field(default=None, alias="last_n_cnt")
-    ("N틱최종개수")
-    index_key: str | None = Field(default=None, alias="index_key")
-    ("이전조회KEY")
+    ret_cnt: Annotated[int, "자료개수"] = Field(alias="ret_cnt")
+    last_n_cnt: Annotated[str | None, "N틱최종개수"] = Field(default=None, alias="last_n_cnt")
+    index_key: Annotated[str | None, "이전조회KEY"] = Field(default=None, alias="index_key")
 
 
 class OptWeeklyCcnlOutput2(RawModel):
-    data_date: KisDateOptional = Field(default=None, alias="data_date")
-    ("과거일자 ~ 최근일자 순으로 조회됨")
-    data_time: KisTimeOptional = Field(default=None, alias="data_time", json_schema_extra={"blank_allowed": True})
-    ('""')
-    open_price: Decimal | None = Field(default=None, alias="open_price")
-    ("시가")
-    high_price: Decimal | None = Field(default=None, alias="high_price")
-    ("고가")
-    low_price: Decimal | None = Field(default=None, alias="low_price")
-    ("저가")
-    last_price: str | None = Field(default=None, alias="last_price")
-    ("체결가격 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고 * 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션")
-    last_qntt: int | None = Field(default=None, alias="last_qntt")
-    ("체결수량")
-    vol: int | None = Field(default=None, alias="vol")
-    ("누적거래수량")
-    prev_diff_flag: str | None = Field(default=None, alias="prev_diff_flag")
-    ("전일대비구분")
-    prev_diff_price: Decimal | None = Field(default=None, alias="prev_diff_price")
-    ("전일대비가격")
-    prev_diff_rate: Decimal | None = Field(default=None, alias="prev_diff_rate")
-    ("전일대비율")
+    data_date: Annotated[KisDateOptional, "과거일자 ~ 최근일자 순으로 조회됨"] = Field(default=None, alias="data_date")
+    data_time: Annotated[KisTimeOptional, '""'] = Field(default=None, alias="data_time", json_schema_extra={"blank_allowed": True})
+    open_price: Annotated[Decimal | None, "시가"] = Field(default=None, alias="open_price")
+    high_price: Annotated[Decimal | None, "고가"] = Field(default=None, alias="high_price")
+    low_price: Annotated[Decimal | None, "저가"] = Field(default=None, alias="low_price")
+    last_price: Annotated[
+        str | None,
+        "체결가격 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고 * 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션",
+    ] = Field(default=None, alias="last_price")
+    last_qntt: Annotated[int | None, "체결수량"] = Field(default=None, alias="last_qntt")
+    vol: Annotated[int | None, "누적거래수량"] = Field(default=None, alias="vol")
+    prev_diff_flag: Annotated[str | None, "전일대비구분"] = Field(default=None, alias="prev_diff_flag")
+    prev_diff_price: Annotated[Decimal | None, "전일대비가격"] = Field(default=None, alias="prev_diff_price")
+    prev_diff_rate: Annotated[Decimal | None, "전일대비율"] = Field(default=None, alias="prev_diff_rate")
 
 
 class OptWeeklyCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: OptWeeklyCcnlOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[OptWeeklyCcnlOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[OptWeeklyCcnlOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[OptWeeklyCcnlOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[OptWeeklyCcnlRequest, OptWeeklyCcnlResponse] = Endpoint(

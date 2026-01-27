@@ -16,22 +16,20 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     J = ("J", "KRX")
-    "KRX"
+    """KRX"""
     NX = ("NX", "NXT")
-    "NXT"
+    """NXT"""
     UN = ("UN", "통합")
-    "통합"
+    """통합"""
 
 
 class PbarTratioRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("J:KRX, NX:NXT, UN:통합")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("주식단축종목코드")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("Uniquekey(20113)")
-    FID_INPUT_HOUR_1: str | None = Field(default=None, alias="FID_INPUT_HOUR_1", json_schema_extra={"blank_allowed": True})
-    ("공백")
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"] = Field(
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["J", "NX", "UN"], "enum_desc": {"J": "KRX", "NX": "NXT", "UN": "통합"}}
+    )
+    FID_INPUT_ISCD: Annotated[str, "주식단축종목코드"] = Field(alias="FID_INPUT_ISCD")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Uniquekey(20113)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_INPUT_HOUR_1: Annotated[str | None, "공백"] = Field(default=None, alias="FID_INPUT_HOUR_1", json_schema_extra={"blank_allowed": True})
 
 
 class PbarTratioRequestDict(TypedDict):
@@ -47,59 +45,39 @@ class PbarTratioRequestDict(TypedDict):
         FID_INPUT_HOUR_1 (str): 공백 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"]
-    FID_INPUT_ISCD: Annotated[str, "주식단축종목코드"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "Uniquekey(20113)"]
-    FID_INPUT_HOUR_1: NotRequired[Annotated[str | None, "공백"]]
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
+    FID_INPUT_ISCD: str
+    FID_COND_SCR_DIV_CODE: str
+    FID_INPUT_HOUR_1: NotRequired[str | None]
 
 
 class PbarTratioOutput1(RawModel):
-    rprs_mrkt_kor_name: str = Field(alias="rprs_mrkt_kor_name")
-    ("대표시장한글명")
-    stck_shrn_iscd: str = Field(alias="stck_shrn_iscd")
-    ("주식단축종목코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS한글종목명")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식현재가")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일대비부호")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일대비")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적거래량")
-    prdy_vol: int = Field(alias="prdy_vol")
-    ("전일거래량")
-    wghn_avrg_stck_prc: Decimal = Field(alias="wghn_avrg_stck_prc")
-    ("가중평균주식가격")
-    lstn_stcn: int = Field(alias="lstn_stcn")
-    ("상장주수")
+    rprs_mrkt_kor_name: Annotated[str, "대표시장한글명"] = Field(alias="rprs_mrkt_kor_name")
+    stck_shrn_iscd: Annotated[str, "주식단축종목코드"] = Field(alias="stck_shrn_iscd")
+    hts_kor_isnm: Annotated[str, "HTS한글종목명"] = Field(alias="hts_kor_isnm")
+    stck_prpr: Annotated[Decimal, "주식현재가"] = Field(alias="stck_prpr")
+    prdy_vrss_sign: Annotated[int, "전일대비부호"] = Field(alias="prdy_vrss_sign")
+    prdy_vrss: Annotated[int, "전일대비"] = Field(alias="prdy_vrss")
+    prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적거래량"] = Field(alias="acml_vol")
+    prdy_vol: Annotated[int, "전일거래량"] = Field(alias="prdy_vol")
+    wghn_avrg_stck_prc: Annotated[Decimal, "가중평균주식가격"] = Field(alias="wghn_avrg_stck_prc")
+    lstn_stcn: Annotated[int, "상장주수"] = Field(alias="lstn_stcn")
 
 
 class PbarTratioOutput2(RawModel):
-    data_rank: int = Field(alias="data_rank")
-    ("데이터순위")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식현재가")
-    cntg_vol: int = Field(alias="cntg_vol")
-    ("체결거래량")
-    acml_vol_rlim: Decimal = Field(alias="acml_vol_rlim")
-    ("누적거래량비중")
+    data_rank: Annotated[int, "데이터순위"] = Field(alias="data_rank")
+    stck_prpr: Annotated[Decimal, "주식현재가"] = Field(alias="stck_prpr")
+    cntg_vol: Annotated[int, "체결거래량"] = Field(alias="cntg_vol")
+    acml_vol_rlim: Annotated[Decimal, "누적거래량비중"] = Field(alias="acml_vol_rlim")
 
 
 class PbarTratioResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: PbarTratioOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[PbarTratioOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[PbarTratioOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[PbarTratioOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[PbarTratioRequest, PbarTratioResponse] = Endpoint(

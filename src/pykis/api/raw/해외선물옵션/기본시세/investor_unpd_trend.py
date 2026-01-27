@@ -15,24 +15,21 @@ if TYPE_CHECKING:
 
 class UpmuGubunEnum(KisStrEnum):
     VALUE_0 = ("0", "수량")
-    "수량"
+    """수량"""
     VALUE_1 = ("1", "증감")
-    "증감"
+    """증감"""
 
 
 class InvestorUnpdTrendRequest(RawModel):
-    PROD_ISCD: str = Field(alias="PROD_ISCD")
-    (
-        "금리 (GE, ZB, ZF,ZN,ZT), 금속(GC, PA, PL,SI, HG), 농산물(CC, CT,KC, OJ, SB, ZC,ZL, ZM, ZO, ZR, "
-        "ZS, ZW), 에너지(CL, HO, NG, WBS), 지수(ES, NQ, TF, YM, VX), 축산물(GF, HE, LE), 통화(6A, 6B, 6C, "
-        "6E, 6J, 6N, 6S, DX)"
+    PROD_ISCD: Annotated[
+        str,
+        "금리 (GE, ZB, ZF,ZN,ZT), 금속(GC, PA, PL,SI, HG), 농산물(CC, CT,KC, OJ, SB, ZC,ZL, ZM, ZO, ZR, ZS, ZW), 에너지(CL, HO, NG, WBS), 지수(ES, NQ, TF, YM, VX), 축산물(GF, HE, LE), 통화(6A, 6B, 6C, 6E, 6J, 6N, 6S, DX)",
+    ] = Field(alias="PROD_ISCD")
+    BSOP_DATE: Annotated[KisDate, "기준일(ex)20240513)"] = Field(alias="BSOP_DATE")
+    UPMU_GUBUN: Annotated[UpmuGubunEnum, "0(수량), 1(증감)"] = Field(
+        alias="UPMU_GUBUN", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "수량", "1": "증감"}}
     )
-    BSOP_DATE: KisDate = Field(alias="BSOP_DATE")
-    ("기준일(ex)20240513)")
-    UPMU_GUBUN: UpmuGubunEnum = Field(alias="UPMU_GUBUN")
-    ("0(수량), 1(증감)")
-    CTS_KEY: str | None = Field(default=None, alias="CTS_KEY", json_schema_extra={"blank_allowed": True})
-    ("공백")
+    CTS_KEY: Annotated[str | None, "공백"] = Field(default=None, alias="CTS_KEY", json_schema_extra={"blank_allowed": True})
 
 
 class InvestorUnpdTrendRequestDict(TypedDict):
@@ -66,70 +63,42 @@ class InvestorUnpdTrendRequestDict(TypedDict):
         CTS_KEY (str): 공백 optional
     """
 
-    PROD_ISCD: Annotated[
-        str,
-        "금리 (GE, ZB, ZF,ZN,ZT), 금속(GC, PA, PL,SI, HG), 농산물(CC, CT,KC, OJ, SB, ZC,ZL, ZM, ZO, ZR, "
-        "ZS, ZW), 에너지(CL, HO, NG, WBS), 지수(ES, NQ, TF, YM, VX), 축산물(GF, HE, LE), 통화(6A, 6B, 6C, "
-        "6E, 6J, 6N, 6S, DX)",
-    ]
-    BSOP_DATE: Annotated[KisDate, "기준일(ex)20240513)"]
-    UPMU_GUBUN: Annotated[UpmuGubunEnum, "0(수량), 1(증감)"]
-    CTS_KEY: NotRequired[Annotated[str | None, "공백"]]
+    PROD_ISCD: str
+    BSOP_DATE: KisDate
+    UPMU_GUBUN: UpmuGubunEnum
+    CTS_KEY: NotRequired[str | None]
 
 
 class InvestorUnpdTrendOutput1(RawModel):
-    row_cnt: str = Field(alias="row_cnt")
-    ("응답레코드카운트")
+    row_cnt: Annotated[str, "응답레코드카운트"] = Field(alias="row_cnt")
 
 
 class InvestorUnpdTrendOutput2(RawModel):
-    prod_iscd: str = Field(alias="prod_iscd")
-    ("상품")
-    cftc_iscd: str = Field(alias="cftc_iscd")
-    ("CFTC코드")
-    bsop_date: KisDate = Field(alias="bsop_date")
-    ("일자")
-    bidp_spec: str = Field(alias="bidp_spec")
-    ("매수투기")
-    askp_spec: int = Field(alias="askp_spec")
-    ("매도투기")
-    spread_spec: int = Field(alias="spread_spec")
-    ("스프레드투기")
-    bidp_hedge: str = Field(alias="bidp_hedge")
-    ("매수헤지")
-    askp_hedge: int = Field(alias="askp_hedge")
-    ("매도헤지")
-    hts_otst_smtn: int = Field(alias="hts_otst_smtn")
-    ("미결제합계")
-    bidp_missing: str = Field(alias="bidp_missing")
-    ("매수누락")
-    askp_missing: int = Field(alias="askp_missing")
-    ("매도누락")
-    bidp_spec_cust: str = Field(alias="bidp_spec_cust")
-    ("매수투기고객")
-    askp_spec_cust: int = Field(alias="askp_spec_cust")
-    ("매도투기고객")
-    spread_spec_cust: int = Field(alias="spread_spec_cust")
-    ("스프레드투기고객")
-    bidp_hedge_cust: str = Field(alias="bidp_hedge_cust")
-    ("매수헤지고객")
-    askp_hedge_cust: int = Field(alias="askp_hedge_cust")
-    ("매도헤지고객")
-    cust_smtn: int = Field(alias="cust_smtn")
-    ("고객합계")
+    prod_iscd: Annotated[str, "상품"] = Field(alias="prod_iscd")
+    cftc_iscd: Annotated[str, "CFTC코드"] = Field(alias="cftc_iscd")
+    bsop_date: Annotated[KisDate, "일자"] = Field(alias="bsop_date")
+    bidp_spec: Annotated[str, "매수투기"] = Field(alias="bidp_spec")
+    askp_spec: Annotated[int, "매도투기"] = Field(alias="askp_spec")
+    spread_spec: Annotated[int, "스프레드투기"] = Field(alias="spread_spec")
+    bidp_hedge: Annotated[str, "매수헤지"] = Field(alias="bidp_hedge")
+    askp_hedge: Annotated[int, "매도헤지"] = Field(alias="askp_hedge")
+    hts_otst_smtn: Annotated[int, "미결제합계"] = Field(alias="hts_otst_smtn")
+    bidp_missing: Annotated[str, "매수누락"] = Field(alias="bidp_missing")
+    askp_missing: Annotated[int, "매도누락"] = Field(alias="askp_missing")
+    bidp_spec_cust: Annotated[str, "매수투기고객"] = Field(alias="bidp_spec_cust")
+    askp_spec_cust: Annotated[int, "매도투기고객"] = Field(alias="askp_spec_cust")
+    spread_spec_cust: Annotated[int, "스프레드투기고객"] = Field(alias="spread_spec_cust")
+    bidp_hedge_cust: Annotated[str, "매수헤지고객"] = Field(alias="bidp_hedge_cust")
+    askp_hedge_cust: Annotated[int, "매도헤지고객"] = Field(alias="askp_hedge_cust")
+    cust_smtn: Annotated[int, "고객합계"] = Field(alias="cust_smtn")
 
 
 class InvestorUnpdTrendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str | None = Field(default=None, alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InvestorUnpdTrendOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[InvestorUnpdTrendOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str | None, "응답코드"] = Field(default=None, alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InvestorUnpdTrendOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InvestorUnpdTrendOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InvestorUnpdTrendRequest, InvestorUnpdTrendResponse] = Endpoint(

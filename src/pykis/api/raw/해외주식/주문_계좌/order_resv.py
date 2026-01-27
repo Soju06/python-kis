@@ -15,109 +15,161 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class SllBuyDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "매도")
-    "매도"
+    """매도"""
     VALUE_02 = ("02", "매수")
-    "매수"
+    """매수"""
 
 
 class RvseCnclDvsnCdEnum(KisStrEnum):
     VALUE_00 = ("00", '"매도/매수 주문"시 필수 항목')
-    '"매도/매수 주문"시 필수 항목'
+    """\"매도/매수 주문\"시 필수 항목"""
     VALUE_02 = ("02", "취소")
-    "취소"
+    """취소"""
 
 
 class PrdtTypeCdEnum(KisStrEnum):
     VALUE_515 = ("515", "일본")
-    "일본"
+    """일본"""
     VALUE_501 = ("501", "홍콩 /")
-    "홍콩 /"
+    """홍콩 /"""
     VALUE_543 = ("543", "홍콩CNY /")
-    "홍콩CNY /"
+    """홍콩CNY /"""
     VALUE_558 = ("558", "홍콩USD")
-    "홍콩USD"
+    """홍콩USD"""
     VALUE_507 = ("507", "베트남 하노이거래소 /")
-    "베트남 하노이거래소 /"
+    """베트남 하노이거래소 /"""
     VALUE_508 = ("508", "베트남 호치민거래소")
-    "베트남 호치민거래소"
+    """베트남 호치민거래소"""
     VALUE_551 = ("551", "중국 상해A /")
-    "중국 상해A /"
+    """중국 상해A /"""
     VALUE_552 = ("552", "중국 심천A")
-    "중국 심천A"
+    """중국 심천A"""
 
 
 class OvrsExcgCdEnum(KisStrEnum):
     NASD = ("NASD", "나스닥")
-    "나스닥"
+    """나스닥"""
     NYSE = ("NYSE", "뉴욕")
-    "뉴욕"
+    """뉴욕"""
     AMEX = ("AMEX", "아멕스")
-    "아멕스"
+    """아멕스"""
     SEHK = ("SEHK", "홍콩")
-    "홍콩"
+    """홍콩"""
     SHAA = ("SHAA", "중국상해")
-    "중국상해"
+    """중국상해"""
     SZAA = ("SZAA", "중국심천")
-    "중국심천"
+    """중국심천"""
     TKSE = ("TKSE", "일본")
-    "일본"
+    """일본"""
     HASE = ("HASE", "베트남 하노이")
-    "베트남 하노이"
+    """베트남 하노이"""
     VNSE = ("VNSE", "베트남 호치민")
-    "베트남 호치민"
+    """베트남 호치민"""
+
+
+class OrdDvsnEnum(KisStrEnum):
+    VALUE_00 = ("00", "지정가")
+    """지정가"""
+    VALUE_35 = ("35", "TWAP")
+    """TWAP"""
+    VALUE_36 = ("36", "VWAP")
+    """VWAP"""
+    VALUE_31 = ("31", "MOO(장개시시장가)")
+    """MOO(장개시시장가)"""
+    MOO = ("MOO", "장개시시장가")
+    """장개시시장가"""
 
 
 class OrderResvRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum | None = Field(default=None, alias="SLL_BUY_DVSN_CD")
-    ("tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 01 : 매도 02 : 매수")
-    RVSE_CNCL_DVSN_CD: RvseCnclDvsnCdEnum = Field(alias="RVSE_CNCL_DVSN_CD")
-    ('tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 00 : "매도/매수 주문"시 필수 항목 02 : 취소')
-    PDNO: str = Field(alias="PDNO")
-    ("상품번호")
-    PRDT_TYPE_CD: PrdtTypeCdEnum = Field(alias="PRDT_TYPE_CD")
-    (
-        "tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 515 : 일본 501 : 홍콩 / 543 : "
-        "홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 : 중국 상해A / "
-        "552 : 중국 심천A"
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
     )
-    OVRS_EXCG_CD: OvrsExcgCdEnum = Field(alias="OVRS_EXCG_CD")
-    ("NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민")
-    FT_ORD_QTY: int = Field(alias="FT_ORD_QTY")
-    ("FT주문수량")
-    FT_ORD_UNPR3: str = Field(alias="FT_ORD_UNPR3")
-    ("FT주문단가3")
-    ORD_SVR_DVSN_CD: str | None = Field(default=None, alias="ORD_SVR_DVSN_CD")
-    ('"0"(Default)')
-    RSVN_ORD_RCIT_DT: KisDateOptional = Field(default=None, alias="RSVN_ORD_RCIT_DT")
-    ("tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용")
-    ORD_DVSN: str | None = Field(default=None, alias="ORD_DVSN")
-    (
-        "tr_id가 TTTT3014U(미국 예약 매수 주문)인 경우만 사용 00 : 지정가 35 : TWAP 36 : VWAP tr_id가 "
-        "TTTT3016U(미국 예약 매도 주문)인 경우만 사용 00 : 지정가 31 : MOO(장개시시장가) 35 : TWAP 36 : "
-        "VWAP"
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
     )
-    OVRS_RSVN_ODNO: str | None = Field(default=None, alias="OVRS_RSVN_ODNO")
-    ("tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용")
-    ALGO_ORD_TMD_DVSN_CD: str | None = Field(default=None, alias="ALGO_ORD_TMD_DVSN_CD")
-    ("※ TWAP, VWAP 주문에서만 사용. 예약주문은 시간입력 불가하여 02로 값 고정 ※ 정규장 종료 10분전까지 가능")
+    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum | None, "tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 01 : 매도 02 : 매수"] = (
+        Field(default=None, alias="SLL_BUY_DVSN_CD", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "매도", "02": "매수"}})
+    )
+    RVSE_CNCL_DVSN_CD: Annotated[
+        RvseCnclDvsnCdEnum, 'tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 00 : "매도/매수 주문"시 필수 항목 02 : 취소'
+    ] = Field(alias="RVSE_CNCL_DVSN_CD", json_schema_extra={"enum": ["00", "02"], "enum_desc": {"00": '"매도/매수 주문"시 필수 항목', "02": "취소"}})
+    PDNO: Annotated[str, "상품번호"] = Field(alias="PDNO")
+    PRDT_TYPE_CD: Annotated[
+        PrdtTypeCdEnum,
+        "tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 515 : 일본 501 : 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 : 중국 상해A / 552 : 중국 심천A",
+    ] = Field(
+        alias="PRDT_TYPE_CD",
+        json_schema_extra={
+            "enum": ["515", "501", "543", "558", "507", "508", "551", "552"],
+            "enum_desc": {
+                "515": "일본",
+                "501": "홍콩 /",
+                "543": "홍콩CNY /",
+                "558": "홍콩USD",
+                "507": "베트남 하노이거래소 /",
+                "508": "베트남 호치민거래소",
+                "551": "중국 상해A /",
+                "552": "중국 심천A",
+            },
+        },
+    )
+    OVRS_EXCG_CD: Annotated[
+        OvrsExcgCdEnum,
+        "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민",
+    ] = Field(
+        alias="OVRS_EXCG_CD",
+        json_schema_extra={
+            "enum": ["NASD", "NYSE", "AMEX", "SEHK", "SHAA", "SZAA", "TKSE", "HASE", "VNSE"],
+            "enum_desc": {
+                "NASD": "나스닥",
+                "NYSE": "뉴욕",
+                "AMEX": "아멕스",
+                "SEHK": "홍콩",
+                "SHAA": "중국상해",
+                "SZAA": "중국심천",
+                "TKSE": "일본",
+                "HASE": "베트남 하노이",
+                "VNSE": "베트남 호치민",
+            },
+        },
+    )
+    FT_ORD_QTY: Annotated[int, "FT주문수량"] = Field(alias="FT_ORD_QTY")
+    FT_ORD_UNPR3: Annotated[str, "FT주문단가3"] = Field(alias="FT_ORD_UNPR3")
+    ORD_SVR_DVSN_CD: Annotated[str | None, '"0"(Default)'] = Field(default=None, alias="ORD_SVR_DVSN_CD")
+    RSVN_ORD_RCIT_DT: Annotated[KisDateOptional, "tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용"] = Field(
+        default=None, alias="RSVN_ORD_RCIT_DT"
+    )
+    ORD_DVSN: Annotated[
+        OrdDvsnEnum | None,
+        "tr_id가 TTTT3014U(미국 예약 매수 주문)인 경우만 사용 00 : 지정가 35 : TWAP 36 : VWAP tr_id가 TTTT3016U(미국 예약 매도 주문)인 경우만 사용 00 : 지정가 31 : MOO(장개시시장가) 35 : TWAP 36 : VWAP",
+    ] = Field(
+        default=None,
+        alias="ORD_DVSN",
+        json_schema_extra={
+            "enum": ["00", "35", "36", "31", "MOO"],
+            "enum_desc": {"00": "지정가", "35": "TWAP", "36": "VWAP", "31": "MOO(장개시시장가)", "MOO": "장개시시장가"},
+        },
+    )
+    OVRS_RSVN_ODNO: Annotated[str | None, "tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용"] = Field(
+        default=None, alias="OVRS_RSVN_ODNO"
+    )
+    ALGO_ORD_TMD_DVSN_CD: Annotated[
+        str | None, "※ TWAP, VWAP 주문에서만 사용. 예약주문은 시간입력 불가하여 02로 값 고정 ※ 정규장 종료 10분전까지 가능"
+    ] = Field(default=None, alias="ALGO_ORD_TMD_DVSN_CD")
 
 
 class OrderResvRequestDict(TypedDict):
@@ -184,8 +236,8 @@ class OrderResvRequestDict(TypedDict):
         ORD_SVR_DVSN_CD (str): "0"(Default) optional
         RSVN_ORD_RCIT_DT (KisDate): tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용
         optional
-        ORD_DVSN (str): tr_id가 TTTT3014U(미국 예약 매수 주문)인 경우만 사용 00 : 지정가 35 : TWAP
-        36 : VWAP tr_id가 TTTT3016U(미국 예약 매도 주문)인 경우만 사용 00 : 지정가 31 :
+        ORD_DVSN (OrdDvsnEnum): tr_id가 TTTT3014U(미국 예약 매수 주문)인 경우만 사용 00 : 지정가 35
+        : TWAP 36 : VWAP tr_id가 TTTT3016U(미국 예약 매도 주문)인 경우만 사용 00 : 지정가 31 :
         MOO(장개시시장가) 35 : TWAP 36 : VWAP optional
         OVRS_RSVN_ODNO (str): tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용
         optional
@@ -193,61 +245,33 @@ class OrderResvRequestDict(TypedDict):
         값 고정 ※ 정규장 종료 10분전까지 가능 optional
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    SLL_BUY_DVSN_CD: NotRequired[
-        Annotated[SllBuyDvsnCdEnum | None, "tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 01 : 매도 02 : 매수"]
-    ]
-    RVSE_CNCL_DVSN_CD: Annotated[
-        RvseCnclDvsnCdEnum, 'tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 00 : "매도/매수 주문"시 필수 항목 02 : 취소'
-    ]
-    PDNO: Annotated[str, "상품번호"]
-    PRDT_TYPE_CD: Annotated[
-        PrdtTypeCdEnum,
-        "tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 515 : 일본 501 : 홍콩 / 543 : "
-        "홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 : 중국 상해A / "
-        "552 : 중국 심천A",
-    ]
-    OVRS_EXCG_CD: Annotated[
-        OvrsExcgCdEnum,
-        "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민",
-    ]
-    FT_ORD_QTY: Annotated[int, "FT주문수량"]
-    FT_ORD_UNPR3: Annotated[str, "FT주문단가3"]
-    ORD_SVR_DVSN_CD: NotRequired[Annotated[str | None, '"0"(Default)']]
-    RSVN_ORD_RCIT_DT: NotRequired[Annotated[KisDateOptional, "tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용"]]
-    ORD_DVSN: NotRequired[
-        Annotated[
-            str | None,
-            "tr_id가 TTTT3014U(미국 예약 매수 주문)인 경우만 사용 00 : 지정가 35 : TWAP 36 : VWAP tr_id가 "
-            "TTTT3016U(미국 예약 매도 주문)인 경우만 사용 00 : 지정가 31 : MOO(장개시시장가) 35 : TWAP 36 : "
-            "VWAP",
-        ]
-    ]
-    OVRS_RSVN_ODNO: NotRequired[Annotated[str | None, "tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용"]]
-    ALGO_ORD_TMD_DVSN_CD: NotRequired[
-        Annotated[str | None, "※ TWAP, VWAP 주문에서만 사용. 예약주문은 시간입력 불가하여 02로 값 고정 ※ 정규장 종료 10분전까지 가능"]
-    ]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    SLL_BUY_DVSN_CD: NotRequired[SllBuyDvsnCdEnum | None]
+    RVSE_CNCL_DVSN_CD: RvseCnclDvsnCdEnum
+    PDNO: str
+    PRDT_TYPE_CD: PrdtTypeCdEnum
+    OVRS_EXCG_CD: OvrsExcgCdEnum
+    FT_ORD_QTY: int
+    FT_ORD_UNPR3: str
+    ORD_SVR_DVSN_CD: NotRequired[str | None]
+    RSVN_ORD_RCIT_DT: NotRequired[KisDateOptional]
+    ORD_DVSN: NotRequired[OrdDvsnEnum | None]
+    OVRS_RSVN_ODNO: NotRequired[str | None]
+    ALGO_ORD_TMD_DVSN_CD: NotRequired[str | None]
 
 
 class OrderResvOutput(RawModel):
-    ODNO: str = Field(alias="ODNO")
-    ("tr_id가 TTTT3016U(미국 예약 매도 주문) / TTTT3014U(미국 예약 매수 주문)인 경우만 출력")
-    RSVN_ORD_RCIT_DT: KisDate = Field(alias="RSVN_ORD_RCIT_DT")
-    ("tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 출력")
-    OVRS_RSVN_ODNO: str = Field(alias="OVRS_RSVN_ODNO")
-    ("tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 출력")
+    ODNO: Annotated[str, "tr_id가 TTTT3016U(미국 예약 매도 주문) / TTTT3014U(미국 예약 매수 주문)인 경우만 출력"] = Field(alias="ODNO")
+    RSVN_ORD_RCIT_DT: Annotated[KisDate, "tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 출력"] = Field(alias="RSVN_ORD_RCIT_DT")
+    OVRS_RSVN_ODNO: Annotated[str, "tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 출력"] = Field(alias="OVRS_RSVN_ODNO")
 
 
 class OrderResvResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: OrderResvOutput = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "0 : 성공 0 이외의 값 : 실패"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[OrderResvOutput, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[OrderResvRequest, OrderResvResponse] = Endpoint(
@@ -405,9 +429,9 @@ if TYPE_CHECKING:
                         ORD_SVR_DVSN_CD (str): "0"(Default) optional
                         RSVN_ORD_RCIT_DT (KisDate): tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약
                         주문)인 경우만 사용 optional
-                        ORD_DVSN (str): tr_id가 TTTT3014U(미국 예약 매수 주문)인 경우만 사용 00 :
-                        지정가 35 : TWAP 36 : VWAP tr_id가 TTTT3016U(미국 예약 매도 주문)인 경우만
-                        사용 00 : 지정가 31 : MOO(장개시시장가) 35 : TWAP 36 : VWAP optional
+                        ORD_DVSN (OrdDvsnEnum): tr_id가 TTTT3014U(미국 예약 매수 주문)인 경우만 사용
+                        00 : 지정가 35 : TWAP 36 : VWAP tr_id가 TTTT3016U(미국 예약 매도 주문)인
+                        경우만 사용 00 : 지정가 31 : MOO(장개시시장가) 35 : TWAP 36 : VWAP optional
                         OVRS_RSVN_ODNO (str): tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인
                         경우만 사용 optional
                         ALGO_ORD_TMD_DVSN_CD (str): ※ TWAP, VWAP 주문에서만 사용. 예약주문은 시간입력
@@ -434,4 +458,5 @@ __all__ = [
     "RvseCnclDvsnCdEnum",
     "PrdtTypeCdEnum",
     "OvrsExcgCdEnum",
+    "OrdDvsnEnum",
 ]

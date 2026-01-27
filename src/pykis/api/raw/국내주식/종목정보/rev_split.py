@@ -15,24 +15,23 @@ if TYPE_CHECKING:
 
 class MarketGbEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "코스피")
-    "코스피"
+    """코스피"""
     VALUE_2 = ("2", "코스닥")
-    "코스닥"
+    """코스닥"""
 
 
 class RevSplitRequest(RawModel):
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
-    ("공백: 전체, 특정종목 조회시 : 종목코드")
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    F_DT: KisDate = Field(alias="F_DT")
-    ("일자 ~")
-    T_DT: KisDate = Field(alias="T_DT")
-    ("~ 일자")
-    MARKET_GB: MarketGbEnum = Field(alias="MARKET_GB")
-    ("0:전체, 1:코스피, 2:코스닥")
+    SHT_CD: Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"] = Field(
+        default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True}
+    )
+    CTS: Annotated[str | None, "공백"] = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
+    F_DT: Annotated[KisDate, "일자 ~"] = Field(alias="F_DT")
+    T_DT: Annotated[KisDate, "~ 일자"] = Field(alias="T_DT")
+    MARKET_GB: Annotated[MarketGbEnum, "0:전체, 1:코스피, 2:코스닥"] = Field(
+        alias="MARKET_GB", json_schema_extra={"enum": ["0", "1", "2"], "enum_desc": {"0": "전체", "1": "코스피", "2": "코스닥"}}
+    )
 
 
 class RevSplitRequestDict(TypedDict):
@@ -51,39 +50,28 @@ class RevSplitRequestDict(TypedDict):
         MARKET_GB (MarketGbEnum): 0:전체, 1:코스피, 2:코스닥
     """
 
-    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
-    CTS: NotRequired[Annotated[str | None, "공백"]]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    T_DT: Annotated[KisDate, "~ 일자"]
-    MARKET_GB: Annotated[MarketGbEnum, "0:전체, 1:코스피, 2:코스닥"]
+    SHT_CD: NotRequired[str | None]
+    CTS: NotRequired[str | None]
+    F_DT: KisDate
+    T_DT: KisDate
+    MARKET_GB: MarketGbEnum
 
 
 class RevSplitOutput1(RawModel):
-    record_date: KisDateOptional = Field(default=None, alias="record_date")
-    ("기준일")
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
-    ("종목코드")
-    isin_name: str | None = Field(default=None, alias="isin_name")
-    ("종목명")
-    inter_bf_face_amt: str | None = Field(default=None, alias="inter_bf_face_amt")
-    ("변경전액면가")
-    inter_af_face_amt: str | None = Field(default=None, alias="inter_af_face_amt")
-    ("변경후액면가")
-    td_stop_dt: KisDateOptional = Field(default=None, alias="td_stop_dt")
-    ("매매거래정지기간")
-    list_dt: KisDateOptional = Field(default=None, alias="list_dt")
-    ("상장/등록일")
+    record_date: Annotated[KisDateOptional, "기준일"] = Field(default=None, alias="record_date")
+    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
+    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
+    inter_bf_face_amt: Annotated[str | None, "변경전액면가"] = Field(default=None, alias="inter_bf_face_amt")
+    inter_af_face_amt: Annotated[str | None, "변경후액면가"] = Field(default=None, alias="inter_af_face_amt")
+    td_stop_dt: Annotated[KisDateOptional, "매매거래정지기간"] = Field(default=None, alias="td_stop_dt")
+    list_dt: Annotated[KisDateOptional, "상장/등록일"] = Field(default=None, alias="list_dt")
 
 
 class RevSplitResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[RevSplitOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[RevSplitOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[RevSplitRequest, RevSplitResponse] = Endpoint(

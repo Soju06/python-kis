@@ -14,10 +14,7 @@ from pykis.store.raw.structs._enums import AtmClsCodeEnum, InfoTypeEnum, MmscCls
 class ST_FO_IDX_CODE(StoreModel):
     info_type: Annotated[
         InfoTypeEnum,
-        (
-            "1:지수선물 2:지수SP 3:스타선물 4:스타SP 5:지수콜옵션 6:지수풋옵션 7:변동성선물 8:변동성SP 9:섹터선물 A:섹터SP B:미니선물 C:미니SP "
-            "D:미니콜옵션 E:미니풋옵션 J:코스닥150콜옵션 K:코스닥150풋옵션 L:위클리콜옵션 M:위클리풋옵션"
-        ),
+        "1:지수선물 2:지수SP 3:스타선물 4:스타SP 5:지수콜옵션 6:지수풋옵션 7:변동성선물 8:변동성SP 9:섹터선물 A:섹터SP B:미니선물 C:미니SP D:미니콜옵션 E:미니풋옵션 J:코스닥150콜옵션 K:코스닥150풋옵션 L:위클리콜옵션 M:위클리풋옵션",
     ] = Field(
         json_schema_extra={
             "length": 1,

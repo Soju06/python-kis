@@ -16,28 +16,42 @@ if TYPE_CHECKING:
 
 class FidRankSortClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "종목명순")
-    "종목명순"
+    """종목명순"""
     VALUE_1 = ("1", "콜발행종목순")
-    "콜발행종목순"
+    """콜발행종목순"""
     VALUE_2 = ("2", "풋발행종목순")
-    "풋발행종목순"
+    """풋발행종목순"""
     VALUE_3 = ("3", "전일대비 상승율순")
-    "전일대비 상승율순"
+    """전일대비 상승율순"""
     VALUE_4 = ("4", "전일대비 하락율순")
-    "전일대비 하락율순"
+    """전일대비 하락율순"""
     VALUE_5 = ("5", "현재가 크기순")
-    "현재가 크기순"
+    """현재가 크기순"""
     VALUE_6 = ("6", "종목코드순")
-    "종목코드순"
+    """종목코드순"""
 
 
 class UdrlAssetListRequest(RawModel):
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("11541(Primary key)")
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
-    ("0(종목명순), 1(콜발행종목순), 2(풋발행종목순), 3(전일대비 상승율순), 4(전일대비 하락율순), 5(현재가 크기순), 6(종목코드순)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("00000(전체), 00003(한국투자증권), 00017(KB증권), 00005(미래에셋)")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "11541(Primary key)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_RANK_SORT_CLS_CODE: Annotated[
+        FidRankSortClsCodeEnum,
+        "0(종목명순), 1(콜발행종목순), 2(풋발행종목순), 3(전일대비 상승율순), 4(전일대비 하락율순), 5(현재가 크기순), 6(종목코드순)",
+    ] = Field(
+        alias="FID_RANK_SORT_CLS_CODE",
+        json_schema_extra={
+            "enum": ["0", "1", "2", "3", "4", "5", "6"],
+            "enum_desc": {
+                "0": "종목명순",
+                "1": "콜발행종목순",
+                "2": "풋발행종목순",
+                "3": "전일대비 상승율순",
+                "4": "전일대비 하락율순",
+                "5": "현재가 크기순",
+                "6": "종목코드순",
+            },
+        },
+    )
+    FID_INPUT_ISCD: Annotated[str, "00000(전체), 00003(한국투자증권), 00017(KB증권), 00005(미래에셋)"] = Field(alias="FID_INPUT_ISCD")
 
 
 class UdrlAssetListRequestDict(TypedDict):
@@ -53,38 +67,25 @@ class UdrlAssetListRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 00000(전체), 00003(한국투자증권), 00017(KB증권), 00005(미래에셋)
     """
 
-    FID_COND_SCR_DIV_CODE: Annotated[str, "11541(Primary key)"]
-    FID_RANK_SORT_CLS_CODE: Annotated[
-        FidRankSortClsCodeEnum,
-        "0(종목명순), 1(콜발행종목순), 2(풋발행종목순), 3(전일대비 상승율순), 4(전일대비 하락율순), 5(현재가 크기순), 6(종목코드순)",
-    ]
-    FID_INPUT_ISCD: Annotated[str, "00000(전체), 00003(한국투자증권), 00017(KB증권), 00005(미래에셋)"]
+    FID_COND_SCR_DIV_CODE: str
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum
+    FID_INPUT_ISCD: str
 
 
 class UdrlAssetListOutput(RawModel):
-    unas_shrn_iscd: str | None = Field(default=None, alias="unas_shrn_iscd")
-    ("기초자산단축종목코드")
-    unas_isnm: str | None = Field(default=None, alias="unas_isnm")
-    ("기초자산종목명")
-    unas_prpr: Decimal | None = Field(default=None, alias="unas_prpr")
-    ("기초자산현재가")
-    unas_prdy_vrss: str | None = Field(default=None, alias="unas_prdy_vrss")
-    ("기초자산전일대비")
-    unas_prdy_vrss_sign: str | None = Field(default=None, alias="unas_prdy_vrss_sign")
-    ("기초자산전일대비부호")
-    unas_prdy_ctrt: Decimal | None = Field(default=None, alias="unas_prdy_ctrt")
-    ("기초자산전일대비율")
+    unas_shrn_iscd: Annotated[str | None, "기초자산단축종목코드"] = Field(default=None, alias="unas_shrn_iscd")
+    unas_isnm: Annotated[str | None, "기초자산종목명"] = Field(default=None, alias="unas_isnm")
+    unas_prpr: Annotated[Decimal | None, "기초자산현재가"] = Field(default=None, alias="unas_prpr")
+    unas_prdy_vrss: Annotated[str | None, "기초자산전일대비"] = Field(default=None, alias="unas_prdy_vrss")
+    unas_prdy_vrss_sign: Annotated[str | None, "기초자산전일대비부호"] = Field(default=None, alias="unas_prdy_vrss_sign")
+    unas_prdy_ctrt: Annotated[Decimal | None, "기초자산전일대비율"] = Field(default=None, alias="unas_prdy_ctrt")
 
 
 class UdrlAssetListResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[UdrlAssetListOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[UdrlAssetListOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[UdrlAssetListRequest, UdrlAssetListResponse] = Endpoint(

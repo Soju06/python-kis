@@ -16,41 +16,40 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     N = ("N", "해외지수, X 환율")
-    "해외지수, X 환율"
+    """해외지수, X 환율"""
     VALUE_I = ("I", "국채")
-    "국채"
+    """국채"""
     S = ("S", "금선물")
-    "금선물"
+    """금선물"""
     X = ("X", "환율")
-    "환율"
+    """환율"""
 
 
 class FidPeriodDivCodeEnum(KisStrEnum):
     D = ("D", "일")
-    "일"
+    """일"""
     W = ("W", "주")
-    "주"
+    """주"""
     M = ("M", "월")
-    "월"
+    """월"""
     Y = ("Y", "년")
-    "년"
+    """년"""
 
 
 class InquireDailyChartpriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("N: 해외지수, X 환율, I: 국채, S:금선물")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    (
-        "종목코드 ※ 해외주식 마스터 코드 참조 (포럼 > FAQ > 종목정보 다운로드(해외) > 해외지수) ※ 해당 "
-        "API로 미국주식 조회 시, 다우30, 나스닥100, S&P500 종목만 조회 가능합니다. 더 많은 미국주식 종목 "
-        "시세를 이용할 시에는, 해외주식기간별시세 API 사용 부탁드립니다."
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "N: 해외지수, X 환율, I: 국채, S:금선물"] = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+        json_schema_extra={"enum": ["N", "I", "S", "X"], "enum_desc": {"N": "해외지수, X 환율", "I": "국채", "S": "금선물", "X": "환율"}},
     )
-    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
-    ("시작일자(YYYYMMDD)")
-    FID_INPUT_DATE_2: str = Field(alias="FID_INPUT_DATE_2")
-    ("종료일자(YYYYMMDD)")
-    FID_PERIOD_DIV_CODE: FidPeriodDivCodeEnum = Field(alias="FID_PERIOD_DIV_CODE")
-    ("D:일, W:주, M:월, Y:년")
+    FID_INPUT_ISCD: Annotated[
+        str,
+        "종목코드 ※ 해외주식 마스터 코드 참조 (포럼 > FAQ > 종목정보 다운로드(해외) > 해외지수) ※ 해당 API로 미국주식 조회 시, 다우30, 나스닥100, S&P500 종목만 조회 가능합니다. 더 많은 미국주식 종목 시세를 이용할 시에는, 해외주식기간별시세 API 사용 부탁드립니다.",
+    ] = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_DATE_1: Annotated[str, "시작일자(YYYYMMDD)"] = Field(alias="FID_INPUT_DATE_1")
+    FID_INPUT_DATE_2: Annotated[str, "종료일자(YYYYMMDD)"] = Field(alias="FID_INPUT_DATE_2")
+    FID_PERIOD_DIV_CODE: Annotated[FidPeriodDivCodeEnum, "D:일, W:주, M:월, Y:년"] = Field(
+        alias="FID_PERIOD_DIV_CODE", json_schema_extra={"enum": ["D", "W", "M", "Y"], "enum_desc": {"D": "일", "W": "주", "M": "월", "Y": "년"}}
+    )
 
 
 class InquireDailyChartpriceRequestDict(TypedDict):
@@ -74,73 +73,66 @@ class InquireDailyChartpriceRequestDict(TypedDict):
         FID_PERIOD_DIV_CODE (FidPeriodDivCodeEnum): D:일, W:주, M:월, Y:년
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "N: 해외지수, X 환율, I: 국채, S:금선물"]
-    FID_INPUT_ISCD: Annotated[
-        str,
-        "종목코드 ※ 해외주식 마스터 코드 참조 (포럼 > FAQ > 종목정보 다운로드(해외) > 해외지수) ※ 해당 "
-        "API로 미국주식 조회 시, 다우30, 나스닥100, S&P500 종목만 조회 가능합니다. 더 많은 미국주식 종목 "
-        "시세를 이용할 시에는, 해외주식기간별시세 API 사용 부탁드립니다.",
-    ]
-    FID_INPUT_DATE_1: Annotated[str, "시작일자(YYYYMMDD)"]
-    FID_INPUT_DATE_2: Annotated[str, "종료일자(YYYYMMDD)"]
-    FID_PERIOD_DIV_CODE: Annotated[FidPeriodDivCodeEnum, "D:일, W:주, M:월, Y:년"]
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
+    FID_INPUT_ISCD: str
+    FID_INPUT_DATE_1: str
+    FID_INPUT_DATE_2: str
+    FID_PERIOD_DIV_CODE: FidPeriodDivCodeEnum
 
 
 class InquireDailyChartpriceOutput1(RawModel):
-    ovrs_nmix_prdy_vrss: Decimal | None = Field(default=None, alias="ovrs_nmix_prdy_vrss", max_digits=15, decimal_places=4)
-    ("16(11.4) 정수부분 11자리, 소수부분 4자리")
-    prdy_vrss_sign: int | None = Field(default=None, alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt", max_digits=10, decimal_places=2)
-    ("11(8.2) 정수부분 8자리, 소수부분 2자리")
-    ovrs_nmix_prdy_clpr: Decimal | None = Field(default=None, alias="ovrs_nmix_prdy_clpr", max_digits=15, decimal_places=4)
-    ("16(11.4) 정수부분 11자리, 소수부분 4자리")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
-    ("누적 거래량")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    ovrs_nmix_prpr: Decimal | None = Field(default=None, alias="ovrs_nmix_prpr", max_digits=15, decimal_places=4)
-    ("16(11.4) 정수부분 11자리, 소수부분 4자리")
-    stck_shrn_iscd: str | None = Field(default=None, alias="stck_shrn_iscd")
-    ("단축 종목코드")
-    prdy_vol: int | None = Field(default=None, alias="prdy_vol")
-    ("전일 거래량")
-    ovrs_prod_oprc: Decimal | None = Field(default=None, alias="ovrs_prod_oprc", max_digits=15, decimal_places=4)
-    ("16(11.4) 정수부분 11자리, 소수부분 4자리")
-    ovrs_prod_hgpr: Decimal | None = Field(default=None, alias="ovrs_prod_hgpr", max_digits=15, decimal_places=4)
-    ("16(11.4) 정수부분 11자리, 소수부분 4자리")
-    ovrs_prod_lwpr: Decimal | None = Field(default=None, alias="ovrs_prod_lwpr", max_digits=15, decimal_places=4)
-    ("16(11.4) 정수부분 11자리, 소수부분 4자리")
+    ovrs_nmix_prdy_vrss: Annotated[Decimal | None, "16(11.4) 정수부분 11자리, 소수부분 4자리"] = Field(
+        default=None, alias="ovrs_nmix_prdy_vrss", max_digits=15, decimal_places=4
+    )
+    prdy_vrss_sign: Annotated[int | None, "전일 대비 부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal | None, "11(8.2) 정수부분 8자리, 소수부분 2자리"] = Field(
+        default=None, alias="prdy_ctrt", max_digits=10, decimal_places=2
+    )
+    ovrs_nmix_prdy_clpr: Annotated[Decimal | None, "16(11.4) 정수부분 11자리, 소수부분 4자리"] = Field(
+        default=None, alias="ovrs_nmix_prdy_clpr", max_digits=15, decimal_places=4
+    )
+    acml_vol: Annotated[int | None, "누적 거래량"] = Field(default=None, alias="acml_vol")
+    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
+    ovrs_nmix_prpr: Annotated[Decimal | None, "16(11.4) 정수부분 11자리, 소수부분 4자리"] = Field(
+        default=None, alias="ovrs_nmix_prpr", max_digits=15, decimal_places=4
+    )
+    stck_shrn_iscd: Annotated[str | None, "단축 종목코드"] = Field(default=None, alias="stck_shrn_iscd")
+    prdy_vol: Annotated[int | None, "전일 거래량"] = Field(default=None, alias="prdy_vol")
+    ovrs_prod_oprc: Annotated[Decimal | None, "16(11.4) 정수부분 11자리, 소수부분 4자리"] = Field(
+        default=None, alias="ovrs_prod_oprc", max_digits=15, decimal_places=4
+    )
+    ovrs_prod_hgpr: Annotated[Decimal | None, "16(11.4) 정수부분 11자리, 소수부분 4자리"] = Field(
+        default=None, alias="ovrs_prod_hgpr", max_digits=15, decimal_places=4
+    )
+    ovrs_prod_lwpr: Annotated[Decimal | None, "16(11.4) 정수부분 11자리, 소수부분 4자리"] = Field(
+        default=None, alias="ovrs_prod_lwpr", max_digits=15, decimal_places=4
+    )
 
 
 class InquireDailyChartpriceOutput2(RawModel):
-    stck_bsop_date: KisDateOptional = Field(default=None, alias="stck_bsop_date")
-    ("영업 일자")
-    ovrs_nmix_prpr: Decimal | None = Field(default=None, alias="ovrs_nmix_prpr", max_digits=15, decimal_places=4)
-    ("16(11.4) 정수부분 11자리, 소수부분 4자리")
-    ovrs_nmix_oprc: Decimal | None = Field(default=None, alias="ovrs_nmix_oprc", max_digits=15, decimal_places=4)
-    ("16(11.4) 정수부분 11자리, 소수부분 4자리")
-    ovrs_nmix_hgpr: Decimal | None = Field(default=None, alias="ovrs_nmix_hgpr", max_digits=15, decimal_places=4)
-    ("16(11.4) 정수부분 11자리, 소수부분 4자리")
-    ovrs_nmix_lwpr: Decimal | None = Field(default=None, alias="ovrs_nmix_lwpr", max_digits=15, decimal_places=4)
-    ("16(11.4) 정수부분 11자리, 소수부분 4자리")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
-    ("누적 거래량")
-    mod_yn: KisBool | None = Field(default=None, alias="mod_yn")
-    ("변경 여부")
+    stck_bsop_date: Annotated[KisDateOptional, "영업 일자"] = Field(default=None, alias="stck_bsop_date")
+    ovrs_nmix_prpr: Annotated[Decimal | None, "16(11.4) 정수부분 11자리, 소수부분 4자리"] = Field(
+        default=None, alias="ovrs_nmix_prpr", max_digits=15, decimal_places=4
+    )
+    ovrs_nmix_oprc: Annotated[Decimal | None, "16(11.4) 정수부분 11자리, 소수부분 4자리"] = Field(
+        default=None, alias="ovrs_nmix_oprc", max_digits=15, decimal_places=4
+    )
+    ovrs_nmix_hgpr: Annotated[Decimal | None, "16(11.4) 정수부분 11자리, 소수부분 4자리"] = Field(
+        default=None, alias="ovrs_nmix_hgpr", max_digits=15, decimal_places=4
+    )
+    ovrs_nmix_lwpr: Annotated[Decimal | None, "16(11.4) 정수부분 11자리, 소수부분 4자리"] = Field(
+        default=None, alias="ovrs_nmix_lwpr", max_digits=15, decimal_places=4
+    )
+    acml_vol: Annotated[int | None, "누적 거래량"] = Field(default=None, alias="acml_vol")
+    mod_yn: Annotated[KisBool | None, "변경 여부"] = Field(default=None, alias="mod_yn")
 
 
 class InquireDailyChartpriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquireDailyChartpriceOutput1 = Field(alias="output1")
-    ("응답상세1")
-    output2: list[InquireDailyChartpriceOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquireDailyChartpriceOutput1, "응답상세1"] = Field(alias="output1")
+    output2: Annotated[list[InquireDailyChartpriceOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireDailyChartpriceRequest, InquireDailyChartpriceResponse] = Endpoint(

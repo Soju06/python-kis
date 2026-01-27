@@ -16,134 +16,76 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCode1Enum(KisStrEnum):
     J = ("J", "KRX")
-    "KRX"
+    """KRX"""
     NX = ("NX", "NXT")
-    "NXT"
+    """NXT"""
     UN = ("UN", "통합")
-    "통합"
+    """통합"""
 
 
 class IntstockMultpriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE_1: FidCondMrktDivCode1Enum = Field(alias="FID_COND_MRKT_DIV_CODE_1")
-    ("그룹별종목조회 결과 fid_mrkt_cls_code(시장구분) 1 입력 J: KRX, NX: NXT, UN: 통합 ex) J")
-    FID_INPUT_ISCD_1: str = Field(alias="FID_INPUT_ISCD_1")
-    ("그룹별종목조회 결과 jong_code(종목코드) 1 입력 ex) 005930")
-    FID_COND_MRKT_DIV_CODE_2: str = Field(alias="FID_COND_MRKT_DIV_CODE_2")
-    ("조건 시장 분류 코드2")
-    FID_INPUT_ISCD_2: str = Field(alias="FID_INPUT_ISCD_2")
-    ("입력 종목코드2")
-    FID_COND_MRKT_DIV_CODE_3: str = Field(alias="FID_COND_MRKT_DIV_CODE_3")
-    ("조건 시장 분류 코드3")
-    FID_INPUT_ISCD_3: str = Field(alias="FID_INPUT_ISCD_3")
-    ("입력 종목코드3")
-    FID_COND_MRKT_DIV_CODE_4: str = Field(alias="FID_COND_MRKT_DIV_CODE_4")
-    ("조건 시장 분류 코드4")
-    FID_INPUT_ISCD_4: str = Field(alias="FID_INPUT_ISCD_4")
-    ("입력 종목코드4")
-    FID_COND_MRKT_DIV_CODE_5: str = Field(alias="FID_COND_MRKT_DIV_CODE_5")
-    ("조건 시장 분류 코드5")
-    FID_INPUT_ISCD_5: str = Field(alias="FID_INPUT_ISCD_5")
-    ("입력 종목코드5")
-    FID_COND_MRKT_DIV_CODE_6: str = Field(alias="FID_COND_MRKT_DIV_CODE_6")
-    ("조건 시장 분류 코드6")
-    FID_INPUT_ISCD_6: str = Field(alias="FID_INPUT_ISCD_6")
-    ("입력 종목코드6")
-    FID_COND_MRKT_DIV_CODE_7: str = Field(alias="FID_COND_MRKT_DIV_CODE_7")
-    ("조건 시장 분류 코드7")
-    FID_INPUT_ISCD_7: str = Field(alias="FID_INPUT_ISCD_7")
-    ("입력 종목코드7")
-    FID_COND_MRKT_DIV_CODE_8: str = Field(alias="FID_COND_MRKT_DIV_CODE_8")
-    ("조건 시장 분류 코드8")
-    FID_INPUT_ISCD_8: str = Field(alias="FID_INPUT_ISCD_8")
-    ("입력 종목코드8")
-    FID_COND_MRKT_DIV_CODE_9: str = Field(alias="FID_COND_MRKT_DIV_CODE_9")
-    ("조건 시장 분류 코드9")
-    FID_INPUT_ISCD_9: str = Field(alias="FID_INPUT_ISCD_9")
-    ("입력 종목코드9")
-    FID_COND_MRKT_DIV_CODE_10: str = Field(alias="FID_COND_MRKT_DIV_CODE_10")
-    ("조건 시장 분류 코드10")
-    FID_INPUT_ISCD_10: str = Field(alias="FID_INPUT_ISCD_10")
-    ("입력 종목코드10")
-    FID_COND_MRKT_DIV_CODE_11: str = Field(alias="FID_COND_MRKT_DIV_CODE_11")
-    ("조건 시장 분류 코드11")
-    FID_INPUT_ISCD_11: str = Field(alias="FID_INPUT_ISCD_11")
-    ("입력 종목코드11")
-    FID_COND_MRKT_DIV_CODE_12: str = Field(alias="FID_COND_MRKT_DIV_CODE_12")
-    ("조건 시장 분류 코드12")
-    FID_INPUT_ISCD_12: str = Field(alias="FID_INPUT_ISCD_12")
-    ("입력 종목코드12")
-    FID_COND_MRKT_DIV_CODE_13: str = Field(alias="FID_COND_MRKT_DIV_CODE_13")
-    ("조건 시장 분류 코드13")
-    FID_INPUT_ISCD_13: str = Field(alias="FID_INPUT_ISCD_13")
-    ("입력 종목코드13")
-    FID_COND_MRKT_DIV_CODE_14: str = Field(alias="FID_COND_MRKT_DIV_CODE_14")
-    ("조건 시장 분류 코드14")
-    FID_INPUT_ISCD_14: str = Field(alias="FID_INPUT_ISCD_14")
-    ("입력 종목코드14")
-    FID_COND_MRKT_DIV_CODE_15: str = Field(alias="FID_COND_MRKT_DIV_CODE_15")
-    ("조건 시장 분류 코드15")
-    FID_INPUT_ISCD_15: str = Field(alias="FID_INPUT_ISCD_15")
-    ("입력 종목코드15")
-    FID_COND_MRKT_DIV_CODE_16: str = Field(alias="FID_COND_MRKT_DIV_CODE_16")
-    ("조건 시장 분류 코드16")
-    FID_INPUT_ISCD_16: str = Field(alias="FID_INPUT_ISCD_16")
-    ("입력 종목코드16")
-    FID_COND_MRKT_DIV_CODE_17: str = Field(alias="FID_COND_MRKT_DIV_CODE_17")
-    ("조건 시장 분류 코드17")
-    FID_INPUT_ISCD_17: str = Field(alias="FID_INPUT_ISCD_17")
-    ("입력 종목코드17")
-    FID_COND_MRKT_DIV_CODE_18: str = Field(alias="FID_COND_MRKT_DIV_CODE_18")
-    ("조건 시장 분류 코드18")
-    FID_INPUT_ISCD_18: str = Field(alias="FID_INPUT_ISCD_18")
-    ("입력 종목코드18")
-    FID_COND_MRKT_DIV_CODE_19: str = Field(alias="FID_COND_MRKT_DIV_CODE_19")
-    ("조건 시장 분류 코드19")
-    FID_INPUT_ISCD_19: str = Field(alias="FID_INPUT_ISCD_19")
-    ("입력 종목코드19")
-    FID_COND_MRKT_DIV_CODE_20: str = Field(alias="FID_COND_MRKT_DIV_CODE_20")
-    ("조건 시장 분류 코드20")
-    FID_INPUT_ISCD_20: str = Field(alias="FID_INPUT_ISCD_20")
-    ("입력 종목코드20")
-    FID_COND_MRKT_DIV_CODE_21: str = Field(alias="FID_COND_MRKT_DIV_CODE_21")
-    ("조건 시장 분류 코드21")
-    FID_INPUT_ISCD_21: str = Field(alias="FID_INPUT_ISCD_21")
-    ("입력 종목코드21")
-    FID_COND_MRKT_DIV_CODE_22: str = Field(alias="FID_COND_MRKT_DIV_CODE_22")
-    ("조건 시장 분류 코드22")
-    FID_INPUT_ISCD_22: str = Field(alias="FID_INPUT_ISCD_22")
-    ("입력 종목코드22")
-    FID_COND_MRKT_DIV_CODE_23: str = Field(alias="FID_COND_MRKT_DIV_CODE_23")
-    ("조건 시장 분류 코드23")
-    FID_INPUT_ISCD_23: str = Field(alias="FID_INPUT_ISCD_23")
-    ("입력 종목코드23")
-    FID_COND_MRKT_DIV_CODE_24: str = Field(alias="FID_COND_MRKT_DIV_CODE_24")
-    ("조건 시장 분류 코드24")
-    FID_INPUT_ISCD_24: str = Field(alias="FID_INPUT_ISCD_24")
-    ("입력 종목코드24")
-    FID_COND_MRKT_DIV_CODE_25: str = Field(alias="FID_COND_MRKT_DIV_CODE_25")
-    ("조건 시장 분류 코드25")
-    FID_INPUT_ISCD_25: str = Field(alias="FID_INPUT_ISCD_25")
-    ("입력 종목코드25")
-    FID_COND_MRKT_DIV_CODE_26: str = Field(alias="FID_COND_MRKT_DIV_CODE_26")
-    ("조건 시장 분류 코드26")
-    FID_INPUT_ISCD_26: str = Field(alias="FID_INPUT_ISCD_26")
-    ("입력 종목코드26")
-    FID_COND_MRKT_DIV_CODE_27: str = Field(alias="FID_COND_MRKT_DIV_CODE_27")
-    ("조건 시장 분류 코드27")
-    FID_INPUT_ISCD_27: str = Field(alias="FID_INPUT_ISCD_27")
-    ("입력 종목코드27")
-    FID_COND_MRKT_DIV_CODE_28: str = Field(alias="FID_COND_MRKT_DIV_CODE_28")
-    ("조건 시장 분류 코드28")
-    FID_INPUT_ISCD_28: str = Field(alias="FID_INPUT_ISCD_28")
-    ("입력 종목코드28")
-    FID_COND_MRKT_DIV_CODE_29: str = Field(alias="FID_COND_MRKT_DIV_CODE_29")
-    ("조건 시장 분류 코드29")
-    FID_INPUT_ISCD_29: str = Field(alias="FID_INPUT_ISCD_29")
-    ("입력 종목코드29")
-    FID_COND_MRKT_DIV_CODE_30: str = Field(alias="FID_COND_MRKT_DIV_CODE_30")
-    ("조건 시장 분류 코드30")
-    FID_INPUT_ISCD_30: str = Field(alias="FID_INPUT_ISCD_30")
-    ("입력 종목코드30")
+    FID_COND_MRKT_DIV_CODE_1: Annotated[
+        FidCondMrktDivCode1Enum, "그룹별종목조회 결과 fid_mrkt_cls_code(시장구분) 1 입력 J: KRX, NX: NXT, UN: 통합 ex) J"
+    ] = Field(alias="FID_COND_MRKT_DIV_CODE_1", json_schema_extra={"enum": ["J", "NX", "UN"], "enum_desc": {"J": "KRX", "NX": "NXT", "UN": "통합"}})
+    FID_INPUT_ISCD_1: Annotated[str, "그룹별종목조회 결과 jong_code(종목코드) 1 입력 ex) 005930"] = Field(alias="FID_INPUT_ISCD_1")
+    FID_COND_MRKT_DIV_CODE_2: Annotated[str, "조건 시장 분류 코드2"] = Field(alias="FID_COND_MRKT_DIV_CODE_2")
+    FID_INPUT_ISCD_2: Annotated[str, "입력 종목코드2"] = Field(alias="FID_INPUT_ISCD_2")
+    FID_COND_MRKT_DIV_CODE_3: Annotated[str, "조건 시장 분류 코드3"] = Field(alias="FID_COND_MRKT_DIV_CODE_3")
+    FID_INPUT_ISCD_3: Annotated[str, "입력 종목코드3"] = Field(alias="FID_INPUT_ISCD_3")
+    FID_COND_MRKT_DIV_CODE_4: Annotated[str, "조건 시장 분류 코드4"] = Field(alias="FID_COND_MRKT_DIV_CODE_4")
+    FID_INPUT_ISCD_4: Annotated[str, "입력 종목코드4"] = Field(alias="FID_INPUT_ISCD_4")
+    FID_COND_MRKT_DIV_CODE_5: Annotated[str, "조건 시장 분류 코드5"] = Field(alias="FID_COND_MRKT_DIV_CODE_5")
+    FID_INPUT_ISCD_5: Annotated[str, "입력 종목코드5"] = Field(alias="FID_INPUT_ISCD_5")
+    FID_COND_MRKT_DIV_CODE_6: Annotated[str, "조건 시장 분류 코드6"] = Field(alias="FID_COND_MRKT_DIV_CODE_6")
+    FID_INPUT_ISCD_6: Annotated[str, "입력 종목코드6"] = Field(alias="FID_INPUT_ISCD_6")
+    FID_COND_MRKT_DIV_CODE_7: Annotated[str, "조건 시장 분류 코드7"] = Field(alias="FID_COND_MRKT_DIV_CODE_7")
+    FID_INPUT_ISCD_7: Annotated[str, "입력 종목코드7"] = Field(alias="FID_INPUT_ISCD_7")
+    FID_COND_MRKT_DIV_CODE_8: Annotated[str, "조건 시장 분류 코드8"] = Field(alias="FID_COND_MRKT_DIV_CODE_8")
+    FID_INPUT_ISCD_8: Annotated[str, "입력 종목코드8"] = Field(alias="FID_INPUT_ISCD_8")
+    FID_COND_MRKT_DIV_CODE_9: Annotated[str, "조건 시장 분류 코드9"] = Field(alias="FID_COND_MRKT_DIV_CODE_9")
+    FID_INPUT_ISCD_9: Annotated[str, "입력 종목코드9"] = Field(alias="FID_INPUT_ISCD_9")
+    FID_COND_MRKT_DIV_CODE_10: Annotated[str, "조건 시장 분류 코드10"] = Field(alias="FID_COND_MRKT_DIV_CODE_10")
+    FID_INPUT_ISCD_10: Annotated[str, "입력 종목코드10"] = Field(alias="FID_INPUT_ISCD_10")
+    FID_COND_MRKT_DIV_CODE_11: Annotated[str, "조건 시장 분류 코드11"] = Field(alias="FID_COND_MRKT_DIV_CODE_11")
+    FID_INPUT_ISCD_11: Annotated[str, "입력 종목코드11"] = Field(alias="FID_INPUT_ISCD_11")
+    FID_COND_MRKT_DIV_CODE_12: Annotated[str, "조건 시장 분류 코드12"] = Field(alias="FID_COND_MRKT_DIV_CODE_12")
+    FID_INPUT_ISCD_12: Annotated[str, "입력 종목코드12"] = Field(alias="FID_INPUT_ISCD_12")
+    FID_COND_MRKT_DIV_CODE_13: Annotated[str, "조건 시장 분류 코드13"] = Field(alias="FID_COND_MRKT_DIV_CODE_13")
+    FID_INPUT_ISCD_13: Annotated[str, "입력 종목코드13"] = Field(alias="FID_INPUT_ISCD_13")
+    FID_COND_MRKT_DIV_CODE_14: Annotated[str, "조건 시장 분류 코드14"] = Field(alias="FID_COND_MRKT_DIV_CODE_14")
+    FID_INPUT_ISCD_14: Annotated[str, "입력 종목코드14"] = Field(alias="FID_INPUT_ISCD_14")
+    FID_COND_MRKT_DIV_CODE_15: Annotated[str, "조건 시장 분류 코드15"] = Field(alias="FID_COND_MRKT_DIV_CODE_15")
+    FID_INPUT_ISCD_15: Annotated[str, "입력 종목코드15"] = Field(alias="FID_INPUT_ISCD_15")
+    FID_COND_MRKT_DIV_CODE_16: Annotated[str, "조건 시장 분류 코드16"] = Field(alias="FID_COND_MRKT_DIV_CODE_16")
+    FID_INPUT_ISCD_16: Annotated[str, "입력 종목코드16"] = Field(alias="FID_INPUT_ISCD_16")
+    FID_COND_MRKT_DIV_CODE_17: Annotated[str, "조건 시장 분류 코드17"] = Field(alias="FID_COND_MRKT_DIV_CODE_17")
+    FID_INPUT_ISCD_17: Annotated[str, "입력 종목코드17"] = Field(alias="FID_INPUT_ISCD_17")
+    FID_COND_MRKT_DIV_CODE_18: Annotated[str, "조건 시장 분류 코드18"] = Field(alias="FID_COND_MRKT_DIV_CODE_18")
+    FID_INPUT_ISCD_18: Annotated[str, "입력 종목코드18"] = Field(alias="FID_INPUT_ISCD_18")
+    FID_COND_MRKT_DIV_CODE_19: Annotated[str, "조건 시장 분류 코드19"] = Field(alias="FID_COND_MRKT_DIV_CODE_19")
+    FID_INPUT_ISCD_19: Annotated[str, "입력 종목코드19"] = Field(alias="FID_INPUT_ISCD_19")
+    FID_COND_MRKT_DIV_CODE_20: Annotated[str, "조건 시장 분류 코드20"] = Field(alias="FID_COND_MRKT_DIV_CODE_20")
+    FID_INPUT_ISCD_20: Annotated[str, "입력 종목코드20"] = Field(alias="FID_INPUT_ISCD_20")
+    FID_COND_MRKT_DIV_CODE_21: Annotated[str, "조건 시장 분류 코드21"] = Field(alias="FID_COND_MRKT_DIV_CODE_21")
+    FID_INPUT_ISCD_21: Annotated[str, "입력 종목코드21"] = Field(alias="FID_INPUT_ISCD_21")
+    FID_COND_MRKT_DIV_CODE_22: Annotated[str, "조건 시장 분류 코드22"] = Field(alias="FID_COND_MRKT_DIV_CODE_22")
+    FID_INPUT_ISCD_22: Annotated[str, "입력 종목코드22"] = Field(alias="FID_INPUT_ISCD_22")
+    FID_COND_MRKT_DIV_CODE_23: Annotated[str, "조건 시장 분류 코드23"] = Field(alias="FID_COND_MRKT_DIV_CODE_23")
+    FID_INPUT_ISCD_23: Annotated[str, "입력 종목코드23"] = Field(alias="FID_INPUT_ISCD_23")
+    FID_COND_MRKT_DIV_CODE_24: Annotated[str, "조건 시장 분류 코드24"] = Field(alias="FID_COND_MRKT_DIV_CODE_24")
+    FID_INPUT_ISCD_24: Annotated[str, "입력 종목코드24"] = Field(alias="FID_INPUT_ISCD_24")
+    FID_COND_MRKT_DIV_CODE_25: Annotated[str, "조건 시장 분류 코드25"] = Field(alias="FID_COND_MRKT_DIV_CODE_25")
+    FID_INPUT_ISCD_25: Annotated[str, "입력 종목코드25"] = Field(alias="FID_INPUT_ISCD_25")
+    FID_COND_MRKT_DIV_CODE_26: Annotated[str, "조건 시장 분류 코드26"] = Field(alias="FID_COND_MRKT_DIV_CODE_26")
+    FID_INPUT_ISCD_26: Annotated[str, "입력 종목코드26"] = Field(alias="FID_INPUT_ISCD_26")
+    FID_COND_MRKT_DIV_CODE_27: Annotated[str, "조건 시장 분류 코드27"] = Field(alias="FID_COND_MRKT_DIV_CODE_27")
+    FID_INPUT_ISCD_27: Annotated[str, "입력 종목코드27"] = Field(alias="FID_INPUT_ISCD_27")
+    FID_COND_MRKT_DIV_CODE_28: Annotated[str, "조건 시장 분류 코드28"] = Field(alias="FID_COND_MRKT_DIV_CODE_28")
+    FID_INPUT_ISCD_28: Annotated[str, "입력 종목코드28"] = Field(alias="FID_INPUT_ISCD_28")
+    FID_COND_MRKT_DIV_CODE_29: Annotated[str, "조건 시장 분류 코드29"] = Field(alias="FID_COND_MRKT_DIV_CODE_29")
+    FID_INPUT_ISCD_29: Annotated[str, "입력 종목코드29"] = Field(alias="FID_INPUT_ISCD_29")
+    FID_COND_MRKT_DIV_CODE_30: Annotated[str, "조건 시장 분류 코드30"] = Field(alias="FID_COND_MRKT_DIV_CODE_30")
+    FID_INPUT_ISCD_30: Annotated[str, "입력 종목코드30"] = Field(alias="FID_INPUT_ISCD_30")
 
 
 class IntstockMultpriceRequestDict(TypedDict):
@@ -226,140 +168,105 @@ class IntstockMultpriceRequestDict(TypedDict):
         FID_INPUT_ISCD_30 (str): 입력 종목코드30
     """
 
-    FID_COND_MRKT_DIV_CODE_1: Annotated[
-        FidCondMrktDivCode1Enum, "그룹별종목조회 결과 fid_mrkt_cls_code(시장구분) 1 입력 J: KRX, NX: NXT, UN: 통합 ex) J"
-    ]
-    FID_INPUT_ISCD_1: Annotated[str, "그룹별종목조회 결과 jong_code(종목코드) 1 입력 ex) 005930"]
-    FID_COND_MRKT_DIV_CODE_2: Annotated[str, "조건 시장 분류 코드2"]
-    FID_INPUT_ISCD_2: Annotated[str, "입력 종목코드2"]
-    FID_COND_MRKT_DIV_CODE_3: Annotated[str, "조건 시장 분류 코드3"]
-    FID_INPUT_ISCD_3: Annotated[str, "입력 종목코드3"]
-    FID_COND_MRKT_DIV_CODE_4: Annotated[str, "조건 시장 분류 코드4"]
-    FID_INPUT_ISCD_4: Annotated[str, "입력 종목코드4"]
-    FID_COND_MRKT_DIV_CODE_5: Annotated[str, "조건 시장 분류 코드5"]
-    FID_INPUT_ISCD_5: Annotated[str, "입력 종목코드5"]
-    FID_COND_MRKT_DIV_CODE_6: Annotated[str, "조건 시장 분류 코드6"]
-    FID_INPUT_ISCD_6: Annotated[str, "입력 종목코드6"]
-    FID_COND_MRKT_DIV_CODE_7: Annotated[str, "조건 시장 분류 코드7"]
-    FID_INPUT_ISCD_7: Annotated[str, "입력 종목코드7"]
-    FID_COND_MRKT_DIV_CODE_8: Annotated[str, "조건 시장 분류 코드8"]
-    FID_INPUT_ISCD_8: Annotated[str, "입력 종목코드8"]
-    FID_COND_MRKT_DIV_CODE_9: Annotated[str, "조건 시장 분류 코드9"]
-    FID_INPUT_ISCD_9: Annotated[str, "입력 종목코드9"]
-    FID_COND_MRKT_DIV_CODE_10: Annotated[str, "조건 시장 분류 코드10"]
-    FID_INPUT_ISCD_10: Annotated[str, "입력 종목코드10"]
-    FID_COND_MRKT_DIV_CODE_11: Annotated[str, "조건 시장 분류 코드11"]
-    FID_INPUT_ISCD_11: Annotated[str, "입력 종목코드11"]
-    FID_COND_MRKT_DIV_CODE_12: Annotated[str, "조건 시장 분류 코드12"]
-    FID_INPUT_ISCD_12: Annotated[str, "입력 종목코드12"]
-    FID_COND_MRKT_DIV_CODE_13: Annotated[str, "조건 시장 분류 코드13"]
-    FID_INPUT_ISCD_13: Annotated[str, "입력 종목코드13"]
-    FID_COND_MRKT_DIV_CODE_14: Annotated[str, "조건 시장 분류 코드14"]
-    FID_INPUT_ISCD_14: Annotated[str, "입력 종목코드14"]
-    FID_COND_MRKT_DIV_CODE_15: Annotated[str, "조건 시장 분류 코드15"]
-    FID_INPUT_ISCD_15: Annotated[str, "입력 종목코드15"]
-    FID_COND_MRKT_DIV_CODE_16: Annotated[str, "조건 시장 분류 코드16"]
-    FID_INPUT_ISCD_16: Annotated[str, "입력 종목코드16"]
-    FID_COND_MRKT_DIV_CODE_17: Annotated[str, "조건 시장 분류 코드17"]
-    FID_INPUT_ISCD_17: Annotated[str, "입력 종목코드17"]
-    FID_COND_MRKT_DIV_CODE_18: Annotated[str, "조건 시장 분류 코드18"]
-    FID_INPUT_ISCD_18: Annotated[str, "입력 종목코드18"]
-    FID_COND_MRKT_DIV_CODE_19: Annotated[str, "조건 시장 분류 코드19"]
-    FID_INPUT_ISCD_19: Annotated[str, "입력 종목코드19"]
-    FID_COND_MRKT_DIV_CODE_20: Annotated[str, "조건 시장 분류 코드20"]
-    FID_INPUT_ISCD_20: Annotated[str, "입력 종목코드20"]
-    FID_COND_MRKT_DIV_CODE_21: Annotated[str, "조건 시장 분류 코드21"]
-    FID_INPUT_ISCD_21: Annotated[str, "입력 종목코드21"]
-    FID_COND_MRKT_DIV_CODE_22: Annotated[str, "조건 시장 분류 코드22"]
-    FID_INPUT_ISCD_22: Annotated[str, "입력 종목코드22"]
-    FID_COND_MRKT_DIV_CODE_23: Annotated[str, "조건 시장 분류 코드23"]
-    FID_INPUT_ISCD_23: Annotated[str, "입력 종목코드23"]
-    FID_COND_MRKT_DIV_CODE_24: Annotated[str, "조건 시장 분류 코드24"]
-    FID_INPUT_ISCD_24: Annotated[str, "입력 종목코드24"]
-    FID_COND_MRKT_DIV_CODE_25: Annotated[str, "조건 시장 분류 코드25"]
-    FID_INPUT_ISCD_25: Annotated[str, "입력 종목코드25"]
-    FID_COND_MRKT_DIV_CODE_26: Annotated[str, "조건 시장 분류 코드26"]
-    FID_INPUT_ISCD_26: Annotated[str, "입력 종목코드26"]
-    FID_COND_MRKT_DIV_CODE_27: Annotated[str, "조건 시장 분류 코드27"]
-    FID_INPUT_ISCD_27: Annotated[str, "입력 종목코드27"]
-    FID_COND_MRKT_DIV_CODE_28: Annotated[str, "조건 시장 분류 코드28"]
-    FID_INPUT_ISCD_28: Annotated[str, "입력 종목코드28"]
-    FID_COND_MRKT_DIV_CODE_29: Annotated[str, "조건 시장 분류 코드29"]
-    FID_INPUT_ISCD_29: Annotated[str, "입력 종목코드29"]
-    FID_COND_MRKT_DIV_CODE_30: Annotated[str, "조건 시장 분류 코드30"]
-    FID_INPUT_ISCD_30: Annotated[str, "입력 종목코드30"]
+    FID_COND_MRKT_DIV_CODE_1: FidCondMrktDivCode1Enum
+    FID_INPUT_ISCD_1: str
+    FID_COND_MRKT_DIV_CODE_2: str
+    FID_INPUT_ISCD_2: str
+    FID_COND_MRKT_DIV_CODE_3: str
+    FID_INPUT_ISCD_3: str
+    FID_COND_MRKT_DIV_CODE_4: str
+    FID_INPUT_ISCD_4: str
+    FID_COND_MRKT_DIV_CODE_5: str
+    FID_INPUT_ISCD_5: str
+    FID_COND_MRKT_DIV_CODE_6: str
+    FID_INPUT_ISCD_6: str
+    FID_COND_MRKT_DIV_CODE_7: str
+    FID_INPUT_ISCD_7: str
+    FID_COND_MRKT_DIV_CODE_8: str
+    FID_INPUT_ISCD_8: str
+    FID_COND_MRKT_DIV_CODE_9: str
+    FID_INPUT_ISCD_9: str
+    FID_COND_MRKT_DIV_CODE_10: str
+    FID_INPUT_ISCD_10: str
+    FID_COND_MRKT_DIV_CODE_11: str
+    FID_INPUT_ISCD_11: str
+    FID_COND_MRKT_DIV_CODE_12: str
+    FID_INPUT_ISCD_12: str
+    FID_COND_MRKT_DIV_CODE_13: str
+    FID_INPUT_ISCD_13: str
+    FID_COND_MRKT_DIV_CODE_14: str
+    FID_INPUT_ISCD_14: str
+    FID_COND_MRKT_DIV_CODE_15: str
+    FID_INPUT_ISCD_15: str
+    FID_COND_MRKT_DIV_CODE_16: str
+    FID_INPUT_ISCD_16: str
+    FID_COND_MRKT_DIV_CODE_17: str
+    FID_INPUT_ISCD_17: str
+    FID_COND_MRKT_DIV_CODE_18: str
+    FID_INPUT_ISCD_18: str
+    FID_COND_MRKT_DIV_CODE_19: str
+    FID_INPUT_ISCD_19: str
+    FID_COND_MRKT_DIV_CODE_20: str
+    FID_INPUT_ISCD_20: str
+    FID_COND_MRKT_DIV_CODE_21: str
+    FID_INPUT_ISCD_21: str
+    FID_COND_MRKT_DIV_CODE_22: str
+    FID_INPUT_ISCD_22: str
+    FID_COND_MRKT_DIV_CODE_23: str
+    FID_INPUT_ISCD_23: str
+    FID_COND_MRKT_DIV_CODE_24: str
+    FID_INPUT_ISCD_24: str
+    FID_COND_MRKT_DIV_CODE_25: str
+    FID_INPUT_ISCD_25: str
+    FID_COND_MRKT_DIV_CODE_26: str
+    FID_INPUT_ISCD_26: str
+    FID_COND_MRKT_DIV_CODE_27: str
+    FID_INPUT_ISCD_27: str
+    FID_COND_MRKT_DIV_CODE_28: str
+    FID_INPUT_ISCD_28: str
+    FID_COND_MRKT_DIV_CODE_29: str
+    FID_INPUT_ISCD_29: str
+    FID_COND_MRKT_DIV_CODE_30: str
+    FID_INPUT_ISCD_30: str
 
 
 class IntstockMultpriceOutput(RawModel):
-    kospi_kosdaq_cls_name: str | None = Field(default=None, alias="kospi_kosdaq_cls_name")
-    ("코스피 코스닥 구분 명")
-    mrkt_trtm_cls_name: str | None = Field(default=None, alias="mrkt_trtm_cls_name")
-    ("시장 조치 구분 명")
-    hour_cls_code: str = Field(alias="hour_cls_code")
-    ("시간 구분 코드")
-    inter_shrn_iscd: str = Field(alias="inter_shrn_iscd")
-    ("관심 단축 종목코드")
-    inter_kor_isnm: str = Field(alias="inter_kor_isnm")
-    ("관심 한글 종목명")
-    inter2_prpr: Decimal = Field(alias="inter2_prpr")
-    ("관심2 현재가")
-    inter2_prdy_vrss: int = Field(alias="inter2_prdy_vrss")
-    ("관심2 전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    inter2_oprc: Decimal = Field(alias="inter2_oprc")
-    ("관심2 시가")
-    inter2_hgpr: Decimal = Field(alias="inter2_hgpr")
-    ("관심2 고가")
-    inter2_lwpr: Decimal = Field(alias="inter2_lwpr")
-    ("관심2 저가")
-    inter2_llam: int = Field(alias="inter2_llam")
-    ("관심2 하한가")
-    inter2_mxpr: int = Field(alias="inter2_mxpr")
-    ("관심2 상한가")
-    inter2_askp: int = Field(alias="inter2_askp")
-    ("관심2 매도호가")
-    inter2_bidp: str = Field(alias="inter2_bidp")
-    ("관심2 매수호가")
-    seln_rsqn: int = Field(alias="seln_rsqn")
-    ("매도 잔량")
-    shnu_rsqn: int = Field(alias="shnu_rsqn")
-    ("매수2 잔량")
-    total_askp_rsqn: int = Field(alias="total_askp_rsqn")
-    ("총 매도호가 잔량")
-    total_bidp_rsqn: str = Field(alias="total_bidp_rsqn")
-    ("총 매수호가 잔량")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
-    ("누적 거래 대금")
-    inter2_prdy_clpr: int = Field(alias="inter2_prdy_clpr")
-    ("관심2 전일 종가")
-    oprc_vrss_hgpr_rate: Decimal = Field(alias="oprc_vrss_hgpr_rate")
-    ("시가 대비 최고가 비율")
-    intr_antc_cntg_vrss: int = Field(alias="intr_antc_cntg_vrss")
-    ("관심 예상 체결 대비")
-    intr_antc_cntg_vrss_sign: int = Field(alias="intr_antc_cntg_vrss_sign")
-    ("관심 예상 체결 대비 부호")
-    intr_antc_cntg_prdy_ctrt: Decimal = Field(alias="intr_antc_cntg_prdy_ctrt")
-    ("관심 예상 체결 전일 대비율")
-    intr_antc_vol: int = Field(alias="intr_antc_vol")
-    ("관심 예상 거래량")
-    inter2_sdpr: int = Field(alias="inter2_sdpr")
-    ("관심2 기준가")
+    kospi_kosdaq_cls_name: Annotated[str | None, "코스피 코스닥 구분 명"] = Field(default=None, alias="kospi_kosdaq_cls_name")
+    mrkt_trtm_cls_name: Annotated[str | None, "시장 조치 구분 명"] = Field(default=None, alias="mrkt_trtm_cls_name")
+    hour_cls_code: Annotated[str, "시간 구분 코드"] = Field(alias="hour_cls_code")
+    inter_shrn_iscd: Annotated[str, "관심 단축 종목코드"] = Field(alias="inter_shrn_iscd")
+    inter_kor_isnm: Annotated[str, "관심 한글 종목명"] = Field(alias="inter_kor_isnm")
+    inter2_prpr: Annotated[Decimal, "관심2 현재가"] = Field(alias="inter2_prpr")
+    inter2_prdy_vrss: Annotated[int, "관심2 전일 대비"] = Field(alias="inter2_prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    inter2_oprc: Annotated[Decimal, "관심2 시가"] = Field(alias="inter2_oprc")
+    inter2_hgpr: Annotated[Decimal, "관심2 고가"] = Field(alias="inter2_hgpr")
+    inter2_lwpr: Annotated[Decimal, "관심2 저가"] = Field(alias="inter2_lwpr")
+    inter2_llam: Annotated[int, "관심2 하한가"] = Field(alias="inter2_llam")
+    inter2_mxpr: Annotated[int, "관심2 상한가"] = Field(alias="inter2_mxpr")
+    inter2_askp: Annotated[int, "관심2 매도호가"] = Field(alias="inter2_askp")
+    inter2_bidp: Annotated[str, "관심2 매수호가"] = Field(alias="inter2_bidp")
+    seln_rsqn: Annotated[int, "매도 잔량"] = Field(alias="seln_rsqn")
+    shnu_rsqn: Annotated[int, "매수2 잔량"] = Field(alias="shnu_rsqn")
+    total_askp_rsqn: Annotated[int, "총 매도호가 잔량"] = Field(alias="total_askp_rsqn")
+    total_bidp_rsqn: Annotated[str, "총 매수호가 잔량"] = Field(alias="total_bidp_rsqn")
+    acml_tr_pbmn: Annotated[Decimal, "누적 거래 대금"] = Field(alias="acml_tr_pbmn")
+    inter2_prdy_clpr: Annotated[int, "관심2 전일 종가"] = Field(alias="inter2_prdy_clpr")
+    oprc_vrss_hgpr_rate: Annotated[Decimal, "시가 대비 최고가 비율"] = Field(alias="oprc_vrss_hgpr_rate")
+    intr_antc_cntg_vrss: Annotated[int, "관심 예상 체결 대비"] = Field(alias="intr_antc_cntg_vrss")
+    intr_antc_cntg_vrss_sign: Annotated[int, "관심 예상 체결 대비 부호"] = Field(alias="intr_antc_cntg_vrss_sign")
+    intr_antc_cntg_prdy_ctrt: Annotated[Decimal, "관심 예상 체결 전일 대비율"] = Field(alias="intr_antc_cntg_prdy_ctrt")
+    intr_antc_vol: Annotated[int, "관심 예상 거래량"] = Field(alias="intr_antc_vol")
+    inter2_sdpr: Annotated[int, "관심2 기준가"] = Field(alias="inter2_sdpr")
 
 
 class IntstockMultpriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[IntstockMultpriceOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[IntstockMultpriceOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[IntstockMultpriceRequest, IntstockMultpriceResponse] = Endpoint(

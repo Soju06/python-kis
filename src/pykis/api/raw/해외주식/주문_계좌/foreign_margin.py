@@ -14,10 +14,8 @@ if TYPE_CHECKING:
 
 
 class ForeignMarginRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("계좌상품코드")
+    CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"] = Field(alias="ACNT_PRDT_CD")
 
 
 class ForeignMarginRequestDict(TypedDict):
@@ -31,44 +29,29 @@ class ForeignMarginRequestDict(TypedDict):
         ACNT_PRDT_CD (str): 계좌상품코드
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
+    CANO: str
+    ACNT_PRDT_CD: str
 
 
 class ForeignMarginOutput(RawModel):
-    natn_name: str = Field(alias="natn_name")
-    ("국가명")
-    crcy_cd: str = Field(alias="crcy_cd")
-    ("통화코드")
-    frcr_dncl_amt1: Decimal = Field(alias="frcr_dncl_amt1")
-    ("외화예수금액")
-    ustl_buy_amt: Decimal = Field(alias="ustl_buy_amt")
-    ("미결제매수금액")
-    ustl_sll_amt: Decimal = Field(alias="ustl_sll_amt")
-    ("미결제매도금액")
-    frcr_rcvb_amt: Decimal = Field(alias="frcr_rcvb_amt")
-    ("외화미수금액")
-    frcr_mgn_amt: Decimal = Field(alias="frcr_mgn_amt")
-    ("외화증거금액")
-    frcr_gnrl_ord_psbl_amt: Decimal = Field(alias="frcr_gnrl_ord_psbl_amt")
-    ("외화일반주문가능금액")
-    frcr_ord_psbl_amt1: Decimal = Field(alias="frcr_ord_psbl_amt1")
-    ("원화주문가능환산금액")
-    itgr_ord_psbl_amt: Decimal = Field(alias="itgr_ord_psbl_amt")
-    ("통합주문가능금액")
-    bass_exrt: Decimal = Field(alias="bass_exrt")
-    ("기준환율")
+    natn_name: Annotated[str, "국가명"] = Field(alias="natn_name")
+    crcy_cd: Annotated[str, "통화코드"] = Field(alias="crcy_cd")
+    frcr_dncl_amt1: Annotated[Decimal, "외화예수금액"] = Field(alias="frcr_dncl_amt1")
+    ustl_buy_amt: Annotated[Decimal, "미결제매수금액"] = Field(alias="ustl_buy_amt")
+    ustl_sll_amt: Annotated[Decimal, "미결제매도금액"] = Field(alias="ustl_sll_amt")
+    frcr_rcvb_amt: Annotated[Decimal, "외화미수금액"] = Field(alias="frcr_rcvb_amt")
+    frcr_mgn_amt: Annotated[Decimal, "외화증거금액"] = Field(alias="frcr_mgn_amt")
+    frcr_gnrl_ord_psbl_amt: Annotated[Decimal, "외화일반주문가능금액"] = Field(alias="frcr_gnrl_ord_psbl_amt")
+    frcr_ord_psbl_amt1: Annotated[Decimal, "원화주문가능환산금액"] = Field(alias="frcr_ord_psbl_amt1")
+    itgr_ord_psbl_amt: Annotated[Decimal, "통합주문가능금액"] = Field(alias="itgr_ord_psbl_amt")
+    bass_exrt: Annotated[Decimal, "기준환율"] = Field(alias="bass_exrt")
 
 
 class ForeignMarginResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[ForeignMarginOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[ForeignMarginOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[ForeignMarginRequest, ForeignMarginResponse] = Endpoint(

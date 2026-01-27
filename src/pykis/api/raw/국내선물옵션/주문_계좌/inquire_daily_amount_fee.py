@@ -16,31 +16,29 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class InquireDailyAmountFeeRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    INQR_STRT_DAY: str = Field(alias="INQR_STRT_DAY")
-    ("조회시작일(YYYYMMDD)")
-    INQR_END_DAY: str = Field(alias="INQR_END_DAY")
-    ("조회종료일(YYYYMMDD)")
-    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
-    ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
-    ("연속조회키200")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    INQR_STRT_DAY: Annotated[str, "조회시작일(YYYYMMDD)"] = Field(alias="INQR_STRT_DAY")
+    INQR_END_DAY: Annotated[str, "조회종료일(YYYYMMDD)"] = Field(alias="INQR_END_DAY")
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"] = Field(alias="CTX_AREA_FK200")
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"] = Field(alias="CTX_AREA_NK200")
 
 
 class InquireDailyAmountFeeRequestDict(TypedDict):
@@ -56,99 +54,60 @@ class InquireDailyAmountFeeRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    INQR_STRT_DAY: Annotated[str, "조회시작일(YYYYMMDD)"]
-    INQR_END_DAY: Annotated[str, "조회종료일(YYYYMMDD)"]
-    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
-    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    INQR_STRT_DAY: str
+    INQR_END_DAY: str
+    CTX_AREA_FK200: str
+    CTX_AREA_NK200: str
 
 
 class InquireDailyAmountFeeOutput1(RawModel):
-    ord_dt: KisDate = Field(alias="ord_dt")
-    ("주문일자")
-    pdno: str = Field(alias="pdno")
-    ("상품번호")
-    item_name: str = Field(alias="item_name")
-    ("종목명")
-    sll_agrm_amt: Decimal = Field(alias="sll_agrm_amt")
-    ("매도약정금액")
-    sll_fee: str = Field(alias="sll_fee")
-    ("매도수수료")
-    buy_agrm_amt: Decimal = Field(alias="buy_agrm_amt")
-    ("매수약정금액")
-    buy_fee: str = Field(alias="buy_fee")
-    ("매수수수료")
-    tot_fee_smtl: str = Field(alias="tot_fee_smtl")
-    ("총수수료합계")
-    trad_pfls: str = Field(alias="trad_pfls")
-    ("매매손익")
+    ord_dt: Annotated[KisDate, "주문일자"] = Field(alias="ord_dt")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    item_name: Annotated[str, "종목명"] = Field(alias="item_name")
+    sll_agrm_amt: Annotated[Decimal, "매도약정금액"] = Field(alias="sll_agrm_amt")
+    sll_fee: Annotated[str, "매도수수료"] = Field(alias="sll_fee")
+    buy_agrm_amt: Annotated[Decimal, "매수약정금액"] = Field(alias="buy_agrm_amt")
+    buy_fee: Annotated[str, "매수수수료"] = Field(alias="buy_fee")
+    tot_fee_smtl: Annotated[str, "총수수료합계"] = Field(alias="tot_fee_smtl")
+    trad_pfls: Annotated[str, "매매손익"] = Field(alias="trad_pfls")
 
 
 class InquireDailyAmountFeeOutput2(RawModel):
-    futr_agrm: str = Field(alias="futr_agrm")
-    ("선물약정")
-    futr_agrm_amt: Decimal = Field(alias="futr_agrm_amt")
-    ("선물약정금액")
-    futr_agrm_amt_smtl: Decimal = Field(alias="futr_agrm_amt_smtl")
-    ("선물약정금액합계")
-    futr_sll_fee_smtl: str = Field(alias="futr_sll_fee_smtl")
-    ("선물매도수수료합계")
-    futr_buy_fee_smtl: str = Field(alias="futr_buy_fee_smtl")
-    ("선물매수수수료합계")
-    futr_fee_smtl: str = Field(alias="futr_fee_smtl")
-    ("선물수수료합계")
-    opt_agrm: str = Field(alias="opt_agrm")
-    ("옵션약정")
-    opt_agrm_amt: Decimal = Field(alias="opt_agrm_amt")
-    ("옵션약정금액")
-    opt_agrm_amt_smtl: Decimal = Field(alias="opt_agrm_amt_smtl")
-    ("옵션약정금액합계")
-    opt_sll_fee_smtl: str = Field(alias="opt_sll_fee_smtl")
-    ("옵션매도수수료합계")
-    opt_buy_fee_smtl: str = Field(alias="opt_buy_fee_smtl")
-    ("옵션매수수수료합계")
-    opt_fee_smtl: str = Field(alias="opt_fee_smtl")
-    ("옵션수수료합계")
-    prdt_futr_agrm: str = Field(alias="prdt_futr_agrm")
-    ("상품선물약정")
-    prdt_fuop: str = Field(alias="prdt_fuop")
-    ("상품선물옵션")
-    prdt_futr_evlu_amt: Decimal = Field(alias="prdt_futr_evlu_amt")
-    ("상품선물평가금액")
-    futr_fee: str = Field(alias="futr_fee")
-    ("선물수수료")
-    opt_fee: str = Field(alias="opt_fee")
-    ("옵션수수료")
-    fee: str = Field(alias="fee")
-    ("수수료")
-    sll_agrm_amt: Decimal = Field(alias="sll_agrm_amt")
-    ("매도약정금액")
-    buy_agrm_amt: Decimal = Field(alias="buy_agrm_amt")
-    ("매수약정금액")
-    agrm_amt_smtl: Decimal = Field(alias="agrm_amt_smtl")
-    ("약정금액합계")
-    sll_fee: str = Field(alias="sll_fee")
-    ("매도수수료")
-    buy_fee: str = Field(alias="buy_fee")
-    ("매수수수료")
-    fee_smtl: str = Field(alias="fee_smtl")
-    ("수수료합계")
-    trad_pfls_smtl: str = Field(alias="trad_pfls_smtl")
-    ("매매손익합계")
+    futr_agrm: Annotated[str, "선물약정"] = Field(alias="futr_agrm")
+    futr_agrm_amt: Annotated[Decimal, "선물약정금액"] = Field(alias="futr_agrm_amt")
+    futr_agrm_amt_smtl: Annotated[Decimal, "선물약정금액합계"] = Field(alias="futr_agrm_amt_smtl")
+    futr_sll_fee_smtl: Annotated[str, "선물매도수수료합계"] = Field(alias="futr_sll_fee_smtl")
+    futr_buy_fee_smtl: Annotated[str, "선물매수수수료합계"] = Field(alias="futr_buy_fee_smtl")
+    futr_fee_smtl: Annotated[str, "선물수수료합계"] = Field(alias="futr_fee_smtl")
+    opt_agrm: Annotated[str, "옵션약정"] = Field(alias="opt_agrm")
+    opt_agrm_amt: Annotated[Decimal, "옵션약정금액"] = Field(alias="opt_agrm_amt")
+    opt_agrm_amt_smtl: Annotated[Decimal, "옵션약정금액합계"] = Field(alias="opt_agrm_amt_smtl")
+    opt_sll_fee_smtl: Annotated[str, "옵션매도수수료합계"] = Field(alias="opt_sll_fee_smtl")
+    opt_buy_fee_smtl: Annotated[str, "옵션매수수수료합계"] = Field(alias="opt_buy_fee_smtl")
+    opt_fee_smtl: Annotated[str, "옵션수수료합계"] = Field(alias="opt_fee_smtl")
+    prdt_futr_agrm: Annotated[str, "상품선물약정"] = Field(alias="prdt_futr_agrm")
+    prdt_fuop: Annotated[str, "상품선물옵션"] = Field(alias="prdt_fuop")
+    prdt_futr_evlu_amt: Annotated[Decimal, "상품선물평가금액"] = Field(alias="prdt_futr_evlu_amt")
+    futr_fee: Annotated[str, "선물수수료"] = Field(alias="futr_fee")
+    opt_fee: Annotated[str, "옵션수수료"] = Field(alias="opt_fee")
+    fee: Annotated[str, "수수료"] = Field(alias="fee")
+    sll_agrm_amt: Annotated[Decimal, "매도약정금액"] = Field(alias="sll_agrm_amt")
+    buy_agrm_amt: Annotated[Decimal, "매수약정금액"] = Field(alias="buy_agrm_amt")
+    agrm_amt_smtl: Annotated[Decimal, "약정금액합계"] = Field(alias="agrm_amt_smtl")
+    sll_fee: Annotated[str, "매도수수료"] = Field(alias="sll_fee")
+    buy_fee: Annotated[str, "매수수수료"] = Field(alias="buy_fee")
+    fee_smtl: Annotated[str, "수수료합계"] = Field(alias="fee_smtl")
+    trad_pfls_smtl: Annotated[str, "매매손익합계"] = Field(alias="trad_pfls_smtl")
 
 
 class InquireDailyAmountFeeResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[InquireDailyAmountFeeOutput1] = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquireDailyAmountFeeOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[InquireDailyAmountFeeOutput1], "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquireDailyAmountFeeOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireDailyAmountFeeRequest, InquireDailyAmountFeeResponse] = Endpoint(

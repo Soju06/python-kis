@@ -13,8 +13,7 @@ if TYPE_CHECKING:
 
 
 class OptAskingPriceRequest(RawModel):
-    SRS_CD: str = Field(alias="SRS_CD")
-    ("예)OESM24 C5340")
+    SRS_CD: Annotated[str, "예)OESM24 C5340"] = Field(alias="SRS_CD")
 
 
 class OptAskingPriceRequestDict(TypedDict):
@@ -27,16 +26,13 @@ class OptAskingPriceRequestDict(TypedDict):
         SRS_CD (str): 예)OESM24 C5340
     """
 
-    SRS_CD: Annotated[str, "예)OESM24 C5340"]
+    SRS_CD: str
 
 
 class OptAskingPriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
 
 
 _ENDPOINT: Endpoint[OptAskingPriceRequest, OptAskingPriceResponse] = Endpoint(

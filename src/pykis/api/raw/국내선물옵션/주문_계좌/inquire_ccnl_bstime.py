@@ -16,33 +16,30 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class InquireCcnlBstimeRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    ORD_DT: str = Field(alias="ORD_DT")
-    ("주문일자(YYYYMMDD)")
-    FUOP_TR_STRT_TMD: KisTime = Field(alias="FUOP_TR_STRT_TMD")
-    ("선물옵션거래시작시간(HHMMSS)")
-    FUOP_TR_END_TMD: KisTime = Field(alias="FUOP_TR_END_TMD")
-    ("선물옵션거래종료시간(HHMMSS)")
-    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
-    ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
-    ("연속조회키200")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    ORD_DT: Annotated[str, "주문일자(YYYYMMDD)"] = Field(alias="ORD_DT")
+    FUOP_TR_STRT_TMD: Annotated[KisTime, "선물옵션거래시작시간(HHMMSS)"] = Field(alias="FUOP_TR_STRT_TMD")
+    FUOP_TR_END_TMD: Annotated[KisTime, "선물옵션거래종료시간(HHMMSS)"] = Field(alias="FUOP_TR_END_TMD")
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"] = Field(alias="CTX_AREA_FK200")
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"] = Field(alias="CTX_AREA_NK200")
 
 
 class InquireCcnlBstimeRequestDict(TypedDict):
@@ -59,60 +56,41 @@ class InquireCcnlBstimeRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    ORD_DT: Annotated[str, "주문일자(YYYYMMDD)"]
-    FUOP_TR_STRT_TMD: Annotated[KisTime, "선물옵션거래시작시간(HHMMSS)"]
-    FUOP_TR_END_TMD: Annotated[KisTime, "선물옵션거래종료시간(HHMMSS)"]
-    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
-    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    ORD_DT: str
+    FUOP_TR_STRT_TMD: KisTime
+    FUOP_TR_END_TMD: KisTime
+    CTX_AREA_FK200: str
+    CTX_AREA_NK200: str
 
 
 class InquireCcnlBstimeOutput1(RawModel):
-    pdno: str = Field(alias="pdno")
-    ("상품번호")
-    prdt_name: str = Field(alias="prdt_name")
-    ("상품명")
-    odno: str = Field(alias="odno")
-    ("주문번호")
-    tr_type_name: str = Field(alias="tr_type_name")
-    ("거래유형명")
-    last_sttldt: str = Field(alias="last_sttldt")
-    ("최종결제일")
-    ccld_idx: str = Field(alias="ccld_idx")
-    ("체결지수")
-    ccld_qty: str = Field(alias="ccld_qty")
-    ("체결량")
-    trad_amt: Decimal = Field(alias="trad_amt")
-    ("매매금액")
-    fee: str = Field(alias="fee")
-    ("수수료")
-    ccld_btwn: str = Field(alias="ccld_btwn")
-    ("체결시간")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    prdt_name: Annotated[str, "상품명"] = Field(alias="prdt_name")
+    odno: Annotated[str, "주문번호"] = Field(alias="odno")
+    tr_type_name: Annotated[str, "거래유형명"] = Field(alias="tr_type_name")
+    last_sttldt: Annotated[str, "최종결제일"] = Field(alias="last_sttldt")
+    ccld_idx: Annotated[str, "체결지수"] = Field(alias="ccld_idx")
+    ccld_qty: Annotated[str, "체결량"] = Field(alias="ccld_qty")
+    trad_amt: Annotated[Decimal, "매매금액"] = Field(alias="trad_amt")
+    fee: Annotated[str, "수수료"] = Field(alias="fee")
+    ccld_btwn: Annotated[str, "체결시간"] = Field(alias="ccld_btwn")
 
 
 class InquireCcnlBstimeOutput2(RawModel):
-    tot_ccld_qty_smtl: int = Field(alias="tot_ccld_qty_smtl")
-    ("총체결수량합계")
-    tot_ccld_amt_smtl: Decimal = Field(alias="tot_ccld_amt_smtl")
-    ("총체결금액합계")
-    fee_adjt: str = Field(alias="fee_adjt")
-    ("수수료조정")
-    fee_smtl: str = Field(alias="fee_smtl")
-    ("수수료합계")
+    tot_ccld_qty_smtl: Annotated[int, "총체결수량합계"] = Field(alias="tot_ccld_qty_smtl")
+    tot_ccld_amt_smtl: Annotated[Decimal, "총체결금액합계"] = Field(alias="tot_ccld_amt_smtl")
+    fee_adjt: Annotated[str, "수수료조정"] = Field(alias="fee_adjt")
+    fee_smtl: Annotated[str, "수수료합계"] = Field(alias="fee_smtl")
 
 
 class InquireCcnlBstimeResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[InquireCcnlBstimeOutput1] = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquireCcnlBstimeOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[InquireCcnlBstimeOutput1], "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquireCcnlBstimeOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireCcnlBstimeRequest, InquireCcnlBstimeResponse] = Endpoint(

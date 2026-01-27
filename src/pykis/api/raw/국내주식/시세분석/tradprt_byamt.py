@@ -16,20 +16,19 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     J = ("J", "KRX")
-    "KRX"
+    """KRX"""
     NX = ("NX", "NXT")
-    "NXT"
+    """NXT"""
     UN = ("UN", "통합")
-    "통합"
+    """통합"""
 
 
 class TradprtByamtRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("J: KRX, NX: NXT, UN: 통합")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("Uniquekey(11119)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목코드(ex)(005930 (삼성전자))")
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J: KRX, NX: NXT, UN: 통합"] = Field(
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["J", "NX", "UN"], "enum_desc": {"J": "KRX", "NX": "NXT", "UN": "통합"}}
+    )
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Uniquekey(11119)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "종목코드(ex)(005930 (삼성전자))"] = Field(alias="FID_INPUT_ISCD")
 
 
 class TradprtByamtRequestDict(TypedDict):
@@ -44,45 +43,30 @@ class TradprtByamtRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목코드(ex)(005930 (삼성전자))
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J: KRX, NX: NXT, UN: 통합"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "Uniquekey(11119)"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드(ex)(005930 (삼성전자))"]
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
+    FID_COND_SCR_DIV_CODE: str
+    FID_INPUT_ISCD: str
 
 
 class TradprtByamtOutput(RawModel):
-    prpr_name: str | None = Field(default=None, alias="prpr_name")
-    ("가격명")
-    smtn_avrg_prpr: Decimal | None = Field(default=None, alias="smtn_avrg_prpr")
-    ("합계 평균가격")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
-    ("합계 거래량")
-    whol_ntby_qty_rate: Decimal | None = Field(default=None, alias="whol_ntby_qty_rate")
-    ("합계 순매수비율")
-    ntby_cntg_csnu: int | None = Field(default=None, alias="ntby_cntg_csnu")
-    ("합계 순매수건수")
-    seln_cnqn_smtn: int | None = Field(default=None, alias="seln_cnqn_smtn")
-    ("매도 거래량")
-    whol_seln_vol_rate: Decimal | None = Field(default=None, alias="whol_seln_vol_rate")
-    ("매도 거래량비율")
-    seln_cntg_csnu: int | None = Field(default=None, alias="seln_cntg_csnu")
-    ("매도 건수")
-    shnu_cnqn_smtn: int | None = Field(default=None, alias="shnu_cnqn_smtn")
-    ("매수 거래량")
-    whol_shun_vol_rate: Decimal | None = Field(default=None, alias="whol_shun_vol_rate")
-    ("매수 거래량비율")
-    shnu_cntg_csnu: int | None = Field(default=None, alias="shnu_cntg_csnu")
-    ("매수 건수")
+    prpr_name: Annotated[str | None, "가격명"] = Field(default=None, alias="prpr_name")
+    smtn_avrg_prpr: Annotated[Decimal | None, "합계 평균가격"] = Field(default=None, alias="smtn_avrg_prpr")
+    acml_vol: Annotated[int | None, "합계 거래량"] = Field(default=None, alias="acml_vol")
+    whol_ntby_qty_rate: Annotated[Decimal | None, "합계 순매수비율"] = Field(default=None, alias="whol_ntby_qty_rate")
+    ntby_cntg_csnu: Annotated[int | None, "합계 순매수건수"] = Field(default=None, alias="ntby_cntg_csnu")
+    seln_cnqn_smtn: Annotated[int | None, "매도 거래량"] = Field(default=None, alias="seln_cnqn_smtn")
+    whol_seln_vol_rate: Annotated[Decimal | None, "매도 거래량비율"] = Field(default=None, alias="whol_seln_vol_rate")
+    seln_cntg_csnu: Annotated[int | None, "매도 건수"] = Field(default=None, alias="seln_cntg_csnu")
+    shnu_cnqn_smtn: Annotated[int | None, "매수 거래량"] = Field(default=None, alias="shnu_cnqn_smtn")
+    whol_shun_vol_rate: Annotated[Decimal | None, "매수 거래량비율"] = Field(default=None, alias="whol_shun_vol_rate")
+    shnu_cntg_csnu: Annotated[int | None, "매수 건수"] = Field(default=None, alias="shnu_cntg_csnu")
 
 
 class TradprtByamtResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[TradprtByamtOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[TradprtByamtOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[TradprtByamtRequest, TradprtByamtResponse] = Endpoint(

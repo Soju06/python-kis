@@ -14,12 +14,9 @@ if TYPE_CHECKING:
 
 
 class InquireDepositRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("29")
-    ACCA_DVSN_CD: str = Field(alias="ACCA_DVSN_CD")
-    ("00")
+    CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "29"] = Field(alias="ACNT_PRDT_CD")
+    ACCA_DVSN_CD: Annotated[str, "00"] = Field(alias="ACCA_DVSN_CD")
 
 
 class InquireDepositRequestDict(TypedDict):
@@ -34,31 +31,23 @@ class InquireDepositRequestDict(TypedDict):
         ACCA_DVSN_CD (str): 00
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "29"]
-    ACCA_DVSN_CD: Annotated[str, "00"]
+    CANO: str
+    ACNT_PRDT_CD: str
+    ACCA_DVSN_CD: str
 
 
 class InquireDepositOutput(RawModel):
-    dnca_tota: str = Field(alias="dnca_tota")
-    ("예수금총액")
-    nxdy_excc_amt: str = Field(alias="nxdy_excc_amt")
-    ("익일정산액")
-    nxdy_sttl_amt: Decimal = Field(alias="nxdy_sttl_amt")
-    ("익일결제금액")
-    nx2_day_sttl_amt: Decimal = Field(alias="nx2_day_sttl_amt")
-    ("2익일결제금액")
+    dnca_tota: Annotated[str, "예수금총액"] = Field(alias="dnca_tota")
+    nxdy_excc_amt: Annotated[str, "익일정산액"] = Field(alias="nxdy_excc_amt")
+    nxdy_sttl_amt: Annotated[Decimal, "익일결제금액"] = Field(alias="nxdy_sttl_amt")
+    nx2_day_sttl_amt: Annotated[Decimal, "2익일결제금액"] = Field(alias="nx2_day_sttl_amt")
 
 
 class InquireDepositResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: InquireDepositOutput = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[InquireDepositOutput, "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireDepositRequest, InquireDepositResponse] = Endpoint(

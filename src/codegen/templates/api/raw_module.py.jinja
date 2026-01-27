@@ -8,7 +8,7 @@ from __future__ import annotations
 class {{ enum.name }}(KisStrEnum):
 {% if enum.members %}
 {% for member in enum.members %}
-    {{ member.name }} = ({{ member.value | repr }}, {{ member.desc | string_literal }})
+    {{ member.name }} = ({{ member.value | repr }}, {{ member.desc | inline_literal }})
 {% if member.desc %}
     {{ member.desc | string_literal }}
 {% endif %}

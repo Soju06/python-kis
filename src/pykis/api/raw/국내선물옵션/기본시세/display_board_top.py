@@ -14,18 +14,18 @@ if TYPE_CHECKING:
 
 
 class DisplayBoardTopRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (F: 선물)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("선물최근월물 ex)(101V06)")
-    FID_COND_MRKT_DIV_CODE1: str | None = Field(default=None, alias="FID_COND_MRKT_DIV_CODE1", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_COND_SCR_DIV_CODE: str | None = Field(default=None, alias="FID_COND_SCR_DIV_CODE", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_MTRT_CNT: str | None = Field(default=None, alias="FID_MTRT_CNT", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_COND_MRKT_CLS_CODE: str | None = Field(default=None, alias="FID_COND_MRKT_CLS_CODE", json_schema_extra={"blank_allowed": True})
-    ("공백")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (F: 선물)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "선물최근월물 ex)(101V06)"] = Field(alias="FID_INPUT_ISCD")
+    FID_COND_MRKT_DIV_CODE1: Annotated[str | None, "공백"] = Field(
+        default=None, alias="FID_COND_MRKT_DIV_CODE1", json_schema_extra={"blank_allowed": True}
+    )
+    FID_COND_SCR_DIV_CODE: Annotated[str | None, "공백"] = Field(
+        default=None, alias="FID_COND_SCR_DIV_CODE", json_schema_extra={"blank_allowed": True}
+    )
+    FID_MTRT_CNT: Annotated[str | None, "공백"] = Field(default=None, alias="FID_MTRT_CNT", json_schema_extra={"blank_allowed": True})
+    FID_COND_MRKT_CLS_CODE: Annotated[str | None, "공백"] = Field(
+        default=None, alias="FID_COND_MRKT_CLS_CODE", json_schema_extra={"blank_allowed": True}
+    )
 
 
 class DisplayBoardTopRequestDict(TypedDict):
@@ -43,53 +43,37 @@ class DisplayBoardTopRequestDict(TypedDict):
         FID_COND_MRKT_CLS_CODE (str): 공백 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (F: 선물)"]
-    FID_INPUT_ISCD: Annotated[str, "선물최근월물 ex)(101V06)"]
-    FID_COND_MRKT_DIV_CODE1: NotRequired[Annotated[str | None, "공백"]]
-    FID_COND_SCR_DIV_CODE: NotRequired[Annotated[str | None, "공백"]]
-    FID_MTRT_CNT: NotRequired[Annotated[str | None, "공백"]]
-    FID_COND_MRKT_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
+    FID_COND_MRKT_DIV_CODE1: NotRequired[str | None]
+    FID_COND_SCR_DIV_CODE: NotRequired[str | None]
+    FID_MTRT_CNT: NotRequired[str | None]
+    FID_COND_MRKT_CLS_CODE: NotRequired[str | None]
 
 
 class DisplayBoardTopOutput1(RawModel):
-    unas_prpr: Decimal | None = Field(default=None, alias="unas_prpr")
-    ("기초자산 현재가")
-    unas_prdy_vrss: str | None = Field(default=None, alias="unas_prdy_vrss")
-    ("기초자산 전일 대비")
-    unas_prdy_vrss_sign: str | None = Field(default=None, alias="unas_prdy_vrss_sign")
-    ("기초자산 전일 대비 부호")
-    unas_prdy_ctrt: Decimal | None = Field(default=None, alias="unas_prdy_ctrt")
-    ("기초자산 전일 대비율")
-    unas_acml_vol: int | None = Field(default=None, alias="unas_acml_vol")
-    ("기초자산 누적 거래량")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    futs_prpr: Decimal | None = Field(default=None, alias="futs_prpr")
-    ("선물 현재가")
-    futs_prdy_vrss: str | None = Field(default=None, alias="futs_prdy_vrss")
-    ("선물 전일 대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    futs_prdy_ctrt: Decimal | None = Field(default=None, alias="futs_prdy_ctrt")
-    ("선물 전일 대비율")
+    unas_prpr: Annotated[Decimal | None, "기초자산 현재가"] = Field(default=None, alias="unas_prpr")
+    unas_prdy_vrss: Annotated[str | None, "기초자산 전일 대비"] = Field(default=None, alias="unas_prdy_vrss")
+    unas_prdy_vrss_sign: Annotated[str | None, "기초자산 전일 대비 부호"] = Field(default=None, alias="unas_prdy_vrss_sign")
+    unas_prdy_ctrt: Annotated[Decimal | None, "기초자산 전일 대비율"] = Field(default=None, alias="unas_prdy_ctrt")
+    unas_acml_vol: Annotated[int | None, "기초자산 누적 거래량"] = Field(default=None, alias="unas_acml_vol")
+    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
+    futs_prpr: Annotated[Decimal | None, "선물 현재가"] = Field(default=None, alias="futs_prpr")
+    futs_prdy_vrss: Annotated[str | None, "선물 전일 대비"] = Field(default=None, alias="futs_prdy_vrss")
+    prdy_vrss_sign: Annotated[str | None, "전일 대비 부호"] = Field(default=None, alias="prdy_vrss_sign")
+    futs_prdy_ctrt: Annotated[Decimal | None, "선물 전일 대비율"] = Field(default=None, alias="futs_prdy_ctrt")
 
 
 class DisplayBoardTopOutput2(RawModel):
-    hts_rmnn_dynu: str | None = Field(default=None, alias="hts_rmnn_dynu")
-    ("HTS 잔존 일수")
+    hts_rmnn_dynu: Annotated[str | None, "HTS 잔존 일수"] = Field(default=None, alias="hts_rmnn_dynu")
 
 
 class DisplayBoardTopResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: DisplayBoardTopOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[DisplayBoardTopOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[DisplayBoardTopOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[DisplayBoardTopOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[DisplayBoardTopRequest, DisplayBoardTopResponse] = Endpoint(

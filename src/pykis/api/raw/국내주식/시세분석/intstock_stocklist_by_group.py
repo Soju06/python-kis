@@ -13,22 +13,14 @@ if TYPE_CHECKING:
 
 
 class IntstockStocklistByGroupRequest(RawModel):
-    TYPE: str = Field(alias="TYPE")
-    ("Unique key(1)")
-    USER_ID: str = Field(alias="USER_ID")
-    ("HTS_ID 입력")
-    DATA_RANK: str | None = Field(default=None, alias="DATA_RANK", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    INTER_GRP_CODE: str = Field(alias="INTER_GRP_CODE")
-    ("관심그룹 조회 결과의 그룹 값 입력")
-    INTER_GRP_NAME: str | None = Field(default=None, alias="INTER_GRP_NAME", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    HTS_KOR_ISNM: str | None = Field(default=None, alias="HTS_KOR_ISNM", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    CNTG_CLS_CODE: str | None = Field(default=None, alias="CNTG_CLS_CODE", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_ETC_CLS_CODE: str = Field(alias="FID_ETC_CLS_CODE")
-    ("Unique key(4)")
+    TYPE: Annotated[str, "Unique key(1)"] = Field(alias="TYPE")
+    USER_ID: Annotated[str, "HTS_ID 입력"] = Field(alias="USER_ID")
+    DATA_RANK: Annotated[str | None, "공백"] = Field(default=None, alias="DATA_RANK", json_schema_extra={"blank_allowed": True})
+    INTER_GRP_CODE: Annotated[str, "관심그룹 조회 결과의 그룹 값 입력"] = Field(alias="INTER_GRP_CODE")
+    INTER_GRP_NAME: Annotated[str | None, "공백"] = Field(default=None, alias="INTER_GRP_NAME", json_schema_extra={"blank_allowed": True})
+    HTS_KOR_ISNM: Annotated[str | None, "공백"] = Field(default=None, alias="HTS_KOR_ISNM", json_schema_extra={"blank_allowed": True})
+    CNTG_CLS_CODE: Annotated[str | None, "공백"] = Field(default=None, alias="CNTG_CLS_CODE", json_schema_extra={"blank_allowed": True})
+    FID_ETC_CLS_CODE: Annotated[str, "Unique key(4)"] = Field(alias="FID_ETC_CLS_CODE")
 
 
 class IntstockStocklistByGroupRequestDict(TypedDict):
@@ -53,57 +45,40 @@ class IntstockStocklistByGroupRequestDict(TypedDict):
         FID_ETC_CLS_CODE (str): Unique key(4)
     """
 
-    TYPE: Annotated[str, "Unique key(1)"]
-    USER_ID: Annotated[str, "HTS_ID 입력"]
-    DATA_RANK: NotRequired[Annotated[str | None, "공백"]]
-    INTER_GRP_CODE: Annotated[str, "관심그룹 조회 결과의 그룹 값 입력"]
-    INTER_GRP_NAME: NotRequired[Annotated[str | None, "공백"]]
-    HTS_KOR_ISNM: NotRequired[Annotated[str | None, "공백"]]
-    CNTG_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
-    FID_ETC_CLS_CODE: Annotated[str, "Unique key(4)"]
+    TYPE: str
+    USER_ID: str
+    DATA_RANK: NotRequired[str | None]
+    INTER_GRP_CODE: str
+    INTER_GRP_NAME: NotRequired[str | None]
+    HTS_KOR_ISNM: NotRequired[str | None]
+    CNTG_CLS_CODE: NotRequired[str | None]
+    FID_ETC_CLS_CODE: str
 
 
 class IntstockStocklistByGroupOutput1(RawModel):
-    data_rank: int = Field(alias="data_rank")
-    ("데이터 순위")
-    inter_grp_name: str = Field(alias="inter_grp_name")
-    ("관심 그룹 명")
+    data_rank: Annotated[int, "데이터 순위"] = Field(alias="data_rank")
+    inter_grp_name: Annotated[str, "관심 그룹 명"] = Field(alias="inter_grp_name")
 
 
 class IntstockStocklistByGroupOutput2(RawModel):
-    fid_mrkt_cls_code: str | None = Field(default=None, alias="fid_mrkt_cls_code")
-    ("FID 시장 구분 코드")
-    data_rank: str | None = Field(default=None, alias="data_rank")
-    ("데이터 순위")
-    exch_code: str | None = Field(default=None, alias="exch_code")
-    ("거래소코드")
-    jong_code: str | None = Field(default=None, alias="jong_code")
-    ("종목코드")
-    color_code: str | None = Field(default=None, alias="color_code")
-    ("생상 코드")
-    memo: str | None = Field(default=None, alias="memo")
-    ("메모")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    fxdt_ntby_qty: KisDateOptional = Field(default=None, alias="fxdt_ntby_qty")
-    ("기준일 순매수 수량")
-    cntg_unpr: str | None = Field(default=None, alias="cntg_unpr")
-    ("체결단가")
-    cntg_cls_code: str | None = Field(default=None, alias="cntg_cls_code")
-    ("체결 구분 코드")
+    fid_mrkt_cls_code: Annotated[str | None, "FID 시장 구분 코드"] = Field(default=None, alias="fid_mrkt_cls_code")
+    data_rank: Annotated[str | None, "데이터 순위"] = Field(default=None, alias="data_rank")
+    exch_code: Annotated[str | None, "거래소코드"] = Field(default=None, alias="exch_code")
+    jong_code: Annotated[str | None, "종목코드"] = Field(default=None, alias="jong_code")
+    color_code: Annotated[str | None, "생상 코드"] = Field(default=None, alias="color_code")
+    memo: Annotated[str | None, "메모"] = Field(default=None, alias="memo")
+    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
+    fxdt_ntby_qty: Annotated[KisDateOptional, "기준일 순매수 수량"] = Field(default=None, alias="fxdt_ntby_qty")
+    cntg_unpr: Annotated[str | None, "체결단가"] = Field(default=None, alias="cntg_unpr")
+    cntg_cls_code: Annotated[str | None, "체결 구분 코드"] = Field(default=None, alias="cntg_cls_code")
 
 
 class IntstockStocklistByGroupResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: IntstockStocklistByGroupOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[IntstockStocklistByGroupOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[IntstockStocklistByGroupOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[IntstockStocklistByGroupOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[IntstockStocklistByGroupRequest, IntstockStocklistByGroupResponse] = Endpoint(

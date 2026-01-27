@@ -16,76 +16,122 @@ if TYPE_CHECKING:
 
 class ExcdEnum(KisStrEnum):
     NYS = ("NYS", "뉴욕")
-    "뉴욕"
+    """뉴욕"""
     NAS = ("NAS", "나스닥")
-    "나스닥"
+    """나스닥"""
     AMS = ("AMS", "아멕스")
-    "아멕스"
+    """아멕스"""
     HKS = ("HKS", "홍콩")
-    "홍콩"
+    """홍콩"""
     SHS = ("SHS", "상해")
-    "상해"
+    """상해"""
     SZS = ("SZS", "심천")
-    "심천"
+    """심천"""
     HSX = ("HSX", "호치민")
-    "호치민"
+    """호치민"""
     HNX = ("HNX", "하노이")
-    "하노이"
+    """하노이"""
     TSE = ("TSE", "도쿄 '")
-    "도쿄 '"
+    """도쿄 '"""
 
 
 class NdayEnum(KisStrEnum):
     VALUE_0 = ("0", "1분전")
-    "1분전"
+    """1분전"""
     VALUE_1 = ("1", "2분전")
-    "2분전"
+    """2분전"""
     VALUE_2 = ("2", "3분전")
-    "3분전"
+    """3분전"""
     VALUE_3 = ("3", "5분전")
-    "5분전"
+    """5분전"""
     VALUE_4 = ("4", "10분전")
-    "10분전"
+    """10분전"""
     VALUE_5 = ("5", "15분전")
-    "15분전"
+    """15분전"""
     VALUE_6 = ("6", "20분전")
-    "20분전"
+    """20분전"""
     VALUE_7 = ("7", "30분전")
-    "30분전"
+    """30분전"""
     VALUE_8 = ("8", "60분전")
-    "60분전"
+    """60분전"""
     VALUE_9 = ("9", "120분전")
-    "120분전"
+    """120분전"""
 
 
 class VolRangEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "1백주이상")
-    "1백주이상"
+    """1백주이상"""
     VALUE_2 = ("2", "1천주이상")
-    "1천주이상"
+    """1천주이상"""
     VALUE_3 = ("3", "1만주이상")
-    "1만주이상"
+    """1만주이상"""
     VALUE_4 = ("4", "10만주이상")
-    "10만주이상"
+    """10만주이상"""
     VALUE_5 = ("5", "100만주이상")
-    "100만주이상"
+    """100만주이상"""
     VALUE_6 = ("6", "1000만주이상")
-    "1000만주이상"
+    """1000만주이상"""
 
 
 class VolumePowerRequest(RawModel):
-    KEYB: str | None = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    EXCD: ExcdEnum = Field(alias="EXCD")
-    ("'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '")
-    NDAY: NdayEnum = Field(alias="NDAY")
-    ("N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전), 6(20분전), 7(30분전), 8(60분전), 9(120분전)")
-    VOL_RANG: VolRangEnum = Field(alias="VOL_RANG")
-    ("0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)")
+    KEYB: Annotated[str | None, "공백"] = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
+    AUTH: Annotated[str | None, "공백"] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
+    EXCD: Annotated[
+        ExcdEnum, "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '"
+    ] = Field(
+        alias="EXCD",
+        json_schema_extra={
+            "enum": ["NYS", "NAS", "AMS", "HKS", "SHS", "SZS", "HSX", "HNX", "TSE"],
+            "enum_desc": {
+                "NYS": "뉴욕",
+                "NAS": "나스닥",
+                "AMS": "아멕스",
+                "HKS": "홍콩",
+                "SHS": "상해",
+                "SZS": "심천",
+                "HSX": "호치민",
+                "HNX": "하노이",
+                "TSE": "도쿄 '",
+            },
+        },
+    )
+    NDAY: Annotated[NdayEnum, "N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전), 6(20분전), 7(30분전), 8(60분전), 9(120분전)"] = (
+        Field(
+            alias="NDAY",
+            json_schema_extra={
+                "enum": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+                "enum_desc": {
+                    "0": "1분전",
+                    "1": "2분전",
+                    "2": "3분전",
+                    "3": "5분전",
+                    "4": "10분전",
+                    "5": "15분전",
+                    "6": "20분전",
+                    "7": "30분전",
+                    "8": "60분전",
+                    "9": "120분전",
+                },
+            },
+        )
+    )
+    VOL_RANG: Annotated[VolRangEnum, "0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)"] = Field(
+        alias="VOL_RANG",
+        json_schema_extra={
+            "enum": ["0", "1", "2", "3", "4", "5", "6"],
+            "enum_desc": {
+                "0": "전체",
+                "1": "1백주이상",
+                "2": "1천주이상",
+                "3": "1만주이상",
+                "4": "10만주이상",
+                "5": "100만주이상",
+                "6": "1000만주이상",
+            },
+        },
+    )
 
 
 class VolumePowerRequestDict(TypedDict):
@@ -103,66 +149,43 @@ class VolumePowerRequestDict(TypedDict):
         5(100만주이상), 6(1000만주이상)
     """
 
-    KEYB: NotRequired[Annotated[str | None, "공백"]]
-    AUTH: NotRequired[Annotated[str | None, "공백"]]
-    EXCD: Annotated[ExcdEnum, "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '"]
-    NDAY: Annotated[NdayEnum, "N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전), 6(20분전), 7(30분전), 8(60분전), 9(120분전)"]
-    VOL_RANG: Annotated[VolRangEnum, "0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)"]
+    KEYB: NotRequired[str | None]
+    AUTH: NotRequired[str | None]
+    EXCD: ExcdEnum
+    NDAY: NdayEnum
+    VOL_RANG: VolRangEnum
 
 
 class VolumePowerOutput1(RawModel):
-    zdiv: str = Field(alias="zdiv")
-    ("소수점자리수")
-    stat: str = Field(alias="stat")
-    ("거래상태")
-    nrec: int = Field(alias="nrec")
-    ("RecordCount")
+    zdiv: Annotated[str, "소수점자리수"] = Field(alias="zdiv")
+    stat: Annotated[str, "거래상태"] = Field(alias="stat")
+    nrec: Annotated[int, "RecordCount"] = Field(alias="nrec")
 
 
 class VolumePowerOutput2(RawModel):
-    rsym: str = Field(alias="rsym")
-    ("실시간조회심볼")
-    excd: str = Field(alias="excd")
-    ("거래소코드")
-    symb: str = Field(alias="symb")
-    ("종목코드")
-    knam: str = Field(alias="knam")
-    ("종목명")
-    last: Decimal = Field(alias="last")
-    ("현재가")
-    sign: str = Field(alias="sign")
-    ("기호")
-    diff: str = Field(alias="diff")
-    ("대비")
-    rate: Decimal = Field(alias="rate")
-    ("등락율")
-    tvol: int = Field(alias="tvol")
-    ("거래량")
-    pask: str = Field(alias="pask")
-    ("매도호가")
-    pbid: str = Field(alias="pbid")
-    ("매수호가")
-    tpow: str = Field(alias="tpow")
-    ("당일체결강도")
-    powx: str = Field(alias="powx")
-    ("체결강도")
-    enam: str = Field(alias="enam")
-    ("영문종목명")
-    e_ordyn: str = Field(alias="e_ordyn")
-    ("매매가능")
+    rsym: Annotated[str, "실시간조회심볼"] = Field(alias="rsym")
+    excd: Annotated[str, "거래소코드"] = Field(alias="excd")
+    symb: Annotated[str, "종목코드"] = Field(alias="symb")
+    knam: Annotated[str, "종목명"] = Field(alias="knam")
+    last: Annotated[Decimal, "현재가"] = Field(alias="last")
+    sign: Annotated[str, "기호"] = Field(alias="sign")
+    diff: Annotated[str, "대비"] = Field(alias="diff")
+    rate: Annotated[Decimal, "등락율"] = Field(alias="rate")
+    tvol: Annotated[int, "거래량"] = Field(alias="tvol")
+    pask: Annotated[str, "매도호가"] = Field(alias="pask")
+    pbid: Annotated[str, "매수호가"] = Field(alias="pbid")
+    tpow: Annotated[str, "당일체결강도"] = Field(alias="tpow")
+    powx: Annotated[str, "체결강도"] = Field(alias="powx")
+    enam: Annotated[str, "영문종목명"] = Field(alias="enam")
+    e_ordyn: Annotated[str, "매매가능"] = Field(alias="e_ordyn")
 
 
 class VolumePowerResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: VolumePowerOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[VolumePowerOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[VolumePowerOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[VolumePowerOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[VolumePowerRequest, VolumePowerResponse] = Endpoint(

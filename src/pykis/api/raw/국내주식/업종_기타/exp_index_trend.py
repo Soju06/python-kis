@@ -16,20 +16,18 @@ if TYPE_CHECKING:
 
 class FidMkopClsCodeEnum(KisStrEnum):
     VALUE_1 = ("1", "장시작전")
-    "장시작전"
+    """장시작전"""
     VALUE_2 = ("2", "장마감")
-    "장마감"
+    """장마감"""
 
 
 class ExpIndexTrendRequest(RawModel):
-    FID_MKOP_CLS_CODE: FidMkopClsCodeEnum = Field(alias="FID_MKOP_CLS_CODE")
-    ("1: 장시작전, 2: 장마감")
-    FID_INPUT_HOUR_1: str = Field(alias="FID_INPUT_HOUR_1")
-    ("10(10초), 30(30초), 60(1분), 600(10분)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100")
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (주식 U)")
+    FID_MKOP_CLS_CODE: Annotated[FidMkopClsCodeEnum, "1: 장시작전, 2: 장마감"] = Field(
+        alias="FID_MKOP_CLS_CODE", json_schema_extra={"enum": ["1", "2"], "enum_desc": {"1": "장시작전", "2": "장마감"}}
+    )
+    FID_INPUT_HOUR_1: Annotated[str, "10(10초), 30(30초), 60(1분), 600(10분)"] = Field(alias="FID_INPUT_HOUR_1")
+    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100"] = Field(alias="FID_INPUT_ISCD")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 U)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
 
 
 class ExpIndexTrendRequestDict(TypedDict):
@@ -45,38 +43,27 @@ class ExpIndexTrendRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (주식 U)
     """
 
-    FID_MKOP_CLS_CODE: Annotated[FidMkopClsCodeEnum, "1: 장시작전, 2: 장마감"]
-    FID_INPUT_HOUR_1: Annotated[str, "10(10초), 30(30초), 60(1분), 600(10분)"]
-    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100"]
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 U)"]
+    FID_MKOP_CLS_CODE: FidMkopClsCodeEnum
+    FID_INPUT_HOUR_1: str
+    FID_INPUT_ISCD: str
+    FID_COND_MRKT_DIV_CODE: str
 
 
 class ExpIndexTrendOutput(RawModel):
-    stck_cntg_hour: str | None = Field(default=None, alias="stck_cntg_hour")
-    ("주식 단축 종목코드")
-    bstp_nmix_prpr: str | None = Field(default=None, alias="bstp_nmix_prpr")
-    ("HTS 한글 종목명")
-    prdy_vrss_sign: Decimal | None = Field(default=None, alias="prdy_vrss_sign")
-    ("주식 현재가")
-    bstp_nmix_prdy_vrss: str | None = Field(default=None, alias="bstp_nmix_prdy_vrss")
-    ("전일 대비")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
-    ("전일 대비 부호")
-    acml_vol: Decimal | None = Field(default=None, alias="acml_vol")
-    ("전일 대비율")
-    acml_tr_pbmn: Decimal | None = Field(default=None, alias="acml_tr_pbmn")
-    ("기준가 대비 현재가")
+    stck_cntg_hour: Annotated[str | None, "주식 단축 종목코드"] = Field(default=None, alias="stck_cntg_hour")
+    bstp_nmix_prpr: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="bstp_nmix_prpr")
+    prdy_vrss_sign: Annotated[Decimal | None, "주식 현재가"] = Field(default=None, alias="prdy_vrss_sign")
+    bstp_nmix_prdy_vrss: Annotated[str | None, "전일 대비"] = Field(default=None, alias="bstp_nmix_prdy_vrss")
+    prdy_ctrt: Annotated[Decimal | None, "전일 대비 부호"] = Field(default=None, alias="prdy_ctrt")
+    acml_vol: Annotated[Decimal | None, "전일 대비율"] = Field(default=None, alias="acml_vol")
+    acml_tr_pbmn: Annotated[Decimal | None, "기준가 대비 현재가"] = Field(default=None, alias="acml_tr_pbmn")
 
 
 class ExpIndexTrendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[ExpIndexTrendOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[ExpIndexTrendOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[ExpIndexTrendRequest, ExpIndexTrendResponse] = Endpoint(

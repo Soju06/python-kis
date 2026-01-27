@@ -8,30 +8,18 @@ from pydantic import Field
 
 from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
-from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
-class FidCondMrktDivCodeEnum(KisStrEnum):
-    UNIQUE = ("Unique", "key(I)")
-    "key(I)"
-    VALUE_I = ("I", "Unique key")
-    "Unique key"
-    KEY = ("key", "I")
-    "I"
-
-
 class CompInterestRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("Unique key(I)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("Unique key(20702)")
-    FID_DIV_CLS_CODE: str = Field(alias="FID_DIV_CLS_CODE")
-    ("1: 해외금리지표")
-    FID_DIV_CLS_CODE1: str | None = Field(default=None, alias="FID_DIV_CLS_CODE1", json_schema_extra={"blank_allowed": True})
-    ("공백 : 전체")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "Unique key(I)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(20702)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_DIV_CLS_CODE: Annotated[str, "1: 해외금리지표"] = Field(alias="FID_DIV_CLS_CODE")
+    FID_DIV_CLS_CODE1: Annotated[str | None, "공백 : 전체"] = Field(
+        default=None, alias="FID_DIV_CLS_CODE1", json_schema_extra={"blank_allowed": True}
+    )
 
 
 class CompInterestRequestDict(TypedDict):
@@ -43,63 +31,44 @@ class CompInterestRequestDict(TypedDict):
     ※ 11:30 이후에 신규데이터가 수신되는 점 참고하시기 바랍니다.
 
     Request fields:
-        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): Unique key(I)
+        FID_COND_MRKT_DIV_CODE (str): Unique key(I)
         FID_COND_SCR_DIV_CODE (str): Unique key(20702)
         FID_DIV_CLS_CODE (str): 1: 해외금리지표
         FID_DIV_CLS_CODE1 (str): 공백 : 전체 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "Unique key(I)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(20702)"]
-    FID_DIV_CLS_CODE: Annotated[str, "1: 해외금리지표"]
-    FID_DIV_CLS_CODE1: NotRequired[Annotated[str | None, "공백 : 전체"]]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_COND_SCR_DIV_CODE: str
+    FID_DIV_CLS_CODE: str
+    FID_DIV_CLS_CODE1: NotRequired[str | None]
 
 
 class CompInterestOutput1(RawModel):
-    bcdt_code: str = Field(alias="bcdt_code")
-    ("자료코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS한글종목명")
-    bond_mnrt_prpr: Decimal = Field(alias="bond_mnrt_prpr")
-    ("채권금리현재가")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일대비부호")
-    bond_mnrt_prdy_vrss: Decimal = Field(alias="bond_mnrt_prdy_vrss")
-    ("채권금리전일대비")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일대비율")
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
-    ("주식영업일자")
+    bcdt_code: Annotated[str, "자료코드"] = Field(alias="bcdt_code")
+    hts_kor_isnm: Annotated[str, "HTS한글종목명"] = Field(alias="hts_kor_isnm")
+    bond_mnrt_prpr: Annotated[Decimal, "채권금리현재가"] = Field(alias="bond_mnrt_prpr")
+    prdy_vrss_sign: Annotated[int, "전일대비부호"] = Field(alias="prdy_vrss_sign")
+    bond_mnrt_prdy_vrss: Annotated[Decimal, "채권금리전일대비"] = Field(alias="bond_mnrt_prdy_vrss")
+    prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
+    stck_bsop_date: Annotated[KisDate, "주식영업일자"] = Field(alias="stck_bsop_date")
 
 
 class CompInterestOutput2(RawModel):
-    bcdt_code: str = Field(alias="bcdt_code")
-    ("자료코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS한글종목명")
-    bond_mnrt_prpr: Decimal = Field(alias="bond_mnrt_prpr")
-    ("채권금리현재가")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일대비부호")
-    bond_mnrt_prdy_vrss: Decimal = Field(alias="bond_mnrt_prdy_vrss")
-    ("채권금리전일대비")
-    bstp_nmix_prdy_ctrt: Decimal = Field(alias="bstp_nmix_prdy_ctrt")
-    ("업종지수전일대비율")
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
-    ("주식영업일자")
+    bcdt_code: Annotated[str, "자료코드"] = Field(alias="bcdt_code")
+    hts_kor_isnm: Annotated[str, "HTS한글종목명"] = Field(alias="hts_kor_isnm")
+    bond_mnrt_prpr: Annotated[Decimal, "채권금리현재가"] = Field(alias="bond_mnrt_prpr")
+    prdy_vrss_sign: Annotated[int, "전일대비부호"] = Field(alias="prdy_vrss_sign")
+    bond_mnrt_prdy_vrss: Annotated[Decimal, "채권금리전일대비"] = Field(alias="bond_mnrt_prdy_vrss")
+    bstp_nmix_prdy_ctrt: Annotated[Decimal, "업종지수전일대비율"] = Field(alias="bstp_nmix_prdy_ctrt")
+    stck_bsop_date: Annotated[KisDate, "주식영업일자"] = Field(alias="stck_bsop_date")
 
 
 class CompInterestResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[CompInterestOutput1] = Field(alias="output1")
-    ("응답상세")
-    output2: list[CompInterestOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[CompInterestOutput1], "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[CompInterestOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[CompInterestRequest, CompInterestResponse] = Endpoint(
@@ -159,7 +128,7 @@ if TYPE_CHECKING:
                 **kwargs (CompInterestRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): Unique key(I)
+                        FID_COND_MRKT_DIV_CODE (str): Unique key(I)
                         FID_COND_SCR_DIV_CODE (str): Unique key(20702)
                         FID_DIV_CLS_CODE (str): 1: 해외금리지표
                         FID_DIV_CLS_CODE1 (str): 공백 : 전체 optional
@@ -173,12 +142,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = [
-    "ENDPOINT",
-    "CompInterestRequest",
-    "CompInterestRequestDict",
-    "CompInterestResponse",
-    "CompInterestOutput1",
-    "CompInterestOutput2",
-    "FidCondMrktDivCodeEnum",
-]
+__all__ = ["ENDPOINT", "CompInterestRequest", "CompInterestRequestDict", "CompInterestResponse", "CompInterestOutput1", "CompInterestOutput2"]

@@ -16,48 +16,66 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class CrcyCdEnum(KisStrEnum):
     TUS = ("TUS", "TOT_USD /")
-    "TOT_USD /"
+    """TOT_USD /"""
     TKR = ("TKR", "TOT_KRW")
-    "TOT_KRW"
+    """TOT_KRW"""
     KRW = ("KRW", "한국 /")
-    "한국 /"
+    """한국 /"""
     USD = ("USD", "미국")
-    "미국"
+    """미국"""
     EUR = ("EUR", "EUR /")
-    "EUR /"
+    """EUR /"""
     HKD = ("HKD", "홍콩")
-    "홍콩"
+    """홍콩"""
     CNY = ("CNY", "중국 /")
-    "중국 /"
+    """중국 /"""
     JPY = ("JPY", "일본")
-    "일본"
+    """일본"""
     VND = ("VND", "베트남")
-    "베트남"
+    """베트남"""
 
 
 class InquireDepositRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    CRCY_CD: CrcyCdEnum = Field(alias="CRCY_CD")
-    ("TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남")
-    INQR_DT: KisDate = Field(alias="INQR_DT")
-    ("조회일자")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    CRCY_CD: Annotated[CrcyCdEnum, "TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남"] = (
+        Field(
+            alias="CRCY_CD",
+            json_schema_extra={
+                "enum": ["TUS", "TKR", "KRW", "USD", "EUR", "HKD", "CNY", "JPY", "VND"],
+                "enum_desc": {
+                    "TUS": "TOT_USD /",
+                    "TKR": "TOT_KRW",
+                    "KRW": "한국 /",
+                    "USD": "미국",
+                    "EUR": "EUR /",
+                    "HKD": "홍콩",
+                    "CNY": "중국 /",
+                    "JPY": "일본",
+                    "VND": "베트남",
+                },
+            },
+        )
+    )
+    INQR_DT: Annotated[KisDate, "조회일자"] = Field(alias="INQR_DT")
 
 
 class InquireDepositRequestDict(TypedDict):
@@ -72,74 +90,45 @@ class InquireDepositRequestDict(TypedDict):
         INQR_DT (KisDate): 조회일자
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    CRCY_CD: Annotated[CrcyCdEnum, "TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남"]
-    INQR_DT: Annotated[KisDate, "조회일자"]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    CRCY_CD: CrcyCdEnum
+    INQR_DT: KisDate
 
 
 class InquireDepositOutput(RawModel):
-    fm_nxdy_dncl_amt: Decimal = Field(alias="fm_nxdy_dncl_amt")
-    ("FM익일예수금액")
-    fm_tot_asst_evlu_amt: Decimal = Field(alias="fm_tot_asst_evlu_amt")
-    ("FM총자산평가금액")
-    cano: str = Field(alias="cano")
-    ("종합계좌번호")
-    acnt_prdt_cd: str = Field(alias="acnt_prdt_cd")
-    ("계좌상품코드")
-    crcy_cd: str = Field(alias="crcy_cd")
-    ("통화코드")
-    resp_dt: KisDate = Field(alias="resp_dt")
-    ("응답일자")
-    fm_dnca_rmnd: str = Field(alias="fm_dnca_rmnd")
-    ("FM예수금잔액")
-    fm_lqd_pfls_amt: Decimal = Field(alias="fm_lqd_pfls_amt")
-    ("FM청산손익금액")
-    fm_fee: str = Field(alias="fm_fee")
-    ("FM수수료")
-    fm_fuop_evlu_pfls_amt: Decimal = Field(alias="fm_fuop_evlu_pfls_amt")
-    ("FM선물옵션평가손익금액")
-    fm_rcvb_amt: Decimal = Field(alias="fm_rcvb_amt")
-    ("FM미수금액")
-    fm_brkg_mgn_amt: Decimal = Field(alias="fm_brkg_mgn_amt")
-    ("FM위탁증거금액")
-    fm_mntn_mgn_amt: Decimal = Field(alias="fm_mntn_mgn_amt")
-    ("FM유지증거금액")
-    fm_add_mgn_amt: Decimal = Field(alias="fm_add_mgn_amt")
-    ("FM추가증거금액")
-    fm_risk_rt: Decimal = Field(alias="fm_risk_rt")
-    ("FM위험율")
-    fm_ord_psbl_amt: Decimal = Field(alias="fm_ord_psbl_amt")
-    ("FM주문가능금액")
-    fm_drwg_psbl_amt: Decimal = Field(alias="fm_drwg_psbl_amt")
-    ("FM출금가능금액")
-    fm_echm_rqrm_amt: Decimal = Field(alias="fm_echm_rqrm_amt")
-    ("FM환전요청금액")
-    fm_drwg_prar_amt: Decimal = Field(alias="fm_drwg_prar_amt")
-    ("FM출금예정금액")
-    fm_opt_tr_chgs: Decimal = Field(alias="fm_opt_tr_chgs")
-    ("FM옵션거래대금")
-    fm_opt_icld_asst_evlu_amt: Decimal = Field(alias="fm_opt_icld_asst_evlu_amt")
-    ("FM옵션포함자산평가금액")
-    fm_opt_evlu_amt: Decimal = Field(alias="fm_opt_evlu_amt")
-    ("FM옵션평가금액")
-    fm_crcy_sbst_amt: Decimal = Field(alias="fm_crcy_sbst_amt")
-    ("FM통화대용금액")
-    fm_crcy_sbst_use_amt: Decimal = Field(alias="fm_crcy_sbst_use_amt")
-    ("FM통화대용사용금액")
-    fm_crcy_sbst_stup_amt: Decimal = Field(alias="fm_crcy_sbst_stup_amt")
-    ("FM통화대용설정금액")
+    fm_nxdy_dncl_amt: Annotated[Decimal, "FM익일예수금액"] = Field(alias="fm_nxdy_dncl_amt")
+    fm_tot_asst_evlu_amt: Annotated[Decimal, "FM총자산평가금액"] = Field(alias="fm_tot_asst_evlu_amt")
+    cano: Annotated[str, "종합계좌번호"] = Field(alias="cano")
+    acnt_prdt_cd: Annotated[str, "계좌상품코드"] = Field(alias="acnt_prdt_cd")
+    crcy_cd: Annotated[str, "통화코드"] = Field(alias="crcy_cd")
+    resp_dt: Annotated[KisDate, "응답일자"] = Field(alias="resp_dt")
+    fm_dnca_rmnd: Annotated[str, "FM예수금잔액"] = Field(alias="fm_dnca_rmnd")
+    fm_lqd_pfls_amt: Annotated[Decimal, "FM청산손익금액"] = Field(alias="fm_lqd_pfls_amt")
+    fm_fee: Annotated[str, "FM수수료"] = Field(alias="fm_fee")
+    fm_fuop_evlu_pfls_amt: Annotated[Decimal, "FM선물옵션평가손익금액"] = Field(alias="fm_fuop_evlu_pfls_amt")
+    fm_rcvb_amt: Annotated[Decimal, "FM미수금액"] = Field(alias="fm_rcvb_amt")
+    fm_brkg_mgn_amt: Annotated[Decimal, "FM위탁증거금액"] = Field(alias="fm_brkg_mgn_amt")
+    fm_mntn_mgn_amt: Annotated[Decimal, "FM유지증거금액"] = Field(alias="fm_mntn_mgn_amt")
+    fm_add_mgn_amt: Annotated[Decimal, "FM추가증거금액"] = Field(alias="fm_add_mgn_amt")
+    fm_risk_rt: Annotated[Decimal, "FM위험율"] = Field(alias="fm_risk_rt")
+    fm_ord_psbl_amt: Annotated[Decimal, "FM주문가능금액"] = Field(alias="fm_ord_psbl_amt")
+    fm_drwg_psbl_amt: Annotated[Decimal, "FM출금가능금액"] = Field(alias="fm_drwg_psbl_amt")
+    fm_echm_rqrm_amt: Annotated[Decimal, "FM환전요청금액"] = Field(alias="fm_echm_rqrm_amt")
+    fm_drwg_prar_amt: Annotated[Decimal, "FM출금예정금액"] = Field(alias="fm_drwg_prar_amt")
+    fm_opt_tr_chgs: Annotated[Decimal, "FM옵션거래대금"] = Field(alias="fm_opt_tr_chgs")
+    fm_opt_icld_asst_evlu_amt: Annotated[Decimal, "FM옵션포함자산평가금액"] = Field(alias="fm_opt_icld_asst_evlu_amt")
+    fm_opt_evlu_amt: Annotated[Decimal, "FM옵션평가금액"] = Field(alias="fm_opt_evlu_amt")
+    fm_crcy_sbst_amt: Annotated[Decimal, "FM통화대용금액"] = Field(alias="fm_crcy_sbst_amt")
+    fm_crcy_sbst_use_amt: Annotated[Decimal, "FM통화대용사용금액"] = Field(alias="fm_crcy_sbst_use_amt")
+    fm_crcy_sbst_stup_amt: Annotated[Decimal, "FM통화대용설정금액"] = Field(alias="fm_crcy_sbst_stup_amt")
 
 
 class InquireDepositResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: InquireDepositOutput = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[InquireDepositOutput, "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireDepositRequest, InquireDepositResponse] = Endpoint(

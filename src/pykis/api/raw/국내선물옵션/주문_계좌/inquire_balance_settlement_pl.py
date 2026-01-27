@@ -16,29 +16,28 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class InquireBalanceSettlementPlRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    INQR_DT: str = Field(alias="INQR_DT")
-    ("조회일자(YYYYMMDD)")
-    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
-    ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
-    ("연속조회키200")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    INQR_DT: Annotated[str, "조회일자(YYYYMMDD)"] = Field(alias="INQR_DT")
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"] = Field(alias="CTX_AREA_FK200")
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"] = Field(alias="CTX_AREA_NK200")
 
 
 class InquireBalanceSettlementPlRequestDict(TypedDict):
@@ -53,78 +52,49 @@ class InquireBalanceSettlementPlRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    INQR_DT: Annotated[str, "조회일자(YYYYMMDD)"]
-    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
-    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    INQR_DT: str
+    CTX_AREA_FK200: str
+    CTX_AREA_NK200: str
 
 
 class InquireBalanceSettlementPlOutput2(RawModel):
-    nxdy_dnca: str = Field(alias="nxdy_dnca")
-    ("익일예수금")
-    mmga_cash: str = Field(alias="mmga_cash")
-    ("유지증거금현금")
-    brkg_mgna_cash: str = Field(alias="brkg_mgna_cash")
-    ("위탁증거금현금")
-    opt_buy_chgs: Decimal = Field(alias="opt_buy_chgs")
-    ("옵션매수대금")
-    opt_lqd_evlu_amt: Decimal = Field(alias="opt_lqd_evlu_amt")
-    ("옵션청산평가금액")
-    dnca_sbst: str = Field(alias="dnca_sbst")
-    ("예수금대용")
-    mmga_tota: str = Field(alias="mmga_tota")
-    ("유지증거금총액")
-    brkg_mgna_tota: str = Field(alias="brkg_mgna_tota")
-    ("위탁증거금총액")
-    opt_sll_chgs: Decimal = Field(alias="opt_sll_chgs")
-    ("옵션매도대금")
-    fee: str = Field(alias="fee")
-    ("수수료")
-    thdt_dfpa: str = Field(alias="thdt_dfpa")
-    ("당일차금")
-    rnwl_dfpa: str = Field(alias="rnwl_dfpa")
-    ("갱신차금")
-    dnca_cash: str = Field(alias="dnca_cash")
-    ("예수금현금")
+    nxdy_dnca: Annotated[str, "익일예수금"] = Field(alias="nxdy_dnca")
+    mmga_cash: Annotated[str, "유지증거금현금"] = Field(alias="mmga_cash")
+    brkg_mgna_cash: Annotated[str, "위탁증거금현금"] = Field(alias="brkg_mgna_cash")
+    opt_buy_chgs: Annotated[Decimal, "옵션매수대금"] = Field(alias="opt_buy_chgs")
+    opt_lqd_evlu_amt: Annotated[Decimal, "옵션청산평가금액"] = Field(alias="opt_lqd_evlu_amt")
+    dnca_sbst: Annotated[str, "예수금대용"] = Field(alias="dnca_sbst")
+    mmga_tota: Annotated[str, "유지증거금총액"] = Field(alias="mmga_tota")
+    brkg_mgna_tota: Annotated[str, "위탁증거금총액"] = Field(alias="brkg_mgna_tota")
+    opt_sll_chgs: Annotated[Decimal, "옵션매도대금"] = Field(alias="opt_sll_chgs")
+    fee: Annotated[str, "수수료"] = Field(alias="fee")
+    thdt_dfpa: Annotated[str, "당일차금"] = Field(alias="thdt_dfpa")
+    rnwl_dfpa: Annotated[str, "갱신차금"] = Field(alias="rnwl_dfpa")
+    dnca_cash: Annotated[str, "예수금현금"] = Field(alias="dnca_cash")
 
 
 class InquireBalanceSettlementPlOutput1(RawModel):
-    pdno: str = Field(alias="pdno")
-    ("상품번호")
-    prdt_name: str = Field(alias="prdt_name")
-    ("상품명")
-    trad_dvsn_name: str = Field(alias="trad_dvsn_name")
-    ("매매구분명")
-    bfdy_cblc_qty: int = Field(alias="bfdy_cblc_qty")
-    ("전일잔고수량")
-    new_qty: int = Field(alias="new_qty")
-    ("신규수량")
-    mnpl_rpch_qty: int = Field(alias="mnpl_rpch_qty")
-    ("전매환매수량")
-    cblc_qty: int = Field(alias="cblc_qty")
-    ("잔고수량")
-    cblc_amt: Decimal = Field(alias="cblc_amt")
-    ("잔고금액")
-    trad_pfls_amt: Decimal = Field(alias="trad_pfls_amt")
-    ("매매손익금액")
-    evlu_amt: Decimal = Field(alias="evlu_amt")
-    ("평가금액")
-    evlu_pfls_amt: Decimal = Field(alias="evlu_pfls_amt")
-    ("평가손익금액")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    prdt_name: Annotated[str, "상품명"] = Field(alias="prdt_name")
+    trad_dvsn_name: Annotated[str, "매매구분명"] = Field(alias="trad_dvsn_name")
+    bfdy_cblc_qty: Annotated[int, "전일잔고수량"] = Field(alias="bfdy_cblc_qty")
+    new_qty: Annotated[int, "신규수량"] = Field(alias="new_qty")
+    mnpl_rpch_qty: Annotated[int, "전매환매수량"] = Field(alias="mnpl_rpch_qty")
+    cblc_qty: Annotated[int, "잔고수량"] = Field(alias="cblc_qty")
+    cblc_amt: Annotated[Decimal, "잔고금액"] = Field(alias="cblc_amt")
+    trad_pfls_amt: Annotated[Decimal, "매매손익금액"] = Field(alias="trad_pfls_amt")
+    evlu_amt: Annotated[Decimal, "평가금액"] = Field(alias="evlu_amt")
+    evlu_pfls_amt: Annotated[Decimal, "평가손익금액"] = Field(alias="evlu_pfls_amt")
 
 
 class InquireBalanceSettlementPlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output2: list[InquireBalanceSettlementPlOutput2] = Field(alias="output2")
-    ("응답상세")
-    output1: list[InquireBalanceSettlementPlOutput1] = Field(alias="output1")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output2: Annotated[list[InquireBalanceSettlementPlOutput2], "응답상세"] = Field(alias="output2")
+    output1: Annotated[list[InquireBalanceSettlementPlOutput1], "응답상세2"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[InquireBalanceSettlementPlRequest, InquireBalanceSettlementPlResponse] = Endpoint(

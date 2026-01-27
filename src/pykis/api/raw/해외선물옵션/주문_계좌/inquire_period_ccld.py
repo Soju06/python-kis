@@ -16,65 +16,79 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class CrcyCdEnum(KisStrEnum):
     TUS = ("TUS", "TOT_USD /")
-    "TOT_USD /"
+    """TOT_USD /"""
     TKR = ("TKR", "TOT_KRW")
-    "TOT_KRW"
+    """TOT_KRW"""
     KRW = ("KRW", "한국 /")
-    "한국 /"
+    """한국 /"""
     USD = ("USD", "미국")
-    "미국"
+    """미국"""
     EUR = ("EUR", "EUR /")
-    "EUR /"
+    """EUR /"""
     HKD = ("HKD", "홍콩")
-    "홍콩"
+    """홍콩"""
     CNY = ("CNY", "중국 /")
-    "중국 /"
+    """중국 /"""
     JPY = ("JPY", "일본'")
-    "일본'"
+    """일본'"""
 
 
 class FuopDvsnEnum(KisStrEnum):
     VALUE_00 = ("00", "전체 /")
-    "전체 /"
+    """전체 /"""
     VALUE_01 = ("01", "선물 /")
-    "선물 /"
+    """선물 /"""
     VALUE_02 = ("02", "옵션")
-    "옵션"
+    """옵션"""
 
 
 class InquirePeriodCcldRequest(RawModel):
-    INQR_TERM_FROM_DT: KisDate = Field(alias="INQR_TERM_FROM_DT")
-    ("조회기간FROM일자")
-    INQR_TERM_TO_DT: KisDate = Field(alias="INQR_TERM_TO_DT")
-    ("조회기간TO일자")
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    CRCY_CD: CrcyCdEnum = Field(alias="CRCY_CD")
-    ("'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본'")
-    WHOL_TRSL_YN: KisBool = Field(alias="WHOL_TRSL_YN")
-    ("N")
-    FUOP_DVSN: FuopDvsnEnum = Field(alias="FUOP_DVSN")
-    ("00:전체 / 01:선물 / 02:옵션")
-    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
-    ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
-    ("연속조회키200")
+    INQR_TERM_FROM_DT: Annotated[KisDate, "조회기간FROM일자"] = Field(alias="INQR_TERM_FROM_DT")
+    INQR_TERM_TO_DT: Annotated[KisDate, "조회기간TO일자"] = Field(alias="INQR_TERM_TO_DT")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    CRCY_CD: Annotated[CrcyCdEnum, "'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본'"] = (
+        Field(
+            alias="CRCY_CD",
+            json_schema_extra={
+                "enum": ["TUS", "TKR", "KRW", "USD", "EUR", "HKD", "CNY", "JPY"],
+                "enum_desc": {
+                    "TUS": "TOT_USD /",
+                    "TKR": "TOT_KRW",
+                    "KRW": "한국 /",
+                    "USD": "미국",
+                    "EUR": "EUR /",
+                    "HKD": "홍콩",
+                    "CNY": "중국 /",
+                    "JPY": "일본'",
+                },
+            },
+        )
+    )
+    WHOL_TRSL_YN: Annotated[KisBool, "N"] = Field(alias="WHOL_TRSL_YN")
+    FUOP_DVSN: Annotated[FuopDvsnEnum, "00:전체 / 01:선물 / 02:옵션"] = Field(
+        alias="FUOP_DVSN", json_schema_extra={"enum": ["00", "01", "02"], "enum_desc": {"00": "전체 /", "01": "선물 /", "02": "옵션"}}
+    )
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"] = Field(alias="CTX_AREA_FK200")
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"] = Field(alias="CTX_AREA_NK200")
 
 
 class InquirePeriodCcldRequestDict(TypedDict):
@@ -94,98 +108,61 @@ class InquirePeriodCcldRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    INQR_TERM_FROM_DT: Annotated[KisDate, "조회기간FROM일자"]
-    INQR_TERM_TO_DT: Annotated[KisDate, "조회기간TO일자"]
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    CRCY_CD: Annotated[CrcyCdEnum, "'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본'"]
-    WHOL_TRSL_YN: Annotated[KisBool, "N"]
-    FUOP_DVSN: Annotated[FuopDvsnEnum, "00:전체 / 01:선물 / 02:옵션"]
-    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
-    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
+    INQR_TERM_FROM_DT: KisDate
+    INQR_TERM_TO_DT: KisDate
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    CRCY_CD: CrcyCdEnum
+    WHOL_TRSL_YN: KisBool
+    FUOP_DVSN: FuopDvsnEnum
+    CTX_AREA_FK200: str
+    CTX_AREA_NK200: str
 
 
 class InquirePeriodCcldOutput1(RawModel):
-    cano: str = Field(alias="cano")
-    ("종합계좌번호")
-    acnt_prdt_cd: str | None = Field(default=None, alias="acnt_prdt_cd")
-    ("계좌상품코드")
-    crcy_cd: str = Field(alias="crcy_cd")
-    ("통화코드")
-    fm_buy_qty: int = Field(alias="fm_buy_qty")
-    ("FM매수수량")
-    fm_sll_qty: int = Field(alias="fm_sll_qty")
-    ("FM매도수량")
-    fm_lqd_pfls_amt: Decimal = Field(alias="fm_lqd_pfls_amt")
-    ("FM청산손익금액")
-    fm_fee: str = Field(alias="fm_fee")
-    ("FM수수료")
-    fm_net_pfls_amt: Decimal = Field(alias="fm_net_pfls_amt")
-    ("FM순손익금액")
-    fm_ustl_buy_qty: int = Field(alias="fm_ustl_buy_qty")
-    ("FM미결제매수수량")
-    fm_ustl_sll_qty: int = Field(alias="fm_ustl_sll_qty")
-    ("FM미결제매도수량")
-    fm_ustl_evlu_pfls_amt: Decimal = Field(alias="fm_ustl_evlu_pfls_amt")
-    ("FM미결제평가손익금액")
-    fm_ustl_evlu_pfls_amt2: Decimal = Field(alias="fm_ustl_evlu_pfls_amt2")
-    ("FM미결제평가손익금액2")
-    fm_ustl_evlu_pfls_icdc_amt: Decimal = Field(alias="fm_ustl_evlu_pfls_icdc_amt")
-    ("FM미결제평가손익증감금액")
-    fm_ustl_agrm_amt: Decimal = Field(alias="fm_ustl_agrm_amt")
-    ("FM미결제약정금액")
-    fm_opt_lqd_amt: Decimal = Field(alias="fm_opt_lqd_amt")
-    ("FM옵션청산금액")
+    cano: Annotated[str, "종합계좌번호"] = Field(alias="cano")
+    acnt_prdt_cd: Annotated[str | None, "계좌상품코드"] = Field(default=None, alias="acnt_prdt_cd")
+    crcy_cd: Annotated[str, "통화코드"] = Field(alias="crcy_cd")
+    fm_buy_qty: Annotated[int, "FM매수수량"] = Field(alias="fm_buy_qty")
+    fm_sll_qty: Annotated[int, "FM매도수량"] = Field(alias="fm_sll_qty")
+    fm_lqd_pfls_amt: Annotated[Decimal, "FM청산손익금액"] = Field(alias="fm_lqd_pfls_amt")
+    fm_fee: Annotated[str, "FM수수료"] = Field(alias="fm_fee")
+    fm_net_pfls_amt: Annotated[Decimal, "FM순손익금액"] = Field(alias="fm_net_pfls_amt")
+    fm_ustl_buy_qty: Annotated[int, "FM미결제매수수량"] = Field(alias="fm_ustl_buy_qty")
+    fm_ustl_sll_qty: Annotated[int, "FM미결제매도수량"] = Field(alias="fm_ustl_sll_qty")
+    fm_ustl_evlu_pfls_amt: Annotated[Decimal, "FM미결제평가손익금액"] = Field(alias="fm_ustl_evlu_pfls_amt")
+    fm_ustl_evlu_pfls_amt2: Annotated[Decimal, "FM미결제평가손익금액2"] = Field(alias="fm_ustl_evlu_pfls_amt2")
+    fm_ustl_evlu_pfls_icdc_amt: Annotated[Decimal, "FM미결제평가손익증감금액"] = Field(alias="fm_ustl_evlu_pfls_icdc_amt")
+    fm_ustl_agrm_amt: Annotated[Decimal, "FM미결제약정금액"] = Field(alias="fm_ustl_agrm_amt")
+    fm_opt_lqd_amt: Annotated[Decimal, "FM옵션청산금액"] = Field(alias="fm_opt_lqd_amt")
 
 
 class InquirePeriodCcldOutput2(RawModel):
-    cano: str = Field(alias="cano")
-    ("종합계좌번호")
-    acnt_prdt_cd: str = Field(alias="acnt_prdt_cd")
-    ("계좌상품코드")
-    ovrs_futr_fx_pdno: str = Field(alias="ovrs_futr_fx_pdno")
-    ("해외선물FX상품번호")
-    crcy_cd: str = Field(alias="crcy_cd")
-    ("통화코드")
-    fm_buy_qty: int = Field(alias="fm_buy_qty")
-    ("FM매수수량")
-    fm_sll_qty: int = Field(alias="fm_sll_qty")
-    ("FM매도수량")
-    fm_lqd_pfls_amt: Decimal = Field(alias="fm_lqd_pfls_amt")
-    ("FM청산손익금액")
-    fm_fee: str = Field(alias="fm_fee")
-    ("FM수수료")
-    fm_net_pfls_amt: Decimal = Field(alias="fm_net_pfls_amt")
-    ("FM순손익금액")
-    fm_ustl_buy_qty: int = Field(alias="fm_ustl_buy_qty")
-    ("FM미결제매수수량")
-    fm_ustl_sll_qty: int = Field(alias="fm_ustl_sll_qty")
-    ("FM미결제매도수량")
-    fm_ustl_evlu_pfls_amt: Decimal = Field(alias="fm_ustl_evlu_pfls_amt")
-    ("FM미결제평가손익금액")
-    fm_ustl_evlu_pfls_amt2: Decimal = Field(alias="fm_ustl_evlu_pfls_amt2")
-    ("FM미결제평가손익금액2")
-    fm_ustl_evlu_pfls_icdc_amt: Decimal = Field(alias="fm_ustl_evlu_pfls_icdc_amt")
-    ("FM미결제평가손익증감금액")
-    fm_ccld_avg_pric: Decimal = Field(alias="fm_ccld_avg_pric")
-    ("FM체결평균가격")
-    fm_ustl_agrm_amt: Decimal = Field(alias="fm_ustl_agrm_amt")
-    ("FM미결제약정금액")
-    fm_opt_lqd_amt: Decimal = Field(alias="fm_opt_lqd_amt")
-    ("FM옵션청산금액")
+    cano: Annotated[str, "종합계좌번호"] = Field(alias="cano")
+    acnt_prdt_cd: Annotated[str, "계좌상품코드"] = Field(alias="acnt_prdt_cd")
+    ovrs_futr_fx_pdno: Annotated[str, "해외선물FX상품번호"] = Field(alias="ovrs_futr_fx_pdno")
+    crcy_cd: Annotated[str, "통화코드"] = Field(alias="crcy_cd")
+    fm_buy_qty: Annotated[int, "FM매수수량"] = Field(alias="fm_buy_qty")
+    fm_sll_qty: Annotated[int, "FM매도수량"] = Field(alias="fm_sll_qty")
+    fm_lqd_pfls_amt: Annotated[Decimal, "FM청산손익금액"] = Field(alias="fm_lqd_pfls_amt")
+    fm_fee: Annotated[str, "FM수수료"] = Field(alias="fm_fee")
+    fm_net_pfls_amt: Annotated[Decimal, "FM순손익금액"] = Field(alias="fm_net_pfls_amt")
+    fm_ustl_buy_qty: Annotated[int, "FM미결제매수수량"] = Field(alias="fm_ustl_buy_qty")
+    fm_ustl_sll_qty: Annotated[int, "FM미결제매도수량"] = Field(alias="fm_ustl_sll_qty")
+    fm_ustl_evlu_pfls_amt: Annotated[Decimal, "FM미결제평가손익금액"] = Field(alias="fm_ustl_evlu_pfls_amt")
+    fm_ustl_evlu_pfls_amt2: Annotated[Decimal, "FM미결제평가손익금액2"] = Field(alias="fm_ustl_evlu_pfls_amt2")
+    fm_ustl_evlu_pfls_icdc_amt: Annotated[Decimal, "FM미결제평가손익증감금액"] = Field(alias="fm_ustl_evlu_pfls_icdc_amt")
+    fm_ccld_avg_pric: Annotated[Decimal, "FM체결평균가격"] = Field(alias="fm_ccld_avg_pric")
+    fm_ustl_agrm_amt: Annotated[Decimal, "FM미결제약정금액"] = Field(alias="fm_ustl_agrm_amt")
+    fm_opt_lqd_amt: Annotated[Decimal, "FM옵션청산금액"] = Field(alias="fm_opt_lqd_amt")
 
 
 class InquirePeriodCcldResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[InquirePeriodCcldOutput1] = Field(alias="output1")
-    ("응답상세1")
-    output2: list[InquirePeriodCcldOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[InquirePeriodCcldOutput1], "응답상세1"] = Field(alias="output1")
+    output2: Annotated[list[InquirePeriodCcldOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquirePeriodCcldRequest, InquirePeriodCcldResponse] = Endpoint(

@@ -16,41 +16,57 @@ if TYPE_CHECKING:
 
 class ExcdEnum(KisStrEnum):
     NYS = ("NYS", "뉴욕")
-    "뉴욕"
+    """뉴욕"""
     NAS = ("NAS", "나스닥")
-    "나스닥"
+    """나스닥"""
     AMS = ("AMS", "아멕스")
-    "아멕스"
+    """아멕스"""
     HKS = ("HKS", "홍콩")
-    "홍콩"
+    """홍콩"""
     SHS = ("SHS", "상해")
-    "상해"
+    """상해"""
     SZS = ("SZS", "심천")
-    "심천"
+    """심천"""
     HSX = ("HSX", "호치민")
-    "호치민"
+    """호치민"""
     HNX = ("HNX", "하노이")
-    "하노이"
+    """하노이"""
     TSE = ("TSE", "도쿄")
-    "도쿄"
+    """도쿄"""
     BAY = ("BAY", "뉴욕(주간)")
-    "뉴욕(주간)"
+    """뉴욕(주간)"""
     BAQ = ("BAQ", "나스닥(주간)")
-    "나스닥(주간)"
+    """나스닥(주간)"""
     BAA = ("BAA", "아멕스(주간)")
-    "아멕스(주간)"
+    """아멕스(주간)"""
 
 
 class InquireAskingPriceRequest(RawModel):
-    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    EXCD: ExcdEnum = Field(alias="EXCD")
-    (
-        "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 "
-        "TSE : 도쿄 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)"
+    AUTH: Annotated[str | None, "공백"] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
+    EXCD: Annotated[
+        ExcdEnum,
+        "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 TSE : 도쿄 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
+    ] = Field(
+        alias="EXCD",
+        json_schema_extra={
+            "enum": ["NYS", "NAS", "AMS", "HKS", "SHS", "SZS", "HSX", "HNX", "TSE", "BAY", "BAQ", "BAA"],
+            "enum_desc": {
+                "NYS": "뉴욕",
+                "NAS": "나스닥",
+                "AMS": "아멕스",
+                "HKS": "홍콩",
+                "SHS": "상해",
+                "SZS": "심천",
+                "HSX": "호치민",
+                "HNX": "하노이",
+                "TSE": "도쿄",
+                "BAY": "뉴욕(주간)",
+                "BAQ": "나스닥(주간)",
+                "BAA": "아멕스(주간)",
+            },
+        },
     )
-    SYMB: str = Field(alias="SYMB")
-    ("종목코드 예)TSLA")
+    SYMB: Annotated[str, "종목코드 예)TSLA"] = Field(alias="SYMB")
 
 
 class InquireAskingPriceRequestDict(TypedDict):
@@ -93,209 +109,113 @@ class InquireAskingPriceRequestDict(TypedDict):
         SYMB (str): 종목코드 예)TSLA
     """
 
-    AUTH: NotRequired[Annotated[str | None, "공백"]]
-    EXCD: Annotated[
-        ExcdEnum,
-        "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 "
-        "TSE : 도쿄 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
-    ]
-    SYMB: Annotated[str, "종목코드 예)TSLA"]
+    AUTH: NotRequired[str | None]
+    EXCD: ExcdEnum
+    SYMB: str
 
 
 class InquireAskingPriceOutput1(RawModel):
-    rsym: str | None = Field(default=None, alias="rsym")
-    ("실시간조회종목코드")
-    zdiv: str | None = Field(default=None, alias="zdiv")
-    ("소수점자리수")
-    curr: str | None = Field(default=None, alias="curr")
-    ("통화")
-    base: str | None = Field(default=None, alias="base")
-    ("전일종가")
-    open: Decimal | None = Field(default=None, alias="open")
-    ("시가")
-    high: Decimal | None = Field(default=None, alias="high")
-    ("고가")
-    low: Decimal | None = Field(default=None, alias="low")
-    ("저가")
-    last: Decimal | None = Field(default=None, alias="last")
-    ("현재가")
-    dymd: KisDateOptional = Field(default=None, alias="dymd")
-    ("호가일자")
-    dhms: str | None = Field(default=None, alias="dhms")
-    ("호가시간")
-    bvol: int | None = Field(default=None, alias="bvol")
-    ("매수호가총잔량")
-    avol: int | None = Field(default=None, alias="avol")
-    ("매도호가총잔량")
-    bdvl: str | None = Field(default=None, alias="bdvl")
-    ("매수호가총잔량대비")
-    advl: str | None = Field(default=None, alias="advl")
-    ("매도호가총잔량대비")
-    code: str | None = Field(default=None, alias="code")
-    ("종목코드")
-    ropen: Decimal | None = Field(default=None, alias="ropen")
-    ("시가율")
-    rhigh: Decimal | None = Field(default=None, alias="rhigh")
-    ("고가율")
-    rlow: Decimal | None = Field(default=None, alias="rlow")
-    ("저가율")
-    rclose: Decimal | None = Field(default=None, alias="rclose")
-    ("현재가율")
+    rsym: Annotated[str | None, "실시간조회종목코드"] = Field(default=None, alias="rsym")
+    zdiv: Annotated[str | None, "소수점자리수"] = Field(default=None, alias="zdiv")
+    curr: Annotated[str | None, "통화"] = Field(default=None, alias="curr")
+    base: Annotated[str | None, "전일종가"] = Field(default=None, alias="base")
+    open: Annotated[Decimal | None, "시가"] = Field(default=None, alias="open")
+    high: Annotated[Decimal | None, "고가"] = Field(default=None, alias="high")
+    low: Annotated[Decimal | None, "저가"] = Field(default=None, alias="low")
+    last: Annotated[Decimal | None, "현재가"] = Field(default=None, alias="last")
+    dymd: Annotated[KisDateOptional, "호가일자"] = Field(default=None, alias="dymd")
+    dhms: Annotated[str | None, "호가시간"] = Field(default=None, alias="dhms")
+    bvol: Annotated[int | None, "매수호가총잔량"] = Field(default=None, alias="bvol")
+    avol: Annotated[int | None, "매도호가총잔량"] = Field(default=None, alias="avol")
+    bdvl: Annotated[str | None, "매수호가총잔량대비"] = Field(default=None, alias="bdvl")
+    advl: Annotated[str | None, "매도호가총잔량대비"] = Field(default=None, alias="advl")
+    code: Annotated[str | None, "종목코드"] = Field(default=None, alias="code")
+    ropen: Annotated[Decimal | None, "시가율"] = Field(default=None, alias="ropen")
+    rhigh: Annotated[Decimal | None, "고가율"] = Field(default=None, alias="rhigh")
+    rlow: Annotated[Decimal | None, "저가율"] = Field(default=None, alias="rlow")
+    rclose: Annotated[Decimal | None, "현재가율"] = Field(default=None, alias="rclose")
 
 
 class InquireAskingPriceOutput2(RawModel):
-    pbid1: str | None = Field(default=None, alias="pbid1")
-    ("매수호가가격1")
-    pask1: Decimal | None = Field(default=None, alias="pask1")
-    ("매도호가가격1")
-    vbid1: str | None = Field(default=None, alias="vbid1")
-    ("매수호가잔량1")
-    vask1: str | None = Field(default=None, alias="vask1")
-    ("매도호가잔량1")
-    dbid1: str | None = Field(default=None, alias="dbid1")
-    ("매수호가대비1")
-    dask1: str | None = Field(default=None, alias="dask1")
-    ("매도호가대비1")
-    pbid2: str | None = Field(default=None, alias="pbid2")
-    ("미국 거래소만 수신")
-    pask2: Decimal | None = Field(default=None, alias="pask2")
-    ("미국 거래소만 수신")
-    vbid2: str | None = Field(default=None, alias="vbid2")
-    ("미국 거래소만 수신")
-    vask2: str | None = Field(default=None, alias="vask2")
-    ("미국 거래소만 수신")
-    dbid2: str | None = Field(default=None, alias="dbid2")
-    ("미국 거래소만 수신")
-    dask2: str | None = Field(default=None, alias="dask2")
-    ("미국 거래소만 수신")
-    pbid3: str | None = Field(default=None, alias="pbid3")
-    ("미국 거래소만 수신")
-    pask3: Decimal | None = Field(default=None, alias="pask3")
-    ("미국 거래소만 수신")
-    vbid3: str | None = Field(default=None, alias="vbid3")
-    ("미국 거래소만 수신")
-    vask3: str | None = Field(default=None, alias="vask3")
-    ("미국 거래소만 수신")
-    dbid3: str | None = Field(default=None, alias="dbid3")
-    ("미국 거래소만 수신")
-    dask3: str | None = Field(default=None, alias="dask3")
-    ("미국 거래소만 수신")
-    pbid4: str | None = Field(default=None, alias="pbid4")
-    ("미국 거래소만 수신")
-    pask4: Decimal | None = Field(default=None, alias="pask4")
-    ("미국 거래소만 수신")
-    vbid4: str | None = Field(default=None, alias="vbid4")
-    ("미국 거래소만 수신")
-    vask4: str | None = Field(default=None, alias="vask4")
-    ("미국 거래소만 수신")
-    dbid4: str | None = Field(default=None, alias="dbid4")
-    ("미국 거래소만 수신")
-    dask4: str | None = Field(default=None, alias="dask4")
-    ("미국 거래소만 수신")
-    pbid5: str | None = Field(default=None, alias="pbid5")
-    ("미국 거래소만 수신")
-    pask5: Decimal | None = Field(default=None, alias="pask5")
-    ("미국 거래소만 수신")
-    vbid5: str | None = Field(default=None, alias="vbid5")
-    ("미국 거래소만 수신")
-    vask5: str | None = Field(default=None, alias="vask5")
-    ("미국 거래소만 수신")
-    dbid5: str | None = Field(default=None, alias="dbid5")
-    ("미국 거래소만 수신")
-    dask5: str | None = Field(default=None, alias="dask5")
-    ("미국 거래소만 수신")
-    pbid6: str | None = Field(default=None, alias="pbid6")
-    ("미국 거래소만 수신")
-    pask6: Decimal | None = Field(default=None, alias="pask6")
-    ("미국 거래소만 수신")
-    vbid6: str | None = Field(default=None, alias="vbid6")
-    ("미국 거래소만 수신")
-    vask6: str | None = Field(default=None, alias="vask6")
-    ("미국 거래소만 수신")
-    dbid6: str | None = Field(default=None, alias="dbid6")
-    ("미국 거래소만 수신")
-    dask6: str | None = Field(default=None, alias="dask6")
-    ("미국 거래소만 수신")
-    pbid7: str | None = Field(default=None, alias="pbid7")
-    ("미국 거래소만 수신")
-    pask7: Decimal | None = Field(default=None, alias="pask7")
-    ("미국 거래소만 수신")
-    vbid7: str | None = Field(default=None, alias="vbid7")
-    ("미국 거래소만 수신")
-    vask7: str | None = Field(default=None, alias="vask7")
-    ("미국 거래소만 수신")
-    dbid7: str | None = Field(default=None, alias="dbid7")
-    ("미국 거래소만 수신")
-    dask7: str | None = Field(default=None, alias="dask7")
-    ("미국 거래소만 수신")
-    pbid8: str | None = Field(default=None, alias="pbid8")
-    ("미국 거래소만 수신")
-    pask8: Decimal | None = Field(default=None, alias="pask8")
-    ("미국 거래소만 수신")
-    vbid8: str | None = Field(default=None, alias="vbid8")
-    ("미국 거래소만 수신")
-    vask8: str | None = Field(default=None, alias="vask8")
-    ("미국 거래소만 수신")
-    dbid8: str | None = Field(default=None, alias="dbid8")
-    ("미국 거래소만 수신")
-    dask8: str | None = Field(default=None, alias="dask8")
-    ("미국 거래소만 수신")
-    pbid9: str | None = Field(default=None, alias="pbid9")
-    ("미국 거래소만 수신")
-    pask9: Decimal | None = Field(default=None, alias="pask9")
-    ("미국 거래소만 수신")
-    vbid9: str | None = Field(default=None, alias="vbid9")
-    ("미국 거래소만 수신")
-    vask9: str | None = Field(default=None, alias="vask9")
-    ("미국 거래소만 수신")
-    dbid9: str | None = Field(default=None, alias="dbid9")
-    ("미국 거래소만 수신")
-    dask9: str | None = Field(default=None, alias="dask9")
-    ("미국 거래소만 수신")
-    pbid10: str | None = Field(default=None, alias="pbid10")
-    ("미국 거래소만 수신")
-    pask10: Decimal | None = Field(default=None, alias="pask10")
-    ("미국 거래소만 수신")
-    vbid10: str | None = Field(default=None, alias="vbid10")
-    ("미국 거래소만 수신")
-    vask10: str | None = Field(default=None, alias="vask10")
-    ("미국 거래소만 수신")
-    dbid10: str | None = Field(default=None, alias="dbid10")
-    ("미국 거래소만 수신")
-    dask10: str | None = Field(default=None, alias="dask10")
-    ("미국 거래소만 수신")
+    pbid1: Annotated[str | None, "매수호가가격1"] = Field(default=None, alias="pbid1")
+    pask1: Annotated[Decimal | None, "매도호가가격1"] = Field(default=None, alias="pask1")
+    vbid1: Annotated[str | None, "매수호가잔량1"] = Field(default=None, alias="vbid1")
+    vask1: Annotated[str | None, "매도호가잔량1"] = Field(default=None, alias="vask1")
+    dbid1: Annotated[str | None, "매수호가대비1"] = Field(default=None, alias="dbid1")
+    dask1: Annotated[str | None, "매도호가대비1"] = Field(default=None, alias="dask1")
+    pbid2: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="pbid2")
+    pask2: Annotated[Decimal | None, "미국 거래소만 수신"] = Field(default=None, alias="pask2")
+    vbid2: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vbid2")
+    vask2: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vask2")
+    dbid2: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dbid2")
+    dask2: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dask2")
+    pbid3: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="pbid3")
+    pask3: Annotated[Decimal | None, "미국 거래소만 수신"] = Field(default=None, alias="pask3")
+    vbid3: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vbid3")
+    vask3: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vask3")
+    dbid3: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dbid3")
+    dask3: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dask3")
+    pbid4: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="pbid4")
+    pask4: Annotated[Decimal | None, "미국 거래소만 수신"] = Field(default=None, alias="pask4")
+    vbid4: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vbid4")
+    vask4: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vask4")
+    dbid4: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dbid4")
+    dask4: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dask4")
+    pbid5: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="pbid5")
+    pask5: Annotated[Decimal | None, "미국 거래소만 수신"] = Field(default=None, alias="pask5")
+    vbid5: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vbid5")
+    vask5: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vask5")
+    dbid5: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dbid5")
+    dask5: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dask5")
+    pbid6: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="pbid6")
+    pask6: Annotated[Decimal | None, "미국 거래소만 수신"] = Field(default=None, alias="pask6")
+    vbid6: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vbid6")
+    vask6: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vask6")
+    dbid6: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dbid6")
+    dask6: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dask6")
+    pbid7: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="pbid7")
+    pask7: Annotated[Decimal | None, "미국 거래소만 수신"] = Field(default=None, alias="pask7")
+    vbid7: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vbid7")
+    vask7: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vask7")
+    dbid7: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dbid7")
+    dask7: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dask7")
+    pbid8: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="pbid8")
+    pask8: Annotated[Decimal | None, "미국 거래소만 수신"] = Field(default=None, alias="pask8")
+    vbid8: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vbid8")
+    vask8: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vask8")
+    dbid8: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dbid8")
+    dask8: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dask8")
+    pbid9: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="pbid9")
+    pask9: Annotated[Decimal | None, "미국 거래소만 수신"] = Field(default=None, alias="pask9")
+    vbid9: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vbid9")
+    vask9: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vask9")
+    dbid9: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dbid9")
+    dask9: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dask9")
+    pbid10: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="pbid10")
+    pask10: Annotated[Decimal | None, "미국 거래소만 수신"] = Field(default=None, alias="pask10")
+    vbid10: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vbid10")
+    vask10: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="vask10")
+    dbid10: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dbid10")
+    dask10: Annotated[str | None, "미국 거래소만 수신"] = Field(default=None, alias="dask10")
 
 
 class InquireAskingPriceOutput3(RawModel):
-    vstm: str | None = Field(default=None, alias="vstm")
-    ("데이터 없음")
-    vetm: str | None = Field(default=None, alias="vetm")
-    ("데이터 없음")
-    csbp: str | None = Field(default=None, alias="csbp")
-    ("데이터 없음")
-    cshi: Decimal | None = Field(default=None, alias="cshi")
-    ("데이터 없음")
-    cslo: Decimal | None = Field(default=None, alias="cslo")
-    ("데이터 없음")
-    iep: str | None = Field(default=None, alias="iep")
-    ("데이터 없음")
-    iev: str | None = Field(default=None, alias="iev")
-    ("데이터 없음")
+    vstm: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="vstm")
+    vetm: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="vetm")
+    csbp: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="csbp")
+    cshi: Annotated[Decimal | None, "데이터 없음"] = Field(default=None, alias="cshi")
+    cslo: Annotated[Decimal | None, "데이터 없음"] = Field(default=None, alias="cslo")
+    iep: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="iep")
+    iev: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="iev")
 
 
 class InquireAskingPriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquireAskingPriceOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: InquireAskingPriceOutput2 = Field(alias="output2")
-    ("응답상세")
-    output3: InquireAskingPriceOutput3 = Field(alias="output3")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquireAskingPriceOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[InquireAskingPriceOutput2, "응답상세"] = Field(alias="output2")
+    output3: Annotated[InquireAskingPriceOutput3, "응답상세"] = Field(alias="output3")
 
 
 _ENDPOINT: Endpoint[InquireAskingPriceRequest, InquireAskingPriceResponse] = Endpoint(

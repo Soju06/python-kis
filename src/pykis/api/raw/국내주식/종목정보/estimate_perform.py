@@ -14,8 +14,7 @@ if TYPE_CHECKING:
 
 
 class EstimatePerformRequest(RawModel):
-    SHT_CD: str = Field(alias="SHT_CD")
-    ("ex) 265520")
+    SHT_CD: Annotated[str, "ex) 265520"] = Field(alias="SHT_CD")
 
 
 class EstimatePerformRequestDict(TypedDict):
@@ -33,71 +32,45 @@ class EstimatePerformRequestDict(TypedDict):
         SHT_CD (str): ex) 265520
     """
 
-    SHT_CD: Annotated[str, "ex) 265520"]
+    SHT_CD: str
 
 
 class EstimatePerformOutput1(RawModel):
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
-    ("ELW단축종목코드")
-    item_kor_nm: str | None = Field(default=None, alias="item_kor_nm")
-    ("HTS한글종목명")
-    name1: str | None = Field(default=None, alias="name1")
-    ("ELW현재가")
-    name2: str | None = Field(default=None, alias="name2")
-    ("전일대비")
-    estdate: KisDateOptional = Field(default=None, alias="estdate")
-    ("전일대비부호")
-    rcmd_name: str | None = Field(default=None, alias="rcmd_name")
-    ("전일대비율")
-    capital: Decimal = Field(alias="capital")
-    ("누적거래량")
-    forn_item_lmtrt: Decimal = Field(alias="forn_item_lmtrt")
-    ("행사가")
+    sht_cd: Annotated[str | None, "ELW단축종목코드"] = Field(default=None, alias="sht_cd")
+    item_kor_nm: Annotated[str | None, "HTS한글종목명"] = Field(default=None, alias="item_kor_nm")
+    name1: Annotated[str | None, "ELW현재가"] = Field(default=None, alias="name1")
+    name2: Annotated[str | None, "전일대비"] = Field(default=None, alias="name2")
+    estdate: Annotated[KisDateOptional, "전일대비부호"] = Field(default=None, alias="estdate")
+    rcmd_name: Annotated[str | None, "전일대비율"] = Field(default=None, alias="rcmd_name")
+    capital: Annotated[Decimal, "누적거래량"] = Field(alias="capital")
+    forn_item_lmtrt: Annotated[Decimal, "행사가"] = Field(alias="forn_item_lmtrt")
 
 
 class EstimatePerformOutput2(RawModel):
-    data1: str | None = Field(default=None, alias="data1")
-    ("결산연월(outblock4) 참조")
-    data2: str | None = Field(default=None, alias="data2")
-    ("결산연월(outblock4) 참조")
-    data3: str | None = Field(default=None, alias="data3")
-    ("결산연월(outblock4) 참조")
-    data4: str | None = Field(default=None, alias="data4")
-    ("결산연월(outblock4) 참조")
-    data5: str | None = Field(default=None, alias="data5")
-    ("결산연월(outblock4) 참조")
+    data1: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data1")
+    data2: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data2")
+    data3: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data3")
+    data4: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data4")
+    data5: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data5")
 
 
 class EstimatePerformOutput3(RawModel):
-    data1: str | None = Field(default=None, alias="data1")
-    ("결산연월(outblock4) 참조")
-    data2: str | None = Field(default=None, alias="data2")
-    ("결산연월(outblock4) 참조")
-    data3: str | None = Field(default=None, alias="data3")
-    ("결산연월(outblock4) 참조")
-    data4: str | None = Field(default=None, alias="data4")
-    ("결산연월(outblock4) 참조")
-    data5: str | None = Field(default=None, alias="data5")
-    ("결산연월(outblock4) 참조")
-    output4: object | None = Field(default=None, alias="output4")
-    ("array")
-    dt: str | None = Field(default=None, alias="dt")
-    ("DATA1 ~5 결산월 정보")
+    data1: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data1")
+    data2: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data2")
+    data3: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data3")
+    data4: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data4")
+    data5: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data5")
+    output4: Annotated[object | None, "array"] = Field(default=None, alias="output4")
+    dt: Annotated[str | None, "DATA1 ~5 결산월 정보"] = Field(default=None, alias="dt")
 
 
 class EstimatePerformResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: EstimatePerformOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[EstimatePerformOutput2] = Field(alias="output2")
-    ("응답상세")
-    output3: list[EstimatePerformOutput3] = Field(alias="output3")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[EstimatePerformOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[EstimatePerformOutput2], "응답상세"] = Field(alias="output2")
+    output3: Annotated[list[EstimatePerformOutput3], "응답상세"] = Field(alias="output3")
 
 
 _ENDPOINT: Endpoint[EstimatePerformRequest, EstimatePerformResponse] = Endpoint(

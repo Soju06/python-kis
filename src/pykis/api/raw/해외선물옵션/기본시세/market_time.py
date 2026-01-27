@@ -15,68 +15,93 @@ if TYPE_CHECKING:
 
 class FmClasCdEnum(KisStrEnum):
     VALUE_001 = ("001", "통화")
-    "통화"
+    """통화"""
     VALUE_002 = ("002", "금리")
-    "금리"
+    """금리"""
     VALUE_003 = ("003", "지수")
-    "지수"
+    """지수"""
     VALUE_004 = ("004", "농산물")
-    "농산물"
+    """농산물"""
     VALUE_005 = ("005", "축산물")
-    "축산물"
+    """축산물"""
     VALUE_006 = ("006", "금속")
-    "금속"
+    """금속"""
     VALUE_007 = ("007", "에너지")
-    "에너지"
+    """에너지"""
 
 
 class FmExcgCdEnum(KisStrEnum):
     CME = ("CME", "EUREX(")
-    "EUREX("
+    """EUREX("""
     EUREX = ("EUREX", "HKEx(")
-    "HKEx("
+    """HKEx("""
     ICE = ("ICE", "SGX(")
-    "SGX("
+    """SGX("""
     SGX = ("SGX", "OSE(")
-    "OSE("
+    """OSE("""
     OSE = ("OSE", "ASX(")
-    "ASX("
+    """ASX("""
     CBOE = ("CBOE", "MDEX(")
-    "MDEX("
+    """MDEX("""
     MDEX = ("MDEX", "NYSE(")
-    "NYSE("
+    """NYSE("""
     BMF = ("BMF", "FTX(")
-    "FTX("
+    """FTX("""
     FTX = ("FTX", "HNX(")
-    "HNX("
+    """HNX("""
     HNX = ("HNX", "ETC(기타)'")
-    "ETC(기타)'"
+    """ETC(기타)'"""
     HKEX = ("HKEx", "HKEx")
-    "HKEx"
+    """HKEx"""
     ASX = ("ASX", "ASX")
-    "ASX"
+    """ASX"""
     NYSE = ("NYSE", "NYSE")
-    "NYSE"
+    """NYSE"""
     ETC = ("ETC", "기타")
-    "기타"
+    """기타"""
 
 
 class MarketTimeRequest(RawModel):
-    FM_PDGR_CD: str | None = Field(default=None, alias="FM_PDGR_CD", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FM_CLAS_CD: FmClasCdEnum | None = Field(default=None, alias="FM_CLAS_CD", json_schema_extra={"blank_allowed": True})
-    ("'공백(전체), 001(통화), 002(금리), 003(지수), 004(농산물),005(축산물),006(금속),007(에너지)'")
-    FM_EXCG_CD: FmExcgCdEnum = Field(alias="FM_EXCG_CD")
-    (
-        "'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE), SGX(SGX), OSE(OSE), ASX(ASX), CBOE(CBOE), "
-        "MDEX(MDEX), NYSE(NYSE), BMF(BMF),FTX(FTX), HNX(HNX), ETC(기타)'"
+    FM_PDGR_CD: Annotated[str | None, "공백"] = Field(default=None, alias="FM_PDGR_CD", json_schema_extra={"blank_allowed": True})
+    FM_CLAS_CD: Annotated[FmClasCdEnum | None, "'공백(전체), 001(통화), 002(금리), 003(지수), 004(농산물),005(축산물),006(금속),007(에너지)'"] = (
+        Field(
+            default=None,
+            alias="FM_CLAS_CD",
+            json_schema_extra={
+                "enum": ["001", "002", "003", "004", "005", "006", "007"],
+                "enum_desc": {"001": "통화", "002": "금리", "003": "지수", "004": "농산물", "005": "축산물", "006": "금속", "007": "에너지"},
+                "blank_allowed": True,
+            },
+        )
     )
-    OPT_YN: KisBool = Field(alias="OPT_YN")
-    ("%(전체), N(선물), Y(옵션)")
-    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
-    ("연속조회키200")
-    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
-    ("연속조회검색조건200")
+    FM_EXCG_CD: Annotated[
+        FmExcgCdEnum,
+        "'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE), SGX(SGX), OSE(OSE), ASX(ASX), CBOE(CBOE), MDEX(MDEX), NYSE(NYSE), BMF(BMF),FTX(FTX), HNX(HNX), ETC(기타)'",
+    ] = Field(
+        alias="FM_EXCG_CD",
+        json_schema_extra={
+            "enum": ["CME", "EUREX", "ICE", "SGX", "OSE", "CBOE", "MDEX", "BMF", "FTX", "HNX", "HKEx", "ASX", "NYSE", "ETC"],
+            "enum_desc": {
+                "CME": "EUREX(",
+                "EUREX": "HKEx(",
+                "ICE": "SGX(",
+                "SGX": "OSE(",
+                "OSE": "ASX(",
+                "CBOE": "MDEX(",
+                "MDEX": "NYSE(",
+                "BMF": "FTX(",
+                "FTX": "HNX(",
+                "HNX": "ETC(기타)'",
+                "HKEx": "HKEx",
+                "ASX": "ASX",
+                "NYSE": "NYSE",
+                "ETC": "기타",
+            },
+        },
+    )
+    OPT_YN: Annotated[KisBool, "%(전체), N(선물), Y(옵션)"] = Field(alias="OPT_YN")
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"] = Field(alias="CTX_AREA_NK200")
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"] = Field(alias="CTX_AREA_FK200")
 
 
 class MarketTimeRequestDict(TypedDict):
@@ -97,62 +122,37 @@ class MarketTimeRequestDict(TypedDict):
         CTX_AREA_FK200 (str): 연속조회검색조건200
     """
 
-    FM_PDGR_CD: NotRequired[Annotated[str | None, "공백"]]
-    FM_CLAS_CD: NotRequired[
-        Annotated[FmClasCdEnum | None, "'공백(전체), 001(통화), 002(금리), 003(지수), 004(농산물),005(축산물),006(금속),007(에너지)'"]
-    ]
-    FM_EXCG_CD: Annotated[
-        FmExcgCdEnum,
-        "'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE), SGX(SGX), OSE(OSE), ASX(ASX), CBOE(CBOE), "
-        "MDEX(MDEX), NYSE(NYSE), BMF(BMF),FTX(FTX), HNX(HNX), ETC(기타)'",
-    ]
-    OPT_YN: Annotated[KisBool, "%(전체), N(선물), Y(옵션)"]
-    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
-    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
+    FM_PDGR_CD: NotRequired[str | None]
+    FM_CLAS_CD: NotRequired[FmClasCdEnum | None]
+    FM_EXCG_CD: FmExcgCdEnum
+    OPT_YN: KisBool
+    CTX_AREA_NK200: str
+    CTX_AREA_FK200: str
 
 
 class MarketTimeOutput(RawModel):
-    fm_pdgr_cd: str | None = Field(default=None, alias="fm_pdgr_cd")
-    ("FM상품군코드")
-    fm_pdgr_name: str | None = Field(default=None, alias="fm_pdgr_name")
-    ("FM상품군명")
-    fm_excg_cd: str | None = Field(default=None, alias="fm_excg_cd")
-    ("FM거래소코드")
-    fm_excg_name: str | None = Field(default=None, alias="fm_excg_name")
-    ("FM거래소명")
-    fuop_dvsn_name: str | None = Field(default=None, alias="fuop_dvsn_name")
-    ("선물옵션구분명")
-    fm_clas_cd: str | None = Field(default=None, alias="fm_clas_cd")
-    ("FM클래스코드")
-    fm_clas_name: str | None = Field(default=None, alias="fm_clas_name")
-    ("FM클래스명")
-    am_mkmn_strt_tmd: KisTimeOptional = Field(default=None, alias="am_mkmn_strt_tmd")
-    ("오전장운영시작시각")
-    am_mkmn_end_tmd: KisTimeOptional = Field(default=None, alias="am_mkmn_end_tmd")
-    ("오전장운영종료시각")
-    pm_mkmn_strt_tmd: KisTimeOptional = Field(default=None, alias="pm_mkmn_strt_tmd")
-    ("오후장운영시작시각")
-    pm_mkmn_end_tmd: KisTimeOptional = Field(default=None, alias="pm_mkmn_end_tmd")
-    ("오후장운영종료시각")
-    mkmn_nxdy_strt_tmd: KisDateTimeOptional = Field(default=None, alias="mkmn_nxdy_strt_tmd")
-    ("장운영익일시작시각")
-    mkmn_nxdy_end_tmd: KisTimeOptional = Field(default=None, alias="mkmn_nxdy_end_tmd")
-    ("장운영익일종료시각")
-    base_mket_strt_tmd: KisTimeOptional = Field(default=None, alias="base_mket_strt_tmd")
-    ("기본시장시작시각")
-    base_mket_end_tmd: KisTimeOptional = Field(default=None, alias="base_mket_end_tmd")
-    ("기본시장종료시각")
+    fm_pdgr_cd: Annotated[str | None, "FM상품군코드"] = Field(default=None, alias="fm_pdgr_cd")
+    fm_pdgr_name: Annotated[str | None, "FM상품군명"] = Field(default=None, alias="fm_pdgr_name")
+    fm_excg_cd: Annotated[str | None, "FM거래소코드"] = Field(default=None, alias="fm_excg_cd")
+    fm_excg_name: Annotated[str | None, "FM거래소명"] = Field(default=None, alias="fm_excg_name")
+    fuop_dvsn_name: Annotated[str | None, "선물옵션구분명"] = Field(default=None, alias="fuop_dvsn_name")
+    fm_clas_cd: Annotated[str | None, "FM클래스코드"] = Field(default=None, alias="fm_clas_cd")
+    fm_clas_name: Annotated[str | None, "FM클래스명"] = Field(default=None, alias="fm_clas_name")
+    am_mkmn_strt_tmd: Annotated[KisTimeOptional, "오전장운영시작시각"] = Field(default=None, alias="am_mkmn_strt_tmd")
+    am_mkmn_end_tmd: Annotated[KisTimeOptional, "오전장운영종료시각"] = Field(default=None, alias="am_mkmn_end_tmd")
+    pm_mkmn_strt_tmd: Annotated[KisTimeOptional, "오후장운영시작시각"] = Field(default=None, alias="pm_mkmn_strt_tmd")
+    pm_mkmn_end_tmd: Annotated[KisTimeOptional, "오후장운영종료시각"] = Field(default=None, alias="pm_mkmn_end_tmd")
+    mkmn_nxdy_strt_tmd: Annotated[KisDateTimeOptional, "장운영익일시작시각"] = Field(default=None, alias="mkmn_nxdy_strt_tmd")
+    mkmn_nxdy_end_tmd: Annotated[KisTimeOptional, "장운영익일종료시각"] = Field(default=None, alias="mkmn_nxdy_end_tmd")
+    base_mket_strt_tmd: Annotated[KisTimeOptional, "기본시장시작시각"] = Field(default=None, alias="base_mket_strt_tmd")
+    base_mket_end_tmd: Annotated[KisTimeOptional, "기본시장종료시각"] = Field(default=None, alias="base_mket_end_tmd")
 
 
 class MarketTimeResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[MarketTimeOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[MarketTimeOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[MarketTimeRequest, MarketTimeResponse] = Endpoint(

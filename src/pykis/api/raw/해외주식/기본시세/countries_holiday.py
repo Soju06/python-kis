@@ -15,27 +15,27 @@ if TYPE_CHECKING:
 
 class PrdtTypeCdEnum(KisStrEnum):
     VALUE_512 = ("512", "미국 나스닥")
-    "미국 나스닥"
+    """미국 나스닥"""
     VALUE_513 = ("513", "미국 뉴욕거래소")
-    "미국 뉴욕거래소"
+    """미국 뉴욕거래소"""
     VALUE_529 = ("529", "미국 아멕스")
-    "미국 아멕스"
+    """미국 아멕스"""
     VALUE_515 = ("515", "일본")
-    "일본"
+    """일본"""
     VALUE_501 = ("501", "홍콩")
-    "홍콩"
+    """홍콩"""
     VALUE_543 = ("543", "홍콩CNY")
-    "홍콩CNY"
+    """홍콩CNY"""
     VALUE_558 = ("558", "홍콩USD")
-    "홍콩USD"
+    """홍콩USD"""
     VALUE_507 = ("507", "베트남 하노이거래소")
-    "베트남 하노이거래소"
+    """베트남 하노이거래소"""
     VALUE_508 = ("508", "베트남 호치민거래소")
-    "베트남 호치민거래소"
+    """베트남 호치민거래소"""
     VALUE_551 = ("551", "중국 상해A")
-    "중국 상해A"
+    """중국 상해A"""
     VALUE_552 = ("552", "중국 심천A")
-    "중국 심천A"
+    """중국 심천A"""
     VALUE_511 = ("511", "")
     VALUE_527 = ("527", "")
     VALUE_528 = ("528", "")
@@ -46,25 +46,22 @@ class PrdtTypeCdEnum(KisStrEnum):
 
 class TrNatnCdEnum(KisStrEnum):
     VALUE_840 = ("840", "미국")
-    "미국"
+    """미국"""
     VALUE_392 = ("392", "일본")
-    "일본"
+    """일본"""
     VALUE_344 = ("344", "홍콩")
-    "홍콩"
+    """홍콩"""
     VALUE_704 = ("704", "베트남")
-    "베트남"
+    """베트남"""
     VALUE_156 = ("156", "중국")
-    "중국"
+    """중국"""
     VALUE_826 = ("826", "")
 
 
 class CountriesHolidayRequest(RawModel):
-    TRAD_DT: str = Field(alias="TRAD_DT")
-    ("기준일자(YYYYMMDD)")
-    CTX_AREA_NK: str | None = Field(default=None, alias="CTX_AREA_NK", json_schema_extra={"blank_allowed": True})
-    ("공백으로 입력")
-    CTX_AREA_FK: str | None = Field(default=None, alias="CTX_AREA_FK", json_schema_extra={"blank_allowed": True})
-    ("공백으로 입력")
+    TRAD_DT: Annotated[str, "기준일자(YYYYMMDD)"] = Field(alias="TRAD_DT")
+    CTX_AREA_NK: Annotated[str | None, "공백으로 입력"] = Field(default=None, alias="CTX_AREA_NK", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_FK: Annotated[str | None, "공백으로 입력"] = Field(default=None, alias="CTX_AREA_FK", json_schema_extra={"blank_allowed": True})
 
 
 class CountriesHolidayRequestDict(TypedDict):
@@ -77,42 +74,54 @@ class CountriesHolidayRequestDict(TypedDict):
         CTX_AREA_FK (str): 공백으로 입력 optional
     """
 
-    TRAD_DT: Annotated[str, "기준일자(YYYYMMDD)"]
-    CTX_AREA_NK: NotRequired[Annotated[str | None, "공백으로 입력"]]
-    CTX_AREA_FK: NotRequired[Annotated[str | None, "공백으로 입력"]]
+    TRAD_DT: str
+    CTX_AREA_NK: NotRequired[str | None]
+    CTX_AREA_FK: NotRequired[str | None]
 
 
 class CountriesHolidayOutput(RawModel):
-    prdt_type_cd: PrdtTypeCdEnum = Field(alias="prdt_type_cd")
-    (
-        "512 미국 나스닥 / 513 미국 뉴욕거래소 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558 "
-        "홍콩USD 507 베트남 하노이거래소 / 508 베트남 호치민거래소 551 중국 상해A / 552 중국 심천A"
+    prdt_type_cd: Annotated[
+        PrdtTypeCdEnum,
+        "512 미국 나스닥 / 513 미국 뉴욕거래소 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558 홍콩USD 507 베트남 하노이거래소 / 508 베트남 호치민거래소 551 중국 상해A / 552 중국 심천A",
+    ] = Field(
+        alias="prdt_type_cd",
+        json_schema_extra={
+            "enum": ["512", "513", "529", "515", "501", "543", "558", "507", "508", "551", "552", "511", "527", "528", "544", "556", "576"],
+            "enum_desc": {
+                "512": "미국 나스닥",
+                "513": "미국 뉴욕거래소",
+                "529": "미국 아멕스",
+                "515": "일본",
+                "501": "홍콩",
+                "543": "홍콩CNY",
+                "558": "홍콩USD",
+                "507": "베트남 하노이거래소",
+                "508": "베트남 호치민거래소",
+                "551": "중국 상해A",
+                "552": "중국 심천A",
+            },
+        },
     )
-    tr_natn_cd: TrNatnCdEnum = Field(alias="tr_natn_cd")
-    ("840 미국 / 392 일본 / 344 홍콩 704 베트남 / 156 중국")
-    tr_natn_name: str = Field(alias="tr_natn_name")
-    ("거래국가명")
-    natn_eng_abrv_cd: str = Field(alias="natn_eng_abrv_cd")
-    ("US 미국 / JP 일본 / HK 홍콩 VN 베트남 / CN 중국")
-    tr_mket_cd: str = Field(alias="tr_mket_cd")
-    ("거래시장코드")
-    tr_mket_name: str = Field(alias="tr_mket_name")
-    ("거래시장명")
-    acpl_sttl_dt: str = Field(alias="acpl_sttl_dt")
-    ("현지결제일자(YYYYMMDD)")
-    dmst_sttl_dt: str = Field(alias="dmst_sttl_dt")
-    ("국내결제일자(YYYYMMDD)")
+    tr_natn_cd: Annotated[TrNatnCdEnum, "840 미국 / 392 일본 / 344 홍콩 704 베트남 / 156 중국"] = Field(
+        alias="tr_natn_cd",
+        json_schema_extra={
+            "enum": ["840", "392", "344", "704", "156", "826"],
+            "enum_desc": {"840": "미국", "392": "일본", "344": "홍콩", "704": "베트남", "156": "중국"},
+        },
+    )
+    tr_natn_name: Annotated[str, "거래국가명"] = Field(alias="tr_natn_name")
+    natn_eng_abrv_cd: Annotated[str, "US 미국 / JP 일본 / HK 홍콩 VN 베트남 / CN 중국"] = Field(alias="natn_eng_abrv_cd")
+    tr_mket_cd: Annotated[str, "거래시장코드"] = Field(alias="tr_mket_cd")
+    tr_mket_name: Annotated[str, "거래시장명"] = Field(alias="tr_mket_name")
+    acpl_sttl_dt: Annotated[str, "현지결제일자(YYYYMMDD)"] = Field(alias="acpl_sttl_dt")
+    dmst_sttl_dt: Annotated[str, "국내결제일자(YYYYMMDD)"] = Field(alias="dmst_sttl_dt")
 
 
 class CountriesHolidayResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[CountriesHolidayOutput] = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[CountriesHolidayOutput], "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[CountriesHolidayRequest, CountriesHolidayResponse] = Endpoint(

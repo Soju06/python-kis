@@ -16,90 +16,125 @@ if TYPE_CHECKING:
 
 class ExcdEnum(KisStrEnum):
     NYS = ("NYS", "뉴욕")
-    "뉴욕"
+    """뉴욕"""
     NAS = ("NAS", "나스닥")
-    "나스닥"
+    """나스닥"""
     AMS = ("AMS", "아멕스")
-    "아멕스"
+    """아멕스"""
     HKS = ("HKS", "홍콩")
-    "홍콩"
+    """홍콩"""
     SHS = ("SHS", "상해")
-    "상해"
+    """상해"""
     SZS = ("SZS", "심천")
-    "심천"
+    """심천"""
     HSX = ("HSX", "호치민")
-    "호치민"
+    """호치민"""
     HNX = ("HNX", "하노이")
-    "하노이"
+    """하노이"""
     TSE = ("TSE", "도쿄 '")
-    "도쿄 '"
+    """도쿄 '"""
 
 
 class GubnEnum(KisStrEnum):
     VALUE_1 = ("1", "신저(")
-    "신저("
+    """신저("""
     VALUE_0 = ("0", "신저")
-    "신저"
+    """신저"""
 
 
 class Gubn2Enum(KisStrEnum):
     VALUE_0 = ("0", "돌파유지(")
-    "돌파유지("
+    """돌파유지("""
     VALUE_1 = ("1", "돌파유지")
-    "돌파유지"
+    """돌파유지"""
 
 
 class NdayEnum(KisStrEnum):
     VALUE_0 = ("0", "5일")
-    "5일"
+    """5일"""
     VALUE_1 = ("1", "10일")
-    "10일"
+    """10일"""
     VALUE_2 = ("2", "20일")
-    "20일"
+    """20일"""
     VALUE_3 = ("3", "30일")
-    "30일"
+    """30일"""
     VALUE_4 = ("4", "60일")
-    "60일"
+    """60일"""
     VALUE_5 = ("5", "120일전")
-    "120일전"
+    """120일전"""
     VALUE_6 = ("6", "52주")
-    "52주"
+    """52주"""
     VALUE_7 = ("7", "1년")
-    "1년"
+    """1년"""
 
 
 class VolRangEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "1백주이상")
-    "1백주이상"
+    """1백주이상"""
     VALUE_2 = ("2", "1천주이상")
-    "1천주이상"
+    """1천주이상"""
     VALUE_3 = ("3", "1만주이상")
-    "1만주이상"
+    """1만주이상"""
     VALUE_4 = ("4", "10만주이상")
-    "10만주이상"
+    """10만주이상"""
     VALUE_5 = ("5", "100만주이상")
-    "100만주이상"
+    """100만주이상"""
     VALUE_6 = ("6", "1000만주이상")
-    "1000만주이상"
+    """1000만주이상"""
 
 
 class NewHighlowRequest(RawModel):
-    KEYB: str | None = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    EXCD: ExcdEnum = Field(alias="EXCD")
-    ("'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '")
-    GUBN: GubnEnum = Field(alias="GUBN")
-    ("신고(1) 신저(0)")
-    GUBN2: Gubn2Enum = Field(alias="GUBN2")
-    ("일시돌파(0) 돌파유지(1)")
-    NDAY: NdayEnum = Field(alias="NDAY")
-    ("N일전 : 0(5일), 1(10일), 2(20일), 3(30일), 4(60일), 5(120일전), 6(52주), 7(1년)")
-    VOL_RANG: VolRangEnum = Field(alias="VOL_RANG")
-    ("0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)")
+    KEYB: Annotated[str | None, "공백"] = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
+    AUTH: Annotated[str | None, "공백"] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
+    EXCD: Annotated[
+        ExcdEnum, "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '"
+    ] = Field(
+        alias="EXCD",
+        json_schema_extra={
+            "enum": ["NYS", "NAS", "AMS", "HKS", "SHS", "SZS", "HSX", "HNX", "TSE"],
+            "enum_desc": {
+                "NYS": "뉴욕",
+                "NAS": "나스닥",
+                "AMS": "아멕스",
+                "HKS": "홍콩",
+                "SHS": "상해",
+                "SZS": "심천",
+                "HSX": "호치민",
+                "HNX": "하노이",
+                "TSE": "도쿄 '",
+            },
+        },
+    )
+    GUBN: Annotated[GubnEnum, "신고(1) 신저(0)"] = Field(
+        alias="GUBN", json_schema_extra={"enum": ["1", "0"], "enum_desc": {"1": "신저(", "0": "신저"}}
+    )
+    GUBN2: Annotated[Gubn2Enum, "일시돌파(0) 돌파유지(1)"] = Field(
+        alias="GUBN2", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "돌파유지(", "1": "돌파유지"}}
+    )
+    NDAY: Annotated[NdayEnum, "N일전 : 0(5일), 1(10일), 2(20일), 3(30일), 4(60일), 5(120일전), 6(52주), 7(1년)"] = Field(
+        alias="NDAY",
+        json_schema_extra={
+            "enum": ["0", "1", "2", "3", "4", "5", "6", "7"],
+            "enum_desc": {"0": "5일", "1": "10일", "2": "20일", "3": "30일", "4": "60일", "5": "120일전", "6": "52주", "7": "1년"},
+        },
+    )
+    VOL_RANG: Annotated[VolRangEnum, "0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)"] = Field(
+        alias="VOL_RANG",
+        json_schema_extra={
+            "enum": ["0", "1", "2", "3", "4", "5", "6"],
+            "enum_desc": {
+                "0": "전체",
+                "1": "1백주이상",
+                "2": "1천주이상",
+                "3": "1만주이상",
+                "4": "10만주이상",
+                "5": "100만주이상",
+                "6": "1000만주이상",
+            },
+        },
+    )
 
 
 class NewHighlowRequestDict(TypedDict):
@@ -119,70 +154,46 @@ class NewHighlowRequestDict(TypedDict):
         5(100만주이상), 6(1000만주이상)
     """
 
-    KEYB: NotRequired[Annotated[str | None, "공백"]]
-    AUTH: NotRequired[Annotated[str | None, "공백"]]
-    EXCD: Annotated[ExcdEnum, "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '"]
-    GUBN: Annotated[GubnEnum, "신고(1) 신저(0)"]
-    GUBN2: Annotated[Gubn2Enum, "일시돌파(0) 돌파유지(1)"]
-    NDAY: Annotated[NdayEnum, "N일전 : 0(5일), 1(10일), 2(20일), 3(30일), 4(60일), 5(120일전), 6(52주), 7(1년)"]
-    VOL_RANG: Annotated[VolRangEnum, "0(전체), 1(1백주이상), 2(1천주이상), 3(1만주이상), 4(10만주이상), 5(100만주이상), 6(1000만주이상)"]
+    KEYB: NotRequired[str | None]
+    AUTH: NotRequired[str | None]
+    EXCD: ExcdEnum
+    GUBN: GubnEnum
+    GUBN2: Gubn2Enum
+    NDAY: NdayEnum
+    VOL_RANG: VolRangEnum
 
 
 class NewHighlowOutput1(RawModel):
-    zdiv: int = Field(alias="zdiv")
-    ("소수점자리수")
-    stat: str = Field(alias="stat")
-    ("거래상태정보")
-    nrec: int = Field(alias="nrec")
-    ("RecordCount")
+    zdiv: Annotated[int, "소수점자리수"] = Field(alias="zdiv")
+    stat: Annotated[str, "거래상태정보"] = Field(alias="stat")
+    nrec: Annotated[int, "RecordCount"] = Field(alias="nrec")
 
 
 class NewHighlowOutput2(RawModel):
-    rsym: str | None = Field(default=None, alias="rsym")
-    ("실시간조회심볼")
-    excd: str | None = Field(default=None, alias="excd")
-    ("거래소코드")
-    symb: str | None = Field(default=None, alias="symb")
-    ("종목코드")
-    name: str | None = Field(default=None, alias="name")
-    ("종목명")
-    last: Decimal | None = Field(default=None, alias="last")
-    ("현재가")
-    sign: str | None = Field(default=None, alias="sign")
-    ("기호")
-    diff: str | None = Field(default=None, alias="diff")
-    ("대비")
-    rate: Decimal | None = Field(default=None, alias="rate")
-    ("등락율")
-    tvol: int | None = Field(default=None, alias="tvol")
-    ("거래량")
-    pask: str | None = Field(default=None, alias="pask")
-    ("매도호가")
-    pbid: str | None = Field(default=None, alias="pbid")
-    ("매수호가")
-    n_base: str | None = Field(default=None, alias="n_base")
-    ("기준가")
-    n_diff: str | None = Field(default=None, alias="n_diff")
-    ("기준가대비")
-    n_rate: Decimal | None = Field(default=None, alias="n_rate")
-    ("기준가대비율")
-    ename: str | None = Field(default=None, alias="ename")
-    ("영문종목명")
-    e_ordyn: str | None = Field(default=None, alias="e_ordyn")
-    ("매매가능")
+    rsym: Annotated[str, "실시간조회심볼"] = Field(alias="rsym")
+    excd: Annotated[str, "거래소코드"] = Field(alias="excd")
+    symb: Annotated[str, "종목코드"] = Field(alias="symb")
+    name: Annotated[str, "종목명"] = Field(alias="name")
+    last: Annotated[Decimal, "현재가"] = Field(alias="last")
+    sign: Annotated[int, "기호"] = Field(alias="sign")
+    diff: Annotated[Decimal, "대비"] = Field(alias="diff")
+    rate: Annotated[Decimal, "등락율"] = Field(alias="rate")
+    tvol: Annotated[int, "거래량"] = Field(alias="tvol")
+    pask: Annotated[Decimal, "매도호가"] = Field(alias="pask")
+    pbid: Annotated[str, "매수호가"] = Field(alias="pbid")
+    n_base: Annotated[Decimal, "기준가"] = Field(alias="n_base")
+    n_diff: Annotated[Decimal, "기준가대비"] = Field(alias="n_diff")
+    n_rate: Annotated[Decimal, "기준가대비율"] = Field(alias="n_rate")
+    ename: Annotated[str, "영문종목명"] = Field(alias="ename")
+    e_ordyn: Annotated[str, "매매가능"] = Field(alias="e_ordyn")
 
 
 class NewHighlowResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: NewHighlowOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[NewHighlowOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[NewHighlowOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[NewHighlowOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[NewHighlowRequest, NewHighlowResponse] = Endpoint(

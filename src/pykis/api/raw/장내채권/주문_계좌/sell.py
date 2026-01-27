@@ -15,44 +15,37 @@ if TYPE_CHECKING:
 
 class OrdDvsnEnum(KisStrEnum):
     VALUE_01 = ("01", "종목별 (매수일자, 매수순번 공백입력)")
-    "종목별 (매수일자, 매수순번 공백입력)"
+    """종목별 (매수일자, 매수순번 공백입력)"""
     VALUE_02 = ("02", "일자별 (매수순번: 0 입력)")
-    "일자별 (매수순번: 0 입력)"
+    """일자별 (매수순번: 0 입력)"""
     VALUE_03 = ("03", "체결가별 '")
-    "체결가별 '"
+    """체결가별 '"""
 
 
 class SellRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("계좌상품코드")
-    ORD_DVSN: OrdDvsnEnum | None = Field(default=None, alias="ORD_DVSN", json_schema_extra={"blank_allowed": True})
-    ("'01: 종목별 (매수일자, 매수순번 공백입력) 02: 일자별 (매수순번: 0 입력) 03: 체결가별 '")
-    PDNO: str = Field(alias="PDNO")
-    ("상품번호")
-    ORD_QTY2: KisBool = Field(alias="ORD_QTY2")
-    ("SAMT_MKET_PTCI_YN(소액시장참여여부) : N(일반시장) 입력 시 10단위 입력")
-    BOND_ORD_UNPR: str = Field(alias="BOND_ORD_UNPR")
-    ("주문단가")
-    SPRX_YN: KisBool = Field(alias="SPRX_YN")
-    ("N: 종합과세, Y:분리과세")
-    BUY_DT: KisDate = Field(alias="BUY_DT")
-    ("(잔고조회 참조)")
-    BUY_SEQ: str = Field(alias="BUY_SEQ")
-    ("(잔고조회 참조)")
-    SAMT_MKET_PTCI_YN: KisBool = Field(alias="SAMT_MKET_PTCI_YN")
-    ("N: 일반시장, Y: 소액시장")
-    SLL_AGCO_OPPS_SLL_YN: KisBool = Field(alias="SLL_AGCO_OPPS_SLL_YN")
-    ("N")
-    BOND_RTL_MKET_YN: KisBool = Field(alias="BOND_RTL_MKET_YN")
-    ("N")
-    MGCO_APTM_ODNO: str | None = Field(default=None, alias="MGCO_APTM_ODNO", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    ORD_SVR_DVSN_CD: str = Field(alias="ORD_SVR_DVSN_CD")
-    ("Unique key(0)")
-    CTAC_TLNO: str = Field(alias="CTAC_TLNO")
-    ("연락전화번호")
+    CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"] = Field(alias="ACNT_PRDT_CD")
+    ORD_DVSN: Annotated[OrdDvsnEnum | None, "'01: 종목별 (매수일자, 매수순번 공백입력) 02: 일자별 (매수순번: 0 입력) 03: 체결가별 '"] = Field(
+        default=None,
+        alias="ORD_DVSN",
+        json_schema_extra={
+            "enum": ["01", "02", "03"],
+            "enum_desc": {"01": "종목별 (매수일자, 매수순번 공백입력)", "02": "일자별 (매수순번: 0 입력)", "03": "체결가별 '"},
+            "blank_allowed": True,
+        },
+    )
+    PDNO: Annotated[str, "상품번호"] = Field(alias="PDNO")
+    ORD_QTY2: Annotated[KisBool, "SAMT_MKET_PTCI_YN(소액시장참여여부) : N(일반시장) 입력 시 10단위 입력"] = Field(alias="ORD_QTY2")
+    BOND_ORD_UNPR: Annotated[str, "주문단가"] = Field(alias="BOND_ORD_UNPR")
+    SPRX_YN: Annotated[KisBool, "N: 종합과세, Y:분리과세"] = Field(alias="SPRX_YN")
+    BUY_DT: Annotated[KisDate, "(잔고조회 참조)"] = Field(alias="BUY_DT")
+    BUY_SEQ: Annotated[str, "(잔고조회 참조)"] = Field(alias="BUY_SEQ")
+    SAMT_MKET_PTCI_YN: Annotated[KisBool, "N: 일반시장, Y: 소액시장"] = Field(alias="SAMT_MKET_PTCI_YN")
+    SLL_AGCO_OPPS_SLL_YN: Annotated[KisBool, "N"] = Field(alias="SLL_AGCO_OPPS_SLL_YN")
+    BOND_RTL_MKET_YN: Annotated[KisBool, "N"] = Field(alias="BOND_RTL_MKET_YN")
+    MGCO_APTM_ODNO: Annotated[str | None, "공백"] = Field(default=None, alias="MGCO_APTM_ODNO", json_schema_extra={"blank_allowed": True})
+    ORD_SVR_DVSN_CD: Annotated[str, "Unique key(0)"] = Field(alias="ORD_SVR_DVSN_CD")
+    CTAC_TLNO: Annotated[str, "연락전화번호"] = Field(alias="CTAC_TLNO")
 
 
 class SellRequestDict(TypedDict):
@@ -80,41 +73,34 @@ class SellRequestDict(TypedDict):
         CTAC_TLNO (str): 연락전화번호
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
-    ORD_DVSN: NotRequired[Annotated[OrdDvsnEnum | None, "'01: 종목별 (매수일자, 매수순번 공백입력) 02: 일자별 (매수순번: 0 입력) 03: 체결가별 '"]]
-    PDNO: Annotated[str, "상품번호"]
-    ORD_QTY2: Annotated[KisBool, "SAMT_MKET_PTCI_YN(소액시장참여여부) : N(일반시장) 입력 시 10단위 입력"]
-    BOND_ORD_UNPR: Annotated[str, "주문단가"]
-    SPRX_YN: Annotated[KisBool, "N: 종합과세, Y:분리과세"]
-    BUY_DT: Annotated[KisDate, "(잔고조회 참조)"]
-    BUY_SEQ: Annotated[str, "(잔고조회 참조)"]
-    SAMT_MKET_PTCI_YN: Annotated[KisBool, "N: 일반시장, Y: 소액시장"]
-    SLL_AGCO_OPPS_SLL_YN: Annotated[KisBool, "N"]
-    BOND_RTL_MKET_YN: Annotated[KisBool, "N"]
-    MGCO_APTM_ODNO: NotRequired[Annotated[str | None, "공백"]]
-    ORD_SVR_DVSN_CD: Annotated[str, "Unique key(0)"]
-    CTAC_TLNO: Annotated[str, "연락전화번호"]
+    CANO: str
+    ACNT_PRDT_CD: str
+    ORD_DVSN: NotRequired[OrdDvsnEnum | None]
+    PDNO: str
+    ORD_QTY2: KisBool
+    BOND_ORD_UNPR: str
+    SPRX_YN: KisBool
+    BUY_DT: KisDate
+    BUY_SEQ: str
+    SAMT_MKET_PTCI_YN: KisBool
+    SLL_AGCO_OPPS_SLL_YN: KisBool
+    BOND_RTL_MKET_YN: KisBool
+    MGCO_APTM_ODNO: NotRequired[str | None]
+    ORD_SVR_DVSN_CD: str
+    CTAC_TLNO: str
 
 
 class SellOutput(RawModel):
-    krx_fwdg_ord_orgno: str = Field(alias="krx_fwdg_ord_orgno")
-    ("한국거래소전송주문조직번호")
-    odno: str = Field(alias="odno")
-    ("주문번호")
-    ord_tmd: KisTime = Field(alias="ord_tmd")
-    ("주문시각")
+    krx_fwdg_ord_orgno: Annotated[str, "한국거래소전송주문조직번호"] = Field(alias="krx_fwdg_ord_orgno")
+    odno: Annotated[str, "주문번호"] = Field(alias="odno")
+    ord_tmd: Annotated[KisTime, "주문시각"] = Field(alias="ord_tmd")
 
 
 class SellResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: SellOutput = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[SellOutput, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[SellRequest, SellResponse] = Endpoint(

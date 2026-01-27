@@ -16,29 +16,28 @@ if TYPE_CHECKING:
 
 class FidRankSortClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "금액순")
-    "금액순"
+    """금액순"""
     VALUE_1 = ("1", "수량순")
-    "수량순"
+    """수량순"""
 
 
 class FidRankSortClsCode2Enum(KisStrEnum):
     VALUE_0 = ("0", "매수순")
-    "매수순"
+    """매수순"""
     VALUE_1 = ("1", "매도순")
-    "매도순"
+    """매도순"""
 
 
 class FrgnmemTradeEstimateRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (J)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("Uniquekey (16441)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("0000(전체), 1001(코스피), 2001(코스닥)")
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
-    ("0(금액순), 1(수량순)")
-    FID_RANK_SORT_CLS_CODE_2: FidRankSortClsCode2Enum = Field(alias="FID_RANK_SORT_CLS_CODE_2")
-    ("0(매수순), 1(매도순)")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (J)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Uniquekey (16441)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "0000(전체), 1001(코스피), 2001(코스닥)"] = Field(alias="FID_INPUT_ISCD")
+    FID_RANK_SORT_CLS_CODE: Annotated[FidRankSortClsCodeEnum, "0(금액순), 1(수량순)"] = Field(
+        alias="FID_RANK_SORT_CLS_CODE", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "금액순", "1": "수량순"}}
+    )
+    FID_RANK_SORT_CLS_CODE_2: Annotated[FidRankSortClsCode2Enum, "0(매수순), 1(매도순)"] = Field(
+        alias="FID_RANK_SORT_CLS_CODE_2", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "매수순", "1": "매도순"}}
+    )
 
 
 class FrgnmemTradeEstimateRequestDict(TypedDict):
@@ -55,45 +54,31 @@ class FrgnmemTradeEstimateRequestDict(TypedDict):
         FID_RANK_SORT_CLS_CODE_2 (FidRankSortClsCode2Enum): 0(매수순), 1(매도순)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (J)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "Uniquekey (16441)"]
-    FID_INPUT_ISCD: Annotated[str, "0000(전체), 1001(코스피), 2001(코스닥)"]
-    FID_RANK_SORT_CLS_CODE: Annotated[FidRankSortClsCodeEnum, "0(금액순), 1(수량순)"]
-    FID_RANK_SORT_CLS_CODE_2: Annotated[FidRankSortClsCode2Enum, "0(매수순), 1(매도순)"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_COND_SCR_DIV_CODE: str
+    FID_INPUT_ISCD: str
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum
+    FID_RANK_SORT_CLS_CODE_2: FidRankSortClsCode2Enum
 
 
 class FrgnmemTradeEstimateOutput(RawModel):
-    stck_shrn_iscd: str | None = Field(default=None, alias="stck_shrn_iscd")
-    ("주식단축종목코드")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
-    ("HTS한글종목명")
-    glob_ntsl_qty: int = Field(alias="glob_ntsl_qty")
-    ("외국계순매도수량")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식현재가")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
-    ("전일대비")
-    prdy_vrss_sign: Decimal = Field(alias="prdy_vrss_sign")
-    ("전일대비부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
-    ("누적거래량")
-    glob_total_seln_qty: int | None = Field(default=None, alias="glob_total_seln_qty")
-    ("외국계총매도수량")
-    glob_total_shnu_qty: int | None = Field(default=None, alias="glob_total_shnu_qty")
-    ("외국계총매수2수량")
+    stck_shrn_iscd: Annotated[str | None, "주식단축종목코드"] = Field(default=None, alias="stck_shrn_iscd")
+    hts_kor_isnm: Annotated[str | None, "HTS한글종목명"] = Field(default=None, alias="hts_kor_isnm")
+    glob_ntsl_qty: Annotated[int, "외국계순매도수량"] = Field(alias="glob_ntsl_qty")
+    stck_prpr: Annotated[Decimal, "주식현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[str | None, "전일대비"] = Field(default=None, alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[Decimal, "전일대비부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int | None, "누적거래량"] = Field(default=None, alias="acml_vol")
+    glob_total_seln_qty: Annotated[int | None, "외국계총매도수량"] = Field(default=None, alias="glob_total_seln_qty")
+    glob_total_shnu_qty: Annotated[int | None, "외국계총매수2수량"] = Field(default=None, alias="glob_total_shnu_qty")
 
 
 class FrgnmemTradeEstimateResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[FrgnmemTradeEstimateOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[FrgnmemTradeEstimateOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[FrgnmemTradeEstimateRequest, FrgnmemTradeEstimateResponse] = Endpoint(

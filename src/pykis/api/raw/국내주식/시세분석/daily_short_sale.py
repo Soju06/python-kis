@@ -14,14 +14,12 @@ if TYPE_CHECKING:
 
 
 class DailyShortSaleRequest(RawModel):
-    FID_INPUT_DATE_2: str = Field(alias="FID_INPUT_DATE_2")
-    ("~ 누적")
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (주식 J)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목코드")
-    FID_INPUT_DATE_1: str | None = Field(default=None, alias="FID_INPUT_DATE_1", json_schema_extra={"blank_allowed": True})
-    ("공백시 전체 (기간 ~)")
+    FID_INPUT_DATE_2: Annotated[str, "~ 누적"] = Field(alias="FID_INPUT_DATE_2")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "종목코드"] = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_DATE_1: Annotated[str | None, "공백시 전체 (기간 ~)"] = Field(
+        default=None, alias="FID_INPUT_DATE_1", json_schema_extra={"blank_allowed": True}
+    )
 
 
 class DailyShortSaleRequestDict(TypedDict):
@@ -35,83 +33,51 @@ class DailyShortSaleRequestDict(TypedDict):
         FID_INPUT_DATE_1 (str): 공백시 전체 (기간 ~) optional
     """
 
-    FID_INPUT_DATE_2: Annotated[str, "~ 누적"]
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드"]
-    FID_INPUT_DATE_1: NotRequired[Annotated[str | None, "공백시 전체 (기간 ~)"]]
+    FID_INPUT_DATE_2: str
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
+    FID_INPUT_DATE_1: NotRequired[str | None]
 
 
 class DailyShortSaleOutput1(RawModel):
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss: str = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: str = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    prdy_vol: int = Field(alias="prdy_vol")
-    ("전일 거래량")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[str, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[str, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    prdy_vol: Annotated[int, "전일 거래량"] = Field(alias="prdy_vol")
 
 
 class DailyShortSaleOutput2(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
-    ("주식 영업 일자")
-    stck_clpr: str = Field(alias="stck_clpr")
-    ("주식 종가")
-    prdy_vrss: str = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: str = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    stnd_vol_smtn: int = Field(alias="stnd_vol_smtn")
-    ("기준 거래량 합계")
-    ssts_cntg_qty: int = Field(alias="ssts_cntg_qty")
-    ("공매도 체결 수량")
-    ssts_vol_rlim: Decimal = Field(alias="ssts_vol_rlim")
-    ("공매도 거래량 비중")
-    acml_ssts_cntg_qty: int = Field(alias="acml_ssts_cntg_qty")
-    ("누적 공매도 체결 수량")
-    acml_ssts_cntg_qty_rlim: int = Field(alias="acml_ssts_cntg_qty_rlim")
-    ("누적 공매도 체결 수량 비중")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
-    ("누적 거래 대금")
-    stnd_tr_pbmn_smtn: Decimal = Field(alias="stnd_tr_pbmn_smtn")
-    ("기준 거래대금 합계")
-    ssts_tr_pbmn: Decimal = Field(alias="ssts_tr_pbmn")
-    ("공매도 거래 대금")
-    ssts_tr_pbmn_rlim: Decimal = Field(alias="ssts_tr_pbmn_rlim")
-    ("공매도 거래대금 비중")
-    acml_ssts_tr_pbmn: Decimal = Field(alias="acml_ssts_tr_pbmn")
-    ("누적 공매도 거래 대금")
-    acml_ssts_tr_pbmn_rlim: Decimal = Field(alias="acml_ssts_tr_pbmn_rlim")
-    ("누적 공매도 거래 대금 비중")
-    stck_oprc: Decimal = Field(alias="stck_oprc")
-    ("주식 시가2")
-    stck_hgpr: Decimal = Field(alias="stck_hgpr")
-    ("주식 최고가")
-    stck_lwpr: Decimal = Field(alias="stck_lwpr")
-    ("주식 최저가")
-    avrg_prc: Decimal = Field(alias="avrg_prc")
-    ("평균가격")
+    stck_bsop_date: Annotated[KisDate, "주식 영업 일자"] = Field(alias="stck_bsop_date")
+    stck_clpr: Annotated[str, "주식 종가"] = Field(alias="stck_clpr")
+    prdy_vrss: Annotated[str, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[str, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    stnd_vol_smtn: Annotated[int, "기준 거래량 합계"] = Field(alias="stnd_vol_smtn")
+    ssts_cntg_qty: Annotated[int, "공매도 체결 수량"] = Field(alias="ssts_cntg_qty")
+    ssts_vol_rlim: Annotated[Decimal, "공매도 거래량 비중"] = Field(alias="ssts_vol_rlim")
+    acml_ssts_cntg_qty: Annotated[int, "누적 공매도 체결 수량"] = Field(alias="acml_ssts_cntg_qty")
+    acml_ssts_cntg_qty_rlim: Annotated[int, "누적 공매도 체결 수량 비중"] = Field(alias="acml_ssts_cntg_qty_rlim")
+    acml_tr_pbmn: Annotated[Decimal, "누적 거래 대금"] = Field(alias="acml_tr_pbmn")
+    stnd_tr_pbmn_smtn: Annotated[Decimal, "기준 거래대금 합계"] = Field(alias="stnd_tr_pbmn_smtn")
+    ssts_tr_pbmn: Annotated[Decimal, "공매도 거래 대금"] = Field(alias="ssts_tr_pbmn")
+    ssts_tr_pbmn_rlim: Annotated[Decimal, "공매도 거래대금 비중"] = Field(alias="ssts_tr_pbmn_rlim")
+    acml_ssts_tr_pbmn: Annotated[Decimal, "누적 공매도 거래 대금"] = Field(alias="acml_ssts_tr_pbmn")
+    acml_ssts_tr_pbmn_rlim: Annotated[Decimal, "누적 공매도 거래 대금 비중"] = Field(alias="acml_ssts_tr_pbmn_rlim")
+    stck_oprc: Annotated[Decimal, "주식 시가2"] = Field(alias="stck_oprc")
+    stck_hgpr: Annotated[Decimal, "주식 최고가"] = Field(alias="stck_hgpr")
+    stck_lwpr: Annotated[Decimal, "주식 최저가"] = Field(alias="stck_lwpr")
+    avrg_prc: Annotated[Decimal, "평균가격"] = Field(alias="avrg_prc")
 
 
 class DailyShortSaleResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: DailyShortSaleOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[DailyShortSaleOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[DailyShortSaleOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[DailyShortSaleOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[DailyShortSaleRequest, DailyShortSaleResponse] = Endpoint(

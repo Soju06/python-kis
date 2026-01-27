@@ -13,12 +13,13 @@ if TYPE_CHECKING:
 
 
 class DisplayBoardOptionListRequest(RawModel):
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("Unique key(509)")
-    FID_COND_MRKT_DIV_CODE: str | None = Field(default=None, alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_COND_MRKT_CLS_CODE: str | None = Field(default=None, alias="FID_COND_MRKT_CLS_CODE", json_schema_extra={"blank_allowed": True})
-    ("공백")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(509)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: Annotated[str | None, "공백"] = Field(
+        default=None, alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"blank_allowed": True}
+    )
+    FID_COND_MRKT_CLS_CODE: Annotated[str | None, "공백"] = Field(
+        default=None, alias="FID_COND_MRKT_CLS_CODE", json_schema_extra={"blank_allowed": True}
+    )
 
 
 class DisplayBoardOptionListRequestDict(TypedDict):
@@ -33,27 +34,21 @@ class DisplayBoardOptionListRequestDict(TypedDict):
         FID_COND_MRKT_CLS_CODE (str): 공백 optional
     """
 
-    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(509)"]
-    FID_COND_MRKT_DIV_CODE: NotRequired[Annotated[str | None, "공백"]]
-    FID_COND_MRKT_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
+    FID_COND_SCR_DIV_CODE: str
+    FID_COND_MRKT_DIV_CODE: NotRequired[str | None]
+    FID_COND_MRKT_CLS_CODE: NotRequired[str | None]
 
 
 class DisplayBoardOptionListOutput1(RawModel):
-    mtrt_yymm_code: str = Field(alias="mtrt_yymm_code")
-    ("만기 년월 코드")
-    mtrt_yymm: str = Field(alias="mtrt_yymm")
-    ("만기 년월")
+    mtrt_yymm_code: Annotated[str, "만기 년월 코드"] = Field(alias="mtrt_yymm_code")
+    mtrt_yymm: Annotated[str, "만기 년월"] = Field(alias="mtrt_yymm")
 
 
 class DisplayBoardOptionListResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[DisplayBoardOptionListOutput1] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[DisplayBoardOptionListOutput1], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[DisplayBoardOptionListRequest, DisplayBoardOptionListResponse] = Endpoint(

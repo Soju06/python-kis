@@ -16,76 +16,94 @@ if TYPE_CHECKING:
 
 class Gb1Enum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "코스피")
-    "코스피"
+    """코스피"""
     VALUE_2 = ("2", "코스피200")
-    "코스피200"
+    """코스피200"""
     VALUE_3 = ("3", "코스닥")
-    "코스닥"
+    """코스닥"""
 
 
 class UpjongEnum(KisStrEnum):
     VALUE_0001 = ("0001", "종합")
-    "종합"
+    """종합"""
     VALUE_0002 = ("0002", "대형주.…")
-    "대형주.…"
+    """대형주.…"""
     VALUE_0027 = ("0027", "제조업")
-    "제조업"
+    """제조업"""
     VALUE_1001 = ("1001", "종합, ….")
-    "종합, …."
+    """종합, …."""
     VALUE_1041 = ("1041", "IT부품")
-    "IT부품"
+    """IT부품"""
     VALUE_2001 = ("2001", "KOSPI200")
-    "KOSPI200"
+    """KOSPI200"""
     VALUE_2007 = ("2007", "KOSPI100")
-    "KOSPI100"
+    """KOSPI100"""
     VALUE_2008 = ("2008", "KOSPI50)'")
-    "KOSPI50)'"
+    """KOSPI50)'"""
 
 
 class Gb2Enum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_6 = ("6", "보통주")
-    "보통주"
+    """보통주"""
     VALUE_7 = ("7", "우선주")
-    "우선주"
+    """우선주"""
 
 
 class Gb3Enum(KisStrEnum):
     VALUE_1 = ("1", "주식배당")
-    "주식배당"
+    """주식배당"""
     VALUE_2 = ("2", "현금배당")
-    "현금배당"
+    """현금배당"""
 
 
 class Gb4Enum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "결산배당")
-    "결산배당"
+    """결산배당"""
     VALUE_2 = ("2", "중간배당")
-    "중간배당"
+    """중간배당"""
 
 
 class DividendRateRequest(RawModel):
-    CTS_AREA: str | None = Field(default=None, alias="CTS_AREA", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    GB1: Gb1Enum = Field(alias="GB1")
-    ("0:전체, 1:코스피, 2: 코스피200, 3: 코스닥,")
-    UPJONG: UpjongEnum = Field(alias="UPJONG")
-    ("'코스피(0001:종합, 0002:대형주.…0027:제조업 ), 코스닥(1001:종합, …. 1041:IT부품 코스피200 (2001:KOSPI200, 2007:KOSPI100, 2008:KOSPI50)'")
-    GB2: Gb2Enum = Field(alias="GB2")
-    ("0:전체, 6:보통주, 7:우선주")
-    GB3: Gb3Enum = Field(alias="GB3")
-    ("1:주식배당, 2: 현금배당")
-    F_DT: KisDate = Field(alias="F_DT")
-    ("기준일From")
-    T_DT: KisDate = Field(alias="T_DT")
-    ("기준일To")
-    GB4: Gb4Enum = Field(alias="GB4")
-    ("0:전체, 1:결산배당, 2:중간배당")
+    CTS_AREA: Annotated[str | None, "공백"] = Field(default=None, alias="CTS_AREA", json_schema_extra={"blank_allowed": True})
+    GB1: Annotated[Gb1Enum, "0:전체, 1:코스피, 2: 코스피200, 3: 코스닥,"] = Field(
+        alias="GB1", json_schema_extra={"enum": ["0", "1", "2", "3"], "enum_desc": {"0": "전체", "1": "코스피", "2": "코스피200", "3": "코스닥"}}
+    )
+    UPJONG: Annotated[
+        UpjongEnum,
+        "'코스피(0001:종합, 0002:대형주.…0027:제조업 ), 코스닥(1001:종합, …. 1041:IT부품 코스피200 (2001:KOSPI200, 2007:KOSPI100, 2008:KOSPI50)'",
+    ] = Field(
+        alias="UPJONG",
+        json_schema_extra={
+            "enum": ["0001", "0002", "0027", "1001", "1041", "2001", "2007", "2008"],
+            "enum_desc": {
+                "0001": "종합",
+                "0002": "대형주.…",
+                "0027": "제조업",
+                "1001": "종합, ….",
+                "1041": "IT부품",
+                "2001": "KOSPI200",
+                "2007": "KOSPI100",
+                "2008": "KOSPI50)'",
+            },
+        },
+    )
+    GB2: Annotated[Gb2Enum, "0:전체, 6:보통주, 7:우선주"] = Field(
+        alias="GB2", json_schema_extra={"enum": ["0", "6", "7"], "enum_desc": {"0": "전체", "6": "보통주", "7": "우선주"}}
+    )
+    GB3: Annotated[Gb3Enum, "1:주식배당, 2: 현금배당"] = Field(
+        alias="GB3", json_schema_extra={"enum": ["1", "2"], "enum_desc": {"1": "주식배당", "2": "현금배당"}}
+    )
+    F_DT: Annotated[KisDate, "기준일From"] = Field(alias="F_DT")
+    T_DT: Annotated[KisDate, "기준일To"] = Field(alias="T_DT")
+    GB4: Annotated[Gb4Enum, "0:전체, 1:결산배당, 2:중간배당"] = Field(
+        alias="GB4", json_schema_extra={"enum": ["0", "1", "2"], "enum_desc": {"0": "전체", "1": "결산배당", "2": "중간배당"}}
+    )
 
 
 class DividendRateRequestDict(TypedDict):
@@ -113,45 +131,31 @@ class DividendRateRequestDict(TypedDict):
         GB4 (Gb4Enum): 0:전체, 1:결산배당, 2:중간배당
     """
 
-    CTS_AREA: NotRequired[Annotated[str | None, "공백"]]
-    GB1: Annotated[Gb1Enum, "0:전체, 1:코스피, 2: 코스피200, 3: 코스닥,"]
-    UPJONG: Annotated[
-        UpjongEnum,
-        "'코스피(0001:종합, 0002:대형주.…0027:제조업 ), 코스닥(1001:종합, …. 1041:IT부품 코스피200 (2001:KOSPI200, 2007:KOSPI100, 2008:KOSPI50)'",
-    ]
-    GB2: Annotated[Gb2Enum, "0:전체, 6:보통주, 7:우선주"]
-    GB3: Annotated[Gb3Enum, "1:주식배당, 2: 현금배당"]
-    F_DT: Annotated[KisDate, "기준일From"]
-    T_DT: Annotated[KisDate, "기준일To"]
-    GB4: Annotated[Gb4Enum, "0:전체, 1:결산배당, 2:중간배당"]
+    CTS_AREA: NotRequired[str | None]
+    GB1: Gb1Enum
+    UPJONG: UpjongEnum
+    GB2: Gb2Enum
+    GB3: Gb3Enum
+    F_DT: KisDate
+    T_DT: KisDate
+    GB4: Gb4Enum
 
 
 class DividendRateOutput1(RawModel):
-    rank: str | None = Field(default=None, alias="rank")
-    ("순위")
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
-    ("종목코드")
-    isin_name: str | None = Field(default=None, alias="isin_name")
-    ("종목명")
-    record_date: KisDateOptional = Field(default=None, alias="record_date")
-    ("기준일")
-    per_sto_divi_amt: str | None = Field(default=None, alias="per_sto_divi_amt")
-    ("현금/주식배당금")
-    divi_rate: Decimal | None = Field(default=None, alias="divi_rate")
-    ("현금/주식배당률(%)")
-    divi_kind: str | None = Field(default=None, alias="divi_kind")
-    ("배당종류")
+    rank: Annotated[str | None, "순위"] = Field(default=None, alias="rank")
+    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
+    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
+    record_date: Annotated[KisDateOptional, "기준일"] = Field(default=None, alias="record_date")
+    per_sto_divi_amt: Annotated[str | None, "현금/주식배당금"] = Field(default=None, alias="per_sto_divi_amt")
+    divi_rate: Annotated[Decimal | None, "현금/주식배당률(%)"] = Field(default=None, alias="divi_rate")
+    divi_kind: Annotated[str | None, "배당종류"] = Field(default=None, alias="divi_kind")
 
 
 class DividendRateResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[DividendRateOutput1] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[DividendRateOutput1], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[DividendRateRequest, DividendRateResponse] = Endpoint(

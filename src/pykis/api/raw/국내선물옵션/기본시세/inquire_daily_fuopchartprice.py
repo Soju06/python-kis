@@ -16,49 +16,61 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     F = ("F", "지수선물")
-    "지수선물"
+    """지수선물"""
     VALUE_O = ("O", "지수옵션")
-    "지수옵션"
+    """지수옵션"""
     JF = ("JF", "주식선물")
-    "주식선물"
+    """주식선물"""
     JO = ("JO", "주식옵션")
-    "주식옵션"
+    """주식옵션"""
     CF = ("CF", "상품선물(금), 금리선물(국채), 통화선물(달러)")
-    "상품선물(금), 금리선물(국채), 통화선물(달러)"
+    """상품선물(금), 금리선물(국채), 통화선물(달러)"""
     CM = ("CM", "야간선물")
-    "야간선물"
+    """야간선물"""
     EU = ("EU", "야간옵션")
-    "야간옵션"
+    """야간옵션"""
 
 
 class FidPeriodDivCodeEnum(KisStrEnum):
     D = ("D", "일봉")
-    "일봉"
+    """일봉"""
     W = ("W", "주봉")
-    "주봉"
+    """주봉"""
     M = ("M", "월봉")
-    "월봉"
+    """월봉"""
     Y = ("Y", "년봉")
-    "년봉"
+    """년봉"""
 
 
 class InquireDailyFuopchartpriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("F: 지수선물, O:지수옵션 JF: 주식선물, JO:주식옵션, CF: 상품선물(금), 금리선물(국채), 통화선물(달러) CM: 야간선물, EU: 야간옵션")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목번호 (지수선물:6자리, 지수옵션 9자리)")
-    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
-    ("조회 시작일자 (ex. 20220401)")
-    FID_INPUT_DATE_2: str = Field(alias="FID_INPUT_DATE_2")
-    (
-        "조회 종료일자 (ex. 20220524) ※ 주(W), 월(M), 년(Y) 봉 조회 시에 아래 참고 ㅁ FID_INPUT_DATE_2 가 "
-        "현재일 까지일때 . 주봉 조회 : 해당 주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 "
-        "전월 일자로 시작되어야함 . 년봉 조회 : 해당 년의 전년도 일자로 시작되어야함 ㅁ FID_INPUT_DATE_2 "
-        "가 현재일보다 이전일 때 . 주봉 조회 : 해당 주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 "
-        "월의 영업일이 포함되어야함 . 년봉 조회 : 해당 년의 영업일이 포함되어야함"
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        FidCondMrktDivCodeEnum,
+        "F: 지수선물, O:지수옵션 JF: 주식선물, JO:주식옵션, CF: 상품선물(금), 금리선물(국채), 통화선물(달러) CM: 야간선물, EU: 야간옵션",
+    ] = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+        json_schema_extra={
+            "enum": ["F", "O", "JF", "JO", "CF", "CM", "EU"],
+            "enum_desc": {
+                "F": "지수선물",
+                "O": "지수옵션",
+                "JF": "주식선물",
+                "JO": "주식옵션",
+                "CF": "상품선물(금), 금리선물(국채), 통화선물(달러)",
+                "CM": "야간선물",
+                "EU": "야간옵션",
+            },
+        },
     )
-    FID_PERIOD_DIV_CODE: FidPeriodDivCodeEnum = Field(alias="FID_PERIOD_DIV_CODE")
-    ("D:일봉 W:주봉, M:월봉, Y:년봉")
+    FID_INPUT_ISCD: Annotated[str, "종목번호 (지수선물:6자리, 지수옵션 9자리)"] = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_DATE_1: Annotated[str, "조회 시작일자 (ex. 20220401)"] = Field(alias="FID_INPUT_DATE_1")
+    FID_INPUT_DATE_2: Annotated[
+        str,
+        "조회 종료일자 (ex. 20220524) ※ 주(W), 월(M), 년(Y) 봉 조회 시에 아래 참고 ㅁ FID_INPUT_DATE_2 가 현재일 까지일때 . 주봉 조회 : 해당 주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 전월 일자로 시작되어야함 . 년봉 조회 : 해당 년의 전년도 일자로 시작되어야함 ㅁ FID_INPUT_DATE_2 가 현재일보다 이전일 때 . 주봉 조회 : 해당 주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 영업일이 포함되어야함 . 년봉 조회 : 해당 년의 영업일이 포함되어야함",
+    ] = Field(alias="FID_INPUT_DATE_2")
+    FID_PERIOD_DIV_CODE: Annotated[FidPeriodDivCodeEnum, "D:일봉 W:주봉, M:월봉, Y:년봉"] = Field(
+        alias="FID_PERIOD_DIV_CODE",
+        json_schema_extra={"enum": ["D", "W", "M", "Y"], "enum_desc": {"D": "일봉", "W": "주봉", "M": "월봉", "Y": "년봉"}},
+    )
 
 
 class InquireDailyFuopchartpriceRequestDict(TypedDict):
@@ -84,116 +96,63 @@ class InquireDailyFuopchartpriceRequestDict(TypedDict):
         FID_PERIOD_DIV_CODE (FidPeriodDivCodeEnum): D:일봉 W:주봉, M:월봉, Y:년봉
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
-        "F: 지수선물, O:지수옵션 JF: 주식선물, JO:주식옵션, CF: 상품선물(금), 금리선물(국채), 통화선물(달러) CM: 야간선물, EU: 야간옵션",
-    ]
-    FID_INPUT_ISCD: Annotated[str, "종목번호 (지수선물:6자리, 지수옵션 9자리)"]
-    FID_INPUT_DATE_1: Annotated[str, "조회 시작일자 (ex. 20220401)"]
-    FID_INPUT_DATE_2: Annotated[
-        str,
-        "조회 종료일자 (ex. 20220524) ※ 주(W), 월(M), 년(Y) 봉 조회 시에 아래 참고 ㅁ FID_INPUT_DATE_2 가 "
-        "현재일 까지일때 . 주봉 조회 : 해당 주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 "
-        "전월 일자로 시작되어야함 . 년봉 조회 : 해당 년의 전년도 일자로 시작되어야함 ㅁ FID_INPUT_DATE_2 "
-        "가 현재일보다 이전일 때 . 주봉 조회 : 해당 주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 "
-        "월의 영업일이 포함되어야함 . 년봉 조회 : 해당 년의 영업일이 포함되어야함",
-    ]
-    FID_PERIOD_DIV_CODE: Annotated[FidPeriodDivCodeEnum, "D:일봉 W:주봉, M:월봉, Y:년봉"]
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
+    FID_INPUT_ISCD: str
+    FID_INPUT_DATE_1: str
+    FID_INPUT_DATE_2: str
+    FID_PERIOD_DIV_CODE: FidPeriodDivCodeEnum
 
 
 class InquireDailyFuopchartpriceOutput1(RawModel):
-    futs_prdy_vrss: Decimal = Field(alias="futs_prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    futs_prdy_ctrt: Decimal = Field(alias="futs_prdy_ctrt")
-    ("선물 전일 대비율")
-    futs_prdy_clpr: Decimal = Field(alias="futs_prdy_clpr")
-    ("선물 전일 종가")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
-    ("누적 거래 대금")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    futs_prpr: Decimal = Field(alias="futs_prpr")
-    ("현재가")
-    futs_shrn_iscd: str = Field(alias="futs_shrn_iscd")
-    ("단축 종목코드")
-    prdy_vol: int = Field(alias="prdy_vol")
-    ("전일 거래량")
-    futs_mxpr: Decimal = Field(alias="futs_mxpr")
-    ("상한가")
-    futs_llam: Decimal = Field(alias="futs_llam")
-    ("하한가")
-    futs_oprc: Decimal = Field(alias="futs_oprc")
-    ("시가")
-    futs_hgpr: Decimal = Field(alias="futs_hgpr")
-    ("최고가")
-    futs_lwpr: Decimal = Field(alias="futs_lwpr")
-    ("최저가")
-    futs_prdy_oprc: Decimal = Field(alias="futs_prdy_oprc")
-    ("전일 시가")
-    futs_prdy_hgpr: Decimal = Field(alias="futs_prdy_hgpr")
-    ("전일 최고가")
-    futs_prdy_lwpr: Decimal = Field(alias="futs_prdy_lwpr")
-    ("전일 최저가")
-    futs_askp: Decimal = Field(alias="futs_askp")
-    ("매도호가")
-    futs_bidp: str = Field(alias="futs_bidp")
-    ("매수호가")
-    basis: Decimal = Field(alias="basis")
-    ("베이시스")
-    kospi200_nmix: Decimal = Field(alias="kospi200_nmix")
-    ("KOSPI200 지수")
-    kospi200_prdy_vrss: str | None = Field(default=None, alias="kospi200_prdy_vrss")
-    ("KOSPI200 전일 대비")
-    kospi200_prdy_ctrt: Decimal | None = Field(default=None, alias="kospi200_prdy_ctrt")
-    ("KOSPI200 전일 대비율")
-    kospi200_prdy_vrss_sign: str | None = Field(default=None, alias="kospi200_prdy_vrss_sign")
-    ("전일 대비 부호")
-    hts_otst_stpl_qty: int = Field(alias="hts_otst_stpl_qty")
-    ("HTS 미결제 약정 수량")
-    otst_stpl_qty_icdc: int = Field(alias="otst_stpl_qty_icdc")
-    ("미결제 약정 수량 증감")
-    tday_rltv: Decimal = Field(alias="tday_rltv")
-    ("당일 체결강도")
-    hts_thpr: Decimal = Field(alias="hts_thpr")
-    ("HTS 이론가")
-    dprt: Decimal = Field(alias="dprt")
-    ("괴리율")
+    futs_prdy_vrss: Annotated[Decimal, "전일 대비"] = Field(alias="futs_prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    futs_prdy_ctrt: Annotated[Decimal, "선물 전일 대비율"] = Field(alias="futs_prdy_ctrt")
+    futs_prdy_clpr: Annotated[Decimal, "선물 전일 종가"] = Field(alias="futs_prdy_clpr")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    acml_tr_pbmn: Annotated[Decimal, "누적 거래 대금"] = Field(alias="acml_tr_pbmn")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    futs_prpr: Annotated[Decimal, "현재가"] = Field(alias="futs_prpr")
+    futs_shrn_iscd: Annotated[str, "단축 종목코드"] = Field(alias="futs_shrn_iscd")
+    prdy_vol: Annotated[int, "전일 거래량"] = Field(alias="prdy_vol")
+    futs_mxpr: Annotated[Decimal, "상한가"] = Field(alias="futs_mxpr")
+    futs_llam: Annotated[Decimal, "하한가"] = Field(alias="futs_llam")
+    futs_oprc: Annotated[Decimal, "시가"] = Field(alias="futs_oprc")
+    futs_hgpr: Annotated[Decimal, "최고가"] = Field(alias="futs_hgpr")
+    futs_lwpr: Annotated[Decimal, "최저가"] = Field(alias="futs_lwpr")
+    futs_prdy_oprc: Annotated[Decimal, "전일 시가"] = Field(alias="futs_prdy_oprc")
+    futs_prdy_hgpr: Annotated[Decimal, "전일 최고가"] = Field(alias="futs_prdy_hgpr")
+    futs_prdy_lwpr: Annotated[Decimal, "전일 최저가"] = Field(alias="futs_prdy_lwpr")
+    futs_askp: Annotated[Decimal, "매도호가"] = Field(alias="futs_askp")
+    futs_bidp: Annotated[str, "매수호가"] = Field(alias="futs_bidp")
+    basis: Annotated[Decimal, "베이시스"] = Field(alias="basis")
+    kospi200_nmix: Annotated[Decimal, "KOSPI200 지수"] = Field(alias="kospi200_nmix")
+    kospi200_prdy_vrss: Annotated[str | None, "KOSPI200 전일 대비"] = Field(default=None, alias="kospi200_prdy_vrss")
+    kospi200_prdy_ctrt: Annotated[Decimal | None, "KOSPI200 전일 대비율"] = Field(default=None, alias="kospi200_prdy_ctrt")
+    kospi200_prdy_vrss_sign: Annotated[str | None, "전일 대비 부호"] = Field(default=None, alias="kospi200_prdy_vrss_sign")
+    hts_otst_stpl_qty: Annotated[int, "HTS 미결제 약정 수량"] = Field(alias="hts_otst_stpl_qty")
+    otst_stpl_qty_icdc: Annotated[int, "미결제 약정 수량 증감"] = Field(alias="otst_stpl_qty_icdc")
+    tday_rltv: Annotated[Decimal, "당일 체결강도"] = Field(alias="tday_rltv")
+    hts_thpr: Annotated[Decimal, "HTS 이론가"] = Field(alias="hts_thpr")
+    dprt: Annotated[Decimal, "괴리율"] = Field(alias="dprt")
 
 
 class InquireDailyFuopchartpriceOutput2(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
-    ("영업 일자")
-    futs_prpr: Decimal = Field(alias="futs_prpr")
-    ("현재가")
-    futs_oprc: Decimal = Field(alias="futs_oprc")
-    ("시가")
-    futs_hgpr: Decimal = Field(alias="futs_hgpr")
-    ("최고가")
-    futs_lwpr: Decimal = Field(alias="futs_lwpr")
-    ("최저가")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
-    ("누적 거래 대금")
-    mod_yn: KisBool = Field(alias="mod_yn")
-    ("변경 여부")
+    stck_bsop_date: Annotated[KisDate, "영업 일자"] = Field(alias="stck_bsop_date")
+    futs_prpr: Annotated[Decimal, "현재가"] = Field(alias="futs_prpr")
+    futs_oprc: Annotated[Decimal, "시가"] = Field(alias="futs_oprc")
+    futs_hgpr: Annotated[Decimal, "최고가"] = Field(alias="futs_hgpr")
+    futs_lwpr: Annotated[Decimal, "최저가"] = Field(alias="futs_lwpr")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    acml_tr_pbmn: Annotated[Decimal, "누적 거래 대금"] = Field(alias="acml_tr_pbmn")
+    mod_yn: Annotated[KisBool, "변경 여부"] = Field(alias="mod_yn")
 
 
 class InquireDailyFuopchartpriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquireDailyFuopchartpriceOutput1 = Field(alias="output1")
-    ("상세기본정보")
-    output2: list[InquireDailyFuopchartpriceOutput2] = Field(alias="output2")
-    ("기간별 조회데이터 (배열)")
+    rt_cd: Annotated[KisBool, "0 : 성공 0 이외의 값 : 실패"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquireDailyFuopchartpriceOutput1, "상세기본정보"] = Field(alias="output1")
+    output2: Annotated[list[InquireDailyFuopchartpriceOutput2], "기간별 조회데이터 (배열)"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireDailyFuopchartpriceRequest, InquireDailyFuopchartpriceResponse] = Endpoint(

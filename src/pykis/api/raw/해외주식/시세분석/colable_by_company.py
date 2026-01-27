@@ -16,45 +16,37 @@ if TYPE_CHECKING:
 
 class NatnCdEnum(KisStrEnum):
     VALUE_840 = ("840", "미국")
-    "미국"
+    """미국"""
     VALUE_344 = ("344", "홍콩")
-    "홍콩"
+    """홍콩"""
     VALUE_156 = ("156", "중국")
-    "중국"
+    """중국"""
 
 
 class InqrSqnDvsnEnum(KisStrEnum):
     VALUE_01 = ("01", "이름순")
-    "이름순"
+    """이름순"""
     VALUE_02 = ("02", "코드순")
-    "코드순"
+    """코드순"""
 
 
 class ColableByCompanyRequest(RawModel):
-    PDNO: str = Field(alias="PDNO")
-    ("ex)AMD")
-    PRDT_TYPE_CD: str | None = Field(default=None, alias="PRDT_TYPE_CD", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    INQR_STRT_DT: KisDateOptional = Field(default=None, alias="INQR_STRT_DT", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    INQR_END_DT: KisDateOptional = Field(default=None, alias="INQR_END_DT", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    INQR_DVSN: int | None = Field(default=None, alias="INQR_DVSN", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    NATN_CD: NatnCdEnum = Field(alias="NATN_CD")
-    ("840(미국), 344(홍콩), 156(중국)")
-    INQR_SQN_DVSN: InqrSqnDvsnEnum = Field(alias="INQR_SQN_DVSN")
-    ("01(이름순), 02(코드순)")
-    RT_DVSN_CD: str | None = Field(default=None, alias="RT_DVSN_CD", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    RT: Decimal | None = Field(default=None, alias="RT", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    LOAN_PSBL_YN: KisBool | None = Field(default=None, alias="LOAN_PSBL_YN", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    CTX_AREA_FK100: str | None = Field(default=None, alias="CTX_AREA_FK100", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    CTX_AREA_NK100: str | None = Field(default=None, alias="CTX_AREA_NK100", json_schema_extra={"blank_allowed": True})
-    ("공백")
+    PDNO: Annotated[str, "ex)AMD"] = Field(alias="PDNO")
+    PRDT_TYPE_CD: Annotated[str | None, "공백"] = Field(default=None, alias="PRDT_TYPE_CD", json_schema_extra={"blank_allowed": True})
+    INQR_STRT_DT: Annotated[KisDateOptional, "공백"] = Field(default=None, alias="INQR_STRT_DT", json_schema_extra={"blank_allowed": True})
+    INQR_END_DT: Annotated[KisDateOptional, "공백"] = Field(default=None, alias="INQR_END_DT", json_schema_extra={"blank_allowed": True})
+    INQR_DVSN: Annotated[int | None, "공백"] = Field(default=None, alias="INQR_DVSN", json_schema_extra={"blank_allowed": True})
+    NATN_CD: Annotated[NatnCdEnum, "840(미국), 344(홍콩), 156(중국)"] = Field(
+        alias="NATN_CD", json_schema_extra={"enum": ["840", "344", "156"], "enum_desc": {"840": "미국", "344": "홍콩", "156": "중국"}}
+    )
+    INQR_SQN_DVSN: Annotated[InqrSqnDvsnEnum, "01(이름순), 02(코드순)"] = Field(
+        alias="INQR_SQN_DVSN", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "이름순", "02": "코드순"}}
+    )
+    RT_DVSN_CD: Annotated[str | None, "공백"] = Field(default=None, alias="RT_DVSN_CD", json_schema_extra={"blank_allowed": True})
+    RT: Annotated[Decimal | None, "공백"] = Field(default=None, alias="RT", json_schema_extra={"blank_allowed": True})
+    LOAN_PSBL_YN: Annotated[KisBool | None, "공백"] = Field(default=None, alias="LOAN_PSBL_YN", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_FK100: Annotated[str | None, "공백"] = Field(default=None, alias="CTX_AREA_FK100", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_NK100: Annotated[str | None, "공백"] = Field(default=None, alias="CTX_AREA_NK100", json_schema_extra={"blank_allowed": True})
 
 
 class ColableByCompanyRequestDict(TypedDict):
@@ -81,63 +73,45 @@ class ColableByCompanyRequestDict(TypedDict):
         CTX_AREA_NK100 (str): 공백 optional
     """
 
-    PDNO: Annotated[str, "ex)AMD"]
-    PRDT_TYPE_CD: NotRequired[Annotated[str | None, "공백"]]
-    INQR_STRT_DT: NotRequired[Annotated[KisDateOptional, "공백"]]
-    INQR_END_DT: NotRequired[Annotated[KisDateOptional, "공백"]]
-    INQR_DVSN: NotRequired[Annotated[int | None, "공백"]]
-    NATN_CD: Annotated[NatnCdEnum, "840(미국), 344(홍콩), 156(중국)"]
-    INQR_SQN_DVSN: Annotated[InqrSqnDvsnEnum, "01(이름순), 02(코드순)"]
-    RT_DVSN_CD: NotRequired[Annotated[str | None, "공백"]]
-    RT: NotRequired[Annotated[Decimal | None, "공백"]]
-    LOAN_PSBL_YN: NotRequired[Annotated[KisBool | None, "공백"]]
-    CTX_AREA_FK100: NotRequired[Annotated[str | None, "공백"]]
-    CTX_AREA_NK100: NotRequired[Annotated[str | None, "공백"]]
+    PDNO: str
+    PRDT_TYPE_CD: NotRequired[str | None]
+    INQR_STRT_DT: NotRequired[KisDateOptional]
+    INQR_END_DT: NotRequired[KisDateOptional]
+    INQR_DVSN: NotRequired[int | None]
+    NATN_CD: NatnCdEnum
+    INQR_SQN_DVSN: InqrSqnDvsnEnum
+    RT_DVSN_CD: NotRequired[str | None]
+    RT: NotRequired[Decimal | None]
+    LOAN_PSBL_YN: NotRequired[KisBool | None]
+    CTX_AREA_FK100: NotRequired[str | None]
+    CTX_AREA_NK100: NotRequired[str | None]
 
 
 class ColableByCompanyOutput1(RawModel):
-    pdno: str = Field(alias="pdno")
-    ("상품번호")
-    ovrs_item_name: str = Field(alias="ovrs_item_name")
-    ("해외종목명")
-    loan_rt: Decimal = Field(alias="loan_rt")
-    ("대출비율")
-    mgge_mntn_rt: Decimal = Field(alias="mgge_mntn_rt")
-    ("담보유지비율")
-    mgge_ensu_rt: Decimal = Field(alias="mgge_ensu_rt")
-    ("담보확보비율")
-    loan_exec_psbl_yn: KisBool = Field(alias="loan_exec_psbl_yn")
-    ("대출실행가능여부")
-    stff_name: str = Field(alias="stff_name")
-    ("직원명")
-    erlm_dt: KisDate = Field(alias="erlm_dt")
-    ("등록일자")
-    tr_mket_name: str = Field(alias="tr_mket_name")
-    ("거래시장명")
-    crcy_cd: str = Field(alias="crcy_cd")
-    ("통화코드")
-    natn_kor_name: str = Field(alias="natn_kor_name")
-    ("국가한글명")
-    ovrs_excg_cd: str = Field(alias="ovrs_excg_cd")
-    ("해외거래소코드")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    ovrs_item_name: Annotated[str, "해외종목명"] = Field(alias="ovrs_item_name")
+    loan_rt: Annotated[Decimal, "대출비율"] = Field(alias="loan_rt")
+    mgge_mntn_rt: Annotated[Decimal, "담보유지비율"] = Field(alias="mgge_mntn_rt")
+    mgge_ensu_rt: Annotated[Decimal, "담보확보비율"] = Field(alias="mgge_ensu_rt")
+    loan_exec_psbl_yn: Annotated[KisBool, "대출실행가능여부"] = Field(alias="loan_exec_psbl_yn")
+    stff_name: Annotated[str, "직원명"] = Field(alias="stff_name")
+    erlm_dt: Annotated[KisDate, "등록일자"] = Field(alias="erlm_dt")
+    tr_mket_name: Annotated[str, "거래시장명"] = Field(alias="tr_mket_name")
+    crcy_cd: Annotated[str, "통화코드"] = Field(alias="crcy_cd")
+    natn_kor_name: Annotated[str, "국가한글명"] = Field(alias="natn_kor_name")
+    ovrs_excg_cd: Annotated[str, "해외거래소코드"] = Field(alias="ovrs_excg_cd")
 
 
 class ColableByCompanyOutput2(RawModel):
-    loan_psbl_item_num: str = Field(alias="loan_psbl_item_num")
-    ("대출가능종목수")
+    loan_psbl_item_num: Annotated[str, "대출가능종목수"] = Field(alias="loan_psbl_item_num")
 
 
 class ColableByCompanyResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[ColableByCompanyOutput1] = Field(alias="output1")
-    ("응답상세")
-    output2: list[ColableByCompanyOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[ColableByCompanyOutput1], "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[ColableByCompanyOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[ColableByCompanyRequest, ColableByCompanyResponse] = Endpoint(

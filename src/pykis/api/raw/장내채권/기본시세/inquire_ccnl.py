@@ -14,10 +14,8 @@ if TYPE_CHECKING:
 
 
 class InquireCcnlRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("B (업종코드)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("채권종목코드(ex KR2033022D33)")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "B (업종코드)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "채권종목코드(ex KR2033022D33)"] = Field(alias="FID_INPUT_ISCD")
 
 
 class InquireCcnlRequestDict(TypedDict):
@@ -30,36 +28,25 @@ class InquireCcnlRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 채권종목코드(ex KR2033022D33)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "B (업종코드)"]
-    FID_INPUT_ISCD: Annotated[str, "채권종목코드(ex KR2033022D33)"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
 
 
 class InquireCcnlOutput(RawModel):
-    stck_cntg_hour: KisTimeOptional = Field(default=None, alias="stck_cntg_hour")
-    ("주식 체결 시간")
-    bond_prpr: Decimal | None = Field(default=None, alias="bond_prpr")
-    ("채권 현재가")
-    bond_prdy_vrss: str | None = Field(default=None, alias="bond_prdy_vrss")
-    ("채권 전일 대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
-    ("전일 대비율")
-    cntg_vol: int | None = Field(default=None, alias="cntg_vol")
-    ("체결 거래량")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
-    ("누적 거래량")
+    stck_cntg_hour: Annotated[KisTimeOptional, "주식 체결 시간"] = Field(default=None, alias="stck_cntg_hour")
+    bond_prpr: Annotated[Decimal | None, "채권 현재가"] = Field(default=None, alias="bond_prpr")
+    bond_prdy_vrss: Annotated[str | None, "채권 전일 대비"] = Field(default=None, alias="bond_prdy_vrss")
+    prdy_vrss_sign: Annotated[str | None, "전일 대비 부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal | None, "전일 대비율"] = Field(default=None, alias="prdy_ctrt")
+    cntg_vol: Annotated[int | None, "체결 거래량"] = Field(default=None, alias="cntg_vol")
+    acml_vol: Annotated[int | None, "누적 거래량"] = Field(default=None, alias="acml_vol")
 
 
 class InquireCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquireCcnlOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquireCcnlOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireCcnlRequest, InquireCcnlResponse] = Endpoint(

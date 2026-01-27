@@ -16,42 +16,45 @@ if TYPE_CHECKING:
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "수량정열")
-    "수량정열"
+    """수량정열"""
     VALUE_1 = ("1", "금액정열")
-    "금액정열"
+    """금액정열"""
 
 
 class FidRankSortClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "순매수상위")
-    "순매수상위"
+    """순매수상위"""
     VALUE_1 = ("1", "순매도상위")
-    "순매도상위"
+    """순매도상위"""
 
 
 class FidEtcClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "외국인")
-    "외국인"
+    """외국인"""
     VALUE_2 = ("2", "기관계")
-    "기관계"
+    """기관계"""
     VALUE_3 = ("3", "기타")
-    "기타"
+    """기타"""
 
 
 class ForeignInstitutionTotalRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("V(Default)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("16449(Default)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("0000:전체, 0001:코스피, 1001:코스닥 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
-    ("0: 수량정열, 1: 금액정열")
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
-    ("0: 순매수상위, 1: 순매도상위")
-    FID_ETC_CLS_CODE: FidEtcClsCodeEnum = Field(alias="FID_ETC_CLS_CODE")
-    ("0:전체 1:외국인 2:기관계 3:기타")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "V(Default)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "16449(Default)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:코스피, 1001:코스닥 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)"] = Field(
+        alias="FID_INPUT_ISCD"
+    )
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 수량정열, 1: 금액정열"] = Field(
+        alias="FID_DIV_CLS_CODE", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "수량정열", "1": "금액정열"}}
+    )
+    FID_RANK_SORT_CLS_CODE: Annotated[FidRankSortClsCodeEnum, "0: 순매수상위, 1: 순매도상위"] = Field(
+        alias="FID_RANK_SORT_CLS_CODE", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "순매수상위", "1": "순매도상위"}}
+    )
+    FID_ETC_CLS_CODE: Annotated[FidEtcClsCodeEnum, "0:전체 1:외국인 2:기관계 3:기타"] = Field(
+        alias="FID_ETC_CLS_CODE",
+        json_schema_extra={"enum": ["0", "1", "2", "3"], "enum_desc": {"0": "전체", "1": "외국인", "2": "기관계", "3": "기타"}},
+    )
 
 
 class ForeignInstitutionTotalRequestDict(TypedDict):
@@ -76,78 +79,50 @@ class ForeignInstitutionTotalRequestDict(TypedDict):
         FID_ETC_CLS_CODE (FidEtcClsCodeEnum): 0:전체 1:외국인 2:기관계 3:기타
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "V(Default)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "16449(Default)"]
-    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:코스피, 1001:코스닥 ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)"]
-    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 수량정열, 1: 금액정열"]
-    FID_RANK_SORT_CLS_CODE: Annotated[FidRankSortClsCodeEnum, "0: 순매수상위, 1: 순매도상위"]
-    FID_ETC_CLS_CODE: Annotated[FidEtcClsCodeEnum, "0:전체 1:외국인 2:기관계 3:기타"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_COND_SCR_DIV_CODE: str
+    FID_INPUT_ISCD: str
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum
+    FID_ETC_CLS_CODE: FidEtcClsCodeEnum
 
 
 class ForeignInstitutionTotalOutput(RawModel):
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    mksc_shrn_iscd: str | None = Field(default=None, alias="mksc_shrn_iscd")
-    ("유가증권 단축 종목코드")
-    ntby_qty: int | None = Field(default=None, alias="ntby_qty")
-    ("순매수 수량")
-    stck_prpr: Decimal | None = Field(default=None, alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
-    ("전일 대비")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
-    ("누적 거래량")
-    frgn_ntby_qty: int | None = Field(default=None, alias="frgn_ntby_qty")
-    ("외국인 순매수 수량")
-    orgn_ntby_qty: int | None = Field(default=None, alias="orgn_ntby_qty")
-    ("기관계 순매수 수량")
-    ivtr_ntby_qty: int | None = Field(default=None, alias="ivtr_ntby_qty")
-    ("투자신탁 순매수 수량")
-    bank_ntby_qty: int | None = Field(default=None, alias="bank_ntby_qty")
-    ("은행 순매수 수량")
-    insu_ntby_qty: int | None = Field(default=None, alias="insu_ntby_qty")
-    ("보험 순매수 수량")
-    mrbn_ntby_qty: int | None = Field(default=None, alias="mrbn_ntby_qty")
-    ("종금 순매수 수량")
-    fund_ntby_qty: int | None = Field(default=None, alias="fund_ntby_qty")
-    ("기금 순매수 수량")
-    etc_orgt_ntby_vol: int | None = Field(default=None, alias="etc_orgt_ntby_vol")
-    ("기타 단체 순매수 거래량")
-    etc_corp_ntby_vol: int | None = Field(default=None, alias="etc_corp_ntby_vol")
-    ("기타 법인 순매수 거래량")
-    frgn_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="frgn_ntby_tr_pbmn")
-    ("frgn_ntby_tr_pbmn ~ etc_corp_ntby_tr_pbmn (단위 : 백만원, 수량*현재가)")
-    orgn_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="orgn_ntby_tr_pbmn")
-    ("기관계 순매수 거래 대금")
-    ivtr_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="ivtr_ntby_tr_pbmn")
-    ("투자신탁 순매수 거래 대금")
-    bank_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="bank_ntby_tr_pbmn")
-    ("은행 순매수 거래 대금")
-    insu_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="insu_ntby_tr_pbmn")
-    ("보험 순매수 거래 대금")
-    mrbn_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="mrbn_ntby_tr_pbmn")
-    ("종금 순매수 거래 대금")
-    fund_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="fund_ntby_tr_pbmn")
-    ("기금 순매수 거래 대금")
-    etc_orgt_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="etc_orgt_ntby_tr_pbmn")
-    ("기타 단체 순매수 거래 대금")
-    etc_corp_ntby_tr_pbmn: Decimal | None = Field(default=None, alias="etc_corp_ntby_tr_pbmn")
-    ("기타 법인 순매수 거래 대금")
+    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
+    mksc_shrn_iscd: Annotated[str | None, "유가증권 단축 종목코드"] = Field(default=None, alias="mksc_shrn_iscd")
+    ntby_qty: Annotated[int | None, "순매수 수량"] = Field(default=None, alias="ntby_qty")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss_sign: Annotated[str | None, "전일 대비 부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    frgn_ntby_qty: Annotated[int, "외국인 순매수 수량"] = Field(alias="frgn_ntby_qty")
+    orgn_ntby_qty: Annotated[int, "기관계 순매수 수량"] = Field(alias="orgn_ntby_qty")
+    ivtr_ntby_qty: Annotated[int | None, "투자신탁 순매수 수량"] = Field(default=None, alias="ivtr_ntby_qty")
+    bank_ntby_qty: Annotated[int | None, "은행 순매수 수량"] = Field(default=None, alias="bank_ntby_qty")
+    insu_ntby_qty: Annotated[int | None, "보험 순매수 수량"] = Field(default=None, alias="insu_ntby_qty")
+    mrbn_ntby_qty: Annotated[int | None, "종금 순매수 수량"] = Field(default=None, alias="mrbn_ntby_qty")
+    fund_ntby_qty: Annotated[int | None, "기금 순매수 수량"] = Field(default=None, alias="fund_ntby_qty")
+    etc_orgt_ntby_vol: Annotated[int | None, "기타 단체 순매수 거래량"] = Field(default=None, alias="etc_orgt_ntby_vol")
+    etc_corp_ntby_vol: Annotated[int | None, "기타 법인 순매수 거래량"] = Field(default=None, alias="etc_corp_ntby_vol")
+    frgn_ntby_tr_pbmn: Annotated[Decimal | None, "frgn_ntby_tr_pbmn ~ etc_corp_ntby_tr_pbmn (단위 : 백만원, 수량*현재가)"] = Field(
+        default=None, alias="frgn_ntby_tr_pbmn"
+    )
+    orgn_ntby_tr_pbmn: Annotated[Decimal | None, "기관계 순매수 거래 대금"] = Field(default=None, alias="orgn_ntby_tr_pbmn")
+    ivtr_ntby_tr_pbmn: Annotated[Decimal | None, "투자신탁 순매수 거래 대금"] = Field(default=None, alias="ivtr_ntby_tr_pbmn")
+    bank_ntby_tr_pbmn: Annotated[Decimal | None, "은행 순매수 거래 대금"] = Field(default=None, alias="bank_ntby_tr_pbmn")
+    insu_ntby_tr_pbmn: Annotated[Decimal | None, "보험 순매수 거래 대금"] = Field(default=None, alias="insu_ntby_tr_pbmn")
+    mrbn_ntby_tr_pbmn: Annotated[Decimal | None, "종금 순매수 거래 대금"] = Field(default=None, alias="mrbn_ntby_tr_pbmn")
+    fund_ntby_tr_pbmn: Annotated[Decimal | None, "기금 순매수 거래 대금"] = Field(default=None, alias="fund_ntby_tr_pbmn")
+    etc_orgt_ntby_tr_pbmn: Annotated[Decimal | None, "기타 단체 순매수 거래 대금"] = Field(default=None, alias="etc_orgt_ntby_tr_pbmn")
+    etc_corp_ntby_tr_pbmn: Annotated[Decimal | None, "기타 법인 순매수 거래 대금"] = Field(default=None, alias="etc_corp_ntby_tr_pbmn")
 
 
 class ForeignInstitutionTotalResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[ForeignInstitutionTotalOutput] = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[ForeignInstitutionTotalOutput], "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[ForeignInstitutionTotalRequest, ForeignInstitutionTotalResponse] = Endpoint(

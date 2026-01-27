@@ -16,58 +16,57 @@ if TYPE_CHECKING:
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "콜")
-    "콜"
+    """콜"""
     VALUE_2 = ("2", "풋")
-    "풋"
+    """풋"""
 
 
 class FidRankSortClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "전환비율")
-    "전환비율"
+    """전환비율"""
     VALUE_1 = ("1", "레버리지")
-    "레버리지"
+    """레버리지"""
     VALUE_2 = ("2", "행사가")
-    "행사가"
+    """행사가"""
     VALUE_3 = ("3", "내재가치")
-    "내재가치"
+    """내재가치"""
     VALUE_4 = ("4", "시간가치")
-    "시간가치"
+    """시간가치"""
 
 
 class FidBlngClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "일반")
-    "일반"
+    """일반"""
     VALUE_2 = ("2", "조기종료")
-    "조기종료"
+    """조기종료"""
 
 
 class IndicatorRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (W)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("Unique key(20279)")
-    FID_UNAS_INPUT_ISCD: str = Field(alias="FID_UNAS_INPUT_ISCD")
-    ("'000000(전체), 2001(코스피200) , 3003(코스닥150), 005930(삼성전자) '")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("'00000(전체), 00003(한국투자증권) , 00017(KB증권), 00005(미래에셋주식회사)'")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
-    ("0(전체), 1(콜), 2(풋)")
-    FID_INPUT_PRICE_1: str = Field(alias="FID_INPUT_PRICE_1")
-    ("가격(이상)")
-    FID_INPUT_PRICE_2: str = Field(alias="FID_INPUT_PRICE_2")
-    ("가격(이하)")
-    FID_INPUT_VOL_1: str = Field(alias="FID_INPUT_VOL_1")
-    ("거래량(이상)")
-    FID_INPUT_VOL_2: str = Field(alias="FID_INPUT_VOL_2")
-    ("거래량(이하)")
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
-    ("0(전환비율), 1(레버리지), 2(행사가 ), 3(내재가치), 4(시간가치)")
-    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum = Field(alias="FID_BLNG_CLS_CODE")
-    ("0(전체), 1(일반), 2(조기종료)")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(20279)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_UNAS_INPUT_ISCD: Annotated[str, "'000000(전체), 2001(코스피200) , 3003(코스닥150), 005930(삼성전자) '"] = Field(alias="FID_UNAS_INPUT_ISCD")
+    FID_INPUT_ISCD: Annotated[str, "'00000(전체), 00003(한국투자증권) , 00017(KB증권), 00005(미래에셋주식회사)'"] = Field(alias="FID_INPUT_ISCD")
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0(전체), 1(콜), 2(풋)"] = Field(
+        alias="FID_DIV_CLS_CODE", json_schema_extra={"enum": ["0", "1", "2"], "enum_desc": {"0": "전체", "1": "콜", "2": "풋"}}
+    )
+    FID_INPUT_PRICE_1: Annotated[str, "가격(이상)"] = Field(alias="FID_INPUT_PRICE_1")
+    FID_INPUT_PRICE_2: Annotated[str, "가격(이하)"] = Field(alias="FID_INPUT_PRICE_2")
+    FID_INPUT_VOL_1: Annotated[str, "거래량(이상)"] = Field(alias="FID_INPUT_VOL_1")
+    FID_INPUT_VOL_2: Annotated[str, "거래량(이하)"] = Field(alias="FID_INPUT_VOL_2")
+    FID_RANK_SORT_CLS_CODE: Annotated[FidRankSortClsCodeEnum, "0(전환비율), 1(레버리지), 2(행사가 ), 3(내재가치), 4(시간가치)"] = Field(
+        alias="FID_RANK_SORT_CLS_CODE",
+        json_schema_extra={
+            "enum": ["0", "1", "2", "3", "4"],
+            "enum_desc": {"0": "전환비율", "1": "레버리지", "2": "행사가", "3": "내재가치", "4": "시간가치"},
+        },
+    )
+    FID_BLNG_CLS_CODE: Annotated[FidBlngClsCodeEnum, "0(전체), 1(일반), 2(조기종료)"] = Field(
+        alias="FID_BLNG_CLS_CODE", json_schema_extra={"enum": ["0", "1", "2"], "enum_desc": {"0": "전체", "1": "일반", "2": "조기종료"}}
+    )
 
 
 class IndicatorRequestDict(TypedDict):
@@ -93,57 +92,40 @@ class IndicatorRequestDict(TypedDict):
         FID_BLNG_CLS_CODE (FidBlngClsCodeEnum): 0(전체), 1(일반), 2(조기종료)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(20279)"]
-    FID_UNAS_INPUT_ISCD: Annotated[str, "'000000(전체), 2001(코스피200) , 3003(코스닥150), 005930(삼성전자) '"]
-    FID_INPUT_ISCD: Annotated[str, "'00000(전체), 00003(한국투자증권) , 00017(KB증권), 00005(미래에셋주식회사)'"]
-    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0(전체), 1(콜), 2(풋)"]
-    FID_INPUT_PRICE_1: Annotated[str, "가격(이상)"]
-    FID_INPUT_PRICE_2: Annotated[str, "가격(이하)"]
-    FID_INPUT_VOL_1: Annotated[str, "거래량(이상)"]
-    FID_INPUT_VOL_2: Annotated[str, "거래량(이하)"]
-    FID_RANK_SORT_CLS_CODE: Annotated[FidRankSortClsCodeEnum, "0(전환비율), 1(레버리지), 2(행사가 ), 3(내재가치), 4(시간가치)"]
-    FID_BLNG_CLS_CODE: Annotated[FidBlngClsCodeEnum, "0(전체), 1(일반), 2(조기종료)"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_COND_SCR_DIV_CODE: str
+    FID_UNAS_INPUT_ISCD: str
+    FID_INPUT_ISCD: str
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum
+    FID_INPUT_PRICE_1: str
+    FID_INPUT_PRICE_2: str
+    FID_INPUT_VOL_1: str
+    FID_INPUT_VOL_2: str
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum
+    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum
 
 
 class IndicatorOutput1(RawModel):
-    elw_shrn_iscd: str | None = Field(default=None, alias="elw_shrn_iscd")
-    ("ELW단축종목코드")
-    elw_kor_isnm: str | None = Field(default=None, alias="elw_kor_isnm")
-    ("ELW한글종목명")
-    elw_prpr: Decimal | None = Field(default=None, alias="elw_prpr")
-    ("ELW현재가")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
-    ("전일대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
-    ("전일대비부호")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
-    ("전일대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
-    ("누적거래량")
-    stck_cnvr_rate: Decimal | None = Field(default=None, alias="stck_cnvr_rate")
-    ("주식전환비율")
-    lvrg_val: str | None = Field(default=None, alias="lvrg_val")
-    ("레버리지값")
-    acpr: str | None = Field(default=None, alias="acpr")
-    ("행사가")
-    tmvl_val: str | None = Field(default=None, alias="tmvl_val")
-    ("시간가치값")
-    invl_val: str | None = Field(default=None, alias="invl_val")
-    ("내재가치값")
-    elw_ko_barrier: Decimal | None = Field(default=None, alias="elw_ko_barrier")
-    ("조기종료발생기준가격")
+    elw_shrn_iscd: Annotated[str | None, "ELW단축종목코드"] = Field(default=None, alias="elw_shrn_iscd")
+    elw_kor_isnm: Annotated[str | None, "ELW한글종목명"] = Field(default=None, alias="elw_kor_isnm")
+    elw_prpr: Annotated[Decimal | None, "ELW현재가"] = Field(default=None, alias="elw_prpr")
+    prdy_vrss: Annotated[str | None, "전일대비"] = Field(default=None, alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[str | None, "전일대비부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal | None, "전일대비율"] = Field(default=None, alias="prdy_ctrt")
+    acml_vol: Annotated[int | None, "누적거래량"] = Field(default=None, alias="acml_vol")
+    stck_cnvr_rate: Annotated[Decimal | None, "주식전환비율"] = Field(default=None, alias="stck_cnvr_rate")
+    lvrg_val: Annotated[str | None, "레버리지값"] = Field(default=None, alias="lvrg_val")
+    acpr: Annotated[str | None, "행사가"] = Field(default=None, alias="acpr")
+    tmvl_val: Annotated[str | None, "시간가치값"] = Field(default=None, alias="tmvl_val")
+    invl_val: Annotated[str | None, "내재가치값"] = Field(default=None, alias="invl_val")
+    elw_ko_barrier: Annotated[Decimal | None, "조기종료발생기준가격"] = Field(default=None, alias="elw_ko_barrier")
 
 
 class IndicatorResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[IndicatorOutput1] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[IndicatorOutput1], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[IndicatorRequest, IndicatorResponse] = Endpoint(

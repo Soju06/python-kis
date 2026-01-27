@@ -16,27 +16,29 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class InquireAccountBalanceRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    INQR_DVSN_1: str | None = Field(default=None, alias="INQR_DVSN_1", json_schema_extra={"blank_allowed": True})
-    ("공백입력")
-    BSPR_BF_DT_APLY_YN: KisBool | None = Field(default=None, alias="BSPR_BF_DT_APLY_YN", json_schema_extra={"blank_allowed": True})
-    ("공백입력")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    INQR_DVSN_1: Annotated[str | None, "공백입력"] = Field(default=None, alias="INQR_DVSN_1", json_schema_extra={"blank_allowed": True})
+    BSPR_BF_DT_APLY_YN: Annotated[KisBool | None, "공백입력"] = Field(
+        default=None, alias="BSPR_BF_DT_APLY_YN", json_schema_extra={"blank_allowed": True}
+    )
 
 
 class InquireAccountBalanceRequestDict(TypedDict):
@@ -53,91 +55,55 @@ class InquireAccountBalanceRequestDict(TypedDict):
         BSPR_BF_DT_APLY_YN (KisBool): 공백입력 optional
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    INQR_DVSN_1: NotRequired[Annotated[str | None, "공백입력"]]
-    BSPR_BF_DT_APLY_YN: NotRequired[Annotated[KisBool | None, "공백입력"]]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    INQR_DVSN_1: NotRequired[str | None]
+    BSPR_BF_DT_APLY_YN: NotRequired[KisBool | None]
 
 
 class InquireAccountBalanceOutput1(RawModel):
-    pchs_amt: Decimal = Field(alias="pchs_amt")
-    ("매입금액")
-    evlu_amt: Decimal = Field(alias="evlu_amt")
-    ("평가금액")
-    evlu_pfls_amt: Decimal = Field(alias="evlu_pfls_amt")
-    ("평가손익금액")
-    crdt_lnd_amt: Decimal = Field(alias="crdt_lnd_amt")
-    ("신용대출금액")
-    real_nass_amt: Decimal = Field(alias="real_nass_amt")
-    ("실제순자산금액")
-    whol_weit_rt: Decimal = Field(alias="whol_weit_rt")
-    ("전체비중율")
+    pchs_amt: Annotated[Decimal, "매입금액"] = Field(alias="pchs_amt")
+    evlu_amt: Annotated[Decimal, "평가금액"] = Field(alias="evlu_amt")
+    evlu_pfls_amt: Annotated[Decimal, "평가손익금액"] = Field(alias="evlu_pfls_amt")
+    crdt_lnd_amt: Annotated[Decimal, "신용대출금액"] = Field(alias="crdt_lnd_amt")
+    real_nass_amt: Annotated[Decimal, "실제순자산금액"] = Field(alias="real_nass_amt")
+    whol_weit_rt: Annotated[Decimal, "전체비중율"] = Field(alias="whol_weit_rt")
 
 
 class InquireAccountBalanceOutput2(RawModel):
-    pchs_amt_smtl: Decimal = Field(alias="pchs_amt_smtl")
-    ("유가매입금액")
-    nass_tot_amt: Decimal = Field(alias="nass_tot_amt")
-    ("순자산총금액")
-    loan_amt_smtl: Decimal = Field(alias="loan_amt_smtl")
-    ("대출금액합계")
-    evlu_pfls_amt_smtl: Decimal = Field(alias="evlu_pfls_amt_smtl")
-    ("평가손익금액")
-    evlu_amt_smtl: Decimal = Field(alias="evlu_amt_smtl")
-    ("유가평가금액")
-    tot_asst_amt: Decimal = Field(alias="tot_asst_amt")
-    ("총 자산금액")
-    tot_lnda_tot_ulst_lnda: Decimal = Field(alias="tot_lnda_tot_ulst_lnda")
-    ("총대출금액총융자대출금액")
-    cma_auto_loan_amt: Decimal = Field(alias="cma_auto_loan_amt")
-    ("CMA자동대출금액")
-    tot_mgln_amt: Decimal = Field(alias="tot_mgln_amt")
-    ("총담보대출금액")
-    stln_evlu_amt: Decimal = Field(alias="stln_evlu_amt")
-    ("대주평가금액")
-    crdt_fncg_amt: Decimal = Field(alias="crdt_fncg_amt")
-    ("신용융자금액")
-    ocl_apl_loan_amt: Decimal = Field(alias="ocl_apl_loan_amt")
-    ("OCL_APL대출금액")
-    pldg_stup_amt: Decimal = Field(alias="pldg_stup_amt")
-    ("질권설정금액")
-    frcr_evlu_tota: str = Field(alias="frcr_evlu_tota")
-    ("외화평가총액")
-    tot_dncl_amt: Decimal = Field(alias="tot_dncl_amt")
-    ("총예수금액")
-    cma_evlu_amt: Decimal = Field(alias="cma_evlu_amt")
-    ("CMA평가금액")
-    dncl_amt: Decimal = Field(alias="dncl_amt")
-    ("예수금액")
-    tot_sbst_amt: Decimal = Field(alias="tot_sbst_amt")
-    ("총대용금액")
-    thdt_rcvb_amt: Decimal = Field(alias="thdt_rcvb_amt")
-    ("당일미수금액")
-    ovrs_stck_evlu_amt1: Decimal = Field(alias="ovrs_stck_evlu_amt1")
-    ("해외주식평가금액1")
-    ovrs_bond_evlu_amt: Decimal = Field(alias="ovrs_bond_evlu_amt")
-    ("해외채권평가금액")
-    mmf_cma_mgge_loan_amt: Decimal = Field(alias="mmf_cma_mgge_loan_amt")
-    ("MMFCMA담보대출금액")
-    sbsc_dncl_amt: Decimal = Field(alias="sbsc_dncl_amt")
-    ("청약예수금액")
-    pbst_sbsc_fnds_loan_use_amt: Decimal = Field(alias="pbst_sbsc_fnds_loan_use_amt")
-    ("공모주청약자금대출사용금액")
-    etpr_crdt_grnt_loan_amt: Decimal = Field(alias="etpr_crdt_grnt_loan_amt")
-    ("기업신용공여대출금액")
+    pchs_amt_smtl: Annotated[Decimal, "유가매입금액"] = Field(alias="pchs_amt_smtl")
+    nass_tot_amt: Annotated[Decimal, "순자산총금액"] = Field(alias="nass_tot_amt")
+    loan_amt_smtl: Annotated[Decimal, "대출금액합계"] = Field(alias="loan_amt_smtl")
+    evlu_pfls_amt_smtl: Annotated[Decimal, "평가손익금액"] = Field(alias="evlu_pfls_amt_smtl")
+    evlu_amt_smtl: Annotated[Decimal, "유가평가금액"] = Field(alias="evlu_amt_smtl")
+    tot_asst_amt: Annotated[Decimal, "총 자산금액"] = Field(alias="tot_asst_amt")
+    tot_lnda_tot_ulst_lnda: Annotated[Decimal, "총대출금액총융자대출금액"] = Field(alias="tot_lnda_tot_ulst_lnda")
+    cma_auto_loan_amt: Annotated[Decimal, "CMA자동대출금액"] = Field(alias="cma_auto_loan_amt")
+    tot_mgln_amt: Annotated[Decimal, "총담보대출금액"] = Field(alias="tot_mgln_amt")
+    stln_evlu_amt: Annotated[Decimal, "대주평가금액"] = Field(alias="stln_evlu_amt")
+    crdt_fncg_amt: Annotated[Decimal, "신용융자금액"] = Field(alias="crdt_fncg_amt")
+    ocl_apl_loan_amt: Annotated[Decimal, "OCL_APL대출금액"] = Field(alias="ocl_apl_loan_amt")
+    pldg_stup_amt: Annotated[Decimal, "질권설정금액"] = Field(alias="pldg_stup_amt")
+    frcr_evlu_tota: Annotated[str, "외화평가총액"] = Field(alias="frcr_evlu_tota")
+    tot_dncl_amt: Annotated[Decimal, "총예수금액"] = Field(alias="tot_dncl_amt")
+    cma_evlu_amt: Annotated[Decimal, "CMA평가금액"] = Field(alias="cma_evlu_amt")
+    dncl_amt: Annotated[Decimal, "예수금액"] = Field(alias="dncl_amt")
+    tot_sbst_amt: Annotated[Decimal, "총대용금액"] = Field(alias="tot_sbst_amt")
+    thdt_rcvb_amt: Annotated[Decimal, "당일미수금액"] = Field(alias="thdt_rcvb_amt")
+    ovrs_stck_evlu_amt1: Annotated[Decimal, "해외주식평가금액1"] = Field(alias="ovrs_stck_evlu_amt1")
+    ovrs_bond_evlu_amt: Annotated[Decimal, "해외채권평가금액"] = Field(alias="ovrs_bond_evlu_amt")
+    mmf_cma_mgge_loan_amt: Annotated[Decimal, "MMFCMA담보대출금액"] = Field(alias="mmf_cma_mgge_loan_amt")
+    sbsc_dncl_amt: Annotated[Decimal, "청약예수금액"] = Field(alias="sbsc_dncl_amt")
+    pbst_sbsc_fnds_loan_use_amt: Annotated[Decimal, "공모주청약자금대출사용금액"] = Field(alias="pbst_sbsc_fnds_loan_use_amt")
+    etpr_crdt_grnt_loan_amt: Annotated[Decimal, "기업신용공여대출금액"] = Field(alias="etpr_crdt_grnt_loan_amt")
 
 
 class InquireAccountBalanceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[InquireAccountBalanceOutput1] = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquireAccountBalanceOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[InquireAccountBalanceOutput1], "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquireAccountBalanceOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireAccountBalanceRequest, InquireAccountBalanceResponse] = Endpoint(

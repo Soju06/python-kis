@@ -15,78 +15,143 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class InqrDvsnCdEnum(KisStrEnum):
     VALUE_00 = ("00", "전체")
-    "전체"
+    """전체"""
     VALUE_01 = ("01", "일반해외주식")
-    "일반해외주식"
+    """일반해외주식"""
     VALUE_02 = ("02", "미니스탁")
-    "미니스탁"
+    """미니스탁"""
+
+
+class PrdtTypeCdEnum(KisStrEnum):
+    ID = ("id", "TTTT3039R인 경우]")
+    """TTTT3039R인 경우]"""
+    VALUE_512 = ("512", "미국 나스닥 /")
+    """미국 나스닥 /"""
+    VALUE_513 = ("513", "미국 뉴욕거래소 /")
+    """미국 뉴욕거래소 /"""
+    VALUE_529 = ("529", "미국 아멕스")
+    """미국 아멕스"""
+    VALUE_515 = ("515", "일본")
+    """일본"""
+    VALUE_501 = ("501", "홍콩 /")
+    """홍콩 /"""
+    VALUE_543 = ("543", "홍콩CNY /")
+    """홍콩CNY /"""
+    VALUE_558 = ("558", "홍콩USD")
+    """홍콩USD"""
+    VALUE_507 = ("507", "베트남 하노이거래소 /")
+    """베트남 하노이거래소 /"""
+    VALUE_508 = ("508", "베트남 호치민거래소")
+    """베트남 호치민거래소"""
+    VALUE_551 = ("551", "중국 상해A /")
+    """중국 상해A /"""
+    VALUE_552 = ("552", "중국 심천A")
+    """중국 심천A"""
 
 
 class OvrsExcgCdEnum(KisStrEnum):
     ID = ("id", "TTTT3039R인 경우]")
-    "TTTT3039R인 경우]"
+    """TTTT3039R인 경우]"""
     NASD = ("NASD", "나스닥 /")
-    "나스닥 /"
+    """나스닥 /"""
     NYSE = ("NYSE", "뉴욕 /")
-    "뉴욕 /"
+    """뉴욕 /"""
     AMEX = ("AMEX", "아멕스")
-    "아멕스"
+    """아멕스"""
     SEHK = ("SEHK", "홍콩 /")
-    "홍콩 /"
+    """홍콩 /"""
     SHAA = ("SHAA", "중국상해 /")
-    "중국상해 /"
+    """중국상해 /"""
     SZAA = ("SZAA", "중국심천")
-    "중국심천"
+    """중국심천"""
     TKSE = ("TKSE", "일본 /")
-    "일본 /"
+    """일본 /"""
     HASE = ("HASE", "하노이거래소 /")
-    "하노이거래소 /"
+    """하노이거래소 /"""
     VNSE = ("VNSE", "호치민거래소")
-    "호치민거래소"
+    """호치민거래소"""
 
 
 class OrderResvListRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    INQR_STRT_DT: str = Field(alias="INQR_STRT_DT")
-    ("조회시작일자(YYYYMMDD)")
-    INQR_END_DT: str = Field(alias="INQR_END_DT")
-    ("조회종료일자(YYYYMMDD)")
-    INQR_DVSN_CD: InqrDvsnCdEnum = Field(alias="INQR_DVSN_CD")
-    ("00 : 전체 01 : 일반해외주식 02 : 미니스탁")
-    PRDT_TYPE_CD: str | None = Field(default=None, alias="PRDT_TYPE_CD", json_schema_extra={"blank_allowed": True})
-    (
-        "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 "
-        "아시아주식 전체조회 512 : 미국 나스닥 / 513 : 미국 뉴욕거래소 / 529 : 미국 아멕스 515 : 일본 501 "
-        ": 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 "
-        ": 중국 상해A / 552 : 중국 심천A"
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
     )
-    OVRS_EXCG_CD: OvrsExcgCdEnum | None = Field(default=None, alias="OVRS_EXCG_CD", json_schema_extra={"blank_allowed": True})
-    (
-        "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 "
-        "아시아주식 전체조회 NASD : 나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / "
-        "SZAA : 중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소"
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
     )
-    CTX_AREA_FK200: str | None = Field(default=None, alias="CTX_AREA_FK200", json_schema_extra={"blank_allowed": True})
-    ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_NK200: str | None = Field(default=None, alias="CTX_AREA_NK200", json_schema_extra={"blank_allowed": True})
-    ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)")
+    INQR_STRT_DT: Annotated[str, "조회시작일자(YYYYMMDD)"] = Field(alias="INQR_STRT_DT")
+    INQR_END_DT: Annotated[str, "조회종료일자(YYYYMMDD)"] = Field(alias="INQR_END_DT")
+    INQR_DVSN_CD: Annotated[InqrDvsnCdEnum, "00 : 전체 01 : 일반해외주식 02 : 미니스탁"] = Field(
+        alias="INQR_DVSN_CD", json_schema_extra={"enum": ["00", "01", "02"], "enum_desc": {"00": "전체", "01": "일반해외주식", "02": "미니스탁"}}
+    )
+    PRDT_TYPE_CD: Annotated[
+        PrdtTypeCdEnum | None,
+        "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 512 : 미국 나스닥 / 513 : 미국 뉴욕거래소 / 529 : 미국 아멕스 515 : 일본 501 : 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 : 중국 상해A / 552 : 중국 심천A",
+    ] = Field(
+        default=None,
+        alias="PRDT_TYPE_CD",
+        json_schema_extra={
+            "enum": ["id", "512", "513", "529", "515", "501", "543", "558", "507", "508", "551", "552"],
+            "enum_desc": {
+                "id": "TTTT3039R인 경우]",
+                "512": "미국 나스닥 /",
+                "513": "미국 뉴욕거래소 /",
+                "529": "미국 아멕스",
+                "515": "일본",
+                "501": "홍콩 /",
+                "543": "홍콩CNY /",
+                "558": "홍콩USD",
+                "507": "베트남 하노이거래소 /",
+                "508": "베트남 호치민거래소",
+                "551": "중국 상해A /",
+                "552": "중국 심천A",
+            },
+            "blank_allowed": True,
+        },
+    )
+    OVRS_EXCG_CD: Annotated[
+        OvrsExcgCdEnum | None,
+        "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 NASD : 나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / SZAA : 중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소",
+    ] = Field(
+        default=None,
+        alias="OVRS_EXCG_CD",
+        json_schema_extra={
+            "enum": ["id", "NASD", "NYSE", "AMEX", "SEHK", "SHAA", "SZAA", "TKSE", "HASE", "VNSE"],
+            "enum_desc": {
+                "id": "TTTT3039R인 경우]",
+                "NASD": "나스닥 /",
+                "NYSE": "뉴욕 /",
+                "AMEX": "아멕스",
+                "SEHK": "홍콩 /",
+                "SHAA": "중국상해 /",
+                "SZAA": "중국심천",
+                "TKSE": "일본 /",
+                "HASE": "하노이거래소 /",
+                "VNSE": "호치민거래소",
+            },
+            "blank_allowed": True,
+        },
+    )
+    CTX_AREA_FK200: Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)"] = Field(
+        default=None, alias="CTX_AREA_FK200", json_schema_extra={"blank_allowed": True}
+    )
+    CTX_AREA_NK200: Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)"] = Field(
+        default=None, alias="CTX_AREA_NK200", json_schema_extra={"blank_allowed": True}
+    )
 
 
 class OrderResvListRequestDict(TypedDict):
@@ -104,7 +169,7 @@ class OrderResvListRequestDict(TypedDict):
         INQR_STRT_DT (str): 조회시작일자(YYYYMMDD)
         INQR_END_DT (str): 조회종료일자(YYYYMMDD)
         INQR_DVSN_CD (InqrDvsnCdEnum): 00 : 전체 01 : 일반해외주식 02 : 미니스탁
-        PRDT_TYPE_CD (str): [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회
+        PRDT_TYPE_CD (PrdtTypeCdEnum): [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회
         [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 512 : 미국 나스닥 / 513 : 미국
         뉴욕거래소 / 529 : 미국 아멕스 515 : 일본 501 : 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 :
         베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 : 중국 상해A / 552 : 중국 심천A optional
@@ -118,96 +183,53 @@ class OrderResvListRequestDict(TypedDict):
         조회시(2번째부터) optional
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    INQR_STRT_DT: Annotated[str, "조회시작일자(YYYYMMDD)"]
-    INQR_END_DT: Annotated[str, "조회종료일자(YYYYMMDD)"]
-    INQR_DVSN_CD: Annotated[InqrDvsnCdEnum, "00 : 전체 01 : 일반해외주식 02 : 미니스탁"]
-    PRDT_TYPE_CD: NotRequired[
-        Annotated[
-            str | None,
-            "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 "
-            "아시아주식 전체조회 512 : 미국 나스닥 / 513 : 미국 뉴욕거래소 / 529 : 미국 아멕스 515 : 일본 501 "
-            ": 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 "
-            ": 중국 상해A / 552 : 중국 심천A",
-        ]
-    ]
-    OVRS_EXCG_CD: NotRequired[
-        Annotated[
-            OvrsExcgCdEnum | None,
-            "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 "
-            "아시아주식 전체조회 NASD : 나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / "
-            "SZAA : 중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소",
-        ]
-    ]
-    CTX_AREA_FK200: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)"]]
-    CTX_AREA_NK200: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)"]]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    INQR_STRT_DT: str
+    INQR_END_DT: str
+    INQR_DVSN_CD: InqrDvsnCdEnum
+    PRDT_TYPE_CD: NotRequired[PrdtTypeCdEnum | None]
+    OVRS_EXCG_CD: NotRequired[OvrsExcgCdEnum | None]
+    CTX_AREA_FK200: NotRequired[str | None]
+    CTX_AREA_NK200: NotRequired[str | None]
 
 
 class OrderResvListOutput(RawModel):
-    cncl_yn: KisBool | None = Field(default=None, alias="cncl_yn")
-    ("취소여부")
-    rsvn_ord_rcit_dt: KisDateOptional = Field(default=None, alias="rsvn_ord_rcit_dt")
-    ("예약주문접수일자")
-    ovrs_rsvn_odno: str | None = Field(default=None, alias="ovrs_rsvn_odno")
-    ("해외예약주문번호")
-    ord_dt: KisDateOptional = Field(default=None, alias="ord_dt")
-    ("주문일자")
-    ord_gno_brno: str | None = Field(default=None, alias="ord_gno_brno")
-    ("주문채번지점번호")
-    odno: str | None = Field(default=None, alias="odno")
-    ("주문번호")
-    sll_buy_dvsn_cd: str | None = Field(default=None, alias="sll_buy_dvsn_cd")
-    ("매도매수구분코드")
-    sll_buy_dvsn_cd_name: str | None = Field(default=None, alias="sll_buy_dvsn_cd_name")
-    ("매도매수구분명")
-    ovrs_rsvn_ord_stat_cd: str | None = Field(default=None, alias="ovrs_rsvn_ord_stat_cd")
-    ("해외예약주문상태코드")
-    ovrs_rsvn_ord_stat_cd_name: str | None = Field(default=None, alias="ovrs_rsvn_ord_stat_cd_name")
-    ("해외예약주문상태코드명")
-    pdno: str | None = Field(default=None, alias="pdno")
-    ("상품번호")
-    prdt_type_cd: str | None = Field(default=None, alias="prdt_type_cd")
-    ("상품유형코드")
-    prdt_name: str | None = Field(default=None, alias="prdt_name")
-    ("상품명")
-    ord_rcit_tmd: KisTimeOptional = Field(default=None, alias="ord_rcit_tmd")
-    ("주문접수시각")
-    ord_fwdg_tmd: KisTimeOptional = Field(default=None, alias="ord_fwdg_tmd")
-    ("주문전송시각")
-    tr_dvsn_name: str | None = Field(default=None, alias="tr_dvsn_name")
-    ("거래구분명")
-    ovrs_excg_cd: str | None = Field(default=None, alias="ovrs_excg_cd")
-    ("해외거래소코드")
-    tr_mket_name: str | None = Field(default=None, alias="tr_mket_name")
-    ("거래시장명")
-    ord_stfno: str | None = Field(default=None, alias="ord_stfno")
-    ("주문직원번호")
-    ft_ord_qty: int | None = Field(default=None, alias="ft_ord_qty")
-    ("FT주문수량")
-    ft_ord_unpr3: str | None = Field(default=None, alias="ft_ord_unpr3")
-    ("FT주문단가3")
-    ft_ccld_qty: int | None = Field(default=None, alias="ft_ccld_qty")
-    ("FT체결수량")
-    nprc_rson_text: str | None = Field(default=None, alias="nprc_rson_text")
-    ("미처리사유내용")
-    splt_buy_attr_name: str | None = Field(default=None, alias="splt_buy_attr_name")
-    ("정규장 종료 주문 시에는 '정규장 종료', 시간 입력 시에는 from ~ to 시간 표시")
+    cncl_yn: Annotated[KisBool | None, "취소여부"] = Field(default=None, alias="cncl_yn")
+    rsvn_ord_rcit_dt: Annotated[KisDateOptional, "예약주문접수일자"] = Field(default=None, alias="rsvn_ord_rcit_dt")
+    ovrs_rsvn_odno: Annotated[str | None, "해외예약주문번호"] = Field(default=None, alias="ovrs_rsvn_odno")
+    ord_dt: Annotated[KisDateOptional, "주문일자"] = Field(default=None, alias="ord_dt")
+    ord_gno_brno: Annotated[str | None, "주문채번지점번호"] = Field(default=None, alias="ord_gno_brno")
+    odno: Annotated[str | None, "주문번호"] = Field(default=None, alias="odno")
+    sll_buy_dvsn_cd: Annotated[str | None, "매도매수구분코드"] = Field(default=None, alias="sll_buy_dvsn_cd")
+    sll_buy_dvsn_cd_name: Annotated[str | None, "매도매수구분명"] = Field(default=None, alias="sll_buy_dvsn_cd_name")
+    ovrs_rsvn_ord_stat_cd: Annotated[str | None, "해외예약주문상태코드"] = Field(default=None, alias="ovrs_rsvn_ord_stat_cd")
+    ovrs_rsvn_ord_stat_cd_name: Annotated[str | None, "해외예약주문상태코드명"] = Field(default=None, alias="ovrs_rsvn_ord_stat_cd_name")
+    pdno: Annotated[str | None, "상품번호"] = Field(default=None, alias="pdno")
+    prdt_type_cd: Annotated[str | None, "상품유형코드"] = Field(default=None, alias="prdt_type_cd")
+    prdt_name: Annotated[str | None, "상품명"] = Field(default=None, alias="prdt_name")
+    ord_rcit_tmd: Annotated[KisTimeOptional, "주문접수시각"] = Field(default=None, alias="ord_rcit_tmd")
+    ord_fwdg_tmd: Annotated[KisTimeOptional, "주문전송시각"] = Field(default=None, alias="ord_fwdg_tmd")
+    tr_dvsn_name: Annotated[str | None, "거래구분명"] = Field(default=None, alias="tr_dvsn_name")
+    ovrs_excg_cd: Annotated[str | None, "해외거래소코드"] = Field(default=None, alias="ovrs_excg_cd")
+    tr_mket_name: Annotated[str | None, "거래시장명"] = Field(default=None, alias="tr_mket_name")
+    ord_stfno: Annotated[str | None, "주문직원번호"] = Field(default=None, alias="ord_stfno")
+    ft_ord_qty: Annotated[int | None, "FT주문수량"] = Field(default=None, alias="ft_ord_qty")
+    ft_ord_unpr3: Annotated[str | None, "FT주문단가3"] = Field(default=None, alias="ft_ord_unpr3")
+    ft_ccld_qty: Annotated[int | None, "FT체결수량"] = Field(default=None, alias="ft_ccld_qty")
+    nprc_rson_text: Annotated[str | None, "미처리사유내용"] = Field(default=None, alias="nprc_rson_text")
+    splt_buy_attr_name: Annotated[str | None, "정규장 종료 주문 시에는 '정규장 종료', 시간 입력 시에는 from ~ to 시간 표시"] = Field(
+        default=None, alias="splt_buy_attr_name"
+    )
 
 
 class OrderResvListResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    ctx_area_fk200: str = Field(alias="ctx_area_fk200")
-    ("연속조회검색조건200")
-    ctx_area_nk200: str = Field(alias="ctx_area_nk200")
-    ("연속조회키200")
-    output: OrderResvListOutput = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    ctx_area_fk200: Annotated[str, "연속조회검색조건200"] = Field(alias="ctx_area_fk200")
+    ctx_area_nk200: Annotated[str, "연속조회키200"] = Field(alias="ctx_area_nk200")
+    output: Annotated[OrderResvListOutput, "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[OrderResvListRequest, OrderResvListResponse] = Endpoint(
@@ -274,11 +296,11 @@ if TYPE_CHECKING:
                         INQR_STRT_DT (str): 조회시작일자(YYYYMMDD)
                         INQR_END_DT (str): 조회종료일자(YYYYMMDD)
                         INQR_DVSN_CD (InqrDvsnCdEnum): 00 : 전체 01 : 일반해외주식 02 : 미니스탁
-                        PRDT_TYPE_CD (str): [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회
-                        [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 512 : 미국 나스닥 /
-                        513 : 미국 뉴욕거래소 / 529 : 미국 아멕스 515 : 일본 501 : 홍콩 / 543 :
-                        홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소
-                        551 : 중국 상해A / 552 : 중국 심천A optional
+                        PRDT_TYPE_CD (PrdtTypeCdEnum): [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식
+                        전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 512 : 미국
+                        나스닥 / 513 : 미국 뉴욕거래소 / 529 : 미국 아멕스 515 : 일본 501 : 홍콩 / 543
+                        : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남
+                        호치민거래소 551 : 중국 상해A / 552 : 중국 심천A optional
                         OVRS_EXCG_CD (OvrsExcgCdEnum): [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식
                         전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 NASD :
                         나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / SZAA :
@@ -306,5 +328,6 @@ __all__ = [
     "CanoEnum",
     "AcntPrdtCdEnum",
     "InqrDvsnCdEnum",
+    "PrdtTypeCdEnum",
     "OvrsExcgCdEnum",
 ]

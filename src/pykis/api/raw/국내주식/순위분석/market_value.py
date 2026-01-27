@@ -16,78 +16,102 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     J = ("J", "KRX")
-    "KRX"
+    """KRX"""
     NX = ("NX", "NXT")
-    "NXT"
+    """NXT"""
 
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "관리종목")
-    "관리종목"
+    """관리종목"""
     VALUE_2 = ("2", "투자주의")
-    "투자주의"
+    """투자주의"""
     VALUE_3 = ("3", "투자경고")
-    "투자경고"
+    """투자경고"""
     VALUE_4 = ("4", "투자위험예고")
-    "투자위험예고"
+    """투자위험예고"""
     VALUE_5 = ("5", "투자위험")
-    "투자위험"
+    """투자위험"""
     VALUE_6 = ("6", "보톧주")
-    "보톧주"
+    """보톧주"""
     VALUE_7 = ("7", "우선주")
-    "우선주"
+    """우선주"""
 
 
 class FidRankSortClsCodeEnum(KisStrEnum):
     VALUE_23 = ("23", "PER")
-    "PER"
+    """PER"""
     VALUE_24 = ("24", "PBR")
-    "PBR"
+    """PBR"""
     VALUE_25 = ("25", "PCR")
-    "PCR"
+    """PCR"""
     VALUE_26 = ("26", "PSR")
-    "PSR"
+    """PSR"""
     VALUE_27 = ("27", "EPS")
-    "EPS"
+    """EPS"""
     VALUE_28 = ("28", "EVA")
-    "EVA"
+    """EVA"""
     VALUE_29 = ("29", "EBITDA")
-    "EBITDA"
+    """EBITDA"""
     VALUE_30 = ("30", "EV/EBITDA")
-    "EV/EBITDA"
+    """EV/EBITDA"""
     VALUE_31 = ("31", "EBITDA/금융비율'")
-    "EBITDA/금융비율'"
+    """EBITDA/금융비율'"""
 
 
 class MarketValueRequest(RawModel):
-    fid_trgt_cls_code: str = Field(alias="fid_trgt_cls_code")
-    ("0 : 전체")
-    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(alias="fid_cond_mrkt_div_code")
-    ("시장구분코드 (J:KRX, NX:NXT)")
-    fid_cond_scr_div_code: str = Field(alias="fid_cond_scr_div_code")
-    ("Unique key( 20179 )")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
-    ("0: 전체, 1:관리종목, 2:투자주의, 3:투자경고, 4:투자위험예고, 5:투자위험, 6:보톧주, 7:우선주")
-    fid_input_price_1: str = Field(alias="fid_input_price_1")
-    ("입력값 없을때 전체 (가격 ~)")
-    fid_input_price_2: str = Field(alias="fid_input_price_2")
-    ("입력값 없을때 전체 (~ 가격)")
-    fid_vol_cnt: int = Field(alias="fid_vol_cnt")
-    ("입력값 없을때 전체 (거래량 ~)")
-    fid_input_option_1: str = Field(alias="fid_input_option_1")
-    ("회계연도 입력 (ex 2023)")
-    fid_input_option_2: str = Field(alias="fid_input_option_2")
-    ("0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산")
-    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(alias="fid_rank_sort_cls_code")
-    ("'가치분석(23:PER, 24:PBR, 25:PCR, 26:PSR, 27: EPS, 28:EVA, 29: EBITDA, 30: EV/EBITDA, 31:EBITDA/금융비율'")
-    fid_blng_cls_code: str = Field(alias="fid_blng_cls_code")
-    ("0 : 전체")
-    fid_trgt_exls_cls_code: str = Field(alias="fid_trgt_exls_cls_code")
-    ("0 : 전체")
+    fid_trgt_cls_code: Annotated[str, "0 : 전체"] = Field(alias="fid_trgt_cls_code")
+    fid_cond_mrkt_div_code: Annotated[FidCondMrktDivCodeEnum, "시장구분코드 (J:KRX, NX:NXT)"] = Field(
+        alias="fid_cond_mrkt_div_code", json_schema_extra={"enum": ["J", "NX"], "enum_desc": {"J": "KRX", "NX": "NXT"}}
+    )
+    fid_cond_scr_div_code: Annotated[str, "Unique key( 20179 )"] = Field(alias="fid_cond_scr_div_code")
+    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200"] = Field(alias="fid_input_iscd")
+    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 전체, 1:관리종목, 2:투자주의, 3:투자경고, 4:투자위험예고, 5:투자위험, 6:보톧주, 7:우선주"] = (
+        Field(
+            alias="fid_div_cls_code",
+            json_schema_extra={
+                "enum": ["0", "1", "2", "3", "4", "5", "6", "7"],
+                "enum_desc": {
+                    "0": "전체",
+                    "1": "관리종목",
+                    "2": "투자주의",
+                    "3": "투자경고",
+                    "4": "투자위험예고",
+                    "5": "투자위험",
+                    "6": "보톧주",
+                    "7": "우선주",
+                },
+            },
+        )
+    )
+    fid_input_price_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"] = Field(alias="fid_input_price_1")
+    fid_input_price_2: Annotated[str, "입력값 없을때 전체 (~ 가격)"] = Field(alias="fid_input_price_2")
+    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"] = Field(alias="fid_vol_cnt")
+    fid_input_option_1: Annotated[str, "회계연도 입력 (ex 2023)"] = Field(alias="fid_input_option_1")
+    fid_input_option_2: Annotated[str, "0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산"] = Field(alias="fid_input_option_2")
+    fid_rank_sort_cls_code: Annotated[
+        FidRankSortClsCodeEnum, "'가치분석(23:PER, 24:PBR, 25:PCR, 26:PSR, 27: EPS, 28:EVA, 29: EBITDA, 30: EV/EBITDA, 31:EBITDA/금융비율'"
+    ] = Field(
+        alias="fid_rank_sort_cls_code",
+        json_schema_extra={
+            "enum": ["23", "24", "25", "26", "27", "28", "29", "30", "31"],
+            "enum_desc": {
+                "23": "PER",
+                "24": "PBR",
+                "25": "PCR",
+                "26": "PSR",
+                "27": "EPS",
+                "28": "EVA",
+                "29": "EBITDA",
+                "30": "EV/EBITDA",
+                "31": "EBITDA/금융비율'",
+            },
+        },
+    )
+    fid_blng_cls_code: Annotated[str, "0 : 전체"] = Field(alias="fid_blng_cls_code")
+    fid_trgt_exls_cls_code: Annotated[str, "0 : 전체"] = Field(alias="fid_trgt_exls_cls_code")
 
 
 class MarketValueRequestDict(TypedDict):
@@ -121,75 +145,49 @@ class MarketValueRequestDict(TypedDict):
         fid_trgt_exls_cls_code (str): 0 : 전체
     """
 
-    fid_trgt_cls_code: Annotated[str, "0 : 전체"]
-    fid_cond_mrkt_div_code: Annotated[FidCondMrktDivCodeEnum, "시장구분코드 (J:KRX, NX:NXT)"]
-    fid_cond_scr_div_code: Annotated[str, "Unique key( 20179 )"]
-    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200"]
-    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 전체, 1:관리종목, 2:투자주의, 3:투자경고, 4:투자위험예고, 5:투자위험, 6:보톧주, 7:우선주"]
-    fid_input_price_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"]
-    fid_input_price_2: Annotated[str, "입력값 없을때 전체 (~ 가격)"]
-    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"]
-    fid_input_option_1: Annotated[str, "회계연도 입력 (ex 2023)"]
-    fid_input_option_2: Annotated[str, "0: 1/4분기 , 1: 반기, 2: 3/4분기, 3: 결산"]
-    fid_rank_sort_cls_code: Annotated[
-        FidRankSortClsCodeEnum, "'가치분석(23:PER, 24:PBR, 25:PCR, 26:PSR, 27: EPS, 28:EVA, 29: EBITDA, 30: EV/EBITDA, 31:EBITDA/금융비율'"
-    ]
-    fid_blng_cls_code: Annotated[str, "0 : 전체"]
-    fid_trgt_exls_cls_code: Annotated[str, "0 : 전체"]
+    fid_trgt_cls_code: str
+    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum
+    fid_cond_scr_div_code: str
+    fid_input_iscd: str
+    fid_div_cls_code: FidDivClsCodeEnum
+    fid_input_price_1: str
+    fid_input_price_2: str
+    fid_vol_cnt: int
+    fid_input_option_1: str
+    fid_input_option_2: str
+    fid_rank_sort_cls_code: FidRankSortClsCodeEnum
+    fid_blng_cls_code: str
+    fid_trgt_exls_cls_code: str
 
 
 class MarketValueOutput(RawModel):
-    data_rank: str | None = Field(default=None, alias="data_rank")
-    ("데이터 순위")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    mksc_shrn_iscd: str | None = Field(default=None, alias="mksc_shrn_iscd")
-    ("유가증권 단축 종목코드")
-    stck_prpr: Decimal | None = Field(default=None, alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
-    ("누적 거래량")
-    per: str | None = Field(default=None, alias="per")
-    ("PER")
-    pbr: str | None = Field(default=None, alias="pbr")
-    ("PBR")
-    pcr: str | None = Field(default=None, alias="pcr")
-    ("PCR")
-    psr: str | None = Field(default=None, alias="psr")
-    ("PSR")
-    eps: str | None = Field(default=None, alias="eps")
-    ("EPS")
-    eva: str | None = Field(default=None, alias="eva")
-    ("EVA")
-    ebitda: str | None = Field(default=None, alias="ebitda")
-    ("EBITDA")
-    pv_div_ebitda: str | None = Field(default=None, alias="pv_div_ebitda")
-    ("PV DIV EBITDA")
-    ebitda_div_fnnc_expn: str | None = Field(default=None, alias="ebitda_div_fnnc_expn")
-    ("EBITDA DIV 금융비용")
-    stac_month: str | None = Field(default=None, alias="stac_month")
-    ("결산 월")
-    stac_month_cls_code: str | None = Field(default=None, alias="stac_month_cls_code")
-    ("결산 월 구분 코드")
-    iqry_csnu: int | None = Field(default=None, alias="iqry_csnu")
-    ("조회 건수")
+    data_rank: Annotated[str | None, "데이터 순위"] = Field(default=None, alias="data_rank")
+    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
+    mksc_shrn_iscd: Annotated[str | None, "유가증권 단축 종목코드"] = Field(default=None, alias="mksc_shrn_iscd")
+    stck_prpr: Annotated[Decimal | None, "주식 현재가"] = Field(default=None, alias="stck_prpr")
+    prdy_vrss: Annotated[str | None, "전일 대비"] = Field(default=None, alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[str | None, "전일 대비 부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal | None, "전일 대비율"] = Field(default=None, alias="prdy_ctrt")
+    acml_vol: Annotated[int | None, "누적 거래량"] = Field(default=None, alias="acml_vol")
+    per: Annotated[str | None, "PER"] = Field(default=None, alias="per")
+    pbr: Annotated[str | None, "PBR"] = Field(default=None, alias="pbr")
+    pcr: Annotated[str | None, "PCR"] = Field(default=None, alias="pcr")
+    psr: Annotated[str | None, "PSR"] = Field(default=None, alias="psr")
+    eps: Annotated[str | None, "EPS"] = Field(default=None, alias="eps")
+    eva: Annotated[str | None, "EVA"] = Field(default=None, alias="eva")
+    ebitda: Annotated[str | None, "EBITDA"] = Field(default=None, alias="ebitda")
+    pv_div_ebitda: Annotated[str | None, "PV DIV EBITDA"] = Field(default=None, alias="pv_div_ebitda")
+    ebitda_div_fnnc_expn: Annotated[str | None, "EBITDA DIV 금융비용"] = Field(default=None, alias="ebitda_div_fnnc_expn")
+    stac_month: Annotated[str | None, "결산 월"] = Field(default=None, alias="stac_month")
+    stac_month_cls_code: Annotated[str | None, "결산 월 구분 코드"] = Field(default=None, alias="stac_month_cls_code")
+    iqry_csnu: Annotated[int | None, "조회 건수"] = Field(default=None, alias="iqry_csnu")
 
 
 class MarketValueResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[MarketValueOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[MarketValueOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[MarketValueRequest, MarketValueResponse] = Endpoint(

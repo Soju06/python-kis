@@ -16,18 +16,18 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     J = ("J", "KRX")
-    "KRX"
+    """KRX"""
     NX = ("NX", "NXT")
-    "NXT"
+    """NXT"""
     UN = ("UN", "통합")
-    "통합"
+    """통합"""
 
 
 class InquireCcnlRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("J:KRX, NX:NXT, UN:통합")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목코드 (ex 005930 삼성전자)")
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"] = Field(
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["J", "NX", "UN"], "enum_desc": {"J": "KRX", "NX": "NXT", "UN": "통합"}}
+    )
+    FID_INPUT_ISCD: Annotated[str, "종목코드 (ex 005930 삼성전자)"] = Field(alias="FID_INPUT_ISCD")
 
 
 class InquireCcnlRequestDict(TypedDict):
@@ -40,36 +40,25 @@ class InquireCcnlRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목코드 (ex 005930 삼성전자)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드 (ex 005930 삼성전자)"]
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
+    FID_INPUT_ISCD: str
 
 
 class InquireCcnlOutput(RawModel):
-    stck_cntg_hour: KisTime = Field(alias="stck_cntg_hour")
-    ("주식 체결 시간")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    cntg_vol: int = Field(alias="cntg_vol")
-    ("체결 거래량")
-    tday_rltv: Decimal = Field(alias="tday_rltv")
-    ("당일 체결강도")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
+    stck_cntg_hour: Annotated[KisTime, "주식 체결 시간"] = Field(alias="stck_cntg_hour")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    cntg_vol: Annotated[int, "체결 거래량"] = Field(alias="cntg_vol")
+    tday_rltv: Annotated[Decimal, "당일 체결강도"] = Field(alias="tday_rltv")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
 
 
 class InquireCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquireCcnlOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquireCcnlOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireCcnlRequest, InquireCcnlResponse] = Endpoint(

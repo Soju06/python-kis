@@ -14,10 +14,8 @@ if TYPE_CHECKING:
 
 
 class InquireDailyPriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("B (업종코드)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("채권종목코드(ex KR2033022D33)")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "B (업종코드)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "채권종목코드(ex KR2033022D33)"] = Field(alias="FID_INPUT_ISCD")
 
 
 class InquireDailyPriceRequestDict(TypedDict):
@@ -30,40 +28,27 @@ class InquireDailyPriceRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 채권종목코드(ex KR2033022D33)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "B (업종코드)"]
-    FID_INPUT_ISCD: Annotated[str, "채권종목코드(ex KR2033022D33)"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
 
 
 class InquireDailyPriceOutput(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
-    ("주식영업일자")
-    bond_prpr: Decimal = Field(alias="bond_prpr")
-    ("채권현재가")
-    bond_prdy_vrss: Decimal = Field(alias="bond_prdy_vrss")
-    ("채권전일대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일대비부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적거래량")
-    bond_oprc: Decimal = Field(alias="bond_oprc")
-    ("채권시가2")
-    bond_hgpr: Decimal = Field(alias="bond_hgpr")
-    ("채권고가")
-    bond_lwpr: Decimal = Field(alias="bond_lwpr")
-    ("채권저가")
+    stck_bsop_date: Annotated[KisDate, "주식영업일자"] = Field(alias="stck_bsop_date")
+    bond_prpr: Annotated[Decimal, "채권현재가"] = Field(alias="bond_prpr")
+    bond_prdy_vrss: Annotated[Decimal, "채권전일대비"] = Field(alias="bond_prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일대비부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적거래량"] = Field(alias="acml_vol")
+    bond_oprc: Annotated[Decimal, "채권시가2"] = Field(alias="bond_oprc")
+    bond_hgpr: Annotated[Decimal, "채권고가"] = Field(alias="bond_hgpr")
+    bond_lwpr: Annotated[Decimal, "채권저가"] = Field(alias="bond_lwpr")
 
 
 class InquireDailyPriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquireDailyPriceOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquireDailyPriceOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireDailyPriceRequest, InquireDailyPriceResponse] = Endpoint(

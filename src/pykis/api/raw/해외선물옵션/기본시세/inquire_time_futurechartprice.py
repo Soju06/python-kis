@@ -15,28 +15,22 @@ if TYPE_CHECKING:
 
 class QryTpEnum(KisStrEnum):
     Q = ("Q", "최초조회시")
-    "최초조회시"
+    """최초조회시"""
     P = ("P", "다음키(INDEX_KEY) 입력하여 조회시")
-    "다음키(INDEX_KEY) 입력하여 조회시"
+    """다음키(INDEX_KEY) 입력하여 조회시"""
 
 
 class InquireTimeFuturechartpriceRequest(RawModel):
-    SRS_CD: str = Field(alias="SRS_CD")
-    ('ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물" 참고')
-    EXCH_CD: str = Field(alias="EXCH_CD")
-    ("CME")
-    START_DATE_TIME: KisDateTimeOptional = Field(default=None, alias="START_DATE_TIME", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    CLOSE_DATE_TIME: KisDateTime = Field(alias="CLOSE_DATE_TIME")
-    ("ex) 20230823")
-    QRY_TP: QryTpEnum = Field(alias="QRY_TP")
-    ("Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시")
-    QRY_CNT: int = Field(alias="QRY_CNT")
-    ("120 (조회갯수)")
-    QRY_GAP: int = Field(alias="QRY_GAP")
-    ("5 (분간격)")
-    INDEX_KEY: str = Field(alias="INDEX_KEY")
-    ('다음조회(QRY_TP를 P로 입력) 시, 이전 호출의 "output1 > index_key" 기입하여 조회')
+    SRS_CD: Annotated[str, 'ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물" 참고'] = Field(alias="SRS_CD")
+    EXCH_CD: Annotated[str, "CME"] = Field(alias="EXCH_CD")
+    START_DATE_TIME: Annotated[KisDateTimeOptional, "공백"] = Field(default=None, alias="START_DATE_TIME", json_schema_extra={"blank_allowed": True})
+    CLOSE_DATE_TIME: Annotated[KisDateTime, "ex) 20230823"] = Field(alias="CLOSE_DATE_TIME")
+    QRY_TP: Annotated[QryTpEnum, "Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시"] = Field(
+        alias="QRY_TP", json_schema_extra={"enum": ["Q", "P"], "enum_desc": {"Q": "최초조회시", "P": "다음키(INDEX_KEY) 입력하여 조회시"}}
+    )
+    QRY_CNT: Annotated[int, "120 (조회갯수)"] = Field(alias="QRY_CNT")
+    QRY_GAP: Annotated[int, "5 (분간격)"] = Field(alias="QRY_GAP")
+    INDEX_KEY: Annotated[str, '다음조회(QRY_TP를 P로 입력) 시, 이전 호출의 "output1 > index_key" 기입하여 조회'] = Field(alias="INDEX_KEY")
 
 
 class InquireTimeFuturechartpriceRequestDict(TypedDict):
@@ -101,23 +95,20 @@ class InquireTimeFuturechartpriceRequestDict(TypedDict):
         조회
     """
 
-    SRS_CD: Annotated[str, 'ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물" 참고']
-    EXCH_CD: Annotated[str, "CME"]
-    START_DATE_TIME: NotRequired[Annotated[KisDateTimeOptional, "공백"]]
-    CLOSE_DATE_TIME: Annotated[KisDateTime, "ex) 20230823"]
-    QRY_TP: Annotated[QryTpEnum, "Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시"]
-    QRY_CNT: Annotated[int, "120 (조회갯수)"]
-    QRY_GAP: Annotated[int, "5 (분간격)"]
-    INDEX_KEY: Annotated[str, '다음조회(QRY_TP를 P로 입력) 시, 이전 호출의 "output1 > index_key" 기입하여 조회']
+    SRS_CD: str
+    EXCH_CD: str
+    START_DATE_TIME: NotRequired[KisDateTimeOptional]
+    CLOSE_DATE_TIME: KisDateTime
+    QRY_TP: QryTpEnum
+    QRY_CNT: int
+    QRY_GAP: int
+    INDEX_KEY: str
 
 
 class InquireTimeFuturechartpriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str | None = Field(default=None, alias="msg1")
-    ("응답메세지")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str | None, "응답메세지"] = Field(default=None, alias="msg1")
 
 
 _ENDPOINT: Endpoint[InquireTimeFuturechartpriceRequest, InquireTimeFuturechartpriceResponse] = Endpoint(

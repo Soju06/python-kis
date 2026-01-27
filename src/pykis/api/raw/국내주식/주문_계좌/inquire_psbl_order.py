@@ -16,26 +16,21 @@ if TYPE_CHECKING:
 
 class OrdDvsnEnum(KisStrEnum):
     VALUE_00 = ("00", "지정가 /")
-    "지정가 /"
+    """지정가 /"""
     VALUE_01 = ("01", "시장가")
-    "시장가"
+    """시장가"""
 
 
 class InquirePsblOrderRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("29")
-    PDNO: str = Field(alias="PDNO")
-    ("상품번호")
-    ACCA_DVSN_CD: str = Field(alias="ACCA_DVSN_CD")
-    ("00")
-    CMA_EVLU_AMT_ICLD_YN: KisBool = Field(alias="CMA_EVLU_AMT_ICLD_YN")
-    ("CMA평가금액포함여부")
-    ORD_DVSN: OrdDvsnEnum = Field(alias="ORD_DVSN")
-    ("00 : 지정가 / 01 : 시장가")
-    ORD_UNPR: str = Field(alias="ORD_UNPR")
-    ("주문단가")
+    CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "29"] = Field(alias="ACNT_PRDT_CD")
+    PDNO: Annotated[str, "상품번호"] = Field(alias="PDNO")
+    ACCA_DVSN_CD: Annotated[str, "00"] = Field(alias="ACCA_DVSN_CD")
+    CMA_EVLU_AMT_ICLD_YN: Annotated[KisBool, "CMA평가금액포함여부"] = Field(alias="CMA_EVLU_AMT_ICLD_YN")
+    ORD_DVSN: Annotated[OrdDvsnEnum, "00 : 지정가 / 01 : 시장가"] = Field(
+        alias="ORD_DVSN", json_schema_extra={"enum": ["00", "01"], "enum_desc": {"00": "지정가 /", "01": "시장가"}}
+    )
+    ORD_UNPR: Annotated[str, "주문단가"] = Field(alias="ORD_UNPR")
 
 
 class InquirePsblOrderRequestDict(TypedDict):
@@ -54,37 +49,28 @@ class InquirePsblOrderRequestDict(TypedDict):
         ORD_UNPR (str): 주문단가
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "29"]
-    PDNO: Annotated[str, "상품번호"]
-    ACCA_DVSN_CD: Annotated[str, "00"]
-    CMA_EVLU_AMT_ICLD_YN: Annotated[KisBool, "CMA평가금액포함여부"]
-    ORD_DVSN: Annotated[OrdDvsnEnum, "00 : 지정가 / 01 : 시장가"]
-    ORD_UNPR: Annotated[str, "주문단가"]
+    CANO: str
+    ACNT_PRDT_CD: str
+    PDNO: str
+    ACCA_DVSN_CD: str
+    CMA_EVLU_AMT_ICLD_YN: KisBool
+    ORD_DVSN: OrdDvsnEnum
+    ORD_UNPR: str
 
 
 class InquirePsblOrderOutput(RawModel):
-    ord_psbl_cash: str = Field(alias="ord_psbl_cash")
-    ("주문가능현금")
-    ruse_psbl_amt: Decimal = Field(alias="ruse_psbl_amt")
-    ("재사용가능금액")
-    psbl_qty_calc_unpr: int = Field(alias="psbl_qty_calc_unpr")
-    ("가능수량계산단가")
-    max_buy_amt: Decimal = Field(alias="max_buy_amt")
-    ("최대매수금액")
-    max_buy_qty: int = Field(alias="max_buy_qty")
-    ("최대매수수량")
+    ord_psbl_cash: Annotated[str, "주문가능현금"] = Field(alias="ord_psbl_cash")
+    ruse_psbl_amt: Annotated[Decimal, "재사용가능금액"] = Field(alias="ruse_psbl_amt")
+    psbl_qty_calc_unpr: Annotated[int, "가능수량계산단가"] = Field(alias="psbl_qty_calc_unpr")
+    max_buy_amt: Annotated[Decimal, "최대매수금액"] = Field(alias="max_buy_amt")
+    max_buy_qty: Annotated[int, "최대매수수량"] = Field(alias="max_buy_qty")
 
 
 class InquirePsblOrderResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: InquirePsblOrderOutput = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[InquirePsblOrderOutput, "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquirePsblOrderRequest, InquirePsblOrderResponse] = Endpoint(

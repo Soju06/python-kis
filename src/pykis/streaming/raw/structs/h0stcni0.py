@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Annotated
 
 from pykis.streaming.raw.base import StreamingRawModel
 from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, StreamingSpec
@@ -12,23 +13,26 @@ class H0STCNI0(StreamingRawModel):
     ACNT_NO: str
     ODER_NO: str
     OODER_NO: str
-    SELN_BYOV_CLS: str
-    RCTF_CLS: str
-    ODER_KIND: str
-    ODER_COND: str
+    SELN_BYOV_CLS: Annotated[str, "01 : 매도 \n02 : 매수"]
+    RCTF_CLS: Annotated[str, "0:정상 \n1:정정 \n2:취소"]
+    ODER_KIND: Annotated[
+        str,
+        "[KRX]\n00 : 지정가\n01 : 시장가\n02 : 조건부지정가\n03 : 최유리지정가\n04 : 최우선지정가\n05 : 장전 시간외\n06 : 장후 시간외\n07 : 시간외 단일가\n11 : IOC지정가 (즉시체결,잔량취소)\n12 : FOK지정가 (즉시체결,전량취소)\n13 : IOC시장가 (즉시체결,잔량취소)\n14 : FOK시장가 (즉시체결,전량취소)\n15 : IOC최유리 (즉시체결,잔량취소)\n16 : FOK최유리 (즉시체결,전량취소)\n21 : 중간가\n22 : 스톱지정가\n23 : 중간가IOC\n24 : 중간가FOK\n\n[NXT]\n00 : 지정가\n03 : 최유리지정가\n04 : 최우선지정가\n11 : IOC지정가 (즉시체결,잔량취소)\n12 : FOK지정가 (즉시체결,전량취소)\n13 : IOC시장가 (즉시체결,잔량취소)\n14 : FOK시장가 (즉시체결,전량취소)\n15 : IOC최유리 (즉시체결,잔량취소)\n16 : FOK최유리 (즉시체결,전량취소)\n21 : 중간가\n22 : 스톱지정가\n23 : 중간가IOC\n24 : 중간가FOK\n\n[SOR]\n00 : 지정가\n01 : 시장가\n03 : 최유리지정가\n04 : 최우선지정가\n11 : IOC지정가 (즉시체결,잔량취소)\n12 : FOK지정가 (즉시체결,전량취소)\n13 : IOC시장가 (즉시체결,잔량취소)\n14 : FOK시장가 (즉시체결,전량취소)\n15 : IOC최유리 (즉시체결,잔량취소)\n16 : FOK최유리 (즉시체결,전량취소)",
+    ]
+    ODER_COND: Annotated[str, "0:없음\n1:IOC \n2:FOK"]
     STCK_SHRN_ISCD: str
     CNTG_QTY: str
     CNTG_UNPR: str
     STCK_CNTG_HOUR: datetime
-    RFUS_YN: str
-    CNTG_YN: str
-    ACPT_YN: str
+    RFUS_YN: Annotated[str, "0 : 승인 \n1 : 거부"]
+    CNTG_YN: Annotated[str, "1 : 주문,정정,취소,거부\n2 : 체결"]
+    ACPT_YN: Annotated[str, "1 : 주문접수\n2 : 확인\n3 : 취소(FOK/IOC)"]
     BRNC_NO: str
     ODER_QTY: str
     ACNT_NAME: str
-    ORD_COND_PRC: str
-    ORD_EXG_GB: str
-    POPUP_YN: str
+    ORD_COND_PRC: Annotated[str, "스톱지정가 시 표시"]
+    ORD_EXG_GB: Annotated[str, "1:KRX, 2:NXT, 3:SOR-KRX, 4:SOR-NXT"]
+    POPUP_YN: Annotated[str, "Y/N"]
     FILLER: str
     CRDT_CLS: str
     CRDT_LOAN_DATE: datetime

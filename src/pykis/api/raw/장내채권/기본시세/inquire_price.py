@@ -14,10 +14,8 @@ if TYPE_CHECKING:
 
 
 class InquirePriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("B (업종코드)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("채권종목코드(ex KR2033022D33)")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "B (업종코드)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "채권종목코드(ex KR2033022D33)"] = Field(alias="FID_INPUT_ISCD")
 
 
 class InquirePriceRequestDict(TypedDict):
@@ -30,56 +28,35 @@ class InquirePriceRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 채권종목코드(ex KR2033022D33)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "B (업종코드)"]
-    FID_INPUT_ISCD: Annotated[str, "채권종목코드(ex KR2033022D33)"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
 
 
 class InquirePriceOutput(RawModel):
-    stnd_iscd: str | None = Field(default=None, alias="stnd_iscd")
-    ("표준종목코드")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
-    ("HTS한글종목명")
-    bond_prpr: Decimal = Field(alias="bond_prpr")
-    ("채권현재가")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
-    ("전일대비부호")
-    bond_prdy_vrss: Decimal = Field(alias="bond_prdy_vrss")
-    ("채권전일대비")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적거래량")
-    bond_prdy_clpr: Decimal = Field(alias="bond_prdy_clpr")
-    ("채권전일종가")
-    bond_oprc: Decimal = Field(alias="bond_oprc")
-    ("채권시가2")
-    bond_hgpr: Decimal = Field(alias="bond_hgpr")
-    ("채권고가")
-    bond_lwpr: Decimal = Field(alias="bond_lwpr")
-    ("채권저가")
-    ernn_rate: Decimal = Field(alias="ernn_rate")
-    ("수익비율")
-    oprc_ert: Decimal = Field(alias="oprc_ert")
-    ("시가2수익률")
-    hgpr_ert: Decimal = Field(alias="hgpr_ert")
-    ("최고가수익률")
-    lwpr_ert: Decimal = Field(alias="lwpr_ert")
-    ("최저가수익률")
-    bond_mxpr: Decimal = Field(alias="bond_mxpr")
-    ("채권상한가")
-    bond_llam: Decimal = Field(alias="bond_llam")
-    ("채권하한가")
+    stnd_iscd: Annotated[str | None, "표준종목코드"] = Field(default=None, alias="stnd_iscd")
+    hts_kor_isnm: Annotated[str | None, "HTS한글종목명"] = Field(default=None, alias="hts_kor_isnm")
+    bond_prpr: Annotated[Decimal, "채권현재가"] = Field(alias="bond_prpr")
+    prdy_vrss_sign: Annotated[str | None, "전일대비부호"] = Field(default=None, alias="prdy_vrss_sign")
+    bond_prdy_vrss: Annotated[Decimal, "채권전일대비"] = Field(alias="bond_prdy_vrss")
+    prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적거래량"] = Field(alias="acml_vol")
+    bond_prdy_clpr: Annotated[Decimal, "채권전일종가"] = Field(alias="bond_prdy_clpr")
+    bond_oprc: Annotated[Decimal, "채권시가2"] = Field(alias="bond_oprc")
+    bond_hgpr: Annotated[Decimal, "채권고가"] = Field(alias="bond_hgpr")
+    bond_lwpr: Annotated[Decimal, "채권저가"] = Field(alias="bond_lwpr")
+    ernn_rate: Annotated[Decimal, "수익비율"] = Field(alias="ernn_rate")
+    oprc_ert: Annotated[Decimal, "시가2수익률"] = Field(alias="oprc_ert")
+    hgpr_ert: Annotated[Decimal, "최고가수익률"] = Field(alias="hgpr_ert")
+    lwpr_ert: Annotated[Decimal, "최저가수익률"] = Field(alias="lwpr_ert")
+    bond_mxpr: Annotated[Decimal, "채권상한가"] = Field(alias="bond_mxpr")
+    bond_llam: Annotated[Decimal, "채권하한가"] = Field(alias="bond_llam")
 
 
 class InquirePriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: InquirePriceOutput = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[InquirePriceOutput, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquirePriceRequest, InquirePriceResponse] = Endpoint(

@@ -15,20 +15,19 @@ if TYPE_CHECKING:
 
 class BsopHourGbEnum(KisStrEnum):
     VALUE_1 = ("1", "09시 30분 입력")
-    "09시 30분 입력"
+    """09시 30분 입력"""
     VALUE_2 = ("2", "10시 00분 입력")
-    "10시 00분 입력"
+    """10시 00분 입력"""
     VALUE_3 = ("3", "11시 20분 입력")
-    "11시 20분 입력"
+    """11시 20분 입력"""
     VALUE_4 = ("4", "13시 20분 입력")
-    "13시 20분 입력"
+    """13시 20분 입력"""
     VALUE_5 = ("5", "14시 30분 입력")
-    "14시 30분 입력"
+    """14시 30분 입력"""
 
 
 class InvestorTrendEstimateRequest(RawModel):
-    MKSC_SHRN_ISCD: str = Field(alias="MKSC_SHRN_ISCD")
-    ("종목코드")
+    MKSC_SHRN_ISCD: Annotated[str, "종목코드"] = Field(alias="MKSC_SHRN_ISCD")
 
 
 class InvestorTrendEstimateRequestDict(TypedDict):
@@ -46,29 +45,30 @@ class InvestorTrendEstimateRequestDict(TypedDict):
         MKSC_SHRN_ISCD (str): 종목코드
     """
 
-    MKSC_SHRN_ISCD: Annotated[str, "종목코드"]
+    MKSC_SHRN_ISCD: str
 
 
 class InvestorTrendEstimateOutput2(RawModel):
-    bsop_hour_gb: BsopHourGbEnum | None = Field(default=None, alias="bsop_hour_gb")
-    ("1: 09시 30분 입력 2: 10시 00분 입력 3: 11시 20분 입력 4: 13시 20분 입력 5: 14시 30분 입력")
-    frgn_fake_ntby_qty: int | None = Field(default=None, alias="frgn_fake_ntby_qty")
-    ("외국인수량(가집계)")
-    orgn_fake_ntby_qty: int | None = Field(default=None, alias="orgn_fake_ntby_qty")
-    ("기관수량(가집계)")
-    sum_fake_ntby_qty: int | None = Field(default=None, alias="sum_fake_ntby_qty")
-    ("합산수량(가집계)")
+    bsop_hour_gb: Annotated[BsopHourGbEnum | None, "1: 09시 30분 입력 2: 10시 00분 입력 3: 11시 20분 입력 4: 13시 20분 입력 5: 14시 30분 입력"] = (
+        Field(
+            default=None,
+            alias="bsop_hour_gb",
+            json_schema_extra={
+                "enum": ["1", "2", "3", "4", "5"],
+                "enum_desc": {"1": "09시 30분 입력", "2": "10시 00분 입력", "3": "11시 20분 입력", "4": "13시 20분 입력", "5": "14시 30분 입력"},
+            },
+        )
+    )
+    frgn_fake_ntby_qty: Annotated[int | None, "외국인수량(가집계)"] = Field(default=None, alias="frgn_fake_ntby_qty")
+    orgn_fake_ntby_qty: Annotated[int | None, "기관수량(가집계)"] = Field(default=None, alias="orgn_fake_ntby_qty")
+    sum_fake_ntby_qty: Annotated[int | None, "합산수량(가집계)"] = Field(default=None, alias="sum_fake_ntby_qty")
 
 
 class InvestorTrendEstimateResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output2: list[InvestorTrendEstimateOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output2: Annotated[list[InvestorTrendEstimateOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InvestorTrendEstimateRequest, InvestorTrendEstimateResponse] = Endpoint(

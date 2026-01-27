@@ -13,43 +13,69 @@ if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class PdnoEnum(KisStrEnum):
+    AAPL = ("AAPL", ": AAPL (코드 :")
+    """: AAPL (코드 :"""
+    VALUE_512 = ("512", "'")
+    """'"""
+
+
 class PrdtTypeCdEnum(KisStrEnum):
     VALUE_301 = ("301", "선물옵션")
-    "선물옵션"
+    """선물옵션"""
     VALUE_302 = ("302", "채권")
-    "채권"
+    """채권"""
     VALUE_512 = ("512", "미국 나스닥")
-    "미국 나스닥"
+    """미국 나스닥"""
     VALUE_513 = ("513", "미국 뉴욕")
-    "미국 뉴욕"
+    """미국 뉴욕"""
     VALUE_529 = ("529", "미국 아멕스")
-    "미국 아멕스"
+    """미국 아멕스"""
     VALUE_515 = ("515", "일본")
-    "일본"
+    """일본"""
     VALUE_501 = ("501", "홍콩")
-    "홍콩"
+    """홍콩"""
     VALUE_543 = ("543", "홍콩CNY")
-    "홍콩CNY"
+    """홍콩CNY"""
     VALUE_558 = ("558", "홍콩USD")
-    "홍콩USD"
+    """홍콩USD"""
     VALUE_507 = ("507", "베트남 하노이")
-    "베트남 하노이"
+    """베트남 하노이"""
     VALUE_508 = ("508", "베트남 호치민")
-    "베트남 호치민"
+    """베트남 호치민"""
     VALUE_551 = ("551", "중국 상해A")
-    "중국 상해A"
+    """중국 상해A"""
     VALUE_552 = ("552", "중국 심천A'")
-    "중국 심천A'"
+    """중국 심천A'"""
 
 
 class SearchInfoRequest(RawModel):
-    PDNO: str = Field(alias="PDNO")
-    ("'주식(하이닉스) : 000660 (코드 : 300) 선물(101S12) : KR4101SC0009 (코드 : 301) 미국(AAPL) : AAPL (코드 : 512)'")
-    PRDT_TYPE_CD: PrdtTypeCdEnum = Field(alias="PRDT_TYPE_CD")
-    (
-        "'300 주식 301 선물옵션 302 채권 512 미국 나스닥 / 513 미국 뉴욕 / 529 미국 아멕스 515 일본 501 "
-        "홍콩 / 543 홍콩CNY / 558 홍콩USD 507 베트남 하노이 / 508 베트남 호치민 551 중국 상해A / 552 중국 "
-        "심천A'"
+    PDNO: Annotated[PdnoEnum, "'주식(하이닉스) : 000660 (코드 : 300) 선물(101S12) : KR4101SC0009 (코드 : 301) 미국(AAPL) : AAPL (코드 : 512)'"] = (
+        Field(alias="PDNO", json_schema_extra={"enum": ["AAPL", "512"], "enum_desc": {"AAPL": ": AAPL (코드 :", "512": "'"}})
+    )
+    PRDT_TYPE_CD: Annotated[
+        PrdtTypeCdEnum,
+        "'300 주식 301 선물옵션 302 채권 512 미국 나스닥 / 513 미국 뉴욕 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558 홍콩USD 507 베트남 하노이 / 508 베트남 호치민 551 중국 상해A / 552 중국 심천A'",
+    ] = Field(
+        alias="PRDT_TYPE_CD",
+        json_schema_extra={
+            "enum": ["301", "302", "512", "513", "529", "515", "501", "543", "558", "507", "508", "551", "552"],
+            "enum_desc": {
+                "301": "선물옵션",
+                "302": "채권",
+                "512": "미국 나스닥",
+                "513": "미국 뉴욕",
+                "529": "미국 아멕스",
+                "515": "일본",
+                "501": "홍콩",
+                "543": "홍콩CNY",
+                "558": "홍콩USD",
+                "507": "베트남 하노이",
+                "508": "베트남 호치민",
+                "551": "중국 상해A",
+                "552": "중국 심천A'",
+            },
+        },
     )
 
 
@@ -58,74 +84,45 @@ class SearchInfoRequestDict(TypedDict):
     상품기본조회[v1_국내주식-029]
 
     Request fields:
-        PDNO (str): '주식(하이닉스) : 000660 (코드 : 300) 선물(101S12) : KR4101SC0009 (코드 : 301)
-        미국(AAPL) : AAPL (코드 : 512)'
+        PDNO (PdnoEnum): '주식(하이닉스) : 000660 (코드 : 300) 선물(101S12) : KR4101SC0009 (코드 :
+        301) 미국(AAPL) : AAPL (코드 : 512)'
         PRDT_TYPE_CD (PrdtTypeCdEnum): '300 주식 301 선물옵션 302 채권 512 미국 나스닥 / 513 미국
         뉴욕 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558 홍콩USD 507 베트남 하노이 / 508
         베트남 호치민 551 중국 상해A / 552 중국 심천A'
     """
 
-    PDNO: Annotated[str, "'주식(하이닉스) : 000660 (코드 : 300) 선물(101S12) : KR4101SC0009 (코드 : 301) 미국(AAPL) : AAPL (코드 : 512)'"]
-    PRDT_TYPE_CD: Annotated[
-        PrdtTypeCdEnum,
-        "'300 주식 301 선물옵션 302 채권 512 미국 나스닥 / 513 미국 뉴욕 / 529 미국 아멕스 515 일본 501 "
-        "홍콩 / 543 홍콩CNY / 558 홍콩USD 507 베트남 하노이 / 508 베트남 호치민 551 중국 상해A / 552 중국 "
-        "심천A'",
-    ]
+    PDNO: PdnoEnum
+    PRDT_TYPE_CD: PrdtTypeCdEnum
 
 
 class SearchInfoOutput(RawModel):
-    pdno: str = Field(alias="pdno")
-    ("상품번호")
-    prdt_type_cd: str = Field(alias="prdt_type_cd")
-    ("상품유형코드")
-    prdt_name: str = Field(alias="prdt_name")
-    ("상품명")
-    prdt_name120: str = Field(alias="prdt_name120")
-    ("상품명120")
-    prdt_abrv_name: str = Field(alias="prdt_abrv_name")
-    ("상품약어명")
-    prdt_eng_name: str = Field(alias="prdt_eng_name")
-    ("상품영문명")
-    prdt_eng_name120: str = Field(alias="prdt_eng_name120")
-    ("상품영문명120")
-    prdt_eng_abrv_name: str = Field(alias="prdt_eng_abrv_name")
-    ("상품영문약어명")
-    std_pdno: str = Field(alias="std_pdno")
-    ("표준상품번호")
-    shtn_pdno: str = Field(alias="shtn_pdno")
-    ("단축상품번호")
-    prdt_sale_stat_cd: str | None = Field(default=None, alias="prdt_sale_stat_cd")
-    ("상품판매상태코드")
-    prdt_risk_grad_cd: str | None = Field(default=None, alias="prdt_risk_grad_cd")
-    ("상품위험등급코드")
-    prdt_clsf_cd: str = Field(alias="prdt_clsf_cd")
-    ("상품분류코드")
-    prdt_clsf_name: str = Field(alias="prdt_clsf_name")
-    ("상품분류명")
-    sale_strt_dt: KisDateOptional = Field(default=None, alias="sale_strt_dt")
-    ("판매시작일자")
-    sale_end_dt: KisDateOptional = Field(default=None, alias="sale_end_dt")
-    ("판매종료일자")
-    wrap_asst_type_cd: str = Field(alias="wrap_asst_type_cd")
-    ("랩어카운트자산유형코드")
-    ivst_prdt_type_cd: str = Field(alias="ivst_prdt_type_cd")
-    ("투자상품유형코드")
-    ivst_prdt_type_cd_name: str = Field(alias="ivst_prdt_type_cd_name")
-    ("투자상품유형코드명")
-    frst_erlm_dt: KisDateOptional = Field(default=None, alias="frst_erlm_dt")
-    ("최초등록일자")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    prdt_type_cd: Annotated[str, "상품유형코드"] = Field(alias="prdt_type_cd")
+    prdt_name: Annotated[str, "상품명"] = Field(alias="prdt_name")
+    prdt_name120: Annotated[str, "상품명120"] = Field(alias="prdt_name120")
+    prdt_abrv_name: Annotated[str, "상품약어명"] = Field(alias="prdt_abrv_name")
+    prdt_eng_name: Annotated[str, "상품영문명"] = Field(alias="prdt_eng_name")
+    prdt_eng_name120: Annotated[str, "상품영문명120"] = Field(alias="prdt_eng_name120")
+    prdt_eng_abrv_name: Annotated[str, "상품영문약어명"] = Field(alias="prdt_eng_abrv_name")
+    std_pdno: Annotated[str, "표준상품번호"] = Field(alias="std_pdno")
+    shtn_pdno: Annotated[str, "단축상품번호"] = Field(alias="shtn_pdno")
+    prdt_sale_stat_cd: Annotated[str | None, "상품판매상태코드"] = Field(default=None, alias="prdt_sale_stat_cd")
+    prdt_risk_grad_cd: Annotated[str | None, "상품위험등급코드"] = Field(default=None, alias="prdt_risk_grad_cd")
+    prdt_clsf_cd: Annotated[str, "상품분류코드"] = Field(alias="prdt_clsf_cd")
+    prdt_clsf_name: Annotated[str, "상품분류명"] = Field(alias="prdt_clsf_name")
+    sale_strt_dt: Annotated[KisDateOptional, "판매시작일자"] = Field(default=None, alias="sale_strt_dt")
+    sale_end_dt: Annotated[KisDateOptional, "판매종료일자"] = Field(default=None, alias="sale_end_dt")
+    wrap_asst_type_cd: Annotated[str, "랩어카운트자산유형코드"] = Field(alias="wrap_asst_type_cd")
+    ivst_prdt_type_cd: Annotated[str, "투자상품유형코드"] = Field(alias="ivst_prdt_type_cd")
+    ivst_prdt_type_cd_name: Annotated[str, "투자상품유형코드명"] = Field(alias="ivst_prdt_type_cd_name")
+    frst_erlm_dt: Annotated[KisDateOptional, "최초등록일자"] = Field(default=None, alias="frst_erlm_dt")
 
 
 class SearchInfoResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: SearchInfoOutput = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[SearchInfoOutput, "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[SearchInfoRequest, SearchInfoResponse] = Endpoint(
@@ -175,8 +172,8 @@ if TYPE_CHECKING:
                 **kwargs (SearchInfoRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        PDNO (str): '주식(하이닉스) : 000660 (코드 : 300) 선물(101S12) : KR4101SC0009
-                        (코드 : 301) 미국(AAPL) : AAPL (코드 : 512)'
+                        PDNO (PdnoEnum): '주식(하이닉스) : 000660 (코드 : 300) 선물(101S12) :
+                        KR4101SC0009 (코드 : 301) 미국(AAPL) : AAPL (코드 : 512)'
                         PRDT_TYPE_CD (PrdtTypeCdEnum): '300 주식 301 선물옵션 302 채권 512 미국 나스닥
                         / 513 미국 뉴욕 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558
                         홍콩USD 507 베트남 하노이 / 508 베트남 호치민 551 중국 상해A / 552 중국 심천A'
@@ -190,4 +187,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "SearchInfoRequest", "SearchInfoRequestDict", "SearchInfoResponse", "SearchInfoOutput", "PrdtTypeCdEnum"]
+__all__ = ["ENDPOINT", "SearchInfoRequest", "SearchInfoRequestDict", "SearchInfoResponse", "SearchInfoOutput", "PdnoEnum", "PrdtTypeCdEnum"]

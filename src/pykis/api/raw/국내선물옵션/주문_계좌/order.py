@@ -16,72 +16,130 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class SllBuyDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "매도")
-    "매도"
+    """매도"""
     VALUE_02 = ("02", "매수")
-    "매수"
+    """매수"""
 
 
 class NmprTypeCdEnum(KisStrEnum):
     VALUE_01 = ("01", "지정가")
-    "지정가"
+    """지정가"""
     VALUE_02 = ("02", "시장가")
-    "시장가"
+    """시장가"""
     VALUE_03 = ("03", "조건부")
-    "조건부"
+    """조건부"""
     VALUE_04 = ("04", "최유리")
-    "최유리"
+    """최유리"""
 
 
 class KrxNmprCndtCdEnum(KisStrEnum):
     VALUE_0 = ("0", "없음")
-    "없음"
+    """없음"""
     VALUE_3 = ("3", "IOC")
-    "IOC"
+    """IOC"""
     VALUE_4 = ("4", "FOK")
-    "FOK"
+    """FOK"""
+
+
+class OrdDvsnCdEnum(KisStrEnum):
+    VALUE_01 = ("01", "지정가")
+    """지정가"""
+    VALUE_02 = ("02", "시장가")
+    """시장가"""
+    VALUE_03 = ("03", "조건부")
+    """조건부"""
+    VALUE_04 = ("04", "최유리")
+    """최유리"""
+    VALUE_10 = ("10", "지정가(IOC)")
+    """지정가(IOC)"""
+    VALUE_11 = ("11", "지정가(FOK)")
+    """지정가(FOK)"""
+    VALUE_12 = ("12", "시장가(IOC)")
+    """시장가(IOC)"""
+    VALUE_13 = ("13", "시장가(FOK)")
+    """시장가(FOK)"""
+    VALUE_14 = ("14", "최유리(IOC)")
+    """최유리(IOC)"""
+    VALUE_15 = ("15", "최유리(FOK)")
+    """최유리(FOK)"""
+    IOC = ("IOC", "10 : 지정가")
+    """10 : 지정가"""
+    FOK = ("FOK", "11 : 지정가")
+    """11 : 지정가"""
 
 
 class OrderRequest(RawModel):
-    ORD_PRCS_DVSN_CD: str = Field(alias="ORD_PRCS_DVSN_CD")
-    ("02 : 주문전송")
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(alias="SLL_BUY_DVSN_CD")
-    ("01 : 매도 02 : 매수")
-    SHTN_PDNO: str = Field(alias="SHTN_PDNO")
-    ("종목번호 선물 6자리 (예: 101S03) 옵션 9자리 (예: 201S03370)")
-    ORD_QTY: int = Field(alias="ORD_QTY")
-    ("주문수량")
-    UNIT_PRICE: Decimal = Field(alias="UNIT_PRICE")
-    ("시장가나 최유리 지정가인 경우 0으로 입력")
-    NMPR_TYPE_CD: NmprTypeCdEnum | None = Field(default=None, alias="NMPR_TYPE_CD", json_schema_extra={"blank_allowed": True})
-    ('※ ORD_DVSN_CD(주문구분코드)를 입력한 경우 ""(공란)으로 입력해도 됨 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리')
-    KRX_NMPR_CNDT_CD: KrxNmprCndtCdEnum | None = Field(default=None, alias="KRX_NMPR_CNDT_CD", json_schema_extra={"blank_allowed": True})
-    ('※ ORD_DVSN_CD(주문구분코드)를 입력한 경우 ""(공란)으로 입력해도 됨 0 : 없음 3 : IOC 4 : FOK')
-    CTAC_TLNO: str | None = Field(default=None, alias="CTAC_TLNO")
-    ("고객의 연락 가능한 전화번호")
-    FUOP_ITEM_DVSN_CD: str | None = Field(default=None, alias="FUOP_ITEM_DVSN_CD", json_schema_extra={"blank_allowed": True})
-    ("공란(Default)")
-    ORD_DVSN_CD: str = Field(alias="ORD_DVSN_CD")
-    (
-        "01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : "
-        "시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK)"
+    ORD_PRCS_DVSN_CD: Annotated[str, "02 : 주문전송"] = Field(alias="ORD_PRCS_DVSN_CD")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "01 : 매도 02 : 매수"] = Field(
+        alias="SLL_BUY_DVSN_CD", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "매도", "02": "매수"}}
+    )
+    SHTN_PDNO: Annotated[str, "종목번호 선물 6자리 (예: 101S03) 옵션 9자리 (예: 201S03370)"] = Field(alias="SHTN_PDNO")
+    ORD_QTY: Annotated[int, "주문수량"] = Field(alias="ORD_QTY")
+    UNIT_PRICE: Annotated[Decimal, "시장가나 최유리 지정가인 경우 0으로 입력"] = Field(alias="UNIT_PRICE")
+    NMPR_TYPE_CD: Annotated[
+        NmprTypeCdEnum | None, '※ ORD_DVSN_CD(주문구분코드)를 입력한 경우 ""(공란)으로 입력해도 됨 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리'
+    ] = Field(
+        default=None,
+        alias="NMPR_TYPE_CD",
+        json_schema_extra={
+            "enum": ["01", "02", "03", "04"],
+            "enum_desc": {"01": "지정가", "02": "시장가", "03": "조건부", "04": "최유리"},
+            "blank_allowed": True,
+        },
+    )
+    KRX_NMPR_CNDT_CD: Annotated[
+        KrxNmprCndtCdEnum | None, '※ ORD_DVSN_CD(주문구분코드)를 입력한 경우 ""(공란)으로 입력해도 됨 0 : 없음 3 : IOC 4 : FOK'
+    ] = Field(
+        default=None,
+        alias="KRX_NMPR_CNDT_CD",
+        json_schema_extra={"enum": ["0", "3", "4"], "enum_desc": {"0": "없음", "3": "IOC", "4": "FOK"}, "blank_allowed": True},
+    )
+    CTAC_TLNO: Annotated[str | None, "고객의 연락 가능한 전화번호"] = Field(default=None, alias="CTAC_TLNO")
+    FUOP_ITEM_DVSN_CD: Annotated[str | None, "공란(Default)"] = Field(
+        default=None, alias="FUOP_ITEM_DVSN_CD", json_schema_extra={"blank_allowed": True}
+    )
+    ORD_DVSN_CD: Annotated[
+        OrdDvsnCdEnum,
+        "01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK)",
+    ] = Field(
+        alias="ORD_DVSN_CD",
+        json_schema_extra={
+            "enum": ["01", "02", "03", "04", "10", "11", "12", "13", "14", "15", "IOC", "FOK"],
+            "enum_desc": {
+                "01": "지정가",
+                "02": "시장가",
+                "03": "조건부",
+                "04": "최유리",
+                "10": "지정가(IOC)",
+                "11": "지정가(FOK)",
+                "12": "시장가(IOC)",
+                "13": "시장가(FOK)",
+                "14": "최유리(IOC)",
+                "15": "최유리(FOK)",
+                "IOC": "10 : 지정가",
+                "FOK": "11 : 지정가",
+            },
+        },
     )
 
 
@@ -111,59 +169,39 @@ class OrderRequestDict(TypedDict):
         입력해도 됨 0 : 없음 3 : IOC 4 : FOK optional
         CTAC_TLNO (str): 고객의 연락 가능한 전화번호 optional
         FUOP_ITEM_DVSN_CD (str): 공란(Default) optional
-        ORD_DVSN_CD (str): 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 :
-        지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK)
+        ORD_DVSN_CD (OrdDvsnCdEnum): 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 :
+        지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 :
+        최유리(FOK)
     """
 
-    ORD_PRCS_DVSN_CD: Annotated[str, "02 : 주문전송"]
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "01 : 매도 02 : 매수"]
-    SHTN_PDNO: Annotated[str, "종목번호 선물 6자리 (예: 101S03) 옵션 9자리 (예: 201S03370)"]
-    ORD_QTY: Annotated[int, "주문수량"]
-    UNIT_PRICE: Annotated[Decimal, "시장가나 최유리 지정가인 경우 0으로 입력"]
-    NMPR_TYPE_CD: NotRequired[
-        Annotated[
-            NmprTypeCdEnum | None,
-            '※ ORD_DVSN_CD(주문구분코드)를 입력한 경우 ""(공란)으로 입력해도 됨 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리',
-        ]
-    ]
-    KRX_NMPR_CNDT_CD: NotRequired[
-        Annotated[KrxNmprCndtCdEnum | None, '※ ORD_DVSN_CD(주문구분코드)를 입력한 경우 ""(공란)으로 입력해도 됨 0 : 없음 3 : IOC 4 : FOK']
-    ]
-    CTAC_TLNO: NotRequired[Annotated[str | None, "고객의 연락 가능한 전화번호"]]
-    FUOP_ITEM_DVSN_CD: NotRequired[Annotated[str | None, "공란(Default)"]]
-    ORD_DVSN_CD: Annotated[
-        str,
-        "01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : "
-        "시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK)",
-    ]
+    ORD_PRCS_DVSN_CD: str
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum
+    SHTN_PDNO: str
+    ORD_QTY: int
+    UNIT_PRICE: Decimal
+    NMPR_TYPE_CD: NotRequired[NmprTypeCdEnum | None]
+    KRX_NMPR_CNDT_CD: NotRequired[KrxNmprCndtCdEnum | None]
+    CTAC_TLNO: NotRequired[str | None]
+    FUOP_ITEM_DVSN_CD: NotRequired[str | None]
+    ORD_DVSN_CD: OrdDvsnCdEnum
 
 
 class OrderOutput(RawModel):
-    ACNT_NAME: str = Field(alias="ACNT_NAME")
-    ("계좌의 고객명")
-    TRAD_DVSN_NAME: str = Field(alias="TRAD_DVSN_NAME")
-    ("매도/매수 등 구분값")
-    ITEM_NAME: str = Field(alias="ITEM_NAME")
-    ("주문 종목 명칭")
-    ORD_TMD: KisTime = Field(alias="ORD_TMD")
-    ("주문 접수 시간")
-    ORD_GNO_BRNO: str = Field(alias="ORD_GNO_BRNO")
-    ("계좌 개설 시 관리점으로 선택한 영업점의 고유번호")
-    ODNO: str = Field(alias="ODNO")
-    ("접수한 주문의 일련번호")
+    ACNT_NAME: Annotated[str, "계좌의 고객명"] = Field(alias="ACNT_NAME")
+    TRAD_DVSN_NAME: Annotated[str, "매도/매수 등 구분값"] = Field(alias="TRAD_DVSN_NAME")
+    ITEM_NAME: Annotated[str, "주문 종목 명칭"] = Field(alias="ITEM_NAME")
+    ORD_TMD: Annotated[KisTime, "주문 접수 시간"] = Field(alias="ORD_TMD")
+    ORD_GNO_BRNO: Annotated[str, "계좌 개설 시 관리점으로 선택한 영업점의 고유번호"] = Field(alias="ORD_GNO_BRNO")
+    ODNO: Annotated[str, "접수한 주문의 일련번호"] = Field(alias="ODNO")
 
 
 class OrderResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: OrderOutput = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "0 : 성공 0 이외의 값 : 실패"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[OrderOutput, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[OrderRequest, OrderResponse] = Endpoint(
@@ -245,8 +283,8 @@ if TYPE_CHECKING:
                         경우 ""(공란)으로 입력해도 됨 0 : 없음 3 : IOC 4 : FOK optional
                         CTAC_TLNO (str): 고객의 연락 가능한 전화번호 optional
                         FUOP_ITEM_DVSN_CD (str): 공란(Default) optional
-                        ORD_DVSN_CD (str): 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 :
-                        지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 :
+                        ORD_DVSN_CD (OrdDvsnCdEnum): 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리,
+                        10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 :
                         최유리(IOC) 15 : 최유리(FOK)
 
             Returns:
@@ -269,4 +307,5 @@ __all__ = [
     "SllBuyDvsnCdEnum",
     "NmprTypeCdEnum",
     "KrxNmprCndtCdEnum",
+    "OrdDvsnCdEnum",
 ]

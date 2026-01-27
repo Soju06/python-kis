@@ -15,32 +15,34 @@ if TYPE_CHECKING:
 
 class NcodEnum(KisStrEnum):
     CN = ("CN", "중국")
-    "중국"
+    """중국"""
     HK = ("HK", "홍콩")
-    "홍콩"
+    """홍콩"""
     US = ("US", "미국")
-    "미국"
+    """미국"""
     JP = ("JP", "일본")
-    "일본"
+    """일본"""
     VN = ("VN", "베트남")
-    "베트남"
+    """베트남"""
 
 
 class RightsByIceRequest(RawModel):
-    NCOD: NcodEnum = Field(alias="NCOD")
-    ("CN:중국 HK:홍콩 US:미국 JP:일본 VN:베트남")
-    SYMB: str = Field(alias="SYMB")
-    ("종목코드")
-    ST_YMD: KisDate = Field(alias="ST_YMD")
-    (
-        "미입력 시, 오늘-3개월 기간지정 시, 종료일 입력(ex. 20240514) ※ 조회기간 기준일 입력시 참고 - "
-        "상환: 상환일자, 조기상환: 조기상환일자, 티커변경: 적용일, 그 외: 발표일"
+    NCOD: Annotated[NcodEnum, "CN:중국 HK:홍콩 US:미국 JP:일본 VN:베트남"] = Field(
+        alias="NCOD",
+        json_schema_extra={
+            "enum": ["CN", "HK", "US", "JP", "VN"],
+            "enum_desc": {"CN": "중국", "HK": "홍콩", "US": "미국", "JP": "일본", "VN": "베트남"},
+        },
     )
-    ED_YMD: KisDate = Field(alias="ED_YMD")
-    (
-        "미입력 시, 오늘+3개월 기간지정 시, 종료일 입력(ex. 20240514) ※ 조회기간 기준일 입력시 참고 - "
-        "상환: 상환일자, 조기상환: 조기상환일자, 티커변경: 적용일, 그 외: 발표일"
-    )
+    SYMB: Annotated[str, "종목코드"] = Field(alias="SYMB")
+    ST_YMD: Annotated[
+        KisDate,
+        "미입력 시, 오늘-3개월 기간지정 시, 종료일 입력(ex. 20240514) ※ 조회기간 기준일 입력시 참고 - 상환: 상환일자, 조기상환: 조기상환일자, 티커변경: 적용일, 그 외: 발표일",
+    ] = Field(alias="ST_YMD")
+    ED_YMD: Annotated[
+        KisDate,
+        "미입력 시, 오늘+3개월 기간지정 시, 종료일 입력(ex. 20240514) ※ 조회기간 기준일 입력시 참고 - 상환: 상환일자, 조기상환: 조기상환일자, 티커변경: 적용일, 그 외: 발표일",
+    ] = Field(alias="ED_YMD")
 
 
 class RightsByIceRequestDict(TypedDict):
@@ -61,56 +63,32 @@ class RightsByIceRequestDict(TypedDict):
         기준일 입력시 참고 - 상환: 상환일자, 조기상환: 조기상환일자, 티커변경: 적용일, 그 외: 발표일
     """
 
-    NCOD: Annotated[NcodEnum, "CN:중국 HK:홍콩 US:미국 JP:일본 VN:베트남"]
-    SYMB: Annotated[str, "종목코드"]
-    ST_YMD: Annotated[
-        KisDate,
-        "미입력 시, 오늘-3개월 기간지정 시, 종료일 입력(ex. 20240514) ※ 조회기간 기준일 입력시 참고 - "
-        "상환: 상환일자, 조기상환: 조기상환일자, 티커변경: 적용일, 그 외: 발표일",
-    ]
-    ED_YMD: Annotated[
-        KisDate,
-        "미입력 시, 오늘+3개월 기간지정 시, 종료일 입력(ex. 20240514) ※ 조회기간 기준일 입력시 참고 - "
-        "상환: 상환일자, 조기상환: 조기상환일자, 티커변경: 적용일, 그 외: 발표일",
-    ]
+    NCOD: NcodEnum
+    SYMB: str
+    ST_YMD: KisDate
+    ED_YMD: KisDate
 
 
 class RightsByIceOutput1(RawModel):
-    anno_dt: KisDateOptional = Field(default=None, alias="anno_dt")
-    ("ICE공시일")
-    ca_title: str | None = Field(default=None, alias="ca_title")
-    ("권리유형")
-    div_lock_dt: KisDateOptional = Field(default=None, alias="div_lock_dt")
-    ("배당락일")
-    pay_dt: KisDateOptional = Field(default=None, alias="pay_dt")
-    ("지급일")
-    record_dt: KisDateOptional = Field(default=None, alias="record_dt")
-    ("기준일")
-    validity_dt: KisDateOptional = Field(default=None, alias="validity_dt")
-    ("효력일자")
-    local_end_dt: KisDateOptional = Field(default=None, alias="local_end_dt")
-    ("현지지시마감일")
-    lock_dt: KisDateOptional = Field(default=None, alias="lock_dt")
-    ("권리락일")
-    delist_dt: KisDateOptional = Field(default=None, alias="delist_dt")
-    ("상장폐지일")
-    redempt_dt: KisDateOptional = Field(default=None, alias="redempt_dt")
-    ("상환일자")
-    early_redempt_dt: KisDateOptional = Field(default=None, alias="early_redempt_dt")
-    ("조기상환일자")
-    effective_dt: KisDateOptional = Field(default=None, alias="effective_dt")
-    ("적용일")
+    anno_dt: Annotated[KisDateOptional, "ICE공시일"] = Field(default=None, alias="anno_dt")
+    ca_title: Annotated[str | None, "권리유형"] = Field(default=None, alias="ca_title")
+    div_lock_dt: Annotated[KisDateOptional, "배당락일"] = Field(default=None, alias="div_lock_dt")
+    pay_dt: Annotated[KisDateOptional, "지급일"] = Field(default=None, alias="pay_dt")
+    record_dt: Annotated[KisDateOptional, "기준일"] = Field(default=None, alias="record_dt")
+    validity_dt: Annotated[KisDateOptional, "효력일자"] = Field(default=None, alias="validity_dt")
+    local_end_dt: Annotated[KisDateOptional, "현지지시마감일"] = Field(default=None, alias="local_end_dt")
+    lock_dt: Annotated[KisDateOptional, "권리락일"] = Field(default=None, alias="lock_dt")
+    delist_dt: Annotated[KisDateOptional, "상장폐지일"] = Field(default=None, alias="delist_dt")
+    redempt_dt: Annotated[KisDateOptional, "상환일자"] = Field(default=None, alias="redempt_dt")
+    early_redempt_dt: Annotated[KisDateOptional, "조기상환일자"] = Field(default=None, alias="early_redempt_dt")
+    effective_dt: Annotated[KisDateOptional, "적용일"] = Field(default=None, alias="effective_dt")
 
 
 class RightsByIceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[RightsByIceOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[RightsByIceOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[RightsByIceRequest, RightsByIceResponse] = Endpoint(

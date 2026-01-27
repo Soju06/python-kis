@@ -16,18 +16,17 @@ if TYPE_CHECKING:
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "년")
-    "년"
+    """년"""
     VALUE_1 = ("1", "분기")
-    "분기"
+    """분기"""
 
 
 class BalanceSheetRequest(RawModel):
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
-    ("0: 년, 1: 분기")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
-    ("J")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("000660 : 종목코드")
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"] = Field(
+        alias="FID_DIV_CLS_CODE", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "년", "1": "분기"}}
+    )
+    fid_cond_mrkt_div_code: Annotated[str, "J"] = Field(alias="fid_cond_mrkt_div_code")
+    fid_input_iscd: Annotated[str, "000660 : 종목코드"] = Field(alias="fid_input_iscd")
 
 
 class BalanceSheetRequestDict(TypedDict):
@@ -42,45 +41,30 @@ class BalanceSheetRequestDict(TypedDict):
         fid_input_iscd (str): 000660 : 종목코드
     """
 
-    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"]
-    fid_cond_mrkt_div_code: Annotated[str, "J"]
-    fid_input_iscd: Annotated[str, "000660 : 종목코드"]
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum
+    fid_cond_mrkt_div_code: str
+    fid_input_iscd: str
 
 
 class BalanceSheetOutput(RawModel):
-    stac_yymm: str = Field(alias="stac_yymm")
-    ("결산 년월")
-    cras: Decimal = Field(alias="cras")
-    ("유동자산")
-    fxas: Decimal = Field(alias="fxas")
-    ("고정자산")
-    total_aset: Decimal = Field(alias="total_aset")
-    ("자산총계")
-    flow_lblt: Decimal = Field(alias="flow_lblt")
-    ("유동부채")
-    fix_lblt: Decimal = Field(alias="fix_lblt")
-    ("고정부채")
-    total_lblt: Decimal = Field(alias="total_lblt")
-    ("부채총계")
-    cpfn: int = Field(alias="cpfn")
-    ("자본금")
-    cfp_surp: Decimal = Field(alias="cfp_surp")
-    ("출력되지 않는 데이터(99.99 로 표시)")
-    prfi_surp: Decimal = Field(alias="prfi_surp")
-    ("출력되지 않는 데이터(99.99 로 표시)")
-    total_cptl: Decimal = Field(alias="total_cptl")
-    ("자본총계")
+    stac_yymm: Annotated[str, "결산 년월"] = Field(alias="stac_yymm")
+    cras: Annotated[Decimal, "유동자산"] = Field(alias="cras")
+    fxas: Annotated[Decimal, "고정자산"] = Field(alias="fxas")
+    total_aset: Annotated[Decimal, "자산총계"] = Field(alias="total_aset")
+    flow_lblt: Annotated[Decimal, "유동부채"] = Field(alias="flow_lblt")
+    fix_lblt: Annotated[Decimal, "고정부채"] = Field(alias="fix_lblt")
+    total_lblt: Annotated[Decimal, "부채총계"] = Field(alias="total_lblt")
+    cpfn: Annotated[int, "자본금"] = Field(alias="cpfn")
+    cfp_surp: Annotated[Decimal, "출력되지 않는 데이터(99.99 로 표시)"] = Field(alias="cfp_surp")
+    prfi_surp: Annotated[Decimal, "출력되지 않는 데이터(99.99 로 표시)"] = Field(alias="prfi_surp")
+    total_cptl: Annotated[Decimal, "자본총계"] = Field(alias="total_cptl")
 
 
 class BalanceSheetResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[BalanceSheetOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[BalanceSheetOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[BalanceSheetRequest, BalanceSheetResponse] = Endpoint(

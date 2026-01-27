@@ -15,24 +15,21 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     J = ("J", "KRX")
-    "KRX"
+    """KRX"""
     NX = ("NX", "NXT")
-    "NXT"
+    """NXT"""
     UN = ("UN", "통합")
-    "통합"
+    """통합"""
 
 
 class InquireDailyTradeVolumeRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("J: KRX, NX: NXT, UN: 통합")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("005930")
-    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
-    ("from")
-    FID_INPUT_DATE_2: str = Field(alias="FID_INPUT_DATE_2")
-    ("to")
-    FID_PERIOD_DIV_CODE: str = Field(alias="FID_PERIOD_DIV_CODE")
-    ("D")
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J: KRX, NX: NXT, UN: 통합"] = Field(
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["J", "NX", "UN"], "enum_desc": {"J": "KRX", "NX": "NXT", "UN": "통합"}}
+    )
+    FID_INPUT_ISCD: Annotated[str, "005930"] = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_DATE_1: Annotated[str, "from"] = Field(alias="FID_INPUT_DATE_1")
+    FID_INPUT_DATE_2: Annotated[str, "to"] = Field(alias="FID_INPUT_DATE_2")
+    FID_PERIOD_DIV_CODE: Annotated[str, "D"] = Field(alias="FID_PERIOD_DIV_CODE")
 
 
 class InquireDailyTradeVolumeRequestDict(TypedDict):
@@ -49,40 +46,30 @@ class InquireDailyTradeVolumeRequestDict(TypedDict):
         FID_PERIOD_DIV_CODE (str): D
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J: KRX, NX: NXT, UN: 통합"]
-    FID_INPUT_ISCD: Annotated[str, "005930"]
-    FID_INPUT_DATE_1: Annotated[str, "from"]
-    FID_INPUT_DATE_2: Annotated[str, "to"]
-    FID_PERIOD_DIV_CODE: Annotated[str, "D"]
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
+    FID_INPUT_ISCD: str
+    FID_INPUT_DATE_1: str
+    FID_INPUT_DATE_2: str
+    FID_PERIOD_DIV_CODE: str
 
 
 class InquireDailyTradeVolumeOutput1(RawModel):
-    shnu_cnqn_smtn: str = Field(alias="shnu_cnqn_smtn")
-    ("매수 체결량 합계")
-    seln_cnqn_smtn: str = Field(alias="seln_cnqn_smtn")
-    ("매도 체결량 합계")
+    shnu_cnqn_smtn: Annotated[str, "매수 체결량 합계"] = Field(alias="shnu_cnqn_smtn")
+    seln_cnqn_smtn: Annotated[str, "매도 체결량 합계"] = Field(alias="seln_cnqn_smtn")
 
 
 class InquireDailyTradeVolumeOutput2(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
-    ("거래상태정보")
-    total_seln_qty: int = Field(alias="total_seln_qty")
-    ("총 매도 수량")
-    total_shnu_qty: int = Field(alias="total_shnu_qty")
-    ("총 매수 수량")
+    stck_bsop_date: Annotated[KisDate, "거래상태정보"] = Field(alias="stck_bsop_date")
+    total_seln_qty: Annotated[int, "총 매도 수량"] = Field(alias="total_seln_qty")
+    total_shnu_qty: Annotated[int, "총 매수 수량"] = Field(alias="total_shnu_qty")
 
 
 class InquireDailyTradeVolumeResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquireDailyTradeVolumeOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquireDailyTradeVolumeOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquireDailyTradeVolumeOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquireDailyTradeVolumeOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireDailyTradeVolumeRequest, InquireDailyTradeVolumeResponse] = Endpoint(

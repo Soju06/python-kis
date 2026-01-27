@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from decimal import Decimal
+from typing import Annotated
 
 from pykis.streaming.raw.base import StreamingRawModel
 from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, StreamingSpec
@@ -11,7 +12,7 @@ from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, Stre
 class H0STASP0(StreamingRawModel):
     MKSC_SHRN_ISCD: str
     BSOP_HOUR: datetime
-    HOUR_CLS_CODE: str
+    HOUR_CLS_CODE: Annotated[str, "0 : 장중\nA : 장후예상\nB : 장전예상\nC : 9시이후의 예상가, VI발동\nD : 시간외 단일가 예상"]
     ASKP1: Decimal
     ASKP2: Decimal
     ASKP3: Decimal
@@ -56,18 +57,18 @@ class H0STASP0(StreamingRawModel):
     TOTAL_BIDP_RSQN: Decimal
     OVTM_TOTAL_ASKP_RSQN: Decimal
     OVTM_TOTAL_BIDP_RSQN: Decimal
-    ANTC_CNPR: Decimal
-    ANTC_CNQN: Decimal
-    ANTC_VOL: Decimal
-    ANTC_CNTG_VRSS: Decimal
-    ANTC_CNTG_VRSS_SIGN: str
+    ANTC_CNPR: Annotated[Decimal, "동시호가 등 특정 조건하에서만 발생"]
+    ANTC_CNQN: Annotated[Decimal, "동시호가 등 특정 조건하에서만 발생"]
+    ANTC_VOL: Annotated[Decimal, "동시호가 등 특정 조건하에서만 발생"]
+    ANTC_CNTG_VRSS: Annotated[Decimal, "동시호가 등 특정 조건하에서만 발생"]
+    ANTC_CNTG_VRSS_SIGN: Annotated[str, "동시호가 등 특정 조건하에서만 발생\n\n1 : 상한\n2 : 상승\n3 : 보합\n4 : 하한\n5 : 하락"]
     ANTC_CNTG_PRDY_CTRT: Decimal
     ACML_VOL: Decimal
     TOTAL_ASKP_RSQN_ICDC: Decimal
     TOTAL_BIDP_RSQN_ICDC: Decimal
     OVTM_TOTAL_ASKP_ICDC: Decimal
     OVTM_TOTAL_BIDP_ICDC: Decimal
-    STCK_DEAL_CLS_CODE: str
+    STCK_DEAL_CLS_CODE: Annotated[str, "사용 X (삭제된 값)"]
 
 
 FIELD_ORDER = [

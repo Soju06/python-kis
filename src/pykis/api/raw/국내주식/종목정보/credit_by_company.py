@@ -16,22 +16,19 @@ if TYPE_CHECKING:
 
 class FidRankSortClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "코드순")
-    "코드순"
+    """코드순"""
     VALUE_1 = ("1", "이름순")
-    "이름순"
+    """이름순"""
 
 
 class CreditByCompanyRequest(RawModel):
-    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(alias="fid_rank_sort_cls_code")
-    ("0:코드순, 1:이름순")
-    fid_slct_yn: KisBool = Field(alias="fid_slct_yn")
-    ("0:신용주문가능, 1: 신용주문불가")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
-    fid_cond_scr_div_code: str = Field(alias="fid_cond_scr_div_code")
-    ("Unique key(20477)")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
-    ("시장구분코드 (주식 J)")
+    fid_rank_sort_cls_code: Annotated[FidRankSortClsCodeEnum, "0:코드순, 1:이름순"] = Field(
+        alias="fid_rank_sort_cls_code", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "코드순", "1": "이름순"}}
+    )
+    fid_slct_yn: Annotated[KisBool, "0:신용주문가능, 1: 신용주문불가"] = Field(alias="fid_slct_yn")
+    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"] = Field(alias="fid_input_iscd")
+    fid_cond_scr_div_code: Annotated[str, "Unique key(20477)"] = Field(alias="fid_cond_scr_div_code")
+    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"] = Field(alias="fid_cond_mrkt_div_code")
 
 
 class CreditByCompanyRequestDict(TypedDict):
@@ -49,31 +46,24 @@ class CreditByCompanyRequestDict(TypedDict):
         fid_cond_mrkt_div_code (str): 시장구분코드 (주식 J)
     """
 
-    fid_rank_sort_cls_code: Annotated[FidRankSortClsCodeEnum, "0:코드순, 1:이름순"]
-    fid_slct_yn: Annotated[KisBool, "0:신용주문가능, 1: 신용주문불가"]
-    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"]
-    fid_cond_scr_div_code: Annotated[str, "Unique key(20477)"]
-    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"]
+    fid_rank_sort_cls_code: FidRankSortClsCodeEnum
+    fid_slct_yn: KisBool
+    fid_input_iscd: str
+    fid_cond_scr_div_code: str
+    fid_cond_mrkt_div_code: str
 
 
 class CreditByCompanyOutput(RawModel):
-    stck_shrn_iscd: str = Field(alias="stck_shrn_iscd")
-    ("주식 단축 종목코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    crdt_rate: Decimal = Field(alias="crdt_rate")
-    ("신용 비율")
+    stck_shrn_iscd: Annotated[str, "주식 단축 종목코드"] = Field(alias="stck_shrn_iscd")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    crdt_rate: Annotated[Decimal, "신용 비율"] = Field(alias="crdt_rate")
 
 
 class CreditByCompanyResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[CreditByCompanyOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[CreditByCompanyOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[CreditByCompanyRequest, CreditByCompanyResponse] = Endpoint(

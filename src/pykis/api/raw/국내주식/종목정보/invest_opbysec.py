@@ -16,28 +16,27 @@ if TYPE_CHECKING:
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "매수(")
-    "매수("
+    """매수("""
     VALUE_1 = ("1", "중립(")
-    "중립("
+    """중립("""
     VALUE_2 = ("2", "매도(")
-    "매도("
+    """매도("""
     VALUE_3 = ("3", "매도")
-    "매도"
+    """매도"""
 
 
 class InvestOpbysecRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("J(시장 구분 코드)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("16634(Primary key)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
-    ("전체(0) 매수(1) 중립(2) 매도(3)")
-    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
-    ("이후 ~")
-    FID_INPUT_DATE_2: str = Field(alias="FID_INPUT_DATE_2")
-    ("~ 이전")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "J(시장 구분 코드)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "16634(Primary key)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)"] = Field(
+        alias="FID_INPUT_ISCD"
+    )
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "전체(0) 매수(1) 중립(2) 매도(3)"] = Field(
+        alias="FID_DIV_CLS_CODE",
+        json_schema_extra={"enum": ["0", "1", "2", "3"], "enum_desc": {"0": "매수(", "1": "중립(", "2": "매도(", "3": "매도"}},
+    )
+    FID_INPUT_DATE_1: Annotated[str, "이후 ~"] = Field(alias="FID_INPUT_DATE_1")
+    FID_INPUT_DATE_2: Annotated[str, "~ 이전"] = Field(alias="FID_INPUT_DATE_2")
 
 
 class InvestOpbysecRequestDict(TypedDict):
@@ -59,58 +58,38 @@ class InvestOpbysecRequestDict(TypedDict):
         FID_INPUT_DATE_2 (str): ~ 이전
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "J(시장 구분 코드)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "16634(Primary key)"]
-    FID_INPUT_ISCD: Annotated[str, "회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)"]
-    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "전체(0) 매수(1) 중립(2) 매도(3)"]
-    FID_INPUT_DATE_1: Annotated[str, "이후 ~"]
-    FID_INPUT_DATE_2: Annotated[str, "~ 이전"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_COND_SCR_DIV_CODE: str
+    FID_INPUT_ISCD: str
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum
+    FID_INPUT_DATE_1: str
+    FID_INPUT_DATE_2: str
 
 
 class InvestOpbysecOutput(RawModel):
-    stck_bsop_date: KisDateOptional = Field(default=None, alias="stck_bsop_date")
-    ("주식영업일자")
-    stck_shrn_iscd: str | None = Field(default=None, alias="stck_shrn_iscd")
-    ("주식단축종목코드")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
-    ("HTS한글종목명")
-    invt_opnn: str | None = Field(default=None, alias="invt_opnn")
-    ("투자의견")
-    invt_opnn_cls_code: str = Field(alias="invt_opnn_cls_code")
-    ("투자의견구분코드")
-    rgbf_invt_opnn: str | None = Field(default=None, alias="rgbf_invt_opnn")
-    ("직전투자의견")
-    rgbf_invt_opnn_cls_code: str = Field(alias="rgbf_invt_opnn_cls_code")
-    ("직전투자의견구분코드")
-    mbcr_name: str | None = Field(default=None, alias="mbcr_name")
-    ("회원사명")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
-    ("전일대비부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일대비율")
-    hts_goal_prc: Decimal = Field(alias="hts_goal_prc")
-    ("HTS목표가격")
-    stck_prdy_clpr: int = Field(alias="stck_prdy_clpr")
-    ("주식전일종가")
-    stft_esdg: Decimal = Field(alias="stft_esdg")
-    ("주식선물괴리도")
-    dprt: Decimal | None = Field(default=None, alias="dprt")
-    ("괴리율")
+    stck_bsop_date: Annotated[KisDateOptional, "주식영업일자"] = Field(default=None, alias="stck_bsop_date")
+    stck_shrn_iscd: Annotated[str | None, "주식단축종목코드"] = Field(default=None, alias="stck_shrn_iscd")
+    hts_kor_isnm: Annotated[str | None, "HTS한글종목명"] = Field(default=None, alias="hts_kor_isnm")
+    invt_opnn: Annotated[str | None, "투자의견"] = Field(default=None, alias="invt_opnn")
+    invt_opnn_cls_code: Annotated[str, "투자의견구분코드"] = Field(alias="invt_opnn_cls_code")
+    rgbf_invt_opnn: Annotated[str | None, "직전투자의견"] = Field(default=None, alias="rgbf_invt_opnn")
+    rgbf_invt_opnn_cls_code: Annotated[str, "직전투자의견구분코드"] = Field(alias="rgbf_invt_opnn_cls_code")
+    mbcr_name: Annotated[str | None, "회원사명"] = Field(default=None, alias="mbcr_name")
+    stck_prpr: Annotated[Decimal, "주식현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[str | None, "전일대비부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
+    hts_goal_prc: Annotated[Decimal, "HTS목표가격"] = Field(alias="hts_goal_prc")
+    stck_prdy_clpr: Annotated[int, "주식전일종가"] = Field(alias="stck_prdy_clpr")
+    stft_esdg: Annotated[Decimal, "주식선물괴리도"] = Field(alias="stft_esdg")
+    dprt: Annotated[Decimal | None, "괴리율"] = Field(default=None, alias="dprt")
 
 
 class InvestOpbysecResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InvestOpbysecOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InvestOpbysecOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InvestOpbysecRequest, InvestOpbysecResponse] = Endpoint(

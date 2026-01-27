@@ -13,24 +13,19 @@ if TYPE_CHECKING:
 
 
 class BrknewsTitleRequest(RawModel):
-    FID_NEWS_OFER_ENTP_CODE: str = Field(alias="FID_NEWS_OFER_ENTP_CODE")
-    ("뉴스제공업체구분=>0:전체조회")
-    FID_COND_MRKT_CLS_CODE: str | None = Field(default=None, alias="FID_COND_MRKT_CLS_CODE", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_INPUT_ISCD: str | None = Field(default=None, alias="FID_INPUT_ISCD", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_TITL_CNTT: str | None = Field(default=None, alias="FID_TITL_CNTT", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_INPUT_DATE_1: str | None = Field(default=None, alias="FID_INPUT_DATE_1", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_INPUT_HOUR_1: str | None = Field(default=None, alias="FID_INPUT_HOUR_1", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_RANK_SORT_CLS_CODE: str | None = Field(default=None, alias="FID_RANK_SORT_CLS_CODE", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_INPUT_SRNO: str | None = Field(default=None, alias="FID_INPUT_SRNO", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("화면번호:11801")
+    FID_NEWS_OFER_ENTP_CODE: Annotated[str, "뉴스제공업체구분=>0:전체조회"] = Field(alias="FID_NEWS_OFER_ENTP_CODE")
+    FID_COND_MRKT_CLS_CODE: Annotated[str | None, "공백"] = Field(
+        default=None, alias="FID_COND_MRKT_CLS_CODE", json_schema_extra={"blank_allowed": True}
+    )
+    FID_INPUT_ISCD: Annotated[str | None, "공백"] = Field(default=None, alias="FID_INPUT_ISCD", json_schema_extra={"blank_allowed": True})
+    FID_TITL_CNTT: Annotated[str | None, "공백"] = Field(default=None, alias="FID_TITL_CNTT", json_schema_extra={"blank_allowed": True})
+    FID_INPUT_DATE_1: Annotated[str | None, "공백"] = Field(default=None, alias="FID_INPUT_DATE_1", json_schema_extra={"blank_allowed": True})
+    FID_INPUT_HOUR_1: Annotated[str | None, "공백"] = Field(default=None, alias="FID_INPUT_HOUR_1", json_schema_extra={"blank_allowed": True})
+    FID_RANK_SORT_CLS_CODE: Annotated[str | None, "공백"] = Field(
+        default=None, alias="FID_RANK_SORT_CLS_CODE", json_schema_extra={"blank_allowed": True}
+    )
+    FID_INPUT_SRNO: Annotated[str | None, "공백"] = Field(default=None, alias="FID_INPUT_SRNO", json_schema_extra={"blank_allowed": True})
+    FID_COND_SCR_DIV_CODE: Annotated[str, "화면번호:11801"] = Field(alias="FID_COND_SCR_DIV_CODE")
 
 
 class BrknewsTitleRequestDict(TypedDict):
@@ -53,83 +48,52 @@ class BrknewsTitleRequestDict(TypedDict):
         FID_COND_SCR_DIV_CODE (str): 화면번호:11801
     """
 
-    FID_NEWS_OFER_ENTP_CODE: Annotated[str, "뉴스제공업체구분=>0:전체조회"]
-    FID_COND_MRKT_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
-    FID_INPUT_ISCD: NotRequired[Annotated[str | None, "공백"]]
-    FID_TITL_CNTT: NotRequired[Annotated[str | None, "공백"]]
-    FID_INPUT_DATE_1: NotRequired[Annotated[str | None, "공백"]]
-    FID_INPUT_HOUR_1: NotRequired[Annotated[str | None, "공백"]]
-    FID_RANK_SORT_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
-    FID_INPUT_SRNO: NotRequired[Annotated[str | None, "공백"]]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "화면번호:11801"]
+    FID_NEWS_OFER_ENTP_CODE: str
+    FID_COND_MRKT_CLS_CODE: NotRequired[str | None]
+    FID_INPUT_ISCD: NotRequired[str | None]
+    FID_TITL_CNTT: NotRequired[str | None]
+    FID_INPUT_DATE_1: NotRequired[str | None]
+    FID_INPUT_HOUR_1: NotRequired[str | None]
+    FID_RANK_SORT_CLS_CODE: NotRequired[str | None]
+    FID_INPUT_SRNO: NotRequired[str | None]
+    FID_COND_SCR_DIV_CODE: str
 
 
 class BrknewsTitleOutput(RawModel):
-    cntt_usiq_srno: str | None = Field(default=None, alias="cntt_usiq_srno")
-    ("내용조회용일련번호")
-    news_ofer_entp_code: str | None = Field(default=None, alias="news_ofer_entp_code")
-    ("뉴스제공업체코드")
-    data_dt: KisDateOptional = Field(default=None, alias="data_dt")
-    ("작성일자")
-    data_tm: KisTimeOptional = Field(default=None, alias="data_tm")
-    ("작성시간")
-    hts_pbnt_titl_cntt: str | None = Field(default=None, alias="hts_pbnt_titl_cntt")
-    ("HTS공시제목내용")
-    news_lrdv_code: str | None = Field(default=None, alias="news_lrdv_code")
-    ("뉴스대구분")
-    dorg: str | None = Field(default=None, alias="dorg")
-    ("자료원")
-    iscd1: str | None = Field(default=None, alias="iscd1")
-    ("종목코드1")
-    iscd2: str | None = Field(default=None, alias="iscd2")
-    ("종목코드2")
-    iscd3: str | None = Field(default=None, alias="iscd3")
-    ("종목코드3")
-    iscd4: str | None = Field(default=None, alias="iscd4")
-    ("종목코드4")
-    iscd5: str | None = Field(default=None, alias="iscd5")
-    ("종목코드5")
-    iscd6: str | None = Field(default=None, alias="iscd6")
-    ("종목코드6")
-    iscd7: str | None = Field(default=None, alias="iscd7")
-    ("종목코드7")
-    iscd8: str | None = Field(default=None, alias="iscd8")
-    ("종목코드8")
-    iscd9: str | None = Field(default=None, alias="iscd9")
-    ("종목코드9")
-    iscd10: str | None = Field(default=None, alias="iscd10")
-    ("종목코드10")
-    kor_isnm1: str | None = Field(default=None, alias="kor_isnm1")
-    ("한글종목명1")
-    kor_isnm2: str | None = Field(default=None, alias="kor_isnm2")
-    ("한글종목명2")
-    kor_isnm3: str | None = Field(default=None, alias="kor_isnm3")
-    ("한글종목명3")
-    kor_isnm4: str | None = Field(default=None, alias="kor_isnm4")
-    ("한글종목명4")
-    kor_isnm5: str | None = Field(default=None, alias="kor_isnm5")
-    ("한글종목명5")
-    kor_isnm6: str | None = Field(default=None, alias="kor_isnm6")
-    ("한글종목명6")
-    kor_isnm7: str | None = Field(default=None, alias="kor_isnm7")
-    ("한글종목명7")
-    kor_isnm8: str | None = Field(default=None, alias="kor_isnm8")
-    ("한글종목명8")
-    kor_isnm9: str | None = Field(default=None, alias="kor_isnm9")
-    ("한글종목명9")
-    kor_isnm10: str | None = Field(default=None, alias="kor_isnm10")
-    ("한글종목명10")
+    cntt_usiq_srno: Annotated[str | None, "내용조회용일련번호"] = Field(default=None, alias="cntt_usiq_srno")
+    news_ofer_entp_code: Annotated[str | None, "뉴스제공업체코드"] = Field(default=None, alias="news_ofer_entp_code")
+    data_dt: Annotated[KisDateOptional, "작성일자"] = Field(default=None, alias="data_dt")
+    data_tm: Annotated[KisTimeOptional, "작성시간"] = Field(default=None, alias="data_tm")
+    hts_pbnt_titl_cntt: Annotated[str | None, "HTS공시제목내용"] = Field(default=None, alias="hts_pbnt_titl_cntt")
+    news_lrdv_code: Annotated[str | None, "뉴스대구분"] = Field(default=None, alias="news_lrdv_code")
+    dorg: Annotated[str | None, "자료원"] = Field(default=None, alias="dorg")
+    iscd1: Annotated[str | None, "종목코드1"] = Field(default=None, alias="iscd1")
+    iscd2: Annotated[str | None, "종목코드2"] = Field(default=None, alias="iscd2")
+    iscd3: Annotated[str | None, "종목코드3"] = Field(default=None, alias="iscd3")
+    iscd4: Annotated[str | None, "종목코드4"] = Field(default=None, alias="iscd4")
+    iscd5: Annotated[str | None, "종목코드5"] = Field(default=None, alias="iscd5")
+    iscd6: Annotated[str | None, "종목코드6"] = Field(default=None, alias="iscd6")
+    iscd7: Annotated[str | None, "종목코드7"] = Field(default=None, alias="iscd7")
+    iscd8: Annotated[str | None, "종목코드8"] = Field(default=None, alias="iscd8")
+    iscd9: Annotated[str | None, "종목코드9"] = Field(default=None, alias="iscd9")
+    iscd10: Annotated[str | None, "종목코드10"] = Field(default=None, alias="iscd10")
+    kor_isnm1: Annotated[str | None, "한글종목명1"] = Field(default=None, alias="kor_isnm1")
+    kor_isnm2: Annotated[str | None, "한글종목명2"] = Field(default=None, alias="kor_isnm2")
+    kor_isnm3: Annotated[str | None, "한글종목명3"] = Field(default=None, alias="kor_isnm3")
+    kor_isnm4: Annotated[str | None, "한글종목명4"] = Field(default=None, alias="kor_isnm4")
+    kor_isnm5: Annotated[str | None, "한글종목명5"] = Field(default=None, alias="kor_isnm5")
+    kor_isnm6: Annotated[str | None, "한글종목명6"] = Field(default=None, alias="kor_isnm6")
+    kor_isnm7: Annotated[str | None, "한글종목명7"] = Field(default=None, alias="kor_isnm7")
+    kor_isnm8: Annotated[str | None, "한글종목명8"] = Field(default=None, alias="kor_isnm8")
+    kor_isnm9: Annotated[str | None, "한글종목명9"] = Field(default=None, alias="kor_isnm9")
+    kor_isnm10: Annotated[str | None, "한글종목명10"] = Field(default=None, alias="kor_isnm10")
 
 
 class BrknewsTitleResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[BrknewsTitleOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[BrknewsTitleOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[BrknewsTitleRequest, BrknewsTitleResponse] = Endpoint(

@@ -16,84 +16,152 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class OvrsExcgCdEnum(KisStrEnum):
     NASD = ("NASD", "나스닥")
-    "나스닥"
+    """나스닥"""
     NYSE = ("NYSE", "뉴욕")
-    "뉴욕"
+    """뉴욕"""
     AMEX = ("AMEX", "아멕스")
-    "아멕스"
+    """아멕스"""
     SEHK = ("SEHK", "홍콩")
-    "홍콩"
+    """홍콩"""
     SHAA = ("SHAA", "중국상해")
-    "중국상해"
+    """중국상해"""
     SZAA = ("SZAA", "중국심천")
-    "중국심천"
+    """중국심천"""
     TKSE = ("TKSE", "일본")
-    "일본"
+    """일본"""
     HASE = ("HASE", "베트남 하노이")
-    "베트남 하노이"
+    """베트남 하노이"""
     VNSE = ("VNSE", "베트남 호치민")
-    "베트남 호치민"
+    """베트남 호치민"""
+
+
+class OrdDvsnEnum(KisStrEnum):
+    VALUE_00 = ("00", "지정가")
+    """지정가"""
+    VALUE_32 = ("32", "LOO(장개시지정가)")
+    """LOO(장개시지정가)"""
+    VALUE_34 = ("34", "LOC(장마감지정가)")
+    """LOC(장마감지정가)"""
+    VALUE_35 = ("35", "TWAP (시간가중평균)")
+    """TWAP (시간가중평균)"""
+    VALUE_36 = ("36", "VWAP (거래량가중평균)")
+    """VWAP (거래량가중평균)"""
+    VALUE_31 = ("31", "MOO(장개시시장가)")
+    """MOO(장개시시장가)"""
+    VALUE_33 = ("33", "MOC(장마감시장가)")
+    """MOC(장마감시장가)"""
+    VALUE_50 = ("50", "단주지정가")
+    """단주지정가"""
+    HEADER = ("Header", "tr_id TTTT1002U(미국 매수 주문)]")
+    """tr_id TTTT1002U(미국 매수 주문)]"""
+    VWAP = ("VWAP", "주문은 분할시간 주문 입력 필수")
+    """주문은 분할시간 주문 입력 필수"""
+    LOO = ("LOO", "장개시지정가")
+    """장개시지정가"""
+    LOC = ("LOC", "장마감지정가")
+    """장마감지정가"""
+    TWAP = ("TWAP", "시간가중평균")
+    """시간가중평균"""
+    MOO = ("MOO", "장개시시장가")
+    """장개시시장가"""
+    MOC = ("MOC", "장마감시장가")
+    """장마감시장가"""
 
 
 class AlgoOrdTmdDvsnCdEnum(KisStrEnum):
     VALUE_00 = ("00", "분할주문 시간 직접입력")
-    "분할주문 시간 직접입력"
+    """분할주문 시간 직접입력"""
     VALUE_02 = ("02", "정규장 종료시까지")
-    "정규장 종료시까지"
+    """정규장 종료시까지"""
 
 
 class OrderRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_EXCG_CD: OvrsExcgCdEnum = Field(alias="OVRS_EXCG_CD")
-    ("NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민")
-    PDNO: str = Field(alias="PDNO")
-    ("종목코드")
-    ORD_QTY: int = Field(alias="ORD_QTY")
-    ("주문수량 (해외거래소 별 최소 주문수량 및 주문단위 확인 필요)")
-    OVRS_ORD_UNPR: Decimal = Field(alias="OVRS_ORD_UNPR")
-    ('1주당 가격 * 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력')
-    CTAC_TLNO: str | None = Field(default=None, alias="CTAC_TLNO")
-    ("연락전화번호")
-    MGCO_APTM_ODNO: str | None = Field(default=None, alias="MGCO_APTM_ODNO")
-    ("운용사지정주문번호")
-    SLL_TYPE: str | None = Field(default=None, alias="SLL_TYPE")
-    ("제거 : 매수 00 : 매도")
-    ORD_SVR_DVSN_CD: str = Field(alias="ORD_SVR_DVSN_CD")
-    ('"0"(Default)')
-    ORD_DVSN: str = Field(alias="ORD_DVSN")
-    (
-        "[Header tr_id TTTT1002U(미국 매수 주문)] 00 : 지정가 32 : LOO(장개시지정가) 34 : "
-        "LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP (거래량가중평균) * 모의투자 VTTT1002U(미국 "
-        "매수 주문)로는 00:지정가만 가능 * TWAP, VWAP 주문은 분할시간 주문 입력 필수 [Header tr_id "
-        "TTTT1006U(미국 매도 주문)] 00 : 지정가 31 : MOO(장개시시장가) 32 : LOO(장개시지정가) 33 : "
-        "MOC(장마감시장가) 34 : LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP (거래량가중평균) * "
-        "모의투자 VTTT1006U(미국 매도 주문)로는 00:지정가만 가능 * TWAP, VWAP 주문은 분할시간 주문 입력 "
-        "필수 [Header tr_id TTTS1001U(홍콩 매도 주문)] 00 : 지정가 50 : 단주지정가 * 모의투자 "
-        "VTTS1001U(홍콩 매도 주문)로는 00:지정가만 가능 [그외 tr_id] 제거 ※ TWAP, VWAP 주문은 정정 불가"
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
     )
-    START_TIME: str | None = Field(default=None, alias="START_TIME")
-    ("※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 입력 시 정규장 종료 5분전까지 입력 가능")
-    END_TIME: str | None = Field(default=None, alias="END_TIME")
-    ("※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 입력 시 정규장 종료 5분전까지 입력 가능")
-    ALGO_ORD_TMD_DVSN_CD: AlgoOrdTmdDvsnCdEnum | None = Field(default=None, alias="ALGO_ORD_TMD_DVSN_CD")
-    ("00 : 분할주문 시간 직접입력 , 02 : 정규장 종료시까지")
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    OVRS_EXCG_CD: Annotated[
+        OvrsExcgCdEnum,
+        "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민",
+    ] = Field(
+        alias="OVRS_EXCG_CD",
+        json_schema_extra={
+            "enum": ["NASD", "NYSE", "AMEX", "SEHK", "SHAA", "SZAA", "TKSE", "HASE", "VNSE"],
+            "enum_desc": {
+                "NASD": "나스닥",
+                "NYSE": "뉴욕",
+                "AMEX": "아멕스",
+                "SEHK": "홍콩",
+                "SHAA": "중국상해",
+                "SZAA": "중국심천",
+                "TKSE": "일본",
+                "HASE": "베트남 하노이",
+                "VNSE": "베트남 호치민",
+            },
+        },
+    )
+    PDNO: Annotated[str, "종목코드"] = Field(alias="PDNO")
+    ORD_QTY: Annotated[int, "주문수량 (해외거래소 별 최소 주문수량 및 주문단위 확인 필요)"] = Field(alias="ORD_QTY")
+    OVRS_ORD_UNPR: Annotated[Decimal, '1주당 가격 * 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력'] = Field(alias="OVRS_ORD_UNPR")
+    CTAC_TLNO: Annotated[str | None, "연락전화번호"] = Field(default=None, alias="CTAC_TLNO")
+    MGCO_APTM_ODNO: Annotated[str | None, "운용사지정주문번호"] = Field(default=None, alias="MGCO_APTM_ODNO")
+    SLL_TYPE: Annotated[str | None, "제거 : 매수 00 : 매도"] = Field(default=None, alias="SLL_TYPE")
+    ORD_SVR_DVSN_CD: Annotated[str, '"0"(Default)'] = Field(alias="ORD_SVR_DVSN_CD")
+    ORD_DVSN: Annotated[
+        OrdDvsnEnum,
+        "[Header tr_id TTTT1002U(미국 매수 주문)] 00 : 지정가 32 : LOO(장개시지정가) 34 : LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP (거래량가중평균) * 모의투자 VTTT1002U(미국 매수 주문)로는 00:지정가만 가능 * TWAP, VWAP 주문은 분할시간 주문 입력 필수 [Header tr_id TTTT1006U(미국 매도 주문)] 00 : 지정가 31 : MOO(장개시시장가) 32 : LOO(장개시지정가) 33 : MOC(장마감시장가) 34 : LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP (거래량가중평균) * 모의투자 VTTT1006U(미국 매도 주문)로는 00:지정가만 가능 * TWAP, VWAP 주문은 분할시간 주문 입력 필수 [Header tr_id TTTS1001U(홍콩 매도 주문)] 00 : 지정가 50 : 단주지정가 * 모의투자 VTTS1001U(홍콩 매도 주문)로는 00:지정가만 가능 [그외 tr_id] 제거 ※ TWAP, VWAP 주문은 정정 불가",
+    ] = Field(
+        alias="ORD_DVSN",
+        json_schema_extra={
+            "enum": ["00", "32", "34", "35", "36", "31", "33", "50", "Header", "VWAP", "LOO", "LOC", "TWAP", "MOO", "MOC"],
+            "enum_desc": {
+                "00": "지정가",
+                "32": "LOO(장개시지정가)",
+                "34": "LOC(장마감지정가)",
+                "35": "TWAP (시간가중평균)",
+                "36": "VWAP (거래량가중평균)",
+                "31": "MOO(장개시시장가)",
+                "33": "MOC(장마감시장가)",
+                "50": "단주지정가",
+                "Header": "tr_id TTTT1002U(미국 매수 주문)]",
+                "VWAP": "주문은 분할시간 주문 입력 필수",
+                "LOO": "장개시지정가",
+                "LOC": "장마감지정가",
+                "TWAP": "시간가중평균",
+                "MOO": "장개시시장가",
+                "MOC": "장마감시장가",
+            },
+        },
+    )
+    START_TIME: Annotated[
+        str | None,
+        "※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 입력 시 정규장 종료 5분전까지 입력 가능",
+    ] = Field(default=None, alias="START_TIME")
+    END_TIME: Annotated[
+        str | None,
+        "※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 입력 시 정규장 종료 5분전까지 입력 가능",
+    ] = Field(default=None, alias="END_TIME")
+    ALGO_ORD_TMD_DVSN_CD: Annotated[AlgoOrdTmdDvsnCdEnum | None, "00 : 분할주문 시간 직접입력 , 02 : 정규장 종료시까지"] = Field(
+        default=None,
+        alias="ALGO_ORD_TMD_DVSN_CD",
+        json_schema_extra={"enum": ["00", "02"], "enum_desc": {"00": "분할주문 시간 직접입력", "02": "정규장 종료시까지"}},
+    )
 
 
 class OrderRequestDict(TypedDict):
@@ -141,10 +209,10 @@ class OrderRequestDict(TypedDict):
         MGCO_APTM_ODNO (str): 운용사지정주문번호 optional
         SLL_TYPE (str): 제거 : 매수 00 : 매도 optional
         ORD_SVR_DVSN_CD (str): "0"(Default)
-        ORD_DVSN (str): [Header tr_id TTTT1002U(미국 매수 주문)] 00 : 지정가 32 : LOO(장개시지정가)
-        34 : LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP (거래량가중평균) * 모의투자
-        VTTT1002U(미국 매수 주문)로는 00:지정가만 가능 * TWAP, VWAP 주문은 분할시간 주문 입력 필수
-        [Header tr_id TTTT1006U(미국 매도 주문)] 00 : 지정가 31 : MOO(장개시시장가) 32 :
+        ORD_DVSN (OrdDvsnEnum): [Header tr_id TTTT1002U(미국 매수 주문)] 00 : 지정가 32 :
+        LOO(장개시지정가) 34 : LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP (거래량가중평균)
+        * 모의투자 VTTT1002U(미국 매수 주문)로는 00:지정가만 가능 * TWAP, VWAP 주문은 분할시간 주문
+        입력 필수 [Header tr_id TTTT1006U(미국 매도 주문)] 00 : 지정가 31 : MOO(장개시시장가) 32 :
         LOO(장개시지정가) 33 : MOC(장마감시장가) 34 : LOC(장마감지정가) 35 : TWAP (시간가중평균) 36
         : VWAP (거래량가중평균) * 모의투자 VTTT1006U(미국 매도 주문)로는 00:지정가만 가능 * TWAP,
         VWAP 주문은 분할시간 주문 입력 필수 [Header tr_id TTTS1001U(홍콩 매도 주문)] 00 : 지정가 50
@@ -158,63 +226,33 @@ class OrderRequestDict(TypedDict):
         종료시까지 optional
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    OVRS_EXCG_CD: Annotated[
-        OvrsExcgCdEnum,
-        "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민",
-    ]
-    PDNO: Annotated[str, "종목코드"]
-    ORD_QTY: Annotated[int, "주문수량 (해외거래소 별 최소 주문수량 및 주문단위 확인 필요)"]
-    OVRS_ORD_UNPR: Annotated[Decimal, '1주당 가격 * 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력']
-    CTAC_TLNO: NotRequired[Annotated[str | None, "연락전화번호"]]
-    MGCO_APTM_ODNO: NotRequired[Annotated[str | None, "운용사지정주문번호"]]
-    SLL_TYPE: NotRequired[Annotated[str | None, "제거 : 매수 00 : 매도"]]
-    ORD_SVR_DVSN_CD: Annotated[str, '"0"(Default)']
-    ORD_DVSN: Annotated[
-        str,
-        "[Header tr_id TTTT1002U(미국 매수 주문)] 00 : 지정가 32 : LOO(장개시지정가) 34 : "
-        "LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP (거래량가중평균) * 모의투자 VTTT1002U(미국 "
-        "매수 주문)로는 00:지정가만 가능 * TWAP, VWAP 주문은 분할시간 주문 입력 필수 [Header tr_id "
-        "TTTT1006U(미국 매도 주문)] 00 : 지정가 31 : MOO(장개시시장가) 32 : LOO(장개시지정가) 33 : "
-        "MOC(장마감시장가) 34 : LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP (거래량가중평균) * "
-        "모의투자 VTTT1006U(미국 매도 주문)로는 00:지정가만 가능 * TWAP, VWAP 주문은 분할시간 주문 입력 "
-        "필수 [Header tr_id TTTS1001U(홍콩 매도 주문)] 00 : 지정가 50 : 단주지정가 * 모의투자 "
-        "VTTS1001U(홍콩 매도 주문)로는 00:지정가만 가능 [그외 tr_id] 제거 ※ TWAP, VWAP 주문은 정정 불가",
-    ]
-    START_TIME: NotRequired[
-        Annotated[
-            str | None,
-            "※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 입력 시 정규장 종료 5분전까지 입력 가능",
-        ]
-    ]
-    END_TIME: NotRequired[
-        Annotated[
-            str | None,
-            "※ TWAP, VWAP 주문유형이고 알고리즘주문시간구분코드가 00일때 사용 ※ YYMMDD 형태로 입력 ※ 시간 입력 시 정규장 종료 5분전까지 입력 가능",
-        ]
-    ]
-    ALGO_ORD_TMD_DVSN_CD: NotRequired[Annotated[AlgoOrdTmdDvsnCdEnum | None, "00 : 분할주문 시간 직접입력 , 02 : 정규장 종료시까지"]]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    OVRS_EXCG_CD: OvrsExcgCdEnum
+    PDNO: str
+    ORD_QTY: int
+    OVRS_ORD_UNPR: Decimal
+    CTAC_TLNO: NotRequired[str | None]
+    MGCO_APTM_ODNO: NotRequired[str | None]
+    SLL_TYPE: NotRequired[str | None]
+    ORD_SVR_DVSN_CD: str
+    ORD_DVSN: OrdDvsnEnum
+    START_TIME: NotRequired[str | None]
+    END_TIME: NotRequired[str | None]
+    ALGO_ORD_TMD_DVSN_CD: NotRequired[AlgoOrdTmdDvsnCdEnum | None]
 
 
 class OrderOutput(RawModel):
-    KRX_FWDG_ORD_ORGNO: str = Field(alias="KRX_FWDG_ORD_ORGNO")
-    ("주문시 한국투자증권 시스템에서 지정된 영업점코드")
-    ODNO: str = Field(alias="ODNO")
-    ("주문시 한국투자증권 시스템에서 채번된 주문번호")
-    ORD_TMD: KisTime = Field(alias="ORD_TMD")
-    ("주문시각(시분초HHMMSS)")
+    KRX_FWDG_ORD_ORGNO: Annotated[str, "주문시 한국투자증권 시스템에서 지정된 영업점코드"] = Field(alias="KRX_FWDG_ORD_ORGNO")
+    ODNO: Annotated[str, "주문시 한국투자증권 시스템에서 채번된 주문번호"] = Field(alias="ODNO")
+    ORD_TMD: Annotated[KisTime, "주문시각(시분초HHMMSS)"] = Field(alias="ORD_TMD")
 
 
 class OrderResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: OrderOutput = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "0 : 성공 0 이외의 값 : 실패"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[OrderOutput, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[OrderRequest, OrderResponse] = Endpoint(
@@ -336,11 +374,11 @@ if TYPE_CHECKING:
                         MGCO_APTM_ODNO (str): 운용사지정주문번호 optional
                         SLL_TYPE (str): 제거 : 매수 00 : 매도 optional
                         ORD_SVR_DVSN_CD (str): "0"(Default)
-                        ORD_DVSN (str): [Header tr_id TTTT1002U(미국 매수 주문)] 00 : 지정가 32 :
-                        LOO(장개시지정가) 34 : LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP
-                        (거래량가중평균) * 모의투자 VTTT1002U(미국 매수 주문)로는 00:지정가만 가능 *
-                        TWAP, VWAP 주문은 분할시간 주문 입력 필수 [Header tr_id TTTT1006U(미국 매도
-                        주문)] 00 : 지정가 31 : MOO(장개시시장가) 32 : LOO(장개시지정가) 33 :
+                        ORD_DVSN (OrdDvsnEnum): [Header tr_id TTTT1002U(미국 매수 주문)] 00 : 지정가
+                        32 : LOO(장개시지정가) 34 : LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 :
+                        VWAP (거래량가중평균) * 모의투자 VTTT1002U(미국 매수 주문)로는 00:지정가만
+                        가능 * TWAP, VWAP 주문은 분할시간 주문 입력 필수 [Header tr_id TTTT1006U(미국
+                        매도 주문)] 00 : 지정가 31 : MOO(장개시시장가) 32 : LOO(장개시지정가) 33 :
                         MOC(장마감시장가) 34 : LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP
                         (거래량가중평균) * 모의투자 VTTT1006U(미국 매도 주문)로는 00:지정가만 가능 *
                         TWAP, VWAP 주문은 분할시간 주문 입력 필수 [Header tr_id TTTS1001U(홍콩 매도
@@ -373,5 +411,6 @@ __all__ = [
     "CanoEnum",
     "AcntPrdtCdEnum",
     "OvrsExcgCdEnum",
+    "OrdDvsnEnum",
     "AlgoOrdTmdDvsnCdEnum",
 ]

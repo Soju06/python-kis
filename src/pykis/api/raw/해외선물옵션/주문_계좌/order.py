@@ -16,67 +16,63 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class SllBuyDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "매도")
-    "매도"
+    """매도"""
     VALUE_02 = ("02", "매수")
-    "매수"
+    """매수"""
 
 
 class PricDvsnCdEnum(KisStrEnum):
     VALUE_2 = ("2", "시장")
-    "시장"
+    """시장"""
     VALUE_1 = ("1", "지정")
-    "지정"
+    """지정"""
     VALUE_3 = ("3", "STOP, 4 S/L")
-    "STOP, 4 S/L"
+    """STOP, 4 S/L"""
 
 
 class OrderRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_FUTR_FX_PDNO: str = Field(alias="OVRS_FUTR_FX_PDNO")
-    ("해외선물FX상품번호")
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(alias="SLL_BUY_DVSN_CD")
-    ("01 : 매도 02 : 매수")
-    FM_LQD_USTL_CCLD_DT: KisDateOptional = Field(default=None, alias="FM_LQD_USTL_CCLD_DT")
-    ("빈칸 (hedge청산만 이용)")
-    FM_LQD_USTL_CCNO: str | None = Field(default=None, alias="FM_LQD_USTL_CCNO")
-    ("빈칸 (hedge청산만 이용)")
-    PRIC_DVSN_CD: PricDvsnCdEnum = Field(alias="PRIC_DVSN_CD")
-    ("1.지정, 2. 시장, 3. STOP, 4 S/L")
-    FM_LIMIT_ORD_PRIC: Decimal | None = Field(default=None, alias="FM_LIMIT_ORD_PRIC", json_schema_extra={"blank_allowed": True})
-    ('지정가인 경우 가격 입력 * 시장가, STOP주문인 경우, 빈칸("") 입력')
-    FM_STOP_ORD_PRIC: Decimal | None = Field(default=None, alias="FM_STOP_ORD_PRIC", json_schema_extra={"blank_allowed": True})
-    ('STOP 주문 가격 입력 * 시장가, 지정가인 경우, 빈칸("") 입력')
-    FM_ORD_QTY: int = Field(alias="FM_ORD_QTY")
-    ("FM주문수량")
-    FM_LQD_LMT_ORD_PRIC: Decimal | None = Field(default=None, alias="FM_LQD_LMT_ORD_PRIC")
-    ("빈칸 (hedge청산만 이용)")
-    FM_LQD_STOP_ORD_PRIC: Decimal | None = Field(default=None, alias="FM_LQD_STOP_ORD_PRIC")
-    ("빈칸 (hedge청산만 이용)")
-    CCLD_CNDT_CD: str = Field(alias="CCLD_CNDT_CD")
-    ("일반적으로 6 (EOD, 지정가) GTD인 경우 5, 시장가인 경우만 2")
-    CPLX_ORD_DVSN_CD: str = Field(alias="CPLX_ORD_DVSN_CD")
-    ("0 (hedge청산만 이용)")
-    ECIS_RSVN_ORD_YN: KisBool = Field(alias="ECIS_RSVN_ORD_YN")
-    ("N")
-    FM_HDGE_ORD_SCRN_YN: KisBool = Field(alias="FM_HDGE_ORD_SCRN_YN")
-    ("N")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    OVRS_FUTR_FX_PDNO: Annotated[str, "해외선물FX상품번호"] = Field(alias="OVRS_FUTR_FX_PDNO")
+    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "01 : 매도 02 : 매수"] = Field(
+        alias="SLL_BUY_DVSN_CD", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "매도", "02": "매수"}}
+    )
+    FM_LQD_USTL_CCLD_DT: Annotated[KisDateOptional, "빈칸 (hedge청산만 이용)"] = Field(default=None, alias="FM_LQD_USTL_CCLD_DT")
+    FM_LQD_USTL_CCNO: Annotated[str | None, "빈칸 (hedge청산만 이용)"] = Field(default=None, alias="FM_LQD_USTL_CCNO")
+    PRIC_DVSN_CD: Annotated[PricDvsnCdEnum, "1.지정, 2. 시장, 3. STOP, 4 S/L"] = Field(
+        alias="PRIC_DVSN_CD", json_schema_extra={"enum": ["2", "1", "3"], "enum_desc": {"2": "시장", "1": "지정", "3": "STOP, 4 S/L"}}
+    )
+    FM_LIMIT_ORD_PRIC: Annotated[Decimal | None, '지정가인 경우 가격 입력 * 시장가, STOP주문인 경우, 빈칸("") 입력'] = Field(
+        default=None, alias="FM_LIMIT_ORD_PRIC", json_schema_extra={"blank_allowed": True}
+    )
+    FM_STOP_ORD_PRIC: Annotated[Decimal | None, 'STOP 주문 가격 입력 * 시장가, 지정가인 경우, 빈칸("") 입력'] = Field(
+        default=None, alias="FM_STOP_ORD_PRIC", json_schema_extra={"blank_allowed": True}
+    )
+    FM_ORD_QTY: Annotated[int, "FM주문수량"] = Field(alias="FM_ORD_QTY")
+    FM_LQD_LMT_ORD_PRIC: Annotated[Decimal | None, "빈칸 (hedge청산만 이용)"] = Field(default=None, alias="FM_LQD_LMT_ORD_PRIC")
+    FM_LQD_STOP_ORD_PRIC: Annotated[Decimal | None, "빈칸 (hedge청산만 이용)"] = Field(default=None, alias="FM_LQD_STOP_ORD_PRIC")
+    CCLD_CNDT_CD: Annotated[str, "일반적으로 6 (EOD, 지정가) GTD인 경우 5, 시장가인 경우만 2"] = Field(alias="CCLD_CNDT_CD")
+    CPLX_ORD_DVSN_CD: Annotated[str, "0 (hedge청산만 이용)"] = Field(alias="CPLX_ORD_DVSN_CD")
+    ECIS_RSVN_ORD_YN: Annotated[KisBool, "N"] = Field(alias="ECIS_RSVN_ORD_YN")
+    FM_HDGE_ORD_SCRN_YN: Annotated[KisBool, "N"] = Field(alias="FM_HDGE_ORD_SCRN_YN")
 
 
 class OrderRequestDict(TypedDict):
@@ -110,38 +106,35 @@ class OrderRequestDict(TypedDict):
         FM_HDGE_ORD_SCRN_YN (KisBool): N
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    OVRS_FUTR_FX_PDNO: Annotated[str, "해외선물FX상품번호"]
-    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "01 : 매도 02 : 매수"]
-    FM_LQD_USTL_CCLD_DT: NotRequired[Annotated[KisDateOptional, "빈칸 (hedge청산만 이용)"]]
-    FM_LQD_USTL_CCNO: NotRequired[Annotated[str | None, "빈칸 (hedge청산만 이용)"]]
-    PRIC_DVSN_CD: Annotated[PricDvsnCdEnum, "1.지정, 2. 시장, 3. STOP, 4 S/L"]
-    FM_LIMIT_ORD_PRIC: NotRequired[Annotated[Decimal | None, '지정가인 경우 가격 입력 * 시장가, STOP주문인 경우, 빈칸("") 입력']]
-    FM_STOP_ORD_PRIC: NotRequired[Annotated[Decimal | None, 'STOP 주문 가격 입력 * 시장가, 지정가인 경우, 빈칸("") 입력']]
-    FM_ORD_QTY: Annotated[int, "FM주문수량"]
-    FM_LQD_LMT_ORD_PRIC: NotRequired[Annotated[Decimal | None, "빈칸 (hedge청산만 이용)"]]
-    FM_LQD_STOP_ORD_PRIC: NotRequired[Annotated[Decimal | None, "빈칸 (hedge청산만 이용)"]]
-    CCLD_CNDT_CD: Annotated[str, "일반적으로 6 (EOD, 지정가) GTD인 경우 5, 시장가인 경우만 2"]
-    CPLX_ORD_DVSN_CD: Annotated[str, "0 (hedge청산만 이용)"]
-    ECIS_RSVN_ORD_YN: Annotated[KisBool, "N"]
-    FM_HDGE_ORD_SCRN_YN: Annotated[KisBool, "N"]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    OVRS_FUTR_FX_PDNO: str
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum
+    FM_LQD_USTL_CCLD_DT: NotRequired[KisDateOptional]
+    FM_LQD_USTL_CCNO: NotRequired[str | None]
+    PRIC_DVSN_CD: PricDvsnCdEnum
+    FM_LIMIT_ORD_PRIC: NotRequired[Decimal | None]
+    FM_STOP_ORD_PRIC: NotRequired[Decimal | None]
+    FM_ORD_QTY: int
+    FM_LQD_LMT_ORD_PRIC: NotRequired[Decimal | None]
+    FM_LQD_STOP_ORD_PRIC: NotRequired[Decimal | None]
+    CCLD_CNDT_CD: str
+    CPLX_ORD_DVSN_CD: str
+    ECIS_RSVN_ORD_YN: KisBool
+    FM_HDGE_ORD_SCRN_YN: KisBool
 
 
 class OrderOutput(RawModel):
-    ORD_DT: KisDateOptional = Field(default=None, alias="ORD_DT")
-    ("주문일자")
-    ODNO: str | None = Field(default=None, alias="ODNO")
-    ('접수한 주문의 일련번호(ex. 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송 (ex. ORGN_ODNO : 00360686)')
+    ORD_DT: Annotated[KisDateOptional, "주문일자"] = Field(default=None, alias="ORD_DT")
+    ODNO: Annotated[str | None, '접수한 주문의 일련번호(ex. 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송 (ex. ORGN_ODNO : 00360686)'] = (
+        Field(default=None, alias="ODNO")
+    )
 
 
 class OrderResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
+    rt_cd: Annotated[KisBool, "0 : 성공 0 이외의 값 : 실패"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
     output: OrderOutput = Field(alias="output")
 
 

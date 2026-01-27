@@ -16,41 +16,52 @@ if TYPE_CHECKING:
 
 class FidRankSortClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "잔고비율 상위")
-    "잔고비율 상위"
+    """잔고비율 상위"""
     VALUE_1 = ("1", "잔고수량 상위")
-    "잔고수량 상위"
+    """잔고수량 상위"""
     VALUE_2 = ("2", "잔고금액 상위")
-    "잔고금액 상위"
+    """잔고금액 상위"""
     VALUE_3 = ("3", "잔고비율 증가상위")
-    "잔고비율 증가상위"
+    """잔고비율 증가상위"""
     VALUE_4 = ("4", "잔고비율 감소상위")
-    "잔고비율 감소상위"
+    """잔고비율 감소상위"""
     VALUE_5 = ("5", "잔고비율 상위")
-    "잔고비율 상위"
+    """잔고비율 상위"""
     VALUE_6 = ("6", "잔고수량 상위")
-    "잔고수량 상위"
+    """잔고수량 상위"""
     VALUE_7 = ("7", "잔고금액 상위")
-    "잔고금액 상위"
+    """잔고금액 상위"""
     VALUE_8 = ("8", "잔고비율 증가상위")
-    "잔고비율 증가상위"
+    """잔고비율 증가상위"""
     VALUE_9 = ("9", "잔고비율 감소상위 '")
-    "잔고비율 감소상위 '"
+    """잔고비율 감소상위 '"""
 
 
 class CreditBalanceRequest(RawModel):
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("Unique key(11701)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,")
-    FID_OPTION: str = Field(alias="FID_OPTION")
-    ("2~999")
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (주식 J)")
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
-    (
-        "'(융자)0:잔고비율 상위, 1: 잔고수량 상위, 2: 잔고금액 상위, 3: 잔고비율 증가상위, 4: 잔고비율 "
-        "감소상위 (대주)5:잔고비율 상위, 6: 잔고수량 상위, 7: 잔고금액 상위, 8: 잔고비율 증가상위, 9: "
-        "잔고비율 감소상위 '"
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(11701)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,"] = Field(alias="FID_INPUT_ISCD")
+    FID_OPTION: Annotated[str, "2~999"] = Field(alias="FID_OPTION")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_RANK_SORT_CLS_CODE: Annotated[
+        FidRankSortClsCodeEnum,
+        "'(융자)0:잔고비율 상위, 1: 잔고수량 상위, 2: 잔고금액 상위, 3: 잔고비율 증가상위, 4: 잔고비율 감소상위 (대주)5:잔고비율 상위, 6: 잔고수량 상위, 7: 잔고금액 상위, 8: 잔고비율 증가상위, 9: 잔고비율 감소상위 '",
+    ] = Field(
+        alias="FID_RANK_SORT_CLS_CODE",
+        json_schema_extra={
+            "enum": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+            "enum_desc": {
+                "0": "잔고비율 상위",
+                "1": "잔고수량 상위",
+                "2": "잔고금액 상위",
+                "3": "잔고비율 증가상위",
+                "4": "잔고비율 감소상위",
+                "5": "잔고비율 상위",
+                "6": "잔고수량 상위",
+                "7": "잔고금액 상위",
+                "8": "잔고비율 증가상위",
+                "9": "잔고비율 감소상위 '",
+            },
+        },
     )
 
 
@@ -77,73 +88,44 @@ class CreditBalanceRequestDict(TypedDict):
         잔고수량 상위, 7: 잔고금액 상위, 8: 잔고비율 증가상위, 9: 잔고비율 감소상위 '
     """
 
-    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(11701)"]
-    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200,"]
-    FID_OPTION: Annotated[str, "2~999"]
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"]
-    FID_RANK_SORT_CLS_CODE: Annotated[
-        FidRankSortClsCodeEnum,
-        "'(융자)0:잔고비율 상위, 1: 잔고수량 상위, 2: 잔고금액 상위, 3: 잔고비율 증가상위, 4: 잔고비율 "
-        "감소상위 (대주)5:잔고비율 상위, 6: 잔고수량 상위, 7: 잔고금액 상위, 8: 잔고비율 증가상위, 9: "
-        "잔고비율 감소상위 '",
-    ]
+    FID_COND_SCR_DIV_CODE: str
+    FID_INPUT_ISCD: str
+    FID_OPTION: str
+    FID_COND_MRKT_DIV_CODE: str
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum
 
 
 class CreditBalanceOutput1(RawModel):
-    bstp_cls_code: str = Field(alias="bstp_cls_code")
-    ("업종 구분 코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    stnd_date1: KisDate = Field(alias="stnd_date1")
-    ("기준 일자1")
-    stnd_date2: KisDate = Field(alias="stnd_date2")
-    ("기준 일자2")
+    bstp_cls_code: Annotated[str, "업종 구분 코드"] = Field(alias="bstp_cls_code")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    stnd_date1: Annotated[KisDate, "기준 일자1"] = Field(alias="stnd_date1")
+    stnd_date2: Annotated[KisDate, "기준 일자2"] = Field(alias="stnd_date2")
 
 
 class CreditBalanceOutput2(RawModel):
-    mksc_shrn_iscd: str = Field(alias="mksc_shrn_iscd")
-    ("유가증권 단축 종목코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    whol_loan_rmnd_stcn: int = Field(alias="whol_loan_rmnd_stcn")
-    ("전체 융자 잔고 주수")
-    whol_loan_rmnd_amt: Decimal = Field(alias="whol_loan_rmnd_amt")
-    ("전체 융자 잔고 금액")
-    whol_loan_rmnd_rate: Decimal = Field(alias="whol_loan_rmnd_rate")
-    ("전체 융자 잔고 비율")
-    whol_stln_rmnd_stcn: int = Field(alias="whol_stln_rmnd_stcn")
-    ("전체 대주 잔고 주수")
-    whol_stln_rmnd_amt: Decimal = Field(alias="whol_stln_rmnd_amt")
-    ("전체 대주 잔고 금액")
-    whol_stln_rmnd_rate: Decimal = Field(alias="whol_stln_rmnd_rate")
-    ("전체 대주 잔고 비율")
-    nday_vrss_loan_rmnd_inrt: Decimal = Field(alias="nday_vrss_loan_rmnd_inrt")
-    ("N일 대비 융자 잔고 증가율")
-    nday_vrss_stln_rmnd_inrt: Decimal = Field(alias="nday_vrss_stln_rmnd_inrt")
-    ("N일 대비 대주 잔고 증가율")
+    mksc_shrn_iscd: Annotated[str, "유가증권 단축 종목코드"] = Field(alias="mksc_shrn_iscd")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    whol_loan_rmnd_stcn: Annotated[int, "전체 융자 잔고 주수"] = Field(alias="whol_loan_rmnd_stcn")
+    whol_loan_rmnd_amt: Annotated[Decimal, "전체 융자 잔고 금액"] = Field(alias="whol_loan_rmnd_amt")
+    whol_loan_rmnd_rate: Annotated[Decimal, "전체 융자 잔고 비율"] = Field(alias="whol_loan_rmnd_rate")
+    whol_stln_rmnd_stcn: Annotated[int, "전체 대주 잔고 주수"] = Field(alias="whol_stln_rmnd_stcn")
+    whol_stln_rmnd_amt: Annotated[Decimal, "전체 대주 잔고 금액"] = Field(alias="whol_stln_rmnd_amt")
+    whol_stln_rmnd_rate: Annotated[Decimal, "전체 대주 잔고 비율"] = Field(alias="whol_stln_rmnd_rate")
+    nday_vrss_loan_rmnd_inrt: Annotated[Decimal, "N일 대비 융자 잔고 증가율"] = Field(alias="nday_vrss_loan_rmnd_inrt")
+    nday_vrss_stln_rmnd_inrt: Annotated[Decimal, "N일 대비 대주 잔고 증가율"] = Field(alias="nday_vrss_stln_rmnd_inrt")
 
 
 class CreditBalanceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[CreditBalanceOutput1] = Field(alias="output1")
-    ("응답상세")
-    output2: list[CreditBalanceOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[CreditBalanceOutput1], "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[CreditBalanceOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[CreditBalanceRequest, CreditBalanceResponse] = Endpoint(

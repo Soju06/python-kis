@@ -16,43 +16,37 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     J = ("J", "KRX")
-    "KRX"
+    """KRX"""
     NX = ("NX", "NXT")
-    "NXT"
+    """NXT"""
 
 
 class FidRankSortClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "매수상위")
-    "매수상위"
+    """매수상위"""
     VALUE_1 = ("1", "매도상위")
-    "매도상위"
+    """매도상위"""
 
 
 class BulkTransNumRequest(RawModel):
-    fid_aply_rang_prc_2: str = Field(alias="fid_aply_rang_prc_2")
-    ("~ 가격")
-    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum = Field(alias="fid_cond_mrkt_div_code")
-    ("시장구분코드 (J:KRX, NX:NXT)")
-    fid_cond_scr_div_code: str = Field(alias="fid_cond_scr_div_code")
-    ("Unique key(11909)")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
-    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(alias="fid_rank_sort_cls_code")
-    ("0:매수상위, 1:매도상위")
-    fid_div_cls_code: str = Field(alias="fid_div_cls_code")
-    ("0:전체")
-    fid_input_price_1: str = Field(alias="fid_input_price_1")
-    ("건별금액 ~")
-    fid_aply_rang_prc_1: str = Field(alias="fid_aply_rang_prc_1")
-    ("가격 ~")
-    fid_input_iscd_2: str | None = Field(default=None, alias="fid_input_iscd_2", json_schema_extra={"blank_allowed": True})
-    ("공백:전체종목, 개별종목 조회시 종목코드 (000660)")
-    fid_trgt_exls_cls_code: str = Field(alias="fid_trgt_exls_cls_code")
-    ("0:전체")
-    fid_trgt_cls_code: str = Field(alias="fid_trgt_cls_code")
-    ("0:전체")
-    fid_vol_cnt: int = Field(alias="fid_vol_cnt")
-    ("거래량 ~")
+    fid_aply_rang_prc_2: Annotated[str, "~ 가격"] = Field(alias="fid_aply_rang_prc_2")
+    fid_cond_mrkt_div_code: Annotated[FidCondMrktDivCodeEnum, "시장구분코드 (J:KRX, NX:NXT)"] = Field(
+        alias="fid_cond_mrkt_div_code", json_schema_extra={"enum": ["J", "NX"], "enum_desc": {"J": "KRX", "NX": "NXT"}}
+    )
+    fid_cond_scr_div_code: Annotated[str, "Unique key(11909)"] = Field(alias="fid_cond_scr_div_code")
+    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"] = Field(alias="fid_input_iscd")
+    fid_rank_sort_cls_code: Annotated[FidRankSortClsCodeEnum, "0:매수상위, 1:매도상위"] = Field(
+        alias="fid_rank_sort_cls_code", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "매수상위", "1": "매도상위"}}
+    )
+    fid_div_cls_code: Annotated[str, "0:전체"] = Field(alias="fid_div_cls_code")
+    fid_input_price_1: Annotated[str, "건별금액 ~"] = Field(alias="fid_input_price_1")
+    fid_aply_rang_prc_1: Annotated[str, "가격 ~"] = Field(alias="fid_aply_rang_prc_1")
+    fid_input_iscd_2: Annotated[str | None, "공백:전체종목, 개별종목 조회시 종목코드 (000660)"] = Field(
+        default=None, alias="fid_input_iscd_2", json_schema_extra={"blank_allowed": True}
+    )
+    fid_trgt_exls_cls_code: Annotated[str, "0:전체"] = Field(alias="fid_trgt_exls_cls_code")
+    fid_trgt_cls_code: Annotated[str, "0:전체"] = Field(alias="fid_trgt_cls_code")
+    fid_vol_cnt: Annotated[int, "거래량 ~"] = Field(alias="fid_vol_cnt")
 
 
 class BulkTransNumRequestDict(TypedDict):
@@ -83,54 +77,39 @@ class BulkTransNumRequestDict(TypedDict):
         fid_vol_cnt (int): 거래량 ~
     """
 
-    fid_aply_rang_prc_2: Annotated[str, "~ 가격"]
-    fid_cond_mrkt_div_code: Annotated[FidCondMrktDivCodeEnum, "시장구분코드 (J:KRX, NX:NXT)"]
-    fid_cond_scr_div_code: Annotated[str, "Unique key(11909)"]
-    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"]
-    fid_rank_sort_cls_code: Annotated[FidRankSortClsCodeEnum, "0:매수상위, 1:매도상위"]
-    fid_div_cls_code: Annotated[str, "0:전체"]
-    fid_input_price_1: Annotated[str, "건별금액 ~"]
-    fid_aply_rang_prc_1: Annotated[str, "가격 ~"]
-    fid_input_iscd_2: NotRequired[Annotated[str | None, "공백:전체종목, 개별종목 조회시 종목코드 (000660)"]]
-    fid_trgt_exls_cls_code: Annotated[str, "0:전체"]
-    fid_trgt_cls_code: Annotated[str, "0:전체"]
-    fid_vol_cnt: Annotated[int, "거래량 ~"]
+    fid_aply_rang_prc_2: str
+    fid_cond_mrkt_div_code: FidCondMrktDivCodeEnum
+    fid_cond_scr_div_code: str
+    fid_input_iscd: str
+    fid_rank_sort_cls_code: FidRankSortClsCodeEnum
+    fid_div_cls_code: str
+    fid_input_price_1: str
+    fid_aply_rang_prc_1: str
+    fid_input_iscd_2: NotRequired[str | None]
+    fid_trgt_exls_cls_code: str
+    fid_trgt_cls_code: str
+    fid_vol_cnt: int
 
 
 class BulkTransNumOutput(RawModel):
-    mksc_shrn_iscd: str = Field(alias="mksc_shrn_iscd")
-    ("유가증권 단축 종목코드")
-    data_rank: int = Field(alias="data_rank")
-    ("데이터 순위")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    shnu_cntg_csnu: int = Field(alias="shnu_cntg_csnu")
-    ("매수2 체결 건수")
-    seln_cntg_csnu: int = Field(alias="seln_cntg_csnu")
-    ("매도 체결 건수")
-    ntby_cnqn: int = Field(alias="ntby_cnqn")
-    ("순매수 체결량")
+    mksc_shrn_iscd: Annotated[str, "유가증권 단축 종목코드"] = Field(alias="mksc_shrn_iscd")
+    data_rank: Annotated[int, "데이터 순위"] = Field(alias="data_rank")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    shnu_cntg_csnu: Annotated[int, "매수2 체결 건수"] = Field(alias="shnu_cntg_csnu")
+    seln_cntg_csnu: Annotated[int, "매도 체결 건수"] = Field(alias="seln_cntg_csnu")
+    ntby_cnqn: Annotated[int, "순매수 체결량"] = Field(alias="ntby_cnqn")
 
 
 class BulkTransNumResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[BulkTransNumOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[BulkTransNumOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[BulkTransNumRequest, BulkTransNumResponse] = Endpoint(

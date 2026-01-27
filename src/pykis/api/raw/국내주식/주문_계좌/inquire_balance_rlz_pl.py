@@ -16,50 +16,48 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class PrcsDvsnEnum(KisStrEnum):
     VALUE_00 = ("00", "전일매매포함")
-    "전일매매포함"
+    """전일매매포함"""
     VALUE_01 = ("01", "전일매매미포함")
-    "전일매매미포함"
+    """전일매매미포함"""
 
 
 class InquireBalanceRlzPlRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    AFHR_FLPR_YN: KisBool = Field(alias="AFHR_FLPR_YN")
-    ("'N : 기본값 Y : 시간외단일가'")
-    OFL_YN: KisBool | None = Field(default=None, alias="OFL_YN", json_schema_extra={"blank_allowed": True})
-    ("공란")
-    INQR_DVSN: str = Field(alias="INQR_DVSN")
-    ("00 : 전체")
-    UNPR_DVSN: str = Field(alias="UNPR_DVSN")
-    ("01 : 기본값")
-    FUND_STTL_ICLD_YN: KisBool = Field(alias="FUND_STTL_ICLD_YN")
-    ("N : 포함하지 않음 Y : 포함")
-    FNCG_AMT_AUTO_RDPT_YN: KisBool = Field(alias="FNCG_AMT_AUTO_RDPT_YN")
-    ("N : 기본값")
-    PRCS_DVSN: PrcsDvsnEnum = Field(alias="PRCS_DVSN")
-    ("00 : 전일매매포함 01 : 전일매매미포함")
-    COST_ICLD_YN: KisBool = Field(alias="COST_ICLD_YN")
-    ("비용포함여부")
-    CTX_AREA_FK100: str | None = Field(default=None, alias="CTX_AREA_FK100", json_schema_extra={"blank_allowed": True})
-    ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_NK100: str | None = Field(default=None, alias="CTX_AREA_NK100", json_schema_extra={"blank_allowed": True})
-    ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    AFHR_FLPR_YN: Annotated[KisBool, "'N : 기본값 Y : 시간외단일가'"] = Field(alias="AFHR_FLPR_YN")
+    OFL_YN: Annotated[KisBool | None, "공란"] = Field(default=None, alias="OFL_YN", json_schema_extra={"blank_allowed": True})
+    INQR_DVSN: Annotated[str, "00 : 전체"] = Field(alias="INQR_DVSN")
+    UNPR_DVSN: Annotated[str, "01 : 기본값"] = Field(alias="UNPR_DVSN")
+    FUND_STTL_ICLD_YN: Annotated[KisBool, "N : 포함하지 않음 Y : 포함"] = Field(alias="FUND_STTL_ICLD_YN")
+    FNCG_AMT_AUTO_RDPT_YN: Annotated[KisBool, "N : 기본값"] = Field(alias="FNCG_AMT_AUTO_RDPT_YN")
+    PRCS_DVSN: Annotated[PrcsDvsnEnum, "00 : 전일매매포함 01 : 전일매매미포함"] = Field(
+        alias="PRCS_DVSN", json_schema_extra={"enum": ["00", "01"], "enum_desc": {"00": "전일매매포함", "01": "전일매매미포함"}}
+    )
+    COST_ICLD_YN: Annotated[KisBool, "비용포함여부"] = Field(alias="COST_ICLD_YN")
+    CTX_AREA_FK100: Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)"] = Field(
+        default=None, alias="CTX_AREA_FK100", json_schema_extra={"blank_allowed": True}
+    )
+    CTX_AREA_NK100: Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)"] = Field(
+        default=None, alias="CTX_AREA_NK100", json_schema_extra={"blank_allowed": True}
+    )
 
 
 class InquireBalanceRlzPlRequestDict(TypedDict):
@@ -86,139 +84,83 @@ class InquireBalanceRlzPlRequestDict(TypedDict):
         조회시(2번째부터) optional
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    AFHR_FLPR_YN: Annotated[KisBool, "'N : 기본값 Y : 시간외단일가'"]
-    OFL_YN: NotRequired[Annotated[KisBool | None, "공란"]]
-    INQR_DVSN: Annotated[str, "00 : 전체"]
-    UNPR_DVSN: Annotated[str, "01 : 기본값"]
-    FUND_STTL_ICLD_YN: Annotated[KisBool, "N : 포함하지 않음 Y : 포함"]
-    FNCG_AMT_AUTO_RDPT_YN: Annotated[KisBool, "N : 기본값"]
-    PRCS_DVSN: Annotated[PrcsDvsnEnum, "00 : 전일매매포함 01 : 전일매매미포함"]
-    COST_ICLD_YN: Annotated[KisBool, "비용포함여부"]
-    CTX_AREA_FK100: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)"]]
-    CTX_AREA_NK100: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)"]]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    AFHR_FLPR_YN: KisBool
+    OFL_YN: NotRequired[KisBool | None]
+    INQR_DVSN: str
+    UNPR_DVSN: str
+    FUND_STTL_ICLD_YN: KisBool
+    FNCG_AMT_AUTO_RDPT_YN: KisBool
+    PRCS_DVSN: PrcsDvsnEnum
+    COST_ICLD_YN: KisBool
+    CTX_AREA_FK100: NotRequired[str | None]
+    CTX_AREA_NK100: NotRequired[str | None]
 
 
 class InquireBalanceRlzPlOutput1(RawModel):
-    pdno: str = Field(alias="pdno")
-    ("종목번호(뒷 6자리)")
-    prdt_name: str = Field(alias="prdt_name")
-    ("종목명")
-    trad_dvsn_name: str = Field(alias="trad_dvsn_name")
-    ("매수매도구분")
-    bfdy_buy_qty: int = Field(alias="bfdy_buy_qty")
-    ("전일매수수량")
-    bfdy_sll_qty: int = Field(alias="bfdy_sll_qty")
-    ("전일매도수량")
-    thdt_buyqty: int = Field(alias="thdt_buyqty")
-    ("금일매수수량")
-    thdt_sll_qty: int = Field(alias="thdt_sll_qty")
-    ("금일매도수량")
-    hldg_qty: int = Field(alias="hldg_qty")
-    ("보유수량")
-    ord_psbl_qty: int = Field(alias="ord_psbl_qty")
-    ("주문가능수량")
-    pchs_avg_pric: Decimal = Field(alias="pchs_avg_pric")
-    ("매입금액 / 보유수량")
-    pchs_amt: Decimal = Field(alias="pchs_amt")
-    ("매입금액")
-    prpr: Decimal = Field(alias="prpr")
-    ("현재가")
-    evlu_amt: Decimal = Field(alias="evlu_amt")
-    ("평가금액")
-    evlu_pfls_amt: Decimal = Field(alias="evlu_pfls_amt")
-    ("평가금액 - 매입금액")
-    evlu_pfls_rt: Decimal = Field(alias="evlu_pfls_rt")
-    ("평가손익율")
-    evlu_erng_rt: Decimal = Field(alias="evlu_erng_rt")
-    ("평가수익율")
-    loan_dt: KisDate = Field(alias="loan_dt")
-    ("대출일자")
-    loan_amt: Decimal = Field(alias="loan_amt")
-    ("대출금액")
-    stln_slng_chgs: Decimal = Field(alias="stln_slng_chgs")
-    ("신용 거래에서, 고객이 증권 회사로부터 대부받은 주식의 매각 대금")
-    expd_dt: KisDate = Field(alias="expd_dt")
-    ("만기일자")
-    stck_loan_unpr: str = Field(alias="stck_loan_unpr")
-    ("주식대출단가")
-    bfdy_cprs_icdc: str = Field(alias="bfdy_cprs_icdc")
-    ("전일대비증감")
-    fltt_rt: Decimal = Field(alias="fltt_rt")
-    ("등락율")
+    pdno: Annotated[str, "종목번호(뒷 6자리)"] = Field(alias="pdno")
+    prdt_name: Annotated[str, "종목명"] = Field(alias="prdt_name")
+    trad_dvsn_name: Annotated[str, "매수매도구분"] = Field(alias="trad_dvsn_name")
+    bfdy_buy_qty: Annotated[int, "전일매수수량"] = Field(alias="bfdy_buy_qty")
+    bfdy_sll_qty: Annotated[int, "전일매도수량"] = Field(alias="bfdy_sll_qty")
+    thdt_buyqty: Annotated[int, "금일매수수량"] = Field(alias="thdt_buyqty")
+    thdt_sll_qty: Annotated[int, "금일매도수량"] = Field(alias="thdt_sll_qty")
+    hldg_qty: Annotated[int, "보유수량"] = Field(alias="hldg_qty")
+    ord_psbl_qty: Annotated[int, "주문가능수량"] = Field(alias="ord_psbl_qty")
+    pchs_avg_pric: Annotated[Decimal, "매입금액 / 보유수량"] = Field(alias="pchs_avg_pric")
+    pchs_amt: Annotated[Decimal, "매입금액"] = Field(alias="pchs_amt")
+    prpr: Annotated[Decimal, "현재가"] = Field(alias="prpr")
+    evlu_amt: Annotated[Decimal, "평가금액"] = Field(alias="evlu_amt")
+    evlu_pfls_amt: Annotated[Decimal, "평가금액 - 매입금액"] = Field(alias="evlu_pfls_amt")
+    evlu_pfls_rt: Annotated[Decimal, "평가손익율"] = Field(alias="evlu_pfls_rt")
+    evlu_erng_rt: Annotated[Decimal, "평가수익율"] = Field(alias="evlu_erng_rt")
+    loan_dt: Annotated[KisDate, "대출일자"] = Field(alias="loan_dt")
+    loan_amt: Annotated[Decimal, "대출금액"] = Field(alias="loan_amt")
+    stln_slng_chgs: Annotated[Decimal, "신용 거래에서, 고객이 증권 회사로부터 대부받은 주식의 매각 대금"] = Field(alias="stln_slng_chgs")
+    expd_dt: Annotated[KisDate, "만기일자"] = Field(alias="expd_dt")
+    stck_loan_unpr: Annotated[str, "주식대출단가"] = Field(alias="stck_loan_unpr")
+    bfdy_cprs_icdc: Annotated[str, "전일대비증감"] = Field(alias="bfdy_cprs_icdc")
+    fltt_rt: Annotated[Decimal, "등락율"] = Field(alias="fltt_rt")
 
 
 class InquireBalanceRlzPlOutput2(RawModel):
-    dnca_tot_amt: Decimal = Field(alias="dnca_tot_amt")
-    ("예수금총금액")
-    nxdy_excc_amt: Decimal = Field(alias="nxdy_excc_amt")
-    ("익일정산금액")
-    prvs_rcdl_excc_amt: Decimal = Field(alias="prvs_rcdl_excc_amt")
-    ("가수도정산금액")
-    cma_evlu_amt: Decimal = Field(alias="cma_evlu_amt")
-    ("CMA평가금액")
-    bfdy_buy_amt: Decimal = Field(alias="bfdy_buy_amt")
-    ("전일매수금액")
-    thdt_buy_amt: Decimal = Field(alias="thdt_buy_amt")
-    ("금일매수금액")
-    nxdy_auto_rdpt_amt: KisDate = Field(alias="nxdy_auto_rdpt_amt")
-    ("익일자동상환금액")
-    bfdy_sll_amt: Decimal = Field(alias="bfdy_sll_amt")
-    ("전일매도금액")
-    thdt_sll_amt: Decimal = Field(alias="thdt_sll_amt")
-    ("금일매도금액")
-    d2_auto_rdpt_amt: Decimal = Field(alias="d2_auto_rdpt_amt")
-    ("D+2자동상환금액")
-    bfdy_tlex_amt: Decimal = Field(alias="bfdy_tlex_amt")
-    ("전일제비용금액")
-    thdt_tlex_amt: Decimal = Field(alias="thdt_tlex_amt")
-    ("금일제비용금액")
-    tot_loan_amt: Decimal = Field(alias="tot_loan_amt")
-    ("총대출금액")
-    scts_evlu_amt: Decimal = Field(alias="scts_evlu_amt")
-    ("유가평가금액")
-    tot_evlu_amt: Decimal = Field(alias="tot_evlu_amt")
-    ("총평가금액")
-    nass_amt: Decimal = Field(alias="nass_amt")
-    ("순자산금액")
-    fncg_gld_auto_rdpt_yn: KisBool = Field(alias="fncg_gld_auto_rdpt_yn")
-    ("융자금자동상환여부")
-    pchs_amt_smtl_amt: Decimal = Field(alias="pchs_amt_smtl_amt")
-    ("매입금액합계금액")
-    evlu_amt_smtl_amt: Decimal = Field(alias="evlu_amt_smtl_amt")
-    ("평가금액합계금액")
-    evlu_pfls_smtl_amt: Decimal = Field(alias="evlu_pfls_smtl_amt")
-    ("평가손익합계금액")
-    tot_stln_slng_chgs: Decimal = Field(alias="tot_stln_slng_chgs")
-    ("총대주매각대금")
-    bfdy_tot_asst_evlu_amt: Decimal = Field(alias="bfdy_tot_asst_evlu_amt")
-    ("전일총자산평가금액")
-    asst_icdc_amt: str = Field(alias="asst_icdc_amt")
-    ("자산증감액")
-    asst_icdc_erng_rt: Decimal = Field(alias="asst_icdc_erng_rt")
-    ("자산증감수익율")
-    rlzt_pfls: str = Field(alias="rlzt_pfls")
-    ("실현손익")
-    rlzt_erng_rt: Decimal = Field(alias="rlzt_erng_rt")
-    ("실현수익율")
-    real_evlu_pfls: str = Field(alias="real_evlu_pfls")
-    ("실평가손익")
-    real_evlu_pfls_erng_rt: Decimal = Field(alias="real_evlu_pfls_erng_rt")
-    ("실평가손익수익율")
+    dnca_tot_amt: Annotated[Decimal, "예수금총금액"] = Field(alias="dnca_tot_amt")
+    nxdy_excc_amt: Annotated[Decimal, "익일정산금액"] = Field(alias="nxdy_excc_amt")
+    prvs_rcdl_excc_amt: Annotated[Decimal, "가수도정산금액"] = Field(alias="prvs_rcdl_excc_amt")
+    cma_evlu_amt: Annotated[Decimal, "CMA평가금액"] = Field(alias="cma_evlu_amt")
+    bfdy_buy_amt: Annotated[Decimal, "전일매수금액"] = Field(alias="bfdy_buy_amt")
+    thdt_buy_amt: Annotated[Decimal, "금일매수금액"] = Field(alias="thdt_buy_amt")
+    nxdy_auto_rdpt_amt: Annotated[KisDate, "익일자동상환금액"] = Field(alias="nxdy_auto_rdpt_amt")
+    bfdy_sll_amt: Annotated[Decimal, "전일매도금액"] = Field(alias="bfdy_sll_amt")
+    thdt_sll_amt: Annotated[Decimal, "금일매도금액"] = Field(alias="thdt_sll_amt")
+    d2_auto_rdpt_amt: Annotated[Decimal, "D+2자동상환금액"] = Field(alias="d2_auto_rdpt_amt")
+    bfdy_tlex_amt: Annotated[Decimal, "전일제비용금액"] = Field(alias="bfdy_tlex_amt")
+    thdt_tlex_amt: Annotated[Decimal, "금일제비용금액"] = Field(alias="thdt_tlex_amt")
+    tot_loan_amt: Annotated[Decimal, "총대출금액"] = Field(alias="tot_loan_amt")
+    scts_evlu_amt: Annotated[Decimal, "유가평가금액"] = Field(alias="scts_evlu_amt")
+    tot_evlu_amt: Annotated[Decimal, "총평가금액"] = Field(alias="tot_evlu_amt")
+    nass_amt: Annotated[Decimal, "순자산금액"] = Field(alias="nass_amt")
+    fncg_gld_auto_rdpt_yn: Annotated[KisBool, "융자금자동상환여부"] = Field(alias="fncg_gld_auto_rdpt_yn")
+    pchs_amt_smtl_amt: Annotated[Decimal, "매입금액합계금액"] = Field(alias="pchs_amt_smtl_amt")
+    evlu_amt_smtl_amt: Annotated[Decimal, "평가금액합계금액"] = Field(alias="evlu_amt_smtl_amt")
+    evlu_pfls_smtl_amt: Annotated[Decimal, "평가손익합계금액"] = Field(alias="evlu_pfls_smtl_amt")
+    tot_stln_slng_chgs: Annotated[Decimal, "총대주매각대금"] = Field(alias="tot_stln_slng_chgs")
+    bfdy_tot_asst_evlu_amt: Annotated[Decimal, "전일총자산평가금액"] = Field(alias="bfdy_tot_asst_evlu_amt")
+    asst_icdc_amt: Annotated[str, "자산증감액"] = Field(alias="asst_icdc_amt")
+    asst_icdc_erng_rt: Annotated[Decimal, "자산증감수익율"] = Field(alias="asst_icdc_erng_rt")
+    rlzt_pfls: Annotated[str, "실현손익"] = Field(alias="rlzt_pfls")
+    rlzt_erng_rt: Annotated[Decimal, "실현수익율"] = Field(alias="rlzt_erng_rt")
+    real_evlu_pfls: Annotated[str, "실평가손익"] = Field(alias="real_evlu_pfls")
+    real_evlu_pfls_erng_rt: Annotated[Decimal, "실평가손익수익율"] = Field(alias="real_evlu_pfls_erng_rt")
 
 
 class InquireBalanceRlzPlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[InquireBalanceRlzPlOutput1] = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquireBalanceRlzPlOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[InquireBalanceRlzPlOutput1], "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquireBalanceRlzPlOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireBalanceRlzPlRequest, InquireBalanceRlzPlResponse] = Endpoint(

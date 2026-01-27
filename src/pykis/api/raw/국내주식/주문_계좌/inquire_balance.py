@@ -14,18 +14,12 @@ if TYPE_CHECKING:
 
 
 class InquireBalanceRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("29")
-    ACCA_DVSN_CD: str = Field(alias="ACCA_DVSN_CD")
-    ("00")
-    INQR_DVSN: str = Field(alias="INQR_DVSN")
-    ("00 : 전체")
-    CTX_AREA_FK100: str = Field(alias="CTX_AREA_FK100")
-    ("연속조회검색조건100")
-    CTX_AREA_NK100: str = Field(alias="CTX_AREA_NK100")
-    ("연속조회키100")
+    CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "29"] = Field(alias="ACNT_PRDT_CD")
+    ACCA_DVSN_CD: Annotated[str, "00"] = Field(alias="ACCA_DVSN_CD")
+    INQR_DVSN: Annotated[str, "00 : 전체"] = Field(alias="INQR_DVSN")
+    CTX_AREA_FK100: Annotated[str, "연속조회검색조건100"] = Field(alias="CTX_AREA_FK100")
+    CTX_AREA_NK100: Annotated[str, "연속조회키100"] = Field(alias="CTX_AREA_NK100")
 
 
 class InquireBalanceRequestDict(TypedDict):
@@ -46,75 +40,48 @@ class InquireBalanceRequestDict(TypedDict):
         CTX_AREA_NK100 (str): 연속조회키100
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "29"]
-    ACCA_DVSN_CD: Annotated[str, "00"]
-    INQR_DVSN: Annotated[str, "00 : 전체"]
-    CTX_AREA_FK100: Annotated[str, "연속조회검색조건100"]
-    CTX_AREA_NK100: Annotated[str, "연속조회키100"]
+    CANO: str
+    ACNT_PRDT_CD: str
+    ACCA_DVSN_CD: str
+    INQR_DVSN: str
+    CTX_AREA_FK100: str
+    CTX_AREA_NK100: str
 
 
 class InquireBalanceOutput1(RawModel):
-    cblc_dvsn_name: str = Field(alias="cblc_dvsn_name")
-    ("잔고구분명")
-    prdt_name: str = Field(alias="prdt_name")
-    ("상품명")
-    pdno: str = Field(alias="pdno")
-    ("상품번호")
-    item_dvsn_name: str = Field(alias="item_dvsn_name")
-    ("종목구분명")
-    thdt_buyqty: int = Field(alias="thdt_buyqty")
-    ("금일매수수량")
-    thdt_sll_qty: int = Field(alias="thdt_sll_qty")
-    ("금일매도수량")
-    hldg_qty: int = Field(alias="hldg_qty")
-    ("보유수량")
-    ord_psbl_qty: int = Field(alias="ord_psbl_qty")
-    ("주문가능수량")
-    pchs_avg_pric: Decimal = Field(alias="pchs_avg_pric")
-    ("매입평균가격")
-    pchs_amt: Decimal = Field(alias="pchs_amt")
-    ("매입금액")
-    prpr: Decimal = Field(alias="prpr")
-    ("현재가")
-    evlu_amt: Decimal = Field(alias="evlu_amt")
-    ("평가금액")
-    evlu_pfls_amt: Decimal = Field(alias="evlu_pfls_amt")
-    ("평가손익금액")
-    evlu_erng_rt: Decimal = Field(alias="evlu_erng_rt")
-    ("평가수익율")
+    cblc_dvsn_name: Annotated[str, "잔고구분명"] = Field(alias="cblc_dvsn_name")
+    prdt_name: Annotated[str, "상품명"] = Field(alias="prdt_name")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    item_dvsn_name: Annotated[str, "종목구분명"] = Field(alias="item_dvsn_name")
+    thdt_buyqty: Annotated[int, "금일매수수량"] = Field(alias="thdt_buyqty")
+    thdt_sll_qty: Annotated[int, "금일매도수량"] = Field(alias="thdt_sll_qty")
+    hldg_qty: Annotated[int, "보유수량"] = Field(alias="hldg_qty")
+    ord_psbl_qty: Annotated[int, "주문가능수량"] = Field(alias="ord_psbl_qty")
+    pchs_avg_pric: Annotated[Decimal, "매입평균가격"] = Field(alias="pchs_avg_pric")
+    pchs_amt: Annotated[Decimal, "매입금액"] = Field(alias="pchs_amt")
+    prpr: Annotated[Decimal, "현재가"] = Field(alias="prpr")
+    evlu_amt: Annotated[Decimal, "평가금액"] = Field(alias="evlu_amt")
+    evlu_pfls_amt: Annotated[Decimal, "평가손익금액"] = Field(alias="evlu_pfls_amt")
+    evlu_erng_rt: Annotated[Decimal, "평가수익율"] = Field(alias="evlu_erng_rt")
 
 
 class InquireBalanceOutput2(RawModel):
-    dnca_tot_amt: Decimal = Field(alias="dnca_tot_amt")
-    ("예수금총금액")
-    nxdy_excc_amt: Decimal = Field(alias="nxdy_excc_amt")
-    ("익일정산금액")
-    prvs_rcdl_excc_amt: Decimal = Field(alias="prvs_rcdl_excc_amt")
-    ("가수도정산금액")
-    thdt_buy_amt: Decimal = Field(alias="thdt_buy_amt")
-    ("금일매수금액")
-    thdt_sll_amt: Decimal = Field(alias="thdt_sll_amt")
-    ("금일매도금액")
-    thdt_tlex_amt: Decimal = Field(alias="thdt_tlex_amt")
-    ("금일제비용금액")
-    scts_evlu_amt: Decimal = Field(alias="scts_evlu_amt")
-    ("유가평가금액")
-    tot_evlu_amt: Decimal = Field(alias="tot_evlu_amt")
-    ("총평가금액")
+    dnca_tot_amt: Annotated[Decimal, "예수금총금액"] = Field(alias="dnca_tot_amt")
+    nxdy_excc_amt: Annotated[Decimal, "익일정산금액"] = Field(alias="nxdy_excc_amt")
+    prvs_rcdl_excc_amt: Annotated[Decimal, "가수도정산금액"] = Field(alias="prvs_rcdl_excc_amt")
+    thdt_buy_amt: Annotated[Decimal, "금일매수금액"] = Field(alias="thdt_buy_amt")
+    thdt_sll_amt: Annotated[Decimal, "금일매도금액"] = Field(alias="thdt_sll_amt")
+    thdt_tlex_amt: Annotated[Decimal, "금일제비용금액"] = Field(alias="thdt_tlex_amt")
+    scts_evlu_amt: Annotated[Decimal, "유가평가금액"] = Field(alias="scts_evlu_amt")
+    tot_evlu_amt: Annotated[Decimal, "총평가금액"] = Field(alias="tot_evlu_amt")
 
 
 class InquireBalanceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[InquireBalanceOutput1] = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquireBalanceOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[InquireBalanceOutput1], "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquireBalanceOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireBalanceRequest, InquireBalanceResponse] = Endpoint(

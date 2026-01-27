@@ -16,18 +16,17 @@ if TYPE_CHECKING:
 
 class FidMkopClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_4 = ("4", "체결량 0 제외")
-    "체결량 0 제외"
+    """체결량 0 제외"""
 
 
 class ExpPriceTrendRequest(RawModel):
-    fid_mkop_cls_code: FidMkopClsCodeEnum = Field(alias="fid_mkop_cls_code")
-    ("0:전체, 4:체결량 0 제외")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
-    ("시장구분코드 (주식 J)")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("종목코드(ex. 005930)")
+    fid_mkop_cls_code: Annotated[FidMkopClsCodeEnum, "0:전체, 4:체결량 0 제외"] = Field(
+        alias="fid_mkop_cls_code", json_schema_extra={"enum": ["0", "4"], "enum_desc": {"0": "전체", "4": "체결량 0 제외"}}
+    )
+    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"] = Field(alias="fid_cond_mrkt_div_code")
+    fid_input_iscd: Annotated[str, "종목코드(ex. 005930)"] = Field(alias="fid_input_iscd")
 
 
 class ExpPriceTrendRequestDict(TypedDict):
@@ -43,56 +42,37 @@ class ExpPriceTrendRequestDict(TypedDict):
         fid_input_iscd (str): 종목코드(ex. 005930)
     """
 
-    fid_mkop_cls_code: Annotated[FidMkopClsCodeEnum, "0:전체, 4:체결량 0 제외"]
-    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"]
-    fid_input_iscd: Annotated[str, "종목코드(ex. 005930)"]
+    fid_mkop_cls_code: FidMkopClsCodeEnum
+    fid_cond_mrkt_div_code: str
+    fid_input_iscd: str
 
 
 class ExpPriceTrendOutput1(RawModel):
-    rprs_mrkt_kor_name: str = Field(alias="rprs_mrkt_kor_name")
-    ("대표 시장 한글 명")
-    antc_cnpr: int = Field(alias="antc_cnpr")
-    ("예상 체결가")
-    antc_cntg_vrss_sign: int = Field(alias="antc_cntg_vrss_sign")
-    ("예상 체결 대비 부호")
-    antc_cntg_vrss: int = Field(alias="antc_cntg_vrss")
-    ("예상 체결 대비")
-    antc_cntg_prdy_ctrt: Decimal = Field(alias="antc_cntg_prdy_ctrt")
-    ("예상 체결 전일 대비율")
-    antc_vol: int = Field(alias="antc_vol")
-    ("예상 거래량")
-    antc_tr_pbmn: Decimal = Field(alias="antc_tr_pbmn")
-    ("예상 거래대금")
+    rprs_mrkt_kor_name: Annotated[str, "대표 시장 한글 명"] = Field(alias="rprs_mrkt_kor_name")
+    antc_cnpr: Annotated[int, "예상 체결가"] = Field(alias="antc_cnpr")
+    antc_cntg_vrss_sign: Annotated[int, "예상 체결 대비 부호"] = Field(alias="antc_cntg_vrss_sign")
+    antc_cntg_vrss: Annotated[int, "예상 체결 대비"] = Field(alias="antc_cntg_vrss")
+    antc_cntg_prdy_ctrt: Annotated[Decimal, "예상 체결 전일 대비율"] = Field(alias="antc_cntg_prdy_ctrt")
+    antc_vol: Annotated[int, "예상 거래량"] = Field(alias="antc_vol")
+    antc_tr_pbmn: Annotated[Decimal, "예상 거래대금"] = Field(alias="antc_tr_pbmn")
 
 
 class ExpPriceTrendOutput2(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
-    ("주식 영업 일자")
-    stck_cntg_hour: KisTime = Field(alias="stck_cntg_hour")
-    ("주식 체결 시간")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
+    stck_bsop_date: Annotated[KisDate, "주식 영업 일자"] = Field(alias="stck_bsop_date")
+    stck_cntg_hour: Annotated[KisTime, "주식 체결 시간"] = Field(alias="stck_cntg_hour")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
 
 
 class ExpPriceTrendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: ExpPriceTrendOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[ExpPriceTrendOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[ExpPriceTrendOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[ExpPriceTrendOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[ExpPriceTrendRequest, ExpPriceTrendResponse] = Endpoint(

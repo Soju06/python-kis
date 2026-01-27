@@ -16,22 +16,21 @@ if TYPE_CHECKING:
 
 class Gb1Enum(KisStrEnum):
     VALUE_1 = ("1", "청약일별")
-    "청약일별"
+    """청약일별"""
     VALUE_2 = ("2", "기준일별")
-    "기준일별"
+    """기준일별"""
 
 
 class PaidinCapinRequest(RawModel):
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    GB1: Gb1Enum = Field(alias="GB1")
-    ("1(청약일별), 2(기준일별)")
-    F_DT: KisDate = Field(alias="F_DT")
-    ("일자 ~")
-    T_DT: KisDate = Field(alias="T_DT")
-    ("~ 일자")
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
-    ("공백(전체), 특정종목 조회시(종목코드)")
+    CTS: Annotated[str | None, "공백"] = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
+    GB1: Annotated[Gb1Enum, "1(청약일별), 2(기준일별)"] = Field(
+        alias="GB1", json_schema_extra={"enum": ["1", "2"], "enum_desc": {"1": "청약일별", "2": "기준일별"}}
+    )
+    F_DT: Annotated[KisDate, "일자 ~"] = Field(alias="F_DT")
+    T_DT: Annotated[KisDate, "~ 일자"] = Field(alias="T_DT")
+    SHT_CD: Annotated[str | None, "공백(전체), 특정종목 조회시(종목코드)"] = Field(
+        default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True}
+    )
 
 
 class PaidinCapinRequestDict(TypedDict):
@@ -50,53 +49,35 @@ class PaidinCapinRequestDict(TypedDict):
         SHT_CD (str): 공백(전체), 특정종목 조회시(종목코드) optional
     """
 
-    CTS: NotRequired[Annotated[str | None, "공백"]]
-    GB1: Annotated[Gb1Enum, "1(청약일별), 2(기준일별)"]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    T_DT: Annotated[KisDate, "~ 일자"]
-    SHT_CD: NotRequired[Annotated[str | None, "공백(전체), 특정종목 조회시(종목코드)"]]
+    CTS: NotRequired[str | None]
+    GB1: Gb1Enum
+    F_DT: KisDate
+    T_DT: KisDate
+    SHT_CD: NotRequired[str | None]
 
 
 class PaidinCapinOutput(RawModel):
-    record_date: KisDate = Field(alias="record_date")
-    ("기준일")
-    sht_cd: str = Field(alias="sht_cd")
-    ("종목코드")
-    isin_name: str = Field(alias="isin_name")
-    ("종목명")
-    tot_issue_stk_qty: str = Field(alias="tot_issue_stk_qty")
-    ("발행주식")
-    issue_stk_qty: str = Field(alias="issue_stk_qty")
-    ("발행할주식")
-    fix_rate: Decimal = Field(alias="fix_rate")
-    ("확정배정율")
-    disc_rate: Decimal = Field(alias="disc_rate")
-    ("할인율")
-    fix_price: Decimal = Field(alias="fix_price")
-    ("발행예정가")
-    right_dt: KisDate = Field(alias="right_dt")
-    ("권리락일")
-    sub_term_ft: str = Field(alias="sub_term_ft")
-    ("청약기간")
-    sub_term: str = Field(alias="sub_term")
-    ("청약기간")
-    list_date: KisDate = Field(alias="list_date")
-    ("상장/등록일")
-    stk_kind: str = Field(alias="stk_kind")
-    ("주식종류")
+    record_date: Annotated[KisDate, "기준일"] = Field(alias="record_date")
+    sht_cd: Annotated[str, "종목코드"] = Field(alias="sht_cd")
+    isin_name: Annotated[str, "종목명"] = Field(alias="isin_name")
+    tot_issue_stk_qty: Annotated[str, "발행주식"] = Field(alias="tot_issue_stk_qty")
+    issue_stk_qty: Annotated[str, "발행할주식"] = Field(alias="issue_stk_qty")
+    fix_rate: Annotated[Decimal, "확정배정율"] = Field(alias="fix_rate")
+    disc_rate: Annotated[Decimal, "할인율"] = Field(alias="disc_rate")
+    fix_price: Annotated[Decimal, "발행예정가"] = Field(alias="fix_price")
+    right_dt: Annotated[KisDate, "권리락일"] = Field(alias="right_dt")
+    sub_term_ft: Annotated[str, "청약기간"] = Field(alias="sub_term_ft")
+    sub_term: Annotated[str, "청약기간"] = Field(alias="sub_term")
+    list_date: Annotated[KisDate, "상장/등록일"] = Field(alias="list_date")
+    stk_kind: Annotated[str, "주식종류"] = Field(alias="stk_kind")
 
 
 class PaidinCapinResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: object | None = Field(default=None, alias="output1")
-    ("inferred from raw payload")
-    output: list[PaidinCapinOutput] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[object | None, "inferred from raw payload"] = Field(default=None, alias="output1")
+    output: Annotated[list[PaidinCapinOutput], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[PaidinCapinRequest, PaidinCapinResponse] = Endpoint(

@@ -16,20 +16,19 @@ if TYPE_CHECKING:
 
 class PrevDiffFlagEnum(KisStrEnum):
     VALUE_1 = ("1", "상한")
-    "상한"
+    """상한"""
     VALUE_2 = ("2", "상승")
-    "상승"
+    """상승"""
     VALUE_3 = ("3", "보합")
-    "보합"
+    """보합"""
     VALUE_4 = ("4", "하한")
-    "하한"
+    """하한"""
     VALUE_5 = ("5", "하락")
-    "하락"
+    """하락"""
 
 
 class InquirePriceRequest(RawModel):
-    SRS_CD: str = Field(alias="SRS_CD")
-    ('ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물" 참고')
+    SRS_CD: Annotated[str, 'ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물" 참고'] = Field(alias="SRS_CD")
 
 
 class InquirePriceRequestDict(TypedDict):
@@ -70,85 +69,67 @@ class InquirePriceRequestDict(TypedDict):
         참고
     """
 
-    SRS_CD: Annotated[str, 'ex) CNHU24 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수선물" 참고']
+    SRS_CD: str
 
 
 class InquirePriceOutput1(RawModel):
-    proc_date: KisDateOptional = Field(default=None, alias="proc_date")
-    ("최종처리일자")
-    high_price: str | None = Field(default=None, alias="high_price")
-    ("고가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    proc_time: KisTimeOptional = Field(default=None, alias="proc_time")
-    ("최종처리시각")
-    open_price: str | None = Field(default=None, alias="open_price")
-    ("시가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    trst_mgn: str | None = Field(default=None, alias="trst_mgn")
-    ("증거금")
-    low_price: str | None = Field(default=None, alias="low_price")
-    ("저가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    last_price: str | None = Field(default=None, alias="last_price")
-    ("현재가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    vol: int | None = Field(default=None, alias="vol")
-    ("누적거래수량")
-    prev_diff_flag: PrevDiffFlagEnum | None = Field(default=None, alias="prev_diff_flag")
-    ("전일대비구분 '1':상한 '2':상승 '3':보합 '4':하한 '5':하락")
-    prev_diff_price: Decimal | None = Field(default=None, alias="prev_diff_price")
-    ("전일대비가격")
-    prev_diff_rate: Decimal | None = Field(default=None, alias="prev_diff_rate")
-    ("전일대비율")
-    bid_qntt: str | None = Field(default=None, alias="bid_qntt")
-    ("매수1수량")
-    bid_price: str | None = Field(default=None, alias="bid_price")
-    ("매수1호가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    ask_qntt: int | None = Field(default=None, alias="ask_qntt")
-    ("매도1수량")
-    ask_price: str | None = Field(default=None, alias="ask_price")
-    ("매도1호가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    prev_price: str | None = Field(default=None, alias="prev_price")
-    ("전일종가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고")
-    exch_cd: str | None = Field(default=None, alias="exch_cd")
-    ("거래소코드")
-    crc_cd: str | None = Field(default=None, alias="crc_cd")
-    ("거래통화")
-    trd_fr_date: KisDateOptional = Field(default=None, alias="trd_fr_date")
-    ("상장일")
-    expr_date: KisDateOptional = Field(default=None, alias="expr_date")
-    ("만기일")
-    trd_to_date: KisDateOptional = Field(default=None, alias="trd_to_date")
-    ("최종거래일")
-    remn_cnt: str | None = Field(default=None, alias="remn_cnt")
-    ("잔존일수")
-    last_qntt: str | None = Field(default=None, alias="last_qntt")
-    ("체결량")
-    tot_ask_qntt: str | None = Field(default=None, alias="tot_ask_qntt")
-    ("총매도잔량")
-    tot_bid_qntt: str | None = Field(default=None, alias="tot_bid_qntt")
-    ("총매수잔량")
-    tick_size: str | None = Field(default=None, alias="tick_size")
-    ("틱사이즈")
-    open_date: KisDateOptional = Field(default=None, alias="open_date")
-    ("장개시일자")
-    open_time: KisTimeOptional = Field(default=None, alias="open_time")
-    ("장개시시각")
-    close_date: KisDateOptional = Field(default=None, alias="close_date")
-    ("장종료일자")
-    close_time: KisTimeOptional = Field(default=None, alias="close_time")
-    ("장종료시각")
-    sbsnsdate: KisDateOptional = Field(default=None, alias="sbsnsdate")
-    ("영업일자")
-    sttl_price: Decimal | None = Field(default=None, alias="sttl_price")
-    ("정산가")
+    proc_date: Annotated[KisDateOptional, "최종처리일자"] = Field(default=None, alias="proc_date")
+    high_price: Annotated[str | None, "고가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고"] = Field(
+        default=None, alias="high_price"
+    )
+    proc_time: Annotated[KisTimeOptional, "최종처리시각"] = Field(default=None, alias="proc_time")
+    open_price: Annotated[str | None, "시가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고"] = Field(
+        default=None, alias="open_price"
+    )
+    trst_mgn: Annotated[str | None, "증거금"] = Field(default=None, alias="trst_mgn")
+    low_price: Annotated[str | None, "저가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고"] = Field(
+        default=None, alias="low_price"
+    )
+    last_price: Annotated[str | None, "현재가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고"] = Field(
+        default=None, alias="last_price"
+    )
+    vol: Annotated[int | None, "누적거래수량"] = Field(default=None, alias="vol")
+    prev_diff_flag: Annotated[PrevDiffFlagEnum | None, "전일대비구분 '1':상한 '2':상승 '3':보합 '4':하한 '5':하락"] = Field(
+        default=None,
+        alias="prev_diff_flag",
+        json_schema_extra={"enum": ["1", "2", "3", "4", "5"], "enum_desc": {"1": "상한", "2": "상승", "3": "보합", "4": "하한", "5": "하락"}},
+    )
+    prev_diff_price: Annotated[Decimal | None, "전일대비가격"] = Field(default=None, alias="prev_diff_price")
+    prev_diff_rate: Annotated[Decimal | None, "전일대비율"] = Field(default=None, alias="prev_diff_rate")
+    bid_qntt: Annotated[str | None, "매수1수량"] = Field(default=None, alias="bid_qntt")
+    bid_price: Annotated[str | None, "매수1호가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고"] = Field(
+        default=None, alias="bid_price"
+    )
+    ask_qntt: Annotated[int | None, "매도1수량"] = Field(default=None, alias="ask_qntt")
+    ask_price: Annotated[str | None, "매도1호가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고"] = Field(
+        default=None, alias="ask_price"
+    )
+    prev_price: Annotated[str | None, "전일종가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고"] = Field(
+        default=None, alias="prev_price"
+    )
+    exch_cd: Annotated[str | None, "거래소코드"] = Field(default=None, alias="exch_cd")
+    crc_cd: Annotated[str | None, "거래통화"] = Field(default=None, alias="crc_cd")
+    trd_fr_date: Annotated[KisDateOptional, "상장일"] = Field(default=None, alias="trd_fr_date")
+    expr_date: Annotated[KisDateOptional, "만기일"] = Field(default=None, alias="expr_date")
+    trd_to_date: Annotated[KisDateOptional, "최종거래일"] = Field(default=None, alias="trd_to_date")
+    remn_cnt: Annotated[str | None, "잔존일수"] = Field(default=None, alias="remn_cnt")
+    last_qntt: Annotated[str | None, "체결량"] = Field(default=None, alias="last_qntt")
+    tot_ask_qntt: Annotated[str | None, "총매도잔량"] = Field(default=None, alias="tot_ask_qntt")
+    tot_bid_qntt: Annotated[str | None, "총매수잔량"] = Field(default=None, alias="tot_bid_qntt")
+    tick_size: Annotated[str | None, "틱사이즈"] = Field(default=None, alias="tick_size")
+    open_date: Annotated[KisDateOptional, "장개시일자"] = Field(default=None, alias="open_date")
+    open_time: Annotated[KisTimeOptional, "장개시시각"] = Field(default=None, alias="open_time")
+    close_date: Annotated[KisDateOptional, "장종료일자"] = Field(default=None, alias="close_date")
+    close_time: Annotated[KisTimeOptional, "장종료시각"] = Field(default=None, alias="close_time")
+    sbsnsdate: Annotated[KisDateOptional, "영업일자"] = Field(default=None, alias="sbsnsdate")
+    sttl_price: Annotated[Decimal | None, "정산가"] = Field(default=None, alias="sttl_price")
 
 
 class InquirePriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquirePriceOutput1 = Field(alias="output1")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquirePriceOutput1, "응답상세1"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[InquirePriceRequest, InquirePriceResponse] = Endpoint(

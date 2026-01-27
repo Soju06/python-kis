@@ -14,10 +14,8 @@ if TYPE_CHECKING:
 
 
 class IndicatorTrendCcnlRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (W)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("ex) 58J297(KBJ297삼성전자콜)")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "ex) 58J297(KBJ297삼성전자콜)"] = Field(alias="FID_INPUT_ISCD")
 
 
 class IndicatorTrendCcnlRequestDict(TypedDict):
@@ -31,46 +29,30 @@ class IndicatorTrendCcnlRequestDict(TypedDict):
         FID_INPUT_ISCD (str): ex) 58J297(KBJ297삼성전자콜)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"]
-    FID_INPUT_ISCD: Annotated[str, "ex) 58J297(KBJ297삼성전자콜)"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
 
 
 class IndicatorTrendCcnlOutput(RawModel):
-    stck_cntg_hour: KisTimeOptional = Field(default=None, alias="stck_cntg_hour")
-    ("주식체결시간")
-    elw_prpr: Decimal | None = Field(default=None, alias="elw_prpr")
-    ("ELW현재가")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
-    ("전일대비부호")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
-    ("전일대비")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
-    ("전일대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
-    ("누적거래량")
-    lvrg_val: str | None = Field(default=None, alias="lvrg_val")
-    ("레버리지값")
-    gear: str | None = Field(default=None, alias="gear")
-    ("기어링")
-    tmvl_val: str | None = Field(default=None, alias="tmvl_val")
-    ("시간가치값")
-    invl_val: str | None = Field(default=None, alias="invl_val")
-    ("내재가치값")
-    prit: str | None = Field(default=None, alias="prit")
-    ("패리티")
-    apprch_rate: Decimal | None = Field(default=None, alias="apprch_rate")
-    ("접근도")
+    stck_cntg_hour: Annotated[KisTimeOptional, "주식체결시간"] = Field(default=None, alias="stck_cntg_hour")
+    elw_prpr: Annotated[Decimal | None, "ELW현재가"] = Field(default=None, alias="elw_prpr")
+    prdy_vrss_sign: Annotated[str | None, "전일대비부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss: Annotated[str | None, "전일대비"] = Field(default=None, alias="prdy_vrss")
+    prdy_ctrt: Annotated[Decimal | None, "전일대비율"] = Field(default=None, alias="prdy_ctrt")
+    acml_vol: Annotated[int | None, "누적거래량"] = Field(default=None, alias="acml_vol")
+    lvrg_val: Annotated[str | None, "레버리지값"] = Field(default=None, alias="lvrg_val")
+    gear: Annotated[str | None, "기어링"] = Field(default=None, alias="gear")
+    tmvl_val: Annotated[str | None, "시간가치값"] = Field(default=None, alias="tmvl_val")
+    invl_val: Annotated[str | None, "내재가치값"] = Field(default=None, alias="invl_val")
+    prit: Annotated[str | None, "패리티"] = Field(default=None, alias="prit")
+    apprch_rate: Annotated[Decimal | None, "접근도"] = Field(default=None, alias="apprch_rate")
 
 
 class IndicatorTrendCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[IndicatorTrendCcnlOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[IndicatorTrendCcnlOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[IndicatorTrendCcnlRequest, IndicatorTrendCcnlResponse] = Endpoint(

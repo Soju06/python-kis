@@ -15,30 +15,46 @@ if TYPE_CHECKING:
 
 class ExcdEnum(KisStrEnum):
     NYS = ("NYS", "뉴욕")
-    "뉴욕"
+    """뉴욕"""
     NAS = ("NAS", "나스닥")
-    "나스닥"
+    """나스닥"""
     AMS = ("AMS", "아멕스")
-    "아멕스"
+    """아멕스"""
     HKS = ("HKS", "홍콩")
-    "홍콩"
+    """홍콩"""
     SHS = ("SHS", "상해")
-    "상해"
+    """상해"""
     SZS = ("SZS", "심천")
-    "심천"
+    """심천"""
     HSX = ("HSX", "호치민")
-    "호치민"
+    """호치민"""
     HNX = ("HNX", "하노이")
-    "하노이"
+    """하노이"""
     TSE = ("TSE", "도쿄 '")
-    "도쿄 '"
+    """도쿄 '"""
 
 
 class IndustryPriceRequest(RawModel):
-    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    EXCD: ExcdEnum = Field(alias="EXCD")
-    ("'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '")
+    AUTH: Annotated[str | None, "공백"] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
+    EXCD: Annotated[
+        ExcdEnum, "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '"
+    ] = Field(
+        alias="EXCD",
+        json_schema_extra={
+            "enum": ["NYS", "NAS", "AMS", "HKS", "SHS", "SZS", "HSX", "HNX", "TSE"],
+            "enum_desc": {
+                "NYS": "뉴욕",
+                "NAS": "나스닥",
+                "AMS": "아멕스",
+                "HKS": "홍콩",
+                "SHS": "상해",
+                "SZS": "심천",
+                "HSX": "호치민",
+                "HNX": "하노이",
+                "TSE": "도쿄 '",
+            },
+        },
+    )
 
 
 class IndustryPriceRequestDict(TypedDict):
@@ -51,33 +67,25 @@ class IndustryPriceRequestDict(TypedDict):
         HSX : 호치민, HNX : 하노이 TSE : 도쿄 '
     """
 
-    AUTH: NotRequired[Annotated[str | None, "공백"]]
-    EXCD: Annotated[ExcdEnum, "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '"]
+    AUTH: NotRequired[str | None]
+    EXCD: ExcdEnum
 
 
 class IndustryPriceOutput1(RawModel):
-    nrec: int = Field(alias="nrec")
-    ("RecordCount")
+    nrec: Annotated[int, "RecordCount"] = Field(alias="nrec")
 
 
 class IndustryPriceOutput2(RawModel):
-    icod: str = Field(alias="icod")
-    ("업종코드")
-    name: str = Field(alias="name")
-    ("업종명")
+    icod: Annotated[str, "업종코드"] = Field(alias="icod")
+    name: Annotated[str, "업종명"] = Field(alias="name")
 
 
 class IndustryPriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: IndustryPriceOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[IndustryPriceOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[IndustryPriceOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[IndustryPriceOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[IndustryPriceRequest, IndustryPriceResponse] = Endpoint(

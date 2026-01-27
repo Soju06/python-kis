@@ -16,18 +16,17 @@ if TYPE_CHECKING:
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "년")
-    "년"
+    """년"""
     VALUE_1 = ("1", "분기")
-    "분기"
+    """분기"""
 
 
 class GrowthRatioRequest(RawModel):
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("ex : 000660")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
-    ("0: 년, 1: 분기")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
-    ("시장구분코드 (주식 J)")
+    fid_input_iscd: Annotated[str, "ex : 000660"] = Field(alias="fid_input_iscd")
+    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"] = Field(
+        alias="fid_div_cls_code", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "년", "1": "분기"}}
+    )
+    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"] = Field(alias="fid_cond_mrkt_div_code")
 
 
 class GrowthRatioRequestDict(TypedDict):
@@ -42,33 +41,24 @@ class GrowthRatioRequestDict(TypedDict):
         fid_cond_mrkt_div_code (str): 시장구분코드 (주식 J)
     """
 
-    fid_input_iscd: Annotated[str, "ex : 000660"]
-    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"]
-    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"]
+    fid_input_iscd: str
+    fid_div_cls_code: FidDivClsCodeEnum
+    fid_cond_mrkt_div_code: str
 
 
 class GrowthRatioOutput(RawModel):
-    stac_yymm: str = Field(alias="stac_yymm")
-    ("결산 년월")
-    grs: Decimal = Field(alias="grs")
-    ("매출액 증가율")
-    bsop_prfi_inrt: Decimal = Field(alias="bsop_prfi_inrt")
-    ("영업 이익 증가율")
-    equt_inrt: Decimal = Field(alias="equt_inrt")
-    ("자기자본 증가율")
-    totl_aset_inrt: Decimal = Field(alias="totl_aset_inrt")
-    ("총자산 증가율")
+    stac_yymm: Annotated[str, "결산 년월"] = Field(alias="stac_yymm")
+    grs: Annotated[Decimal, "매출액 증가율"] = Field(alias="grs")
+    bsop_prfi_inrt: Annotated[Decimal, "영업 이익 증가율"] = Field(alias="bsop_prfi_inrt")
+    equt_inrt: Annotated[Decimal, "자기자본 증가율"] = Field(alias="equt_inrt")
+    totl_aset_inrt: Annotated[Decimal, "총자산 증가율"] = Field(alias="totl_aset_inrt")
 
 
 class GrowthRatioResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[GrowthRatioOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[GrowthRatioOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[GrowthRatioRequest, GrowthRatioResponse] = Endpoint(

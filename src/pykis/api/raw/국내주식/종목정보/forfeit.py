@@ -14,14 +14,12 @@ if TYPE_CHECKING:
 
 
 class ForfeitRequest(RawModel):
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
-    ("공백: 전체, 특정종목 조회시 : 종목코드")
-    T_DT: KisDate = Field(alias="T_DT")
-    ("~ 일자")
-    F_DT: KisDate = Field(alias="F_DT")
-    ("일자 ~")
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
-    ("공백")
+    SHT_CD: Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"] = Field(
+        default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True}
+    )
+    T_DT: Annotated[KisDate, "~ 일자"] = Field(alias="T_DT")
+    F_DT: Annotated[KisDate, "일자 ~"] = Field(alias="F_DT")
+    CTS: Annotated[str | None, "공백"] = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
 
 
 class ForfeitRequestDict(TypedDict):
@@ -39,42 +37,29 @@ class ForfeitRequestDict(TypedDict):
         CTS (str): 공백 optional
     """
 
-    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
-    T_DT: Annotated[KisDate, "~ 일자"]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    CTS: NotRequired[Annotated[str | None, "공백"]]
+    SHT_CD: NotRequired[str | None]
+    T_DT: KisDate
+    F_DT: KisDate
+    CTS: NotRequired[str | None]
 
 
 class ForfeitOutput1(RawModel):
-    record_date: KisDateOptional = Field(default=None, alias="record_date")
-    ("기준일")
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
-    ("종목코드")
-    isin_name: str | None = Field(default=None, alias="isin_name")
-    ("종목명")
-    subscr_dt: KisDateOptional = Field(default=None, alias="subscr_dt")
-    ("청약일")
-    subscr_price: Decimal | None = Field(default=None, alias="subscr_price")
-    ("공모가")
-    subscr_stk_qty: str | None = Field(default=None, alias="subscr_stk_qty")
-    ("공모주식수")
-    refund_dt: KisDateOptional = Field(default=None, alias="refund_dt")
-    ("환불일")
-    list_dt: KisDateOptional = Field(default=None, alias="list_dt")
-    ("상장/등록일")
-    lead_mgr: str | None = Field(default=None, alias="lead_mgr")
-    ("주간사")
+    record_date: Annotated[KisDateOptional, "기준일"] = Field(default=None, alias="record_date")
+    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
+    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
+    subscr_dt: Annotated[KisDateOptional, "청약일"] = Field(default=None, alias="subscr_dt")
+    subscr_price: Annotated[Decimal | None, "공모가"] = Field(default=None, alias="subscr_price")
+    subscr_stk_qty: Annotated[str | None, "공모주식수"] = Field(default=None, alias="subscr_stk_qty")
+    refund_dt: Annotated[KisDateOptional, "환불일"] = Field(default=None, alias="refund_dt")
+    list_dt: Annotated[KisDateOptional, "상장/등록일"] = Field(default=None, alias="list_dt")
+    lead_mgr: Annotated[str | None, "주간사"] = Field(default=None, alias="lead_mgr")
 
 
 class ForfeitResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[ForfeitOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[ForfeitOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[ForfeitRequest, ForfeitResponse] = Endpoint(

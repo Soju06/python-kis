@@ -6,261 +6,261 @@ from pykis.common.enums import KisStrEnum
 
 class AtmClsCodeEnum(KisStrEnum):
     VALUE_1 = ("1", "ATM")
-    "ATM"
+    """ATM"""
     VALUE_2 = ("2", "ITM")
-    "ITM"
+    """ITM"""
     VALUE_3 = ("3", "OTM")
-    "OTM"
+    """OTM"""
 
 
 class AvlsScalClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "제외")
-    "제외"
+    """제외"""
     VALUE_1 = ("1", "대")
-    "대"
+    """대"""
     VALUE_2 = ("2", "중")
-    "중"
+    """중"""
     VALUE_3 = ("3", "소")
-    "소"
+    """소"""
 
 
 class BondClsCodeEnum(KisStrEnum):
     GA = ("GA", "국고채")
-    "국고채"
+    """국고채"""
     MA = ("MA", "통안채")
-    "통안채"
+    """통안채"""
     BA = ("BA", "금융채")
-    "금융채"
+    """금융채"""
     SA = ("SA", "비금융특수채")
-    "비금융특수채"
+    """비금융특수채"""
     CA = ("CA", "회사채")
-    "회사채"
+    """회사채"""
     VALUE_03 = ("03", "장내소액채권")
-    "장내소액채권"
+    """장내소액채권"""
     VALUE_02 = ("02", "기타채권")
-    "기타채권"
+    """기타채권"""
     VALUE_04 = ("04", "장내주식관련사채")
-    "장내주식관련사채"
+    """장내주식관련사채"""
     MM = ("MM", "매매종류별")
-    "매매종류별"
+    """매매종류별"""
     MB = ("MB", "지방채")
-    "지방채"
+    """지방채"""
     VALUE_99 = ("99", "기타")
-    "기타"
+    """기타"""
 
 
 class BondIntClsCodeEnum(KisStrEnum):
     VALUE_01 = ("01", "할인")
-    "할인"
+    """할인"""
     VALUE_02 = ("02", "복리")
-    "복리"
+    """복리"""
     VALUE_03 = ("03", "이표")
-    "이표"
+    """이표"""
     VALUE_04 = ("04", "금리연동")
-    "금리연동"
+    """금리연동"""
     VALUE_05 = ("05", "분할상환(거리복리)")
-    "분할상환(거리복리)"
+    """분할상환(거리복리)"""
     VALUE_06 = ("06", "분할(거치단리)")
-    "분할(거치단리)"
+    """분할(거치단리)"""
     VALUE_07 = ("07", "단리")
-    "단리"
+    """단리"""
     VALUE_08 = ("08", "FRN")
-    "FRN"
+    """FRN"""
     VALUE_09 = ("09", "복5단2")
-    "복5단2"
+    """복5단2"""
     A0 = ("A0", "고정금리형")
-    "고정금리형"
+    """고정금리형"""
     VALUE_11 = ("11", "할인채")
-    "할인채"
+    """할인채"""
     VALUE_12 = ("12", "복리채")
-    "복리채"
+    """복리채"""
     VALUE_13 = ("13", "이표채")
-    "이표채"
+    """이표채"""
     VALUE_14 = ("14", "단리채")
-    "단리채"
+    """단리채"""
     VALUE_15 = ("15", "복5단2")
-    "복5단2"
+    """복5단2"""
     VALUE_19 = ("19", "기타")
-    "기타"
+    """기타"""
     VALUE_21 = ("21", "이표채")
-    "이표채"
+    """이표채"""
     VALUE_22 = ("22", "복리채")
-    "복리채"
+    """복리채"""
     VALUE_23 = ("23", "단리채")
-    "단리채"
+    """단리채"""
     VALUE_29 = ("29", "기타")
-    "기타"
+    """기타"""
 
 
 class ClsCodeEnum(KisStrEnum):
     W = ("W", "세계주요지수")
-    "세계주요지수"
+    """세계주요지수"""
     P = ("P", "미국지수")
-    "미국지수"
+    """미국지수"""
     Q = ("Q", "미국종목")
-    "미국종목"
+    """미국종목"""
     H = ("H", "세계주요종목")
-    "세계주요종목"
+    """세계주요종목"""
     D = ("D", "미국상장국내기업")
-    "미국상장국내기업"
+    """미국상장국내기업"""
     G = ("G", "유럽상장국내기업")
-    "유럽상장국내기업"
+    """유럽상장국내기업"""
     F = ("F", "CME선물")
-    "CME선물"
+    """CME선물"""
     M = ("M", "반도체")
-    "반도체"
+    """반도체"""
     X = ("X", "환율")
-    "환율"
+    """환율"""
     C = ("C", "상품선물")
-    "상품선물"
+    """상품선물"""
     R = ("R", "국내금리")
-    "국내금리"
+    """국내금리"""
     VALUE_L = ("L", "리보금리")
-    "리보금리"
+    """리보금리"""
     B = ("B", "주요국정부채")
-    "주요국정부채"
+    """주요국정부채"""
     E = ("E", "")
 
 
 class ComTypeEnum(KisStrEnum):
     VALUE_1 = ("1", "금리")
-    "금리"
+    """금리"""
     VALUE_2 = ("2", "통화")
-    "통화"
+    """통화"""
     VALUE_3 = ("3", "상품")
-    "상품"
+    """상품"""
 
 
 class ElwNvltOptnClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "표준옵션")
-    "표준옵션"
+    """표준옵션"""
     VALUE_1 = ("1", "디지털옵현")
-    "디지털옵현"
+    """디지털옵현"""
     VALUE_2 = ("2", "조기종료 옵션")
-    "조기종료 옵션"
+    """조기종료 옵션"""
 
 
 class EtpProdClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "해당없음")
-    "해당없음"
+    """해당없음"""
     VALUE_1 = ("1", "투자회사형")
-    "투자회사형"
+    """투자회사형"""
     VALUE_2 = ("2", "수익증권형")
-    "수익증권형"
+    """수익증권형"""
     VALUE_3 = ("3", "ETN")
-    "ETN"
+    """ETN"""
     VALUE_4 = ("4", "손실제한ETN")
-    "손실제한ETN"
+    """손실제한ETN"""
     ETP = ("ETP", "상품구분코드")
-    "상품구분코드"
+    """상품구분코드"""
     VALUE_5 = ("5", "")
 
 
 class EtypEnum(KisStrEnum):
     VALUE_001 = ("001", "ETF")
-    "ETF"
+    """ETF"""
     VALUE_002 = ("002", "ETN")
-    "ETN"
+    """ETN"""
     VALUE_003 = ("003", "ETC")
-    "ETC"
+    """ETC"""
     VALUE_004 = ("004", "Others")
-    "Others"
+    """Others"""
     VALUE_005 = ("005", "VIX Underlying ETF")
-    "VIX Underlying ETF"
+    """VIX Underlying ETF"""
     VALUE_006 = ("006", "VIX Underlying ETN")
-    "VIX Underlying ETN"
+    """VIX Underlying ETN"""
     VALUE_000 = ("000", "")
 
 
 class FcamModClsCodeEnum(KisStrEnum):
     VALUE_00 = ("00", "해당없음")
-    "해당없음"
+    """해당없음"""
     VALUE_01 = ("01", "액면분할")
-    "액면분할"
+    """액면분할"""
     VALUE_02 = ("02", "액면병합")
-    "액면병합"
+    """액면병합"""
     VALUE_99 = ("99", "기타")
-    "기타"
+    """기타"""
 
 
 class FlngClsCodeEnum(KisStrEnum):
     VALUE_00 = ("00", "해당사항없음")
-    "해당사항없음"
+    """해당사항없음"""
     VALUE_01 = ("01", "권리락")
-    "권리락"
+    """권리락"""
     VALUE_02 = ("02", "배당락")
-    "배당락"
+    """배당락"""
     VALUE_03 = ("03", "분배락")
-    "분배락"
+    """분배락"""
     VALUE_04 = ("04", "권배락")
-    "권배락"
+    """권배락"""
     VALUE_05 = ("05", "중간배당락")
-    "중간배당락"
+    """중간배당락"""
     VALUE_06 = ("06", "권리중간배당락")
-    "권리중간배당락"
+    """권리중간배당락"""
     VALUE_99 = ("99", "기타")
-    "기타"
+    """기타"""
     SPACE = ("SPACE", "EW는 미해당")
-    "EW는 미해당"
+    """EW는 미해당"""
 
 
 class GlobYnEnum(KisStrEnum):
     VALUE_0 = ("0", "국내")
-    "국내"
+    """국내"""
     VALUE_1 = ("1", "외국")
-    "외국"
+    """외국"""
 
 
 class IcicClsCodeEnum(KisStrEnum):
     VALUE_00 = ("00", "해당없음")
-    "해당없음"
+    """해당없음"""
     VALUE_01 = ("01", "유상증자")
-    "유상증자"
+    """유상증자"""
     VALUE_02 = ("02", "무상증자")
-    "무상증자"
+    """무상증자"""
     VALUE_03 = ("03", "유무상증자")
-    "유무상증자"
+    """유무상증자"""
     VALUE_99 = ("99", "기타")
-    "기타"
+    """기타"""
 
 
 class InfoTypeEnum(KisStrEnum):
     VALUE_1 = ("1", "선물")
-    "선물"
+    """선물"""
     VALUE_2 = ("2", "SP선물")
-    "SP선물"
+    """SP선물"""
     VALUE_5 = ("5", "콜옵션")
-    "콜옵션"
+    """콜옵션"""
     VALUE_6 = ("6", "풋옵션")
-    "풋옵션"
+    """풋옵션"""
     VALUE_3 = ("3", "스타선물")
-    "스타선물"
+    """스타선물"""
     VALUE_4 = ("4", "스타SP")
-    "스타SP"
+    """스타SP"""
     VALUE_7 = ("7", "변동성선물")
-    "변동성선물"
+    """변동성선물"""
     VALUE_8 = ("8", "변동성SP")
-    "변동성SP"
+    """변동성SP"""
     VALUE_9 = ("9", "섹터선물")
-    "섹터선물"
+    """섹터선물"""
     A = ("A", "섹터SP")
-    "섹터SP"
+    """섹터SP"""
     B = ("B", "미니선물")
-    "미니선물"
+    """미니선물"""
     C = ("C", "미니SP")
-    "미니SP"
+    """미니SP"""
     D = ("D", "미니콜옵션")
-    "미니콜옵션"
+    """미니콜옵션"""
     E = ("E", "미니풋옵션")
-    "미니풋옵션"
+    """미니풋옵션"""
     J = ("J", "코스닥150콜옵션")
-    "코스닥150콜옵션"
+    """코스닥150콜옵션"""
     K = ("K", "코스닥150풋옵션")
-    "코스닥150풋옵션"
+    """코스닥150풋옵션"""
     VALUE_L = ("L", "위클리콜옵션")
-    "위클리콜옵션"
+    """위클리콜옵션"""
     M = ("M", "위클리풋옵션")
-    "위클리풋옵션"
+    """위클리풋옵션"""
     H = ("H", "")
     VALUE_I = ("I", "")
     N = ("N", "")
@@ -273,25 +273,25 @@ class InfoTypeEnum(KisStrEnum):
 
 class Kospi200ApntClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "미분류")
-    "미분류"
+    """미분류"""
     VALUE_1 = ("1", "건설기계")
-    "건설기계"
+    """건설기계"""
     VALUE_2 = ("2", "조선운송")
-    "조선운송"
+    """조선운송"""
     VALUE_3 = ("3", "철강소재")
-    "철강소재"
+    """철강소재"""
     VALUE_4 = ("4", "에너지화학")
-    "에너지화학"
+    """에너지화학"""
     VALUE_5 = ("5", "정보통신")
-    "정보통신"
+    """정보통신"""
     VALUE_6 = ("6", "금융")
-    "금융"
+    """금융"""
     VALUE_7 = ("7", "필수소비재")
-    "필수소비재"
+    """필수소비재"""
     VALUE_8 = ("8", "자유소비재")
-    "자유소비재"
+    """자유소비재"""
     KOSPI200 = ("KOSPI200", "섹터업종(20110401 변경됨)")
-    "섹터업종(20110401 변경됨)"
+    """섹터업종(20110401 변경됨)"""
     A = ("A", "")
     VALUE_9 = ("9", "")
     B = ("B", "")
@@ -299,16 +299,16 @@ class Kospi200ApntClsCodeEnum(KisStrEnum):
 
 class Krx300IssuYnEnum(KisStrEnum):
     KRX300 = ("KRX300", "종목 여부 (Y")
-    "종목 여부 (Y"
+    """종목 여부 (Y"""
     N = ("N", "(실제적으로 필러)")
-    "(실제적으로 필러)"
+    """(실제적으로 필러)"""
 
 
 class MetmEnum(KisStrEnum):
     HHMM = ("HHMM", "market end time")
-    "market end time"
+    """market end time"""
     TIME = ("time", "HHMM")
-    "HHMM"
+    """HHMM"""
     VALUE_1600 = ("1600", "")
     VALUE_1500 = ("1500", "")
     VALUE_1610 = ("1610", "")
@@ -317,15 +317,15 @@ class MetmEnum(KisStrEnum):
 
 class MmscClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "연결선물")
-    "연결선물"
+    """연결선물"""
     VALUE_1 = ("1", "최근월물")
-    "최근월물"
+    """최근월물"""
     VALUE_2 = ("2", "차근월물")
-    "차근월물"
+    """차근월물"""
     VALUE_3 = ("3", "차차근월물")
-    "차차근월물"
+    """차차근월물"""
     VALUE_4 = ("4", "차차차근월물")
-    "차차차근월물"
+    """차차차근월물"""
     VALUE_5 = ("5", "")
     VALUE_6 = ("6", "")
     VALUE_7 = ("7", "")
@@ -335,20 +335,20 @@ class MmscClsCodeEnum(KisStrEnum):
 
 class MrktAlrmClsCodeEnum(KisStrEnum):
     VALUE_00 = ("00", "해당없음")
-    "해당없음"
+    """해당없음"""
     VALUE_01 = ("01", "투자주의")
-    "투자주의"
+    """투자주의"""
     VALUE_02 = ("02", "투자경고")
-    "투자경고"
+    """투자경고"""
     VALUE_03 = ("03", "투자위험")
-    "투자위험"
+    """투자위험"""
 
 
 class MstmEnum(KisStrEnum):
     HHMM = ("HHMM", "market start time")
-    "market start time"
+    """market start time"""
     TIME = ("time", "HHMM")
-    "HHMM"
+    """HHMM"""
     VALUE_930 = ("930", "")
     VALUE_900 = ("900", "")
     VALUE_915 = ("915", "")
@@ -356,27 +356,27 @@ class MstmEnum(KisStrEnum):
 
 class ProdNoEnum(KisStrEnum):
     B03 = ("B03", "3년국채")
-    "3년국채"
+    """3년국채"""
     B05 = ("B05", "5년국채")
-    "5년국채"
+    """5년국채"""
     B10 = ("B10", "10년국채")
-    "10년국채"
+    """10년국채"""
     MSB = ("MSB", "통안증권")
-    "통안증권"
+    """통안증권"""
     USD = ("USD", "미국달러")
-    "미국달러"
+    """미국달러"""
     JPY = ("JPY", "엔")
-    "엔"
+    """엔"""
     EUR = ("EUR", "유로")
-    "유로"
+    """유로"""
     GLD = ("GLD", "금")
-    "금"
+    """금"""
     LHG = ("LHG", "돈육")
-    "돈육"
+    """돈육"""
     CMU = ("CMU", "CME미국달러")
-    "CME미국달러"
+    """CME미국달러"""
     RFR = ("RFR", "3개월무위험금리")
-    "3개월무위험금리"
+    """3개월무위험금리"""
     BM3 = ("BM3", "")
     BM5 = ("BM5", "")
     BMA = ("BMA", "")
@@ -391,155 +391,155 @@ class ProdNoEnum(KisStrEnum):
 
 class PrstClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "해당없음(보통주)")
-    "해당없음(보통주)"
+    """해당없음(보통주)"""
     VALUE_1 = ("1", "구형우선주")
-    "구형우선주"
+    """구형우선주"""
     VALUE_2 = ("2", "신형우선주")
-    "신형우선주"
+    """신형우선주"""
     VALUE_9 = ("9", "")
 
 
 class RghtTypeClsCodeEnum(KisStrEnum):
     C = ("C", "콜")
-    "콜"
+    """콜"""
     E = ("E", "기타")
-    "기타"
+    """기타"""
     P = ("P", "풋")
-    "풋"
+    """풋"""
 
 
 class SatmflgEnum(KisStrEnum):
     A = ("A", "ATM")
-    "ATM"
+    """ATM"""
     VALUE_I = ("I", "ITM")
-    "ITM"
+    """ITM"""
     VALUE_O = ("O", "OTM")
-    "OTM"
+    """OTM"""
 
 
 class SclascdEnum(KisStrEnum):
     VALUE_1 = ("1", "지수옵션")
-    "지수옵션"
+    """지수옵션"""
     VALUE_2 = ("2", "주식옵션 (M)")
-    "주식옵션 (M)"
+    """주식옵션 (M)"""
     VALUE_3 = ("3", "현물옵션")
-    "현물옵션"
+    """현물옵션"""
     VALUE_4 = ("4", "선물옵션")
-    "선물옵션"
+    """선물옵션"""
     VALUE_5 = ("5", "주식옵션 (W)")
-    "주식옵션 (W)"
+    """주식옵션 (W)"""
     M = ("M", "2: 주식옵션")
-    "2: 주식옵션"
+    """2: 주식옵션"""
     W = ("W", "5: 주식옵션")
-    "5: 주식옵션"
+    """5: 주식옵션"""
 
 
 class ScrtGrpClsCodeEnum(KisStrEnum):
     ST = ("ST", "주권")
-    "주권"
+    """주권"""
     MF = ("MF", "증권투자회사")
-    "증권투자회사"
+    """증권투자회사"""
     RT = ("RT", "부동산투자회사")
-    "부동산투자회사"
+    """부동산투자회사"""
     SC = ("SC", "선박투자회사")
-    "선박투자회사"
+    """선박투자회사"""
     IF = ("IF", "사회간접자본투융자회사")
-    "사회간접자본투융자회사"
+    """사회간접자본투융자회사"""
     DR = ("DR", "주식예탁증서")
-    "주식예탁증서"
+    """주식예탁증서"""
     EW = ("EW", "ELW")
-    "ELW"
+    """ELW"""
     EF = ("EF", "ETF")
-    "ETF"
+    """ETF"""
     SW = ("SW", "신주인수권증권")
-    "신주인수권증권"
+    """신주인수권증권"""
     SR = ("SR", "신주인수권증서")
-    "신주인수권증서"
+    """신주인수권증서"""
     BC = ("BC", "수익증권")
-    "수익증권"
+    """수익증권"""
     FE = ("FE", "해외ETF")
-    "해외ETF"
+    """해외ETF"""
     FS = ("FS", "외국주권")
-    "외국주권"
+    """외국주권"""
     PF = ("PF", "")
     EN = ("EN", "")
 
 
 class SexchsubcdEnum(KisStrEnum):
     VALUE_10 = ("10", "ASX")
-    "ASX"
+    """ASX"""
     VALUE_20 = ("20", "BALTIC")
-    "BALTIC"
+    """BALTIC"""
     VALUE_30 = ("30", "BMF")
-    "BMF"
+    """BMF"""
     VALUE_40 = ("40", "CBOE")
-    "CBOE"
+    """CBOE"""
     VALUE_50 = ("50", "CME")
-    "CME"
+    """CME"""
     VALUE_51 = ("51", "CME_CBOT")
-    "CME_CBOT"
+    """CME_CBOT"""
     VALUE_52 = ("52", "CME_NYMEX")
-    "CME_NYMEX"
+    """CME_NYMEX"""
     VALUE_53 = ("53", "CME_COMEX")
-    "CME_COMEX"
+    """CME_COMEX"""
     VALUE_60 = ("60", "EUREX")
-    "EUREX"
+    """EUREX"""
     VALUE_70 = ("70", "FTX")
-    "FTX"
+    """FTX"""
     VALUE_80 = ("80", "HKEx")
-    "HKEx"
+    """HKEx"""
     VALUE_90 = ("90", "ICE_US")
-    "ICE_US"
+    """ICE_US"""
     VALUE_91 = ("91", "ICE_금융")
-    "ICE_금융"
+    """ICE_금융"""
     VALUE_92 = ("92", "ICE_상품")
-    "ICE_상품"
+    """ICE_상품"""
     VALUE_93 = ("93", "ICE_SG")
-    "ICE_SG"
+    """ICE_SG"""
     A0 = ("A0", "ISE")
-    "ISE"
+    """ISE"""
     B0 = ("B0", "ITA")
-    "ITA"
+    """ITA"""
     C0 = ("C0", "JSE")
-    "JSE"
+    """JSE"""
     D0 = ("D0", "KCBT")
-    "KCBT"
+    """KCBT"""
     E0 = ("E0", "LBMA")
-    "LBMA"
+    """LBMA"""
     F0 = ("F0", "LME")
-    "LME"
+    """LME"""
     G0 = ("G0", "MDEX")
-    "MDEX"
+    """MDEX"""
     H0 = ("H0", "MDX")
-    "MDX"
+    """MDX"""
     I0 = ("I0", "MEFF")
-    "MEFF"
+    """MEFF"""
     J0 = ("J0", "NYSE")
-    "NYSE"
+    """NYSE"""
     K0 = ("K0", "OSE")
-    "OSE"
+    """OSE"""
     L0 = ("L0", "SGX")
-    "SGX"
+    """SGX"""
     M0 = ("M0", "SSE")
-    "SSE"
+    """SSE"""
     N0 = ("N0", "TFEX")
-    "TFEX"
+    """TFEX"""
     O0 = ("O0", "TMX")
-    "TMX"
+    """TMX"""
     P0 = ("P0", "HNX")
-    "HNX"
+    """HNX"""
     Q0 = ("Q0", "")
 
 
 class ShortOverClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "해당없음")
-    "해당없음"
+    """해당없음"""
     VALUE_1 = ("1", "지정예고")
-    "지정예고"
+    """지정예고"""
     VALUE_2 = ("2", "지정")
-    "지정"
+    """지정"""
     VALUE_3 = ("3", "지정연장(해제연기)")
-    "지정연장(해제연기)"
+    """지정연장(해제연기)"""
 
 
 class SsymbolEnum(KisStrEnum):
@@ -549,26 +549,26 @@ class SsymbolEnum(KisStrEnum):
 
 class StisEnum(KisStrEnum):
     VALUE_1 = ("1", "Index")
-    "Index"
+    """Index"""
     VALUE_2 = ("2", "Stock")
-    "Stock"
+    """Stock"""
     VALUE_3 = ("3", "ETP(ETF)")
-    "ETP(ETF)"
+    """ETP(ETF)"""
     VALUE_4 = ("4", "Warrant")
-    "Warrant"
+    """Warrant"""
     ETF = ("ETF", "3:ETP")
-    "3:ETP"
+    """3:ETP"""
     ETP = ("ETP", "ETF")
-    "ETF"
+    """ETF"""
 
 
 class TypeEnum(KisStrEnum):
     A0 = ("A0", "장내소매채권")
-    "장내소매채권"
+    """장내소매채권"""
     F9 = ("F9", "(주식관련사채, 소액채권)")
-    "(주식관련사채, 소액채권)"
+    """(주식관련사채, 소액채권)"""
     C0 = ("C0", "국고채권")
-    "국고채권"
+    """국고채권"""
 
 
 __all__ = [

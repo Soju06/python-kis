@@ -16,26 +16,21 @@ if TYPE_CHECKING:
 
 class InqrCndtEnum(KisStrEnum):
     VALUE_00 = ("00", "전체")
-    "전체"
+    """전체"""
     VALUE_01 = ("01", "상품번호단위")
-    "상품번호단위"
+    """상품번호단위"""
 
 
 class InquireBalanceRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("계좌상품코드")
-    INQR_CNDT: InqrCndtEnum = Field(alias="INQR_CNDT")
-    ("00: 전체, 01: 상품번호단위")
-    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    BUY_DT: KisDateOptional = Field(default=None, alias="BUY_DT", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
-    ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
-    ("연속조회키200")
+    CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"] = Field(alias="ACNT_PRDT_CD")
+    INQR_CNDT: Annotated[InqrCndtEnum, "00: 전체, 01: 상품번호단위"] = Field(
+        alias="INQR_CNDT", json_schema_extra={"enum": ["00", "01"], "enum_desc": {"00": "전체", "01": "상품번호단위"}}
+    )
+    PDNO: Annotated[str | None, "공백"] = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
+    BUY_DT: Annotated[KisDateOptional, "공백"] = Field(default=None, alias="BUY_DT", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"] = Field(alias="CTX_AREA_FK200")
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"] = Field(alias="CTX_AREA_NK200")
 
 
 class InquireBalanceRequestDict(TypedDict):
@@ -54,51 +49,35 @@ class InquireBalanceRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
-    INQR_CNDT: Annotated[InqrCndtEnum, "00: 전체, 01: 상품번호단위"]
-    PDNO: NotRequired[Annotated[str | None, "공백"]]
-    BUY_DT: NotRequired[Annotated[KisDateOptional, "공백"]]
-    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
-    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
+    CANO: str
+    ACNT_PRDT_CD: str
+    INQR_CNDT: InqrCndtEnum
+    PDNO: NotRequired[str | None]
+    BUY_DT: NotRequired[KisDateOptional]
+    CTX_AREA_FK200: str
+    CTX_AREA_NK200: str
 
 
 class InquireBalanceOutput(RawModel):
-    pdno: str = Field(alias="pdno")
-    ("상품번호")
-    prdt_name: str = Field(alias="prdt_name")
-    ("상품명")
-    buy_dt: KisDate = Field(alias="buy_dt")
-    ("매수일자")
-    buy_sqno: str = Field(alias="buy_sqno")
-    ("매수일련번호")
-    cblc_qty: int = Field(alias="cblc_qty")
-    ("잔고수량")
-    agrx_qty: int = Field(alias="agrx_qty")
-    ("종합과세수량")
-    sprx_qty: int = Field(alias="sprx_qty")
-    ("분리과세수량")
-    exdt: str = Field(alias="exdt")
-    ("만기일")
-    buy_erng_rt: Decimal = Field(alias="buy_erng_rt")
-    ("매수수익율")
-    buy_unpr: str = Field(alias="buy_unpr")
-    ("매수단가")
-    buy_amt: Decimal = Field(alias="buy_amt")
-    ("매수금액")
-    ord_psbl_qty: int = Field(alias="ord_psbl_qty")
-    ("주문가능수량")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    prdt_name: Annotated[str, "상품명"] = Field(alias="prdt_name")
+    buy_dt: Annotated[KisDate, "매수일자"] = Field(alias="buy_dt")
+    buy_sqno: Annotated[str, "매수일련번호"] = Field(alias="buy_sqno")
+    cblc_qty: Annotated[int, "잔고수량"] = Field(alias="cblc_qty")
+    agrx_qty: Annotated[int, "종합과세수량"] = Field(alias="agrx_qty")
+    sprx_qty: Annotated[int, "분리과세수량"] = Field(alias="sprx_qty")
+    exdt: Annotated[str, "만기일"] = Field(alias="exdt")
+    buy_erng_rt: Annotated[Decimal, "매수수익율"] = Field(alias="buy_erng_rt")
+    buy_unpr: Annotated[str, "매수단가"] = Field(alias="buy_unpr")
+    buy_amt: Annotated[Decimal, "매수금액"] = Field(alias="buy_amt")
+    ord_psbl_qty: Annotated[int, "주문가능수량"] = Field(alias="ord_psbl_qty")
 
 
 class InquireBalanceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquireBalanceOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquireBalanceOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireBalanceRequest, InquireBalanceResponse] = Endpoint(

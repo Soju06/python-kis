@@ -14,12 +14,9 @@ if TYPE_CHECKING:
 
 
 class InquirePsblSellRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("계좌상품코드")
-    PDNO: str = Field(alias="PDNO")
-    ("보유종목 코드 ex)000660")
+    CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"] = Field(alias="ACNT_PRDT_CD")
+    PDNO: Annotated[str, "보유종목 코드 ex)000660"] = Field(alias="PDNO")
 
 
 class InquirePsblSellRequestDict(TypedDict):
@@ -38,49 +35,32 @@ class InquirePsblSellRequestDict(TypedDict):
         PDNO (str): 보유종목 코드 ex)000660
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
-    PDNO: Annotated[str, "보유종목 코드 ex)000660"]
+    CANO: str
+    ACNT_PRDT_CD: str
+    PDNO: str
 
 
 class InquirePsblSellOutput1(RawModel):
-    pdno: str = Field(alias="pdno")
-    ("상품번호")
-    prdt_name: str = Field(alias="prdt_name")
-    ("상품명")
-    buy_qty: int = Field(alias="buy_qty")
-    ("매수수량")
-    sll_qty: int = Field(alias="sll_qty")
-    ("매도수량")
-    cblc_qty: int = Field(alias="cblc_qty")
-    ("잔고수량")
-    nsvg_qty: int = Field(alias="nsvg_qty")
-    ("비저축수량")
-    ord_psbl_qty: int = Field(alias="ord_psbl_qty")
-    ("주문가능수량")
-    pchs_avg_pric: Decimal = Field(alias="pchs_avg_pric")
-    ("매입평균가격")
-    pchs_amt: Decimal = Field(alias="pchs_amt")
-    ("매입금액")
-    now_pric: Decimal = Field(alias="now_pric")
-    ("현재가")
-    evlu_amt: Decimal = Field(alias="evlu_amt")
-    ("평가금액")
-    evlu_pfls_amt: Decimal = Field(alias="evlu_pfls_amt")
-    ("평가손익금액")
-    evlu_pfls_rt: Decimal = Field(alias="evlu_pfls_rt")
-    ("평가손익율")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    prdt_name: Annotated[str, "상품명"] = Field(alias="prdt_name")
+    buy_qty: Annotated[int, "매수수량"] = Field(alias="buy_qty")
+    sll_qty: Annotated[int, "매도수량"] = Field(alias="sll_qty")
+    cblc_qty: Annotated[int, "잔고수량"] = Field(alias="cblc_qty")
+    nsvg_qty: Annotated[int, "비저축수량"] = Field(alias="nsvg_qty")
+    ord_psbl_qty: Annotated[int, "주문가능수량"] = Field(alias="ord_psbl_qty")
+    pchs_avg_pric: Annotated[Decimal, "매입평균가격"] = Field(alias="pchs_avg_pric")
+    pchs_amt: Annotated[Decimal, "매입금액"] = Field(alias="pchs_amt")
+    now_pric: Annotated[Decimal, "현재가"] = Field(alias="now_pric")
+    evlu_amt: Annotated[Decimal, "평가금액"] = Field(alias="evlu_amt")
+    evlu_pfls_amt: Annotated[Decimal, "평가손익금액"] = Field(alias="evlu_pfls_amt")
+    evlu_pfls_rt: Annotated[Decimal, "평가손익율"] = Field(alias="evlu_pfls_rt")
 
 
 class InquirePsblSellResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquirePsblSellOutput1 = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquirePsblSellOutput1, "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[InquirePsblSellRequest, InquirePsblSellResponse] = Endpoint(

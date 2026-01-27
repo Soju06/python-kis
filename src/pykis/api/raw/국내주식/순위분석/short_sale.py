@@ -16,32 +16,30 @@ if TYPE_CHECKING:
 
 class FidPeriodDivCodeEnum(KisStrEnum):
     D = ("D", "일")
-    "일"
+    """일"""
     M = ("M", "월")
-    "월"
+    """월"""
 
 
 class ShortSaleRequest(RawModel):
-    FID_APLY_RANG_VOL: int | None = Field(default=None, alias="FID_APLY_RANG_VOL", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (주식 J)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("Unique key(20482)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100, 3003: 코스닥150")
-    FID_PERIOD_DIV_CODE: FidPeriodDivCodeEnum = Field(alias="FID_PERIOD_DIV_CODE")
-    ("조회구분 (일/월) D: 일, M:월")
-    FID_INPUT_CNT_1: str = Field(alias="FID_INPUT_CNT_1")
-    ("'조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일, 3:4일, 4:1주일, 9:2주일, 14:3주일, 조회구분(M) 1:1개월, 2:2개월, 3:3개월'")
-    FID_TRGT_EXLS_CLS_CODE: str | None = Field(default=None, alias="FID_TRGT_EXLS_CLS_CODE", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_TRGT_CLS_CODE: str | None = Field(default=None, alias="FID_TRGT_CLS_CODE", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    FID_APLY_RANG_PRC_1: str = Field(alias="FID_APLY_RANG_PRC_1")
-    ("가격 ~")
-    FID_APLY_RANG_PRC_2: str = Field(alias="FID_APLY_RANG_PRC_2")
-    ("~ 가격")
+    FID_APLY_RANG_VOL: Annotated[int | None, "공백"] = Field(default=None, alias="FID_APLY_RANG_VOL", json_schema_extra={"blank_allowed": True})
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(20482)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100, 3003: 코스닥150"] = Field(
+        alias="FID_INPUT_ISCD"
+    )
+    FID_PERIOD_DIV_CODE: Annotated[FidPeriodDivCodeEnum, "조회구분 (일/월) D: 일, M:월"] = Field(
+        alias="FID_PERIOD_DIV_CODE", json_schema_extra={"enum": ["D", "M"], "enum_desc": {"D": "일", "M": "월"}}
+    )
+    FID_INPUT_CNT_1: Annotated[
+        str, "'조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일, 3:4일, 4:1주일, 9:2주일, 14:3주일, 조회구분(M) 1:1개월, 2:2개월, 3:3개월'"
+    ] = Field(alias="FID_INPUT_CNT_1")
+    FID_TRGT_EXLS_CLS_CODE: Annotated[str | None, "공백"] = Field(
+        default=None, alias="FID_TRGT_EXLS_CLS_CODE", json_schema_extra={"blank_allowed": True}
+    )
+    FID_TRGT_CLS_CODE: Annotated[str | None, "공백"] = Field(default=None, alias="FID_TRGT_CLS_CODE", json_schema_extra={"blank_allowed": True})
+    FID_APLY_RANG_PRC_1: Annotated[str, "가격 ~"] = Field(alias="FID_APLY_RANG_PRC_1")
+    FID_APLY_RANG_PRC_2: Annotated[str, "~ 가격"] = Field(alias="FID_APLY_RANG_PRC_2")
 
 
 class ShortSaleRequestDict(TypedDict):
@@ -72,62 +70,41 @@ class ShortSaleRequestDict(TypedDict):
         FID_APLY_RANG_PRC_2 (str): ~ 가격
     """
 
-    FID_APLY_RANG_VOL: NotRequired[Annotated[int | None, "공백"]]
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(20482)"]
-    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:코스피, 1001:코스닥, 2001:코스피200, 4001: KRX100, 3003: 코스닥150"]
-    FID_PERIOD_DIV_CODE: Annotated[FidPeriodDivCodeEnum, "조회구분 (일/월) D: 일, M:월"]
-    FID_INPUT_CNT_1: Annotated[
-        str, "'조회가간(일수): 조회구분(D) 0:1일, 1:2일, 2:3일, 3:4일, 4:1주일, 9:2주일, 14:3주일, 조회구분(M) 1:1개월, 2:2개월, 3:3개월'"
-    ]
-    FID_TRGT_EXLS_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
-    FID_TRGT_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
-    FID_APLY_RANG_PRC_1: Annotated[str, "가격 ~"]
-    FID_APLY_RANG_PRC_2: Annotated[str, "~ 가격"]
+    FID_APLY_RANG_VOL: NotRequired[int | None]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_COND_SCR_DIV_CODE: str
+    FID_INPUT_ISCD: str
+    FID_PERIOD_DIV_CODE: FidPeriodDivCodeEnum
+    FID_INPUT_CNT_1: str
+    FID_TRGT_EXLS_CLS_CODE: NotRequired[str | None]
+    FID_TRGT_CLS_CODE: NotRequired[str | None]
+    FID_APLY_RANG_PRC_1: str
+    FID_APLY_RANG_PRC_2: str
 
 
 class ShortSaleOutput(RawModel):
-    mksc_shrn_iscd: str = Field(alias="mksc_shrn_iscd")
-    ("유가증권 단축 종목코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss: str = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: str = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
-    ("누적 거래 대금")
-    ssts_cntg_qty: int = Field(alias="ssts_cntg_qty")
-    ("공매도 체결 수량")
-    ssts_vol_rlim: Decimal = Field(alias="ssts_vol_rlim")
-    ("공매도 거래량 비중")
-    ssts_tr_pbmn: Decimal = Field(alias="ssts_tr_pbmn")
-    ("공매도 거래 대금")
-    ssts_tr_pbmn_rlim: Decimal = Field(alias="ssts_tr_pbmn_rlim")
-    ("공매도 거래대금 비중")
-    stnd_date1: KisDate = Field(alias="stnd_date1")
-    ("기준 일자1")
-    stnd_date2: KisDate = Field(alias="stnd_date2")
-    ("기준 일자2")
-    avrg_prc: Decimal = Field(alias="avrg_prc")
-    ("평균가격")
+    mksc_shrn_iscd: Annotated[str, "유가증권 단축 종목코드"] = Field(alias="mksc_shrn_iscd")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[str, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[str, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    acml_tr_pbmn: Annotated[Decimal, "누적 거래 대금"] = Field(alias="acml_tr_pbmn")
+    ssts_cntg_qty: Annotated[int, "공매도 체결 수량"] = Field(alias="ssts_cntg_qty")
+    ssts_vol_rlim: Annotated[Decimal, "공매도 거래량 비중"] = Field(alias="ssts_vol_rlim")
+    ssts_tr_pbmn: Annotated[Decimal, "공매도 거래 대금"] = Field(alias="ssts_tr_pbmn")
+    ssts_tr_pbmn_rlim: Annotated[Decimal, "공매도 거래대금 비중"] = Field(alias="ssts_tr_pbmn_rlim")
+    stnd_date1: Annotated[KisDate, "기준 일자1"] = Field(alias="stnd_date1")
+    stnd_date2: Annotated[KisDate, "기준 일자2"] = Field(alias="stnd_date2")
+    avrg_prc: Annotated[Decimal, "평균가격"] = Field(alias="avrg_prc")
 
 
 class ShortSaleResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[ShortSaleOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[ShortSaleOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[ShortSaleRequest, ShortSaleResponse] = Endpoint(

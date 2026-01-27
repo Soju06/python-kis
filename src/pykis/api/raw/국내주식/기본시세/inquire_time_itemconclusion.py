@@ -16,20 +16,19 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     J = ("J", "KRX")
-    "KRX"
+    """KRX"""
     NX = ("NX", "NXT")
-    "NXT"
+    """NXT"""
     UN = ("UN", "통합")
-    "통합"
+    """통합"""
 
 
 class InquireTimeItemconclusionRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("J:KRX, NX:NXT, UN:통합")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목코드 (ex 005930 삼성전자)")
-    FID_INPUT_HOUR_1: str = Field(alias="FID_INPUT_HOUR_1")
-    ("입력시간")
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"] = Field(
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["J", "NX", "UN"], "enum_desc": {"J": "KRX", "NX": "NXT", "UN": "통합"}}
+    )
+    FID_INPUT_ISCD: Annotated[str, "종목코드 (ex 005930 삼성전자)"] = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_HOUR_1: Annotated[str, "입력시간"] = Field(alias="FID_INPUT_HOUR_1")
 
 
 class InquireTimeItemconclusionRequestDict(TypedDict):
@@ -43,62 +42,40 @@ class InquireTimeItemconclusionRequestDict(TypedDict):
         FID_INPUT_HOUR_1 (str): 입력시간
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드 (ex 005930 삼성전자)"]
-    FID_INPUT_HOUR_1: Annotated[str, "입력시간"]
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
+    FID_INPUT_ISCD: str
+    FID_INPUT_HOUR_1: str
 
 
 class InquireTimeItemconclusionOutput1(RawModel):
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    prdy_vol: int = Field(alias="prdy_vol")
-    ("전일 거래량")
-    rprs_mrkt_kor_name: str = Field(alias="rprs_mrkt_kor_name")
-    ("대표 시장 한글 명")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    prdy_vol: Annotated[int, "전일 거래량"] = Field(alias="prdy_vol")
+    rprs_mrkt_kor_name: Annotated[str, "대표 시장 한글 명"] = Field(alias="rprs_mrkt_kor_name")
 
 
 class InquireTimeItemconclusionOutput2(RawModel):
-    stck_cntg_hour: KisTime = Field(alias="stck_cntg_hour")
-    ("주식 체결 시간")
-    stck_pbpr: Decimal | None = Field(default=None, alias="stck_pbpr")
-    ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    askp: int = Field(alias="askp")
-    ("매도호가")
-    bidp: str = Field(alias="bidp")
-    ("매수호가")
-    tday_rltv: Decimal = Field(alias="tday_rltv")
-    ("당일 체결강도")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    cnqn: int = Field(alias="cnqn")
-    ("체결량")
+    stck_cntg_hour: Annotated[KisTime, "주식 체결 시간"] = Field(alias="stck_cntg_hour")
+    stck_pbpr: Annotated[Decimal | None, "주식 현재가"] = Field(default=None, alias="stck_pbpr")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    askp: Annotated[int, "매도호가"] = Field(alias="askp")
+    bidp: Annotated[str, "매수호가"] = Field(alias="bidp")
+    tday_rltv: Annotated[Decimal, "당일 체결강도"] = Field(alias="tday_rltv")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    cnqn: Annotated[int, "체결량"] = Field(alias="cnqn")
 
 
 class InquireTimeItemconclusionResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquireTimeItemconclusionOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquireTimeItemconclusionOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquireTimeItemconclusionOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquireTimeItemconclusionOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireTimeItemconclusionRequest, InquireTimeItemconclusionResponse] = Endpoint(

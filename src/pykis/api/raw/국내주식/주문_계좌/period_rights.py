@@ -14,76 +14,197 @@ if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class RghtTypeCdEnum(KisStrEnum):
+    VALUE_1 = ("1", "유상")
+    """유상"""
+    VALUE_2 = ("2", "무상")
+    """무상"""
+    VALUE_3 = ("3", "배당")
+    """배당"""
+    VALUE_4 = ("4", "매수청구")
+    """매수청구"""
+    VALUE_5 = ("5", "공개매수")
+    """공개매수"""
+    VALUE_6 = ("6", "주주총회")
+    """주주총회"""
+    VALUE_7 = ("7", "신주인수권증서")
+    """신주인수권증서"""
+    VALUE_8 = ("8", "반대의사")
+    """반대의사"""
+    VALUE_9 = ("9", "신주인수권증권")
+    """신주인수권증권"""
+    VALUE_11 = ("11", "합병")
+    """합병"""
+    VALUE_12 = ("12", "회사분할")
+    """회사분할"""
+    VALUE_13 = ("13", "주식교환")
+    """주식교환"""
+    VALUE_14 = ("14", "액면분할")
+    """액면분할"""
+    VALUE_15 = ("15", "액면병합")
+    """액면병합"""
+    VALUE_16 = ("16", "종목변경")
+    """종목변경"""
+    VALUE_17 = ("17", "감자")
+    """감자"""
+    VALUE_18 = ("18", "신구주합병")
+    """신구주합병"""
+    VALUE_21 = ("21", "후합병")
+    """후합병"""
+    VALUE_22 = ("22", "후회사분할")
+    """후회사분할"""
+    VALUE_23 = ("23", "후주식교환")
+    """후주식교환"""
+    VALUE_24 = ("24", "후액면분할")
+    """후액면분할"""
+    VALUE_25 = ("25", "후액면병합")
+    """후액면병합"""
+    VALUE_26 = ("26", "후종목변경")
+    """후종목변경"""
+    VALUE_27 = ("27", "후감자")
+    """후감자"""
+    VALUE_28 = ("28", "후신구주합병")
+    """후신구주합병"""
+    VALUE_31 = ("31", "뮤츄얼펀드")
+    """뮤츄얼펀드"""
+    VALUE_33 = ("33", "선박투자회사")
+    """선박투자회사"""
+    VALUE_34 = ("34", "투융자회사")
+    """투융자회사"""
+    VALUE_35 = ("35", "해외자원")
+    """해외자원"""
+    VALUE_36 = ("36", "부동산신탁(Ritz)")
+    """부동산신탁(Ritz)"""
+    VALUE_37 = ("37", "상장수익증권")
+    """상장수익증권"""
+    VALUE_41 = ("41", "ELW만기")
+    """ELW만기"""
+    VALUE_42 = ("42", "ELS분배")
+    """ELS분배"""
+    VALUE_43 = ("43", "DLS분배")
+    """DLS분배"""
+    VALUE_44 = ("44", "하일드펀드")
+    """하일드펀드"""
+    VALUE_51 = ("51", "전환청구")
+    """전환청구"""
+    VALUE_52 = ("52", "교환청구")
+    """교환청구"""
+    VALUE_53 = ("53", "BW청구")
+    """BW청구"""
+    VALUE_54 = ("54", "WRT청구")
+    """WRT청구"""
+    VALUE_55 = ("55", "채권풋옵션청구")
+    """채권풋옵션청구"""
+    VALUE_56 = ("56", "전환우선주청구")
+    """전환우선주청구"""
+    VALUE_57 = ("57", "전환조건부청구")
+    """전환조건부청구"""
+    VALUE_58 = ("58", "전자증권일괄입고")
+    """전자증권일괄입고"""
+    VALUE_59 = ("59", "클라우드펀딩일괄입고")
+    """클라우드펀딩일괄입고"""
+    VALUE_61 = ("61", "원리금상환")
+    """원리금상환"""
+    VALUE_62 = ("62", "스트립채권")
+    """스트립채권"""
+    VALUE_71 = ("71", "WRT소멸")
+    """WRT소멸"""
+    VALUE_72 = ("72", "WRT증권")
+    """WRT증권"""
+    VALUE_73 = ("73", "DR전환")
+    """DR전환"""
+    VALUE_74 = ("74", "배당옵션")
+    """배당옵션"""
+    VALUE_75 = ("75", "특별배당")
+    """특별배당"""
+    VALUE_76 = ("76", "ISINCODE변경")
+    """ISINCODE변경"""
+    VALUE_77 = ("77", "실권주청약")
+    """실권주청약"""
+    VALUE_81 = ("81", "해외분배금(청산)")
+    """해외분배금(청산)"""
+    VALUE_82 = ("82", "해외분배금(조기상환)")
+    """해외분배금(조기상환)"""
+    VALUE_83 = ("83", "해외분배금(상장폐지)")
+    """해외분배금(상장폐지)"""
+    VALUE_86 = ("86", "종목전환")
+    """종목전환"""
+    VALUE_87 = ("87", "재매수")
+    """재매수"""
+    VALUE_88 = ("88", "종목교환")
+    """종목교환"""
+    VALUE_89 = ("89", "기타이벤트")
+    """기타이벤트"""
+    VALUE_91 = ("91", "공모주")
+    """공모주"""
+    VALUE_92 = ("92", "청약")
+    """청약"""
+    VALUE_93 = ("93", "환매")
+    """환매"""
+    VALUE_99 = ("99", "기타권리사유")
+    """기타권리사유"""
+    RITZ = ("Ritz", "36 부동산신탁")
+    """36 부동산신탁"""
+
+
 class RghtCblcTypeCdEnum(KisStrEnum):
     VALUE_1 = ("1", "입고")
-    "입고"
+    """입고"""
     VALUE_2 = ("2", "출고")
-    "출고"
+    """출고"""
     VALUE_3 = ("3", "출고입고")
-    "출고입고"
+    """출고입고"""
     VALUE_4 = ("4", "출고입금")
-    "출고입금"
+    """출고입금"""
     VALUE_5 = ("5", "출고출금")
-    "출고출금"
+    """출고출금"""
     VALUE_10 = ("10", "현금입금")
-    "현금입금"
+    """현금입금"""
     VALUE_11 = ("11", "단수주대금입금")
-    "단수주대금입금"
+    """단수주대금입금"""
     VALUE_12 = ("12", "교부금입금")
-    "교부금입금"
+    """교부금입금"""
     VALUE_13 = ("13", "유상감자대금입금")
-    "유상감자대금입금"
+    """유상감자대금입금"""
     VALUE_14 = ("14", "지연이자입금")
-    "지연이자입금"
+    """지연이자입금"""
     VALUE_15 = ("15", "이자지급")
-    "이자지급"
+    """이자지급"""
     VALUE_16 = ("16", "대주권리금출금")
-    "대주권리금출금"
+    """대주권리금출금"""
     VALUE_17 = ("17", "분할상환")
-    "분할상환"
+    """분할상환"""
     VALUE_18 = ("18", "만기상환")
-    "만기상환"
+    """만기상환"""
     VALUE_19 = ("19", "조기상환")
-    "조기상환"
+    """조기상환"""
     VALUE_20 = ("20", "출금")
-    "출금"
+    """출금"""
     VALUE_21 = ("21", "입고&입금")
-    "입고&입금"
+    """입고&입금"""
     VALUE_22 = ("22", "입고&입금&단수주대금입금")
-    "입고&입금&단수주대금입금"
+    """입고&입금&단수주대금입금"""
     VALUE_25 = ("25", "유상환불금입금")
-    "유상환불금입금"
+    """유상환불금입금"""
     VALUE_26 = ("26", "중도상환")
-    "중도상환"
+    """중도상환"""
     VALUE_27 = ("27", "분할합병세금출금")
-    "분할합병세금출금"
+    """분할합병세금출금"""
 
 
 class PeriodRightsRequest(RawModel):
-    INQR_DVSN: str = Field(alias="INQR_DVSN")
-    ("03 입력")
-    CUST_RNCNO25: str | None = Field(default=None, alias="CUST_RNCNO25", json_schema_extra={"blank_allowed": True})
-    ("공란")
-    HMID: str | None = Field(default=None, alias="HMID", json_schema_extra={"blank_allowed": True})
-    ("공란")
-    CANO: str = Field(alias="CANO")
-    ("계좌번호 8자리 입력 (ex.12345678)")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("상품계좌번호 2자리 입력(ex. 01 or 22)")
-    INQR_STRT_DT: str = Field(alias="INQR_STRT_DT")
-    ("조회시작일자(YYYYMMDD)")
-    INQR_END_DT: str = Field(alias="INQR_END_DT")
-    ("조회종료일자(YYYYMMDD)")
-    RGHT_TYPE_CD: str | None = Field(default=None, alias="RGHT_TYPE_CD", json_schema_extra={"blank_allowed": True})
-    ("공란")
-    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
-    ("공란")
-    PRDT_TYPE_CD: str | None = Field(default=None, alias="PRDT_TYPE_CD", json_schema_extra={"blank_allowed": True})
-    ("공란")
-    CTX_AREA_NK100: str = Field(alias="CTX_AREA_NK100")
-    ("다음조회시 입력")
-    CTX_AREA_FK100: str = Field(alias="CTX_AREA_FK100")
-    ("다음조회시 입력")
+    INQR_DVSN: Annotated[str, "03 입력"] = Field(alias="INQR_DVSN")
+    CUST_RNCNO25: Annotated[str | None, "공란"] = Field(default=None, alias="CUST_RNCNO25", json_schema_extra={"blank_allowed": True})
+    HMID: Annotated[str | None, "공란"] = Field(default=None, alias="HMID", json_schema_extra={"blank_allowed": True})
+    CANO: Annotated[str, "계좌번호 8자리 입력 (ex.12345678)"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "상품계좌번호 2자리 입력(ex. 01 or 22)"] = Field(alias="ACNT_PRDT_CD")
+    INQR_STRT_DT: Annotated[str, "조회시작일자(YYYYMMDD)"] = Field(alias="INQR_STRT_DT")
+    INQR_END_DT: Annotated[str, "조회종료일자(YYYYMMDD)"] = Field(alias="INQR_END_DT")
+    RGHT_TYPE_CD: Annotated[str | None, "공란"] = Field(default=None, alias="RGHT_TYPE_CD", json_schema_extra={"blank_allowed": True})
+    PDNO: Annotated[str | None, "공란"] = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
+    PRDT_TYPE_CD: Annotated[str | None, "공란"] = Field(default=None, alias="PRDT_TYPE_CD", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_NK100: Annotated[str, "다음조회시 입력"] = Field(alias="CTX_AREA_NK100")
+    CTX_AREA_FK100: Annotated[str, "다음조회시 입력"] = Field(alias="CTX_AREA_FK100")
 
 
 class PeriodRightsRequestDict(TypedDict):
@@ -107,106 +228,229 @@ class PeriodRightsRequestDict(TypedDict):
         CTX_AREA_FK100 (str): 다음조회시 입력
     """
 
-    INQR_DVSN: Annotated[str, "03 입력"]
-    CUST_RNCNO25: NotRequired[Annotated[str | None, "공란"]]
-    HMID: NotRequired[Annotated[str | None, "공란"]]
-    CANO: Annotated[str, "계좌번호 8자리 입력 (ex.12345678)"]
-    ACNT_PRDT_CD: Annotated[str, "상품계좌번호 2자리 입력(ex. 01 or 22)"]
-    INQR_STRT_DT: Annotated[str, "조회시작일자(YYYYMMDD)"]
-    INQR_END_DT: Annotated[str, "조회종료일자(YYYYMMDD)"]
-    RGHT_TYPE_CD: NotRequired[Annotated[str | None, "공란"]]
-    PDNO: NotRequired[Annotated[str | None, "공란"]]
-    PRDT_TYPE_CD: NotRequired[Annotated[str | None, "공란"]]
-    CTX_AREA_NK100: Annotated[str, "다음조회시 입력"]
-    CTX_AREA_FK100: Annotated[str, "다음조회시 입력"]
+    INQR_DVSN: str
+    CUST_RNCNO25: NotRequired[str | None]
+    HMID: NotRequired[str | None]
+    CANO: str
+    ACNT_PRDT_CD: str
+    INQR_STRT_DT: str
+    INQR_END_DT: str
+    RGHT_TYPE_CD: NotRequired[str | None]
+    PDNO: NotRequired[str | None]
+    PRDT_TYPE_CD: NotRequired[str | None]
+    CTX_AREA_NK100: str
+    CTX_AREA_FK100: str
 
 
 class PeriodRightsOutput1(RawModel):
-    acno10: str = Field(alias="acno10")
-    ("계좌번호10")
-    rght_type_cd: str = Field(alias="rght_type_cd")
-    (
-        "1 유상 2 무상 3 배당 4 매수청구 5 공개매수 6 주주총회 7 신주인수권증서 8 반대의사 9 "
-        "신주인수권증권 11 합병 12 회사분할 13 주식교환 14 액면분할 15 액면병합 16 종목변경 17 감자 18 "
-        "신구주합병 21 후합병 22 후회사분할 23 후주식교환 24 후액면분할 25 후액면병합 26 후종목변경 27 "
-        "후감자 28 후신구주합병 31 뮤츄얼펀드 32 ETF 33 선박투자회사 34 투융자회사 35 해외자원 36 "
-        "부동산신탁(Ritz) 37 상장수익증권 41 ELW만기 42 ELS분배 43 DLS분배 44 하일드펀드 45 ETN 51 "
-        "전환청구 52 교환청구 53 BW청구 54 WRT청구 55 채권풋옵션청구 56 전환우선주청구 57 전환조건부청구 "
-        "58 전자증권일괄입고 59 클라우드펀딩일괄입고 61 원리금상환 62 스트립채권 71 WRT소멸 72 WRT증권 73 "
-        "DR전환 74 배당옵션 75 특별배당 76 ISINCODE변경 77 실권주청약 81 해외분배금(청산) 82 "
-        "해외분배금(조기상환) 83 해외분배금(상장폐지) 84 DR FEE 85 SECTION 871M 86 종목전환 87 재매수 88 "
-        "종목교환 89 기타이벤트 91 공모주 92 청약 93 환매 99 기타권리사유"
+    acno10: Annotated[str, "계좌번호10"] = Field(alias="acno10")
+    rght_type_cd: Annotated[
+        RghtTypeCdEnum,
+        "1 유상 2 무상 3 배당 4 매수청구 5 공개매수 6 주주총회 7 신주인수권증서 8 반대의사 9 신주인수권증권 11 합병 12 회사분할 13 주식교환 14 액면분할 15 액면병합 16 종목변경 17 감자 18 신구주합병 21 후합병 22 후회사분할 23 후주식교환 24 후액면분할 25 후액면병합 26 후종목변경 27 후감자 28 후신구주합병 31 뮤츄얼펀드 32 ETF 33 선박투자회사 34 투융자회사 35 해외자원 36 부동산신탁(Ritz) 37 상장수익증권 41 ELW만기 42 ELS분배 43 DLS분배 44 하일드펀드 45 ETN 51 전환청구 52 교환청구 53 BW청구 54 WRT청구 55 채권풋옵션청구 56 전환우선주청구 57 전환조건부청구 58 전자증권일괄입고 59 클라우드펀딩일괄입고 61 원리금상환 62 스트립채권 71 WRT소멸 72 WRT증권 73 DR전환 74 배당옵션 75 특별배당 76 ISINCODE변경 77 실권주청약 81 해외분배금(청산) 82 해외분배금(조기상환) 83 해외분배금(상장폐지) 84 DR FEE 85 SECTION 871M 86 종목전환 87 재매수 88 종목교환 89 기타이벤트 91 공모주 92 청약 93 환매 99 기타권리사유",
+    ] = Field(
+        alias="rght_type_cd",
+        json_schema_extra={
+            "enum": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "31",
+                "33",
+                "34",
+                "35",
+                "36",
+                "37",
+                "41",
+                "42",
+                "43",
+                "44",
+                "51",
+                "52",
+                "53",
+                "54",
+                "55",
+                "56",
+                "57",
+                "58",
+                "59",
+                "61",
+                "62",
+                "71",
+                "72",
+                "73",
+                "74",
+                "75",
+                "76",
+                "77",
+                "81",
+                "82",
+                "83",
+                "86",
+                "87",
+                "88",
+                "89",
+                "91",
+                "92",
+                "93",
+                "99",
+                "Ritz",
+            ],
+            "enum_desc": {
+                "1": "유상",
+                "2": "무상",
+                "3": "배당",
+                "4": "매수청구",
+                "5": "공개매수",
+                "6": "주주총회",
+                "7": "신주인수권증서",
+                "8": "반대의사",
+                "9": "신주인수권증권",
+                "11": "합병",
+                "12": "회사분할",
+                "13": "주식교환",
+                "14": "액면분할",
+                "15": "액면병합",
+                "16": "종목변경",
+                "17": "감자",
+                "18": "신구주합병",
+                "21": "후합병",
+                "22": "후회사분할",
+                "23": "후주식교환",
+                "24": "후액면분할",
+                "25": "후액면병합",
+                "26": "후종목변경",
+                "27": "후감자",
+                "28": "후신구주합병",
+                "31": "뮤츄얼펀드",
+                "33": "선박투자회사",
+                "34": "투융자회사",
+                "35": "해외자원",
+                "36": "부동산신탁(Ritz)",
+                "37": "상장수익증권",
+                "41": "ELW만기",
+                "42": "ELS분배",
+                "43": "DLS분배",
+                "44": "하일드펀드",
+                "51": "전환청구",
+                "52": "교환청구",
+                "53": "BW청구",
+                "54": "WRT청구",
+                "55": "채권풋옵션청구",
+                "56": "전환우선주청구",
+                "57": "전환조건부청구",
+                "58": "전자증권일괄입고",
+                "59": "클라우드펀딩일괄입고",
+                "61": "원리금상환",
+                "62": "스트립채권",
+                "71": "WRT소멸",
+                "72": "WRT증권",
+                "73": "DR전환",
+                "74": "배당옵션",
+                "75": "특별배당",
+                "76": "ISINCODE변경",
+                "77": "실권주청약",
+                "81": "해외분배금(청산)",
+                "82": "해외분배금(조기상환)",
+                "83": "해외분배금(상장폐지)",
+                "86": "종목전환",
+                "87": "재매수",
+                "88": "종목교환",
+                "89": "기타이벤트",
+                "91": "공모주",
+                "92": "청약",
+                "93": "환매",
+                "99": "기타권리사유",
+                "Ritz": "36 부동산신탁",
+            },
+        },
     )
-    bass_dt: KisDate = Field(alias="bass_dt")
-    ("기준일자")
-    rght_cblc_type_cd: RghtCblcTypeCdEnum = Field(alias="rght_cblc_type_cd")
-    (
-        "1 입고 2 출고 3 출고입고 4 출고입금 5 출고출금 10 현금입금 11 단수주대금입금 12 교부금입금 13 "
-        "유상감자대금입금 14 지연이자입금 15 이자지급 16 대주권리금출금 17 분할상환 18 만기상환 19 "
-        "조기상환 20 출금 21 입고&입금 22 입고&입금&단수주대금입금 25 유상환불금입금 26 중도상환 27 "
-        "분할합병세금출금"
+    bass_dt: Annotated[KisDate, "기준일자"] = Field(alias="bass_dt")
+    rght_cblc_type_cd: Annotated[
+        RghtCblcTypeCdEnum,
+        "1 입고 2 출고 3 출고입고 4 출고입금 5 출고출금 10 현금입금 11 단수주대금입금 12 교부금입금 13 유상감자대금입금 14 지연이자입금 15 이자지급 16 대주권리금출금 17 분할상환 18 만기상환 19 조기상환 20 출금 21 입고&입금 22 입고&입금&단수주대금입금 25 유상환불금입금 26 중도상환 27 분할합병세금출금",
+    ] = Field(
+        alias="rght_cblc_type_cd",
+        json_schema_extra={
+            "enum": ["1", "2", "3", "4", "5", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "25", "26", "27"],
+            "enum_desc": {
+                "1": "입고",
+                "2": "출고",
+                "3": "출고입고",
+                "4": "출고입금",
+                "5": "출고출금",
+                "10": "현금입금",
+                "11": "단수주대금입금",
+                "12": "교부금입금",
+                "13": "유상감자대금입금",
+                "14": "지연이자입금",
+                "15": "이자지급",
+                "16": "대주권리금출금",
+                "17": "분할상환",
+                "18": "만기상환",
+                "19": "조기상환",
+                "20": "출금",
+                "21": "입고&입금",
+                "22": "입고&입금&단수주대금입금",
+                "25": "유상환불금입금",
+                "26": "중도상환",
+                "27": "분할합병세금출금",
+            },
+        },
     )
-    rptt_pdno: str = Field(alias="rptt_pdno")
-    ("대표상품번호")
-    pdno: str = Field(alias="pdno")
-    ("상품번호")
-    prdt_type_cd: str = Field(alias="prdt_type_cd")
-    ("상품유형코드")
-    shtn_pdno: str = Field(alias="shtn_pdno")
-    ("단축상품번호")
-    prdt_name: str = Field(alias="prdt_name")
-    ("상품명")
-    cblc_qty: int = Field(alias="cblc_qty")
-    ("잔고수량")
-    last_alct_qty: int = Field(alias="last_alct_qty")
-    ("최종배정수량")
-    excs_alct_qty: int = Field(alias="excs_alct_qty")
-    ("초과배정수량")
-    tot_alct_qty: int = Field(alias="tot_alct_qty")
-    ("총배정수량")
-    last_ftsk_qty: int = Field(alias="last_ftsk_qty")
-    ("최종단수주수량")
-    last_alct_amt: Decimal = Field(alias="last_alct_amt")
-    ("최종배정금액")
-    last_ftsk_chgs: Decimal = Field(alias="last_ftsk_chgs")
-    ("최종단수주대금")
-    rdpt_prca: str = Field(alias="rdpt_prca")
-    ("상환원금")
-    dlay_int_amt: Decimal = Field(alias="dlay_int_amt")
-    ("지연이자금액")
-    lstg_dt: KisDate = Field(alias="lstg_dt")
-    ("상장일자")
-    sbsc_end_dt: KisDate = Field(alias="sbsc_end_dt")
-    ("청약종료일자")
-    cash_dfrm_dt: KisDate = Field(alias="cash_dfrm_dt")
-    ("현금지급일자")
-    rqst_qty: int = Field(alias="rqst_qty")
-    ("신청수량")
-    rqst_amt: Decimal = Field(alias="rqst_amt")
-    ("신청금액")
-    rqst_dt: KisDate = Field(alias="rqst_dt")
-    ("신청일자")
-    rfnd_dt: KisDate = Field(alias="rfnd_dt")
-    ("환불일자")
-    rfnd_amt: Decimal = Field(alias="rfnd_amt")
-    ("환불금액")
-    lstg_stqt: str = Field(alias="lstg_stqt")
-    ("상장주수")
-    tax_amt: Decimal = Field(alias="tax_amt")
-    ("세금금액")
-    sbsc_unpr: str = Field(alias="sbsc_unpr")
-    ("청약단가")
+    rptt_pdno: Annotated[str, "대표상품번호"] = Field(alias="rptt_pdno")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    prdt_type_cd: Annotated[str, "상품유형코드"] = Field(alias="prdt_type_cd")
+    shtn_pdno: Annotated[str, "단축상품번호"] = Field(alias="shtn_pdno")
+    prdt_name: Annotated[str, "상품명"] = Field(alias="prdt_name")
+    cblc_qty: Annotated[int, "잔고수량"] = Field(alias="cblc_qty")
+    last_alct_qty: Annotated[int, "최종배정수량"] = Field(alias="last_alct_qty")
+    excs_alct_qty: Annotated[int, "초과배정수량"] = Field(alias="excs_alct_qty")
+    tot_alct_qty: Annotated[int, "총배정수량"] = Field(alias="tot_alct_qty")
+    last_ftsk_qty: Annotated[int, "최종단수주수량"] = Field(alias="last_ftsk_qty")
+    last_alct_amt: Annotated[Decimal, "최종배정금액"] = Field(alias="last_alct_amt")
+    last_ftsk_chgs: Annotated[Decimal, "최종단수주대금"] = Field(alias="last_ftsk_chgs")
+    rdpt_prca: Annotated[str, "상환원금"] = Field(alias="rdpt_prca")
+    dlay_int_amt: Annotated[Decimal, "지연이자금액"] = Field(alias="dlay_int_amt")
+    lstg_dt: Annotated[KisDate, "상장일자"] = Field(alias="lstg_dt")
+    sbsc_end_dt: Annotated[KisDate, "청약종료일자"] = Field(alias="sbsc_end_dt")
+    cash_dfrm_dt: Annotated[KisDate, "현금지급일자"] = Field(alias="cash_dfrm_dt")
+    rqst_qty: Annotated[int, "신청수량"] = Field(alias="rqst_qty")
+    rqst_amt: Annotated[Decimal, "신청금액"] = Field(alias="rqst_amt")
+    rqst_dt: Annotated[KisDate, "신청일자"] = Field(alias="rqst_dt")
+    rfnd_dt: Annotated[KisDate, "환불일자"] = Field(alias="rfnd_dt")
+    rfnd_amt: Annotated[Decimal, "환불금액"] = Field(alias="rfnd_amt")
+    lstg_stqt: Annotated[str, "상장주수"] = Field(alias="lstg_stqt")
+    tax_amt: Annotated[Decimal, "세금금액"] = Field(alias="tax_amt")
+    sbsc_unpr: Annotated[str, "청약단가"] = Field(alias="sbsc_unpr")
 
 
 class PeriodRightsResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[PeriodRightsOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[PeriodRightsOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[PeriodRightsRequest, PeriodRightsResponse] = Endpoint(
@@ -284,4 +528,12 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "PeriodRightsRequest", "PeriodRightsRequestDict", "PeriodRightsResponse", "PeriodRightsOutput1", "RghtCblcTypeCdEnum"]
+__all__ = [
+    "ENDPOINT",
+    "PeriodRightsRequest",
+    "PeriodRightsRequestDict",
+    "PeriodRightsResponse",
+    "PeriodRightsOutput1",
+    "RghtTypeCdEnum",
+    "RghtCblcTypeCdEnum",
+]

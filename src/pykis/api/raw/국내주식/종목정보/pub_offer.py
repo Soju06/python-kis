@@ -13,14 +13,12 @@ if TYPE_CHECKING:
 
 
 class PubOfferRequest(RawModel):
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
-    ("공백: 전체, 특정종목 조회시 : 종목코드")
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    F_DT: KisDate = Field(alias="F_DT")
-    ("일자 ~")
-    T_DT: KisDate = Field(alias="T_DT")
-    ("~ 일자")
+    SHT_CD: Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"] = Field(
+        default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True}
+    )
+    CTS: Annotated[str | None, "공백"] = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
+    F_DT: Annotated[KisDate, "일자 ~"] = Field(alias="F_DT")
+    T_DT: Annotated[KisDate, "~ 일자"] = Field(alias="T_DT")
 
 
 class PubOfferRequestDict(TypedDict):
@@ -38,50 +36,33 @@ class PubOfferRequestDict(TypedDict):
         T_DT (KisDate): ~ 일자
     """
 
-    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
-    CTS: NotRequired[Annotated[str | None, "공백"]]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    T_DT: Annotated[KisDate, "~ 일자"]
+    SHT_CD: NotRequired[str | None]
+    CTS: NotRequired[str | None]
+    F_DT: KisDate
+    T_DT: KisDate
 
 
 class PubOfferOutput1(RawModel):
-    record_date: KisDateOptional = Field(default=None, alias="record_date")
-    ("기준일")
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
-    ("종목코드")
-    isin_name: str | None = Field(default=None, alias="isin_name")
-    ("종목명")
-    fix_subscr_pri: str | None = Field(default=None, alias="fix_subscr_pri")
-    ("공모가")
-    face_value: str | None = Field(default=None, alias="face_value")
-    ("액면가")
-    subscr_dt: KisDateOptional = Field(default=None, alias="subscr_dt")
-    ("청약기간")
-    pay_dt: KisDateOptional = Field(default=None, alias="pay_dt")
-    ("납입일")
-    refund_dt: KisDateOptional = Field(default=None, alias="refund_dt")
-    ("환불일")
-    list_dt: KisDateOptional = Field(default=None, alias="list_dt")
-    ("상장/등록일")
-    lead_mgr: str | None = Field(default=None, alias="lead_mgr")
-    ("주간사")
-    pub_bf_cap: str | None = Field(default=None, alias="pub_bf_cap")
-    ("공모전자본금")
-    pub_af_cap: str | None = Field(default=None, alias="pub_af_cap")
-    ("공모후자본금")
-    assign_stk_qty: str | None = Field(default=None, alias="assign_stk_qty")
-    ("당사배정물량")
+    record_date: Annotated[KisDateOptional, "기준일"] = Field(default=None, alias="record_date")
+    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
+    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
+    fix_subscr_pri: Annotated[str | None, "공모가"] = Field(default=None, alias="fix_subscr_pri")
+    face_value: Annotated[str | None, "액면가"] = Field(default=None, alias="face_value")
+    subscr_dt: Annotated[KisDateOptional, "청약기간"] = Field(default=None, alias="subscr_dt")
+    pay_dt: Annotated[KisDateOptional, "납입일"] = Field(default=None, alias="pay_dt")
+    refund_dt: Annotated[KisDateOptional, "환불일"] = Field(default=None, alias="refund_dt")
+    list_dt: Annotated[KisDateOptional, "상장/등록일"] = Field(default=None, alias="list_dt")
+    lead_mgr: Annotated[str | None, "주간사"] = Field(default=None, alias="lead_mgr")
+    pub_bf_cap: Annotated[str | None, "공모전자본금"] = Field(default=None, alias="pub_bf_cap")
+    pub_af_cap: Annotated[str | None, "공모후자본금"] = Field(default=None, alias="pub_af_cap")
+    assign_stk_qty: Annotated[str | None, "당사배정물량"] = Field(default=None, alias="assign_stk_qty")
 
 
 class PubOfferResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[PubOfferOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[PubOfferOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[PubOfferRequest, PubOfferResponse] = Endpoint(

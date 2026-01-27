@@ -14,10 +14,8 @@ if TYPE_CHECKING:
 
 
 class ProgramTradeByStockRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("KRX : J , NXT : NX, 통합 : UN")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목코드")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "KRX : J , NXT : NX, 통합 : UN"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "종목코드"] = Field(alias="FID_INPUT_ISCD")
 
 
 class ProgramTradeByStockRequestDict(TypedDict):
@@ -33,50 +31,32 @@ class ProgramTradeByStockRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목코드
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "KRX : J , NXT : NX, 통합 : UN"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
 
 
 class ProgramTradeByStockOutput(RawModel):
-    bsop_hour: KisTime = Field(alias="bsop_hour")
-    ("영업 시간")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    whol_smtn_seln_vol: int = Field(alias="whol_smtn_seln_vol")
-    ("전체 합계 매도 거래량")
-    whol_smtn_shnu_vol: int = Field(alias="whol_smtn_shnu_vol")
-    ("전체 합계 매수2 거래량")
-    whol_smtn_ntby_qty: int = Field(alias="whol_smtn_ntby_qty")
-    ("전체 합계 순매수 수량")
-    whol_smtn_seln_tr_pbmn: Decimal = Field(alias="whol_smtn_seln_tr_pbmn")
-    ("전체 합계 매도 거래 대금")
-    whol_smtn_shnu_tr_pbmn: Decimal = Field(alias="whol_smtn_shnu_tr_pbmn")
-    ("전체 합계 매수2 거래 대금")
-    whol_smtn_ntby_tr_pbmn: Decimal = Field(alias="whol_smtn_ntby_tr_pbmn")
-    ("전체 합계 순매수 거래 대금")
-    whol_ntby_vol_icdc: int = Field(alias="whol_ntby_vol_icdc")
-    ("전체 순매수 거래량 증감")
-    whol_ntby_tr_pbmn_icdc: Decimal = Field(alias="whol_ntby_tr_pbmn_icdc")
-    ("전체 순매수 거래 대금 증감")
+    bsop_hour: Annotated[KisTime, "영업 시간"] = Field(alias="bsop_hour")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    whol_smtn_seln_vol: Annotated[int, "전체 합계 매도 거래량"] = Field(alias="whol_smtn_seln_vol")
+    whol_smtn_shnu_vol: Annotated[int, "전체 합계 매수2 거래량"] = Field(alias="whol_smtn_shnu_vol")
+    whol_smtn_ntby_qty: Annotated[int, "전체 합계 순매수 수량"] = Field(alias="whol_smtn_ntby_qty")
+    whol_smtn_seln_tr_pbmn: Annotated[Decimal, "전체 합계 매도 거래 대금"] = Field(alias="whol_smtn_seln_tr_pbmn")
+    whol_smtn_shnu_tr_pbmn: Annotated[Decimal, "전체 합계 매수2 거래 대금"] = Field(alias="whol_smtn_shnu_tr_pbmn")
+    whol_smtn_ntby_tr_pbmn: Annotated[Decimal, "전체 합계 순매수 거래 대금"] = Field(alias="whol_smtn_ntby_tr_pbmn")
+    whol_ntby_vol_icdc: Annotated[int, "전체 순매수 거래량 증감"] = Field(alias="whol_ntby_vol_icdc")
+    whol_ntby_tr_pbmn_icdc: Annotated[Decimal, "전체 순매수 거래 대금 증감"] = Field(alias="whol_ntby_tr_pbmn_icdc")
 
 
 class ProgramTradeByStockResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[ProgramTradeByStockOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[ProgramTradeByStockOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[ProgramTradeByStockRequest, ProgramTradeByStockResponse] = Endpoint(

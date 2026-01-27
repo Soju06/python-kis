@@ -3,13 +3,14 @@ from __future__ import annotations
 
 from datetime import datetime
 from decimal import Decimal
+from typing import Annotated
 
 from pykis.streaming.raw.base import StreamingRawModel
 from pykis.streaming.raw.specs import DateTimeRule, DecimalRule, FieldSource, FieldType, StreamingSpec
 
 
 class HDFSASP0(StreamingRawModel):
-    RSYM: str
+    RSYM: Annotated[str, "'각 항목사이에는 구분자로 ^ 사용,\n모든 데이터타입은 String으로 변환되어 push 처리됨'"]
     SYMB: str
     ZDIV: int
     XYMD: datetime

@@ -16,39 +16,33 @@ if TYPE_CHECKING:
 
 class SllBuyDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "매도")
-    "매도"
+    """매도"""
     VALUE_02 = ("02", "매수")
-    "매수"
+    """매수"""
 
 
 class SortSqnDvsnEnum(KisStrEnum):
     VALUE_01 = ("01", "주문순서")
-    "주문순서"
+    """주문순서"""
     VALUE_02 = ("02", "주문역순")
-    "주문역순"
+    """주문역순"""
 
 
 class InquireDailyCcldRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("계좌상품코드")
-    INQR_STRT_DT: KisDate = Field(alias="INQR_STRT_DT")
-    ("일자 ~ (1주일 이내)")
-    INQR_END_DT: KisDate = Field(alias="INQR_END_DT")
-    ("~ 일자 (조회 당일)")
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(alias="SLL_BUY_DVSN_CD")
-    ("%(전체), 01(매도), 02(매수)")
-    SORT_SQN_DVSN: SortSqnDvsnEnum = Field(alias="SORT_SQN_DVSN")
-    ("01(주문순서), 02(주문역순)")
-    PDNO: str = Field(alias="PDNO")
-    ("상품번호")
-    NCCS_YN: KisBool = Field(alias="NCCS_YN")
-    ("N(전체), C(체결), Y(미체결)")
-    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
-    ("연속조회키200")
-    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
-    ("연속조회검색조건200")
+    CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"] = Field(alias="ACNT_PRDT_CD")
+    INQR_STRT_DT: Annotated[KisDate, "일자 ~ (1주일 이내)"] = Field(alias="INQR_STRT_DT")
+    INQR_END_DT: Annotated[KisDate, "~ 일자 (조회 당일)"] = Field(alias="INQR_END_DT")
+    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "%(전체), 01(매도), 02(매수)"] = Field(
+        alias="SLL_BUY_DVSN_CD", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "매도", "02": "매수"}}
+    )
+    SORT_SQN_DVSN: Annotated[SortSqnDvsnEnum, "01(주문순서), 02(주문역순)"] = Field(
+        alias="SORT_SQN_DVSN", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "주문순서", "02": "주문역순"}}
+    )
+    PDNO: Annotated[str, "상품번호"] = Field(alias="PDNO")
+    NCCS_YN: Annotated[KisBool, "N(전체), C(체결), Y(미체결)"] = Field(alias="NCCS_YN")
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"] = Field(alias="CTX_AREA_NK200")
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"] = Field(alias="CTX_AREA_FK200")
 
 
 class InquireDailyCcldRequestDict(TypedDict):
@@ -70,85 +64,55 @@ class InquireDailyCcldRequestDict(TypedDict):
         CTX_AREA_FK200 (str): 연속조회검색조건200
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
-    INQR_STRT_DT: Annotated[KisDate, "일자 ~ (1주일 이내)"]
-    INQR_END_DT: Annotated[KisDate, "~ 일자 (조회 당일)"]
-    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "%(전체), 01(매도), 02(매수)"]
-    SORT_SQN_DVSN: Annotated[SortSqnDvsnEnum, "01(주문순서), 02(주문역순)"]
-    PDNO: Annotated[str, "상품번호"]
-    NCCS_YN: Annotated[KisBool, "N(전체), C(체결), Y(미체결)"]
-    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
-    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
+    CANO: str
+    ACNT_PRDT_CD: str
+    INQR_STRT_DT: KisDate
+    INQR_END_DT: KisDate
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum
+    SORT_SQN_DVSN: SortSqnDvsnEnum
+    PDNO: str
+    NCCS_YN: KisBool
+    CTX_AREA_NK200: str
+    CTX_AREA_FK200: str
 
 
 class InquireDailyCcldOutput1(RawModel):
-    tot_ord_qty: int = Field(alias="tot_ord_qty")
-    ("총주문수량")
-    tot_ccld_qty_smtl: int = Field(alias="tot_ccld_qty_smtl")
-    ("총체결수량합계")
-    tot_bond_ccld_avg_unpr: str = Field(alias="tot_bond_ccld_avg_unpr")
-    ("총채권체결평균단가")
-    tot_ccld_amt_smtl: Decimal = Field(alias="tot_ccld_amt_smtl")
-    ("총체결금액합계")
+    tot_ord_qty: Annotated[int, "총주문수량"] = Field(alias="tot_ord_qty")
+    tot_ccld_qty_smtl: Annotated[int, "총체결수량합계"] = Field(alias="tot_ccld_qty_smtl")
+    tot_bond_ccld_avg_unpr: Annotated[str, "총채권체결평균단가"] = Field(alias="tot_bond_ccld_avg_unpr")
+    tot_ccld_amt_smtl: Annotated[Decimal, "총체결금액합계"] = Field(alias="tot_ccld_amt_smtl")
 
 
 class InquireDailyCcldOutput2(RawModel):
-    ord_dt: KisDate = Field(alias="ord_dt")
-    ("주문일자")
-    odno: str = Field(alias="odno")
-    ("주문번호")
-    orgn_odno: str = Field(alias="orgn_odno")
-    ("원주문번호")
-    ord_dvsn_name: str = Field(alias="ord_dvsn_name")
-    ("주문구분명")
-    sll_buy_dvsn_cd_name: str = Field(alias="sll_buy_dvsn_cd_name")
-    ("매도매수구분코드명")
-    shtn_pdno: str = Field(alias="shtn_pdno")
-    ("단축상품번호")
-    prdt_abrv_name: str = Field(alias="prdt_abrv_name")
-    ("상품약어명")
-    ord_qty: int = Field(alias="ord_qty")
-    ("주문수량")
-    bond_ord_unpr: str = Field(alias="bond_ord_unpr")
-    ("채권주문단가")
-    ord_tmd: KisTime = Field(alias="ord_tmd")
-    ("주문시각")
-    tot_ccld_qty: int = Field(alias="tot_ccld_qty")
-    ("총체결수량")
-    bond_avg_unpr: str = Field(alias="bond_avg_unpr")
-    ("채권평균단가")
-    tot_ccld_amt: Decimal = Field(alias="tot_ccld_amt")
-    ("총체결금액")
-    loan_dt: KisDate = Field(alias="loan_dt")
-    ("대출일자")
-    buy_dt: KisDate = Field(alias="buy_dt")
-    ("매수일자")
-    samt_mket_ptci_yn_name: KisBool = Field(alias="samt_mket_ptci_yn_name")
-    ("소액시장참여여부명")
-    sprx_psbl_yn_ifom: KisBool = Field(alias="sprx_psbl_yn_ifom")
-    ("분리과세가능여부알림")
-    ord_mdia_dvsn_name: str = Field(alias="ord_mdia_dvsn_name")
-    ("주문매체구분명")
-    sll_buy_dvsn_cd: str = Field(alias="sll_buy_dvsn_cd")
-    ("매도매수구분코드")
-    nccs_qty: int = Field(alias="nccs_qty")
-    ("미체결수량")
-    ord_gno_brno: str = Field(alias="ord_gno_brno")
-    ("주문채번지점번호")
+    ord_dt: Annotated[KisDate, "주문일자"] = Field(alias="ord_dt")
+    odno: Annotated[str, "주문번호"] = Field(alias="odno")
+    orgn_odno: Annotated[str, "원주문번호"] = Field(alias="orgn_odno")
+    ord_dvsn_name: Annotated[str, "주문구분명"] = Field(alias="ord_dvsn_name")
+    sll_buy_dvsn_cd_name: Annotated[str, "매도매수구분코드명"] = Field(alias="sll_buy_dvsn_cd_name")
+    shtn_pdno: Annotated[str, "단축상품번호"] = Field(alias="shtn_pdno")
+    prdt_abrv_name: Annotated[str, "상품약어명"] = Field(alias="prdt_abrv_name")
+    ord_qty: Annotated[int, "주문수량"] = Field(alias="ord_qty")
+    bond_ord_unpr: Annotated[str, "채권주문단가"] = Field(alias="bond_ord_unpr")
+    ord_tmd: Annotated[KisTime, "주문시각"] = Field(alias="ord_tmd")
+    tot_ccld_qty: Annotated[int, "총체결수량"] = Field(alias="tot_ccld_qty")
+    bond_avg_unpr: Annotated[str, "채권평균단가"] = Field(alias="bond_avg_unpr")
+    tot_ccld_amt: Annotated[Decimal, "총체결금액"] = Field(alias="tot_ccld_amt")
+    loan_dt: Annotated[KisDate, "대출일자"] = Field(alias="loan_dt")
+    buy_dt: Annotated[KisDate, "매수일자"] = Field(alias="buy_dt")
+    samt_mket_ptci_yn_name: Annotated[KisBool, "소액시장참여여부명"] = Field(alias="samt_mket_ptci_yn_name")
+    sprx_psbl_yn_ifom: Annotated[KisBool, "분리과세가능여부알림"] = Field(alias="sprx_psbl_yn_ifom")
+    ord_mdia_dvsn_name: Annotated[str, "주문매체구분명"] = Field(alias="ord_mdia_dvsn_name")
+    sll_buy_dvsn_cd: Annotated[str, "매도매수구분코드"] = Field(alias="sll_buy_dvsn_cd")
+    nccs_qty: Annotated[int, "미체결수량"] = Field(alias="nccs_qty")
+    ord_gno_brno: Annotated[str, "주문채번지점번호"] = Field(alias="ord_gno_brno")
 
 
 class InquireDailyCcldResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquireDailyCcldOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquireDailyCcldOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquireDailyCcldOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquireDailyCcldOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireDailyCcldRequest, InquireDailyCcldResponse] = Endpoint(

@@ -16,18 +16,17 @@ if TYPE_CHECKING:
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "년")
-    "년"
+    """년"""
     VALUE_1 = ("1", "분기")
-    "분기"
+    """분기"""
 
 
 class IncomeStatementRequest(RawModel):
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
-    ("0: 년, 1: 분기 ※ 분기데이터는 연단위 누적합산")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
-    ("J")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("000660 : 종목코드")
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기 ※ 분기데이터는 연단위 누적합산"] = Field(
+        alias="FID_DIV_CLS_CODE", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "년", "1": "분기"}}
+    )
+    fid_cond_mrkt_div_code: Annotated[str, "J"] = Field(alias="fid_cond_mrkt_div_code")
+    fid_input_iscd: Annotated[str, "000660 : 종목코드"] = Field(alias="fid_input_iscd")
 
 
 class IncomeStatementRequestDict(TypedDict):
@@ -42,49 +41,32 @@ class IncomeStatementRequestDict(TypedDict):
         fid_input_iscd (str): 000660 : 종목코드
     """
 
-    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기 ※ 분기데이터는 연단위 누적합산"]
-    fid_cond_mrkt_div_code: Annotated[str, "J"]
-    fid_input_iscd: Annotated[str, "000660 : 종목코드"]
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum
+    fid_cond_mrkt_div_code: str
+    fid_input_iscd: str
 
 
 class IncomeStatementOutput(RawModel):
-    stac_yymm: str = Field(alias="stac_yymm")
-    ("결산 년월")
-    sale_account: Decimal = Field(alias="sale_account")
-    ("매출액")
-    sale_cost: Decimal = Field(alias="sale_cost")
-    ("매출 원가")
-    sale_totl_prfi: int = Field(alias="sale_totl_prfi")
-    ("매출 총 이익")
-    depr_cost: Decimal = Field(alias="depr_cost")
-    ("출력되지 않는 데이터(99.99 로 표시)")
-    sell_mang: Decimal = Field(alias="sell_mang")
-    ("출력되지 않는 데이터(99.99 로 표시)")
-    bsop_prti: Decimal = Field(alias="bsop_prti")
-    ("영업 이익")
-    bsop_non_ernn: Decimal = Field(alias="bsop_non_ernn")
-    ("출력되지 않는 데이터(99.99 로 표시)")
-    bsop_non_expn: Decimal = Field(alias="bsop_non_expn")
-    ("출력되지 않는 데이터(99.99 로 표시)")
-    op_prfi: Decimal = Field(alias="op_prfi")
-    ("경상 이익")
-    spec_prfi: Decimal = Field(alias="spec_prfi")
-    ("특별 이익")
-    spec_loss: Decimal = Field(alias="spec_loss")
-    ("특별 손실")
-    thtr_ntin: Decimal = Field(alias="thtr_ntin")
-    ("당기순이익")
+    stac_yymm: Annotated[str, "결산 년월"] = Field(alias="stac_yymm")
+    sale_account: Annotated[Decimal, "매출액"] = Field(alias="sale_account")
+    sale_cost: Annotated[Decimal, "매출 원가"] = Field(alias="sale_cost")
+    sale_totl_prfi: Annotated[int, "매출 총 이익"] = Field(alias="sale_totl_prfi")
+    depr_cost: Annotated[Decimal, "출력되지 않는 데이터(99.99 로 표시)"] = Field(alias="depr_cost")
+    sell_mang: Annotated[Decimal, "출력되지 않는 데이터(99.99 로 표시)"] = Field(alias="sell_mang")
+    bsop_prti: Annotated[Decimal, "영업 이익"] = Field(alias="bsop_prti")
+    bsop_non_ernn: Annotated[Decimal, "출력되지 않는 데이터(99.99 로 표시)"] = Field(alias="bsop_non_ernn")
+    bsop_non_expn: Annotated[Decimal, "출력되지 않는 데이터(99.99 로 표시)"] = Field(alias="bsop_non_expn")
+    op_prfi: Annotated[Decimal, "경상 이익"] = Field(alias="op_prfi")
+    spec_prfi: Annotated[Decimal, "특별 이익"] = Field(alias="spec_prfi")
+    spec_loss: Annotated[Decimal, "특별 손실"] = Field(alias="spec_loss")
+    thtr_ntin: Annotated[Decimal, "당기순이익"] = Field(alias="thtr_ntin")
 
 
 class IncomeStatementResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[IncomeStatementOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[IncomeStatementOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[IncomeStatementRequest, IncomeStatementResponse] = Endpoint(

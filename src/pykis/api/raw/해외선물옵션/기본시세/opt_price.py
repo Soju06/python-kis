@@ -14,8 +14,9 @@ if TYPE_CHECKING:
 
 
 class OptPriceRequest(RawModel):
-    SRS_CD: str = Field(alias="SRS_CD")
-    ('ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고')
+    SRS_CD: Annotated[str, 'ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고'] = Field(
+        alias="SRS_CD"
+    )
 
 
 class OptPriceRequestDict(TypedDict):
@@ -51,83 +52,51 @@ class OptPriceRequestDict(TypedDict):
         해외지수옵션/해외주식옵션" 참고
     """
 
-    SRS_CD: Annotated[str, 'ex) OESU24 C5500 ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고']
+    SRS_CD: str
 
 
 class OptPriceOutput1(RawModel):
-    proc_date: KisDateOptional = Field(default=None, alias="proc_date")
-    ("최종처리일자")
-    proc_time: KisTimeOptional = Field(default=None, alias="proc_time")
-    ("최종처리시각")
-    open_price: Decimal | None = Field(default=None, alias="open_price")
-    ("시가")
-    high_price: Decimal | None = Field(default=None, alias="high_price")
-    ("고가")
-    low_price: Decimal | None = Field(default=None, alias="low_price")
-    ("저가")
-    last_price: str | None = Field(default=None, alias="last_price")
-    ("현재가 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고 * 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션")
-    vol: int | None = Field(default=None, alias="vol")
-    ("누적거래수량")
-    prev_diff_flag: str | None = Field(default=None, alias="prev_diff_flag")
-    ("전일대비구분")
-    prev_diff_price: Decimal | None = Field(default=None, alias="prev_diff_price")
-    ("전일대비가격")
-    prev_diff_rate: Decimal | None = Field(default=None, alias="prev_diff_rate")
-    ("전일대비율")
-    bid_qntt: str | None = Field(default=None, alias="bid_qntt")
-    ("매수1수량")
-    bid_price: str | None = Field(default=None, alias="bid_price")
-    ("매수1호가")
-    ask_qntt: int | None = Field(default=None, alias="ask_qntt")
-    ("매도1수량")
-    ask_price: Decimal | None = Field(default=None, alias="ask_price")
-    ("매도1호가")
-    trst_mgn: str | None = Field(default=None, alias="trst_mgn")
-    ("증거금")
-    exch_cd: str | None = Field(default=None, alias="exch_cd")
-    ("거래소코드")
-    crc_cd: str | None = Field(default=None, alias="crc_cd")
-    ("거래통화")
-    trd_fr_date: KisDateOptional = Field(default=None, alias="trd_fr_date")
-    ("상장일")
-    expr_date: KisDateOptional = Field(default=None, alias="expr_date")
-    ("만기일")
-    trd_to_date: KisDateOptional = Field(default=None, alias="trd_to_date")
-    ("최종거래일")
-    remn_cnt: str | None = Field(default=None, alias="remn_cnt")
-    ("잔존일수")
-    last_qntt: str | None = Field(default=None, alias="last_qntt")
-    ("체결량")
-    tot_ask_qntt: str | None = Field(default=None, alias="tot_ask_qntt")
-    ("총매도잔량")
-    tot_bid_qntt: str | None = Field(default=None, alias="tot_bid_qntt")
-    ("총매수잔량")
-    tick_size: str | None = Field(default=None, alias="tick_size")
-    ("틱사이즈")
-    open_date: KisDateOptional = Field(default=None, alias="open_date")
-    ("장개시일자")
-    open_time: KisTimeOptional = Field(default=None, alias="open_time")
-    ("장개시시각")
-    close_date: KisDateOptional = Field(default=None, alias="close_date")
-    ("장종료일자")
-    close_time: KisTimeOptional = Field(default=None, alias="close_time")
-    ("장종료시각")
-    sbsnsdate: KisDateOptional = Field(default=None, alias="sbsnsdate")
-    ("영업일자")
-    sttl_price: Decimal | None = Field(default=None, alias="sttl_price")
-    ("정산가")
+    proc_date: Annotated[KisDateOptional, "최종처리일자"] = Field(default=None, alias="proc_date")
+    proc_time: Annotated[KisTimeOptional, "최종처리시각"] = Field(default=None, alias="proc_time")
+    open_price: Annotated[Decimal | None, "시가"] = Field(default=None, alias="open_price")
+    high_price: Annotated[Decimal | None, "고가"] = Field(default=None, alias="high_price")
+    low_price: Annotated[Decimal | None, "저가"] = Field(default=None, alias="low_price")
+    last_price: Annotated[
+        str | None,
+        "현재가 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고 * 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션",
+    ] = Field(default=None, alias="last_price")
+    vol: Annotated[int | None, "누적거래수량"] = Field(default=None, alias="vol")
+    prev_diff_flag: Annotated[str | None, "전일대비구분"] = Field(default=None, alias="prev_diff_flag")
+    prev_diff_price: Annotated[Decimal | None, "전일대비가격"] = Field(default=None, alias="prev_diff_price")
+    prev_diff_rate: Annotated[Decimal | None, "전일대비율"] = Field(default=None, alias="prev_diff_rate")
+    bid_qntt: Annotated[str | None, "매수1수량"] = Field(default=None, alias="bid_qntt")
+    bid_price: Annotated[str | None, "매수1호가"] = Field(default=None, alias="bid_price")
+    ask_qntt: Annotated[int | None, "매도1수량"] = Field(default=None, alias="ask_qntt")
+    ask_price: Annotated[Decimal | None, "매도1호가"] = Field(default=None, alias="ask_price")
+    trst_mgn: Annotated[str | None, "증거금"] = Field(default=None, alias="trst_mgn")
+    exch_cd: Annotated[str | None, "거래소코드"] = Field(default=None, alias="exch_cd")
+    crc_cd: Annotated[str | None, "거래통화"] = Field(default=None, alias="crc_cd")
+    trd_fr_date: Annotated[KisDateOptional, "상장일"] = Field(default=None, alias="trd_fr_date")
+    expr_date: Annotated[KisDateOptional, "만기일"] = Field(default=None, alias="expr_date")
+    trd_to_date: Annotated[KisDateOptional, "최종거래일"] = Field(default=None, alias="trd_to_date")
+    remn_cnt: Annotated[str | None, "잔존일수"] = Field(default=None, alias="remn_cnt")
+    last_qntt: Annotated[str | None, "체결량"] = Field(default=None, alias="last_qntt")
+    tot_ask_qntt: Annotated[str | None, "총매도잔량"] = Field(default=None, alias="tot_ask_qntt")
+    tot_bid_qntt: Annotated[str | None, "총매수잔량"] = Field(default=None, alias="tot_bid_qntt")
+    tick_size: Annotated[str | None, "틱사이즈"] = Field(default=None, alias="tick_size")
+    open_date: Annotated[KisDateOptional, "장개시일자"] = Field(default=None, alias="open_date")
+    open_time: Annotated[KisTimeOptional, "장개시시각"] = Field(default=None, alias="open_time")
+    close_date: Annotated[KisDateOptional, "장종료일자"] = Field(default=None, alias="close_date")
+    close_time: Annotated[KisTimeOptional, "장종료시각"] = Field(default=None, alias="close_time")
+    sbsnsdate: Annotated[KisDateOptional, "영업일자"] = Field(default=None, alias="sbsnsdate")
+    sttl_price: Annotated[Decimal | None, "정산가"] = Field(default=None, alias="sttl_price")
 
 
 class OptPriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: OptPriceOutput1 = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[OptPriceOutput1, "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[OptPriceRequest, OptPriceResponse] = Endpoint(

@@ -16,26 +16,24 @@ if TYPE_CHECKING:
 
 class Gb1Enum(KisStrEnum):
     VALUE_0 = ("0", "배당전체")
-    "배당전체"
+    """배당전체"""
     VALUE_1 = ("1", "결산배당")
-    "결산배당"
+    """결산배당"""
     VALUE_2 = ("2", "중간배당")
-    "중간배당"
+    """중간배당"""
 
 
 class DividendRequest(RawModel):
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    GB1: Gb1Enum = Field(alias="GB1")
-    ("0:배당전체, 1:결산배당, 2:중간배당")
-    F_DT: KisDate = Field(alias="F_DT")
-    ("일자 ~")
-    T_DT: KisDate = Field(alias="T_DT")
-    ("~ 일자")
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
-    ("공백: 전체, 특정종목 조회시 : 종목코드")
-    HIGH_GB: KisBool | None = Field(default=None, alias="HIGH_GB", json_schema_extra={"blank_allowed": True})
-    ("공백")
+    CTS: Annotated[str | None, "공백"] = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
+    GB1: Annotated[Gb1Enum, "0:배당전체, 1:결산배당, 2:중간배당"] = Field(
+        alias="GB1", json_schema_extra={"enum": ["0", "1", "2"], "enum_desc": {"0": "배당전체", "1": "결산배당", "2": "중간배당"}}
+    )
+    F_DT: Annotated[KisDate, "일자 ~"] = Field(alias="F_DT")
+    T_DT: Annotated[KisDate, "~ 일자"] = Field(alias="T_DT")
+    SHT_CD: Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"] = Field(
+        default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True}
+    )
+    HIGH_GB: Annotated[KisBool | None, "공백"] = Field(default=None, alias="HIGH_GB", json_schema_extra={"blank_allowed": True})
 
 
 class DividendRequestDict(TypedDict):
@@ -57,52 +55,35 @@ class DividendRequestDict(TypedDict):
         HIGH_GB (KisBool): 공백 optional
     """
 
-    CTS: NotRequired[Annotated[str | None, "공백"]]
-    GB1: Annotated[Gb1Enum, "0:배당전체, 1:결산배당, 2:중간배당"]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    T_DT: Annotated[KisDate, "~ 일자"]
-    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
-    HIGH_GB: NotRequired[Annotated[KisBool | None, "공백"]]
+    CTS: NotRequired[str | None]
+    GB1: Gb1Enum
+    F_DT: KisDate
+    T_DT: KisDate
+    SHT_CD: NotRequired[str | None]
+    HIGH_GB: NotRequired[KisBool | None]
 
 
 class DividendOutput1(RawModel):
-    record_date: KisDateOptional = Field(default=None, alias="record_date")
-    ("기준일")
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
-    ("종목코드")
-    isin_name: str | None = Field(default=None, alias="isin_name")
-    ("종목명")
-    divi_kind: str | None = Field(default=None, alias="divi_kind")
-    ("배당종류")
-    face_val: str | None = Field(default=None, alias="face_val")
-    ("액면가")
-    per_sto_divi_amt: str | None = Field(default=None, alias="per_sto_divi_amt")
-    ("현금배당금")
-    divi_rate: Decimal | None = Field(default=None, alias="divi_rate")
-    ("현금배당률(%)")
-    stk_divi_rate: Decimal | None = Field(default=None, alias="stk_divi_rate")
-    ("주식배당률(%)")
-    divi_pay_dt: KisDateOptional = Field(default=None, alias="divi_pay_dt")
-    ("배당금지급일")
-    stk_div_pay_dt: KisDateOptional = Field(default=None, alias="stk_div_pay_dt")
-    ("주식배당지급일")
-    odd_pay_dt: KisDateOptional = Field(default=None, alias="odd_pay_dt")
-    ("단주대금지급일")
-    stk_kind: str | None = Field(default=None, alias="stk_kind")
-    ("주식종류")
-    high_divi_gb: KisBool | None = Field(default=None, alias="high_divi_gb")
-    ("고배당종목여부")
+    record_date: Annotated[KisDateOptional, "기준일"] = Field(default=None, alias="record_date")
+    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
+    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
+    divi_kind: Annotated[str | None, "배당종류"] = Field(default=None, alias="divi_kind")
+    face_val: Annotated[str | None, "액면가"] = Field(default=None, alias="face_val")
+    per_sto_divi_amt: Annotated[str | None, "현금배당금"] = Field(default=None, alias="per_sto_divi_amt")
+    divi_rate: Annotated[Decimal | None, "현금배당률(%)"] = Field(default=None, alias="divi_rate")
+    stk_divi_rate: Annotated[Decimal | None, "주식배당률(%)"] = Field(default=None, alias="stk_divi_rate")
+    divi_pay_dt: Annotated[KisDateOptional, "배당금지급일"] = Field(default=None, alias="divi_pay_dt")
+    stk_div_pay_dt: Annotated[KisDateOptional, "주식배당지급일"] = Field(default=None, alias="stk_div_pay_dt")
+    odd_pay_dt: Annotated[KisDateOptional, "단주대금지급일"] = Field(default=None, alias="odd_pay_dt")
+    stk_kind: Annotated[str | None, "주식종류"] = Field(default=None, alias="stk_kind")
+    high_divi_gb: Annotated[KisBool | None, "고배당종목여부"] = Field(default=None, alias="high_divi_gb")
 
 
 class DividendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[DividendOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[DividendOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[DividendRequest, DividendResponse] = Endpoint(

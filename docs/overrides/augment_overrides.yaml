@@ -631,3 +631,6 @@ endpoints:
   967e60c7-f1eb-4f23-b893-71747556ad49:
     query:
       INQR_SQN_DVSN: '01'
+  c3b78a4a-de38-43fb-a78d-4018b1ea4d4f:
+    query:
+      fid_cond_scr_div_code: '20170'

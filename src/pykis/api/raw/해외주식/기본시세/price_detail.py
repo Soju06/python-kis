@@ -14,15 +14,12 @@ if TYPE_CHECKING:
 
 
 class PriceDetailRequest(RawModel):
-    AUTH: str = Field(alias="AUTH")
-    ("사용자권한정보")
-    EXCD: str = Field(alias="EXCD")
-    (
-        "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 "
-        "SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)"
-    )
-    SYMB: str = Field(alias="SYMB")
-    ("종목코드")
+    AUTH: Annotated[str, "사용자권한정보"] = Field(alias="AUTH")
+    EXCD: Annotated[
+        str,
+        "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
+    ] = Field(alias="EXCD")
+    SYMB: Annotated[str, "종목코드"] = Field(alias="SYMB")
 
 
 class PriceDetailRequestDict(TypedDict):
@@ -72,109 +69,60 @@ class PriceDetailRequestDict(TypedDict):
         SYMB (str): 종목코드
     """
 
-    AUTH: Annotated[str, "사용자권한정보"]
-    EXCD: Annotated[
-        str,
-        "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 "
-        "SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
-    ]
-    SYMB: Annotated[str, "종목코드"]
+    AUTH: str
+    EXCD: str
+    SYMB: str
 
 
 class PriceDetailOutput(RawModel):
-    rsym: str | None = Field(default=None, alias="rsym")
-    ("실시간조회종목코드")
-    pvol: int | None = Field(default=None, alias="pvol")
-    ("전일거래량")
-    open: Decimal | None = Field(default=None, alias="open")
-    ("시가")
-    high: Decimal | None = Field(default=None, alias="high")
-    ("고가")
-    low: Decimal | None = Field(default=None, alias="low")
-    ("저가")
-    last: Decimal | None = Field(default=None, alias="last")
-    ("현재가")
-    base: str | None = Field(default=None, alias="base")
-    ("전일종가")
-    tomv: Decimal | None = Field(default=None, alias="tomv")
-    ("시가총액")
-    pamt: Decimal | None = Field(default=None, alias="pamt")
-    ("전일거래대금")
-    uplp: str | None = Field(default=None, alias="uplp")
-    ("상한가")
-    dnlp: str | None = Field(default=None, alias="dnlp")
-    ("하한가")
-    h52p: Decimal | None = Field(default=None, alias="h52p")
-    ("52주최고가")
-    h52d: KisDateOptional = Field(default=None, alias="h52d")
-    ("52주최고일자")
-    l52p: Decimal | None = Field(default=None, alias="l52p")
-    ("52주최저가")
-    l52d: KisDateOptional = Field(default=None, alias="l52d")
-    ("52주최저일자")
-    perx: str | None = Field(default=None, alias="perx")
-    ("PER")
-    pbrx: str | None = Field(default=None, alias="pbrx")
-    ("PBR")
-    epsx: str | None = Field(default=None, alias="epsx")
-    ("EPS")
-    bpsx: str | None = Field(default=None, alias="bpsx")
-    ("BPS")
-    shar: str | None = Field(default=None, alias="shar")
-    ("상장주수")
-    mcap: str | None = Field(default=None, alias="mcap")
-    ("자본금")
-    curr: str | None = Field(default=None, alias="curr")
-    ("통화")
-    zdiv: str | None = Field(default=None, alias="zdiv")
-    ("소수점자리수")
-    vnit: str | None = Field(default=None, alias="vnit")
-    ("매매단위")
-    t_xprc: Decimal | None = Field(default=None, alias="t_xprc")
-    ("원환산당일가격")
-    t_xdif: str | None = Field(default=None, alias="t_xdif")
-    ("원환산당일대비")
-    t_xrat: str | None = Field(default=None, alias="t_xrat")
-    ("원환산당일등락")
-    p_xprc: Decimal | None = Field(default=None, alias="p_xprc")
-    ("원환산전일가격")
-    p_xdif: str | None = Field(default=None, alias="p_xdif")
-    ("원환산전일대비")
-    p_xrat: str | None = Field(default=None, alias="p_xrat")
-    ("원환산전일등락")
-    t_rate: Decimal | None = Field(default=None, alias="t_rate")
-    ("당일환율")
-    p_rate: Decimal | None = Field(default=None, alias="p_rate")
-    ("전일환율")
-    t_xsgn: str | None = Field(default=None, alias="t_xsgn")
-    ("HTS 색상표시용")
-    p_xsng: str | None = Field(default=None, alias="p_xsng")
-    ("HTS 색상표시용")
-    e_ordyn: KisBool | None = Field(default=None, alias="e_ordyn")
-    ("거래가능여부")
-    e_hogau: str | None = Field(default=None, alias="e_hogau")
-    ("호가단위")
-    e_icod: str | None = Field(default=None, alias="e_icod")
-    ("업종(섹터)")
-    e_parp: str | None = Field(default=None, alias="e_parp")
-    ("액면가")
-    tvol: int | None = Field(default=None, alias="tvol")
-    ("거래량")
-    tamt: Decimal | None = Field(default=None, alias="tamt")
-    ("거래대금")
-    etyp_nm: str | None = Field(default=None, alias="etyp_nm")
-    ("ETP 분류명")
+    rsym: Annotated[str | None, "실시간조회종목코드"] = Field(default=None, alias="rsym")
+    pvol: Annotated[int | None, "전일거래량"] = Field(default=None, alias="pvol")
+    open: Annotated[Decimal | None, "시가"] = Field(default=None, alias="open")
+    high: Annotated[Decimal | None, "고가"] = Field(default=None, alias="high")
+    low: Annotated[Decimal | None, "저가"] = Field(default=None, alias="low")
+    last: Annotated[Decimal | None, "현재가"] = Field(default=None, alias="last")
+    base: Annotated[str | None, "전일종가"] = Field(default=None, alias="base")
+    tomv: Annotated[Decimal | None, "시가총액"] = Field(default=None, alias="tomv")
+    pamt: Annotated[Decimal | None, "전일거래대금"] = Field(default=None, alias="pamt")
+    uplp: Annotated[str | None, "상한가"] = Field(default=None, alias="uplp")
+    dnlp: Annotated[str | None, "하한가"] = Field(default=None, alias="dnlp")
+    h52p: Annotated[Decimal | None, "52주최고가"] = Field(default=None, alias="h52p")
+    h52d: Annotated[KisDateOptional, "52주최고일자"] = Field(default=None, alias="h52d")
+    l52p: Annotated[Decimal | None, "52주최저가"] = Field(default=None, alias="l52p")
+    l52d: Annotated[KisDateOptional, "52주최저일자"] = Field(default=None, alias="l52d")
+    perx: Annotated[str | None, "PER"] = Field(default=None, alias="perx")
+    pbrx: Annotated[str | None, "PBR"] = Field(default=None, alias="pbrx")
+    epsx: Annotated[str | None, "EPS"] = Field(default=None, alias="epsx")
+    bpsx: Annotated[str | None, "BPS"] = Field(default=None, alias="bpsx")
+    shar: Annotated[str | None, "상장주수"] = Field(default=None, alias="shar")
+    mcap: Annotated[str | None, "자본금"] = Field(default=None, alias="mcap")
+    curr: Annotated[str | None, "통화"] = Field(default=None, alias="curr")
+    zdiv: Annotated[str | None, "소수점자리수"] = Field(default=None, alias="zdiv")
+    vnit: Annotated[str | None, "매매단위"] = Field(default=None, alias="vnit")
+    t_xprc: Annotated[Decimal | None, "원환산당일가격"] = Field(default=None, alias="t_xprc")
+    t_xdif: Annotated[str | None, "원환산당일대비"] = Field(default=None, alias="t_xdif")
+    t_xrat: Annotated[str | None, "원환산당일등락"] = Field(default=None, alias="t_xrat")
+    p_xprc: Annotated[Decimal | None, "원환산전일가격"] = Field(default=None, alias="p_xprc")
+    p_xdif: Annotated[str | None, "원환산전일대비"] = Field(default=None, alias="p_xdif")
+    p_xrat: Annotated[str | None, "원환산전일등락"] = Field(default=None, alias="p_xrat")
+    t_rate: Annotated[Decimal | None, "당일환율"] = Field(default=None, alias="t_rate")
+    p_rate: Annotated[Decimal | None, "전일환율"] = Field(default=None, alias="p_rate")
+    t_xsgn: Annotated[str | None, "HTS 색상표시용"] = Field(default=None, alias="t_xsgn")
+    p_xsng: Annotated[str | None, "HTS 색상표시용"] = Field(default=None, alias="p_xsng")
+    e_ordyn: Annotated[KisBool | None, "거래가능여부"] = Field(default=None, alias="e_ordyn")
+    e_hogau: Annotated[str | None, "호가단위"] = Field(default=None, alias="e_hogau")
+    e_icod: Annotated[str | None, "업종(섹터)"] = Field(default=None, alias="e_icod")
+    e_parp: Annotated[str | None, "액면가"] = Field(default=None, alias="e_parp")
+    tvol: Annotated[int | None, "거래량"] = Field(default=None, alias="tvol")
+    tamt: Annotated[Decimal | None, "거래대금"] = Field(default=None, alias="tamt")
+    etyp_nm: Annotated[str | None, "ETP 분류명"] = Field(default=None, alias="etyp_nm")
 
 
 class PriceDetailResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: PriceDetailOutput = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[PriceDetailOutput, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[PriceDetailRequest, PriceDetailResponse] = Endpoint(

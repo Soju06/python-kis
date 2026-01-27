@@ -14,12 +14,9 @@ if TYPE_CHECKING:
 
 
 class ProgramTradeByStockDailyRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("KRX : J , NXT : NX, 통합 : UN")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목코드")
-    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
-    ("기준일 (ex 0020240308), 미입력시 당일부터 조회")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "KRX : J , NXT : NX, 통합 : UN"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "종목코드"] = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_DATE_1: Annotated[str, "기준일 (ex 0020240308), 미입력시 당일부터 조회"] = Field(alias="FID_INPUT_DATE_1")
 
 
 class ProgramTradeByStockDailyRequestDict(TypedDict):
@@ -35,53 +32,34 @@ class ProgramTradeByStockDailyRequestDict(TypedDict):
         FID_INPUT_DATE_1 (str): 기준일 (ex 0020240308), 미입력시 당일부터 조회
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "KRX : J , NXT : NX, 통합 : UN"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드"]
-    FID_INPUT_DATE_1: Annotated[str, "기준일 (ex 0020240308), 미입력시 당일부터 조회"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
+    FID_INPUT_DATE_1: str
 
 
 class ProgramTradeByStockDailyOutput(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
-    ("주식 영업 일자")
-    stck_clpr: int = Field(alias="stck_clpr")
-    ("주식 종가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
-    ("누적 거래 대금")
-    whol_smtn_seln_vol: int = Field(alias="whol_smtn_seln_vol")
-    ("전체 합계 매도 거래량")
-    whol_smtn_shnu_vol: int = Field(alias="whol_smtn_shnu_vol")
-    ("전체 합계 매수2 거래량")
-    whol_smtn_ntby_qty: int = Field(alias="whol_smtn_ntby_qty")
-    ("전체 합계 순매수 수량")
-    whol_smtn_seln_tr_pbmn: Decimal = Field(alias="whol_smtn_seln_tr_pbmn")
-    ("전체 합계 매도 거래 대금")
-    whol_smtn_shnu_tr_pbmn: Decimal = Field(alias="whol_smtn_shnu_tr_pbmn")
-    ("전체 합계 매수2 거래 대금")
-    whol_smtn_ntby_tr_pbmn: Decimal = Field(alias="whol_smtn_ntby_tr_pbmn")
-    ("전체 합계 순매수 거래 대금")
-    whol_ntby_vol_icdc: int = Field(alias="whol_ntby_vol_icdc")
-    ("전체 순매수 거래량 증감")
-    whol_ntby_tr_pbmn_icdc2: Decimal = Field(alias="whol_ntby_tr_pbmn_icdc2")
-    ("전체 순매수 거래 대금 증감2")
+    stck_bsop_date: Annotated[KisDate, "주식 영업 일자"] = Field(alias="stck_bsop_date")
+    stck_clpr: Annotated[int, "주식 종가"] = Field(alias="stck_clpr")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    acml_tr_pbmn: Annotated[Decimal, "누적 거래 대금"] = Field(alias="acml_tr_pbmn")
+    whol_smtn_seln_vol: Annotated[int, "전체 합계 매도 거래량"] = Field(alias="whol_smtn_seln_vol")
+    whol_smtn_shnu_vol: Annotated[int, "전체 합계 매수2 거래량"] = Field(alias="whol_smtn_shnu_vol")
+    whol_smtn_ntby_qty: Annotated[int, "전체 합계 순매수 수량"] = Field(alias="whol_smtn_ntby_qty")
+    whol_smtn_seln_tr_pbmn: Annotated[Decimal, "전체 합계 매도 거래 대금"] = Field(alias="whol_smtn_seln_tr_pbmn")
+    whol_smtn_shnu_tr_pbmn: Annotated[Decimal, "전체 합계 매수2 거래 대금"] = Field(alias="whol_smtn_shnu_tr_pbmn")
+    whol_smtn_ntby_tr_pbmn: Annotated[Decimal, "전체 합계 순매수 거래 대금"] = Field(alias="whol_smtn_ntby_tr_pbmn")
+    whol_ntby_vol_icdc: Annotated[int, "전체 순매수 거래량 증감"] = Field(alias="whol_ntby_vol_icdc")
+    whol_ntby_tr_pbmn_icdc2: Annotated[Decimal, "전체 순매수 거래 대금 증감2"] = Field(alias="whol_ntby_tr_pbmn_icdc2")
 
 
 class ProgramTradeByStockDailyResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[ProgramTradeByStockDailyOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[ProgramTradeByStockDailyOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[ProgramTradeByStockDailyRequest, ProgramTradeByStockDailyResponse] = Endpoint(

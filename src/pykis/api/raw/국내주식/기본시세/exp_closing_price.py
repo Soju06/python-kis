@@ -16,35 +16,40 @@ if TYPE_CHECKING:
 
 class FidRankSortClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "상한가마감예상")
-    "상한가마감예상"
+    """상한가마감예상"""
     VALUE_2 = ("2", "하한가마감예상")
-    "하한가마감예상"
+    """하한가마감예상"""
     VALUE_3 = ("3", "직전대비상승률상위")
-    "직전대비상승률상위"
+    """직전대비상승률상위"""
     VALUE_4 = ("4", "직전대비하락률상위")
-    "직전대비하락률상위"
+    """직전대비하락률상위"""
 
 
 class FidBlngClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "종가범위연장")
-    "종가범위연장"
+    """종가범위연장"""
 
 
 class ExpClosingPriceRequest(RawModel):
-    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum = Field(alias="FID_RANK_SORT_CLS_CODE")
-    ("0:전체, 1:상한가마감예상, 2:하한가마감예상, 3:직전대비상승률상위 ,4:직전대비하락률상위")
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (주식 J)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("Unique key(11173)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
-    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum = Field(alias="FID_BLNG_CLS_CODE")
-    ("0:전체, 1:종가범위연장")
+    FID_RANK_SORT_CLS_CODE: Annotated[
+        FidRankSortClsCodeEnum, "0:전체, 1:상한가마감예상, 2:하한가마감예상, 3:직전대비상승률상위 ,4:직전대비하락률상위"
+    ] = Field(
+        alias="FID_RANK_SORT_CLS_CODE",
+        json_schema_extra={
+            "enum": ["0", "1", "2", "3", "4"],
+            "enum_desc": {"0": "전체", "1": "상한가마감예상", "2": "하한가마감예상", "3": "직전대비상승률상위", "4": "직전대비하락률상위"},
+        },
+    )
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(11173)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"] = Field(alias="FID_INPUT_ISCD")
+    FID_BLNG_CLS_CODE: Annotated[FidBlngClsCodeEnum, "0:전체, 1:종가범위연장"] = Field(
+        alias="FID_BLNG_CLS_CODE", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "전체", "1": "종가범위연장"}}
+    )
 
 
 class ExpClosingPriceRequestDict(TypedDict):
@@ -62,45 +67,30 @@ class ExpClosingPriceRequestDict(TypedDict):
         FID_BLNG_CLS_CODE (FidBlngClsCodeEnum): 0:전체, 1:종가범위연장
     """
 
-    FID_RANK_SORT_CLS_CODE: Annotated[
-        FidRankSortClsCodeEnum, "0:전체, 1:상한가마감예상, 2:하한가마감예상, 3:직전대비상승률상위 ,4:직전대비하락률상위"
-    ]
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(11173)"]
-    FID_INPUT_ISCD: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"]
-    FID_BLNG_CLS_CODE: Annotated[FidBlngClsCodeEnum, "0:전체, 1:종가범위연장"]
+    FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum
+    FID_COND_MRKT_DIV_CODE: str
+    FID_COND_SCR_DIV_CODE: str
+    FID_INPUT_ISCD: str
+    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum
 
 
 class ExpClosingPriceOutput1(RawModel):
-    stck_shrn_iscd: str = Field(alias="stck_shrn_iscd")
-    ("주식 단축 종목코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    sdpr_vrss_prpr: Decimal = Field(alias="sdpr_vrss_prpr")
-    ("기준가 대비 현재가")
-    sdpr_vrss_prpr_rate: Decimal = Field(alias="sdpr_vrss_prpr_rate")
-    ("기준가 대비 현재가 비율")
-    cntg_vol: int = Field(alias="cntg_vol")
-    ("체결 거래량")
+    stck_shrn_iscd: Annotated[str, "주식 단축 종목코드"] = Field(alias="stck_shrn_iscd")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    sdpr_vrss_prpr: Annotated[Decimal, "기준가 대비 현재가"] = Field(alias="sdpr_vrss_prpr")
+    sdpr_vrss_prpr_rate: Annotated[Decimal, "기준가 대비 현재가 비율"] = Field(alias="sdpr_vrss_prpr_rate")
+    cntg_vol: Annotated[int, "체결 거래량"] = Field(alias="cntg_vol")
 
 
 class ExpClosingPriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[ExpClosingPriceOutput1] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[ExpClosingPriceOutput1], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[ExpClosingPriceRequest, ExpClosingPriceResponse] = Endpoint(

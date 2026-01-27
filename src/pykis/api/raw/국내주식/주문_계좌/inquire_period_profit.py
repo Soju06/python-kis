@@ -16,34 +16,26 @@ if TYPE_CHECKING:
 
 class SortDvsnEnum(KisStrEnum):
     VALUE_00 = ("00", "최근 순")
-    "최근 순"
+    """최근 순"""
     VALUE_01 = ("01", "과거 순")
-    "과거 순"
+    """과거 순"""
     VALUE_02 = ("02", "최근 순")
-    "최근 순"
+    """최근 순"""
 
 
 class InquirePeriodProfitRequest(RawModel):
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("계좌상품코드")
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호")
-    INQR_STRT_DT: KisDate = Field(alias="INQR_STRT_DT")
-    ("조회시작일자")
-    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
-    ('""공란입력 시, 전체')
-    CTX_AREA_NK100: str = Field(alias="CTX_AREA_NK100")
-    ("연속조회키100")
-    INQR_END_DT: KisDate = Field(alias="INQR_END_DT")
-    ("조회종료일자")
-    SORT_DVSN: SortDvsnEnum = Field(alias="SORT_DVSN")
-    ("00: 최근 순, 01: 과거 순, 02: 최근 순")
-    INQR_DVSN: str = Field(alias="INQR_DVSN")
-    ("00 입력")
-    CBLC_DVSN: str = Field(alias="CBLC_DVSN")
-    ("00: 전체")
-    CTX_AREA_FK100: str = Field(alias="CTX_AREA_FK100")
-    ("연속조회검색조건100")
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"] = Field(alias="ACNT_PRDT_CD")
+    CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
+    INQR_STRT_DT: Annotated[KisDate, "조회시작일자"] = Field(alias="INQR_STRT_DT")
+    PDNO: Annotated[str | None, '""공란입력 시, 전체'] = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_NK100: Annotated[str, "연속조회키100"] = Field(alias="CTX_AREA_NK100")
+    INQR_END_DT: Annotated[KisDate, "조회종료일자"] = Field(alias="INQR_END_DT")
+    SORT_DVSN: Annotated[SortDvsnEnum, "00: 최근 순, 01: 과거 순, 02: 최근 순"] = Field(
+        alias="SORT_DVSN", json_schema_extra={"enum": ["00", "01", "02"], "enum_desc": {"00": "최근 순", "01": "과거 순", "02": "최근 순"}}
+    )
+    INQR_DVSN: Annotated[str, "00 입력"] = Field(alias="INQR_DVSN")
+    CBLC_DVSN: Annotated[str, "00: 전체"] = Field(alias="CBLC_DVSN")
+    CTX_AREA_FK100: Annotated[str, "연속조회검색조건100"] = Field(alias="CTX_AREA_FK100")
 
 
 class InquirePeriodProfitRequestDict(TypedDict):
@@ -65,92 +57,60 @@ class InquirePeriodProfitRequestDict(TypedDict):
         CTX_AREA_FK100 (str): 연속조회검색조건100
     """
 
-    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
-    CANO: Annotated[str, "종합계좌번호"]
-    INQR_STRT_DT: Annotated[KisDate, "조회시작일자"]
-    PDNO: NotRequired[Annotated[str | None, '""공란입력 시, 전체']]
-    CTX_AREA_NK100: Annotated[str, "연속조회키100"]
-    INQR_END_DT: Annotated[KisDate, "조회종료일자"]
-    SORT_DVSN: Annotated[SortDvsnEnum, "00: 최근 순, 01: 과거 순, 02: 최근 순"]
-    INQR_DVSN: Annotated[str, "00 입력"]
-    CBLC_DVSN: Annotated[str, "00: 전체"]
-    CTX_AREA_FK100: Annotated[str, "연속조회검색조건100"]
+    ACNT_PRDT_CD: str
+    CANO: str
+    INQR_STRT_DT: KisDate
+    PDNO: NotRequired[str | None]
+    CTX_AREA_NK100: str
+    INQR_END_DT: KisDate
+    SORT_DVSN: SortDvsnEnum
+    INQR_DVSN: str
+    CBLC_DVSN: str
+    CTX_AREA_FK100: str
 
 
 class InquirePeriodProfitOutput1(RawModel):
-    trad_dt: KisDate = Field(alias="trad_dt")
-    ("매매일자")
-    buy_amt: Decimal = Field(alias="buy_amt")
-    ("매수금액")
-    sll_amt: Decimal = Field(alias="sll_amt")
-    ("매도금액")
-    rlzt_pfls: str = Field(alias="rlzt_pfls")
-    ("실현손익")
-    fee: str = Field(alias="fee")
-    ("수수료")
-    loan_int: str = Field(alias="loan_int")
-    ("대출이자")
-    tl_tax: str = Field(alias="tl_tax")
-    ("제세금")
-    pfls_rt: str = Field(alias="pfls_rt")
-    ("손익률")
-    sll_qty1: int = Field(alias="sll_qty1")
-    ("매도수량1")
-    buy_qty1: int = Field(alias="buy_qty1")
-    ("매수수량1")
+    trad_dt: Annotated[KisDate, "매매일자"] = Field(alias="trad_dt")
+    buy_amt: Annotated[Decimal, "매수금액"] = Field(alias="buy_amt")
+    sll_amt: Annotated[Decimal, "매도금액"] = Field(alias="sll_amt")
+    rlzt_pfls: Annotated[str, "실현손익"] = Field(alias="rlzt_pfls")
+    fee: Annotated[str, "수수료"] = Field(alias="fee")
+    loan_int: Annotated[str, "대출이자"] = Field(alias="loan_int")
+    tl_tax: Annotated[str, "제세금"] = Field(alias="tl_tax")
+    pfls_rt: Annotated[str, "손익률"] = Field(alias="pfls_rt")
+    sll_qty1: Annotated[int, "매도수량1"] = Field(alias="sll_qty1")
+    buy_qty1: Annotated[int, "매수수량1"] = Field(alias="buy_qty1")
 
 
 class InquirePeriodProfitOutput2(RawModel):
-    sll_qty_smtl: int = Field(alias="sll_qty_smtl")
-    ("매도수량합계")
-    sll_tr_amt_smtl: Decimal = Field(alias="sll_tr_amt_smtl")
-    ("매도거래금액합계")
-    sll_fee_smtl: str = Field(alias="sll_fee_smtl")
-    ("매도수수료합계")
-    sll_tltx_smtl: str = Field(alias="sll_tltx_smtl")
-    ("매도제세금합계")
-    sll_excc_amt_smtl: Decimal = Field(alias="sll_excc_amt_smtl")
-    ("매도정산금액합계")
-    buy_qty_smtl: int = Field(alias="buy_qty_smtl")
-    ("매수수량합계")
-    buy_tr_amt_smtl: Decimal = Field(alias="buy_tr_amt_smtl")
-    ("매수거래금액합계")
-    buy_fee_smtl: str = Field(alias="buy_fee_smtl")
-    ("매수수수료합계")
-    buy_tax_smtl: str = Field(alias="buy_tax_smtl")
-    ("매수제세금합계")
-    buy_excc_amt_smtl: Decimal = Field(alias="buy_excc_amt_smtl")
-    ("매수정산금액합계")
-    tot_qty: int = Field(alias="tot_qty")
-    ("총수량")
-    tot_tr_amt: Decimal = Field(alias="tot_tr_amt")
-    ("총거래금액")
-    tot_fee: str = Field(alias="tot_fee")
-    ("총수수료")
-    tot_tltx: str = Field(alias="tot_tltx")
-    ("총제세금")
-    tot_excc_amt: Decimal = Field(alias="tot_excc_amt")
-    ("총정산금액")
-    tot_rlzt_pfls: str = Field(alias="tot_rlzt_pfls")
-    (
-        "※ HTS[0856] 기간별 매매손익 '일별' 화면의 우측 하단 '총손익률' 항목은 "
-        "기간별매매손익현황조회(TTTC8715R) > output2 > tot_pftrt(총수익률) 으로 확인 가능"
-    )
-    loan_int: str = Field(alias="loan_int")
-    ("대출이자")
+    sll_qty_smtl: Annotated[int, "매도수량합계"] = Field(alias="sll_qty_smtl")
+    sll_tr_amt_smtl: Annotated[Decimal, "매도거래금액합계"] = Field(alias="sll_tr_amt_smtl")
+    sll_fee_smtl: Annotated[str, "매도수수료합계"] = Field(alias="sll_fee_smtl")
+    sll_tltx_smtl: Annotated[str, "매도제세금합계"] = Field(alias="sll_tltx_smtl")
+    sll_excc_amt_smtl: Annotated[Decimal, "매도정산금액합계"] = Field(alias="sll_excc_amt_smtl")
+    buy_qty_smtl: Annotated[int, "매수수량합계"] = Field(alias="buy_qty_smtl")
+    buy_tr_amt_smtl: Annotated[Decimal, "매수거래금액합계"] = Field(alias="buy_tr_amt_smtl")
+    buy_fee_smtl: Annotated[str, "매수수수료합계"] = Field(alias="buy_fee_smtl")
+    buy_tax_smtl: Annotated[str, "매수제세금합계"] = Field(alias="buy_tax_smtl")
+    buy_excc_amt_smtl: Annotated[Decimal, "매수정산금액합계"] = Field(alias="buy_excc_amt_smtl")
+    tot_qty: Annotated[int, "총수량"] = Field(alias="tot_qty")
+    tot_tr_amt: Annotated[Decimal, "총거래금액"] = Field(alias="tot_tr_amt")
+    tot_fee: Annotated[str, "총수수료"] = Field(alias="tot_fee")
+    tot_tltx: Annotated[str, "총제세금"] = Field(alias="tot_tltx")
+    tot_excc_amt: Annotated[Decimal, "총정산금액"] = Field(alias="tot_excc_amt")
+    tot_rlzt_pfls: Annotated[
+        str,
+        "※ HTS[0856] 기간별 매매손익 '일별' 화면의 우측 하단 '총손익률' 항목은 기간별매매손익현황조회(TTTC8715R) > output2 > tot_pftrt(총수익률) 으로 확인 가능",
+    ] = Field(alias="tot_rlzt_pfls")
+    loan_int: Annotated[str, "대출이자"] = Field(alias="loan_int")
 
 
 class InquirePeriodProfitResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[InquirePeriodProfitOutput1] = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquirePeriodProfitOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[InquirePeriodProfitOutput1], "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquirePeriodProfitOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquirePeriodProfitRequest, InquirePeriodProfitResponse] = Endpoint(

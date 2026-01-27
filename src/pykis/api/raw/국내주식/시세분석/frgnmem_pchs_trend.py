@@ -14,12 +14,9 @@ if TYPE_CHECKING:
 
 
 class FrgnmemPchsTrendRequest(RawModel):
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목코드(ex) 005930(삼성전자))")
-    FID_INPUT_ISCD_2: str = Field(alias="FID_INPUT_ISCD_2")
-    ("외국계 전체(99999)")
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("J (KRX만 지원)")
+    FID_INPUT_ISCD: Annotated[str, "종목코드(ex) 005930(삼성전자))"] = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD_2: Annotated[str, "외국계 전체(99999)"] = Field(alias="FID_INPUT_ISCD_2")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "J (KRX만 지원)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
 
 
 class FrgnmemPchsTrendRequestDict(TypedDict):
@@ -34,43 +31,29 @@ class FrgnmemPchsTrendRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (str): J (KRX만 지원)
     """
 
-    FID_INPUT_ISCD: Annotated[str, "종목코드(ex) 005930(삼성전자))"]
-    FID_INPUT_ISCD_2: Annotated[str, "외국계 전체(99999)"]
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "J (KRX만 지원)"]
+    FID_INPUT_ISCD: str
+    FID_INPUT_ISCD_2: str
+    FID_COND_MRKT_DIV_CODE: str
 
 
 class FrgnmemPchsTrendOutput(RawModel):
-    bsop_hour: KisTime = Field(alias="bsop_hour")
-    ("영업시간")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식현재가")
-    prdy_vrss: str = Field(alias="prdy_vrss")
-    ("전일대비")
-    prdy_vrss_sign: str = Field(alias="prdy_vrss_sign")
-    ("전일대비부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적거래량")
-    frgn_seln_vol: int = Field(alias="frgn_seln_vol")
-    ("외국인매도거래량")
-    frgn_shnu_vol: int = Field(alias="frgn_shnu_vol")
-    ("외국인매수2거래량")
-    glob_ntby_qty: int = Field(alias="glob_ntby_qty")
-    ("외국계순매수수량")
-    frgn_ntby_qty_icdc: int = Field(alias="frgn_ntby_qty_icdc")
-    ("외국인순매수수량증감")
+    bsop_hour: Annotated[KisTime, "영업시간"] = Field(alias="bsop_hour")
+    stck_prpr: Annotated[Decimal, "주식현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[str, "전일대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[str, "전일대비부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적거래량"] = Field(alias="acml_vol")
+    frgn_seln_vol: Annotated[int, "외국인매도거래량"] = Field(alias="frgn_seln_vol")
+    frgn_shnu_vol: Annotated[int, "외국인매수2거래량"] = Field(alias="frgn_shnu_vol")
+    glob_ntby_qty: Annotated[int, "외국계순매수수량"] = Field(alias="glob_ntby_qty")
+    frgn_ntby_qty_icdc: Annotated[int, "외국인순매수수량증감"] = Field(alias="frgn_ntby_qty_icdc")
 
 
 class FrgnmemPchsTrendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[FrgnmemPchsTrendOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[FrgnmemPchsTrendOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[FrgnmemPchsTrendRequest, FrgnmemPchsTrendResponse] = Endpoint(

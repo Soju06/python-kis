@@ -531,6 +531,7 @@ def generate_raw(
             *enum_export_names,
         ]
         typing_items = [
+            "Annotated",
             "Mapping",
             "NotRequired",
             "Protocol",

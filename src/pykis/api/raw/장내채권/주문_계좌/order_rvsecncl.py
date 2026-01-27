@@ -15,34 +15,25 @@ if TYPE_CHECKING:
 
 class RvseCnclDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "정정")
-    "정정"
+    """정정"""
     VALUE_02 = ("02", "취소")
-    "취소"
+    """취소"""
 
 
 class OrderRvsecnclRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("-")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("-")
-    PDNO: str = Field(alias="PDNO")
-    ("-")
-    ORGN_ODNO: str = Field(alias="ORGN_ODNO")
-    ("-")
-    ORD_QTY2: int = Field(alias="ORD_QTY2")
-    ("원주문이 일반시장 주문일 시 10단위 입력")
-    BOND_ORD_UNPR: str = Field(alias="BOND_ORD_UNPR")
-    ("-")
-    QTY_ALL_ORD_YN: KisBool = Field(alias="QTY_ALL_ORD_YN")
-    ("Y: 잔량전부(주문수량 입력안함),")
-    RVSE_CNCL_DVSN_CD: RvseCnclDvsnCdEnum = Field(alias="RVSE_CNCL_DVSN_CD")
-    ("01: 정정, 02: 취소")
-    MGCO_APTM_ODNO: str | None = Field(default=None, alias="MGCO_APTM_ODNO", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    ORD_SVR_DVSN_CD: str = Field(alias="ORD_SVR_DVSN_CD")
-    ("Unique key(0)")
-    CTAC_TLNO: str = Field(alias="CTAC_TLNO")
-    ("-")
+    CANO: Annotated[str, "-"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "-"] = Field(alias="ACNT_PRDT_CD")
+    PDNO: Annotated[str, "-"] = Field(alias="PDNO")
+    ORGN_ODNO: Annotated[str, "-"] = Field(alias="ORGN_ODNO")
+    ORD_QTY2: Annotated[int, "원주문이 일반시장 주문일 시 10단위 입력"] = Field(alias="ORD_QTY2")
+    BOND_ORD_UNPR: Annotated[str, "-"] = Field(alias="BOND_ORD_UNPR")
+    QTY_ALL_ORD_YN: Annotated[KisBool, "Y: 잔량전부(주문수량 입력안함),"] = Field(alias="QTY_ALL_ORD_YN")
+    RVSE_CNCL_DVSN_CD: Annotated[RvseCnclDvsnCdEnum, "01: 정정, 02: 취소"] = Field(
+        alias="RVSE_CNCL_DVSN_CD", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "정정", "02": "취소"}}
+    )
+    MGCO_APTM_ODNO: Annotated[str | None, "공백"] = Field(default=None, alias="MGCO_APTM_ODNO", json_schema_extra={"blank_allowed": True})
+    ORD_SVR_DVSN_CD: Annotated[str, "Unique key(0)"] = Field(alias="ORD_SVR_DVSN_CD")
+    CTAC_TLNO: Annotated[str, "-"] = Field(alias="CTAC_TLNO")
 
 
 class OrderRvsecnclRequestDict(TypedDict):
@@ -65,37 +56,30 @@ class OrderRvsecnclRequestDict(TypedDict):
         CTAC_TLNO (str): -
     """
 
-    CANO: Annotated[str, "-"]
-    ACNT_PRDT_CD: Annotated[str, "-"]
-    PDNO: Annotated[str, "-"]
-    ORGN_ODNO: Annotated[str, "-"]
-    ORD_QTY2: Annotated[int, "원주문이 일반시장 주문일 시 10단위 입력"]
-    BOND_ORD_UNPR: Annotated[str, "-"]
-    QTY_ALL_ORD_YN: Annotated[KisBool, "Y: 잔량전부(주문수량 입력안함),"]
-    RVSE_CNCL_DVSN_CD: Annotated[RvseCnclDvsnCdEnum, "01: 정정, 02: 취소"]
-    MGCO_APTM_ODNO: NotRequired[Annotated[str | None, "공백"]]
-    ORD_SVR_DVSN_CD: Annotated[str, "Unique key(0)"]
-    CTAC_TLNO: Annotated[str, "-"]
+    CANO: str
+    ACNT_PRDT_CD: str
+    PDNO: str
+    ORGN_ODNO: str
+    ORD_QTY2: int
+    BOND_ORD_UNPR: str
+    QTY_ALL_ORD_YN: KisBool
+    RVSE_CNCL_DVSN_CD: RvseCnclDvsnCdEnum
+    MGCO_APTM_ODNO: NotRequired[str | None]
+    ORD_SVR_DVSN_CD: str
+    CTAC_TLNO: str
 
 
 class OrderRvsecnclOutput(RawModel):
-    krx_fwdg_ord_orgno: str = Field(alias="krx_fwdg_ord_orgno")
-    ("한국거래소전송주문조직번호")
-    odno: str = Field(alias="odno")
-    ("주문번호")
-    ord_tmd: KisTime = Field(alias="ord_tmd")
-    ("주문시각")
+    krx_fwdg_ord_orgno: Annotated[str, "한국거래소전송주문조직번호"] = Field(alias="krx_fwdg_ord_orgno")
+    odno: Annotated[str, "주문번호"] = Field(alias="odno")
+    ord_tmd: Annotated[KisTime, "주문시각"] = Field(alias="ord_tmd")
 
 
 class OrderRvsecnclResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: OrderRvsecnclOutput = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[OrderRvsecnclOutput, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[OrderRvsecnclRequest, OrderRvsecnclResponse] = Endpoint(

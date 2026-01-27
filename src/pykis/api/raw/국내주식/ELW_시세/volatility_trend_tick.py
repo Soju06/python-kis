@@ -13,10 +13,8 @@ if TYPE_CHECKING:
 
 
 class VolatilityTrendTickRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("W(Unique key)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("ex) 58J297(KBJ297삼성전자콜)")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "W(Unique key)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "ex) 58J297(KBJ297삼성전자콜)"] = Field(alias="FID_INPUT_ISCD")
 
 
 class VolatilityTrendTickRequestDict(TypedDict):
@@ -30,30 +28,22 @@ class VolatilityTrendTickRequestDict(TypedDict):
         FID_INPUT_ISCD (str): ex) 58J297(KBJ297삼성전자콜)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "W(Unique key)"]
-    FID_INPUT_ISCD: Annotated[str, "ex) 58J297(KBJ297삼성전자콜)"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
 
 
 class VolatilityTrendTickOutput(RawModel):
-    bsop_date: KisDateOptional = Field(default=None, alias="bsop_date")
-    ("주식영업일자")
-    stck_cntg_hour: KisTimeOptional = Field(default=None, alias="stck_cntg_hour")
-    ("ELW현재가")
-    elw_prpr: str | None = Field(default=None, alias="elw_prpr")
-    ("전일대비")
-    hts_ints_vltl: str | None = Field(default=None, alias="hts_ints_vltl")
-    ("전일대비부호")
+    bsop_date: Annotated[KisDateOptional, "주식영업일자"] = Field(default=None, alias="bsop_date")
+    stck_cntg_hour: Annotated[KisTimeOptional, "ELW현재가"] = Field(default=None, alias="stck_cntg_hour")
+    elw_prpr: Annotated[str | None, "전일대비"] = Field(default=None, alias="elw_prpr")
+    hts_ints_vltl: Annotated[str | None, "전일대비부호"] = Field(default=None, alias="hts_ints_vltl")
 
 
 class VolatilityTrendTickResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[VolatilityTrendTickOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[VolatilityTrendTickOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[VolatilityTrendTickRequest, VolatilityTrendTickResponse] = Endpoint(

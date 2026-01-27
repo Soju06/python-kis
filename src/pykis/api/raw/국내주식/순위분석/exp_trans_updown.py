@@ -16,34 +16,26 @@ if TYPE_CHECKING:
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "전체")
-    "전체"
+    """전체"""
     VALUE_1 = ("1", "보통주")
-    "보통주"
+    """보통주"""
     VALUE_2 = ("2", "우선주")
-    "우선주"
+    """우선주"""
 
 
 class ExpTransUpdownRequest(RawModel):
-    fid_rank_sort_cls_code: str = Field(alias="fid_rank_sort_cls_code")
-    ("0:상승률1:상승폭2:보합3:하락율4:하락폭5:체결량6:거래대금")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
-    ("시장구분코드 (주식 J)")
-    fid_cond_scr_div_code: str = Field(alias="fid_cond_scr_div_code")
-    ("Unique key(20182)")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
-    ("0:전체 1:보통주 2:우선주")
-    fid_aply_rang_prc_1: str = Field(alias="fid_aply_rang_prc_1")
-    ("입력값 없을때 전체 (가격 ~)")
-    fid_vol_cnt: int = Field(alias="fid_vol_cnt")
-    ("입력값 없을때 전체 (거래량 ~)")
-    fid_pbmn: str = Field(alias="fid_pbmn")
-    ("입력값 없을때 전체 (거래대금 ~) 천원단위")
-    fid_blng_cls_code: str = Field(alias="fid_blng_cls_code")
-    ("0: 전체")
-    fid_mkop_cls_code: str = Field(alias="fid_mkop_cls_code")
-    ("0:장전예상1:장마감예상")
+    fid_rank_sort_cls_code: Annotated[str, "0:상승률1:상승폭2:보합3:하락율4:하락폭5:체결량6:거래대금"] = Field(alias="fid_rank_sort_cls_code")
+    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"] = Field(alias="fid_cond_mrkt_div_code")
+    fid_cond_scr_div_code: Annotated[str, "Unique key(20182)"] = Field(alias="fid_cond_scr_div_code")
+    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"] = Field(alias="fid_input_iscd")
+    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0:전체 1:보통주 2:우선주"] = Field(
+        alias="fid_div_cls_code", json_schema_extra={"enum": ["0", "1", "2"], "enum_desc": {"0": "전체", "1": "보통주", "2": "우선주"}}
+    )
+    fid_aply_rang_prc_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"] = Field(alias="fid_aply_rang_prc_1")
+    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"] = Field(alias="fid_vol_cnt")
+    fid_pbmn: Annotated[str, "입력값 없을때 전체 (거래대금 ~) 천원단위"] = Field(alias="fid_pbmn")
+    fid_blng_cls_code: Annotated[str, "0: 전체"] = Field(alias="fid_blng_cls_code")
+    fid_mkop_cls_code: Annotated[str, "0:장전예상1:장마감예상"] = Field(alias="fid_mkop_cls_code")
 
 
 class ExpTransUpdownRequestDict(TypedDict):
@@ -72,60 +64,41 @@ class ExpTransUpdownRequestDict(TypedDict):
         fid_mkop_cls_code (str): 0:장전예상1:장마감예상
     """
 
-    fid_rank_sort_cls_code: Annotated[str, "0:상승률1:상승폭2:보합3:하락율4:하락폭5:체결량6:거래대금"]
-    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"]
-    fid_cond_scr_div_code: Annotated[str, "Unique key(20182)"]
-    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200, 4001: KRX100"]
-    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0:전체 1:보통주 2:우선주"]
-    fid_aply_rang_prc_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"]
-    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"]
-    fid_pbmn: Annotated[str, "입력값 없을때 전체 (거래대금 ~) 천원단위"]
-    fid_blng_cls_code: Annotated[str, "0: 전체"]
-    fid_mkop_cls_code: Annotated[str, "0:장전예상1:장마감예상"]
+    fid_rank_sort_cls_code: str
+    fid_cond_mrkt_div_code: str
+    fid_cond_scr_div_code: str
+    fid_input_iscd: str
+    fid_div_cls_code: FidDivClsCodeEnum
+    fid_aply_rang_prc_1: str
+    fid_vol_cnt: int
+    fid_pbmn: str
+    fid_blng_cls_code: str
+    fid_mkop_cls_code: str
 
 
 class ExpTransUpdownOutput(RawModel):
-    stck_shrn_iscd: str = Field(alias="stck_shrn_iscd")
-    ("주식 단축 종목코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    stck_sdpr: int = Field(alias="stck_sdpr")
-    ("주식 기준가")
-    seln_rsqn: int = Field(alias="seln_rsqn")
-    ("매도 잔량")
-    askp: int = Field(alias="askp")
-    ("매도호가")
-    bidp: str = Field(alias="bidp")
-    ("매수호가")
-    shnu_rsqn: int = Field(alias="shnu_rsqn")
-    ("매수2 잔량")
-    cntg_vol: int = Field(alias="cntg_vol")
-    ("체결 거래량")
-    antc_tr_pbmn: Decimal = Field(alias="antc_tr_pbmn")
-    ("체결 거래대금")
-    total_askp_rsqn: int = Field(alias="total_askp_rsqn")
-    ("총 매도호가 잔량")
-    total_bidp_rsqn: str = Field(alias="total_bidp_rsqn")
-    ("총 매수호가 잔량")
+    stck_shrn_iscd: Annotated[str, "주식 단축 종목코드"] = Field(alias="stck_shrn_iscd")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    stck_sdpr: Annotated[int, "주식 기준가"] = Field(alias="stck_sdpr")
+    seln_rsqn: Annotated[int, "매도 잔량"] = Field(alias="seln_rsqn")
+    askp: Annotated[int, "매도호가"] = Field(alias="askp")
+    bidp: Annotated[str, "매수호가"] = Field(alias="bidp")
+    shnu_rsqn: Annotated[int, "매수2 잔량"] = Field(alias="shnu_rsqn")
+    cntg_vol: Annotated[int, "체결 거래량"] = Field(alias="cntg_vol")
+    antc_tr_pbmn: Annotated[Decimal, "체결 거래대금"] = Field(alias="antc_tr_pbmn")
+    total_askp_rsqn: Annotated[int, "총 매도호가 잔량"] = Field(alias="total_askp_rsqn")
+    total_bidp_rsqn: Annotated[str, "총 매수호가 잔량"] = Field(alias="total_bidp_rsqn")
 
 
 class ExpTransUpdownResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[ExpTransUpdownOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[ExpTransUpdownOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[ExpTransUpdownRequest, ExpTransUpdownResponse] = Endpoint(

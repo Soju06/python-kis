@@ -16,36 +16,29 @@ if TYPE_CHECKING:
 
 class FidRankSortClsCodeEnum(KisStrEnum):
     VALUE_1 = ("1", "장전 시간외")
-    "장전 시간외"
+    """장전 시간외"""
     VALUE_2 = ("2", "장후 시간외")
-    "장후 시간외"
+    """장후 시간외"""
     VALUE_3 = ("3", "매도잔량")
-    "매도잔량"
+    """매도잔량"""
     VALUE_4 = ("4", "매수잔량")
-    "매수잔량"
+    """매수잔량"""
 
 
 class AfterHourBalanceRequest(RawModel):
-    fid_input_price_1: str = Field(alias="fid_input_price_1")
-    ("입력값 없을때 전체 (가격 ~)")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
-    ("시장구분코드 (주식 J)")
-    fid_cond_scr_div_code: str = Field(alias="fid_cond_scr_div_code")
-    ("Unique key( 20176 )")
-    fid_rank_sort_cls_code: FidRankSortClsCodeEnum = Field(alias="fid_rank_sort_cls_code")
-    ("1: 장전 시간외, 2: 장후 시간외, 3:매도잔량, 4:매수잔량")
-    fid_div_cls_code: str = Field(alias="fid_div_cls_code")
-    ("0 : 전체")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200")
-    fid_trgt_exls_cls_code: str = Field(alias="fid_trgt_exls_cls_code")
-    ("0 : 전체")
-    fid_trgt_cls_code: str = Field(alias="fid_trgt_cls_code")
-    ("0 : 전체")
-    fid_vol_cnt: int = Field(alias="fid_vol_cnt")
-    ("입력값 없을때 전체 (거래량 ~)")
-    fid_input_price_2: str = Field(alias="fid_input_price_2")
-    ("입력값 없을때 전체 (~ 가격)")
+    fid_input_price_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"] = Field(alias="fid_input_price_1")
+    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"] = Field(alias="fid_cond_mrkt_div_code")
+    fid_cond_scr_div_code: Annotated[str, "Unique key( 20176 )"] = Field(alias="fid_cond_scr_div_code")
+    fid_rank_sort_cls_code: Annotated[FidRankSortClsCodeEnum, "1: 장전 시간외, 2: 장후 시간외, 3:매도잔량, 4:매수잔량"] = Field(
+        alias="fid_rank_sort_cls_code",
+        json_schema_extra={"enum": ["1", "2", "3", "4"], "enum_desc": {"1": "장전 시간외", "2": "장후 시간외", "3": "매도잔량", "4": "매수잔량"}},
+    )
+    fid_div_cls_code: Annotated[str, "0 : 전체"] = Field(alias="fid_div_cls_code")
+    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200"] = Field(alias="fid_input_iscd")
+    fid_trgt_exls_cls_code: Annotated[str, "0 : 전체"] = Field(alias="fid_trgt_exls_cls_code")
+    fid_trgt_cls_code: Annotated[str, "0 : 전체"] = Field(alias="fid_trgt_cls_code")
+    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"] = Field(alias="fid_vol_cnt")
+    fid_input_price_2: Annotated[str, "입력값 없을때 전체 (~ 가격)"] = Field(alias="fid_input_price_2")
 
 
 class AfterHourBalanceRequestDict(TypedDict):
@@ -75,52 +68,37 @@ class AfterHourBalanceRequestDict(TypedDict):
         fid_input_price_2 (str): 입력값 없을때 전체 (~ 가격)
     """
 
-    fid_input_price_1: Annotated[str, "입력값 없을때 전체 (가격 ~)"]
-    fid_cond_mrkt_div_code: Annotated[str, "시장구분코드 (주식 J)"]
-    fid_cond_scr_div_code: Annotated[str, "Unique key( 20176 )"]
-    fid_rank_sort_cls_code: Annotated[FidRankSortClsCodeEnum, "1: 장전 시간외, 2: 장후 시간외, 3:매도잔량, 4:매수잔량"]
-    fid_div_cls_code: Annotated[str, "0 : 전체"]
-    fid_input_iscd: Annotated[str, "0000:전체, 0001:거래소, 1001:코스닥, 2001:코스피200"]
-    fid_trgt_exls_cls_code: Annotated[str, "0 : 전체"]
-    fid_trgt_cls_code: Annotated[str, "0 : 전체"]
-    fid_vol_cnt: Annotated[int, "입력값 없을때 전체 (거래량 ~)"]
-    fid_input_price_2: Annotated[str, "입력값 없을때 전체 (~ 가격)"]
+    fid_input_price_1: str
+    fid_cond_mrkt_div_code: str
+    fid_cond_scr_div_code: str
+    fid_rank_sort_cls_code: FidRankSortClsCodeEnum
+    fid_div_cls_code: str
+    fid_input_iscd: str
+    fid_trgt_exls_cls_code: str
+    fid_trgt_cls_code: str
+    fid_vol_cnt: int
+    fid_input_price_2: str
 
 
 class AfterHourBalanceOutput(RawModel):
-    stck_shrn_iscd: str | None = Field(default=None, alias="stck_shrn_iscd")
-    ("주식 단축 종목코드")
-    data_rank: str | None = Field(default=None, alias="data_rank")
-    ("데이터 순위")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    stck_prpr: Decimal | None = Field(default=None, alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
-    ("전일 대비율")
-    ovtm_total_askp_rsqn: str | None = Field(default=None, alias="ovtm_total_askp_rsqn")
-    ("시간외 총 매도호가 잔량")
-    ovtm_total_bidp_rsqn: str | None = Field(default=None, alias="ovtm_total_bidp_rsqn")
-    ("시간외 총 매수호가 잔량")
-    mkob_otcp_vol: int | None = Field(default=None, alias="mkob_otcp_vol")
-    ("장개시전 시간외종가 거래량")
-    mkfa_otcp_vol: int | None = Field(default=None, alias="mkfa_otcp_vol")
-    ("장종료후 시간외종가 거래량")
+    stck_shrn_iscd: Annotated[str | None, "주식 단축 종목코드"] = Field(default=None, alias="stck_shrn_iscd")
+    data_rank: Annotated[str | None, "데이터 순위"] = Field(default=None, alias="data_rank")
+    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
+    stck_prpr: Annotated[Decimal | None, "주식 현재가"] = Field(default=None, alias="stck_prpr")
+    prdy_vrss: Annotated[str | None, "전일 대비"] = Field(default=None, alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[str | None, "전일 대비 부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal | None, "전일 대비율"] = Field(default=None, alias="prdy_ctrt")
+    ovtm_total_askp_rsqn: Annotated[str | None, "시간외 총 매도호가 잔량"] = Field(default=None, alias="ovtm_total_askp_rsqn")
+    ovtm_total_bidp_rsqn: Annotated[str | None, "시간외 총 매수호가 잔량"] = Field(default=None, alias="ovtm_total_bidp_rsqn")
+    mkob_otcp_vol: Annotated[int | None, "장개시전 시간외종가 거래량"] = Field(default=None, alias="mkob_otcp_vol")
+    mkfa_otcp_vol: Annotated[int | None, "장종료후 시간외종가 거래량"] = Field(default=None, alias="mkfa_otcp_vol")
 
 
 class AfterHourBalanceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[AfterHourBalanceOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[AfterHourBalanceOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[AfterHourBalanceRequest, AfterHourBalanceResponse] = Endpoint(

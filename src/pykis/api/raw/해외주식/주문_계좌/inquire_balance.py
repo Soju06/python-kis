@@ -16,124 +16,148 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class OvrsExcgCdEnum(KisStrEnum):
     NASD = ("NASD", "나스닥")
-    "나스닥"
+    """나스닥"""
     NYSE = ("NYSE", "뉴욕")
-    "뉴욕"
+    """뉴욕"""
     AMEX = ("AMEX", "아멕스")
-    "아멕스"
+    """아멕스"""
     NAS = ("NAS", "나스닥")
-    "나스닥"
+    """나스닥"""
     SEHK = ("SEHK", "홍콩")
-    "홍콩"
+    """홍콩"""
     SHAA = ("SHAA", "중국상해")
-    "중국상해"
+    """중국상해"""
     SZAA = ("SZAA", "중국심천")
-    "중국심천"
+    """중국심천"""
     TKSE = ("TKSE", "일본")
-    "일본"
+    """일본"""
     HASE = ("HASE", "베트남 하노이")
-    "베트남 하노이"
+    """베트남 하노이"""
     VNSE = ("VNSE", "베트남 호치민")
-    "베트남 호치민"
+    """베트남 호치민"""
 
 
 class TrCrcyCdEnum(KisStrEnum):
     USD = ("USD", "미국달러")
-    "미국달러"
+    """미국달러"""
     HKD = ("HKD", "홍콩달러")
-    "홍콩달러"
+    """홍콩달러"""
     CNY = ("CNY", "중국위안화")
-    "중국위안화"
+    """중국위안화"""
     JPY = ("JPY", "일본엔화")
-    "일본엔화"
+    """일본엔화"""
     VND = ("VND", "베트남동")
-    "베트남동"
+    """베트남동"""
 
 
 class LoanTypeCdEnum(KisStrEnum):
     VALUE_00 = ("00", "해당사항없음")
-    "해당사항없음"
+    """해당사항없음"""
     VALUE_01 = ("01", "자기융자일반형")
-    "자기융자일반형"
+    """자기융자일반형"""
     VALUE_03 = ("03", "자기융자투자형")
-    "자기융자투자형"
+    """자기융자투자형"""
     VALUE_05 = ("05", "유통융자일반형")
-    "유통융자일반형"
+    """유통융자일반형"""
     VALUE_06 = ("06", "유통융자투자형")
-    "유통융자투자형"
+    """유통융자투자형"""
     VALUE_07 = ("07", "자기대주")
-    "자기대주"
+    """자기대주"""
     VALUE_09 = ("09", "유통대주")
-    "유통대주"
+    """유통대주"""
     VALUE_10 = ("10", "현금")
-    "현금"
+    """현금"""
     VALUE_11 = ("11", "주식담보대출")
-    "주식담보대출"
+    """주식담보대출"""
     VALUE_12 = ("12", "수익증권담보대출")
-    "수익증권담보대출"
+    """수익증권담보대출"""
     VALUE_13 = ("13", "ELS담보대출")
-    "ELS담보대출"
+    """ELS담보대출"""
     VALUE_14 = ("14", "채권담보대출")
-    "채권담보대출"
+    """채권담보대출"""
     VALUE_15 = ("15", "해외주식담보대출")
-    "해외주식담보대출"
+    """해외주식담보대출"""
     VALUE_16 = ("16", "기업신용공여")
-    "기업신용공여"
+    """기업신용공여"""
     VALUE_31 = ("31", "소액자동담보대출")
-    "소액자동담보대출"
+    """소액자동담보대출"""
     VALUE_41 = ("41", "매도담보대출")
-    "매도담보대출"
+    """매도담보대출"""
     VALUE_42 = ("42", "환매자금대출")
-    "환매자금대출"
+    """환매자금대출"""
     VALUE_43 = ("43", "매입환매자금대출")
-    "매입환매자금대출"
+    """매입환매자금대출"""
     VALUE_44 = ("44", "대여매도담보대출")
-    "대여매도담보대출"
+    """대여매도담보대출"""
     VALUE_81 = ("81", "대차거래")
-    "대차거래"
+    """대차거래"""
     VALUE_82 = ("82", "법인CMA론")
-    "법인CMA론"
+    """법인CMA론"""
     VALUE_91 = ("91", "공모주청약자금대출")
-    "공모주청약자금대출"
+    """공모주청약자금대출"""
     VALUE_92 = ("92", "매입자금")
-    "매입자금"
+    """매입자금"""
     VALUE_93 = ("93", "미수론서비스")
-    "미수론서비스"
+    """미수론서비스"""
     VALUE_94 = ("94", "대여")
-    "대여"
+    """대여"""
 
 
 class InquireBalanceRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_EXCG_CD: OvrsExcgCdEnum = Field(alias="OVRS_EXCG_CD")
-    (
-        "[모의] NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 [실전] NASD : 미국전체 NAS : 나스닥 NYSE : 뉴욕 "
-        "AMEX : 아멕스 [모의/실전 공통] SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : "
-        "베트남 하노이 VNSE : 베트남 호치민"
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
     )
-    TR_CRCY_CD: TrCrcyCdEnum = Field(alias="TR_CRCY_CD")
-    ("USD : 미국달러 HKD : 홍콩달러 CNY : 중국위안화 JPY : 일본엔화 VND : 베트남동")
-    CTX_AREA_FK200: str | None = Field(default=None, alias="CTX_AREA_FK200", json_schema_extra={"blank_allowed": True})
-    ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_NK200: str | None = Field(default=None, alias="CTX_AREA_NK200", json_schema_extra={"blank_allowed": True})
-    ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)")
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    OVRS_EXCG_CD: Annotated[
+        OvrsExcgCdEnum,
+        "[모의] NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 [실전] NASD : 미국전체 NAS : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 [모의/실전 공통] SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민",
+    ] = Field(
+        alias="OVRS_EXCG_CD",
+        json_schema_extra={
+            "enum": ["NASD", "NYSE", "AMEX", "NAS", "SEHK", "SHAA", "SZAA", "TKSE", "HASE", "VNSE"],
+            "enum_desc": {
+                "NASD": "나스닥",
+                "NYSE": "뉴욕",
+                "AMEX": "아멕스",
+                "NAS": "나스닥",
+                "SEHK": "홍콩",
+                "SHAA": "중국상해",
+                "SZAA": "중국심천",
+                "TKSE": "일본",
+                "HASE": "베트남 하노이",
+                "VNSE": "베트남 호치민",
+            },
+        },
+    )
+    TR_CRCY_CD: Annotated[TrCrcyCdEnum, "USD : 미국달러 HKD : 홍콩달러 CNY : 중국위안화 JPY : 일본엔화 VND : 베트남동"] = Field(
+        alias="TR_CRCY_CD",
+        json_schema_extra={
+            "enum": ["USD", "HKD", "CNY", "JPY", "VND"],
+            "enum_desc": {"USD": "미국달러", "HKD": "홍콩달러", "CNY": "중국위안화", "JPY": "일본엔화", "VND": "베트남동"},
+        },
+    )
+    CTX_AREA_FK200: Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)"] = Field(
+        default=None, alias="CTX_AREA_FK200", json_schema_extra={"blank_allowed": True}
+    )
+    CTX_AREA_NK200: Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)"] = Field(
+        default=None, alias="CTX_AREA_NK200", json_schema_extra={"blank_allowed": True}
+    )
 
 
 class InquireBalanceRequestDict(TypedDict):
@@ -169,100 +193,143 @@ class InquireBalanceRequestDict(TypedDict):
         조회시(2번째부터) optional
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    OVRS_EXCG_CD: Annotated[
-        OvrsExcgCdEnum,
-        "[모의] NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 [실전] NASD : 미국전체 NAS : 나스닥 NYSE : 뉴욕 "
-        "AMEX : 아멕스 [모의/실전 공통] SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : "
-        "베트남 하노이 VNSE : 베트남 호치민",
-    ]
-    TR_CRCY_CD: Annotated[TrCrcyCdEnum, "USD : 미국달러 HKD : 홍콩달러 CNY : 중국위안화 JPY : 일본엔화 VND : 베트남동"]
-    CTX_AREA_FK200: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)"]]
-    CTX_AREA_NK200: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)"]]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    OVRS_EXCG_CD: OvrsExcgCdEnum
+    TR_CRCY_CD: TrCrcyCdEnum
+    CTX_AREA_FK200: NotRequired[str | None]
+    CTX_AREA_NK200: NotRequired[str | None]
 
 
 class InquireBalanceOutput1(RawModel):
-    cano: CanoEnum = Field(alias="cano")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    acnt_prdt_cd: str = Field(alias="acnt_prdt_cd")
-    ("계좌상품코드")
-    prdt_type_cd: str = Field(alias="prdt_type_cd")
-    ("상품유형코드")
-    ovrs_pdno: str = Field(alias="ovrs_pdno")
-    ("해외상품번호")
-    ovrs_item_name: str = Field(alias="ovrs_item_name")
-    ("해외종목명")
-    frcr_evlu_pfls_amt: str = Field(alias="frcr_evlu_pfls_amt")
-    ("해당 종목의 매입금액과 평가금액의 외회기준 비교 손익")
-    evlu_pfls_rt: str = Field(alias="evlu_pfls_rt")
-    ("해당 종목의 평가손익을 기준으로 한 수익률")
-    pchs_avg_pric: str = Field(alias="pchs_avg_pric")
-    ("해당 종목의 매수 평균 단가")
-    ovrs_cblc_qty: int = Field(alias="ovrs_cblc_qty")
-    ("해외잔고수량")
-    ord_psbl_qty: int = Field(alias="ord_psbl_qty")
-    ("매도 가능한 주문 수량")
-    frcr_pchs_amt1: str = Field(alias="frcr_pchs_amt1")
-    ("해당 종목의 외화 기준 매입금액")
-    ovrs_stck_evlu_amt: str = Field(alias="ovrs_stck_evlu_amt")
-    ("해당 종목의 외화 기준 평가금액")
-    now_pric2: str = Field(alias="now_pric2")
-    ("해당 종목의 현재가")
-    tr_crcy_cd: TrCrcyCdEnum = Field(alias="tr_crcy_cd")
-    ("USD : 미국달러 HKD : 홍콩달러 CNY : 중국위안화 JPY : 일본엔화 VND : 베트남동")
-    ovrs_excg_cd: OvrsExcgCdEnum = Field(alias="ovrs_excg_cd")
-    ("NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 하노이거래소 VNSE : 호치민거래소")
-    loan_type_cd: LoanTypeCdEnum = Field(alias="loan_type_cd")
-    (
-        "00 : 해당사항없음 01 : 자기융자일반형 03 : 자기융자투자형 05 : 유통융자일반형 06 : "
-        "유통융자투자형 07 : 자기대주 09 : 유통대주 10 : 현금 11 : 주식담보대출 12 : 수익증권담보대출 13 "
-        ": ELS담보대출 14 : 채권담보대출 15 : 해외주식담보대출 16 : 기업신용공여 31 : 소액자동담보대출 41 "
-        ": 매도담보대출 42 : 환매자금대출 43 : 매입환매자금대출 44 : 대여매도담보대출 81 : 대차거래 82 : "
-        "법인CMA론 91 : 공모주청약자금대출 92 : 매입자금 93 : 미수론서비스 94 : 대여"
+    cano: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="cano", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
     )
-    loan_dt: KisDate = Field(alias="loan_dt")
-    ("대출 실행일자")
-    expd_dt: KisDate = Field(alias="expd_dt")
-    ("대출 만기일자")
+    acnt_prdt_cd: Annotated[str, "계좌상품코드"] = Field(alias="acnt_prdt_cd")
+    prdt_type_cd: Annotated[str, "상품유형코드"] = Field(alias="prdt_type_cd")
+    ovrs_pdno: Annotated[str, "해외상품번호"] = Field(alias="ovrs_pdno")
+    ovrs_item_name: Annotated[str, "해외종목명"] = Field(alias="ovrs_item_name")
+    frcr_evlu_pfls_amt: Annotated[str, "해당 종목의 매입금액과 평가금액의 외회기준 비교 손익"] = Field(alias="frcr_evlu_pfls_amt")
+    evlu_pfls_rt: Annotated[str, "해당 종목의 평가손익을 기준으로 한 수익률"] = Field(alias="evlu_pfls_rt")
+    pchs_avg_pric: Annotated[str, "해당 종목의 매수 평균 단가"] = Field(alias="pchs_avg_pric")
+    ovrs_cblc_qty: Annotated[int, "해외잔고수량"] = Field(alias="ovrs_cblc_qty")
+    ord_psbl_qty: Annotated[int, "매도 가능한 주문 수량"] = Field(alias="ord_psbl_qty")
+    frcr_pchs_amt1: Annotated[str, "해당 종목의 외화 기준 매입금액"] = Field(alias="frcr_pchs_amt1")
+    ovrs_stck_evlu_amt: Annotated[str, "해당 종목의 외화 기준 평가금액"] = Field(alias="ovrs_stck_evlu_amt")
+    now_pric2: Annotated[str, "해당 종목의 현재가"] = Field(alias="now_pric2")
+    tr_crcy_cd: Annotated[TrCrcyCdEnum, "USD : 미국달러 HKD : 홍콩달러 CNY : 중국위안화 JPY : 일본엔화 VND : 베트남동"] = Field(
+        alias="tr_crcy_cd",
+        json_schema_extra={
+            "enum": ["USD", "HKD", "CNY", "JPY", "VND"],
+            "enum_desc": {"USD": "미국달러", "HKD": "홍콩달러", "CNY": "중국위안화", "JPY": "일본엔화", "VND": "베트남동"},
+        },
+    )
+    ovrs_excg_cd: Annotated[
+        OvrsExcgCdEnum,
+        "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 하노이거래소 VNSE : 호치민거래소",
+    ] = Field(
+        alias="ovrs_excg_cd",
+        json_schema_extra={
+            "enum": ["NASD", "NYSE", "AMEX", "SEHK", "SHAA", "SZAA", "TKSE", "HASE", "VNSE"],
+            "enum_desc": {
+                "NASD": "나스닥",
+                "NYSE": "뉴욕",
+                "AMEX": "아멕스",
+                "SEHK": "홍콩",
+                "SHAA": "중국상해",
+                "SZAA": "중국심천",
+                "TKSE": "일본",
+                "HASE": "하노이거래소",
+                "VNSE": "호치민거래소",
+            },
+        },
+    )
+    loan_type_cd: Annotated[
+        LoanTypeCdEnum,
+        "00 : 해당사항없음 01 : 자기융자일반형 03 : 자기융자투자형 05 : 유통융자일반형 06 : 유통융자투자형 07 : 자기대주 09 : 유통대주 10 : 현금 11 : 주식담보대출 12 : 수익증권담보대출 13 : ELS담보대출 14 : 채권담보대출 15 : 해외주식담보대출 16 : 기업신용공여 31 : 소액자동담보대출 41 : 매도담보대출 42 : 환매자금대출 43 : 매입환매자금대출 44 : 대여매도담보대출 81 : 대차거래 82 : 법인CMA론 91 : 공모주청약자금대출 92 : 매입자금 93 : 미수론서비스 94 : 대여",
+    ] = Field(
+        alias="loan_type_cd",
+        json_schema_extra={
+            "enum": [
+                "00",
+                "01",
+                "03",
+                "05",
+                "06",
+                "07",
+                "09",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "31",
+                "41",
+                "42",
+                "43",
+                "44",
+                "81",
+                "82",
+                "91",
+                "92",
+                "93",
+                "94",
+            ],
+            "enum_desc": {
+                "00": "해당사항없음",
+                "01": "자기융자일반형",
+                "03": "자기융자투자형",
+                "05": "유통융자일반형",
+                "06": "유통융자투자형",
+                "07": "자기대주",
+                "09": "유통대주",
+                "10": "현금",
+                "11": "주식담보대출",
+                "12": "수익증권담보대출",
+                "13": "ELS담보대출",
+                "14": "채권담보대출",
+                "15": "해외주식담보대출",
+                "16": "기업신용공여",
+                "31": "소액자동담보대출",
+                "41": "매도담보대출",
+                "42": "환매자금대출",
+                "43": "매입환매자금대출",
+                "44": "대여매도담보대출",
+                "81": "대차거래",
+                "82": "법인CMA론",
+                "91": "공모주청약자금대출",
+                "92": "매입자금",
+                "93": "미수론서비스",
+                "94": "대여",
+            },
+        },
+    )
+    loan_dt: Annotated[KisDate, "대출 실행일자"] = Field(alias="loan_dt")
+    expd_dt: Annotated[KisDate, "대출 만기일자"] = Field(alias="expd_dt")
 
 
 class InquireBalanceOutput2(RawModel):
-    frcr_pchs_amt1: Decimal = Field(alias="frcr_pchs_amt1")
-    ("외화매입금액1")
-    ovrs_rlzt_pfls_amt: Decimal = Field(alias="ovrs_rlzt_pfls_amt")
-    ("해외실현손익금액")
-    ovrs_tot_pfls: str = Field(alias="ovrs_tot_pfls")
-    ("해외총손익")
-    rlzt_erng_rt: Decimal = Field(alias="rlzt_erng_rt")
-    ("실현수익율")
-    tot_evlu_pfls_amt: Decimal = Field(alias="tot_evlu_pfls_amt")
-    ("총평가손익금액")
-    tot_pftrt: str = Field(alias="tot_pftrt")
-    ("총수익률")
-    frcr_buy_amt_smtl1: Decimal = Field(alias="frcr_buy_amt_smtl1")
-    ("외화매수금액합계1")
-    ovrs_rlzt_pfls_amt2: Decimal = Field(alias="ovrs_rlzt_pfls_amt2")
-    ("해외실현손익금액2")
-    frcr_buy_amt_smtl2: Decimal = Field(alias="frcr_buy_amt_smtl2")
-    ("외화매수금액합계2")
+    frcr_pchs_amt1: Annotated[Decimal, "외화매입금액1"] = Field(alias="frcr_pchs_amt1")
+    ovrs_rlzt_pfls_amt: Annotated[Decimal, "해외실현손익금액"] = Field(alias="ovrs_rlzt_pfls_amt")
+    ovrs_tot_pfls: Annotated[str, "해외총손익"] = Field(alias="ovrs_tot_pfls")
+    rlzt_erng_rt: Annotated[Decimal, "실현수익율"] = Field(alias="rlzt_erng_rt")
+    tot_evlu_pfls_amt: Annotated[Decimal, "총평가손익금액"] = Field(alias="tot_evlu_pfls_amt")
+    tot_pftrt: Annotated[str, "총수익률"] = Field(alias="tot_pftrt")
+    frcr_buy_amt_smtl1: Annotated[Decimal, "외화매수금액합계1"] = Field(alias="frcr_buy_amt_smtl1")
+    ovrs_rlzt_pfls_amt2: Annotated[Decimal, "해외실현손익금액2"] = Field(alias="ovrs_rlzt_pfls_amt2")
+    frcr_buy_amt_smtl2: Annotated[Decimal, "외화매수금액합계2"] = Field(alias="frcr_buy_amt_smtl2")
 
 
 class InquireBalanceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    ctx_area_fk200: str = Field(alias="ctx_area_fk200")
-    ("연속조회검색조건200")
-    ctx_area_nk200: str = Field(alias="ctx_area_nk200")
-    ("연속조회키200")
-    output1: InquireBalanceOutput1 = Field(alias="output1")
-    ("응답상세1")
-    output2: list[InquireBalanceOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "0 : 성공 0 이외의 값 : 실패"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    ctx_area_fk200: Annotated[str, "연속조회검색조건200"] = Field(alias="ctx_area_fk200")
+    ctx_area_nk200: Annotated[str, "연속조회키200"] = Field(alias="ctx_area_nk200")
+    output1: Annotated[InquireBalanceOutput1, "응답상세1"] = Field(alias="output1")
+    output2: Annotated[list[InquireBalanceOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireBalanceRequest, InquireBalanceResponse] = Endpoint(

@@ -14,14 +14,12 @@ if TYPE_CHECKING:
 
 
 class PurreqRequest(RawModel):
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
-    ("공백: 전체, 특정종목 조회시 : 종목코드")
-    T_DT: KisDate = Field(alias="T_DT")
-    ("~ 일자")
-    F_DT: KisDate = Field(alias="F_DT")
-    ("일자 ~")
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
-    ("공백")
+    SHT_CD: Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"] = Field(
+        default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True}
+    )
+    T_DT: Annotated[KisDate, "~ 일자"] = Field(alias="T_DT")
+    F_DT: Annotated[KisDate, "일자 ~"] = Field(alias="F_DT")
+    CTS: Annotated[str | None, "공백"] = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
 
 
 class PurreqRequestDict(TypedDict):
@@ -39,42 +37,29 @@ class PurreqRequestDict(TypedDict):
         CTS (str): 공백 optional
     """
 
-    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
-    T_DT: Annotated[KisDate, "~ 일자"]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    CTS: NotRequired[Annotated[str | None, "공백"]]
+    SHT_CD: NotRequired[str | None]
+    T_DT: KisDate
+    F_DT: KisDate
+    CTS: NotRequired[str | None]
 
 
 class PurreqOutput1(RawModel):
-    record_date: KisDate = Field(alias="record_date")
-    ("기준일")
-    sht_cd: str = Field(alias="sht_cd")
-    ("종목코드")
-    isin_name: str = Field(alias="isin_name")
-    ("종목명")
-    stk_kind: str = Field(alias="stk_kind")
-    ("주식종류")
-    opp_opi_rcpt_term: str = Field(alias="opp_opi_rcpt_term")
-    ("반대의사접수시한")
-    buy_req_rcpt_term: str = Field(alias="buy_req_rcpt_term")
-    ("매수청구접수시한")
-    buy_req_price: Decimal = Field(alias="buy_req_price")
-    ("매수청구가격")
-    buy_amt_pay_dt: KisDate = Field(alias="buy_amt_pay_dt")
-    ("매수대금지급일")
-    get_meet_dt: KisDate = Field(alias="get_meet_dt")
-    ("주총일")
+    record_date: Annotated[KisDate, "기준일"] = Field(alias="record_date")
+    sht_cd: Annotated[str, "종목코드"] = Field(alias="sht_cd")
+    isin_name: Annotated[str, "종목명"] = Field(alias="isin_name")
+    stk_kind: Annotated[str, "주식종류"] = Field(alias="stk_kind")
+    opp_opi_rcpt_term: Annotated[str, "반대의사접수시한"] = Field(alias="opp_opi_rcpt_term")
+    buy_req_rcpt_term: Annotated[str, "매수청구접수시한"] = Field(alias="buy_req_rcpt_term")
+    buy_req_price: Annotated[Decimal, "매수청구가격"] = Field(alias="buy_req_price")
+    buy_amt_pay_dt: Annotated[KisDate, "매수대금지급일"] = Field(alias="buy_amt_pay_dt")
+    get_meet_dt: Annotated[KisDate, "주총일"] = Field(alias="get_meet_dt")
 
 
 class PurreqResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[PurreqOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[PurreqOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[PurreqRequest, PurreqResponse] = Endpoint(

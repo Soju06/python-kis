@@ -14,10 +14,8 @@ if TYPE_CHECKING:
 
 
 class InquireIndexTickpriceRequest(RawModel):
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("0001:거래소, 1001:코스닥, 2001:코스피200, 3003:KSQ150")
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (업종 U)")
+    FID_INPUT_ISCD: Annotated[str, "0001:거래소, 1001:코스닥, 2001:코스피200, 3003:KSQ150"] = Field(alias="FID_INPUT_ISCD")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (업종 U)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
 
 
 class InquireIndexTickpriceRequestDict(TypedDict):
@@ -31,38 +29,26 @@ class InquireIndexTickpriceRequestDict(TypedDict):
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (업종 U)
     """
 
-    FID_INPUT_ISCD: Annotated[str, "0001:거래소, 1001:코스닥, 2001:코스피200, 3003:KSQ150"]
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (업종 U)"]
+    FID_INPUT_ISCD: str
+    FID_COND_MRKT_DIV_CODE: str
 
 
 class InquireIndexTickpriceOutput(RawModel):
-    stck_cntg_hour: KisTimeOptional = Field(default=None, alias="stck_cntg_hour")
-    ("주식 체결 시간")
-    bstp_nmix_prpr: Decimal = Field(alias="bstp_nmix_prpr")
-    ("업종 지수 현재가")
-    bstp_nmix_prdy_vrss: Decimal = Field(alias="bstp_nmix_prdy_vrss")
-    ("업종 지수 전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    bstp_nmix_prdy_ctrt: Decimal = Field(alias="bstp_nmix_prdy_ctrt")
-    ("업종 지수 전일 대비율")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
-    ("누적 거래 대금")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    cntg_vol: int = Field(alias="cntg_vol")
-    ("체결 거래량")
+    stck_cntg_hour: Annotated[KisTimeOptional, "주식 체결 시간"] = Field(default=None, alias="stck_cntg_hour")
+    bstp_nmix_prpr: Annotated[Decimal, "업종 지수 현재가"] = Field(alias="bstp_nmix_prpr")
+    bstp_nmix_prdy_vrss: Annotated[Decimal, "업종 지수 전일 대비"] = Field(alias="bstp_nmix_prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    bstp_nmix_prdy_ctrt: Annotated[Decimal, "업종 지수 전일 대비율"] = Field(alias="bstp_nmix_prdy_ctrt")
+    acml_tr_pbmn: Annotated[Decimal, "누적 거래 대금"] = Field(alias="acml_tr_pbmn")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    cntg_vol: Annotated[int, "체결 거래량"] = Field(alias="cntg_vol")
 
 
 class InquireIndexTickpriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquireIndexTickpriceOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquireIndexTickpriceOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireIndexTickpriceRequest, InquireIndexTickpriceResponse] = Endpoint(

@@ -13,8 +13,7 @@ if TYPE_CHECKING:
 
 
 class PsearchTitleRequest(RawModel):
-    user_id: str = Field(alias="user_id")
-    ("사용자 HTS ID")
+    user_id: Annotated[str, "사용자 HTS ID"] = Field(alias="user_id")
 
 
 class PsearchTitleRequestDict(TypedDict):
@@ -39,29 +38,21 @@ class PsearchTitleRequestDict(TypedDict):
         user_id (str): 사용자 HTS ID
     """
 
-    user_id: Annotated[str, "사용자 HTS ID"]
+    user_id: str
 
 
 class PsearchTitleOutput2(RawModel):
-    user_id: str = Field(alias="user_id")
-    ("HTS ID")
-    seq: str = Field(alias="seq")
-    ("해당 값을 종목조건검색조회 API의 input으로 사용 (0번부터 시작)")
-    grp_nm: str = Field(alias="grp_nm")
-    ('HTS(eFriend Plus) [0110] "사용자조건검색"화면을 통해 등록한 사용자조건 그룹')
-    condition_nm: str = Field(alias="condition_nm")
-    ("등록한 사용자 조건명")
+    user_id: Annotated[str, "HTS ID"] = Field(alias="user_id")
+    seq: Annotated[str, "해당 값을 종목조건검색조회 API의 input으로 사용 (0번부터 시작)"] = Field(alias="seq")
+    grp_nm: Annotated[str, 'HTS(eFriend Plus) [0110] "사용자조건검색"화면을 통해 등록한 사용자조건 그룹'] = Field(alias="grp_nm")
+    condition_nm: Annotated[str, "등록한 사용자 조건명"] = Field(alias="condition_nm")
 
 
 class PsearchTitleResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output2: list[PsearchTitleOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output2: Annotated[list[PsearchTitleOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[PsearchTitleRequest, PsearchTitleResponse] = Endpoint(

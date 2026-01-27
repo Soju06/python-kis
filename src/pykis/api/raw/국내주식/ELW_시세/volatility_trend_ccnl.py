@@ -14,10 +14,8 @@ if TYPE_CHECKING:
 
 
 class VolatilityTrendCcnlRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("W(Unique key)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("ex) 58J297(KBJ297삼성전자콜)")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "W(Unique key)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "ex) 58J297(KBJ297삼성전자콜)"] = Field(alias="FID_INPUT_ISCD")
 
 
 class VolatilityTrendCcnlRequestDict(TypedDict):
@@ -31,40 +29,27 @@ class VolatilityTrendCcnlRequestDict(TypedDict):
         FID_INPUT_ISCD (str): ex) 58J297(KBJ297삼성전자콜)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "W(Unique key)"]
-    FID_INPUT_ISCD: Annotated[str, "ex) 58J297(KBJ297삼성전자콜)"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
 
 
 class VolatilityTrendCcnlOutput(RawModel):
-    stck_cntg_hour: KisTimeOptional = Field(default=None, alias="stck_cntg_hour")
-    ("주식체결시간")
-    elw_prpr: Decimal | None = Field(default=None, alias="elw_prpr")
-    ("ELW현재가")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
-    ("전일대비")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
-    ("전일대비부호")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
-    ("전일대비율")
-    bidp: str | None = Field(default=None, alias="bidp")
-    ("매수호가")
-    askp: str | None = Field(default=None, alias="askp")
-    ("매도호가")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
-    ("누적거래량")
-    hts_ints_vltl: str | None = Field(default=None, alias="hts_ints_vltl")
-    ("HTS내재변동성")
+    stck_cntg_hour: Annotated[KisTimeOptional, "주식체결시간"] = Field(default=None, alias="stck_cntg_hour")
+    elw_prpr: Annotated[Decimal | None, "ELW현재가"] = Field(default=None, alias="elw_prpr")
+    prdy_vrss: Annotated[str | None, "전일대비"] = Field(default=None, alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[str | None, "전일대비부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal | None, "전일대비율"] = Field(default=None, alias="prdy_ctrt")
+    bidp: Annotated[str | None, "매수호가"] = Field(default=None, alias="bidp")
+    askp: Annotated[str | None, "매도호가"] = Field(default=None, alias="askp")
+    acml_vol: Annotated[int | None, "누적거래량"] = Field(default=None, alias="acml_vol")
+    hts_ints_vltl: Annotated[str | None, "HTS내재변동성"] = Field(default=None, alias="hts_ints_vltl")
 
 
 class VolatilityTrendCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[VolatilityTrendCcnlOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[VolatilityTrendCcnlOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[VolatilityTrendCcnlRequest, VolatilityTrendCcnlResponse] = Endpoint(

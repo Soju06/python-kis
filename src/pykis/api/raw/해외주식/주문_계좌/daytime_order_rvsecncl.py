@@ -16,71 +16,80 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class OvrsExcgCdEnum(KisStrEnum):
     NASD = ("NASD", "나스닥 /")
-    "나스닥 /"
+    """나스닥 /"""
     NYSE = ("NYSE", "뉴욕 /")
-    "뉴욕 /"
+    """뉴욕 /"""
     AMEX = ("AMEX", "아멕스")
-    "아멕스"
+    """아멕스"""
 
 
 class OrgnOdnoEnum(KisStrEnum):
     OVERSEAS = ("overseas", "stock/v1/trading/")
-    "stock/v1/trading/"
+    """stock/v1/trading/"""
     INQUIRE = ("inquire", "nccs)에서 odno(주문번호) 참조'")
-    "nccs)에서 odno(주문번호) 참조'"
+    """nccs)에서 odno(주문번호) 참조'"""
     NCCS = ("nccs", "에서 odno(주문번호) 참조'")
-    "에서 odno(주문번호) 참조'"
+    """에서 odno(주문번호) 참조'"""
     ODNO = ("odno", "주문번호")
-    "주문번호"
+    """주문번호"""
 
 
 class RvseCnclDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "정정")
-    "정정"
+    """정정"""
     VALUE_02 = ("02", "취소'")
-    "취소'"
+    """취소'"""
 
 
 class DaytimeOrderRvsecnclRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_EXCG_CD: OvrsExcgCdEnum = Field(alias="OVRS_EXCG_CD")
-    ("NASD:나스닥 / NYSE:뉴욕 / AMEX:아멕스")
-    PDNO: str = Field(alias="PDNO")
-    ("종목코드")
-    ORGN_ODNO: OrgnOdnoEnum = Field(alias="ORGN_ODNO")
-    (
-        "'정정 또는 취소할 원주문번호(매매 TR의 주문번호) - 해외주식 주문체결내역api "
-        "(/uapi/overseas-stock/v1/trading/inquire-nccs)에서 odno(주문번호) 참조'"
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
     )
-    RVSE_CNCL_DVSN_CD: RvseCnclDvsnCdEnum = Field(alias="RVSE_CNCL_DVSN_CD")
-    ("'01 : 정정 02 : 취소'")
-    ORD_QTY: int = Field(alias="ORD_QTY")
-    ("주문수량")
-    OVRS_ORD_UNPR: Decimal = Field(alias="OVRS_ORD_UNPR")
-    ("소수점 포함, 1주당 가격")
-    CTAC_TLNO: str = Field(alias="CTAC_TLNO")
-    ('" "')
-    MGCO_APTM_ODNO: str = Field(alias="MGCO_APTM_ODNO")
-    ('" "')
-    ORD_SVR_DVSN_CD: str = Field(alias="ORD_SVR_DVSN_CD")
-    ('"0"')
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    OVRS_EXCG_CD: Annotated[OvrsExcgCdEnum, "NASD:나스닥 / NYSE:뉴욕 / AMEX:아멕스"] = Field(
+        alias="OVRS_EXCG_CD",
+        json_schema_extra={"enum": ["NASD", "NYSE", "AMEX"], "enum_desc": {"NASD": "나스닥 /", "NYSE": "뉴욕 /", "AMEX": "아멕스"}},
+    )
+    PDNO: Annotated[str, "종목코드"] = Field(alias="PDNO")
+    ORGN_ODNO: Annotated[
+        OrgnOdnoEnum,
+        "'정정 또는 취소할 원주문번호(매매 TR의 주문번호) - 해외주식 주문체결내역api (/uapi/overseas-stock/v1/trading/inquire-nccs)에서 odno(주문번호) 참조'",
+    ] = Field(
+        alias="ORGN_ODNO",
+        json_schema_extra={
+            "enum": ["overseas", "inquire", "nccs", "odno"],
+            "enum_desc": {
+                "overseas": "stock/v1/trading/",
+                "inquire": "nccs)에서 odno(주문번호) 참조'",
+                "nccs": "에서 odno(주문번호) 참조'",
+                "odno": "주문번호",
+            },
+        },
+    )
+    RVSE_CNCL_DVSN_CD: Annotated[RvseCnclDvsnCdEnum, "'01 : 정정 02 : 취소'"] = Field(
+        alias="RVSE_CNCL_DVSN_CD", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "정정", "02": "취소'"}}
+    )
+    ORD_QTY: Annotated[int, "주문수량"] = Field(alias="ORD_QTY")
+    OVRS_ORD_UNPR: Annotated[Decimal, "소수점 포함, 1주당 가격"] = Field(alias="OVRS_ORD_UNPR")
+    CTAC_TLNO: Annotated[str, '" "'] = Field(alias="CTAC_TLNO")
+    MGCO_APTM_ODNO: Annotated[str, '" "'] = Field(alias="MGCO_APTM_ODNO")
+    ORD_SVR_DVSN_CD: Annotated[str, '"0"'] = Field(alias="ORD_SVR_DVSN_CD")
 
 
 class DaytimeOrderRvsecnclRequestDict(TypedDict):
@@ -123,41 +132,30 @@ class DaytimeOrderRvsecnclRequestDict(TypedDict):
         ORD_SVR_DVSN_CD (str): "0"
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    OVRS_EXCG_CD: Annotated[OvrsExcgCdEnum, "NASD:나스닥 / NYSE:뉴욕 / AMEX:아멕스"]
-    PDNO: Annotated[str, "종목코드"]
-    ORGN_ODNO: Annotated[
-        OrgnOdnoEnum,
-        "'정정 또는 취소할 원주문번호(매매 TR의 주문번호) - 해외주식 주문체결내역api "
-        "(/uapi/overseas-stock/v1/trading/inquire-nccs)에서 odno(주문번호) 참조'",
-    ]
-    RVSE_CNCL_DVSN_CD: Annotated[RvseCnclDvsnCdEnum, "'01 : 정정 02 : 취소'"]
-    ORD_QTY: Annotated[int, "주문수량"]
-    OVRS_ORD_UNPR: Annotated[Decimal, "소수점 포함, 1주당 가격"]
-    CTAC_TLNO: Annotated[str, '" "']
-    MGCO_APTM_ODNO: Annotated[str, '" "']
-    ORD_SVR_DVSN_CD: Annotated[str, '"0"']
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    OVRS_EXCG_CD: OvrsExcgCdEnum
+    PDNO: str
+    ORGN_ODNO: OrgnOdnoEnum
+    RVSE_CNCL_DVSN_CD: RvseCnclDvsnCdEnum
+    ORD_QTY: int
+    OVRS_ORD_UNPR: Decimal
+    CTAC_TLNO: str
+    MGCO_APTM_ODNO: str
+    ORD_SVR_DVSN_CD: str
 
 
 class DaytimeOrderRvsecnclOutput(RawModel):
-    KRX_FWDG_ORD_ORGNO: str = Field(alias="KRX_FWDG_ORD_ORGNO")
-    ("주문시 한국투자증권 시스템에서 지정된 영업점코드")
-    ODNO: str = Field(alias="ODNO")
-    ("주문시 한국투자증권 시스템에서 채번된 주문번호")
-    ORD_TMD: KisTime = Field(alias="ORD_TMD")
-    ("주문시각(시분초HHMMSS)")
+    KRX_FWDG_ORD_ORGNO: Annotated[str, "주문시 한국투자증권 시스템에서 지정된 영업점코드"] = Field(alias="KRX_FWDG_ORD_ORGNO")
+    ODNO: Annotated[str, "주문시 한국투자증권 시스템에서 채번된 주문번호"] = Field(alias="ODNO")
+    ORD_TMD: Annotated[KisTime, "주문시각(시분초HHMMSS)"] = Field(alias="ORD_TMD")
 
 
 class DaytimeOrderRvsecnclResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: DaytimeOrderRvsecnclOutput = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[DaytimeOrderRvsecnclOutput, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[DaytimeOrderRvsecnclRequest, DaytimeOrderRvsecnclResponse] = Endpoint(

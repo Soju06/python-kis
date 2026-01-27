@@ -16,38 +16,39 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class FuopDvsnEnum(KisStrEnum):
     VALUE_00 = ("00", "전체 /")
-    "전체 /"
+    """전체 /"""
     VALUE_01 = ("01", "선물 /")
-    "선물 /"
+    """선물 /"""
     VALUE_02 = ("02", "옵션")
-    "옵션"
+    """옵션"""
 
 
 class InquireUnpdRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    FUOP_DVSN: FuopDvsnEnum = Field(alias="FUOP_DVSN")
-    ("00: 전체 / 01:선물 / 02: 옵션")
-    CTX_AREA_FK100: str = Field(alias="CTX_AREA_FK100")
-    ("연속조회검색조건100")
-    CTX_AREA_NK100: str = Field(alias="CTX_AREA_NK100")
-    ("연속조회키100")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    FUOP_DVSN: Annotated[FuopDvsnEnum, "00: 전체 / 01:선물 / 02: 옵션"] = Field(
+        alias="FUOP_DVSN", json_schema_extra={"enum": ["00", "01", "02"], "enum_desc": {"00": "전체 /", "01": "선물 /", "02": "옵션"}}
+    )
+    CTX_AREA_FK100: Annotated[str, "연속조회검색조건100"] = Field(alias="CTX_AREA_FK100")
+    CTX_AREA_NK100: Annotated[str, "연속조회키100"] = Field(alias="CTX_AREA_NK100")
 
 
 class InquireUnpdRequestDict(TypedDict):
@@ -63,55 +64,36 @@ class InquireUnpdRequestDict(TypedDict):
         CTX_AREA_NK100 (str): 연속조회키100
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    FUOP_DVSN: Annotated[FuopDvsnEnum, "00: 전체 / 01:선물 / 02: 옵션"]
-    CTX_AREA_FK100: Annotated[str, "연속조회검색조건100"]
-    CTX_AREA_NK100: Annotated[str, "연속조회키100"]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    FUOP_DVSN: FuopDvsnEnum
+    CTX_AREA_FK100: str
+    CTX_AREA_NK100: str
 
 
 class InquireUnpdOutput(RawModel):
-    cano: str | None = Field(default=None, alias="cano")
-    ("종합계좌번호")
-    acnt_prdt_cd: str | None = Field(default=None, alias="acnt_prdt_cd")
-    ("계좌상품코드")
-    ovrs_futr_fx_pdno: str | None = Field(default=None, alias="ovrs_futr_fx_pdno")
-    ("해외선물FX상품번호")
-    prdt_type_cd: str | None = Field(default=None, alias="prdt_type_cd")
-    ("상품유형코드")
-    crcy_cd: str | None = Field(default=None, alias="crcy_cd")
-    ("통화코드")
-    sll_buy_dvsn_cd: str | None = Field(default=None, alias="sll_buy_dvsn_cd")
-    ("매도매수구분코드")
-    fm_ustl_qty: int | None = Field(default=None, alias="fm_ustl_qty")
-    ("FM미결제수량")
-    fm_ccld_avg_pric: Decimal | None = Field(default=None, alias="fm_ccld_avg_pric")
-    ("FM체결평균가격")
-    fm_now_pric: Decimal | None = Field(default=None, alias="fm_now_pric")
-    ("FM현재가격")
-    fm_evlu_pfls_amt: Decimal | None = Field(default=None, alias="fm_evlu_pfls_amt")
-    ("FM평가손익금액")
-    fm_opt_evlu_amt: Decimal | None = Field(default=None, alias="fm_opt_evlu_amt")
-    ("FM옵션평가금액")
-    fm_otp_evlu_pfls_amt: Decimal | None = Field(default=None, alias="fm_otp_evlu_pfls_amt")
-    ("FM옵션평가손익금액")
-    fuop_dvsn: str | None = Field(default=None, alias="fuop_dvsn")
-    ("선물옵션구분")
-    ecis_rsvn_ord_yn: KisBool | None = Field(default=None, alias="ecis_rsvn_ord_yn")
-    ("행사예약주문여부")
-    fm_lqd_psbl_qty: int | None = Field(default=None, alias="fm_lqd_psbl_qty")
-    ("FM청산가능수량")
+    cano: Annotated[str | None, "종합계좌번호"] = Field(default=None, alias="cano")
+    acnt_prdt_cd: Annotated[str | None, "계좌상품코드"] = Field(default=None, alias="acnt_prdt_cd")
+    ovrs_futr_fx_pdno: Annotated[str | None, "해외선물FX상품번호"] = Field(default=None, alias="ovrs_futr_fx_pdno")
+    prdt_type_cd: Annotated[str | None, "상품유형코드"] = Field(default=None, alias="prdt_type_cd")
+    crcy_cd: Annotated[str | None, "통화코드"] = Field(default=None, alias="crcy_cd")
+    sll_buy_dvsn_cd: Annotated[str | None, "매도매수구분코드"] = Field(default=None, alias="sll_buy_dvsn_cd")
+    fm_ustl_qty: Annotated[int | None, "FM미결제수량"] = Field(default=None, alias="fm_ustl_qty")
+    fm_ccld_avg_pric: Annotated[Decimal | None, "FM체결평균가격"] = Field(default=None, alias="fm_ccld_avg_pric")
+    fm_now_pric: Annotated[Decimal | None, "FM현재가격"] = Field(default=None, alias="fm_now_pric")
+    fm_evlu_pfls_amt: Annotated[Decimal | None, "FM평가손익금액"] = Field(default=None, alias="fm_evlu_pfls_amt")
+    fm_opt_evlu_amt: Annotated[Decimal | None, "FM옵션평가금액"] = Field(default=None, alias="fm_opt_evlu_amt")
+    fm_otp_evlu_pfls_amt: Annotated[Decimal | None, "FM옵션평가손익금액"] = Field(default=None, alias="fm_otp_evlu_pfls_amt")
+    fuop_dvsn: Annotated[str | None, "선물옵션구분"] = Field(default=None, alias="fuop_dvsn")
+    ecis_rsvn_ord_yn: Annotated[KisBool | None, "행사예약주문여부"] = Field(default=None, alias="ecis_rsvn_ord_yn")
+    fm_lqd_psbl_qty: Annotated[int | None, "FM청산가능수량"] = Field(default=None, alias="fm_lqd_psbl_qty")
 
 
 class InquireUnpdResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquireUnpdOutput] = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquireUnpdOutput], "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireUnpdRequest, InquireUnpdResponse] = Endpoint(

@@ -16,24 +16,29 @@ if TYPE_CHECKING:
 
 class FidCondMrktClsCodeEnum(KisStrEnum):
     MKI = ("MKI", "미니KOSPI200")
-    "미니KOSPI200"
+    """미니KOSPI200"""
     WKM = ("WKM", "KOSPI200위클리(월)")
-    "KOSPI200위클리(월)"
+    """KOSPI200위클리(월)"""
     WKI = ("WKI", "KOSPI200위클리(목)")
-    "KOSPI200위클리(목)"
+    """KOSPI200위클리(목)"""
     KQI = ("KQI", "KOSDAQ150")
-    "KOSDAQ150"
+    """KOSDAQ150"""
 
 
 class DisplayBoardFuturesRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (F: 선물)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("Unique key(20503)")
-    FID_COND_MRKT_CLS_CODE: FidCondMrktClsCodeEnum | None = Field(
-        default=None, alias="FID_COND_MRKT_CLS_CODE", json_schema_extra={"blank_allowed": True}
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (F: 선물)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(20503)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_COND_MRKT_CLS_CODE: Annotated[
+        FidCondMrktClsCodeEnum | None, "공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150"
+    ] = Field(
+        default=None,
+        alias="FID_COND_MRKT_CLS_CODE",
+        json_schema_extra={
+            "enum": ["MKI", "WKM", "WKI", "KQI"],
+            "enum_desc": {"MKI": "미니KOSPI200", "WKM": "KOSPI200위클리(월)", "WKI": "KOSPI200위클리(목)", "KQI": "KOSDAQ150"},
+            "blank_allowed": True,
+        },
     )
-    ("공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150")
 
 
 class DisplayBoardFuturesRequestDict(TypedDict):
@@ -49,65 +54,39 @@ class DisplayBoardFuturesRequestDict(TypedDict):
         KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (F: 선물)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(20503)"]
-    FID_COND_MRKT_CLS_CODE: NotRequired[
-        Annotated[FidCondMrktClsCodeEnum | None, "공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150"]
-    ]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_COND_SCR_DIV_CODE: str
+    FID_COND_MRKT_CLS_CODE: NotRequired[FidCondMrktClsCodeEnum | None]
 
 
 class DisplayBoardFuturesOutput1(RawModel):
-    futs_shrn_iscd: str = Field(alias="futs_shrn_iscd")
-    ("선물 단축 종목코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    futs_prpr: Decimal = Field(alias="futs_prpr")
-    ("선물 현재가")
-    futs_prdy_vrss: Decimal = Field(alias="futs_prdy_vrss")
-    ("선물 전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    futs_prdy_ctrt: Decimal = Field(alias="futs_prdy_ctrt")
-    ("선물 전일 대비율")
-    hts_thpr: Decimal = Field(alias="hts_thpr")
-    ("HTS 이론가")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    futs_askp: Decimal = Field(alias="futs_askp")
-    ("선물 매도호가")
-    futs_bidp: str = Field(alias="futs_bidp")
-    ("선물 매수호가")
-    hts_otst_stpl_qty: int = Field(alias="hts_otst_stpl_qty")
-    ("HTS 미결제 약정 수량")
-    futs_hgpr: Decimal = Field(alias="futs_hgpr")
-    ("선물 최고가")
-    futs_lwpr: Decimal = Field(alias="futs_lwpr")
-    ("선물 최저가")
-    hts_rmnn_dynu: int = Field(alias="hts_rmnn_dynu")
-    ("HTS 잔존 일수")
-    total_askp_rsqn: int = Field(alias="total_askp_rsqn")
-    ("총 매도호가 잔량")
-    total_bidp_rsqn: str = Field(alias="total_bidp_rsqn")
-    ("총 매수호가 잔량")
-    futs_antc_cnpr: Decimal = Field(alias="futs_antc_cnpr")
-    ("선물예상체결가")
-    futs_antc_cntg_vrss: Decimal = Field(alias="futs_antc_cntg_vrss")
-    ("선물예상체결대비")
-    antc_cntg_vrss_sign: int = Field(alias="antc_cntg_vrss_sign")
-    ("예상 체결 대비 부호")
-    antc_cntg_prdy_ctrt: Decimal = Field(alias="antc_cntg_prdy_ctrt")
-    ("예상 체결 전일 대비율")
+    futs_shrn_iscd: Annotated[str, "선물 단축 종목코드"] = Field(alias="futs_shrn_iscd")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    futs_prpr: Annotated[Decimal, "선물 현재가"] = Field(alias="futs_prpr")
+    futs_prdy_vrss: Annotated[Decimal, "선물 전일 대비"] = Field(alias="futs_prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    futs_prdy_ctrt: Annotated[Decimal, "선물 전일 대비율"] = Field(alias="futs_prdy_ctrt")
+    hts_thpr: Annotated[Decimal, "HTS 이론가"] = Field(alias="hts_thpr")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    futs_askp: Annotated[Decimal, "선물 매도호가"] = Field(alias="futs_askp")
+    futs_bidp: Annotated[str, "선물 매수호가"] = Field(alias="futs_bidp")
+    hts_otst_stpl_qty: Annotated[int, "HTS 미결제 약정 수량"] = Field(alias="hts_otst_stpl_qty")
+    futs_hgpr: Annotated[Decimal, "선물 최고가"] = Field(alias="futs_hgpr")
+    futs_lwpr: Annotated[Decimal, "선물 최저가"] = Field(alias="futs_lwpr")
+    hts_rmnn_dynu: Annotated[int, "HTS 잔존 일수"] = Field(alias="hts_rmnn_dynu")
+    total_askp_rsqn: Annotated[int, "총 매도호가 잔량"] = Field(alias="total_askp_rsqn")
+    total_bidp_rsqn: Annotated[str, "총 매수호가 잔량"] = Field(alias="total_bidp_rsqn")
+    futs_antc_cnpr: Annotated[Decimal, "선물예상체결가"] = Field(alias="futs_antc_cnpr")
+    futs_antc_cntg_vrss: Annotated[Decimal, "선물예상체결대비"] = Field(alias="futs_antc_cntg_vrss")
+    antc_cntg_vrss_sign: Annotated[int, "예상 체결 대비 부호"] = Field(alias="antc_cntg_vrss_sign")
+    antc_cntg_prdy_ctrt: Annotated[Decimal, "예상 체결 전일 대비율"] = Field(alias="antc_cntg_prdy_ctrt")
 
 
 class DisplayBoardFuturesResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[DisplayBoardFuturesOutput1] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[DisplayBoardFuturesOutput1], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[DisplayBoardFuturesRequest, DisplayBoardFuturesResponse] = Endpoint(

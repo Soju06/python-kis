@@ -16,18 +16,17 @@ if TYPE_CHECKING:
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "년")
-    "년"
+    """년"""
     VALUE_1 = ("1", "분기")
-    "분기"
+    """분기"""
 
 
 class OtherMajorRatiosRequest(RawModel):
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("000660 : 종목코드")
-    fid_div_cls_code: FidDivClsCodeEnum = Field(alias="fid_div_cls_code")
-    ("0: 년, 1: 분기")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
-    ("J")
+    fid_input_iscd: Annotated[str, "000660 : 종목코드"] = Field(alias="fid_input_iscd")
+    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"] = Field(
+        alias="fid_div_cls_code", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "년", "1": "분기"}}
+    )
+    fid_cond_mrkt_div_code: Annotated[str, "J"] = Field(alias="fid_cond_mrkt_div_code")
 
 
 class OtherMajorRatiosRequestDict(TypedDict):
@@ -42,33 +41,24 @@ class OtherMajorRatiosRequestDict(TypedDict):
         fid_cond_mrkt_div_code (str): J
     """
 
-    fid_input_iscd: Annotated[str, "000660 : 종목코드"]
-    fid_div_cls_code: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"]
-    fid_cond_mrkt_div_code: Annotated[str, "J"]
+    fid_input_iscd: str
+    fid_div_cls_code: FidDivClsCodeEnum
+    fid_cond_mrkt_div_code: str
 
 
 class OtherMajorRatiosOutput(RawModel):
-    stac_yymm: str = Field(alias="stac_yymm")
-    ("결산 년월")
-    payout_rate: Decimal = Field(alias="payout_rate")
-    ("비정상 출력되는 데이터로 무시")
-    eva: Decimal = Field(alias="eva")
-    ("EVA")
-    ebitda: Decimal = Field(alias="ebitda")
-    ("EBITDA")
-    ev_ebitda: Decimal = Field(alias="ev_ebitda")
-    ("EV_EBITDA")
+    stac_yymm: Annotated[str, "결산 년월"] = Field(alias="stac_yymm")
+    payout_rate: Annotated[Decimal, "비정상 출력되는 데이터로 무시"] = Field(alias="payout_rate")
+    eva: Annotated[Decimal, "EVA"] = Field(alias="eva")
+    ebitda: Annotated[Decimal, "EBITDA"] = Field(alias="ebitda")
+    ev_ebitda: Annotated[Decimal, "EV_EBITDA"] = Field(alias="ev_ebitda")
 
 
 class OtherMajorRatiosResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[OtherMajorRatiosOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[OtherMajorRatiosOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[OtherMajorRatiosRequest, OtherMajorRatiosResponse] = Endpoint(

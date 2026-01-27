@@ -16,74 +16,85 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class OvrsExcgCdEnum(KisStrEnum):
     NASD = ("NASD", "미국")
-    "미국"
+    """미국"""
     SEHK = ("SEHK", "홍콩")
-    "홍콩"
+    """홍콩"""
     SHAA = ("SHAA", "중국")
-    "중국"
+    """중국"""
     TKSE = ("TKSE", "일본")
-    "일본"
+    """일본"""
     HASE = ("HASE", "베트남")
-    "베트남"
+    """베트남"""
 
 
 class CrcyCdEnum(KisStrEnum):
     USD = ("USD", "미국달러")
-    "미국달러"
+    """미국달러"""
     HKD = ("HKD", "홍콩달러")
-    "홍콩달러"
+    """홍콩달러"""
     CNY = ("CNY", "중국위안화")
-    "중국위안화"
+    """중국위안화"""
     JPY = ("JPY", "일본엔화")
-    "일본엔화"
+    """일본엔화"""
     VND = ("VND", "베트남동")
-    "베트남동"
+    """베트남동"""
 
 
 class WcrcFrcrDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "외화")
-    "외화"
+    """외화"""
     VALUE_02 = ("02", "원화")
-    "원화"
+    """원화"""
 
 
 class InquirePeriodProfitRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_EXCG_CD: OvrsExcgCdEnum | None = Field(default=None, alias="OVRS_EXCG_CD", json_schema_extra={"blank_allowed": True})
-    ("공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE : 일본, HASE : 베트남")
-    NATN_CD: str | None = Field(default=None, alias="NATN_CD", json_schema_extra={"blank_allowed": True})
-    ("공란(Default)")
-    CRCY_CD: CrcyCdEnum | None = Field(default=None, alias="CRCY_CD", json_schema_extra={"blank_allowed": True})
-    ("공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY : 일본엔화, VND : 베트남동")
-    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
-    ("공란 : 전체")
-    INQR_STRT_DT: str = Field(alias="INQR_STRT_DT")
-    ("YYYYMMDD")
-    INQR_END_DT: str = Field(alias="INQR_END_DT")
-    ("YYYYMMDD")
-    WCRC_FRCR_DVSN_CD: WcrcFrcrDvsnCdEnum = Field(alias="WCRC_FRCR_DVSN_CD")
-    ("01 : 외화, 02 : 원화")
-    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
-    ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
-    ("연속조회키200")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    OVRS_EXCG_CD: Annotated[OvrsExcgCdEnum | None, "공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE : 일본, HASE : 베트남"] = Field(
+        default=None,
+        alias="OVRS_EXCG_CD",
+        json_schema_extra={
+            "enum": ["NASD", "SEHK", "SHAA", "TKSE", "HASE"],
+            "enum_desc": {"NASD": "미국", "SEHK": "홍콩", "SHAA": "중국", "TKSE": "일본", "HASE": "베트남"},
+            "blank_allowed": True,
+        },
+    )
+    NATN_CD: Annotated[str | None, "공란(Default)"] = Field(default=None, alias="NATN_CD", json_schema_extra={"blank_allowed": True})
+    CRCY_CD: Annotated[CrcyCdEnum | None, "공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY : 일본엔화, VND : 베트남동"] = Field(
+        default=None,
+        alias="CRCY_CD",
+        json_schema_extra={
+            "enum": ["USD", "HKD", "CNY", "JPY", "VND"],
+            "enum_desc": {"USD": "미국달러", "HKD": "홍콩달러", "CNY": "중국위안화", "JPY": "일본엔화", "VND": "베트남동"},
+            "blank_allowed": True,
+        },
+    )
+    PDNO: Annotated[str | None, "공란 : 전체"] = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
+    INQR_STRT_DT: Annotated[str, "YYYYMMDD"] = Field(alias="INQR_STRT_DT")
+    INQR_END_DT: Annotated[str, "YYYYMMDD"] = Field(alias="INQR_END_DT")
+    WCRC_FRCR_DVSN_CD: Annotated[WcrcFrcrDvsnCdEnum, "01 : 외화, 02 : 원화"] = Field(
+        alias="WCRC_FRCR_DVSN_CD", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "외화", "02": "원화"}}
+    )
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"] = Field(alias="CTX_AREA_FK200")
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"] = Field(alias="CTX_AREA_NK200")
 
 
 class InquirePeriodProfitRequestDict(TypedDict):
@@ -122,80 +133,63 @@ class InquirePeriodProfitRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    OVRS_EXCG_CD: NotRequired[Annotated[OvrsExcgCdEnum | None, "공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE : 일본, HASE : 베트남"]]
-    NATN_CD: NotRequired[Annotated[str | None, "공란(Default)"]]
-    CRCY_CD: NotRequired[Annotated[CrcyCdEnum | None, "공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY : 일본엔화, VND : 베트남동"]]
-    PDNO: NotRequired[Annotated[str | None, "공란 : 전체"]]
-    INQR_STRT_DT: Annotated[str, "YYYYMMDD"]
-    INQR_END_DT: Annotated[str, "YYYYMMDD"]
-    WCRC_FRCR_DVSN_CD: Annotated[WcrcFrcrDvsnCdEnum, "01 : 외화, 02 : 원화"]
-    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
-    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    OVRS_EXCG_CD: NotRequired[OvrsExcgCdEnum | None]
+    NATN_CD: NotRequired[str | None]
+    CRCY_CD: NotRequired[CrcyCdEnum | None]
+    PDNO: NotRequired[str | None]
+    INQR_STRT_DT: str
+    INQR_END_DT: str
+    WCRC_FRCR_DVSN_CD: WcrcFrcrDvsnCdEnum
+    CTX_AREA_FK200: str
+    CTX_AREA_NK200: str
 
 
 class InquirePeriodProfitOutput1(RawModel):
-    trad_day: str = Field(alias="trad_day")
-    ("매매일")
-    ovrs_pdno: str = Field(alias="ovrs_pdno")
-    ("해외상품번호")
-    ovrs_item_name: str = Field(alias="ovrs_item_name")
-    ("해외종목명")
-    slcl_qty: int = Field(alias="slcl_qty")
-    ("매도청산수량")
-    pchs_avg_pric: Decimal = Field(alias="pchs_avg_pric")
-    ("매입평균가격")
-    frcr_pchs_amt1: Decimal = Field(alias="frcr_pchs_amt1")
-    ("외화매입금액1")
-    avg_sll_unpr: str = Field(alias="avg_sll_unpr")
-    ("평균매도단가")
-    frcr_sll_amt_smtl1: Decimal = Field(alias="frcr_sll_amt_smtl1")
-    ("외화매도금액합계1")
-    stck_sll_tlex: str = Field(alias="stck_sll_tlex")
-    ("주식매도제비용")
-    ovrs_rlzt_pfls_amt: Decimal = Field(alias="ovrs_rlzt_pfls_amt")
-    ("해외실현손익금액")
-    pftrt: str = Field(alias="pftrt")
-    ("수익률")
-    exrt: Decimal = Field(alias="exrt")
-    ("환율")
-    ovrs_excg_cd: str = Field(alias="ovrs_excg_cd")
-    ("해외거래소코드")
-    frst_bltn_exrt: Decimal = Field(alias="frst_bltn_exrt")
-    ("최초고시환율")
+    trad_day: Annotated[str, "매매일"] = Field(alias="trad_day")
+    ovrs_pdno: Annotated[str, "해외상품번호"] = Field(alias="ovrs_pdno")
+    ovrs_item_name: Annotated[str, "해외종목명"] = Field(alias="ovrs_item_name")
+    slcl_qty: Annotated[int, "매도청산수량"] = Field(alias="slcl_qty")
+    pchs_avg_pric: Annotated[Decimal, "매입평균가격"] = Field(alias="pchs_avg_pric")
+    frcr_pchs_amt1: Annotated[Decimal, "외화매입금액1"] = Field(alias="frcr_pchs_amt1")
+    avg_sll_unpr: Annotated[str, "평균매도단가"] = Field(alias="avg_sll_unpr")
+    frcr_sll_amt_smtl1: Annotated[Decimal, "외화매도금액합계1"] = Field(alias="frcr_sll_amt_smtl1")
+    stck_sll_tlex: Annotated[str, "주식매도제비용"] = Field(alias="stck_sll_tlex")
+    ovrs_rlzt_pfls_amt: Annotated[Decimal, "해외실현손익금액"] = Field(alias="ovrs_rlzt_pfls_amt")
+    pftrt: Annotated[str, "수익률"] = Field(alias="pftrt")
+    exrt: Annotated[Decimal, "환율"] = Field(alias="exrt")
+    ovrs_excg_cd: Annotated[str, "해외거래소코드"] = Field(alias="ovrs_excg_cd")
+    frst_bltn_exrt: Annotated[Decimal, "최초고시환율"] = Field(alias="frst_bltn_exrt")
 
 
 class InquirePeriodProfitOutput2(RawModel):
-    stck_sll_amt_smtl: str = Field(alias="stck_sll_amt_smtl", json_schema_extra={"blank_allowed": True})
-    ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
-    stck_buy_amt_smtl: str = Field(alias="stck_buy_amt_smtl", json_schema_extra={"blank_allowed": True})
-    ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
-    smtl_fee1: str = Field(alias="smtl_fee1", json_schema_extra={"blank_allowed": True})
-    ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
-    excc_dfrm_amt: str = Field(alias="excc_dfrm_amt", json_schema_extra={"blank_allowed": True})
-    ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
-    ovrs_rlzt_pfls_tot_amt: str = Field(alias="ovrs_rlzt_pfls_tot_amt", json_schema_extra={"blank_allowed": True})
-    ("WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시")
-    tot_pftrt: str = Field(alias="tot_pftrt")
-    ("총수익률")
-    bass_dt: KisDate = Field(alias="bass_dt")
-    ("기준일자")
-    exrt: Decimal = Field(alias="exrt")
-    ("환율")
+    stck_sll_amt_smtl: Annotated[
+        str, "WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시"
+    ] = Field(alias="stck_sll_amt_smtl", json_schema_extra={"blank_allowed": True})
+    stck_buy_amt_smtl: Annotated[
+        str, "WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시"
+    ] = Field(alias="stck_buy_amt_smtl", json_schema_extra={"blank_allowed": True})
+    smtl_fee1: Annotated[str, "WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시"] = (
+        Field(alias="smtl_fee1", json_schema_extra={"blank_allowed": True})
+    )
+    excc_dfrm_amt: Annotated[
+        str, "WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시"
+    ] = Field(alias="excc_dfrm_amt", json_schema_extra={"blank_allowed": True})
+    ovrs_rlzt_pfls_tot_amt: Annotated[
+        str, "WCRC_FRCR_DVSN_CD(원화외화구분코드)가 01(외화)이고 OVRS_EXCG_CD(해외거래소코드)가 공란(전체)인 경우 출력값 무시"
+    ] = Field(alias="ovrs_rlzt_pfls_tot_amt", json_schema_extra={"blank_allowed": True})
+    tot_pftrt: Annotated[str, "총수익률"] = Field(alias="tot_pftrt")
+    bass_dt: Annotated[KisDate, "기준일자"] = Field(alias="bass_dt")
+    exrt: Annotated[Decimal, "환율"] = Field(alias="exrt")
 
 
 class InquirePeriodProfitResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[InquirePeriodProfitOutput1] = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquirePeriodProfitOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[InquirePeriodProfitOutput1], "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquirePeriodProfitOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquirePeriodProfitRequest, InquirePeriodProfitResponse] = Endpoint(

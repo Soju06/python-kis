@@ -16,74 +16,84 @@ if TYPE_CHECKING:
 
 class OrdDvsnEnum(KisStrEnum):
     VALUE_00 = ("00", "지정가")
-    "지정가"
+    """지정가"""
     VALUE_01 = ("01", "시장가")
-    "시장가"
+    """시장가"""
     VALUE_02 = ("02", "조건부지정가")
-    "조건부지정가"
+    """조건부지정가"""
     VALUE_03 = ("03", "최유리지정가")
-    "최유리지정가"
+    """최유리지정가"""
     VALUE_04 = ("04", "최우선지정가")
-    "최우선지정가"
+    """최우선지정가"""
     VALUE_05 = ("05", "장전 시간외")
-    "장전 시간외"
+    """장전 시간외"""
     VALUE_06 = ("06", "장후 시간외")
-    "장후 시간외"
+    """장후 시간외"""
     VALUE_07 = ("07", "시간외 단일가")
-    "시간외 단일가"
+    """시간외 단일가"""
     VALUE_11 = ("11", "IOC지정가 (즉시체결,잔량취소)")
-    "IOC지정가 (즉시체결,잔량취소)"
+    """IOC지정가 (즉시체결,잔량취소)"""
     VALUE_12 = ("12", "FOK지정가 (즉시체결,전량취소)")
-    "FOK지정가 (즉시체결,전량취소)"
+    """FOK지정가 (즉시체결,전량취소)"""
     VALUE_13 = ("13", "IOC시장가 (즉시체결,잔량취소)")
-    "IOC시장가 (즉시체결,잔량취소)"
+    """IOC시장가 (즉시체결,잔량취소)"""
     VALUE_14 = ("14", "FOK시장가 (즉시체결,전량취소)")
-    "FOK시장가 (즉시체결,전량취소)"
+    """FOK시장가 (즉시체결,전량취소)"""
     VALUE_15 = ("15", "IOC최유리 (즉시체결,잔량취소)")
-    "IOC최유리 (즉시체결,잔량취소)"
+    """IOC최유리 (즉시체결,잔량취소)"""
     VALUE_16 = ("16", "FOK최유리 (즉시체결,전량취소)")
-    "FOK최유리 (즉시체결,전량취소)"
+    """FOK최유리 (즉시체결,전량취소)"""
     VALUE_21 = ("21", "중간가")
-    "중간가"
+    """중간가"""
     VALUE_22 = ("22", "스톱지정가")
-    "스톱지정가"
+    """스톱지정가"""
     VALUE_23 = ("23", "중간가IOC")
-    "중간가IOC"
+    """중간가IOC"""
     VALUE_24 = ("24", "중간가FOK")
-    "중간가FOK"
+    """중간가FOK"""
 
 
 class OrderCashRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("상품유형코드")
-    PDNO: str = Field(alias="PDNO")
-    ("종목코드(6자리) , ETN의 경우 7자리 입력")
-    SLL_TYPE: str | None = Field(default=None, alias="SLL_TYPE")
-    ("01@일반매도 02@임의매매 05@대차매도 → 미입력시 01 일반매도로 진행")
-    ORD_DVSN: OrdDvsnEnum = Field(alias="ORD_DVSN")
-    (
-        "[KRX] 00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04 : 최우선지정가 05 : 장전 "
-        "시간외 06 : 장후 시간외 07 : 시간외 단일가 11 : IOC지정가 (즉시체결,잔량취소) 12 : FOK지정가 "
-        "(즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : FOK시장가 (즉시체결,전량취소) 15 : "
-        "IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 (즉시체결,전량취소) 21 : 중간가 22 : 스톱지정가 23 "
-        ": 중간가IOC 24 : 중간가FOK [NXT] 00 : 지정가 03 : 최유리지정가 04 : 최우선지정가 11 : IOC지정가 "
-        "(즉시체결,잔량취소) 12 : FOK지정가 (즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : "
-        "FOK시장가 (즉시체결,전량취소) 15 : IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 "
-        "(즉시체결,전량취소) 21 : 중간가 22 : 스톱지정가 23 : 중간가IOC 24 : 중간가FOK [SOR] 00 : 지정가 "
-        "01 : 시장가 03 : 최유리지정가 04 : 최우선지정가 11 : IOC지정가 (즉시체결,잔량취소) 12 : "
-        "FOK지정가 (즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : FOK시장가 "
-        "(즉시체결,전량취소) 15 : IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 (즉시체결,전량취소)"
+    CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "상품유형코드"] = Field(alias="ACNT_PRDT_CD")
+    PDNO: Annotated[str, "종목코드(6자리) , ETN의 경우 7자리 입력"] = Field(alias="PDNO")
+    SLL_TYPE: Annotated[str | None, "01@일반매도 02@임의매매 05@대차매도 → 미입력시 01 일반매도로 진행"] = Field(default=None, alias="SLL_TYPE")
+    ORD_DVSN: Annotated[
+        OrdDvsnEnum,
+        "[KRX] 00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04 : 최우선지정가 05 : 장전 시간외 06 : 장후 시간외 07 : 시간외 단일가 11 : IOC지정가 (즉시체결,잔량취소) 12 : FOK지정가 (즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : FOK시장가 (즉시체결,전량취소) 15 : IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 (즉시체결,전량취소) 21 : 중간가 22 : 스톱지정가 23 : 중간가IOC 24 : 중간가FOK [NXT] 00 : 지정가 03 : 최유리지정가 04 : 최우선지정가 11 : IOC지정가 (즉시체결,잔량취소) 12 : FOK지정가 (즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : FOK시장가 (즉시체결,전량취소) 15 : IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 (즉시체결,전량취소) 21 : 중간가 22 : 스톱지정가 23 : 중간가IOC 24 : 중간가FOK [SOR] 00 : 지정가 01 : 시장가 03 : 최유리지정가 04 : 최우선지정가 11 : IOC지정가 (즉시체결,잔량취소) 12 : FOK지정가 (즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : FOK시장가 (즉시체결,전량취소) 15 : IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 (즉시체결,전량취소)",
+    ] = Field(
+        alias="ORD_DVSN",
+        json_schema_extra={
+            "enum": ["00", "01", "02", "03", "04", "05", "06", "07", "11", "12", "13", "14", "15", "16", "21", "22", "23", "24"],
+            "enum_desc": {
+                "00": "지정가",
+                "01": "시장가",
+                "02": "조건부지정가",
+                "03": "최유리지정가",
+                "04": "최우선지정가",
+                "05": "장전 시간외",
+                "06": "장후 시간외",
+                "07": "시간외 단일가",
+                "11": "IOC지정가 (즉시체결,잔량취소)",
+                "12": "FOK지정가 (즉시체결,전량취소)",
+                "13": "IOC시장가 (즉시체결,잔량취소)",
+                "14": "FOK시장가 (즉시체결,전량취소)",
+                "15": "IOC최유리 (즉시체결,잔량취소)",
+                "16": "FOK최유리 (즉시체결,전량취소)",
+                "21": "중간가",
+                "22": "스톱지정가",
+                "23": "중간가IOC",
+                "24": "중간가FOK",
+            },
+        },
     )
-    ORD_QTY: int = Field(alias="ORD_QTY")
-    ("주문수량")
-    ORD_UNPR: str = Field(alias="ORD_UNPR")
-    ('주문단가 시장가 등 주문시, "0"으로 입력')
-    CNDT_PRIC: Decimal | None = Field(default=None, alias="CNDT_PRIC")
-    ("스탑지정가호가 주문 (ORD_DVSN이 22) 사용 시에만 필수")
-    EXCG_ID_DVSN_CD: str | None = Field(default=None, alias="EXCG_ID_DVSN_CD")
-    ("한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능")
+    ORD_QTY: Annotated[int, "주문수량"] = Field(alias="ORD_QTY")
+    ORD_UNPR: Annotated[str, '주문단가 시장가 등 주문시, "0"으로 입력'] = Field(alias="ORD_UNPR")
+    CNDT_PRIC: Annotated[Decimal | None, "스탑지정가호가 주문 (ORD_DVSN이 22) 사용 시에만 필수"] = Field(default=None, alias="CNDT_PRIC")
+    EXCG_ID_DVSN_CD: Annotated[
+        str | None,
+        "한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능",
+    ] = Field(default=None, alias="EXCG_ID_DVSN_CD")
 
 
 class OrderCashRequestDict(TypedDict):
@@ -130,53 +140,28 @@ class OrderCashRequestDict(TypedDict):
         Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능 optional
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "상품유형코드"]
-    PDNO: Annotated[str, "종목코드(6자리) , ETN의 경우 7자리 입력"]
-    SLL_TYPE: NotRequired[Annotated[str | None, "01@일반매도 02@임의매매 05@대차매도 → 미입력시 01 일반매도로 진행"]]
-    ORD_DVSN: Annotated[
-        OrdDvsnEnum,
-        "[KRX] 00 : 지정가 01 : 시장가 02 : 조건부지정가 03 : 최유리지정가 04 : 최우선지정가 05 : 장전 "
-        "시간외 06 : 장후 시간외 07 : 시간외 단일가 11 : IOC지정가 (즉시체결,잔량취소) 12 : FOK지정가 "
-        "(즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : FOK시장가 (즉시체결,전량취소) 15 : "
-        "IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 (즉시체결,전량취소) 21 : 중간가 22 : 스톱지정가 23 "
-        ": 중간가IOC 24 : 중간가FOK [NXT] 00 : 지정가 03 : 최유리지정가 04 : 최우선지정가 11 : IOC지정가 "
-        "(즉시체결,잔량취소) 12 : FOK지정가 (즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : "
-        "FOK시장가 (즉시체결,전량취소) 15 : IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 "
-        "(즉시체결,전량취소) 21 : 중간가 22 : 스톱지정가 23 : 중간가IOC 24 : 중간가FOK [SOR] 00 : 지정가 "
-        "01 : 시장가 03 : 최유리지정가 04 : 최우선지정가 11 : IOC지정가 (즉시체결,잔량취소) 12 : "
-        "FOK지정가 (즉시체결,전량취소) 13 : IOC시장가 (즉시체결,잔량취소) 14 : FOK시장가 "
-        "(즉시체결,전량취소) 15 : IOC최유리 (즉시체결,잔량취소) 16 : FOK최유리 (즉시체결,전량취소)",
-    ]
-    ORD_QTY: Annotated[int, "주문수량"]
-    ORD_UNPR: Annotated[str, '주문단가 시장가 등 주문시, "0"으로 입력']
-    CNDT_PRIC: NotRequired[Annotated[Decimal | None, "스탑지정가호가 주문 (ORD_DVSN이 22) 사용 시에만 필수"]]
-    EXCG_ID_DVSN_CD: NotRequired[
-        Annotated[
-            str | None,
-            "한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능",
-        ]
-    ]
+    CANO: str
+    ACNT_PRDT_CD: str
+    PDNO: str
+    SLL_TYPE: NotRequired[str | None]
+    ORD_DVSN: OrdDvsnEnum
+    ORD_QTY: int
+    ORD_UNPR: str
+    CNDT_PRIC: NotRequired[Decimal | None]
+    EXCG_ID_DVSN_CD: NotRequired[str | None]
 
 
 class OrderCashOutput(RawModel):
-    KRX_FWDG_ORD_ORGNO: str = Field(alias="KRX_FWDG_ORD_ORGNO")
-    ("거래소코드")
-    ODNO: str = Field(alias="ODNO")
-    ("주문번호")
-    ORD_TMD: KisTime = Field(alias="ORD_TMD")
-    ("주문시간")
+    KRX_FWDG_ORD_ORGNO: Annotated[str, "거래소코드"] = Field(alias="KRX_FWDG_ORD_ORGNO")
+    ODNO: Annotated[str, "주문번호"] = Field(alias="ODNO")
+    ORD_TMD: Annotated[KisTime, "주문시간"] = Field(alias="ORD_TMD")
 
 
 class OrderCashResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: OrderCashOutput = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[OrderCashOutput, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[OrderCashRequest, OrderCashResponse] = Endpoint(

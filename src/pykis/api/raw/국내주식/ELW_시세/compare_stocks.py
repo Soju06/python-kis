@@ -13,10 +13,8 @@ if TYPE_CHECKING:
 
 
 class CompareStocksRequest(RawModel):
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("11517(Primary key)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목코드(ex)005930(삼성전자))")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "11517(Primary key)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "종목코드(ex)005930(삼성전자))"] = Field(alias="FID_INPUT_ISCD")
 
 
 class CompareStocksRequestDict(TypedDict):
@@ -29,26 +27,20 @@ class CompareStocksRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목코드(ex)005930(삼성전자))
     """
 
-    FID_COND_SCR_DIV_CODE: Annotated[str, "11517(Primary key)"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드(ex)005930(삼성전자))"]
+    FID_COND_SCR_DIV_CODE: str
+    FID_INPUT_ISCD: str
 
 
 class CompareStocksOutput(RawModel):
-    elw_shrn_iscd: str | None = Field(default=None, alias="elw_shrn_iscd")
-    ("ELW단축종목코드")
-    elw_kor_isnm: str | None = Field(default=None, alias="elw_kor_isnm")
-    ("ELW한글종목명")
+    elw_shrn_iscd: Annotated[str | None, "ELW단축종목코드"] = Field(default=None, alias="elw_shrn_iscd")
+    elw_kor_isnm: Annotated[str | None, "ELW한글종목명"] = Field(default=None, alias="elw_kor_isnm")
 
 
 class CompareStocksResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[CompareStocksOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[CompareStocksOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[CompareStocksRequest, CompareStocksResponse] = Endpoint(

@@ -16,39 +16,54 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     F = ("F", "지수선물")
-    "지수선물"
+    """지수선물"""
     VALUE_O = ("O", "지수옵션")
-    "지수옵션"
+    """지수옵션"""
     JF = ("JF", "주식선물")
-    "주식선물"
+    """주식선물"""
     JO = ("JO", "주식옵션")
-    "주식옵션"
+    """주식옵션"""
     CF = ("CF", "상품선물(금), 금리선물(국채), 통화선물(달러)")
-    "상품선물(금), 금리선물(국채), 통화선물(달러)"
+    """상품선물(금), 금리선물(국채), 통화선물(달러)"""
     CM = ("CM", "야간선물")
-    "야간선물"
+    """야간선물"""
     EU = ("EU", "야간옵션")
-    "야간옵션"
+    """야간옵션"""
 
 
 class PrdyVrssSignEnum(KisStrEnum):
     VALUE_1 = ("1", "상한")
-    "상한"
+    """상한"""
     VALUE_2 = ("2", "상승")
-    "상승"
+    """상승"""
     VALUE_3 = ("3", "보합")
-    "보합"
+    """보합"""
     VALUE_4 = ("4", "하한")
-    "하한"
+    """하한"""
     VALUE_5 = ("5", "하락")
-    "하락"
+    """하락"""
 
 
 class InquirePriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("F: 지수선물, O:지수옵션 JF: 주식선물, JO:주식옵션 CF: 상품선물(금), 금리선물(국채), 통화선물(달러) CM: 야간선물, EU: 야간옵션")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목코드 (예: 101S03)")
+    FID_COND_MRKT_DIV_CODE: Annotated[
+        FidCondMrktDivCodeEnum,
+        "F: 지수선물, O:지수옵션 JF: 주식선물, JO:주식옵션 CF: 상품선물(금), 금리선물(국채), 통화선물(달러) CM: 야간선물, EU: 야간옵션",
+    ] = Field(
+        alias="FID_COND_MRKT_DIV_CODE",
+        json_schema_extra={
+            "enum": ["F", "O", "JF", "JO", "CF", "CM", "EU"],
+            "enum_desc": {
+                "F": "지수선물",
+                "O": "지수옵션",
+                "JF": "주식선물",
+                "JO": "주식옵션",
+                "CF": "상품선물(금), 금리선물(국채), 통화선물(달러)",
+                "CM": "야간선물",
+                "EU": "야간옵션",
+            },
+        },
+    )
+    FID_INPUT_ISCD: Annotated[str, "종목코드 (예: 101S03)"] = Field(alias="FID_INPUT_ISCD")
 
 
 class InquirePriceRequestDict(TypedDict):
@@ -65,127 +80,80 @@ class InquirePriceRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목코드 (예: 101S03)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[
-        FidCondMrktDivCodeEnum,
-        "F: 지수선물, O:지수옵션 JF: 주식선물, JO:주식옵션 CF: 상품선물(금), 금리선물(국채), 통화선물(달러) CM: 야간선물, EU: 야간옵션",
-    ]
-    FID_INPUT_ISCD: Annotated[str, "종목코드 (예: 101S03)"]
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
+    FID_INPUT_ISCD: str
 
 
 class InquirePriceOutput1(RawModel):
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("종목명")
-    futs_prpr: Decimal = Field(alias="futs_prpr")
-    ("선물의 현재가격")
-    futs_prdy_vrss: Decimal = Field(alias="futs_prdy_vrss")
-    ("선물의 전일 종가와 당일 현재가의 차이 (당일 현재가-전일 종가)")
-    prdy_vrss_sign: PrdyVrssSignEnum = Field(alias="prdy_vrss_sign")
-    ("1 : 상한 2 : 상승 3 : 보합 4 : 하한 5 : 하락")
-    futs_prdy_clpr: str = Field(alias="futs_prdy_clpr")
-    ("해당 선물 종목의 전일 종가")
-    futs_prdy_ctrt: Decimal = Field(alias="futs_prdy_ctrt")
-    ("선물 전일 대비 / 당일 현재가 * 100")
-    acml_vol: int = Field(alias="acml_vol")
-    ("당일 조회시점까지 전체 거래량")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
-    ("당일 조회시점까지 전체 거래금액")
-    hts_otst_stpl_qty: int = Field(alias="hts_otst_stpl_qty")
-    ("현재까지 반대매매로 청산되지 않은 계약수")
-    otst_stpl_qty_icdc: int = Field(alias="otst_stpl_qty_icdc")
-    ("전일대비 미결제 약정 수량의 증감")
-    futs_oprc: Decimal = Field(alias="futs_oprc")
-    ("당일 최초 거래가격")
-    futs_hgpr: Decimal = Field(alias="futs_hgpr")
-    ("당일 조회 시점까지 가장 높은 거래가격")
-    futs_lwpr: Decimal = Field(alias="futs_lwpr")
-    ("당일 조회 시점까지 가장 낮은 거래가격")
-    futs_mxpr: Decimal = Field(alias="futs_mxpr")
-    ("당일 거래 가능한 최고 가격")
-    futs_llam: Decimal = Field(alias="futs_llam")
-    ("당일 거래 가능한 최저 가격")
-    basis: Decimal = Field(alias="basis")
-    ("이론베이시스 선물 이론가격과 현물가격과의 차이")
-    futs_sdpr: Decimal = Field(alias="futs_sdpr")
-    ("선물 기준가")
-    hts_thpr: Decimal = Field(alias="hts_thpr")
-    ("해당 월물의 이론적 가치를 계산한 것으로 주가지수 선물 이론가격은 (주가지수 선물 이론가격 = 주가지수 + 기간이자비용 - 기간배당수입) 로 계산")
-    dprt: Decimal = Field(alias="dprt")
-    ("현재의 시장가가 이론가격으로부터 얼마나 벗어나 있는지에 대한 측정 자료 괴리도 = (현재가 - 이론가격)")
-    crbr_aply_mxpr: Decimal = Field(alias="crbr_aply_mxpr")
-    ("서킷브레이커 적용 상한가")
-    crbr_aply_llam: Decimal = Field(alias="crbr_aply_llam")
-    ("서킷브레이커 적용 하한가")
-    futs_last_tr_date: KisDate = Field(alias="futs_last_tr_date")
-    ("해당 선물 종목의 마지막 거래일")
-    hts_rmnn_dynu: int = Field(alias="hts_rmnn_dynu")
-    ("최종 거래일까지 남은 일수")
-    futs_lstn_medm_hgpr: str = Field(alias="futs_lstn_medm_hgpr")
-    ("해당 선물 종목의 상장일 이후 최고 거래가격")
-    futs_lstn_medm_lwpr: str = Field(alias="futs_lstn_medm_lwpr")
-    ("해당 선물 종목의 상장일 이후 최저 거래가격")
-    delta_val: str = Field(alias="delta_val")
-    ("옵션 종목의 지표값")
-    gama: str = Field(alias="gama")
-    ("옵션 종목의 지표값")
-    theta: str = Field(alias="theta")
-    ("옵션 종목의 지표값")
-    vega: str = Field(alias="vega")
-    ("옵션 종목의 지표값")
-    rho: str = Field(alias="rho")
-    ("옵션 종목의 지표값")
-    hist_vltl: str | None = Field(default=None, alias="hist_vltl")
-    ("옵션 종목의 지표값")
-    hts_ints_vltl: str | None = Field(default=None, alias="hts_ints_vltl")
-    ("옵션 종목의 지표값")
-    mrkt_basis: Decimal = Field(alias="mrkt_basis")
-    ("시장베이시스 현재 시장에서 형성된 선물가격과 현물가격과의 차이")
-    acpr: Decimal | None = Field(default=None, alias="acpr")
-    ("옵션의 행사가격")
+    hts_kor_isnm: Annotated[str, "종목명"] = Field(alias="hts_kor_isnm")
+    futs_prpr: Annotated[Decimal, "선물의 현재가격"] = Field(alias="futs_prpr")
+    futs_prdy_vrss: Annotated[Decimal, "선물의 전일 종가와 당일 현재가의 차이 (당일 현재가-전일 종가)"] = Field(alias="futs_prdy_vrss")
+    prdy_vrss_sign: Annotated[PrdyVrssSignEnum, "1 : 상한 2 : 상승 3 : 보합 4 : 하한 5 : 하락"] = Field(
+        alias="prdy_vrss_sign",
+        json_schema_extra={"enum": ["1", "2", "3", "4", "5"], "enum_desc": {"1": "상한", "2": "상승", "3": "보합", "4": "하한", "5": "하락"}},
+    )
+    futs_prdy_clpr: Annotated[str, "해당 선물 종목의 전일 종가"] = Field(alias="futs_prdy_clpr")
+    futs_prdy_ctrt: Annotated[Decimal, "선물 전일 대비 / 당일 현재가 * 100"] = Field(alias="futs_prdy_ctrt")
+    acml_vol: Annotated[int, "당일 조회시점까지 전체 거래량"] = Field(alias="acml_vol")
+    acml_tr_pbmn: Annotated[Decimal, "당일 조회시점까지 전체 거래금액"] = Field(alias="acml_tr_pbmn")
+    hts_otst_stpl_qty: Annotated[int, "현재까지 반대매매로 청산되지 않은 계약수"] = Field(alias="hts_otst_stpl_qty")
+    otst_stpl_qty_icdc: Annotated[int, "전일대비 미결제 약정 수량의 증감"] = Field(alias="otst_stpl_qty_icdc")
+    futs_oprc: Annotated[Decimal, "당일 최초 거래가격"] = Field(alias="futs_oprc")
+    futs_hgpr: Annotated[Decimal, "당일 조회 시점까지 가장 높은 거래가격"] = Field(alias="futs_hgpr")
+    futs_lwpr: Annotated[Decimal, "당일 조회 시점까지 가장 낮은 거래가격"] = Field(alias="futs_lwpr")
+    futs_mxpr: Annotated[Decimal, "당일 거래 가능한 최고 가격"] = Field(alias="futs_mxpr")
+    futs_llam: Annotated[Decimal, "당일 거래 가능한 최저 가격"] = Field(alias="futs_llam")
+    basis: Annotated[Decimal, "이론베이시스 선물 이론가격과 현물가격과의 차이"] = Field(alias="basis")
+    futs_sdpr: Annotated[Decimal, "선물 기준가"] = Field(alias="futs_sdpr")
+    hts_thpr: Annotated[
+        Decimal,
+        "해당 월물의 이론적 가치를 계산한 것으로 주가지수 선물 이론가격은 (주가지수 선물 이론가격 = 주가지수 + 기간이자비용 - 기간배당수입) 로 계산",
+    ] = Field(alias="hts_thpr")
+    dprt: Annotated[Decimal, "현재의 시장가가 이론가격으로부터 얼마나 벗어나 있는지에 대한 측정 자료 괴리도 = (현재가 - 이론가격)"] = Field(
+        alias="dprt"
+    )
+    crbr_aply_mxpr: Annotated[Decimal, "서킷브레이커 적용 상한가"] = Field(alias="crbr_aply_mxpr")
+    crbr_aply_llam: Annotated[Decimal, "서킷브레이커 적용 하한가"] = Field(alias="crbr_aply_llam")
+    futs_last_tr_date: Annotated[KisDate, "해당 선물 종목의 마지막 거래일"] = Field(alias="futs_last_tr_date")
+    hts_rmnn_dynu: Annotated[int, "최종 거래일까지 남은 일수"] = Field(alias="hts_rmnn_dynu")
+    futs_lstn_medm_hgpr: Annotated[str, "해당 선물 종목의 상장일 이후 최고 거래가격"] = Field(alias="futs_lstn_medm_hgpr")
+    futs_lstn_medm_lwpr: Annotated[str, "해당 선물 종목의 상장일 이후 최저 거래가격"] = Field(alias="futs_lstn_medm_lwpr")
+    delta_val: Annotated[str, "옵션 종목의 지표값"] = Field(alias="delta_val")
+    gama: Annotated[str, "옵션 종목의 지표값"] = Field(alias="gama")
+    theta: Annotated[str, "옵션 종목의 지표값"] = Field(alias="theta")
+    vega: Annotated[str, "옵션 종목의 지표값"] = Field(alias="vega")
+    rho: Annotated[str, "옵션 종목의 지표값"] = Field(alias="rho")
+    hist_vltl: Annotated[str | None, "옵션 종목의 지표값"] = Field(default=None, alias="hist_vltl")
+    hts_ints_vltl: Annotated[str | None, "옵션 종목의 지표값"] = Field(default=None, alias="hts_ints_vltl")
+    mrkt_basis: Annotated[Decimal, "시장베이시스 현재 시장에서 형성된 선물가격과 현물가격과의 차이"] = Field(alias="mrkt_basis")
+    acpr: Annotated[Decimal | None, "옵션의 행사가격"] = Field(default=None, alias="acpr")
 
 
 class InquirePriceOutput2(RawModel):
-    bstp_cls_code: str = Field(alias="bstp_cls_code")
-    ("업종 구분 코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("종목명")
-    bstp_nmix_prpr: Decimal = Field(alias="bstp_nmix_prpr")
-    ("업종 지수 현재가")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    bstp_nmix_prdy_vrss: Decimal = Field(alias="bstp_nmix_prdy_vrss")
-    ("업종 지수 전일 대비")
-    bstp_nmix_prdy_ctrt: Decimal = Field(alias="bstp_nmix_prdy_ctrt")
-    ("업종 지수 전일 대비율")
+    bstp_cls_code: Annotated[str, "업종 구분 코드"] = Field(alias="bstp_cls_code")
+    hts_kor_isnm: Annotated[str, "종목명"] = Field(alias="hts_kor_isnm")
+    bstp_nmix_prpr: Annotated[Decimal, "업종 지수 현재가"] = Field(alias="bstp_nmix_prpr")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    bstp_nmix_prdy_vrss: Annotated[Decimal, "업종 지수 전일 대비"] = Field(alias="bstp_nmix_prdy_vrss")
+    bstp_nmix_prdy_ctrt: Annotated[Decimal, "업종 지수 전일 대비율"] = Field(alias="bstp_nmix_prdy_ctrt")
 
 
 class InquirePriceOutput3(RawModel):
-    bstp_cls_code: str = Field(alias="bstp_cls_code")
-    ("업종 구분 코드")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    bstp_nmix_prpr: Decimal = Field(alias="bstp_nmix_prpr")
-    ("업종 지수 현재가")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    bstp_nmix_prdy_vrss: Decimal = Field(alias="bstp_nmix_prdy_vrss")
-    ("업종 지수 전일 대비")
-    bstp_nmix_prdy_ctrt: Decimal = Field(alias="bstp_nmix_prdy_ctrt")
-    ("업종 지수 전일 대비율")
+    bstp_cls_code: Annotated[str, "업종 구분 코드"] = Field(alias="bstp_cls_code")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    bstp_nmix_prpr: Annotated[Decimal, "업종 지수 현재가"] = Field(alias="bstp_nmix_prpr")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    bstp_nmix_prdy_vrss: Annotated[Decimal, "업종 지수 전일 대비"] = Field(alias="bstp_nmix_prdy_vrss")
+    bstp_nmix_prdy_ctrt: Annotated[Decimal, "업종 지수 전일 대비율"] = Field(alias="bstp_nmix_prdy_ctrt")
 
 
 class InquirePriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquirePriceOutput1 = Field(alias="output1")
-    ("응답상세1")
-    output2: InquirePriceOutput2 = Field(alias="output2")
-    ("응답상세2")
-    output3: InquirePriceOutput3 = Field(alias="output3")
-    ("응답상세3")
+    rt_cd: Annotated[KisBool, "0 : 성공 0 이외의 값 : 실패"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquirePriceOutput1, "응답상세1"] = Field(alias="output1")
+    output2: Annotated[InquirePriceOutput2, "응답상세2"] = Field(alias="output2")
+    output3: Annotated[InquirePriceOutput3, "응답상세3"] = Field(alias="output3")
 
 
 _ENDPOINT: Endpoint[InquirePriceRequest, InquirePriceResponse] = Endpoint(

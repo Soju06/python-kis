@@ -3,36 +3,47 @@ from __future__ import annotations
 
 from datetime import datetime
 from decimal import Decimal
+from typing import Annotated
 
 from pykis.streaming.raw.base import StreamingRawModel
 from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, StreamingSpec
 
 
 class H0GSCNI0(StreamingRawModel):
-    CUST_ID: str
+    CUST_ID: Annotated[str, "'각 항목사이에는 구분자로 ^ 사용,\n모든 데이터타입은 String으로 변환되어 push 처리됨'"]
     ACNT_NO: str
     ODER_NO: str
     OODER_NO: str
-    SELN_BYOV_CLS: str
-    RCTF_CLS: str
-    ODER_KIND2: str
+    SELN_BYOV_CLS: Annotated[str, "01:매도 02:매수 03:전매도 04:환매수"]
+    RCTF_CLS: Annotated[str, "0:정상 1:정정 2:취소"]
+    ODER_KIND2: Annotated[str, "1:시장가 2:지정자 6:단주시장가 7:단주지정가\nA:MOO B:LOO C:MOC D:LOC"]
     STCK_SHRN_ISCD: str
-    CNTG_QTY: Decimal
-    CNTG_UNPR: Decimal
-    STCK_CNTG_HOUR: datetime
-    RFUS_YN: str
-    CNTG_YN: str
-    ACPT_YN: str
+    CNTG_QTY: Annotated[Decimal, "- 주문통보의 경우 해당 위치에 주문수량이 출력\n- 체결통보인 경우 해당 위치에 체결수량이 출력"]
+    CNTG_UNPR: Annotated[
+        Decimal,
+        "※ 주문통보 시에는 주문단가가, 체결통보 시에는 체결단가가 수신 됩니다.\n※ 체결단가의 경우, 국가에 따라 소수점 생략 위치가 상이합니다.\n미국 4 일본 1 중국 3 홍콩 3 베트남 0\nEX) 미국 AAPL(현재가 : 148.0100)의 경우 001480100으로 체결단가가 오는데, \n4번째 자리에 소수점을 찍어 148.01로 해석하시면 됩니다.",
+    ]
+    STCK_CNTG_HOUR: Annotated[
+        datetime,
+        "특정 거래소의 체결시간 데이터는 수신되지 않습니다. \n체결시간 데이터가 필요할 경우, 체결통보 데이터 수신 시 타임스탬프를 찍는 것으로 대체하시길 바랍니다.",
+    ]
+    RFUS_YN: Annotated[str, "0:정상 1:거부"]
+    CNTG_YN: Annotated[str, "1:주문,정정,취소,거부 2:체결"]
+    ACPT_YN: Annotated[str, "1:주문접수 2:확인 3:취소(FOK/IOC)"]
     BRNC_NO: str
-    ODER_QTY: Decimal
+    ODER_QTY: Annotated[
+        Decimal, "- 주문통보인 경우 해당 위치 미출력 (주문통보의 주문수량은 CNTG_QTY 위치에 출력)\n- 체결통보인 경우 해당 위치에 주문수량이 출력"
+    ]
     ACNT_NAME: str
     CNTG_ISNM: str
-    ODER_COND: str
-    DEBT_GB: str
-    DEBT_DATE: datetime
-    START_TM: datetime
-    END_TM: datetime
-    TM_DIV_TP: str
+    ODER_COND: Annotated[
+        str, "4:홍콩(HKD) 5:상해B(USD) \n6:NASDAQ 7:NYSE 8:AMEX 9:OTCB\nC:홍콩(CNY) A:상해A(CNY) B:심천B(HKD)\nD:도쿄 E:하노이 F:호치민"
+    ]
+    DEBT_GB: Annotated[str, "10:현금 15:해외주식담보대출"]
+    DEBT_DATE: Annotated[datetime, "대출일(YYYYMMDD)"]
+    START_TM: Annotated[datetime, "HHMMSS"]
+    END_TM: Annotated[datetime, "HHMMSS"]
+    TM_DIV_TP: Annotated[str, "00 시간직접설정, 02 : 정규장까지"]
     CNTG_UNPR12: Decimal
 
 

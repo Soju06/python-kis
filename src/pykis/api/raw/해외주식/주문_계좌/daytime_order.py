@@ -16,48 +16,47 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class OvrsExcgCdEnum(KisStrEnum):
     NASD = ("NASD", "나스닥 /")
-    "나스닥 /"
+    """나스닥 /"""
     NYSE = ("NYSE", "뉴욕 /")
-    "뉴욕 /"
+    """뉴욕 /"""
     AMEX = ("AMEX", "아멕스")
-    "아멕스"
+    """아멕스"""
 
 
 class DaytimeOrderRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    OVRS_EXCG_CD: OvrsExcgCdEnum = Field(alias="OVRS_EXCG_CD")
-    ("NASD:나스닥 / NYSE:뉴욕 / AMEX:아멕스")
-    PDNO: str = Field(alias="PDNO")
-    ("종목코드")
-    ORD_QTY: int = Field(alias="ORD_QTY")
-    ("해외거래소 별 최소 주문수량 및 주문단위 확인 필요")
-    OVRS_ORD_UNPR: Decimal = Field(alias="OVRS_ORD_UNPR")
-    ('소수점 포함, 1주당 가격 * 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력')
-    CTAC_TLNO: str | None = Field(default=None, alias="CTAC_TLNO")
-    ('" "')
-    MGCO_APTM_ODNO: str | None = Field(default=None, alias="MGCO_APTM_ODNO")
-    ('" "')
-    ORD_SVR_DVSN_CD: str = Field(alias="ORD_SVR_DVSN_CD")
-    ('"0"')
-    ORD_DVSN: str = Field(alias="ORD_DVSN")
-    ("[미국 매수/매도 주문] 00 : 지정가 * 주간거래는 지정가만 가능")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    OVRS_EXCG_CD: Annotated[OvrsExcgCdEnum, "NASD:나스닥 / NYSE:뉴욕 / AMEX:아멕스"] = Field(
+        alias="OVRS_EXCG_CD",
+        json_schema_extra={"enum": ["NASD", "NYSE", "AMEX"], "enum_desc": {"NASD": "나스닥 /", "NYSE": "뉴욕 /", "AMEX": "아멕스"}},
+    )
+    PDNO: Annotated[str, "종목코드"] = Field(alias="PDNO")
+    ORD_QTY: Annotated[int, "해외거래소 별 최소 주문수량 및 주문단위 확인 필요"] = Field(alias="ORD_QTY")
+    OVRS_ORD_UNPR: Annotated[Decimal, '소수점 포함, 1주당 가격 * 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력'] = Field(
+        alias="OVRS_ORD_UNPR"
+    )
+    CTAC_TLNO: Annotated[str | None, '" "'] = Field(default=None, alias="CTAC_TLNO")
+    MGCO_APTM_ODNO: Annotated[str | None, '" "'] = Field(default=None, alias="MGCO_APTM_ODNO")
+    ORD_SVR_DVSN_CD: Annotated[str, '"0"'] = Field(alias="ORD_SVR_DVSN_CD")
+    ORD_DVSN: Annotated[str, "[미국 매수/매도 주문] 00 : 지정가 * 주간거래는 지정가만 가능"] = Field(alias="ORD_DVSN")
 
 
 class DaytimeOrderRequestDict(TypedDict):
@@ -99,36 +98,29 @@ class DaytimeOrderRequestDict(TypedDict):
         ORD_DVSN (str): [미국 매수/매도 주문] 00 : 지정가 * 주간거래는 지정가만 가능
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    OVRS_EXCG_CD: Annotated[OvrsExcgCdEnum, "NASD:나스닥 / NYSE:뉴욕 / AMEX:아멕스"]
-    PDNO: Annotated[str, "종목코드"]
-    ORD_QTY: Annotated[int, "해외거래소 별 최소 주문수량 및 주문단위 확인 필요"]
-    OVRS_ORD_UNPR: Annotated[Decimal, '소수점 포함, 1주당 가격 * 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력']
-    CTAC_TLNO: NotRequired[Annotated[str | None, '" "']]
-    MGCO_APTM_ODNO: NotRequired[Annotated[str | None, '" "']]
-    ORD_SVR_DVSN_CD: Annotated[str, '"0"']
-    ORD_DVSN: Annotated[str, "[미국 매수/매도 주문] 00 : 지정가 * 주간거래는 지정가만 가능"]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    OVRS_EXCG_CD: OvrsExcgCdEnum
+    PDNO: str
+    ORD_QTY: int
+    OVRS_ORD_UNPR: Decimal
+    CTAC_TLNO: NotRequired[str | None]
+    MGCO_APTM_ODNO: NotRequired[str | None]
+    ORD_SVR_DVSN_CD: str
+    ORD_DVSN: str
 
 
 class DaytimeOrderOutput(RawModel):
-    KRX_FWDG_ORD_ORGNO: str = Field(alias="KRX_FWDG_ORD_ORGNO")
-    ("주문시 한국투자증권 시스템에서 지정된 영업점코드")
-    ODNO: str = Field(alias="ODNO")
-    ("주문시 한국투자증권 시스템에서 채번된 주문번호")
-    ORD_TMD: KisTime = Field(alias="ORD_TMD")
-    ("주문시각(시분초HHMMSS)")
+    KRX_FWDG_ORD_ORGNO: Annotated[str, "주문시 한국투자증권 시스템에서 지정된 영업점코드"] = Field(alias="KRX_FWDG_ORD_ORGNO")
+    ODNO: Annotated[str, "주문시 한국투자증권 시스템에서 채번된 주문번호"] = Field(alias="ODNO")
+    ORD_TMD: Annotated[KisTime, "주문시각(시분초HHMMSS)"] = Field(alias="ORD_TMD")
 
 
 class DaytimeOrderResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: DaytimeOrderOutput = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[DaytimeOrderOutput, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[DaytimeOrderRequest, DaytimeOrderResponse] = Endpoint(

@@ -16,37 +16,33 @@ if TYPE_CHECKING:
 
 class SllBuyDvsnCdEnum(KisStrEnum):
     VALUE_00 = ("00", "전체 /")
-    "전체 /"
+    """전체 /"""
     VALUE_01 = ("01", "매도 /")
-    "매도 /"
+    """매도 /"""
     VALUE_02 = ("02", "매수")
-    "매수"
+    """매수"""
 
 
 class CcldNccsDvsnEnum(KisStrEnum):
     VALUE_01 = ("01", "체결 /")
-    "체결 /"
+    """체결 /"""
     VALUE_02 = ("02", "미체결")
-    "미체결"
+    """미체결"""
 
 
 class InquireDailyCcldRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("29")
-    USER_DVSN_CD: str = Field(alias="USER_DVSN_CD")
-    ("%%")
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(alias="SLL_BUY_DVSN_CD")
-    ("00 : 전체 / 01 : 매도 / 02 : 매수")
-    CCLD_NCCS_DVSN: CcldNccsDvsnEnum = Field(alias="CCLD_NCCS_DVSN")
-    ("%% : 전체 / 01 : 체결 / 02 : 미체결")
-    INQR_DVSN_3: str = Field(alias="INQR_DVSN_3")
-    ("00 : 전체")
-    CTX_AREA_FK100: str = Field(alias="CTX_AREA_FK100")
-    ("연속조회검색조건100")
-    CTX_AREA_NK100: str = Field(alias="CTX_AREA_NK100")
-    ("연속조회키100")
+    CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "29"] = Field(alias="ACNT_PRDT_CD")
+    USER_DVSN_CD: Annotated[str, "%%"] = Field(alias="USER_DVSN_CD")
+    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "00 : 전체 / 01 : 매도 / 02 : 매수"] = Field(
+        alias="SLL_BUY_DVSN_CD", json_schema_extra={"enum": ["00", "01", "02"], "enum_desc": {"00": "전체 /", "01": "매도 /", "02": "매수"}}
+    )
+    CCLD_NCCS_DVSN: Annotated[CcldNccsDvsnEnum, "%% : 전체 / 01 : 체결 / 02 : 미체결"] = Field(
+        alias="CCLD_NCCS_DVSN", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "체결 /", "02": "미체결"}}
+    )
+    INQR_DVSN_3: Annotated[str, "00 : 전체"] = Field(alias="INQR_DVSN_3")
+    CTX_AREA_FK100: Annotated[str, "연속조회검색조건100"] = Field(alias="CTX_AREA_FK100")
+    CTX_AREA_NK100: Annotated[str, "연속조회키100"] = Field(alias="CTX_AREA_NK100")
 
 
 class InquireDailyCcldRequestDict(TypedDict):
@@ -66,68 +62,44 @@ class InquireDailyCcldRequestDict(TypedDict):
         CTX_AREA_NK100 (str): 연속조회키100
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "29"]
-    USER_DVSN_CD: Annotated[str, "%%"]
-    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "00 : 전체 / 01 : 매도 / 02 : 매수"]
-    CCLD_NCCS_DVSN: Annotated[CcldNccsDvsnEnum, "%% : 전체 / 01 : 체결 / 02 : 미체결"]
-    INQR_DVSN_3: Annotated[str, "00 : 전체"]
-    CTX_AREA_FK100: Annotated[str, "연속조회검색조건100"]
-    CTX_AREA_NK100: Annotated[str, "연속조회키100"]
+    CANO: str
+    ACNT_PRDT_CD: str
+    USER_DVSN_CD: str
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum
+    CCLD_NCCS_DVSN: CcldNccsDvsnEnum
+    INQR_DVSN_3: str
+    CTX_AREA_FK100: str
+    CTX_AREA_NK100: str
 
 
 class InquireDailyCcldOutput(RawModel):
-    ord_gno_brno: str = Field(alias="ord_gno_brno")
-    ("주문채번지점번호")
-    sll_buy_dvsn_cd: str = Field(alias="sll_buy_dvsn_cd")
-    ("매도매수구분코드")
-    trad_dvsn_name: str = Field(alias="trad_dvsn_name")
-    ("매매구분명")
-    odno: str = Field(alias="odno")
-    ("주문번호")
-    pdno: str = Field(alias="pdno")
-    ("상품번호")
-    prdt_name: str = Field(alias="prdt_name")
-    ("상품명")
-    ord_unpr: str = Field(alias="ord_unpr")
-    ("주문단가")
-    ord_qty: int = Field(alias="ord_qty")
-    ("주문수량")
-    tot_ccld_qty: int = Field(alias="tot_ccld_qty")
-    ("총체결수량")
-    nccs_qty: int = Field(alias="nccs_qty")
-    ("미체결수량")
-    ord_dvsn_cd: str = Field(alias="ord_dvsn_cd")
-    ("주문구분코드")
-    ord_dvsn_name: str = Field(alias="ord_dvsn_name")
-    ("주문구분명")
-    orgn_odno: str = Field(alias="orgn_odno")
-    ("원주문번호")
-    ord_tmd: KisTime = Field(alias="ord_tmd")
-    ("주문시각")
-    objt_cust_dvsn_name: str = Field(alias="objt_cust_dvsn_name")
-    ("대상고객구분명")
-    pchs_avg_pric: Decimal = Field(alias="pchs_avg_pric")
-    ("매입평균가격")
-    stpm_cndt_pric: Decimal = Field(alias="stpm_cndt_pric")
-    ("신규 API용 필드")
-    stpm_efct_occr_dtmd: KisTime = Field(alias="stpm_efct_occr_dtmd")
-    ("신규 API용 필드")
-    stpm_efct_occr_yn: KisBool = Field(alias="stpm_efct_occr_yn")
-    ("신규 API용 필드")
-    excg_id_dvsn_cd: str = Field(alias="excg_id_dvsn_cd")
-    ("신규 API용 필드")
+    ord_gno_brno: Annotated[str, "주문채번지점번호"] = Field(alias="ord_gno_brno")
+    sll_buy_dvsn_cd: Annotated[str, "매도매수구분코드"] = Field(alias="sll_buy_dvsn_cd")
+    trad_dvsn_name: Annotated[str, "매매구분명"] = Field(alias="trad_dvsn_name")
+    odno: Annotated[str, "주문번호"] = Field(alias="odno")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    prdt_name: Annotated[str, "상품명"] = Field(alias="prdt_name")
+    ord_unpr: Annotated[str, "주문단가"] = Field(alias="ord_unpr")
+    ord_qty: Annotated[int, "주문수량"] = Field(alias="ord_qty")
+    tot_ccld_qty: Annotated[int, "총체결수량"] = Field(alias="tot_ccld_qty")
+    nccs_qty: Annotated[int, "미체결수량"] = Field(alias="nccs_qty")
+    ord_dvsn_cd: Annotated[str, "주문구분코드"] = Field(alias="ord_dvsn_cd")
+    ord_dvsn_name: Annotated[str, "주문구분명"] = Field(alias="ord_dvsn_name")
+    orgn_odno: Annotated[str, "원주문번호"] = Field(alias="orgn_odno")
+    ord_tmd: Annotated[KisTime, "주문시각"] = Field(alias="ord_tmd")
+    objt_cust_dvsn_name: Annotated[str, "대상고객구분명"] = Field(alias="objt_cust_dvsn_name")
+    pchs_avg_pric: Annotated[Decimal, "매입평균가격"] = Field(alias="pchs_avg_pric")
+    stpm_cndt_pric: Annotated[Decimal, "신규 API용 필드"] = Field(alias="stpm_cndt_pric")
+    stpm_efct_occr_dtmd: Annotated[KisTime, "신규 API용 필드"] = Field(alias="stpm_efct_occr_dtmd")
+    stpm_efct_occr_yn: Annotated[KisBool, "신규 API용 필드"] = Field(alias="stpm_efct_occr_yn")
+    excg_id_dvsn_cd: Annotated[str, "신규 API용 필드"] = Field(alias="excg_id_dvsn_cd")
 
 
 class InquireDailyCcldResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquireDailyCcldOutput] = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquireDailyCcldOutput], "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireDailyCcldRequest, InquireDailyCcldResponse] = Endpoint(

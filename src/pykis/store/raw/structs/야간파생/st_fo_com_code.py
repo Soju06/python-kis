@@ -34,11 +34,7 @@ class ST_FO_COM_CODE(StoreModel):
     )
     prod_no: Annotated[
         ProdNoEnum,
-        (
-            "기초자산 단축코드 B03 : 3년국채 B05 : 5년국채 B10 : 10년국채 MSB : 통안증권 USD : 미국달러 JPY : 엔 EUR : 유로 GLD : 금 LHG : 돈육 CMU :"
-            " "
-            "CME미국달러 RFR : 3개월무위험금리"
-        ),
+        "기초자산 단축코드 B03 : 3년국채 B05 : 5년국채 B10 : 10년국채 MSB : 통안증권 USD : 미국달러 JPY : 엔 EUR : 유로 GLD : 금 LHG : 돈육 CMU : CME미국달러 RFR : 3개월무위험금리",
     ] = Field(
         json_schema_extra={
             "length": 3,

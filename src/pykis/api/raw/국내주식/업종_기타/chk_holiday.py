@@ -15,28 +15,25 @@ if TYPE_CHECKING:
 
 class WdayDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "일요일")
-    "일요일"
+    """일요일"""
     VALUE_02 = ("02", "월요일")
-    "월요일"
+    """월요일"""
     VALUE_03 = ("03", "화요일")
-    "화요일"
+    """화요일"""
     VALUE_04 = ("04", "수요일")
-    "수요일"
+    """수요일"""
     VALUE_05 = ("05", "목요일")
-    "목요일"
+    """목요일"""
     VALUE_06 = ("06", "금요일")
-    "금요일"
+    """금요일"""
     VALUE_07 = ("07", "토요일")
-    "토요일"
+    """토요일"""
 
 
 class ChkHolidayRequest(RawModel):
-    BASS_DT: str = Field(alias="BASS_DT")
-    ("기준일자(YYYYMMDD)")
-    CTX_AREA_NK: str | None = Field(default=None, alias="CTX_AREA_NK", json_schema_extra={"blank_allowed": True})
-    ("공백으로 입력")
-    CTX_AREA_FK: str | None = Field(default=None, alias="CTX_AREA_FK", json_schema_extra={"blank_allowed": True})
-    ("공백으로 입력")
+    BASS_DT: Annotated[str, "기준일자(YYYYMMDD)"] = Field(alias="BASS_DT")
+    CTX_AREA_NK: Annotated[str | None, "공백으로 입력"] = Field(default=None, alias="CTX_AREA_NK", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_FK: Annotated[str | None, "공백으로 입력"] = Field(default=None, alias="CTX_AREA_FK", json_schema_extra={"blank_allowed": True})
 
 
 class ChkHolidayRequestDict(TypedDict):
@@ -54,35 +51,31 @@ class ChkHolidayRequestDict(TypedDict):
         CTX_AREA_FK (str): 공백으로 입력 optional
     """
 
-    BASS_DT: Annotated[str, "기준일자(YYYYMMDD)"]
-    CTX_AREA_NK: NotRequired[Annotated[str | None, "공백으로 입력"]]
-    CTX_AREA_FK: NotRequired[Annotated[str | None, "공백으로 입력"]]
+    BASS_DT: str
+    CTX_AREA_NK: NotRequired[str | None]
+    CTX_AREA_FK: NotRequired[str | None]
 
 
 class ChkHolidayOutput(RawModel):
-    bass_dt: str = Field(alias="bass_dt")
-    ("기준일자(YYYYMMDD)")
-    wday_dvsn_cd: WdayDvsnCdEnum = Field(alias="wday_dvsn_cd")
-    ("01:일요일, 02:월요일, 03:화요일, 04:수요일, 05:목요일, 06:금요일, 07:토요일")
-    bzdy_yn: KisBool = Field(alias="bzdy_yn")
-    ("Y/N 금융기관이 업무를 하는 날")
-    tr_day_yn: KisBool = Field(alias="tr_day_yn")
-    ("Y/N 증권 업무가 가능한 날(입출금, 이체 등의 업무 포함)")
-    opnd_yn: KisBool = Field(alias="opnd_yn")
-    ("Y/N 주식시장이 개장되는 날 * 주문을 넣고자 할 경우 개장일여부(opnd_yn)를 사용")
-    sttl_day_yn: KisBool = Field(alias="sttl_day_yn")
-    ("Y/N 주식 거래에서 실제로 주식을 인수하고 돈을 지불하는 날")
+    bass_dt: Annotated[str, "기준일자(YYYYMMDD)"] = Field(alias="bass_dt")
+    wday_dvsn_cd: Annotated[WdayDvsnCdEnum, "01:일요일, 02:월요일, 03:화요일, 04:수요일, 05:목요일, 06:금요일, 07:토요일"] = Field(
+        alias="wday_dvsn_cd",
+        json_schema_extra={
+            "enum": ["01", "02", "03", "04", "05", "06", "07"],
+            "enum_desc": {"01": "일요일", "02": "월요일", "03": "화요일", "04": "수요일", "05": "목요일", "06": "금요일", "07": "토요일"},
+        },
+    )
+    bzdy_yn: Annotated[KisBool, "Y/N 금융기관이 업무를 하는 날"] = Field(alias="bzdy_yn")
+    tr_day_yn: Annotated[KisBool, "Y/N 증권 업무가 가능한 날(입출금, 이체 등의 업무 포함)"] = Field(alias="tr_day_yn")
+    opnd_yn: Annotated[KisBool, "Y/N 주식시장이 개장되는 날 * 주문을 넣고자 할 경우 개장일여부(opnd_yn)를 사용"] = Field(alias="opnd_yn")
+    sttl_day_yn: Annotated[KisBool, "Y/N 주식 거래에서 실제로 주식을 인수하고 돈을 지불하는 날"] = Field(alias="sttl_day_yn")
 
 
 class ChkHolidayResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[ChkHolidayOutput] = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[ChkHolidayOutput], "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[ChkHolidayRequest, ChkHolidayResponse] = Endpoint(

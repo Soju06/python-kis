@@ -16,23 +16,23 @@ if TYPE_CHECKING:
 
 class ExcdEnum(KisStrEnum):
     NYS = ("NYS", "뉴욕")
-    "뉴욕"
+    """뉴욕"""
     NAS = ("NAS", "나스닥")
-    "나스닥"
+    """나스닥"""
     AMS = ("AMS", "아멕스")
-    "아멕스"
+    """아멕스"""
     HKS = ("HKS", "홍콩")
-    "홍콩"
+    """홍콩"""
     SHS = ("SHS", "상해")
-    "상해"
+    """상해"""
     SZS = ("SZS", "심천")
-    "심천"
+    """심천"""
     HSX = ("HSX", "호치민")
-    "호치민"
+    """호치민"""
     HNX = ("HNX", "하노이")
-    "하노이"
+    """하노이"""
     TSE = ("TSE", "도쿄")
-    "도쿄"
+    """도쿄"""
 
 
 class CoStPricecurEnum(KisStrEnum):
@@ -52,60 +52,55 @@ class CoEnPricecurEnum(KisStrEnum):
 
 
 class InquireSearchRequest(RawModel):
-    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
-    ('"" (Null 값 설정)')
-    EXCD: ExcdEnum = Field(alias="EXCD")
-    ("NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄")
-    CO_YN_PRICECUR: Decimal | None = Field(default=None, alias="CO_YN_PRICECUR")
-    ("해당조건 사용시(1), 미사용시 필수항목아님")
-    CO_ST_PRICECUR: CoStPricecurEnum | None = Field(default=None, alias="CO_ST_PRICECUR")
-    ("단위: 각국통화(JPY, USD, HKD, CNY, VND)")
-    CO_EN_PRICECUR: CoEnPricecurEnum | None = Field(default=None, alias="CO_EN_PRICECUR")
-    ("단위: 각국통화(JPY, USD, HKD, CNY, VND)")
-    CO_YN_RATE: Decimal | None = Field(default=None, alias="CO_YN_RATE")
-    ("해당조건 사용시(1), 미사용시 필수항목아님")
-    CO_ST_RATE: Decimal | None = Field(default=None, alias="CO_ST_RATE")
-    ("%")
-    CO_EN_RATE: Decimal | None = Field(default=None, alias="CO_EN_RATE")
-    ("%")
-    CO_YN_VALX: Decimal | None = Field(default=None, alias="CO_YN_VALX")
-    ("해당조건 사용시(1), 미사용시 필수항목아님")
-    CO_ST_VALX: Decimal | None = Field(default=None, alias="CO_ST_VALX")
-    ("단위: 천")
-    CO_EN_VALX: Decimal | None = Field(default=None, alias="CO_EN_VALX")
-    ("단위: 천")
-    CO_YN_SHAR: str | None = Field(default=None, alias="CO_YN_SHAR")
-    ("해당조건 사용시(1), 미사용시 필수항목아님")
-    CO_ST_SHAR: str | None = Field(default=None, alias="CO_ST_SHAR")
-    ("단위: 천")
-    CO_EN_SHAR: str | None = Field(default=None, alias="CO_EN_SHAR")
-    ("단위: 천")
-    CO_YN_VOLUME: int | None = Field(default=None, alias="CO_YN_VOLUME")
-    ("해당조건 사용시(1), 미사용시 필수항목아님")
-    CO_ST_VOLUME: int | None = Field(default=None, alias="CO_ST_VOLUME")
-    ("단위: 주")
-    CO_EN_VOLUME: int | None = Field(default=None, alias="CO_EN_VOLUME")
-    ("단위: 주")
-    CO_YN_AMT: Decimal | None = Field(default=None, alias="CO_YN_AMT")
-    ("해당조건 사용시(1), 미사용시 필수항목아님")
-    CO_ST_AMT: Decimal | None = Field(default=None, alias="CO_ST_AMT")
-    ("단위: 천")
-    CO_EN_AMT: Decimal | None = Field(default=None, alias="CO_EN_AMT")
-    ("단위: 천")
-    CO_YN_EPS: str | None = Field(default=None, alias="CO_YN_EPS")
-    ("해당조건 사용시(1), 미사용시 필수항목아님")
-    CO_ST_EPS: str | None = Field(default=None, alias="CO_ST_EPS")
-    ("EPS시작")
-    CO_EN_EPS: str | None = Field(default=None, alias="CO_EN_EPS")
-    ("EPS끝")
-    CO_YN_PER: str | None = Field(default=None, alias="CO_YN_PER")
-    ("해당조건 사용시(1), 미사용시 필수항목아님")
-    CO_ST_PER: str | None = Field(default=None, alias="CO_ST_PER")
-    ("PER시작")
-    CO_EN_PER: str | None = Field(default=None, alias="CO_EN_PER")
-    ("PER끝")
-    KEYB: str | None = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
-    ('"" 공백 입력')
+    AUTH: Annotated[str | None, '"" (Null 값 설정)'] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
+    EXCD: Annotated[ExcdEnum, "NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄"] = (
+        Field(
+            alias="EXCD",
+            json_schema_extra={
+                "enum": ["NYS", "NAS", "AMS", "HKS", "SHS", "SZS", "HSX", "HNX", "TSE"],
+                "enum_desc": {
+                    "NYS": "뉴욕",
+                    "NAS": "나스닥",
+                    "AMS": "아멕스",
+                    "HKS": "홍콩",
+                    "SHS": "상해",
+                    "SZS": "심천",
+                    "HSX": "호치민",
+                    "HNX": "하노이",
+                    "TSE": "도쿄",
+                },
+            },
+        )
+    )
+    CO_YN_PRICECUR: Annotated[Decimal | None, "해당조건 사용시(1), 미사용시 필수항목아님"] = Field(default=None, alias="CO_YN_PRICECUR")
+    CO_ST_PRICECUR: Annotated[CoStPricecurEnum | None, "단위: 각국통화(JPY, USD, HKD, CNY, VND)"] = Field(
+        default=None, alias="CO_ST_PRICECUR", json_schema_extra={"enum": ["JPY", "USD", "HKD", "CNY", "VND"]}
+    )
+    CO_EN_PRICECUR: Annotated[CoEnPricecurEnum | None, "단위: 각국통화(JPY, USD, HKD, CNY, VND)"] = Field(
+        default=None, alias="CO_EN_PRICECUR", json_schema_extra={"enum": ["JPY", "USD", "HKD", "CNY", "VND"]}
+    )
+    CO_YN_RATE: Annotated[Decimal | None, "해당조건 사용시(1), 미사용시 필수항목아님"] = Field(default=None, alias="CO_YN_RATE")
+    CO_ST_RATE: Annotated[Decimal | None, "%"] = Field(default=None, alias="CO_ST_RATE")
+    CO_EN_RATE: Annotated[Decimal | None, "%"] = Field(default=None, alias="CO_EN_RATE")
+    CO_YN_VALX: Annotated[Decimal | None, "해당조건 사용시(1), 미사용시 필수항목아님"] = Field(default=None, alias="CO_YN_VALX")
+    CO_ST_VALX: Annotated[Decimal | None, "단위: 천"] = Field(default=None, alias="CO_ST_VALX")
+    CO_EN_VALX: Annotated[Decimal | None, "단위: 천"] = Field(default=None, alias="CO_EN_VALX")
+    CO_YN_SHAR: Annotated[str | None, "해당조건 사용시(1), 미사용시 필수항목아님"] = Field(default=None, alias="CO_YN_SHAR")
+    CO_ST_SHAR: Annotated[str | None, "단위: 천"] = Field(default=None, alias="CO_ST_SHAR")
+    CO_EN_SHAR: Annotated[str | None, "단위: 천"] = Field(default=None, alias="CO_EN_SHAR")
+    CO_YN_VOLUME: Annotated[int | None, "해당조건 사용시(1), 미사용시 필수항목아님"] = Field(default=None, alias="CO_YN_VOLUME")
+    CO_ST_VOLUME: Annotated[int | None, "단위: 주"] = Field(default=None, alias="CO_ST_VOLUME")
+    CO_EN_VOLUME: Annotated[int | None, "단위: 주"] = Field(default=None, alias="CO_EN_VOLUME")
+    CO_YN_AMT: Annotated[Decimal | None, "해당조건 사용시(1), 미사용시 필수항목아님"] = Field(default=None, alias="CO_YN_AMT")
+    CO_ST_AMT: Annotated[Decimal | None, "단위: 천"] = Field(default=None, alias="CO_ST_AMT")
+    CO_EN_AMT: Annotated[Decimal | None, "단위: 천"] = Field(default=None, alias="CO_EN_AMT")
+    CO_YN_EPS: Annotated[str | None, "해당조건 사용시(1), 미사용시 필수항목아님"] = Field(default=None, alias="CO_YN_EPS")
+    CO_ST_EPS: Annotated[str | None, "EPS시작"] = Field(default=None, alias="CO_ST_EPS")
+    CO_EN_EPS: Annotated[str | None, "EPS끝"] = Field(default=None, alias="CO_EN_EPS")
+    CO_YN_PER: Annotated[str | None, "해당조건 사용시(1), 미사용시 필수항목아님"] = Field(default=None, alias="CO_YN_PER")
+    CO_ST_PER: Annotated[str | None, "PER시작"] = Field(default=None, alias="CO_ST_PER")
+    CO_EN_PER: Annotated[str | None, "PER끝"] = Field(default=None, alias="CO_EN_PER")
+    KEYB: Annotated[str | None, '"" 공백 입력'] = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
 
 
 class InquireSearchRequestDict(TypedDict):
@@ -181,106 +176,75 @@ class InquireSearchRequestDict(TypedDict):
         KEYB (str): "" 공백 입력 optional
     """
 
-    AUTH: NotRequired[Annotated[str | None, '"" (Null 값 설정)']]
-    EXCD: Annotated[ExcdEnum, "NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄"]
-    CO_YN_PRICECUR: NotRequired[Annotated[Decimal | None, "해당조건 사용시(1), 미사용시 필수항목아님"]]
-    CO_ST_PRICECUR: NotRequired[Annotated[CoStPricecurEnum | None, "단위: 각국통화(JPY, USD, HKD, CNY, VND)"]]
-    CO_EN_PRICECUR: NotRequired[Annotated[CoEnPricecurEnum | None, "단위: 각국통화(JPY, USD, HKD, CNY, VND)"]]
-    CO_YN_RATE: NotRequired[Annotated[Decimal | None, "해당조건 사용시(1), 미사용시 필수항목아님"]]
-    CO_ST_RATE: NotRequired[Annotated[Decimal | None, "%"]]
-    CO_EN_RATE: NotRequired[Annotated[Decimal | None, "%"]]
-    CO_YN_VALX: NotRequired[Annotated[Decimal | None, "해당조건 사용시(1), 미사용시 필수항목아님"]]
-    CO_ST_VALX: NotRequired[Annotated[Decimal | None, "단위: 천"]]
-    CO_EN_VALX: NotRequired[Annotated[Decimal | None, "단위: 천"]]
-    CO_YN_SHAR: NotRequired[Annotated[str | None, "해당조건 사용시(1), 미사용시 필수항목아님"]]
-    CO_ST_SHAR: NotRequired[Annotated[str | None, "단위: 천"]]
-    CO_EN_SHAR: NotRequired[Annotated[str | None, "단위: 천"]]
-    CO_YN_VOLUME: NotRequired[Annotated[int | None, "해당조건 사용시(1), 미사용시 필수항목아님"]]
-    CO_ST_VOLUME: NotRequired[Annotated[int | None, "단위: 주"]]
-    CO_EN_VOLUME: NotRequired[Annotated[int | None, "단위: 주"]]
-    CO_YN_AMT: NotRequired[Annotated[Decimal | None, "해당조건 사용시(1), 미사용시 필수항목아님"]]
-    CO_ST_AMT: NotRequired[Annotated[Decimal | None, "단위: 천"]]
-    CO_EN_AMT: NotRequired[Annotated[Decimal | None, "단위: 천"]]
-    CO_YN_EPS: NotRequired[Annotated[str | None, "해당조건 사용시(1), 미사용시 필수항목아님"]]
-    CO_ST_EPS: NotRequired[Annotated[str | None, "EPS시작"]]
-    CO_EN_EPS: NotRequired[Annotated[str | None, "EPS끝"]]
-    CO_YN_PER: NotRequired[Annotated[str | None, "해당조건 사용시(1), 미사용시 필수항목아님"]]
-    CO_ST_PER: NotRequired[Annotated[str | None, "PER시작"]]
-    CO_EN_PER: NotRequired[Annotated[str | None, "PER끝"]]
-    KEYB: NotRequired[Annotated[str | None, '"" 공백 입력']]
+    AUTH: NotRequired[str | None]
+    EXCD: ExcdEnum
+    CO_YN_PRICECUR: NotRequired[Decimal | None]
+    CO_ST_PRICECUR: NotRequired[CoStPricecurEnum | None]
+    CO_EN_PRICECUR: NotRequired[CoEnPricecurEnum | None]
+    CO_YN_RATE: NotRequired[Decimal | None]
+    CO_ST_RATE: NotRequired[Decimal | None]
+    CO_EN_RATE: NotRequired[Decimal | None]
+    CO_YN_VALX: NotRequired[Decimal | None]
+    CO_ST_VALX: NotRequired[Decimal | None]
+    CO_EN_VALX: NotRequired[Decimal | None]
+    CO_YN_SHAR: NotRequired[str | None]
+    CO_ST_SHAR: NotRequired[str | None]
+    CO_EN_SHAR: NotRequired[str | None]
+    CO_YN_VOLUME: NotRequired[int | None]
+    CO_ST_VOLUME: NotRequired[int | None]
+    CO_EN_VOLUME: NotRequired[int | None]
+    CO_YN_AMT: NotRequired[Decimal | None]
+    CO_ST_AMT: NotRequired[Decimal | None]
+    CO_EN_AMT: NotRequired[Decimal | None]
+    CO_YN_EPS: NotRequired[str | None]
+    CO_ST_EPS: NotRequired[str | None]
+    CO_EN_EPS: NotRequired[str | None]
+    CO_YN_PER: NotRequired[str | None]
+    CO_ST_PER: NotRequired[str | None]
+    CO_EN_PER: NotRequired[str | None]
+    KEYB: NotRequired[str | None]
 
 
 class InquireSearchOutput1(RawModel):
-    zdiv: int = Field(alias="zdiv")
-    ("소수점자리수")
-    stat: str = Field(alias="stat")
-    ("거래상태정보")
-    crec: str = Field(alias="crec")
-    ("현재조회종목수")
-    trec: str = Field(alias="trec")
-    ("전체조회종목수")
-    nrec: int = Field(alias="nrec")
-    ("Record Count")
+    zdiv: Annotated[int, "소수점자리수"] = Field(alias="zdiv")
+    stat: Annotated[str, "거래상태정보"] = Field(alias="stat")
+    crec: Annotated[str, "현재조회종목수"] = Field(alias="crec")
+    trec: Annotated[str, "전체조회종목수"] = Field(alias="trec")
+    nrec: Annotated[int, "Record Count"] = Field(alias="nrec")
 
 
 class InquireSearchOutput2(RawModel):
-    rsym: str | None = Field(default=None, alias="rsym")
-    (
-        "실시간조회심볼 D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS "
-        ": 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : "
-        "호치민, HNX : 하노이"
-    )
-    excd: str | None = Field(default=None, alias="excd")
-    ("거래소코드")
-    name: str | None = Field(default=None, alias="name")
-    ("종목명")
-    symb: str | None = Field(default=None, alias="symb")
-    ("종목코드")
-    last: Decimal | None = Field(default=None, alias="last")
-    ("현재가")
-    shar: str | None = Field(default=None, alias="shar")
-    ("발행주식수(단위: 천)")
-    valx: Decimal | None = Field(default=None, alias="valx")
-    ("시가총액(단위: 천)")
-    plow: Decimal | None = Field(default=None, alias="plow")
-    ("저가")
-    phigh: Decimal | None = Field(default=None, alias="phigh")
-    ("고가")
-    popen: Decimal | None = Field(default=None, alias="popen")
-    ("시가")
-    tvol: int | None = Field(default=None, alias="tvol")
-    ("거래량(단위: 주)")
-    rate: Decimal | None = Field(default=None, alias="rate")
-    ("등락율(%)")
-    diff: str | None = Field(default=None, alias="diff")
-    ("대비")
-    sign: str | None = Field(default=None, alias="sign")
-    ("기호")
-    avol: int | None = Field(default=None, alias="avol")
-    ("거래대금(단위: 천)")
-    eps: str | None = Field(default=None, alias="eps")
-    ("EPS")
-    per: str | None = Field(default=None, alias="per")
-    ("PER")
-    rank: str | None = Field(default=None, alias="rank")
-    ("순위")
-    ename: str | None = Field(default=None, alias="ename")
-    ("영문종목명")
-    e_ordyn: str | None = Field(default=None, alias="e_ordyn")
-    ("가능 : O")
+    rsym: Annotated[
+        str | None,
+        "실시간조회심볼 D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이",
+    ] = Field(default=None, alias="rsym")
+    excd: Annotated[str | None, "거래소코드"] = Field(default=None, alias="excd")
+    name: Annotated[str | None, "종목명"] = Field(default=None, alias="name")
+    symb: Annotated[str | None, "종목코드"] = Field(default=None, alias="symb")
+    last: Annotated[Decimal | None, "현재가"] = Field(default=None, alias="last")
+    shar: Annotated[str | None, "발행주식수(단위: 천)"] = Field(default=None, alias="shar")
+    valx: Annotated[Decimal | None, "시가총액(단위: 천)"] = Field(default=None, alias="valx")
+    plow: Annotated[Decimal | None, "저가"] = Field(default=None, alias="plow")
+    phigh: Annotated[Decimal | None, "고가"] = Field(default=None, alias="phigh")
+    popen: Annotated[Decimal | None, "시가"] = Field(default=None, alias="popen")
+    tvol: Annotated[int | None, "거래량(단위: 주)"] = Field(default=None, alias="tvol")
+    rate: Annotated[Decimal | None, "등락율(%)"] = Field(default=None, alias="rate")
+    diff: Annotated[str | None, "대비"] = Field(default=None, alias="diff")
+    sign: Annotated[str | None, "기호"] = Field(default=None, alias="sign")
+    avol: Annotated[int | None, "거래대금(단위: 천)"] = Field(default=None, alias="avol")
+    eps: Annotated[str | None, "EPS"] = Field(default=None, alias="eps")
+    per: Annotated[str | None, "PER"] = Field(default=None, alias="per")
+    rank: Annotated[str | None, "순위"] = Field(default=None, alias="rank")
+    ename: Annotated[str | None, "영문종목명"] = Field(default=None, alias="ename")
+    e_ordyn: Annotated[str | None, "가능 : O"] = Field(default=None, alias="e_ordyn")
 
 
 class InquireSearchResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquireSearchOutput1 = Field(alias="output1")
-    ("응답상세1")
-    output2: list[InquireSearchOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquireSearchOutput1, "응답상세1"] = Field(alias="output1")
+    output2: Annotated[list[InquireSearchOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireSearchRequest, InquireSearchResponse] = Endpoint(

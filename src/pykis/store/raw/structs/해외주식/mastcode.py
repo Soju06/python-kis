@@ -27,7 +27,7 @@ class mastcode(StoreModel):
             "enum_desc": {"1": "Index", "2": "Stock", "3": "ETP(ETF)", "4": "Warrant", "ETF": "3:ETP", "ETP": "ETF"},
         }
     )
-    curr: Annotated[str | None, "currency"] = Field(default=None, json_schema_extra={"length": 5})
+    curr: Annotated[str, "currency"] = Field(json_schema_extra={"length": 5})
     zdiv: Annotated[StoreInt, "float position"] = Field(json_schema_extra={"length": 2})
     ztyp: Annotated[str | None, "data type"] = Field(default=None, json_schema_extra={"length": 2})
     base: Annotated[StoreDecimal, "base price"] = Field(json_schema_extra={"length": 13})

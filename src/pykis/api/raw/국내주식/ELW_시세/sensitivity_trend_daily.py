@@ -14,10 +14,8 @@ if TYPE_CHECKING:
 
 
 class SensitivityTrendDailyRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분코드 (W)")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("ex)(58J438(KBJ438삼성전자풋)")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "ex)(58J438(KBJ438삼성전자풋)"] = Field(alias="FID_INPUT_ISCD")
 
 
 class SensitivityTrendDailyRequestDict(TypedDict):
@@ -31,44 +29,29 @@ class SensitivityTrendDailyRequestDict(TypedDict):
         FID_INPUT_ISCD (str): ex)(58J438(KBJ438삼성전자풋)
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"]
-    FID_INPUT_ISCD: Annotated[str, "ex)(58J438(KBJ438삼성전자풋)"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
 
 
 class SensitivityTrendDailyOutput(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
-    ("주식영업일자")
-    elw_prpr: Decimal = Field(alias="elw_prpr")
-    ("ELW현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일대비부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일대비율")
-    hts_thpr: Decimal = Field(alias="hts_thpr")
-    ("HTS이론가")
-    delta_val: Decimal = Field(alias="delta_val")
-    ("델타값")
-    gama: Decimal = Field(alias="gama")
-    ("감마")
-    theta: Decimal = Field(alias="theta")
-    ("세타")
-    vega: Decimal = Field(alias="vega")
-    ("베가")
-    rho: Decimal = Field(alias="rho")
-    ("로우")
+    stck_bsop_date: Annotated[KisDate, "주식영업일자"] = Field(alias="stck_bsop_date")
+    elw_prpr: Annotated[Decimal, "ELW현재가"] = Field(alias="elw_prpr")
+    prdy_vrss: Annotated[int, "전일대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일대비부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
+    hts_thpr: Annotated[Decimal, "HTS이론가"] = Field(alias="hts_thpr")
+    delta_val: Annotated[Decimal, "델타값"] = Field(alias="delta_val")
+    gama: Annotated[Decimal, "감마"] = Field(alias="gama")
+    theta: Annotated[Decimal, "세타"] = Field(alias="theta")
+    vega: Annotated[Decimal, "베가"] = Field(alias="vega")
+    rho: Annotated[Decimal, "로우"] = Field(alias="rho")
 
 
 class SensitivityTrendDailyResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[SensitivityTrendDailyOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[SensitivityTrendDailyOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[SensitivityTrendDailyRequest, SensitivityTrendDailyResponse] = Endpoint(

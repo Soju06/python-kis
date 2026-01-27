@@ -150,7 +150,7 @@ request:
     type_name: String
     length: '20'
     required: true
-    description: N
+    description: ''
   - code: ECIS_RSVN_ORD_YN
     name: 행사예약주문여부
     type: A0001

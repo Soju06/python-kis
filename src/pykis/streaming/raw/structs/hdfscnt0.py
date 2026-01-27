@@ -3,13 +3,14 @@ from __future__ import annotations
 
 from datetime import datetime
 from decimal import Decimal
+from typing import Annotated
 
 from pykis.streaming.raw.base import StreamingRawModel
 from pykis.streaming.raw.specs import DateTimeRule, DecimalRule, FieldSource, FieldType, StreamingSpec
 
 
 class HDFSCNT0(StreamingRawModel):
-    RSYM: str
+    RSYM: Annotated[str, "'각 항목사이에는 구분자로 ^ 사용,\n모든 데이터타입은 String으로 변환되어 push 처리됨'"]
     SYMB: str
     ZDIV: int
     TYMD: datetime
@@ -31,8 +32,8 @@ class HDFSCNT0(StreamingRawModel):
     EVOL: Decimal
     TVOL: Decimal
     TAMT: Decimal
-    BIVL: Decimal
-    ASVL: Decimal
+    BIVL: Annotated[Decimal, "매수호가가 매도주문 수량을 따라가서 체결된것을 표현하여 BIVL 이라는 표현을 사용"]
+    ASVL: Annotated[Decimal, "매도호가가 매수주문 수량을 따라가서 체결된것을 표현하여 ASVL 이라는 표현을 사용"]
     STRN: Decimal
     MTYP: str
 

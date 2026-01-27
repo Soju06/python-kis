@@ -15,27 +15,27 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class OrderResvCcnlRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    RSYN_ORD_RCIT_DT: KisDate = Field(alias="RSYN_ORD_RCIT_DT")
-    ("해외주문접수일자")
-    OVRS_RSVN_ODNO: str = Field(alias="OVRS_RSVN_ODNO")
-    ("해외주식_예약주문접수 API Output ODNO(주문번호) 참고")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    RSYN_ORD_RCIT_DT: Annotated[KisDate, "해외주문접수일자"] = Field(alias="RSYN_ORD_RCIT_DT")
+    OVRS_RSVN_ODNO: Annotated[str, "해외주식_예약주문접수 API Output ODNO(주문번호) 참고"] = Field(alias="OVRS_RSVN_ODNO")
 
 
 class OrderResvCcnlRequestDict(TypedDict):
@@ -57,26 +57,21 @@ class OrderResvCcnlRequestDict(TypedDict):
         OVRS_RSVN_ODNO (str): 해외주식_예약주문접수 API Output ODNO(주문번호) 참고
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    RSYN_ORD_RCIT_DT: Annotated[KisDate, "해외주문접수일자"]
-    OVRS_RSVN_ODNO: Annotated[str, "해외주식_예약주문접수 API Output ODNO(주문번호) 참고"]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    RSYN_ORD_RCIT_DT: KisDate
+    OVRS_RSVN_ODNO: str
 
 
 class OrderResvCcnlOutput(RawModel):
-    OVRS_RSVN_ODNO: str = Field(alias="OVRS_RSVN_ODNO")
-    ("해외예약주문번호")
+    OVRS_RSVN_ODNO: Annotated[str, "해외예약주문번호"] = Field(alias="OVRS_RSVN_ODNO")
 
 
 class OrderResvCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: OrderResvCcnlOutput = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "0 : 성공 0 이외의 값 : 실패"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[OrderResvCcnlOutput, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[OrderResvCcnlRequest, OrderResvCcnlResponse] = Endpoint(

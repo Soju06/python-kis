@@ -16,26 +16,24 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     J = ("J", "KRX")
-    "KRX"
+    """KRX"""
     NX = ("NX", "NXT")
-    "NXT"
+    """NXT"""
     UN = ("UN", "통합")
-    "통합"
+    """통합"""
 
 
 class InquireMemberDailyRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("J: KRX, NX: NXT, UN: 통합")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("주식종목코드입력")
-    FID_INPUT_ISCD_2: str = Field(alias="FID_INPUT_ISCD_2")
-    ("회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) > 회원사 참조)")
-    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
-    ("날짜 ~")
-    FID_INPUT_DATE_2: str = Field(alias="FID_INPUT_DATE_2")
-    ("~ 날짜")
-    FID_SCTN_CLS_CODE: str | None = Field(default=None, alias="FID_SCTN_CLS_CODE", json_schema_extra={"blank_allowed": True})
-    ("공백")
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J: KRX, NX: NXT, UN: 통합"] = Field(
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["J", "NX", "UN"], "enum_desc": {"J": "KRX", "NX": "NXT", "UN": "통합"}}
+    )
+    FID_INPUT_ISCD: Annotated[str, "주식종목코드입력"] = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_ISCD_2: Annotated[str, "회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) > 회원사 참조)"] = Field(
+        alias="FID_INPUT_ISCD_2"
+    )
+    FID_INPUT_DATE_1: Annotated[str, "날짜 ~"] = Field(alias="FID_INPUT_DATE_1")
+    FID_INPUT_DATE_2: Annotated[str, "~ 날짜"] = Field(alias="FID_INPUT_DATE_2")
+    FID_SCTN_CLS_CODE: Annotated[str | None, "공백"] = Field(default=None, alias="FID_SCTN_CLS_CODE", json_schema_extra={"blank_allowed": True})
 
 
 class InquireMemberDailyRequestDict(TypedDict):
@@ -54,44 +52,31 @@ class InquireMemberDailyRequestDict(TypedDict):
         FID_SCTN_CLS_CODE (str): 공백 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J: KRX, NX: NXT, UN: 통합"]
-    FID_INPUT_ISCD: Annotated[str, "주식종목코드입력"]
-    FID_INPUT_ISCD_2: Annotated[str, "회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) > 회원사 참조)"]
-    FID_INPUT_DATE_1: Annotated[str, "날짜 ~"]
-    FID_INPUT_DATE_2: Annotated[str, "~ 날짜"]
-    FID_SCTN_CLS_CODE: NotRequired[Annotated[str | None, "공백"]]
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
+    FID_INPUT_ISCD: str
+    FID_INPUT_ISCD_2: str
+    FID_INPUT_DATE_1: str
+    FID_INPUT_DATE_2: str
+    FID_SCTN_CLS_CODE: NotRequired[str | None]
 
 
 class InquireMemberDailyOutput(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
-    ("주식영업일자")
-    total_seln_qty: int = Field(alias="total_seln_qty")
-    ("총매도수량")
-    total_shnu_qty: int = Field(alias="total_shnu_qty")
-    ("총매수2수량")
-    ntby_qty: int = Field(alias="ntby_qty")
-    ("순매수수량")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일대비부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적거래량")
+    stck_bsop_date: Annotated[KisDate, "주식영업일자"] = Field(alias="stck_bsop_date")
+    total_seln_qty: Annotated[int, "총매도수량"] = Field(alias="total_seln_qty")
+    total_shnu_qty: Annotated[int, "총매수2수량"] = Field(alias="total_shnu_qty")
+    ntby_qty: Annotated[int, "순매수수량"] = Field(alias="ntby_qty")
+    stck_prpr: Annotated[Decimal, "주식현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일대비부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적거래량"] = Field(alias="acml_vol")
 
 
 class InquireMemberDailyResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquireMemberDailyOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquireMemberDailyOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireMemberDailyRequest, InquireMemberDailyResponse] = Endpoint(

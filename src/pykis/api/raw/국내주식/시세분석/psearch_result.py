@@ -16,22 +16,20 @@ if TYPE_CHECKING:
 
 class DaebiEnum(KisStrEnum):
     VALUE_1 = ("1", "상한")
-    "상한"
+    """상한"""
     VALUE_2 = ("2", "상승")
-    "상승"
+    """상승"""
     VALUE_3 = ("3", "보합")
-    "보합"
+    """보합"""
     VALUE_4 = ("4", "하한")
-    "하한"
+    """하한"""
     VALUE_5 = ("5", "하락")
-    "하락"
+    """하락"""
 
 
 class PsearchResultRequest(RawModel):
-    user_id: str = Field(alias="user_id")
-    ("사용자 HTS ID")
-    seq: str = Field(alias="seq")
-    ("종목조건검색 목록조회 API의 output인 'seq'을 이용 (0 부터 시작)")
+    user_id: Annotated[str, "사용자 HTS ID"] = Field(alias="user_id")
+    seq: Annotated[str, "종목조건검색 목록조회 API의 output인 'seq'을 이용 (0 부터 시작)"] = Field(alias="seq")
 
 
 class PsearchResultRequestDict(TypedDict):
@@ -60,70 +58,45 @@ class PsearchResultRequestDict(TypedDict):
         seq (str): 종목조건검색 목록조회 API의 output인 'seq'을 이용 (0 부터 시작)
     """
 
-    user_id: Annotated[str, "사용자 HTS ID"]
-    seq: Annotated[str, "종목조건검색 목록조회 API의 output인 'seq'을 이용 (0 부터 시작)"]
+    user_id: str
+    seq: str
 
 
 class PsearchResultOutput2(RawModel):
-    code: str = Field(alias="code")
-    ("종목코드")
-    name: str = Field(alias="name")
-    ("종목명")
-    daebi: DaebiEnum = Field(alias="daebi")
-    ("1. 상한 2. 상승 3. 보합 4. 하한 5. 하락")
-    price: Decimal = Field(alias="price")
-    ("현재가")
-    chgrate: Decimal = Field(alias="chgrate")
-    ("등락율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("거래량")
-    trade_amt: Decimal = Field(alias="trade_amt")
-    ("거래대금")
-    change: str = Field(alias="change")
-    ("전일대비")
-    cttr: str = Field(alias="cttr")
-    ("체결강도")
-    open: Decimal = Field(alias="open")
-    ("시가")
-    high: Decimal = Field(alias="high")
-    ("고가")
-    low: Decimal = Field(alias="low")
-    ("저가")
-    high52: Decimal = Field(alias="high52")
-    ("52주최고가")
-    low52: Decimal = Field(alias="low52")
-    ("52주최저가")
-    expprice: Decimal = Field(alias="expprice")
-    ("예상체결가")
-    expchange: str = Field(alias="expchange")
-    ("예상대비")
-    expchggrate: Decimal = Field(alias="expchggrate")
-    ("예상등락률")
-    expcvol: int = Field(alias="expcvol")
-    ("예상체결수량")
-    chgrate2: Decimal = Field(alias="chgrate2")
-    ("전일거래량대비율")
-    expdaebi: str = Field(alias="expdaebi")
-    ("예상대비부호")
-    recprice: Decimal = Field(alias="recprice")
-    ("기준가")
-    uplmtprice: Decimal = Field(alias="uplmtprice")
-    ("상한가")
-    dnlmtprice: Decimal = Field(alias="dnlmtprice")
-    ("하한가")
-    stotprice: Decimal = Field(alias="stotprice")
-    ("시가총액")
+    code: Annotated[str, "종목코드"] = Field(alias="code")
+    name: Annotated[str, "종목명"] = Field(alias="name")
+    daebi: Annotated[DaebiEnum, "1. 상한 2. 상승 3. 보합 4. 하한 5. 하락"] = Field(
+        alias="daebi",
+        json_schema_extra={"enum": ["1", "2", "3", "4", "5"], "enum_desc": {"1": "상한", "2": "상승", "3": "보합", "4": "하한", "5": "하락"}},
+    )
+    price: Annotated[Decimal, "현재가"] = Field(alias="price")
+    chgrate: Annotated[Decimal, "등락율"] = Field(alias="chgrate")
+    acml_vol: Annotated[int, "거래량"] = Field(alias="acml_vol")
+    trade_amt: Annotated[Decimal, "거래대금"] = Field(alias="trade_amt")
+    change: Annotated[str, "전일대비"] = Field(alias="change")
+    cttr: Annotated[str, "체결강도"] = Field(alias="cttr")
+    open: Annotated[Decimal, "시가"] = Field(alias="open")
+    high: Annotated[Decimal, "고가"] = Field(alias="high")
+    low: Annotated[Decimal, "저가"] = Field(alias="low")
+    high52: Annotated[Decimal, "52주최고가"] = Field(alias="high52")
+    low52: Annotated[Decimal, "52주최저가"] = Field(alias="low52")
+    expprice: Annotated[Decimal, "예상체결가"] = Field(alias="expprice")
+    expchange: Annotated[str, "예상대비"] = Field(alias="expchange")
+    expchggrate: Annotated[Decimal, "예상등락률"] = Field(alias="expchggrate")
+    expcvol: Annotated[int, "예상체결수량"] = Field(alias="expcvol")
+    chgrate2: Annotated[Decimal, "전일거래량대비율"] = Field(alias="chgrate2")
+    expdaebi: Annotated[str, "예상대비부호"] = Field(alias="expdaebi")
+    recprice: Annotated[Decimal, "기준가"] = Field(alias="recprice")
+    uplmtprice: Annotated[Decimal, "상한가"] = Field(alias="uplmtprice")
+    dnlmtprice: Annotated[Decimal, "하한가"] = Field(alias="dnlmtprice")
+    stotprice: Annotated[Decimal, "시가총액"] = Field(alias="stotprice")
 
 
 class PsearchResultResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output2: list[PsearchResultOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output2: Annotated[list[PsearchResultOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[PsearchResultRequest, PsearchResultResponse] = Endpoint(

@@ -16,40 +16,40 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     J = ("J", "KRX")
-    "KRX"
+    """KRX"""
     NX = ("NX", "NXT")
-    "NXT"
+    """NXT"""
     UN = ("UN", "통합")
-    "통합"
+    """통합"""
 
 
 class DiviAppClsCodeEnum(KisStrEnum):
     VALUE_11 = ("11", "매수상한배분")
-    "매수상한배분"
+    """매수상한배분"""
     VALUE_12 = ("12", "매수하한배분")
-    "매수하한배분"
+    """매수하한배분"""
     VALUE_13 = ("13", "매도상한배분")
-    "매도상한배분"
+    """매도상한배분"""
     VALUE_14 = ("14", "매도하한배분")
-    "매도하한배분"
+    """매도하한배분"""
 
 
 class MrktWarnClsCodeEnum(KisStrEnum):
     VALUE_00 = ("00", "없음")
-    "없음"
+    """없음"""
     VALUE_01 = ("01", "투자주의")
-    "투자주의"
+    """투자주의"""
     VALUE_02 = ("02", "투자경고")
-    "투자경고"
+    """투자경고"""
     VALUE_03 = ("03", "투자위험")
-    "투자위험"
+    """투자위험"""
 
 
 class InquirePrice2Request(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("J:KRX, NX:NXT, UN:통합")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("000660")
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"] = Field(
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["J", "NX", "UN"], "enum_desc": {"J": "KRX", "NX": "NXT", "UN": "통합"}}
+    )
+    FID_INPUT_ISCD: Annotated[str, "000660"] = Field(alias="FID_INPUT_ISCD")
 
 
 class InquirePrice2RequestDict(TypedDict):
@@ -61,130 +61,82 @@ class InquirePrice2RequestDict(TypedDict):
         FID_INPUT_ISCD (str): 000660
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"]
-    FID_INPUT_ISCD: Annotated[str, "000660"]
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
+    FID_INPUT_ISCD: str
 
 
 class InquirePrice2Output(RawModel):
-    rprs_mrkt_kor_name: str = Field(alias="rprs_mrkt_kor_name")
-    ("대표 시장 한글 명")
-    new_hgpr_lwpr_cls_code: str | None = Field(default=None, alias="new_hgpr_lwpr_cls_code")
-    ("특정 경우에만 데이터 출력")
-    mxpr_llam_cls_code: str | None = Field(default=None, alias="mxpr_llam_cls_code")
-    ("특정 경우에만 데이터 출력")
-    crdt_able_yn: KisBool = Field(alias="crdt_able_yn")
-    ("신용 가능 여부")
-    stck_mxpr: int = Field(alias="stck_mxpr")
-    ("주식 상한가")
-    elw_pblc_yn: KisBool = Field(alias="elw_pblc_yn")
-    ("ELW 발행 여부")
-    prdy_clpr_vrss_oprc_rate: Decimal = Field(alias="prdy_clpr_vrss_oprc_rate")
-    ("전일 종가 대비 시가2 비율")
-    crdt_rate: Decimal = Field(alias="crdt_rate")
-    ("신용 비율")
-    marg_rate: Decimal = Field(alias="marg_rate")
-    ("증거금 비율")
-    lwpr_vrss_prpr: Decimal = Field(alias="lwpr_vrss_prpr")
-    ("최저가 대비 현재가")
-    lwpr_vrss_prpr_sign: Decimal = Field(alias="lwpr_vrss_prpr_sign")
-    ("최저가 대비 현재가 부호")
-    prdy_clpr_vrss_lwpr_rate: Decimal = Field(alias="prdy_clpr_vrss_lwpr_rate")
-    ("전일 종가 대비 최저가 비율")
-    stck_lwpr: Decimal = Field(alias="stck_lwpr")
-    ("주식 최저가")
-    hgpr_vrss_prpr: Decimal = Field(alias="hgpr_vrss_prpr")
-    ("최고가 대비 현재가")
-    hgpr_vrss_prpr_sign: Decimal = Field(alias="hgpr_vrss_prpr_sign")
-    ("최고가 대비 현재가 부호")
-    prdy_clpr_vrss_hgpr_rate: Decimal = Field(alias="prdy_clpr_vrss_hgpr_rate")
-    ("전일 종가 대비 최고가 비율")
-    stck_hgpr: Decimal = Field(alias="stck_hgpr")
-    ("주식 최고가")
-    oprc_vrss_prpr: Decimal = Field(alias="oprc_vrss_prpr")
-    ("시가2 대비 현재가")
-    oprc_vrss_prpr_sign: Decimal = Field(alias="oprc_vrss_prpr_sign")
-    ("시가2 대비 현재가 부호")
-    mang_issu_yn: KisBool = Field(alias="mang_issu_yn")
-    ("관리 종목 여부")
-    divi_app_cls_code: DiviAppClsCodeEnum | None = Field(default=None, alias="divi_app_cls_code")
-    ("11:매수상한배분 12:매수하한배분 13: 매도상한배분 14:매도하한배분")
-    short_over_yn: KisBool = Field(alias="short_over_yn")
-    ("단기과열여부")
-    mrkt_warn_cls_code: MrktWarnClsCodeEnum = Field(alias="mrkt_warn_cls_code")
-    ("00: 없음 01: 투자주의 02:투자경고 03:투자위험")
-    invt_caful_yn: KisBool = Field(alias="invt_caful_yn")
-    ("투자유의여부")
-    stange_runup_yn: KisBool = Field(alias="stange_runup_yn")
-    ("이상급등여부")
-    ssts_hot_yn: KisBool | None = Field(default=None, alias="ssts_hot_yn")
-    ("공매도과열 여부")
-    low_current_yn: KisBool = Field(alias="low_current_yn")
-    ("저유동성 종목 여부")
-    vi_cls_code: str = Field(alias="vi_cls_code")
-    ("VI적용구분코드")
-    short_over_cls_code: str | None = Field(default=None, alias="short_over_cls_code")
-    ("단기과열구분코드")
-    stck_llam: int = Field(alias="stck_llam")
-    ("주식 하한가")
-    new_lstn_cls_name: str | None = Field(default=None, alias="new_lstn_cls_name")
-    ("신규 상장 구분 명")
-    vlnt_deal_cls_name: str | None = Field(default=None, alias="vlnt_deal_cls_name")
-    ("임의 매매 구분 명")
-    flng_cls_name: str | None = Field(default=None, alias="flng_cls_name")
-    ("특정 경우에만 데이터 출력")
-    revl_issu_reas_name: str | None = Field(default=None, alias="revl_issu_reas_name")
-    ("특정 경우에만 데이터 출력")
-    mrkt_warn_cls_name: str | None = Field(default=None, alias="mrkt_warn_cls_name")
-    ('특정 경우에만 데이터 출력 "투자환기" / "투자경고"')
-    stck_sdpr: int = Field(alias="stck_sdpr")
-    ("주식 기준가")
-    bstp_cls_code: str = Field(alias="bstp_cls_code")
-    ("업종 구분 코드")
-    stck_prdy_clpr: int = Field(alias="stck_prdy_clpr")
-    ("주식 전일 종가")
-    insn_pbnt_yn: KisBool = Field(alias="insn_pbnt_yn")
-    ("불성실 공시 여부")
-    fcam_mod_cls_name: str | None = Field(default=None, alias="fcam_mod_cls_name")
-    ("특정 경우에만 데이터 출력")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
-    ("누적 거래 대금")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    prdy_vrss_vol_rate: Decimal = Field(alias="prdy_vrss_vol_rate")
-    ("전일 대비 거래량 비율")
-    bstp_kor_isnm: str | None = Field(default=None, alias="bstp_kor_isnm")
-    ("※ 거래소 정보로 특정 종목은 업종구분이 없어 데이터 미회신")
-    sltr_yn: KisBool = Field(alias="sltr_yn")
-    ("정리매매 여부")
-    trht_yn: KisBool = Field(alias="trht_yn")
-    ("거래정지 여부")
-    oprc_rang_cont_yn: KisBool = Field(alias="oprc_rang_cont_yn")
-    ("시가 범위 연장 여부")
-    vlnt_fin_cls_code: str = Field(alias="vlnt_fin_cls_code")
-    ("임의 종료 구분 코드")
-    stck_oprc: Decimal = Field(alias="stck_oprc")
-    ("주식 시가2")
-    prdy_vol: int = Field(alias="prdy_vol")
-    ("전일 거래량")
+    rprs_mrkt_kor_name: Annotated[str, "대표 시장 한글 명"] = Field(alias="rprs_mrkt_kor_name")
+    new_hgpr_lwpr_cls_code: Annotated[str | None, "특정 경우에만 데이터 출력"] = Field(default=None, alias="new_hgpr_lwpr_cls_code")
+    mxpr_llam_cls_code: Annotated[str | None, "특정 경우에만 데이터 출력"] = Field(default=None, alias="mxpr_llam_cls_code")
+    crdt_able_yn: Annotated[KisBool, "신용 가능 여부"] = Field(alias="crdt_able_yn")
+    stck_mxpr: Annotated[int, "주식 상한가"] = Field(alias="stck_mxpr")
+    elw_pblc_yn: Annotated[KisBool, "ELW 발행 여부"] = Field(alias="elw_pblc_yn")
+    prdy_clpr_vrss_oprc_rate: Annotated[Decimal, "전일 종가 대비 시가2 비율"] = Field(alias="prdy_clpr_vrss_oprc_rate")
+    crdt_rate: Annotated[Decimal, "신용 비율"] = Field(alias="crdt_rate")
+    marg_rate: Annotated[Decimal, "증거금 비율"] = Field(alias="marg_rate")
+    lwpr_vrss_prpr: Annotated[Decimal, "최저가 대비 현재가"] = Field(alias="lwpr_vrss_prpr")
+    lwpr_vrss_prpr_sign: Annotated[Decimal, "최저가 대비 현재가 부호"] = Field(alias="lwpr_vrss_prpr_sign")
+    prdy_clpr_vrss_lwpr_rate: Annotated[Decimal, "전일 종가 대비 최저가 비율"] = Field(alias="prdy_clpr_vrss_lwpr_rate")
+    stck_lwpr: Annotated[Decimal, "주식 최저가"] = Field(alias="stck_lwpr")
+    hgpr_vrss_prpr: Annotated[Decimal, "최고가 대비 현재가"] = Field(alias="hgpr_vrss_prpr")
+    hgpr_vrss_prpr_sign: Annotated[Decimal, "최고가 대비 현재가 부호"] = Field(alias="hgpr_vrss_prpr_sign")
+    prdy_clpr_vrss_hgpr_rate: Annotated[Decimal, "전일 종가 대비 최고가 비율"] = Field(alias="prdy_clpr_vrss_hgpr_rate")
+    stck_hgpr: Annotated[Decimal, "주식 최고가"] = Field(alias="stck_hgpr")
+    oprc_vrss_prpr: Annotated[Decimal, "시가2 대비 현재가"] = Field(alias="oprc_vrss_prpr")
+    oprc_vrss_prpr_sign: Annotated[Decimal, "시가2 대비 현재가 부호"] = Field(alias="oprc_vrss_prpr_sign")
+    mang_issu_yn: Annotated[KisBool, "관리 종목 여부"] = Field(alias="mang_issu_yn")
+    divi_app_cls_code: Annotated[DiviAppClsCodeEnum | None, "11:매수상한배분 12:매수하한배분 13: 매도상한배분 14:매도하한배분"] = Field(
+        default=None,
+        alias="divi_app_cls_code",
+        json_schema_extra={
+            "enum": ["11", "12", "13", "14"],
+            "enum_desc": {"11": "매수상한배분", "12": "매수하한배분", "13": "매도상한배분", "14": "매도하한배분"},
+        },
+    )
+    short_over_yn: Annotated[KisBool, "단기과열여부"] = Field(alias="short_over_yn")
+    mrkt_warn_cls_code: Annotated[MrktWarnClsCodeEnum, "00: 없음 01: 투자주의 02:투자경고 03:투자위험"] = Field(
+        alias="mrkt_warn_cls_code",
+        json_schema_extra={"enum": ["00", "01", "02", "03"], "enum_desc": {"00": "없음", "01": "투자주의", "02": "투자경고", "03": "투자위험"}},
+    )
+    invt_caful_yn: Annotated[KisBool, "투자유의여부"] = Field(alias="invt_caful_yn")
+    stange_runup_yn: Annotated[KisBool, "이상급등여부"] = Field(alias="stange_runup_yn")
+    ssts_hot_yn: Annotated[KisBool | None, "공매도과열 여부"] = Field(default=None, alias="ssts_hot_yn")
+    low_current_yn: Annotated[KisBool, "저유동성 종목 여부"] = Field(alias="low_current_yn")
+    vi_cls_code: Annotated[str, "VI적용구분코드"] = Field(alias="vi_cls_code")
+    short_over_cls_code: Annotated[str | None, "단기과열구분코드"] = Field(default=None, alias="short_over_cls_code")
+    stck_llam: Annotated[int, "주식 하한가"] = Field(alias="stck_llam")
+    new_lstn_cls_name: Annotated[str | None, "신규 상장 구분 명"] = Field(default=None, alias="new_lstn_cls_name")
+    vlnt_deal_cls_name: Annotated[str | None, "임의 매매 구분 명"] = Field(default=None, alias="vlnt_deal_cls_name")
+    flng_cls_name: Annotated[str | None, "특정 경우에만 데이터 출력"] = Field(default=None, alias="flng_cls_name")
+    revl_issu_reas_name: Annotated[str | None, "특정 경우에만 데이터 출력"] = Field(default=None, alias="revl_issu_reas_name")
+    mrkt_warn_cls_name: Annotated[str | None, '특정 경우에만 데이터 출력 "투자환기" / "투자경고"'] = Field(default=None, alias="mrkt_warn_cls_name")
+    stck_sdpr: Annotated[int, "주식 기준가"] = Field(alias="stck_sdpr")
+    bstp_cls_code: Annotated[str, "업종 구분 코드"] = Field(alias="bstp_cls_code")
+    stck_prdy_clpr: Annotated[int, "주식 전일 종가"] = Field(alias="stck_prdy_clpr")
+    insn_pbnt_yn: Annotated[KisBool, "불성실 공시 여부"] = Field(alias="insn_pbnt_yn")
+    fcam_mod_cls_name: Annotated[str | None, "특정 경우에만 데이터 출력"] = Field(default=None, alias="fcam_mod_cls_name")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_tr_pbmn: Annotated[Decimal, "누적 거래 대금"] = Field(alias="acml_tr_pbmn")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    prdy_vrss_vol_rate: Annotated[Decimal, "전일 대비 거래량 비율"] = Field(alias="prdy_vrss_vol_rate")
+    bstp_kor_isnm: Annotated[str | None, "※ 거래소 정보로 특정 종목은 업종구분이 없어 데이터 미회신"] = Field(default=None, alias="bstp_kor_isnm")
+    sltr_yn: Annotated[KisBool, "정리매매 여부"] = Field(alias="sltr_yn")
+    trht_yn: Annotated[KisBool, "거래정지 여부"] = Field(alias="trht_yn")
+    oprc_rang_cont_yn: Annotated[KisBool, "시가 범위 연장 여부"] = Field(alias="oprc_rang_cont_yn")
+    vlnt_fin_cls_code: Annotated[str, "임의 종료 구분 코드"] = Field(alias="vlnt_fin_cls_code")
+    stck_oprc: Annotated[Decimal, "주식 시가2"] = Field(alias="stck_oprc")
+    prdy_vol: Annotated[int, "전일 거래량"] = Field(alias="prdy_vol")
 
 
 class InquirePrice2Response(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: InquirePrice2Output = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[InquirePrice2Output, "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquirePrice2Request, InquirePrice2Response] = Endpoint(

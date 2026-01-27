@@ -14,10 +14,8 @@ if TYPE_CHECKING:
 
 
 class NavComparisonTrendRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("J")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목코드")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "J"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_INPUT_ISCD: Annotated[str, "종목코드"] = Field(alias="FID_INPUT_ISCD")
 
 
 class NavComparisonTrendRequestDict(TypedDict):
@@ -31,67 +29,42 @@ class NavComparisonTrendRequestDict(TypedDict):
         FID_INPUT_ISCD (str): 종목코드
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "J"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드"]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_INPUT_ISCD: str
 
 
 class NavComparisonTrendOutput1(RawModel):
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
-    ("누적 거래 대금")
-    stck_prdy_clpr: int = Field(alias="stck_prdy_clpr")
-    ("주식 전일 종가")
-    stck_oprc: Decimal = Field(alias="stck_oprc")
-    ("주식 시가2")
-    stck_hgpr: Decimal = Field(alias="stck_hgpr")
-    ("주식 최고가")
-    stck_lwpr: Decimal = Field(alias="stck_lwpr")
-    ("주식 최저가")
-    stck_mxpr: int = Field(alias="stck_mxpr")
-    ("주식 상한가")
-    stck_llam: int = Field(alias="stck_llam")
-    ("주식 하한가")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    acml_tr_pbmn: Annotated[Decimal, "누적 거래 대금"] = Field(alias="acml_tr_pbmn")
+    stck_prdy_clpr: Annotated[int, "주식 전일 종가"] = Field(alias="stck_prdy_clpr")
+    stck_oprc: Annotated[Decimal, "주식 시가2"] = Field(alias="stck_oprc")
+    stck_hgpr: Annotated[Decimal, "주식 최고가"] = Field(alias="stck_hgpr")
+    stck_lwpr: Annotated[Decimal, "주식 최저가"] = Field(alias="stck_lwpr")
+    stck_mxpr: Annotated[int, "주식 상한가"] = Field(alias="stck_mxpr")
+    stck_llam: Annotated[int, "주식 하한가"] = Field(alias="stck_llam")
 
 
 class NavComparisonTrendOutput2(RawModel):
-    nav: Decimal = Field(alias="nav")
-    ("NAV")
-    nav_prdy_vrss_sign: int = Field(alias="nav_prdy_vrss_sign")
-    ("NAV 전일 대비 부호")
-    nav_prdy_vrss: Decimal = Field(alias="nav_prdy_vrss")
-    ("NAV 전일 대비")
-    nav_prdy_ctrt: Decimal = Field(alias="nav_prdy_ctrt")
-    ("NAV 전일 대비율")
-    prdy_clpr_nav: Decimal = Field(alias="prdy_clpr_nav")
-    ("NAV전일종가")
-    oprc_nav: Decimal = Field(alias="oprc_nav")
-    ("NAV시가")
-    hprc_nav: Decimal = Field(alias="hprc_nav")
-    ("NAV고가")
-    lprc_nav: Decimal = Field(alias="lprc_nav")
-    ("NAV저가")
+    nav: Annotated[Decimal, "NAV"] = Field(alias="nav")
+    nav_prdy_vrss_sign: Annotated[int, "NAV 전일 대비 부호"] = Field(alias="nav_prdy_vrss_sign")
+    nav_prdy_vrss: Annotated[Decimal, "NAV 전일 대비"] = Field(alias="nav_prdy_vrss")
+    nav_prdy_ctrt: Annotated[Decimal, "NAV 전일 대비율"] = Field(alias="nav_prdy_ctrt")
+    prdy_clpr_nav: Annotated[Decimal, "NAV전일종가"] = Field(alias="prdy_clpr_nav")
+    oprc_nav: Annotated[Decimal, "NAV시가"] = Field(alias="oprc_nav")
+    hprc_nav: Annotated[Decimal, "NAV고가"] = Field(alias="hprc_nav")
+    lprc_nav: Annotated[Decimal, "NAV저가"] = Field(alias="lprc_nav")
 
 
 class NavComparisonTrendResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: NavComparisonTrendOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: NavComparisonTrendOutput2 = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[NavComparisonTrendOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[NavComparisonTrendOutput2, "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[NavComparisonTrendRequest, NavComparisonTrendResponse] = Endpoint(

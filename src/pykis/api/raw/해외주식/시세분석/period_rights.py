@@ -16,65 +16,80 @@ if TYPE_CHECKING:
 
 class RghtTypeCdEnum(KisStrEnum):
     VALUE_01 = ("01", "유상")
-    "유상"
+    """유상"""
     VALUE_02 = ("02", "무상")
-    "무상"
+    """무상"""
     VALUE_03 = ("03", "배당")
-    "배당"
+    """배당"""
     VALUE_11 = ("11", "합병")
-    "합병"
+    """합병"""
     VALUE_14 = ("14", "액면분할")
-    "액면분할"
+    """액면분할"""
     VALUE_15 = ("15", "액면병합")
-    "액면병합"
+    """액면병합"""
     VALUE_17 = ("17", "감자")
-    "감자"
+    """감자"""
     VALUE_54 = ("54", "WR청구")
-    "WR청구"
+    """WR청구"""
     VALUE_61 = ("61", "원리금상환")
-    "원리금상환"
+    """원리금상환"""
     VALUE_71 = ("71", "WR소멸")
-    "WR소멸"
+    """WR소멸"""
     VALUE_74 = ("74", "배당옵션")
-    "배당옵션"
+    """배당옵션"""
     VALUE_75 = ("75", "특별배당")
-    "특별배당"
+    """특별배당"""
     VALUE_76 = ("76", "ISINCODE변경")
-    "ISINCODE변경"
+    """ISINCODE변경"""
     VALUE_77 = ("77", "실권주청약")
-    "실권주청약"
+    """실권주청약"""
 
 
 class InqrDvsnCdEnum(KisStrEnum):
     VALUE_02 = ("02", "현지기준일")
-    "현지기준일"
+    """현지기준일"""
     VALUE_03 = ("03", "청약시작일")
-    "청약시작일"
+    """청약시작일"""
     VALUE_04 = ("04", "청약종료일")
-    "청약종료일"
+    """청약종료일"""
 
 
 class PeriodRightsRequest(RawModel):
-    RGHT_TYPE_CD: RghtTypeCdEnum = Field(alias="RGHT_TYPE_CD")
-    (
-        "'%%(전체), 01(유상), 02(무상), 03(배당), 11(합병), 14(액면분할), 15(액면병합), 17(감자), "
-        "54(WR청구), 61(원리금상환), 71(WR소멸), 74(배당옵션), 75(특별배당), 76(ISINCODE변경), "
-        "77(실권주청약)'"
+    RGHT_TYPE_CD: Annotated[
+        RghtTypeCdEnum,
+        "'%%(전체), 01(유상), 02(무상), 03(배당), 11(합병), 14(액면분할), 15(액면병합), 17(감자), 54(WR청구), 61(원리금상환), 71(WR소멸), 74(배당옵션), 75(특별배당), 76(ISINCODE변경), 77(실권주청약)'",
+    ] = Field(
+        alias="RGHT_TYPE_CD",
+        json_schema_extra={
+            "enum": ["01", "02", "03", "11", "14", "15", "17", "54", "61", "71", "74", "75", "76", "77"],
+            "enum_desc": {
+                "01": "유상",
+                "02": "무상",
+                "03": "배당",
+                "11": "합병",
+                "14": "액면분할",
+                "15": "액면병합",
+                "17": "감자",
+                "54": "WR청구",
+                "61": "원리금상환",
+                "71": "WR소멸",
+                "74": "배당옵션",
+                "75": "특별배당",
+                "76": "ISINCODE변경",
+                "77": "실권주청약",
+            },
+        },
     )
-    INQR_DVSN_CD: InqrDvsnCdEnum = Field(alias="INQR_DVSN_CD")
-    ("02(현지기준일), 03(청약시작일), 04(청약종료일)")
-    INQR_STRT_DT: KisDate = Field(alias="INQR_STRT_DT")
-    ("일자 ~")
-    INQR_END_DT: KisDate = Field(alias="INQR_END_DT")
-    ("~ 일자")
-    PDNO: str | None = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    PRDT_TYPE_CD: str | None = Field(default=None, alias="PRDT_TYPE_CD", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    CTX_AREA_NK50: str | None = Field(default=None, alias="CTX_AREA_NK50", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    CTX_AREA_FK50: str | None = Field(default=None, alias="CTX_AREA_FK50", json_schema_extra={"blank_allowed": True})
-    ("공백")
+    INQR_DVSN_CD: Annotated[InqrDvsnCdEnum, "02(현지기준일), 03(청약시작일), 04(청약종료일)"] = Field(
+        alias="INQR_DVSN_CD",
+        json_schema_extra={"enum": ["02", "03", "04"], "enum_desc": {"02": "현지기준일", "03": "청약시작일", "04": "청약종료일"}},
+    )
+    INQR_STRT_DT: Annotated[KisDate, "일자 ~"] = Field(alias="INQR_STRT_DT")
+    INQR_END_DT: Annotated[KisDate, "~ 일자"] = Field(alias="INQR_END_DT")
+    PDNO: Annotated[str | None, "공백"] = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
+    PRDT_TYPE_CD: Annotated[str | None, "공백"] = Field(default=None, alias="PRDT_TYPE_CD", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_NK50: Annotated[str | None, "공백"] = Field(default=None, alias="CTX_AREA_NK50", json_schema_extra={"blank_allowed": True})
+    CTX_AREA_FK50: Annotated[str | None, "공백"] = Field(default=None, alias="CTX_AREA_FK50", json_schema_extra={"blank_allowed": True})
 
 
 class PeriodRightsRequestDict(TypedDict):
@@ -99,77 +114,46 @@ class PeriodRightsRequestDict(TypedDict):
         CTX_AREA_FK50 (str): 공백 optional
     """
 
-    RGHT_TYPE_CD: Annotated[
-        RghtTypeCdEnum,
-        "'%%(전체), 01(유상), 02(무상), 03(배당), 11(합병), 14(액면분할), 15(액면병합), 17(감자), "
-        "54(WR청구), 61(원리금상환), 71(WR소멸), 74(배당옵션), 75(특별배당), 76(ISINCODE변경), "
-        "77(실권주청약)'",
-    ]
-    INQR_DVSN_CD: Annotated[InqrDvsnCdEnum, "02(현지기준일), 03(청약시작일), 04(청약종료일)"]
-    INQR_STRT_DT: Annotated[KisDate, "일자 ~"]
-    INQR_END_DT: Annotated[KisDate, "~ 일자"]
-    PDNO: NotRequired[Annotated[str | None, "공백"]]
-    PRDT_TYPE_CD: NotRequired[Annotated[str | None, "공백"]]
-    CTX_AREA_NK50: NotRequired[Annotated[str | None, "공백"]]
-    CTX_AREA_FK50: NotRequired[Annotated[str | None, "공백"]]
+    RGHT_TYPE_CD: RghtTypeCdEnum
+    INQR_DVSN_CD: InqrDvsnCdEnum
+    INQR_STRT_DT: KisDate
+    INQR_END_DT: KisDate
+    PDNO: NotRequired[str | None]
+    PRDT_TYPE_CD: NotRequired[str | None]
+    CTX_AREA_NK50: NotRequired[str | None]
+    CTX_AREA_FK50: NotRequired[str | None]
 
 
 class PeriodRightsOutput(RawModel):
-    bass_dt: KisDateOptional = Field(default=None, alias="bass_dt")
-    ("기준일자")
-    rght_type_cd: str | None = Field(default=None, alias="rght_type_cd")
-    ("권리유형코드")
-    pdno: str | None = Field(default=None, alias="pdno")
-    ("상품번호")
-    prdt_name: str | None = Field(default=None, alias="prdt_name")
-    ("상품명")
-    prdt_type_cd: str | None = Field(default=None, alias="prdt_type_cd")
-    ("상품유형코드")
-    std_pdno: str | None = Field(default=None, alias="std_pdno")
-    ("표준상품번호")
-    acpl_bass_dt: KisDateOptional = Field(default=None, alias="acpl_bass_dt")
-    ("현지기준일자")
-    sbsc_strt_dt: KisDateOptional = Field(default=None, alias="sbsc_strt_dt")
-    ("청약시작일자")
-    sbsc_end_dt: KisDateOptional = Field(default=None, alias="sbsc_end_dt")
-    ("청약종료일자")
-    cash_alct_rt: Decimal | None = Field(default=None, alias="cash_alct_rt")
-    ("현금배정비율")
-    stck_alct_rt: Decimal | None = Field(default=None, alias="stck_alct_rt")
-    ("주식배정비율")
-    crcy_cd: str | None = Field(default=None, alias="crcy_cd")
-    ("통화코드")
-    crcy_cd2: str | None = Field(default=None, alias="crcy_cd2")
-    ("통화코드2")
-    crcy_cd3: str | None = Field(default=None, alias="crcy_cd3")
-    ("통화코드3")
-    crcy_cd4: str | None = Field(default=None, alias="crcy_cd4")
-    ("통화코드4")
-    alct_frcr_unpr: str | None = Field(default=None, alias="alct_frcr_unpr")
-    ("배정외화단가")
-    stkp_dvdn_frcr_amt2: Decimal | None = Field(default=None, alias="stkp_dvdn_frcr_amt2")
-    ("주당배당외화금액2")
-    stkp_dvdn_frcr_amt3: Decimal | None = Field(default=None, alias="stkp_dvdn_frcr_amt3")
-    ("주당배당외화금액3")
-    stkp_dvdn_frcr_amt4: Decimal | None = Field(default=None, alias="stkp_dvdn_frcr_amt4")
-    ("주당배당외화금액4")
-    dfnt_yn: KisBool | None = Field(default=None, alias="dfnt_yn")
-    ("확정여부")
+    bass_dt: Annotated[KisDateOptional, "기준일자"] = Field(default=None, alias="bass_dt")
+    rght_type_cd: Annotated[str | None, "권리유형코드"] = Field(default=None, alias="rght_type_cd")
+    pdno: Annotated[str | None, "상품번호"] = Field(default=None, alias="pdno")
+    prdt_name: Annotated[str | None, "상품명"] = Field(default=None, alias="prdt_name")
+    prdt_type_cd: Annotated[str | None, "상품유형코드"] = Field(default=None, alias="prdt_type_cd")
+    std_pdno: Annotated[str | None, "표준상품번호"] = Field(default=None, alias="std_pdno")
+    acpl_bass_dt: Annotated[KisDateOptional, "현지기준일자"] = Field(default=None, alias="acpl_bass_dt")
+    sbsc_strt_dt: Annotated[KisDateOptional, "청약시작일자"] = Field(default=None, alias="sbsc_strt_dt")
+    sbsc_end_dt: Annotated[KisDateOptional, "청약종료일자"] = Field(default=None, alias="sbsc_end_dt")
+    cash_alct_rt: Annotated[Decimal | None, "현금배정비율"] = Field(default=None, alias="cash_alct_rt")
+    stck_alct_rt: Annotated[Decimal | None, "주식배정비율"] = Field(default=None, alias="stck_alct_rt")
+    crcy_cd: Annotated[str | None, "통화코드"] = Field(default=None, alias="crcy_cd")
+    crcy_cd2: Annotated[str | None, "통화코드2"] = Field(default=None, alias="crcy_cd2")
+    crcy_cd3: Annotated[str | None, "통화코드3"] = Field(default=None, alias="crcy_cd3")
+    crcy_cd4: Annotated[str | None, "통화코드4"] = Field(default=None, alias="crcy_cd4")
+    alct_frcr_unpr: Annotated[str | None, "배정외화단가"] = Field(default=None, alias="alct_frcr_unpr")
+    stkp_dvdn_frcr_amt2: Annotated[Decimal | None, "주당배당외화금액2"] = Field(default=None, alias="stkp_dvdn_frcr_amt2")
+    stkp_dvdn_frcr_amt3: Annotated[Decimal | None, "주당배당외화금액3"] = Field(default=None, alias="stkp_dvdn_frcr_amt3")
+    stkp_dvdn_frcr_amt4: Annotated[Decimal | None, "주당배당외화금액4"] = Field(default=None, alias="stkp_dvdn_frcr_amt4")
+    dfnt_yn: Annotated[KisBool | None, "확정여부"] = Field(default=None, alias="dfnt_yn")
 
 
 class PeriodRightsResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    ctx_area_nk50: str | None = Field(default=None, alias="ctx_area_nk50")
-    ("inferred from raw payload")
-    ctx_area_fk50: str | None = Field(default=None, alias="ctx_area_fk50")
-    ("inferred from raw payload")
-    output: list[PeriodRightsOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    ctx_area_nk50: Annotated[str | None, "inferred from raw payload"] = Field(default=None, alias="ctx_area_nk50")
+    ctx_area_fk50: Annotated[str | None, "inferred from raw payload"] = Field(default=None, alias="ctx_area_fk50")
+    output: Annotated[list[PeriodRightsOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[PeriodRightsRequest, PeriodRightsResponse] = Endpoint(

@@ -16,64 +16,64 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class CcldNccsDvsnEnum(KisStrEnum):
     VALUE_01 = ("01", "전체 /")
-    "전체 /"
+    """전체 /"""
     VALUE_02 = ("02", "체결 /")
-    "체결 /"
+    """체결 /"""
     VALUE_03 = ("03", "미체결")
-    "미체결"
+    """미체결"""
 
 
 class SllBuyDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "매도 /")
-    "매도 /"
+    """매도 /"""
     VALUE_02 = ("02", "매수")
-    "매수"
+    """매수"""
 
 
 class FuopDvsnEnum(KisStrEnum):
     VALUE_00 = ("00", "전체 /")
-    "전체 /"
+    """전체 /"""
     VALUE_01 = ("01", "선물 /")
-    "선물 /"
+    """선물 /"""
     VALUE_02 = ("02", "옵션")
-    "옵션"
+    """옵션"""
 
 
 class InquireDailyOrderRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    STRT_DT: KisDate = Field(alias="STRT_DT")
-    ("시작일자")
-    END_DT: KisDate = Field(alias="END_DT")
-    ("종료일자")
-    FM_PDGR_CD: str = Field(alias="FM_PDGR_CD")
-    ("FM상품군코드")
-    CCLD_NCCS_DVSN: CcldNccsDvsnEnum = Field(alias="CCLD_NCCS_DVSN")
-    ("01:전체 / 02:체결 / 03:미체결")
-    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum = Field(alias="SLL_BUY_DVSN_CD")
-    ("%%전체 / 01 : 매도 / 02 : 매수")
-    FUOP_DVSN: FuopDvsnEnum = Field(alias="FUOP_DVSN")
-    ("00:전체 / 01:선물 / 02:옵션")
-    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
-    ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
-    ("연속조회키200")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    STRT_DT: Annotated[KisDate, "시작일자"] = Field(alias="STRT_DT")
+    END_DT: Annotated[KisDate, "종료일자"] = Field(alias="END_DT")
+    FM_PDGR_CD: Annotated[str, "FM상품군코드"] = Field(alias="FM_PDGR_CD")
+    CCLD_NCCS_DVSN: Annotated[CcldNccsDvsnEnum, "01:전체 / 02:체결 / 03:미체결"] = Field(
+        alias="CCLD_NCCS_DVSN", json_schema_extra={"enum": ["01", "02", "03"], "enum_desc": {"01": "전체 /", "02": "체결 /", "03": "미체결"}}
+    )
+    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "%%전체 / 01 : 매도 / 02 : 매수"] = Field(
+        alias="SLL_BUY_DVSN_CD", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "매도 /", "02": "매수"}}
+    )
+    FUOP_DVSN: Annotated[FuopDvsnEnum, "00:전체 / 01:선물 / 02:옵션"] = Field(
+        alias="FUOP_DVSN", json_schema_extra={"enum": ["00", "01", "02"], "enum_desc": {"00": "전체 /", "01": "선물 /", "02": "옵션"}}
+    )
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"] = Field(alias="CTX_AREA_FK200")
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"] = Field(alias="CTX_AREA_NK200")
 
 
 class InquireDailyOrderRequestDict(TypedDict):
@@ -93,90 +93,59 @@ class InquireDailyOrderRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    STRT_DT: Annotated[KisDate, "시작일자"]
-    END_DT: Annotated[KisDate, "종료일자"]
-    FM_PDGR_CD: Annotated[str, "FM상품군코드"]
-    CCLD_NCCS_DVSN: Annotated[CcldNccsDvsnEnum, "01:전체 / 02:체결 / 03:미체결"]
-    SLL_BUY_DVSN_CD: Annotated[SllBuyDvsnCdEnum, "%%전체 / 01 : 매도 / 02 : 매수"]
-    FUOP_DVSN: Annotated[FuopDvsnEnum, "00:전체 / 01:선물 / 02:옵션"]
-    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
-    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    STRT_DT: KisDate
+    END_DT: KisDate
+    FM_PDGR_CD: str
+    CCLD_NCCS_DVSN: CcldNccsDvsnEnum
+    SLL_BUY_DVSN_CD: SllBuyDvsnCdEnum
+    FUOP_DVSN: FuopDvsnEnum
+    CTX_AREA_FK200: str
+    CTX_AREA_NK200: str
 
 
 class InquireDailyOrderOutput(RawModel):
-    cano: str = Field(alias="cano")
-    ("종합계좌번호")
-    acnt_prdt_cd: str = Field(alias="acnt_prdt_cd")
-    ("계좌상품코드")
-    dt: KisDate = Field(alias="dt")
-    ("일자")
-    ord_dt: KisDate = Field(alias="ord_dt")
-    ("주문일자")
-    odno: str = Field(alias="odno")
-    (
-        '접수한 주문의 일련번호(ex. 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송 (ex. ORGN_ODNO '
-        ': 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송 (ex. ORGN_ODNO : 00360686)'
-    )
-    orgn_ord_dt: KisDate = Field(alias="orgn_ord_dt")
-    ("원주문일자")
-    orgn_odno: str = Field(alias="orgn_odno")
-    ("원주문번호(ex. 00360685)")
-    ovrs_futr_fx_pdno: str = Field(alias="ovrs_futr_fx_pdno")
-    ("해외선물FX상품번호")
-    rvse_cncl_dvsn_cd: str = Field(alias="rvse_cncl_dvsn_cd")
-    (
-        "청산체결이 없는 신규 00 청산체결이 없는 정정 01 청산체결이 없는 취소 02 청산체결이 있는 취소 02 "
-        "청산체결이 있는 신규 03 청산체결이 있는 정정 04 행사 05 배정 06 소멸 07 만기 08"
-    )
-    sll_buy_dvsn_cd: str = Field(alias="sll_buy_dvsn_cd")
-    ("매도매수구분코드")
-    cplx_ord_dvsn_cd: str = Field(alias="cplx_ord_dvsn_cd")
-    ("복합주문구분코드")
-    pric_dvsn_cd: str = Field(alias="pric_dvsn_cd")
-    ("가격구분코드")
-    rcit_dvsn_cd: str = Field(alias="rcit_dvsn_cd")
-    ("접수구분코드")
-    fm_ord_qty: int = Field(alias="fm_ord_qty")
-    ("FM주문수량")
-    fm_ord_pric: Decimal = Field(alias="fm_ord_pric")
-    ("FM주문가격")
-    fm_stop_ord_pric: Decimal = Field(alias="fm_stop_ord_pric")
-    ("FMSTOP주문가격")
-    ecis_rsvn_ord_yn: KisBool = Field(alias="ecis_rsvn_ord_yn")
-    ("행사예약주문여부")
-    fm_ccld_qty: int = Field(alias="fm_ccld_qty")
-    ("FM체결수량")
-    fm_ccld_pric: Decimal = Field(alias="fm_ccld_pric")
-    ("FM체결가격")
-    fm_ord_rmn_qty: int = Field(alias="fm_ord_rmn_qty")
-    ("FM주문잔여수량")
-    ord_grp_name: str = Field(alias="ord_grp_name")
-    ("주문그룹명")
-    rcit_dtl_dtime: KisDateTime = Field(alias="rcit_dtl_dtime")
-    ("접수상세일시")
-    ccld_dtl_dtime: KisDateTime = Field(alias="ccld_dtl_dtime")
-    ("체결상세일시")
-    ordr_emp_no: str = Field(alias="ordr_emp_no")
-    ("주문자사원번호")
-    rjct_rson_name: str = Field(alias="rjct_rson_name")
-    ("거부사유명")
-    ccld_cndt_cd: str = Field(alias="ccld_cndt_cd")
-    ("체결조건코드")
-    trad_end_dt: KisDate = Field(alias="trad_end_dt")
-    ("매매종료일자")
+    cano: Annotated[str, "종합계좌번호"] = Field(alias="cano")
+    acnt_prdt_cd: Annotated[str, "계좌상품코드"] = Field(alias="acnt_prdt_cd")
+    dt: Annotated[KisDate, "일자"] = Field(alias="dt")
+    ord_dt: Annotated[KisDate, "주문일자"] = Field(alias="ord_dt")
+    odno: Annotated[
+        str,
+        '접수한 주문의 일련번호(ex. 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송 (ex. ORGN_ODNO : 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송 (ex. ORGN_ODNO : 00360686)',
+    ] = Field(alias="odno")
+    orgn_ord_dt: Annotated[KisDate, "원주문일자"] = Field(alias="orgn_ord_dt")
+    orgn_odno: Annotated[str, "원주문번호(ex. 00360685)"] = Field(alias="orgn_odno")
+    ovrs_futr_fx_pdno: Annotated[str, "해외선물FX상품번호"] = Field(alias="ovrs_futr_fx_pdno")
+    rvse_cncl_dvsn_cd: Annotated[
+        str,
+        "청산체결이 없는 신규 00 청산체결이 없는 정정 01 청산체결이 없는 취소 02 청산체결이 있는 취소 02 청산체결이 있는 신규 03 청산체결이 있는 정정 04 행사 05 배정 06 소멸 07 만기 08",
+    ] = Field(alias="rvse_cncl_dvsn_cd")
+    sll_buy_dvsn_cd: Annotated[str, "매도매수구분코드"] = Field(alias="sll_buy_dvsn_cd")
+    cplx_ord_dvsn_cd: Annotated[str, "복합주문구분코드"] = Field(alias="cplx_ord_dvsn_cd")
+    pric_dvsn_cd: Annotated[str, "가격구분코드"] = Field(alias="pric_dvsn_cd")
+    rcit_dvsn_cd: Annotated[str, "접수구분코드"] = Field(alias="rcit_dvsn_cd")
+    fm_ord_qty: Annotated[int, "FM주문수량"] = Field(alias="fm_ord_qty")
+    fm_ord_pric: Annotated[Decimal, "FM주문가격"] = Field(alias="fm_ord_pric")
+    fm_stop_ord_pric: Annotated[Decimal, "FMSTOP주문가격"] = Field(alias="fm_stop_ord_pric")
+    ecis_rsvn_ord_yn: Annotated[KisBool, "행사예약주문여부"] = Field(alias="ecis_rsvn_ord_yn")
+    fm_ccld_qty: Annotated[int, "FM체결수량"] = Field(alias="fm_ccld_qty")
+    fm_ccld_pric: Annotated[Decimal, "FM체결가격"] = Field(alias="fm_ccld_pric")
+    fm_ord_rmn_qty: Annotated[int, "FM주문잔여수량"] = Field(alias="fm_ord_rmn_qty")
+    ord_grp_name: Annotated[str, "주문그룹명"] = Field(alias="ord_grp_name")
+    rcit_dtl_dtime: Annotated[KisDateTime, "접수상세일시"] = Field(alias="rcit_dtl_dtime")
+    ccld_dtl_dtime: Annotated[KisDateTime, "체결상세일시"] = Field(alias="ccld_dtl_dtime")
+    ordr_emp_no: Annotated[str, "주문자사원번호"] = Field(alias="ordr_emp_no")
+    rjct_rson_name: Annotated[str, "거부사유명"] = Field(alias="rjct_rson_name")
+    ccld_cndt_cd: Annotated[str, "체결조건코드"] = Field(alias="ccld_cndt_cd")
+    trad_end_dt: Annotated[KisDate, "매매종료일자"] = Field(alias="trad_end_dt")
 
 
 class InquireDailyOrderResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquireDailyOrderOutput] = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquireDailyOrderOutput], "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireDailyOrderRequest, InquireDailyOrderResponse] = Endpoint(

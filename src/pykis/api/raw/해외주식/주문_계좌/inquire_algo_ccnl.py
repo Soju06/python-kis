@@ -16,28 +16,27 @@ if TYPE_CHECKING:
 
 class OrdGnoBrnoEnum(KisStrEnum):
     TTS6058R = ("TTS6058R", "조회 시 해당 주문번호(odno)의 ord_gno_brno 입력")
-    "조회 시 해당 주문번호(odno)의 ord_gno_brno 입력"
+    """조회 시 해당 주문번호(odno)의 ord_gno_brno 입력"""
     ODNO = ("odno", "의 ord_gno_brno 입력")
-    "의 ord_gno_brno 입력"
+    """의 ord_gno_brno 입력"""
 
 
 class InquireAlgoCcnlRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호 8자리")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("상품코드 2자리 (주식계좌 : 01)")
-    ORD_DT: str = Field(alias="ORD_DT")
-    ("주문일자 (YYYYMMDD)")
-    ORD_GNO_BRNO: OrdGnoBrnoEnum | None = Field(default=None, alias="ORD_GNO_BRNO")
-    ("TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력")
-    ODNO: str = Field(alias="ODNO")
-    ("지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력")
-    TTLZ_ICLD_YN: KisBool | None = Field(default=None, alias="TTLZ_ICLD_YN")
-    ("집계포함여부")
-    CTX_AREA_NK200: str | None = Field(default=None, alias="CTX_AREA_NK200")
-    ("연속조회 시 사용")
-    CTX_AREA_FK200: str | None = Field(default=None, alias="CTX_AREA_FK200")
-    ("연속조회 시 사용")
+    CANO: Annotated[str, "종합계좌번호 8자리"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "상품코드 2자리 (주식계좌 : 01)"] = Field(alias="ACNT_PRDT_CD")
+    ORD_DT: Annotated[str, "주문일자 (YYYYMMDD)"] = Field(alias="ORD_DT")
+    ORD_GNO_BRNO: Annotated[OrdGnoBrnoEnum | None, "TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력"] = Field(
+        default=None,
+        alias="ORD_GNO_BRNO",
+        json_schema_extra={
+            "enum": ["TTS6058R", "odno"],
+            "enum_desc": {"TTS6058R": "조회 시 해당 주문번호(odno)의 ord_gno_brno 입력", "odno": "의 ord_gno_brno 입력"},
+        },
+    )
+    ODNO: Annotated[str, "지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력"] = Field(alias="ODNO")
+    TTLZ_ICLD_YN: Annotated[KisBool | None, "집계포함여부"] = Field(default=None, alias="TTLZ_ICLD_YN")
+    CTX_AREA_NK200: Annotated[str | None, "연속조회 시 사용"] = Field(default=None, alias="CTX_AREA_NK200")
+    CTX_AREA_FK200: Annotated[str | None, "연속조회 시 사용"] = Field(default=None, alias="CTX_AREA_FK200")
 
 
 class InquireAlgoCcnlRequestDict(TypedDict):
@@ -57,73 +56,48 @@ class InquireAlgoCcnlRequestDict(TypedDict):
         CTX_AREA_FK200 (str): 연속조회 시 사용 optional
     """
 
-    CANO: Annotated[str, "종합계좌번호 8자리"]
-    ACNT_PRDT_CD: Annotated[str, "상품코드 2자리 (주식계좌 : 01)"]
-    ORD_DT: Annotated[str, "주문일자 (YYYYMMDD)"]
-    ORD_GNO_BRNO: NotRequired[Annotated[OrdGnoBrnoEnum | None, "TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력"]]
-    ODNO: Annotated[str, "지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력"]
-    TTLZ_ICLD_YN: NotRequired[Annotated[KisBool | None, "집계포함여부"]]
-    CTX_AREA_NK200: NotRequired[Annotated[str | None, "연속조회 시 사용"]]
-    CTX_AREA_FK200: NotRequired[Annotated[str | None, "연속조회 시 사용"]]
+    CANO: str
+    ACNT_PRDT_CD: str
+    ORD_DT: str
+    ORD_GNO_BRNO: NotRequired[OrdGnoBrnoEnum | None]
+    ODNO: str
+    TTLZ_ICLD_YN: NotRequired[KisBool | None]
+    CTX_AREA_NK200: NotRequired[str | None]
+    CTX_AREA_FK200: NotRequired[str | None]
 
 
 class InquireAlgoCcnlOutput(RawModel):
-    CCLD_SEQ: str = Field(alias="CCLD_SEQ")
-    ("체결순번")
-    CCLD_BTWN: KisTime = Field(alias="CCLD_BTWN")
-    ("HHMMSS")
-    PDNO: str = Field(alias="PDNO")
-    ("상품번호")
-    ITEM_NAME: str = Field(alias="ITEM_NAME")
-    ("종목명")
-    FT_CCLD_QTY: int | None = Field(default=None, alias="FT_CCLD_QTY")
-    ("FT체결수량")
-    FT_CCLD_UNPR3: str = Field(alias="FT_CCLD_UNPR3")
-    ("FT체결단가")
-    FT_CCLD_AMT3: Decimal | None = Field(default=None, alias="FT_CCLD_AMT3")
-    ("FT체결금액")
+    CCLD_SEQ: Annotated[str, "체결순번"] = Field(alias="CCLD_SEQ")
+    CCLD_BTWN: Annotated[KisTime, "HHMMSS"] = Field(alias="CCLD_BTWN")
+    PDNO: Annotated[str, "상품번호"] = Field(alias="PDNO")
+    ITEM_NAME: Annotated[str, "종목명"] = Field(alias="ITEM_NAME")
+    FT_CCLD_QTY: Annotated[int | None, "FT체결수량"] = Field(default=None, alias="FT_CCLD_QTY")
+    FT_CCLD_UNPR3: Annotated[str, "FT체결단가"] = Field(alias="FT_CCLD_UNPR3")
+    FT_CCLD_AMT3: Annotated[Decimal | None, "FT체결금액"] = Field(default=None, alias="FT_CCLD_AMT3")
 
 
 class InquireAlgoCcnlOutput3(RawModel):
-    ODNO: str = Field(alias="ODNO")
-    ("주문번호")
-    TRAD_DVSN_NAME: str = Field(alias="TRAD_DVSN_NAME")
-    ("매매구분명")
-    PDNO: str = Field(alias="PDNO")
-    ("상품번호")
-    ITEM_NAME: str = Field(alias="ITEM_NAME")
-    ("종목명")
-    FT_ORD_QTY: int = Field(alias="FT_ORD_QTY")
-    ("FT주문수량")
-    FT_ORD_UNPR3: str = Field(alias="FT_ORD_UNPR3")
-    ("FT주문단가")
-    ORD_TMD: KisTime = Field(alias="ORD_TMD")
-    ("주문시각")
-    SPLT_BUY_ATTR_NAME: str = Field(alias="SPLT_BUY_ATTR_NAME")
-    ("분할매수속성명")
-    FT_CCLD_QTY: int = Field(alias="FT_CCLD_QTY")
-    ("FT체결수량")
-    TR_CRCY: str = Field(alias="TR_CRCY")
-    ("거래통화")
-    FT_CCLD_UNPR3: str = Field(alias="FT_CCLD_UNPR3")
-    ("FT체결단가")
-    FT_CCLD_AMT3: Decimal = Field(alias="FT_CCLD_AMT3")
-    ("FT체결금액")
-    CCLD_CNT: int = Field(alias="CCLD_CNT")
-    ("체결건수")
+    ODNO: Annotated[str, "주문번호"] = Field(alias="ODNO")
+    TRAD_DVSN_NAME: Annotated[str, "매매구분명"] = Field(alias="TRAD_DVSN_NAME")
+    PDNO: Annotated[str, "상품번호"] = Field(alias="PDNO")
+    ITEM_NAME: Annotated[str, "종목명"] = Field(alias="ITEM_NAME")
+    FT_ORD_QTY: Annotated[int, "FT주문수량"] = Field(alias="FT_ORD_QTY")
+    FT_ORD_UNPR3: Annotated[str, "FT주문단가"] = Field(alias="FT_ORD_UNPR3")
+    ORD_TMD: Annotated[KisTime, "주문시각"] = Field(alias="ORD_TMD")
+    SPLT_BUY_ATTR_NAME: Annotated[str, "분할매수속성명"] = Field(alias="SPLT_BUY_ATTR_NAME")
+    FT_CCLD_QTY: Annotated[int, "FT체결수량"] = Field(alias="FT_CCLD_QTY")
+    TR_CRCY: Annotated[str, "거래통화"] = Field(alias="TR_CRCY")
+    FT_CCLD_UNPR3: Annotated[str, "FT체결단가"] = Field(alias="FT_CCLD_UNPR3")
+    FT_CCLD_AMT3: Annotated[Decimal, "FT체결금액"] = Field(alias="FT_CCLD_AMT3")
+    CCLD_CNT: Annotated[int, "체결건수"] = Field(alias="CCLD_CNT")
 
 
 class InquireAlgoCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메시지")
-    output: InquireAlgoCcnlOutput = Field(alias="output")
-    ("응답상세")
-    output3: list[InquireAlgoCcnlOutput3] = Field(alias="output3")
-    ("응답상세3")
+    rt_cd: Annotated[KisBool, "성공 실패여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메시지"] = Field(alias="msg1")
+    output: Annotated[InquireAlgoCcnlOutput, "응답상세"] = Field(alias="output")
+    output3: Annotated[list[InquireAlgoCcnlOutput3], "응답상세3"] = Field(alias="output3")
 
 
 _ENDPOINT: Endpoint[InquireAlgoCcnlRequest, InquireAlgoCcnlResponse] = Endpoint(

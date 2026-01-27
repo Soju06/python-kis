@@ -14,14 +14,12 @@ if TYPE_CHECKING:
 
 
 class MergerSplitRequest(RawModel):
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    F_DT: KisDate = Field(alias="F_DT")
-    ("일자 ~")
-    T_DT: KisDate = Field(alias="T_DT")
-    ("~ 일자")
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
-    ("공백: 전체, 특정종목 조회시 : 종목코드")
+    CTS: Annotated[str | None, "공백"] = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
+    F_DT: Annotated[KisDate, "일자 ~"] = Field(alias="F_DT")
+    T_DT: Annotated[KisDate, "~ 일자"] = Field(alias="T_DT")
+    SHT_CD: Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"] = Field(
+        default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True}
+    )
 
 
 class MergerSplitRequestDict(TypedDict):
@@ -39,52 +37,34 @@ class MergerSplitRequestDict(TypedDict):
         SHT_CD (str): 공백: 전체, 특정종목 조회시 : 종목코드 optional
     """
 
-    CTS: NotRequired[Annotated[str | None, "공백"]]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    T_DT: Annotated[KisDate, "~ 일자"]
-    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
+    CTS: NotRequired[str | None]
+    F_DT: KisDate
+    T_DT: KisDate
+    SHT_CD: NotRequired[str | None]
 
 
 class MergerSplitOutput1(RawModel):
-    record_date: KisDateOptional = Field(default=None, alias="record_date")
-    ("기준일")
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
-    ("종목코드")
-    opp_cust_cd: str | None = Field(default=None, alias="opp_cust_cd")
-    ("피합병(피분할)회사코드")
-    opp_cust_nm: str | None = Field(default=None, alias="opp_cust_nm")
-    ("피합병(피분할)회사명")
-    cust_cd: str | None = Field(default=None, alias="cust_cd")
-    ("합병(분할)회사코드")
-    cust_nm: str | None = Field(default=None, alias="cust_nm")
-    ("합병(분할)회사명")
-    merge_type: str | None = Field(default=None, alias="merge_type")
-    ("합병사유")
-    merge_rate: Decimal | None = Field(default=None, alias="merge_rate")
-    ("비율")
-    td_stop_dt: KisDateOptional = Field(default=None, alias="td_stop_dt")
-    ("매매거래정지기간")
-    list_dt: KisDateOptional = Field(default=None, alias="list_dt")
-    ("상장/등록일")
-    odd_amt_pay_dt: KisDateOptional = Field(default=None, alias="odd_amt_pay_dt")
-    ("단주대금지급일")
-    tot_issue_stk_qty: str | None = Field(default=None, alias="tot_issue_stk_qty")
-    ("발행주식")
-    issue_stk_qty: str | None = Field(default=None, alias="issue_stk_qty")
-    ("발행할주식")
-    seq: str | None = Field(default=None, alias="seq")
-    ("연번")
+    record_date: Annotated[KisDateOptional, "기준일"] = Field(default=None, alias="record_date")
+    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
+    opp_cust_cd: Annotated[str | None, "피합병(피분할)회사코드"] = Field(default=None, alias="opp_cust_cd")
+    opp_cust_nm: Annotated[str | None, "피합병(피분할)회사명"] = Field(default=None, alias="opp_cust_nm")
+    cust_cd: Annotated[str | None, "합병(분할)회사코드"] = Field(default=None, alias="cust_cd")
+    cust_nm: Annotated[str | None, "합병(분할)회사명"] = Field(default=None, alias="cust_nm")
+    merge_type: Annotated[str | None, "합병사유"] = Field(default=None, alias="merge_type")
+    merge_rate: Annotated[Decimal | None, "비율"] = Field(default=None, alias="merge_rate")
+    td_stop_dt: Annotated[KisDateOptional, "매매거래정지기간"] = Field(default=None, alias="td_stop_dt")
+    list_dt: Annotated[KisDateOptional, "상장/등록일"] = Field(default=None, alias="list_dt")
+    odd_amt_pay_dt: Annotated[KisDateOptional, "단주대금지급일"] = Field(default=None, alias="odd_amt_pay_dt")
+    tot_issue_stk_qty: Annotated[str | None, "발행주식"] = Field(default=None, alias="tot_issue_stk_qty")
+    issue_stk_qty: Annotated[str | None, "발행할주식"] = Field(default=None, alias="issue_stk_qty")
+    seq: Annotated[str | None, "연번"] = Field(default=None, alias="seq")
 
 
 class MergerSplitResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[MergerSplitOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[MergerSplitOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[MergerSplitRequest, MergerSplitResponse] = Endpoint(

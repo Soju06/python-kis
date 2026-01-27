@@ -16,59 +16,66 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class MgnaDvsnEnum(KisStrEnum):
     VALUE_01 = ("01", "개시")
-    "개시"
+    """개시"""
     VALUE_02 = ("02", "유지")
-    "유지"
+    """유지"""
 
 
 class ExccStatCdEnum(KisStrEnum):
     VALUE_1 = ("1", "정산 (정산가격으로 잔고 조회)")
-    "정산 (정산가격으로 잔고 조회)"
+    """정산 (정산가격으로 잔고 조회)"""
     VALUE_2 = ("2", "본정산 (매입가격으로 잔고 조회)")
-    "본정산 (매입가격으로 잔고 조회)"
+    """본정산 (매입가격으로 잔고 조회)"""
 
 
 class ThdtDfpaEnum(KisStrEnum):
     VALUE_1 = ("1", "매수거래수량*(당일의 정산가격-체결가격)*최소가격변동금액*환산승수")
-    "매수거래수량*(당일의 정산가격-체결가격)*최소가격변동금액*환산승수"
+    """매수거래수량*(당일의 정산가격-체결가격)*최소가격변동금액*환산승수"""
     VALUE_2 = ("2", "매도거래수량*(체결가격-당일의 정산가격)*최소가격변동금액*환산승수")
-    "매도거래수량*(체결가격-당일의 정산가격)*최소가격변동금액*환산승수"
+    """매도거래수량*(체결가격-당일의 정산가격)*최소가격변동금액*환산승수"""
 
 
 class RnwlDfpaEnum(KisStrEnum):
     VALUE_1 = ("1", "매수미결제약정*(당일의 정산가격-직전거래일의 정산가격)*최소가격변동 금액*환산승수")
-    "매수미결제약정*(당일의 정산가격-직전거래일의 정산가격)*최소가격변동 금액*환산승수"
+    """매수미결제약정*(당일의 정산가격-직전거래일의 정산가격)*최소가격변동 금액*환산승수"""
     VALUE_2 = ("2", "매도미결제약정*(직전거래일의 정산가격-당일의 정산가격)*최소가격변동 금액*환산승수")
-    "매도미결제약정*(직전거래일의 정산가격-당일의 정산가격)*최소가격변동 금액*환산승수"
+    """매도미결제약정*(직전거래일의 정산가격-당일의 정산가격)*최소가격변동 금액*환산승수"""
 
 
 class InquireBalanceRequest(RawModel):
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    MGNA_DVSN: MgnaDvsnEnum = Field(alias="MGNA_DVSN")
-    ("01 : 개시 02 : 유지")
-    EXCC_STAT_CD: ExccStatCdEnum = Field(alias="EXCC_STAT_CD")
-    ("1 : 정산 (정산가격으로 잔고 조회) 2 : 본정산 (매입가격으로 잔고 조회)")
-    CTX_AREA_FK200: str | None = Field(default=None, alias="CTX_AREA_FK200", json_schema_extra={"blank_allowed": True})
-    ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_NK200: str | None = Field(default=None, alias="CTX_AREA_NK200", json_schema_extra={"blank_allowed": True})
-    ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    MGNA_DVSN: Annotated[MgnaDvsnEnum, "01 : 개시 02 : 유지"] = Field(
+        alias="MGNA_DVSN", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "개시", "02": "유지"}}
+    )
+    EXCC_STAT_CD: Annotated[ExccStatCdEnum, "1 : 정산 (정산가격으로 잔고 조회) 2 : 본정산 (매입가격으로 잔고 조회)"] = Field(
+        alias="EXCC_STAT_CD",
+        json_schema_extra={"enum": ["1", "2"], "enum_desc": {"1": "정산 (정산가격으로 잔고 조회)", "2": "본정산 (매입가격으로 잔고 조회)"}},
+    )
+    CTX_AREA_FK200: Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)"] = Field(
+        default=None, alias="CTX_AREA_FK200", json_schema_extra={"blank_allowed": True}
+    )
+    CTX_AREA_NK200: Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)"] = Field(
+        default=None, alias="CTX_AREA_NK200", json_schema_extra={"blank_allowed": True}
+    )
 
 
 class InquireBalanceRequestDict(TypedDict):
@@ -89,142 +96,108 @@ class InquireBalanceRequestDict(TypedDict):
         조회시(2번째부터) optional
     """
 
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    MGNA_DVSN: Annotated[MgnaDvsnEnum, "01 : 개시 02 : 유지"]
-    EXCC_STAT_CD: Annotated[ExccStatCdEnum, "1 : 정산 (정산가격으로 잔고 조회) 2 : 본정산 (매입가격으로 잔고 조회)"]
-    CTX_AREA_FK200: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)"]]
-    CTX_AREA_NK200: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터)"]]
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    MGNA_DVSN: MgnaDvsnEnum
+    EXCC_STAT_CD: ExccStatCdEnum
+    CTX_AREA_FK200: NotRequired[str | None]
+    CTX_AREA_NK200: NotRequired[str | None]
 
 
 class InquireBalanceOutput1(RawModel):
-    cano: CanoEnum = Field(alias="cano")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    acnt_prdt_cd: AcntPrdtCdEnum = Field(alias="acnt_prdt_cd")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    pdno: str = Field(alias="pdno")
-    ("선물옵션종목코드")
-    prdt_type_cd: str = Field(alias="prdt_type_cd")
-    ("상품유형코드")
-    shtn_pdno: str = Field(alias="shtn_pdno")
-    ("단축상품번호 (예: 101P09)")
-    prdt_name: str = Field(alias="prdt_name")
-    ("상품명")
-    sll_buy_dvsn_name: str = Field(alias="sll_buy_dvsn_name")
-    (
-        '매도/매수 구분의 명칭 - 매수잔고를 가진 경우, "매수" 혹은 "BUY"로 출력 - 매도잔고를 가진 경우, '
-        '"매도" 혹은 "SLL"로 출력 - 당일 잔고를 청산하여 잔고를 가지고 있지 않은 경우 빈칸으로 출력'
+    cano: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="cano", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
     )
-    cblc_qty: str = Field(alias="cblc_qty")
-    ("보유한 종목의 수량")
-    excc_unpr: Decimal = Field(alias="excc_unpr")
-    ("당일 종가로 정산한 가격")
-    ccld_avg_unpr1: str = Field(alias="ccld_avg_unpr1")
-    ("보유한 종목의 평균 체결 가격")
-    idx_clpr: str = Field(alias="idx_clpr")
-    ("지수종가")
-    pchs_amt: str = Field(alias="pchs_amt")
-    ("보유 종목을 매수한 금액")
-    evlu_amt: str = Field(alias="evlu_amt")
-    ("보유 종목을 현재가로 평가하여 산출한 금액")
-    evlu_pfls_amt: Decimal = Field(alias="evlu_pfls_amt")
-    ("매입금액과 평가금액을 비교한 손익")
-    trad_pfls_amt: Decimal = Field(alias="trad_pfls_amt")
-    ("매수와 매도가 완료된 수량에 대한 실현 손익")
-    lqd_psbl_qty: int = Field(alias="lqd_psbl_qty")
-    ("청산 가능한 수량")
+    acnt_prdt_cd: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="acnt_prdt_cd", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    pdno: Annotated[str, "선물옵션종목코드"] = Field(alias="pdno")
+    prdt_type_cd: Annotated[str, "상품유형코드"] = Field(alias="prdt_type_cd")
+    shtn_pdno: Annotated[str, "단축상품번호 (예: 101P09)"] = Field(alias="shtn_pdno")
+    prdt_name: Annotated[str, "상품명"] = Field(alias="prdt_name")
+    sll_buy_dvsn_name: Annotated[
+        str,
+        '매도/매수 구분의 명칭 - 매수잔고를 가진 경우, "매수" 혹은 "BUY"로 출력 - 매도잔고를 가진 경우, "매도" 혹은 "SLL"로 출력 - 당일 잔고를 청산하여 잔고를 가지고 있지 않은 경우 빈칸으로 출력',
+    ] = Field(alias="sll_buy_dvsn_name")
+    cblc_qty: Annotated[str, "보유한 종목의 수량"] = Field(alias="cblc_qty")
+    excc_unpr: Annotated[Decimal, "당일 종가로 정산한 가격"] = Field(alias="excc_unpr")
+    ccld_avg_unpr1: Annotated[str, "보유한 종목의 평균 체결 가격"] = Field(alias="ccld_avg_unpr1")
+    idx_clpr: Annotated[str, "지수종가"] = Field(alias="idx_clpr")
+    pchs_amt: Annotated[str, "보유 종목을 매수한 금액"] = Field(alias="pchs_amt")
+    evlu_amt: Annotated[str, "보유 종목을 현재가로 평가하여 산출한 금액"] = Field(alias="evlu_amt")
+    evlu_pfls_amt: Annotated[Decimal, "매입금액과 평가금액을 비교한 손익"] = Field(alias="evlu_pfls_amt")
+    trad_pfls_amt: Annotated[Decimal, "매수와 매도가 완료된 수량에 대한 실현 손익"] = Field(alias="trad_pfls_amt")
+    lqd_psbl_qty: Annotated[int, "청산 가능한 수량"] = Field(alias="lqd_psbl_qty")
 
 
 class InquireBalanceOutput2(RawModel):
-    dnca_cash: Decimal = Field(alias="dnca_cash")
-    ("원화로 보유한 현금 (현금미수금액, 수수료미수금액 차감)")
-    frcr_dncl_amt: Decimal = Field(alias="frcr_dncl_amt")
-    ("외화로 보유한 현금")
-    dnca_sbst: Decimal = Field(alias="dnca_sbst")
-    ("주식대용금액+채권대용금액+전일대용매도대용금액+당일대용매도대용금액")
-    tot_dncl_amt: Decimal = Field(alias="tot_dncl_amt")
-    ("상기 3개 예수금 항목의 합계 금액")
-    tot_ccld_amt: Decimal = Field(alias="tot_ccld_amt")
-    ("체결된 주문의 합계금액")
-    cash_mgna: Decimal = Field(alias="cash_mgna")
-    ("원화 현금 중 주문증거금으로 사용된 금액")
-    sbst_mgna: Decimal = Field(alias="sbst_mgna")
-    ("대용 예수금 중 주문증거금으로 사용된 금액")
-    mgna_tota: Decimal = Field(alias="mgna_tota")
-    ("증거금으로 사용된 항목의 합계 금액")
-    opt_dfpa: Decimal = Field(alias="opt_dfpa")
-    ("당일옵션매도금에서 당일옵션매수금을 차감한 금액")
-    thdt_dfpa: ThdtDfpaEnum = Field(alias="thdt_dfpa")
-    (
-        "당일의 각 매수거래에 대하여 1에 의하여 산출한 금액의 합계액과 당일의 각 매도거래에 대하여 2에 "
-        "의하여 산출한 금액의 합계액을 합산한 금액 1. 매수거래수량*(당일의 "
-        "정산가격-체결가격)*최소가격변동금액*환산승수 2. 매도거래수량*(체결가격-당일의 "
-        "정산가격)*최소가격변동금액*환산승수"
+    dnca_cash: Annotated[Decimal, "원화로 보유한 현금 (현금미수금액, 수수료미수금액 차감)"] = Field(alias="dnca_cash")
+    frcr_dncl_amt: Annotated[Decimal, "외화로 보유한 현금"] = Field(alias="frcr_dncl_amt")
+    dnca_sbst: Annotated[Decimal, "주식대용금액+채권대용금액+전일대용매도대용금액+당일대용매도대용금액"] = Field(alias="dnca_sbst")
+    tot_dncl_amt: Annotated[Decimal, "상기 3개 예수금 항목의 합계 금액"] = Field(alias="tot_dncl_amt")
+    tot_ccld_amt: Annotated[Decimal, "체결된 주문의 합계금액"] = Field(alias="tot_ccld_amt")
+    cash_mgna: Annotated[Decimal, "원화 현금 중 주문증거금으로 사용된 금액"] = Field(alias="cash_mgna")
+    sbst_mgna: Annotated[Decimal, "대용 예수금 중 주문증거금으로 사용된 금액"] = Field(alias="sbst_mgna")
+    mgna_tota: Annotated[Decimal, "증거금으로 사용된 항목의 합계 금액"] = Field(alias="mgna_tota")
+    opt_dfpa: Annotated[Decimal, "당일옵션매도금에서 당일옵션매수금을 차감한 금액"] = Field(alias="opt_dfpa")
+    thdt_dfpa: Annotated[
+        ThdtDfpaEnum,
+        "당일의 각 매수거래에 대하여 1에 의하여 산출한 금액의 합계액과 당일의 각 매도거래에 대하여 2에 의하여 산출한 금액의 합계액을 합산한 금액 1. 매수거래수량*(당일의 정산가격-체결가격)*최소가격변동금액*환산승수 2. 매도거래수량*(체결가격-당일의 정산가격)*최소가격변동금액*환산승수",
+    ] = Field(
+        alias="thdt_dfpa",
+        json_schema_extra={
+            "enum": ["1", "2"],
+            "enum_desc": {
+                "1": "매수거래수량*(당일의 정산가격-체결가격)*최소가격변동금액*환산승수",
+                "2": "매도거래수량*(체결가격-당일의 정산가격)*최소가격변동금액*환산승수",
+            },
+        },
     )
-    rnwl_dfpa: RnwlDfpaEnum = Field(alias="rnwl_dfpa")
-    (
-        "직전 거래일의 매수미결제약정에 대하여 1에 의하여 산출한 금액과 직전거래일의 매도미결제약정에 "
-        "대하여 2에 의하여 산출한 금액을 합산한 금액 1. 매수미결제약정*(당일의 정산가격-직전거래일의 "
-        "정산가격)*최소가격변동 금액*환산승수 2. 매도미결제약정*(직전거래일의 정산가격-당일의 "
-        "정산가격)*최소가격변동 금액*환산승수"
+    rnwl_dfpa: Annotated[
+        RnwlDfpaEnum,
+        "직전 거래일의 매수미결제약정에 대하여 1에 의하여 산출한 금액과 직전거래일의 매도미결제약정에 대하여 2에 의하여 산출한 금액을 합산한 금액 1. 매수미결제약정*(당일의 정산가격-직전거래일의 정산가격)*최소가격변동 금액*환산승수 2. 매도미결제약정*(직전거래일의 정산가격-당일의 정산가격)*최소가격변동 금액*환산승수",
+    ] = Field(
+        alias="rnwl_dfpa",
+        json_schema_extra={
+            "enum": ["1", "2"],
+            "enum_desc": {
+                "1": "매수미결제약정*(당일의 정산가격-직전거래일의 정산가격)*최소가격변동 금액*환산승수",
+                "2": "매도미결제약정*(직전거래일의 정산가격-당일의 정산가격)*최소가격변동 금액*환산승수",
+            },
+        },
     )
-    fee: str = Field(alias="fee")
-    ("체결된 주문에 의한 매매수수료")
-    nxdy_dnca: str = Field(alias="nxdy_dnca")
-    ("당일 매매내역을 근거로 익일(결제일) 고객님 계좌에 있는 현금")
-    nxdy_dncl_amt: Decimal = Field(alias="nxdy_dncl_amt")
-    ("익일예수금액")
-    prsm_dpast: Decimal = Field(alias="prsm_dpast")
-    ("보유한 잔고를 정산 기준으로 평가한 금액과 예수금을 합한 금액")
-    prsm_dpast_amt: Decimal = Field(alias="prsm_dpast_amt")
-    ("추정예탁자산금액")
-    pprt_ord_psbl_cash: Decimal = Field(alias="pprt_ord_psbl_cash")
-    ("미수없는 주문가능금액")
-    add_mgna_cash: Decimal = Field(alias="add_mgna_cash")
-    ("장 종료 후 예탁평가액이 유지증거금을 하회할 경우 또는 예탁현금이 결제금액 보다 적은 경우 고객이 추가적으로 납부해야 하는 증거금")
-    add_mgna_tota: str = Field(alias="add_mgna_tota")
-    ("추가증거금총액")
-    futr_trad_pfls_amt: Decimal = Field(alias="futr_trad_pfls_amt")
-    ("선물 매수와 매도가 완료된 수량에 대한 실현 손익")
-    opt_trad_pfls_amt: Decimal = Field(alias="opt_trad_pfls_amt")
-    ("옵션 매수와 매도가 완료된 수량에 대한 실현 손익")
-    futr_evlu_pfls_amt: Decimal = Field(alias="futr_evlu_pfls_amt")
-    ("선물 잔고의 매입가격 또는 정산가격과 평가금액을 비교한 손익")
-    opt_evlu_pfls_amt: Decimal = Field(alias="opt_evlu_pfls_amt")
-    ("옵션 잔고의 매입가격 또는 정산가격과 평가금액을 비교한 손익")
-    trad_pfls_amt_smtl: Decimal = Field(alias="trad_pfls_amt_smtl")
-    ("선물매매손익금액과 옵션매매손익금액을 합한 금액")
-    evlu_pfls_amt_smtl: Decimal = Field(alias="evlu_pfls_amt_smtl")
-    ("선물평가손익금액과 옵션평가손익금액을 합한 금액")
-    wdrw_psbl_tot_amt: Decimal = Field(alias="wdrw_psbl_tot_amt")
-    ("출금 가능한 현금(예탁현금+예탁대용-예탁증거금총액)")
-    ord_psbl_cash: Decimal = Field(alias="ord_psbl_cash")
-    ("예수금현금에서 현금증거금을 차감한 금액")
-    ord_psbl_sbst: Decimal = Field(alias="ord_psbl_sbst")
-    ("예수금대용에서 대용증거금을 차감한 금액")
-    ord_psbl_tota: Decimal = Field(alias="ord_psbl_tota")
-    ("주문가능현금과 주문가능대용을 합한 금액")
-    pchs_amt_smtl: str = Field(alias="pchs_amt_smtl")
-    ("종목별 매입금액의 합계 금액")
-    evlu_amt_smtl: str = Field(alias="evlu_amt_smtl")
-    ("종목별 평가금액의 합계 금액")
+    fee: Annotated[str, "체결된 주문에 의한 매매수수료"] = Field(alias="fee")
+    nxdy_dnca: Annotated[str, "당일 매매내역을 근거로 익일(결제일) 고객님 계좌에 있는 현금"] = Field(alias="nxdy_dnca")
+    nxdy_dncl_amt: Annotated[Decimal, "익일예수금액"] = Field(alias="nxdy_dncl_amt")
+    prsm_dpast: Annotated[Decimal, "보유한 잔고를 정산 기준으로 평가한 금액과 예수금을 합한 금액"] = Field(alias="prsm_dpast")
+    prsm_dpast_amt: Annotated[Decimal, "추정예탁자산금액"] = Field(alias="prsm_dpast_amt")
+    pprt_ord_psbl_cash: Annotated[Decimal, "미수없는 주문가능금액"] = Field(alias="pprt_ord_psbl_cash")
+    add_mgna_cash: Annotated[
+        Decimal, "장 종료 후 예탁평가액이 유지증거금을 하회할 경우 또는 예탁현금이 결제금액 보다 적은 경우 고객이 추가적으로 납부해야 하는 증거금"
+    ] = Field(alias="add_mgna_cash")
+    add_mgna_tota: Annotated[str, "추가증거금총액"] = Field(alias="add_mgna_tota")
+    futr_trad_pfls_amt: Annotated[Decimal, "선물 매수와 매도가 완료된 수량에 대한 실현 손익"] = Field(alias="futr_trad_pfls_amt")
+    opt_trad_pfls_amt: Annotated[Decimal, "옵션 매수와 매도가 완료된 수량에 대한 실현 손익"] = Field(alias="opt_trad_pfls_amt")
+    futr_evlu_pfls_amt: Annotated[Decimal, "선물 잔고의 매입가격 또는 정산가격과 평가금액을 비교한 손익"] = Field(alias="futr_evlu_pfls_amt")
+    opt_evlu_pfls_amt: Annotated[Decimal, "옵션 잔고의 매입가격 또는 정산가격과 평가금액을 비교한 손익"] = Field(alias="opt_evlu_pfls_amt")
+    trad_pfls_amt_smtl: Annotated[Decimal, "선물매매손익금액과 옵션매매손익금액을 합한 금액"] = Field(alias="trad_pfls_amt_smtl")
+    evlu_pfls_amt_smtl: Annotated[Decimal, "선물평가손익금액과 옵션평가손익금액을 합한 금액"] = Field(alias="evlu_pfls_amt_smtl")
+    wdrw_psbl_tot_amt: Annotated[Decimal, "출금 가능한 현금(예탁현금+예탁대용-예탁증거금총액)"] = Field(alias="wdrw_psbl_tot_amt")
+    ord_psbl_cash: Annotated[Decimal, "예수금현금에서 현금증거금을 차감한 금액"] = Field(alias="ord_psbl_cash")
+    ord_psbl_sbst: Annotated[Decimal, "예수금대용에서 대용증거금을 차감한 금액"] = Field(alias="ord_psbl_sbst")
+    ord_psbl_tota: Annotated[Decimal, "주문가능현금과 주문가능대용을 합한 금액"] = Field(alias="ord_psbl_tota")
+    pchs_amt_smtl: Annotated[str, "종목별 매입금액의 합계 금액"] = Field(alias="pchs_amt_smtl")
+    evlu_amt_smtl: Annotated[str, "종목별 평가금액의 합계 금액"] = Field(alias="evlu_amt_smtl")
 
 
 class InquireBalanceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("0 : 성공 0 이외의 값 : 실패")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    ctx_area_fk200: str = Field(alias="ctx_area_fk200")
-    ("연속조회검색조건200")
-    ctx_area_nk200: str = Field(alias="ctx_area_nk200")
-    ("연속조회키200")
-    output1: InquireBalanceOutput1 = Field(alias="output1")
-    ("응답상세1")
-    output2: list[InquireBalanceOutput2] = Field(alias="output2")
-    ("응답상세2")
+    rt_cd: Annotated[KisBool, "0 : 성공 0 이외의 값 : 실패"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    ctx_area_fk200: Annotated[str, "연속조회검색조건200"] = Field(alias="ctx_area_fk200")
+    ctx_area_nk200: Annotated[str, "연속조회키200"] = Field(alias="ctx_area_nk200")
+    output1: Annotated[InquireBalanceOutput1, "응답상세1"] = Field(alias="output1")
+    output2: Annotated[list[InquireBalanceOutput2], "응답상세2"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireBalanceRequest, InquireBalanceResponse] = Endpoint(

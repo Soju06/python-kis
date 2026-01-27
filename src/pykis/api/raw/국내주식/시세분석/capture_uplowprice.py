@@ -16,47 +16,56 @@ if TYPE_CHECKING:
 
 class FidPrcClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "상한가")
-    "상한가"
+    """상한가"""
     VALUE_1 = ("1", "하한가")
-    "하한가"
+    """하한가"""
 
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "상하한가종목")
-    "상하한가종목"
+    """상하한가종목"""
     VALUE_6 = ("6", "8%상하한가 근접")
-    "8%상하한가 근접"
+    """8%상하한가 근접"""
     VALUE_5 = ("5", "10%상하한가 근접")
-    "10%상하한가 근접"
+    """10%상하한가 근접"""
     VALUE_1 = ("1", "15%상하한가 근접")
-    "15%상하한가 근접"
+    """15%상하한가 근접"""
     VALUE_2 = ("2", "20%상하한가 근접")
-    "20%상하한가 근접"
+    """20%상하한가 근접"""
     VALUE_3 = ("3", "25%상하한가 근접")
-    "25%상하한가 근접"
+    """25%상하한가 근접"""
 
 
 class CaptureUplowpriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: str = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("시장구분(J)")
-    FID_COND_SCR_DIV_CODE: str = Field(alias="FID_COND_SCR_DIV_CODE")
-    ("11300(Unique key)")
-    FID_PRC_CLS_CODE: FidPrcClsCodeEnum = Field(alias="FID_PRC_CLS_CODE")
-    ("0(상한가),1(하한가)")
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
-    ("'0(상하한가종목),6(8%상하한가 근접), 5(10%상하한가 근접), 1(15%상하한가 근접),2(20%상하한가 근접), 3(25%상하한가 근접)'")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("전체(0000), 코스피(0001),코스닥(1001)")
-    FID_TRGT_CLS_CODE: str | None = Field(default=None, alias="FID_TRGT_CLS_CODE", json_schema_extra={"blank_allowed": True})
-    ("공백 입력")
-    FID_TRGT_EXLS_CLS_CODE: str | None = Field(default=None, alias="FID_TRGT_EXLS_CLS_CODE", json_schema_extra={"blank_allowed": True})
-    ("공백 입력")
-    FID_INPUT_PRICE_1: str | None = Field(default=None, alias="FID_INPUT_PRICE_1", json_schema_extra={"blank_allowed": True})
-    ("공백 입력")
-    FID_INPUT_PRICE_2: str | None = Field(default=None, alias="FID_INPUT_PRICE_2", json_schema_extra={"blank_allowed": True})
-    ("공백 입력")
-    FID_VOL_CNT: int | None = Field(default=None, alias="FID_VOL_CNT", json_schema_extra={"blank_allowed": True})
-    ("공백 입력")
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분(J)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_SCR_DIV_CODE: Annotated[str, "11300(Unique key)"] = Field(alias="FID_COND_SCR_DIV_CODE")
+    FID_PRC_CLS_CODE: Annotated[FidPrcClsCodeEnum, "0(상한가),1(하한가)"] = Field(
+        alias="FID_PRC_CLS_CODE", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "상한가", "1": "하한가"}}
+    )
+    FID_DIV_CLS_CODE: Annotated[
+        FidDivClsCodeEnum, "'0(상하한가종목),6(8%상하한가 근접), 5(10%상하한가 근접), 1(15%상하한가 근접),2(20%상하한가 근접), 3(25%상하한가 근접)'"
+    ] = Field(
+        alias="FID_DIV_CLS_CODE",
+        json_schema_extra={
+            "enum": ["0", "6", "5", "1", "2", "3"],
+            "enum_desc": {
+                "0": "상하한가종목",
+                "6": "8%상하한가 근접",
+                "5": "10%상하한가 근접",
+                "1": "15%상하한가 근접",
+                "2": "20%상하한가 근접",
+                "3": "25%상하한가 근접",
+            },
+        },
+    )
+    FID_INPUT_ISCD: Annotated[str, "전체(0000), 코스피(0001),코스닥(1001)"] = Field(alias="FID_INPUT_ISCD")
+    FID_TRGT_CLS_CODE: Annotated[str | None, "공백 입력"] = Field(default=None, alias="FID_TRGT_CLS_CODE", json_schema_extra={"blank_allowed": True})
+    FID_TRGT_EXLS_CLS_CODE: Annotated[str | None, "공백 입력"] = Field(
+        default=None, alias="FID_TRGT_EXLS_CLS_CODE", json_schema_extra={"blank_allowed": True}
+    )
+    FID_INPUT_PRICE_1: Annotated[str | None, "공백 입력"] = Field(default=None, alias="FID_INPUT_PRICE_1", json_schema_extra={"blank_allowed": True})
+    FID_INPUT_PRICE_2: Annotated[str | None, "공백 입력"] = Field(default=None, alias="FID_INPUT_PRICE_2", json_schema_extra={"blank_allowed": True})
+    FID_VOL_CNT: Annotated[int | None, "공백 입력"] = Field(default=None, alias="FID_VOL_CNT", json_schema_extra={"blank_allowed": True})
 
 
 class CaptureUplowpriceRequestDict(TypedDict):
@@ -79,66 +88,43 @@ class CaptureUplowpriceRequestDict(TypedDict):
         FID_VOL_CNT (int): 공백 입력 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분(J)"]
-    FID_COND_SCR_DIV_CODE: Annotated[str, "11300(Unique key)"]
-    FID_PRC_CLS_CODE: Annotated[FidPrcClsCodeEnum, "0(상한가),1(하한가)"]
-    FID_DIV_CLS_CODE: Annotated[
-        FidDivClsCodeEnum, "'0(상하한가종목),6(8%상하한가 근접), 5(10%상하한가 근접), 1(15%상하한가 근접),2(20%상하한가 근접), 3(25%상하한가 근접)'"
-    ]
-    FID_INPUT_ISCD: Annotated[str, "전체(0000), 코스피(0001),코스닥(1001)"]
-    FID_TRGT_CLS_CODE: NotRequired[Annotated[str | None, "공백 입력"]]
-    FID_TRGT_EXLS_CLS_CODE: NotRequired[Annotated[str | None, "공백 입력"]]
-    FID_INPUT_PRICE_1: NotRequired[Annotated[str | None, "공백 입력"]]
-    FID_INPUT_PRICE_2: NotRequired[Annotated[str | None, "공백 입력"]]
-    FID_VOL_CNT: NotRequired[Annotated[int | None, "공백 입력"]]
+    FID_COND_MRKT_DIV_CODE: str
+    FID_COND_SCR_DIV_CODE: str
+    FID_PRC_CLS_CODE: FidPrcClsCodeEnum
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum
+    FID_INPUT_ISCD: str
+    FID_TRGT_CLS_CODE: NotRequired[str | None]
+    FID_TRGT_EXLS_CLS_CODE: NotRequired[str | None]
+    FID_INPUT_PRICE_1: NotRequired[str | None]
+    FID_INPUT_PRICE_2: NotRequired[str | None]
+    FID_VOL_CNT: NotRequired[int | None]
 
 
 class CaptureUplowpriceOutput(RawModel):
-    mksc_shrn_iscd: str | None = Field(default=None, alias="mksc_shrn_iscd")
-    ("유가증권단축종목코드")
-    hts_kor_isnm: str | None = Field(default=None, alias="hts_kor_isnm")
-    ("HTS한글종목명")
-    stck_prpr: Decimal | None = Field(default=None, alias="stck_prpr")
-    ("주식현재가")
-    prdy_vrss_sign: str | None = Field(default=None, alias="prdy_vrss_sign")
-    ("전일대비부호")
-    prdy_vrss: str | None = Field(default=None, alias="prdy_vrss")
-    ("전일대비")
-    prdy_ctrt: Decimal | None = Field(default=None, alias="prdy_ctrt")
-    ("전일대비율")
-    acml_vol: int | None = Field(default=None, alias="acml_vol")
-    ("누적거래량")
-    total_askp_rsqn: str | None = Field(default=None, alias="total_askp_rsqn")
-    ("총매도호가잔량")
-    total_bidp_rsqn: str | None = Field(default=None, alias="total_bidp_rsqn")
-    ("총매수호가잔량")
-    askp_rsqn1: str | None = Field(default=None, alias="askp_rsqn1")
-    ("매도호가잔량1")
-    bidp_rsqn1: str | None = Field(default=None, alias="bidp_rsqn1")
-    ("매수호가잔량1")
-    prdy_vol: int | None = Field(default=None, alias="prdy_vol")
-    ("전일거래량")
-    seln_cnqn: str | None = Field(default=None, alias="seln_cnqn")
-    ("매도체결량")
-    shnu_cnqn: str | None = Field(default=None, alias="shnu_cnqn")
-    ("매수2체결량")
-    stck_llam: str | None = Field(default=None, alias="stck_llam")
-    ("주식하한가")
-    stck_mxpr: str | None = Field(default=None, alias="stck_mxpr")
-    ("주식상한가")
-    prdy_vrss_vol_rate: Decimal | None = Field(default=None, alias="prdy_vrss_vol_rate")
-    ("전일대비거래량비율")
+    mksc_shrn_iscd: Annotated[str | None, "유가증권단축종목코드"] = Field(default=None, alias="mksc_shrn_iscd")
+    hts_kor_isnm: Annotated[str | None, "HTS한글종목명"] = Field(default=None, alias="hts_kor_isnm")
+    stck_prpr: Annotated[Decimal | None, "주식현재가"] = Field(default=None, alias="stck_prpr")
+    prdy_vrss_sign: Annotated[str | None, "전일대비부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss: Annotated[str | None, "전일대비"] = Field(default=None, alias="prdy_vrss")
+    prdy_ctrt: Annotated[Decimal | None, "전일대비율"] = Field(default=None, alias="prdy_ctrt")
+    acml_vol: Annotated[int | None, "누적거래량"] = Field(default=None, alias="acml_vol")
+    total_askp_rsqn: Annotated[str | None, "총매도호가잔량"] = Field(default=None, alias="total_askp_rsqn")
+    total_bidp_rsqn: Annotated[str | None, "총매수호가잔량"] = Field(default=None, alias="total_bidp_rsqn")
+    askp_rsqn1: Annotated[str | None, "매도호가잔량1"] = Field(default=None, alias="askp_rsqn1")
+    bidp_rsqn1: Annotated[str | None, "매수호가잔량1"] = Field(default=None, alias="bidp_rsqn1")
+    prdy_vol: Annotated[int | None, "전일거래량"] = Field(default=None, alias="prdy_vol")
+    seln_cnqn: Annotated[str | None, "매도체결량"] = Field(default=None, alias="seln_cnqn")
+    shnu_cnqn: Annotated[str | None, "매수2체결량"] = Field(default=None, alias="shnu_cnqn")
+    stck_llam: Annotated[str | None, "주식하한가"] = Field(default=None, alias="stck_llam")
+    stck_mxpr: Annotated[str | None, "주식상한가"] = Field(default=None, alias="stck_mxpr")
+    prdy_vrss_vol_rate: Annotated[Decimal | None, "전일대비거래량비율"] = Field(default=None, alias="prdy_vrss_vol_rate")
 
 
 class CaptureUplowpriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[CaptureUplowpriceOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[CaptureUplowpriceOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[CaptureUplowpriceRequest, CaptureUplowpriceResponse] = Endpoint(

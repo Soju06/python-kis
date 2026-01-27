@@ -16,67 +16,86 @@ if TYPE_CHECKING:
 
 class CanoEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 앞 8자리")
-    "2)의 앞 8자리"
+    """2)의 앞 8자리"""
     VALUE_2 = ("2", "의 앞 8자리")
-    "의 앞 8자리"
+    """의 앞 8자리"""
 
 
 class AcntPrdtCdEnum(KisStrEnum):
     VALUE_8 = ("8", "2)의 뒤 2자리")
-    "2)의 뒤 2자리"
+    """2)의 뒤 2자리"""
     VALUE_2 = ("2", "의 뒤 2자리")
-    "의 뒤 2자리"
+    """의 뒤 2자리"""
 
 
 class AcntTrTypeCdEnum(KisStrEnum):
     VALUE_1 = ("1", "전체")
-    "전체"
+    """전체"""
     VALUE_2 = ("2", "입출금")
-    "입출금"
+    """입출금"""
     VALUE_3 = ("3", "결제")
-    "결제"
+    """결제"""
 
 
 class CrcyCdEnum(KisStrEnum):
     TUS = ("TUS", "TOT_USD /")
-    "TOT_USD /"
+    """TOT_USD /"""
     TKR = ("TKR", "TOT_KRW")
-    "TOT_KRW"
+    """TOT_KRW"""
     KRW = ("KRW", "한국 /")
-    "한국 /"
+    """한국 /"""
     USD = ("USD", "미국")
-    "미국"
+    """미국"""
     EUR = ("EUR", "EUR /")
-    "EUR /"
+    """EUR /"""
     HKD = ("HKD", "홍콩")
-    "홍콩"
+    """홍콩"""
     CNY = ("CNY", "중국 /")
-    "중국 /"
+    """중국 /"""
     JPY = ("JPY", "일본")
-    "일본"
+    """일본"""
     VND = ("VND", "베트남 '")
-    "베트남 '"
+    """베트남 '"""
 
 
 class InquirePeriodTransRequest(RawModel):
-    INQR_TERM_FROM_DT: KisDate = Field(alias="INQR_TERM_FROM_DT")
-    ("조회기간FROM일자")
-    INQR_TERM_TO_DT: KisDate = Field(alias="INQR_TERM_TO_DT")
-    ("조회기간TO일자")
-    CANO: CanoEnum = Field(alias="CANO")
-    ("계좌번호 체계(8-2)의 앞 8자리")
-    ACNT_PRDT_CD: AcntPrdtCdEnum = Field(alias="ACNT_PRDT_CD")
-    ("계좌번호 체계(8-2)의 뒤 2자리")
-    ACNT_TR_TYPE_CD: AcntTrTypeCdEnum = Field(alias="ACNT_TR_TYPE_CD")
-    ("1: 전체, 2:입출금 , 3: 결제")
-    CRCY_CD: CrcyCdEnum = Field(alias="CRCY_CD")
-    ("'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남 '")
-    CTX_AREA_FK100: str | None = Field(default=None, alias="CTX_AREA_FK100", json_schema_extra={"blank_allowed": True})
-    ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100값 : 다음페이지 조회시(2번째부터)")
-    CTX_AREA_NK100: str | None = Field(default=None, alias="CTX_AREA_NK100", json_schema_extra={"blank_allowed": True})
-    ("공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100값 : 다음페이지 조회시(2번째부터)")
-    PWD_CHK_YN: KisBool | None = Field(default=None, alias="PWD_CHK_YN", json_schema_extra={"blank_allowed": True})
-    ("공란(Default)")
+    INQR_TERM_FROM_DT: Annotated[KisDate, "조회기간FROM일자"] = Field(alias="INQR_TERM_FROM_DT")
+    INQR_TERM_TO_DT: Annotated[KisDate, "조회기간TO일자"] = Field(alias="INQR_TERM_TO_DT")
+    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
+        alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
+    )
+    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
+        alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
+    )
+    ACNT_TR_TYPE_CD: Annotated[AcntTrTypeCdEnum, "1: 전체, 2:입출금 , 3: 결제"] = Field(
+        alias="ACNT_TR_TYPE_CD", json_schema_extra={"enum": ["1", "2", "3"], "enum_desc": {"1": "전체", "2": "입출금", "3": "결제"}}
+    )
+    CRCY_CD: Annotated[
+        CrcyCdEnum, "'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남 '"
+    ] = Field(
+        alias="CRCY_CD",
+        json_schema_extra={
+            "enum": ["TUS", "TKR", "KRW", "USD", "EUR", "HKD", "CNY", "JPY", "VND"],
+            "enum_desc": {
+                "TUS": "TOT_USD /",
+                "TKR": "TOT_KRW",
+                "KRW": "한국 /",
+                "USD": "미국",
+                "EUR": "EUR /",
+                "HKD": "홍콩",
+                "CNY": "중국 /",
+                "JPY": "일본",
+                "VND": "베트남 '",
+            },
+        },
+    )
+    CTX_AREA_FK100: Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100값 : 다음페이지 조회시(2번째부터)"] = Field(
+        default=None, alias="CTX_AREA_FK100", json_schema_extra={"blank_allowed": True}
+    )
+    CTX_AREA_NK100: Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100값 : 다음페이지 조회시(2번째부터)"] = Field(
+        default=None, alias="CTX_AREA_NK100", json_schema_extra={"blank_allowed": True}
+    )
+    PWD_CHK_YN: Annotated[KisBool | None, "공란(Default)"] = Field(default=None, alias="PWD_CHK_YN", json_schema_extra={"blank_allowed": True})
 
 
 class InquirePeriodTransRequestDict(TypedDict):
@@ -98,65 +117,42 @@ class InquirePeriodTransRequestDict(TypedDict):
         PWD_CHK_YN (KisBool): 공란(Default) optional
     """
 
-    INQR_TERM_FROM_DT: Annotated[KisDate, "조회기간FROM일자"]
-    INQR_TERM_TO_DT: Annotated[KisDate, "조회기간TO일자"]
-    CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"]
-    ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"]
-    ACNT_TR_TYPE_CD: Annotated[AcntTrTypeCdEnum, "1: 전체, 2:입출금 , 3: 결제"]
-    CRCY_CD: Annotated[
-        CrcyCdEnum, "'%%% : 전체 TUS: TOT_USD / TKR: TOT_KRW KRW: 한국 / USD: 미국 EUR: EUR / HKD: 홍콩 CNY: 중국 / JPY: 일본 VND: 베트남 '"
-    ]
-    CTX_AREA_FK100: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100값 : 다음페이지 조회시(2번째부터)"]]
-    CTX_AREA_NK100: NotRequired[Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100값 : 다음페이지 조회시(2번째부터)"]]
-    PWD_CHK_YN: NotRequired[Annotated[KisBool | None, "공란(Default)"]]
+    INQR_TERM_FROM_DT: KisDate
+    INQR_TERM_TO_DT: KisDate
+    CANO: CanoEnum
+    ACNT_PRDT_CD: AcntPrdtCdEnum
+    ACNT_TR_TYPE_CD: AcntTrTypeCdEnum
+    CRCY_CD: CrcyCdEnum
+    CTX_AREA_FK100: NotRequired[str | None]
+    CTX_AREA_NK100: NotRequired[str | None]
+    PWD_CHK_YN: NotRequired[KisBool | None]
 
 
 class InquirePeriodTransOutput(RawModel):
-    bass_dt: KisDate = Field(alias="bass_dt")
-    ("기준일자")
-    cano: str = Field(alias="cano")
-    ("종합계좌번호")
-    acnt_prdt_cd: str = Field(alias="acnt_prdt_cd")
-    ("계좌상품코드")
-    fm_ldgr_inog_seq: str = Field(alias="fm_ldgr_inog_seq")
-    ("FM원장출납순번")
-    acnt_tr_type_name: str = Field(alias="acnt_tr_type_name")
-    ("계좌거래유형명")
-    crcy_cd: str = Field(alias="crcy_cd")
-    ("통화코드")
-    tr_itm_name: str = Field(alias="tr_itm_name")
-    ("거래항목명")
-    fm_iofw_amt: Decimal = Field(alias="fm_iofw_amt")
-    ("FM입출금액")
-    fm_fee: str = Field(alias="fm_fee")
-    ("FM수수료")
-    fm_tax_amt: Decimal = Field(alias="fm_tax_amt")
-    ("FM세금금액")
-    fm_sttl_amt: Decimal = Field(alias="fm_sttl_amt")
-    ("FM결제금액")
-    fm_bf_dncl_amt: Decimal = Field(alias="fm_bf_dncl_amt")
-    ("FM이전예수금액")
-    fm_dncl_amt: Decimal = Field(alias="fm_dncl_amt")
-    ("FM예수금액")
-    fm_rcvb_occr_amt: Decimal = Field(alias="fm_rcvb_occr_amt")
-    ("FM미수발생금액")
-    fm_rcvb_pybk_amt: Decimal = Field(alias="fm_rcvb_pybk_amt")
-    ("FM미수변제금액")
-    ovdu_int_pybk_amt: Decimal = Field(alias="ovdu_int_pybk_amt")
-    ("연체이자변제금액")
-    rmks_text: str = Field(alias="rmks_text")
-    ("비고내용")
+    bass_dt: Annotated[KisDate, "기준일자"] = Field(alias="bass_dt")
+    cano: Annotated[str, "종합계좌번호"] = Field(alias="cano")
+    acnt_prdt_cd: Annotated[str, "계좌상품코드"] = Field(alias="acnt_prdt_cd")
+    fm_ldgr_inog_seq: Annotated[str, "FM원장출납순번"] = Field(alias="fm_ldgr_inog_seq")
+    acnt_tr_type_name: Annotated[str, "계좌거래유형명"] = Field(alias="acnt_tr_type_name")
+    crcy_cd: Annotated[str, "통화코드"] = Field(alias="crcy_cd")
+    tr_itm_name: Annotated[str, "거래항목명"] = Field(alias="tr_itm_name")
+    fm_iofw_amt: Annotated[Decimal, "FM입출금액"] = Field(alias="fm_iofw_amt")
+    fm_fee: Annotated[str, "FM수수료"] = Field(alias="fm_fee")
+    fm_tax_amt: Annotated[Decimal, "FM세금금액"] = Field(alias="fm_tax_amt")
+    fm_sttl_amt: Annotated[Decimal, "FM결제금액"] = Field(alias="fm_sttl_amt")
+    fm_bf_dncl_amt: Annotated[Decimal, "FM이전예수금액"] = Field(alias="fm_bf_dncl_amt")
+    fm_dncl_amt: Annotated[Decimal, "FM예수금액"] = Field(alias="fm_dncl_amt")
+    fm_rcvb_occr_amt: Annotated[Decimal, "FM미수발생금액"] = Field(alias="fm_rcvb_occr_amt")
+    fm_rcvb_pybk_amt: Annotated[Decimal, "FM미수변제금액"] = Field(alias="fm_rcvb_pybk_amt")
+    ovdu_int_pybk_amt: Annotated[Decimal, "연체이자변제금액"] = Field(alias="ovdu_int_pybk_amt")
+    rmks_text: Annotated[str, "비고내용"] = Field(alias="rmks_text")
 
 
 class InquirePeriodTransResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquirePeriodTransOutput] = Field(alias="output")
-    ("응답상세1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquirePeriodTransOutput], "응답상세1"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquirePeriodTransRequest, InquirePeriodTransResponse] = Endpoint(

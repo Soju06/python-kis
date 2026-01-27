@@ -16,31 +16,28 @@ if TYPE_CHECKING:
 
 class TdayEnum(KisStrEnum):
     VALUE_0 = ("0", "전일")
-    "전일"
+    """전일"""
     VALUE_1 = ("1", "당일")
-    "당일"
+    """당일"""
 
 
 class MtypEnum(KisStrEnum):
     VALUE_0 = ("0", "장중")
-    "장중"
+    """장중"""
     VALUE_1 = ("1", "장전")
-    "장전"
+    """장전"""
     VALUE_2 = ("2", "장후")
-    "장후"
+    """장후"""
 
 
 class InquireCcnlRequest(RawModel):
-    EXCD: str = Field(alias="EXCD")
-    ("'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '")
-    AUTH: str | None = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    KEYB: str | None = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
-    ("공백")
-    TDAY: TdayEnum = Field(alias="TDAY")
-    ("0:전일, 1:당일")
-    SYMB: str = Field(alias="SYMB")
-    ("해외종목코드")
+    EXCD: Annotated[str, "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '"] = (
+        Field(alias="EXCD")
+    )
+    AUTH: Annotated[str | None, "공백"] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
+    KEYB: Annotated[str | None, "공백"] = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
+    TDAY: Annotated[TdayEnum, "0:전일, 1:당일"] = Field(alias="TDAY", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "전일", "1": "당일"}})
+    SYMB: Annotated[str, "해외종목코드"] = Field(alias="SYMB")
 
 
 class InquireCcnlRequestDict(TypedDict):
@@ -56,47 +53,34 @@ class InquireCcnlRequestDict(TypedDict):
         SYMB (str): 해외종목코드
     """
 
-    EXCD: Annotated[str, "'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천 HSX : 호치민, HNX : 하노이 TSE : 도쿄 '"]
-    AUTH: NotRequired[Annotated[str | None, "공백"]]
-    KEYB: NotRequired[Annotated[str | None, "공백"]]
-    TDAY: Annotated[TdayEnum, "0:전일, 1:당일"]
-    SYMB: Annotated[str, "해외종목코드"]
+    EXCD: str
+    AUTH: NotRequired[str | None]
+    KEYB: NotRequired[str | None]
+    TDAY: TdayEnum
+    SYMB: str
 
 
 class InquireCcnlOutput1(RawModel):
-    khms: str | None = Field(default=None, alias="khms")
-    ("한국기준시간")
-    last: str | None = Field(default=None, alias="last")
-    ("체결가")
-    sign: str | None = Field(default=None, alias="sign")
-    ("기호")
-    diff: str | None = Field(default=None, alias="diff")
-    ("대비")
-    rate: Decimal | None = Field(default=None, alias="rate")
-    ("등락율")
-    evol: int | None = Field(default=None, alias="evol")
-    ("체결량")
-    tvol: int | None = Field(default=None, alias="tvol")
-    ("거래량")
-    mtyp: MtypEnum | None = Field(default=None, alias="mtyp")
-    ("0: 장중 1:장전 2:장후")
-    pbid: str | None = Field(default=None, alias="pbid")
-    ("매수호가")
-    pask: str | None = Field(default=None, alias="pask")
-    ("매도호가")
-    vpow: str | None = Field(default=None, alias="vpow")
-    ("체결강도")
+    khms: Annotated[str | None, "한국기준시간"] = Field(default=None, alias="khms")
+    last: Annotated[str | None, "체결가"] = Field(default=None, alias="last")
+    sign: Annotated[str | None, "기호"] = Field(default=None, alias="sign")
+    diff: Annotated[str | None, "대비"] = Field(default=None, alias="diff")
+    rate: Annotated[Decimal | None, "등락율"] = Field(default=None, alias="rate")
+    evol: Annotated[int | None, "체결량"] = Field(default=None, alias="evol")
+    tvol: Annotated[int | None, "거래량"] = Field(default=None, alias="tvol")
+    mtyp: Annotated[MtypEnum | None, "0: 장중 1:장전 2:장후"] = Field(
+        default=None, alias="mtyp", json_schema_extra={"enum": ["0", "1", "2"], "enum_desc": {"0": "장중", "1": "장전", "2": "장후"}}
+    )
+    pbid: Annotated[str | None, "매수호가"] = Field(default=None, alias="pbid")
+    pask: Annotated[str | None, "매도호가"] = Field(default=None, alias="pask")
+    vpow: Annotated[str | None, "체결강도"] = Field(default=None, alias="vpow")
 
 
 class InquireCcnlResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[InquireCcnlOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[InquireCcnlOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[InquireCcnlRequest, InquireCcnlResponse] = Endpoint(

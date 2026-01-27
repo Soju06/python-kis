@@ -16,78 +16,77 @@ if TYPE_CHECKING:
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
     J = ("J", "KRX")
-    "KRX"
+    """KRX"""
     NX = ("NX", "NXT")
-    "NXT"
+    """NXT"""
     UN = ("UN", "통합")
-    "통합"
+    """통합"""
 
 
 class FidPeriodDivCodeEnum(KisStrEnum):
     D = ("D", "일봉")
-    "일봉"
+    """일봉"""
     W = ("W", "주봉")
-    "주봉"
+    """주봉"""
     M = ("M", "월봉")
-    "월봉"
+    """월봉"""
     Y = ("Y", "년봉")
-    "년봉"
+    """년봉"""
 
 
 class FlngClsCodeEnum(KisStrEnum):
     VALUE_01 = ("01", "권리락")
-    "권리락"
+    """권리락"""
     VALUE_02 = ("02", "배당락")
-    "배당락"
+    """배당락"""
     VALUE_03 = ("03", "분배락")
-    "분배락"
+    """분배락"""
     VALUE_04 = ("04", "권배락")
-    "권배락"
+    """권배락"""
     VALUE_05 = ("05", "중간(분기)배당락")
-    "중간(분기)배당락"
+    """중간(분기)배당락"""
     VALUE_06 = ("06", "권리중간배당락")
-    "권리중간배당락"
+    """권리중간배당락"""
     VALUE_07 = ("07", "권리분기배당락")
-    "권리분기배당락"
+    """권리분기배당락"""
     VALUE_00 = ("00", "")
 
 
 class RevlIssuReasEnum(KisStrEnum):
     VALUE_00 = ("00", "해당없음")
-    "해당없음"
+    """해당없음"""
     VALUE_01 = ("01", "회사분할")
-    "회사분할"
+    """회사분할"""
     VALUE_02 = ("02", "자본감소")
-    "자본감소"
+    """자본감소"""
     VALUE_03 = ("03", "장기간정지")
-    "장기간정지"
+    """장기간정지"""
     VALUE_04 = ("04", "초과분배")
-    "초과분배"
+    """초과분배"""
     VALUE_05 = ("05", "대규모배당")
-    "대규모배당"
+    """대규모배당"""
     VALUE_06 = ("06", "회사분할합병")
-    "회사분할합병"
+    """회사분할합병"""
     VALUE_07 = ("07", "ETN증권병합/분할")
-    "ETN증권병합/분할"
+    """ETN증권병합/분할"""
     VALUE_08 = ("08", "신종증권기세조정")
-    "신종증권기세조정"
+    """신종증권기세조정"""
     VALUE_99 = ("99", "기타")
-    "기타"
+    """기타"""
 
 
 class InquireDailyItemchartpriceRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum = Field(alias="FID_COND_MRKT_DIV_CODE")
-    ("J:KRX, NX:NXT, UN:통합")
-    FID_INPUT_ISCD: str = Field(alias="FID_INPUT_ISCD")
-    ("종목코드 (ex 005930 삼성전자)")
-    FID_INPUT_DATE_1: str = Field(alias="FID_INPUT_DATE_1")
-    ("조회 시작일자")
-    FID_INPUT_DATE_2: str = Field(alias="FID_INPUT_DATE_2")
-    ("조회 종료일자 (최대 100개)")
-    FID_PERIOD_DIV_CODE: FidPeriodDivCodeEnum = Field(alias="FID_PERIOD_DIV_CODE")
-    ("D:일봉 W:주봉, M:월봉, Y:년봉")
-    FID_ORG_ADJ_PRC: KisBool = Field(alias="FID_ORG_ADJ_PRC")
-    ("0:수정주가 1:원주가")
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"] = Field(
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["J", "NX", "UN"], "enum_desc": {"J": "KRX", "NX": "NXT", "UN": "통합"}}
+    )
+    FID_INPUT_ISCD: Annotated[str, "종목코드 (ex 005930 삼성전자)"] = Field(alias="FID_INPUT_ISCD")
+    FID_INPUT_DATE_1: Annotated[str, "조회 시작일자"] = Field(alias="FID_INPUT_DATE_1")
+    FID_INPUT_DATE_2: Annotated[str, "조회 종료일자 (최대 100개)"] = Field(alias="FID_INPUT_DATE_2")
+    FID_PERIOD_DIV_CODE: Annotated[FidPeriodDivCodeEnum, "D:일봉 W:주봉, M:월봉, Y:년봉"] = Field(
+        alias="FID_PERIOD_DIV_CODE",
+        json_schema_extra={"enum": ["D", "W", "M", "Y"], "enum_desc": {"D": "일봉", "W": "주봉", "M": "월봉", "Y": "년봉"}},
+    )
+    FID_ORG_ADJ_PRC: Annotated[KisBool, "0:수정주가 1:원주가"] = Field(alias="FID_ORG_ADJ_PRC")
 
 
 class InquireDailyItemchartpriceRequestDict(TypedDict):
@@ -105,117 +104,108 @@ class InquireDailyItemchartpriceRequestDict(TypedDict):
         FID_ORG_ADJ_PRC (KisBool): 0:수정주가 1:원주가
     """
 
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"]
-    FID_INPUT_ISCD: Annotated[str, "종목코드 (ex 005930 삼성전자)"]
-    FID_INPUT_DATE_1: Annotated[str, "조회 시작일자"]
-    FID_INPUT_DATE_2: Annotated[str, "조회 종료일자 (최대 100개)"]
-    FID_PERIOD_DIV_CODE: Annotated[FidPeriodDivCodeEnum, "D:일봉 W:주봉, M:월봉, Y:년봉"]
-    FID_ORG_ADJ_PRC: Annotated[KisBool, "0:수정주가 1:원주가"]
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
+    FID_INPUT_ISCD: str
+    FID_INPUT_DATE_1: str
+    FID_INPUT_DATE_2: str
+    FID_PERIOD_DIV_CODE: FidPeriodDivCodeEnum
+    FID_ORG_ADJ_PRC: KisBool
 
 
 class InquireDailyItemchartpriceOutput1(RawModel):
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_ctrt: Decimal = Field(alias="prdy_ctrt")
-    ("전일 대비율")
-    stck_prdy_clpr: int = Field(alias="stck_prdy_clpr")
-    ("주식 전일 종가")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
-    ("누적 거래 대금")
-    hts_kor_isnm: str = Field(alias="hts_kor_isnm")
-    ("HTS 한글 종목명")
-    stck_prpr: Decimal = Field(alias="stck_prpr")
-    ("주식 현재가")
-    stck_shrn_iscd: str = Field(alias="stck_shrn_iscd")
-    ("주식 단축 종목코드")
-    prdy_vol: int = Field(alias="prdy_vol")
-    ("전일 거래량")
-    stck_mxpr: int = Field(alias="stck_mxpr")
-    ("주식 상한가")
-    stck_llam: int = Field(alias="stck_llam")
-    ("주식 하한가")
-    stck_oprc: Decimal = Field(alias="stck_oprc")
-    ("주식 시가2")
-    stck_hgpr: Decimal = Field(alias="stck_hgpr")
-    ("주식 최고가")
-    stck_lwpr: Decimal = Field(alias="stck_lwpr")
-    ("주식 최저가")
-    stck_prdy_oprc: Decimal = Field(alias="stck_prdy_oprc")
-    ("주식 전일 시가")
-    stck_prdy_hgpr: Decimal = Field(alias="stck_prdy_hgpr")
-    ("주식 전일 최고가")
-    stck_prdy_lwpr: Decimal = Field(alias="stck_prdy_lwpr")
-    ("주식 전일 최저가")
-    askp: int = Field(alias="askp")
-    ("매도호가")
-    bidp: str = Field(alias="bidp")
-    ("매수호가")
-    prdy_vrss_vol: int = Field(alias="prdy_vrss_vol")
-    ("전일 대비 거래량")
-    vol_tnrt: Decimal = Field(alias="vol_tnrt", max_digits=10, decimal_places=2)
-    ("11(8.2)")
-    stck_fcam: int = Field(alias="stck_fcam")
-    ("주식 액면가")
-    lstn_stcn: int = Field(alias="lstn_stcn")
-    ("상장 주수")
-    cpfn: int = Field(alias="cpfn")
-    ("자본금")
-    hts_avls: Decimal = Field(alias="hts_avls")
-    ("HTS 시가총액")
-    per: Decimal = Field(alias="per", max_digits=10, decimal_places=2)
-    ("11(8.2)")
-    eps: Decimal = Field(alias="eps", max_digits=13, decimal_places=2)
-    ("14(11.2)")
-    pbr: Decimal = Field(alias="pbr", max_digits=10, decimal_places=2)
-    ("11(8.2)")
-    itewhol_loan_rmnd_ratem: Decimal | None = Field(default=None, alias="itewhol_loan_rmnd_ratem", max_digits=12, decimal_places=4)
-    ("13(8.4)")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    stck_prdy_clpr: Annotated[int, "주식 전일 종가"] = Field(alias="stck_prdy_clpr")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    acml_tr_pbmn: Annotated[Decimal, "누적 거래 대금"] = Field(alias="acml_tr_pbmn")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    stck_shrn_iscd: Annotated[str, "주식 단축 종목코드"] = Field(alias="stck_shrn_iscd")
+    prdy_vol: Annotated[int, "전일 거래량"] = Field(alias="prdy_vol")
+    stck_mxpr: Annotated[int, "주식 상한가"] = Field(alias="stck_mxpr")
+    stck_llam: Annotated[int, "주식 하한가"] = Field(alias="stck_llam")
+    stck_oprc: Annotated[Decimal, "주식 시가2"] = Field(alias="stck_oprc")
+    stck_hgpr: Annotated[Decimal, "주식 최고가"] = Field(alias="stck_hgpr")
+    stck_lwpr: Annotated[Decimal, "주식 최저가"] = Field(alias="stck_lwpr")
+    stck_prdy_oprc: Annotated[Decimal, "주식 전일 시가"] = Field(alias="stck_prdy_oprc")
+    stck_prdy_hgpr: Annotated[Decimal, "주식 전일 최고가"] = Field(alias="stck_prdy_hgpr")
+    stck_prdy_lwpr: Annotated[Decimal, "주식 전일 최저가"] = Field(alias="stck_prdy_lwpr")
+    askp: Annotated[int, "매도호가"] = Field(alias="askp")
+    bidp: Annotated[str, "매수호가"] = Field(alias="bidp")
+    prdy_vrss_vol: Annotated[int, "전일 대비 거래량"] = Field(alias="prdy_vrss_vol")
+    vol_tnrt: Annotated[Decimal, "11(8.2)"] = Field(alias="vol_tnrt", max_digits=10, decimal_places=2)
+    stck_fcam: Annotated[int, "주식 액면가"] = Field(alias="stck_fcam")
+    lstn_stcn: Annotated[int, "상장 주수"] = Field(alias="lstn_stcn")
+    cpfn: Annotated[int, "자본금"] = Field(alias="cpfn")
+    hts_avls: Annotated[Decimal, "HTS 시가총액"] = Field(alias="hts_avls")
+    per: Annotated[Decimal, "11(8.2)"] = Field(alias="per", max_digits=10, decimal_places=2)
+    eps: Annotated[Decimal, "14(11.2)"] = Field(alias="eps", max_digits=13, decimal_places=2)
+    pbr: Annotated[Decimal, "11(8.2)"] = Field(alias="pbr", max_digits=10, decimal_places=2)
+    itewhol_loan_rmnd_ratem: Annotated[Decimal | None, "13(8.4)"] = Field(
+        default=None, alias="itewhol_loan_rmnd_ratem", max_digits=12, decimal_places=4
+    )
 
 
 class InquireDailyItemchartpriceOutput2(RawModel):
-    stck_bsop_date: KisDate = Field(alias="stck_bsop_date")
-    ("주식 영업 일자")
-    stck_clpr: int = Field(alias="stck_clpr")
-    ("주식 종가")
-    stck_oprc: Decimal = Field(alias="stck_oprc")
-    ("주식 시가2")
-    stck_hgpr: Decimal = Field(alias="stck_hgpr")
-    ("주식 최고가")
-    stck_lwpr: Decimal = Field(alias="stck_lwpr")
-    ("주식 최저가")
-    acml_vol: int = Field(alias="acml_vol")
-    ("누적 거래량")
-    acml_tr_pbmn: Decimal = Field(alias="acml_tr_pbmn")
-    ("누적 거래 대금")
-    flng_cls_code: FlngClsCodeEnum = Field(alias="flng_cls_code")
-    ("01 : 권리락 02 : 배당락 03 : 분배락 04 : 권배락 05 : 중간(분기)배당락 06 : 권리중간배당락 07 : 권리분기배당락")
-    prtt_rate: Decimal = Field(alias="prtt_rate")
-    ("기준가/전일 종가")
-    mod_yn: KisBool = Field(alias="mod_yn")
-    ("현재 영업일에 체결이 발생하지 않아 시가가 없을경우 Y 로 표시(차트에서 사용)")
-    prdy_vrss_sign: int = Field(alias="prdy_vrss_sign")
-    ("전일 대비 부호")
-    prdy_vrss: int = Field(alias="prdy_vrss")
-    ("전일 대비")
-    revl_issu_reas: RevlIssuReasEnum | None = Field(default=None, alias="revl_issu_reas")
-    ("00:해당없음 01:회사분할 02:자본감소 03:장기간정지 04:초과분배 05:대규모배당 06:회사분할합병 07:ETN증권병합/분할 08:신종증권기세조정 99:기타")
+    stck_bsop_date: Annotated[KisDate, "주식 영업 일자"] = Field(alias="stck_bsop_date")
+    stck_clpr: Annotated[int, "주식 종가"] = Field(alias="stck_clpr")
+    stck_oprc: Annotated[Decimal, "주식 시가2"] = Field(alias="stck_oprc")
+    stck_hgpr: Annotated[Decimal, "주식 최고가"] = Field(alias="stck_hgpr")
+    stck_lwpr: Annotated[Decimal, "주식 최저가"] = Field(alias="stck_lwpr")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    acml_tr_pbmn: Annotated[Decimal, "누적 거래 대금"] = Field(alias="acml_tr_pbmn")
+    flng_cls_code: Annotated[
+        FlngClsCodeEnum, "01 : 권리락 02 : 배당락 03 : 분배락 04 : 권배락 05 : 중간(분기)배당락 06 : 권리중간배당락 07 : 권리분기배당락"
+    ] = Field(
+        alias="flng_cls_code",
+        json_schema_extra={
+            "enum": ["01", "02", "03", "04", "05", "06", "07", "00"],
+            "enum_desc": {
+                "01": "권리락",
+                "02": "배당락",
+                "03": "분배락",
+                "04": "권배락",
+                "05": "중간(분기)배당락",
+                "06": "권리중간배당락",
+                "07": "권리분기배당락",
+            },
+        },
+    )
+    prtt_rate: Annotated[Decimal, "기준가/전일 종가"] = Field(alias="prtt_rate")
+    mod_yn: Annotated[KisBool, "현재 영업일에 체결이 발생하지 않아 시가가 없을경우 Y 로 표시(차트에서 사용)"] = Field(alias="mod_yn")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    revl_issu_reas: Annotated[
+        RevlIssuReasEnum | None,
+        "00:해당없음 01:회사분할 02:자본감소 03:장기간정지 04:초과분배 05:대규모배당 06:회사분할합병 07:ETN증권병합/분할 08:신종증권기세조정 99:기타",
+    ] = Field(
+        default=None,
+        alias="revl_issu_reas",
+        json_schema_extra={
+            "enum": ["00", "01", "02", "03", "04", "05", "06", "07", "08", "99"],
+            "enum_desc": {
+                "00": "해당없음",
+                "01": "회사분할",
+                "02": "자본감소",
+                "03": "장기간정지",
+                "04": "초과분배",
+                "05": "대규모배당",
+                "06": "회사분할합병",
+                "07": "ETN증권병합/분할",
+                "08": "신종증권기세조정",
+                "99": "기타",
+            },
+        },
+    )
 
 
 class InquireDailyItemchartpriceResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: InquireDailyItemchartpriceOutput1 = Field(alias="output1")
-    ("응답상세")
-    output2: list[InquireDailyItemchartpriceOutput2] = Field(alias="output2")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[InquireDailyItemchartpriceOutput1, "응답상세"] = Field(alias="output1")
+    output2: Annotated[list[InquireDailyItemchartpriceOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireDailyItemchartpriceRequest, InquireDailyItemchartpriceResponse] = Endpoint(

@@ -14,14 +14,12 @@ if TYPE_CHECKING:
 
 
 class MandDepositRequest(RawModel):
-    T_DT: KisDate = Field(alias="T_DT")
-    ("~ 일자")
-    SHT_CD: str | None = Field(default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True})
-    ("공백: 전체, 특정종목 조회시 : 종목코드")
-    F_DT: KisDate = Field(alias="F_DT")
-    ("일자 ~")
-    CTS: str | None = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
-    ("공백")
+    T_DT: Annotated[KisDate, "~ 일자"] = Field(alias="T_DT")
+    SHT_CD: Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"] = Field(
+        default=None, alias="SHT_CD", json_schema_extra={"blank_allowed": True}
+    )
+    F_DT: Annotated[KisDate, "일자 ~"] = Field(alias="F_DT")
+    CTS: Annotated[str | None, "공백"] = Field(default=None, alias="CTS", json_schema_extra={"blank_allowed": True})
 
 
 class MandDepositRequestDict(TypedDict):
@@ -39,36 +37,26 @@ class MandDepositRequestDict(TypedDict):
         CTS (str): 공백 optional
     """
 
-    T_DT: Annotated[KisDate, "~ 일자"]
-    SHT_CD: NotRequired[Annotated[str | None, "공백: 전체, 특정종목 조회시 : 종목코드"]]
-    F_DT: Annotated[KisDate, "일자 ~"]
-    CTS: NotRequired[Annotated[str | None, "공백"]]
+    T_DT: KisDate
+    SHT_CD: NotRequired[str | None]
+    F_DT: KisDate
+    CTS: NotRequired[str | None]
 
 
 class MandDepositOutput1(RawModel):
-    sht_cd: str | None = Field(default=None, alias="sht_cd")
-    ("종목코드")
-    isin_name: str | None = Field(default=None, alias="isin_name")
-    ("종목명")
-    stk_qty: str | None = Field(default=None, alias="stk_qty")
-    ("주식수")
-    depo_date: KisDateOptional = Field(default=None, alias="depo_date")
-    ("예치일")
-    depo_reason: str | None = Field(default=None, alias="depo_reason")
-    ("사유")
-    tot_issue_qty_per_rate: Decimal | None = Field(default=None, alias="tot_issue_qty_per_rate")
-    ("총발행주식수대비비율(%)")
+    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
+    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
+    stk_qty: Annotated[str | None, "주식수"] = Field(default=None, alias="stk_qty")
+    depo_date: Annotated[KisDateOptional, "예치일"] = Field(default=None, alias="depo_date")
+    depo_reason: Annotated[str | None, "사유"] = Field(default=None, alias="depo_reason")
+    tot_issue_qty_per_rate: Annotated[Decimal | None, "총발행주식수대비비율(%)"] = Field(default=None, alias="tot_issue_qty_per_rate")
 
 
 class MandDepositResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output1: list[MandDepositOutput1] = Field(alias="output1")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output1: Annotated[list[MandDepositOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[MandDepositRequest, MandDepositResponse] = Endpoint(

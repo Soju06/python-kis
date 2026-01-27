@@ -56,7 +56,7 @@
 | `ACNT_PRDT_CD` | 계좌상품코드 | String | 2 | Y | 계좌번호 체계(8-2)의 뒤 2자리 |
 | `OVRS_FUTR_FX_PDNO` | 해외선물FX상품번호 | String | 32 | Y |  |
 | `SLL_BUY_DVSN_CD` | 매도매수구분코드 | String | 2 | Y | 01 : 매도 / 02 : 매수 |
-| `FM_ORD_PRIC` | FM주문가격 | String | 20 | Y | N |
+| `FM_ORD_PRIC` | FM주문가격 | String | 20 | Y |  |
 | `ECIS_RSVN_ORD_YN` | 행사예약주문여부 | String | 1 | Y | N |
 
 ### 요청 예시

@@ -14,18 +14,12 @@ if TYPE_CHECKING:
 
 
 class InquirePsblRvsecnclRequest(RawModel):
-    CANO: str = Field(alias="CANO")
-    ("종합계좌번호")
-    ACNT_PRDT_CD: str = Field(alias="ACNT_PRDT_CD")
-    ("계좌상품코드")
-    ORD_DT: KisDate = Field(alias="ORD_DT")
-    ("주문일자")
-    ODNO: str = Field(alias="ODNO")
-    ("주문번호")
-    CTX_AREA_FK200: str = Field(alias="CTX_AREA_FK200")
-    ("연속조회검색조건200")
-    CTX_AREA_NK200: str = Field(alias="CTX_AREA_NK200")
-    ("연속조회키200")
+    CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
+    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"] = Field(alias="ACNT_PRDT_CD")
+    ORD_DT: Annotated[KisDate, "주문일자"] = Field(alias="ORD_DT")
+    ODNO: Annotated[str, "주문번호"] = Field(alias="ODNO")
+    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"] = Field(alias="CTX_AREA_FK200")
+    CTX_AREA_NK200: Annotated[str, "연속조회키200"] = Field(alias="CTX_AREA_NK200")
 
 
 class InquirePsblRvsecnclRequestDict(TypedDict):
@@ -42,56 +36,37 @@ class InquirePsblRvsecnclRequestDict(TypedDict):
         CTX_AREA_NK200 (str): 연속조회키200
     """
 
-    CANO: Annotated[str, "종합계좌번호"]
-    ACNT_PRDT_CD: Annotated[str, "계좌상품코드"]
-    ORD_DT: Annotated[KisDate, "주문일자"]
-    ODNO: Annotated[str, "주문번호"]
-    CTX_AREA_FK200: Annotated[str, "연속조회검색조건200"]
-    CTX_AREA_NK200: Annotated[str, "연속조회키200"]
+    CANO: str
+    ACNT_PRDT_CD: str
+    ORD_DT: KisDate
+    ODNO: str
+    CTX_AREA_FK200: str
+    CTX_AREA_NK200: str
 
 
 class InquirePsblRvsecnclOutput(RawModel):
-    odno: str = Field(alias="odno")
-    ("주문번호")
-    pdno: str = Field(alias="pdno")
-    ("상품번호")
-    rvse_cncl_dvsn_name: str = Field(alias="rvse_cncl_dvsn_name")
-    ("정정취소구분명")
-    ord_qty: int = Field(alias="ord_qty")
-    ("주문수량")
-    bond_ord_unpr: str = Field(alias="bond_ord_unpr")
-    ("채권주문단가")
-    ord_tmd: KisTime = Field(alias="ord_tmd")
-    ("주문시각")
-    tot_ccld_qty: int = Field(alias="tot_ccld_qty")
-    ("총체결수량")
-    tot_ccld_amt: Decimal = Field(alias="tot_ccld_amt")
-    ("총체결금액")
-    ord_psbl_qty: int = Field(alias="ord_psbl_qty")
-    ("주문가능수량")
-    orgn_odno: str = Field(alias="orgn_odno")
-    ("원주문번호")
-    sll_buy_dvsn_cd: str = Field(alias="sll_buy_dvsn_cd")
-    ("매도매수구분코드")
-    ord_dvsn_cd: str = Field(alias="ord_dvsn_cd")
-    ("주문구분코드")
-    mgco_aptm_odno: str = Field(alias="mgco_aptm_odno")
-    ("운용사지정주문번호")
-    samt_mket_ptci_yn: KisBool = Field(alias="samt_mket_ptci_yn")
-    ("소액시장참여여부")
-    prdt_abrv_name: str = Field(alias="prdt_abrv_name")
-    ("상품약어명")
+    odno: Annotated[str, "주문번호"] = Field(alias="odno")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    rvse_cncl_dvsn_name: Annotated[str, "정정취소구분명"] = Field(alias="rvse_cncl_dvsn_name")
+    ord_qty: Annotated[int, "주문수량"] = Field(alias="ord_qty")
+    bond_ord_unpr: Annotated[str, "채권주문단가"] = Field(alias="bond_ord_unpr")
+    ord_tmd: Annotated[KisTime, "주문시각"] = Field(alias="ord_tmd")
+    tot_ccld_qty: Annotated[int, "총체결수량"] = Field(alias="tot_ccld_qty")
+    tot_ccld_amt: Annotated[Decimal, "총체결금액"] = Field(alias="tot_ccld_amt")
+    ord_psbl_qty: Annotated[int, "주문가능수량"] = Field(alias="ord_psbl_qty")
+    orgn_odno: Annotated[str, "원주문번호"] = Field(alias="orgn_odno")
+    sll_buy_dvsn_cd: Annotated[str, "매도매수구분코드"] = Field(alias="sll_buy_dvsn_cd")
+    ord_dvsn_cd: Annotated[str, "주문구분코드"] = Field(alias="ord_dvsn_cd")
+    mgco_aptm_odno: Annotated[str, "운용사지정주문번호"] = Field(alias="mgco_aptm_odno")
+    samt_mket_ptci_yn: Annotated[KisBool, "소액시장참여여부"] = Field(alias="samt_mket_ptci_yn")
+    prdt_abrv_name: Annotated[str, "상품약어명"] = Field(alias="prdt_abrv_name")
 
 
 class InquirePsblRvsecnclResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[InquirePsblRvsecnclOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[InquirePsblRvsecnclOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquirePsblRvsecnclRequest, InquirePsblRvsecnclResponse] = Endpoint(

@@ -16,18 +16,17 @@ if TYPE_CHECKING:
 
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "년")
-    "년"
+    """년"""
     VALUE_1 = ("1", "분기")
-    "분기"
+    """분기"""
 
 
 class FinancialRatioRequest(RawModel):
-    FID_DIV_CLS_CODE: FidDivClsCodeEnum = Field(alias="FID_DIV_CLS_CODE")
-    ("0: 년, 1: 분기")
-    fid_cond_mrkt_div_code: str = Field(alias="fid_cond_mrkt_div_code")
-    ("J")
-    fid_input_iscd: str = Field(alias="fid_input_iscd")
-    ("000660 : 종목코드")
+    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"] = Field(
+        alias="FID_DIV_CLS_CODE", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "년", "1": "분기"}}
+    )
+    fid_cond_mrkt_div_code: Annotated[str, "J"] = Field(alias="fid_cond_mrkt_div_code")
+    fid_input_iscd: Annotated[str, "000660 : 종목코드"] = Field(alias="fid_input_iscd")
 
 
 class FinancialRatioRequestDict(TypedDict):
@@ -42,43 +41,29 @@ class FinancialRatioRequestDict(TypedDict):
         fid_input_iscd (str): 000660 : 종목코드
     """
 
-    FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "0: 년, 1: 분기"]
-    fid_cond_mrkt_div_code: Annotated[str, "J"]
-    fid_input_iscd: Annotated[str, "000660 : 종목코드"]
+    FID_DIV_CLS_CODE: FidDivClsCodeEnum
+    fid_cond_mrkt_div_code: str
+    fid_input_iscd: str
 
 
 class FinancialRatioOutput(RawModel):
-    stac_yymm: str = Field(alias="stac_yymm")
-    ("결산 년월")
-    grs: Decimal = Field(alias="grs")
-    ("매출액 증가율")
-    bsop_prfi_inrt: Decimal = Field(alias="bsop_prfi_inrt")
-    ("적자지속, 흑자전환, 적자전환인 경우 0으로 표시")
-    ntin_inrt: Decimal = Field(alias="ntin_inrt")
-    ("순이익 증가율")
-    roe_val: Decimal = Field(alias="roe_val")
-    ("ROE 값")
-    eps: Decimal = Field(alias="eps")
-    ("EPS")
-    sps: int = Field(alias="sps")
-    ("주당매출액")
-    bps: Decimal = Field(alias="bps")
-    ("BPS")
-    rsrv_rate: Decimal = Field(alias="rsrv_rate")
-    ("유보 비율")
-    lblt_rate: Decimal = Field(alias="lblt_rate")
-    ("부채 비율")
+    stac_yymm: Annotated[str, "결산 년월"] = Field(alias="stac_yymm")
+    grs: Annotated[Decimal, "매출액 증가율"] = Field(alias="grs")
+    bsop_prfi_inrt: Annotated[Decimal, "적자지속, 흑자전환, 적자전환인 경우 0으로 표시"] = Field(alias="bsop_prfi_inrt")
+    ntin_inrt: Annotated[Decimal, "순이익 증가율"] = Field(alias="ntin_inrt")
+    roe_val: Annotated[Decimal, "ROE 값"] = Field(alias="roe_val")
+    eps: Annotated[Decimal, "EPS"] = Field(alias="eps")
+    sps: Annotated[int, "주당매출액"] = Field(alias="sps")
+    bps: Annotated[Decimal, "BPS"] = Field(alias="bps")
+    rsrv_rate: Annotated[Decimal, "유보 비율"] = Field(alias="rsrv_rate")
+    lblt_rate: Annotated[Decimal, "부채 비율"] = Field(alias="lblt_rate")
 
 
 class FinancialRatioResponse(RawModel):
-    rt_cd: KisBool = Field(alias="rt_cd")
-    ("성공 실패 여부")
-    msg_cd: str = Field(alias="msg_cd")
-    ("응답코드")
-    msg1: str = Field(alias="msg1")
-    ("응답메세지")
-    output: list[FinancialRatioOutput] = Field(alias="output")
-    ("응답상세")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output: Annotated[list[FinancialRatioOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[FinancialRatioRequest, FinancialRatioResponse] = Endpoint(
