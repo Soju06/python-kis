@@ -41,6 +41,7 @@ def render_model_module(tr_spec: TrSpec) -> str:
 
     needs_decimal = any(field_specs[name].field_type == "decimal" for name in field_names)
     needs_datetime = any(field_specs[name].field_type == "datetime" for name in field_names)
+    needs_field = any(_enum_schema_extra(field_specs[name]) for name in field_names)
 
     lines: list[str] = []
     lines.append(HEADER.rstrip())
@@ -52,6 +53,8 @@ def render_model_module(tr_spec: TrSpec) -> str:
         imports.insert(0, "from datetime import datetime")
     if needs_decimal:
         imports.insert(0, "from decimal import Decimal")
+    if needs_field:
+        imports.append("from pydantic import Field")
 
     imports.append("from pykis.streaming.raw.base import StreamingRawModel")
     imports.append(
@@ -65,7 +68,11 @@ def render_model_module(tr_spec: TrSpec) -> str:
     lines.append(f"class {class_name}(StreamingRawModel):")
     for name in field_names:
         spec = field_specs[name]
-        lines.append(f"    {name}: {_type_annotation(spec)}")
+        extra = _enum_schema_extra(spec)
+        if extra:
+            lines.append(f"    {name}: {_type_annotation(spec)} = Field(json_schema_extra={extra!r})")
+        else:
+            lines.append(f"    {name}: {_type_annotation(spec)}")
     lines.append("")
 
     lines.append(f"FIELD_ORDER = {list(tr_spec.field_order)!r}")
@@ -161,6 +168,15 @@ def _type_annotation(spec: FieldSpec) -> str:
     if spec.field_type == "datetime":
         return "datetime"
     return "str"
+
+
+def _enum_schema_extra(spec: FieldSpec) -> dict[str, object] | None:
+    if not spec.enum:
+        return None
+    extra: dict[str, object] = {"enum": list(spec.enum)}
+    if spec.enum_desc:
+        extra["enum_desc"] = dict(spec.enum_desc)
+    return extra
 
 
 def _write_registry(spec: StreamingSpecRoot, output_dir: Path) -> None:
