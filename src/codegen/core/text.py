@@ -134,21 +134,29 @@ def wrap_display_text(value: str, width: int = 100) -> str:
     return "\n".join(wrap_display_lines(value, width=width))
 
 
-def _repr_display_width(text: str) -> int:
-    """Calculate the display width of repr(text), accounting for full-width characters."""
-    return _display_width(repr(text))
+def _escape_triple_literal(text: str) -> str:
+    escaped = text.replace("\\", "\\\\")
+    return escaped.replace('"', '\\"')
 
 
-def _split_literal_line(text: str, max_repr_width: int) -> list[str]:
-    if max_repr_width <= 0:
+def _triple_literal(text: str) -> str:
+    return f'"""{_escape_triple_literal(text)}"""'
+
+
+def _triple_literal_display_width(text: str) -> int:
+    return _display_width(_triple_literal(text))
+
+
+def _split_triple_literal_line(text: str, max_literal_width: int) -> list[str]:
+    if max_literal_width <= 0:
         return [text]
-    if _repr_display_width(text) <= max_repr_width:
+    if _triple_literal_display_width(text) <= max_literal_width:
         return [text]
     parts: list[str] = []
     current = ""
     for ch in text:
         candidate = f"{current}{ch}"
-        if current and _repr_display_width(candidate) > max_repr_width:
+        if current and _triple_literal_display_width(candidate) > max_literal_width:
             parts.append(current)
             current = ch
             continue
@@ -159,14 +167,14 @@ def _split_literal_line(text: str, max_repr_width: int) -> list[str]:
 
 
 def format_string_literal(text: str, indent: int = 12, line_limit: int = 150) -> str:
-    literal = repr(text)
+    literal = _triple_literal(text)
     indent = max(0, indent)
     line_limit = max(0, line_limit)
     literal_width = _display_width(literal)
     if indent + literal_width <= line_limit:
         return literal
     wrap_width = max(1, line_limit - indent - 2)
-    max_repr_width = max(1, line_limit - indent)
+    max_literal_width = max(1, line_limit - indent)
     raw_lines = wrap_display_lines(text, width=wrap_width)
     if not raw_lines:
         return literal
@@ -174,10 +182,10 @@ def format_string_literal(text: str, indent: int = 12, line_limit: int = 150) ->
     for index, line in enumerate(raw_lines):
         if index < len(raw_lines) - 1:
             line = f"{line} "
-        pieces.extend(_split_literal_line(line, max_repr_width))
+        pieces.extend(_split_triple_literal_line(line, max_literal_width))
     content_indent = " " * indent
     base_indent = " " * max(0, indent - 4)
-    literal_lines = "\n".join(f"{content_indent}{repr(piece)}" for piece in pieces)
+    literal_lines = "\n".join(f"{content_indent}{_triple_literal(piece)}" for piece in pieces)
     return f"(\n{literal_lines}\n{base_indent})"
 
 

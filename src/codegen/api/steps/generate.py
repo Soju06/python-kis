@@ -45,17 +45,6 @@ class ModelField:
         args.extend(self.field_args)
         return args
 
-    @property
-    def desc_lines(self) -> list[str]:
-        if not self.desc:
-            return []
-        lines = wrap_display_lines(self.desc, width=96)
-        if not lines:
-            return []
-        if len(lines) == 1:
-            return lines
-        return [f"{line} " for line in lines[:-1]] + [lines[-1]]
-
 
 @dataclass(slots=True)
 class ModelDef:

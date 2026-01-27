@@ -78,12 +78,8 @@ class {{ model.name }}(RawModel):
         {{ arg }},
 {% endfor %}
     )
-{% if field.desc_lines %}
-    (
-{% for line in field.desc_lines %}
-        {{ line | repr }}
-{% endfor %}
-    )
+{% if field.desc %}
+    {{ field.desc | string_literal(8) }}
 {% endif %}
 {% endfor %}
 {% else %}
