@@ -134,7 +134,10 @@ class CondSearchRequest(RawModel):
     FID_INPUT_CNT_3: Annotated[str, "정렬3기준 - 상위(1)하위(2)"] = Field(alias="FID_INPUT_CNT_3")
     FID_TRGT_CLS_CODE: Annotated[
         FidTrgtClsCodeEnum,
-        "0:발행회사종목코드,1:기초자산종목코드,2:FID시장구분코드,3:FID입력날짜1(상장일), 4:FID입력날짜2(만기일),5:LP회원사종목코드,6:행사가기초자산비교>=(1) <=(2), 7:잔존일 이상 이하, 8:현재가, 9:전일대비율, 10:거래량, 11:최종거래일, 12:레버리지",
+        (
+            "0:발행회사종목코드,1:기초자산종목코드,2:FID시장구분코드,3:FID입력날짜1(상장일), 4:FID입력날짜2(만기일),5:LP회원사종목코드,6:행사가기초자"
+            "산비교>=(1) <=(2), 7:잔존일 이상 이하, 8:현재가, 9:전일대비율, 10:거래량, 11:최종거래일, 12:레버리지"
+        ),
     ] = Field(
         alias="FID_TRGT_CLS_CODE",
         json_schema_extra={

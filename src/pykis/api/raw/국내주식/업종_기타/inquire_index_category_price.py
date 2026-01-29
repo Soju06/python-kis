@@ -51,7 +51,10 @@ class InquireIndexCategoryPriceRequest(RawModel):
     )
     FID_BLNG_CLS_CODE: Annotated[
         FidBlngClsCodeEnum,
-        "시장구분코드에 따라 아래와 같이 입력 시장구분코드(K:거래소) 0:전업종, 1:기타구분, 2:자본금구분 3:상업별구분 시장구분코드(Q:코스닥) 0:전업종, 1:기타구분, 2:벤처구분 3:일반구분 시장구분코드(K2:코스닥) 0:전업종",
+        (
+            "시장구분코드에 따라 아래와 같이 입력 시장구분코드(K:거래소) 0:전업종, 1:기타구분, 2:자본금구분 3:상업별구분 시장구분코드(Q:코스닥) 0:전"
+            "업종, 1:기타구분, 2:벤처구분 3:일반구분 시장구분코드(K2:코스닥) 0:전업종"
+        ),
     ] = Field(
         alias="FID_BLNG_CLS_CODE",
         json_schema_extra={

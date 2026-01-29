@@ -158,7 +158,10 @@ class DailypriceRequestDict(TypedDict):
 class DailypriceOutput1(RawModel):
     rsym: Annotated[
         str | None,
-        "D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이",
+        (
+            "D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : 도쿄, HKS :"
+            " 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이"
+        ),
     ] = Field(default=None, alias="rsym")
     zdiv: Annotated[str | None, "소수점자리수"] = Field(default=None, alias="zdiv")
     nrec: Annotated[str | None, "전일종가"] = Field(default=None, alias="nrec")

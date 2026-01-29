@@ -45,7 +45,10 @@ class InquireAskingPriceRequest(RawModel):
     AUTH: Annotated[str | None, "공백"] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
     EXCD: Annotated[
         ExcdEnum,
-        "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 TSE : 도쿄 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
+        (
+            "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 TSE : 도쿄 BAY : 뉴욕(주간) BAQ : 나스닥"
+            "(주간) BAA : 아멕스(주간)"
+        ),
     ] = Field(
         alias="EXCD",
         json_schema_extra={

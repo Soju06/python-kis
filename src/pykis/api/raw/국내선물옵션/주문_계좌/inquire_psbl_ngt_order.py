@@ -59,7 +59,10 @@ class InquirePsblNgtOrderRequest(RawModel):
     UNIT_PRICE: Annotated[Decimal, "주문가격1"] = Field(alias="UNIT_PRICE")
     ORD_DVSN_CD: Annotated[
         OrdDvsnCdEnum,
-        "'01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK)'",
+        (
+            "'01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 1"
+            "5 : 최유리(FOK)'"
+        ),
     ] = Field(
         alias="ORD_DVSN_CD",
         json_schema_extra={

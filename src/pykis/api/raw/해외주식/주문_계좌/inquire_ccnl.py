@@ -163,7 +163,10 @@ class InquireCcnlRequest(RawModel):
     )
     OVRS_EXCG_CD: Annotated[
         OvrsExcgCdEnum | None,
-        '전종목일 경우 "%" 입력 NASD : 미국시장 전체(나스닥, 뉴욕, 아멕스) NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민 ※ 모의투자계좌의 경우 ""(전체 조회)만 가능',
+        (
+            '전종목일 경우 "%" 입력 NASD : 미국시장 전체(나스닥, 뉴욕, 아멕스) NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심'
+            '천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민 ※ 모의투자계좌의 경우 ""(전체 조회)만 가능'
+        ),
     ] = Field(
         default=None,
         alias="OVRS_EXCG_CD",
@@ -315,7 +318,12 @@ class InquireCcnlOutput(RawModel):
     thco_ord_tmd: Annotated[KisTime, "당사주문시각"] = Field(alias="thco_ord_tmd")
     loan_type_cd: Annotated[
         LoanTypeCdEnum,
-        "00 : 해당사항없음 01 : 자기융자일반형 03 : 자기융자투자형 05 : 유통융자일반형 06 : 유통융자투자형 07 : 자기대주 09 : 유통대주 10 : 현금 11 : 주식담보대출 12 : 수익증권담보대출 13 : ELS담보대출 14 : 채권담보대출 15 : 해외주식담보대출 16 : 기업신용공여 31 : 소액자동담보대출 41 : 매도담보대출 42 : 환매자금대출 43 : 매입환매자금대출 44 : 대여매도담보대출 81 : 대차거래 82 : 법인CMA론 91 : 공모주청약자금대출 92 : 매입자금 93 : 미수론서비스 94 : 대여",
+        (
+            "00 : 해당사항없음 01 : 자기융자일반형 03 : 자기융자투자형 05 : 유통융자일반형 06 : 유통융자투자형 07 : 자기대주 09 : 유통대주 10 : 현금 "
+            "11 : 주식담보대출 12 : 수익증권담보대출 13 : ELS담보대출 14 : 채권담보대출 15 : 해외주식담보대출 16 : 기업신용공여 31 : 소액자동담보대출"
+            " 41 : 매도담보대출 42 : 환매자금대출 43 : 매입환매자금대출 44 : 대여매도담보대출 81 : 대차거래 82 : 법인CMA론 91 : 공모주청약자금대출 92"
+            " : 매입자금 93 : 미수론서비스 94 : 대여"
+        ),
     ] = Field(
         alias="loan_type_cd",
         json_schema_extra={

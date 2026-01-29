@@ -290,7 +290,13 @@ def _build_endpoint_details(
             augment_payload["request"] = _load_json(endpoint_dir / "request.json")
             augment_payload["request_resolution"] = _load_json(endpoint_dir / "request_resolution.json")
             augment_payload["raw"] = _load_json(endpoint_dir / "raw.json")
-            augment_payload["error"] = _load_json(endpoint_dir / "error.json")
+            error_payload = _load_json(endpoint_dir / "error.json")
+            if not error_payload:
+                error_payload = _load_json(endpoint_dir / "error_success.json")
+            if not error_payload:
+                error_payload = _load_json(endpoint_dir / "error_probe.json")
+            augment_payload["error"] = error_payload
+            augment_payload["empty"] = _load_json(endpoint_dir / "empty.json")
 
         smoke_results = [item for item in smoke_results_all if item.get("id") == spec_id]
         details[spec_id] = {

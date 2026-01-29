@@ -6,8 +6,10 @@ from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpac
 
 from pydantic import Field
 
+from pykis.api.errors import KisResponseUnavailableError
 from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.api.validation.rules import AllFieldsSentinel, ErrorConfig
 from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
@@ -99,6 +101,37 @@ _ENDPOINT: Endpoint[InquireInvestorRequest, InquireInvestorResponse] = Endpoint(
     demo_tr_id="FHKST01010900",
     auth_required=True,
     hashkey_required=False,
+    validators=(
+        AllFieldsSentinel(
+            id="investor_sentinel_check",
+            output="output",
+            fields=tuple(
+                [
+                    "prsn_ntby_qty",
+                    "frgn_ntby_qty",
+                    "orgn_ntby_qty",
+                    "prsn_ntby_tr_pbmn",
+                    "frgn_ntby_tr_pbmn",
+                    "orgn_ntby_tr_pbmn",
+                    "prsn_shnu_vol",
+                    "frgn_shnu_vol",
+                    "orgn_shnu_vol",
+                    "prsn_seln_vol",
+                    "frgn_seln_vol",
+                    "orgn_seln_vol",
+                ]
+            ),
+            sentinel_values=tuple(["", "0", "0.0"]),
+            scope="first_row",
+            error=ErrorConfig(
+                code="KIS_RESPONSE_UNAVAILABLE",
+                message="Investor data unavailable",
+                user_message="해당 투자자 정보는 장 종료 후 조회 가능합니다.",
+                hint="당일 데이터는 장 마감 후 제공됩니다.",
+                exception=KisResponseUnavailableError,
+            ),
+        ),
+    ),
 )
 
 if TYPE_CHECKING:

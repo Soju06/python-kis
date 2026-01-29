@@ -125,7 +125,14 @@ class OrderRequest(RawModel):
     ORD_SVR_DVSN_CD: Annotated[str, '"0"(Default)'] = Field(alias="ORD_SVR_DVSN_CD")
     ORD_DVSN: Annotated[
         OrdDvsnEnum,
-        "[Header tr_id TTTT1002U(미국 매수 주문)] 00 : 지정가 32 : LOO(장개시지정가) 34 : LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP (거래량가중평균) * 모의투자 VTTT1002U(미국 매수 주문)로는 00:지정가만 가능 * TWAP, VWAP 주문은 분할시간 주문 입력 필수 [Header tr_id TTTT1006U(미국 매도 주문)] 00 : 지정가 31 : MOO(장개시시장가) 32 : LOO(장개시지정가) 33 : MOC(장마감시장가) 34 : LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP (거래량가중평균) * 모의투자 VTTT1006U(미국 매도 주문)로는 00:지정가만 가능 * TWAP, VWAP 주문은 분할시간 주문 입력 필수 [Header tr_id TTTS1001U(홍콩 매도 주문)] 00 : 지정가 50 : 단주지정가 * 모의투자 VTTS1001U(홍콩 매도 주문)로는 00:지정가만 가능 [그외 tr_id] 제거 ※ TWAP, VWAP 주문은 정정 불가",
+        (
+            "[Header tr_id TTTT1002U(미국 매수 주문)] 00 : 지정가 32 : LOO(장개시지정가) 34 : LOC(장마감지정가) 35 : TWAP (시간가중평균) 36 : VWAP ("
+            "거래량가중평균) * 모의투자 VTTT1002U(미국 매수 주문)로는 00:지정가만 가능 * TWAP, VWAP 주문은 분할시간 주문 입력 필수 [Header tr_id TTTT"
+            "1006U(미국 매도 주문)] 00 : 지정가 31 : MOO(장개시시장가) 32 : LOO(장개시지정가) 33 : MOC(장마감시장가) 34 : LOC(장마감지정가) 35 : TWAP"
+            " (시간가중평균) 36 : VWAP (거래량가중평균) * 모의투자 VTTT1006U(미국 매도 주문)로는 00:지정가만 가능 * TWAP, VWAP 주문은 분할시간 주문 "
+            "입력 필수 [Header tr_id TTTS1001U(홍콩 매도 주문)] 00 : 지정가 50 : 단주지정가 * 모의투자 VTTS1001U(홍콩 매도 주문)로는 00:지정가만 가능"
+            " [그외 tr_id] 제거 ※ TWAP, VWAP 주문은 정정 불가"
+        ),
     ] = Field(
         alias="ORD_DVSN",
         json_schema_extra={

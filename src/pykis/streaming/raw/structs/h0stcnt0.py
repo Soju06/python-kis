@@ -46,7 +46,10 @@ class H0STCNT0(StreamingRawModel):
     BSOP_DATE: datetime
     NEW_MKOP_CLS_CODE: Annotated[
         str,
-        "(1) 첫 번째 비트\n1 : 장개시전\n2 : 장중\n3 : 장종료후\n4 : 시간외단일가\n7 : 일반Buy-in\n8 : 당일Buy-in\n\n(2) 두 번째 비트\n0 : 보통\n1 : 종가\n2 : 대량\n3 : 바스켓\n7 : 정리매매\n8 : Buy-in",
+        (
+            "(1) 첫 번째 비트\n1 : 장개시전\n2 : 장중\n3 : 장종료후\n4 : 시간외단일가\n7 : 일반Buy-in\n8 : 당일Buy-in\n\n(2) 두 번째 비트\n0 : 보통\n"
+            "1 : 종가\n2 : 대량\n3 : 바스켓\n7 : 정리매매\n8 : Buy-in"
+        ),
     ]
     TRHT_YN: Annotated[str, "Y : 정지\nN : 정상거래"]
     ASKP_RSQN1: Decimal

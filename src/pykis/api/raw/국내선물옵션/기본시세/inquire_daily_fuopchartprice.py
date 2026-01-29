@@ -65,7 +65,12 @@ class InquireDailyFuopchartpriceRequest(RawModel):
     FID_INPUT_DATE_1: Annotated[str, "조회 시작일자 (ex. 20220401)"] = Field(alias="FID_INPUT_DATE_1")
     FID_INPUT_DATE_2: Annotated[
         str,
-        "조회 종료일자 (ex. 20220524) ※ 주(W), 월(M), 년(Y) 봉 조회 시에 아래 참고 ㅁ FID_INPUT_DATE_2 가 현재일 까지일때 . 주봉 조회 : 해당 주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 전월 일자로 시작되어야함 . 년봉 조회 : 해당 년의 전년도 일자로 시작되어야함 ㅁ FID_INPUT_DATE_2 가 현재일보다 이전일 때 . 주봉 조회 : 해당 주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 영업일이 포함되어야함 . 년봉 조회 : 해당 년의 영업일이 포함되어야함",
+        (
+            "조회 종료일자 (ex. 20220524) ※ 주(W), 월(M), 년(Y) 봉 조회 시에 아래 참고 ㅁ FID_INPUT_DATE_2 가 현재일 까지일때 . 주봉 조회 : 해당 주의"
+            " 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 전월 일자로 시작되어야함 . 년봉 조회 : 해당 년의 전년도 일자로 시작되어야함 ㅁ FID"
+            "_INPUT_DATE_2 가 현재일보다 이전일 때 . 주봉 조회 : 해당 주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 영업일이 포함되어야함"
+            " . 년봉 조회 : 해당 년의 영업일이 포함되어야함"
+        ),
     ] = Field(alias="FID_INPUT_DATE_2")
     FID_PERIOD_DIV_CODE: Annotated[FidPeriodDivCodeEnum, "D:일봉 W:주봉, M:월봉, Y:년봉"] = Field(
         alias="FID_PERIOD_DIV_CODE",

@@ -17,7 +17,8 @@ from codegen.api.report_models import (
     ScanReport,
 )
 from codegen.api.reporting import write_api_report
-from codegen.api.steps.augment import run_augmentation
+from codegen.api.scenarios import load_scenarios
+from codegen.api.steps.augment import run_multi_scenario_augmentation, summarize_scenarios
 from codegen.api.steps.generate import RAW_KEEP_FILES, generate_raw, normalize_filename, section_path
 from codegen.api.steps.infer import infer_types, validate_samples
 from codegen.api.steps.io import (
@@ -29,6 +30,7 @@ from codegen.api.steps.io import (
 from codegen.api.steps.normalize import normalize_doc
 from codegen.api.steps.smoke import run_smoke
 from codegen.api.steps.validate import validate_doc
+from codegen.api.steps.validators import discover_validators
 from codegen.api.types import TypeOverrides
 from codegen.core.cleanup import clean_dir_keep_files
 from codegen.core.issues import IssueLevel, IssueReport, SpecIssue
@@ -52,6 +54,7 @@ AUGMENT_DIR = ARTIFACTS_ROOT / "augment"
 OVERRIDES_PATH = DOCS_BASE / "overrides" / "augment_overrides.yaml"
 TYPE_OVERRIDES_PATH = DOCS_BASE / "overrides" / "type_overrides.yaml"
 DOC_OVERRIDES_PATH = DOCS_BASE / "overrides" / "doc_overrides.yaml"
+AUGMENT_SCENARIOS_PATH = ROOT / "src" / "codegen" / "config" / "augment_scenarios.yaml"
 DEMO_SECRET = ROOT / "demo_secret.json"
 REAL_SECRET = ROOT / "real_secret.json"
 TARGET_SECTIONS: tuple[str, ...] | None = None
@@ -354,18 +357,24 @@ def run_pipeline() -> PipelineResult:
     if real_client is None:
         raise SystemExit(f"Unable to obtain real token: {real_error}")
 
+    scenario_config = load_scenarios(AUGMENT_SCENARIOS_PATH)
+    scenarios = scenario_config.scenarios
     ENDPOINTS = _reload_registry()
 
-    sample_summary = run_augmentation(
+    sample_multi = run_multi_scenario_augmentation(
         specs=sample_specs,
         registry=ENDPOINTS,
         demo_client=demo_client,
         real_client=real_client,
         overrides_path=OVERRIDES_PATH,
         out_dir=AUGMENT_DIR,
+        scenarios=scenarios,
+        request_templates=scenario_config.request_templates,
     )
+    sample_summary = summarize_scenarios(sample_multi, "success")
 
     write_report(REPORT_DIR / "augment_sample.json", sample_summary)
+    write_report(REPORT_DIR / "augment_multi_sample.json", sample_multi)
     logger.info(
         "augment-sample processed=%s ok=%s cached=%s skipped=%s errors=%s",
         sample_summary.processed,
@@ -388,16 +397,20 @@ def run_pipeline() -> PipelineResult:
 
     FULL_ENDPOINTS = _reload_registry()
 
-    augment_summary = run_augmentation(
+    augment_multi = run_multi_scenario_augmentation(
         specs=section_specs,
         registry=FULL_ENDPOINTS,
         demo_client=demo_client,
         real_client=real_client,
         overrides_path=OVERRIDES_PATH,
         out_dir=AUGMENT_DIR,
+        scenarios=scenarios,
+        request_templates=scenario_config.request_templates,
     )
+    augment_summary = summarize_scenarios(augment_multi, "success")
 
     write_report(REPORT_DIR / "augment.json", augment_summary)
+    write_report(REPORT_DIR / "augment_multi.json", augment_multi)
     logger.info(
         "augment processed=%s ok=%s cached=%s skipped=%s errors=%s",
         augment_summary.processed,
@@ -414,6 +427,13 @@ def run_pipeline() -> PipelineResult:
         augment_quality.rt_cd_top,
         augment_quality.msg_cd_top,
     )
+
+    validator_hints = discover_validators(section_specs, AUGMENT_DIR)
+    write_report(
+        REPORT_DIR / "validation_hints.json",
+        {endpoint_id: hint.model_dump() for endpoint_id, hint in validator_hints.items()},
+    )
+    logger.info("validator hints generated=%s", len(validator_hints))
 
     inference_trace: dict[str, JsonObject] = {}
     inference_base = infer_types(section_specs, AUGMENT_DIR, trace_out=inference_trace)
@@ -445,6 +465,8 @@ def run_pipeline() -> PipelineResult:
         normalize=normalize_report,
         sample=sample_summary,
         augment=augment_summary,
+        augment_multi_sample=sample_multi,
+        augment_multi=augment_multi,
         augment_quality_sample=augment_quality_sample,
         augment_quality=augment_quality,
         inference_sample=inference_sample,

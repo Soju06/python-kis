@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from codegen.api.models import EndpointSpec, SpecField
-from codegen.api.types import EndpointHints, FieldHint, TypeOverrides
+from codegen.api.types import EndpointHints, FieldHint, TypeOverrides, ValidatorSpec
 from codegen.core.cleanup import clean_dir_keep_files, raw_keep_files
 from codegen.core.format import run_ruff_fix, run_ruff_format
 from codegen.core.render import render_template
@@ -92,6 +92,29 @@ class EndpointContext:
     response_name: str
     request_dict_name: str
     request_doc_fields: list[DocFieldInfo]
+
+
+@dataclass(slots=True)
+class ValidatorRuleContext:
+    class_name: str
+    rule_id: str
+    output: str
+    fields: list[str] | None
+    sentinel_values: list[str | None] | None
+    scope: str | None
+    error_code: str
+    error_message: str
+    error_user_message: str
+    error_hint: str | None
+    error_exception: str
+    when_rt_cd: list[str] | None
+    when_msg_cd: list[str] | None
+    mode: str | None
+    severity: str | None
+    capture_fields: list[str] | None
+    capture_outputs: list[str] | None
+    capture_max_rows: int | None
+    capture_redact_keys: list[str] | None
 
 
 @dataclass(slots=True)
@@ -448,6 +471,8 @@ def generate_raw(
         endpoint_hint = type_overrides.endpoints.get(spec.id) if type_overrides else None
         hints = endpoint_hint or EndpointHints()
 
+        validator_rules, validator_imports, exception_imports = _build_validator_rules(hints.validator)
+
         request_hint = hints.request
         response_hint = hints.response
         output_hint = hints.outputs
@@ -568,6 +593,14 @@ def generate_raw(
         if enum_list:
             insert_at = import_lines.index(base_import_line)
             import_lines.insert(insert_at, "from pykis.common.enums import KisStrEnum")
+        if validator_rules:
+            import_lines.append("from pykis.api.validation.rules import (")
+            for name in sorted(validator_imports):
+                import_lines.append(f"    {name},")
+            import_lines.append(")")
+            if exception_imports:
+                exception_line = ", ".join(sorted(exception_imports))
+                import_lines.append(f"from pykis.api.errors import {exception_line}")
         import_lines += [
             "if TYPE_CHECKING:",
             "    from pykis.api.client import SyncKisRawClient",
@@ -597,6 +630,7 @@ def generate_raw(
             output_models=output_models,
             response_model=response_model,
             endpoint=endpoint_ctx,
+            validator_rules=validator_rules,
             enum_defs=enum_list,
             all_names=all_names,
         )
@@ -641,3 +675,72 @@ def _ensure_package_dirs(folder: Path, root: Path) -> None:
         if current.parent == current:
             break
         current = current.parent
+
+
+def _build_validator_rules(validator: ValidatorSpec | None) -> tuple[list[ValidatorRuleContext], set[str], set[str]]:
+    if validator is None or not validator.rules:
+        return [], set(), set()
+
+    class_map = {
+        "output_required": "OutputRequired",
+        "all_fields_sentinel": "AllFieldsSentinel",
+        "any_field_sentinel": "AnyFieldSentinel",
+        "all_fields_missing": "AllFieldsMissing",
+        "any_field_missing": "AnyFieldMissing",
+    }
+    rule_imports: set[str] = {"ErrorConfig"}
+    exception_imports: set[str] = set()
+    contexts: list[ValidatorRuleContext] = []
+
+    for rule in validator.rules:
+        class_name = class_map.get(rule.type)
+        if class_name is None:
+            raise ValueError(f"Unknown validator rule type: {rule.type}")
+        rule_imports.add(class_name)
+        error_exception = rule.error.exception
+        if not error_exception:
+            raise ValueError(f"Validator rule {rule.id} missing error.exception")
+        exception_imports.add(error_exception)
+        if class_name != "OutputRequired":
+            if not rule.fields:
+                raise ValueError(f"Validator rule {rule.id} missing fields")
+        if class_name in {"AllFieldsSentinel", "AnyFieldSentinel"} and not rule.sentinel_values:
+            raise ValueError(f"Validator rule {rule.id} missing sentinel_values")
+
+        when_rt_cd = rule.when.rt_cd if rule.when else None
+        when_msg_cd = rule.when.msg_cd if rule.when else None
+        capture_fields = rule.capture.fields if rule.capture else None
+        capture_outputs = rule.capture.outputs if rule.capture else None
+        capture_max_rows = rule.capture.max_rows if rule.capture else None
+        capture_redact_keys = rule.capture.redact_keys if rule.capture else None
+
+        if rule.when:
+            rule_imports.add("RuleWhen")
+        if rule.capture:
+            rule_imports.add("RuleCapture")
+
+        contexts.append(
+            ValidatorRuleContext(
+                class_name=class_name,
+                rule_id=rule.id,
+                output=rule.output,
+                fields=rule.fields,
+                sentinel_values=rule.sentinel_values,
+                scope=rule.scope,
+                error_code=rule.error.code,
+                error_message=rule.error.message,
+                error_user_message=rule.error.user_message,
+                error_hint=rule.error.hint,
+                error_exception=error_exception,
+                when_rt_cd=when_rt_cd,
+                when_msg_cd=when_msg_cd,
+                mode=rule.mode,
+                severity=rule.severity,
+                capture_fields=capture_fields,
+                capture_outputs=capture_outputs,
+                capture_max_rows=capture_max_rows,
+                capture_redact_keys=capture_redact_keys,
+            )
+        )
+
+    return contexts, rule_imports, exception_imports

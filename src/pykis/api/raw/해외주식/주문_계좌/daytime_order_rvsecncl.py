@@ -69,7 +69,10 @@ class DaytimeOrderRvsecnclRequest(RawModel):
     PDNO: Annotated[str, "종목코드"] = Field(alias="PDNO")
     ORGN_ODNO: Annotated[
         OrgnOdnoEnum,
-        "'정정 또는 취소할 원주문번호(매매 TR의 주문번호) - 해외주식 주문체결내역api (/uapi/overseas-stock/v1/trading/inquire-nccs)에서 odno(주문번호) 참조'",
+        (
+            "'정정 또는 취소할 원주문번호(매매 TR의 주문번호) - 해외주식 주문체결내역api (/uapi/overseas-stock/v1/trading/inquire-nccs)에서 odno(주문"
+            "번호) 참조'"
+        ),
     ] = Field(
         alias="ORGN_ODNO",
         json_schema_extra={

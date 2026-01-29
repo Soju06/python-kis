@@ -58,7 +58,10 @@ class InquirePsamountRequest(RawModel):
     )
     OVRS_EXCG_CD: Annotated[
         OvrsExcgCdEnum,
-        "NASD : 나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / SZAA : 중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소",
+        (
+            "NASD : 나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / SZAA : 중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : "
+            "호치민거래소"
+        ),
     ] = Field(
         alias="OVRS_EXCG_CD",
         json_schema_extra={
@@ -115,7 +118,10 @@ class InquirePsamountOutput(RawModel):
     )
     max_ord_psbl_qty: Annotated[
         int | None,
-        '- 한국투자 앱 해외주식 주문화면내 "외화" 인경우 주문가능수량 - 매수 시 수량단위 절사해서 사용 예 : (100주단위) 545 주 -> 500 주 / (10주단위) 545 주 -> 540 주',
+        (
+            '- 한국투자 앱 해외주식 주문화면내 "외화" 인경우 주문가능수량 - 매수 시 수량단위 절사해서 사용 예 : (100주단위) 545 주 -> 500 주 / (10'
+            "주단위) 545 주 -> 540 주"
+        ),
     ] = Field(default=None, alias="max_ord_psbl_qty")
     echm_af_ord_psbl_amt: Annotated[Decimal | None, "사용되지 않는 사항(0으로 출력)"] = Field(default=None, alias="echm_af_ord_psbl_amt")
     echm_af_ord_psbl_qty: Annotated[int | None, "사용되지 않는 사항(0으로 출력)"] = Field(default=None, alias="echm_af_ord_psbl_qty")
@@ -126,7 +132,10 @@ class InquirePsamountOutput(RawModel):
     )
     ovrs_max_ord_psbl_qty: Annotated[
         int | None,
-        '- 한국투자 앱 해외주식 주문화면내 "통합" 인경우 주문가능수량 - 매수 시 수량단위 절사해서 사용 예 : (100주단위) 545 주 -> 500 주 / (10주단위) 545 주 -> 540 주',
+        (
+            '- 한국투자 앱 해외주식 주문화면내 "통합" 인경우 주문가능수량 - 매수 시 수량단위 절사해서 사용 예 : (100주단위) 545 주 -> 500 주 / (10'
+            "주단위) 545 주 -> 540 주"
+        ),
     ] = Field(default=None, alias="ovrs_max_ord_psbl_qty")
 
 

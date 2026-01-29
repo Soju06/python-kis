@@ -132,7 +132,10 @@ class SearchBondInfoOutput(RawModel):
     expd_asrc_erng_rt: Annotated[Decimal | None, "만기보장수익율"] = Field(default=None, alias="expd_asrc_erng_rt")
     bond_int_dfrm_mthd_cd: Annotated[
         BondIntDfrmMthdCdEnum,
-        "01.할인채 02.복리채 03.이표채.확정금리 04.이표채.금리연동 05.이표채.변동금리 06.단리채 07.분할채 09.복5단2 19.기타.고정금리 29.기타.변동금리",
+        (
+            "01.할인채 02.복리채 03.이표채.확정금리 04.이표채.금리연동 05.이표채.변동금리 06.단리채 07.분할채 09.복5단2 19.기타.고정금리 29.기타.변동"
+            "금리"
+        ),
     ] = Field(
         alias="bond_int_dfrm_mthd_cd",
         json_schema_extra={

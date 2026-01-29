@@ -35,6 +35,7 @@ from pykis.api.rate_limit import (
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.api.token import KisAccessToken
 from pykis.api.token_cache import KisTokenCache, default_token_cache_dir
+from pykis.api.validation import ResponseValidationMode, ValidationContext, evaluate_validators
 from pykis.logging import get_logger
 
 RequestT = TypeVar("RequestT", bound=BaseModel)
@@ -67,6 +68,8 @@ def _error_context(
     path: str | None = None,
     status_code: int | None = None,
     message: str | None = None,
+    domain: str | None = None,
+    request_id: str | None = None,
 ) -> KisErrorContext:
     return KisErrorContext(
         endpoint_id=endpoint_id,
@@ -74,6 +77,8 @@ def _error_context(
         path=path,
         status_code=status_code,
         message=message,
+        domain=domain,
+        request_id=request_id,
     )
 
 
@@ -128,6 +133,14 @@ def _extract_response_payload(response: KisResponse) -> dict[str, object] | None
     return {str(key): value for key, value in data.items()}
 
 
+def _extract_request_id(response: KisResponse) -> str | None:
+    candidates = {"tr_id", "trid", "x-request-id", "x-tr-id", "request-id"}
+    for key, value in response.headers.items():
+        if key.lower() in candidates:
+            return value
+    return None
+
+
 def _is_invalid_token_payload(payload: Mapping[str, object]) -> bool:
     msg_cd = str(payload.get("msg_cd") or "").strip()
     error_code = str(payload.get("error_code") or "").strip()
@@ -155,6 +168,7 @@ class SyncKisRawClient:
     _token_lock: threading.Lock | None
     _revoke_on_close: bool
     _closed: bool
+    _response_validation: ResponseValidationMode
 
     __slots__ = (
         "auth",
@@ -169,6 +183,7 @@ class SyncKisRawClient:
         "_token_lock",
         "_revoke_on_close",
         "_closed",
+        "_response_validation",
     )
 
     def __init__(
@@ -185,6 +200,7 @@ class SyncKisRawClient:
         revoke_on_close: bool | None = None,
         client: httpx.Client | None = None,
         timeout: float | httpx.Timeout | None = None,
+        response_validation: ResponseValidationMode = "warn",
         atexit_close: bool = True,
     ) -> None:
         self.auth = auth
@@ -220,6 +236,7 @@ class SyncKisRawClient:
         else:
             self._revoke_on_close = revoke_on_close
         self._closed = False
+        self._response_validation = response_validation
         if atexit_close:
             atexit.register(self._atexit_close)
 
@@ -589,6 +606,7 @@ class SyncKisRawClient:
                 continue
 
             if response.is_success:
+                request_id = _extract_request_id(response)
                 if response_payload is None:
                     try:
                         data = response.json()
@@ -602,12 +620,34 @@ class SyncKisRawClient:
                                 path=endpoint.path,
                                 status_code=response.status_code,
                                 message=snippet,
+                                domain=self.domain,
+                                request_id=request_id,
                             ),
                         ) from exc
                 else:
                     data = response_payload
                 if isinstance(data, dict):
                     data_map = {str(key): value for key, value in data.items()}
+                    if endpoint.validators and self._response_validation != "ignore":
+                        context = ValidationContext(
+                            endpoint_id=endpoint.id,
+                            domain=self.domain,
+                            method=endpoint.method,
+                            path=endpoint.path,
+                            status_code=response.status_code,
+                            request_id=request_id,
+                        )
+                        result = evaluate_validators(
+                            endpoint.validators,
+                            data_map,
+                            context,
+                            mode=self._response_validation,
+                        )
+                        if not result.is_valid and result.error:
+                            if result.mode == "raise":
+                                raise result.error
+                            if result.mode == "warn":
+                                logger.warning("response validation failed for %s: %s", endpoint.id, result.error)
                     if str(data_map.get("rt_cd")) not in ("0", "OK"):
                         raise KisResponseError(
                             f"API error for {endpoint.id}: {data_map.get('msg_cd')} {data_map.get('msg1')}".strip(),
@@ -617,6 +657,8 @@ class SyncKisRawClient:
                                 path=endpoint.path,
                                 status_code=response.status_code,
                                 message=str(data_map.get("msg1") or ""),
+                                domain=self.domain,
+                                request_id=request_id,
                             ),
                             payload=data_map,
                         )

@@ -6,7 +6,13 @@ from typing import Mapping
 from pykis.errors import PykisError
 
 
-class KisApiError(PykisError):
+class KisError(PykisError):
+    """Base exception for pykis errors."""
+
+    __slots__ = ()
+
+
+class KisApiError(KisError):
     """Base exception for KIS API errors."""
 
     __slots__ = ()
@@ -19,6 +25,8 @@ class KisErrorContext:
     path: str | None
     status_code: int | None
     message: str | None
+    domain: str | None = None
+    request_id: str | None = None
 
 
 class KisAuthError(KisApiError):
@@ -67,7 +75,16 @@ class KisHttpError(KisApiError):
 class KisResponseError(KisApiError):
     """Invalid or unexpected response payloads."""
 
-    __slots__ = ("context", "payload")
+    __slots__ = (
+        "context",
+        "payload",
+        "error_code",
+        "user_message",
+        "hint",
+        "rule_id",
+        "rule_type",
+        "details",
+    )
 
     def __init__(
         self,
@@ -75,10 +92,46 @@ class KisResponseError(KisApiError):
         *,
         context: KisErrorContext | None = None,
         payload: Mapping[str, object] | None = None,
+        error_code: str | None = None,
+        user_message: str | None = None,
+        hint: str | None = None,
+        rule_id: str | None = None,
+        rule_type: str | None = None,
+        details: object | None = None,
     ) -> None:
         super().__init__(message)
         self.context = context
         self.payload = payload
+        self.error_code = error_code
+        self.user_message = user_message
+        self.hint = hint
+        self.rule_id = rule_id
+        self.rule_type = rule_type
+        self.details = details
+
+
+class KisResponseIncompleteError(KisResponseError):
+    """Missing keys/fields in response payloads."""
+
+    __slots__ = ()
+
+
+class KisResponseUnavailableError(KisResponseError):
+    """Known unavailable cases (market closed, not published yet)."""
+
+    __slots__ = ()
+
+
+class KisResponseSentinelError(KisResponseError):
+    """Sentinel values indicate invalid payloads."""
+
+    __slots__ = ()
+
+
+class KisInvalidResponseError(KisResponseError):
+    """Fallback error for invalid payloads."""
+
+    __slots__ = ()
 
 
 class KisUnsupportedEndpointError(KisApiError):

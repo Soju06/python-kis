@@ -16,11 +16,21 @@ if TYPE_CHECKING:
 class InquireInvestorTimeByMarketRequest(RawModel):
     fid_input_iscd: Annotated[
         str,
-        "코스피: KSP, 코스닥:KSQ, 선물,콜옵션,풋옵션 : K2I, 주식선물:999, ETF: ETF, ELW:ELW, ETN: ETN, 미니: MKI, 위클리월 : WKM, 위클리목: WKI 코스닥150: KQI",
+        (
+            "코스피: KSP, 코스닥:KSQ, 선물,콜옵션,풋옵션 : K2I, 주식선물:999, ETF: ETF, ELW:ELW, ETN: ETN, 미니: MKI, 위클리월 : WKM, 위클리목: WKI "
+            "코스닥150: KQI"
+        ),
     ] = Field(alias="fid_input_iscd")
     fid_input_iscd_2: Annotated[
         str,
-        "- fid_input_iscd: KSP(코스피) 혹은 KSQ(코스닥)인 경우 코스피(0001_종합, .…0027_제조업 ) 코스닥(1001_종합, …. 1041_IT부품) ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조) - fid_input_iscd가 K2I인 경우 F001(선물) OC01(콜옵션) OP01(풋옵션) - fid_input_iscd가 999인 경우 S001(주식선물) - fid_input_iscd가 ETF인 경우 T000(ETF) - fid_input_iscd가 ELW인 경우 W000(ELW) - fid_input_iscd가 ETN인 경우 E199(ETN) - fid_input_iscd가 MKI인 경우 F004(미니선물) OC02(미니콜옵션) OP02(미니풋옵션) - fid_input_iscd가 WKM인 경우 OC05(위클리콜(월)) OP05(위클리풋(월)) - fid_input_iscd가 WKI인 경우 OC04(위클리콜(목)) OP04(위클리풋(목)) - fid_input_iscd가 KQI인 경우 F002(코스닥150선물) OC03(코스닥150콜옵션) OP03(코스닥150풋옵션)",
+        (
+            "- fid_input_iscd: KSP(코스피) 혹은 KSQ(코스닥)인 경우 코스피(0001_종합, .…0027_제조업 ) 코스닥(1001_종합, …. 1041_IT부품) ... 포탈 (FAQ "
+            ": 종목정보 다운로드(국내) - 업종코드 참조) - fid_input_iscd가 K2I인 경우 F001(선물) OC01(콜옵션) OP01(풋옵션) - fid_input_iscd가 999인 "
+            "경우 S001(주식선물) - fid_input_iscd가 ETF인 경우 T000(ETF) - fid_input_iscd가 ELW인 경우 W000(ELW) - fid_input_iscd가 ETN인 경우 E199(E"
+            "TN) - fid_input_iscd가 MKI인 경우 F004(미니선물) OC02(미니콜옵션) OP02(미니풋옵션) - fid_input_iscd가 WKM인 경우 OC05(위클리콜(월)) OP05"
+            "(위클리풋(월)) - fid_input_iscd가 WKI인 경우 OC04(위클리콜(목)) OP04(위클리풋(목)) - fid_input_iscd가 KQI인 경우 F002(코스닥150선물) OC0"
+            "3(코스닥150콜옵션) OP03(코스닥150풋옵션)"
+        ),
     ] = Field(alias="fid_input_iscd_2")
 
 

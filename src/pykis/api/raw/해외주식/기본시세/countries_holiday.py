@@ -82,7 +82,10 @@ class CountriesHolidayRequestDict(TypedDict):
 class CountriesHolidayOutput(RawModel):
     prdt_type_cd: Annotated[
         PrdtTypeCdEnum,
-        "512 미국 나스닥 / 513 미국 뉴욕거래소 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558 홍콩USD 507 베트남 하노이거래소 / 508 베트남 호치민거래소 551 중국 상해A / 552 중국 심천A",
+        (
+            "512 미국 나스닥 / 513 미국 뉴욕거래소 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558 홍콩USD 507 베트남 하노이거래소 / 508 베트"
+            "남 호치민거래소 551 중국 상해A / 552 중국 심천A"
+        ),
     ] = Field(
         alias="prdt_type_cd",
         json_schema_extra={

@@ -44,7 +44,10 @@ class CreditBalanceRequest(RawModel):
     FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (주식 J)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
     FID_RANK_SORT_CLS_CODE: Annotated[
         FidRankSortClsCodeEnum,
-        "'(융자)0:잔고비율 상위, 1: 잔고수량 상위, 2: 잔고금액 상위, 3: 잔고비율 증가상위, 4: 잔고비율 감소상위 (대주)5:잔고비율 상위, 6: 잔고수량 상위, 7: 잔고금액 상위, 8: 잔고비율 증가상위, 9: 잔고비율 감소상위 '",
+        (
+            "'(융자)0:잔고비율 상위, 1: 잔고수량 상위, 2: 잔고금액 상위, 3: 잔고비율 증가상위, 4: 잔고비율 감소상위 (대주)5:잔고비율 상위, 6: 잔고수"
+            "량 상위, 7: 잔고금액 상위, 8: 잔고비율 증가상위, 9: 잔고비율 감소상위 '"
+        ),
     ] = Field(
         alias="FID_RANK_SORT_CLS_CODE",
         json_schema_extra={

@@ -9,6 +9,8 @@ from typing import Awaitable, Generic, Mapping, Protocol, Type, TypeVar
 
 from pydantic import BaseModel
 
+from pykis.api.validation.rules import ValidatorRule
+
 RequestT = TypeVar("RequestT", bound=BaseModel)
 ResponseT = TypeVar("ResponseT", bound=BaseModel)
 
@@ -35,6 +37,7 @@ class Endpoint(Generic[RequestT, ResponseT]):
     demo_tr_id: str | None
     auth_required: bool
     hashkey_required: bool
+    validators: tuple[ValidatorRule, ...] = ()
 
     @property
     def docs(self) -> str | None:

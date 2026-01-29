@@ -76,7 +76,10 @@ class MarketTimeRequest(RawModel):
     )
     FM_EXCG_CD: Annotated[
         FmExcgCdEnum,
-        "'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE), SGX(SGX), OSE(OSE), ASX(ASX), CBOE(CBOE), MDEX(MDEX), NYSE(NYSE), BMF(BMF),FTX(FTX), HNX(HNX), ETC(기타)'",
+        (
+            "'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE), SGX(SGX), OSE(OSE), ASX(ASX), CBOE(CBOE), MDEX(MDEX), NYSE(NYSE), BMF(BMF),FTX(FTX), HNX("
+            "HNX), ETC(기타)'"
+        ),
     ] = Field(
         alias="FM_EXCG_CD",
         json_schema_extra={

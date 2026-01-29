@@ -142,7 +142,12 @@ class InquirePresentBalanceRequest(RawModel):
     )
     TR_MKET_CD: Annotated[
         TrMketCdEnum,
-        "[Request body NATN_CD 000 설정] 00 : 전체 [Request body NATN_CD 840 설정] 00 : 전체 01 : 나스닥(NASD) 02 : 뉴욕거래소(NYSE) 03 : 미국(PINK SHEETS) 04 : 미국(OTCBB) 05 : 아멕스(AMEX) [Request body NATN_CD 156 설정] 00 : 전체 01 : 상해B 02 : 심천B 03 : 상해A 04 : 심천A [Request body NATN_CD 392 설정] 01 : 일본 [Request body NATN_CD 704 설정] 01 : 하노이거래 02 : 호치민거래소 [Request body NATN_CD 344 설정] 01 : 홍콩 02 : 홍콩CNY 03 : 홍콩USD",
+        (
+            "[Request body NATN_CD 000 설정] 00 : 전체 [Request body NATN_CD 840 설정] 00 : 전체 01 : 나스닥(NASD) 02 : 뉴욕거래소(NYSE) 03 : 미국(PI"
+            "NK SHEETS) 04 : 미국(OTCBB) 05 : 아멕스(AMEX) [Request body NATN_CD 156 설정] 00 : 전체 01 : 상해B 02 : 심천B 03 : 상해A 04 : 심천A [Req"
+            "uest body NATN_CD 392 설정] 01 : 일본 [Request body NATN_CD 704 설정] 01 : 하노이거래 02 : 호치민거래소 [Request body NATN_CD 344 설정] "
+            "01 : 홍콩 02 : 홍콩CNY 03 : 홍콩USD"
+        ),
     ] = Field(
         alias="TR_MKET_CD",
         json_schema_extra={

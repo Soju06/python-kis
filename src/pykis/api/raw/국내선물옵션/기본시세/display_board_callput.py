@@ -31,7 +31,11 @@ class DisplayBoardCallputRequest(RawModel):
     FID_MRKT_CLS_CODE: Annotated[str, "시장구분코드 (CO: 콜옵션)"] = Field(alias="FID_MRKT_CLS_CODE")
     FID_MTRT_CNT: Annotated[
         str | None,
-        "- FID_COND_MRKT_CLS_CODE : 공백(KOSPI200), MKI(미니KOSPI200), KQI(KOSDAQ150) 인 경우 : 만기년월(YYYYMM) 입력 (ex. 202407) - FID_COND_MRKT_CLS_CODE : WKM(KOSPI200위클리(월)), WKI(KOSPI200위클리(목)) 인 경우 : 만기년월주차(YYMMWW) 입력 (ex. 2024년도 7월 3주차인 경우, 240703 입력)",
+        (
+            "- FID_COND_MRKT_CLS_CODE : 공백(KOSPI200), MKI(미니KOSPI200), KQI(KOSDAQ150) 인 경우 : 만기년월(YYYYMM) 입력 (ex. 202407) - FID_COND_MRK"
+            "T_CLS_CODE : WKM(KOSPI200위클리(월)), WKI(KOSPI200위클리(목)) 인 경우 : 만기년월주차(YYMMWW) 입력 (ex. 2024년도 7월 3주차인 경우, 240703"
+            " 입력)"
+        ),
     ] = Field(default=None, alias="FID_MTRT_CNT", json_schema_extra={"blank_allowed": True})
     FID_COND_MRKT_CLS_CODE: Annotated[
         FidCondMrktClsCodeEnum | None, "공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150"

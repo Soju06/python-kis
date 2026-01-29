@@ -216,25 +216,28 @@ class InquireSearchOutput1(RawModel):
 class InquireSearchOutput2(RawModel):
     rsym: Annotated[
         str | None,
-        "실시간조회심볼 D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이",
+        (
+            "실시간조회심볼 D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TS"
+            "E : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이"
+        ),
     ] = Field(default=None, alias="rsym")
     excd: Annotated[str | None, "거래소코드"] = Field(default=None, alias="excd")
     name: Annotated[str | None, "종목명"] = Field(default=None, alias="name")
     symb: Annotated[str | None, "종목코드"] = Field(default=None, alias="symb")
     last: Annotated[Decimal | None, "현재가"] = Field(default=None, alias="last")
-    shar: Annotated[str | None, "발행주식수(단위: 천)"] = Field(default=None, alias="shar")
+    shar: Annotated[int | None, "발행주식수(단위: 천)"] = Field(default=None, alias="shar")
     valx: Annotated[Decimal | None, "시가총액(단위: 천)"] = Field(default=None, alias="valx")
     plow: Annotated[Decimal | None, "저가"] = Field(default=None, alias="plow")
     phigh: Annotated[Decimal | None, "고가"] = Field(default=None, alias="phigh")
     popen: Annotated[Decimal | None, "시가"] = Field(default=None, alias="popen")
     tvol: Annotated[int | None, "거래량(단위: 주)"] = Field(default=None, alias="tvol")
     rate: Annotated[Decimal | None, "등락율(%)"] = Field(default=None, alias="rate")
-    diff: Annotated[str | None, "대비"] = Field(default=None, alias="diff")
-    sign: Annotated[str | None, "기호"] = Field(default=None, alias="sign")
+    diff: Annotated[Decimal | None, "대비"] = Field(default=None, alias="diff")
+    sign: Annotated[int | None, "기호"] = Field(default=None, alias="sign")
     avol: Annotated[int | None, "거래대금(단위: 천)"] = Field(default=None, alias="avol")
-    eps: Annotated[str | None, "EPS"] = Field(default=None, alias="eps")
-    per: Annotated[str | None, "PER"] = Field(default=None, alias="per")
-    rank: Annotated[str | None, "순위"] = Field(default=None, alias="rank")
+    eps: Annotated[Decimal | None, "EPS"] = Field(default=None, alias="eps")
+    per: Annotated[Decimal | None, "PER"] = Field(default=None, alias="per")
+    rank: Annotated[int | None, "순위"] = Field(default=None, alias="rank")
     ename: Annotated[str | None, "영문종목명"] = Field(default=None, alias="ename")
     e_ordyn: Annotated[str | None, "가능 : O"] = Field(default=None, alias="e_ordyn")
 

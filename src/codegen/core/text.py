@@ -177,6 +177,39 @@ def _split_triple_literal_line(text: str, max_literal_width: int) -> list[str]:
     return parts or [text]
 
 
+def _split_inline_literal(text: str, max_width: int) -> list[str]:
+    if max_width <= 0:
+        return [text]
+    parts: list[str] = []
+    current: list[str] = []
+    current_width = 0
+    index = 0
+    while index < len(text):
+        ch = text[index]
+        if ch == "\\" and index + 1 < len(text):
+            token = text[index : index + 2]
+            token_width = _display_width(token)
+            if current and current_width + token_width > max_width:
+                parts.append("".join(current))
+                current = []
+                current_width = 0
+            current.append(token)
+            current_width += token_width
+            index += 2
+            continue
+        ch_width = _display_width(ch)
+        if current and current_width + ch_width > max_width:
+            parts.append("".join(current))
+            current = []
+            current_width = 0
+        current.append(ch)
+        current_width += ch_width
+        index += 1
+    if current:
+        parts.append("".join(current))
+    return parts or [text]
+
+
 def format_string_literal(text: str, indent: int = 12, line_limit: int = 150) -> str:
     literal = _triple_literal(text)
     indent = max(0, indent)
@@ -200,11 +233,30 @@ def format_string_literal(text: str, indent: int = 12, line_limit: int = 150) ->
     return f"(\n{literal_lines}\n{base_indent})"
 
 
-def format_annotated_type(py_type: str, description: str | None) -> str:
+def format_annotated_type(py_type: str, description: str | None, *, indent: int = 4, line_limit: int = 150) -> str:
     if not description:
         return py_type
-    literal = format_inline_literal(description)
-    return f"Annotated[{py_type}, {literal}]"
+    indent = max(0, indent)
+    line_limit = max(0, line_limit)
+    base_indent = " " * indent
+    inner_indent = " " * (indent + 4)
+    escaped = _escape_inline_literal(description)
+    literal_width = _display_width(escaped) + 2
+    desc_line_limit = max(1, line_limit - (indent + 4))
+    if literal_width + 1 <= desc_line_limit:
+        desc_lines = [f'"{escaped}"']
+    else:
+        chunk_line_limit = max(1, line_limit - (indent + 8))
+        max_content_width = max(1, chunk_line_limit - 2)
+        parts = _split_inline_literal(escaped, max_content_width)
+        desc_lines = ["("] + [f'    "{part}"' for part in parts] + [")"]
+
+    lines = ["Annotated[", f"{inner_indent}{py_type},"]
+    for index, line in enumerate(desc_lines):
+        suffix = "," if index == len(desc_lines) - 1 else ""
+        lines.append(f"{inner_indent}{line}{suffix}")
+    lines.append(f"{base_indent}]")
+    return "\n".join(lines)
 
 
 __all__ = [

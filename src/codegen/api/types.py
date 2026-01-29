@@ -7,6 +7,16 @@ from pydantic import BaseModel, ConfigDict, Field
 from codegen.api.models import SpecField
 
 FieldKind = Literal["str", "int", "decimal", "date", "time", "datetime", "bool", "enum"]
+ValidatorRuleType = Literal[
+    "output_required",
+    "all_fields_sentinel",
+    "any_field_sentinel",
+    "all_fields_missing",
+    "any_field_missing",
+]
+RuleScope = Literal["first_row", "all_rows", "any_row"]
+RuleSeverity = Literal["error", "warn"]
+ResponseValidationMode = Literal["raise", "warn", "ignore"]
 
 
 class FieldHint(BaseModel):
@@ -45,6 +55,54 @@ class ExtraFields(BaseModel):
         return ExtraFields(response=response, outputs=outputs)
 
 
+class ValidatorWhen(BaseModel):
+    model_config = ConfigDict(extra="ignore", str_strip_whitespace=True)
+
+    rt_cd: list[str] | None = None
+    msg_cd: list[str] | None = None
+
+
+class ValidatorCapture(BaseModel):
+    model_config = ConfigDict(extra="ignore", str_strip_whitespace=True)
+
+    fields: list[str] | None = None
+    outputs: list[str] | None = None
+    max_rows: int | None = None
+    redact_keys: list[str] | None = None
+
+
+class ValidatorError(BaseModel):
+    model_config = ConfigDict(extra="ignore", str_strip_whitespace=True)
+
+    code: str
+    message: str
+    user_message: str
+    hint: str | None = None
+    exception: str
+
+
+class ValidatorRule(BaseModel):
+    model_config = ConfigDict(extra="ignore", str_strip_whitespace=True)
+
+    id: str
+    type: ValidatorRuleType
+    output: str
+    fields: list[str] | None = None
+    sentinel_values: list[str | None] | None = None
+    scope: RuleScope | None = None
+    error: ValidatorError
+    when: ValidatorWhen | None = None
+    mode: ResponseValidationMode | None = None
+    severity: RuleSeverity | None = None
+    capture: ValidatorCapture | None = None
+
+
+class ValidatorSpec(BaseModel):
+    model_config = ConfigDict(extra="ignore", str_strip_whitespace=True)
+
+    rules: list[ValidatorRule] = Field(default_factory=list)
+
+
 class EndpointHints(BaseModel):
     model_config = ConfigDict(extra="ignore", str_strip_whitespace=True)
 
@@ -54,8 +112,12 @@ class EndpointHints(BaseModel):
     output_kinds: dict[str, str] = Field(default_factory=dict)
     output_aliases: dict[str, str] = Field(default_factory=dict)
     extra_fields: ExtraFields = Field(default_factory=ExtraFields)
+    validator: ValidatorSpec | None = None
 
     def merge(self, override: EndpointHints) -> EndpointHints:
+        validator = self.validator
+        if "validator" in override.model_fields_set:
+            validator = override.validator
         return EndpointHints(
             request=_merge_field_map(self.request, override.request),
             response=_merge_field_map(self.response, override.response),
@@ -63,6 +125,7 @@ class EndpointHints(BaseModel):
             output_kinds={**self.output_kinds, **override.output_kinds},
             output_aliases={**self.output_aliases, **override.output_aliases},
             extra_fields=self.extra_fields.merge(override.extra_fields),
+            validator=validator,
         )
 
 
@@ -105,4 +168,19 @@ def _merge_output_map(
     return merged
 
 
-__all__ = ["EndpointHints", "ExtraFields", "FieldHint", "FieldKind", "TypeOverrides"]
+__all__ = [
+    "EndpointHints",
+    "ExtraFields",
+    "FieldHint",
+    "FieldKind",
+    "ResponseValidationMode",
+    "RuleScope",
+    "RuleSeverity",
+    "TypeOverrides",
+    "ValidatorCapture",
+    "ValidatorError",
+    "ValidatorRule",
+    "ValidatorRuleType",
+    "ValidatorSpec",
+    "ValidatorWhen",
+]

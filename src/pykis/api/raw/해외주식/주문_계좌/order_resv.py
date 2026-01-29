@@ -110,7 +110,10 @@ class OrderResvRequest(RawModel):
     PDNO: Annotated[str, "상품번호"] = Field(alias="PDNO")
     PRDT_TYPE_CD: Annotated[
         PrdtTypeCdEnum,
-        "tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 515 : 일본 501 : 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 : 중국 상해A / 552 : 중국 심천A",
+        (
+            "tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 515 : 일본 501 : 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노"
+            "이거래소 / 508 : 베트남 호치민거래소 551 : 중국 상해A / 552 : 중국 심천A"
+        ),
     ] = Field(
         alias="PRDT_TYPE_CD",
         json_schema_extra={
@@ -155,7 +158,10 @@ class OrderResvRequest(RawModel):
     )
     ORD_DVSN: Annotated[
         OrdDvsnEnum | None,
-        "tr_id가 TTTT3014U(미국 예약 매수 주문)인 경우만 사용 00 : 지정가 35 : TWAP 36 : VWAP tr_id가 TTTT3016U(미국 예약 매도 주문)인 경우만 사용 00 : 지정가 31 : MOO(장개시시장가) 35 : TWAP 36 : VWAP",
+        (
+            "tr_id가 TTTT3014U(미국 예약 매수 주문)인 경우만 사용 00 : 지정가 35 : TWAP 36 : VWAP tr_id가 TTTT3016U(미국 예약 매도 주문)인 경우만 사"
+            "용 00 : 지정가 31 : MOO(장개시시장가) 35 : TWAP 36 : VWAP"
+        ),
     ] = Field(
         default=None,
         alias="ORD_DVSN",

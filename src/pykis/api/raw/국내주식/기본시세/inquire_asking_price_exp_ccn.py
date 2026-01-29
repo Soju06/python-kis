@@ -118,7 +118,10 @@ class InquireAskingPriceExpCcnOutput1(RawModel):
     ntby_aspr_rsqn: Annotated[int, "순매수 호가 잔량"] = Field(alias="ntby_aspr_rsqn")
     new_mkop_cls_code: Annotated[
         str,
-        "' '00' : 장전 예상체결가와 장마감 동시호가 '49' : 장후 예상체결가 (1) 첫 번째 비트 1 : 장개시전 2 : 장중 3 : 장종료후 4 : 시간외단일가 7 : 일반Buy-in 8 : 당일Buy-in (2) 두 번째 비트 0 : 보통 1 : 종가 2 : 대량 3 : 바스켓 7 : 정리매매 8 : Buy-in'",
+        (
+            "' '00' : 장전 예상체결가와 장마감 동시호가 '49' : 장후 예상체결가 (1) 첫 번째 비트 1 : 장개시전 2 : 장중 3 : 장종료후 4 : 시간외단일가 7"
+            " : 일반Buy-in 8 : 당일Buy-in (2) 두 번째 비트 0 : 보통 1 : 종가 2 : 대량 3 : 바스켓 7 : 정리매매 8 : Buy-in'"
+        ),
     ] = Field(alias="new_mkop_cls_code")
 
 

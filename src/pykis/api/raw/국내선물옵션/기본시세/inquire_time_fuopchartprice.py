@@ -70,7 +70,10 @@ class InquireTimeFuopchartpriceRequest(RawModel):
     )
     FID_INPUT_HOUR_1: Annotated[
         str,
-        "입력 시간 기준으로 이전 시간 조회(HHMMSS) ex) 093000 입력 시, 오전 9시 30분부터 역순으로 분봉 조회 * CM(야간선물), EU(야간옵션)인 경우, 자정 이후 시간은 +24시간으로 입력 ex) 253000 입력 시, 새벽 1시 30분부터 역순으로 분봉 조회",
+        (
+            "입력 시간 기준으로 이전 시간 조회(HHMMSS) ex) 093000 입력 시, 오전 9시 30분부터 역순으로 분봉 조회 * CM(야간선물), EU(야간옵션)인 경우, "
+            "자정 이후 시간은 +24시간으로 입력 ex) 253000 입력 시, 새벽 1시 30분부터 역순으로 분봉 조회"
+        ),
     ] = Field(alias="FID_INPUT_HOUR_1")
 
 

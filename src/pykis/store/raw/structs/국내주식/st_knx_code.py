@@ -41,7 +41,10 @@ class ST_KNX_CODE(StoreModel):
     byps_lstn_yn: Annotated[StoreBool, "우회 상장 여부"] = Field(json_schema_extra={"length": 1})
     flng_cls_code: Annotated[
         FlngClsCodeEnum,
-        "락구분 코드 00:해당사항없음 01:권리락 02:배당락 03:분배락 04:권배락 05:중간배당락 06:권리중간배당락 99:기타 SW,SR,EW는 미해당(미해당의경우 SPACE)",
+        (
+            "락구분 코드 00:해당사항없음 01:권리락 02:배당락 03:분배락 04:권배락 05:중간배당락 06:권리중간배당락 99:기타 SW,SR,EW는 미해당(미해당의경"
+            "우 SPACE)"
+        ),
     ] = Field(
         json_schema_extra={
             "length": 2,

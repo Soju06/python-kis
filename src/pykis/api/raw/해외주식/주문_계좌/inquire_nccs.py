@@ -145,7 +145,11 @@ class InquireNccsRequest(RawModel):
     )
     OVRS_EXCG_CD: Annotated[
         OvrsExcgCdEnum | None,
-        "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민 * NASD 인 경우만 미국전체로 조회되며 나머지 거래소 코드는 해당 거래소만 조회됨 * 공백 입력 시 다음조회가 불가능하므로, 반드시 거래소코드 입력해야 함",
+        (
+            "NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치"
+            "민 * NASD 인 경우만 미국전체로 조회되며 나머지 거래소 코드는 해당 거래소만 조회됨 * 공백 입력 시 다음조회가 불가능하므로, 반드시 거래소"
+            "코드 입력해야 함"
+        ),
     ] = Field(
         default=None,
         alias="OVRS_EXCG_CD",
@@ -280,7 +284,11 @@ class InquireNccsOutput(RawModel):
     prcs_stat_name: Annotated[str, '""'] = Field(alias="prcs_stat_name", json_schema_extra={"blank_allowed": True})
     loan_type_cd: Annotated[
         LoanTypeCdEnum,
-        "00 해당사항없음 01 자기융자일반형 03 자기융자투자형 05 유통융자일반형 06 유통융자투자형 07 자기대주 09 유통대주 10 현금 11 주식담보대출 12 수익증권담보대출 13 ELS담보대출 14 채권담보대출 15 해외주식담보대출 16 기업신용공여 31 소액자동담보대출 41 매도담보대출 42 환매자금대출 43 매입환매자금대출 44 대여매도담보대출 81 대차거래 82 법인CMA론 91 공모주청약자금대출 92 매입자금 93 미수론서비스 94 대여",
+        (
+            "00 해당사항없음 01 자기융자일반형 03 자기융자투자형 05 유통융자일반형 06 유통융자투자형 07 자기대주 09 유통대주 10 현금 11 주식담보대출 "
+            "12 수익증권담보대출 13 ELS담보대출 14 채권담보대출 15 해외주식담보대출 16 기업신용공여 31 소액자동담보대출 41 매도담보대출 42 환매자금대"
+            "출 43 매입환매자금대출 44 대여매도담보대출 81 대차거래 82 법인CMA론 91 공모주청약자금대출 92 매입자금 93 미수론서비스 94 대여"
+        ),
     ] = Field(
         alias="loan_type_cd",
         json_schema_extra={

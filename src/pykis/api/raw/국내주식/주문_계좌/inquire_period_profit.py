@@ -100,7 +100,10 @@ class InquirePeriodProfitOutput2(RawModel):
     tot_excc_amt: Annotated[Decimal, "총정산금액"] = Field(alias="tot_excc_amt")
     tot_rlzt_pfls: Annotated[
         str,
-        "※ HTS[0856] 기간별 매매손익 '일별' 화면의 우측 하단 '총손익률' 항목은 기간별매매손익현황조회(TTTC8715R) > output2 > tot_pftrt(총수익률) 으로 확인 가능",
+        (
+            "※ HTS[0856] 기간별 매매손익 '일별' 화면의 우측 하단 '총손익률' 항목은 기간별매매손익현황조회(TTTC8715R) > output2 > tot_pftrt(총수익률) "
+            "으로 확인 가능"
+        ),
     ] = Field(alias="tot_rlzt_pfls")
     loan_int: Annotated[str, "대출이자"] = Field(alias="loan_int")
 

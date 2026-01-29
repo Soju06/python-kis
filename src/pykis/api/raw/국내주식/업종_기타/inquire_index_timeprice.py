@@ -6,8 +6,10 @@ from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpac
 
 from pydantic import Field
 
+from pykis.api.errors import KisResponseUnavailableError
 from pykis.api.raw.base import KisBool, KisTimeOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.api.validation.rules import AnyFieldSentinel, ErrorConfig
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -70,6 +72,22 @@ _ENDPOINT: Endpoint[InquireIndexTimepriceRequest, InquireIndexTimepriceResponse]
     demo_tr_id=None,
     auth_required=True,
     hashkey_required=False,
+    validators=(
+        AnyFieldSentinel(
+            id="index_time_time_sentinel",
+            output="output",
+            fields=tuple(["bsop_hour"]),
+            sentinel_values=tuple(["888888"]),
+            scope="first_row",
+            error=ErrorConfig(
+                code="KIS_RESPONSE_UNAVAILABLE",
+                message="Index time data unavailable",
+                user_message="해당 지수 정보는 장 종료 후 조회 가능합니다.",
+                hint="장 마감 이후 다시 시도하세요.",
+                exception=KisResponseUnavailableError,
+            ),
+        ),
+    ),
 )
 
 if TYPE_CHECKING:

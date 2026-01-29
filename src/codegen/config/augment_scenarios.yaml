@@ -1,0 +1,28 @@
+scenarios:
+  - id: success
+    description: "Valid request with expected parameters"
+    request_template: default
+    expected: valid_response
+    store_as: success.json
+  - id: empty_params
+    description: "Request with minimal or empty parameters"
+    request_template: minimal
+    expected: empty_or_sentinel
+    store_as: empty.json
+  - id: invalid_params
+    description: "Request with invalid parameters"
+    request_template: invalid
+    expected: error_response
+    store_as: error.json
+
+request_templates:
+  e27baf2f-6ec0-4029-b4fd-4c873f340478:
+    default:
+      fid_cond_mrkt_div_code: "J"
+      fid_input_iscd: "005930"
+    minimal:
+      fid_cond_mrkt_div_code: "J"
+      fid_input_iscd: "005930"
+    invalid:
+      fid_cond_mrkt_div_code: "J"
+      fid_input_iscd: "000000"

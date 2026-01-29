@@ -112,14 +112,20 @@ class InquireDailyOrderOutput(RawModel):
     ord_dt: Annotated[KisDate, "주문일자"] = Field(alias="ord_dt")
     odno: Annotated[
         str,
-        '접수한 주문의 일련번호(ex. 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송 (ex. ORGN_ODNO : 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송 (ex. ORGN_ODNO : 00360686)',
+        (
+            '접수한 주문의 일련번호(ex. 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송 (ex. ORGN_ODNO : 00360686) * 정정/취소시 문자열처럼 '
+            '"0"을 포함해서 전송 (ex. ORGN_ODNO : 00360686)'
+        ),
     ] = Field(alias="odno")
     orgn_ord_dt: Annotated[KisDate, "원주문일자"] = Field(alias="orgn_ord_dt")
     orgn_odno: Annotated[str, "원주문번호(ex. 00360685)"] = Field(alias="orgn_odno")
     ovrs_futr_fx_pdno: Annotated[str, "해외선물FX상품번호"] = Field(alias="ovrs_futr_fx_pdno")
     rvse_cncl_dvsn_cd: Annotated[
         str,
-        "청산체결이 없는 신규 00 청산체결이 없는 정정 01 청산체결이 없는 취소 02 청산체결이 있는 취소 02 청산체결이 있는 신규 03 청산체결이 있는 정정 04 행사 05 배정 06 소멸 07 만기 08",
+        (
+            "청산체결이 없는 신규 00 청산체결이 없는 정정 01 청산체결이 없는 취소 02 청산체결이 있는 취소 02 청산체결이 있는 신규 03 청산체결이 있는 "
+            "정정 04 행사 05 배정 06 소멸 07 만기 08"
+        ),
     ] = Field(alias="rvse_cncl_dvsn_cd")
     sll_buy_dvsn_cd: Annotated[str, "매도매수구분코드"] = Field(alias="sll_buy_dvsn_cd")
     cplx_ord_dvsn_cd: Annotated[str, "복합주문구분코드"] = Field(alias="cplx_ord_dvsn_cd")

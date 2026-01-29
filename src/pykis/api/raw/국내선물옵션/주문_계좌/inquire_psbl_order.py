@@ -78,7 +78,10 @@ class InquirePsblOrderRequest(RawModel):
     )
     ORD_DVSN_CD: Annotated[
         OrdDvsnCdEnum | None,
-        "01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK)",
+        (
+            "01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15"
+            " : 최유리(FOK)"
+        ),
     ] = Field(
         default=None,
         alias="ORD_DVSN_CD",

@@ -98,7 +98,10 @@ class InquireCreditPsamountRequest(RawModel):
     )
     CRDT_TYPE: Annotated[
         CrdtTypeEnum,
-        "21 : 자기융자신규 23 : 유통융자신규 26 : 유통대주상환 28 : 자기대주상환 25 : 자기융자상환 27 : 유통융자상환 22 : 유통대주신규 24 : 자기대주신규",
+        (
+            "21 : 자기융자신규 23 : 유통융자신규 26 : 유통대주상환 28 : 자기대주상환 25 : 자기융자상환 27 : 유통융자상환 22 : 유통대주신규 24 : 자기"
+            "대주신규"
+        ),
     ] = Field(
         alias="CRDT_TYPE",
         json_schema_extra={

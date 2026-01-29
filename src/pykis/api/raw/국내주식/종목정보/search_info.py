@@ -55,7 +55,10 @@ class SearchInfoRequest(RawModel):
     )
     PRDT_TYPE_CD: Annotated[
         PrdtTypeCdEnum,
-        "'300 주식 301 선물옵션 302 채권 512 미국 나스닥 / 513 미국 뉴욕 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558 홍콩USD 507 베트남 하노이 / 508 베트남 호치민 551 중국 상해A / 552 중국 심천A'",
+        (
+            "'300 주식 301 선물옵션 302 채권 512 미국 나스닥 / 513 미국 뉴욕 / 529 미국 아멕스 515 일본 501 홍콩 / 543 홍콩CNY / 558 홍콩USD 507 베트"
+            "남 하노이 / 508 베트남 호치민 551 중국 상해A / 552 중국 심천A'"
+        ),
     ] = Field(
         alias="PRDT_TYPE_CD",
         json_schema_extra={

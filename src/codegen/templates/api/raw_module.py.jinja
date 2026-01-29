@@ -129,6 +129,66 @@ _ENDPOINT: Endpoint[{{ endpoint.request_name }}, {{ endpoint.response_name }}] =
     demo_tr_id={{ endpoint.demo_tr_id | repr }},
     auth_required={{ endpoint.auth_required }},
     hashkey_required={{ endpoint.hashkey_required }},
+{% if validator_rules %}
+    validators=(
+{% for rule in validator_rules %}
+        {{ rule.class_name }}(
+            id={{ rule.rule_id | repr }},
+            output={{ rule.output | repr }},
+{% if rule.fields is not none %}
+            fields=tuple({{ rule.fields | tojson }}),
+{% endif %}
+{% if rule.sentinel_values is not none %}
+            sentinel_values=tuple({{ rule.sentinel_values | tojson }}),
+{% endif %}
+{% if rule.scope %}
+            scope={{ rule.scope | repr }},
+{% endif %}
+            error=ErrorConfig(
+                code={{ rule.error_code | repr }},
+                message={{ rule.error_message | repr }},
+                user_message={{ rule.error_user_message | repr }},
+{% if rule.error_hint %}
+                hint={{ rule.error_hint | repr }},
+{% endif %}
+                exception={{ rule.error_exception }},
+            ),
+{% if rule.when_rt_cd or rule.when_msg_cd %}
+            when=RuleWhen(
+{% if rule.when_rt_cd %}
+                rt_cd=tuple({{ rule.when_rt_cd | tojson }}),
+{% endif %}
+{% if rule.when_msg_cd %}
+                msg_cd=tuple({{ rule.when_msg_cd | tojson }}),
+{% endif %}
+            ),
+{% endif %}
+{% if rule.mode %}
+            mode={{ rule.mode | repr }},
+{% endif %}
+{% if rule.severity %}
+            severity={{ rule.severity | repr }},
+{% endif %}
+{% if rule.capture_fields or rule.capture_outputs or rule.capture_max_rows is not none or rule.capture_redact_keys %}
+            capture=RuleCapture(
+{% if rule.capture_fields %}
+                fields=tuple({{ rule.capture_fields | tojson }}),
+{% endif %}
+{% if rule.capture_outputs %}
+                outputs=tuple({{ rule.capture_outputs | tojson }}),
+{% endif %}
+{% if rule.capture_max_rows is not none %}
+                max_rows={{ rule.capture_max_rows }},
+{% endif %}
+{% if rule.capture_redact_keys %}
+                redact_keys=tuple({{ rule.capture_redact_keys | tojson }}),
+{% endif %}
+            ),
+{% endif %}
+        ),
+{% endfor %}
+    ),
+{% endif %}
 )
 
 if TYPE_CHECKING:

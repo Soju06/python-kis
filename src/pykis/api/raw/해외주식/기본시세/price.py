@@ -62,7 +62,10 @@ class PriceRequest(RawModel):
     AUTH: Annotated[str | None, '"" (Null 값 설정)'] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
     EXCD: Annotated[
         ExcdEnum,
-        "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
+        (
+            "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이"
+            " BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)"
+        ),
     ] = Field(
         alias="EXCD",
         json_schema_extra={
@@ -149,7 +152,10 @@ class PriceRequestDict(TypedDict):
 class PriceOutput(RawModel):
     rsym: Annotated[
         str | None,
-        "D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이",
+        (
+            "D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : 도쿄, HKS :"
+            " 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이"
+        ),
     ] = Field(default=None, alias="rsym")
     zdiv: Annotated[str | None, "소수점자리수"] = Field(default=None, alias="zdiv")
     base: Annotated[str | None, "전일의 종가"] = Field(default=None, alias="base")

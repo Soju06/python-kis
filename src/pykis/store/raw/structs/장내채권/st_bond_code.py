@@ -21,7 +21,10 @@ class ST_BOND_CODE(StoreModel):
     )
     bond_cls_code: Annotated[
         BondClsCodeEnum,
-        "A0: GA:국고채 MA:통안채 BA:금융채 SA:비금융특수채 CA:회사채 F9: 03:장내소액채권 02:기타채권 04:장내주식관련사채 MM:매매종류별 C0: GA:국고채 MA:통안채 BA:금융채 SA:비금융특수채 MB:지방채 99:기타",
+        (
+            "A0: GA:국고채 MA:통안채 BA:금융채 SA:비금융특수채 CA:회사채 F9: 03:장내소액채권 02:기타채권 04:장내주식관련사채 MM:매매종류별 C0: GA:국"
+            "고채 MA:통안채 BA:금융채 SA:비금융특수채 MB:지방채 99:기타"
+        ),
     ] = Field(
         json_schema_extra={
             "length": 2,
@@ -45,7 +48,10 @@ class ST_BOND_CODE(StoreModel):
     sname: str = Field(json_schema_extra={"length": 40})
     bond_int_cls_code: Annotated[
         BondIntClsCodeEnum | None,
-        "F9/C0 : 01:할인 02:복리 03:이표 04:금리연동 05:분할상환(거리복리) 06:분할(거치단리) 07:단리 08:FRN 09:복5단2 A0 : 고정금리형 11:할인채 12:복리채 13:이표채 14:단리채 15:복5단2 19:기타 A0 : 변동금리형 21:이표채 22:복리채 23:단리채 29:기타",
+        (
+            "F9/C0 : 01:할인 02:복리 03:이표 04:금리연동 05:분할상환(거리복리) 06:분할(거치단리) 07:단리 08:FRN 09:복5단2 A0 : 고정금리형 11:할인채 1"
+            "2:복리채 13:이표채 14:단리채 15:복5단2 19:기타 A0 : 변동금리형 21:이표채 22:복리채 23:단리채 29:기타"
+        ),
     ] = Field(
         default=None,
         json_schema_extra={

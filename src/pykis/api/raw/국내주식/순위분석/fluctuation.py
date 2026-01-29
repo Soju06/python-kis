@@ -62,7 +62,10 @@ class FluctuationRequest(RawModel):
     fid_input_cnt_1: Annotated[str, "0:전체 , 누적일수 입력"] = Field(alias="fid_input_cnt_1")
     fid_prc_cls_code: Annotated[
         FidPrcClsCodeEnum,
-        "'fid_rank_sort_cls_code :0 상승율 순일때 (0:저가대비, 1:종가대비) fid_rank_sort_cls_code :1 하락율 순일때 (0:고가대비, 1:종가대비) fid_rank_sort_cls_code : 기타 (0:전체)'",
+        (
+            "'fid_rank_sort_cls_code :0 상승율 순일때 (0:저가대비, 1:종가대비) fid_rank_sort_cls_code :1 하락율 순일때 (0:고가대비, 1:종가대비) fid_r"
+            "ank_sort_cls_code : 기타 (0:전체)'"
+        ),
     ] = Field(
         alias="fid_prc_cls_code",
         json_schema_extra={"enum": ["code", "0", "1"], "enum_desc": {"code": "0 상승율 순일때 (", "0": "저가대비", "1": "종가대비"}},

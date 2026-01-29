@@ -23,7 +23,10 @@ class UpmuGubunEnum(KisStrEnum):
 class InvestorUnpdTrendRequest(RawModel):
     PROD_ISCD: Annotated[
         str,
-        "금리 (GE, ZB, ZF,ZN,ZT), 금속(GC, PA, PL,SI, HG), 농산물(CC, CT,KC, OJ, SB, ZC,ZL, ZM, ZO, ZR, ZS, ZW), 에너지(CL, HO, NG, WBS), 지수(ES, NQ, TF, YM, VX), 축산물(GF, HE, LE), 통화(6A, 6B, 6C, 6E, 6J, 6N, 6S, DX)",
+        (
+            "금리 (GE, ZB, ZF,ZN,ZT), 금속(GC, PA, PL,SI, HG), 농산물(CC, CT,KC, OJ, SB, ZC,ZL, ZM, ZO, ZR, ZS, ZW), 에너지(CL, HO, NG, WBS), 지수(ES"
+            ", NQ, TF, YM, VX), 축산물(GF, HE, LE), 통화(6A, 6B, 6C, 6E, 6J, 6N, 6S, DX)"
+        ),
     ] = Field(alias="PROD_ISCD")
     BSOP_DATE: Annotated[KisDate, "기준일(ex)20240513)"] = Field(alias="BSOP_DATE")
     UPMU_GUBUN: Annotated[UpmuGubunEnum, "0(수량), 1(증감)"] = Field(

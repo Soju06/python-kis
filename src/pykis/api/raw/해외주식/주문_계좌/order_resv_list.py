@@ -100,7 +100,11 @@ class OrderResvListRequest(RawModel):
     )
     PRDT_TYPE_CD: Annotated[
         PrdtTypeCdEnum | None,
-        "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 512 : 미국 나스닥 / 513 : 미국 뉴욕거래소 / 529 : 미국 아멕스 515 : 일본 501 : 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 : 중국 상해A / 552 : 중국 심천A",
+        (
+            "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 512 : 미국 나스닥 / 51"
+            "3 : 미국 뉴욕거래소 / 529 : 미국 아멕스 515 : 일본 501 : 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 "
+            "호치민거래소 551 : 중국 상해A / 552 : 중국 심천A"
+        ),
     ] = Field(
         default=None,
         alias="PRDT_TYPE_CD",
@@ -125,7 +129,10 @@ class OrderResvListRequest(RawModel):
     )
     OVRS_EXCG_CD: Annotated[
         OvrsExcgCdEnum | None,
-        "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 NASD : 나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / SZAA : 중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소",
+        (
+            "[tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회 NASD : 나스닥 / NYSE :"
+            " 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / SZAA : 중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소"
+        ),
     ] = Field(
         default=None,
         alias="OVRS_EXCG_CD",

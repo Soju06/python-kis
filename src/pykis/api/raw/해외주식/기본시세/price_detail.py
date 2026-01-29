@@ -17,7 +17,10 @@ class PriceDetailRequest(RawModel):
     AUTH: Annotated[str, "사용자권한정보"] = Field(alias="AUTH")
     EXCD: Annotated[
         str,
-        "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
+        (
+            "HKS : 홍콩 NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 TSE : 도쿄 SHS : 상해 SZS : 심천 SHI : 상해지수 SZI : 심천지수 HSX : 호치민 HNX : 하노이"
+            " BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)"
+        ),
     ] = Field(alias="EXCD")
     SYMB: Annotated[str, "종목코드"] = Field(alias="SYMB")
 

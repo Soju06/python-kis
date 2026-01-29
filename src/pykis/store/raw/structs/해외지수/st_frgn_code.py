@@ -14,7 +14,10 @@ from pykis.store.raw.structs._enums import ClsCodeEnum
 class ST_FRGN_CODE(StoreModel):
     cls_code: Annotated[
         ClsCodeEnum,
-        "구분코드 W : 세계주요지수 P : 미국지수 Q : 미국종목 H : 세계주요종목 D : 미국상장국내기업 G : 유럽상장국내기업 F : CME선물 M : 반도체 X : 환율 C : 상품선물 R : 국내금리 L : 리보금리 B : 주요국정부채",
+        (
+            "구분코드 W : 세계주요지수 P : 미국지수 Q : 미국종목 H : 세계주요종목 D : 미국상장국내기업 G : 유럽상장국내기업 F : CME선물 M : 반도체 X "
+            ": 환율 C : 상품선물 R : 국내금리 L : 리보금리 B : 주요국정부채"
+        ),
     ] = Field(
         json_schema_extra={
             "length": 1,

@@ -46,7 +46,10 @@ class OrderRvsecnclRequest(RawModel):
     FM_HDGE_ORD_SCRN_YN: Annotated[KisBool, "N"] = Field(alias="FM_HDGE_ORD_SCRN_YN")
     FM_MKPR_CVSN_YN: Annotated[
         KisBool | None,
-        "OTFM3003U(해외선물옵션주문취소)만 사용 ※ FM_MKPR_CVSN_YN 항목에 'Y'로 설정하여 취소주문을 접수할 경우, 주문 취소확인이 들어오면 원장에서 시장가주문을 하나 또 내줌",
+        (
+            "OTFM3003U(해외선물옵션주문취소)만 사용 ※ FM_MKPR_CVSN_YN 항목에 'Y'로 설정하여 취소주문을 접수할 경우, 주문 취소확인이 들어오면 원장에서"
+            " 시장가주문을 하나 또 내줌"
+        ),
     ] = Field(default=None, alias="FM_MKPR_CVSN_YN")
 
 

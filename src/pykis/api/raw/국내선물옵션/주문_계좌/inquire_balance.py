@@ -117,7 +117,10 @@ class InquireBalanceOutput1(RawModel):
     prdt_name: Annotated[str, "상품명"] = Field(alias="prdt_name")
     sll_buy_dvsn_name: Annotated[
         str,
-        '매도/매수 구분의 명칭 - 매수잔고를 가진 경우, "매수" 혹은 "BUY"로 출력 - 매도잔고를 가진 경우, "매도" 혹은 "SLL"로 출력 - 당일 잔고를 청산하여 잔고를 가지고 있지 않은 경우 빈칸으로 출력',
+        (
+            '매도/매수 구분의 명칭 - 매수잔고를 가진 경우, "매수" 혹은 "BUY"로 출력 - 매도잔고를 가진 경우, "매도" 혹은 "SLL"로 출력 - 당일 '
+            "잔고를 청산하여 잔고를 가지고 있지 않은 경우 빈칸으로 출력"
+        ),
     ] = Field(alias="sll_buy_dvsn_name")
     cblc_qty: Annotated[str, "보유한 종목의 수량"] = Field(alias="cblc_qty")
     excc_unpr: Annotated[Decimal, "당일 종가로 정산한 가격"] = Field(alias="excc_unpr")
@@ -142,7 +145,11 @@ class InquireBalanceOutput2(RawModel):
     opt_dfpa: Annotated[Decimal, "당일옵션매도금에서 당일옵션매수금을 차감한 금액"] = Field(alias="opt_dfpa")
     thdt_dfpa: Annotated[
         ThdtDfpaEnum,
-        "당일의 각 매수거래에 대하여 1에 의하여 산출한 금액의 합계액과 당일의 각 매도거래에 대하여 2에 의하여 산출한 금액의 합계액을 합산한 금액 1. 매수거래수량*(당일의 정산가격-체결가격)*최소가격변동금액*환산승수 2. 매도거래수량*(체결가격-당일의 정산가격)*최소가격변동금액*환산승수",
+        (
+            "당일의 각 매수거래에 대하여 1에 의하여 산출한 금액의 합계액과 당일의 각 매도거래에 대하여 2에 의하여 산출한 금액의 합계액을 합산한 금액 "
+            "1. 매수거래수량*(당일의 정산가격-체결가격)*최소가격변동금액*환산승수 2. 매도거래수량*(체결가격-당일의 정산가격)*최소가격변동금액*환산승"
+            "수"
+        ),
     ] = Field(
         alias="thdt_dfpa",
         json_schema_extra={
@@ -155,7 +162,11 @@ class InquireBalanceOutput2(RawModel):
     )
     rnwl_dfpa: Annotated[
         RnwlDfpaEnum,
-        "직전 거래일의 매수미결제약정에 대하여 1에 의하여 산출한 금액과 직전거래일의 매도미결제약정에 대하여 2에 의하여 산출한 금액을 합산한 금액 1. 매수미결제약정*(당일의 정산가격-직전거래일의 정산가격)*최소가격변동 금액*환산승수 2. 매도미결제약정*(직전거래일의 정산가격-당일의 정산가격)*최소가격변동 금액*환산승수",
+        (
+            "직전 거래일의 매수미결제약정에 대하여 1에 의하여 산출한 금액과 직전거래일의 매도미결제약정에 대하여 2에 의하여 산출한 금액을 합산한 금액"
+            " 1. 매수미결제약정*(당일의 정산가격-직전거래일의 정산가격)*최소가격변동 금액*환산승수 2. 매도미결제약정*(직전거래일의 정산가격-당일의 정"
+            "산가격)*최소가격변동 금액*환산승수"
+        ),
     ] = Field(
         alias="rnwl_dfpa",
         json_schema_extra={

@@ -52,7 +52,10 @@ class InquireTimeItemchartpriceRequest(RawModel):
     AUTH: Annotated[str | None, '"" 공백으로 입력'] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
     EXCD: Annotated[
         ExcdEnum,
-        "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 TSE : 도쿄 ※ 주간거래는 최대 1일치 분봉만 조회 가능 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)",
+        (
+            "NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스 HKS : 홍콩 SHS : 상해 SZS : 심천 HSX : 호치민 HNX : 하노이 TSE : 도쿄 ※ 주간거래는 최대 1일치 분봉"
+            "만 조회 가능 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간)"
+        ),
     ] = Field(
         alias="EXCD",
         json_schema_extra={
@@ -85,7 +88,10 @@ class InquireTimeItemchartpriceRequest(RawModel):
     FILL: Annotated[int | None, '"" 공백으로 입력'] = Field(default=None, alias="FILL", json_schema_extra={"blank_allowed": True})
     KEYB: Annotated[
         str | None,
-        '처음 조회 시, "" 공백 입력 다음 조회 시, 이전 조회 결과의 마지막 분봉 데이터를 이용하여, 1분 전 혹은 n분 전의 시간을 입력 (형식: YYYYMMDDHHMMSS, ex. 20241014140100)',
+        (
+            '처음 조회 시, "" 공백 입력 다음 조회 시, 이전 조회 결과의 마지막 분봉 데이터를 이용하여, 1분 전 혹은 n분 전의 시간을 입력 (형식: YYYYM'
+            "MDDHHMMSS, ex. 20241014140100)"
+        ),
     ] = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
 
 

@@ -95,7 +95,10 @@ class OrderResvRvsecnclRequest(RawModel):
     )
     ORD_OBJT_CBLC_DVSN_CD: Annotated[
         OrdObjtCblcDvsnCdEnum,
-        "[정정] 10 : 현금 12 : 주식담보대출 14 : 대여상환 21 : 자기융자신규 22 : 유통대주신규 23 : 유통융자신규 24 : 자기대주신규 25 : 자기융자상환 26 : 유통대주상환 27 : 유통융자상환 28 : 자기대주상환",
+        (
+            "[정정] 10 : 현금 12 : 주식담보대출 14 : 대여상환 21 : 자기융자신규 22 : 유통대주신규 23 : 유통융자신규 24 : 자기대주신규 25 : 자기융자상"
+            "환 26 : 유통대주상환 27 : 유통융자상환 28 : 자기대주상환"
+        ),
     ] = Field(
         alias="ORD_OBJT_CBLC_DVSN_CD",
         json_schema_extra={

@@ -57,7 +57,10 @@ class InqrDvsnCdEnum(KisStrEnum):
 class PeriodRightsRequest(RawModel):
     RGHT_TYPE_CD: Annotated[
         RghtTypeCdEnum,
-        "'%%(전체), 01(유상), 02(무상), 03(배당), 11(합병), 14(액면분할), 15(액면병합), 17(감자), 54(WR청구), 61(원리금상환), 71(WR소멸), 74(배당옵션), 75(특별배당), 76(ISINCODE변경), 77(실권주청약)'",
+        (
+            "'%%(전체), 01(유상), 02(무상), 03(배당), 11(합병), 14(액면분할), 15(액면병합), 17(감자), 54(WR청구), 61(원리금상환), 71(WR소멸), 74(배당"
+            "옵션), 75(특별배당), 76(ISINCODE변경), 77(실권주청약)'"
+        ),
     ] = Field(
         alias="RGHT_TYPE_CD",
         json_schema_extra={

@@ -64,7 +64,10 @@ class OptDetailOutput1(RawModel):
     crc_cd: Annotated[str | None, "거래통화"] = Field(default=None, alias="crc_cd")
     sttl_price: Annotated[
         str | None,
-        "(★주의) 정산가 X 전일종가 O 가 수신됨 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고 * 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션",
+        (
+            "(★주의) 정산가 X 전일종가 O 가 수신됨 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고 * 포럼 > FAQ > 종목정보 다운로드(해"
+            "외) - 해외지수옵션/해외주식옵션"
+        ),
     ] = Field(default=None, alias="sttl_price")
     sttl_date: Annotated[KisDateOptional, "정산일"] = Field(default=None, alias="sttl_date")
     trst_mgn: Annotated[str | None, "증거금"] = Field(default=None, alias="trst_mgn")

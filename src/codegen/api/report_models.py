@@ -41,6 +41,9 @@ class AugmentMeta(BaseModel):
     missing_required: list[str] = Field(default_factory=list)
     fingerprint: str
     empty: bool | None = None
+    scenario: str | None = None
+    request_template: str | None = None
+    expected: str | None = None
 
 
 class AugmentEndpointResult(BaseModel):
@@ -51,6 +54,7 @@ class AugmentEndpointResult(BaseModel):
     status_code: int | None = None
     reason: str | None = None
     note: str | None = None
+    scenario: str | None = None
 
 
 class AugmentSummary(BaseModel):
@@ -63,6 +67,29 @@ class AugmentSummary(BaseModel):
     skipped: int = 0
     errors: int = 0
     results: list[AugmentEndpointResult] = Field(default_factory=list)
+
+
+class ScenarioResult(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    endpoint_id: str
+    scenario: str
+    status: AugmentStatus
+    status_code: int | None = None
+    reason: str | None = None
+    note: str | None = None
+
+
+class MultiScenarioReport(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    total: int = 0
+    processed: int = 0
+    ok: int = 0
+    cached: int = 0
+    skipped: int = 0
+    errors: int = 0
+    results: list[ScenarioResult] = Field(default_factory=list)
 
 
 class AugmentQualityReport(BaseModel):
@@ -119,6 +146,8 @@ class ApiPipelineReport(BaseModel):
     normalize: ScanReport
     sample: AugmentSummary
     augment: AugmentSummary
+    augment_multi_sample: MultiScenarioReport | None = None
+    augment_multi: MultiScenarioReport | None = None
     augment_quality_sample: AugmentQualityReport
     augment_quality: AugmentQualityReport
     inference_sample: TypeOverrides
@@ -135,7 +164,9 @@ __all__ = [
     "AugmentQualityReport",
     "AugmentRequestPayload",
     "AugmentSummary",
+    "MultiScenarioReport",
     "ScanReport",
+    "ScenarioResult",
     "SmokeReport",
     "SmokeResult",
     "ValidationReport",

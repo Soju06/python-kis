@@ -99,7 +99,10 @@ class OrderResvRequest(RawModel):
     )
     ORD_OBJT_CBLC_DVSN_CD: Annotated[
         OrdObjtCblcDvsnCdEnum,
-        "[매도매수구분코드 01:매도/02:매수시 사용] 10 : 현금 [매도매수구분코드 01:매도시 사용] 12 : 주식담보대출 14 : 대여상환 21 : 자기융자신규 22 : 유통대주신규 23 : 유통융자신규 24 : 자기대주신규 25 : 자기융자상환 26 : 유통대주상환 27 : 유통융자상환 28 : 자기대주상환",
+        (
+            "[매도매수구분코드 01:매도/02:매수시 사용] 10 : 현금 [매도매수구분코드 01:매도시 사용] 12 : 주식담보대출 14 : 대여상환 21 : 자기융자신규 "
+            "22 : 유통대주신규 23 : 유통융자신규 24 : 자기대주신규 25 : 자기융자상환 26 : 유통대주상환 27 : 유통융자상환 28 : 자기대주상환"
+        ),
     ] = Field(
         alias="ORD_OBJT_CBLC_DVSN_CD",
         json_schema_extra={
@@ -124,7 +127,10 @@ class OrderResvRequest(RawModel):
     LOAN_DT: Annotated[KisDateOptional, "대출일자"] = Field(default=None, alias="LOAN_DT")
     RSVN_ORD_END_DT: Annotated[
         str | None,
-        "(YYYYMMDD) 현재 일자보다 이후로 설정해야 함 * RSVN_ORD_END_DT(예약주문종료일자)를 안 넣으면 다음날 주문처리되고 예약주문은 종료됨 * RSVN_ORD_END_DT(예약주문종료일자)는 익영업일부터 달력일 기준으로 공휴일 포함하여 최대 30일이 되는 일자까지 입력 가능",
+        (
+            "(YYYYMMDD) 현재 일자보다 이후로 설정해야 함 * RSVN_ORD_END_DT(예약주문종료일자)를 안 넣으면 다음날 주문처리되고 예약주문은 종료됨 * RSVN"
+            "_ORD_END_DT(예약주문종료일자)는 익영업일부터 달력일 기준으로 공휴일 포함하여 최대 30일이 되는 일자까지 입력 가능"
+        ),
     ] = Field(default=None, alias="RSVN_ORD_END_DT")
     LDNG_DT: Annotated[KisDateOptional, "대여일자"] = Field(default=None, alias="LDNG_DT")
 

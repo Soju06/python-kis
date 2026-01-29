@@ -109,7 +109,11 @@ class OrderRvsecnclRequest(RawModel):
     ORGN_ODNO: Annotated[str, "정정 혹은 취소할 주문의 번호"] = Field(alias="ORGN_ODNO")
     ORD_QTY: Annotated[
         str,
-        "[Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 전량일경우 0으로 입력 [Header tr_id JTCE1002U(선물옵션 정정취소 야간)] 일부수량 정정 및 취소 불가, 주문수량 반드시 입력 (공백 불가) 일부 미체결 시 잔량 전체에 대해서 취소 가능 EX) 2개 매수주문 후 1개 체결, 1개 미체결인 상태에서 취소주문 시 ORD_QTY는 1로 입력 ※ 모의계좌의 경우, 주문수량 반드시 입력 (공백 불가)",
+        (
+            "[Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 전량일경우 0으로 입력 [Header tr_id JTCE1002U(선물옵션 정정취소 야간)] 일부수량 정정 및"
+            " 취소 불가, 주문수량 반드시 입력 (공백 불가) 일부 미체결 시 잔량 전체에 대해서 취소 가능 EX) 2개 매수주문 후 1개 체결, 1개 미체결인 상태"
+            "에서 취소주문 시 ORD_QTY는 1로 입력 ※ 모의계좌의 경우, 주문수량 반드시 입력 (공백 불가)"
+        ),
     ] = Field(alias="ORD_QTY")
     UNIT_PRICE: Annotated[Decimal, "시장가나 최유리의 경우 0으로 입력 (취소 시에도 0 입력)"] = Field(alias="UNIT_PRICE")
     NMPR_TYPE_CD: Annotated[NmprTypeCdEnum, "01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리"] = Field(
@@ -122,7 +126,10 @@ class OrderRvsecnclRequest(RawModel):
     RMN_QTY_YN: Annotated[KisBool, "Y : 전량 N : 일부"] = Field(alias="RMN_QTY_YN")
     FUOP_ITEM_DVSN_CD: Annotated[
         FuopItemDvsnCdEnum | None,
-        "[Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 공란(Default) [Header tr_id JTCE1002U(선물옵션 정정취소 야간)] 01 : 선물 02 : 콜옵션 03 : 풋옵션 04 : 스프레드",
+        (
+            "[Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 공란(Default) [Header tr_id JTCE1002U(선물옵션 정정취소 야간)] 01 : 선물 02 : 콜옵션 03"
+            " : 풋옵션 04 : 스프레드"
+        ),
     ] = Field(
         default=None,
         alias="FUOP_ITEM_DVSN_CD",
@@ -134,7 +141,10 @@ class OrderRvsecnclRequest(RawModel):
     )
     ORD_DVSN_CD: Annotated[
         OrdDvsnCdEnum,
-        "[정정] 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK) [취소] 01 로 입력",
+        (
+            "[정정] 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리("
+            "IOC) 15 : 최유리(FOK) [취소] 01 로 입력"
+        ),
     ] = Field(
         alias="ORD_DVSN_CD",
         json_schema_extra={
