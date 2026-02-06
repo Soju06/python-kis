@@ -3,7 +3,7 @@ from __future__ import annotations
 from decimal import Decimal
 from typing import Iterable, Mapping, Sequence, TypeVar, cast
 
-from pykis.api.errors import KisErrorContext, KisInvalidResponseError
+from pykis.api.errors import KisErrorContext, KisInvalidResponseError, KisResponseIncompleteError
 from pykis.api.validation.rules import (
     AllFieldsMissing,
     AllFieldsSentinel,
@@ -40,6 +40,12 @@ def evaluate_validators(
     *,
     mode: ResponseValidationMode,
 ) -> ValidationResult:
+    if _rt_cd_error(payload):
+        return ValidationResult.ok()
+    if not validators:
+        fallback = _fallback_output_required(payload, context, mode)
+        if fallback is not None:
+            return fallback
     for rule in validators:
         if not _matches_when(rule, payload):
             continue
@@ -47,6 +53,115 @@ def evaluate_validators(
         if not result.is_valid:
             return result
     return ValidationResult.ok()
+
+
+def _rt_cd_error(payload: Mapping[str, object]) -> bool:
+    rt_cd = str(payload.get("rt_cd") or "").strip()
+    return bool(rt_cd) and rt_cd not in {"0", "OK"}
+
+
+def _fallback_output_required(
+    payload: Mapping[str, object],
+    context: ValidationContext,
+    mode: ResponseValidationMode,
+) -> ValidationResult | None:
+    output_keys = _output_keys(payload)
+    if output_keys:
+        if all(_is_empty_container(payload.get(key)) for key in output_keys):
+            return _build_fallback_error(payload, context, mode, output_keys, reason="output_empty")
+        return None
+    if _has_non_meta_data(payload):
+        return None
+    return _build_fallback_error(payload, context, mode, output_keys, reason="output_missing")
+
+
+def _output_keys(payload: Mapping[str, object]) -> list[str]:
+    keys: list[str] = []
+    for key in payload:
+        if key.startswith(("output", "outblock")):
+            keys.append(str(key))
+    return keys
+
+
+def _is_empty_container(value: object) -> bool:
+    if value is None:
+        return True
+    if isinstance(value, str):
+        return value.strip() == ""
+    if isinstance(value, list):
+        return len(value) == 0
+    if isinstance(value, dict):
+        return len(value) == 0
+    return False
+
+
+def _has_non_meta_data(payload: Mapping[str, object]) -> bool:
+    for key, value in payload.items():
+        if key in {"rt_cd", "msg_cd", "msg1"}:
+            continue
+        if _is_empty_container(value):
+            continue
+        return True
+    return False
+
+
+def _build_fallback_error(
+    payload: Mapping[str, object],
+    context: ValidationContext,
+    mode: ResponseValidationMode,
+    output_keys: list[str],
+    *,
+    reason: str,
+) -> ValidationResult:
+    details = ValidationDetails(
+        rule=RuleDetails(
+            id="implicit_output_required",
+            type="output_required",
+            predicates={"outputs": output_keys, "reason": reason},
+            when=None,
+            severity=None,
+        ),
+        evaluated_rows=(
+            RowEvaluation(
+                row_index=0,
+                fields=tuple(
+                    FieldEvaluation(
+                        field=key,
+                        value=payload.get(key),
+                        state="missing" if payload.get(key) is None else "sentinel",
+                    )
+                    for key in (output_keys or ["output"])
+                ),
+            ),
+        ),
+    )
+    error_context = KisErrorContext(
+        endpoint_id=context.endpoint_id,
+        method=context.method,
+        path=context.path,
+        status_code=context.status_code,
+        message="Response output missing",
+        domain=context.domain,
+        request_id=context.request_id,
+    )
+    excerpt: dict[str, object] = {}
+    for key in ("rt_cd", "msg_cd", "msg1"):
+        if key in payload:
+            excerpt[key] = payload.get(key)
+    if output_keys:
+        for key in output_keys:
+            excerpt[key] = payload.get(key)
+    error = KisResponseIncompleteError(
+        "Response output missing",
+        context=error_context,
+        payload=excerpt,
+        error_code="KIS_RESPONSE_INCOMPLETE",
+        user_message="응답 데이터가 비어 있습니다.",
+        rule_id="implicit_output_required",
+        rule_type="output_required",
+        details=details,
+    )
+    return ValidationResult(is_valid=False, error=error, mode=mode, details=details)
 
 
 def _matches_when(rule: ValidatorRule, payload: Mapping[str, object]) -> bool:

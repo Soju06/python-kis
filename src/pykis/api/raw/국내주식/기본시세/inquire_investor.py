@@ -6,10 +6,10 @@ from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpac
 
 from pydantic import Field
 
-from pykis.api.errors import KisResponseUnavailableError
+from pykis.api.errors import KisResponseIncompleteError, KisResponseUnavailableError
 from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
-from pykis.api.validation.rules import AllFieldsSentinel, ErrorConfig
+from pykis.api.validation.rules import AllFieldsSentinel, ErrorConfig, OutputRequired
 from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
@@ -55,24 +55,24 @@ class InquireInvestorOutput(RawModel):
     stck_clpr: Annotated[int, "주식 종가"] = Field(alias="stck_clpr")
     prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
     prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
-    prsn_ntby_qty: Annotated[int | None, "개인 순매수 수량"] = Field(default=None, alias="prsn_ntby_qty")
-    frgn_ntby_qty: Annotated[int | None, "외국인 순매수 수량"] = Field(default=None, alias="frgn_ntby_qty")
-    orgn_ntby_qty: Annotated[int | None, "기관계 순매수 수량"] = Field(default=None, alias="orgn_ntby_qty")
-    prsn_ntby_tr_pbmn: Annotated[Decimal | None, "개인 순매수 거래 대금"] = Field(default=None, alias="prsn_ntby_tr_pbmn")
-    frgn_ntby_tr_pbmn: Annotated[Decimal | None, "외국인 순매수 거래 대금"] = Field(default=None, alias="frgn_ntby_tr_pbmn")
-    orgn_ntby_tr_pbmn: Annotated[Decimal | None, "기관계 순매수 거래 대금"] = Field(default=None, alias="orgn_ntby_tr_pbmn")
-    prsn_shnu_vol: Annotated[int | None, "개인 매수2 거래량"] = Field(default=None, alias="prsn_shnu_vol")
-    frgn_shnu_vol: Annotated[int | None, "외국인 매수2 거래량"] = Field(default=None, alias="frgn_shnu_vol")
-    orgn_shnu_vol: Annotated[int | None, "기관계 매수2 거래량"] = Field(default=None, alias="orgn_shnu_vol")
-    prsn_shnu_tr_pbmn: Annotated[Decimal | None, "개인 매수2 거래 대금"] = Field(default=None, alias="prsn_shnu_tr_pbmn")
-    frgn_shnu_tr_pbmn: Annotated[Decimal | None, "외국인 매수2 거래 대금"] = Field(default=None, alias="frgn_shnu_tr_pbmn")
-    orgn_shnu_tr_pbmn: Annotated[Decimal | None, "기관계 매수2 거래 대금"] = Field(default=None, alias="orgn_shnu_tr_pbmn")
-    prsn_seln_vol: Annotated[int | None, "개인 매도 거래량"] = Field(default=None, alias="prsn_seln_vol")
-    frgn_seln_vol: Annotated[int | None, "외국인 매도 거래량"] = Field(default=None, alias="frgn_seln_vol")
-    orgn_seln_vol: Annotated[int | None, "기관계 매도 거래량"] = Field(default=None, alias="orgn_seln_vol")
-    prsn_seln_tr_pbmn: Annotated[Decimal | None, "개인 매도 거래 대금"] = Field(default=None, alias="prsn_seln_tr_pbmn")
-    frgn_seln_tr_pbmn: Annotated[Decimal | None, "외국인 매도 거래 대금"] = Field(default=None, alias="frgn_seln_tr_pbmn")
-    orgn_seln_tr_pbmn: Annotated[Decimal | None, "기관계 매도 거래 대금"] = Field(default=None, alias="orgn_seln_tr_pbmn")
+    prsn_ntby_qty: Annotated[int, "개인 순매수 수량"] = Field(alias="prsn_ntby_qty")
+    frgn_ntby_qty: Annotated[int, "외국인 순매수 수량"] = Field(alias="frgn_ntby_qty")
+    orgn_ntby_qty: Annotated[int, "기관계 순매수 수량"] = Field(alias="orgn_ntby_qty")
+    prsn_ntby_tr_pbmn: Annotated[Decimal, "개인 순매수 거래 대금"] = Field(alias="prsn_ntby_tr_pbmn")
+    frgn_ntby_tr_pbmn: Annotated[Decimal, "외국인 순매수 거래 대금"] = Field(alias="frgn_ntby_tr_pbmn")
+    orgn_ntby_tr_pbmn: Annotated[Decimal, "기관계 순매수 거래 대금"] = Field(alias="orgn_ntby_tr_pbmn")
+    prsn_shnu_vol: Annotated[int, "개인 매수2 거래량"] = Field(alias="prsn_shnu_vol")
+    frgn_shnu_vol: Annotated[int, "외국인 매수2 거래량"] = Field(alias="frgn_shnu_vol")
+    orgn_shnu_vol: Annotated[int, "기관계 매수2 거래량"] = Field(alias="orgn_shnu_vol")
+    prsn_shnu_tr_pbmn: Annotated[Decimal, "개인 매수2 거래 대금"] = Field(alias="prsn_shnu_tr_pbmn")
+    frgn_shnu_tr_pbmn: Annotated[Decimal, "외국인 매수2 거래 대금"] = Field(alias="frgn_shnu_tr_pbmn")
+    orgn_shnu_tr_pbmn: Annotated[Decimal, "기관계 매수2 거래 대금"] = Field(alias="orgn_shnu_tr_pbmn")
+    prsn_seln_vol: Annotated[int, "개인 매도 거래량"] = Field(alias="prsn_seln_vol")
+    frgn_seln_vol: Annotated[int, "외국인 매도 거래량"] = Field(alias="frgn_seln_vol")
+    orgn_seln_vol: Annotated[int, "기관계 매도 거래량"] = Field(alias="orgn_seln_vol")
+    prsn_seln_tr_pbmn: Annotated[Decimal, "개인 매도 거래 대금"] = Field(alias="prsn_seln_tr_pbmn")
+    frgn_seln_tr_pbmn: Annotated[Decimal, "외국인 매도 거래 대금"] = Field(alias="frgn_seln_tr_pbmn")
+    orgn_seln_tr_pbmn: Annotated[Decimal, "기관계 매도 거래 대금"] = Field(alias="orgn_seln_tr_pbmn")
 
 
 class InquireInvestorResponse(RawModel):
@@ -129,6 +129,16 @@ _ENDPOINT: Endpoint[InquireInvestorRequest, InquireInvestorResponse] = Endpoint(
                 user_message="해당 투자자 정보는 장 종료 후 조회 가능합니다.",
                 hint="당일 데이터는 장 마감 후 제공됩니다.",
                 exception=KisResponseUnavailableError,
+            ),
+        ),
+        OutputRequired(
+            id="output_required",
+            output="output",
+            error=ErrorConfig(
+                code="KIS_RESPONSE_INCOMPLETE",
+                message="Response output missing",
+                user_message="응답 데이터가 비어 있습니다.",
+                exception=KisResponseIncompleteError,
             ),
         ),
     ),

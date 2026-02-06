@@ -49,17 +49,17 @@ class TradprtByamtRequestDict(TypedDict):
 
 
 class TradprtByamtOutput(RawModel):
-    prpr_name: Annotated[str | None, "가격명"] = Field(default=None, alias="prpr_name")
-    smtn_avrg_prpr: Annotated[Decimal | None, "합계 평균가격"] = Field(default=None, alias="smtn_avrg_prpr")
-    acml_vol: Annotated[int | None, "합계 거래량"] = Field(default=None, alias="acml_vol")
-    whol_ntby_qty_rate: Annotated[Decimal | None, "합계 순매수비율"] = Field(default=None, alias="whol_ntby_qty_rate")
-    ntby_cntg_csnu: Annotated[int | None, "합계 순매수건수"] = Field(default=None, alias="ntby_cntg_csnu")
-    seln_cnqn_smtn: Annotated[int | None, "매도 거래량"] = Field(default=None, alias="seln_cnqn_smtn")
-    whol_seln_vol_rate: Annotated[Decimal | None, "매도 거래량비율"] = Field(default=None, alias="whol_seln_vol_rate")
-    seln_cntg_csnu: Annotated[int | None, "매도 건수"] = Field(default=None, alias="seln_cntg_csnu")
-    shnu_cnqn_smtn: Annotated[int | None, "매수 거래량"] = Field(default=None, alias="shnu_cnqn_smtn")
-    whol_shun_vol_rate: Annotated[Decimal | None, "매수 거래량비율"] = Field(default=None, alias="whol_shun_vol_rate")
-    shnu_cntg_csnu: Annotated[int | None, "매수 건수"] = Field(default=None, alias="shnu_cntg_csnu")
+    prpr_name: Annotated[str, "가격명"] = Field(alias="prpr_name")
+    smtn_avrg_prpr: Annotated[Decimal, "합계 평균가격"] = Field(alias="smtn_avrg_prpr")
+    acml_vol: Annotated[int, "합계 거래량"] = Field(alias="acml_vol")
+    whol_ntby_qty_rate: Annotated[Decimal, "합계 순매수비율"] = Field(alias="whol_ntby_qty_rate")
+    ntby_cntg_csnu: Annotated[int, "합계 순매수건수"] = Field(alias="ntby_cntg_csnu")
+    seln_cnqn_smtn: Annotated[int, "매도 거래량"] = Field(alias="seln_cnqn_smtn")
+    whol_seln_vol_rate: Annotated[Decimal, "매도 거래량비율"] = Field(alias="whol_seln_vol_rate")
+    seln_cntg_csnu: Annotated[int, "매도 건수"] = Field(alias="seln_cntg_csnu")
+    shnu_cnqn_smtn: Annotated[int, "매수 거래량"] = Field(alias="shnu_cnqn_smtn")
+    whol_shun_vol_rate: Annotated[Decimal, "매수 거래량비율"] = Field(alias="whol_shun_vol_rate")
+    shnu_cntg_csnu: Annotated[int, "매수 건수"] = Field(alias="shnu_cntg_csnu")
 
 
 class TradprtByamtResponse(RawModel):

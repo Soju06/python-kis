@@ -176,6 +176,11 @@ def build_payload_with_trace(
                 value = enum_default
                 source = "enum_default"
 
+        desc_value, desc_reason = _description_value_with_reason(field)
+        if desc_value is not None and (value is None or source in {"default", "heuristic"}):
+            value = desc_value
+            source = "description"
+            reason = desc_reason
         if value is None:
             heuristic_value, heuristic_reason = _heuristic_value_with_reason(field.code)
             if heuristic_value is not None:
@@ -292,6 +297,8 @@ def _heuristic_value_with_reason(code: str) -> tuple[JsonValue | None, str | Non
     code = code.lower()
     if code == "keyb":
         return "", "keyb_blank"
+    if code in ("index_key", "cts", "cts_area"):
+        return "", "continuation_blank"
     if code in ("icod", "industry_code"):
         return "000", "industry_code_default"
     if code in ("prdt_type_cd", "prdt_type"):
@@ -344,6 +351,126 @@ def _heuristic_value_with_reason(code: str) -> tuple[JsonValue | None, str | Non
     if any(token in code for token in ("excd", "exch", "exchange")):
         return "NAS", "exchange_default"
     return None, None
+
+
+_FIXED_VALUE_RE = re.compile(r"(?P<value>[A-Za-z0-9]+)\s*[:\-]?\s*고정값")
+_FIXED_VALUE_TRAIL_RE = re.compile(r"고정값\s*[:\-]?\s*(?P<value>[A-Za-z0-9]+)")
+_UNIQUE_KEY_RE = re.compile(r"unique\s*key\s*\(?\s*(?P<value>\d{3,6})\s*\)?", re.IGNORECASE)
+_EXAMPLE_RE = re.compile(r"(?i)(?:ex\)|예\)|예:|ex:)\s*(?P<value>[^,;\)\n]{1,40})")
+_DATE_EXAMPLE_RE = re.compile(r"(?P<value>\d{4}[./-]\d{1,2}[./-]\d{1,2})")
+_DATE_EXAMPLE_COMPACT_RE = re.compile(r"(?<!\d)(?P<value>\d{8})(?!\d)")
+_TIME_EXAMPLE_RE = re.compile(r"(?P<value>\d{1,2}:\d{2}:\d{2})")
+_ALL_VALUE_RE = re.compile(r"(?:전체\s*[:=]?\s*0000|0000\s*[:=]?\s*전체)")
+_ALL_ZERO_RE = re.compile(r"(?:전체\s*[:=]?\s*0|\b0\s*[:=]?\s*전체)")
+_FIRST_ALNUM_RE = re.compile(r"[A-Za-z0-9]+")
+_LEADING_NUM_RE = re.compile(r"^\s*(\d+)")
+
+
+def _description_value_with_reason(field: SpecField) -> tuple[JsonValue | None, str | None]:
+    desc = (field.description or "").strip()
+    if not desc:
+        return None, None
+    normalized = " ".join(desc.replace("\r", "\n").replace("\t", " ").split())
+    if field.code.lower() in {"srs_cd", "srs_code"}:
+        normalized = _strip_example_suffix(normalized)
+
+    match = _FIXED_VALUE_RE.search(normalized) or _FIXED_VALUE_TRAIL_RE.search(normalized)
+    if match:
+        value = _sanitize_example_value(field, match.group("value"))
+        return value, "fixed_value"
+
+    match = _UNIQUE_KEY_RE.search(normalized)
+    if match:
+        value = _sanitize_example_value(field, match.group("value"))
+        return value, "unique_key"
+
+    if is_blank_description(desc):
+        return "", "blank_description"
+
+    if _ALL_VALUE_RE.search(normalized):
+        return "0000", "all_value"
+    if _ALL_ZERO_RE.search(normalized):
+        return "0", "all_value"
+
+    if field.code.lower() in {"nday", "nmin"} and "N일전" in desc:
+        return "0", "nday_default"
+
+    match = _DATE_EXAMPLE_RE.search(normalized)
+    if match:
+        digits = re.sub(r"[^0-9]", "", match.group("value"))
+        if len(digits) == 8:
+            return digits, "date_example"
+
+    match = _DATE_EXAMPLE_COMPACT_RE.search(normalized)
+    if match and any(token in field.code.lower() for token in ("date", "_dt", "ymd", "bass_dt", "bsop_date")):
+        value = _sanitize_example_value(field, match.group("value"))
+        return value, "date_example"
+
+    match = _TIME_EXAMPLE_RE.search(normalized)
+    if match:
+        value = _sanitize_example_value(field, match.group("value").replace(":", ""))
+        return value, "time_example"
+
+    match = _EXAMPLE_RE.search(normalized)
+    if match:
+        value = _strip_example_suffix(match.group("value").strip())
+        value = _sanitize_example_value(field, value)
+        if value:
+            return value, "example_value"
+
+    return None, None
+
+
+def _strip_example_suffix(value: str) -> str:
+    if not value:
+        return value
+    for token in ("※", "참고", "포럼", "FAQ", "다운로드", "해외", "국내"):
+        index = value.find(token)
+        if index > 0:
+            return value[:index].strip()
+    return value.strip()
+
+
+def _sanitize_example_value(field: SpecField, value: str) -> str:
+    if not value:
+        return value
+    code = field.code.lower()
+    sanitized = value.strip()
+
+    if "최대" in sanitized:
+        match = _LEADING_NUM_RE.search(sanitized)
+        if match:
+            sanitized = match.group(1)
+
+    if "(" in sanitized:
+        if code not in {"srs_cd", "srs_code"}:
+            prefix = sanitized.split("(", 1)[0].strip()
+            if prefix:
+                sanitized = prefix
+            else:
+                token_match = _FIRST_ALNUM_RE.search(sanitized)
+                if token_match:
+                    sanitized = token_match.group(0)
+
+    if code not in {"srs_cd", "srs_code"} and " " in sanitized:
+        token_match = _FIRST_ALNUM_RE.search(sanitized)
+        if token_match:
+            sanitized = token_match.group(0)
+
+    if _is_date_code(code):
+        digits = re.sub(r"[^0-9]", "", sanitized)
+        if len(digits) in {9, 10} and digits.startswith("00"):
+            trimmed = digits.lstrip("0")
+            if len(trimmed) == 8:
+                return trimmed
+        if len(digits) == 8:
+            return digits
+
+    return sanitized
+
+
+def _is_date_code(code: str) -> bool:
+    return any(token in code for token in ("date", "_dt", "ymd", "bass_dt", "bsop_date"))
 
 
 __all__ = [

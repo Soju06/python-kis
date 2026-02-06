@@ -16,6 +16,11 @@ scenarios:
     store_as: error.json
 
 request_templates:
+  3871dd9b-e9a5-471b-a0ce-d9ceb207ac5b:
+    invalid:
+      fid_cond_mrkt_div_code: "J"
+      fid_input_iscd: "005930"
+      fid_cond_scr_div_code: "11216"
   e27baf2f-6ec0-4029-b4fd-4c873f340478:
     default:
       fid_cond_mrkt_div_code: "J"

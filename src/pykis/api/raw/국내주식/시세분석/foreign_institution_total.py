@@ -6,8 +6,10 @@ from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpac
 
 from pydantic import Field
 
+from pykis.api.errors import KisResponseIncompleteError
 from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.api.validation.rules import ErrorConfig, OutputRequired
 from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
@@ -88,34 +90,32 @@ class ForeignInstitutionTotalRequestDict(TypedDict):
 
 
 class ForeignInstitutionTotalOutput(RawModel):
-    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
-    mksc_shrn_iscd: Annotated[str | None, "유가증권 단축 종목코드"] = Field(default=None, alias="mksc_shrn_iscd")
-    ntby_qty: Annotated[int | None, "순매수 수량"] = Field(default=None, alias="ntby_qty")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    mksc_shrn_iscd: Annotated[str, "유가증권 단축 종목코드"] = Field(alias="mksc_shrn_iscd")
+    ntby_qty: Annotated[int, "순매수 수량"] = Field(alias="ntby_qty")
     stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
-    prdy_vrss_sign: Annotated[str | None, "전일 대비 부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
     prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
     prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
     acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
     frgn_ntby_qty: Annotated[int, "외국인 순매수 수량"] = Field(alias="frgn_ntby_qty")
     orgn_ntby_qty: Annotated[int, "기관계 순매수 수량"] = Field(alias="orgn_ntby_qty")
-    ivtr_ntby_qty: Annotated[int | None, "투자신탁 순매수 수량"] = Field(default=None, alias="ivtr_ntby_qty")
-    bank_ntby_qty: Annotated[int | None, "은행 순매수 수량"] = Field(default=None, alias="bank_ntby_qty")
-    insu_ntby_qty: Annotated[int | None, "보험 순매수 수량"] = Field(default=None, alias="insu_ntby_qty")
-    mrbn_ntby_qty: Annotated[int | None, "종금 순매수 수량"] = Field(default=None, alias="mrbn_ntby_qty")
-    fund_ntby_qty: Annotated[int | None, "기금 순매수 수량"] = Field(default=None, alias="fund_ntby_qty")
-    etc_orgt_ntby_vol: Annotated[int | None, "기타 단체 순매수 거래량"] = Field(default=None, alias="etc_orgt_ntby_vol")
-    etc_corp_ntby_vol: Annotated[int | None, "기타 법인 순매수 거래량"] = Field(default=None, alias="etc_corp_ntby_vol")
-    frgn_ntby_tr_pbmn: Annotated[Decimal | None, "frgn_ntby_tr_pbmn ~ etc_corp_ntby_tr_pbmn (단위 : 백만원, 수량*현재가)"] = Field(
-        default=None, alias="frgn_ntby_tr_pbmn"
-    )
-    orgn_ntby_tr_pbmn: Annotated[Decimal | None, "기관계 순매수 거래 대금"] = Field(default=None, alias="orgn_ntby_tr_pbmn")
-    ivtr_ntby_tr_pbmn: Annotated[Decimal | None, "투자신탁 순매수 거래 대금"] = Field(default=None, alias="ivtr_ntby_tr_pbmn")
-    bank_ntby_tr_pbmn: Annotated[Decimal | None, "은행 순매수 거래 대금"] = Field(default=None, alias="bank_ntby_tr_pbmn")
-    insu_ntby_tr_pbmn: Annotated[Decimal | None, "보험 순매수 거래 대금"] = Field(default=None, alias="insu_ntby_tr_pbmn")
-    mrbn_ntby_tr_pbmn: Annotated[Decimal | None, "종금 순매수 거래 대금"] = Field(default=None, alias="mrbn_ntby_tr_pbmn")
-    fund_ntby_tr_pbmn: Annotated[Decimal | None, "기금 순매수 거래 대금"] = Field(default=None, alias="fund_ntby_tr_pbmn")
-    etc_orgt_ntby_tr_pbmn: Annotated[Decimal | None, "기타 단체 순매수 거래 대금"] = Field(default=None, alias="etc_orgt_ntby_tr_pbmn")
-    etc_corp_ntby_tr_pbmn: Annotated[Decimal | None, "기타 법인 순매수 거래 대금"] = Field(default=None, alias="etc_corp_ntby_tr_pbmn")
+    ivtr_ntby_qty: Annotated[int, "투자신탁 순매수 수량"] = Field(alias="ivtr_ntby_qty")
+    bank_ntby_qty: Annotated[int, "은행 순매수 수량"] = Field(alias="bank_ntby_qty")
+    insu_ntby_qty: Annotated[int, "보험 순매수 수량"] = Field(alias="insu_ntby_qty")
+    mrbn_ntby_qty: Annotated[int, "종금 순매수 수량"] = Field(alias="mrbn_ntby_qty")
+    fund_ntby_qty: Annotated[int, "기금 순매수 수량"] = Field(alias="fund_ntby_qty")
+    etc_orgt_ntby_vol: Annotated[int, "기타 단체 순매수 거래량"] = Field(alias="etc_orgt_ntby_vol")
+    etc_corp_ntby_vol: Annotated[int, "기타 법인 순매수 거래량"] = Field(alias="etc_corp_ntby_vol")
+    frgn_ntby_tr_pbmn: Annotated[Decimal, "frgn_ntby_tr_pbmn ~ etc_corp_ntby_tr_pbmn (단위 : 백만원, 수량*현재가)"] = Field(alias="frgn_ntby_tr_pbmn")
+    orgn_ntby_tr_pbmn: Annotated[Decimal, "기관계 순매수 거래 대금"] = Field(alias="orgn_ntby_tr_pbmn")
+    ivtr_ntby_tr_pbmn: Annotated[Decimal, "투자신탁 순매수 거래 대금"] = Field(alias="ivtr_ntby_tr_pbmn")
+    bank_ntby_tr_pbmn: Annotated[Decimal, "은행 순매수 거래 대금"] = Field(alias="bank_ntby_tr_pbmn")
+    insu_ntby_tr_pbmn: Annotated[Decimal, "보험 순매수 거래 대금"] = Field(alias="insu_ntby_tr_pbmn")
+    mrbn_ntby_tr_pbmn: Annotated[Decimal, "종금 순매수 거래 대금"] = Field(alias="mrbn_ntby_tr_pbmn")
+    fund_ntby_tr_pbmn: Annotated[Decimal, "기금 순매수 거래 대금"] = Field(alias="fund_ntby_tr_pbmn")
+    etc_orgt_ntby_tr_pbmn: Annotated[Decimal, "기타 단체 순매수 거래 대금"] = Field(alias="etc_orgt_ntby_tr_pbmn")
+    etc_corp_ntby_tr_pbmn: Annotated[Decimal, "기타 법인 순매수 거래 대금"] = Field(alias="etc_corp_ntby_tr_pbmn")
 
 
 class ForeignInstitutionTotalResponse(RawModel):
@@ -147,6 +147,18 @@ _ENDPOINT: Endpoint[ForeignInstitutionTotalRequest, ForeignInstitutionTotalRespo
     demo_tr_id=None,
     auth_required=True,
     hashkey_required=False,
+    validators=(
+        OutputRequired(
+            id="output_required",
+            output="output",
+            error=ErrorConfig(
+                code="KIS_RESPONSE_INCOMPLETE",
+                message="Response output missing",
+                user_message="응답 데이터가 비어 있습니다.",
+                exception=KisResponseIncompleteError,
+            ),
+        ),
+    ),
 )
 
 if TYPE_CHECKING:

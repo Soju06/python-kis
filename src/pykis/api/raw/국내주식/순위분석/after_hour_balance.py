@@ -81,17 +81,17 @@ class AfterHourBalanceRequestDict(TypedDict):
 
 
 class AfterHourBalanceOutput(RawModel):
-    stck_shrn_iscd: Annotated[str | None, "주식 단축 종목코드"] = Field(default=None, alias="stck_shrn_iscd")
-    data_rank: Annotated[str | None, "데이터 순위"] = Field(default=None, alias="data_rank")
-    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
-    stck_prpr: Annotated[Decimal | None, "주식 현재가"] = Field(default=None, alias="stck_prpr")
-    prdy_vrss: Annotated[str | None, "전일 대비"] = Field(default=None, alias="prdy_vrss")
-    prdy_vrss_sign: Annotated[str | None, "전일 대비 부호"] = Field(default=None, alias="prdy_vrss_sign")
-    prdy_ctrt: Annotated[Decimal | None, "전일 대비율"] = Field(default=None, alias="prdy_ctrt")
-    ovtm_total_askp_rsqn: Annotated[str | None, "시간외 총 매도호가 잔량"] = Field(default=None, alias="ovtm_total_askp_rsqn")
-    ovtm_total_bidp_rsqn: Annotated[str | None, "시간외 총 매수호가 잔량"] = Field(default=None, alias="ovtm_total_bidp_rsqn")
-    mkob_otcp_vol: Annotated[int | None, "장개시전 시간외종가 거래량"] = Field(default=None, alias="mkob_otcp_vol")
-    mkfa_otcp_vol: Annotated[int | None, "장종료후 시간외종가 거래량"] = Field(default=None, alias="mkfa_otcp_vol")
+    stck_shrn_iscd: Annotated[str, "주식 단축 종목코드"] = Field(alias="stck_shrn_iscd")
+    data_rank: Annotated[int, "데이터 순위"] = Field(alias="data_rank")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    ovtm_total_askp_rsqn: Annotated[int, "시간외 총 매도호가 잔량"] = Field(alias="ovtm_total_askp_rsqn")
+    ovtm_total_bidp_rsqn: Annotated[str, "시간외 총 매수호가 잔량"] = Field(alias="ovtm_total_bidp_rsqn")
+    mkob_otcp_vol: Annotated[int, "장개시전 시간외종가 거래량"] = Field(alias="mkob_otcp_vol")
+    mkfa_otcp_vol: Annotated[int, "장종료후 시간외종가 거래량"] = Field(alias="mkfa_otcp_vol")
 
 
 class AfterHourBalanceResponse(RawModel):

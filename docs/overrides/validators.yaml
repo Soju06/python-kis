@@ -1,0 +1,946 @@
+version: 1
+notes: 'Validator overrides for invalid KIS responses.
+
+  - Keep each override scoped and documented with a reason.
+
+  - "changes" mirrors the inferred schema structure (validator.rules).
+
+  '
+overrides:
+- id: 05980ed5-8ab1-471a-975c-3e129841cbb8
+  reason: sentinel_ratio=1.00
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_invalid_sentinel
+        type: all_fields_sentinel
+        output: output1
+        scope: first_row
+        fields:
+        - zdiv
+        - stat
+        - crec
+        - trec
+        - nrec
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Response unavailable
+          user_message: 데이터 제공 시간에 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: 05a719af-aa3c-46c7-a670-55f2f11654c2
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: 0c2760ca-7fc9-4f41-9abd-33b2f5ff3b3b
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_required
+        type: output_required
+        output: output1
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: 1394ba1d-e17d-42c8-8e53-6bed5dce7588
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        when:
+          msg_cd:
+          - KIER2620
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: 1d150774-eafa-49f8-9e77-67099bc28771
+  reason: Sentinel time (888888) indicates unavailable time price data.
+  source: validator discovery (2026-01-28)
+  approved_by: user
+  approved_at: '2026-01-28'
+  evidence: tmp/docs/augment/1d150774-eafa-49f8-9e77-67099bc28771/validation_hints.json
+  changes:
+    validator:
+      rules:
+      - id: index_time_time_sentinel
+        type: any_field_sentinel
+        output: output
+        scope: first_row
+        fields:
+        - bsop_hour
+        sentinel_values:
+        - '888888'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Index time data unavailable
+          user_message: 해당 지수 정보는 장 종료 후 조회 가능합니다.
+          hint: 장 마감 이후 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: 2549b1c6-2c8c-4826-b632-74c0b68c24e9
+  reason: sentinel_ratio=1.00
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_invalid_sentinel
+        type: all_fields_sentinel
+        output: output1
+        scope: first_row
+        fields:
+        - zdiv
+        - stat
+        - nrec
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Response unavailable
+          user_message: 데이터 제공 시간에 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: 26c5165d-1910-4467-aed9-7213524b7546
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: 31d46ebe-2a19-4467-9dfb-a2d21adb1e61
+  reason: output_missing
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output1
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: 3cb7e131-7e44-4f34-831f-e6720b4a299a
+  reason: sentinel_ratio=1.00
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_invalid_sentinel
+        type: all_fields_sentinel
+        output: output1
+        scope: first_row
+        fields:
+        - zdiv
+        - stat
+        - crec
+        - trec
+        - nrec
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Response unavailable
+          user_message: 데이터 제공 시간에 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: 40409c43-9bc7-447a-b09a-171d14b437f9
+  reason: sentinel_ratio=1.00
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_invalid_sentinel
+        type: all_fields_sentinel
+        output: output1
+        scope: first_row
+        fields:
+        - zdiv
+        - stat
+        - nrec
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Response unavailable
+          user_message: 데이터 제공 시간에 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: 4360b745-0b9b-408e-8e0d-178138dbf864
+  reason: sentinel_ratio=1.00
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_invalid_sentinel
+        type: all_fields_sentinel
+        output: output1
+        scope: first_row
+        fields:
+        - zdiv
+        - stat
+        - nrec
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Response unavailable
+          user_message: 데이터 제공 시간에 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: 43c17205-d112-4f9f-83f9-1704af8e4f79
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: 4a077f43-7053-47be-b811-8e35be4ea745
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: 506cd6e9-97d9-4c4b-82bc-6a6c13586885
+  reason: output_missing
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: 50775574-8832-4db8-aeb5-51a32c8250ed
+  reason: sentinel_ratio=0.67
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_invalid_sentinel
+        type: any_field_sentinel
+        output: output
+        scope: first_row
+        fields:
+        - stck_bsop_date
+        - stck_prpr
+        - prdy_vrss
+        - prdy_vrss_sign
+        - prdy_ctrt
+        - acml_vol
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Response unavailable
+          user_message: 데이터 제공 시간에 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: 5613b629-b622-4a22-8175-31a4376c36b4
+  reason: Sentinel time (888888) indicates unavailable time chart data.
+  source: validator discovery (2026-01-28)
+  approved_by: user
+  approved_at: '2026-01-28'
+  evidence: tmp/docs/augment/5613b629-b622-4a22-8175-31a4376c36b4/validation_hints.json
+  changes:
+    validator:
+      rules:
+      - id: index_chart_time_sentinel
+        type: any_field_sentinel
+        output: output2
+        scope: first_row
+        fields:
+        - stck_cntg_hour
+        sentinel_values:
+        - '888888'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Index chart data unavailable
+          user_message: 해당 지수 정보는 장 종료 후 조회 가능합니다.
+          hint: 장 마감 이후 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: 65db61e3-49a5-4a95-9cf3-61298c7b8461
+  reason: sentinel_ratio=1.00
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_invalid_sentinel
+        type: all_fields_sentinel
+        output: output1
+        scope: first_row
+        fields:
+        - zdiv
+        - stat
+        - crec
+        - trec
+        - nrec
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Response unavailable
+          user_message: 데이터 제공 시간에 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: 72e63cb2-2ab1-41a0-8ab9-62cbeaa5eea0
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: 7bdbff93-1334-496f-a9b8-7da6032f7407
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: 7d1b2345-32f8-463b-9f41-8b4602387d52
+  reason: sentinel_ratio=0.64
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_invalid_sentinel
+        type: any_field_sentinel
+        output: output1
+        scope: first_row
+        fields:
+        - bstp_nmix_prpr
+        - bstp_nmix_prdy_vrss
+        - prdy_ctrt
+        - acml_vol
+        - ascn_issu_cnt
+        - down_issu_cnt
+        - stnr_issu_cnt
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Response unavailable
+          user_message: 데이터 제공 시간에 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: 7d30b578-018d-4250-852a-7599211ff988
+  reason: sentinel_ratio=1.00
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_invalid_sentinel
+        type: all_fields_sentinel
+        output: output1
+        scope: first_row
+        fields:
+        - zdiv
+        - stat
+        - crec
+        - trec
+        - nrec
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Response unavailable
+          user_message: 데이터 제공 시간에 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: 8702dab4-008d-4849-8f24-a91b57872a80
+  reason: missing_ratio=1.09
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_missing_fields
+        type: all_fields_missing
+        output: output1
+        scope: first_row
+        fields:
+        - tret_cnt
+        - data_date
+        - data_time
+        - open_price
+        - high_price
+        - low_price
+        - last_price
+        - last_qntt
+        - vol
+        - prev_diff_flag
+        - prev_diff_price
+        - prev_diff_rate
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response missing fields
+          user_message: 응답 데이터가 누락되었습니다.
+          exception: KisResponseIncompleteError
+- id: 89e1ffde-0cda-4426-8277-72710c193cf2
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_required
+        type: output_required
+        output: output1
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: 8c473311-ecfd-428f-9ec2-0b574d8592b9
+  reason: missing_ratio=1.09
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_missing_fields
+        type: all_fields_missing
+        output: output1
+        scope: first_row
+        fields:
+        - tret_cnt
+        - data_date
+        - data_time
+        - open_price
+        - high_price
+        - low_price
+        - last_price
+        - last_qntt
+        - vol
+        - prev_diff_flag
+        - prev_diff_price
+        - prev_diff_rate
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response missing fields
+          user_message: 응답 데이터가 누락되었습니다.
+          exception: KisResponseIncompleteError
+- id: 9064a50c-0545-4b6c-8eb2-034f5214974b
+  reason: output_missing
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: outblock1_required
+        type: output_required
+        output: outblock1
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: 967e60c7-f1eb-4f23-b893-71747556ad49
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_required
+        type: output_required
+        output: output1
+        when:
+          msg_cd:
+          - KIOK0560
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: a27c026a-744f-4ddd-9d35-c35b285af74c
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: a4275fc3-384b-4b24-bf3a-38b72786b5ab
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: a87c0275-f467-4199-866a-876a8fcdccb0
+  reason: Sentinel time (888888) indicates unavailable tick data.
+  source: validator discovery (2026-01-28)
+  approved_by: user
+  approved_at: '2026-01-28'
+  evidence: tmp/docs/augment/a87c0275-f467-4199-866a-876a8fcdccb0/validation_hints.json
+  changes:
+    validator:
+      rules:
+      - id: index_tick_time_sentinel
+        type: any_field_sentinel
+        output: output
+        scope: first_row
+        fields:
+        - stck_cntg_hour
+        sentinel_values:
+        - '888888'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Index tick data unavailable
+          user_message: 해당 지수 정보는 장 종료 후 조회 가능합니다.
+          hint: 장 마감 이후 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: ae084fcd-7a30-4a14-8483-91a7fc918d23
+  reason: sentinel_ratio=0.71
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_invalid_sentinel
+        type: any_field_sentinel
+        output: output1
+        scope: first_row
+        fields:
+        - zdiv
+        - stat
+        - crec
+        - trec
+        - nrec
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Response unavailable
+          user_message: 데이터 제공 시간에 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: b664e9df-7ab6-4b89-89a0-5537ae380caf
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_required
+        type: output_required
+        output: output1
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: bac2f657-36b1-4538-aabc-0bee8ba77229
+  reason: sentinel_ratio=0.80
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_invalid_sentinel
+        type: all_fields_sentinel
+        output: output1
+        scope: first_row
+        fields:
+        - stat
+        - crec
+        - trec
+        - nrec
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Response unavailable
+          user_message: 데이터 제공 시간에 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: c5933de1-4016-485a-a9ff-729818881d28
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: ca0f8e3e-9f99-4ebd-a81c-c5f8017c4d65
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_required
+        type: output_required
+        output: output1
+        when:
+          msg_cd:
+          - KIOK0560
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: ca2e71e1-5ef4-4489-b4c4-118e10588690
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: cd2e4d9a-7e3d-44ff-9b68-36d971655c24
+  reason: missing_ratio=1.00
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_missing_fields
+        type: all_fields_missing
+        output: output1
+        scope: first_row
+        fields:
+        - data_date
+        - data_time
+        - open_price
+        - high_price
+        - low_price
+        - last_price
+        - last_qntt
+        - vol
+        - prev_diff_flag
+        - prev_diff_price
+        - prev_diff_rate
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response missing fields
+          user_message: 응답 데이터가 누락되었습니다.
+          exception: KisResponseIncompleteError
+- id: d5dc7247-6f82-4cd7-8133-afabd8f003f7
+  reason: missing_ratio=1.00
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_missing_fields
+        type: all_fields_missing
+        output: output1
+        scope: first_row
+        fields:
+        - prod_iscd
+        - cftc_iscd
+        - bsop_date
+        - bidp_spec
+        - askp_spec
+        - spread_spec
+        - bidp_hedge
+        - askp_hedge
+        - hts_otst_smtn
+        - bidp_missing
+        - askp_missing
+        - bidp_spec_cust
+        - askp_spec_cust
+        - spread_spec_cust
+        - bidp_hedge_cust
+        - askp_hedge_cust
+        - cust_smtn
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response missing fields
+          user_message: 응답 데이터가 누락되었습니다.
+          exception: KisResponseIncompleteError
+- id: dd867a76-745d-4268-8ff8-b3e7f71e6e83
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: e0f9b38e-774a-441e-8dbd-27ab5f5ebb8b
+  reason: output_missing
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_required
+        type: output_required
+        output: output1
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: e27baf2f-6ec0-4029-b4fd-4c873f340478
+  reason: Investor data unavailable during market hours.
+  source: validator discovery (2026-01-28)
+  approved_by: user
+  approved_at: '2026-01-28'
+  evidence: tmp/docs/augment/e27baf2f-6ec0-4029-b4fd-4c873f340478/validation_hints.json
+  changes:
+    validator:
+      rules:
+      - id: investor_sentinel_check
+        type: all_fields_sentinel
+        output: output
+        scope: first_row
+        fields:
+        - prsn_ntby_qty
+        - frgn_ntby_qty
+        - orgn_ntby_qty
+        - prsn_ntby_tr_pbmn
+        - frgn_ntby_tr_pbmn
+        - orgn_ntby_tr_pbmn
+        - prsn_shnu_vol
+        - frgn_shnu_vol
+        - orgn_shnu_vol
+        - prsn_seln_vol
+        - frgn_seln_vol
+        - orgn_seln_vol
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Investor data unavailable
+          user_message: 해당 투자자 정보는 장 종료 후 조회 가능합니다.
+          hint: 당일 데이터는 장 마감 후 제공됩니다.
+          exception: KisResponseUnavailableError
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: e7a0d02d-2aec-4358-8738-65c7c6da3b1b
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: e8fcb701-6f36-4ba5-bbc7-84a577beec50
+  reason: sentinel_ratio=1.00
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_invalid_sentinel
+        type: all_fields_sentinel
+        output: output1
+        scope: first_row
+        fields:
+        - zdiv
+        - stat
+        - crec
+        - trec
+        - nrec
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Response unavailable
+          user_message: 데이터 제공 시간에 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: ebf1dc17-7b48-4192-841d-0ccb6ce3f016
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_required
+        type: output_required
+        output: output1
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: ec944971-3694-4692-8a17-761c2b549cd9
+  reason: sentinel_ratio=1.00
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output1_invalid_sentinel
+        type: all_fields_sentinel
+        output: output1
+        scope: first_row
+        fields:
+        - zdiv
+        - stat
+        - crec
+        - trec
+        - nrec
+        sentinel_values:
+        - ''
+        - '0'
+        - '0.0'
+        error:
+          code: KIS_RESPONSE_UNAVAILABLE
+          message: Response unavailable
+          user_message: 데이터 제공 시간에 다시 시도하세요.
+          exception: KisResponseUnavailableError
+- id: f54caf9c-65db-42ee-aa7e-a337c5a41778
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: f77aedcb-b46f-4aa0-b062-f03b9a444405
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: fc52daa5-9919-4f80-b926-ee35ef298c54
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError
+- id: fdb555c9-b958-48ad-a836-fd81f18ad73e
+  reason: output_empty
+  source: validator discovery (2026-01-29)
+  changes:
+    validator:
+      rules:
+      - id: output_required
+        type: output_required
+        output: output
+        error:
+          code: KIS_RESPONSE_INCOMPLETE
+          message: Response output missing
+          user_message: 응답 데이터가 비어 있습니다.
+          exception: KisResponseIncompleteError

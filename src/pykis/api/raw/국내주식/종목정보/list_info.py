@@ -49,8 +49,8 @@ class ListInfoOutput1(RawModel):
     isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
     stk_kind: Annotated[str | None, "주식종류"] = Field(default=None, alias="stk_kind")
     issue_type: Annotated[str | None, "사유"] = Field(default=None, alias="issue_type")
-    issue_stk_qty: Annotated[str | None, "상장주식수"] = Field(default=None, alias="issue_stk_qty")
-    tot_issue_stk_qty: Annotated[str | None, "총발행주식수"] = Field(default=None, alias="tot_issue_stk_qty")
+    issue_stk_qty: Annotated[int | None, "상장주식수"] = Field(default=None, alias="issue_stk_qty")
+    tot_issue_stk_qty: Annotated[int | None, "총발행주식수"] = Field(default=None, alias="tot_issue_stk_qty")
     issue_price: Annotated[Decimal | None, "발행가"] = Field(default=None, alias="issue_price")
 
 

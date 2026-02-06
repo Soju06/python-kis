@@ -24,6 +24,12 @@ def _parse_kis_date(value: object) -> date | None:
         return None
     if text.isdigit() and len(text) == 8:
         return datetime.strptime(text, '%Y%m%d').date()
+    if len(text) == 10:
+        for fmt in ('%Y/%m/%d', '%Y.%m.%d'):
+            try:
+                return datetime.strptime(text, fmt).date()
+            except ValueError:
+                continue
     return datetime.fromisoformat(text).date()
 
 

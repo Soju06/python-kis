@@ -5,8 +5,10 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
+from pykis.api.errors import KisResponseIncompleteError
 from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.api.validation.rules import AllFieldsMissing, ErrorConfig
 from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
@@ -136,6 +138,40 @@ _ENDPOINT: Endpoint[InvestorUnpdTrendRequest, InvestorUnpdTrendResponse] = Endpo
     demo_tr_id=None,
     auth_required=True,
     hashkey_required=False,
+    validators=(
+        AllFieldsMissing(
+            id="output1_missing_fields",
+            output="output1",
+            fields=tuple(
+                [
+                    "prod_iscd",
+                    "cftc_iscd",
+                    "bsop_date",
+                    "bidp_spec",
+                    "askp_spec",
+                    "spread_spec",
+                    "bidp_hedge",
+                    "askp_hedge",
+                    "hts_otst_smtn",
+                    "bidp_missing",
+                    "askp_missing",
+                    "bidp_spec_cust",
+                    "askp_spec_cust",
+                    "spread_spec_cust",
+                    "bidp_hedge_cust",
+                    "askp_hedge_cust",
+                    "cust_smtn",
+                ]
+            ),
+            scope="first_row",
+            error=ErrorConfig(
+                code="KIS_RESPONSE_INCOMPLETE",
+                message="Response missing fields",
+                user_message="응답 데이터가 누락되었습니다.",
+                exception=KisResponseIncompleteError,
+            ),
+        ),
+    ),
 )
 
 if TYPE_CHECKING:

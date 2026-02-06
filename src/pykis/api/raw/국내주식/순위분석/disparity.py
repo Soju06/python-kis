@@ -144,19 +144,19 @@ class DisparityRequestDict(TypedDict):
 
 
 class DisparityOutput(RawModel):
-    mksc_shrn_iscd: Annotated[str | None, "유가증권 단축 종목코드"] = Field(default=None, alias="mksc_shrn_iscd")
-    data_rank: Annotated[str | None, "데이터 순위"] = Field(default=None, alias="data_rank")
-    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
-    stck_prpr: Annotated[Decimal | None, "주식 현재가"] = Field(default=None, alias="stck_prpr")
-    prdy_vrss: Annotated[str | None, "전일 대비"] = Field(default=None, alias="prdy_vrss")
-    prdy_ctrt: Annotated[Decimal | None, "전일 대비율"] = Field(default=None, alias="prdy_ctrt")
-    prdy_vrss_sign: Annotated[str | None, "전일 대비 부호"] = Field(default=None, alias="prdy_vrss_sign")
-    acml_vol: Annotated[int | None, "누적 거래량"] = Field(default=None, alias="acml_vol")
-    d5_dsrt: Annotated[str | None, "5일 이격도"] = Field(default=None, alias="d5_dsrt")
-    d10_dsrt: Annotated[str | None, "10일 이격도"] = Field(default=None, alias="d10_dsrt")
-    d20_dsrt: Annotated[str | None, "20일 이격도"] = Field(default=None, alias="d20_dsrt")
-    d60_dsrt: Annotated[str | None, "60일 이격도"] = Field(default=None, alias="d60_dsrt")
-    d120_dsrt: Annotated[str | None, "120일 이격도"] = Field(default=None, alias="d120_dsrt")
+    mksc_shrn_iscd: Annotated[str, "유가증권 단축 종목코드"] = Field(alias="mksc_shrn_iscd")
+    data_rank: Annotated[int, "데이터 순위"] = Field(alias="data_rank")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    d5_dsrt: Annotated[Decimal, "5일 이격도"] = Field(alias="d5_dsrt")
+    d10_dsrt: Annotated[Decimal, "10일 이격도"] = Field(alias="d10_dsrt")
+    d20_dsrt: Annotated[Decimal, "20일 이격도"] = Field(alias="d20_dsrt")
+    d60_dsrt: Annotated[Decimal, "60일 이격도"] = Field(alias="d60_dsrt")
+    d120_dsrt: Annotated[Decimal, "120일 이격도"] = Field(alias="d120_dsrt")
 
 
 class DisparityResponse(RawModel):

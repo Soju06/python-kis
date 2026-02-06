@@ -6,8 +6,10 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
+from pykis.api.errors import KisResponseUnavailableError
 from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.api.validation.rules import AllFieldsSentinel, ErrorConfig
 from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
@@ -214,6 +216,21 @@ _ENDPOINT: Endpoint[UpdownRateRequest, UpdownRateResponse] = Endpoint(
     demo_tr_id=None,
     auth_required=True,
     hashkey_required=False,
+    validators=(
+        AllFieldsSentinel(
+            id="output1_invalid_sentinel",
+            output="output1",
+            fields=tuple(["stat", "crec", "trec", "nrec"]),
+            sentinel_values=tuple(["", "0", "0.0"]),
+            scope="first_row",
+            error=ErrorConfig(
+                code="KIS_RESPONSE_UNAVAILABLE",
+                message="Response unavailable",
+                user_message="데이터 제공 시간에 다시 시도하세요.",
+                exception=KisResponseUnavailableError,
+            ),
+        ),
+    ),
 )
 
 if TYPE_CHECKING:

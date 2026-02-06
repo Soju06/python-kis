@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, KisTimeOptional, RawModel
+from pykis.api.raw.base import KisBool, KisDate, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -60,13 +60,13 @@ class BrknewsTitleRequestDict(TypedDict):
 
 
 class BrknewsTitleOutput(RawModel):
-    cntt_usiq_srno: Annotated[str | None, "내용조회용일련번호"] = Field(default=None, alias="cntt_usiq_srno")
-    news_ofer_entp_code: Annotated[str | None, "뉴스제공업체코드"] = Field(default=None, alias="news_ofer_entp_code")
-    data_dt: Annotated[KisDateOptional, "작성일자"] = Field(default=None, alias="data_dt")
-    data_tm: Annotated[KisTimeOptional, "작성시간"] = Field(default=None, alias="data_tm")
-    hts_pbnt_titl_cntt: Annotated[str | None, "HTS공시제목내용"] = Field(default=None, alias="hts_pbnt_titl_cntt")
-    news_lrdv_code: Annotated[str | None, "뉴스대구분"] = Field(default=None, alias="news_lrdv_code")
-    dorg: Annotated[str | None, "자료원"] = Field(default=None, alias="dorg")
+    cntt_usiq_srno: Annotated[str, "내용조회용일련번호"] = Field(alias="cntt_usiq_srno")
+    news_ofer_entp_code: Annotated[str, "뉴스제공업체코드"] = Field(alias="news_ofer_entp_code")
+    data_dt: Annotated[KisDate, "작성일자"] = Field(alias="data_dt")
+    data_tm: Annotated[KisTime, "작성시간"] = Field(alias="data_tm")
+    hts_pbnt_titl_cntt: Annotated[str, "HTS공시제목내용"] = Field(alias="hts_pbnt_titl_cntt")
+    news_lrdv_code: Annotated[str, "뉴스대구분"] = Field(alias="news_lrdv_code")
+    dorg: Annotated[str, "자료원"] = Field(alias="dorg")
     iscd1: Annotated[str | None, "종목코드1"] = Field(default=None, alias="iscd1")
     iscd2: Annotated[str | None, "종목코드2"] = Field(default=None, alias="iscd2")
     iscd3: Annotated[str | None, "종목코드3"] = Field(default=None, alias="iscd3")

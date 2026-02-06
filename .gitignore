@@ -36,3 +36,5 @@ tmp/
 
 real_secret.json
 demo_secret.json
+
+.specstory

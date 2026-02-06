@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, RawModel
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -43,13 +43,13 @@ class SharehldMeetRequestDict(TypedDict):
 
 
 class SharehldMeetOutput1(RawModel):
-    record_date: Annotated[KisDateOptional, "기준일"] = Field(default=None, alias="record_date")
-    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
-    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
-    gen_meet_dt: Annotated[KisDateOptional, "주총일자"] = Field(default=None, alias="gen_meet_dt")
-    gen_meet_type: Annotated[str | None, "주총사유"] = Field(default=None, alias="gen_meet_type")
-    agenda: Annotated[str | None, "주총의안"] = Field(default=None, alias="agenda")
-    vote_tot_qty: Annotated[str | None, "의결권주식총수"] = Field(default=None, alias="vote_tot_qty")
+    record_date: Annotated[KisDate, "기준일"] = Field(alias="record_date")
+    sht_cd: Annotated[str, "종목코드"] = Field(alias="sht_cd")
+    isin_name: Annotated[str, "종목명"] = Field(alias="isin_name")
+    gen_meet_dt: Annotated[KisDate, "주총일자"] = Field(alias="gen_meet_dt")
+    gen_meet_type: Annotated[str, "주총사유"] = Field(alias="gen_meet_type")
+    agenda: Annotated[str, "주총의안"] = Field(alias="agenda")
+    vote_tot_qty: Annotated[int, "의결권주식총수"] = Field(alias="vote_tot_qty")
 
 
 class SharehldMeetResponse(RawModel):

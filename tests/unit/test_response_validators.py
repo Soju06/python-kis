@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pykis.api.errors import KisResponseUnavailableError
+from pykis.api.errors import KisResponseIncompleteError, KisResponseUnavailableError
 from pykis.api.validation import (
     AllFieldsSentinel,
     AnyFieldMissing,
@@ -95,3 +95,41 @@ def test_rule_mode_overrides_client_mode() -> None:
     payload: dict[str, object] = {}
     result = evaluate_validators((rule,), payload, _context(), mode="raise")
     assert result.mode == "warn"
+
+
+def test_validators_skip_rt_cd_errors() -> None:
+    rule = OutputRequired(
+        id="output_required",
+        output="output",
+        error=ErrorConfig(
+            code="KIS_RESPONSE_INCOMPLETE",
+            message="output missing",
+            user_message="응답이 비어 있습니다.",
+            exception=KisResponseUnavailableError,
+        ),
+    )
+    payload: dict[str, object] = {"rt_cd": "1"}
+    result = evaluate_validators((rule,), payload, _context(), mode="raise")
+    assert result.is_valid
+
+
+def test_fallback_output_required_when_ok_but_empty() -> None:
+    payload: dict[str, object] = {"rt_cd": "0", "msg_cd": "MCA00000", "msg1": "정상"}
+    result = evaluate_validators((), payload, _context(), mode="raise")
+    assert not result.is_valid
+    assert isinstance(result.error, KisResponseIncompleteError)
+    assert result.error.rule_id == "implicit_output_required"
+    assert result.error.rule_type == "output_required"
+
+
+def test_fallback_output_required_uses_output_keys() -> None:
+    payload: dict[str, object] = {"rt_cd": "0", "output1": []}
+    result = evaluate_validators((), payload, _context(), mode="raise")
+    assert not result.is_valid
+    assert isinstance(result.error, KisResponseIncompleteError)
+
+
+def test_fallback_output_required_allows_non_empty_output() -> None:
+    payload: dict[str, object] = {"rt_cd": "0", "output1": [{"a": 1}]}
+    result = evaluate_validators((), payload, _context(), mode="raise")
+    assert result.is_valid

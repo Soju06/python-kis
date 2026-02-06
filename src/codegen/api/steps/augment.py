@@ -11,6 +11,7 @@ from urllib.parse import urljoin
 
 from pydantic import ValidationError
 
+from codegen.api.invalid_requests import InvalidTemplate, build_invalid_template
 from codegen.api.models import EndpointSpec
 from codegen.api.overrides import AugmentOverrides
 from codegen.api.report_models import (
@@ -383,6 +384,7 @@ def augment_endpoint(
     scenario_id = scenario.id
     suffix = _scenario_suffix(scenario_id)
     template_values = _resolve_request_template(endpoint, scenario, request_templates)
+    auto_invalid: InvalidTemplate | None = None
 
     result_dir = out_dir / endpoint.id
     fingerprint = _fingerprint(
@@ -411,13 +413,20 @@ def augment_endpoint(
     body, body_missing, body_trace = build_payload_with_trace(endpoint, resolver, "body", endpoint.request.body)
     scenario_overrides: list[JsonObject] = []
     scenario_missing: list[str] = []
+    template_name = scenario.request_template
+    if template_values is None and scenario.request_template == "invalid":
+        auto_invalid = build_invalid_template(endpoint, endpoint_def.request_model, query, body)
+        if auto_invalid:
+            template_values = auto_invalid.values
+            template_name = "auto_invalid"
+
     if template_values:
         scenario_overrides, scenario_missing = _apply_request_template(
             endpoint,
             query,
             body,
             template_values,
-            template_name=scenario.request_template,
+            template_name=template_name,
         )
 
     missing = header_missing + query_missing + body_missing + scenario_missing
@@ -466,6 +475,15 @@ def augment_endpoint(
             "body": body_trace,
             "scenario_overrides": scenario_overrides,
             "missing_required": missing,
+            "invalid_template": (
+                {
+                    "fields": list(auto_invalid.fields),
+                    "values": auto_invalid.values,
+                    "reason": auto_invalid.reason,
+                }
+                if auto_invalid
+                else None
+            ),
         },
     )
 

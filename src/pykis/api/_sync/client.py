@@ -628,7 +628,7 @@ class SyncKisRawClient:
                     data = response_payload
                 if isinstance(data, dict):
                     data_map = {str(key): value for key, value in data.items()}
-                    if endpoint.validators and self._response_validation != "ignore":
+                    if self._response_validation != "ignore":
                         context = ValidationContext(
                             endpoint_id=endpoint.id,
                             domain=self.domain,
@@ -638,7 +638,7 @@ class SyncKisRawClient:
                             request_id=request_id,
                         )
                         result = evaluate_validators(
-                            endpoint.validators,
+                            endpoint.validators or (),
                             data_map,
                             context,
                             mode=self._response_validation,

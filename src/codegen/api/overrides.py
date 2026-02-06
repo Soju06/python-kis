@@ -166,6 +166,14 @@ def load_type_overrides(path: Path) -> TypeOverrides:
     return overrides.to_overrides()
 
 
+def load_validator_overrides(path: Path) -> TypeOverrides:
+    if not path.exists():
+        return TypeOverrides()
+    data = _load_yaml(path)
+    overrides = TypeOverrideFile.model_validate(data)
+    return overrides.to_overrides()
+
+
 def load_augment_overrides(path: Path) -> AugmentOverrides:
     if not path.exists():
         return AugmentOverrides()
@@ -201,4 +209,5 @@ __all__ = [
     "load_augment_overrides",
     "load_doc_overrides",
     "load_type_overrides",
+    "load_validator_overrides",
 ]

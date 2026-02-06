@@ -64,18 +64,18 @@ class DividendRequestDict(TypedDict):
 
 
 class DividendOutput1(RawModel):
-    record_date: Annotated[KisDateOptional, "기준일"] = Field(default=None, alias="record_date")
-    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
-    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
+    record_date: Annotated[KisDate, "기준일"] = Field(alias="record_date")
+    sht_cd: Annotated[str, "종목코드"] = Field(alias="sht_cd")
+    isin_name: Annotated[str, "종목명"] = Field(alias="isin_name")
     divi_kind: Annotated[str | None, "배당종류"] = Field(default=None, alias="divi_kind")
-    face_val: Annotated[str | None, "액면가"] = Field(default=None, alias="face_val")
-    per_sto_divi_amt: Annotated[str | None, "현금배당금"] = Field(default=None, alias="per_sto_divi_amt")
-    divi_rate: Annotated[Decimal | None, "현금배당률(%)"] = Field(default=None, alias="divi_rate")
-    stk_divi_rate: Annotated[Decimal | None, "주식배당률(%)"] = Field(default=None, alias="stk_divi_rate")
-    divi_pay_dt: Annotated[KisDateOptional, "배당금지급일"] = Field(default=None, alias="divi_pay_dt")
+    face_val: Annotated[int, "액면가"] = Field(alias="face_val")
+    per_sto_divi_amt: Annotated[int, "현금배당금"] = Field(alias="per_sto_divi_amt")
+    divi_rate: Annotated[Decimal, "현금배당률(%)"] = Field(alias="divi_rate")
+    stk_divi_rate: Annotated[Decimal, "주식배당률(%)"] = Field(alias="stk_divi_rate")
+    divi_pay_dt: Annotated[KisDate, "배당금지급일"] = Field(alias="divi_pay_dt")
     stk_div_pay_dt: Annotated[KisDateOptional, "주식배당지급일"] = Field(default=None, alias="stk_div_pay_dt")
     odd_pay_dt: Annotated[KisDateOptional, "단주대금지급일"] = Field(default=None, alias="odd_pay_dt")
-    stk_kind: Annotated[str | None, "주식종류"] = Field(default=None, alias="stk_kind")
+    stk_kind: Annotated[str, "주식종류"] = Field(alias="stk_kind")
     high_divi_gb: Annotated[KisBool | None, "고배당종목여부"] = Field(default=None, alias="high_divi_gb")
 
 

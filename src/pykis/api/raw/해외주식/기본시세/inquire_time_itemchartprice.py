@@ -85,7 +85,7 @@ class InquireTimeItemchartpriceRequest(RawModel):
         default=None, alias="NEXT", json_schema_extra={"blank_allowed": True}
     )
     NREC: Annotated[str, "레코드요청갯수 (최대 120)"] = Field(alias="NREC")
-    FILL: Annotated[int | None, '"" 공백으로 입력'] = Field(default=None, alias="FILL", json_schema_extra={"blank_allowed": True})
+    FILL: Annotated[str | None, '"" 공백으로 입력'] = Field(default=None, alias="FILL", json_schema_extra={"blank_allowed": True})
     KEYB: Annotated[
         str | None,
         (
@@ -158,7 +158,7 @@ class InquireTimeItemchartpriceRequestDict(TypedDict):
         PINC (KisBool): 0:당일 1:전일포함 ※ 다음조회 시 반드시 "1"로 입력
         NEXT (KisBool): 처음조회 시, "" 공백 입력 다음조회 시, "1" 입력 optional
         NREC (str): 레코드요청갯수 (최대 120)
-        FILL (int): "" 공백으로 입력 optional
+        FILL (str): "" 공백으로 입력 optional
         KEYB (str): 처음 조회 시, "" 공백 입력 다음 조회 시, 이전 조회 결과의 마지막 분봉 데이터를
         이용하여, 1분 전 혹은 n분 전의 시간을 입력 (형식: YYYYMMDDHHMMSS, ex. 20241014140100)
         optional
@@ -171,7 +171,7 @@ class InquireTimeItemchartpriceRequestDict(TypedDict):
     PINC: KisBool
     NEXT: NotRequired[KisBool | None]
     NREC: str
-    FILL: NotRequired[int | None]
+    FILL: NotRequired[str | None]
     KEYB: NotRequired[str | None]
 
 
@@ -373,7 +373,7 @@ if TYPE_CHECKING:
                         PINC (KisBool): 0:당일 1:전일포함 ※ 다음조회 시 반드시 "1"로 입력
                         NEXT (KisBool): 처음조회 시, "" 공백 입력 다음조회 시, "1" 입력 optional
                         NREC (str): 레코드요청갯수 (최대 120)
-                        FILL (int): "" 공백으로 입력 optional
+                        FILL (str): "" 공백으로 입력 optional
                         KEYB (str): 처음 조회 시, "" 공백 입력 다음 조회 시, 이전 조회 결과의 마지막
                         분봉 데이터를 이용하여, 1분 전 혹은 n분 전의 시간을 입력 (형식:
                         YYYYMMDDHHMMSS, ex. 20241014140100) optional

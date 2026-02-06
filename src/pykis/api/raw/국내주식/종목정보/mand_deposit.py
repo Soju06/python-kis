@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, RawModel
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -44,12 +44,12 @@ class MandDepositRequestDict(TypedDict):
 
 
 class MandDepositOutput1(RawModel):
-    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
-    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
-    stk_qty: Annotated[str | None, "주식수"] = Field(default=None, alias="stk_qty")
-    depo_date: Annotated[KisDateOptional, "예치일"] = Field(default=None, alias="depo_date")
-    depo_reason: Annotated[str | None, "사유"] = Field(default=None, alias="depo_reason")
-    tot_issue_qty_per_rate: Annotated[Decimal | None, "총발행주식수대비비율(%)"] = Field(default=None, alias="tot_issue_qty_per_rate")
+    sht_cd: Annotated[str, "종목코드"] = Field(alias="sht_cd")
+    isin_name: Annotated[str, "종목명"] = Field(alias="isin_name")
+    stk_qty: Annotated[int, "주식수"] = Field(alias="stk_qty")
+    depo_date: Annotated[KisDate, "예치일"] = Field(alias="depo_date")
+    depo_reason: Annotated[str, "사유"] = Field(alias="depo_reason")
+    tot_issue_qty_per_rate: Annotated[Decimal, "총발행주식수대비비율(%)"] = Field(alias="tot_issue_qty_per_rate")
 
 
 class MandDepositResponse(RawModel):

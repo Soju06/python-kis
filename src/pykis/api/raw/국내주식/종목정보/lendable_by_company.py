@@ -5,8 +5,10 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
+from pykis.api.errors import KisResponseIncompleteError
 from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.api.validation.rules import ErrorConfig, OutputRequired, RuleWhen
 from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
@@ -70,19 +72,19 @@ class LendableByCompanyRequestDict(TypedDict):
 
 
 class LendableByCompanyOutput1(RawModel):
-    pdno: Annotated[str | None, "상품번호"] = Field(default=None, alias="pdno")
-    prdt_name: Annotated[str | None, "상품명"] = Field(default=None, alias="prdt_name")
-    papr: Annotated[str | None, "액면가"] = Field(default=None, alias="papr")
-    bfdy_clpr: Annotated[str | None, "전일종가"] = Field(default=None, alias="bfdy_clpr")
-    sbst_prvs: Annotated[str | None, "대용가"] = Field(default=None, alias="sbst_prvs")
-    tr_stop_dvsn_name: Annotated[str | None, "거래정지구분명"] = Field(default=None, alias="tr_stop_dvsn_name")
-    psbl_yn_name: Annotated[KisBool | None, "가능여부명"] = Field(default=None, alias="psbl_yn_name")
-    lmt_qty1: Annotated[int | None, "한도수량1"] = Field(default=None, alias="lmt_qty1")
-    use_qty1: Annotated[int | None, "사용수량1"] = Field(default=None, alias="use_qty1")
-    trad_psbl_qty2: Annotated[int | None, "가능수량"] = Field(default=None, alias="trad_psbl_qty2")
+    pdno: Annotated[str, "상품번호"] = Field(alias="pdno")
+    prdt_name: Annotated[str, "상품명"] = Field(alias="prdt_name")
+    papr: Annotated[int, "액면가"] = Field(alias="papr")
+    bfdy_clpr: Annotated[int, "전일종가"] = Field(alias="bfdy_clpr")
+    sbst_prvs: Annotated[int, "대용가"] = Field(alias="sbst_prvs")
+    tr_stop_dvsn_name: Annotated[str, "거래정지구분명"] = Field(alias="tr_stop_dvsn_name")
+    psbl_yn_name: Annotated[KisBool, "가능여부명"] = Field(alias="psbl_yn_name")
+    lmt_qty1: Annotated[int, "한도수량1"] = Field(alias="lmt_qty1")
+    use_qty1: Annotated[int, "사용수량1"] = Field(alias="use_qty1")
+    trad_psbl_qty2: Annotated[int, "가능수량"] = Field(alias="trad_psbl_qty2")
     rght_type_cd: Annotated[str | None, "권리유형코드"] = Field(default=None, alias="rght_type_cd")
     bass_dt: Annotated[KisDateOptional, "기준일자"] = Field(default=None, alias="bass_dt")
-    psbl_yn: Annotated[KisBool | None, "가능여부"] = Field(default=None, alias="psbl_yn")
+    psbl_yn: Annotated[KisBool, "가능여부"] = Field(alias="psbl_yn")
 
 
 class LendableByCompanyOutput2(RawModel):
@@ -117,6 +119,19 @@ _ENDPOINT: Endpoint[LendableByCompanyRequest, LendableByCompanyResponse] = Endpo
     demo_tr_id=None,
     auth_required=True,
     hashkey_required=False,
+    validators=(
+        OutputRequired(
+            id="output1_required",
+            output="output1",
+            error=ErrorConfig(
+                code="KIS_RESPONSE_INCOMPLETE",
+                message="Response output missing",
+                user_message="응답 데이터가 비어 있습니다.",
+                exception=KisResponseIncompleteError,
+            ),
+            when=RuleWhen(msg_cd=tuple(["KIOK0560"])),
+        ),
+    ),
 )
 
 if TYPE_CHECKING:

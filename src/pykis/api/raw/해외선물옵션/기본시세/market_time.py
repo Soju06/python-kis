@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateTimeOptional, KisTimeOptional, RawModel
+from pykis.api.raw.base import KisBool, KisDateTimeOptional, KisTime, KisTimeOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -134,15 +134,15 @@ class MarketTimeRequestDict(TypedDict):
 
 
 class MarketTimeOutput(RawModel):
-    fm_pdgr_cd: Annotated[str | None, "FM상품군코드"] = Field(default=None, alias="fm_pdgr_cd")
-    fm_pdgr_name: Annotated[str | None, "FM상품군명"] = Field(default=None, alias="fm_pdgr_name")
-    fm_excg_cd: Annotated[str | None, "FM거래소코드"] = Field(default=None, alias="fm_excg_cd")
-    fm_excg_name: Annotated[str | None, "FM거래소명"] = Field(default=None, alias="fm_excg_name")
-    fuop_dvsn_name: Annotated[str | None, "선물옵션구분명"] = Field(default=None, alias="fuop_dvsn_name")
-    fm_clas_cd: Annotated[str | None, "FM클래스코드"] = Field(default=None, alias="fm_clas_cd")
-    fm_clas_name: Annotated[str | None, "FM클래스명"] = Field(default=None, alias="fm_clas_name")
-    am_mkmn_strt_tmd: Annotated[KisTimeOptional, "오전장운영시작시각"] = Field(default=None, alias="am_mkmn_strt_tmd")
-    am_mkmn_end_tmd: Annotated[KisTimeOptional, "오전장운영종료시각"] = Field(default=None, alias="am_mkmn_end_tmd")
+    fm_pdgr_cd: Annotated[str, "FM상품군코드"] = Field(alias="fm_pdgr_cd")
+    fm_pdgr_name: Annotated[str, "FM상품군명"] = Field(alias="fm_pdgr_name")
+    fm_excg_cd: Annotated[str, "FM거래소코드"] = Field(alias="fm_excg_cd")
+    fm_excg_name: Annotated[str, "FM거래소명"] = Field(alias="fm_excg_name")
+    fuop_dvsn_name: Annotated[str, "선물옵션구분명"] = Field(alias="fuop_dvsn_name")
+    fm_clas_cd: Annotated[str, "FM클래스코드"] = Field(alias="fm_clas_cd")
+    fm_clas_name: Annotated[str, "FM클래스명"] = Field(alias="fm_clas_name")
+    am_mkmn_strt_tmd: Annotated[KisTime, "오전장운영시작시각"] = Field(alias="am_mkmn_strt_tmd")
+    am_mkmn_end_tmd: Annotated[KisTime, "오전장운영종료시각"] = Field(alias="am_mkmn_end_tmd")
     pm_mkmn_strt_tmd: Annotated[KisTimeOptional, "오후장운영시작시각"] = Field(default=None, alias="pm_mkmn_strt_tmd")
     pm_mkmn_end_tmd: Annotated[KisTimeOptional, "오후장운영종료시각"] = Field(default=None, alias="pm_mkmn_end_tmd")
     mkmn_nxdy_strt_tmd: Annotated[KisDateTimeOptional, "장운영익일시작시각"] = Field(default=None, alias="mkmn_nxdy_strt_tmd")

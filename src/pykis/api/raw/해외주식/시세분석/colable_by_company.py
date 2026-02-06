@@ -6,8 +6,10 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
+from pykis.api.errors import KisResponseIncompleteError
 from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.api.validation.rules import ErrorConfig, OutputRequired, RuleWhen
 from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
@@ -35,7 +37,7 @@ class ColableByCompanyRequest(RawModel):
     PRDT_TYPE_CD: Annotated[str | None, "공백"] = Field(default=None, alias="PRDT_TYPE_CD", json_schema_extra={"blank_allowed": True})
     INQR_STRT_DT: Annotated[KisDateOptional, "공백"] = Field(default=None, alias="INQR_STRT_DT", json_schema_extra={"blank_allowed": True})
     INQR_END_DT: Annotated[KisDateOptional, "공백"] = Field(default=None, alias="INQR_END_DT", json_schema_extra={"blank_allowed": True})
-    INQR_DVSN: Annotated[int | None, "공백"] = Field(default=None, alias="INQR_DVSN", json_schema_extra={"blank_allowed": True})
+    INQR_DVSN: Annotated[str | None, "공백"] = Field(default=None, alias="INQR_DVSN", json_schema_extra={"blank_allowed": True})
     NATN_CD: Annotated[NatnCdEnum, "840(미국), 344(홍콩), 156(중국)"] = Field(
         alias="NATN_CD", json_schema_extra={"enum": ["840", "344", "156"], "enum_desc": {"840": "미국", "344": "홍콩", "156": "중국"}}
     )
@@ -63,7 +65,7 @@ class ColableByCompanyRequestDict(TypedDict):
         PRDT_TYPE_CD (str): 공백 optional
         INQR_STRT_DT (KisDate): 공백 optional
         INQR_END_DT (KisDate): 공백 optional
-        INQR_DVSN (int): 공백 optional
+        INQR_DVSN (str): 공백 optional
         NATN_CD (NatnCdEnum): 840(미국), 344(홍콩), 156(중국)
         INQR_SQN_DVSN (InqrSqnDvsnEnum): 01(이름순), 02(코드순)
         RT_DVSN_CD (str): 공백 optional
@@ -77,7 +79,7 @@ class ColableByCompanyRequestDict(TypedDict):
     PRDT_TYPE_CD: NotRequired[str | None]
     INQR_STRT_DT: NotRequired[KisDateOptional]
     INQR_END_DT: NotRequired[KisDateOptional]
-    INQR_DVSN: NotRequired[int | None]
+    INQR_DVSN: NotRequired[str | None]
     NATN_CD: NatnCdEnum
     INQR_SQN_DVSN: InqrSqnDvsnEnum
     RT_DVSN_CD: NotRequired[str | None]
@@ -133,6 +135,19 @@ _ENDPOINT: Endpoint[ColableByCompanyRequest, ColableByCompanyResponse] = Endpoin
     demo_tr_id=None,
     auth_required=True,
     hashkey_required=False,
+    validators=(
+        OutputRequired(
+            id="output1_required",
+            output="output1",
+            error=ErrorConfig(
+                code="KIS_RESPONSE_INCOMPLETE",
+                message="Response output missing",
+                user_message="응답 데이터가 비어 있습니다.",
+                exception=KisResponseIncompleteError,
+            ),
+            when=RuleWhen(msg_cd=tuple(["KIOK0560"])),
+        ),
+    ),
 )
 
 if TYPE_CHECKING:
@@ -177,7 +192,7 @@ if TYPE_CHECKING:
                         PRDT_TYPE_CD (str): 공백 optional
                         INQR_STRT_DT (KisDate): 공백 optional
                         INQR_END_DT (KisDate): 공백 optional
-                        INQR_DVSN (int): 공백 optional
+                        INQR_DVSN (str): 공백 optional
                         NATN_CD (NatnCdEnum): 840(미국), 344(홍콩), 156(중국)
                         INQR_SQN_DVSN (InqrSqnDvsnEnum): 01(이름순), 02(코드순)
                         RT_DVSN_CD (str): 공백 optional

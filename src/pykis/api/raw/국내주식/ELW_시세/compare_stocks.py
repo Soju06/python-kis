@@ -5,8 +5,10 @@ from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpac
 
 from pydantic import Field
 
+from pykis.api.errors import KisResponseIncompleteError
 from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.api.validation.rules import ErrorConfig, OutputRequired
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
@@ -32,8 +34,8 @@ class CompareStocksRequestDict(TypedDict):
 
 
 class CompareStocksOutput(RawModel):
-    elw_shrn_iscd: Annotated[str | None, "ELW단축종목코드"] = Field(default=None, alias="elw_shrn_iscd")
-    elw_kor_isnm: Annotated[str | None, "ELW한글종목명"] = Field(default=None, alias="elw_kor_isnm")
+    elw_shrn_iscd: Annotated[str, "ELW단축종목코드"] = Field(alias="elw_shrn_iscd")
+    elw_kor_isnm: Annotated[str, "ELW한글종목명"] = Field(alias="elw_kor_isnm")
 
 
 class CompareStocksResponse(RawModel):
@@ -55,6 +57,18 @@ _ENDPOINT: Endpoint[CompareStocksRequest, CompareStocksResponse] = Endpoint(
     demo_tr_id=None,
     auth_required=True,
     hashkey_required=False,
+    validators=(
+        OutputRequired(
+            id="output_required",
+            output="output",
+            error=ErrorConfig(
+                code="KIS_RESPONSE_INCOMPLETE",
+                message="Response output missing",
+                user_message="응답 데이터가 비어 있습니다.",
+                exception=KisResponseIncompleteError,
+            ),
+        ),
+    ),
 )
 
 if TYPE_CHECKING:

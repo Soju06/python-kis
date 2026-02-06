@@ -6,8 +6,10 @@ from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpac
 
 from pydantic import Field
 
+from pykis.api.errors import KisResponseIncompleteError
 from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.api.validation.rules import ErrorConfig, OutputRequired
 from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
@@ -90,7 +92,7 @@ class ExpClosingPriceResponse(RawModel):
     rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
     msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
     msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
-    output1: Annotated[list[ExpClosingPriceOutput1], "응답상세"] = Field(alias="output")
+    output1: Annotated[list[ExpClosingPriceOutput1], "응답상세"] = Field(alias="output1")
 
 
 _ENDPOINT: Endpoint[ExpClosingPriceRequest, ExpClosingPriceResponse] = Endpoint(
@@ -109,6 +111,18 @@ _ENDPOINT: Endpoint[ExpClosingPriceRequest, ExpClosingPriceResponse] = Endpoint(
     demo_tr_id=None,
     auth_required=True,
     hashkey_required=False,
+    validators=(
+        OutputRequired(
+            id="output1_required",
+            output="output1",
+            error=ErrorConfig(
+                code="KIS_RESPONSE_INCOMPLETE",
+                message="Response output missing",
+                user_message="응답 데이터가 비어 있습니다.",
+                exception=KisResponseIncompleteError,
+            ),
+        ),
+    ),
 )
 
 if TYPE_CHECKING:

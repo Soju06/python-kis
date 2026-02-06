@@ -146,7 +146,7 @@ class InquireAskingPriceExpCcnResponse(RawModel):
     msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
     msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
     output1: Annotated[InquireAskingPriceExpCcnOutput1, "응답상세"] = Field(alias="output1")
-    output2: Annotated[InquireAskingPriceExpCcnOutput2, "응답상세"] = Field(alias="output2")
+    output2: Annotated[list[InquireAskingPriceExpCcnOutput2], "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireAskingPriceExpCcnRequest, InquireAskingPriceExpCcnResponse] = Endpoint(

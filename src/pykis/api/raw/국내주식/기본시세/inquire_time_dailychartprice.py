@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisTime, RawModel
+from pykis.api.raw.base import KisBool, KisDateOptional, KisTimeOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -75,14 +75,14 @@ class InquireTimeDailychartpriceOutput1(RawModel):
 
 
 class InquireTimeDailychartpriceOutput2(RawModel):
-    stck_bsop_date: Annotated[KisDate, "주식 영업 일자"] = Field(alias="stck_bsop_date")
-    stck_cntg_hour: Annotated[KisTime, "주식 체결 시간"] = Field(alias="stck_cntg_hour")
-    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
-    stck_oprc: Annotated[Decimal, "주식 시가2"] = Field(alias="stck_oprc")
-    stck_hgpr: Annotated[Decimal, "주식 최고가"] = Field(alias="stck_hgpr")
-    stck_lwpr: Annotated[Decimal, "주식 최저가"] = Field(alias="stck_lwpr")
-    cntg_vol: Annotated[int, "체결 거래량"] = Field(alias="cntg_vol")
-    acml_tr_pbmn: Annotated[Decimal, "누적 거래 대금"] = Field(alias="acml_tr_pbmn")
+    stck_bsop_date: Annotated[KisDateOptional, "주식 영업 일자"] = Field(default=None, alias="stck_bsop_date")
+    stck_cntg_hour: Annotated[KisTimeOptional, "주식 체결 시간"] = Field(default=None, alias="stck_cntg_hour")
+    stck_prpr: Annotated[Decimal | None, "주식 현재가"] = Field(default=None, alias="stck_prpr")
+    stck_oprc: Annotated[Decimal | None, "주식 시가2"] = Field(default=None, alias="stck_oprc")
+    stck_hgpr: Annotated[Decimal | None, "주식 최고가"] = Field(default=None, alias="stck_hgpr")
+    stck_lwpr: Annotated[Decimal | None, "주식 최저가"] = Field(default=None, alias="stck_lwpr")
+    cntg_vol: Annotated[int | None, "체결 거래량"] = Field(default=None, alias="cntg_vol")
+    acml_tr_pbmn: Annotated[Decimal | None, "누적 거래 대금"] = Field(default=None, alias="acml_tr_pbmn")
 
 
 class InquireTimeDailychartpriceResponse(RawModel):

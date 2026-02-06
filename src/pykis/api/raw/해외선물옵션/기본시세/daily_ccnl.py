@@ -6,8 +6,10 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
+from pykis.api.errors import KisResponseIncompleteError
 from pykis.api.raw.base import KisBool, KisDate, KisDateTime, KisDateTimeOptional, KisTimeOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.api.validation.rules import AllFieldsMissing, ErrorConfig
 from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
@@ -152,6 +154,35 @@ _ENDPOINT: Endpoint[DailyCcnlRequest, DailyCcnlResponse] = Endpoint(
     demo_tr_id=None,
     auth_required=True,
     hashkey_required=False,
+    validators=(
+        AllFieldsMissing(
+            id="output1_missing_fields",
+            output="output1",
+            fields=tuple(
+                [
+                    "tret_cnt",
+                    "data_date",
+                    "data_time",
+                    "open_price",
+                    "high_price",
+                    "low_price",
+                    "last_price",
+                    "last_qntt",
+                    "vol",
+                    "prev_diff_flag",
+                    "prev_diff_price",
+                    "prev_diff_rate",
+                ]
+            ),
+            scope="first_row",
+            error=ErrorConfig(
+                code="KIS_RESPONSE_INCOMPLETE",
+                message="Response missing fields",
+                user_message="응답 데이터가 누락되었습니다.",
+                exception=KisResponseIncompleteError,
+            ),
+        ),
+    ),
 )
 
 if TYPE_CHECKING:

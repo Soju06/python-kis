@@ -56,21 +56,21 @@ class InquireComponentStockPriceOutput1(RawModel):
 
 
 class InquireComponentStockPriceOutput2(RawModel):
-    stck_shrn_iscd: Annotated[str | None, "주식 단축 종목코드"] = Field(default=None, alias="stck_shrn_iscd")
-    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
-    stck_prpr: Annotated[Decimal | None, "주식 현재가"] = Field(default=None, alias="stck_prpr")
-    prdy_vrss: Annotated[str | None, "전일 대비"] = Field(default=None, alias="prdy_vrss")
-    prdy_vrss_sign: Annotated[str | None, "전일 대비 부호"] = Field(default=None, alias="prdy_vrss_sign")
-    prdy_ctrt: Annotated[Decimal | None, "전일 대비율"] = Field(default=None, alias="prdy_ctrt")
-    acml_vol: Annotated[int | None, "누적 거래량"] = Field(default=None, alias="acml_vol")
-    acml_tr_pbmn: Annotated[Decimal | None, "누적 거래 대금"] = Field(default=None, alias="acml_tr_pbmn")
-    tday_rsfl_rate: Annotated[Decimal | None, "당일 등락 비율"] = Field(default=None, alias="tday_rsfl_rate")
-    prdy_vrss_vol: Annotated[int | None, "전일 대비 거래량"] = Field(default=None, alias="prdy_vrss_vol")
-    tr_pbmn_tnrt: Annotated[Decimal | None, "거래대금회전율"] = Field(default=None, alias="tr_pbmn_tnrt")
-    hts_avls: Annotated[Decimal | None, "HTS 시가총액"] = Field(default=None, alias="hts_avls")
-    etf_cnfg_issu_avls: Annotated[str | None, "ETF구성종목시가총액"] = Field(default=None, alias="etf_cnfg_issu_avls")
-    etf_cnfg_issu_rlim: Annotated[str | None, "ETF구성종목비중"] = Field(default=None, alias="etf_cnfg_issu_rlim")
-    etf_vltn_amt: Annotated[str | None, "ETF구성종목내평가금액"] = Field(default=None, alias="etf_vltn_amt")
+    stck_shrn_iscd: Annotated[str, "주식 단축 종목코드"] = Field(alias="stck_shrn_iscd")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
+    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
+    acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
+    acml_tr_pbmn: Annotated[Decimal, "누적 거래 대금"] = Field(alias="acml_tr_pbmn")
+    tday_rsfl_rate: Annotated[Decimal, "당일 등락 비율"] = Field(alias="tday_rsfl_rate")
+    prdy_vrss_vol: Annotated[int, "전일 대비 거래량"] = Field(alias="prdy_vrss_vol")
+    tr_pbmn_tnrt: Annotated[Decimal, "거래대금회전율"] = Field(alias="tr_pbmn_tnrt")
+    hts_avls: Annotated[Decimal, "HTS 시가총액"] = Field(alias="hts_avls")
+    etf_cnfg_issu_avls: Annotated[str, "ETF구성종목시가총액"] = Field(alias="etf_cnfg_issu_avls")
+    etf_cnfg_issu_rlim: Annotated[str, "ETF구성종목비중"] = Field(alias="etf_cnfg_issu_rlim")
+    etf_vltn_amt: Annotated[str, "ETF구성종목내평가금액"] = Field(alias="etf_vltn_amt")
 
 
 class InquireComponentStockPriceResponse(RawModel):

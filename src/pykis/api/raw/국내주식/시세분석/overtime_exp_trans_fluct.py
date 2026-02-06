@@ -6,8 +6,10 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
+from pykis.api.errors import KisResponseIncompleteError
 from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.api.validation.rules import ErrorConfig, OutputRequired
 from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
@@ -113,9 +115,7 @@ class OvertimeExpTransFluctOutput(RawModel):
     hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
     ovtm_untp_antc_cnpr: Annotated[Decimal, "시간외 단일가 예상 체결가"] = Field(alias="ovtm_untp_antc_cnpr")
     ovtm_untp_antc_cntg_vrss: Annotated[Decimal, "시간외 단일가 예상 체결 대비"] = Field(alias="ovtm_untp_antc_cntg_vrss")
-    ovtm_untp_antc_cntg_vrsssign: Annotated[Decimal | None, "시간외 단일가 예상 체결 대비"] = Field(
-        default=None, alias="ovtm_untp_antc_cntg_vrsssign"
-    )
+    ovtm_untp_antc_cntg_vrsssign: Annotated[Decimal, "시간외 단일가 예상 체결 대비"] = Field(alias="ovtm_untp_antc_cntg_vrsssign")
     ovtm_untp_antc_cntg_ctrt: Annotated[Decimal, "시간외 단일가 예상 체결 대비율"] = Field(alias="ovtm_untp_antc_cntg_ctrt")
     ovtm_untp_askp_rsqn1: Annotated[Decimal, "시간외 단일가 매도호가 잔량1"] = Field(alias="ovtm_untp_askp_rsqn1")
     ovtm_untp_bidp_rsqn1: Annotated[str, "시간외 단일가 매수호가 잔량1"] = Field(alias="ovtm_untp_bidp_rsqn1")
@@ -147,6 +147,18 @@ _ENDPOINT: Endpoint[OvertimeExpTransFluctRequest, OvertimeExpTransFluctResponse]
     demo_tr_id=None,
     auth_required=True,
     hashkey_required=False,
+    validators=(
+        OutputRequired(
+            id="output_required",
+            output="output",
+            error=ErrorConfig(
+                code="KIS_RESPONSE_INCOMPLETE",
+                message="Response output missing",
+                user_message="응답 데이터가 비어 있습니다.",
+                exception=KisResponseIncompleteError,
+            ),
+        ),
+    ),
 )
 
 if TYPE_CHECKING:

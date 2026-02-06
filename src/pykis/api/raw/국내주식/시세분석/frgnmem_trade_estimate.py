@@ -62,16 +62,16 @@ class FrgnmemTradeEstimateRequestDict(TypedDict):
 
 
 class FrgnmemTradeEstimateOutput(RawModel):
-    stck_shrn_iscd: Annotated[str | None, "주식단축종목코드"] = Field(default=None, alias="stck_shrn_iscd")
-    hts_kor_isnm: Annotated[str | None, "HTS한글종목명"] = Field(default=None, alias="hts_kor_isnm")
+    stck_shrn_iscd: Annotated[str, "주식단축종목코드"] = Field(alias="stck_shrn_iscd")
+    hts_kor_isnm: Annotated[str, "HTS한글종목명"] = Field(alias="hts_kor_isnm")
     glob_ntsl_qty: Annotated[int, "외국계순매도수량"] = Field(alias="glob_ntsl_qty")
     stck_prpr: Annotated[Decimal, "주식현재가"] = Field(alias="stck_prpr")
-    prdy_vrss: Annotated[str | None, "전일대비"] = Field(default=None, alias="prdy_vrss")
-    prdy_vrss_sign: Annotated[Decimal, "전일대비부호"] = Field(alias="prdy_vrss_sign")
+    prdy_vrss: Annotated[int, "전일대비"] = Field(alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[int, "전일대비부호"] = Field(alias="prdy_vrss_sign")
     prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
-    acml_vol: Annotated[int | None, "누적거래량"] = Field(default=None, alias="acml_vol")
-    glob_total_seln_qty: Annotated[int | None, "외국계총매도수량"] = Field(default=None, alias="glob_total_seln_qty")
-    glob_total_shnu_qty: Annotated[int | None, "외국계총매수2수량"] = Field(default=None, alias="glob_total_shnu_qty")
+    acml_vol: Annotated[int, "누적거래량"] = Field(alias="acml_vol")
+    glob_total_seln_qty: Annotated[int, "외국계총매도수량"] = Field(alias="glob_total_seln_qty")
+    glob_total_shnu_qty: Annotated[int, "외국계총매수2수량"] = Field(alias="glob_total_shnu_qty")
 
 
 class FrgnmemTradeEstimateResponse(RawModel):

@@ -6,8 +6,10 @@ from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpac
 
 from pydantic import Field
 
+from pykis.api.errors import KisResponseIncompleteError
 from pykis.api.raw.base import KisBool, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.api.validation.rules import ErrorConfig, OutputRequired
 from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
@@ -100,6 +102,18 @@ _ENDPOINT: Endpoint[InvestorProgramTradeTodayRequest, InvestorProgramTradeTodayR
     demo_tr_id=None,
     auth_required=True,
     hashkey_required=False,
+    validators=(
+        OutputRequired(
+            id="output1_required",
+            output="output1",
+            error=ErrorConfig(
+                code="KIS_RESPONSE_INCOMPLETE",
+                message="Response output missing",
+                user_message="응답 데이터가 비어 있습니다.",
+                exception=KisResponseIncompleteError,
+            ),
+        ),
+    ),
 )
 
 if TYPE_CHECKING:

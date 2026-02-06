@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Literal, cast
 
 from codegen.api.models import EndpointSpec
-from codegen.api.overrides import load_doc_overrides, load_type_overrides
+from codegen.api.overrides import load_doc_overrides, load_type_overrides, load_validator_overrides
 from codegen.api.report_models import (
     ApiPipelineReport,
     AugmentQualityReport,
@@ -30,7 +30,7 @@ from codegen.api.steps.io import (
 from codegen.api.steps.normalize import normalize_doc
 from codegen.api.steps.smoke import run_smoke
 from codegen.api.steps.validate import validate_doc
-from codegen.api.steps.validators import discover_validators
+from codegen.api.steps.validators import build_validation_candidates, discover_validators
 from codegen.api.types import TypeOverrides
 from codegen.core.cleanup import clean_dir_keep_files
 from codegen.core.issues import IssueLevel, IssueReport, SpecIssue
@@ -53,6 +53,7 @@ RAW_REGISTRY_PREFIX = "pykis.api.raw"
 AUGMENT_DIR = ARTIFACTS_ROOT / "augment"
 OVERRIDES_PATH = DOCS_BASE / "overrides" / "augment_overrides.yaml"
 TYPE_OVERRIDES_PATH = DOCS_BASE / "overrides" / "type_overrides.yaml"
+VALIDATOR_OVERRIDES_PATH = DOCS_BASE / "overrides" / "validators.yaml"
 DOC_OVERRIDES_PATH = DOCS_BASE / "overrides" / "doc_overrides.yaml"
 AUGMENT_SCENARIOS_PATH = ROOT / "src" / "codegen" / "config" / "augment_scenarios.yaml"
 DEMO_SECRET = ROOT / "demo_secret.json"
@@ -306,6 +307,8 @@ def run_pipeline() -> PipelineResult:
         raise SystemExit("Normalization failed with errors. See report.")
 
     type_overrides = load_type_overrides(TYPE_OVERRIDES_PATH)
+    validator_overrides = load_validator_overrides(VALIDATOR_OVERRIDES_PATH)
+    type_overrides = type_overrides.merge(validator_overrides)
 
     if TARGET_SECTIONS:
         section_specs = [spec for spec in specs if spec.section in TARGET_SECTIONS]
@@ -434,6 +437,13 @@ def run_pipeline() -> PipelineResult:
         {endpoint_id: hint.model_dump() for endpoint_id, hint in validator_hints.items()},
     )
     logger.info("validator hints generated=%s", len(validator_hints))
+
+    validation_candidates = build_validation_candidates(section_specs, AUGMENT_DIR, validator_hints)
+    write_report(
+        REPORT_DIR / "validation_hints_candidates.json",
+        {"candidates": [candidate.model_dump() for candidate in validation_candidates]},
+    )
+    logger.info("validator candidates generated=%s", len(validation_candidates))
 
     inference_trace: dict[str, JsonObject] = {}
     inference_base = infer_types(section_specs, AUGMENT_DIR, trace_out=inference_trace)

@@ -93,12 +93,12 @@ class QuoteBalanceRequestDict(TypedDict):
 
 
 class QuoteBalanceOutput(RawModel):
-    mksc_shrn_iscd: Annotated[str | None, "유가증권 단축 종목코드"] = Field(default=None, alias="mksc_shrn_iscd")
+    mksc_shrn_iscd: Annotated[str, "유가증권 단축 종목코드"] = Field(alias="mksc_shrn_iscd")
     data_rank: Annotated[int, "데이터 순위"] = Field(alias="data_rank")
-    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
     stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
     prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
-    prdy_vrss_sign: Annotated[str | None, "전일 대비 부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
     prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
     acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
     total_askp_rsqn: Annotated[int, "총 매도호가 잔량"] = Field(alias="total_askp_rsqn")
