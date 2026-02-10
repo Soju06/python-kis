@@ -943,7 +943,7 @@ def domestic_balance(
             params={
                 "AFHR_FLPR_YN": "N",
                 "OFL_YN": "",
-                "INQR_DVSN": "02",
+                "INQR_DVSN": "01",
                 "UNPR_DVSN": "01",
                 "FUND_STTL_ICLD_YN": "Y",
                 "FNCG_AMT_AUTO_RDPT_YN": "N",
