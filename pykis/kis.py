@@ -751,3 +751,5 @@ class PyKis:
     from pykis.api.stock.trading_hours import trading_hours
     from pykis.scope.account import account
     from pykis.scope.stock import stock
+    from pykis.api.stock.investor import investor
+    from pykis.api.stock.ranking import ranking_market_cap, ranking_volume, ranking_fluctuation
