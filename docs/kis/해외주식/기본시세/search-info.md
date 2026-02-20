@@ -28,8 +28,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2024-02-16
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2024-02-16T16:45:15+09:00
+- **최종 수정일**: 2025-04-30T12:14:29+09:00
 
 ## 요청
 
@@ -38,7 +38,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -55,7 +55,7 @@
 
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
-| `PRDT_TYPE_CD` | 상품유형코드 | String | 3 | Y | 512  미국 나스닥 / 513  미국 뉴욕 / 529  미국 아멕스  515  일본 501  홍콩 / 543  홍콩CNY / 558  홍콩USD 507  베트남 하노이 / ... |
+| `PRDT_TYPE_CD` | 상품유형코드 | String | 3 | Y | 512  미국 나스닥 / 513  미국 뉴욕 / 529  미국 아멕스  515  일본 501  홍콩 / 543  홍콩CNY / 558  홍콩USD 507  베트남 하노이 / 508  베트남 호치민 551  중국 상해A / 552  중국 심천A |
 | `PDNO` | 상품번호 | String | 12 | Y | 예) AAPL (애플) |
 
 ### 요청 예시
@@ -117,7 +117,7 @@
 | `ovrs_item_name` | 해외종목명 | String | 60 | Y |  |
 | `sedol_no` | SEDOL번호 | String | 15 | Y |  |
 | `blbg_tckr_text` | 블름버그티커내용 | String | 100 | Y |  |
-| `ovrs_stck_etf_risk_drtp_cd` | 해외주식ETF위험지표코드 | String | 3 | Y | 001.ETF 002.ETN 003.ETC(Exchage Traded Commodity) 004.Others(REIT's, Mutual Fund) 005.VIX Underly... |
+| `ovrs_stck_etf_risk_drtp_cd` | 해외주식ETF위험지표코드 | String | 3 | Y | 001.ETF 002.ETN 003.ETC(Exchage Traded Commodity) 004.Others(REIT's, Mutual Fund) 005.VIX Underlying ETF 006.VIX Underlying ETN |
 | `etp_chas_erng_rt_dbnb` | ETP추적수익율배수 | String | 236 | Y |  |
 | `istt_usge_isin_cd` | 기관용도ISIN코드 | String | 12 | Y |  |
 | `mint_svc_yn` | MINT서비스여부 | String | 1 | Y |  |

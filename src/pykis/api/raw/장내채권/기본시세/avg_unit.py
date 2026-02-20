@@ -112,6 +112,8 @@ class AvgUnitResponse(RawModel):
     rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
     msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
     msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    ctx_area_nk30: Annotated[str | None, "inferred from raw payload"] = Field(default=None, alias="ctx_area_nk30")
+    ctx_area_fk100: Annotated[str | None, "inferred from raw payload"] = Field(default=None, alias="ctx_area_fk100")
     output1: Annotated[list[AvgUnitOutput1], "응답상세"] = Field(alias="output1")
     output2: Annotated[list[AvgUnitOutput2], "응답상세"] = Field(alias="output2")
     output3: Annotated[list[AvgUnitOutput3], "응답상세"] = Field(alias="output3")

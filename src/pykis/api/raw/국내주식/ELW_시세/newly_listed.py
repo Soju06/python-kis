@@ -14,6 +14,15 @@ if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class FidBlngClsCodeEnum(KisStrEnum):
+    VALUE_0 = ("0", "전체")
+    """전체"""
+    VALUE_1 = ("1", "일반")
+    """일반"""
+    VALUE_2 = ("2", "조기종료")
+    """조기종료"""
+
+
 class FidDivClsCodeEnum(KisStrEnum):
     VALUE_02 = ("02", "콜(")
     """콜("""
@@ -33,6 +42,9 @@ class FidBlncClsCodeEnum(KisStrEnum):
 
 
 class NewlyListedRequest(RawModel):
+    FID_BLNG_CLS_CODE: Annotated[FidBlngClsCodeEnum, "0(전체), 1(일반), 2(조기종료)"] = Field(
+        alias="FID_BLNG_CLS_CODE", json_schema_extra={"enum": ["0", "1", "2"], "enum_desc": {"0": "전체", "1": "일반", "2": "조기종료"}}
+    )
     FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (W)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
     FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key(11548)"] = Field(alias="FID_COND_SCR_DIV_CODE")
     FID_DIV_CLS_CODE: Annotated[FidDivClsCodeEnum, "전체(02), 콜(00), 풋(01)"] = Field(
@@ -55,6 +67,7 @@ class NewlyListedRequestDict(TypedDict):
     화면을 참고하시면 기능을 이해하기 쉽습니다.
 
     Request fields:
+        FID_BLNG_CLS_CODE (FidBlngClsCodeEnum): 0(전체), 1(일반), 2(조기종료)
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (W)
         FID_COND_SCR_DIV_CODE (str): Unique key(11548)
         FID_DIV_CLS_CODE (FidDivClsCodeEnum): 전체(02), 콜(00), 풋(01)
@@ -65,6 +78,7 @@ class NewlyListedRequestDict(TypedDict):
         FID_BLNC_CLS_CODE (FidBlncClsCodeEnum): 0(전체), 1(일반), 2(조기종료)
     """
 
+    FID_BLNG_CLS_CODE: FidBlngClsCodeEnum
     FID_COND_MRKT_DIV_CODE: str
     FID_COND_SCR_DIV_CODE: str
     FID_DIV_CLS_CODE: FidDivClsCodeEnum
@@ -80,16 +94,16 @@ class NewlyListedOutput(RawModel):
     elw_shrn_iscd: Annotated[str, "ELW단축종목코드"] = Field(alias="elw_shrn_iscd")
     unas_isnm: Annotated[str, "기초자산종목명"] = Field(alias="unas_isnm")
     pblc_co_name: Annotated[str, "발행회사명"] = Field(alias="pblc_co_name")
-    lstn_stcn: Annotated[str, "상장주수"] = Field(alias="lstn_stcn")
-    acpr: Annotated[str, "행사가"] = Field(alias="acpr")
+    lstn_stcn: Annotated[int, "상장주수"] = Field(alias="lstn_stcn")
+    acpr: Annotated[Decimal, "행사가"] = Field(alias="acpr")
     stck_last_tr_date: Annotated[KisDate, "주식최종거래일자"] = Field(alias="stck_last_tr_date")
     elw_ko_barrier: Annotated[Decimal, "조기종료발생기준가격"] = Field(alias="elw_ko_barrier")
 
 
 class NewlyListedResponse(RawModel):
-    rt_cd: Annotated[KisBool | None, "성공 실패 여부"] = Field(default=None, alias="rt_cd")
-    msg_cd: Annotated[str | None, "응답코드"] = Field(default=None, alias="msg_cd")
-    msg1: Annotated[str | None, "응답메세지"] = Field(default=None, alias="msg1")
+    rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
+    msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
+    msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
     output: Annotated[list[NewlyListedOutput], "응답상세"] = Field(alias="output")
 
 
@@ -146,6 +160,7 @@ if TYPE_CHECKING:
                 **kwargs (NewlyListedRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
+                        FID_BLNG_CLS_CODE (FidBlngClsCodeEnum): 0(전체), 1(일반), 2(조기종료)
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (W)
                         FID_COND_SCR_DIV_CODE (str): Unique key(11548)
                         FID_DIV_CLS_CODE (FidDivClsCodeEnum): 전체(02), 콜(00), 풋(01)
@@ -171,6 +186,7 @@ __all__ = [
     "NewlyListedRequestDict",
     "NewlyListedResponse",
     "NewlyListedOutput",
+    "FidBlngClsCodeEnum",
     "FidDivClsCodeEnum",
     "FidBlncClsCodeEnum",
 ]

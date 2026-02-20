@@ -40,8 +40,8 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2021-12-15
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2021-12-15T13:12:20+09:00
+- **최종 수정일**: 2025-04-30T10:48:31+09:00
 
 ## 요청
 
@@ -50,7 +50,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | N | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token 일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Gr... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token 일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) 법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, Oauth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키  | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -69,7 +69,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 |--------|--------|------|------|------|------|
 | `CANO` | 종합계좌번호 | String | 8 | Y | 계좌번호 체계(8-2)의 앞 8자리 |
 | `ACNT_PRDT_CD` | 계좌상품코드 | String | 2 | Y | 계좌번호 체계(8-2)의 뒤 2자리 |
-| `OVRS_EXCG_CD` | 해외거래소코드 | String | 4 | Y | NASD : 나스닥 NYSE : 뉴욕  AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE ... |
+| `OVRS_EXCG_CD` | 해외거래소코드 | String | 4 | Y | NASD : 나스닥 NYSE : 뉴욕  AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민  * NASD 인 경우만 미국전체로 조회되며 나머지 거래소 코드는 해당 거래소만 조회됨 * 공백 입력 시 다음조회가 불가능하므로, 반드시 거래소코드 입력해야 함 |
 | `SORT_SQN` | 정렬순서 | String | 2 | Y | DS : 정순 그외 : 역순  [header tr_id: TTTS3018R] ""(공란) |
 | `CTX_AREA_FK200` | 연속조회검색조건200 | String | 200 | Y | 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터) |
 | `CTX_AREA_NK200` | 연속조회키200 | String | 200 | Y | 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터) |
@@ -131,9 +131,9 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | `ft_ord_unpr3` | FT주문단가3 | String | 26 | Y | 주문가격 |
 | `ft_ccld_unpr3` | FT체결단가3 | String | 26 | Y | 체결된 가격 |
 | `ft_ccld_amt3` | FT체결금액3 | String | 23 | Y | 체결된 금액 |
-| `ovrs_excg_cd` | 해외거래소코드 | String | 4 | Y | NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE :... |
+| `ovrs_excg_cd` | 해외거래소코드 | String | 4 | Y | NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민 |
 | `prcs_stat_name` | 처리상태명 | String | 60 | Y | "" |
-| `loan_type_cd` | 대출유형코드 | String | 2 | Y | 00 해당사항없음 01 자기융자일반형 03 자기융자투자형 05 유통융자일반형 06 유통융자투자형 07 자기대주 09 유통대주 10 현금 11 주식담보대출 12 수익증권담보대출... |
+| `loan_type_cd` | 대출유형코드 | String | 2 | Y | 00 해당사항없음 01 자기융자일반형 03 자기융자투자형 05 유통융자일반형 06 유통융자투자형 07 자기대주 09 유통대주 10 현금 11 주식담보대출 12 수익증권담보대출 13 ELS담보대출 14 채권담보대출 15 해외주식담보대출 16 기업신용공여 31 소액자동담보대출 41 매도담보대출 42 환매자금대출 43 매입환매자금대출 44 대여매도담보대출 81 대차거래 82 법인CMA론 91 공모주청약자금대출 92 매입자금 93 미수론서비스 94 대여 |
 | `loan_dt` | 대출일자 | String | 8 | Y | 대출 실행일자 |
 | `usa_amk_exts_rqst_yn` | 미국애프터마켓연장신청여부 | String | 1 | Y | Y/N |
 | `splt_buy_attr_name` | 분할매수속성명 | String | 60 | Y | 정규장 종료 주문 시에는 '정규장 종료', 시간 입력 시에는 from ~ to 시간 표시됨 |

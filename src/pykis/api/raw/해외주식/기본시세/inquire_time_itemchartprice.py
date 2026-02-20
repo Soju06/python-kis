@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
+from pykis.api.raw.base import KisBool, KisDate, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -176,29 +176,29 @@ class InquireTimeItemchartpriceRequestDict(TypedDict):
 
 
 class InquireTimeItemchartpriceOutput1(RawModel):
-    rsym: Annotated[str | None, "실시간종목코드"] = Field(default=None, alias="rsym")
-    zdiv: Annotated[str | None, "소수점자리수"] = Field(default=None, alias="zdiv")
-    stim: Annotated[str | None, "장시작현지시간"] = Field(default=None, alias="stim")
-    etim: Annotated[str | None, "장종료현지시간"] = Field(default=None, alias="etim")
-    sktm: Annotated[str | None, "장시작한국시간"] = Field(default=None, alias="sktm")
-    ektm: Annotated[str | None, "장종료한국시간"] = Field(default=None, alias="ektm")
-    next: Annotated[KisBool | None, "다음가능여부"] = Field(default=None, alias="next")
-    more: Annotated[KisBool | None, "추가데이타여부"] = Field(default=None, alias="more")
-    nrec: Annotated[str | None, "레코드갯수"] = Field(default=None, alias="nrec")
+    rsym: Annotated[str, "실시간종목코드"] = Field(alias="rsym")
+    zdiv: Annotated[int, "소수점자리수"] = Field(alias="zdiv")
+    stim: Annotated[KisTime, "장시작현지시간"] = Field(alias="stim")
+    etim: Annotated[KisTime, "장종료현지시간"] = Field(alias="etim")
+    sktm: Annotated[KisTime, "장시작한국시간"] = Field(alias="sktm")
+    ektm: Annotated[KisTime, "장종료한국시간"] = Field(alias="ektm")
+    next: Annotated[KisBool, "다음가능여부"] = Field(alias="next")
+    more: Annotated[KisBool, "추가데이타여부"] = Field(alias="more")
+    nrec: Annotated[str, "레코드갯수"] = Field(alias="nrec")
 
 
 class InquireTimeItemchartpriceOutput2(RawModel):
-    tymd: Annotated[KisDateOptional, "현지영업일자"] = Field(default=None, alias="tymd")
-    xymd: Annotated[KisDateOptional, "현지기준일자"] = Field(default=None, alias="xymd")
-    xhms: Annotated[str | None, "현지기준시간"] = Field(default=None, alias="xhms")
-    kymd: Annotated[KisDateOptional, "한국기준일자"] = Field(default=None, alias="kymd")
-    khms: Annotated[str | None, "한국기준시간"] = Field(default=None, alias="khms")
-    open: Annotated[Decimal | None, "시가"] = Field(default=None, alias="open")
-    high: Annotated[Decimal | None, "고가"] = Field(default=None, alias="high")
-    low: Annotated[Decimal | None, "저가"] = Field(default=None, alias="low")
-    last: Annotated[str | None, "종가"] = Field(default=None, alias="last")
-    evol: Annotated[int | None, "체결량"] = Field(default=None, alias="evol")
-    eamt: Annotated[Decimal | None, "체결대금"] = Field(default=None, alias="eamt")
+    tymd: Annotated[KisDate, "현지영업일자"] = Field(alias="tymd")
+    xymd: Annotated[KisDate, "현지기준일자"] = Field(alias="xymd")
+    xhms: Annotated[KisTime, "현지기준시간"] = Field(alias="xhms")
+    kymd: Annotated[KisDate, "한국기준일자"] = Field(alias="kymd")
+    khms: Annotated[KisTime, "한국기준시간"] = Field(alias="khms")
+    open: Annotated[Decimal, "시가"] = Field(alias="open")
+    high: Annotated[Decimal, "고가"] = Field(alias="high")
+    low: Annotated[Decimal, "저가"] = Field(alias="low")
+    last: Annotated[Decimal, "종가"] = Field(alias="last")
+    evol: Annotated[int, "체결량"] = Field(alias="evol")
+    eamt: Annotated[Decimal, "체결대금"] = Field(alias="eamt")
 
 
 class InquireTimeItemchartpriceResponse(RawModel):

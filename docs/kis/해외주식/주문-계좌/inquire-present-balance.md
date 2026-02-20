@@ -54,8 +54,8 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2021-12-15
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2021-12-15T13:13:13+09:00
+- **최종 수정일**: 2025-04-30T10:49:29+09:00
 
 ## 요청
 
@@ -64,7 +64,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | N | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token 일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Gr... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token 일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) 법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, Oauth 2.0의 Authorization Code Grant 절차를 준용)  ※ 토큰 지정시 토큰 타입("Bearer") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 "Bearer" 붙여서 호출 EX) "Bearer eyJ..........8GA" |
 | `appkey` | 앱키  | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -85,7 +85,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | `ACNT_PRDT_CD` | 계좌상품코드 | String | 2 | Y | 계좌번호 체계(8-2)의 뒤 2자리 |
 | `WCRC_FRCR_DVSN_CD` | 원화외화구분코드 | String | 2 | Y | 01 : 원화  02 : 외화 |
 | `NATN_CD` | 국가코드 | String | 3 | Y | 000 전체 840 미국 344 홍콩 156 중국 392 일본 704 베트남 |
-| `TR_MKET_CD` | 거래시장코드 | String | 2 | Y | [Request body NATN_CD 000 설정] 00 : 전체  [Request body NATN_CD 840 설정] 00 : 전체 01 : 나스닥(NASD) 02 : ... |
+| `TR_MKET_CD` | 거래시장코드 | String | 2 | Y | [Request body NATN_CD 000 설정] 00 : 전체  [Request body NATN_CD 840 설정] 00 : 전체 01 : 나스닥(NASD) 02 : 뉴욕거래소(NYSE) 03 : 미국(PINK SHEETS) 04 : 미국(OTCBB) 05 : 아멕스(AMEX)  [Request body NATN_CD 156 설정] 00 : 전체 01 : 상해B 02 : 심천B 03 : 상해A 04 : 심천A  [Request body NATN_CD 392 설정] 01 : 일본  [Request body NATN_CD 704 설정] 01 : 하노이거래 02 : 호치민거래소  [Request body NATN_CD 344 설정] 01 : 홍콩 02 : 홍콩CNY 03 : 홍콩USD |
 | `INQR_DVSN_CD` | 조회구분코드 | String | 2 | Y | 00 : 전체  01 : 일반해외주식  02 : 미니스탁 |
 
 ### 요청 예시
@@ -147,7 +147,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | `loan_rmnd` | 대출잔액 | String | 19 | Y | 대출 미상환 금액 |
 | `loan_dt` | 대출일자 | String | 8 | Y | 대출 실행일자 |
 | `loan_expd_dt` | 대출만기일자 | String | 8 | Y | 대출 만기일자 |
-| `ovrs_excg_cd` | 해외거래소코드 | String | 4 | Y | NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 하노이거래소 VNSE : ... |
+| `ovrs_excg_cd` | 해외거래소코드 | String | 4 | Y | NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 하노이거래소 VNSE : 호치민거래소 |
 | `item_lnkg_excg_cd` | 종목연동거래소코드 | String | 4 | Y | prdt_dvsn(상품구분) : 직원용 데이터(Type: String, Length:2) |
 | `output2` | 응답상세2 | String |  | Y |  |
 | `crcy_cd` | 통화코드 | String | 3 | Y |  |

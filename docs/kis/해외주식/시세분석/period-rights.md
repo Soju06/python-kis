@@ -27,8 +27,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2024-04-19
-- **최종 수정일**: 2025-05-15
+- **생성일**: 2024-04-19T09:27:22+09:00
+- **최종 수정일**: 2025-05-15T10:32:49+09:00
 
 ## 요청
 
@@ -37,7 +37,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -54,7 +54,7 @@
 
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
-| `RGHT_TYPE_CD` | 권리유형코드 | String | 2 | Y | '%%(전체), 01(유상), 02(무상), 03(배당), 11(합병),  14(액면분할), 15(액면병합), 17(감자), 54(WR청구), 61(원리금상환), 71(WR소... |
+| `RGHT_TYPE_CD` | 권리유형코드 | String | 2 | Y | '%%(전체), 01(유상), 02(무상), 03(배당), 11(합병),  14(액면분할), 15(액면병합), 17(감자), 54(WR청구), 61(원리금상환), 71(WR소멸), 74(배당옵션), 75(특별배당), 76(ISINCODE변경), 77(실권주청약)' |
 | `INQR_DVSN_CD` | 조회구분코드 | String | 2 | Y | 02(현지기준일), 03(청약시작일), 04(청약종료일) |
 | `INQR_STRT_DT` | 조회시작일자 | String | 8 | Y | 일자 ~ |
 | `INQR_END_DT` | 조회종료일자 | String | 8 | Y | ~ 일자 |

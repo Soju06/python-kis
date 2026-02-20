@@ -30,8 +30,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2022-07-01
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2022-07-01T16:10:05+09:00
+- **최종 수정일**: 2025-04-30T12:13:04+09:00
 
 ## 요청
 
@@ -40,7 +40,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | N | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -58,7 +58,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `FID_COND_MRKT_DIV_CODE` | FID 조건 시장 분류 코드 | String | 2 | Y | N: 해외지수, X 환율, I: 국채, S:금선물 |
-| `FID_INPUT_ISCD` | FID 입력 종목코드 | String | 12 | Y | 종목코드 ※ 해외주식 마스터 코드 참조  (포럼 > FAQ > 종목정보 다운로드(해외) > 해외지수)  ※ 해당 API로 미국주식 조회 시, 다우30, 나스닥100, S&P5... |
+| `FID_INPUT_ISCD` | FID 입력 종목코드 | String | 12 | Y | 종목코드 ※ 해외주식 마스터 코드 참조  (포럼 > FAQ > 종목정보 다운로드(해외) > 해외지수)  ※ 해당 API로 미국주식 조회 시, 다우30, 나스닥100, S&P500 종목만 조회 가능합니다. 더 많은 미국주식 종목 시세를 이용할 시에는, 해외주식기간별시세 API 사용 부탁드립니다. |
 | `FID_INPUT_DATE_1` | FID 입력 날짜1 | String | 10 | Y | 시작일자(YYYYMMDD) |
 | `FID_INPUT_DATE_2` | FID 입력 날짜2 | String | 10 | Y | 종료일자(YYYYMMDD) |
 | `FID_PERIOD_DIV_CODE` | FID 기간 분류 코드 | String | 32 | Y | D:일, W:주, M:월, Y:년 |

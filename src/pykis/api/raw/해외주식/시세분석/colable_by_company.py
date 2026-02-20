@@ -113,7 +113,7 @@ class ColableByCompanyResponse(RawModel):
     msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
     msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
     output1: Annotated[list[ColableByCompanyOutput1], "응답상세"] = Field(alias="output1")
-    output2: Annotated[list[ColableByCompanyOutput2], "응답상세"] = Field(alias="output2")
+    output2: Annotated[ColableByCompanyOutput2, "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[ColableByCompanyRequest, ColableByCompanyResponse] = Endpoint(

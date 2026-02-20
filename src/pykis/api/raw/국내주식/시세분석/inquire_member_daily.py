@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 from pydantic import Field
 
 from pykis.api.errors import KisResponseUnavailableError
-from pykis.api.raw.base import KisBool, KisDate, RawModel
+from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.api.validation.rules import AnyFieldSentinel, ErrorConfig
 from pykis.common.enums import KisStrEnum
@@ -63,15 +63,15 @@ class InquireMemberDailyRequestDict(TypedDict):
 
 
 class InquireMemberDailyOutput(RawModel):
-    stck_bsop_date: Annotated[KisDate, "주식영업일자"] = Field(alias="stck_bsop_date")
-    total_seln_qty: Annotated[int, "총매도수량"] = Field(alias="total_seln_qty")
-    total_shnu_qty: Annotated[int, "총매수2수량"] = Field(alias="total_shnu_qty")
-    ntby_qty: Annotated[int, "순매수수량"] = Field(alias="ntby_qty")
-    stck_prpr: Annotated[Decimal, "주식현재가"] = Field(alias="stck_prpr")
-    prdy_vrss: Annotated[int, "전일대비"] = Field(alias="prdy_vrss")
-    prdy_vrss_sign: Annotated[int, "전일대비부호"] = Field(alias="prdy_vrss_sign")
-    prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
-    acml_vol: Annotated[int, "누적거래량"] = Field(alias="acml_vol")
+    stck_bsop_date: Annotated[KisDateOptional, "주식영업일자"] = Field(default=None, alias="stck_bsop_date")
+    total_seln_qty: Annotated[int | None, "총매도수량"] = Field(default=None, alias="total_seln_qty")
+    total_shnu_qty: Annotated[int | None, "총매수2수량"] = Field(default=None, alias="total_shnu_qty")
+    ntby_qty: Annotated[int | None, "순매수수량"] = Field(default=None, alias="ntby_qty")
+    stck_prpr: Annotated[Decimal | None, "주식현재가"] = Field(default=None, alias="stck_prpr")
+    prdy_vrss: Annotated[str | None, "전일대비"] = Field(default=None, alias="prdy_vrss")
+    prdy_vrss_sign: Annotated[str | None, "전일대비부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_ctrt: Annotated[Decimal | None, "전일대비율"] = Field(default=None, alias="prdy_ctrt")
+    acml_vol: Annotated[int | None, "누적거래량"] = Field(default=None, alias="acml_vol")
 
 
 class InquireMemberDailyResponse(RawModel):

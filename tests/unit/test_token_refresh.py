@@ -75,6 +75,7 @@ def test_sync_refreshes_invalid_token() -> None:
             return httpx.Response(200, json={"rt_cd": "0", "msg_cd": "0", "msg1": "OK"})
         return httpx.Response(404, json={"rt_cd": "1", "msg_cd": "NOT_FOUND", "msg1": "not found"})
 
+
     transport = httpx.MockTransport(handler)
     client = SyncKisRawClient(
         _make_auth(),
@@ -83,7 +84,8 @@ def test_sync_refreshes_invalid_token() -> None:
         revoke_on_close=False,
     )
     endpoint = _make_endpoint()
-    response, _ = client.call(endpoint, {})
+    request_payload: dict[str, object] = {}
+    response, _ = client.call(endpoint, request_payload)
     client.close()
 
     assert response.rt_cd == "0"
@@ -121,14 +123,17 @@ def test_sync_refresh_singleton_concurrent() -> None:
         client=httpx.Client(transport=transport),
         revoke_on_close=False,
     )
+
     endpoint = _make_endpoint()
     client.ensure_token()
+    request_payload: dict[str, object] = {}
 
     barrier = Barrier(5)
 
+
     def worker() -> str:
         barrier.wait()
-        return client.call(endpoint, {})[0].rt_cd
+        return client.call(endpoint, request_payload)[0].rt_cd
 
     with ThreadPoolExecutor(max_workers=5) as executor:
         results = list(executor.map(lambda _: worker(), range(5)))
@@ -173,9 +178,11 @@ async def test_async_refreshes_invalid_token() -> None:
         client=httpx.AsyncClient(transport=transport),
         revoke_on_close=False,
     )
+
     endpoint = _make_endpoint()
     try:
-        response, _ = await client.call(endpoint, {})
+        request_payload: dict[str, object] = {}
+        response, _ = await client.call(endpoint, request_payload)
     finally:
         await client.aclose()
 
@@ -215,14 +222,17 @@ async def test_async_refresh_singleton_concurrent() -> None:
         client=httpx.AsyncClient(transport=transport),
         revoke_on_close=False,
     )
+
     endpoint = _make_endpoint()
     await client.ensure_token()
+    request_payload: dict[str, object] = {}
 
     start = asyncio.Event()
 
+
     async def worker() -> str:
         await start.wait()
-        return (await client.call(endpoint, {}))[0].rt_cd
+        return (await client.call(endpoint, request_payload))[0].rt_cd
 
     tasks = [asyncio.create_task(worker()) for _ in range(5)]
     start.set()

@@ -28,8 +28,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2021-12-15
-- **최종 수정일**: 2025-06-23
+- **생성일**: 2021-12-15T13:04:04+09:00
+- **최종 수정일**: 2025-06-23T14:03:52+09:00
 
 ## 요청
 
@@ -38,11 +38,11 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | N | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)  ※ 토큰 지정시 토큰 타입("Bearer") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 "Bearer" 붙여서 호출 EX) "Bearer eyJ..........8GA" |
 | `appkey` | 앱키  | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
-| `tr_id` | 거래ID | String | 13 | Y | [실전투자] TTTO1103U : 선물 옵션 정정 취소 주문 주간  (신) STTN1103U : 선물 옵션 정정 취소 주문 야간  [모의투자] VTTO1103U : 선물 옵션... |
+| `tr_id` | 거래ID | String | 13 | Y | [실전투자] TTTO1103U : 선물 옵션 정정 취소 주문 주간  (신) STTN1103U : 선물 옵션 정정 취소 주문 야간  [모의투자] VTTO1103U : 선물 옵션 정정 취소 주문 주간 |
 | `tr_cont` | 연속 거래 여부 | String | 1 | N | tr_cont를 이용한 다음조회 불가 API |
 | `custtype` | 고객타입 | String | 1 | N | B : 법인  P : 개인 |
 | `seq_no` | 일련번호 | String | 2 | N | [법인 필수] 001 |
@@ -60,13 +60,13 @@
 | `ACNT_PRDT_CD` | 계좌상품코드 | String | 2 | Y | 계좌번호 체계(8-2)의 뒤 2자리 |
 | `RVSE_CNCL_DVSN_CD` | 정정취소구분코드 | String | 2 | Y | 01 : 정정 02 : 취소 |
 | `ORGN_ODNO` | 원주문번호 | String | 10 | Y | 정정 혹은 취소할 주문의 번호 |
-| `ORD_QTY` | 주문수량 | String | 10 | Y | [Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 전량일경우 0으로 입력  [Header tr_id JTCE1002U(선물옵션 정정취소 야간)] 일부수량 ... |
+| `ORD_QTY` | 주문수량 | String | 10 | Y | [Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 전량일경우 0으로 입력  [Header tr_id JTCE1002U(선물옵션 정정취소 야간)] 일부수량 정정 및 취소 불가, 주문수량 반드시 입력 (공백 불가) 일부 미체결 시 잔량 전체에 대해서 취소 가능 EX) 2개 매수주문 후 1개 체결, 1개 미체결인 상태에서 취소주문 시 ORD_QTY는 1로 입력  ※ 모의계좌의 경우, 주문수량 반드시 입력 (공백 불가) |
 | `UNIT_PRICE` | 주문가격1 | String | 23 | Y | 시장가나 최유리의 경우 0으로 입력 (취소 시에도 0 입력) |
 | `NMPR_TYPE_CD` | 호가유형코드 | String | 2 | Y | 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리 |
 | `KRX_NMPR_CNDT_CD` | 한국거래소호가조건코드 | String | 1 | Y | 취소시 0으로 입력 정정시 0 : 없음 3 : IOC 4 : FOK |
 | `RMN_QTY_YN` | 잔여수량여부 | String | 1 | Y | Y : 전량 N : 일부 |
-| `FUOP_ITEM_DVSN_CD` | 선물옵션종목구분코드 | String | 2 | N | [Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 공란(Default)  [Header tr_id JTCE1002U(선물옵션 정정취소 야간)] 01 : 선... |
-| `ORD_DVSN_CD` | 주문구분코드 | String | 2 | Y | [정정] 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK)... |
+| `FUOP_ITEM_DVSN_CD` | 선물옵션종목구분코드 | String | 2 | N | [Header tr_id TTTO1103U(선물옵션 정정취소 주간)] 공란(Default)  [Header tr_id JTCE1002U(선물옵션 정정취소 야간)] 01 : 선물 02 : 콜옵션 03 : 풋옵션 04 : 스프레드 |
+| `ORD_DVSN_CD` | 주문구분코드 | String | 2 | Y | [정정] 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK)  [취소] 01 로 입력 |
 
 ### 요청 예시
 

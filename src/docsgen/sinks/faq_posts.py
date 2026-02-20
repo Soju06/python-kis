@@ -32,8 +32,8 @@ def save_faq_pinned_posts_docs(posts: list[ForumPost], base_dir: Path) -> list[P
         should_manage = bool(managed_name_re.match(existing.name))
         if not should_manage:
             try:
-                head = existing.read_text(encoding="utf-8", errors="ignore")[:200]
-                if "<!-- generated: kis-docs-fetch -->" in head:
+                content = existing.read_text(encoding="utf-8", errors="ignore")
+                if "<!-- generated: kis-docs-fetch -->" in content:
                     should_manage = True
             except OSError:
                 continue

@@ -40,8 +40,8 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2021-12-15
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2021-12-15T13:08:14+09:00
+- **최종 수정일**: 2025-04-30T10:46:53+09:00
 
 ## 요청
 
@@ -50,11 +50,11 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | N | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token 일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Gr... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token 일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) 법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)  ※ 토큰 지정시 토큰 타입("Bearer") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 "Bearer" 붙여서 호출 EX) "Bearer eyJ..........8GA" |
 | `appkey` | 앱키  | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
-| `tr_id` | 거래ID | String | 13 | Y | [실전투자] TTTT1004U : 미국 정정 취소 주문 TTTS1003U : 홍콩 정정 취소 주문 TTTS0309U : 일본 정정 취소 주문 TTTS0302U : 상해 취소 ... |
+| `tr_id` | 거래ID | String | 13 | Y | [실전투자] TTTT1004U : 미국 정정 취소 주문 TTTS1003U : 홍콩 정정 취소 주문 TTTS0309U : 일본 정정 취소 주문 TTTS0302U : 상해 취소 주문 TTTS0306U : 심천 취소 주문 TTTS0312U : 베트남 취소 주문   [모의투자] VTTT1004U : 미국 정정 취소 주문 VTTS1003U : 홍콩 정정 취소 주문 VTTS0309U : 일본 정정 취소 주문 VTTS0302U : 상해 취소 주문 VTTS0306U : 심천 취소 주문 VTTS0312U : 베트남 취소 주문 |
 | `tr_cont` | 연속 거래 여부 | String | 1 | N | tr_cont를 이용한 다음조회 불가 API |
 | `custtype` | 고객타입 | String | 1 | N | B : 법인 P : 개인 |
 | `seq_no` | 일련번호 | String | 2 | N | [법인 필수] 001 |
@@ -69,7 +69,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 |--------|--------|------|------|------|------|
 | `CANO` | 종합계좌번호 | String | 8 | Y | 계좌번호 체계(8-2)의 앞 8자리 |
 | `ACNT_PRDT_CD` | 계좌상품코드 | String | 2 | Y | 계좌번호 체계(8-2)의 뒤 2자리 |
-| `OVRS_EXCG_CD` | 해외거래소코드 | String | 4 | Y | NASD : 나스닥  NYSE : 뉴욕  AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE... |
+| `OVRS_EXCG_CD` | 해외거래소코드 | String | 4 | Y | NASD : 나스닥  NYSE : 뉴욕  AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민 |
 | `PDNO` | 상품번호 | String | 12 | Y |  |
 | `ORGN_ODNO` | 원주문번호 | String | 10 | Y | 정정 또는 취소할 원주문번호 (해외주식_주문 API ouput ODNO  or 해외주식 미체결내역 API output ODNO 참고) |
 | `RVSE_CNCL_DVSN_CD` | 정정취소구분코드 | String | 2 | Y | 01 : 정정  02 : 취소 |

@@ -6,7 +6,12 @@ from pathlib import Path
 
 from codegen.api.models import EndpointSpec, SpecField
 from codegen.api.report_models import ValidationReport, ValidationSampleResult
-from codegen.api.runtime import SKIP_ENDPOINT_IDS, UNSAFE_KEYWORDS, is_empty_payload
+from codegen.api.runtime import (
+    SKIP_ENDPOINT_IDS,
+    UNSAFE_KEYWORDS,
+    is_empty_payload,
+    is_nonfatal_server_error,
+)
 from codegen.api.types import EndpointHints, ExtraFields, FieldHint, TypeOverrides
 from codegen.core.enums import EnumEntry, parse_enum_entries
 from codegen.core.text import is_blank_description
@@ -33,6 +38,7 @@ _DECIMAL_TEXT_RE = re.compile(r"정수부분\s*(\d+)\s*자리.*?소수부분\s*(
 _DT_TOKEN_RE = re.compile(r"(?<![a-z0-9])dt(?![a-z0-9])")
 _RATE_TOKENS = ("비율", "율", "rate", "ratio", "percent", "pct", "ctrt")
 _DATE_TOKENS = ("일자", "날짜", "기준일", "date", "ymd")
+_DATE_RANGE_RE = re.compile(r"\d{4}[./-]\d{1,2}[./-]\d{1,2}")
 
 
 def _has_dt_token(text: str) -> bool:
@@ -93,6 +99,12 @@ def _enum_sample_values(sample: JsonValue | None) -> list[str]:
 
 def _values_numeric(values: list[str]) -> bool:
     return all(value.isdigit() for value in values)
+
+
+def _extend_unique_values(base: list[str], additions: list[str]) -> None:
+    for value in additions:
+        if value not in base:
+            base.append(value)
 
 
 def _preview_value(value: JsonValue | None, limit: int = 5) -> JsonValue | None:
@@ -164,27 +176,37 @@ def _infer_kind(field: SpecField, sample: JsonValue | None, trace: JsonObject | 
 
     enum_entries = parse_enum_entries(field.description or "")
     enum_values = [entry.code for entry in enum_entries]
+    documented_enum_values = list(enum_values)
     enum_desc = {entry.code: entry.desc for entry in enum_entries if entry.desc}
     enum_hint: FieldHint | None = None
+    unknown_enum_values: list[str] = []
+    prefer_enum = _prefer_enum(text, code_lower, enum_entries)
     if enum_entries:
         normalized = {value.upper() for value in enum_values}
         if normalized.issubset({"Y", "N"}):
             enum_hint = FieldHint(kind="bool")
         elif len(enum_values) >= 2:
-            if sample_values and any(value not in enum_values for value in sample_values):
-                if _values_numeric(enum_values) and _values_numeric(sample_values):
-                    for value in sample_values:
-                        if value not in enum_values:
-                            enum_values.append(value)
+            unknown_enum_values = [value for value in sample_values if value not in documented_enum_values]
+            if unknown_enum_values:
+                if _values_numeric(documented_enum_values) and _values_numeric(sample_values):
+                    _extend_unique_values(enum_values, unknown_enum_values)
+                elif prefer_enum:
+                    _extend_unique_values(enum_values, unknown_enum_values)
                 else:
                     enum_hint = FieldHint(kind="str")
             if enum_hint is None:
                 enum_hint = FieldHint(kind="enum", enum=enum_values, enum_desc=enum_desc or None)
 
     if trace is not None and enum_entries:
-        trace["enum"] = {"values": enum_values, "desc": enum_desc or None}
+        trace["enum"] = {
+            "values": enum_values,
+            "documented_values": documented_enum_values,
+            "desc": enum_desc or None,
+            "sample_values": sample_values[:20],
+            "unknown_sample_values": unknown_enum_values,
+        }
 
-    if enum_hint and _prefer_enum(text, code_lower, enum_entries):
+    if enum_hint and prefer_enum:
         return _final(enum_hint, "enum_preferred")
 
     if any(token in text for token in ("일시", "datetime", "timestamp", "dtime")):
@@ -192,6 +214,8 @@ def _infer_kind(field: SpecField, sample: JsonValue | None, trace: JsonObject | 
 
     if has_date_token and has_rate_token:
         return _final(FieldHint(kind="decimal"), "rate_over_date")
+    if has_date_token and isinstance(sample, str) and "~" in sample and _DATE_RANGE_RE.search(sample):
+        return _final(FieldHint(kind="str"), "sample_date_range")
     if has_date_token:
         return _final(FieldHint(kind="date"), "date_token")
 
@@ -298,6 +322,11 @@ def _normalize_sample(value: JsonValue | None) -> tuple[JsonValue | None, bool]:
 
 
 def _is_zero_datetime(sample: JsonValue | None, kind: str | None) -> bool:
+    if isinstance(sample, list):
+        return any(_is_zero_datetime(item, kind) for item in sample)
+
+    if sample == 0:
+        sample = "0"
     if not isinstance(sample, str):
         return False
     text = sample.strip()
@@ -305,7 +334,7 @@ def _is_zero_datetime(sample: JsonValue | None, kind: str | None) -> bool:
         return False
     if kind == "date" and text in {"0", "00000000"}:
         return True
-    if kind == "time" and text in {"0", "000000", "0000"}:
+    if kind == "time" and text in {"0", "000000", "0000", "888888", "999999"}:
         return True
     if kind == "datetime" and text in {"0", "00000000000000"}:
         return True
@@ -364,10 +393,10 @@ def infer_types(
         raw_payload: JsonObject | None = None
         request_payload: JsonObject | None = None
 
-        if success_path.exists():
-            raw_payload = _as_object(json.loads(success_path.read_text(encoding="utf-8")))
-        elif raw_path.exists():
+        if raw_path.exists():
             raw_payload = _as_object(json.loads(raw_path.read_text(encoding="utf-8")))
+        elif success_path.exists():
+            raw_payload = _as_object(json.loads(success_path.read_text(encoding="utf-8")))
         if request_path.exists():
             request_payload = _as_object(json.loads(request_path.read_text(encoding="utf-8")))
 
@@ -570,6 +599,16 @@ def validate_samples(
                         domain=domain,
                         status="skipped",
                         reason="empty_response",
+                    )
+                )
+                continue
+            if is_nonfatal_server_error(spec.id, payload, str(payload.get("msg1") or "")):
+                results.append(
+                    ValidationSampleResult(
+                        id=spec.id,
+                        domain=domain,
+                        status="skipped",
+                        reason="nonfatal_server_error",
                     )
                 )
                 continue

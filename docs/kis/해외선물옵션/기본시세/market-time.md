@@ -25,8 +25,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2024-05-10
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2024-05-10T10:25:21+09:00
+- **최종 수정일**: 2025-04-30T12:58:20+09:00
 
 ## 요청
 
@@ -35,7 +35,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -54,7 +54,7 @@
 |--------|--------|------|------|------|------|
 | `FM_PDGR_CD` | FM상품군코드 | String | 10 | Y | 공백 |
 | `FM_CLAS_CD` | FM클래스코드 | String | 3 | Y | '공백(전체), 001(통화), 002(금리), 003(지수), 004(농산물),005(축산물),006(금속),007(에너지)' |
-| `FM_EXCG_CD` | FM거래소코드 | String | 10 | Y | 'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE), SGX(SGX), OSE(OSE), ASX(ASX), CBOE(CBOE), MDEX(MDE... |
+| `FM_EXCG_CD` | FM거래소코드 | String | 10 | Y | 'CME(CME), EUREX(EUREX), HKEx(HKEx), ICE(ICE), SGX(SGX), OSE(OSE), ASX(ASX), CBOE(CBOE), MDEX(MDEX), NYSE(NYSE), BMF(BMF),FTX(FTX), HNX(HNX), ETC(기타)' |
 | `OPT_YN` | 옵션여부 | String | 1 | Y | %(전체), N(선물), Y(옵션) |
 | `CTX_AREA_NK200` | 연속조회키200 | String | 200 | Y |  |
 | `CTX_AREA_FK200` | 연속조회검색조건200 | String | 200 | Y |  |

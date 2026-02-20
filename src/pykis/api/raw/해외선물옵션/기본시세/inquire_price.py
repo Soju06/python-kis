@@ -81,7 +81,7 @@ class InquirePriceOutput1(RawModel):
     open_price: Annotated[str | None, "시가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고"] = Field(
         default=None, alias="open_price"
     )
-    trst_mgn: Annotated[str | None, "증거금"] = Field(default=None, alias="trst_mgn")
+    trst_mgn: Annotated[int | None, "증거금"] = Field(default=None, alias="trst_mgn")
     low_price: Annotated[str | None, "저가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고"] = Field(
         default=None, alias="low_price"
     )
@@ -112,11 +112,11 @@ class InquirePriceOutput1(RawModel):
     trd_fr_date: Annotated[KisDateOptional, "상장일"] = Field(default=None, alias="trd_fr_date")
     expr_date: Annotated[KisDateOptional, "만기일"] = Field(default=None, alias="expr_date")
     trd_to_date: Annotated[KisDateOptional, "최종거래일"] = Field(default=None, alias="trd_to_date")
-    remn_cnt: Annotated[str | None, "잔존일수"] = Field(default=None, alias="remn_cnt")
-    last_qntt: Annotated[str | None, "체결량"] = Field(default=None, alias="last_qntt")
-    tot_ask_qntt: Annotated[str | None, "총매도잔량"] = Field(default=None, alias="tot_ask_qntt")
+    remn_cnt: Annotated[int | None, "잔존일수"] = Field(default=None, alias="remn_cnt")
+    last_qntt: Annotated[int | None, "체결량"] = Field(default=None, alias="last_qntt")
+    tot_ask_qntt: Annotated[int | None, "총매도잔량"] = Field(default=None, alias="tot_ask_qntt")
     tot_bid_qntt: Annotated[str | None, "총매수잔량"] = Field(default=None, alias="tot_bid_qntt")
-    tick_size: Annotated[str | None, "틱사이즈"] = Field(default=None, alias="tick_size")
+    tick_size: Annotated[Decimal | None, "틱사이즈"] = Field(default=None, alias="tick_size")
     open_date: Annotated[KisDateOptional, "장개시일자"] = Field(default=None, alias="open_date")
     open_time: Annotated[KisTimeOptional, "장개시시각"] = Field(default=None, alias="open_time")
     close_date: Annotated[KisDateOptional, "장종료일자"] = Field(default=None, alias="close_date")

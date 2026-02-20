@@ -155,6 +155,8 @@ class MarketTimeResponse(RawModel):
     rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
     msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
     msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    ctx_area_nk200: Annotated[str | None, "inferred from raw payload"] = Field(default=None, alias="ctx_area_nk200")
+    ctx_area_fk200: Annotated[str | None, "inferred from raw payload"] = Field(default=None, alias="ctx_area_fk200")
     output: Annotated[list[MarketTimeOutput], "응답상세"] = Field(alias="output")
 
 

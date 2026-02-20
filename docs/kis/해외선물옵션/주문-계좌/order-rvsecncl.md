@@ -27,8 +27,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2022-08-05
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2022-08-05T14:39:53+09:00
+- **최종 수정일**: 2025-04-30T12:53:28+09:00
 
 ## 요청
 
@@ -37,7 +37,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)  ※ 토큰 지정시 토큰 타입("Bearer") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 "Bearer" 붙여서 호출 EX) "Bearer eyJ..........8GA" |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -63,7 +63,7 @@
 | `FM_LQD_LMT_ORD_PRIC` | FM청산LIMIT주문가격 | String | 20 | N | OTFM3002U(해외선물옵션주문정정)만 사용 |
 | `FM_LQD_STOP_ORD_PRIC` | FM청산STOP주문가격 | String | 20 | N | OTFM3002U(해외선물옵션주문정정)만 사용 |
 | `FM_HDGE_ORD_SCRN_YN` | FM_HEDGE주문화면여부 | String | 1 | Y | N |
-| `FM_MKPR_CVSN_YN` | FM시장가전환여부 | String | 1 | N | OTFM3003U(해외선물옵션주문취소)만 사용  ※ FM_MKPR_CVSN_YN 항목에 'Y'로 설정하여 취소주문을 접수할 경우, 주문 취소확인이 들어오면 원장에서 시장가주문... |
+| `FM_MKPR_CVSN_YN` | FM시장가전환여부 | String | 1 | N | OTFM3003U(해외선물옵션주문취소)만 사용  ※ FM_MKPR_CVSN_YN 항목에 'Y'로 설정하여 취소주문을 접수할 경우, 주문 취소확인이 들어오면 원장에서 시장가주문을 하나 또 내줌 |
 
 ### 요청 예시
 

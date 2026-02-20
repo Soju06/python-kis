@@ -33,8 +33,8 @@ class InquirePriceRequestDict(TypedDict):
 
 
 class InquirePriceOutput(RawModel):
-    stnd_iscd: Annotated[str | None, "표준종목코드"] = Field(default=None, alias="stnd_iscd")
-    hts_kor_isnm: Annotated[str | None, "HTS한글종목명"] = Field(default=None, alias="hts_kor_isnm")
+    stnd_iscd: Annotated[str, "표준종목코드"] = Field(alias="stnd_iscd")
+    hts_kor_isnm: Annotated[str, "HTS한글종목명"] = Field(alias="hts_kor_isnm")
     bond_prpr: Annotated[Decimal, "채권현재가"] = Field(alias="bond_prpr")
     prdy_vrss_sign: Annotated[str | None, "전일대비부호"] = Field(default=None, alias="prdy_vrss_sign")
     bond_prdy_vrss: Annotated[Decimal, "채권전일대비"] = Field(alias="bond_prdy_vrss")

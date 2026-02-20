@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpac
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, KisTimeOptional, RawModel
+from pykis.api.raw.base import KisBool, KisDate, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -56,25 +56,25 @@ class InquireAskingPriceRequestDict(TypedDict):
 
 
 class InquireAskingPriceOutput1(RawModel):
-    open_price: Annotated[Decimal | None, "시가"] = Field(default=None, alias="open_price")
-    high_price: Annotated[Decimal | None, "고가"] = Field(default=None, alias="high_price")
-    lowp_rice: Annotated[Decimal | None, "저가"] = Field(default=None, alias="lowp_rice")
-    last_price: Annotated[Decimal | None, "현재가"] = Field(default=None, alias="last_price")
-    prev_price: Annotated[Decimal | None, "전일종가"] = Field(default=None, alias="prev_price")
-    vol: Annotated[int | None, "거래량"] = Field(default=None, alias="vol")
-    prev_diff_price: Annotated[Decimal | None, "전일대비가"] = Field(default=None, alias="prev_diff_price")
-    prev_diff_rate: Annotated[Decimal | None, "전일대비율"] = Field(default=None, alias="prev_diff_rate")
-    quot_date: Annotated[KisDateOptional, "호가수신일자"] = Field(default=None, alias="quot_date")
-    quot_time: Annotated[KisTimeOptional, "호가수신시각"] = Field(default=None, alias="quot_time")
+    open_price: Annotated[Decimal, "시가"] = Field(alias="open_price")
+    high_price: Annotated[Decimal, "고가"] = Field(alias="high_price")
+    lowp_rice: Annotated[Decimal, "저가"] = Field(alias="lowp_rice")
+    last_price: Annotated[Decimal, "현재가"] = Field(alias="last_price")
+    prev_price: Annotated[Decimal, "전일종가"] = Field(alias="prev_price")
+    vol: Annotated[int, "거래량"] = Field(alias="vol")
+    prev_diff_price: Annotated[Decimal, "전일대비가"] = Field(alias="prev_diff_price")
+    prev_diff_rate: Annotated[Decimal, "전일대비율"] = Field(alias="prev_diff_rate")
+    quot_date: Annotated[KisDate, "호가수신일자"] = Field(alias="quot_date")
+    quot_time: Annotated[KisTime, "호가수신시각"] = Field(alias="quot_time")
 
 
 class InquireAskingPriceOutput2(RawModel):
-    bid_qntt: Annotated[str | None, "매수수량"] = Field(default=None, alias="bid_qntt")
-    bid_num: Annotated[str | None, "매수번호"] = Field(default=None, alias="bid_num")
-    bid_price: Annotated[str | None, "매수호가"] = Field(default=None, alias="bid_price")
-    ask_qntt: Annotated[int | None, "매도수량"] = Field(default=None, alias="ask_qntt")
-    ask_num: Annotated[str | None, "매도번호"] = Field(default=None, alias="ask_num")
-    ask_price: Annotated[Decimal | None, "매도호가"] = Field(default=None, alias="ask_price")
+    bid_qntt: Annotated[str, "매수수량"] = Field(alias="bid_qntt")
+    bid_num: Annotated[str, "매수번호"] = Field(alias="bid_num")
+    bid_price: Annotated[str, "매수호가"] = Field(alias="bid_price")
+    ask_qntt: Annotated[int, "매도수량"] = Field(alias="ask_qntt")
+    ask_num: Annotated[str, "매도번호"] = Field(alias="ask_num")
+    ask_price: Annotated[Decimal, "매도호가"] = Field(alias="ask_price")
 
 
 class InquireAskingPriceResponse(RawModel):

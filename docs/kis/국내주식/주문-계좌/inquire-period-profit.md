@@ -25,8 +25,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2024-02-16
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2024-02-16T15:48:25+09:00
+- **최종 수정일**: 2025-04-30T10:10:53+09:00
 
 ## 요청
 
@@ -35,7 +35,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -125,7 +125,7 @@
 | `tot_fee` | 총수수료 | String | 19 | Y |  |
 | `tot_tltx` | 총제세금 | String | 19 | Y |  |
 | `tot_excc_amt` | 총정산금액 | String | 19 | Y |  |
-| `tot_rlzt_pfls` | 총실현손익 | String | 19 | Y | ※ HTS[0856] 기간별 매매손익 '일별' 화면의 우측 하단 '총손익률' 항목은  기간별매매손익현황조회(TTTC8715R) > output2 > tot_pftrt(총수익률... |
+| `tot_rlzt_pfls` | 총실현손익 | String | 19 | Y | ※ HTS[0856] 기간별 매매손익 '일별' 화면의 우측 하단 '총손익률' 항목은  기간별매매손익현황조회(TTTC8715R) > output2 > tot_pftrt(총수익률) 으로 확인 가능 |
 | `loan_int` | 대출이자 | String | 19 | Y |  |
 
 ### 응답 예시

@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpac
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, KisTimeOptional, RawModel
+from pykis.api.raw.base import KisBool, KisDate, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -59,33 +59,33 @@ class OptDetailRequestDict(TypedDict):
 
 
 class OptDetailOutput1(RawModel):
-    exch_cd: Annotated[str | None, "거래소코드"] = Field(default=None, alias="exch_cd")
-    clas_cd: Annotated[str | None, "품목종류"] = Field(default=None, alias="clas_cd")
-    crc_cd: Annotated[str | None, "거래통화"] = Field(default=None, alias="crc_cd")
+    exch_cd: Annotated[str, "거래소코드"] = Field(alias="exch_cd")
+    clas_cd: Annotated[int, "품목종류"] = Field(alias="clas_cd")
+    crc_cd: Annotated[str, "거래통화"] = Field(alias="crc_cd")
     sttl_price: Annotated[
-        str | None,
+        str,
         (
             "(★주의) 정산가 X 전일종가 O 가 수신됨 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고 * 포럼 > FAQ > 종목정보 다운로드(해"
             "외) - 해외지수옵션/해외주식옵션"
         ),
-    ] = Field(default=None, alias="sttl_price")
-    sttl_date: Annotated[KisDateOptional, "정산일"] = Field(default=None, alias="sttl_date")
-    trst_mgn: Annotated[str | None, "증거금"] = Field(default=None, alias="trst_mgn")
-    disp_digit: Annotated[Decimal | None, "가격표시진법"] = Field(default=None, alias="disp_digit")
-    tick_sz: Annotated[str | None, "틱사이즈"] = Field(default=None, alias="tick_sz")
-    tick_val: Annotated[str | None, "틱가치"] = Field(default=None, alias="tick_val")
-    mrkt_open_date: Annotated[KisDateOptional, "장개시일자"] = Field(default=None, alias="mrkt_open_date")
-    mrkt_open_time: Annotated[KisTimeOptional, "장개시시각"] = Field(default=None, alias="mrkt_open_time")
-    mrkt_close_date: Annotated[KisDateOptional, "장마감일자"] = Field(default=None, alias="mrkt_close_date")
-    mrkt_close_time: Annotated[KisTimeOptional, "장마감시각"] = Field(default=None, alias="mrkt_close_time")
-    trd_fr_date: Annotated[KisDateOptional, "상장일"] = Field(default=None, alias="trd_fr_date")
-    expr_date: Annotated[KisDateOptional, "만기일"] = Field(default=None, alias="expr_date")
-    trd_to_date: Annotated[KisDateOptional, "최종거래일"] = Field(default=None, alias="trd_to_date")
-    remn_cnt: Annotated[str | None, "잔존일수"] = Field(default=None, alias="remn_cnt")
-    stat_tp: Annotated[KisBool | None, "매매여부"] = Field(default=None, alias="stat_tp")
-    ctrt_size: Annotated[Decimal | None, "계약크기"] = Field(default=None, alias="ctrt_size")
-    stl_tp: Annotated[str | None, "최종결제구분"] = Field(default=None, alias="stl_tp")
-    frst_noti_date: Annotated[KisDateOptional, "최초식별일"] = Field(default=None, alias="frst_noti_date")
+    ] = Field(alias="sttl_price")
+    sttl_date: Annotated[KisDate, "정산일"] = Field(alias="sttl_date")
+    trst_mgn: Annotated[int, "증거금"] = Field(alias="trst_mgn")
+    disp_digit: Annotated[Decimal, "가격표시진법"] = Field(alias="disp_digit")
+    tick_sz: Annotated[int, "틱사이즈"] = Field(alias="tick_sz")
+    tick_val: Annotated[Decimal, "틱가치"] = Field(alias="tick_val")
+    mrkt_open_date: Annotated[KisDate, "장개시일자"] = Field(alias="mrkt_open_date")
+    mrkt_open_time: Annotated[KisTime, "장개시시각"] = Field(alias="mrkt_open_time")
+    mrkt_close_date: Annotated[KisDate, "장마감일자"] = Field(alias="mrkt_close_date")
+    mrkt_close_time: Annotated[KisTime, "장마감시각"] = Field(alias="mrkt_close_time")
+    trd_fr_date: Annotated[KisDate, "상장일"] = Field(alias="trd_fr_date")
+    expr_date: Annotated[KisDate, "만기일"] = Field(alias="expr_date")
+    trd_to_date: Annotated[KisDate, "최종거래일"] = Field(alias="trd_to_date")
+    remn_cnt: Annotated[int, "잔존일수"] = Field(alias="remn_cnt")
+    stat_tp: Annotated[KisBool, "매매여부"] = Field(alias="stat_tp")
+    ctrt_size: Annotated[Decimal, "계약크기"] = Field(alias="ctrt_size")
+    stl_tp: Annotated[str, "최종결제구분"] = Field(alias="stl_tp")
+    frst_noti_date: Annotated[KisDate, "최초식별일"] = Field(alias="frst_noti_date")
 
 
 class OptDetailResponse(RawModel):

@@ -139,6 +139,74 @@ class SmokeReport(BaseModel):
     results: list[SmokeResult] = Field(default_factory=list)
 
 
+class EnumDriftCandidate(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    endpoint_id: str
+    endpoint_name: str
+    path: str
+    source_path: str
+    location: str
+    output: str | None = None
+    field_code: str
+    field_name: str
+    inference_kind: str | None = None
+    inference_reason: str | None = None
+    documented_values: list[str] = Field(default_factory=list)
+    observed_values: list[str] = Field(default_factory=list)
+    unknown_values: list[str] = Field(default_factory=list)
+    proposed_values: list[str] = Field(default_factory=list)
+    status: Literal["pending_review"] = "pending_review"
+    evidence: JsonObject = Field(default_factory=dict)
+
+
+class EnumDriftCandidateReport(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    generated_at: str
+    total: int = 0
+    endpoints: int = 0
+    by_location: dict[str, int] = Field(default_factory=dict)
+    candidates: list[EnumDriftCandidate] = Field(default_factory=list)
+
+
+class EnumManualReviewField(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    location: str
+    output: str | None = None
+    field_code: str
+    field_name: str
+    field_length: int | None = None
+    suspicious_values: list[str] = Field(default_factory=list)
+    enum_values: list[str] = Field(default_factory=list)
+    reasons: list[str] = Field(default_factory=list)
+    confidence: Literal["high", "medium", "low"] = "low"
+
+
+class EnumManualReviewEndpoint(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    endpoint_id: str
+    endpoint_name: str
+    path: str
+    source_path: str
+    smoke_status: Literal["error", "skipped", "ok", "unknown"] = "unknown"
+    fields: list[EnumManualReviewField] = Field(default_factory=list)
+    evidence: JsonObject = Field(default_factory=dict)
+
+
+class EnumManualReviewReport(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    generated_at: str
+    total_fields: int = 0
+    endpoints: int = 0
+    by_smoke_status: dict[str, int] = Field(default_factory=dict)
+    by_confidence: dict[str, int] = Field(default_factory=dict)
+    candidates: list[EnumManualReviewEndpoint] = Field(default_factory=list)
+
+
 class ApiPipelineReport(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
@@ -164,6 +232,11 @@ __all__ = [
     "AugmentQualityReport",
     "AugmentRequestPayload",
     "AugmentSummary",
+    "EnumDriftCandidate",
+    "EnumDriftCandidateReport",
+    "EnumManualReviewEndpoint",
+    "EnumManualReviewField",
+    "EnumManualReviewReport",
     "MultiScenarioReport",
     "ScanReport",
     "ScenarioResult",

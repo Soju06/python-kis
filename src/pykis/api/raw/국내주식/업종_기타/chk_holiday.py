@@ -75,6 +75,8 @@ class ChkHolidayResponse(RawModel):
     rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
     msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
     msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    ctx_area_nk: Annotated[int | None, "inferred from raw payload"] = Field(default=None, alias="ctx_area_nk")
+    ctx_area_fk: Annotated[int | None, "inferred from raw payload"] = Field(default=None, alias="ctx_area_fk")
     output: Annotated[list[ChkHolidayOutput], "응답상세1"] = Field(alias="output")
 
 

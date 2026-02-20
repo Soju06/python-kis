@@ -26,6 +26,22 @@ _EMPTY_MESSAGE_SNIPPETS = (
     "조회가 계속 됩니다",
     "CME SUB거래소 신청 계좌가 아닙니다",
 )
+_NON_FATAL_ERROR_ENDPOINT_IDS = frozenset(
+    {
+        "8702dab4-008d-4849-8f24-a91b57872a80",
+        "8c473311-ecfd-428f-9ec2-0b574d8592b9",
+        "c7be7c01-6f43-4576-b1fd-84d0102ce4c3",
+        "cd2e4d9a-7e3d-44ff-9b68-36d971655c24",
+        "3ed0247e-d717-43ed-85e9-51f952844687",
+        "31d46ebe-2a19-4467-9dfb-a2d21adb1e61",
+    }
+)
+_NON_FATAL_ERROR_CODES = {"OPSQ2001"}
+_NON_FATAL_ERROR_SNIPPETS = (
+    "WRONG VALUE SIZE [START_DATE_TIME]:[14]",
+    "WRONG VALUE SIZE [START_DATE]:[14]",
+    "WRONG VALUE SIZE [CLOSE_DATE_TIME]:[14]",
+)
 
 
 def load_overrides(path: Path) -> AugmentOverrides:
@@ -238,6 +254,21 @@ def is_empty_payload(payload: JsonObject | None) -> bool:
     return any(snippet in message for snippet in _EMPTY_MESSAGE_SNIPPETS)
 
 
+def is_nonfatal_server_error(endpoint_id: str, payload: JsonObject | None, reason: str | None = None) -> bool:
+    if endpoint_id not in _NON_FATAL_ERROR_ENDPOINT_IDS:
+        return False
+    reason_text = (reason or "").strip()
+    msg_code = ""
+    msg_text = ""
+    if payload:
+        msg_code = str(payload.get("msg_cd") or "")
+        msg_text = str(payload.get("msg1") or "")
+    haystack = f"{msg_code} {msg_text} {reason_text}"
+    return any(code in haystack for code in _NON_FATAL_ERROR_CODES) and any(
+        snippet in haystack for snippet in _NON_FATAL_ERROR_SNIPPETS
+    )
+
+
 def _endpoint_location(
     overrides: EndpointOverrideLocations,
     location: str,
@@ -383,6 +414,9 @@ def _description_value_with_reason(field: SpecField) -> tuple[JsonValue | None, 
     if match:
         value = _sanitize_example_value(field, match.group("value"))
         return value, "unique_key"
+
+    if "입력값 없을때 전체" in normalized:
+        return "", "blank_when_missing"
 
     if is_blank_description(desc):
         return "", "blank_description"

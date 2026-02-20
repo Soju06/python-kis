@@ -40,8 +40,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2024-08-23
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2024-08-23T12:23:18+09:00
+- **최종 수정일**: 2025-04-30T13:00:05+09:00
 
 ## 요청
 
@@ -50,7 +50,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -117,7 +117,7 @@ INDEX_KEY:
 | `open_price` | 시가 | String | 15 | Y |  |
 | `high_price` | 고가 | String | 15 | Y |  |
 | `low_price` | 저가 | String | 15 | Y |  |
-| `last_price` | 체결가격 | String | 15 | Y | 체결가격 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고 * 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외... |
+| `last_price` | 체결가격 | String | 15 | Y | 체결가격 ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고 * 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션 |
 | `last_qntt` | 체결수량 | String | 10 | Y |  |
 | `vol` | 누적거래수량 | String | 10 | Y |  |
 | `prev_diff_flag` | 전일대비구분 | String | 1 | Y |  |

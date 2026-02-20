@@ -264,10 +264,8 @@ class InfoTypeEnum(KisStrEnum):
     H = ("H", "")
     VALUE_I = ("I", "")
     N = ("N", "")
-    P = ("P", "")
     R = ("R", "")
     VALUE_O = ("O", "")
-    Q = ("Q", "")
     S = ("S", "")
 
 

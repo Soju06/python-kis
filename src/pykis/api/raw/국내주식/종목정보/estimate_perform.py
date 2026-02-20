@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpac
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -36,30 +36,30 @@ class EstimatePerformRequestDict(TypedDict):
 
 
 class EstimatePerformOutput1(RawModel):
-    sht_cd: Annotated[str | None, "ELW단축종목코드"] = Field(default=None, alias="sht_cd")
-    item_kor_nm: Annotated[str | None, "HTS한글종목명"] = Field(default=None, alias="item_kor_nm")
-    name1: Annotated[str | None, "ELW현재가"] = Field(default=None, alias="name1")
+    sht_cd: Annotated[str, "ELW단축종목코드"] = Field(alias="sht_cd")
+    item_kor_nm: Annotated[str, "HTS한글종목명"] = Field(alias="item_kor_nm")
+    name1: Annotated[str, "ELW현재가"] = Field(alias="name1")
     name2: Annotated[str | None, "전일대비"] = Field(default=None, alias="name2")
-    estdate: Annotated[KisDateOptional, "전일대비부호"] = Field(default=None, alias="estdate")
-    rcmd_name: Annotated[str | None, "전일대비율"] = Field(default=None, alias="rcmd_name")
+    estdate: Annotated[KisDate, "전일대비부호"] = Field(alias="estdate")
+    rcmd_name: Annotated[str, "전일대비율"] = Field(alias="rcmd_name")
     capital: Annotated[Decimal, "누적거래량"] = Field(alias="capital")
     forn_item_lmtrt: Annotated[Decimal, "행사가"] = Field(alias="forn_item_lmtrt")
 
 
 class EstimatePerformOutput2(RawModel):
-    data1: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data1")
-    data2: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data2")
-    data3: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data3")
-    data4: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data4")
-    data5: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data5")
+    data1: Annotated[Decimal, "결산연월(outblock4) 참조"] = Field(alias="data1")
+    data2: Annotated[Decimal, "결산연월(outblock4) 참조"] = Field(alias="data2")
+    data3: Annotated[Decimal, "결산연월(outblock4) 참조"] = Field(alias="data3")
+    data4: Annotated[Decimal, "결산연월(outblock4) 참조"] = Field(alias="data4")
+    data5: Annotated[Decimal, "결산연월(outblock4) 참조"] = Field(alias="data5")
 
 
 class EstimatePerformOutput3(RawModel):
-    data1: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data1")
-    data2: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data2")
-    data3: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data3")
-    data4: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data4")
-    data5: Annotated[str | None, "결산연월(outblock4) 참조"] = Field(default=None, alias="data5")
+    data1: Annotated[Decimal, "결산연월(outblock4) 참조"] = Field(alias="data1")
+    data2: Annotated[Decimal, "결산연월(outblock4) 참조"] = Field(alias="data2")
+    data3: Annotated[Decimal, "결산연월(outblock4) 참조"] = Field(alias="data3")
+    data4: Annotated[Decimal, "결산연월(outblock4) 참조"] = Field(alias="data4")
+    data5: Annotated[Decimal, "결산연월(outblock4) 참조"] = Field(alias="data5")
     output4: Annotated[object | None, "array"] = Field(default=None, alias="output4")
     dt: Annotated[str | None, "DATA1 ~5 결산월 정보"] = Field(default=None, alias="dt")
 
@@ -68,6 +68,7 @@ class EstimatePerformResponse(RawModel):
     rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
     msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
     msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output4: Annotated[object | None, "inferred from raw payload"] = Field(default=None, alias="output4")
     output1: Annotated[EstimatePerformOutput1, "응답상세"] = Field(alias="output1")
     output2: Annotated[list[EstimatePerformOutput2], "응답상세"] = Field(alias="output2")
     output3: Annotated[list[EstimatePerformOutput3], "응답상세"] = Field(alias="output3")

@@ -21,6 +21,11 @@ _ENUM_PAREN_DESC_RE = re.compile(r"(?<![A-Za-z0-9_])(?P<code>[A-Za-z0-9]{1,5})\s
 _ENUM_EXAMPLE_RE = re.compile(r"(?i)\bex\b|e\.g\.|예시|예\)|예:")
 _ENUM_EXAMPLE_LIST_HINT_RE = re.compile(r"(?i)\bticker\b|티커")
 _UNIQUE_KEY_HINT_RE = re.compile(r"(?i)\bunique\s*key\b")
+_BIT_SECTION_HEADER_RE = re.compile(r"^\(\s*(?P<index>\d+)\s*\)\s*(?P<title>.*)$")
+_BIT_HINT_RE = re.compile(r"(?i)\bbit\b|비트")
+_HIERARCHICAL_LINE_RE = re.compile(
+    r"^\s*(?P<level>\d+)\s*:\s*(?P<code>[A-Za-z0-9]{1,8})\s*:\s*(?P<desc>.+?)\s*$"
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -188,6 +193,111 @@ def _parse_colonless(normalized: str) -> list[EnumEntry]:
     return entries
 
 
+def _is_bit_component_code(code: str) -> bool:
+    return len(code) == 1 and code.isalnum() and (code.isdigit() or code.isupper())
+
+
+def _parse_bitwise_combinations(normalized: str) -> tuple[list[EnumEntry], set[str]]:
+    sections: list[list[EnumEntry]] = []
+    current: list[EnumEntry] | None = None
+
+    for raw_line in normalized.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+
+        header_match = _BIT_SECTION_HEADER_RE.match(line)
+        if header_match:
+            title = _clean_desc(header_match.group("title") or "")
+            if _BIT_HINT_RE.search(title):
+                current = []
+                sections.append(current)
+                continue
+            if sections:
+                current = None
+
+        if current is None:
+            continue
+
+        for match in _ENUM_PAIR_RE.finditer(line):
+            code = match.group("code").strip()
+            desc = _clean_desc(match.group("desc") or "")
+            if not code or not desc:
+                continue
+            current.append(EnumEntry(code=code, desc=desc))
+
+    if len(sections) < 2:
+        return [], set()
+
+    first_raw, second_raw = sections[0], sections[1]
+    if len(first_raw) < 2 or len(second_raw) < 2:
+        return [], set()
+
+    first: list[EnumEntry] = []
+    second: list[EnumEntry] = []
+    first_seen: set[str] = set()
+    second_seen: set[str] = set()
+
+    for entry in first_raw:
+        if entry.code in first_seen:
+            continue
+        first_seen.add(entry.code)
+        first.append(entry)
+    for entry in second_raw:
+        if entry.code in second_seen:
+            continue
+        second_seen.add(entry.code)
+        second.append(entry)
+
+    if not all(_is_bit_component_code(entry.code) for entry in first + second):
+        return [], set()
+
+    if len(first) * len(second) > 100:
+        return [], set()
+
+    combined: list[EnumEntry] = []
+    for left in first:
+        for right in second:
+            desc = _clean_desc(f"{left.desc} / {right.desc}")
+            combined.append(EnumEntry(code=f"{left.code}{right.code}", desc=desc))
+
+    component_codes = {entry.code for entry in first + second}
+    return combined, component_codes
+
+
+def _parse_prefixed_subcodes(normalized: str) -> list[EnumEntry]:
+    entries: list[EnumEntry] = []
+    current_prefix: str | None = None
+
+    for raw_line in normalized.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+
+        match = _HIERARCHICAL_LINE_RE.match(line)
+        if not match:
+            continue
+
+        level = int(match.group("level"))
+        code = match.group("code").strip()
+        desc = _clean_desc(match.group("desc") or "")
+
+        if level == 1:
+            current_prefix = code if len(code) == 1 and code.isalpha() else None
+            continue
+
+        if level != 3 or current_prefix is None:
+            continue
+        if len(code) != 2 or not code.isdigit():
+            continue
+        if not desc:
+            continue
+
+        entries.append(EnumEntry(code=f"{current_prefix}{code}", desc=desc))
+
+    return entries
+
+
 def parse_enum_entries(description: str | None) -> list[EnumEntry]:
     desc = (description or "").strip()
     if not desc:
@@ -198,11 +308,15 @@ def parse_enum_entries(description: str | None) -> list[EnumEntry]:
 
     normalized = _normalize_description(desc)
     candidates: list[EnumEntry] = []
+    bitwise_combinations, bit_component_codes = _parse_bitwise_combinations(normalized)
+    prefixed_subcodes = _parse_prefixed_subcodes(normalized)
 
     candidates.extend(_parse_pairs(normalized))
     candidates.extend(_parse_colonless(normalized))
     candidates.extend(_parse_dot_pairs(normalized))
     candidates.extend(_parse_paren_pairs(normalized))
+    candidates.extend(bitwise_combinations)
+    candidates.extend(prefixed_subcodes)
 
     if not candidates:
         if _ENUM_EXAMPLE_RE.search(normalized) or _ENUM_EXAMPLE_LIST_HINT_RE.search(normalized):
@@ -219,6 +333,11 @@ def parse_enum_entries(description: str | None) -> list[EnumEntry]:
     unique: dict[str, EnumEntry] = {}
     for entry in candidates:
         code = entry.code
+        if bitwise_combinations:
+            if code in bit_component_codes:
+                continue
+            if any(char.islower() for char in code):
+                continue
         if code in unique:
             if not unique[code].desc and entry.desc:
                 unique[code] = entry

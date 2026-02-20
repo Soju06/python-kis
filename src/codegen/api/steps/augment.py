@@ -149,6 +149,38 @@ def _coerce_query_params(payload: JsonObject) -> dict[str, str | int | float | N
     return params
 
 
+def _validate_response_payload(
+    endpoint_def: Endpoint,
+    payload: JsonObject,
+) -> tuple[JsonObject | None, JsonObject | None]:
+    try:
+        endpoint_def.response_model.model_rebuild()
+    except Exception:
+        pass
+
+    try:
+        response_model = endpoint_def.response_model.model_validate(payload)
+    except ValidationError as exc:
+        return None, cast(
+            JsonObject,
+            {
+                "reason": "validation_error",
+                "errors": exc.errors(),
+                "message": str(exc),
+            },
+        )
+    except Exception as exc:  # noqa: BLE001
+        return None, cast(
+            JsonObject,
+            {
+                "reason": "model_validation_exception",
+                "message": str(exc),
+            },
+        )
+
+    return cast(JsonObject, response_model.model_dump(by_alias=True)), None
+
+
 def _select_tr_id(endpoint: EndpointSpec, domain: str) -> str | None:
     if domain == "demo" and endpoint.demo_tr_id:
         return endpoint.demo_tr_id
@@ -569,21 +601,31 @@ def augment_endpoint(
         )
 
     if scenario_id == "success":
-        try:
-            response_model = endpoint_def.response_model.model_validate(payload)
-        except ValidationError as exc:
-            meta = meta.model_copy(update={"ok": False})
+        normalized_payload, validation_issue = _validate_response_payload(endpoint_def, payload)
+        if validation_issue is not None:
+            logger.warning("augment response model mismatch %s: %s", endpoint.id, validation_issue.get("message"))
             _dump_json(meta_path, meta.model_dump())
             _dump_json(
                 _scenario_payload_path(result_dir, scenario, "error"),
-                {"validation_error": exc.errors(), "payload": payload},
+                {"validation_issue": validation_issue, "payload": payload},
             )
-            raise
+            _dump_json(result_dir / "success.json", payload)
+            return AugmentEndpointResult(
+                id=endpoint.id,
+                status="ok",
+                status_code=response.status_code,
+                note="validation_error",
+                scenario=scenario_id,
+            )
 
         _dump_json(meta_path, meta.model_dump())
-        _dump_json(result_dir / "success.json", response_model.model_dump(by_alias=True))
+        _dump_json(result_dir / "success.json", normalized_payload if normalized_payload is not None else payload)
 
-        error_payload = _probe_error(endpoint, client, headers, query, body, base_url)
+        try:
+            error_payload = _probe_error(endpoint, client, headers, query, body, base_url)
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("augment error probe failed %s: %s", endpoint.id, exc)
+            error_payload = None
         if error_payload is not None:
             _dump_json(result_dir / "error_probe.json", error_payload)
     else:

@@ -25,8 +25,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2023-02-24
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2023-02-24T12:36:30+09:00
+- **최종 수정일**: 2025-04-30T10:10:15+09:00
 
 ## 요청
 
@@ -35,7 +35,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -57,7 +57,7 @@
 | `PDNO` | 상품번호 | String | 12 | Y | 종목코드(6자리) |
 | `ORD_UNPR` | 주문단가 | String | 19 | Y | 1주당 가격  * 장전 시간외, 장후 시간외, 시장가의 경우 1주당 가격을 공란으로 비우지 않음 "0"으로 입력 권고 |
 | `ORD_DVSN` | 주문구분 | String | 2 | Y | 00 : 지정가  01 : 시장가  02 : 조건부지정가  03 : 최유리지정가  04 : 최우선지정가  05 : 장전 시간외  06 : 장후 시간외  07 : 시간외 단일가  등 |
-| `CRDT_TYPE` | 신용유형 | String | 2 | Y | 21 : 자기융자신규  23 : 유통융자신규  26 : 유통대주상환  28 : 자기대주상환  25 : 자기융자상환  27 : 유통융자상환  22 : 유통대주신규  24 : 자... |
+| `CRDT_TYPE` | 신용유형 | String | 2 | Y | 21 : 자기융자신규  23 : 유통융자신규  26 : 유통대주상환  28 : 자기대주상환  25 : 자기융자상환  27 : 유통융자상환  22 : 유통대주신규  24 : 자기대주신규 |
 | `CMA_EVLU_AMT_ICLD_YN` | CMA평가금액포함여부 | String | 1 | Y | Y/N |
 | `OVRS_ICLD_YN` | 해외포함여부 | String | 1 | Y | Y/N |
 

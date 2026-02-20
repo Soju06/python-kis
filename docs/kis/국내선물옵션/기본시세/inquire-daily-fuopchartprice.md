@@ -27,8 +27,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2022-05-26
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2022-05-26T12:17:59+09:00
+- **최종 수정일**: 2025-04-30T12:33:57+09:00
 
 ## 요청
 
@@ -37,7 +37,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | N | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token 일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Gr... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token 일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) 법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.) |
 | `tr_id` | 거래ID | String | 13 | Y | [실전/모의투자] FHKIF03020100 |
@@ -50,7 +50,7 @@
 | `FID_COND_MRKT_DIV_CODE` | FID 조건 시장 분류 코드 | String | 2 | Y | F: 지수선물, O:지수옵션 JF: 주식선물, JO:주식옵션, CF: 상품선물(금), 금리선물(국채), 통화선물(달러) CM: 야간선물, EU: 야간옵션 |
 | `FID_INPUT_ISCD` | 종목코드 | String | 12 | Y | 종목번호 (지수선물:6자리, 지수옵션 9자리) |
 | `FID_INPUT_DATE_1` | 조회 시작일자 | String | 10 | Y | 조회 시작일자 (ex. 20220401) |
-| `FID_INPUT_DATE_2` | 조회 종료일자  | String | 10 | Y | 조회 종료일자 (ex. 20220524)  ※ 주(W), 월(M), 년(Y) 봉 조회 시에 아래 참고 ㅁ FID_INPUT_DATE_2 가 현재일 까지일때 . 주봉 조회 : ... |
+| `FID_INPUT_DATE_2` | 조회 종료일자  | String | 10 | Y | 조회 종료일자 (ex. 20220524)  ※ 주(W), 월(M), 년(Y) 봉 조회 시에 아래 참고 ㅁ FID_INPUT_DATE_2 가 현재일 까지일때 . 주봉 조회 : 해당 주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 전월 일자로 시작되어야함 . 년봉 조회 : 해당 년의 전년도 일자로 시작되어야함 ㅁ FID_INPUT_DATE_2 가 현재일보다 이전일 때 . 주봉 조회 : 해당 주의 첫번째 영업일이 포함되어야함 . 월봉 조회 : 해당 월의 영업일이 포함되어야함 . 년봉 조회 : 해당 년의 영업일이 포함되어야함 |
 | `FID_PERIOD_DIV_CODE` | 기간분류코드 | String | 32 | Y | D:일봉 W:주봉, M:월봉, Y:년봉 |
 
 ### 요청 예시

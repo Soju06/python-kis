@@ -145,6 +145,7 @@ class InquireDailyItemchartpriceOutput1(RawModel):
     itewhol_loan_rmnd_ratem: Annotated[Decimal | None, "13(8.4)"] = Field(
         default=None, alias="itewhol_loan_rmnd_ratem", max_digits=12, decimal_places=4
     )
+    itewhol_loan_rmnd_ratem_name: Annotated[str | None, "inferred from raw payload"] = Field(default=None, alias="itewhol_loan_rmnd_ratem name")
 
 
 class InquireDailyItemchartpriceOutput2(RawModel):

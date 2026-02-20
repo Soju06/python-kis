@@ -151,26 +151,25 @@ class PriceRequestDict(TypedDict):
 
 class PriceOutput(RawModel):
     rsym: Annotated[
-        str | None,
+        str,
         (
             "D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : 도쿄, HKS :"
             " 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이"
         ),
-    ] = Field(default=None, alias="rsym")
-    zdiv: Annotated[str | None, "소수점자리수"] = Field(default=None, alias="zdiv")
-    base: Annotated[str | None, "전일의 종가"] = Field(default=None, alias="base")
-    pvol: Annotated[int | None, "전일의 거래량"] = Field(default=None, alias="pvol")
-    last: Annotated[Decimal | None, "당일 조회시점의 현재 가격"] = Field(default=None, alias="last")
-    sign: Annotated[SignEnum | None, "1 : 상한 2 : 상승 3 : 보합 4 : 하한 5 : 하락"] = Field(
-        default=None,
+    ] = Field(alias="rsym")
+    zdiv: Annotated[int, "소수점자리수"] = Field(alias="zdiv")
+    base: Annotated[Decimal, "전일의 종가"] = Field(alias="base")
+    pvol: Annotated[int, "전일의 거래량"] = Field(alias="pvol")
+    last: Annotated[Decimal, "당일 조회시점의 현재 가격"] = Field(alias="last")
+    sign: Annotated[SignEnum, "1 : 상한 2 : 상승 3 : 보합 4 : 하한 5 : 하락"] = Field(
         alias="sign",
         json_schema_extra={"enum": ["1", "2", "3", "4", "5"], "enum_desc": {"1": "상한", "2": "상승", "3": "보합", "4": "하한", "5": "하락"}},
     )
-    diff: Annotated[Decimal | None, "전일 종가와 당일 현재가의 차이 (당일 현재가-전일 종가)"] = Field(default=None, alias="diff")
-    rate: Annotated[Decimal | None, "전일 대비 / 당일 현재가 * 100"] = Field(default=None, alias="rate")
-    tvol: Annotated[int | None, "당일 조회시점까지 전체 거래량"] = Field(default=None, alias="tvol")
-    tamt: Annotated[Decimal | None, "당일 조회시점까지 전체 거래금액"] = Field(default=None, alias="tamt")
-    ordy: Annotated[KisBool | None, "매수주문 가능 종목 여부"] = Field(default=None, alias="ordy")
+    diff: Annotated[Decimal, "전일 종가와 당일 현재가의 차이 (당일 현재가-전일 종가)"] = Field(alias="diff")
+    rate: Annotated[Decimal, "전일 대비 / 당일 현재가 * 100"] = Field(alias="rate")
+    tvol: Annotated[int, "당일 조회시점까지 전체 거래량"] = Field(alias="tvol")
+    tamt: Annotated[Decimal, "당일 조회시점까지 전체 거래금액"] = Field(alias="tamt")
+    ordy: Annotated[KisBool, "매수주문 가능 종목 여부"] = Field(alias="ordy")
 
 
 class PriceResponse(RawModel):

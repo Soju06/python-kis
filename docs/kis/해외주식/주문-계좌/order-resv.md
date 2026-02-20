@@ -66,8 +66,8 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2021-12-15
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2021-12-15T13:08:57+09:00
+- **최종 수정일**: 2025-04-30T10:45:39+09:00
 
 ## 요청
 
@@ -76,11 +76,11 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | N | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token 일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Gr... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token 일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) 법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키  | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
-| `tr_id` | 거래ID | String | 13 | Y | [실전투자] TTTT3016U : 미국 매도 예약 주문 TTTT3014U : 미국 매수 예약 주문 TTTS3013U : 중국/홍콩/일본/베트남 예약 매수/매도/취소 주문  [... |
+| `tr_id` | 거래ID | String | 13 | Y | [실전투자] TTTT3016U : 미국 매도 예약 주문 TTTT3014U : 미국 매수 예약 주문 TTTS3013U : 중국/홍콩/일본/베트남 예약 매수/매도/취소 주문  [모의투자] VTTT3016U : 미국 매도 예약 주문 VTTT3014U : 미국 매수 예약 주문 VTTS3013U : 중국/홍콩/일본/베트남 예약 매수/매도/취소 주문 |
 | `tr_cont` | 연속 거래 여부 | String | 1 | N | tr_cont를 이용한 다음조회 불가 API |
 | `custtype` | 고객타입 | String | 1 | N | B : 법인 P : 개인 |
 | `seq_no` | 일련번호 | String | 2 | N | [법인 필수] 001 |
@@ -98,13 +98,13 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | `SLL_BUY_DVSN_CD` | 매도매수구분코드 | String | 2 | N | tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 01 : 매도 02 : 매수 |
 | `RVSE_CNCL_DVSN_CD` | 정정취소구분코드 | String | 2 | Y | tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 00 : "매도/매수 주문"시 필수 항목 02 : 취소 |
 | `PDNO` | 상품번호 | String | 12 | Y |  |
-| `PRDT_TYPE_CD` | 상품유형코드 | String | 3 | Y | tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 515 : 일본 501 : 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : ... |
-| `OVRS_EXCG_CD` | 해외거래소코드 | String | 4 | Y | NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE :... |
+| `PRDT_TYPE_CD` | 상품유형코드 | String | 3 | Y | tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 515 : 일본 501 : 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 : 중국 상해A / 552 : 중국 심천A |
+| `OVRS_EXCG_CD` | 해외거래소코드 | String | 4 | Y | NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩 SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민 |
 | `FT_ORD_QTY` | FT주문수량 | String | 10 | Y |  |
 | `FT_ORD_UNPR3` | FT주문단가3 | String | 27 | Y |  |
 | `ORD_SVR_DVSN_CD` | 주문서버구분코드 | String | 1 | N | "0"(Default) |
 | `RSVN_ORD_RCIT_DT` | 예약주문접수일자 | String | 8 | N | tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 |
-| `ORD_DVSN` | 주문구분 | String | 20 | N | tr_id가 TTTT3014U(미국 예약 매수 주문)인 경우만 사용 00 : 지정가 35 : TWAP 36 : VWAP  tr_id가 TTTT3016U(미국 예약 매도 주문)... |
+| `ORD_DVSN` | 주문구분 | String | 20 | N | tr_id가 TTTT3014U(미국 예약 매수 주문)인 경우만 사용 00 : 지정가 35 : TWAP 36 : VWAP  tr_id가 TTTT3016U(미국 예약 매도 주문)인 경우만 사용 00 : 지정가 31 : MOO(장개시시장가) 35 : TWAP 36 : VWAP |
 | `OVRS_RSVN_ODNO` | 해외예약주문번호 | String | 10 | N | tr_id가 TTTS3013U(중국/홍콩/일본/베트남 예약 주문)인 경우만 사용 |
 | `ALGO_ORD_TMD_DVSN_CD` | 알고리즘주문시간구분코드 | String | 2 | N | ※ TWAP, VWAP 주문에서만 사용. 예약주문은 시간입력 불가하여 02로 값 고정 ※ 정규장 종료 10분전까지 가능 |
 

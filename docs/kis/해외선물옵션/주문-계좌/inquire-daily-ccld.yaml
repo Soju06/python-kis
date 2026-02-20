@@ -12,14 +12,16 @@ domains:
   demo: 모의투자 미지원
 real_tr_id: OTFM3122R
 demo_tr_id: 모의투자 미지원
-summary: 해외선물옵션 일별 체결내역 API입니다.
+summary: '해외선물옵션 일별 체결내역 API입니다.
+
+  거래소 체결 내역에 따라 , output1에 동일한 주문번호의 데이터들이 수신될 수 있습니다.'
 description: ''
 metadata:
   organization: 한국투자증권
   billing_policy: 무과금
   status: RUNNING
   created_date: '2022-10-07T12:53:43+09:00'
-  last_modified_date: '2025-04-30T12:54:55+09:00'
+  last_modified_date: '2026-02-11T09:59:49+09:00'
 request:
   headers:
   - code: content-type

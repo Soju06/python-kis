@@ -30,8 +30,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2024-03-15
-- **최종 수정일**: 2025-06-24
+- **생성일**: 2024-03-15T09:16:35+09:00
+- **최종 수정일**: 2025-06-24T14:08:15+09:00
 
 ## 요청
 
@@ -40,7 +40,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -63,7 +63,7 @@
 | `fid_input_iscd` | 입력 종목코드 | String | 12 | Y | 0000(전체) 코스피(0001), 코스닥(1001), 코스피200(2001) |
 | `fid_rank_sort_cls_code` | 순위 정렬 구분 코드 | String | 2 | Y | 0:상승율순 1:하락율순 2:시가대비상승율 3:시가대비하락율 4:변동율 |
 | `fid_input_cnt_1` | 입력 수1 | String | 12 | Y | 0:전체 , 누적일수 입력 |
-| `fid_prc_cls_code` | 가격 구분 코드 | String | 2 | Y | 'fid_rank_sort_cls_code :0 상승율 순일때 (0:저가대비, 1:종가대비) fid_rank_sort_cls_code :1 하락율 순일때 (0:고가대비, 1:... |
+| `fid_prc_cls_code` | 가격 구분 코드 | String | 2 | Y | 'fid_rank_sort_cls_code :0 상승율 순일때 (0:저가대비, 1:종가대비) fid_rank_sort_cls_code :1 하락율 순일때 (0:고가대비, 1:종가대비) fid_rank_sort_cls_code : 기타 (0:전체)' |
 | `fid_input_price_1` | 입력 가격1 | String | 12 | Y | 공백 입력 시 전체 (가격 ~) |
 | `fid_input_price_2` | 입력 가격2 | String | 12 | Y | 공백 입력 시 전체 (~ 가격) |
 | `fid_vol_cnt` | 거래량 수 | String | 12 | Y | 공백 입력 시 전체 (거래량 ~) |

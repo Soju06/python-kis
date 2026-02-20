@@ -113,20 +113,20 @@ class QuickChangeRequestDict(TypedDict):
 
 
 class QuickChangeOutput(RawModel):
-    elw_shrn_iscd: Annotated[str | None, "ELW단축종목코드"] = Field(default=None, alias="elw_shrn_iscd")
-    elw_kor_isnm: Annotated[str | None, "ELW한글종목명"] = Field(default=None, alias="elw_kor_isnm")
-    elw_prpr: Annotated[Decimal | None, "ELW현재가"] = Field(default=None, alias="elw_prpr")
-    prdy_vrss_sign: Annotated[str | None, "전일대비부호"] = Field(default=None, alias="prdy_vrss_sign")
-    prdy_vrss: Annotated[str | None, "전일대비"] = Field(default=None, alias="prdy_vrss")
-    prdy_ctrt: Annotated[Decimal | None, "전일대비율"] = Field(default=None, alias="prdy_ctrt")
-    askp: Annotated[str | None, "매도호가"] = Field(default=None, alias="askp")
-    bidp: Annotated[str | None, "매수호가"] = Field(default=None, alias="bidp")
-    total_askp_rsqn: Annotated[str | None, "총매도호가잔량"] = Field(default=None, alias="total_askp_rsqn")
-    total_bidp_rsqn: Annotated[str | None, "총매수호가잔량"] = Field(default=None, alias="total_bidp_rsqn")
-    acml_vol: Annotated[int | None, "누적거래량"] = Field(default=None, alias="acml_vol")
-    stnd_val: Annotated[str | None, "기준값"] = Field(default=None, alias="stnd_val")
-    stnd_val_vrss: Annotated[str | None, "기준값대비"] = Field(default=None, alias="stnd_val_vrss")
-    stnd_val_ctrt: Annotated[Decimal | None, "기준값대비율"] = Field(default=None, alias="stnd_val_ctrt")
+    elw_shrn_iscd: Annotated[str, "ELW단축종목코드"] = Field(alias="elw_shrn_iscd")
+    elw_kor_isnm: Annotated[str, "ELW한글종목명"] = Field(alias="elw_kor_isnm")
+    elw_prpr: Annotated[Decimal, "ELW현재가"] = Field(alias="elw_prpr")
+    prdy_vrss_sign: Annotated[int, "전일대비부호"] = Field(alias="prdy_vrss_sign")
+    prdy_vrss: Annotated[int, "전일대비"] = Field(alias="prdy_vrss")
+    prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
+    askp: Annotated[int, "매도호가"] = Field(alias="askp")
+    bidp: Annotated[str, "매수호가"] = Field(alias="bidp")
+    total_askp_rsqn: Annotated[int, "총매도호가잔량"] = Field(alias="total_askp_rsqn")
+    total_bidp_rsqn: Annotated[str, "총매수호가잔량"] = Field(alias="total_bidp_rsqn")
+    acml_vol: Annotated[int, "누적거래량"] = Field(alias="acml_vol")
+    stnd_val: Annotated[int, "기준값"] = Field(alias="stnd_val")
+    stnd_val_vrss: Annotated[int, "기준값대비"] = Field(alias="stnd_val_vrss")
+    stnd_val_ctrt: Annotated[Decimal, "기준값대비율"] = Field(alias="stnd_val_ctrt")
 
 
 class QuickChangeResponse(RawModel):

@@ -25,8 +25,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2021-12-15
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2021-12-15T13:06:32+09:00
+- **최종 수정일**: 2025-04-30T12:22:02+09:00
 
 ## 요청
 
@@ -35,7 +35,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | N | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access Token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Credentials Grant 절차... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access Token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Credentials Grant 절차를 준용)  제휴사(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키  | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -57,7 +57,7 @@
 | `PDNO` | 상품번호 | String | 12 | N | 선물옵션종목코드 선물 6자리 (예: 101S03) 옵션 9자리 (예: 201S03370) |
 | `SLL_BUY_DVSN_CD` | 매도매수구분코드 | String | 2 | N | 01 : 매도 02 : 매수 |
 | `UNIT_PRICE` | 주문가격1 | String | 23 | N | 주문가격 ※ 주문가격 '0'일 경우  - 옵션매수 : 현재가  - 그 이외   : 기준가 |
-| `ORD_DVSN_CD` | 주문구분코드 | String | 2 | N | 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 :... |
+| `ORD_DVSN_CD` | 주문구분코드 | String | 2 | N | 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK) |
 
 ### 요청 예시
 

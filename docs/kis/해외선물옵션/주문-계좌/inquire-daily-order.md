@@ -24,8 +24,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2022-10-07
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2022-10-07T12:57:58+09:00
+- **최종 수정일**: 2025-04-30T12:55:33+09:00
 
 ## 요청
 
@@ -34,7 +34,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)  ※ 토큰 지정시 토큰 타입("Bearer") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 "Bearer" 붙여서 호출 EX) "Bearer eyJ..........8GA" |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -102,11 +102,11 @@
 | `acnt_prdt_cd` | 계좌상품코드 | String | 2 | Y |  |
 | `dt` | 일자 | String | 8 | Y |  |
 | `ord_dt` | 주문일자 | String | 8 | Y |  |
-| `odno` | 주문번호 | String | 8 | Y | 접수한 주문의 일련번호(ex. 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송    (ex. ORGN_ODNO : 00360686) * 정정/취소시 문자열... |
+| `odno` | 주문번호 | String | 8 | Y | 접수한 주문의 일련번호(ex. 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송    (ex. ORGN_ODNO : 00360686) * 정정/취소시 문자열처럼 "0"을 포함해서 전송    (ex. ORGN_ODNO : 00360686) |
 | `orgn_ord_dt` | 원주문일자 | String | 8 | Y |  |
 | `orgn_odno` | 원주문번호 | String | 8 | Y | 원주문번호(ex. 00360685) |
 | `ovrs_futr_fx_pdno` | 해외선물FX상품번호 | String | 32 | Y |  |
-| `rvse_cncl_dvsn_cd` | 정정취소구분코드 | String | 2 | Y | 청산체결이 없는 신규	00 청산체결이 없는 정정	01 청산체결이 없는 취소	02 청산체결이 있는 취소	02 청산체결이 있는 신규	03 청산체결이 있는 정정	04 행사	05 배... |
+| `rvse_cncl_dvsn_cd` | 정정취소구분코드 | String | 2 | Y | 청산체결이 없는 신규	00 청산체결이 없는 정정	01 청산체결이 없는 취소	02 청산체결이 있는 취소	02 청산체결이 있는 신규	03 청산체결이 있는 정정	04 행사	05 배정	06 소멸	07 만기	08 |
 | `sll_buy_dvsn_cd` | 매도매수구분코드 | String | 2 | Y |  |
 | `cplx_ord_dvsn_cd` | 복합주문구분코드 | String | 1 | Y |  |
 | `pric_dvsn_cd` | 가격구분코드 | String | 1 | Y |  |

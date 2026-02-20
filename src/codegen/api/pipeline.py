@@ -19,6 +19,7 @@ from codegen.api.report_models import (
 from codegen.api.reporting import write_api_report
 from codegen.api.scenarios import load_scenarios
 from codegen.api.steps.augment import run_multi_scenario_augmentation, summarize_scenarios
+from codegen.api.steps.enum_candidates import build_enum_drift_candidates
 from codegen.api.steps.generate import RAW_KEEP_FILES, generate_raw, normalize_filename, section_path
 from codegen.api.steps.infer import infer_types, validate_samples
 from codegen.api.steps.io import (
@@ -27,7 +28,19 @@ from codegen.api.steps.io import (
     write_report,
     write_spec,
 )
+from codegen.api.steps.manual_candidates import (
+    build_enum_manual_review_candidates,
+    build_enum_manual_review_priority,
+    render_enum_manual_review_candidates_markdown,
+    render_enum_manual_review_priority_markdown,
+)
 from codegen.api.steps.normalize import normalize_doc
+from codegen.api.steps.override_candidates import (
+    build_enum_type_override_candidates,
+    build_enum_type_override_priority,
+    render_enum_type_override_candidates_markdown,
+    render_enum_type_override_priority_markdown,
+)
 from codegen.api.steps.smoke import run_smoke
 from codegen.api.steps.validate import validate_doc
 from codegen.api.steps.validators import build_validation_candidates, discover_validators
@@ -452,6 +465,38 @@ def run_pipeline() -> PipelineResult:
         json.dumps(inference_trace, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
+    enum_drift_candidates = build_enum_drift_candidates(section_specs, inference_trace, AUGMENT_DIR)
+    write_report(REPORT_DIR / "enum_drift_candidates.json", enum_drift_candidates)
+    logger.info("enum drift candidates generated=%s", enum_drift_candidates.total)
+    enum_override_candidates = build_enum_type_override_candidates(
+        enum_drift_candidates,
+        source_report_path=str(REPORT_DIR / "enum_drift_candidates.json"),
+        applied_overrides=type_overrides,
+    )
+    write_report(REPORT_DIR / "type_override_candidates_enum.json", enum_override_candidates)
+    (REPORT_DIR / "type_override_candidates_enum.md").write_text(
+        render_enum_type_override_candidates_markdown(enum_override_candidates),
+        encoding="utf-8",
+    )
+    enum_override_priority = build_enum_type_override_priority(enum_override_candidates)
+    write_report(REPORT_DIR / "type_override_candidates_enum_priority.json", enum_override_priority)
+    (REPORT_DIR / "type_override_candidates_enum_priority.md").write_text(
+        render_enum_type_override_priority_markdown(enum_override_priority),
+        encoding="utf-8",
+    )
+    override_entries = enum_override_candidates.get("overrides")
+    override_count = len(override_entries) if isinstance(override_entries, list) else 0
+    priority_summary = enum_override_priority.get("summary")
+    ready_count = (
+        int(priority_summary.get("ready_overrides", 0))
+        if isinstance(priority_summary, dict)
+        else 0
+    )
+    logger.info(
+        "enum override draft candidates generated=%s ready=%s",
+        override_count,
+        ready_count,
+    )
     inference = _apply_type_overrides(inference_base, type_overrides)
     write_report(REPORT_DIR / "inference.json", inference)
     generate_raw(section_specs, GENERATED_API_RAW_DIR, inference, module_prefix="pykis.api.raw")
@@ -469,6 +514,44 @@ def run_pipeline() -> PipelineResult:
         REPORT_DIR / "smoke.json",
     )
     logger.info("smoke total=%s errors=%s", smoke.total, smoke.errors)
+    manual_enum_review = build_enum_manual_review_candidates(
+        section_specs,
+        inference_base,
+        smoke,
+        augment_dir=AUGMENT_DIR,
+    )
+    write_report(REPORT_DIR / "manual_enum_review_candidates.json", manual_enum_review)
+    (REPORT_DIR / "manual_enum_review_candidates.md").write_text(
+        render_enum_manual_review_candidates_markdown(manual_enum_review),
+        encoding="utf-8",
+    )
+    manual_enum_priority = build_enum_manual_review_priority(
+        manual_enum_review,
+        source_report_path=str(REPORT_DIR / "manual_enum_review_candidates.json"),
+    )
+    write_report(REPORT_DIR / "manual_enum_review_priority.json", manual_enum_priority)
+    (REPORT_DIR / "manual_enum_review_priority.md").write_text(
+        render_enum_manual_review_priority_markdown(manual_enum_priority),
+        encoding="utf-8",
+    )
+    priority_summary = manual_enum_priority.get("summary")
+    ready_endpoints = (
+        int(priority_summary.get("ready_endpoints", 0))
+        if isinstance(priority_summary, dict)
+        else 0
+    )
+    hold_endpoints = (
+        int(priority_summary.get("hold_endpoints", 0))
+        if isinstance(priority_summary, dict)
+        else 0
+    )
+    logger.info(
+        "manual enum review candidates fields=%s endpoints=%s ready=%s hold=%s",
+        manual_enum_review.total_fields,
+        manual_enum_review.endpoints,
+        ready_endpoints,
+        hold_endpoints,
+    )
 
     pipeline_report = ApiPipelineReport(
         scan=scan_report,

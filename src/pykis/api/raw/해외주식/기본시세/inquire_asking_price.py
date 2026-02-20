@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
+from pykis.api.raw.base import KisBool, KisDate, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 from pykis.common.enums import KisStrEnum
 
@@ -118,30 +118,30 @@ class InquireAskingPriceRequestDict(TypedDict):
 
 
 class InquireAskingPriceOutput1(RawModel):
-    rsym: Annotated[str | None, "실시간조회종목코드"] = Field(default=None, alias="rsym")
-    zdiv: Annotated[str | None, "소수점자리수"] = Field(default=None, alias="zdiv")
-    curr: Annotated[str | None, "통화"] = Field(default=None, alias="curr")
-    base: Annotated[str | None, "전일종가"] = Field(default=None, alias="base")
-    open: Annotated[Decimal | None, "시가"] = Field(default=None, alias="open")
-    high: Annotated[Decimal | None, "고가"] = Field(default=None, alias="high")
-    low: Annotated[Decimal | None, "저가"] = Field(default=None, alias="low")
-    last: Annotated[Decimal | None, "현재가"] = Field(default=None, alias="last")
-    dymd: Annotated[KisDateOptional, "호가일자"] = Field(default=None, alias="dymd")
-    dhms: Annotated[str | None, "호가시간"] = Field(default=None, alias="dhms")
+    rsym: Annotated[str, "실시간조회종목코드"] = Field(alias="rsym")
+    zdiv: Annotated[int, "소수점자리수"] = Field(alias="zdiv")
+    curr: Annotated[str, "통화"] = Field(alias="curr")
+    base: Annotated[Decimal, "전일종가"] = Field(alias="base")
+    open: Annotated[Decimal, "시가"] = Field(alias="open")
+    high: Annotated[Decimal, "고가"] = Field(alias="high")
+    low: Annotated[Decimal, "저가"] = Field(alias="low")
+    last: Annotated[Decimal, "현재가"] = Field(alias="last")
+    dymd: Annotated[KisDate, "호가일자"] = Field(alias="dymd")
+    dhms: Annotated[KisTime, "호가시간"] = Field(alias="dhms")
     bvol: Annotated[int | None, "매수호가총잔량"] = Field(default=None, alias="bvol")
     avol: Annotated[int | None, "매도호가총잔량"] = Field(default=None, alias="avol")
     bdvl: Annotated[str | None, "매수호가총잔량대비"] = Field(default=None, alias="bdvl")
     advl: Annotated[str | None, "매도호가총잔량대비"] = Field(default=None, alias="advl")
-    code: Annotated[str | None, "종목코드"] = Field(default=None, alias="code")
-    ropen: Annotated[Decimal | None, "시가율"] = Field(default=None, alias="ropen")
-    rhigh: Annotated[Decimal | None, "고가율"] = Field(default=None, alias="rhigh")
-    rlow: Annotated[Decimal | None, "저가율"] = Field(default=None, alias="rlow")
-    rclose: Annotated[Decimal | None, "현재가율"] = Field(default=None, alias="rclose")
+    code: Annotated[str, "종목코드"] = Field(alias="code")
+    ropen: Annotated[Decimal, "시가율"] = Field(alias="ropen")
+    rhigh: Annotated[Decimal, "고가율"] = Field(alias="rhigh")
+    rlow: Annotated[Decimal, "저가율"] = Field(alias="rlow")
+    rclose: Annotated[Decimal, "현재가율"] = Field(alias="rclose")
 
 
 class InquireAskingPriceOutput2(RawModel):
-    pbid1: Annotated[str | None, "매수호가가격1"] = Field(default=None, alias="pbid1")
-    pask1: Annotated[Decimal | None, "매도호가가격1"] = Field(default=None, alias="pask1")
+    pbid1: Annotated[str, "매수호가가격1"] = Field(alias="pbid1")
+    pask1: Annotated[Decimal, "매도호가가격1"] = Field(alias="pask1")
     vbid1: Annotated[str | None, "매수호가잔량1"] = Field(default=None, alias="vbid1")
     vask1: Annotated[str | None, "매도호가잔량1"] = Field(default=None, alias="vask1")
     dbid1: Annotated[str | None, "매수호가대비1"] = Field(default=None, alias="dbid1")
@@ -205,9 +205,9 @@ class InquireAskingPriceOutput2(RawModel):
 class InquireAskingPriceOutput3(RawModel):
     vstm: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="vstm")
     vetm: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="vetm")
-    csbp: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="csbp")
-    cshi: Annotated[Decimal | None, "데이터 없음"] = Field(default=None, alias="cshi")
-    cslo: Annotated[Decimal | None, "데이터 없음"] = Field(default=None, alias="cslo")
+    csbp: Annotated[Decimal, "데이터 없음"] = Field(alias="csbp")
+    cshi: Annotated[Decimal, "데이터 없음"] = Field(alias="cshi")
+    cslo: Annotated[Decimal, "데이터 없음"] = Field(alias="cslo")
     iep: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="iep")
     iev: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="iev")
 
@@ -217,8 +217,8 @@ class InquireAskingPriceResponse(RawModel):
     msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
     msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
     output1: Annotated[InquireAskingPriceOutput1, "응답상세"] = Field(alias="output1")
-    output2: Annotated[list[InquireAskingPriceOutput2], "응답상세"] = Field(alias="output2")
-    output3: Annotated[list[InquireAskingPriceOutput3], "응답상세"] = Field(alias="output3")
+    output2: Annotated[InquireAskingPriceOutput2, "응답상세"] = Field(alias="output2")
+    output3: Annotated[InquireAskingPriceOutput3, "응답상세"] = Field(alias="output3")
 
 
 _ENDPOINT: Endpoint[InquireAskingPriceRequest, InquireAskingPriceResponse] = Endpoint(

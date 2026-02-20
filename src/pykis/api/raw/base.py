@@ -23,14 +23,20 @@ def _parse_kis_date(value: object) -> date | None:
     if text in {'0', '00000000'}:
         return None
     if text.isdigit() and len(text) == 8:
-        return datetime.strptime(text, '%Y%m%d').date()
+        try:
+            return datetime.strptime(text, '%Y%m%d').date()
+        except ValueError:
+            return None
     if len(text) == 10:
         for fmt in ('%Y/%m/%d', '%Y.%m.%d'):
             try:
                 return datetime.strptime(text, fmt).date()
             except ValueError:
                 continue
-    return datetime.fromisoformat(text).date()
+    try:
+        return datetime.fromisoformat(text).date()
+    except ValueError:
+        return None
 
 
 def _parse_kis_time(value: object) -> time | None:
@@ -41,12 +47,18 @@ def _parse_kis_time(value: object) -> time | None:
     text = str(value).strip()
     if not text:
         return None
-    if text in {'0', '000000', '0000', '888888'}:
+    if text in {'0', '000000', '0000', '888888', '999999'}:
         return None
     if text.isdigit() and len(text) in (6, 4):
         fmt = '%H%M%S' if len(text) == 6 else '%H%M'
-        return datetime.strptime(text, fmt).time()
-    return datetime.fromisoformat(text).time()
+        try:
+            return datetime.strptime(text, fmt).time()
+        except ValueError:
+            return None
+    try:
+        return datetime.fromisoformat(text).time()
+    except ValueError:
+        return None
 
 
 def _parse_kis_datetime(value: object) -> datetime | None:
@@ -60,12 +72,21 @@ def _parse_kis_datetime(value: object) -> datetime | None:
     if text in {'0', '00000000000000'}:
         return None
     if text.isdigit() and len(text) == 14:
-        return datetime.strptime(text, '%Y%m%d%H%M%S')
+        try:
+            return datetime.strptime(text, '%Y%m%d%H%M%S')
+        except ValueError:
+            return None
     if text.isdigit() and len(text) == 17:
-        base = datetime.strptime(text[:14], '%Y%m%d%H%M%S')
+        try:
+            base = datetime.strptime(text[:14], '%Y%m%d%H%M%S')
+        except ValueError:
+            return None
         micros = int(text[14:].ljust(6, '0'))
         return base.replace(microsecond=micros)
-    return datetime.fromisoformat(text)
+    try:
+        return datetime.fromisoformat(text)
+    except ValueError:
+        return None
 
 
 def _parse_kis_bool(value: object) -> bool | None:
@@ -122,6 +143,10 @@ class RawModel(BaseModel):
             field = cls.model_fields.get(info.field_name)
             if field and _is_optional(field.annotation):
                 return None
+            if field:
+                annotation = _unwrap_annotated(field.annotation)
+                if annotation in {int, Decimal}:
+                    return '0'
         field = cls.model_fields.get(info.field_name)
         if field:
             annotation = _unwrap_annotated(field.annotation)

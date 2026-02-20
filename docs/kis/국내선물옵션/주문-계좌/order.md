@@ -32,8 +32,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2021-12-15
-- **최종 수정일**: 2025-06-23
+- **생성일**: 2021-12-15T13:03:14+09:00
+- **최종 수정일**: 2025-06-23T14:03:44+09:00
 
 ## 요청
 
@@ -42,11 +42,11 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | N | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)  ※ 토큰 지정시 토큰 타입("Bearer") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 "Bearer" 붙여서 호출 EX) "Bearer eyJ..........8GA" |
 | `appkey` | 앱키  | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
-| `tr_id` | 거래ID | String | 13 | Y | [실전투자] TTTO1101U : 선물 옵션 매수 매도 주문 주간  (신) STTN1101U : 선물 옵션 매수 매도 주문 야간   [모의투자] VTTO1101U : 선물 옵... |
+| `tr_id` | 거래ID | String | 13 | Y | [실전투자] TTTO1101U : 선물 옵션 매수 매도 주문 주간  (신) STTN1101U : 선물 옵션 매수 매도 주문 야간   [모의투자] VTTO1101U : 선물 옵션 매수 매도 주문 주간 |
 | `tr_cont` | 연속 거래 여부 | String | 1 | N | tr_cont를 이용한 다음조회 불가 API |
 | `custtype` | 고객타입 | String | 1 | N | B : 법인  P : 개인 |
 | `seq_no` | 일련번호 | String | 2 | N | [법인 필수] 001 |
@@ -70,7 +70,7 @@
 | `KRX_NMPR_CNDT_CD` | 한국거래소호가조건코드 | String | 1 | N | ※ ORD_DVSN_CD(주문구분코드)를 입력한 경우 ""(공란)으로 입력해도 됨 0 : 없음 3 : IOC 4 : FOK |
 | `CTAC_TLNO` | 연락전화번호 | String | 20 | N | 고객의 연락 가능한 전화번호 |
 | `FUOP_ITEM_DVSN_CD` | 선물옵션종목구분코드 | String | 2 | N | 공란(Default) |
-| `ORD_DVSN_CD` | 주문구분코드 | String | 2 | Y | 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 :... |
+| `ORD_DVSN_CD` | 주문구분코드 | String | 2 | Y | 01 : 지정가 02 : 시장가 03 : 조건부 04 : 최유리, 10 : 지정가(IOC) 11 : 지정가(FOK) 12 : 시장가(IOC) 13 : 시장가(FOK) 14 : 최유리(IOC) 15 : 최유리(FOK) |
 
 ### 요청 예시
 

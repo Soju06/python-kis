@@ -43,6 +43,11 @@ def build_api_report(root: Path) -> JsonObject:
     inference_base = _load_json(report_dir / "inference_base.json")
     inference = _load_json(report_dir / "inference.json")
     inference_trace = _load_json(report_dir / "inference_trace.json")
+    enum_drift_candidates = _load_json(report_dir / "enum_drift_candidates.json")
+    enum_override_draft = _load_json(report_dir / "type_override_candidates_enum.json")
+    enum_override_priority = _load_json(report_dir / "type_override_candidates_enum_priority.json")
+    manual_enum_review_candidates = _load_json(report_dir / "manual_enum_review_candidates.json")
+    manual_enum_review_priority = _load_json(report_dir / "manual_enum_review_priority.json")
     smoke_requests = _load_json(report_dir / "smoke_requests.json")
 
     specs = _load_specs(normalized_dir)
@@ -86,6 +91,26 @@ def build_api_report(root: Path) -> JsonObject:
                     "errors": len(smoke_errors),
                 },
                 "override_lifecycle": override_lifecycle.get("summary", {}),
+                "enum_drift_candidates": {
+                    "total": _to_int(enum_drift_candidates.get("total")),
+                    "endpoints": _to_int(enum_drift_candidates.get("endpoints")),
+                },
+                "enum_override_draft": {
+                    "draft_overrides": _to_int(_deep_get(enum_override_draft, "summary", "draft_overrides")),
+                    "total_candidates": _to_int(_deep_get(enum_override_draft, "summary", "total_candidates")),
+                },
+                "enum_override_priority": {
+                    "ready_overrides": _to_int(_deep_get(enum_override_priority, "summary", "ready_overrides")),
+                    "hold_overrides": _to_int(_deep_get(enum_override_priority, "summary", "hold_overrides")),
+                },
+                "enum_manual_review": {
+                    "fields": _to_int(manual_enum_review_candidates.get("total_fields")),
+                    "endpoints": _to_int(manual_enum_review_candidates.get("endpoints")),
+                },
+                "enum_manual_review_priority": {
+                    "ready_endpoints": _to_int(_deep_get(manual_enum_review_priority, "summary", "ready_endpoints")),
+                    "hold_endpoints": _to_int(_deep_get(manual_enum_review_priority, "summary", "hold_endpoints")),
+                },
             },
             "scope": {
                 "docs_parsed": len(spec_list),
@@ -107,6 +132,13 @@ def build_api_report(root: Path) -> JsonObject:
                 "errors": smoke_errors,
             },
             "overrides": override_lifecycle,
+            "manual_candidates": {
+                "enum_drift": enum_drift_candidates,
+                "enum_override_draft": enum_override_draft,
+                "enum_override_priority": enum_override_priority,
+                "enum_parser_review": manual_enum_review_candidates,
+                "enum_parser_review_priority": manual_enum_review_priority,
+            },
             "inference": {
                 "base": inference_base,
                 "applied": inference,
@@ -123,6 +155,19 @@ def build_api_report(root: Path) -> JsonObject:
                 "inference_base": str(report_dir / "inference_base.json"),
                 "inference": str(report_dir / "inference.json"),
                 "inference_trace": str(report_dir / "inference_trace.json"),
+                "enum_drift_candidates": str(report_dir / "enum_drift_candidates.json"),
+                "type_override_candidates_enum": str(report_dir / "type_override_candidates_enum.json"),
+                "type_override_candidates_enum_md": str(report_dir / "type_override_candidates_enum.md"),
+                "type_override_candidates_enum_priority": str(
+                    report_dir / "type_override_candidates_enum_priority.json"
+                ),
+                "type_override_candidates_enum_priority_md": str(
+                    report_dir / "type_override_candidates_enum_priority.md"
+                ),
+                "manual_enum_review_candidates": str(report_dir / "manual_enum_review_candidates.json"),
+                "manual_enum_review_candidates_md": str(report_dir / "manual_enum_review_candidates.md"),
+                "manual_enum_review_priority": str(report_dir / "manual_enum_review_priority.json"),
+                "manual_enum_review_priority_md": str(report_dir / "manual_enum_review_priority.md"),
             },
         },
     )
@@ -243,7 +288,9 @@ def _collect_smoke_issues(
         reason = item.get("reason")
         if status == "error":
             errors.append(_attach_spec_meta(item, specs))
-        elif status == "skipped" and reason in {"empty_response"}:
+        elif status == "skipped" and isinstance(reason, str) and (
+            reason == "empty_response" or reason.startswith("sentinel_success")
+        ):
             warnings.append(_attach_spec_meta(item, specs))
     summary = {
         "total": smoke.get("total"),
@@ -429,8 +476,14 @@ def _build_api_report_markdown_context(report: JsonObject) -> dict[str, object]:
     scope = _as_object(report.get("scope")) or {}
     smoke = _as_object(report.get("smoke")) or {}
     overrides = _as_object(report.get("overrides")) or {}
+    manual_candidates = _as_object(report.get("manual_candidates")) or {}
     exclusions = _as_object(report.get("exclusions")) or {}
     other_exclusion = _as_object(exclusions.get("other")) or {}
+    enum_drift = _as_object(manual_candidates.get("enum_drift")) or {}
+    enum_override_draft = _as_object(manual_candidates.get("enum_override_draft")) or {}
+    enum_override_priority = _as_object(manual_candidates.get("enum_override_priority")) or {}
+    enum_parser_review = _as_object(manual_candidates.get("enum_parser_review")) or {}
+    enum_parser_review_priority = _as_object(manual_candidates.get("enum_parser_review_priority")) or {}
 
     metadata_rows = _build_kv_rows(
         [
@@ -459,6 +512,26 @@ def _build_api_report_markdown_context(report: JsonObject) -> dict[str, object]:
                     summary.get("override_lifecycle"),
                     ("active", "redundant", "blocked", "missing"),
                 ),
+            ),
+            (
+                "Enum Drift Candidates",
+                _format_counts(summary.get("enum_drift_candidates"), ("total", "endpoints")),
+            ),
+            (
+                "Enum Override Draft",
+                _format_counts(summary.get("enum_override_draft"), ("draft_overrides", "total_candidates")),
+            ),
+            (
+                "Enum Override Priority",
+                _format_counts(summary.get("enum_override_priority"), ("ready_overrides", "hold_overrides")),
+            ),
+            (
+                "Enum Parser Review",
+                _format_counts(summary.get("enum_manual_review"), ("fields", "endpoints")),
+            ),
+            (
+                "Enum Parser Priority",
+                _format_counts(summary.get("enum_manual_review_priority"), ("ready_endpoints", "hold_endpoints")),
             ),
         ]
     )
@@ -496,6 +569,60 @@ def _build_api_report_markdown_context(report: JsonObject) -> dict[str, object]:
     override_blocked_rows = _build_override_rows(override_details, "blocked")
     override_missing_rows = _build_override_rows(override_details, "missing")
 
+    enum_drift_summary_rows = _build_kv_rows(
+        [
+            ("Total", _format_value(enum_drift.get("total"))),
+            ("Endpoints", _format_value(enum_drift.get("endpoints"))),
+        ]
+    )
+    enum_drift_detail_rows = _build_enum_drift_rows(_as_list(enum_drift.get("candidates")))
+    enum_override_summary_rows = _build_kv_rows(
+        [
+            ("Draft overrides", _format_value(_deep_get(enum_override_draft, "summary", "draft_overrides"))),
+            ("Total candidates", _format_value(_deep_get(enum_override_draft, "summary", "total_candidates"))),
+        ]
+    )
+    enum_override_detail_rows = _build_override_draft_rows(_as_list(enum_override_draft.get("overrides")))
+    enum_override_priority_rows = _build_kv_rows(
+        [
+            ("Ready overrides", _format_value(_deep_get(enum_override_priority, "summary", "ready_overrides"))),
+            ("Hold overrides", _format_value(_deep_get(enum_override_priority, "summary", "hold_overrides"))),
+        ]
+    )
+    enum_override_priority_ready_rows = _build_priority_rows(_as_list(enum_override_priority.get("ready")), "ready")
+    enum_override_priority_hold_rows = _build_priority_rows(_as_list(enum_override_priority.get("hold")), "hold")
+    enum_parser_review_summary_rows = _build_kv_rows(
+        [
+            ("Fields", _format_value(enum_parser_review.get("total_fields"))),
+            ("Endpoints", _format_value(enum_parser_review.get("endpoints"))),
+            ("By Smoke Status", _format_value(enum_parser_review.get("by_smoke_status"))),
+            ("By Confidence", _format_value(enum_parser_review.get("by_confidence"))),
+        ]
+    )
+    enum_parser_review_rows = _build_manual_enum_review_rows(_as_list(enum_parser_review.get("candidates")))
+    enum_parser_priority_rows = _build_kv_rows(
+        [
+            ("Ready endpoints", _format_value(_deep_get(enum_parser_review_priority, "summary", "ready_endpoints"))),
+            ("Hold endpoints", _format_value(_deep_get(enum_parser_review_priority, "summary", "hold_endpoints"))),
+            (
+                "Parser-fix fields",
+                _format_value(_deep_get(enum_parser_review_priority, "summary", "parser_fix_fields")),
+            ),
+            (
+                "Override-review fields",
+                _format_value(_deep_get(enum_parser_review_priority, "summary", "override_review_fields")),
+            ),
+        ]
+    )
+    enum_parser_priority_ready_rows = _build_manual_priority_rows(
+        _as_list(enum_parser_review_priority.get("ready")),
+        "ready",
+    )
+    enum_parser_priority_hold_rows = _build_manual_priority_rows(
+        _as_list(enum_parser_review_priority.get("hold")),
+        "hold",
+    )
+
     sources_rows = _build_sources_rows(_as_object(report.get("sources")) or {})
 
     return {
@@ -514,6 +641,18 @@ def _build_api_report_markdown_context(report: JsonObject) -> dict[str, object]:
         "override_redundant_rows": override_redundant_rows,
         "override_blocked_rows": override_blocked_rows,
         "override_missing_rows": override_missing_rows,
+        "enum_drift_summary_rows": enum_drift_summary_rows,
+        "enum_drift_detail_rows": enum_drift_detail_rows,
+        "enum_override_summary_rows": enum_override_summary_rows,
+        "enum_override_detail_rows": enum_override_detail_rows,
+        "enum_override_priority_rows": enum_override_priority_rows,
+        "enum_override_priority_ready_rows": enum_override_priority_ready_rows,
+        "enum_override_priority_hold_rows": enum_override_priority_hold_rows,
+        "enum_parser_review_summary_rows": enum_parser_review_summary_rows,
+        "enum_parser_review_rows": enum_parser_review_rows,
+        "enum_parser_priority_rows": enum_parser_priority_rows,
+        "enum_parser_priority_ready_rows": enum_parser_priority_ready_rows,
+        "enum_parser_priority_hold_rows": enum_parser_priority_hold_rows,
         "sources_rows": sources_rows,
     }
 
@@ -523,7 +662,7 @@ def _iso_date(value: str) -> str:
         return ""
     if "T" in value:
         return value.split("T", 1)[0]
-    return value[:10]
+    return value
 
 
 def _as_text(value: JsonValue | None) -> str:
@@ -560,13 +699,11 @@ def _table_value(value: JsonValue | None) -> str:
     return _table_text(_format_value(value))
 
 
-def _compact_text(value: str, max_len: int = 160) -> str:
+def _compact_text(value: str) -> str:
     text = " ".join(value.split())
     if not text:
         return "-"
-    if len(text) <= max_len:
-        return text
-    return f"{text[: max_len - 3]}..."
+    return text
 
 
 def _build_kv_rows(items: list[tuple[str, str]]) -> list[dict[str, str]]:
@@ -677,6 +814,8 @@ def _build_smoke_detail_rows(items: list[JsonObject]) -> list[dict[str, str]]:
 def _smoke_reason_note(reason: str) -> str:
     if reason == "empty_response":
         return "빈 응답/출력 없음"
+    if reason == "sentinel_success":
+        return "성공 코드지만 센티널 패턴(무의미 값) 의심"
     if reason == "missing_rt_cd":
         return "rt_cd 누락"
     if reason == "rt_cd=1":
@@ -692,6 +831,8 @@ def _normalize_smoke_reason(reason: str) -> str:
     text = reason.strip()
     if not text:
         return "unknown"
+    if text.startswith("sentinel_success"):
+        return "sentinel_success"
     if "validation errors" in text:
         return "validation_error"
     if text.startswith("missing_required"):
@@ -750,9 +891,7 @@ def _summarize_changes(changes: JsonObject | None) -> str:
     if not keys:
         return "-"
     keys.sort()
-    if len(keys) <= 3:
-        return ", ".join(keys)
-    return f"{', '.join(keys[:3])} +{len(keys) - 3}"
+    return ", ".join(keys)
 
 
 def _override_action(status: str, entry: JsonObject) -> str:
@@ -765,6 +904,171 @@ def _override_action(status: str, entry: JsonObject) -> str:
     if entry.get("empty_sample"):
         return "샘플 확보 후 재검증"
     return "검토 필요"
+
+
+def _build_enum_drift_rows(candidates: list[JsonObject]) -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
+    for entry in candidates:
+        unknown_values = _join_values(_as_list_text(entry.get("unknown_values")), limit=8)
+        documented_values = _join_values(_as_list_text(entry.get("documented_values")), limit=8)
+        rows.append(
+            {
+                "id": _table_value(entry.get("endpoint_id")),
+                "name": _table_value(entry.get("endpoint_name")),
+                "location": _table_value(entry.get("location")),
+                "field": _table_value(entry.get("field_code")),
+                "unknown_values": _table_text(unknown_values),
+                "documented_values": _table_text(documented_values),
+                "status": _table_value(entry.get("status")),
+                "action": _table_text(_enum_drift_action(entry)),
+            }
+        )
+    rows.sort(key=lambda row: (row["id"], row["location"], row["field"]))
+    return rows
+
+
+def _as_list_text(value: JsonValue | None) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    result: list[str] = []
+    for item in value:
+        text = _as_text(item)
+        if text:
+            result.append(text)
+    return result
+
+
+def _join_values(values: list[str], *, limit: int) -> str:
+    if not values:
+        return "-"
+    if len(values) <= limit:
+        return ", ".join(values)
+    head = ", ".join(values[:limit])
+    return f"{head}, … (+{len(values) - limit})"
+
+
+def _enum_drift_action(entry: JsonObject) -> str:
+    location = _as_text(entry.get("location"))
+    output = _as_text(entry.get("output"))
+    field_code = _as_text(entry.get("field_code"))
+    if output:
+        return f"type_overrides outputs.{output}.{field_code} enum 후보"
+    if location:
+        return f"type_overrides {location}.{field_code} enum 후보"
+    return "enum 후보 수동 검토"
+
+
+def _build_override_draft_rows(overrides: list[JsonObject]) -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
+    for entry in overrides:
+        review_count = len(_as_list(entry.get("review")))
+        rows.append(
+            {
+                "id": _table_value(entry.get("id")),
+                "name": _table_value(entry.get("name")),
+                "path": _table_value(entry.get("path")),
+                "evidence": _table_value(entry.get("evidence")),
+                "review_count": str(review_count),
+                "action": "검토 후 승인 메타데이터 입력",
+            }
+        )
+    rows.sort(key=lambda row: row["id"])
+    return rows
+
+
+def _build_priority_rows(items: list[JsonObject], status: str) -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
+    for item in items:
+        ready_fields = _as_list(item.get("ready_fields"))
+        hold_fields = _as_list(item.get("hold_fields"))
+        reasons = _as_list_text(item.get("hold_reasons"))
+        rows.append(
+            {
+                "id": _table_value(item.get("id")),
+                "name": _table_value(item.get("name")),
+                "path": _table_value(item.get("path")),
+                "ready_fields": str(len(ready_fields)),
+                "hold_fields": str(len(hold_fields)),
+                "reasons": _table_text(", ".join(reasons) if reasons else "-"),
+                "action": _table_text(_priority_action(status, reasons)),
+            }
+        )
+    rows.sort(key=lambda row: row["id"])
+    return rows
+
+
+def _priority_action(status: str, reasons: list[str]) -> str:
+    if status == "ready":
+        return "승인 메타데이터 입력 후 적용 검토"
+    if "hold_request" in reasons:
+        return "요청 enum 변경 영향 검토"
+    if "hold_parser_decimal" in reasons:
+        return "enum 파서/추론 규칙 보정 우선"
+    if "hold_time_value_expansion" in reasons or "hold_high_cardinality" in reasons:
+        return "시간/고카디널리티 필드 로직 보정 우선"
+    return "추가 검토 필요"
+
+
+def _build_manual_enum_review_rows(items: list[JsonObject]) -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
+    for item in items:
+        endpoint_id = _table_value(item.get("endpoint_id"))
+        endpoint_name = _table_value(item.get("endpoint_name"))
+        endpoint_path = _table_value(item.get("path"))
+        smoke_status = _table_value(item.get("smoke_status"))
+        fields = _as_list(item.get("fields"))
+        for field in fields:
+            location = _as_text(field.get("location"))
+            output = _as_text(field.get("output"))
+            if output:
+                location = f"{location}.{output}"
+            rows.append(
+                {
+                    "id": endpoint_id,
+                    "name": endpoint_name,
+                    "path": endpoint_path,
+                    "smoke_status": smoke_status,
+                    "location": _table_value(location),
+                    "field": _table_value(field.get("field_code")),
+                    "suspicious_values": _table_text(
+                        _join_values(_as_list_text(field.get("suspicious_values")), limit=8)
+                    ),
+                    "reasons": _table_text(_join_values(_as_list_text(field.get("reasons")), limit=6)),
+                    "confidence": _table_value(field.get("confidence")),
+                }
+            )
+    rows.sort(key=lambda row: (row["id"], row["location"], row["field"]))
+    return rows
+
+
+def _build_manual_priority_rows(items: list[JsonObject], status: str) -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
+    for item in items:
+        ready_fields = _as_list(item.get("ready_fields"))
+        hold_fields = _as_list(item.get("hold_fields"))
+        reasons = _as_list_text(item.get("hold_reasons"))
+        rows.append(
+            {
+                "id": _table_value(item.get("id")),
+                "name": _table_value(item.get("name")),
+                "path": _table_value(item.get("path")),
+                "smoke_status": _table_value(item.get("smoke_status")),
+                "ready_fields": str(len(ready_fields)),
+                "hold_fields": str(len(hold_fields)),
+                "reasons": _table_text(", ".join(reasons) if reasons else "-"),
+                "action": _table_text(_manual_priority_action(status, reasons)),
+            }
+        )
+    rows.sort(key=lambda row: row["id"])
+    return rows
+
+
+def _manual_priority_action(status: str, reasons: list[str]) -> str:
+    if status == "ready":
+        return "파서 로직 보정 우선"
+    if "override_review" in reasons:
+        return "override 확장 여부 수동 검토"
+    return "추가 검토 필요"
 
 
 def _build_sources_rows(sources: JsonObject) -> list[dict[str, str]]:

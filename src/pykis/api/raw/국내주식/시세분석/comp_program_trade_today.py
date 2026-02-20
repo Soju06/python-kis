@@ -14,6 +14,14 @@ if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class FidCondMrktDivCodeEnum(KisStrEnum):
+    KRX = ("KRX", "J")
+    """J"""
+    NXT = ("NXT", "NX, 통합 : UN")
+    """NX, 통합 : UN"""
+    J = ("J", "")
+
+
 class FidMrktClsCodeEnum(KisStrEnum):
     K = ("K", "코스피")
     """코스피"""
@@ -22,7 +30,9 @@ class FidMrktClsCodeEnum(KisStrEnum):
 
 
 class CompProgramTradeTodayRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "KRX : J , NXT : NX, 통합 : UN"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "KRX : J , NXT : NX, 통합 : UN"] = Field(
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["KRX", "NXT", "J"], "enum_desc": {"KRX": "J", "NXT": "NX, 통합 : UN"}}
+    )
     FID_MRKT_CLS_CODE: Annotated[FidMrktClsCodeEnum, "K:코스피, Q:코스닥"] = Field(
         alias="FID_MRKT_CLS_CODE", json_schema_extra={"enum": ["K", "Q"], "enum_desc": {"K": "코스피", "Q": "코스닥"}}
     )
@@ -45,7 +55,7 @@ class CompProgramTradeTodayRequestDict(TypedDict):
     데이터는 모두 동일한 장마감 데이터인 점 유의 부탁드립니다.
 
     Request fields:
-        FID_COND_MRKT_DIV_CODE (str): KRX : J , NXT : NX, 통합 : UN
+        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): KRX : J , NXT : NX, 통합 : UN
         FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): K:코스피, Q:코스닥
         FID_SCTN_CLS_CODE (str): 공백 입력 optional
         FID_INPUT_ISCD (str): 공백 입력 optional
@@ -53,7 +63,7 @@ class CompProgramTradeTodayRequestDict(TypedDict):
         FID_INPUT_HOUR_1 (str): 공백 입력 optional
     """
 
-    FID_COND_MRKT_DIV_CODE: str
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
     FID_MRKT_CLS_CODE: FidMrktClsCodeEnum
     FID_SCTN_CLS_CODE: NotRequired[str | None]
     FID_INPUT_ISCD: NotRequired[str | None]
@@ -156,7 +166,7 @@ if TYPE_CHECKING:
                 **kwargs (CompProgramTradeTodayRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_COND_MRKT_DIV_CODE (str): KRX : J , NXT : NX, 통합 : UN
+                        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): KRX : J , NXT : NX, 통합 : UN
                         FID_MRKT_CLS_CODE (FidMrktClsCodeEnum): K:코스피, Q:코스닥
                         FID_SCTN_CLS_CODE (str): 공백 입력 optional
                         FID_INPUT_ISCD (str): 공백 입력 optional
@@ -178,5 +188,6 @@ __all__ = [
     "CompProgramTradeTodayRequestDict",
     "CompProgramTradeTodayResponse",
     "CompProgramTradeTodayOutput1",
+    "FidCondMrktDivCodeEnum",
     "FidMrktClsCodeEnum",
 ]

@@ -67,7 +67,7 @@ class DividendOutput1(RawModel):
     record_date: Annotated[KisDate, "기준일"] = Field(alias="record_date")
     sht_cd: Annotated[str, "종목코드"] = Field(alias="sht_cd")
     isin_name: Annotated[str, "종목명"] = Field(alias="isin_name")
-    divi_kind: Annotated[str | None, "배당종류"] = Field(default=None, alias="divi_kind")
+    divi_kind: Annotated[str, "배당종류"] = Field(alias="divi_kind")
     face_val: Annotated[int, "액면가"] = Field(alias="face_val")
     per_sto_divi_amt: Annotated[int, "현금배당금"] = Field(alias="per_sto_divi_amt")
     divi_rate: Annotated[Decimal, "현금배당률(%)"] = Field(alias="divi_rate")

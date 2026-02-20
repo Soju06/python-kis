@@ -62,8 +62,8 @@ params
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2023-07-21
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2023-07-21T07:27:04+09:00
+- **최종 수정일**: 2025-04-30T12:14:05+09:00
 
 ## 요청
 
@@ -72,7 +72,7 @@ params
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -90,14 +90,14 @@ params
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `AUTH` | 사용자권한정보 | String | 32 | Y | "" 공백으로 입력 |
-| `EXCD` | 거래소코드 | String | 4 | Y | NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스  HKS : 홍콩 SHS : 상해  SZS : 심천 HSX : 호치민 HNX : 하노이 TSE : 도쿄   ※ 주간거래는 ... |
+| `EXCD` | 거래소코드 | String | 4 | Y | NYS : 뉴욕 NAS : 나스닥 AMS : 아멕스  HKS : 홍콩 SHS : 상해  SZS : 심천 HSX : 호치민 HNX : 하노이 TSE : 도쿄   ※ 주간거래는 최대 1일치 분봉만 조회 가능 BAY : 뉴욕(주간) BAQ : 나스닥(주간) BAA : 아멕스(주간) |
 | `SYMB` | 종목코드 | String | 16 | Y | 종목코드(ex. TSLA) |
 | `NMIN` | 분갭 | String | 4 | Y | 분단위(1: 1분봉, 2: 2분봉, ...) |
 | `PINC` | 전일포함여부 | String | 1 | Y | 0:당일 1:전일포함 ※ 다음조회 시 반드시 "1"로 입력 |
 | `NEXT` | 다음여부 | String | 1 | Y | 처음조회 시, "" 공백 입력 다음조회 시, "1" 입력 |
 | `NREC` | 요청갯수 | String | 4 | Y | 레코드요청갯수 (최대 120) |
 | `FILL` | 미체결채움구분 | String | 1 | Y | "" 공백으로 입력 |
-| `KEYB` | NEXT KEY BUFF | String | 32 | Y | 처음 조회 시, "" 공백 입력 다음 조회 시, 이전 조회 결과의 마지막 분봉 데이터를 이용하여, 1분 전 혹은 n분 전의 시간을 입력  (형식: YYYYMMDDHHMMSS,... |
+| `KEYB` | NEXT KEY BUFF | String | 32 | Y | 처음 조회 시, "" 공백 입력 다음 조회 시, 이전 조회 결과의 마지막 분봉 데이터를 이용하여, 1분 전 혹은 n분 전의 시간을 입력  (형식: YYYYMMDDHHMMSS, ex. 20241014140100) |
 
 ### 요청 예시
 

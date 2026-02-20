@@ -84,14 +84,14 @@ class InquirePriceOutput(RawModel):
     frgn_hldn_qty_rate: Annotated[Decimal, "외국인 보유 수량 비율"] = Field(alias="frgn_hldn_qty_rate")
     etf_trc_ert_mltp: Annotated[Decimal, "ETF 추적 수익률 배수"] = Field(alias="etf_trc_ert_mltp")
     dprt: Annotated[Decimal, "괴리율"] = Field(alias="dprt")
-    mbcr_name: Annotated[str | None, "회원사 명"] = Field(default=None, alias="mbcr_name")
+    mbcr_name: Annotated[str, "회원사 명"] = Field(alias="mbcr_name")
     stck_lstn_date: Annotated[KisDate, "주식 상장 일자"] = Field(alias="stck_lstn_date")
     mtrt_date: Annotated[KisDateOptional, "만기 일자"] = Field(default=None, alias="mtrt_date")
     shrg_type_code: Annotated[str | None, "분배금형태코드"] = Field(default=None, alias="shrg_type_code")
     lp_hldn_rate: Annotated[Decimal, "LP 보유 비율"] = Field(alias="lp_hldn_rate")
     etf_trgt_nmix_bstp_code: Annotated[str, "ETF대상지수업종코드"] = Field(alias="etf_trgt_nmix_bstp_code")
     etf_div_name: Annotated[str, "ETF 분류 명"] = Field(alias="etf_div_name")
-    etf_rprs_bstp_kor_isnm: Annotated[str | None, "ETF 대표 업종 한글 종목명"] = Field(default=None, alias="etf_rprs_bstp_kor_isnm")
+    etf_rprs_bstp_kor_isnm: Annotated[str, "ETF 대표 업종 한글 종목명"] = Field(alias="etf_rprs_bstp_kor_isnm")
     lp_hldn_vol: Annotated[int, "ETN LP 보유량"] = Field(alias="lp_hldn_vol")
 
 

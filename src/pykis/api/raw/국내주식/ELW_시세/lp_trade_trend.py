@@ -35,7 +35,7 @@ class LpTradeTrendRequestDict(TypedDict):
 
 class LpTradeTrendOutput1(RawModel):
     elw_prpr: Annotated[Decimal, "ELW현재가"] = Field(alias="elw_prpr")
-    prdy_vrss_sign: Annotated[str | None, "전일대비부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: Annotated[int, "전일대비부호"] = Field(alias="prdy_vrss_sign")
     prdy_vrss: Annotated[int, "전일대비"] = Field(alias="prdy_vrss")
     prdy_ctrt: Annotated[Decimal, "전일대비율"] = Field(alias="prdy_ctrt")
     acml_vol: Annotated[int, "누적거래량"] = Field(alias="acml_vol")

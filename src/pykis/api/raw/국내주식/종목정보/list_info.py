@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Annotated, Mapping, NotRequired, Protocol, Typ
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, KisDateOptional, RawModel
+from pykis.api.raw.base import KisBool, KisDate, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -44,14 +44,14 @@ class ListInfoRequestDict(TypedDict):
 
 
 class ListInfoOutput1(RawModel):
-    list_dt: Annotated[KisDateOptional, "상장/등록일"] = Field(default=None, alias="list_dt")
-    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
-    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
-    stk_kind: Annotated[str | None, "주식종류"] = Field(default=None, alias="stk_kind")
-    issue_type: Annotated[str | None, "사유"] = Field(default=None, alias="issue_type")
-    issue_stk_qty: Annotated[int | None, "상장주식수"] = Field(default=None, alias="issue_stk_qty")
-    tot_issue_stk_qty: Annotated[int | None, "총발행주식수"] = Field(default=None, alias="tot_issue_stk_qty")
-    issue_price: Annotated[Decimal | None, "발행가"] = Field(default=None, alias="issue_price")
+    list_dt: Annotated[KisDate, "상장/등록일"] = Field(alias="list_dt")
+    sht_cd: Annotated[str, "종목코드"] = Field(alias="sht_cd")
+    isin_name: Annotated[str, "종목명"] = Field(alias="isin_name")
+    stk_kind: Annotated[str, "주식종류"] = Field(alias="stk_kind")
+    issue_type: Annotated[str, "사유"] = Field(alias="issue_type")
+    issue_stk_qty: Annotated[int, "상장주식수"] = Field(alias="issue_stk_qty")
+    tot_issue_stk_qty: Annotated[int, "총발행주식수"] = Field(alias="tot_issue_stk_qty")
+    issue_price: Annotated[Decimal, "발행가"] = Field(alias="issue_price")
 
 
 class ListInfoResponse(RawModel):

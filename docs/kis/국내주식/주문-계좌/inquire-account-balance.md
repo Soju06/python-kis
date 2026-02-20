@@ -26,8 +26,8 @@ output1은 한국투자 HTS(eFriend Plus) > [0891] 계좌 자산비중(결제기
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2023-04-21
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2023-04-21T09:31:49+09:00
+- **최종 수정일**: 2025-04-30T10:10:35+09:00
 
 ## 요청
 
@@ -36,7 +36,7 @@ output1은 한국투자 HTS(eFriend Plus) > [0891] 계좌 자산비중(결제기
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -87,7 +87,7 @@ output1은 한국투자 HTS(eFriend Plus) > [0891] 계좌 자산비중(결제기
 | `rt_cd` | 성공 실패 여부 | String | 1 | Y |  |
 | `msg_cd` | 응답코드 | String | 8 | Y |  |
 | `msg1` | 응답메세지 | String | 80 | Y |  |
-| `Output1` | 응답상세 | Object |   | Y | Array [아래 순서대로 출력 : 20항목] 1: 주식 2: 펀드/MMW 3: IMA 4: 채권 5: ELS/DLS 6: WRAP 7: 신탁 8: RP/발행어음 9: 해외주... |
+| `Output1` | 응답상세 | Object |   | Y | Array [아래 순서대로 출력 : 20항목] 1: 주식 2: 펀드/MMW 3: IMA 4: 채권 5: ELS/DLS 6: WRAP 7: 신탁 8: RP/발행어음 9: 해외주식 10: 해외채권 11: 금현물 12: CD/CP 13: 전자단기사채 14: 타사상품 15: 외화전자단기사채 16: 외화 ELS/DLS 17: 외화 18: 예수금 19: 청약자예수금 20: 합계  [21번 계좌일 경우 : 17항목] 1: 수익증권 2: IMA 3: 채권 4: ELS/DLS 5: WRAP 6: 신탁 7: RP 8: 외화rp 9: 해외채권 10: CD/CP 11: 전자단기사채 12: 외화전자단기사채 13: 외화ELS/DLS 14: 외화평가금액 15: 예수금+cma 16: 청약자예수금 17: 합계 |
 | `pchs_amt` | 매입금액 | String | 19 | Y |  |
 | `evlu_amt` | 평가금액 | String | 19 | Y |  |
 | `evlu_pfls_amt` | 평가손익금액 | String | 19 | Y |  |

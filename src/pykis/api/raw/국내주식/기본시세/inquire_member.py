@@ -118,7 +118,7 @@ class InquireMemberResponse(RawModel):
     rt_cd: Annotated[KisBool, "성공 실패 여부 성공 : 0 실패 : 0외 값"] = Field(alias="rt_cd")
     msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
     msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
-    output: Annotated[InquireMemberOutput, "응답상세"] = Field(alias="output")
+    output: Annotated[list[InquireMemberOutput], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[InquireMemberRequest, InquireMemberResponse] = Endpoint(

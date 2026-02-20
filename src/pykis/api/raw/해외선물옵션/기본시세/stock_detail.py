@@ -55,16 +55,16 @@ class StockDetailRequestDict(TypedDict):
 
 class StockDetailOutput1(RawModel):
     exch_cd: Annotated[str | None, "거래소코드"] = Field(default=None, alias="exch_cd")
-    tick_sz: Annotated[str | None, "틱사이즈"] = Field(default=None, alias="tick_sz")
+    tick_sz: Annotated[Decimal | None, "틱사이즈"] = Field(default=None, alias="tick_sz")
     disp_digit: Annotated[Decimal | None, "가격표시진법"] = Field(default=None, alias="disp_digit")
-    trst_mgn: Annotated[str | None, "증거금"] = Field(default=None, alias="trst_mgn")
+    trst_mgn: Annotated[int | None, "증거금"] = Field(default=None, alias="trst_mgn")
     sttl_date: Annotated[KisDateOptional, "정산일"] = Field(default=None, alias="sttl_date")
     prev_price: Annotated[str | None, "전일종가 ※ ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고"] = Field(
         default=None, alias="prev_price"
     )
     crc_cd: Annotated[str | None, "거래통화"] = Field(default=None, alias="crc_cd")
-    clas_cd: Annotated[str | None, "품목종류"] = Field(default=None, alias="clas_cd")
-    tick_val: Annotated[str | None, "틱가치"] = Field(default=None, alias="tick_val")
+    clas_cd: Annotated[int | None, "품목종류"] = Field(default=None, alias="clas_cd")
+    tick_val: Annotated[int | None, "틱가치"] = Field(default=None, alias="tick_val")
     mrkt_open_date: Annotated[KisDateOptional, "장개시일자"] = Field(default=None, alias="mrkt_open_date")
     mrkt_open_time: Annotated[KisTimeOptional, "장개시시각"] = Field(default=None, alias="mrkt_open_time")
     mrkt_close_date: Annotated[KisDateOptional, "장마감일자"] = Field(default=None, alias="mrkt_close_date")
@@ -72,7 +72,7 @@ class StockDetailOutput1(RawModel):
     trd_fr_date: Annotated[KisDateOptional, "상장일"] = Field(default=None, alias="trd_fr_date")
     expr_date: Annotated[KisDateOptional, "만기일"] = Field(default=None, alias="expr_date")
     trd_to_date: Annotated[KisDateOptional, "최종거래일"] = Field(default=None, alias="trd_to_date")
-    remn_cnt: Annotated[str | None, "잔존일수"] = Field(default=None, alias="remn_cnt")
+    remn_cnt: Annotated[int | None, "잔존일수"] = Field(default=None, alias="remn_cnt")
     stat_tp: Annotated[KisBool | None, "매매여부"] = Field(default=None, alias="stat_tp")
     ctrt_size: Annotated[Decimal | None, "계약크기"] = Field(default=None, alias="ctrt_size")
     stl_tp: Annotated[str | None, "최종결제구분"] = Field(default=None, alias="stl_tp")

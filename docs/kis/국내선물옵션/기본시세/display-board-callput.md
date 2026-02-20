@@ -28,8 +28,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2024-04-05
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2024-04-05T13:26:51+09:00
+- **최종 수정일**: 2025-04-30T12:36:13+09:00
 
 ## 요청
 
@@ -38,7 +38,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -58,7 +58,7 @@
 | `FID_COND_MRKT_DIV_CODE` | 조건 시장 분류 코드 | String | 2 | Y | 시장구분코드 (O: 옵션) |
 | `FID_COND_SCR_DIV_CODE` | 조건 화면 분류 코드 | String | 5 | Y | Unique key(20503) |
 | `FID_MRKT_CLS_CODE` | 시장 구분 코드 | String | 2 | Y | 시장구분코드 (CO: 콜옵션) |
-| `FID_MTRT_CNT` | 만기 수 | String | 11 | Y | - FID_COND_MRKT_CLS_CODE : 공백(KOSPI200), MKI(미니KOSPI200), KQI(KOSDAQ150) 인 경우 : 만기년월(YYYYMM) 입력 (... |
+| `FID_MTRT_CNT` | 만기 수 | String | 11 | Y | - FID_COND_MRKT_CLS_CODE : 공백(KOSPI200), MKI(미니KOSPI200), KQI(KOSDAQ150) 인 경우 : 만기년월(YYYYMM) 입력 (ex. 202407)  - FID_COND_MRKT_CLS_CODE : WKM(KOSPI200위클리(월)), WKI(KOSPI200위클리(목)) 인 경우 : 만기년월주차(YYMMWW) 입력 (ex. 2024년도 7월 3주차인 경우, 240703 입력) |
 | `FID_COND_MRKT_CLS_CODE` | 조건 시장 구분 코드 | String | 6 | Y | 공백: KOSPI200 MKI: 미니KOSPI200 WKM: KOSPI200위클리(월) WKI: KOSPI200위클리(목) KQI: KOSDAQ150 |
 | `FID_MRKT_CLS_CODE1` | 시장 구분 코드 | String | 2 | Y | 시장구분코드 (PO: 풋옵션) |
 

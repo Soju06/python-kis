@@ -55,6 +55,7 @@ class VolRangEnum(KisStrEnum):
 
 
 class MarketCapRequest(RawModel):
+    CURR_GB: Annotated[int, "0 또는 1"] = Field(alias="CURR_GB")
     KEYB: Annotated[str | None, "공백"] = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
     AUTH: Annotated[str | None, "공백"] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
     EXCD: Annotated[
@@ -98,6 +99,7 @@ class MarketCapRequestDict(TypedDict):
     해외주식 시가총액순위[해외주식-047]
 
     Request fields:
+        CURR_GB (int): 0 또는 1
         KEYB (str): 공백 optional
         AUTH (str): 공백 optional
         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천
@@ -106,6 +108,7 @@ class MarketCapRequestDict(TypedDict):
         5(100만주이상), 6(1000만주이상)
     """
 
+    CURR_GB: int
     KEYB: NotRequired[str | None]
     AUTH: NotRequired[str | None]
     EXCD: ExcdEnum
@@ -118,6 +121,8 @@ class MarketCapOutput1(RawModel):
     crec: Annotated[str, "현재조회종목수"] = Field(alias="crec")
     trec: Annotated[str, "전체조회종목수"] = Field(alias="trec")
     nrec: Annotated[int, "RecordCount"] = Field(alias="nrec")
+    curr: Annotated[str | None, "inferred from raw payload"] = Field(default=None, alias="curr")
+    t_rate: Annotated[Decimal | None, "inferred from raw payload"] = Field(default=None, alias="t_rate")
 
 
 class MarketCapOutput2(RawModel):
@@ -208,6 +213,7 @@ if TYPE_CHECKING:
                 **kwargs (MarketCapRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
+                        CURR_GB (int): 0 또는 1
                         KEYB (str): 공백 optional
                         AUTH (str): 공백 optional
                         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS :

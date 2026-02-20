@@ -25,8 +25,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2021-12-15
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2021-12-15T13:00:31+09:00
+- **최종 수정일**: 2025-04-30T10:13:30+09:00
 
 ## 요청
 
@@ -35,7 +35,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -153,7 +153,7 @@
 | `ovtm_total_askp_rsqn` | 시간외 총 매도호가 잔량 | String | 12 | Y |  |
 | `ovtm_total_bidp_rsqn` | 시간외 총 매수호가 잔량 | String | 12 | Y |  |
 | `ntby_aspr_rsqn` | 순매수 호가 잔량 | String | 12 | Y |  |
-| `new_mkop_cls_code` | 신 장운영 구분 코드 | String | 2 | Y | ' '00' : 장전 예상체결가와 장마감 동시호가 '49' : 장후 예상체결가  (1) 첫 번째 비트 1 : 장개시전 2 : 장중 3 : 장종료후 4 : 시간외단일가 7 : ... |
+| `new_mkop_cls_code` | 신 장운영 구분 코드 | String | 2 | Y | ' '00' : 장전 예상체결가와 장마감 동시호가 '49' : 장후 예상체결가  (1) 첫 번째 비트 1 : 장개시전 2 : 장중 3 : 장종료후 4 : 시간외단일가 7 : 일반Buy-in 8 : 당일Buy-in (2) 두 번째 비트 0 : 보통 1 : 종가 2 : 대량 3 : 바스켓 7 : 정리매매 8 : Buy-in' |
 | `output2` | 응답상세 | String |   | Y |  |
 | `antc_mkop_cls_code` | 예상 장운영 구분 코드 | String | 3 | Y |  |
 | `stck_prpr` | 주식 현재가 | String | 10 | Y |  |

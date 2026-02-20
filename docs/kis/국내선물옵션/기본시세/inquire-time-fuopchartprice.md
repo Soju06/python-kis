@@ -26,8 +26,8 @@ FID_INPUT_DATE_1(입력날짜), FID_INPUT_HOUR_1(입력시간)을 이용하여 �
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2023-08-18
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2023-08-18T07:25:58+09:00
+- **최종 수정일**: 2025-04-30T12:34:41+09:00
 
 ## 요청
 
@@ -36,7 +36,7 @@ FID_INPUT_DATE_1(입력날짜), FID_INPUT_HOUR_1(입력시간)을 이용하여 �
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -59,7 +59,7 @@ FID_INPUT_DATE_1(입력날짜), FID_INPUT_HOUR_1(입력시간)을 이용하여 �
 | `FID_PW_DATA_INCU_YN` | FID 과거 데이터 포함 여부 | String | 2 | Y | Y(과거) / N (당일) |
 | `FID_FAKE_TICK_INCU_YN` | FID 허봉 포함 여부 | String | 2 | Y | N으로 입력 |
 | `FID_INPUT_DATE_1` | FID 입력 날짜1 | String | 10 | Y | 입력 날짜 기준으로 이전 기간 조회(YYYYMMDD) ex) 20230908 입력 시, 2023년 9월 8일부터 일자 역순으로 조회 |
-| `FID_INPUT_HOUR_1` | FID 입력 시간1 | String | 10 | Y | 입력 시간 기준으로 이전 시간 조회(HHMMSS) ex) 093000 입력 시, 오전 9시 30분부터 역순으로 분봉 조회  * CM(야간선물), EU(야간옵션)인 경우, 자정... |
+| `FID_INPUT_HOUR_1` | FID 입력 시간1 | String | 10 | Y | 입력 시간 기준으로 이전 시간 조회(HHMMSS) ex) 093000 입력 시, 오전 9시 30분부터 역순으로 분봉 조회  * CM(야간선물), EU(야간옵션)인 경우, 자정 이후 시간은 +24시간으로 입력 ex) 253000 입력 시, 새벽 1시 30분부터 역순으로 분봉 조회 |
 
 ### 요청 예시
 

@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Annotated, Mapping, Protocol, TypedDict, Unpac
 
 from pydantic import Field
 
-from pykis.api.raw.base import KisBool, KisDate, RawModel
+from pykis.api.raw.base import KisBool, KisDateOptional, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
 
 if TYPE_CHECKING:
@@ -46,17 +46,17 @@ class InvestOpinionRequestDict(TypedDict):
 
 
 class InvestOpinionOutput(RawModel):
-    stck_bsop_date: Annotated[KisDate, "주식영업일자"] = Field(alias="stck_bsop_date")
+    stck_bsop_date: Annotated[KisDateOptional, "주식영업일자"] = Field(default=None, alias="stck_bsop_date")
     invt_opnn: Annotated[str | None, "투자의견"] = Field(default=None, alias="invt_opnn")
-    invt_opnn_cls_code: Annotated[str, "투자의견구분코드"] = Field(alias="invt_opnn_cls_code")
+    invt_opnn_cls_code: Annotated[str | None, "투자의견구분코드"] = Field(default=None, alias="invt_opnn_cls_code")
     rgbf_invt_opnn: Annotated[str | None, "직전투자의견"] = Field(default=None, alias="rgbf_invt_opnn")
-    rgbf_invt_opnn_cls_code: Annotated[str, "직전투자의견구분코드"] = Field(alias="rgbf_invt_opnn_cls_code")
+    rgbf_invt_opnn_cls_code: Annotated[str | None, "직전투자의견구분코드"] = Field(default=None, alias="rgbf_invt_opnn_cls_code")
     mbcr_name: Annotated[str | None, "회원사명"] = Field(default=None, alias="mbcr_name")
-    hts_goal_prc: Annotated[Decimal, "HTS목표가격"] = Field(alias="hts_goal_prc")
-    stck_prdy_clpr: Annotated[int, "주식전일종가"] = Field(alias="stck_prdy_clpr")
-    stck_nday_esdg: Annotated[Decimal, "주식N일괴리도"] = Field(alias="stck_nday_esdg")
-    nday_dprt: Annotated[Decimal, "N일괴리율"] = Field(alias="nday_dprt")
-    stft_esdg: Annotated[Decimal, "주식선물괴리도"] = Field(alias="stft_esdg")
+    hts_goal_prc: Annotated[Decimal | None, "HTS목표가격"] = Field(default=None, alias="hts_goal_prc")
+    stck_prdy_clpr: Annotated[str | None, "주식전일종가"] = Field(default=None, alias="stck_prdy_clpr")
+    stck_nday_esdg: Annotated[str | None, "주식N일괴리도"] = Field(default=None, alias="stck_nday_esdg")
+    nday_dprt: Annotated[Decimal | None, "N일괴리율"] = Field(default=None, alias="nday_dprt")
+    stft_esdg: Annotated[str | None, "주식선물괴리도"] = Field(default=None, alias="stft_esdg")
     dprt: Annotated[Decimal | None, "괴리율"] = Field(default=None, alias="dprt")
 
 

@@ -29,8 +29,8 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2022-07-15
-- **최종 수정일**: 2025-05-23
+- **생성일**: 2022-07-15T15:53:08+09:00
+- **최종 수정일**: 2025-05-23T18:32:17+09:00
 
 ## 요청
 
@@ -39,7 +39,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | N | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -61,8 +61,8 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | `INQR_STRT_DT` | 조회시작일자 | String | 8 | Y | 조회시작일자(YYYYMMDD) |
 | `INQR_END_DT` | 조회종료일자 | String | 8 | Y | 조회종료일자(YYYYMMDD) |
 | `INQR_DVSN_CD` | 조회구분코드 | String | 2 | Y | 00 : 전체 01 : 일반해외주식  02 : 미니스탁 |
-| `PRDT_TYPE_CD` | 상품유형코드 | String | 3 | Y | [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회  512 : 미국 나스닥 / ... |
-| `OVRS_EXCG_CD` | 해외거래소코드 | String | 4 | Y | [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회  NASD : 나스닥 / NY... |
+| `PRDT_TYPE_CD` | 상품유형코드 | String | 3 | Y | [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회  512 : 미국 나스닥 / 513 : 미국 뉴욕거래소 / 529 : 미국 아멕스  515 : 일본 501 : 홍콩 / 543 : 홍콩CNY / 558 : 홍콩USD 507 : 베트남 하노이거래소 / 508 : 베트남 호치민거래소 551 : 중국 상해A / 552 : 중국 심천A |
+| `OVRS_EXCG_CD` | 해외거래소코드 | String | 4 | Y | [tr_id=TTTT3039R인 경우] 공백 입력 시 미국주식 전체조회 [tr_id=TTTS3014R인 경우] 공백 입력 시 아시아주식 전체조회  NASD : 나스닥 / NYSE : 뉴욕 / AMEX : 아멕스 SEHK : 홍콩 / SHAA : 중국상해 / SZAA : 중국심천 TKSE : 일본 / HASE : 하노이거래소 / VNSE : 호치민거래소 |
 | `CTX_AREA_FK200` | 연속조회검색조건200 | String | 200 | Y | 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터) |
 | `CTX_AREA_NK200` | 연속조회키200 | String | 200 | Y | 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지 조회시(2번째부터) |
 

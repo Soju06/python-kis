@@ -3,6 +3,7 @@
 > [해외선물옵션] 주문/계좌
 
 해외선물옵션 일별 체결내역 API입니다.
+거래소 체결 내역에 따라 , output1에 동일한 주문번호의 데이터들이 수신될 수 있습니다.
 
 
 ## 기본 정보
@@ -24,8 +25,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2022-10-07
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2022-10-07T12:53:43+09:00
+- **최종 수정일**: 2026-02-11T09:59:49+09:00
 
 ## 요청
 
@@ -34,7 +35,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)  ※ 토큰 지정시 토큰 타입("Bearer") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 "Bearer" 붙여서 호출 EX) "Bearer eyJ..........8GA" |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -57,7 +58,7 @@
 | `END_DT` | 종료일자 | String | 8 | Y | 종료일자(YYYYMMDD) |
 | `FUOP_DVSN_CD` | 선물옵션구분코드 | String | 2 | Y | 00:전체 / 01:선물 / 02:옵션 |
 | `FM_PDGR_CD` | FM상품군코드 | String | 10 | Y | 공란(Default) |
-| `CRCY_CD` | 통화코드 | String | 3 | Y | %%% : 전체 TUS: TOT_USD  / TKR: TOT_KRW KRW: 한국  / USD: 미국 EUR: EUR   / HKD: 홍콩 CNY: 중국  / JPY: 일본 ... |
+| `CRCY_CD` | 통화코드 | String | 3 | Y | %%% : 전체 TUS: TOT_USD  / TKR: TOT_KRW KRW: 한국  / USD: 미국 EUR: EUR   / HKD: 홍콩 CNY: 중국  / JPY: 일본 VND: 베트남 |
 | `FM_ITEM_FTNG_YN` | FM종목합산여부 | String | 1 | Y | "N"(Default) |
 | `SLL_BUY_DVSN_CD` | 매도매수구분코드 | String | 2 | Y | %%: 전체 / 01 : 매도 / 02 : 매수 |
 | `CTX_AREA_FK200` | 연속조회검색조건200 | String | 200 | Y |  |

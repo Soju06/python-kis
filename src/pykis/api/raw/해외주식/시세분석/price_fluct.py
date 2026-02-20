@@ -16,6 +16,29 @@ if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class MinxEnum(KisStrEnum):
+    VALUE_0 = ("0", "1분전")
+    """1분전"""
+    VALUE_1 = ("1", "2분전")
+    """2분전"""
+    VALUE_2 = ("2", "3분전")
+    """3분전"""
+    VALUE_3 = ("3", "5분전")
+    """5분전"""
+    VALUE_4 = ("4", "10분전")
+    """10분전"""
+    VALUE_5 = ("5", "15분전")
+    """15분전"""
+    VALUE_6 = ("6", "20분전")
+    """20분전"""
+    VALUE_7 = ("7", "30분전")
+    """30분전"""
+    VALUE_8 = ("8", "60분전")
+    """60분전"""
+    VALUE_9 = ("9", "120분전")
+    """120분전"""
+
+
 class ExcdEnum(KisStrEnum):
     NYS = ("NYS", "뉴욕")
     """뉴욕"""
@@ -85,6 +108,26 @@ class VolRangEnum(KisStrEnum):
 
 
 class PriceFluctRequest(RawModel):
+    MINX: Annotated[MinxEnum, "N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전), 6(20분전), 7(30분전), 8(60분전), 9(120분전)"] = (
+        Field(
+            alias="MINX",
+            json_schema_extra={
+                "enum": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+                "enum_desc": {
+                    "0": "1분전",
+                    "1": "2분전",
+                    "2": "3분전",
+                    "3": "5분전",
+                    "4": "10분전",
+                    "5": "15분전",
+                    "6": "20분전",
+                    "7": "30분전",
+                    "8": "60분전",
+                    "9": "120분전",
+                },
+            },
+        )
+    )
     KEYB: Annotated[str | None, "공백"] = Field(default=None, alias="KEYB", json_schema_extra={"blank_allowed": True})
     AUTH: Annotated[str | None, "공백"] = Field(default=None, alias="AUTH", json_schema_extra={"blank_allowed": True})
     EXCD: Annotated[
@@ -151,6 +194,8 @@ class PriceFluctRequestDict(TypedDict):
     해외주식 가격급등락[해외주식-038]
 
     Request fields:
+        MINX (MinxEnum): N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전),
+        6(20분전), 7(30분전), 8(60분전), 9(120분전)
         KEYB (str): 공백 optional
         AUTH (str): 공백 optional
         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS : 상해 , SZS : 심천
@@ -162,6 +207,7 @@ class PriceFluctRequestDict(TypedDict):
         5(100만주이상), 6(1000만주이상)
     """
 
+    MINX: MinxEnum
     KEYB: NotRequired[str | None]
     AUTH: NotRequired[str | None]
     EXCD: ExcdEnum
@@ -265,6 +311,8 @@ if TYPE_CHECKING:
                 **kwargs (PriceFluctRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
+                        MINX (MinxEnum): N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전),
+                        5(15분전), 6(20분전), 7(30분전), 8(60분전), 9(120분전)
                         KEYB (str): 공백 optional
                         AUTH (str): 공백 optional
                         EXCD (ExcdEnum): 'NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 HKS : 홍콩, SHS :
@@ -291,6 +339,7 @@ __all__ = [
     "PriceFluctResponse",
     "PriceFluctOutput1",
     "PriceFluctOutput2",
+    "MinxEnum",
     "ExcdEnum",
     "GubnEnum",
     "MixnEnum",

@@ -24,8 +24,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2022-12-23
-- **최종 수정일**: 2025-04-30
+- **생성일**: 2022-12-23T12:22:44+09:00
+- **최종 수정일**: 2025-04-30T12:13:35+09:00
 
 ## 요청
 
@@ -34,7 +34,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -84,7 +84,7 @@
 | `msg_cd` | 응답코드 | String | 8 | Y |  |
 | `msg1` | 응답메세지 | String | 80 | Y |  |
 | `output` | 응답상세1 | String |   | Y |  |
-| `prdt_type_cd` | 상품유형코드 | String | 3 | Y | 512  미국 나스닥 / 513  미국 뉴욕거래소 / 529  미국 아멕스  515  일본 501  홍콩 / 543  홍콩CNY / 558  홍콩USD 507  베트남 하노이... |
+| `prdt_type_cd` | 상품유형코드 | String | 3 | Y | 512  미국 나스닥 / 513  미국 뉴욕거래소 / 529  미국 아멕스  515  일본 501  홍콩 / 543  홍콩CNY / 558  홍콩USD 507  베트남 하노이거래소 / 508  베트남 호치민거래소 551  중국 상해A / 552  중국 심천A |
 | `tr_natn_cd` | 거래국가코드 | String | 3 | Y | 840 미국 / 392 일본 / 344 홍콩 704 베트남 / 156 중국 |
 | `tr_natn_name` | 거래국가명 | String | 60 | Y |  |
 | `natn_eng_abrv_cd` | 국가영문약어코드 | String | 2 | Y | US 미국 / JP 일본 / HK 홍콩 VN 베트남 / CN 중국 |

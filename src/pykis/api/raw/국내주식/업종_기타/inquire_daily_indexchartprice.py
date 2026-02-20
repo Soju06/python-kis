@@ -76,6 +76,7 @@ class InquireDailyIndexchartpriceOutput1(RawModel):
     futs_prdy_oprc: Annotated[Decimal, "선물 전일 시가"] = Field(alias="futs_prdy_oprc")
     futs_prdy_hgpr: Annotated[Decimal, "선물 전일 최고가"] = Field(alias="futs_prdy_hgpr")
     futs_prdy_lwpr: Annotated[Decimal, "선물 전일 최저가"] = Field(alias="futs_prdy_lwpr")
+    bstp_nmix_prdy_vrss: Annotated[Decimal | None, "inferred from raw payload"] = Field(default=None, alias="bstp_nmix_prdy_vrss")
 
 
 class InquireDailyIndexchartpriceOutput2(RawModel):

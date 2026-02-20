@@ -38,8 +38,8 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2021-12-15
-- **최종 수정일**: 2025-05-23
+- **생성일**: 2021-12-15T13:12:57+09:00
+- **최종 수정일**: 2025-05-23T18:28:21+09:00
 
 ## 요청
 
@@ -48,7 +48,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | N | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token 일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Gr... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token 일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용) 법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)  ※ 토큰 지정시 토큰 타입("Bearer") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 "Bearer" 붙여서 호출 EX) "Bearer eyJ..........8GA" |
 | `appkey` | 앱키  | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -72,7 +72,7 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | `ORD_END_DT` | 주문종료일자 | String | 8 | Y | YYYYMMDD 형식 (현지시각 기준) |
 | `SLL_BUY_DVSN` | 매도매수구분 | String | 2 | Y | 00 : 전체  01 : 매도  02 : 매수 ※ 모의투자계좌의 경우 "00"(전체 조회)만 가능 |
 | `CCLD_NCCS_DVSN` | 체결미체결구분 | String | 2 | Y | 00 : 전체  01 : 체결  02 : 미체결 ※ 모의투자계좌의 경우 "00"(전체 조회)만 가능 |
-| `OVRS_EXCG_CD` | 해외거래소코드 | String | 4 | Y | 전종목일 경우 "%" 입력 NASD : 미국시장 전체(나스닥, 뉴욕, 아멕스) NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩  SHAA : 중국상해 SZAA : 중국... |
+| `OVRS_EXCG_CD` | 해외거래소코드 | String | 4 | Y | 전종목일 경우 "%" 입력 NASD : 미국시장 전체(나스닥, 뉴욕, 아멕스) NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩  SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민 ※ 모의투자계좌의 경우 ""(전체 조회)만 가능 |
 | `SORT_SQN` | 정렬순서 | String | 2 | Y | DS : 정순 AS : 역순  ※ 모의투자계좌의 경우 정렬순서 사용불가(Default : DS(정순)) |
 | `ORD_DT` | 주문일자 | String | 8 | Y | "" (Null 값 설정) |
 | `ORD_GNO_BRNO` | 주문채번지점번호 | String | 5 | Y | "" (Null 값 설정) |
@@ -145,11 +145,11 @@ https://securities.koreainvestment.com/main/bond/research/_static/TF03ca010001.j
 | `tr_mket_name` | 거래시장명 | String | 60 | Y |  |
 | `tr_natn` | 거래국가 | String | 3 | Y |  |
 | `tr_natn_name` | 거래국가명 | String | 3 | Y |  |
-| `ovrs_excg_cd` | 해외거래소코드 | String | 4 | Y | NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩  SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE ... |
+| `ovrs_excg_cd` | 해외거래소코드 | String | 4 | Y | NASD : 나스닥 NYSE : 뉴욕 AMEX : 아멕스 SEHK : 홍콩  SHAA : 중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민 |
 | `tr_crcy_cd` | 거래통화코드 | String | 60 | Y |  |
 | `dmst_ord_dt` | 국내주문일자 | String | 8 | Y |  |
 | `thco_ord_tmd` | 당사주문시각 | String | 6 | Y |  |
-| `loan_type_cd` | 대출유형코드 | String | 2 | Y | 00 : 해당사항없음 01 : 자기융자일반형 03 : 자기융자투자형 05 : 유통융자일반형 06 : 유통융자투자형 07 : 자기대주 09 : 유통대주 10 : 현금 11 : ... |
+| `loan_type_cd` | 대출유형코드 | String | 2 | Y | 00 : 해당사항없음 01 : 자기융자일반형 03 : 자기융자투자형 05 : 유통융자일반형 06 : 유통융자투자형 07 : 자기대주 09 : 유통대주 10 : 현금 11 : 주식담보대출 12 : 수익증권담보대출 13 : ELS담보대출 14 : 채권담보대출 15 : 해외주식담보대출 16 : 기업신용공여 31 : 소액자동담보대출 41 : 매도담보대출 42 : 환매자금대출 43 : 매입환매자금대출 44 : 대여매도담보대출 81 : 대차거래 82 : 법인CMA론 91 : 공모주청약자금대출 92 : 매입자금 93 : 미수론서비스 94 : 대여 |
 | `loan_dt` | 대출일자 | String | 8 | Y |  |
 | `mdia_dvsn_name` | 매체구분명 | String | 60 | Y | ex) OpenAPI, 모바일 |
 | `usa_amk_exts_rqst_yn` | 미국애프터마켓연장신청여부 | String | 1 | Y | Y/N |

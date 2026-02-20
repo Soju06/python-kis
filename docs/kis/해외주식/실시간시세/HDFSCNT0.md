@@ -43,8 +43,8 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2022-09-05
-- **최종 수정일**: 2025-07-29
+- **생성일**: 2022-09-05T10:06:23+09:00
+- **최종 수정일**: 2025-07-29T18:26:08+09:00
 
 ## 요청
 
@@ -62,7 +62,7 @@ https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `tr_id` | 거래ID | String | 7 | Y | HDFSCNT0 |
-| `tr_key` | D거래소명종목코드 | String | 6 | Y | D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : ... |
+| `tr_key` | D거래소명종목코드 | String | 6 | Y | D+시장구분(3자리)+종목코드 예) DNASAAPL : D+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이   ※ 유료시세 신청시에만 유료시세 수신가능 "포럼 > FAQ > 해외주식 유료시세 신청방법" 참고 R+시장구분(3자리)+종목코드 예) RNASAAPL : R+NAS(나스닥)+AAPL(애플) [시장구분] NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 , TSE : 도쿄, HKS : 홍콩, SHS : 상해, SZS : 심천 HSX : 호치민, HNX : 하노이   R+시장구분(3자리)+종목코드 예) RBAQAAPL : R+BAQ(나스닥)+AAPL(애플) [시장구분] BAY : 뉴욕(주간), BAQ : 나스닥(주간). BAA : 아멕스(주간) |
 
 ## 응답
 

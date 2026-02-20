@@ -33,15 +33,15 @@ class InquireElwPriceRequestDict(TypedDict):
 
 
 class InquireElwPriceOutput1(RawModel):
-    elw_shrn_iscd: Annotated[str | None, "ELW 단축 종목코드"] = Field(default=None, alias="elw_shrn_iscd")
-    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
+    elw_shrn_iscd: Annotated[str, "ELW 단축 종목코드"] = Field(alias="elw_shrn_iscd")
+    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
     elw_prpr: Annotated[Decimal, "ELW 현재가"] = Field(alias="elw_prpr")
     prdy_vrss: Annotated[int, "전일 대비"] = Field(alias="prdy_vrss")
-    prdy_vrss_sign: Annotated[str | None, "전일 대비 부호"] = Field(default=None, alias="prdy_vrss_sign")
+    prdy_vrss_sign: Annotated[int, "전일 대비 부호"] = Field(alias="prdy_vrss_sign")
     prdy_ctrt: Annotated[Decimal, "전일 대비율"] = Field(alias="prdy_ctrt")
     acml_vol: Annotated[int, "누적 거래량"] = Field(alias="acml_vol")
     prdy_vrss_vol_rate: Annotated[Decimal, "전일 대비 거래량 비율"] = Field(alias="prdy_vrss_vol_rate")
-    unas_shrn_iscd: Annotated[str | None, "기초자산 단축 종목코드"] = Field(default=None, alias="unas_shrn_iscd")
+    unas_shrn_iscd: Annotated[str, "기초자산 단축 종목코드"] = Field(alias="unas_shrn_iscd")
     unas_isnm: Annotated[str, "기초자산 종목명"] = Field(alias="unas_isnm")
     unas_prpr: Annotated[Decimal, "기초자산 현재가"] = Field(alias="unas_prpr")
     unas_prdy_vrss: Annotated[Decimal, "기초자산 전일 대비"] = Field(alias="unas_prdy_vrss")

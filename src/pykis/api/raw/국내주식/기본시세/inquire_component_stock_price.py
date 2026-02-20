@@ -14,6 +14,9 @@ if TYPE_CHECKING:
 
 
 class InquireComponentStockPriceRequest(RawModel):
+    FID_COND_MRKT_DIV_CODE_1: Annotated[str, "시장구분코드 (J)"] = Field(alias="FID_COND_MRKT_DIV_CODE_1")
+    FID_INPUT_ISCD_1: Annotated[str, "종목코드"] = Field(alias="FID_INPUT_ISCD_1")
+    FID_COND_SCR_DIV_CODE_1: Annotated[str, "Unique key( 11216 )"] = Field(alias="FID_COND_SCR_DIV_CODE_1")
     FID_COND_MRKT_DIV_CODE: Annotated[str, "시장구분코드 (J)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
     FID_INPUT_ISCD: Annotated[str, "종목코드"] = Field(alias="FID_INPUT_ISCD")
     FID_COND_SCR_DIV_CODE: Annotated[str, "Unique key( 11216 )"] = Field(alias="FID_COND_SCR_DIV_CODE")
@@ -26,11 +29,17 @@ class InquireComponentStockPriceRequestDict(TypedDict):
     해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
 
     Request fields:
+        FID_COND_MRKT_DIV_CODE_1 (str): 시장구분코드 (J)
+        FID_INPUT_ISCD_1 (str): 종목코드
+        FID_COND_SCR_DIV_CODE_1 (str): Unique key( 11216 )
         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (J)
         FID_INPUT_ISCD (str): 종목코드
         FID_COND_SCR_DIV_CODE (str): Unique key( 11216 )
     """
 
+    FID_COND_MRKT_DIV_CODE_1: str
+    FID_INPUT_ISCD_1: str
+    FID_COND_SCR_DIV_CODE_1: str
     FID_COND_MRKT_DIV_CODE: str
     FID_INPUT_ISCD: str
     FID_COND_SCR_DIV_CODE: str
@@ -134,6 +143,9 @@ if TYPE_CHECKING:
                 **kwargs (InquireComponentStockPriceRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
+                        FID_COND_MRKT_DIV_CODE_1 (str): 시장구분코드 (J)
+                        FID_INPUT_ISCD_1 (str): 종목코드
+                        FID_COND_SCR_DIV_CODE_1 (str): Unique key( 11216 )
                         FID_COND_MRKT_DIV_CODE (str): 시장구분코드 (J)
                         FID_INPUT_ISCD (str): 종목코드
                         FID_COND_SCR_DIV_CODE (str): Unique key( 11216 )

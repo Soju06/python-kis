@@ -25,8 +25,8 @@
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2024-02-23
-- **최종 수정일**: 2025-05-14
+- **생성일**: 2024-02-23T09:51:23+09:00
+- **최종 수정일**: 2025-05-14T14:30:04+09:00
 
 ## 요청
 
@@ -35,7 +35,7 @@
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -52,8 +52,8 @@
 
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
-| `fid_input_iscd` | 시장구분 | String | 12 | Y | 코스피: KSP, 코스닥:KSQ, 선물,콜옵션,풋옵션 : K2I, 주식선물:999, ETF: ETF, ELW:ELW, ETN: ETN,  미니: MKI, 위클리월 : WKM,... |
-| `fid_input_iscd_2` | 업종구분 | String | 8 | Y | - fid_input_iscd: KSP(코스피) 혹은 KSQ(코스닥)인 경우 코스피(0001_종합, .…0027_제조업 ) 코스닥(1001_종합, …. 1041_IT부품) .... |
+| `fid_input_iscd` | 시장구분 | String | 12 | Y | 코스피: KSP, 코스닥:KSQ, 선물,콜옵션,풋옵션 : K2I, 주식선물:999, ETF: ETF, ELW:ELW, ETN: ETN,  미니: MKI, 위클리월 : WKM, 위클리목: WKI 코스닥150: KQI |
+| `fid_input_iscd_2` | 업종구분 | String | 8 | Y | - fid_input_iscd: KSP(코스피) 혹은 KSQ(코스닥)인 경우 코스피(0001_종합, .…0027_제조업 ) 코스닥(1001_종합, …. 1041_IT부품) ... 포탈 (FAQ : 종목정보 다운로드(국내) - 업종코드 참조)  - fid_input_iscd가 K2I인 경우 F001(선물) OC01(콜옵션) OP01(풋옵션)  - fid_input_iscd가 999인 경우 S001(주식선물)  - fid_input_iscd가 ETF인 경우 T000(ETF)  - fid_input_iscd가 ELW인 경우 W000(ELW)  - fid_input_iscd가 ETN인 경우 E199(ETN)  - fid_input_iscd가 MKI인 경우 F004(미니선물) OC02(미니콜옵션) OP02(미니풋옵션)  - fid_input_iscd가 WKM인 경우 OC05(위클리콜(월)) OP05(위클리풋(월))  - fid_input_iscd가 WKI인 경우 OC04(위클리콜(목)) OP04(위클리풋(목))     - fid_input_iscd가 KQI인 경우 F002(코스닥150선물) OC03(코스닥150콜옵션) OP03(코스닥150풋옵션) |
 
 ### 요청 예시
 

@@ -26,8 +26,8 @@ ELW 종목검색 API입니다.
 - **제공 기관**: 한국투자증권
 - **과금 정책**: 무과금
 - **상태**: RUNNING
-- **생성일**: 2024-05-17
-- **최종 수정일**: 2025-05-07
+- **생성일**: 2024-05-17T10:22:52+09:00
+- **최종 수정일**: 2025-05-07T09:38:23+09:00
 
 ## 요청
 
@@ -36,7 +36,7 @@ ELW 종목검색 API입니다.
 | 필드명 | 한글명 | 타입 | 길이 | 필수 | 설명 |
 |--------|--------|------|------|------|------|
 | `content-type` | 컨텐츠타입 | String | 40 | Y | application/json; charset=utf-8 |
-| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials G... |
+| `authorization` | 접근토큰 | String | 350 | Y | OAuth 토큰이 필요한 API 경우 발급한 Access token  일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를 준용)  법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용) |
 | `appkey` | 앱키 | String | 36 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `appsecret` | 앱시크릿키 | String | 180 | Y | 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.) |
 | `personalseckey` | 고객식별키 | String | 180 | N | [법인 필수] 제휴사 회원 관리를 위한 고객식별키 |
@@ -61,7 +61,7 @@ ELW 종목검색 API입니다.
 | `FID_INPUT_CNT_2` | 입력수2 | String | 12 | Y | 정렬2기준 - 상위(1)하위(2) |
 | `FID_RANK_SORT_CLS_CODE_3` | 순위정렬구분코드3 | String | 2 | Y | 정렬3 |
 | `FID_INPUT_CNT_3` | 입력수3 | String | 12 | Y | 정렬3기준 - 상위(1)하위(2) |
-| `FID_TRGT_CLS_CODE` | 대상구분코드 | String | 32 | Y | 0:발행회사종목코드,1:기초자산종목코드,2:FID시장구분코드,3:FID입력날짜1(상장일), 4:FID입력날짜2(만기일),5:LP회원사종목코드,6:행사가기초자산비교>=(1) <... |
+| `FID_TRGT_CLS_CODE` | 대상구분코드 | String | 32 | Y | 0:발행회사종목코드,1:기초자산종목코드,2:FID시장구분코드,3:FID입력날짜1(상장일), 4:FID입력날짜2(만기일),5:LP회원사종목코드,6:행사가기초자산비교>=(1) <=(2),  7:잔존일 이상 이하, 8:현재가, 9:전일대비율, 10:거래량, 11:최종거래일, 12:레버리지 |
 | `FID_INPUT_ISCD` | 입력종목코드 | String | 12 | Y | 발행사종목코드전체(00000) |
 | `FID_UNAS_INPUT_ISCD` | 기초자산입력종목코드 | String | 12 | Y |  |
 | `FID_MRKT_CLS_CODE` | 시장구분코드 | String | 2 | Y | 권리유형전체(A)콜(CO)풋(PO) |

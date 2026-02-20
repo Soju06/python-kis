@@ -8,13 +8,24 @@ from pydantic import Field
 
 from pykis.api.raw.base import KisBool, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
+from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
+class FidCondMrktDivCodeEnum(KisStrEnum):
+    KRX = ("KRX", "J")
+    """J"""
+    NXT = ("NXT", "NX, 통합 : UN")
+    """NX, 통합 : UN"""
+    J = ("J", "")
+
+
 class ProgramTradeByStockRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: Annotated[str, "KRX : J , NXT : NX, 통합 : UN"] = Field(alias="FID_COND_MRKT_DIV_CODE")
+    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "KRX : J , NXT : NX, 통합 : UN"] = Field(
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["KRX", "NXT", "J"], "enum_desc": {"KRX": "J", "NXT": "NX, 통합 : UN"}}
+    )
     FID_INPUT_ISCD: Annotated[str, "종목코드"] = Field(alias="FID_INPUT_ISCD")
 
 
@@ -27,11 +38,11 @@ class ProgramTradeByStockRequestDict(TypedDict):
     이해하기 쉽습니다.
 
     Request fields:
-        FID_COND_MRKT_DIV_CODE (str): KRX : J , NXT : NX, 통합 : UN
+        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): KRX : J , NXT : NX, 통합 : UN
         FID_INPUT_ISCD (str): 종목코드
     """
 
-    FID_COND_MRKT_DIV_CODE: str
+    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
     FID_INPUT_ISCD: str
 
 
@@ -116,7 +127,7 @@ if TYPE_CHECKING:
                 **kwargs (ProgramTradeByStockRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_COND_MRKT_DIV_CODE (str): KRX : J , NXT : NX, 통합 : UN
+                        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): KRX : J , NXT : NX, 통합 : UN
                         FID_INPUT_ISCD (str): 종목코드
 
             Returns:
@@ -128,4 +139,11 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "ProgramTradeByStockRequest", "ProgramTradeByStockRequestDict", "ProgramTradeByStockResponse", "ProgramTradeByStockOutput"]
+__all__ = [
+    "ENDPOINT",
+    "ProgramTradeByStockRequest",
+    "ProgramTradeByStockRequestDict",
+    "ProgramTradeByStockResponse",
+    "ProgramTradeByStockOutput",
+    "FidCondMrktDivCodeEnum",
+]

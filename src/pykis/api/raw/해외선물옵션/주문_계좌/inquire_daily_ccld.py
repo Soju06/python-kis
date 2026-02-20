@@ -108,6 +108,7 @@ class InquireDailyCcldRequest(RawModel):
 class InquireDailyCcldRequestDict(TypedDict):
     """
     해외선물옵션 일별 체결내역 API입니다.
+    거래소 체결 내역에 따라 , output1에 동일한 주문번호의 데이터들이 수신될 수 있습니다.
 
     Request fields:
         CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
@@ -178,7 +179,7 @@ _ENDPOINT: Endpoint[InquireDailyCcldRequest, InquireDailyCcldResponse] = Endpoin
     path="/uapi/overseas-futureoption/v1/trading/inquire-daily-ccld",
     request_model=InquireDailyCcldRequest,
     response_model=InquireDailyCcldResponse,
-    description=("해외선물옵션 일별 체결내역 API입니다."),
+    description=("해외선물옵션 일별 체결내역 API입니다.\\n거래소 체결 내역에 따라 , output1에 동일한 주문번호의 데이터들이 수신될 수 있습니다."),
     real_tr_id="OTFM3122R",
     demo_tr_id=None,
     auth_required=True,
@@ -210,6 +211,7 @@ if TYPE_CHECKING:
         ) -> tuple[InquireDailyCcldResponse, KisResponse]:
             """
             해외선물옵션 일별 체결내역 API입니다.
+            거래소 체결 내역에 따라 , output1에 동일한 주문번호의 데이터들이 수신될 수 있습니다.
 
             Args:
                 client (SyncKisRawClient): API client.

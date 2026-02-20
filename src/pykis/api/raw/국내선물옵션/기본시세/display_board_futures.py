@@ -86,7 +86,7 @@ class DisplayBoardFuturesResponse(RawModel):
     rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
     msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
     msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
-    output1: Annotated[list[DisplayBoardFuturesOutput1], "응답상세"] = Field(alias="output1")
+    output1: Annotated[list[DisplayBoardFuturesOutput1], "응답상세"] = Field(alias="output")
 
 
 _ENDPOINT: Endpoint[DisplayBoardFuturesRequest, DisplayBoardFuturesResponse] = Endpoint(

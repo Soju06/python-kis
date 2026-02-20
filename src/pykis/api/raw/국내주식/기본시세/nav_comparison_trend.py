@@ -64,7 +64,7 @@ class NavComparisonTrendResponse(RawModel):
     msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
     msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
     output1: Annotated[NavComparisonTrendOutput1, "응답상세"] = Field(alias="output1")
-    output2: Annotated[list[NavComparisonTrendOutput2], "응답상세"] = Field(alias="output2")
+    output2: Annotated[NavComparisonTrendOutput2, "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[NavComparisonTrendRequest, NavComparisonTrendResponse] = Endpoint(

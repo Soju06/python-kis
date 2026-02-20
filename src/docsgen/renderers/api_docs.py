@@ -88,9 +88,6 @@ def generate_property_table(properties: list[ApiProperty], title: str) -> str:
         desc = html_to_text(prop.description)
         # Escape pipe characters in description
         desc = desc.replace("|", "\\|").replace("\n", " ")
-        # Truncate long descriptions
-        if len(desc) > 100:
-            desc = desc[:97] + "..."
 
         rows.append(
             {
@@ -142,11 +139,9 @@ def generate_markdown(api: ApiDetail, section: Section) -> str:
     if api.status:
         metadata_items.append({"label": "상태", "value": api.status})
     if api.created_date:
-        date_str = api.created_date[:10] if len(api.created_date) >= 10 else api.created_date
-        metadata_items.append({"label": "생성일", "value": date_str})
+        metadata_items.append({"label": "생성일", "value": api.created_date})
     if api.last_modified_date:
-        date_str = api.last_modified_date[:10] if len(api.last_modified_date) >= 10 else api.last_modified_date
-        metadata_items.append({"label": "최종 수정일", "value": date_str})
+        metadata_items.append({"label": "최종 수정일", "value": api.last_modified_date})
 
     real_tr_id = _normalize_tr_id(api.real_tr_id)
     demo_tr_id = _normalize_tr_id(api.demo_tr_id)

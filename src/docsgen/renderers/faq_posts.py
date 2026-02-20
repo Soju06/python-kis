@@ -123,14 +123,16 @@ def html_to_markdown(html: str) -> str:
                 return ""
             header = rendered_rows[0]
             body = rendered_rows[1:] or []
+            column_count = max(len(row) for row in rendered_rows)
+            if len(header) < column_count:
+                header = header + [""] * (column_count - len(header))
             lines = []
             lines.append("| " + " | ".join(header) + " |")
-            lines.append("| " + " | ".join(["---"] * len(header)) + " |")
+            lines.append("| " + " | ".join(["---"] * column_count) + " |")
             for r in body:
-                # pad/truncate to header length
-                if len(r) < len(header):
-                    r = r + [""] * (len(header) - len(r))
-                lines.append("| " + " | ".join(r[: len(header)]) + " |")
+                if len(r) < column_count:
+                    r = r + [""] * (column_count - len(r))
+                lines.append("| " + " | ".join(r) + " |")
             return "\n".join(lines) + "\n\n"
 
         # Default: inline container

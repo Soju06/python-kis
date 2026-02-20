@@ -109,19 +109,21 @@ class OvertimeExpTransFluctRequestDict(TypedDict):
 
 
 class OvertimeExpTransFluctOutput(RawModel):
-    data_rank: Annotated[int, "데이터 순위"] = Field(alias="data_rank")
-    iscd_stat_cls_code: Annotated[str, "종목 상태 구분 코드"] = Field(alias="iscd_stat_cls_code")
-    stck_shrn_iscd: Annotated[str, "주식 단축 종목코드"] = Field(alias="stck_shrn_iscd")
-    hts_kor_isnm: Annotated[str, "HTS 한글 종목명"] = Field(alias="hts_kor_isnm")
-    ovtm_untp_antc_cnpr: Annotated[Decimal, "시간외 단일가 예상 체결가"] = Field(alias="ovtm_untp_antc_cnpr")
-    ovtm_untp_antc_cntg_vrss: Annotated[Decimal, "시간외 단일가 예상 체결 대비"] = Field(alias="ovtm_untp_antc_cntg_vrss")
-    ovtm_untp_antc_cntg_vrsssign: Annotated[Decimal, "시간외 단일가 예상 체결 대비"] = Field(alias="ovtm_untp_antc_cntg_vrsssign")
-    ovtm_untp_antc_cntg_ctrt: Annotated[Decimal, "시간외 단일가 예상 체결 대비율"] = Field(alias="ovtm_untp_antc_cntg_ctrt")
-    ovtm_untp_askp_rsqn1: Annotated[Decimal, "시간외 단일가 매도호가 잔량1"] = Field(alias="ovtm_untp_askp_rsqn1")
-    ovtm_untp_bidp_rsqn1: Annotated[str, "시간외 단일가 매수호가 잔량1"] = Field(alias="ovtm_untp_bidp_rsqn1")
-    ovtm_untp_antc_cnqn: Annotated[Decimal, "시간외 단일가 예상 체결량"] = Field(alias="ovtm_untp_antc_cnqn")
-    itmt_vol: Annotated[int, "장중 거래량"] = Field(alias="itmt_vol")
-    stck_prpr: Annotated[Decimal, "주식 현재가"] = Field(alias="stck_prpr")
+    data_rank: Annotated[str | None, "데이터 순위"] = Field(default=None, alias="data_rank")
+    iscd_stat_cls_code: Annotated[str | None, "종목 상태 구분 코드"] = Field(default=None, alias="iscd_stat_cls_code")
+    stck_shrn_iscd: Annotated[str | None, "주식 단축 종목코드"] = Field(default=None, alias="stck_shrn_iscd")
+    hts_kor_isnm: Annotated[str | None, "HTS 한글 종목명"] = Field(default=None, alias="hts_kor_isnm")
+    ovtm_untp_antc_cnpr: Annotated[Decimal | None, "시간외 단일가 예상 체결가"] = Field(default=None, alias="ovtm_untp_antc_cnpr")
+    ovtm_untp_antc_cntg_vrss: Annotated[Decimal | None, "시간외 단일가 예상 체결 대비"] = Field(default=None, alias="ovtm_untp_antc_cntg_vrss")
+    ovtm_untp_antc_cntg_vrsssign: Annotated[Decimal | None, "시간외 단일가 예상 체결 대비"] = Field(
+        default=None, alias="ovtm_untp_antc_cntg_vrsssign"
+    )
+    ovtm_untp_antc_cntg_ctrt: Annotated[Decimal | None, "시간외 단일가 예상 체결 대비율"] = Field(default=None, alias="ovtm_untp_antc_cntg_ctrt")
+    ovtm_untp_askp_rsqn1: Annotated[Decimal | None, "시간외 단일가 매도호가 잔량1"] = Field(default=None, alias="ovtm_untp_askp_rsqn1")
+    ovtm_untp_bidp_rsqn1: Annotated[str | None, "시간외 단일가 매수호가 잔량1"] = Field(default=None, alias="ovtm_untp_bidp_rsqn1")
+    ovtm_untp_antc_cnqn: Annotated[Decimal | None, "시간외 단일가 예상 체결량"] = Field(default=None, alias="ovtm_untp_antc_cnqn")
+    itmt_vol: Annotated[int | None, "장중 거래량"] = Field(default=None, alias="itmt_vol")
+    stck_prpr: Annotated[Decimal | None, "주식 현재가"] = Field(default=None, alias="stck_prpr")
 
 
 class OvertimeExpTransFluctResponse(RawModel):

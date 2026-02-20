@@ -23,6 +23,85 @@ class FidCondMrktDivCodeEnum(KisStrEnum):
     """통합"""
 
 
+class NewMkopClsCodeEnum(KisStrEnum):
+    VALUE_00 = ("00", "장전 예상체결가와 장마감 동시호가")
+    """장전 예상체결가와 장마감 동시호가"""
+    VALUE_49 = ("49", "장후 예상체결가")
+    """장후 예상체결가"""
+    VALUE_10 = ("10", "장개시전 / 보통")
+    """장개시전 / 보통"""
+    VALUE_11 = ("11", "장개시전 / 종가")
+    """장개시전 / 종가"""
+    VALUE_12 = ("12", "장개시전 / 대량")
+    """장개시전 / 대량"""
+    VALUE_13 = ("13", "장개시전 / 바스켓")
+    """장개시전 / 바스켓"""
+    VALUE_17 = ("17", "장개시전 / 정리매매")
+    """장개시전 / 정리매매"""
+    VALUE_18 = ("18", "장개시전 / Buy-in'")
+    """장개시전 / Buy-in'"""
+    VALUE_20 = ("20", "장중 / 보통")
+    """장중 / 보통"""
+    VALUE_21 = ("21", "장중 / 종가")
+    """장중 / 종가"""
+    VALUE_22 = ("22", "장중 / 대량")
+    """장중 / 대량"""
+    VALUE_23 = ("23", "장중 / 바스켓")
+    """장중 / 바스켓"""
+    VALUE_27 = ("27", "장중 / 정리매매")
+    """장중 / 정리매매"""
+    VALUE_28 = ("28", "장중 / Buy-in'")
+    """장중 / Buy-in'"""
+    VALUE_30 = ("30", "장종료후 / 보통")
+    """장종료후 / 보통"""
+    VALUE_31 = ("31", "장종료후 / 종가")
+    """장종료후 / 종가"""
+    VALUE_32 = ("32", "장종료후 / 대량")
+    """장종료후 / 대량"""
+    VALUE_33 = ("33", "장종료후 / 바스켓")
+    """장종료후 / 바스켓"""
+    VALUE_37 = ("37", "장종료후 / 정리매매")
+    """장종료후 / 정리매매"""
+    VALUE_38 = ("38", "장종료후 / Buy-in'")
+    """장종료후 / Buy-in'"""
+    VALUE_40 = ("40", "시간외단일가 / 보통")
+    """시간외단일가 / 보통"""
+    VALUE_41 = ("41", "시간외단일가 / 종가")
+    """시간외단일가 / 종가"""
+    VALUE_42 = ("42", "시간외단일가 / 대량")
+    """시간외단일가 / 대량"""
+    VALUE_43 = ("43", "시간외단일가 / 바스켓")
+    """시간외단일가 / 바스켓"""
+    VALUE_47 = ("47", "시간외단일가 / 정리매매")
+    """시간외단일가 / 정리매매"""
+    VALUE_48 = ("48", "시간외단일가 / Buy-in'")
+    """시간외단일가 / Buy-in'"""
+    VALUE_70 = ("70", "일반Buy-in / 보통")
+    """일반Buy-in / 보통"""
+    VALUE_71 = ("71", "일반Buy-in / 종가")
+    """일반Buy-in / 종가"""
+    VALUE_72 = ("72", "일반Buy-in / 대량")
+    """일반Buy-in / 대량"""
+    VALUE_73 = ("73", "일반Buy-in / 바스켓")
+    """일반Buy-in / 바스켓"""
+    VALUE_77 = ("77", "일반Buy-in / 정리매매")
+    """일반Buy-in / 정리매매"""
+    VALUE_78 = ("78", "일반Buy-in / Buy-in'")
+    """일반Buy-in / Buy-in'"""
+    VALUE_80 = ("80", "당일Buy-in / 보통")
+    """당일Buy-in / 보통"""
+    VALUE_81 = ("81", "당일Buy-in / 종가")
+    """당일Buy-in / 종가"""
+    VALUE_82 = ("82", "당일Buy-in / 대량")
+    """당일Buy-in / 대량"""
+    VALUE_83 = ("83", "당일Buy-in / 바스켓")
+    """당일Buy-in / 바스켓"""
+    VALUE_87 = ("87", "당일Buy-in / 정리매매")
+    """당일Buy-in / 정리매매"""
+    VALUE_88 = ("88", "당일Buy-in / Buy-in'")
+    """당일Buy-in / Buy-in'"""
+
+
 class InquireAskingPriceExpCcnRequest(RawModel):
     FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "J:KRX, NX:NXT, UN:통합"] = Field(
         alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["J", "NX", "UN"], "enum_desc": {"J": "KRX", "NX": "NXT", "UN": "통합"}}
@@ -117,12 +196,96 @@ class InquireAskingPriceExpCcnOutput1(RawModel):
     ovtm_total_bidp_rsqn: Annotated[str, "시간외 총 매수호가 잔량"] = Field(alias="ovtm_total_bidp_rsqn")
     ntby_aspr_rsqn: Annotated[int, "순매수 호가 잔량"] = Field(alias="ntby_aspr_rsqn")
     new_mkop_cls_code: Annotated[
-        str,
+        NewMkopClsCodeEnum,
         (
             "' '00' : 장전 예상체결가와 장마감 동시호가 '49' : 장후 예상체결가 (1) 첫 번째 비트 1 : 장개시전 2 : 장중 3 : 장종료후 4 : 시간외단일가 7"
             " : 일반Buy-in 8 : 당일Buy-in (2) 두 번째 비트 0 : 보통 1 : 종가 2 : 대량 3 : 바스켓 7 : 정리매매 8 : Buy-in'"
         ),
-    ] = Field(alias="new_mkop_cls_code")
+    ] = Field(
+        alias="new_mkop_cls_code",
+        json_schema_extra={
+            "enum": [
+                "00",
+                "49",
+                "10",
+                "11",
+                "12",
+                "13",
+                "17",
+                "18",
+                "20",
+                "21",
+                "22",
+                "23",
+                "27",
+                "28",
+                "30",
+                "31",
+                "32",
+                "33",
+                "37",
+                "38",
+                "40",
+                "41",
+                "42",
+                "43",
+                "47",
+                "48",
+                "70",
+                "71",
+                "72",
+                "73",
+                "77",
+                "78",
+                "80",
+                "81",
+                "82",
+                "83",
+                "87",
+                "88",
+            ],
+            "enum_desc": {
+                "00": "장전 예상체결가와 장마감 동시호가",
+                "49": "장후 예상체결가",
+                "10": "장개시전 / 보통",
+                "11": "장개시전 / 종가",
+                "12": "장개시전 / 대량",
+                "13": "장개시전 / 바스켓",
+                "17": "장개시전 / 정리매매",
+                "18": "장개시전 / Buy-in'",
+                "20": "장중 / 보통",
+                "21": "장중 / 종가",
+                "22": "장중 / 대량",
+                "23": "장중 / 바스켓",
+                "27": "장중 / 정리매매",
+                "28": "장중 / Buy-in'",
+                "30": "장종료후 / 보통",
+                "31": "장종료후 / 종가",
+                "32": "장종료후 / 대량",
+                "33": "장종료후 / 바스켓",
+                "37": "장종료후 / 정리매매",
+                "38": "장종료후 / Buy-in'",
+                "40": "시간외단일가 / 보통",
+                "41": "시간외단일가 / 종가",
+                "42": "시간외단일가 / 대량",
+                "43": "시간외단일가 / 바스켓",
+                "47": "시간외단일가 / 정리매매",
+                "48": "시간외단일가 / Buy-in'",
+                "70": "일반Buy-in / 보통",
+                "71": "일반Buy-in / 종가",
+                "72": "일반Buy-in / 대량",
+                "73": "일반Buy-in / 바스켓",
+                "77": "일반Buy-in / 정리매매",
+                "78": "일반Buy-in / Buy-in'",
+                "80": "당일Buy-in / 보통",
+                "81": "당일Buy-in / 종가",
+                "82": "당일Buy-in / 대량",
+                "83": "당일Buy-in / 바스켓",
+                "87": "당일Buy-in / 정리매매",
+                "88": "당일Buy-in / Buy-in'",
+            },
+        },
+    )
 
 
 class InquireAskingPriceExpCcnOutput2(RawModel):
@@ -146,7 +309,7 @@ class InquireAskingPriceExpCcnResponse(RawModel):
     msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
     msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
     output1: Annotated[InquireAskingPriceExpCcnOutput1, "응답상세"] = Field(alias="output1")
-    output2: Annotated[list[InquireAskingPriceExpCcnOutput2], "응답상세"] = Field(alias="output2")
+    output2: Annotated[InquireAskingPriceExpCcnOutput2, "응답상세"] = Field(alias="output2")
 
 
 _ENDPOINT: Endpoint[InquireAskingPriceExpCcnRequest, InquireAskingPriceExpCcnResponse] = Endpoint(
@@ -222,4 +385,5 @@ __all__ = [
     "InquireAskingPriceExpCcnOutput1",
     "InquireAskingPriceExpCcnOutput2",
     "FidCondMrktDivCodeEnum",
+    "NewMkopClsCodeEnum",
 ]
