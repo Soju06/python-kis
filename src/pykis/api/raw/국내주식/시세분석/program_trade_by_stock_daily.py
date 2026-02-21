@@ -15,16 +15,17 @@ if TYPE_CHECKING:
 
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
-    KRX = ("KRX", "J")
-    """J"""
-    NXT = ("NXT", "NX, 통합 : UN")
-    """NX, 통합 : UN"""
-    J = ("J", "")
+    J = ("J", "KRX")
+    """KRX"""
+    NX = ("NX", "NXT")
+    """NXT"""
+    UN = ("UN", "통합")
+    """통합"""
 
 
 class ProgramTradeByStockDailyRequest(RawModel):
     FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "KRX : J , NXT : NX, 통합 : UN"] = Field(
-        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["KRX", "NXT", "J"], "enum_desc": {"KRX": "J", "NXT": "NX, 통합 : UN"}}
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["J", "NX", "UN"], "enum_desc": {"J": "KRX", "NX": "NXT", "UN": "통합"}}
     )
     FID_INPUT_ISCD: Annotated[str, "종목코드"] = Field(alias="FID_INPUT_ISCD")
     FID_INPUT_DATE_1: Annotated[str, "기준일 (ex 0020240308), 미입력시 당일부터 조회"] = Field(alias="FID_INPUT_DATE_1")

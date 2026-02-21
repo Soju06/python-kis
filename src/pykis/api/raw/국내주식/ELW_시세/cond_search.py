@@ -14,13 +14,6 @@ if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
 
 
-class FidCondMrktDivCodeEnum(KisStrEnum):
-    W = ("W", "ELW")
-    """ELW"""
-    ELW = ("ELW", "W")
-    """W"""
-
-
 class FidRankSortClsCodeEnum(KisStrEnum):
     VALUE_0 = ("0", "종목코드(")
     """종목코드("""
@@ -101,9 +94,7 @@ class FidDivClsCodeEnum(KisStrEnum):
 
 
 class CondSearchRequest(RawModel):
-    FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "ELW(W)"] = Field(
-        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["W", "ELW"], "enum_desc": {"W": "ELW", "ELW": "W"}}
-    )
+    FID_COND_MRKT_DIV_CODE: Annotated[str, "ELW(W)"] = Field(alias="FID_COND_MRKT_DIV_CODE")
     FID_COND_SCR_DIV_CODE: Annotated[str, "화면번호(11510)"] = Field(alias="FID_COND_SCR_DIV_CODE")
     FID_RANK_SORT_CLS_CODE: Annotated[
         FidRankSortClsCodeEnum,
@@ -223,7 +214,7 @@ class CondSearchRequestDict(TypedDict):
     한 번의 호출에 최대 100건까지 확인 가능합니다.
 
     Request fields:
-        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): ELW(W)
+        FID_COND_MRKT_DIV_CODE (str): ELW(W)
         FID_COND_SCR_DIV_CODE (str): 화면번호(11510)
         FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum):
         '정렬1정렬안함(0)종목코드(1)현재가(2)대비율(3)거래량(4)행사가격(5)
@@ -287,7 +278,7 @@ class CondSearchRequestDict(TypedDict):
         FID_THETA2 (str): MONEYNESS이하
     """
 
-    FID_COND_MRKT_DIV_CODE: FidCondMrktDivCodeEnum
+    FID_COND_MRKT_DIV_CODE: str
     FID_COND_SCR_DIV_CODE: str
     FID_RANK_SORT_CLS_CODE: FidRankSortClsCodeEnum
     FID_INPUT_CNT_1: str
@@ -454,7 +445,7 @@ if TYPE_CHECKING:
                 **kwargs (CondSearchRequestDict): 요청 파라미터 키워드 입력.
                 headers (Mapping[str, str] | None): 추가 헤더.
                     Request fields:
-                        FID_COND_MRKT_DIV_CODE (FidCondMrktDivCodeEnum): ELW(W)
+                        FID_COND_MRKT_DIV_CODE (str): ELW(W)
                         FID_COND_SCR_DIV_CODE (str): 화면번호(11510)
                         FID_RANK_SORT_CLS_CODE (FidRankSortClsCodeEnum):
                         '정렬1정렬안함(0)종목코드(1)현재가(2)대비율(3)거래량(4)행사가격(5)
@@ -535,7 +526,6 @@ __all__ = [
     "CondSearchRequestDict",
     "CondSearchResponse",
     "CondSearchOutput1",
-    "FidCondMrktDivCodeEnum",
     "FidRankSortClsCodeEnum",
     "FidTrgtClsCodeEnum",
     "FidMrktClsCodeEnum",

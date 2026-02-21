@@ -11,31 +11,31 @@ from pykis.streaming.raw.specs import DateTimeRule, DecimalRule, FieldSource, Fi
 
 class HDFSCNT0(StreamingRawModel):
     RSYM: Annotated[str, "'각 항목사이에는 구분자로 ^ 사용,\n모든 데이터타입은 String으로 변환되어 push 처리됨'"]
-    SYMB: str
-    ZDIV: int
-    TYMD: datetime
-    XYMD: datetime
-    XHMS: datetime
-    KYMD: datetime
-    KHMS: datetime
-    OPEN: Decimal
-    HIGH: Decimal
-    LOW: Decimal
-    LAST: Decimal
-    SIGN: str
-    DIFF: Decimal
-    RATE: Decimal
-    PBID: Decimal
-    PASK: Decimal
-    VBID: Decimal
-    VASK: Decimal
-    EVOL: Decimal
-    TVOL: Decimal
-    TAMT: Decimal
+    SYMB: Annotated[str, "종목코드"]
+    ZDIV: Annotated[int, "수수점자리수"]
+    TYMD: Annotated[datetime, "현지영업일자"]
+    XYMD: Annotated[datetime, "현지일자"]
+    XHMS: Annotated[datetime, "현지시간"]
+    KYMD: Annotated[datetime, "한국일자"]
+    KHMS: Annotated[datetime, "한국시간"]
+    OPEN: Annotated[Decimal, "시가"]
+    HIGH: Annotated[Decimal, "고가"]
+    LOW: Annotated[Decimal, "저가"]
+    LAST: Annotated[Decimal, "현재가"]
+    SIGN: Annotated[str, "대비구분"]
+    DIFF: Annotated[Decimal, "전일대비"]
+    RATE: Annotated[Decimal, "등락율"]
+    PBID: Annotated[Decimal, "매수호가"]
+    PASK: Annotated[Decimal, "매도호가"]
+    VBID: Annotated[Decimal, "매수잔량"]
+    VASK: Annotated[Decimal, "매도잔량"]
+    EVOL: Annotated[Decimal, "체결량"]
+    TVOL: Annotated[Decimal, "거래량"]
+    TAMT: Annotated[Decimal, "거래대금"]
     BIVL: Annotated[Decimal, "매수호가가 매도주문 수량을 따라가서 체결된것을 표현하여 BIVL 이라는 표현을 사용"]
     ASVL: Annotated[Decimal, "매도호가가 매수주문 수량을 따라가서 체결된것을 표현하여 ASVL 이라는 표현을 사용"]
-    STRN: Decimal
-    MTYP: str
+    STRN: Annotated[Decimal, "체결강도"]
+    MTYP: Annotated[str, "시장구분 1:장중,2:장전,3:장후"]
 
 
 FIELD_ORDER = [

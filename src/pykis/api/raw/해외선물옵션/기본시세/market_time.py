@@ -51,8 +51,6 @@ class FmExcgCdEnum(KisStrEnum):
     """HNX("""
     HNX = ("HNX", "ETC(기타)'")
     """ETC(기타)'"""
-    HKEX = ("HKEx", "HKEx")
-    """HKEx"""
     ASX = ("ASX", "ASX")
     """ASX"""
     NYSE = ("NYSE", "NYSE")
@@ -83,7 +81,7 @@ class MarketTimeRequest(RawModel):
     ] = Field(
         alias="FM_EXCG_CD",
         json_schema_extra={
-            "enum": ["CME", "EUREX", "ICE", "SGX", "OSE", "CBOE", "MDEX", "BMF", "FTX", "HNX", "HKEx", "ASX", "NYSE", "ETC"],
+            "enum": ["CME", "EUREX", "ICE", "SGX", "OSE", "CBOE", "MDEX", "BMF", "FTX", "HNX", "ASX", "NYSE", "ETC"],
             "enum_desc": {
                 "CME": "EUREX(",
                 "EUREX": "HKEx(",
@@ -95,7 +93,6 @@ class MarketTimeRequest(RawModel):
                 "BMF": "FTX(",
                 "FTX": "HNX(",
                 "HNX": "ETC(기타)'",
-                "HKEx": "HKEx",
                 "ASX": "ASX",
                 "NYSE": "NYSE",
                 "ETC": "기타",

@@ -15,26 +15,26 @@ if TYPE_CHECKING:
 
 
 class PrdtTypeCdEnum(KisStrEnum):
-    VALUE_512 = ("512", "미국 나스닥")
-    """미국 나스닥"""
-    VALUE_513 = ("513", "미국 뉴욕")
-    """미국 뉴욕"""
+    VALUE_512 = ("512", "미국 나스닥 /")
+    """미국 나스닥 /"""
+    VALUE_513 = ("513", "미국 뉴욕 /")
+    """미국 뉴욕 /"""
     VALUE_529 = ("529", "미국 아멕스")
     """미국 아멕스"""
     VALUE_515 = ("515", "일본")
     """일본"""
-    VALUE_501 = ("501", "홍콩")
-    """홍콩"""
-    VALUE_543 = ("543", "홍콩CNY")
-    """홍콩CNY"""
+    VALUE_501 = ("501", "홍콩 /")
+    """홍콩 /"""
+    VALUE_543 = ("543", "홍콩CNY /")
+    """홍콩CNY /"""
     VALUE_558 = ("558", "홍콩USD")
     """홍콩USD"""
-    VALUE_507 = ("507", "베트남 하노이")
-    """베트남 하노이"""
+    VALUE_507 = ("507", "베트남 하노이 /")
+    """베트남 하노이 /"""
     VALUE_508 = ("508", "베트남 호치민")
     """베트남 호치민"""
-    VALUE_551 = ("551", "중국 상해A")
-    """중국 상해A"""
+    VALUE_551 = ("551", "중국 상해A /")
+    """중국 상해A /"""
     VALUE_552 = ("552", "중국 심천A")
     """중국 심천A"""
 
@@ -63,13 +63,9 @@ class OvrsStckTrStopDvsnCdEnum(KisStrEnum):
     """거래정지(위탁)"""
     VALUE_06 = ("06", "매수정지")
     """매수정지"""
-    ALL = ("ALL", "02.거래정지")
-    """02.거래정지"""
 
 
 class OvrsStckEtfRiskDrtpCdEnum(KisStrEnum):
-    MUTUAL = ("Mutual", "Fund")
-    """Fund"""
     VALUE_001 = ("001", "ETF")
     """ETF"""
     VALUE_002 = ("002", "ETN")
@@ -126,16 +122,16 @@ class SearchInfoRequest(RawModel):
         json_schema_extra={
             "enum": ["512", "513", "529", "515", "501", "543", "558", "507", "508", "551", "552"],
             "enum_desc": {
-                "512": "미국 나스닥",
-                "513": "미국 뉴욕",
+                "512": "미국 나스닥 /",
+                "513": "미국 뉴욕 /",
                 "529": "미국 아멕스",
                 "515": "일본",
-                "501": "홍콩",
-                "543": "홍콩CNY",
+                "501": "홍콩 /",
+                "543": "홍콩CNY /",
                 "558": "홍콩USD",
-                "507": "베트남 하노이",
+                "507": "베트남 하노이 /",
                 "508": "베트남 호치민",
-                "551": "중국 상해A",
+                "551": "중국 상해A /",
                 "552": "중국 심천A",
             },
         },
@@ -192,16 +188,8 @@ class SearchInfoOutput(RawModel):
     ] = Field(
         alias="ovrs_stck_tr_stop_dvsn_cd",
         json_schema_extra={
-            "enum": ["01", "02", "03", "04", "05", "06", "ALL"],
-            "enum_desc": {
-                "01": "정상",
-                "02": "거래정지(",
-                "03": "거래중단",
-                "04": "매도정지",
-                "05": "거래정지(위탁)",
-                "06": "매수정지",
-                "ALL": "02.거래정지",
-            },
+            "enum": ["01", "02", "03", "04", "05", "06"],
+            "enum_desc": {"01": "정상", "02": "거래정지(", "03": "거래중단", "04": "매도정지", "05": "거래정지(위탁)", "06": "매수정지"},
         },
     )
     lstg_abol_item_yn: Annotated[KisBool, "상장폐지종목여부"] = Field(alias="lstg_abol_item_yn")
@@ -222,9 +210,8 @@ class SearchInfoOutput(RawModel):
         default=None,
         alias="ovrs_stck_etf_risk_drtp_cd",
         json_schema_extra={
-            "enum": ["Mutual", "001", "002", "003", "004", "005", "006", "ETC"],
+            "enum": ["001", "002", "003", "004", "005", "006", "ETC"],
             "enum_desc": {
-                "Mutual": "Fund",
                 "001": "ETF",
                 "002": "ETN",
                 "003": "ETC(Exchage Traded Commodity)",

@@ -44,6 +44,11 @@ def _build_candidate(
     output: str | None,
     augment_dir: Path,
 ) -> EnumDriftCandidate | None:
+    decision = _as_object(field_trace.get("decision")) or {}
+    decision_kind = str(decision.get("kind") or "").strip().lower()
+    if decision_kind != "enum":
+        return None
+
     enum_info = _as_object(field_trace.get("enum"))
     if enum_info is None:
         return None
@@ -59,7 +64,6 @@ def _build_candidate(
     proposed_values = list(documented_values)
     _append_unique(proposed_values, unknown_values)
 
-    decision = _as_object(field_trace.get("decision")) or {}
     endpoint_dir = augment_dir / spec.id
     field_path = f"outputs.{output}.{field.code}" if output else f"{location}.{field.code}"
     evidence: JsonObject = {

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from decimal import Decimal
 from typing import Annotated
 
 from pykis.streaming.raw.base import StreamingRawModel
@@ -10,93 +11,93 @@ from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, Stre
 
 class H0UPPGM0(StreamingRawModel):
     BSTP_CLS_CODE: Annotated[str, "'각 항목사이에는 구분자로 ^ 사용,\n모든 데이터타입은 String으로 변환되어 push 처리됨'"]
-    BSOP_HOUR: datetime
-    ARBT_SELN_ENTM_CNQN: str
-    ARBT_SELN_ONSL_CNQN: str
-    ARBT_SHNU_ENTM_CNQN: str
-    ARBT_SHNU_ONSL_CNQN: str
-    NABT_SELN_ENTM_CNQN: str
-    NABT_SELN_ONSL_CNQN: str
-    NABT_SHNU_ENTM_CNQN: str
-    NABT_SHNU_ONSL_CNQN: str
-    ARBT_SELN_ENTM_CNTG_AMT: str
-    ARBT_SELN_ONSL_CNTG_AMT: str
-    ARBT_SHNU_ENTM_CNTG_AMT: str
-    ARBT_SHNU_ONSL_CNTG_AMT: str
-    NABT_SELN_ENTM_CNTG_AMT: str
-    NABT_SELN_ONSL_CNTG_AMT: str
-    NABT_SHNU_ENTM_CNTG_AMT: str
-    NABT_SHNU_ONSL_CNTG_AMT: str
-    ARBT_SMTN_SELN_VOL: str
-    ARBT_SMTM_SELN_VOL_RATE: str
-    ARBT_SMTN_SELN_TR_PBMN: str
-    ARBT_SMTM_SELN_TR_PBMN_RATE: str
-    ARBT_SMTN_SHNU_VOL: str
-    ARBT_SMTM_SHNU_VOL_RATE: str
-    ARBT_SMTN_SHNU_TR_PBMN: str
-    ARBT_SMTM_SHNU_TR_PBMN_RATE: str
-    ARBT_SMTN_NTBY_QTY: str
-    ARBT_SMTM_NTBY_QTY_RATE: str
-    ARBT_SMTN_NTBY_TR_PBMN: str
-    ARBT_SMTM_NTBY_TR_PBMN_RATE: str
-    NABT_SMTN_SELN_VOL: str
-    NABT_SMTM_SELN_VOL_RATE: str
-    NABT_SMTN_SELN_TR_PBMN: str
-    NABT_SMTM_SELN_TR_PBMN_RATE: str
-    NABT_SMTN_SHNU_VOL: str
-    NABT_SMTM_SHNU_VOL_RATE: str
-    NABT_SMTN_SHNU_TR_PBMN: str
-    NABT_SMTM_SHNU_TR_PBMN_RATE: str
-    NABT_SMTN_NTBY_QTY: str
-    NABT_SMTM_NTBY_QTY_RATE: str
-    NABT_SMTN_NTBY_TR_PBMN: str
-    NABT_SMTM_NTBY_TR_PBMN_RATE: str
-    WHOL_ENTM_SELN_VOL: str
-    ENTM_SELN_VOL_RATE: str
-    WHOL_ENTM_SELN_TR_PBMN: str
-    ENTM_SELN_TR_PBMN_RATE: str
-    WHOL_ENTM_SHNU_VOL: str
-    ENTM_SHNU_VOL_RATE: str
-    WHOL_ENTM_SHNU_TR_PBMN: str
-    ENTM_SHNU_TR_PBMN_RATE: str
-    WHOL_ENTM_NTBY_QT: str
-    ENTM_NTBY_QTY_RAT: str
-    WHOL_ENTM_NTBY_TR_PBMN: str
-    ENTM_NTBY_TR_PBMN_RATE: str
-    WHOL_ONSL_SELN_VOL: str
-    ONSL_SELN_VOL_RATE: str
-    WHOL_ONSL_SELN_TR_PBMN: str
-    ONSL_SELN_TR_PBMN_RATE: str
-    WHOL_ONSL_SHNU_VOL: str
-    ONSL_SHNU_VOL_RATE: str
-    WHOL_ONSL_SHNU_TR_PBMN: str
-    ONSL_SHNU_TR_PBMN_RATE: str
-    WHOL_ONSL_NTBY_QTY: str
-    ONSL_NTBY_QTY_RATE: str
-    WHOL_ONSL_NTBY_TR_PBMN: str
-    ONSL_NTBY_TR_PBMN_RATE: str
-    TOTAL_SELN_QTY: str
-    WHOL_SELN_VOL_RATE: str
-    TOTAL_SELN_TR_PBMN: str
-    WHOL_SELN_TR_PBMN_RATE: str
-    SHNU_CNTG_SMTN: str
-    WHOL_SHUN_VOL_RATE: str
-    TOTAL_SHNU_TR_PBMN: str
-    WHOL_SHUN_TR_PBMN_RATE: str
-    WHOL_NTBY_QTY: str
-    WHOL_SMTM_NTBY_QTY_RATE: str
-    WHOL_NTBY_TR_PBMN: str
-    WHOL_NTBY_TR_PBMN_RATE: str
-    ARBT_ENTM_NTBY_QTY: str
-    ARBT_ENTM_NTBY_TR_PBMN: str
-    ARBT_ONSL_NTBY_QTY: str
-    ARBT_ONSL_NTBY_TR_PBMN: str
-    NABT_ENTM_NTBY_QTY: str
-    NABT_ENTM_NTBY_TR_PBMN: str
-    NABT_ONSL_NTBY_QTY: str
-    NABT_ONSL_NTBY_TR_PBMN: str
-    ACML_VOL: str
-    ACML_TR_PBMN: str
+    BSOP_HOUR: Annotated[datetime, "영업 시간"]
+    ARBT_SELN_ENTM_CNQN: Annotated[Decimal, "차익 매도 위탁 체결량"]
+    ARBT_SELN_ONSL_CNQN: Annotated[Decimal, "차익 매도 자기 체결량"]
+    ARBT_SHNU_ENTM_CNQN: Annotated[Decimal, "차익 매수2 위탁 체결량"]
+    ARBT_SHNU_ONSL_CNQN: Annotated[Decimal, "차익 매수2 자기 체결량"]
+    NABT_SELN_ENTM_CNQN: Annotated[Decimal, "비차익 매도 위탁 체결량"]
+    NABT_SELN_ONSL_CNQN: Annotated[Decimal, "비차익 매도 자기 체결량"]
+    NABT_SHNU_ENTM_CNQN: Annotated[Decimal, "비차익 매수2 위탁 체결량"]
+    NABT_SHNU_ONSL_CNQN: Annotated[Decimal, "비차익 매수2 자기 체결량"]
+    ARBT_SELN_ENTM_CNTG_AMT: Annotated[Decimal, "차익 매도 위탁 체결 금액"]
+    ARBT_SELN_ONSL_CNTG_AMT: Annotated[Decimal, "차익 매도 자기 체결 금액"]
+    ARBT_SHNU_ENTM_CNTG_AMT: Annotated[Decimal, "차익 매수2 위탁 체결 금액"]
+    ARBT_SHNU_ONSL_CNTG_AMT: Annotated[Decimal, "차익 매수2 자기 체결 금액"]
+    NABT_SELN_ENTM_CNTG_AMT: Annotated[Decimal, "비차익 매도 위탁 체결 금액"]
+    NABT_SELN_ONSL_CNTG_AMT: Annotated[Decimal, "비차익 매도 자기 체결 금액"]
+    NABT_SHNU_ENTM_CNTG_AMT: Annotated[Decimal, "비차익 매수2 위탁 체결 금액"]
+    NABT_SHNU_ONSL_CNTG_AMT: Annotated[Decimal, "비차익 매수2 자기 체결 금액"]
+    ARBT_SMTN_SELN_VOL: Annotated[Decimal, "차익 합계 매도 거래량"]
+    ARBT_SMTM_SELN_VOL_RATE: Annotated[Decimal, "차익 합계 매도 거래량 비율"]
+    ARBT_SMTN_SELN_TR_PBMN: Annotated[Decimal, "차익 합계 매도 거래 대금"]
+    ARBT_SMTM_SELN_TR_PBMN_RATE: Annotated[Decimal, "차익 합계 매도 거래대금 비율"]
+    ARBT_SMTN_SHNU_VOL: Annotated[Decimal, "차익 합계 매수2 거래량"]
+    ARBT_SMTM_SHNU_VOL_RATE: Annotated[Decimal, "차익 합계 매수 거래량 비율"]
+    ARBT_SMTN_SHNU_TR_PBMN: Annotated[Decimal, "차익 합계 매수2 거래 대금"]
+    ARBT_SMTM_SHNU_TR_PBMN_RATE: Annotated[Decimal, "차익 합계 매수 거래대금 비율"]
+    ARBT_SMTN_NTBY_QTY: Annotated[Decimal, "차익 합계 순매수 수량"]
+    ARBT_SMTM_NTBY_QTY_RATE: Annotated[Decimal, "차익 합계 순매수 수량 비율"]
+    ARBT_SMTN_NTBY_TR_PBMN: Annotated[Decimal, "차익 합계 순매수 거래 대금"]
+    ARBT_SMTM_NTBY_TR_PBMN_RATE: Annotated[Decimal, "차익 합계 순매수 거래대금 비율"]
+    NABT_SMTN_SELN_VOL: Annotated[Decimal, "비차익 합계 매도 거래량"]
+    NABT_SMTM_SELN_VOL_RATE: Annotated[Decimal, "비차익 합계 매도 거래량 비율"]
+    NABT_SMTN_SELN_TR_PBMN: Annotated[Decimal, "비차익 합계 매도 거래 대금"]
+    NABT_SMTM_SELN_TR_PBMN_RATE: Annotated[Decimal, "비차익 합계 매도 거래대금 비율"]
+    NABT_SMTN_SHNU_VOL: Annotated[Decimal, "비차익 합계 매수2 거래량"]
+    NABT_SMTM_SHNU_VOL_RATE: Annotated[Decimal, "비차익 합계 매수 거래량 비율"]
+    NABT_SMTN_SHNU_TR_PBMN: Annotated[Decimal, "비차익 합계 매수2 거래 대금"]
+    NABT_SMTM_SHNU_TR_PBMN_RATE: Annotated[Decimal, "비차익 합계 매수 거래대금 비율"]
+    NABT_SMTN_NTBY_QTY: Annotated[Decimal, "비차익 합계 순매수 수량"]
+    NABT_SMTM_NTBY_QTY_RATE: Annotated[Decimal, "비차익 합계 순매수 수량 비율"]
+    NABT_SMTN_NTBY_TR_PBMN: Annotated[Decimal, "비차익 합계 순매수 거래 대금"]
+    NABT_SMTM_NTBY_TR_PBMN_RATE: Annotated[Decimal, "비차익 합계 순매수 거래대금 비"]
+    WHOL_ENTM_SELN_VOL: Annotated[Decimal, "전체 위탁 매도 거래량"]
+    ENTM_SELN_VOL_RATE: Annotated[Decimal, "위탁 매도 거래량 비율"]
+    WHOL_ENTM_SELN_TR_PBMN: Annotated[Decimal, "전체 위탁 매도 거래 대금"]
+    ENTM_SELN_TR_PBMN_RATE: Annotated[Decimal, "위탁 매도 거래대금 비율"]
+    WHOL_ENTM_SHNU_VOL: Annotated[Decimal, "전체 위탁 매수2 거래량"]
+    ENTM_SHNU_VOL_RATE: Annotated[Decimal, "위탁 매수 거래량 비율"]
+    WHOL_ENTM_SHNU_TR_PBMN: Annotated[Decimal, "전체 위탁 매수2 거래 대금"]
+    ENTM_SHNU_TR_PBMN_RATE: Annotated[Decimal, "위탁 매수 거래대금 비율"]
+    WHOL_ENTM_NTBY_QT: Annotated[Decimal, "전체 위탁 순매수 수량"]
+    ENTM_NTBY_QTY_RAT: Annotated[Decimal, "위탁 순매수 수량 비율"]
+    WHOL_ENTM_NTBY_TR_PBMN: Annotated[Decimal, "전체 위탁 순매수 거래 대금"]
+    ENTM_NTBY_TR_PBMN_RATE: Annotated[Decimal, "위탁 순매수 금액 비율"]
+    WHOL_ONSL_SELN_VOL: Annotated[Decimal, "전체 자기 매도 거래량"]
+    ONSL_SELN_VOL_RATE: Annotated[Decimal, "자기 매도 거래량 비율"]
+    WHOL_ONSL_SELN_TR_PBMN: Annotated[Decimal, "전체 자기 매도 거래 대금"]
+    ONSL_SELN_TR_PBMN_RATE: Annotated[Decimal, "자기 매도 거래대금 비율"]
+    WHOL_ONSL_SHNU_VOL: Annotated[Decimal, "전체 자기 매수2 거래량"]
+    ONSL_SHNU_VOL_RATE: Annotated[Decimal, "자기 매수 거래량 비율"]
+    WHOL_ONSL_SHNU_TR_PBMN: Annotated[Decimal, "전체 자기 매수2 거래 대금"]
+    ONSL_SHNU_TR_PBMN_RATE: Annotated[Decimal, "자기 매수 거래대금 비율"]
+    WHOL_ONSL_NTBY_QTY: Annotated[Decimal, "전체 자기 순매수 수량"]
+    ONSL_NTBY_QTY_RATE: Annotated[Decimal, "자기 순매수량 비율"]
+    WHOL_ONSL_NTBY_TR_PBMN: Annotated[Decimal, "전체 자기 순매수 거래 대금"]
+    ONSL_NTBY_TR_PBMN_RATE: Annotated[Decimal, "자기 순매수 대금 비율"]
+    TOTAL_SELN_QTY: Annotated[Decimal, "총 매도 수량"]
+    WHOL_SELN_VOL_RATE: Annotated[Decimal, "전체 매도 거래량 비율"]
+    TOTAL_SELN_TR_PBMN: Annotated[Decimal, "총 매도 거래 대금"]
+    WHOL_SELN_TR_PBMN_RATE: Annotated[Decimal, "전체 매도 거래대금 비율"]
+    SHNU_CNTG_SMTN: Annotated[Decimal, "총 매수 수량"]
+    WHOL_SHUN_VOL_RATE: Annotated[Decimal, "전체 매수 거래량 비율"]
+    TOTAL_SHNU_TR_PBMN: Annotated[Decimal, "총 매수2 거래 대금"]
+    WHOL_SHUN_TR_PBMN_RATE: Annotated[Decimal, "전체 매수 거래대금 비율"]
+    WHOL_NTBY_QTY: Annotated[Decimal, "전체 순매수 수량"]
+    WHOL_SMTM_NTBY_QTY_RATE: Annotated[Decimal, "전체 합계 순매수 수량 비율"]
+    WHOL_NTBY_TR_PBMN: Annotated[Decimal, "전체 순매수 거래 대금"]
+    WHOL_NTBY_TR_PBMN_RATE: Annotated[Decimal, "전체 순매수 거래대금 비율"]
+    ARBT_ENTM_NTBY_QTY: Annotated[Decimal, "차익 위탁 순매수 수량"]
+    ARBT_ENTM_NTBY_TR_PBMN: Annotated[Decimal, "차익 위탁 순매수 거래 대금"]
+    ARBT_ONSL_NTBY_QTY: Annotated[Decimal, "차익 자기 순매수 수량"]
+    ARBT_ONSL_NTBY_TR_PBMN: Annotated[Decimal, "차익 자기 순매수 거래 대금"]
+    NABT_ENTM_NTBY_QTY: Annotated[Decimal, "비차익 위탁 순매수 수량"]
+    NABT_ENTM_NTBY_TR_PBMN: Annotated[Decimal, "비차익 위탁 순매수 거래 대금"]
+    NABT_ONSL_NTBY_QTY: Annotated[Decimal, "비차익 자기 순매수 수량"]
+    NABT_ONSL_NTBY_TR_PBMN: Annotated[Decimal, "비차익 자기 순매수 거래 대금"]
+    ACML_VOL: Annotated[Decimal, "누적 거래량"]
+    ACML_TR_PBMN: Annotated[Decimal, "누적 거래 대금"]
 
 
 FIELD_ORDER = [
@@ -193,182 +194,182 @@ FIELD_ALIASES = {}
 FIELD_TYPES = {
     "BSTP_CLS_CODE": FieldType.STR,
     "BSOP_HOUR": FieldType.DATETIME,
-    "ARBT_SELN_ENTM_CNQN": FieldType.STR,
-    "ARBT_SELN_ONSL_CNQN": FieldType.STR,
-    "ARBT_SHNU_ENTM_CNQN": FieldType.STR,
-    "ARBT_SHNU_ONSL_CNQN": FieldType.STR,
-    "NABT_SELN_ENTM_CNQN": FieldType.STR,
-    "NABT_SELN_ONSL_CNQN": FieldType.STR,
-    "NABT_SHNU_ENTM_CNQN": FieldType.STR,
-    "NABT_SHNU_ONSL_CNQN": FieldType.STR,
-    "ARBT_SELN_ENTM_CNTG_AMT": FieldType.STR,
-    "ARBT_SELN_ONSL_CNTG_AMT": FieldType.STR,
-    "ARBT_SHNU_ENTM_CNTG_AMT": FieldType.STR,
-    "ARBT_SHNU_ONSL_CNTG_AMT": FieldType.STR,
-    "NABT_SELN_ENTM_CNTG_AMT": FieldType.STR,
-    "NABT_SELN_ONSL_CNTG_AMT": FieldType.STR,
-    "NABT_SHNU_ENTM_CNTG_AMT": FieldType.STR,
-    "NABT_SHNU_ONSL_CNTG_AMT": FieldType.STR,
-    "ARBT_SMTN_SELN_VOL": FieldType.STR,
-    "ARBT_SMTM_SELN_VOL_RATE": FieldType.STR,
-    "ARBT_SMTN_SELN_TR_PBMN": FieldType.STR,
-    "ARBT_SMTM_SELN_TR_PBMN_RATE": FieldType.STR,
-    "ARBT_SMTN_SHNU_VOL": FieldType.STR,
-    "ARBT_SMTM_SHNU_VOL_RATE": FieldType.STR,
-    "ARBT_SMTN_SHNU_TR_PBMN": FieldType.STR,
-    "ARBT_SMTM_SHNU_TR_PBMN_RATE": FieldType.STR,
-    "ARBT_SMTN_NTBY_QTY": FieldType.STR,
-    "ARBT_SMTM_NTBY_QTY_RATE": FieldType.STR,
-    "ARBT_SMTN_NTBY_TR_PBMN": FieldType.STR,
-    "ARBT_SMTM_NTBY_TR_PBMN_RATE": FieldType.STR,
-    "NABT_SMTN_SELN_VOL": FieldType.STR,
-    "NABT_SMTM_SELN_VOL_RATE": FieldType.STR,
-    "NABT_SMTN_SELN_TR_PBMN": FieldType.STR,
-    "NABT_SMTM_SELN_TR_PBMN_RATE": FieldType.STR,
-    "NABT_SMTN_SHNU_VOL": FieldType.STR,
-    "NABT_SMTM_SHNU_VOL_RATE": FieldType.STR,
-    "NABT_SMTN_SHNU_TR_PBMN": FieldType.STR,
-    "NABT_SMTM_SHNU_TR_PBMN_RATE": FieldType.STR,
-    "NABT_SMTN_NTBY_QTY": FieldType.STR,
-    "NABT_SMTM_NTBY_QTY_RATE": FieldType.STR,
-    "NABT_SMTN_NTBY_TR_PBMN": FieldType.STR,
-    "NABT_SMTM_NTBY_TR_PBMN_RATE": FieldType.STR,
-    "WHOL_ENTM_SELN_VOL": FieldType.STR,
-    "ENTM_SELN_VOL_RATE": FieldType.STR,
-    "WHOL_ENTM_SELN_TR_PBMN": FieldType.STR,
-    "ENTM_SELN_TR_PBMN_RATE": FieldType.STR,
-    "WHOL_ENTM_SHNU_VOL": FieldType.STR,
-    "ENTM_SHNU_VOL_RATE": FieldType.STR,
-    "WHOL_ENTM_SHNU_TR_PBMN": FieldType.STR,
-    "ENTM_SHNU_TR_PBMN_RATE": FieldType.STR,
-    "WHOL_ENTM_NTBY_QT": FieldType.STR,
-    "ENTM_NTBY_QTY_RAT": FieldType.STR,
-    "WHOL_ENTM_NTBY_TR_PBMN": FieldType.STR,
-    "ENTM_NTBY_TR_PBMN_RATE": FieldType.STR,
-    "WHOL_ONSL_SELN_VOL": FieldType.STR,
-    "ONSL_SELN_VOL_RATE": FieldType.STR,
-    "WHOL_ONSL_SELN_TR_PBMN": FieldType.STR,
-    "ONSL_SELN_TR_PBMN_RATE": FieldType.STR,
-    "WHOL_ONSL_SHNU_VOL": FieldType.STR,
-    "ONSL_SHNU_VOL_RATE": FieldType.STR,
-    "WHOL_ONSL_SHNU_TR_PBMN": FieldType.STR,
-    "ONSL_SHNU_TR_PBMN_RATE": FieldType.STR,
-    "WHOL_ONSL_NTBY_QTY": FieldType.STR,
-    "ONSL_NTBY_QTY_RATE": FieldType.STR,
-    "WHOL_ONSL_NTBY_TR_PBMN": FieldType.STR,
-    "ONSL_NTBY_TR_PBMN_RATE": FieldType.STR,
-    "TOTAL_SELN_QTY": FieldType.STR,
-    "WHOL_SELN_VOL_RATE": FieldType.STR,
-    "TOTAL_SELN_TR_PBMN": FieldType.STR,
-    "WHOL_SELN_TR_PBMN_RATE": FieldType.STR,
-    "SHNU_CNTG_SMTN": FieldType.STR,
-    "WHOL_SHUN_VOL_RATE": FieldType.STR,
-    "TOTAL_SHNU_TR_PBMN": FieldType.STR,
-    "WHOL_SHUN_TR_PBMN_RATE": FieldType.STR,
-    "WHOL_NTBY_QTY": FieldType.STR,
-    "WHOL_SMTM_NTBY_QTY_RATE": FieldType.STR,
-    "WHOL_NTBY_TR_PBMN": FieldType.STR,
-    "WHOL_NTBY_TR_PBMN_RATE": FieldType.STR,
-    "ARBT_ENTM_NTBY_QTY": FieldType.STR,
-    "ARBT_ENTM_NTBY_TR_PBMN": FieldType.STR,
-    "ARBT_ONSL_NTBY_QTY": FieldType.STR,
-    "ARBT_ONSL_NTBY_TR_PBMN": FieldType.STR,
-    "NABT_ENTM_NTBY_QTY": FieldType.STR,
-    "NABT_ENTM_NTBY_TR_PBMN": FieldType.STR,
-    "NABT_ONSL_NTBY_QTY": FieldType.STR,
-    "NABT_ONSL_NTBY_TR_PBMN": FieldType.STR,
-    "ACML_VOL": FieldType.STR,
-    "ACML_TR_PBMN": FieldType.STR,
+    "ARBT_SELN_ENTM_CNQN": FieldType.DECIMAL,
+    "ARBT_SELN_ONSL_CNQN": FieldType.DECIMAL,
+    "ARBT_SHNU_ENTM_CNQN": FieldType.DECIMAL,
+    "ARBT_SHNU_ONSL_CNQN": FieldType.DECIMAL,
+    "NABT_SELN_ENTM_CNQN": FieldType.DECIMAL,
+    "NABT_SELN_ONSL_CNQN": FieldType.DECIMAL,
+    "NABT_SHNU_ENTM_CNQN": FieldType.DECIMAL,
+    "NABT_SHNU_ONSL_CNQN": FieldType.DECIMAL,
+    "ARBT_SELN_ENTM_CNTG_AMT": FieldType.DECIMAL,
+    "ARBT_SELN_ONSL_CNTG_AMT": FieldType.DECIMAL,
+    "ARBT_SHNU_ENTM_CNTG_AMT": FieldType.DECIMAL,
+    "ARBT_SHNU_ONSL_CNTG_AMT": FieldType.DECIMAL,
+    "NABT_SELN_ENTM_CNTG_AMT": FieldType.DECIMAL,
+    "NABT_SELN_ONSL_CNTG_AMT": FieldType.DECIMAL,
+    "NABT_SHNU_ENTM_CNTG_AMT": FieldType.DECIMAL,
+    "NABT_SHNU_ONSL_CNTG_AMT": FieldType.DECIMAL,
+    "ARBT_SMTN_SELN_VOL": FieldType.DECIMAL,
+    "ARBT_SMTM_SELN_VOL_RATE": FieldType.DECIMAL,
+    "ARBT_SMTN_SELN_TR_PBMN": FieldType.DECIMAL,
+    "ARBT_SMTM_SELN_TR_PBMN_RATE": FieldType.DECIMAL,
+    "ARBT_SMTN_SHNU_VOL": FieldType.DECIMAL,
+    "ARBT_SMTM_SHNU_VOL_RATE": FieldType.DECIMAL,
+    "ARBT_SMTN_SHNU_TR_PBMN": FieldType.DECIMAL,
+    "ARBT_SMTM_SHNU_TR_PBMN_RATE": FieldType.DECIMAL,
+    "ARBT_SMTN_NTBY_QTY": FieldType.DECIMAL,
+    "ARBT_SMTM_NTBY_QTY_RATE": FieldType.DECIMAL,
+    "ARBT_SMTN_NTBY_TR_PBMN": FieldType.DECIMAL,
+    "ARBT_SMTM_NTBY_TR_PBMN_RATE": FieldType.DECIMAL,
+    "NABT_SMTN_SELN_VOL": FieldType.DECIMAL,
+    "NABT_SMTM_SELN_VOL_RATE": FieldType.DECIMAL,
+    "NABT_SMTN_SELN_TR_PBMN": FieldType.DECIMAL,
+    "NABT_SMTM_SELN_TR_PBMN_RATE": FieldType.DECIMAL,
+    "NABT_SMTN_SHNU_VOL": FieldType.DECIMAL,
+    "NABT_SMTM_SHNU_VOL_RATE": FieldType.DECIMAL,
+    "NABT_SMTN_SHNU_TR_PBMN": FieldType.DECIMAL,
+    "NABT_SMTM_SHNU_TR_PBMN_RATE": FieldType.DECIMAL,
+    "NABT_SMTN_NTBY_QTY": FieldType.DECIMAL,
+    "NABT_SMTM_NTBY_QTY_RATE": FieldType.DECIMAL,
+    "NABT_SMTN_NTBY_TR_PBMN": FieldType.DECIMAL,
+    "NABT_SMTM_NTBY_TR_PBMN_RATE": FieldType.DECIMAL,
+    "WHOL_ENTM_SELN_VOL": FieldType.DECIMAL,
+    "ENTM_SELN_VOL_RATE": FieldType.DECIMAL,
+    "WHOL_ENTM_SELN_TR_PBMN": FieldType.DECIMAL,
+    "ENTM_SELN_TR_PBMN_RATE": FieldType.DECIMAL,
+    "WHOL_ENTM_SHNU_VOL": FieldType.DECIMAL,
+    "ENTM_SHNU_VOL_RATE": FieldType.DECIMAL,
+    "WHOL_ENTM_SHNU_TR_PBMN": FieldType.DECIMAL,
+    "ENTM_SHNU_TR_PBMN_RATE": FieldType.DECIMAL,
+    "WHOL_ENTM_NTBY_QT": FieldType.DECIMAL,
+    "ENTM_NTBY_QTY_RAT": FieldType.DECIMAL,
+    "WHOL_ENTM_NTBY_TR_PBMN": FieldType.DECIMAL,
+    "ENTM_NTBY_TR_PBMN_RATE": FieldType.DECIMAL,
+    "WHOL_ONSL_SELN_VOL": FieldType.DECIMAL,
+    "ONSL_SELN_VOL_RATE": FieldType.DECIMAL,
+    "WHOL_ONSL_SELN_TR_PBMN": FieldType.DECIMAL,
+    "ONSL_SELN_TR_PBMN_RATE": FieldType.DECIMAL,
+    "WHOL_ONSL_SHNU_VOL": FieldType.DECIMAL,
+    "ONSL_SHNU_VOL_RATE": FieldType.DECIMAL,
+    "WHOL_ONSL_SHNU_TR_PBMN": FieldType.DECIMAL,
+    "ONSL_SHNU_TR_PBMN_RATE": FieldType.DECIMAL,
+    "WHOL_ONSL_NTBY_QTY": FieldType.DECIMAL,
+    "ONSL_NTBY_QTY_RATE": FieldType.DECIMAL,
+    "WHOL_ONSL_NTBY_TR_PBMN": FieldType.DECIMAL,
+    "ONSL_NTBY_TR_PBMN_RATE": FieldType.DECIMAL,
+    "TOTAL_SELN_QTY": FieldType.DECIMAL,
+    "WHOL_SELN_VOL_RATE": FieldType.DECIMAL,
+    "TOTAL_SELN_TR_PBMN": FieldType.DECIMAL,
+    "WHOL_SELN_TR_PBMN_RATE": FieldType.DECIMAL,
+    "SHNU_CNTG_SMTN": FieldType.DECIMAL,
+    "WHOL_SHUN_VOL_RATE": FieldType.DECIMAL,
+    "TOTAL_SHNU_TR_PBMN": FieldType.DECIMAL,
+    "WHOL_SHUN_TR_PBMN_RATE": FieldType.DECIMAL,
+    "WHOL_NTBY_QTY": FieldType.DECIMAL,
+    "WHOL_SMTM_NTBY_QTY_RATE": FieldType.DECIMAL,
+    "WHOL_NTBY_TR_PBMN": FieldType.DECIMAL,
+    "WHOL_NTBY_TR_PBMN_RATE": FieldType.DECIMAL,
+    "ARBT_ENTM_NTBY_QTY": FieldType.DECIMAL,
+    "ARBT_ENTM_NTBY_TR_PBMN": FieldType.DECIMAL,
+    "ARBT_ONSL_NTBY_QTY": FieldType.DECIMAL,
+    "ARBT_ONSL_NTBY_TR_PBMN": FieldType.DECIMAL,
+    "NABT_ENTM_NTBY_QTY": FieldType.DECIMAL,
+    "NABT_ENTM_NTBY_TR_PBMN": FieldType.DECIMAL,
+    "NABT_ONSL_NTBY_QTY": FieldType.DECIMAL,
+    "NABT_ONSL_NTBY_TR_PBMN": FieldType.DECIMAL,
+    "ACML_VOL": FieldType.DECIMAL,
+    "ACML_TR_PBMN": FieldType.DECIMAL,
 }
 FIELD_SOURCES = {
     "BSTP_CLS_CODE": FieldSource.DOC_TYPE,
     "BSOP_HOUR": FieldSource.RULE,
-    "ARBT_SELN_ENTM_CNQN": FieldSource.DOC_TYPE,
-    "ARBT_SELN_ONSL_CNQN": FieldSource.DOC_TYPE,
-    "ARBT_SHNU_ENTM_CNQN": FieldSource.DOC_TYPE,
-    "ARBT_SHNU_ONSL_CNQN": FieldSource.DOC_TYPE,
-    "NABT_SELN_ENTM_CNQN": FieldSource.DOC_TYPE,
-    "NABT_SELN_ONSL_CNQN": FieldSource.DOC_TYPE,
-    "NABT_SHNU_ENTM_CNQN": FieldSource.DOC_TYPE,
-    "NABT_SHNU_ONSL_CNQN": FieldSource.DOC_TYPE,
-    "ARBT_SELN_ENTM_CNTG_AMT": FieldSource.DOC_TYPE,
-    "ARBT_SELN_ONSL_CNTG_AMT": FieldSource.DOC_TYPE,
-    "ARBT_SHNU_ENTM_CNTG_AMT": FieldSource.DOC_TYPE,
-    "ARBT_SHNU_ONSL_CNTG_AMT": FieldSource.DOC_TYPE,
-    "NABT_SELN_ENTM_CNTG_AMT": FieldSource.DOC_TYPE,
-    "NABT_SELN_ONSL_CNTG_AMT": FieldSource.DOC_TYPE,
-    "NABT_SHNU_ENTM_CNTG_AMT": FieldSource.DOC_TYPE,
-    "NABT_SHNU_ONSL_CNTG_AMT": FieldSource.DOC_TYPE,
-    "ARBT_SMTN_SELN_VOL": FieldSource.DOC_TYPE,
-    "ARBT_SMTM_SELN_VOL_RATE": FieldSource.DOC_TYPE,
-    "ARBT_SMTN_SELN_TR_PBMN": FieldSource.DOC_TYPE,
-    "ARBT_SMTM_SELN_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "ARBT_SMTN_SHNU_VOL": FieldSource.DOC_TYPE,
-    "ARBT_SMTM_SHNU_VOL_RATE": FieldSource.DOC_TYPE,
-    "ARBT_SMTN_SHNU_TR_PBMN": FieldSource.DOC_TYPE,
-    "ARBT_SMTM_SHNU_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "ARBT_SMTN_NTBY_QTY": FieldSource.DOC_TYPE,
-    "ARBT_SMTM_NTBY_QTY_RATE": FieldSource.DOC_TYPE,
-    "ARBT_SMTN_NTBY_TR_PBMN": FieldSource.DOC_TYPE,
-    "ARBT_SMTM_NTBY_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "NABT_SMTN_SELN_VOL": FieldSource.DOC_TYPE,
-    "NABT_SMTM_SELN_VOL_RATE": FieldSource.DOC_TYPE,
-    "NABT_SMTN_SELN_TR_PBMN": FieldSource.DOC_TYPE,
-    "NABT_SMTM_SELN_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "NABT_SMTN_SHNU_VOL": FieldSource.DOC_TYPE,
-    "NABT_SMTM_SHNU_VOL_RATE": FieldSource.DOC_TYPE,
-    "NABT_SMTN_SHNU_TR_PBMN": FieldSource.DOC_TYPE,
-    "NABT_SMTM_SHNU_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "NABT_SMTN_NTBY_QTY": FieldSource.DOC_TYPE,
-    "NABT_SMTM_NTBY_QTY_RATE": FieldSource.DOC_TYPE,
-    "NABT_SMTN_NTBY_TR_PBMN": FieldSource.DOC_TYPE,
-    "NABT_SMTM_NTBY_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "WHOL_ENTM_SELN_VOL": FieldSource.DOC_TYPE,
-    "ENTM_SELN_VOL_RATE": FieldSource.DOC_TYPE,
-    "WHOL_ENTM_SELN_TR_PBMN": FieldSource.DOC_TYPE,
-    "ENTM_SELN_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "WHOL_ENTM_SHNU_VOL": FieldSource.DOC_TYPE,
-    "ENTM_SHNU_VOL_RATE": FieldSource.DOC_TYPE,
-    "WHOL_ENTM_SHNU_TR_PBMN": FieldSource.DOC_TYPE,
-    "ENTM_SHNU_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "WHOL_ENTM_NTBY_QT": FieldSource.DOC_TYPE,
-    "ENTM_NTBY_QTY_RAT": FieldSource.DOC_TYPE,
-    "WHOL_ENTM_NTBY_TR_PBMN": FieldSource.DOC_TYPE,
-    "ENTM_NTBY_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "WHOL_ONSL_SELN_VOL": FieldSource.DOC_TYPE,
-    "ONSL_SELN_VOL_RATE": FieldSource.DOC_TYPE,
-    "WHOL_ONSL_SELN_TR_PBMN": FieldSource.DOC_TYPE,
-    "ONSL_SELN_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "WHOL_ONSL_SHNU_VOL": FieldSource.DOC_TYPE,
-    "ONSL_SHNU_VOL_RATE": FieldSource.DOC_TYPE,
-    "WHOL_ONSL_SHNU_TR_PBMN": FieldSource.DOC_TYPE,
-    "ONSL_SHNU_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "WHOL_ONSL_NTBY_QTY": FieldSource.DOC_TYPE,
-    "ONSL_NTBY_QTY_RATE": FieldSource.DOC_TYPE,
-    "WHOL_ONSL_NTBY_TR_PBMN": FieldSource.DOC_TYPE,
-    "ONSL_NTBY_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "TOTAL_SELN_QTY": FieldSource.DOC_TYPE,
-    "WHOL_SELN_VOL_RATE": FieldSource.DOC_TYPE,
-    "TOTAL_SELN_TR_PBMN": FieldSource.DOC_TYPE,
-    "WHOL_SELN_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "SHNU_CNTG_SMTN": FieldSource.DOC_TYPE,
-    "WHOL_SHUN_VOL_RATE": FieldSource.DOC_TYPE,
-    "TOTAL_SHNU_TR_PBMN": FieldSource.DOC_TYPE,
-    "WHOL_SHUN_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "WHOL_NTBY_QTY": FieldSource.DOC_TYPE,
-    "WHOL_SMTM_NTBY_QTY_RATE": FieldSource.DOC_TYPE,
-    "WHOL_NTBY_TR_PBMN": FieldSource.DOC_TYPE,
-    "WHOL_NTBY_TR_PBMN_RATE": FieldSource.DOC_TYPE,
-    "ARBT_ENTM_NTBY_QTY": FieldSource.DOC_TYPE,
-    "ARBT_ENTM_NTBY_TR_PBMN": FieldSource.DOC_TYPE,
-    "ARBT_ONSL_NTBY_QTY": FieldSource.DOC_TYPE,
-    "ARBT_ONSL_NTBY_TR_PBMN": FieldSource.DOC_TYPE,
-    "NABT_ENTM_NTBY_QTY": FieldSource.DOC_TYPE,
-    "NABT_ENTM_NTBY_TR_PBMN": FieldSource.DOC_TYPE,
-    "NABT_ONSL_NTBY_QTY": FieldSource.DOC_TYPE,
-    "NABT_ONSL_NTBY_TR_PBMN": FieldSource.DOC_TYPE,
-    "ACML_VOL": FieldSource.DOC_TYPE,
-    "ACML_TR_PBMN": FieldSource.DOC_TYPE,
+    "ARBT_SELN_ENTM_CNQN": FieldSource.INFERRED,
+    "ARBT_SELN_ONSL_CNQN": FieldSource.INFERRED,
+    "ARBT_SHNU_ENTM_CNQN": FieldSource.INFERRED,
+    "ARBT_SHNU_ONSL_CNQN": FieldSource.INFERRED,
+    "NABT_SELN_ENTM_CNQN": FieldSource.INFERRED,
+    "NABT_SELN_ONSL_CNQN": FieldSource.INFERRED,
+    "NABT_SHNU_ENTM_CNQN": FieldSource.INFERRED,
+    "NABT_SHNU_ONSL_CNQN": FieldSource.INFERRED,
+    "ARBT_SELN_ENTM_CNTG_AMT": FieldSource.INFERRED,
+    "ARBT_SELN_ONSL_CNTG_AMT": FieldSource.INFERRED,
+    "ARBT_SHNU_ENTM_CNTG_AMT": FieldSource.INFERRED,
+    "ARBT_SHNU_ONSL_CNTG_AMT": FieldSource.INFERRED,
+    "NABT_SELN_ENTM_CNTG_AMT": FieldSource.INFERRED,
+    "NABT_SELN_ONSL_CNTG_AMT": FieldSource.INFERRED,
+    "NABT_SHNU_ENTM_CNTG_AMT": FieldSource.INFERRED,
+    "NABT_SHNU_ONSL_CNTG_AMT": FieldSource.INFERRED,
+    "ARBT_SMTN_SELN_VOL": FieldSource.INFERRED,
+    "ARBT_SMTM_SELN_VOL_RATE": FieldSource.INFERRED,
+    "ARBT_SMTN_SELN_TR_PBMN": FieldSource.INFERRED,
+    "ARBT_SMTM_SELN_TR_PBMN_RATE": FieldSource.INFERRED,
+    "ARBT_SMTN_SHNU_VOL": FieldSource.INFERRED,
+    "ARBT_SMTM_SHNU_VOL_RATE": FieldSource.INFERRED,
+    "ARBT_SMTN_SHNU_TR_PBMN": FieldSource.INFERRED,
+    "ARBT_SMTM_SHNU_TR_PBMN_RATE": FieldSource.INFERRED,
+    "ARBT_SMTN_NTBY_QTY": FieldSource.INFERRED,
+    "ARBT_SMTM_NTBY_QTY_RATE": FieldSource.INFERRED,
+    "ARBT_SMTN_NTBY_TR_PBMN": FieldSource.INFERRED,
+    "ARBT_SMTM_NTBY_TR_PBMN_RATE": FieldSource.INFERRED,
+    "NABT_SMTN_SELN_VOL": FieldSource.INFERRED,
+    "NABT_SMTM_SELN_VOL_RATE": FieldSource.INFERRED,
+    "NABT_SMTN_SELN_TR_PBMN": FieldSource.INFERRED,
+    "NABT_SMTM_SELN_TR_PBMN_RATE": FieldSource.INFERRED,
+    "NABT_SMTN_SHNU_VOL": FieldSource.INFERRED,
+    "NABT_SMTM_SHNU_VOL_RATE": FieldSource.INFERRED,
+    "NABT_SMTN_SHNU_TR_PBMN": FieldSource.INFERRED,
+    "NABT_SMTM_SHNU_TR_PBMN_RATE": FieldSource.INFERRED,
+    "NABT_SMTN_NTBY_QTY": FieldSource.INFERRED,
+    "NABT_SMTM_NTBY_QTY_RATE": FieldSource.INFERRED,
+    "NABT_SMTN_NTBY_TR_PBMN": FieldSource.INFERRED,
+    "NABT_SMTM_NTBY_TR_PBMN_RATE": FieldSource.INFERRED,
+    "WHOL_ENTM_SELN_VOL": FieldSource.INFERRED,
+    "ENTM_SELN_VOL_RATE": FieldSource.INFERRED,
+    "WHOL_ENTM_SELN_TR_PBMN": FieldSource.INFERRED,
+    "ENTM_SELN_TR_PBMN_RATE": FieldSource.INFERRED,
+    "WHOL_ENTM_SHNU_VOL": FieldSource.INFERRED,
+    "ENTM_SHNU_VOL_RATE": FieldSource.INFERRED,
+    "WHOL_ENTM_SHNU_TR_PBMN": FieldSource.INFERRED,
+    "ENTM_SHNU_TR_PBMN_RATE": FieldSource.INFERRED,
+    "WHOL_ENTM_NTBY_QT": FieldSource.INFERRED,
+    "ENTM_NTBY_QTY_RAT": FieldSource.INFERRED,
+    "WHOL_ENTM_NTBY_TR_PBMN": FieldSource.INFERRED,
+    "ENTM_NTBY_TR_PBMN_RATE": FieldSource.INFERRED,
+    "WHOL_ONSL_SELN_VOL": FieldSource.INFERRED,
+    "ONSL_SELN_VOL_RATE": FieldSource.INFERRED,
+    "WHOL_ONSL_SELN_TR_PBMN": FieldSource.INFERRED,
+    "ONSL_SELN_TR_PBMN_RATE": FieldSource.INFERRED,
+    "WHOL_ONSL_SHNU_VOL": FieldSource.INFERRED,
+    "ONSL_SHNU_VOL_RATE": FieldSource.INFERRED,
+    "WHOL_ONSL_SHNU_TR_PBMN": FieldSource.INFERRED,
+    "ONSL_SHNU_TR_PBMN_RATE": FieldSource.INFERRED,
+    "WHOL_ONSL_NTBY_QTY": FieldSource.INFERRED,
+    "ONSL_NTBY_QTY_RATE": FieldSource.INFERRED,
+    "WHOL_ONSL_NTBY_TR_PBMN": FieldSource.INFERRED,
+    "ONSL_NTBY_TR_PBMN_RATE": FieldSource.INFERRED,
+    "TOTAL_SELN_QTY": FieldSource.INFERRED,
+    "WHOL_SELN_VOL_RATE": FieldSource.INFERRED,
+    "TOTAL_SELN_TR_PBMN": FieldSource.INFERRED,
+    "WHOL_SELN_TR_PBMN_RATE": FieldSource.INFERRED,
+    "SHNU_CNTG_SMTN": FieldSource.INFERRED,
+    "WHOL_SHUN_VOL_RATE": FieldSource.INFERRED,
+    "TOTAL_SHNU_TR_PBMN": FieldSource.INFERRED,
+    "WHOL_SHUN_TR_PBMN_RATE": FieldSource.INFERRED,
+    "WHOL_NTBY_QTY": FieldSource.INFERRED,
+    "WHOL_SMTM_NTBY_QTY_RATE": FieldSource.INFERRED,
+    "WHOL_NTBY_TR_PBMN": FieldSource.INFERRED,
+    "WHOL_NTBY_TR_PBMN_RATE": FieldSource.INFERRED,
+    "ARBT_ENTM_NTBY_QTY": FieldSource.INFERRED,
+    "ARBT_ENTM_NTBY_TR_PBMN": FieldSource.INFERRED,
+    "ARBT_ONSL_NTBY_QTY": FieldSource.INFERRED,
+    "ARBT_ONSL_NTBY_TR_PBMN": FieldSource.INFERRED,
+    "NABT_ENTM_NTBY_QTY": FieldSource.INFERRED,
+    "NABT_ENTM_NTBY_TR_PBMN": FieldSource.INFERRED,
+    "NABT_ONSL_NTBY_QTY": FieldSource.INFERRED,
+    "NABT_ONSL_NTBY_TR_PBMN": FieldSource.INFERRED,
+    "ACML_VOL": FieldSource.INFERRED,
+    "ACML_TR_PBMN": FieldSource.INFERRED,
 }
 DATETIME_RULES = {"BSOP_HOUR": DateTimeRule(kind="time_only", format="HHMMSS", timezone="Asia/Seoul", date_field="business_date")}
 DECIMAL_RULES = {}

@@ -37,17 +37,6 @@ class OvrsExcgCdEnum(KisStrEnum):
     """아멕스"""
 
 
-class OrgnOdnoEnum(KisStrEnum):
-    OVERSEAS = ("overseas", "stock/v1/trading/")
-    """stock/v1/trading/"""
-    INQUIRE = ("inquire", "nccs)에서 odno(주문번호) 참조'")
-    """nccs)에서 odno(주문번호) 참조'"""
-    NCCS = ("nccs", "에서 odno(주문번호) 참조'")
-    """에서 odno(주문번호) 참조'"""
-    ODNO = ("odno", "주문번호")
-    """주문번호"""
-
-
 class RvseCnclDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "정정")
     """정정"""
@@ -68,23 +57,12 @@ class DaytimeOrderRvsecnclRequest(RawModel):
     )
     PDNO: Annotated[str, "종목코드"] = Field(alias="PDNO")
     ORGN_ODNO: Annotated[
-        OrgnOdnoEnum,
+        str,
         (
             "'정정 또는 취소할 원주문번호(매매 TR의 주문번호) - 해외주식 주문체결내역api (/uapi/overseas-stock/v1/trading/inquire-nccs)에서 odno(주문"
             "번호) 참조'"
         ),
-    ] = Field(
-        alias="ORGN_ODNO",
-        json_schema_extra={
-            "enum": ["overseas", "inquire", "nccs", "odno"],
-            "enum_desc": {
-                "overseas": "stock/v1/trading/",
-                "inquire": "nccs)에서 odno(주문번호) 참조'",
-                "nccs": "에서 odno(주문번호) 참조'",
-                "odno": "주문번호",
-            },
-        },
-    )
+    ] = Field(alias="ORGN_ODNO")
     RVSE_CNCL_DVSN_CD: Annotated[RvseCnclDvsnCdEnum, "'01 : 정정 02 : 취소'"] = Field(
         alias="RVSE_CNCL_DVSN_CD", json_schema_extra={"enum": ["01", "02"], "enum_desc": {"01": "정정", "02": "취소'"}}
     )
@@ -125,8 +103,8 @@ class DaytimeOrderRvsecnclRequestDict(TypedDict):
         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
         OVRS_EXCG_CD (OvrsExcgCdEnum): NASD:나스닥 / NYSE:뉴욕 / AMEX:아멕스
         PDNO (str): 종목코드
-        ORGN_ODNO (OrgnOdnoEnum): '정정 또는 취소할 원주문번호(매매 TR의 주문번호) - 해외주식
-        주문체결내역api (/uapi/overseas-stock/v1/trading/inquire-nccs)에서 odno(주문번호) 참조'
+        ORGN_ODNO (str): '정정 또는 취소할 원주문번호(매매 TR의 주문번호) - 해외주식 주문체결내역api
+        (/uapi/overseas-stock/v1/trading/inquire-nccs)에서 odno(주문번호) 참조'
         RVSE_CNCL_DVSN_CD (RvseCnclDvsnCdEnum): '01 : 정정 02 : 취소'
         ORD_QTY (int): 주문수량
         OVRS_ORD_UNPR (Decimal): 소수점 포함, 1주당 가격
@@ -139,7 +117,7 @@ class DaytimeOrderRvsecnclRequestDict(TypedDict):
     ACNT_PRDT_CD: AcntPrdtCdEnum
     OVRS_EXCG_CD: OvrsExcgCdEnum
     PDNO: str
-    ORGN_ODNO: OrgnOdnoEnum
+    ORGN_ODNO: str
     RVSE_CNCL_DVSN_CD: RvseCnclDvsnCdEnum
     ORD_QTY: int
     OVRS_ORD_UNPR: Decimal
@@ -256,8 +234,8 @@ if TYPE_CHECKING:
                         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
                         OVRS_EXCG_CD (OvrsExcgCdEnum): NASD:나스닥 / NYSE:뉴욕 / AMEX:아멕스
                         PDNO (str): 종목코드
-                        ORGN_ODNO (OrgnOdnoEnum): '정정 또는 취소할 원주문번호(매매 TR의 주문번호) -
-                        해외주식 주문체결내역api (/uapi/overseas-stock/v1/trading/inquire-nccs)에서
+                        ORGN_ODNO (str): '정정 또는 취소할 원주문번호(매매 TR의 주문번호) - 해외주식
+                        주문체결내역api (/uapi/overseas-stock/v1/trading/inquire-nccs)에서
                         odno(주문번호) 참조'
                         RVSE_CNCL_DVSN_CD (RvseCnclDvsnCdEnum): '01 : 정정 02 : 취소'
                         ORD_QTY (int): 주문수량
@@ -284,6 +262,5 @@ __all__ = [
     "CanoEnum",
     "AcntPrdtCdEnum",
     "OvrsExcgCdEnum",
-    "OrgnOdnoEnum",
     "RvseCnclDvsnCdEnum",
 ]

@@ -81,6 +81,33 @@ def _lookup_override_enum_values(
     return _normalize_values(field_hint.enum)
 
 
+def _lookup_override_kind(
+    overrides: TypeOverrides,
+    *,
+    endpoint_id: str,
+    location: str,
+    output_code: str,
+    field_code: str,
+) -> str | None:
+    endpoint_hints = overrides.endpoints.get(endpoint_id)
+    if endpoint_hints is None:
+        return None
+
+    field_hint = None
+    if location in {"request.query", "request.body"}:
+        field_hint = endpoint_hints.request.get(field_code)
+    elif location == "response.body":
+        field_hint = endpoint_hints.response.get(field_code)
+    elif location == "response.output":
+        output_fields = endpoint_hints.outputs.get(output_code)
+        if isinstance(output_fields, dict):
+            field_hint = output_fields.get(field_code)
+
+    if field_hint is None or field_hint.kind is None:
+        return None
+    return str(field_hint.kind).strip().lower()
+
+
 def _is_candidate_covered_by_overrides(
     candidate: JsonObject,
     applied_overrides: TypeOverrides | None,
@@ -95,6 +122,16 @@ def _is_candidate_covered_by_overrides(
     unknown_values = _normalize_values(candidate.get("unknown_values"))
     if not endpoint_id or not location or not field_code or not unknown_values:
         return False
+
+    override_kind = _lookup_override_kind(
+        applied_overrides,
+        endpoint_id=endpoint_id,
+        location=location,
+        output_code=output_code,
+        field_code=field_code,
+    )
+    if override_kind and override_kind != "enum":
+        return True
 
     override_values = _lookup_override_enum_values(
         applied_overrides,
@@ -260,7 +297,7 @@ def render_enum_type_override_candidates_markdown(payload: JsonObject) -> str:
         f"- endpoints: {summary_map.get('endpoints', 0)}",
         f"- draft_overrides: {summary_map.get('draft_overrides', 0)}",
         "",
-        "> 이 파일은 수동 검토용 초안입니다. `docs/overrides/type_overrides.yaml`에 자동 반영되지 않습니다.",
+        "> 이 파일은 수동 검토용 초안입니다. `data/overrides/type_overrides.yaml`에 자동 반영되지 않습니다.",
         "",
     ]
 

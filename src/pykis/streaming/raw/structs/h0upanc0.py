@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from decimal import Decimal
 from typing import Annotated
 
 from pykis.streaming.raw.base import StreamingRawModel
@@ -10,35 +11,35 @@ from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, Stre
 
 class H0UPANC0(StreamingRawModel):
     BSTP_CLS_CODE: Annotated[str, "'각 항목사이에는 구분자로 ^ 사용,\n모든 데이터타입은 String으로 변환되어 push 처리됨'"]
-    BSOP_HOUR: datetime
-    PRPR_NMIX: str
-    PRDY_VRSS_SIGN: str
-    BSTP_NMIX_PRDY_VRSS: str
-    ACML_VOL: str
-    ACML_TR_PBMN: str
-    PCAS_VOL: str
-    PCAS_TR_PBMN: str
-    PRDY_CTRT: str
-    OPRC_NMIX: str
-    NMIX_HGPR: str
-    NMIX_LWPR: str
-    OPRC_VRSS_NMIX_PRPR: str
-    OPRC_VRSS_NMIX_SIGN: str
-    HGPR_VRSS_NMIX_PRPR: str
-    HGPR_VRSS_NMIX_SIGN: str
-    LWPR_VRSS_NMIX_PRPR: str
-    LWPR_VRSS_NMIX_SIGN: str
-    PRDY_CLPR_VRSS_OPRC_RATE: str
-    PRDY_CLPR_VRSS_HGPR_RATE: str
-    PRDY_CLPR_VRSS_LWPR_RATE: str
-    UPLM_ISSU_CNT: str
-    ASCN_ISSU_CNT: str
-    STNR_ISSU_CNT: str
-    DOWN_ISSU_CNT: str
-    LSLM_ISSU_CNT: str
-    QTQT_ASCN_ISSU_CNT: str
-    QTQT_DOWN_ISSU_CNT: str
-    TICK_VRSS: str
+    BSOP_HOUR: Annotated[datetime, "영업 시간"]
+    PRPR_NMIX: Annotated[Decimal, "현재가 지수"]
+    PRDY_VRSS_SIGN: Annotated[str, "전일 대비 부호"]
+    BSTP_NMIX_PRDY_VRSS: Annotated[Decimal, "업종 지수 전일 대비"]
+    ACML_VOL: Annotated[Decimal, "누적 거래량"]
+    ACML_TR_PBMN: Annotated[Decimal, "누적 거래 대금"]
+    PCAS_VOL: Annotated[Decimal, "건별 거래량"]
+    PCAS_TR_PBMN: Annotated[Decimal, "건별 거래 대금"]
+    PRDY_CTRT: Annotated[Decimal, "전일 대비율"]
+    OPRC_NMIX: Annotated[Decimal, "시가 지수"]
+    NMIX_HGPR: Annotated[Decimal, "지수 최고가"]
+    NMIX_LWPR: Annotated[Decimal, "지수 최저가"]
+    OPRC_VRSS_NMIX_PRPR: Annotated[Decimal, "시가 대비 지수 현재가"]
+    OPRC_VRSS_NMIX_SIGN: Annotated[str, "시가 대비 지수 부호"]
+    HGPR_VRSS_NMIX_PRPR: Annotated[Decimal, "최고가 대비 지수 현재가"]
+    HGPR_VRSS_NMIX_SIGN: Annotated[str, "최고가 대비 지수 부호"]
+    LWPR_VRSS_NMIX_PRPR: Annotated[Decimal, "최저가 대비 지수 현재가"]
+    LWPR_VRSS_NMIX_SIGN: Annotated[str, "최저가 대비 지수 부호"]
+    PRDY_CLPR_VRSS_OPRC_RATE: Annotated[Decimal, "전일 종가 대비 시가2 비율"]
+    PRDY_CLPR_VRSS_HGPR_RATE: Annotated[Decimal, "전일 종가 대비 최고가 비율"]
+    PRDY_CLPR_VRSS_LWPR_RATE: Annotated[Decimal, "전일 종가 대비 최저가 비율"]
+    UPLM_ISSU_CNT: Annotated[Decimal, "상한 종목 수"]
+    ASCN_ISSU_CNT: Annotated[Decimal, "상승 종목 수"]
+    STNR_ISSU_CNT: Annotated[Decimal, "보합 종목 수"]
+    DOWN_ISSU_CNT: Annotated[Decimal, "하락 종목 수"]
+    LSLM_ISSU_CNT: Annotated[Decimal, "하한 종목 수"]
+    QTQT_ASCN_ISSU_CNT: Annotated[Decimal, "기세 상승 종목수"]
+    QTQT_DOWN_ISSU_CNT: Annotated[Decimal, "기세 하락 종목수"]
+    TICK_VRSS: Annotated[Decimal, "TICK대비"]
 
 
 FIELD_ORDER = [
@@ -77,66 +78,66 @@ FIELD_ALIASES = {}
 FIELD_TYPES = {
     "BSTP_CLS_CODE": FieldType.STR,
     "BSOP_HOUR": FieldType.DATETIME,
-    "PRPR_NMIX": FieldType.STR,
+    "PRPR_NMIX": FieldType.DECIMAL,
     "PRDY_VRSS_SIGN": FieldType.STR,
-    "BSTP_NMIX_PRDY_VRSS": FieldType.STR,
-    "ACML_VOL": FieldType.STR,
-    "ACML_TR_PBMN": FieldType.STR,
-    "PCAS_VOL": FieldType.STR,
-    "PCAS_TR_PBMN": FieldType.STR,
-    "PRDY_CTRT": FieldType.STR,
-    "OPRC_NMIX": FieldType.STR,
-    "NMIX_HGPR": FieldType.STR,
-    "NMIX_LWPR": FieldType.STR,
-    "OPRC_VRSS_NMIX_PRPR": FieldType.STR,
+    "BSTP_NMIX_PRDY_VRSS": FieldType.DECIMAL,
+    "ACML_VOL": FieldType.DECIMAL,
+    "ACML_TR_PBMN": FieldType.DECIMAL,
+    "PCAS_VOL": FieldType.DECIMAL,
+    "PCAS_TR_PBMN": FieldType.DECIMAL,
+    "PRDY_CTRT": FieldType.DECIMAL,
+    "OPRC_NMIX": FieldType.DECIMAL,
+    "NMIX_HGPR": FieldType.DECIMAL,
+    "NMIX_LWPR": FieldType.DECIMAL,
+    "OPRC_VRSS_NMIX_PRPR": FieldType.DECIMAL,
     "OPRC_VRSS_NMIX_SIGN": FieldType.STR,
-    "HGPR_VRSS_NMIX_PRPR": FieldType.STR,
+    "HGPR_VRSS_NMIX_PRPR": FieldType.DECIMAL,
     "HGPR_VRSS_NMIX_SIGN": FieldType.STR,
-    "LWPR_VRSS_NMIX_PRPR": FieldType.STR,
+    "LWPR_VRSS_NMIX_PRPR": FieldType.DECIMAL,
     "LWPR_VRSS_NMIX_SIGN": FieldType.STR,
-    "PRDY_CLPR_VRSS_OPRC_RATE": FieldType.STR,
-    "PRDY_CLPR_VRSS_HGPR_RATE": FieldType.STR,
-    "PRDY_CLPR_VRSS_LWPR_RATE": FieldType.STR,
-    "UPLM_ISSU_CNT": FieldType.STR,
-    "ASCN_ISSU_CNT": FieldType.STR,
-    "STNR_ISSU_CNT": FieldType.STR,
-    "DOWN_ISSU_CNT": FieldType.STR,
-    "LSLM_ISSU_CNT": FieldType.STR,
-    "QTQT_ASCN_ISSU_CNT": FieldType.STR,
-    "QTQT_DOWN_ISSU_CNT": FieldType.STR,
-    "TICK_VRSS": FieldType.STR,
+    "PRDY_CLPR_VRSS_OPRC_RATE": FieldType.DECIMAL,
+    "PRDY_CLPR_VRSS_HGPR_RATE": FieldType.DECIMAL,
+    "PRDY_CLPR_VRSS_LWPR_RATE": FieldType.DECIMAL,
+    "UPLM_ISSU_CNT": FieldType.DECIMAL,
+    "ASCN_ISSU_CNT": FieldType.DECIMAL,
+    "STNR_ISSU_CNT": FieldType.DECIMAL,
+    "DOWN_ISSU_CNT": FieldType.DECIMAL,
+    "LSLM_ISSU_CNT": FieldType.DECIMAL,
+    "QTQT_ASCN_ISSU_CNT": FieldType.DECIMAL,
+    "QTQT_DOWN_ISSU_CNT": FieldType.DECIMAL,
+    "TICK_VRSS": FieldType.DECIMAL,
 }
 FIELD_SOURCES = {
     "BSTP_CLS_CODE": FieldSource.DOC_TYPE,
     "BSOP_HOUR": FieldSource.RULE,
-    "PRPR_NMIX": FieldSource.DOC_TYPE,
+    "PRPR_NMIX": FieldSource.INFERRED,
     "PRDY_VRSS_SIGN": FieldSource.DOC_TYPE,
-    "BSTP_NMIX_PRDY_VRSS": FieldSource.DOC_TYPE,
-    "ACML_VOL": FieldSource.DOC_TYPE,
-    "ACML_TR_PBMN": FieldSource.DOC_TYPE,
-    "PCAS_VOL": FieldSource.DOC_TYPE,
-    "PCAS_TR_PBMN": FieldSource.DOC_TYPE,
-    "PRDY_CTRT": FieldSource.DOC_TYPE,
-    "OPRC_NMIX": FieldSource.DOC_TYPE,
-    "NMIX_HGPR": FieldSource.DOC_TYPE,
-    "NMIX_LWPR": FieldSource.DOC_TYPE,
-    "OPRC_VRSS_NMIX_PRPR": FieldSource.DOC_TYPE,
+    "BSTP_NMIX_PRDY_VRSS": FieldSource.INFERRED,
+    "ACML_VOL": FieldSource.INFERRED,
+    "ACML_TR_PBMN": FieldSource.INFERRED,
+    "PCAS_VOL": FieldSource.INFERRED,
+    "PCAS_TR_PBMN": FieldSource.INFERRED,
+    "PRDY_CTRT": FieldSource.INFERRED,
+    "OPRC_NMIX": FieldSource.INFERRED,
+    "NMIX_HGPR": FieldSource.INFERRED,
+    "NMIX_LWPR": FieldSource.INFERRED,
+    "OPRC_VRSS_NMIX_PRPR": FieldSource.INFERRED,
     "OPRC_VRSS_NMIX_SIGN": FieldSource.DOC_TYPE,
-    "HGPR_VRSS_NMIX_PRPR": FieldSource.DOC_TYPE,
+    "HGPR_VRSS_NMIX_PRPR": FieldSource.INFERRED,
     "HGPR_VRSS_NMIX_SIGN": FieldSource.DOC_TYPE,
-    "LWPR_VRSS_NMIX_PRPR": FieldSource.DOC_TYPE,
+    "LWPR_VRSS_NMIX_PRPR": FieldSource.INFERRED,
     "LWPR_VRSS_NMIX_SIGN": FieldSource.DOC_TYPE,
-    "PRDY_CLPR_VRSS_OPRC_RATE": FieldSource.DOC_TYPE,
-    "PRDY_CLPR_VRSS_HGPR_RATE": FieldSource.DOC_TYPE,
-    "PRDY_CLPR_VRSS_LWPR_RATE": FieldSource.DOC_TYPE,
-    "UPLM_ISSU_CNT": FieldSource.DOC_TYPE,
-    "ASCN_ISSU_CNT": FieldSource.DOC_TYPE,
-    "STNR_ISSU_CNT": FieldSource.DOC_TYPE,
-    "DOWN_ISSU_CNT": FieldSource.DOC_TYPE,
-    "LSLM_ISSU_CNT": FieldSource.DOC_TYPE,
-    "QTQT_ASCN_ISSU_CNT": FieldSource.DOC_TYPE,
-    "QTQT_DOWN_ISSU_CNT": FieldSource.DOC_TYPE,
-    "TICK_VRSS": FieldSource.DOC_TYPE,
+    "PRDY_CLPR_VRSS_OPRC_RATE": FieldSource.INFERRED,
+    "PRDY_CLPR_VRSS_HGPR_RATE": FieldSource.INFERRED,
+    "PRDY_CLPR_VRSS_LWPR_RATE": FieldSource.INFERRED,
+    "UPLM_ISSU_CNT": FieldSource.INFERRED,
+    "ASCN_ISSU_CNT": FieldSource.INFERRED,
+    "STNR_ISSU_CNT": FieldSource.INFERRED,
+    "DOWN_ISSU_CNT": FieldSource.INFERRED,
+    "LSLM_ISSU_CNT": FieldSource.INFERRED,
+    "QTQT_ASCN_ISSU_CNT": FieldSource.INFERRED,
+    "QTQT_DOWN_ISSU_CNT": FieldSource.INFERRED,
+    "TICK_VRSS": FieldSource.INFERRED,
 }
 DATETIME_RULES = {"BSOP_HOUR": DateTimeRule(kind="time_only", format="HHMMSS", timezone="Asia/Seoul", date_field="business_date")}
 DECIMAL_RULES = {}

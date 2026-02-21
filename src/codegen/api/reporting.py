@@ -33,7 +33,7 @@ def build_api_report(root: Path) -> JsonObject:
     report_dir = root / "tmp" / "docs" / "reports"
     augment_dir = root / "tmp" / "docs" / "augment"
     normalized_dir = root / "tmp" / "docs" / "normalized"
-    overrides_path = root / "docs" / "overrides" / "type_overrides.yaml"
+    overrides_path = root / "data" / "overrides" / "type_overrides.yaml"
 
     scan = _load_json(report_dir / "scan.json")
     normalize = _load_json(report_dir / "normalize.json")

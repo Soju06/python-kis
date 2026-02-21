@@ -24,5 +24,5 @@ class DocsGenConfig:
         return cls(
             project_root=project_root,
             output_dir=docs_root(project_root),
-            master_reference_path=project_root / "docs" / "종목정보파일_주소_헤더.md",
+            master_reference_path=project_root / "data" / "종목정보파일_주소_헤더.md",
         )

@@ -43,19 +43,19 @@ class PubOfferRequestDict(TypedDict):
 
 
 class PubOfferOutput1(RawModel):
-    record_date: Annotated[KisDateOptional, "기준일"] = Field(default=None, alias="record_date")
-    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
-    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
-    fix_subscr_pri: Annotated[str | None, "공모가"] = Field(default=None, alias="fix_subscr_pri")
-    face_value: Annotated[str | None, "액면가"] = Field(default=None, alias="face_value")
-    subscr_dt: Annotated[KisDateOptional, "청약기간"] = Field(default=None, alias="subscr_dt")
-    pay_dt: Annotated[KisDateOptional, "납입일"] = Field(default=None, alias="pay_dt")
-    refund_dt: Annotated[KisDateOptional, "환불일"] = Field(default=None, alias="refund_dt")
+    record_date: Annotated[KisDate, "기준일"] = Field(alias="record_date")
+    sht_cd: Annotated[str, "종목코드"] = Field(alias="sht_cd")
+    isin_name: Annotated[str, "종목명"] = Field(alias="isin_name")
+    fix_subscr_pri: Annotated[int, "공모가"] = Field(alias="fix_subscr_pri")
+    face_value: Annotated[int, "액면가"] = Field(alias="face_value")
+    subscr_dt: Annotated[str, "청약기간"] = Field(alias="subscr_dt")
+    pay_dt: Annotated[KisDate, "납입일"] = Field(alias="pay_dt")
+    refund_dt: Annotated[KisDate, "환불일"] = Field(alias="refund_dt")
     list_dt: Annotated[KisDateOptional, "상장/등록일"] = Field(default=None, alias="list_dt")
-    lead_mgr: Annotated[str | None, "주간사"] = Field(default=None, alias="lead_mgr")
-    pub_bf_cap: Annotated[str | None, "공모전자본금"] = Field(default=None, alias="pub_bf_cap")
-    pub_af_cap: Annotated[str | None, "공모후자본금"] = Field(default=None, alias="pub_af_cap")
-    assign_stk_qty: Annotated[str | None, "당사배정물량"] = Field(default=None, alias="assign_stk_qty")
+    lead_mgr: Annotated[str, "주간사"] = Field(alias="lead_mgr")
+    pub_bf_cap: Annotated[int, "공모전자본금"] = Field(alias="pub_bf_cap")
+    pub_af_cap: Annotated[int, "공모후자본금"] = Field(alias="pub_af_cap")
+    assign_stk_qty: Annotated[int, "당사배정물량"] = Field(alias="assign_stk_qty")
 
 
 class PubOfferResponse(RawModel):

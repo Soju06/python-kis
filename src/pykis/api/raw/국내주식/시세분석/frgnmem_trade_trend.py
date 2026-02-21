@@ -15,8 +15,6 @@ if TYPE_CHECKING:
 
 
 class FidMrktClsCodeEnum(KisStrEnum):
-    ELW = ("ELW", "W")
-    """W"""
     A = ("A", "전체")
     """전체"""
     K = ("K", "코스피")
@@ -44,8 +42,8 @@ class FrgnmemTradeTrendRequest(RawModel):
     ] = Field(
         alias="FID_MRKT_CLS_CODE",
         json_schema_extra={
-            "enum": ["ELW", "A", "K", "Q", "K2", "W"],
-            "enum_desc": {"ELW": "W", "A": "전체", "K": "코스피", "Q": "코스닥", "K2": "코스피200", "W": "ELW"},
+            "enum": ["A", "K", "Q", "K2", "W"],
+            "enum_desc": {"A": "전체", "K": "코스피", "Q": "코스닥", "K2": "코스피200", "W": "ELW"},
         },
     )
     FID_VOL_CNT: Annotated[int, "거래량 ~"] = Field(alias="FID_VOL_CNT")

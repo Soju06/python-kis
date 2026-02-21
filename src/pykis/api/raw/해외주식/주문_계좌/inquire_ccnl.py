@@ -72,8 +72,6 @@ class SortSqnEnum(KisStrEnum):
     """정순"""
     AS = ("AS", "역순")
     """역순"""
-    DEFAULT = ("Default", "DS(정순)")
-    """DS(정순)"""
 
 
 class SllBuyDvsnCdEnum(KisStrEnum):
@@ -187,7 +185,7 @@ class InquireCcnlRequest(RawModel):
         },
     )
     SORT_SQN: Annotated[SortSqnEnum, "DS : 정순 AS : 역순 ※ 모의투자계좌의 경우 정렬순서 사용불가(Default : DS(정순))"] = Field(
-        alias="SORT_SQN", json_schema_extra={"enum": ["DS", "AS", "Default"], "enum_desc": {"DS": "정순", "AS": "역순", "Default": "DS(정순)"}}
+        alias="SORT_SQN", json_schema_extra={"enum": ["DS", "AS"], "enum_desc": {"DS": "정순", "AS": "역순"}}
     )
     ORD_DT: Annotated[KisDateOptional, '"" (Null 값 설정)'] = Field(default=None, alias="ORD_DT", json_schema_extra={"blank_allowed": True})
     ORD_GNO_BRNO: Annotated[str | None, '"" (Null 값 설정)'] = Field(default=None, alias="ORD_GNO_BRNO", json_schema_extra={"blank_allowed": True})

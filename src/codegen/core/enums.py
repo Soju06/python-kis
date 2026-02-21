@@ -8,6 +8,10 @@ _ENUM_PAIR_RE = re.compile(
     r"(?P<code>[A-Za-z0-9]{1,8})\s*[:=]\s*(?P<desc>.*?)(?=(?:\b[A-Za-z0-9]{1,8}\s*[:=])|$)",
     re.S,
 )
+_ENUM_LABEL_CODE_PAIR_RE = re.compile(
+    r"(?P<label>[A-Za-z가-힣][A-Za-z0-9가-힣_ ]{0,20})\s*[:=]\s*(?P<code>[A-Za-z0-9]{1,8})(?=\s*(?:[,/;]|$))",
+    re.S,
+)
 _ENUM_PAIR_DASH_RE = re.compile(
     r"(?P<code>[A-Za-z0-9]{1,8})\s*[-–]\s*(?P<desc>.*?)(?=(?:\b[A-Za-z0-9]{1,8}\s*[-–])|$)",
     re.S,
@@ -35,6 +39,29 @@ class EnumEntry:
 
 
 _CLEAN_CODE_RE = re.compile(r"[^A-Za-z0-9]+")
+_HAS_KOREAN_RE = re.compile(r"[가-힣]")
+_LOWER_DIGIT_CODE_RE = re.compile(r"^[a-z][0-9]{1,4}$")
+_UPPER_ALNUM_CODE_RE = re.compile(r"^[A-Z0-9]{1,8}$")
+_META_CODE_TOKENS = {
+    "header",
+    "type",
+    "length",
+    "default",
+    "id",
+    "code",
+    "odno",
+    "inquire",
+    "overseas",
+    "nccs",
+    "buy",
+    "in",
+    "mutual",
+    "ritz",
+    "fghin",
+}
+_INSTRUCTION_HINT_RE = re.compile(
+    r"(?i)조회|입력|참조|설정|필수|가능|api|tr_id|header|null|공란|default"
+)
 
 
 def _normalize_description(text: str) -> str:
@@ -77,6 +104,22 @@ def _clean_code(token: str) -> str:
     return cleaned
 
 
+def _should_reverse_label_code_pair(label: str, code: str) -> bool:
+    clean_label = _clean_code(label)
+    clean_code = _clean_code(code)
+    if not clean_label or not clean_code:
+        return False
+    if _ENUM_EXAMPLE_RE.search(clean_label):
+        return False
+    if _HAS_KOREAN_RE.search(clean_label):
+        if len(clean_code) > 4:
+            return False
+        return True
+    if len(clean_label) >= 3 and len(clean_code) <= 3:
+        return True
+    return False
+
+
 def _is_code_token(token: str) -> bool:
     if any(char in token for char in ("(", ")", "/")):
         return False
@@ -85,7 +128,24 @@ def _is_code_token(token: str) -> bool:
         return False
     if len(cleaned) > 8:
         return False
-    return _CLEAN_CODE_RE.sub("", cleaned) == cleaned
+    return _is_plausible_enum_code(cleaned)
+
+
+def _is_plausible_enum_code(token: str) -> bool:
+    cleaned = _clean_code(token)
+    if not cleaned:
+        return False
+    if len(cleaned) > 8:
+        return False
+    if cleaned.lower() in _META_CODE_TOKENS:
+        return False
+    if cleaned.isdigit():
+        return True
+    if _UPPER_ALNUM_CODE_RE.fullmatch(cleaned):
+        return True
+    if _LOWER_DIGIT_CODE_RE.fullmatch(cleaned):
+        return True
+    return len(cleaned) == 1 and cleaned.islower()
 
 
 def _parse_pairs(normalized: str) -> list[EnumEntry]:
@@ -94,6 +154,15 @@ def _parse_pairs(normalized: str) -> list[EnumEntry]:
     if not segments:
         segments = [normalized]
     for segment in segments:
+        for match in _ENUM_LABEL_CODE_PAIR_RE.finditer(segment):
+            label = match.group("label").strip()
+            code = match.group("code").strip()
+            if not _should_reverse_label_code_pair(label, code):
+                continue
+            desc = _clean_desc(label)
+            if not code or not desc:
+                continue
+            entries.append(EnumEntry(code=code, desc=desc))
         for match in _ENUM_PAIR_RE.finditer(segment):
             code = match.group("code").strip()
             desc = _clean_desc(match.group("desc") or "")
@@ -148,7 +217,7 @@ def _parse_colonless(normalized: str) -> list[EnumEntry]:
         line = line.strip()
         if not line:
             continue
-        for segment in re.split(r"[,/]+", line):
+        for segment in re.split(r"[,;]+", line):
             segment = segment.strip()
             if not segment or ":" in segment or "=" in segment:
                 continue
@@ -164,8 +233,11 @@ def _parse_colonless(normalized: str) -> list[EnumEntry]:
                     continue
                 if len(tokens) < 2:
                     continue
+                desc_text = " ".join(tokens[1:])
+                if _INSTRUCTION_HINT_RE.search(desc_text):
+                    continue
                 code = _clean_code(tokens[0])
-                desc = _clean_desc(" ".join(tokens[1:]))
+                desc = _clean_desc(desc_text)
                 if code and desc:
                     entries.append(EnumEntry(code=code, desc=desc))
                 continue
@@ -333,6 +405,8 @@ def parse_enum_entries(description: str | None) -> list[EnumEntry]:
     unique: dict[str, EnumEntry] = {}
     for entry in candidates:
         code = entry.code
+        if not _is_plausible_enum_code(code):
+            continue
         if bitwise_combinations:
             if code in bit_component_codes:
                 continue

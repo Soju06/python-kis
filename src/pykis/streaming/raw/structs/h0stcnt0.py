@@ -10,40 +10,40 @@ from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, Stre
 
 
 class H0STCNT0(StreamingRawModel):
-    MKSC_SHRN_ISCD: str
-    STCK_CNTG_HOUR: datetime
+    MKSC_SHRN_ISCD: Annotated[str, "유가증권 단축 종목코드"]
+    STCK_CNTG_HOUR: Annotated[datetime, "주식 체결 시간"]
     STCK_PRPR: Annotated[Decimal, "체결가격"]
     PRDY_VRSS_SIGN: Annotated[str, "1 : 상한\n2 : 상승\n3 : 보합\n4 : 하한\n5 : 하락"]
-    PRDY_VRSS: Decimal
-    PRDY_CTRT: Decimal
-    WGHN_AVRG_STCK_PRC: Decimal
-    STCK_OPRC: Decimal
-    STCK_HGPR: Decimal
-    STCK_LWPR: Decimal
-    ASKP1: Decimal
-    BIDP1: Decimal
-    CNTG_VOL: Decimal
-    ACML_VOL: Decimal
-    ACML_TR_PBMN: Decimal
-    SELN_CNTG_CSNU: Decimal
-    SHNU_CNTG_CSNU: Decimal
-    NTBY_CNTG_CSNU: Decimal
-    CTTR: Decimal
-    SELN_CNTG_SMTN: Decimal
-    SHNU_CNTG_SMTN: Decimal
+    PRDY_VRSS: Annotated[Decimal, "전일 대비"]
+    PRDY_CTRT: Annotated[Decimal, "전일 대비율"]
+    WGHN_AVRG_STCK_PRC: Annotated[Decimal, "가중 평균 주식 가격"]
+    STCK_OPRC: Annotated[Decimal, "주식 시가"]
+    STCK_HGPR: Annotated[Decimal, "주식 최고가"]
+    STCK_LWPR: Annotated[Decimal, "주식 최저가"]
+    ASKP1: Annotated[Decimal, "매도호가1"]
+    BIDP1: Annotated[Decimal, "매수호가1"]
+    CNTG_VOL: Annotated[Decimal, "체결 거래량"]
+    ACML_VOL: Annotated[Decimal, "누적 거래량"]
+    ACML_TR_PBMN: Annotated[Decimal, "누적 거래 대금"]
+    SELN_CNTG_CSNU: Annotated[Decimal, "매도 체결 건수"]
+    SHNU_CNTG_CSNU: Annotated[Decimal, "매수 체결 건수"]
+    NTBY_CNTG_CSNU: Annotated[Decimal, "순매수 체결 건수"]
+    CTTR: Annotated[Decimal, "체결강도"]
+    SELN_CNTG_SMTN: Annotated[Decimal, "총 매도 수량"]
+    SHNU_CNTG_SMTN: Annotated[Decimal, "총 매수 수량"]
     CCLD_DVSN: Annotated[str, "1:매수(+) \n3:장전 \n5:매도(-)"]
-    SHNU_RATE: Decimal
-    PRDY_VOL_VRSS_ACML_VOL_RATE: Decimal
-    OPRC_HOUR: datetime
+    SHNU_RATE: Annotated[Decimal, "매수비율"]
+    PRDY_VOL_VRSS_ACML_VOL_RATE: Annotated[Decimal, "전일 거래량 대비 등락율"]
+    OPRC_HOUR: Annotated[datetime, "시가 시간"]
     OPRC_VRSS_PRPR_SIGN: Annotated[str, "1 : 상한\n2 : 상승\n3 : 보합\n4 : 하한\n5 : 하락"]
-    OPRC_VRSS_PRPR: Decimal
-    HGPR_HOUR: datetime
+    OPRC_VRSS_PRPR: Annotated[Decimal, "시가대비"]
+    HGPR_HOUR: Annotated[datetime, "최고가 시간"]
     HGPR_VRSS_PRPR_SIGN: Annotated[str, "1 : 상한\n2 : 상승\n3 : 보합\n4 : 하한\n5 : 하락"]
-    HGPR_VRSS_PRPR: Decimal
-    LWPR_HOUR: datetime
+    HGPR_VRSS_PRPR: Annotated[Decimal, "고가대비"]
+    LWPR_HOUR: Annotated[datetime, "최저가 시간"]
     LWPR_VRSS_PRPR_SIGN: Annotated[str, "1 : 상한\n2 : 상승\n3 : 보합\n4 : 하한\n5 : 하락"]
-    LWPR_VRSS_PRPR: Decimal
-    BSOP_DATE: datetime
+    LWPR_VRSS_PRPR: Annotated[Decimal, "저가대비"]
+    BSOP_DATE: Annotated[datetime, "영업 일자"]
     NEW_MKOP_CLS_CODE: Annotated[
         str,
         (
@@ -52,16 +52,16 @@ class H0STCNT0(StreamingRawModel):
         ),
     ]
     TRHT_YN: Annotated[str, "Y : 정지\nN : 정상거래"]
-    ASKP_RSQN1: Decimal
-    BIDP_RSQN1: Decimal
-    TOTAL_ASKP_RSQN: Decimal
-    TOTAL_BIDP_RSQN: Decimal
-    VOL_TNRT: Decimal
-    PRDY_SMNS_HOUR_ACML_VOL: Decimal
-    PRDY_SMNS_HOUR_ACML_VOL_RATE: Decimal
+    ASKP_RSQN1: Annotated[Decimal, "매도호가 잔량1"]
+    BIDP_RSQN1: Annotated[Decimal, "매수호가 잔량1"]
+    TOTAL_ASKP_RSQN: Annotated[Decimal, "총 매도호가 잔량"]
+    TOTAL_BIDP_RSQN: Annotated[Decimal, "총 매수호가 잔량"]
+    VOL_TNRT: Annotated[Decimal, "거래량 회전율"]
+    PRDY_SMNS_HOUR_ACML_VOL: Annotated[Decimal, "전일 동시간 누적 거래량"]
+    PRDY_SMNS_HOUR_ACML_VOL_RATE: Annotated[Decimal, "전일 동시간 누적 거래량 비율"]
     HOUR_CLS_CODE: Annotated[str, "0 : 장중\nA : 장후예상\nB : 장전예상\nC : 9시이후의 예상가, VI발동\nD : 시간외 단일가 예상"]
-    MRKT_TRTM_CLS_CODE: str
-    VI_STND_PRC: Decimal
+    MRKT_TRTM_CLS_CODE: Annotated[str, "임의종료구분코드"]
+    VI_STND_PRC: Annotated[Decimal, "정적VI발동기준가"]
 
 
 FIELD_ORDER = [

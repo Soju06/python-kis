@@ -93,6 +93,46 @@ def _build_request_spec() -> EndpointSpec:
     )
 
 
+def _build_news_like_output_spec() -> EndpointSpec:
+    return EndpointSpec.model_validate(
+        {
+            "id": "manual-candidate-news-like",
+            "name": "manual candidate news-like endpoint",
+            "section": "test",
+            "category": "test",
+            "subcategory": "test",
+            "method": "GET",
+            "path": "/uapi/test/v1/news",
+            "domains": {"real": "Y", "demo": "Y"},
+            "request": {"headers": [], "query": [], "body": []},
+            "response": {
+                "headers": [],
+                "body": [],
+                "outputs": [
+                    {
+                        "code": "output",
+                        "name": "output",
+                        "kind": "array",
+                        "fields": [
+                            {
+                                "code": "news_lrdv_code",
+                                "name": "뉴스 대구분",
+                                "type": "A0001",
+                                "type_name": "String",
+                                "length": "8",
+                                "required": True,
+                                "description": "뉴스 대구분 코드",
+                            }
+                        ],
+                    }
+                ],
+            },
+            "errors": [],
+            "source_path": "tmp/docs/normalized/test/news_like.json",
+        }
+    )
+
+
 def test_manual_candidates_detect_output_parser_token(tmp_path) -> None:
     spec = _build_output_spec()
     inference = TypeOverrides(
@@ -147,6 +187,27 @@ def test_manual_candidates_keep_whitelisted_mixed_case_values(tmp_path) -> None:
     markdown = render_enum_manual_review_candidates_markdown(report)
     assert "# Enum Parser Manual Review Candidates" in markdown
     assert "manual-candidate-request" in markdown
+
+
+def test_manual_candidates_allow_lower_prefixed_enum_codes(tmp_path) -> None:
+    spec = _build_news_like_output_spec()
+    inference = TypeOverrides(
+        endpoints={
+            spec.id: EndpointHints(
+                outputs={
+                    "output": {
+                        "news_lrdv_code": FieldHint(kind="enum", enum=["d", "a", "d11", "a10", "B02"])
+                    }
+                }
+            )
+        }
+    )
+    smoke = SmokeReport(total=1, errors=0, results=[SmokeResult(id=spec.id, status="ok", domain="real", attempt=1)])
+
+    report = build_enum_manual_review_candidates([spec], inference, smoke, augment_dir=tmp_path)
+
+    assert report.endpoints == 0
+    assert report.total_fields == 0
 
 
 def test_manual_priority_splits_parser_fix_and_override_review(tmp_path) -> None:

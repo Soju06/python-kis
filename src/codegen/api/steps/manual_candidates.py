@@ -19,6 +19,7 @@ from codegen.core.types import JsonObject
 _SMOKE_RANK = {"error": 0, "skipped": 1, "ok": 2, "unknown": 3}
 _UPPER_CODE_RE = re.compile(r"^[A-Z0-9]{1,6}$")
 _WORD_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_-]{2,}$")
+_LOWER_ENUM_PATTERN_RE = re.compile(r"^[a-z][0-9]{1,4}$")
 _SUSPICIOUS_KEYWORDS = {
     "header",
     "type",
@@ -72,6 +73,9 @@ def _is_suspicious_token(value: str, field_length: int | None) -> tuple[bool, se
     reasons: set[str] = set()
     lower = value.lower()
     has_lowercase = any(char.islower() for char in value)
+    is_lower_enum_pattern = bool(_LOWER_ENUM_PATTERN_RE.fullmatch(value)) or (
+        len(value) == 1 and value.islower()
+    )
     length_violation = field_length is not None and len(value) > field_length
     keyword = lower in _SUSPICIOUS_KEYWORDS
     looks_word = bool(_WORD_RE.fullmatch(value))
@@ -81,7 +85,7 @@ def _is_suspicious_token(value: str, field_length: int | None) -> tuple[bool, se
         reasons.add("keyword_token")
     if value == "FGHIN":
         reasons.add("collapsed_token")
-    if has_lowercase and value not in _MIXED_CASE_ALLOWLIST:
+    if has_lowercase and value not in _MIXED_CASE_ALLOWLIST and not is_lower_enum_pattern:
         reasons.add("lowercase_token")
     if length_violation and (reasons or (looks_word and not upper_code)):
         reasons.add("length_violation")

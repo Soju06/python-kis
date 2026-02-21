@@ -143,8 +143,6 @@ class RghtTypeCdEnum(KisStrEnum):
     """환매"""
     VALUE_99 = ("99", "기타권리사유")
     """기타권리사유"""
-    RITZ = ("Ritz", "36 부동산신탁")
-    """36 부동산신탁"""
 
 
 class RghtCblcTypeCdEnum(KisStrEnum):
@@ -323,7 +321,6 @@ class PeriodRightsOutput1(RawModel):
                 "92",
                 "93",
                 "99",
-                "Ritz",
             ],
             "enum_desc": {
                 "1": "유상",
@@ -390,7 +387,6 @@ class PeriodRightsOutput1(RawModel):
                 "92": "청약",
                 "93": "환매",
                 "99": "기타권리사유",
-                "Ritz": "36 부동산신탁",
             },
         },
     )

@@ -205,9 +205,9 @@ class InquireAskingPriceOutput2(RawModel):
 class InquireAskingPriceOutput3(RawModel):
     vstm: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="vstm")
     vetm: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="vetm")
-    csbp: Annotated[Decimal, "데이터 없음"] = Field(alias="csbp")
-    cshi: Annotated[Decimal, "데이터 없음"] = Field(alias="cshi")
-    cslo: Annotated[Decimal, "데이터 없음"] = Field(alias="cslo")
+    csbp: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="csbp")
+    cshi: Annotated[Decimal | None, "데이터 없음"] = Field(default=None, alias="cshi")
+    cslo: Annotated[Decimal | None, "데이터 없음"] = Field(default=None, alias="cslo")
     iep: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="iep")
     iev: Annotated[str | None, "데이터 없음"] = Field(default=None, alias="iev")
 

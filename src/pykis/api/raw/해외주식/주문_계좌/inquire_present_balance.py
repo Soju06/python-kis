@@ -63,14 +63,6 @@ class TrMketCdEnum(KisStrEnum):
     """미국(OTCBB)"""
     VALUE_05 = ("05", "아멕스(AMEX)")
     """아멕스(AMEX)"""
-    NASD = ("NASD", "01 : 나스닥")
-    """01 : 나스닥"""
-    NYSE = ("NYSE", "02 : 뉴욕거래소")
-    """02 : 뉴욕거래소"""
-    OTCBB = ("OTCBB", "04 : 미국")
-    """04 : 미국"""
-    AMEX = ("AMEX", "05 : 아멕스")
-    """05 : 아멕스"""
 
 
 class InqrDvsnCdEnum(KisStrEnum):
@@ -116,13 +108,6 @@ class OvrsExcgCdEnum(KisStrEnum):
     """호치민거래소"""
 
 
-class ItemLnkgExcgCdEnum(KisStrEnum):
-    TYPE = ("Type", "String")
-    """String"""
-    LENGTH = ("Length", "2")
-    """2"""
-
-
 class InquirePresentBalanceRequest(RawModel):
     CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
         alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
@@ -151,7 +136,7 @@ class InquirePresentBalanceRequest(RawModel):
     ] = Field(
         alias="TR_MKET_CD",
         json_schema_extra={
-            "enum": ["00", "01", "02", "03", "04", "05", "NASD", "NYSE", "OTCBB", "AMEX"],
+            "enum": ["00", "01", "02", "03", "04", "05"],
             "enum_desc": {
                 "00": "전체",
                 "01": "나스닥(NASD)",
@@ -159,10 +144,6 @@ class InquirePresentBalanceRequest(RawModel):
                 "03": "미국(PINK SHEETS)",
                 "04": "미국(OTCBB)",
                 "05": "아멕스(AMEX)",
-                "NASD": "01 : 나스닥",
-                "NYSE": "02 : 뉴욕거래소",
-                "OTCBB": "04 : 미국",
-                "AMEX": "05 : 아멕스",
             },
         },
     )
@@ -289,9 +270,7 @@ class InquirePresentBalanceOutput1(RawModel):
             },
         },
     )
-    item_lnkg_excg_cd: Annotated[ItemLnkgExcgCdEnum, "prdt_dvsn(상품구분) : 직원용 데이터(Type: String, Length:2)"] = Field(
-        alias="item_lnkg_excg_cd", json_schema_extra={"enum": ["Type", "Length"], "enum_desc": {"Type": "String", "Length": "2"}}
-    )
+    item_lnkg_excg_cd: Annotated[str, "prdt_dvsn(상품구분) : 직원용 데이터(Type: String, Length:2)"] = Field(alias="item_lnkg_excg_cd")
 
 
 class InquirePresentBalanceOutput2(RawModel):
@@ -507,5 +486,4 @@ __all__ = [
     "InqrDvsnCdEnum",
     "BuyCrcyCdEnum",
     "OvrsExcgCdEnum",
-    "ItemLnkgExcgCdEnum",
 ]

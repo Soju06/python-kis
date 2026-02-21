@@ -15,7 +15,7 @@ def project_root(start: Path | None = None) -> Path:
 
 
 def docs_root(root: Path | None = None) -> Path:
-    return project_root(root) / "docs" / "kis"
+    return project_root(root) / "data" / "kis"
 
 
 def store_docs_root(root: Path | None = None) -> Path:

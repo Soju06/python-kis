@@ -35,8 +35,6 @@ class FidRankSortClsCodeEnum(KisStrEnum):
 
 
 class FidPrcClsCodeEnum(KisStrEnum):
-    CODE = ("code", "0 상승율 순일때 (")
-    """0 상승율 순일때 ("""
     VALUE_0 = ("0", "저가대비")
     """저가대비"""
     VALUE_1 = ("1", "종가대비")
@@ -66,10 +64,7 @@ class FluctuationRequest(RawModel):
             "'fid_rank_sort_cls_code :0 상승율 순일때 (0:저가대비, 1:종가대비) fid_rank_sort_cls_code :1 하락율 순일때 (0:고가대비, 1:종가대비) fid_r"
             "ank_sort_cls_code : 기타 (0:전체)'"
         ),
-    ] = Field(
-        alias="fid_prc_cls_code",
-        json_schema_extra={"enum": ["code", "0", "1"], "enum_desc": {"code": "0 상승율 순일때 (", "0": "저가대비", "1": "종가대비"}},
-    )
+    ] = Field(alias="fid_prc_cls_code", json_schema_extra={"enum": ["0", "1"], "enum_desc": {"0": "저가대비", "1": "종가대비"}})
     fid_input_price_1: Annotated[str | None, "공백 입력 시 전체 (가격 ~)"] = Field(
         default=None, alias="fid_input_price_1", json_schema_extra={"blank_allowed": True}
     )

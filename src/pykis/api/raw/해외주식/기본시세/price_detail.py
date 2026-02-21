@@ -107,7 +107,7 @@ class PriceDetailOutput(RawModel):
     t_xrat: Annotated[Decimal, "원환산당일등락"] = Field(alias="t_xrat")
     p_xprc: Annotated[Decimal, "원환산전일가격"] = Field(alias="p_xprc")
     p_xdif: Annotated[int, "원환산전일대비"] = Field(alias="p_xdif")
-    p_xrat: Annotated[Decimal, "원환산전일등락"] = Field(alias="p_xrat")
+    p_xrat: Annotated[str, "원환산전일등락"] = Field(alias="p_xrat")
     t_rate: Annotated[Decimal, "당일환율"] = Field(alias="t_rate")
     p_rate: Annotated[Decimal | None, "전일환율"] = Field(default=None, alias="p_rate")
     t_xsgn: Annotated[int, "HTS 색상표시용"] = Field(alias="t_xsgn")

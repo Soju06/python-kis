@@ -47,7 +47,7 @@ SPEC_PATH = DOCS_ROOT
 RAW_DIR = ROOT / "src" / "pykis" / "store" / "raw"
 REPORT_DIR = ROOT / "tmp" / "store_codegen"
 CACHE_DIR = REPORT_DIR / "cache"
-ENUM_OVERRIDE_PATH = ROOT / "docs" / "overrides" / "store_enum_overrides.yaml"
+ENUM_OVERRIDE_PATH = ROOT / "data" / "overrides" / "store_enum_overrides.yaml"
 
 
 @dataclass(frozen=True, slots=True)

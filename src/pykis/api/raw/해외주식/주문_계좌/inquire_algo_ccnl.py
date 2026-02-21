@@ -8,31 +8,16 @@ from pydantic import Field
 
 from pykis.api.raw.base import KisBool, KisTime, RawModel
 from pykis.api.raw.types import Endpoint, KisResponse
-from pykis.common.enums import KisStrEnum
 
 if TYPE_CHECKING:
     from pykis.api.client import SyncKisRawClient
-
-
-class OrdGnoBrnoEnum(KisStrEnum):
-    TTS6058R = ("TTS6058R", "조회 시 해당 주문번호(odno)의 ord_gno_brno 입력")
-    """조회 시 해당 주문번호(odno)의 ord_gno_brno 입력"""
-    ODNO = ("odno", "의 ord_gno_brno 입력")
-    """의 ord_gno_brno 입력"""
 
 
 class InquireAlgoCcnlRequest(RawModel):
     CANO: Annotated[str, "종합계좌번호 8자리"] = Field(alias="CANO")
     ACNT_PRDT_CD: Annotated[str, "상품코드 2자리 (주식계좌 : 01)"] = Field(alias="ACNT_PRDT_CD")
     ORD_DT: Annotated[str, "주문일자 (YYYYMMDD)"] = Field(alias="ORD_DT")
-    ORD_GNO_BRNO: Annotated[OrdGnoBrnoEnum | None, "TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력"] = Field(
-        default=None,
-        alias="ORD_GNO_BRNO",
-        json_schema_extra={
-            "enum": ["TTS6058R", "odno"],
-            "enum_desc": {"TTS6058R": "조회 시 해당 주문번호(odno)의 ord_gno_brno 입력", "odno": "의 ord_gno_brno 입력"},
-        },
-    )
+    ORD_GNO_BRNO: Annotated[str | None, "TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력"] = Field(default=None, alias="ORD_GNO_BRNO")
     ODNO: Annotated[str, "지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력"] = Field(alias="ODNO")
     TTLZ_ICLD_YN: Annotated[KisBool | None, "집계포함여부"] = Field(default=None, alias="TTLZ_ICLD_YN")
     CTX_AREA_NK200: Annotated[str | None, "연속조회 시 사용"] = Field(default=None, alias="CTX_AREA_NK200")
@@ -48,8 +33,7 @@ class InquireAlgoCcnlRequestDict(TypedDict):
         CANO (str): 종합계좌번호 8자리
         ACNT_PRDT_CD (str): 상품코드 2자리 (주식계좌 : 01)
         ORD_DT (str): 주문일자 (YYYYMMDD)
-        ORD_GNO_BRNO (OrdGnoBrnoEnum): TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력
-        optional
+        ORD_GNO_BRNO (str): TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력 optional
         ODNO (str): 지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력
         TTLZ_ICLD_YN (KisBool): 집계포함여부 optional
         CTX_AREA_NK200 (str): 연속조회 시 사용 optional
@@ -59,7 +43,7 @@ class InquireAlgoCcnlRequestDict(TypedDict):
     CANO: str
     ACNT_PRDT_CD: str
     ORD_DT: str
-    ORD_GNO_BRNO: NotRequired[OrdGnoBrnoEnum | None]
+    ORD_GNO_BRNO: NotRequired[str | None]
     ODNO: str
     TTLZ_ICLD_YN: NotRequired[KisBool | None]
     CTX_AREA_NK200: NotRequired[str | None]
@@ -151,8 +135,8 @@ if TYPE_CHECKING:
                         CANO (str): 종합계좌번호 8자리
                         ACNT_PRDT_CD (str): 상품코드 2자리 (주식계좌 : 01)
                         ORD_DT (str): 주문일자 (YYYYMMDD)
-                        ORD_GNO_BRNO (OrdGnoBrnoEnum): TTS6058R 조회 시 해당 주문번호(odno)의
-                        ord_gno_brno 입력 optional
+                        ORD_GNO_BRNO (str): TTS6058R 조회 시 해당 주문번호(odno)의 ord_gno_brno 입력
+                        optional
                         ODNO (str): 지정가주문번호 (TTTS6058R)에서 조회된 주문번호 입력
                         TTLZ_ICLD_YN (KisBool): 집계포함여부 optional
                         CTX_AREA_NK200 (str): 연속조회 시 사용 optional
@@ -174,5 +158,4 @@ __all__ = [
     "InquireAlgoCcnlResponse",
     "InquireAlgoCcnlOutput",
     "InquireAlgoCcnlOutput3",
-    "OrdGnoBrnoEnum",
 ]

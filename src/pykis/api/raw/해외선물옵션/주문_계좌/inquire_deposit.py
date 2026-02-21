@@ -37,8 +37,8 @@ class CrcyCdEnum(KisStrEnum):
     """한국 /"""
     USD = ("USD", "미국")
     """미국"""
-    EUR = ("EUR", "EUR /")
-    """EUR /"""
+    EUR = ("EUR", "EUR")
+    """EUR"""
     HKD = ("HKD", "홍콩")
     """홍콩"""
     CNY = ("CNY", "중국 /")
@@ -66,7 +66,7 @@ class InquireDepositRequest(RawModel):
                     "TKR": "TOT_KRW",
                     "KRW": "한국 /",
                     "USD": "미국",
-                    "EUR": "EUR /",
+                    "EUR": "EUR",
                     "HKD": "홍콩",
                     "CNY": "중국 /",
                     "JPY": "일본",

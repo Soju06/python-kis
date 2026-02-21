@@ -11,82 +11,82 @@ from pykis.streaming.raw.specs import DateTimeRule, DecimalRule, FieldSource, Fi
 
 class HDFSASP0(StreamingRawModel):
     RSYM: Annotated[str, "'각 항목사이에는 구분자로 ^ 사용,\n모든 데이터타입은 String으로 변환되어 push 처리됨'"]
-    SYMB: str
-    ZDIV: int
-    XYMD: datetime
-    XHMS: datetime
-    KYMD: datetime
-    KHMS: datetime
-    BVOL: Decimal
-    AVOL: Decimal
-    BDVL: Decimal
-    ADVL: Decimal
-    PBID1: Decimal
-    PASK1: Decimal
-    VBID1: Decimal
-    VASK1: Decimal
-    DBID1: Decimal
-    DASK1: Decimal
-    PBID2: Decimal
-    PASK2: Decimal
-    VBID2: Decimal
-    VASK2: Decimal
-    DBID2: Decimal
-    DASK2: Decimal
-    PBID3: Decimal
-    PASK3: Decimal
-    VBID3: Decimal
-    VASK3: Decimal
-    DBID3: Decimal
-    DASK3: Decimal
-    PBID3_2: Decimal
-    PASK3_2: Decimal
-    VBID3_2: Decimal
-    VASK3_2: Decimal
-    DBID3_2: Decimal
-    DASK3_2: Decimal
-    PBID4: Decimal
-    PASK4: Decimal
-    VBID4: Decimal
-    VASK4: Decimal
-    DBID4: Decimal
-    DASK4: Decimal
-    PBID5: Decimal
-    PASK5: Decimal
-    VBID5: Decimal
-    VASK5: Decimal
-    DBID5: Decimal
-    DASK5: Decimal
-    PBID6: Decimal
-    PASK6: Decimal
-    VBID6: Decimal
-    VASK6: Decimal
-    DBID6: Decimal
-    DASK6: Decimal
-    PBID7: Decimal
-    PASK7: Decimal
-    VBID7: Decimal
-    VASK7: Decimal
-    DBID7: Decimal
-    DASK7: Decimal
-    PBID8: Decimal
-    PASK8: Decimal
-    VBID8: Decimal
-    VASK8: Decimal
-    DBID8: Decimal
-    DASK8: Decimal
-    PBID9: Decimal
-    PASK9: Decimal
-    VBID9: Decimal
-    VASK9: Decimal
-    DBID9: Decimal
-    DASK9: Decimal
-    PBID10: Decimal
-    PASK10: Decimal
-    VBID10: Decimal
-    VASK10: Decimal
-    DBID10: Decimal
-    DASK10: Decimal
+    SYMB: Annotated[str, "종목코드"]
+    ZDIV: Annotated[int, "소숫점자리수"]
+    XYMD: Annotated[datetime, "현지일자"]
+    XHMS: Annotated[datetime, "현지시간"]
+    KYMD: Annotated[datetime, "한국일자"]
+    KHMS: Annotated[datetime, "한국시간"]
+    BVOL: Annotated[Decimal, "매수총잔량"]
+    AVOL: Annotated[Decimal, "매도총잔량"]
+    BDVL: Annotated[Decimal, "매수총잔량대비"]
+    ADVL: Annotated[Decimal, "매도총잔량대비"]
+    PBID1: Annotated[Decimal, "매수호가1"]
+    PASK1: Annotated[Decimal, "매도호가1"]
+    VBID1: Annotated[Decimal, "매수잔량1"]
+    VASK1: Annotated[Decimal, "매도잔량1"]
+    DBID1: Annotated[Decimal, "매수잔량대비1"]
+    DASK1: Annotated[Decimal, "매도잔량대비1"]
+    PBID2: Annotated[Decimal, "매수호가2"]
+    PASK2: Annotated[Decimal, "매도호가2"]
+    VBID2: Annotated[Decimal, "매수잔량2"]
+    VASK2: Annotated[Decimal, "매도잔량2"]
+    DBID2: Annotated[Decimal, "매수잔량대비2"]
+    DASK2: Annotated[Decimal, "매도잔량대비2"]
+    PBID3: Annotated[Decimal, "매수호가3"]
+    PASK3: Annotated[Decimal, "매도호가3"]
+    VBID3: Annotated[Decimal, "매수잔량3"]
+    VASK3: Annotated[Decimal, "매도잔량3"]
+    DBID3: Annotated[Decimal, "매수잔량대비3"]
+    DASK3: Annotated[Decimal, "매도잔량대비3"]
+    PBID3_2: Annotated[Decimal, "매수호가3"]
+    PASK3_2: Annotated[Decimal, "매도호가3"]
+    VBID3_2: Annotated[Decimal, "매수잔량3"]
+    VASK3_2: Annotated[Decimal, "매도잔량3"]
+    DBID3_2: Annotated[Decimal, "매수잔량대비3"]
+    DASK3_2: Annotated[Decimal, "매도잔량대비3"]
+    PBID4: Annotated[Decimal, "매수호가4"]
+    PASK4: Annotated[Decimal, "매도호가4"]
+    VBID4: Annotated[Decimal, "매수잔량4"]
+    VASK4: Annotated[Decimal, "매도잔량4"]
+    DBID4: Annotated[Decimal, "매수잔량대비4"]
+    DASK4: Annotated[Decimal, "매도잔량대비4"]
+    PBID5: Annotated[Decimal, "매수호가5"]
+    PASK5: Annotated[Decimal, "매도호가5"]
+    VBID5: Annotated[Decimal, "매수잔량5"]
+    VASK5: Annotated[Decimal, "매도잔량5"]
+    DBID5: Annotated[Decimal, "매수잔량대비5"]
+    DASK5: Annotated[Decimal, "매도잔량대비5"]
+    PBID6: Annotated[Decimal, "매수호가6"]
+    PASK6: Annotated[Decimal, "매도호가6"]
+    VBID6: Annotated[Decimal, "매수잔량6"]
+    VASK6: Annotated[Decimal, "매도잔량6"]
+    DBID6: Annotated[Decimal, "매수잔량대비6"]
+    DASK6: Annotated[Decimal, "매도잔량대비6"]
+    PBID7: Annotated[Decimal, "매수호가7"]
+    PASK7: Annotated[Decimal, "매도호가7"]
+    VBID7: Annotated[Decimal, "매수잔량7"]
+    VASK7: Annotated[Decimal, "매도잔량7"]
+    DBID7: Annotated[Decimal, "매수잔량대비7"]
+    DASK7: Annotated[Decimal, "매도잔량대비7"]
+    PBID8: Annotated[Decimal, "매수호가8"]
+    PASK8: Annotated[Decimal, "매도호가8"]
+    VBID8: Annotated[Decimal, "매수잔량8"]
+    VASK8: Annotated[Decimal, "매도잔량8"]
+    DBID8: Annotated[Decimal, "매수잔량대비8"]
+    DASK8: Annotated[Decimal, "매도잔량대비8"]
+    PBID9: Annotated[Decimal, "매수호가9"]
+    PASK9: Annotated[Decimal, "매도호가9"]
+    VBID9: Annotated[Decimal, "매수잔량9"]
+    VASK9: Annotated[Decimal, "매도잔량9"]
+    DBID9: Annotated[Decimal, "매수잔량대비9"]
+    DASK9: Annotated[Decimal, "매도잔량대비9"]
+    PBID10: Annotated[Decimal, "매수호가10"]
+    PASK10: Annotated[Decimal, "매도호가10"]
+    VBID10: Annotated[Decimal, "매수잔량10"]
+    VASK10: Annotated[Decimal, "매도잔량10"]
+    DBID10: Annotated[Decimal, "매수잔량대비10"]
+    DASK10: Annotated[Decimal, "매도잔량대비10"]
 
 
 FIELD_ORDER = [

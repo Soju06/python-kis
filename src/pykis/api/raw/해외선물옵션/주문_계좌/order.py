@@ -38,6 +38,8 @@ class SllBuyDvsnCdEnum(KisStrEnum):
 class PricDvsnCdEnum(KisStrEnum):
     VALUE_2 = ("2", "시장")
     """시장"""
+    VALUE_4 = ("4", "S/L")
+    """S/L"""
     VALUE_1 = ("1", "지정")
     """지정"""
     VALUE_3 = ("3", "STOP, 4 S/L")
@@ -58,7 +60,8 @@ class OrderRequest(RawModel):
     FM_LQD_USTL_CCLD_DT: Annotated[KisDateOptional, "빈칸 (hedge청산만 이용)"] = Field(default=None, alias="FM_LQD_USTL_CCLD_DT")
     FM_LQD_USTL_CCNO: Annotated[str | None, "빈칸 (hedge청산만 이용)"] = Field(default=None, alias="FM_LQD_USTL_CCNO")
     PRIC_DVSN_CD: Annotated[PricDvsnCdEnum, "1.지정, 2. 시장, 3. STOP, 4 S/L"] = Field(
-        alias="PRIC_DVSN_CD", json_schema_extra={"enum": ["2", "1", "3"], "enum_desc": {"2": "시장", "1": "지정", "3": "STOP, 4 S/L"}}
+        alias="PRIC_DVSN_CD",
+        json_schema_extra={"enum": ["2", "4", "1", "3"], "enum_desc": {"2": "시장", "4": "S/L", "1": "지정", "3": "STOP, 4 S/L"}},
     )
     FM_LIMIT_ORD_PRIC: Annotated[Decimal | None, '지정가인 경우 가격 입력 * 시장가, STOP주문인 경우, 빈칸("") 입력'] = Field(
         default=None, alias="FM_LIMIT_ORD_PRIC", json_schema_extra={"blank_allowed": True}

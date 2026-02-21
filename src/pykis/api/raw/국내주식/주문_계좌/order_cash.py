@@ -53,6 +53,13 @@ class OrdDvsnEnum(KisStrEnum):
     """중간가FOK"""
 
 
+class ExcgIdDvsnCdEnum(KisStrEnum):
+    KRX = ("KRX", "한국거래소")
+    """한국거래소"""
+    SOR = ("SOR", "Smart Order Routing")
+    """Smart Order Routing"""
+
+
 class OrderCashRequest(RawModel):
     CANO: Annotated[str, "종합계좌번호"] = Field(alias="CANO")
     ACNT_PRDT_CD: Annotated[str, "상품유형코드"] = Field(alias="ACNT_PRDT_CD")
@@ -100,9 +107,13 @@ class OrderCashRequest(RawModel):
     ORD_UNPR: Annotated[str, '주문단가 시장가 등 주문시, "0"으로 입력'] = Field(alias="ORD_UNPR")
     CNDT_PRIC: Annotated[Decimal | None, "스탑지정가호가 주문 (ORD_DVSN이 22) 사용 시에만 필수"] = Field(default=None, alias="CNDT_PRIC")
     EXCG_ID_DVSN_CD: Annotated[
-        str | None,
+        ExcgIdDvsnCdEnum | None,
         "한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능",
-    ] = Field(default=None, alias="EXCG_ID_DVSN_CD")
+    ] = Field(
+        default=None,
+        alias="EXCG_ID_DVSN_CD",
+        json_schema_extra={"enum": ["KRX", "SOR"], "enum_desc": {"KRX": "한국거래소", "SOR": "Smart Order Routing"}},
+    )
 
 
 class OrderCashRequestDict(TypedDict):
@@ -145,8 +156,8 @@ class OrderCashRequestDict(TypedDict):
         ORD_QTY (int): 주문수량
         ORD_UNPR (str): 주문단가 시장가 등 주문시, "0"으로 입력
         CNDT_PRIC (Decimal): 스탑지정가호가 주문 (ORD_DVSN이 22) 사용 시에만 필수 optional
-        EXCG_ID_DVSN_CD (str): 한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order
-        Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능 optional
+        EXCG_ID_DVSN_CD (ExcgIdDvsnCdEnum): 한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR
+        (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능 optional
     """
 
     CANO: str
@@ -157,7 +168,7 @@ class OrderCashRequestDict(TypedDict):
     ORD_QTY: int
     ORD_UNPR: str
     CNDT_PRIC: NotRequired[Decimal | None]
-    EXCG_ID_DVSN_CD: NotRequired[str | None]
+    EXCG_ID_DVSN_CD: NotRequired[ExcgIdDvsnCdEnum | None]
 
 
 class OrderCashOutput(RawModel):
@@ -277,9 +288,9 @@ if TYPE_CHECKING:
                         ORD_UNPR (str): 주문단가 시장가 등 주문시, "0"으로 입력
                         CNDT_PRIC (Decimal): 스탑지정가호가 주문 (ORD_DVSN이 22) 사용 시에만 필수
                         optional
-                        EXCG_ID_DVSN_CD (str): 한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR
-                        (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능
-                        optional
+                        EXCG_ID_DVSN_CD (ExcgIdDvsnCdEnum): 한국거래소 : KRX 대체거래소 (넥스트레이드)
+                        : NXT SOR (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는
+                        KRX만 가능 optional
 
             Returns:
                 tuple[OrderCashResponse, KisResponse]: 응답 모델과 원시 응답
@@ -290,4 +301,4 @@ if TYPE_CHECKING:
 else:
     ENDPOINT = _ENDPOINT
 
-__all__ = ["ENDPOINT", "OrderCashRequest", "OrderCashRequestDict", "OrderCashResponse", "OrderCashOutput", "OrdDvsnEnum"]
+__all__ = ["ENDPOINT", "OrderCashRequest", "OrderCashRequestDict", "OrderCashResponse", "OrderCashOutput", "OrdDvsnEnum", "ExcgIdDvsnCdEnum"]

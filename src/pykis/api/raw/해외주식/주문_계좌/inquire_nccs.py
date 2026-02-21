@@ -49,13 +49,6 @@ class OvrsExcgCdEnum(KisStrEnum):
     """베트남 호치민"""
 
 
-class SortSqnEnum(KisStrEnum):
-    DS = ("DS", "정순")
-    """정순"""
-    ID = ("id", "TTTS3018R]")
-    """TTTS3018R]"""
-
-
 class SllBuyDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "매도")
     """매도"""
@@ -169,10 +162,8 @@ class InquireNccsRequest(RawModel):
             "blank_allowed": True,
         },
     )
-    SORT_SQN: Annotated[SortSqnEnum | None, 'DS : 정순 그외 : 역순 [header tr_id: TTTS3018R] ""(공란)'] = Field(
-        default=None,
-        alias="SORT_SQN",
-        json_schema_extra={"enum": ["DS", "id"], "enum_desc": {"DS": "정순", "id": "TTTS3018R]"}, "blank_allowed": True},
+    SORT_SQN: Annotated[str | None, 'DS : 정순 그외 : 역순 [header tr_id: TTTS3018R] ""(공란)'] = Field(
+        default=None, alias="SORT_SQN", json_schema_extra={"blank_allowed": True}
     )
     CTX_AREA_FK200: Annotated[str | None, "공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지 조회시(2번째부터)"] = Field(
         default=None, alias="CTX_AREA_FK200", json_schema_extra={"blank_allowed": True}
@@ -212,7 +203,7 @@ class InquireNccsRequestDict(TypedDict):
         중국상해 SZAA : 중국심천 TKSE : 일본 HASE : 베트남 하노이 VNSE : 베트남 호치민 * NASD 인
         경우만 미국전체로 조회되며 나머지 거래소 코드는 해당 거래소만 조회됨 * 공백 입력 시
         다음조회가 불가능하므로, 반드시 거래소코드 입력해야 함 optional
-        SORT_SQN (SortSqnEnum): DS : 정순 그외 : 역순 [header tr_id: TTTS3018R] ""(공란) optional
+        SORT_SQN (str): DS : 정순 그외 : 역순 [header tr_id: TTTS3018R] ""(공란) optional
         CTX_AREA_FK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 : 다음페이지
         조회시(2번째부터) optional
         CTX_AREA_NK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 : 다음페이지
@@ -222,7 +213,7 @@ class InquireNccsRequestDict(TypedDict):
     CANO: CanoEnum
     ACNT_PRDT_CD: AcntPrdtCdEnum
     OVRS_EXCG_CD: NotRequired[OvrsExcgCdEnum | None]
-    SORT_SQN: NotRequired[SortSqnEnum | None]
+    SORT_SQN: NotRequired[str | None]
     CTX_AREA_FK200: NotRequired[str | None]
     CTX_AREA_NK200: NotRequired[str | None]
 
@@ -458,8 +449,8 @@ if TYPE_CHECKING:
                         베트남 호치민 * NASD 인 경우만 미국전체로 조회되며 나머지 거래소 코드는 해당
                         거래소만 조회됨 * 공백 입력 시 다음조회가 불가능하므로, 반드시 거래소코드
                         입력해야 함 optional
-                        SORT_SQN (SortSqnEnum): DS : 정순 그외 : 역순 [header tr_id: TTTS3018R]
-                        ""(공란) optional
+                        SORT_SQN (str): DS : 정순 그외 : 역순 [header tr_id: TTTS3018R] ""(공란)
+                        optional
                         CTX_AREA_FK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK200값 :
                         다음페이지 조회시(2번째부터) optional
                         CTX_AREA_NK200 (str): 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK200값 :
@@ -483,7 +474,6 @@ __all__ = [
     "CanoEnum",
     "AcntPrdtCdEnum",
     "OvrsExcgCdEnum",
-    "SortSqnEnum",
     "SllBuyDvsnCdEnum",
     "RvseCnclDvsnCdEnum",
     "TrCrcyCdEnum",

@@ -37,8 +37,6 @@ class InqrDvsnCdEnum(KisStrEnum):
 
 
 class PrdtTypeCdEnum(KisStrEnum):
-    ID = ("id", "TTTT3039R인 경우]")
-    """TTTT3039R인 경우]"""
     VALUE_512 = ("512", "미국 나스닥 /")
     """미국 나스닥 /"""
     VALUE_513 = ("513", "미국 뉴욕거래소 /")
@@ -64,8 +62,6 @@ class PrdtTypeCdEnum(KisStrEnum):
 
 
 class OvrsExcgCdEnum(KisStrEnum):
-    ID = ("id", "TTTT3039R인 경우]")
-    """TTTT3039R인 경우]"""
     NASD = ("NASD", "나스닥 /")
     """나스닥 /"""
     NYSE = ("NYSE", "뉴욕 /")
@@ -109,9 +105,8 @@ class OrderResvListRequest(RawModel):
         default=None,
         alias="PRDT_TYPE_CD",
         json_schema_extra={
-            "enum": ["id", "512", "513", "529", "515", "501", "543", "558", "507", "508", "551", "552"],
+            "enum": ["512", "513", "529", "515", "501", "543", "558", "507", "508", "551", "552"],
             "enum_desc": {
-                "id": "TTTT3039R인 경우]",
                 "512": "미국 나스닥 /",
                 "513": "미국 뉴욕거래소 /",
                 "529": "미국 아멕스",
@@ -137,9 +132,8 @@ class OrderResvListRequest(RawModel):
         default=None,
         alias="OVRS_EXCG_CD",
         json_schema_extra={
-            "enum": ["id", "NASD", "NYSE", "AMEX", "SEHK", "SHAA", "SZAA", "TKSE", "HASE", "VNSE"],
+            "enum": ["NASD", "NYSE", "AMEX", "SEHK", "SHAA", "SZAA", "TKSE", "HASE", "VNSE"],
             "enum_desc": {
-                "id": "TTTT3039R인 경우]",
                 "NASD": "나스닥 /",
                 "NYSE": "뉴욕 /",
                 "AMEX": "아멕스",

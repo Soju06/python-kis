@@ -18,6 +18,7 @@ class FieldSource(str, Enum):
     DOC_TYPE = "doc_type"
     RULE = "rule"
     HEURISTIC = "heuristic"
+    INFERRED = "inferred"
 
 
 @dataclass(frozen=True, slots=True)

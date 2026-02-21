@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from decimal import Decimal
 from typing import Annotated
 
 from pykis.streaming.raw.base import StreamingRawModel
@@ -9,10 +10,10 @@ from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, Stre
 
 
 class H0STCNI0(StreamingRawModel):
-    CUST_ID: str
-    ACNT_NO: str
-    ODER_NO: str
-    OODER_NO: str
+    CUST_ID: Annotated[str, "고객 ID"]
+    ACNT_NO: Annotated[str, "계좌번호"]
+    ODER_NO: Annotated[str, "주문번호"]
+    OODER_NO: Annotated[str, "원주문번호"]
     SELN_BYOV_CLS: Annotated[str, "01 : 매도 \n02 : 매수"]
     RCTF_CLS: Annotated[str, "0:정상 \n1:정정 \n2:취소"]
     ODER_KIND: Annotated[
@@ -29,24 +30,24 @@ class H0STCNI0(StreamingRawModel):
         ),
     ]
     ODER_COND: Annotated[str, "0:없음\n1:IOC \n2:FOK"]
-    STCK_SHRN_ISCD: str
-    CNTG_QTY: str
-    CNTG_UNPR: str
-    STCK_CNTG_HOUR: datetime
+    STCK_SHRN_ISCD: Annotated[str, "주식 단축 종목코드"]
+    CNTG_QTY: Annotated[Decimal, "체결 수량"]
+    CNTG_UNPR: Annotated[Decimal, "체결단가"]
+    STCK_CNTG_HOUR: Annotated[datetime, "주식 체결 시간"]
     RFUS_YN: Annotated[str, "0 : 승인 \n1 : 거부"]
     CNTG_YN: Annotated[str, "1 : 주문,정정,취소,거부\n2 : 체결"]
     ACPT_YN: Annotated[str, "1 : 주문접수\n2 : 확인\n3 : 취소(FOK/IOC)"]
-    BRNC_NO: str
-    ODER_QTY: str
-    ACNT_NAME: str
-    ORD_COND_PRC: Annotated[str, "스톱지정가 시 표시"]
+    BRNC_NO: Annotated[str, "지점번호"]
+    ODER_QTY: Annotated[Decimal, "주문수량"]
+    ACNT_NAME: Annotated[str, "계좌명"]
+    ORD_COND_PRC: Annotated[Decimal, "스톱지정가 시 표시"]
     ORD_EXG_GB: Annotated[str, "1:KRX, 2:NXT, 3:SOR-KRX, 4:SOR-NXT"]
     POPUP_YN: Annotated[str, "Y/N"]
-    FILLER: str
-    CRDT_CLS: str
-    CRDT_LOAN_DATE: datetime
-    CNTG_ISNM40: str
-    ODER_PRC: str
+    FILLER: Annotated[str, "필러"]
+    CRDT_CLS: Annotated[str, "신용구분"]
+    CRDT_LOAN_DATE: Annotated[datetime, "신용대출일자"]
+    CNTG_ISNM40: Annotated[str, "체결종목명"]
+    ODER_PRC: Annotated[Decimal, "주문가격"]
 
 
 FIELD_ORDER = [
@@ -88,23 +89,23 @@ FIELD_TYPES = {
     "ODER_KIND": FieldType.STR,
     "ODER_COND": FieldType.STR,
     "STCK_SHRN_ISCD": FieldType.STR,
-    "CNTG_QTY": FieldType.STR,
-    "CNTG_UNPR": FieldType.STR,
+    "CNTG_QTY": FieldType.DECIMAL,
+    "CNTG_UNPR": FieldType.DECIMAL,
     "STCK_CNTG_HOUR": FieldType.DATETIME,
     "RFUS_YN": FieldType.STR,
     "CNTG_YN": FieldType.STR,
     "ACPT_YN": FieldType.STR,
     "BRNC_NO": FieldType.STR,
-    "ODER_QTY": FieldType.STR,
+    "ODER_QTY": FieldType.DECIMAL,
     "ACNT_NAME": FieldType.STR,
-    "ORD_COND_PRC": FieldType.STR,
+    "ORD_COND_PRC": FieldType.DECIMAL,
     "ORD_EXG_GB": FieldType.STR,
     "POPUP_YN": FieldType.STR,
     "FILLER": FieldType.STR,
     "CRDT_CLS": FieldType.STR,
     "CRDT_LOAN_DATE": FieldType.DATETIME,
     "CNTG_ISNM40": FieldType.STR,
-    "ODER_PRC": FieldType.STR,
+    "ODER_PRC": FieldType.DECIMAL,
 }
 FIELD_SOURCES = {
     "CUST_ID": FieldSource.DOC_TYPE,
@@ -116,23 +117,23 @@ FIELD_SOURCES = {
     "ODER_KIND": FieldSource.DOC_TYPE,
     "ODER_COND": FieldSource.DOC_TYPE,
     "STCK_SHRN_ISCD": FieldSource.DOC_TYPE,
-    "CNTG_QTY": FieldSource.DOC_TYPE,
-    "CNTG_UNPR": FieldSource.DOC_TYPE,
+    "CNTG_QTY": FieldSource.INFERRED,
+    "CNTG_UNPR": FieldSource.INFERRED,
     "STCK_CNTG_HOUR": FieldSource.RULE,
     "RFUS_YN": FieldSource.DOC_TYPE,
     "CNTG_YN": FieldSource.DOC_TYPE,
     "ACPT_YN": FieldSource.DOC_TYPE,
     "BRNC_NO": FieldSource.DOC_TYPE,
-    "ODER_QTY": FieldSource.DOC_TYPE,
+    "ODER_QTY": FieldSource.INFERRED,
     "ACNT_NAME": FieldSource.DOC_TYPE,
-    "ORD_COND_PRC": FieldSource.DOC_TYPE,
+    "ORD_COND_PRC": FieldSource.INFERRED,
     "ORD_EXG_GB": FieldSource.DOC_TYPE,
     "POPUP_YN": FieldSource.DOC_TYPE,
     "FILLER": FieldSource.DOC_TYPE,
     "CRDT_CLS": FieldSource.DOC_TYPE,
     "CRDT_LOAN_DATE": FieldSource.RULE,
     "CNTG_ISNM40": FieldSource.DOC_TYPE,
-    "ODER_PRC": FieldSource.DOC_TYPE,
+    "ODER_PRC": FieldSource.INFERRED,
 }
 DATETIME_RULES = {
     "STCK_CNTG_HOUR": DateTimeRule(kind="time_only", format="HHMMSS", timezone="Asia/Seoul", date_field="BSOP_DATE"),

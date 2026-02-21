@@ -83,19 +83,10 @@
 3. When the contract changes (field names/types/defaults), update tests and snapshots to match the new typed schema.
 
 ## Override Approval
-1. Overrides are **never** applied automatically; they require explicit approval before updating `docs/overrides/type_overrides.yaml`.
-2. Use the list format and include approval metadata on each entry:
-   ```yaml
-   overrides:
-     - id: "<endpoint-uuid>"
-       changes: { ... }
-       approved_by: "<reviewer>"
-       approved_at: "YYYY-MM-DD"
-       reason: "<why override is needed>"
-       evidence: "<report path or payload sample>"
-   ```
-3. Until approved, keep candidates out of `type_overrides.yaml` (record them in review notes or a separate draft file).
-4. After approval, rerun the full codegen pipeline and pytest, and confirm `tmp/docs/reports/smoke.json` has zero errors.
+
+→ **Moved to**: `specs/governance/override-policy.md` (SSOT)
+
+Summary: Overrides require explicit HITL approval. See governance policy for full details.
 
 ## Testing
 1. Unit tests: fast, isolated, deterministic (fixed timestamps, explicit payloads).
@@ -122,3 +113,30 @@
    gh pr create --title "feat(api): add auth" --body "..."
    ```
 5. **Best Practices**: Commit often in small units. Do not commit directly to `main`. Always check `git diff` before pushing.
+
+## Documentation System
+
+1. **SSOT**: `specs/` 디렉토리가 요구사항/아키텍처의 단일 진실 원천.
+   - `specs/project.md` — 프로젝트 정의
+   - `specs/stakeholder-requirements.md` — SDK 사용자 요구사항 (SR-xxx)
+   - `specs/srs/` — 시스템 요구사항 (SyRS-xxx)
+   - `specs/architecture/` — 아키텍처 + ADR
+   - `specs/governance/` — 거버넌스 정책 (Override, Pipeline, Quality Gate)
+2. **Changes**: OpenSpec (`openspec/`) 통해 변경 관리.
+3. **Standards**: ISO/IEC/IEEE 29148 (요구사항), IEEE 42010 (아키텍처) 경량 적용.
+4. **Traceability**: SR → SyRS → Architecture → Code 추적성 유지.
+5. **Archive**: 완료된 조사/분석은 `docs/archive/`에 보관.
+6. **Build Data**: KIS API 스펙과 codegen 오버라이드는 `data/`에 보관 (`data/kis/`, `data/overrides/`).
+
+## Available Skills
+
+- `/pipeline-run` — 코드젠 파이프라인 실행 + 검증
+- `/override-review` — Override 후보 검토 + HITL 승인
+- `/api-audit` — KIS API 스펙-실응답 정합성 감사
+- `/explore-kis-api` — KIS API 레퍼런스 탐색
+
+## Agent Definitions
+
+- Agent definitions: `.agents/agents/*.md`
+- Skill definitions: `.agents/skills/*/SKILL.md`
+- Symlinks: `.claude/agents` → `.agents/agents`, `.claude/skills` → `.agents/skills`

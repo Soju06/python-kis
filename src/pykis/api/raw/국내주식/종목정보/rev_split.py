@@ -58,12 +58,12 @@ class RevSplitRequestDict(TypedDict):
 
 
 class RevSplitOutput1(RawModel):
-    record_date: Annotated[KisDateOptional, "기준일"] = Field(default=None, alias="record_date")
-    sht_cd: Annotated[str | None, "종목코드"] = Field(default=None, alias="sht_cd")
-    isin_name: Annotated[str | None, "종목명"] = Field(default=None, alias="isin_name")
-    inter_bf_face_amt: Annotated[str | None, "변경전액면가"] = Field(default=None, alias="inter_bf_face_amt")
-    inter_af_face_amt: Annotated[str | None, "변경후액면가"] = Field(default=None, alias="inter_af_face_amt")
-    td_stop_dt: Annotated[KisDateOptional, "매매거래정지기간"] = Field(default=None, alias="td_stop_dt")
+    record_date: Annotated[KisDate, "기준일"] = Field(alias="record_date")
+    sht_cd: Annotated[str, "종목코드"] = Field(alias="sht_cd")
+    isin_name: Annotated[str, "종목명"] = Field(alias="isin_name")
+    inter_bf_face_amt: Annotated[int, "변경전액면가"] = Field(alias="inter_bf_face_amt")
+    inter_af_face_amt: Annotated[int, "변경후액면가"] = Field(alias="inter_af_face_amt")
+    td_stop_dt: Annotated[str, "매매거래정지기간"] = Field(alias="td_stop_dt")
     list_dt: Annotated[KisDateOptional, "상장/등록일"] = Field(default=None, alias="list_dt")
 
 

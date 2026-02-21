@@ -15,11 +15,12 @@ if TYPE_CHECKING:
 
 
 class FidCondMrktDivCodeEnum(KisStrEnum):
-    KRX = ("KRX", "J")
-    """J"""
-    NXT = ("NXT", "NX, 통합 : UN")
-    """NX, 통합 : UN"""
-    J = ("J", "")
+    J = ("J", "KRX")
+    """KRX"""
+    NX = ("NX", "NXT")
+    """NXT"""
+    UN = ("UN", "통합")
+    """통합"""
 
 
 class FidMrktClsCodeEnum(KisStrEnum):
@@ -31,7 +32,7 @@ class FidMrktClsCodeEnum(KisStrEnum):
 
 class CompProgramTradeTodayRequest(RawModel):
     FID_COND_MRKT_DIV_CODE: Annotated[FidCondMrktDivCodeEnum, "KRX : J , NXT : NX, 통합 : UN"] = Field(
-        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["KRX", "NXT", "J"], "enum_desc": {"KRX": "J", "NXT": "NX, 통합 : UN"}}
+        alias="FID_COND_MRKT_DIV_CODE", json_schema_extra={"enum": ["J", "NX", "UN"], "enum_desc": {"J": "KRX", "NX": "NXT", "UN": "통합"}}
     )
     FID_MRKT_CLS_CODE: Annotated[FidMrktClsCodeEnum, "K:코스피, Q:코스닥"] = Field(
         alias="FID_MRKT_CLS_CODE", json_schema_extra={"enum": ["K", "Q"], "enum_desc": {"K": "코스피", "Q": "코스닥"}}

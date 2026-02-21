@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from decimal import Decimal
 from typing import Annotated
 
 from pykis.streaming.raw.base import StreamingRawModel
@@ -10,16 +11,16 @@ from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, Stre
 
 class H0STPGM0(StreamingRawModel):
     MKSC_SHRN_ISCD: Annotated[str, "'각 항목사이에는 구분자로 ^ 사용,\n모든 데이터타입은 String으로 변환되어 push 처리됨'"]
-    STCK_CNTG_HOUR: datetime
-    SELN_CNQN: str
-    SELN_TR_PBMN: str
-    SHNU_CNQN: str
-    SHNU_TR_PBMN: str
-    NTBY_CNQN: str
-    NTBY_TR_PBMN: str
-    SELN_RSQN: str
-    SHNU_RSQN: str
-    WHOL_NTBY_QTY: str
+    STCK_CNTG_HOUR: Annotated[datetime, "주식체결시간"]
+    SELN_CNQN: Annotated[Decimal, "매도체결량"]
+    SELN_TR_PBMN: Annotated[Decimal, "매도거래대금"]
+    SHNU_CNQN: Annotated[Decimal, "매수2체결량"]
+    SHNU_TR_PBMN: Annotated[Decimal, "매수2거래대금"]
+    NTBY_CNQN: Annotated[Decimal, "순매수체결량"]
+    NTBY_TR_PBMN: Annotated[Decimal, "순매수거래대금"]
+    SELN_RSQN: Annotated[Decimal, "매도호가잔량"]
+    SHNU_RSQN: Annotated[Decimal, "매수호가잔량"]
+    WHOL_NTBY_QTY: Annotated[Decimal, "전체순매수호가잔량"]
 
 
 FIELD_ORDER = [
@@ -39,28 +40,28 @@ FIELD_ALIASES = {}
 FIELD_TYPES = {
     "MKSC_SHRN_ISCD": FieldType.STR,
     "STCK_CNTG_HOUR": FieldType.DATETIME,
-    "SELN_CNQN": FieldType.STR,
-    "SELN_TR_PBMN": FieldType.STR,
-    "SHNU_CNQN": FieldType.STR,
-    "SHNU_TR_PBMN": FieldType.STR,
-    "NTBY_CNQN": FieldType.STR,
-    "NTBY_TR_PBMN": FieldType.STR,
-    "SELN_RSQN": FieldType.STR,
-    "SHNU_RSQN": FieldType.STR,
-    "WHOL_NTBY_QTY": FieldType.STR,
+    "SELN_CNQN": FieldType.DECIMAL,
+    "SELN_TR_PBMN": FieldType.DECIMAL,
+    "SHNU_CNQN": FieldType.DECIMAL,
+    "SHNU_TR_PBMN": FieldType.DECIMAL,
+    "NTBY_CNQN": FieldType.DECIMAL,
+    "NTBY_TR_PBMN": FieldType.DECIMAL,
+    "SELN_RSQN": FieldType.DECIMAL,
+    "SHNU_RSQN": FieldType.DECIMAL,
+    "WHOL_NTBY_QTY": FieldType.DECIMAL,
 }
 FIELD_SOURCES = {
     "MKSC_SHRN_ISCD": FieldSource.DOC_TYPE,
     "STCK_CNTG_HOUR": FieldSource.RULE,
-    "SELN_CNQN": FieldSource.DOC_TYPE,
-    "SELN_TR_PBMN": FieldSource.DOC_TYPE,
-    "SHNU_CNQN": FieldSource.DOC_TYPE,
-    "SHNU_TR_PBMN": FieldSource.DOC_TYPE,
-    "NTBY_CNQN": FieldSource.DOC_TYPE,
-    "NTBY_TR_PBMN": FieldSource.DOC_TYPE,
-    "SELN_RSQN": FieldSource.DOC_TYPE,
-    "SHNU_RSQN": FieldSource.DOC_TYPE,
-    "WHOL_NTBY_QTY": FieldSource.DOC_TYPE,
+    "SELN_CNQN": FieldSource.INFERRED,
+    "SELN_TR_PBMN": FieldSource.INFERRED,
+    "SHNU_CNQN": FieldSource.INFERRED,
+    "SHNU_TR_PBMN": FieldSource.INFERRED,
+    "NTBY_CNQN": FieldSource.INFERRED,
+    "NTBY_TR_PBMN": FieldSource.INFERRED,
+    "SELN_RSQN": FieldSource.INFERRED,
+    "SHNU_RSQN": FieldSource.INFERRED,
+    "WHOL_NTBY_QTY": FieldSource.INFERRED,
 }
 DATETIME_RULES = {"STCK_CNTG_HOUR": DateTimeRule(kind="time_only", format="HHMMSS", timezone="Asia/Seoul", date_field="business_date")}
 DECIMAL_RULES = {}

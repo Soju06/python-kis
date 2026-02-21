@@ -11,13 +11,13 @@ from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, Stre
 
 class H0GSCNI0(StreamingRawModel):
     CUST_ID: Annotated[str, "'각 항목사이에는 구분자로 ^ 사용,\n모든 데이터타입은 String으로 변환되어 push 처리됨'"]
-    ACNT_NO: str
-    ODER_NO: str
-    OODER_NO: str
+    ACNT_NO: Annotated[str, "계좌번호"]
+    ODER_NO: Annotated[str, "주문번호"]
+    OODER_NO: Annotated[str, "원주문번호"]
     SELN_BYOV_CLS: Annotated[str, "01:매도 02:매수 03:전매도 04:환매수"]
     RCTF_CLS: Annotated[str, "0:정상 1:정정 2:취소"]
     ODER_KIND2: Annotated[str, "1:시장가 2:지정자 6:단주시장가 7:단주지정가\nA:MOO B:LOO C:MOC D:LOC"]
-    STCK_SHRN_ISCD: str
+    STCK_SHRN_ISCD: Annotated[str, "주식 단축 종목코드"]
     CNTG_QTY: Annotated[Decimal, "- 주문통보의 경우 해당 위치에 주문수량이 출력\n- 체결통보인 경우 해당 위치에 체결수량이 출력"]
     CNTG_UNPR: Annotated[
         Decimal,
@@ -37,12 +37,12 @@ class H0GSCNI0(StreamingRawModel):
     RFUS_YN: Annotated[str, "0:정상 1:거부"]
     CNTG_YN: Annotated[str, "1:주문,정정,취소,거부 2:체결"]
     ACPT_YN: Annotated[str, "1:주문접수 2:확인 3:취소(FOK/IOC)"]
-    BRNC_NO: str
+    BRNC_NO: Annotated[str, "지점번호"]
     ODER_QTY: Annotated[
         Decimal, "- 주문통보인 경우 해당 위치 미출력 (주문통보의 주문수량은 CNTG_QTY 위치에 출력)\n- 체결통보인 경우 해당 위치에 주문수량이 출력"
     ]
-    ACNT_NAME: str
-    CNTG_ISNM: str
+    ACNT_NAME: Annotated[str, "계좌명"]
+    CNTG_ISNM: Annotated[str, "체결종목명"]
     ODER_COND: Annotated[
         str, "4:홍콩(HKD) 5:상해B(USD) \n6:NASDAQ 7:NYSE 8:AMEX 9:OTCB\nC:홍콩(CNY) A:상해A(CNY) B:심천B(HKD)\nD:도쿄 E:하노이 F:호치민"
     ]
@@ -51,7 +51,7 @@ class H0GSCNI0(StreamingRawModel):
     START_TM: Annotated[datetime, "HHMMSS"]
     END_TM: Annotated[datetime, "HHMMSS"]
     TM_DIV_TP: Annotated[str, "00 시간직접설정, 02 : 정규장까지"]
-    CNTG_UNPR12: Decimal
+    CNTG_UNPR12: Annotated[Decimal, "체결단가12"]
 
 
 FIELD_ORDER = [

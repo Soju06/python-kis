@@ -66,20 +66,6 @@ class OrdDvsnEnum(KisStrEnum):
     """MOC(장마감시장가)"""
     VALUE_50 = ("50", "단주지정가")
     """단주지정가"""
-    HEADER = ("Header", "tr_id TTTT1002U(미국 매수 주문)]")
-    """tr_id TTTT1002U(미국 매수 주문)]"""
-    VWAP = ("VWAP", "주문은 분할시간 주문 입력 필수")
-    """주문은 분할시간 주문 입력 필수"""
-    LOO = ("LOO", "장개시지정가")
-    """장개시지정가"""
-    LOC = ("LOC", "장마감지정가")
-    """장마감지정가"""
-    TWAP = ("TWAP", "시간가중평균")
-    """시간가중평균"""
-    MOO = ("MOO", "장개시시장가")
-    """장개시시장가"""
-    MOC = ("MOC", "장마감시장가")
-    """장마감시장가"""
 
 
 class AlgoOrdTmdDvsnCdEnum(KisStrEnum):
@@ -136,7 +122,7 @@ class OrderRequest(RawModel):
     ] = Field(
         alias="ORD_DVSN",
         json_schema_extra={
-            "enum": ["00", "32", "34", "35", "36", "31", "33", "50", "Header", "VWAP", "LOO", "LOC", "TWAP", "MOO", "MOC"],
+            "enum": ["00", "32", "34", "35", "36", "31", "33", "50"],
             "enum_desc": {
                 "00": "지정가",
                 "32": "LOO(장개시지정가)",
@@ -146,13 +132,6 @@ class OrderRequest(RawModel):
                 "31": "MOO(장개시시장가)",
                 "33": "MOC(장마감시장가)",
                 "50": "단주지정가",
-                "Header": "tr_id TTTT1002U(미국 매수 주문)]",
-                "VWAP": "주문은 분할시간 주문 입력 필수",
-                "LOO": "장개시지정가",
-                "LOC": "장마감지정가",
-                "TWAP": "시간가중평균",
-                "MOO": "장개시시장가",
-                "MOC": "장마감시장가",
             },
         },
     )

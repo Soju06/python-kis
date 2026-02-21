@@ -74,12 +74,16 @@ class InquireCcnlOutput1(RawModel):
     pbid: Annotated[str | None, "매수호가"] = Field(default=None, alias="pbid")
     pask: Annotated[str | None, "매도호가"] = Field(default=None, alias="pask")
     vpow: Annotated[str | None, "체결강도"] = Field(default=None, alias="vpow")
+    rsym: Annotated[str | None, "inferred from raw payload"] = Field(default=None, alias="rsym")
+    zdiv: Annotated[str | None, "inferred from raw payload"] = Field(default=None, alias="zdiv")
+    nrec: Annotated[str | None, "inferred from raw payload"] = Field(default=None, alias="nrec")
 
 
 class InquireCcnlResponse(RawModel):
     rt_cd: Annotated[KisBool, "성공 실패 여부"] = Field(alias="rt_cd")
     msg_cd: Annotated[str, "응답코드"] = Field(alias="msg_cd")
     msg1: Annotated[str, "응답메세지"] = Field(alias="msg1")
+    output2: Annotated[object | None, "inferred from raw payload"] = Field(default=None, alias="output2")
     output1: Annotated[list[InquireCcnlOutput1], "응답상세"] = Field(alias="output1")
 
 

@@ -2,66 +2,68 @@
 from __future__ import annotations
 
 from datetime import datetime
+from decimal import Decimal
+from typing import Annotated
 
 from pykis.streaming.raw.base import StreamingRawModel
 from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, StreamingSpec
 
 
 class H0STOAA0(StreamingRawModel):
-    MKSC_SHRN_ISCD: str
-    BSOP_HOUR: datetime
-    HOUR_CLS_CODE: str
-    ASKP1: str
-    ASKP2: str
-    ASKP3: str
-    ASKP4: str
-    ASKP5: str
-    ASKP6: str
-    ASKP7: str
-    ASKP8: str
-    ASKP9: str
-    BIDP1: str
-    BIDP2: str
-    BIDP3: str
-    BIDP4: str
-    BIDP5: str
-    BIDP6: str
-    BIDP7: str
-    BIDP8: str
-    BIDP9: str
-    ASKP_RSQN1: str
-    ASKP_RSQN2: str
-    ASKP_RSQN3: str
-    ASKP_RSQN4: str
-    ASKP_RSQN5: str
-    ASKP_RSQN6: str
-    ASKP_RSQN7: str
-    ASKP_RSQN8: str
-    ASKP_RSQN9: str
-    BIDP_RSQN1: str
-    BIDP_RSQN2: str
-    BIDP_RSQN3: str
-    BIDP_RSQN4: str
-    BIDP_RSQN5: str
-    BIDP_RSQN6: str
-    BIDP_RSQN7: str
-    BIDP_RSQN8: str
-    BIDP_RSQN9: str
-    TOTAL_ASKP_RSQN: str
-    TOTAL_BIDP_RSQN: str
-    OVTM_TOTAL_ASKP_RSQN: str
-    OVTM_TOTAL_BIDP_RSQN: str
-    ANTC_CNPR: str
-    ANTC_CNQN: str
-    ANTC_VOL: str
-    ANTC_CNTG_VRSS: str
-    ANTC_CNTG_VRSS_SIGN: str
-    ANTC_CNTG_PRDY_CTRT: str
-    ACML_VOL: str
-    TOTAL_ASKP_RSQN_ICDC: str
-    TOTAL_BIDP_RSQN_ICDC: str
-    OVTM_TOTAL_ASKP_ICDC: str
-    OVTM_TOTAL_BIDP_ICDC: str
+    MKSC_SHRN_ISCD: Annotated[str, "유가증권단축종목코드"]
+    BSOP_HOUR: Annotated[datetime, "영업시간"]
+    HOUR_CLS_CODE: Annotated[str, "시간구분코드"]
+    ASKP1: Annotated[Decimal, "매도호가1"]
+    ASKP2: Annotated[Decimal, "매도호가2"]
+    ASKP3: Annotated[Decimal, "매도호가3"]
+    ASKP4: Annotated[Decimal, "매도호가4"]
+    ASKP5: Annotated[Decimal, "매도호가5"]
+    ASKP6: Annotated[Decimal, "매도호가6"]
+    ASKP7: Annotated[Decimal, "매도호가7"]
+    ASKP8: Annotated[Decimal, "매도호가8"]
+    ASKP9: Annotated[Decimal, "매도호가9"]
+    BIDP1: Annotated[Decimal, "매수호가1"]
+    BIDP2: Annotated[Decimal, "매수호가2"]
+    BIDP3: Annotated[Decimal, "매수호가3"]
+    BIDP4: Annotated[Decimal, "매수호가4"]
+    BIDP5: Annotated[Decimal, "매수호가5"]
+    BIDP6: Annotated[Decimal, "매수호가6"]
+    BIDP7: Annotated[Decimal, "매수호가7"]
+    BIDP8: Annotated[Decimal, "매수호가8"]
+    BIDP9: Annotated[Decimal, "매수호가9"]
+    ASKP_RSQN1: Annotated[Decimal, "매도호가잔량1"]
+    ASKP_RSQN2: Annotated[Decimal, "매도호가잔량2"]
+    ASKP_RSQN3: Annotated[Decimal, "매도호가잔량3"]
+    ASKP_RSQN4: Annotated[Decimal, "매도호가잔량4"]
+    ASKP_RSQN5: Annotated[Decimal, "매도호가잔량5"]
+    ASKP_RSQN6: Annotated[Decimal, "매도호가잔량6"]
+    ASKP_RSQN7: Annotated[Decimal, "매도호가잔량7"]
+    ASKP_RSQN8: Annotated[Decimal, "매도호가잔량8"]
+    ASKP_RSQN9: Annotated[Decimal, "매도호가잔량9"]
+    BIDP_RSQN1: Annotated[Decimal, "매수호가잔량1"]
+    BIDP_RSQN2: Annotated[Decimal, "매수호가잔량2"]
+    BIDP_RSQN3: Annotated[Decimal, "매수호가잔량3"]
+    BIDP_RSQN4: Annotated[Decimal, "매수호가잔량4"]
+    BIDP_RSQN5: Annotated[Decimal, "매수호가잔량5"]
+    BIDP_RSQN6: Annotated[Decimal, "매수호가잔량6"]
+    BIDP_RSQN7: Annotated[Decimal, "매수호가잔량7"]
+    BIDP_RSQN8: Annotated[Decimal, "매수호가잔량8"]
+    BIDP_RSQN9: Annotated[Decimal, "매수호가잔량9"]
+    TOTAL_ASKP_RSQN: Annotated[Decimal, "총매도호가잔량"]
+    TOTAL_BIDP_RSQN: Annotated[Decimal, "총매수호가잔량"]
+    OVTM_TOTAL_ASKP_RSQN: Annotated[Decimal, "시간외총매도호가잔량"]
+    OVTM_TOTAL_BIDP_RSQN: Annotated[Decimal, "시간외총매수호가잔량"]
+    ANTC_CNPR: Annotated[Decimal, "예상체결가"]
+    ANTC_CNQN: Annotated[Decimal, "예상체결량"]
+    ANTC_VOL: Annotated[Decimal, "예상거래량"]
+    ANTC_CNTG_VRSS: Annotated[Decimal, "예상체결대비"]
+    ANTC_CNTG_VRSS_SIGN: Annotated[str, "예상체결대비부호"]
+    ANTC_CNTG_PRDY_CTRT: Annotated[Decimal, "예상체결전일대비율"]
+    ACML_VOL: Annotated[Decimal, "누적거래량"]
+    TOTAL_ASKP_RSQN_ICDC: Annotated[Decimal, "총매도호가잔량증감"]
+    TOTAL_BIDP_RSQN_ICDC: Annotated[Decimal, "총매수호가잔량증감"]
+    OVTM_TOTAL_ASKP_ICDC: Annotated[Decimal, "시간외총매도호가증감"]
+    OVTM_TOTAL_BIDP_ICDC: Annotated[Decimal, "시간외총매수호가증감"]
 
 
 FIELD_ORDER = [
@@ -125,113 +127,113 @@ FIELD_TYPES = {
     "MKSC_SHRN_ISCD": FieldType.STR,
     "BSOP_HOUR": FieldType.DATETIME,
     "HOUR_CLS_CODE": FieldType.STR,
-    "ASKP1": FieldType.STR,
-    "ASKP2": FieldType.STR,
-    "ASKP3": FieldType.STR,
-    "ASKP4": FieldType.STR,
-    "ASKP5": FieldType.STR,
-    "ASKP6": FieldType.STR,
-    "ASKP7": FieldType.STR,
-    "ASKP8": FieldType.STR,
-    "ASKP9": FieldType.STR,
-    "BIDP1": FieldType.STR,
-    "BIDP2": FieldType.STR,
-    "BIDP3": FieldType.STR,
-    "BIDP4": FieldType.STR,
-    "BIDP5": FieldType.STR,
-    "BIDP6": FieldType.STR,
-    "BIDP7": FieldType.STR,
-    "BIDP8": FieldType.STR,
-    "BIDP9": FieldType.STR,
-    "ASKP_RSQN1": FieldType.STR,
-    "ASKP_RSQN2": FieldType.STR,
-    "ASKP_RSQN3": FieldType.STR,
-    "ASKP_RSQN4": FieldType.STR,
-    "ASKP_RSQN5": FieldType.STR,
-    "ASKP_RSQN6": FieldType.STR,
-    "ASKP_RSQN7": FieldType.STR,
-    "ASKP_RSQN8": FieldType.STR,
-    "ASKP_RSQN9": FieldType.STR,
-    "BIDP_RSQN1": FieldType.STR,
-    "BIDP_RSQN2": FieldType.STR,
-    "BIDP_RSQN3": FieldType.STR,
-    "BIDP_RSQN4": FieldType.STR,
-    "BIDP_RSQN5": FieldType.STR,
-    "BIDP_RSQN6": FieldType.STR,
-    "BIDP_RSQN7": FieldType.STR,
-    "BIDP_RSQN8": FieldType.STR,
-    "BIDP_RSQN9": FieldType.STR,
-    "TOTAL_ASKP_RSQN": FieldType.STR,
-    "TOTAL_BIDP_RSQN": FieldType.STR,
-    "OVTM_TOTAL_ASKP_RSQN": FieldType.STR,
-    "OVTM_TOTAL_BIDP_RSQN": FieldType.STR,
-    "ANTC_CNPR": FieldType.STR,
-    "ANTC_CNQN": FieldType.STR,
-    "ANTC_VOL": FieldType.STR,
-    "ANTC_CNTG_VRSS": FieldType.STR,
+    "ASKP1": FieldType.DECIMAL,
+    "ASKP2": FieldType.DECIMAL,
+    "ASKP3": FieldType.DECIMAL,
+    "ASKP4": FieldType.DECIMAL,
+    "ASKP5": FieldType.DECIMAL,
+    "ASKP6": FieldType.DECIMAL,
+    "ASKP7": FieldType.DECIMAL,
+    "ASKP8": FieldType.DECIMAL,
+    "ASKP9": FieldType.DECIMAL,
+    "BIDP1": FieldType.DECIMAL,
+    "BIDP2": FieldType.DECIMAL,
+    "BIDP3": FieldType.DECIMAL,
+    "BIDP4": FieldType.DECIMAL,
+    "BIDP5": FieldType.DECIMAL,
+    "BIDP6": FieldType.DECIMAL,
+    "BIDP7": FieldType.DECIMAL,
+    "BIDP8": FieldType.DECIMAL,
+    "BIDP9": FieldType.DECIMAL,
+    "ASKP_RSQN1": FieldType.DECIMAL,
+    "ASKP_RSQN2": FieldType.DECIMAL,
+    "ASKP_RSQN3": FieldType.DECIMAL,
+    "ASKP_RSQN4": FieldType.DECIMAL,
+    "ASKP_RSQN5": FieldType.DECIMAL,
+    "ASKP_RSQN6": FieldType.DECIMAL,
+    "ASKP_RSQN7": FieldType.DECIMAL,
+    "ASKP_RSQN8": FieldType.DECIMAL,
+    "ASKP_RSQN9": FieldType.DECIMAL,
+    "BIDP_RSQN1": FieldType.DECIMAL,
+    "BIDP_RSQN2": FieldType.DECIMAL,
+    "BIDP_RSQN3": FieldType.DECIMAL,
+    "BIDP_RSQN4": FieldType.DECIMAL,
+    "BIDP_RSQN5": FieldType.DECIMAL,
+    "BIDP_RSQN6": FieldType.DECIMAL,
+    "BIDP_RSQN7": FieldType.DECIMAL,
+    "BIDP_RSQN8": FieldType.DECIMAL,
+    "BIDP_RSQN9": FieldType.DECIMAL,
+    "TOTAL_ASKP_RSQN": FieldType.DECIMAL,
+    "TOTAL_BIDP_RSQN": FieldType.DECIMAL,
+    "OVTM_TOTAL_ASKP_RSQN": FieldType.DECIMAL,
+    "OVTM_TOTAL_BIDP_RSQN": FieldType.DECIMAL,
+    "ANTC_CNPR": FieldType.DECIMAL,
+    "ANTC_CNQN": FieldType.DECIMAL,
+    "ANTC_VOL": FieldType.DECIMAL,
+    "ANTC_CNTG_VRSS": FieldType.DECIMAL,
     "ANTC_CNTG_VRSS_SIGN": FieldType.STR,
-    "ANTC_CNTG_PRDY_CTRT": FieldType.STR,
-    "ACML_VOL": FieldType.STR,
-    "TOTAL_ASKP_RSQN_ICDC": FieldType.STR,
-    "TOTAL_BIDP_RSQN_ICDC": FieldType.STR,
-    "OVTM_TOTAL_ASKP_ICDC": FieldType.STR,
-    "OVTM_TOTAL_BIDP_ICDC": FieldType.STR,
+    "ANTC_CNTG_PRDY_CTRT": FieldType.DECIMAL,
+    "ACML_VOL": FieldType.DECIMAL,
+    "TOTAL_ASKP_RSQN_ICDC": FieldType.DECIMAL,
+    "TOTAL_BIDP_RSQN_ICDC": FieldType.DECIMAL,
+    "OVTM_TOTAL_ASKP_ICDC": FieldType.DECIMAL,
+    "OVTM_TOTAL_BIDP_ICDC": FieldType.DECIMAL,
 }
 FIELD_SOURCES = {
     "MKSC_SHRN_ISCD": FieldSource.DOC_TYPE,
     "BSOP_HOUR": FieldSource.RULE,
     "HOUR_CLS_CODE": FieldSource.DOC_TYPE,
-    "ASKP1": FieldSource.DOC_TYPE,
-    "ASKP2": FieldSource.DOC_TYPE,
-    "ASKP3": FieldSource.DOC_TYPE,
-    "ASKP4": FieldSource.DOC_TYPE,
-    "ASKP5": FieldSource.DOC_TYPE,
-    "ASKP6": FieldSource.DOC_TYPE,
-    "ASKP7": FieldSource.DOC_TYPE,
-    "ASKP8": FieldSource.DOC_TYPE,
-    "ASKP9": FieldSource.DOC_TYPE,
-    "BIDP1": FieldSource.DOC_TYPE,
-    "BIDP2": FieldSource.DOC_TYPE,
-    "BIDP3": FieldSource.DOC_TYPE,
-    "BIDP4": FieldSource.DOC_TYPE,
-    "BIDP5": FieldSource.DOC_TYPE,
-    "BIDP6": FieldSource.DOC_TYPE,
-    "BIDP7": FieldSource.DOC_TYPE,
-    "BIDP8": FieldSource.DOC_TYPE,
-    "BIDP9": FieldSource.DOC_TYPE,
-    "ASKP_RSQN1": FieldSource.DOC_TYPE,
-    "ASKP_RSQN2": FieldSource.DOC_TYPE,
-    "ASKP_RSQN3": FieldSource.DOC_TYPE,
-    "ASKP_RSQN4": FieldSource.DOC_TYPE,
-    "ASKP_RSQN5": FieldSource.DOC_TYPE,
-    "ASKP_RSQN6": FieldSource.DOC_TYPE,
-    "ASKP_RSQN7": FieldSource.DOC_TYPE,
-    "ASKP_RSQN8": FieldSource.DOC_TYPE,
-    "ASKP_RSQN9": FieldSource.DOC_TYPE,
-    "BIDP_RSQN1": FieldSource.DOC_TYPE,
-    "BIDP_RSQN2": FieldSource.DOC_TYPE,
-    "BIDP_RSQN3": FieldSource.DOC_TYPE,
-    "BIDP_RSQN4": FieldSource.DOC_TYPE,
-    "BIDP_RSQN5": FieldSource.DOC_TYPE,
-    "BIDP_RSQN6": FieldSource.DOC_TYPE,
-    "BIDP_RSQN7": FieldSource.DOC_TYPE,
-    "BIDP_RSQN8": FieldSource.DOC_TYPE,
-    "BIDP_RSQN9": FieldSource.DOC_TYPE,
-    "TOTAL_ASKP_RSQN": FieldSource.DOC_TYPE,
-    "TOTAL_BIDP_RSQN": FieldSource.DOC_TYPE,
-    "OVTM_TOTAL_ASKP_RSQN": FieldSource.DOC_TYPE,
-    "OVTM_TOTAL_BIDP_RSQN": FieldSource.DOC_TYPE,
-    "ANTC_CNPR": FieldSource.DOC_TYPE,
-    "ANTC_CNQN": FieldSource.DOC_TYPE,
-    "ANTC_VOL": FieldSource.DOC_TYPE,
-    "ANTC_CNTG_VRSS": FieldSource.DOC_TYPE,
+    "ASKP1": FieldSource.INFERRED,
+    "ASKP2": FieldSource.INFERRED,
+    "ASKP3": FieldSource.INFERRED,
+    "ASKP4": FieldSource.INFERRED,
+    "ASKP5": FieldSource.INFERRED,
+    "ASKP6": FieldSource.INFERRED,
+    "ASKP7": FieldSource.INFERRED,
+    "ASKP8": FieldSource.INFERRED,
+    "ASKP9": FieldSource.INFERRED,
+    "BIDP1": FieldSource.INFERRED,
+    "BIDP2": FieldSource.INFERRED,
+    "BIDP3": FieldSource.INFERRED,
+    "BIDP4": FieldSource.INFERRED,
+    "BIDP5": FieldSource.INFERRED,
+    "BIDP6": FieldSource.INFERRED,
+    "BIDP7": FieldSource.INFERRED,
+    "BIDP8": FieldSource.INFERRED,
+    "BIDP9": FieldSource.INFERRED,
+    "ASKP_RSQN1": FieldSource.INFERRED,
+    "ASKP_RSQN2": FieldSource.INFERRED,
+    "ASKP_RSQN3": FieldSource.INFERRED,
+    "ASKP_RSQN4": FieldSource.INFERRED,
+    "ASKP_RSQN5": FieldSource.INFERRED,
+    "ASKP_RSQN6": FieldSource.INFERRED,
+    "ASKP_RSQN7": FieldSource.INFERRED,
+    "ASKP_RSQN8": FieldSource.INFERRED,
+    "ASKP_RSQN9": FieldSource.INFERRED,
+    "BIDP_RSQN1": FieldSource.INFERRED,
+    "BIDP_RSQN2": FieldSource.INFERRED,
+    "BIDP_RSQN3": FieldSource.INFERRED,
+    "BIDP_RSQN4": FieldSource.INFERRED,
+    "BIDP_RSQN5": FieldSource.INFERRED,
+    "BIDP_RSQN6": FieldSource.INFERRED,
+    "BIDP_RSQN7": FieldSource.INFERRED,
+    "BIDP_RSQN8": FieldSource.INFERRED,
+    "BIDP_RSQN9": FieldSource.INFERRED,
+    "TOTAL_ASKP_RSQN": FieldSource.INFERRED,
+    "TOTAL_BIDP_RSQN": FieldSource.INFERRED,
+    "OVTM_TOTAL_ASKP_RSQN": FieldSource.INFERRED,
+    "OVTM_TOTAL_BIDP_RSQN": FieldSource.INFERRED,
+    "ANTC_CNPR": FieldSource.INFERRED,
+    "ANTC_CNQN": FieldSource.INFERRED,
+    "ANTC_VOL": FieldSource.INFERRED,
+    "ANTC_CNTG_VRSS": FieldSource.INFERRED,
     "ANTC_CNTG_VRSS_SIGN": FieldSource.DOC_TYPE,
-    "ANTC_CNTG_PRDY_CTRT": FieldSource.DOC_TYPE,
-    "ACML_VOL": FieldSource.DOC_TYPE,
-    "TOTAL_ASKP_RSQN_ICDC": FieldSource.DOC_TYPE,
-    "TOTAL_BIDP_RSQN_ICDC": FieldSource.DOC_TYPE,
-    "OVTM_TOTAL_ASKP_ICDC": FieldSource.DOC_TYPE,
-    "OVTM_TOTAL_BIDP_ICDC": FieldSource.DOC_TYPE,
+    "ANTC_CNTG_PRDY_CTRT": FieldSource.INFERRED,
+    "ACML_VOL": FieldSource.INFERRED,
+    "TOTAL_ASKP_RSQN_ICDC": FieldSource.INFERRED,
+    "TOTAL_BIDP_RSQN_ICDC": FieldSource.INFERRED,
+    "OVTM_TOTAL_ASKP_ICDC": FieldSource.INFERRED,
+    "OVTM_TOTAL_BIDP_ICDC": FieldSource.INFERRED,
 }
 DATETIME_RULES = {"BSOP_HOUR": DateTimeRule(kind="time_only", format="HHMMSS", timezone="Asia/Seoul", date_field="business_date")}
 DECIMAL_RULES = {}

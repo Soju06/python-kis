@@ -17,13 +17,15 @@ if TYPE_CHECKING:
 
 
 class FidHourClsCodeEnum(KisStrEnum):
-    VALUE_60 = ("60", "")
-    VALUE_3 = ("3", "")
+    VALUE_60 = ("60", "분")
+    """분"""
+    VALUE_7200 = ("7200", "분")
+    """분"""
 
 
 class NavComparisonTimeTrendRequest(RawModel):
     fid_hour_cls_code: Annotated[FidHourClsCodeEnum, "1분 :60, 3분: 180 … 120분:7200"] = Field(
-        alias="fid_hour_cls_code", json_schema_extra={"enum": ["60", "3"]}
+        alias="fid_hour_cls_code", json_schema_extra={"enum": ["60", "7200"], "enum_desc": {"60": "분", "7200": "분"}}
     )
     fid_cond_mrkt_div_code: Annotated[str, "E - 고정값"] = Field(alias="fid_cond_mrkt_div_code")
     fid_input_iscd: Annotated[str, "종목코드"] = Field(alias="fid_input_iscd")

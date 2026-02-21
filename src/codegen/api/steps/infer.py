@@ -39,6 +39,7 @@ _DT_TOKEN_RE = re.compile(r"(?<![a-z0-9])dt(?![a-z0-9])")
 _RATE_TOKENS = ("비율", "율", "rate", "ratio", "percent", "pct", "ctrt")
 _DATE_TOKENS = ("일자", "날짜", "기준일", "date", "ymd")
 _DATE_RANGE_RE = re.compile(r"\d{4}[./-]\d{1,2}[./-]\d{1,2}")
+_BINARY_MASK_TOKENS = ("bit", "비트", "mask", "자리", "차례대로")
 
 
 def _has_dt_token(text: str) -> bool:
@@ -105,6 +106,29 @@ def _extend_unique_values(base: list[str], additions: list[str]) -> None:
     for value in additions:
         if value not in base:
             base.append(value)
+
+
+def _has_binary_mask_sample(values: list[str]) -> bool:
+    for value in values:
+        text = value.strip()
+        if len(text) <= 1:
+            continue
+        if set(text).issubset({"0", "1"}):
+            return True
+    return False
+
+
+def _parse_field_length(length: str | None) -> int | None:
+    if length is None:
+        return None
+    text = length.strip()
+    if not text:
+        return None
+    try:
+        value = int(text)
+    except ValueError:
+        return None
+    return value if value > 0 else None
 
 
 def _preview_value(value: JsonValue | None, limit: int = 5) -> JsonValue | None:
@@ -175,12 +199,30 @@ def _infer_kind(field: SpecField, sample: JsonValue | None, trace: JsonObject | 
         return _final(FieldHint(kind="str"), "year_month_token")
 
     enum_entries = parse_enum_entries(field.description or "")
+    field_length = _parse_field_length(field.length)
+    if field_length is not None:
+        enum_entries = [entry for entry in enum_entries if len(entry.code) <= field_length]
     enum_values = [entry.code for entry in enum_entries]
     documented_enum_values = list(enum_values)
     enum_desc = {entry.code: entry.desc for entry in enum_entries if entry.desc}
     enum_hint: FieldHint | None = None
     unknown_enum_values: list[str] = []
     prefer_enum = _prefer_enum(text, code_lower, enum_entries)
+    is_binary_mask_field = (
+        set(enum_values).issubset({"0", "1"})
+        and _has_binary_mask_sample(sample_values)
+        and any(token in text for token in _BINARY_MASK_TOKENS)
+    )
+    if enum_entries and is_binary_mask_field:
+        if trace is not None:
+            trace["enum"] = {
+                "values": enum_values,
+                "documented_values": documented_enum_values,
+                "desc": enum_desc or None,
+                "sample_values": sample_values[:20],
+                "unknown_sample_values": [],
+            }
+        return _final(FieldHint(kind="str"), "binary_mask_code")
     if enum_entries:
         normalized = {value.upper() for value in enum_values}
         if normalized.issubset({"Y", "N"}):

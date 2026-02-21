@@ -11,22 +11,22 @@ from pykis.streaming.raw.specs import DateTimeRule, DecimalRule, FieldSource, Fi
 
 class HDFSASP1(StreamingRawModel):
     RSYM: Annotated[str, "'각 항목사이에는 구분자로 ^ 사용,\n모든 데이터타입은 String으로 변환되어 push 처리됨'"]
-    SYMB: str
-    ZDIV: int
-    XYMD: datetime
-    XHMS: datetime
-    KYMD: datetime
-    KHMS: datetime
-    BVOL: Decimal
-    AVOL: Decimal
-    BDVL: Decimal
-    ADVL: Decimal
-    PBID1: Decimal
-    PASK1: Decimal
-    VBID1: Decimal
-    VASK1: Decimal
-    DBID1: Decimal
-    DASK1: Decimal
+    SYMB: Annotated[str, "종목코드"]
+    ZDIV: Annotated[int, "소수점자리수"]
+    XYMD: Annotated[datetime, "현지일자"]
+    XHMS: Annotated[datetime, "현지시간"]
+    KYMD: Annotated[datetime, "한국일자"]
+    KHMS: Annotated[datetime, "한국시간"]
+    BVOL: Annotated[Decimal, "매수총잔량"]
+    AVOL: Annotated[Decimal, "매도총잔량"]
+    BDVL: Annotated[Decimal, "매수총잔량대비"]
+    ADVL: Annotated[Decimal, "매도총잔량대비"]
+    PBID1: Annotated[Decimal, "매수호가1"]
+    PASK1: Annotated[Decimal, "매도호가1"]
+    VBID1: Annotated[Decimal, "매수잔량1"]
+    VASK1: Annotated[Decimal, "매도잔량1"]
+    DBID1: Annotated[Decimal, "매수잔량대비1"]
+    DASK1: Annotated[Decimal, "매도잔량대비1"]
 
 
 FIELD_ORDER = [

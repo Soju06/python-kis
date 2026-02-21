@@ -10,64 +10,64 @@ from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, Stre
 
 
 class H0STASP0(StreamingRawModel):
-    MKSC_SHRN_ISCD: str
-    BSOP_HOUR: datetime
+    MKSC_SHRN_ISCD: Annotated[str, "유가증권 단축 종목코드"]
+    BSOP_HOUR: Annotated[datetime, "영업 시간"]
     HOUR_CLS_CODE: Annotated[str, "0 : 장중\nA : 장후예상\nB : 장전예상\nC : 9시이후의 예상가, VI발동\nD : 시간외 단일가 예상"]
-    ASKP1: Decimal
-    ASKP2: Decimal
-    ASKP3: Decimal
-    ASKP4: Decimal
-    ASKP5: Decimal
-    ASKP6: Decimal
-    ASKP7: Decimal
-    ASKP8: Decimal
-    ASKP9: Decimal
-    ASKP10: Decimal
-    BIDP1: Decimal
-    BIDP2: Decimal
-    BIDP3: Decimal
-    BIDP4: Decimal
-    BIDP5: Decimal
-    BIDP6: Decimal
-    BIDP7: Decimal
-    BIDP8: Decimal
-    BIDP9: Decimal
-    BIDP10: Decimal
-    ASKP_RSQN1: Decimal
-    ASKP_RSQN2: Decimal
-    ASKP_RSQN3: Decimal
-    ASKP_RSQN4: Decimal
-    ASKP_RSQN5: Decimal
-    ASKP_RSQN6: Decimal
-    ASKP_RSQN7: Decimal
-    ASKP_RSQN8: Decimal
-    ASKP_RSQN9: Decimal
-    ASKP_RSQN10: Decimal
-    BIDP_RSQN1: Decimal
-    BIDP_RSQN2: Decimal
-    BIDP_RSQN3: Decimal
-    BIDP_RSQN4: Decimal
-    BIDP_RSQN5: Decimal
-    BIDP_RSQN6: Decimal
-    BIDP_RSQN7: Decimal
-    BIDP_RSQN8: Decimal
-    BIDP_RSQN9: Decimal
-    BIDP_RSQN10: Decimal
-    TOTAL_ASKP_RSQN: Decimal
-    TOTAL_BIDP_RSQN: Decimal
-    OVTM_TOTAL_ASKP_RSQN: Decimal
-    OVTM_TOTAL_BIDP_RSQN: Decimal
+    ASKP1: Annotated[Decimal, "매도호가1"]
+    ASKP2: Annotated[Decimal, "매도호가2"]
+    ASKP3: Annotated[Decimal, "매도호가3"]
+    ASKP4: Annotated[Decimal, "매도호가4"]
+    ASKP5: Annotated[Decimal, "매도호가5"]
+    ASKP6: Annotated[Decimal, "매도호가6"]
+    ASKP7: Annotated[Decimal, "매도호가7"]
+    ASKP8: Annotated[Decimal, "매도호가8"]
+    ASKP9: Annotated[Decimal, "매도호가9"]
+    ASKP10: Annotated[Decimal, "매도호가10"]
+    BIDP1: Annotated[Decimal, "매수호가1"]
+    BIDP2: Annotated[Decimal, "매수호가2"]
+    BIDP3: Annotated[Decimal, "매수호가3"]
+    BIDP4: Annotated[Decimal, "매수호가4"]
+    BIDP5: Annotated[Decimal, "매수호가5"]
+    BIDP6: Annotated[Decimal, "매수호가6"]
+    BIDP7: Annotated[Decimal, "매수호가7"]
+    BIDP8: Annotated[Decimal, "매수호가8"]
+    BIDP9: Annotated[Decimal, "매수호가9"]
+    BIDP10: Annotated[Decimal, "매수호가10"]
+    ASKP_RSQN1: Annotated[Decimal, "매도호가 잔량1"]
+    ASKP_RSQN2: Annotated[Decimal, "매도호가 잔량2"]
+    ASKP_RSQN3: Annotated[Decimal, "매도호가 잔량3"]
+    ASKP_RSQN4: Annotated[Decimal, "매도호가 잔량4"]
+    ASKP_RSQN5: Annotated[Decimal, "매도호가 잔량5"]
+    ASKP_RSQN6: Annotated[Decimal, "매도호가 잔량6"]
+    ASKP_RSQN7: Annotated[Decimal, "매도호가 잔량7"]
+    ASKP_RSQN8: Annotated[Decimal, "매도호가 잔량8"]
+    ASKP_RSQN9: Annotated[Decimal, "매도호가 잔량9"]
+    ASKP_RSQN10: Annotated[Decimal, "매도호가 잔량10"]
+    BIDP_RSQN1: Annotated[Decimal, "매수호가 잔량1"]
+    BIDP_RSQN2: Annotated[Decimal, "매수호가 잔량2"]
+    BIDP_RSQN3: Annotated[Decimal, "매수호가 잔량3"]
+    BIDP_RSQN4: Annotated[Decimal, "매수호가 잔량4"]
+    BIDP_RSQN5: Annotated[Decimal, "매수호가 잔량5"]
+    BIDP_RSQN6: Annotated[Decimal, "매수호가 잔량6"]
+    BIDP_RSQN7: Annotated[Decimal, "매수호가 잔량7"]
+    BIDP_RSQN8: Annotated[Decimal, "매수호가 잔량8"]
+    BIDP_RSQN9: Annotated[Decimal, "매수호가 잔량9"]
+    BIDP_RSQN10: Annotated[Decimal, "매수호가 잔량10"]
+    TOTAL_ASKP_RSQN: Annotated[Decimal, "총 매도호가 잔량"]
+    TOTAL_BIDP_RSQN: Annotated[Decimal, "총 매수호가 잔량"]
+    OVTM_TOTAL_ASKP_RSQN: Annotated[Decimal, "시간외 총 매도호가 잔량"]
+    OVTM_TOTAL_BIDP_RSQN: Annotated[Decimal, "시간외 총 매수호가 잔량"]
     ANTC_CNPR: Annotated[Decimal, "동시호가 등 특정 조건하에서만 발생"]
     ANTC_CNQN: Annotated[Decimal, "동시호가 등 특정 조건하에서만 발생"]
     ANTC_VOL: Annotated[Decimal, "동시호가 등 특정 조건하에서만 발생"]
     ANTC_CNTG_VRSS: Annotated[Decimal, "동시호가 등 특정 조건하에서만 발생"]
     ANTC_CNTG_VRSS_SIGN: Annotated[str, "동시호가 등 특정 조건하에서만 발생\n\n1 : 상한\n2 : 상승\n3 : 보합\n4 : 하한\n5 : 하락"]
-    ANTC_CNTG_PRDY_CTRT: Decimal
-    ACML_VOL: Decimal
-    TOTAL_ASKP_RSQN_ICDC: Decimal
-    TOTAL_BIDP_RSQN_ICDC: Decimal
-    OVTM_TOTAL_ASKP_ICDC: Decimal
-    OVTM_TOTAL_BIDP_ICDC: Decimal
+    ANTC_CNTG_PRDY_CTRT: Annotated[Decimal, "예상 체결 전일 대비율"]
+    ACML_VOL: Annotated[Decimal, "누적 거래량"]
+    TOTAL_ASKP_RSQN_ICDC: Annotated[Decimal, "총 매도호가 잔량 증감"]
+    TOTAL_BIDP_RSQN_ICDC: Annotated[Decimal, "총 매수호가 잔량 증감"]
+    OVTM_TOTAL_ASKP_ICDC: Annotated[Decimal, "시간외 총 매도호가 증감"]
+    OVTM_TOTAL_BIDP_ICDC: Annotated[Decimal, "시간외 총 매수호가 증감"]
     STCK_DEAL_CLS_CODE: Annotated[str, "사용 X (삭제된 값)"]
 
 

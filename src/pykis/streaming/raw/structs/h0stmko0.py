@@ -9,8 +9,8 @@ from pykis.streaming.raw.specs import FieldSource, FieldType, StreamingSpec
 
 class H0STMKO0(StreamingRawModel):
     MKSC_SHRN_ISCD: Annotated[str, "'각 항목사이에는 구분자로 ^ 사용,\n모든 데이터타입은 String으로 변환되어 push 처리됨'"]
-    TRHT_YN: str
-    TR_SUSP_REAS_CNTT: str
+    TRHT_YN: Annotated[str, "거래정지여부"]
+    TR_SUSP_REAS_CNTT: Annotated[str, "거래정지사유내용"]
     MKOP_CLS_CODE: Annotated[
         str,
         (
@@ -54,7 +54,7 @@ class H0STMKO0(StreamingRawModel):
     ]
     VI_CLS_CODE: Annotated[str, "Y  VI적용된 종목\nN  VI적용되지 않은 종목"]
     OVTM_VI_CLS_CODE: Annotated[str, "Y 시간외단일가VI 적용된 종목\nN 시간외단일가VI 적용되지 않은 종목"]
-    EXCH_CLS_CODE: str
+    EXCH_CLS_CODE: Annotated[str, "거래소구분코드"]
 
 
 FIELD_ORDER = [

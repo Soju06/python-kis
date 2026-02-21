@@ -86,6 +86,13 @@ class OrdDvsnEnum(KisStrEnum):
     """중간가FOK"""
 
 
+class ExcgIdDvsnCdEnum(KisStrEnum):
+    KRX = ("KRX", "한국거래소")
+    """한국거래소"""
+    SOR = ("SOR", "Smart Order Routing")
+    """Smart Order Routing"""
+
+
 class OrderCreditRequest(RawModel):
     CANO: Annotated[CanoEnum, "계좌번호 체계(8-2)의 앞 8자리"] = Field(
         alias="CANO", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 앞 8자리", "2": "의 앞 8자리"}}
@@ -182,9 +189,13 @@ class OrderCreditRequest(RawModel):
     CVRG_SLCT_RSON_CD: Annotated[str | None, "반대매매선정사유코드"] = Field(default=None, alias="CVRG_SLCT_RSON_CD")
     CVRG_SEQ: Annotated[str | None, "반대매매순번"] = Field(default=None, alias="CVRG_SEQ")
     EXCG_ID_DVSN_CD: Annotated[
-        str | None,
+        ExcgIdDvsnCdEnum | None,
         "한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능",
-    ] = Field(default=None, alias="EXCG_ID_DVSN_CD")
+    ] = Field(
+        default=None,
+        alias="EXCG_ID_DVSN_CD",
+        json_schema_extra={"enum": ["KRX", "SOR"], "enum_desc": {"KRX": "한국거래소", "SOR": "Smart Order Routing"}},
+    )
     CNDT_PRIC: Annotated[Decimal | None, "스탑지정가호가에서 사용"] = Field(default=None, alias="CNDT_PRIC")
 
 
@@ -237,8 +248,8 @@ class OrderCreditRequestDict(TypedDict):
         PGM_NMPR_STMT_DVSN_CD (str): 프로그램호가신고구분코드 optional
         CVRG_SLCT_RSON_CD (str): 반대매매선정사유코드 optional
         CVRG_SEQ (str): 반대매매순번 optional
-        EXCG_ID_DVSN_CD (str): 한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR (Smart Order
-        Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능 optional
+        EXCG_ID_DVSN_CD (ExcgIdDvsnCdEnum): 한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR
+        (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능 optional
         CNDT_PRIC (Decimal): 스탑지정가호가에서 사용 optional
     """
 
@@ -264,7 +275,7 @@ class OrderCreditRequestDict(TypedDict):
     PGM_NMPR_STMT_DVSN_CD: NotRequired[str | None]
     CVRG_SLCT_RSON_CD: NotRequired[str | None]
     CVRG_SEQ: NotRequired[str | None]
-    EXCG_ID_DVSN_CD: NotRequired[str | None]
+    EXCG_ID_DVSN_CD: NotRequired[ExcgIdDvsnCdEnum | None]
     CNDT_PRIC: NotRequired[Decimal | None]
 
 
@@ -381,9 +392,9 @@ if TYPE_CHECKING:
                         PGM_NMPR_STMT_DVSN_CD (str): 프로그램호가신고구분코드 optional
                         CVRG_SLCT_RSON_CD (str): 반대매매선정사유코드 optional
                         CVRG_SEQ (str): 반대매매순번 optional
-                        EXCG_ID_DVSN_CD (str): 한국거래소 : KRX 대체거래소 (넥스트레이드) : NXT SOR
-                        (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는 KRX만 가능
-                        optional
+                        EXCG_ID_DVSN_CD (ExcgIdDvsnCdEnum): 한국거래소 : KRX 대체거래소 (넥스트레이드)
+                        : NXT SOR (Smart Order Routing) : SOR → 미입력시 KRX로 진행되며, 모의투자는
+                        KRX만 가능 optional
                         CNDT_PRIC (Decimal): 스탑지정가호가에서 사용 optional
 
             Returns:
@@ -405,4 +416,5 @@ __all__ = [
     "AcntPrdtCdEnum",
     "CrdtTypeEnum",
     "OrdDvsnEnum",
+    "ExcgIdDvsnCdEnum",
 ]

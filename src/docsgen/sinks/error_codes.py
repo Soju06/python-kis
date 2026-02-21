@@ -7,7 +7,7 @@ from docsgen.renderers.error_codes import generate_error_codes_markdown
 
 
 def save_error_codes_docs(entries: list[ErrorCodeEntry], base_dir: Path) -> Path:
-    """Save portal error codes markdown under docs/kis."""
+    """Save portal error codes markdown under data/kis."""
 
     md_path = base_dir / "오류코드.md"
     md_path.write_text(

@@ -265,7 +265,7 @@ def _extract_response_fields(data: Mapping[str, object]) -> dict[str, str | None
         code = _optional_text(item.get("code"))
         if not code:
             continue
-        desc = _optional_text(item.get("description") or item.get("desc"))
+        desc = _optional_text(item.get("description") or item.get("desc")) or _optional_text(item.get("name"))
         fields[code] = desc
     return fields
 

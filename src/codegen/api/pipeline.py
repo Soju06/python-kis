@@ -56,7 +56,7 @@ from pykis.api.client import SyncKisRawClient
 from pykis.api.raw.types import Endpoint
 
 ROOT = project_root()
-DOCS_BASE = ROOT / "docs"
+DOCS_BASE = ROOT / "data"
 DOCS_ROOT = docs_root(ROOT)
 ARTIFACTS_ROOT = ROOT / "tmp" / "docs"
 NORMALIZED_DIR = ARTIFACTS_ROOT / "normalized"

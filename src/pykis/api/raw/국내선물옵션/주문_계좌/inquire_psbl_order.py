@@ -56,10 +56,6 @@ class OrdDvsnCdEnum(KisStrEnum):
     """최유리(IOC)"""
     VALUE_15 = ("15", "최유리(FOK)")
     """최유리(FOK)"""
-    IOC = ("IOC", "10 : 지정가")
-    """10 : 지정가"""
-    FOK = ("FOK", "11 : 지정가")
-    """11 : 지정가"""
 
 
 class InquirePsblOrderRequest(RawModel):
@@ -86,7 +82,7 @@ class InquirePsblOrderRequest(RawModel):
         default=None,
         alias="ORD_DVSN_CD",
         json_schema_extra={
-            "enum": ["01", "02", "03", "04", "10", "11", "12", "13", "14", "15", "IOC", "FOK"],
+            "enum": ["01", "02", "03", "04", "10", "11", "12", "13", "14", "15"],
             "enum_desc": {
                 "01": "지정가",
                 "02": "시장가",
@@ -98,8 +94,6 @@ class InquirePsblOrderRequest(RawModel):
                 "13": "시장가(FOK)",
                 "14": "최유리(IOC)",
                 "15": "최유리(FOK)",
-                "IOC": "10 : 지정가",
-                "FOK": "11 : 지정가",
             },
         },
     )

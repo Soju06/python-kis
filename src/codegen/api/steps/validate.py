@@ -19,6 +19,42 @@ def _field_has_description(field: DocField) -> bool:
     return bool((field.description or "").strip())
 
 
+def _missing_description_codes(fields: list[DocField]) -> list[str]:
+    missing: list[str] = []
+    for field in fields:
+        if _field_has_description(field):
+            continue
+        code = field.code.strip()
+        if not code:
+            continue
+        missing.append(code)
+    return missing
+
+
+def _append_missing_description_issue(
+    issues: list[SpecIssue],
+    *,
+    endpoint_id: str,
+    code: str,
+    path: str,
+    label: str,
+    missing_codes: list[str],
+) -> None:
+    if not missing_codes:
+        return
+    preview = ", ".join(missing_codes[:5])
+    tail = f", … (+{len(missing_codes) - 5})" if len(missing_codes) > 5 else ""
+    issues.append(
+        SpecIssue(
+            IssueLevel.WARN,
+            code,
+            f"Missing {label} descriptions: {len(missing_codes)} fields ({preview}{tail})",
+            path,
+            endpoint_id,
+        )
+    )
+
+
 def validate_doc(doc: DocEndpoint) -> list[SpecIssue]:
     issues: list[SpecIssue] = []
     endpoint_id = doc.id
@@ -80,52 +116,37 @@ def validate_doc(doc: DocEndpoint) -> list[SpecIssue]:
             )
         )
 
-    for field in doc.request.headers:
-        if not _field_has_description(field):
-            issues.append(
-                SpecIssue(
-                    IssueLevel.WARN,
-                    "request.header.description.missing",
-                    f"Missing header description: {field.code}",
-                    "request.headers",
-                    endpoint_id,
-                )
-            )
-
-    for field in doc.request.params:
-        if not _field_has_description(field):
-            issues.append(
-                SpecIssue(
-                    IssueLevel.WARN,
-                    "request.params.description.missing",
-                    f"Missing param description: {field.code}",
-                    "request.params",
-                    endpoint_id,
-                )
-            )
-
-    for field in doc.request.body:
-        if not _field_has_description(field):
-            issues.append(
-                SpecIssue(
-                    IssueLevel.WARN,
-                    "request.body.description.missing",
-                    f"Missing body description: {field.code}",
-                    "request.body",
-                    endpoint_id,
-                )
-            )
-
-    for field in doc.response.body:
-        if not _field_has_description(field):
-            issues.append(
-                SpecIssue(
-                    IssueLevel.WARN,
-                    "response.body.description.missing",
-                    f"Missing response description: {field.code}",
-                    "response.body",
-                    endpoint_id,
-                )
-            )
+    _append_missing_description_issue(
+        issues,
+        endpoint_id=endpoint_id,
+        code="request.header.description.missing",
+        path="request.headers",
+        label="header",
+        missing_codes=_missing_description_codes(doc.request.headers),
+    )
+    _append_missing_description_issue(
+        issues,
+        endpoint_id=endpoint_id,
+        code="request.params.description.missing",
+        path="request.params",
+        label="param",
+        missing_codes=_missing_description_codes(doc.request.params),
+    )
+    _append_missing_description_issue(
+        issues,
+        endpoint_id=endpoint_id,
+        code="request.body.description.missing",
+        path="request.body",
+        label="request body",
+        missing_codes=_missing_description_codes(doc.request.body),
+    )
+    _append_missing_description_issue(
+        issues,
+        endpoint_id=endpoint_id,
+        code="response.body.description.missing",
+        path="response.body",
+        label="response body",
+        missing_codes=_missing_description_codes(doc.response.body),
+    )
 
     return issues

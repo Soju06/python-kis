@@ -28,32 +28,6 @@ class AcntPrdtCdEnum(KisStrEnum):
     """의 뒤 2자리"""
 
 
-class OvrsExcgCdEnum(KisStrEnum):
-    NASD = ("NASD", "미국")
-    """미국"""
-    SEHK = ("SEHK", "홍콩")
-    """홍콩"""
-    SHAA = ("SHAA", "중국")
-    """중국"""
-    TKSE = ("TKSE", "일본")
-    """일본"""
-    HASE = ("HASE", "베트남")
-    """베트남"""
-
-
-class CrcyCdEnum(KisStrEnum):
-    USD = ("USD", "미국달러")
-    """미국달러"""
-    HKD = ("HKD", "홍콩달러")
-    """홍콩달러"""
-    CNY = ("CNY", "중국위안화")
-    """중국위안화"""
-    JPY = ("JPY", "일본엔화")
-    """일본엔화"""
-    VND = ("VND", "베트남동")
-    """베트남동"""
-
-
 class WcrcFrcrDvsnCdEnum(KisStrEnum):
     VALUE_01 = ("01", "외화")
     """외화"""
@@ -68,24 +42,12 @@ class InquirePeriodProfitRequest(RawModel):
     ACNT_PRDT_CD: Annotated[AcntPrdtCdEnum, "계좌번호 체계(8-2)의 뒤 2자리"] = Field(
         alias="ACNT_PRDT_CD", json_schema_extra={"enum": ["8", "2"], "enum_desc": {"8": "2)의 뒤 2자리", "2": "의 뒤 2자리"}}
     )
-    OVRS_EXCG_CD: Annotated[OvrsExcgCdEnum | None, "공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE : 일본, HASE : 베트남"] = Field(
-        default=None,
-        alias="OVRS_EXCG_CD",
-        json_schema_extra={
-            "enum": ["NASD", "SEHK", "SHAA", "TKSE", "HASE"],
-            "enum_desc": {"NASD": "미국", "SEHK": "홍콩", "SHAA": "중국", "TKSE": "일본", "HASE": "베트남"},
-            "blank_allowed": True,
-        },
+    OVRS_EXCG_CD: Annotated[str | None, "공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE : 일본, HASE : 베트남"] = Field(
+        default=None, alias="OVRS_EXCG_CD", json_schema_extra={"blank_allowed": True}
     )
     NATN_CD: Annotated[str | None, "공란(Default)"] = Field(default=None, alias="NATN_CD", json_schema_extra={"blank_allowed": True})
-    CRCY_CD: Annotated[CrcyCdEnum | None, "공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY : 일본엔화, VND : 베트남동"] = Field(
-        default=None,
-        alias="CRCY_CD",
-        json_schema_extra={
-            "enum": ["USD", "HKD", "CNY", "JPY", "VND"],
-            "enum_desc": {"USD": "미국달러", "HKD": "홍콩달러", "CNY": "중국위안화", "JPY": "일본엔화", "VND": "베트남동"},
-            "blank_allowed": True,
-        },
+    CRCY_CD: Annotated[str | None, "공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY : 일본엔화, VND : 베트남동"] = Field(
+        default=None, alias="CRCY_CD", json_schema_extra={"blank_allowed": True}
     )
     PDNO: Annotated[str | None, "공란 : 전체"] = Field(default=None, alias="PDNO", json_schema_extra={"blank_allowed": True})
     INQR_STRT_DT: Annotated[str, "YYYYMMDD"] = Field(alias="INQR_STRT_DT")
@@ -120,11 +82,11 @@ class InquirePeriodProfitRequestDict(TypedDict):
     Request fields:
         CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
-        OVRS_EXCG_CD (OvrsExcgCdEnum): 공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE :
-        일본, HASE : 베트남 optional
+        OVRS_EXCG_CD (str): 공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE : 일본, HASE :
+        베트남 optional
         NATN_CD (str): 공란(Default) optional
-        CRCY_CD (CrcyCdEnum): 공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY :
-        일본엔화, VND : 베트남동 optional
+        CRCY_CD (str): 공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화, JPY : 일본엔화,
+        VND : 베트남동 optional
         PDNO (str): 공란 : 전체 optional
         INQR_STRT_DT (str): YYYYMMDD
         INQR_END_DT (str): YYYYMMDD
@@ -135,9 +97,9 @@ class InquirePeriodProfitRequestDict(TypedDict):
 
     CANO: CanoEnum
     ACNT_PRDT_CD: AcntPrdtCdEnum
-    OVRS_EXCG_CD: NotRequired[OvrsExcgCdEnum | None]
+    OVRS_EXCG_CD: NotRequired[str | None]
     NATN_CD: NotRequired[str | None]
-    CRCY_CD: NotRequired[CrcyCdEnum | None]
+    CRCY_CD: NotRequired[str | None]
     PDNO: NotRequired[str | None]
     INQR_STRT_DT: str
     INQR_END_DT: str
@@ -275,11 +237,11 @@ if TYPE_CHECKING:
                     Request fields:
                         CANO (CanoEnum): 계좌번호 체계(8-2)의 앞 8자리
                         ACNT_PRDT_CD (AcntPrdtCdEnum): 계좌번호 체계(8-2)의 뒤 2자리
-                        OVRS_EXCG_CD (OvrsExcgCdEnum): 공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA :
-                        중국, TKSE : 일본, HASE : 베트남 optional
+                        OVRS_EXCG_CD (str): 공란 : 전체, NASD : 미국, SEHK : 홍콩, SHAA : 중국, TKSE :
+                        일본, HASE : 베트남 optional
                         NATN_CD (str): 공란(Default) optional
-                        CRCY_CD (CrcyCdEnum): 공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY :
-                        중국위안화, JPY : 일본엔화, VND : 베트남동 optional
+                        CRCY_CD (str): 공란 : 전체 USD : 미국달러, HKD : 홍콩달러, CNY : 중국위안화,
+                        JPY : 일본엔화, VND : 베트남동 optional
                         PDNO (str): 공란 : 전체 optional
                         INQR_STRT_DT (str): YYYYMMDD
                         INQR_END_DT (str): YYYYMMDD
@@ -305,7 +267,5 @@ __all__ = [
     "InquirePeriodProfitOutput2",
     "CanoEnum",
     "AcntPrdtCdEnum",
-    "OvrsExcgCdEnum",
-    "CrcyCdEnum",
     "WcrcFrcrDvsnCdEnum",
 ]

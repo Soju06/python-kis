@@ -2,75 +2,77 @@
 from __future__ import annotations
 
 from datetime import datetime
+from decimal import Decimal
+from typing import Annotated
 
 from pykis.streaming.raw.base import StreamingRawModel
 from pykis.streaming.raw.specs import DateTimeRule, FieldSource, FieldType, StreamingSpec
 
 
 class H0EWCNT0(StreamingRawModel):
-    MKSC_SHRN_ISCD: str
-    STCK_CNTG_HOUR: datetime
-    STCK_PRPR: str
-    PRDY_VRSS_SIGN: str
-    PRDY_VRSS: str
-    PRDY_CTRT: str
-    WGHN_AVRG_STCK_PRC: str
-    STCK_OPRC: str
-    STCK_HGPR: str
-    STCK_LWPR: str
-    ASKP1: str
-    BIDP1: str
-    CNTG_VOL: str
-    ACML_VOL: str
-    ACML_TR_PBMN: str
-    SELN_CNTG_CSNU: str
-    SHNU_CNTG_CSNU: str
-    NTBY_CNTG_CSNU: str
-    CTTR: str
-    SELN_CNTG_SMTN: str
-    SHNU_CNTG_SMTN: str
-    CNTG_CLS_CODE: str
-    SHNU_RATE: str
-    PRDY_VOL_VRSS_ACML_VOL_RATE: str
-    OPRC_HOUR: datetime
-    OPRC_VRSS_PRPR_SIGN: str
-    OPRC_VRSS_PRPR: str
-    HGPR_HOUR: datetime
-    HGPR_VRSS_PRPR_SIGN: str
-    HGPR_VRSS_PRPR: str
-    LWPR_HOUR: datetime
-    LWPR_VRSS_PRPR_SIGN: str
-    LWPR_VRSS_PRPR: str
-    BSOP_DATE: datetime
-    NEW_MKOP_CLS_CODE: str
-    TRHT_YN: str
-    ASKP_RSQN1: str
-    BIDP_RSQN1: str
-    TOTAL_ASKP_RSQN: str
-    TOTAL_BIDP_RSQN: str
-    TMVL_VAL: str
-    PRIT: str
-    PRMM_VAL: str
-    GEAR: str
-    PRLS_QRYR_RATE: str
-    INVL_VAL: str
-    PRMM_RATE: str
-    CFP: str
-    LVRG_VAL: str
-    DELTA: str
-    GAMA: str
-    VEGA: str
-    THETA: str
-    RHO: str
-    HTS_INTS_VLTL: str
-    HTS_THPR: str
-    VOL_TNRT: str
-    PRDY_SMNS_HOUR_ACML_VOL: str
-    PRDY_SMNS_HOUR_ACML_VOL_RATE: str
-    APPRCH_RATE: str
-    LP_HVOL: str
-    LP_HLDN_RATE: str
-    LP_NTBY_QTY: str
+    MKSC_SHRN_ISCD: Annotated[str, "유가증권단축종목코드"]
+    STCK_CNTG_HOUR: Annotated[datetime, "주식체결시간"]
+    STCK_PRPR: Annotated[Decimal, "주식현재가"]
+    PRDY_VRSS_SIGN: Annotated[str, "전일대비부호"]
+    PRDY_VRSS: Annotated[Decimal, "전일대비"]
+    PRDY_CTRT: Annotated[Decimal, "전일대비율"]
+    WGHN_AVRG_STCK_PRC: Annotated[Decimal, "가중평균주식가격"]
+    STCK_OPRC: Annotated[Decimal, "주식시가2"]
+    STCK_HGPR: Annotated[Decimal, "주식최고가"]
+    STCK_LWPR: Annotated[Decimal, "주식최저가"]
+    ASKP1: Annotated[Decimal, "매도호가1"]
+    BIDP1: Annotated[Decimal, "매수호가1"]
+    CNTG_VOL: Annotated[Decimal, "체결거래량"]
+    ACML_VOL: Annotated[Decimal, "누적거래량"]
+    ACML_TR_PBMN: Annotated[Decimal, "누적거래대금"]
+    SELN_CNTG_CSNU: Annotated[Decimal, "매도체결건수"]
+    SHNU_CNTG_CSNU: Annotated[Decimal, "매수체결건수"]
+    NTBY_CNTG_CSNU: Annotated[Decimal, "순매수체결건수"]
+    CTTR: Annotated[Decimal, "체결강도"]
+    SELN_CNTG_SMTN: Annotated[Decimal, "총매도수량"]
+    SHNU_CNTG_SMTN: Annotated[Decimal, "총매수수량"]
+    CNTG_CLS_CODE: Annotated[str, "체결구분코드"]
+    SHNU_RATE: Annotated[Decimal, "매수2비율"]
+    PRDY_VOL_VRSS_ACML_VOL_RATE: Annotated[Decimal, "전일거래량대비등락율"]
+    OPRC_HOUR: Annotated[datetime, "시가시간"]
+    OPRC_VRSS_PRPR_SIGN: Annotated[str, "시가2대비현재가부호"]
+    OPRC_VRSS_PRPR: Annotated[Decimal, "시가2대비현재가"]
+    HGPR_HOUR: Annotated[datetime, "최고가시간"]
+    HGPR_VRSS_PRPR_SIGN: Annotated[str, "최고가대비현재가부호"]
+    HGPR_VRSS_PRPR: Annotated[Decimal, "최고가대비현재가"]
+    LWPR_HOUR: Annotated[datetime, "최저가시간"]
+    LWPR_VRSS_PRPR_SIGN: Annotated[str, "최저가대비현재가부호"]
+    LWPR_VRSS_PRPR: Annotated[Decimal, "최저가대비현재가"]
+    BSOP_DATE: Annotated[datetime, "영업일자"]
+    NEW_MKOP_CLS_CODE: Annotated[str, "신장운영구분코드"]
+    TRHT_YN: Annotated[str, "거래정지여부"]
+    ASKP_RSQN1: Annotated[Decimal, "매도호가잔량1"]
+    BIDP_RSQN1: Annotated[Decimal, "매수호가잔량1"]
+    TOTAL_ASKP_RSQN: Annotated[Decimal, "총매도호가잔량"]
+    TOTAL_BIDP_RSQN: Annotated[Decimal, "총매수호가잔량"]
+    TMVL_VAL: Annotated[Decimal, "시간가치값"]
+    PRIT: Annotated[Decimal, "패리티"]
+    PRMM_VAL: Annotated[Decimal, "프리미엄값"]
+    GEAR: Annotated[Decimal, "기어링"]
+    PRLS_QRYR_RATE: Annotated[Decimal, "손익분기비율"]
+    INVL_VAL: Annotated[Decimal, "내재가치값"]
+    PRMM_RATE: Annotated[Decimal, "프리미엄비율"]
+    CFP: Annotated[Decimal, "자본지지점"]
+    LVRG_VAL: Annotated[Decimal, "레버리지값"]
+    DELTA: Annotated[Decimal, "델타"]
+    GAMA: Annotated[Decimal, "감마"]
+    VEGA: Annotated[Decimal, "베가"]
+    THETA: Annotated[Decimal, "세타"]
+    RHO: Annotated[Decimal, "로우"]
+    HTS_INTS_VLTL: Annotated[Decimal, "HTS내재변동성"]
+    HTS_THPR: Annotated[Decimal, "HTS이론가"]
+    VOL_TNRT: Annotated[Decimal, "거래량회전율"]
+    PRDY_SMNS_HOUR_ACML_VOL: Annotated[Decimal, "전일동시간누적거래량"]
+    PRDY_SMNS_HOUR_ACML_VOL_RATE: Annotated[Decimal, "전일동시간누적거래량비율"]
+    APPRCH_RATE: Annotated[Decimal, "접근도"]
+    LP_HVOL: Annotated[Decimal, "LP보유량"]
+    LP_HLDN_RATE: Annotated[Decimal, "LP보유비율"]
+    LP_NTBY_QTY: Annotated[Decimal, "LP순매도량"]
 
 
 FIELD_ORDER = [
@@ -142,132 +144,132 @@ FIELD_ALIASES = {}
 FIELD_TYPES = {
     "MKSC_SHRN_ISCD": FieldType.STR,
     "STCK_CNTG_HOUR": FieldType.DATETIME,
-    "STCK_PRPR": FieldType.STR,
+    "STCK_PRPR": FieldType.DECIMAL,
     "PRDY_VRSS_SIGN": FieldType.STR,
-    "PRDY_VRSS": FieldType.STR,
-    "PRDY_CTRT": FieldType.STR,
-    "WGHN_AVRG_STCK_PRC": FieldType.STR,
-    "STCK_OPRC": FieldType.STR,
-    "STCK_HGPR": FieldType.STR,
-    "STCK_LWPR": FieldType.STR,
-    "ASKP1": FieldType.STR,
-    "BIDP1": FieldType.STR,
-    "CNTG_VOL": FieldType.STR,
-    "ACML_VOL": FieldType.STR,
-    "ACML_TR_PBMN": FieldType.STR,
-    "SELN_CNTG_CSNU": FieldType.STR,
-    "SHNU_CNTG_CSNU": FieldType.STR,
-    "NTBY_CNTG_CSNU": FieldType.STR,
-    "CTTR": FieldType.STR,
-    "SELN_CNTG_SMTN": FieldType.STR,
-    "SHNU_CNTG_SMTN": FieldType.STR,
+    "PRDY_VRSS": FieldType.DECIMAL,
+    "PRDY_CTRT": FieldType.DECIMAL,
+    "WGHN_AVRG_STCK_PRC": FieldType.DECIMAL,
+    "STCK_OPRC": FieldType.DECIMAL,
+    "STCK_HGPR": FieldType.DECIMAL,
+    "STCK_LWPR": FieldType.DECIMAL,
+    "ASKP1": FieldType.DECIMAL,
+    "BIDP1": FieldType.DECIMAL,
+    "CNTG_VOL": FieldType.DECIMAL,
+    "ACML_VOL": FieldType.DECIMAL,
+    "ACML_TR_PBMN": FieldType.DECIMAL,
+    "SELN_CNTG_CSNU": FieldType.DECIMAL,
+    "SHNU_CNTG_CSNU": FieldType.DECIMAL,
+    "NTBY_CNTG_CSNU": FieldType.DECIMAL,
+    "CTTR": FieldType.DECIMAL,
+    "SELN_CNTG_SMTN": FieldType.DECIMAL,
+    "SHNU_CNTG_SMTN": FieldType.DECIMAL,
     "CNTG_CLS_CODE": FieldType.STR,
-    "SHNU_RATE": FieldType.STR,
-    "PRDY_VOL_VRSS_ACML_VOL_RATE": FieldType.STR,
+    "SHNU_RATE": FieldType.DECIMAL,
+    "PRDY_VOL_VRSS_ACML_VOL_RATE": FieldType.DECIMAL,
     "OPRC_HOUR": FieldType.DATETIME,
     "OPRC_VRSS_PRPR_SIGN": FieldType.STR,
-    "OPRC_VRSS_PRPR": FieldType.STR,
+    "OPRC_VRSS_PRPR": FieldType.DECIMAL,
     "HGPR_HOUR": FieldType.DATETIME,
     "HGPR_VRSS_PRPR_SIGN": FieldType.STR,
-    "HGPR_VRSS_PRPR": FieldType.STR,
+    "HGPR_VRSS_PRPR": FieldType.DECIMAL,
     "LWPR_HOUR": FieldType.DATETIME,
     "LWPR_VRSS_PRPR_SIGN": FieldType.STR,
-    "LWPR_VRSS_PRPR": FieldType.STR,
+    "LWPR_VRSS_PRPR": FieldType.DECIMAL,
     "BSOP_DATE": FieldType.DATETIME,
     "NEW_MKOP_CLS_CODE": FieldType.STR,
     "TRHT_YN": FieldType.STR,
-    "ASKP_RSQN1": FieldType.STR,
-    "BIDP_RSQN1": FieldType.STR,
-    "TOTAL_ASKP_RSQN": FieldType.STR,
-    "TOTAL_BIDP_RSQN": FieldType.STR,
-    "TMVL_VAL": FieldType.STR,
-    "PRIT": FieldType.STR,
-    "PRMM_VAL": FieldType.STR,
-    "GEAR": FieldType.STR,
-    "PRLS_QRYR_RATE": FieldType.STR,
-    "INVL_VAL": FieldType.STR,
-    "PRMM_RATE": FieldType.STR,
-    "CFP": FieldType.STR,
-    "LVRG_VAL": FieldType.STR,
-    "DELTA": FieldType.STR,
-    "GAMA": FieldType.STR,
-    "VEGA": FieldType.STR,
-    "THETA": FieldType.STR,
-    "RHO": FieldType.STR,
-    "HTS_INTS_VLTL": FieldType.STR,
-    "HTS_THPR": FieldType.STR,
-    "VOL_TNRT": FieldType.STR,
-    "PRDY_SMNS_HOUR_ACML_VOL": FieldType.STR,
-    "PRDY_SMNS_HOUR_ACML_VOL_RATE": FieldType.STR,
-    "APPRCH_RATE": FieldType.STR,
-    "LP_HVOL": FieldType.STR,
-    "LP_HLDN_RATE": FieldType.STR,
-    "LP_NTBY_QTY": FieldType.STR,
+    "ASKP_RSQN1": FieldType.DECIMAL,
+    "BIDP_RSQN1": FieldType.DECIMAL,
+    "TOTAL_ASKP_RSQN": FieldType.DECIMAL,
+    "TOTAL_BIDP_RSQN": FieldType.DECIMAL,
+    "TMVL_VAL": FieldType.DECIMAL,
+    "PRIT": FieldType.DECIMAL,
+    "PRMM_VAL": FieldType.DECIMAL,
+    "GEAR": FieldType.DECIMAL,
+    "PRLS_QRYR_RATE": FieldType.DECIMAL,
+    "INVL_VAL": FieldType.DECIMAL,
+    "PRMM_RATE": FieldType.DECIMAL,
+    "CFP": FieldType.DECIMAL,
+    "LVRG_VAL": FieldType.DECIMAL,
+    "DELTA": FieldType.DECIMAL,
+    "GAMA": FieldType.DECIMAL,
+    "VEGA": FieldType.DECIMAL,
+    "THETA": FieldType.DECIMAL,
+    "RHO": FieldType.DECIMAL,
+    "HTS_INTS_VLTL": FieldType.DECIMAL,
+    "HTS_THPR": FieldType.DECIMAL,
+    "VOL_TNRT": FieldType.DECIMAL,
+    "PRDY_SMNS_HOUR_ACML_VOL": FieldType.DECIMAL,
+    "PRDY_SMNS_HOUR_ACML_VOL_RATE": FieldType.DECIMAL,
+    "APPRCH_RATE": FieldType.DECIMAL,
+    "LP_HVOL": FieldType.DECIMAL,
+    "LP_HLDN_RATE": FieldType.DECIMAL,
+    "LP_NTBY_QTY": FieldType.DECIMAL,
 }
 FIELD_SOURCES = {
     "MKSC_SHRN_ISCD": FieldSource.DOC_TYPE,
     "STCK_CNTG_HOUR": FieldSource.RULE,
-    "STCK_PRPR": FieldSource.DOC_TYPE,
+    "STCK_PRPR": FieldSource.INFERRED,
     "PRDY_VRSS_SIGN": FieldSource.DOC_TYPE,
-    "PRDY_VRSS": FieldSource.DOC_TYPE,
-    "PRDY_CTRT": FieldSource.DOC_TYPE,
-    "WGHN_AVRG_STCK_PRC": FieldSource.DOC_TYPE,
-    "STCK_OPRC": FieldSource.DOC_TYPE,
-    "STCK_HGPR": FieldSource.DOC_TYPE,
-    "STCK_LWPR": FieldSource.DOC_TYPE,
-    "ASKP1": FieldSource.DOC_TYPE,
-    "BIDP1": FieldSource.DOC_TYPE,
-    "CNTG_VOL": FieldSource.DOC_TYPE,
-    "ACML_VOL": FieldSource.DOC_TYPE,
-    "ACML_TR_PBMN": FieldSource.DOC_TYPE,
-    "SELN_CNTG_CSNU": FieldSource.DOC_TYPE,
-    "SHNU_CNTG_CSNU": FieldSource.DOC_TYPE,
-    "NTBY_CNTG_CSNU": FieldSource.DOC_TYPE,
-    "CTTR": FieldSource.DOC_TYPE,
-    "SELN_CNTG_SMTN": FieldSource.DOC_TYPE,
-    "SHNU_CNTG_SMTN": FieldSource.DOC_TYPE,
+    "PRDY_VRSS": FieldSource.INFERRED,
+    "PRDY_CTRT": FieldSource.INFERRED,
+    "WGHN_AVRG_STCK_PRC": FieldSource.INFERRED,
+    "STCK_OPRC": FieldSource.INFERRED,
+    "STCK_HGPR": FieldSource.INFERRED,
+    "STCK_LWPR": FieldSource.INFERRED,
+    "ASKP1": FieldSource.INFERRED,
+    "BIDP1": FieldSource.INFERRED,
+    "CNTG_VOL": FieldSource.INFERRED,
+    "ACML_VOL": FieldSource.INFERRED,
+    "ACML_TR_PBMN": FieldSource.INFERRED,
+    "SELN_CNTG_CSNU": FieldSource.INFERRED,
+    "SHNU_CNTG_CSNU": FieldSource.INFERRED,
+    "NTBY_CNTG_CSNU": FieldSource.INFERRED,
+    "CTTR": FieldSource.INFERRED,
+    "SELN_CNTG_SMTN": FieldSource.INFERRED,
+    "SHNU_CNTG_SMTN": FieldSource.INFERRED,
     "CNTG_CLS_CODE": FieldSource.DOC_TYPE,
-    "SHNU_RATE": FieldSource.DOC_TYPE,
-    "PRDY_VOL_VRSS_ACML_VOL_RATE": FieldSource.DOC_TYPE,
+    "SHNU_RATE": FieldSource.INFERRED,
+    "PRDY_VOL_VRSS_ACML_VOL_RATE": FieldSource.INFERRED,
     "OPRC_HOUR": FieldSource.RULE,
     "OPRC_VRSS_PRPR_SIGN": FieldSource.DOC_TYPE,
-    "OPRC_VRSS_PRPR": FieldSource.DOC_TYPE,
+    "OPRC_VRSS_PRPR": FieldSource.INFERRED,
     "HGPR_HOUR": FieldSource.RULE,
     "HGPR_VRSS_PRPR_SIGN": FieldSource.DOC_TYPE,
-    "HGPR_VRSS_PRPR": FieldSource.DOC_TYPE,
+    "HGPR_VRSS_PRPR": FieldSource.INFERRED,
     "LWPR_HOUR": FieldSource.RULE,
     "LWPR_VRSS_PRPR_SIGN": FieldSource.DOC_TYPE,
-    "LWPR_VRSS_PRPR": FieldSource.DOC_TYPE,
+    "LWPR_VRSS_PRPR": FieldSource.INFERRED,
     "BSOP_DATE": FieldSource.RULE,
     "NEW_MKOP_CLS_CODE": FieldSource.DOC_TYPE,
     "TRHT_YN": FieldSource.DOC_TYPE,
-    "ASKP_RSQN1": FieldSource.DOC_TYPE,
-    "BIDP_RSQN1": FieldSource.DOC_TYPE,
-    "TOTAL_ASKP_RSQN": FieldSource.DOC_TYPE,
-    "TOTAL_BIDP_RSQN": FieldSource.DOC_TYPE,
-    "TMVL_VAL": FieldSource.DOC_TYPE,
-    "PRIT": FieldSource.DOC_TYPE,
-    "PRMM_VAL": FieldSource.DOC_TYPE,
-    "GEAR": FieldSource.DOC_TYPE,
-    "PRLS_QRYR_RATE": FieldSource.DOC_TYPE,
-    "INVL_VAL": FieldSource.DOC_TYPE,
-    "PRMM_RATE": FieldSource.DOC_TYPE,
-    "CFP": FieldSource.DOC_TYPE,
-    "LVRG_VAL": FieldSource.DOC_TYPE,
-    "DELTA": FieldSource.DOC_TYPE,
-    "GAMA": FieldSource.DOC_TYPE,
-    "VEGA": FieldSource.DOC_TYPE,
-    "THETA": FieldSource.DOC_TYPE,
-    "RHO": FieldSource.DOC_TYPE,
-    "HTS_INTS_VLTL": FieldSource.DOC_TYPE,
-    "HTS_THPR": FieldSource.DOC_TYPE,
-    "VOL_TNRT": FieldSource.DOC_TYPE,
-    "PRDY_SMNS_HOUR_ACML_VOL": FieldSource.DOC_TYPE,
-    "PRDY_SMNS_HOUR_ACML_VOL_RATE": FieldSource.DOC_TYPE,
-    "APPRCH_RATE": FieldSource.DOC_TYPE,
-    "LP_HVOL": FieldSource.DOC_TYPE,
-    "LP_HLDN_RATE": FieldSource.DOC_TYPE,
-    "LP_NTBY_QTY": FieldSource.DOC_TYPE,
+    "ASKP_RSQN1": FieldSource.INFERRED,
+    "BIDP_RSQN1": FieldSource.INFERRED,
+    "TOTAL_ASKP_RSQN": FieldSource.INFERRED,
+    "TOTAL_BIDP_RSQN": FieldSource.INFERRED,
+    "TMVL_VAL": FieldSource.INFERRED,
+    "PRIT": FieldSource.INFERRED,
+    "PRMM_VAL": FieldSource.INFERRED,
+    "GEAR": FieldSource.INFERRED,
+    "PRLS_QRYR_RATE": FieldSource.INFERRED,
+    "INVL_VAL": FieldSource.INFERRED,
+    "PRMM_RATE": FieldSource.INFERRED,
+    "CFP": FieldSource.INFERRED,
+    "LVRG_VAL": FieldSource.INFERRED,
+    "DELTA": FieldSource.INFERRED,
+    "GAMA": FieldSource.INFERRED,
+    "VEGA": FieldSource.INFERRED,
+    "THETA": FieldSource.INFERRED,
+    "RHO": FieldSource.INFERRED,
+    "HTS_INTS_VLTL": FieldSource.INFERRED,
+    "HTS_THPR": FieldSource.INFERRED,
+    "VOL_TNRT": FieldSource.INFERRED,
+    "PRDY_SMNS_HOUR_ACML_VOL": FieldSource.INFERRED,
+    "PRDY_SMNS_HOUR_ACML_VOL_RATE": FieldSource.INFERRED,
+    "APPRCH_RATE": FieldSource.INFERRED,
+    "LP_HVOL": FieldSource.INFERRED,
+    "LP_HLDN_RATE": FieldSource.INFERRED,
+    "LP_NTBY_QTY": FieldSource.INFERRED,
 }
 DATETIME_RULES = {
     "STCK_CNTG_HOUR": DateTimeRule(kind="time_only", format="HHMMSS", timezone="Asia/Seoul", date_field="BSOP_DATE"),
