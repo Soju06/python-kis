@@ -1,0 +1,372 @@
+id: 41290e2a-6e25-49c0-91a1-99b96ce53efe
+name: 해외옵션 체결추이(틱) [해외선물-038]
+section: '[해외선물옵션] 기본시세'
+category: 해외선물옵션
+subcategory: 기본시세
+method: GET
+url: /uapi/overseas-futureoption/v1/quotations/opt-tick-ccnl
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: HHDFO55020200
+demo_tr_id: 모의투자 미지원
+summary: "해외옵션 체결추이(틱) API입니다. \n한 번의 호출에 40건까지 확인 가능하며, QRY_TP, INDEX_KEY 를 이용하여 다음조회 가능합니다.\n\n※ 다음조회 방법\n(처음조회) \"QRY_TP\"\
+  :\"Q\", \"QRY_CNT\":\"40\", \"INDEX_KEY\":\"\"\n(다음조회) \"QRY_TP\":\"P\", \"QRY_CNT\":\"40\", \"INDEX_KEY\":\"20240906  \
+  \     221\"  ◀ 이전 호출의 \"output1 > index_key\" 기입\n\n(중요) 해외옵션시세 출력값을 해석하실 때 focode.mst(해외지수옵션 종목마스터파일), fostkcode.mst(해외주식옵션\
+  \ 종목마스터파일)에 있는 sCalcDesz(계산 소수점) 값을 활용하셔야 정확한 값을 받아오실 수 있습니다.\n\n- focode.mst(해외지수옵션 종목마스터파일), (해외주식옵션 종목마스터파일) 다운로드 방법\n\
+  \  1) focode.mst(해외지수옵션 종목마스터파일)\n     : 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션 클릭하여 다운로드 후\n       Github의 헤더정보(https://github.com/koreainvestment/open-trading-api/blob/main/stocks_info/해외옵션정보.h)를\
+  \ 참고하여 해석\n  2) fostkcode.mst(해외주식옵션 종목마스터파일)\n     : 포럼 > FAQ > 종목정보 다운로드(해외) - 해외주식옵션 클릭하여 다운로드 후\n       Github의 헤더정보(https://github.com/koreainvestment/open-trading-api/blob/main/stocks_info/해외주식옵션정보.h)를\
+  \ 참고하여 해석\n\n- 소수점 계산 시, focode.mst(해외지수옵션 종목마스터파일), fostkcode.mst(해외주식옵션 종목마스터파일)의 sCalcDesz(계산 소수점) 값 참고\n  EX) focode.mst\
+  \ 파일의 sCalcDesz(계산 소수점) 값\n       품목코드 OES 계산소수점 -2 → 시세 7525 수신 시 75.25 로 해석\n       품목코드 O6E 계산소수점 -4 → 시세 54.0 수신 시 0.0054\
+  \ 로 해석"
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-08-23T12:24:36+09:00'
+  last_modified_date: '2025-04-30T13:00:24+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHDFO55020200
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: SRS_CD
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 'ex) OESU24 C5500
+
+      ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고'
+  - code: EXCH_CD
+    name: 거래소코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 종목코드에 맞는 거래소 코드 ex) CME
+  - code: START_DATE_TIME
+    name: 조회시작일시
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '"" 공란 입력'
+  - code: CLOSE_DATE_TIME
+    name: 조회종료일시
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '"" 공란 입력
+
+      ※ 날짜 입력해도 처리 안됨'
+  - code: QRY_TP
+    name: 조회구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시'
+  - code: QRY_CNT
+    name: 요청개수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: 예) 30 (최대 40)
+  - code: QRY_GAP
+    name: 묶음개수
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: 공백
+  - code: INDEX_KEY
+    name: 이전조회KEY
+    type: A0001
+    type_name: String
+    length: '30'
+    required: true
+    description: 다음조회(QRY_TP를 P로 입력) 시, 이전 호출의 "output1 > index_key" 기입하여 조회
+  example: "SRS_CD:OESU24 C5600\r\nEXCH_CD:CME\r\nSTART_DATE_TIME:\r\nCLOSE_DATE_TIME:\r\nQRY_TP:Q\r\nQRY_CNT:30\r\nQRY_GAP:\r\
+    \nINDEX_KEY:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: ret_cnt
+    name: 자료개수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: last_n_cnt
+    name: N틱최종개수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: index_key
+    name: 이전조회KEY
+    type: A0001
+    type_name: String
+    length: '30'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: data_date
+    name: 일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 과거일자 ~ 최근일자 순으로 조회됨
+  - code: data_time
+    name: 시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: HHMMSS
+  - code: open_price
+    name: 시가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: high_price
+    name: 고가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: low_price
+    name: 저가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: last_price
+    name: 체결가격
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: '체결가격
+
+      ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고
+
+      * 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션'
+  - code: last_qntt
+    name: 체결수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: vol
+    name: 누적거래수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prev_diff_flag
+    name: 전일대비구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prev_diff_price
+    name: 전일대비가격
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: prev_diff_rate
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example: "{\r\n    \"output1\": {\r\n        \"ret_cnt\": \"0030\",\r\n        \"last_n_cnt\": \"0001\",\r\n        \"index_key\"\
+    : \"20240823       146\"\r\n    },\r\n    \"output2\": [\r\n        {\r\n            \"data_date\": \"20240824\",\r\n\
+    \            \"data_time\": \"024037\",\r\n            \"open_price\": \"9900\",\r\n            \"high_price\": \"9900\"\
+    ,\r\n            \"low_price\": \"9900\",\r\n            \"last_price\": \"9900\",\r\n            \"last_qntt\": \"6\"\
+    ,\r\n            \"vol\": \"343\",\r\n            \"prev_diff_flag\": \"2\",\r\n            \"prev_diff_price\": \"1700\"\
+    ,\r\n            \"prev_diff_rate\": \"20.73\"\r\n        },\r\n        {\r\n            \"data_date\": \"20240824\",\r\
+    \n            \"data_time\": \"024417\",\r\n            \"open_price\": \"10050\",\r\n            \"high_price\": \"10050\"\
+    ,\r\n            \"low_price\": \"10050\",\r\n            \"last_price\": \"10050\",\r\n            \"last_qntt\": \"\
+    6\",\r\n            \"vol\": \"349\",\r\n            \"prev_diff_flag\": \"2\",\r\n            \"prev_diff_price\": \"\
+    1850\",\r\n            \"prev_diff_rate\": \"22.56\"\r\n        },...\r\n        {\r\n            \"data_date\": \"20240826\"\
+    ,\r\n            \"data_time\": \"081707\",\r\n            \"open_price\": \"10375\",\r\n            \"high_price\": \"\
+    10375\",\r\n            \"low_price\": \"10375\",\r\n            \"last_price\": \"10375\",\r\n            \"last_qntt\"\
+    : \"1\",\r\n            \"vol\": \"7\",\r\n            \"prev_diff_flag\": \"5\",\r\n            \"prev_diff_price\":\
+    \ \"-400\",\r\n            \"prev_diff_rate\": \"-3.71\"\r\n        }\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\"\
+    : \"MCA00000\",\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

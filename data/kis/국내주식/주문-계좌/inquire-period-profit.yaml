@@ -1,0 +1,497 @@
+id: 9748985e-43bc-4b8f-be73-cd9434666099
+name: 기간별손익일별합산조회[v1_국내주식-052]
+section: '[국내주식] 주문/계좌'
+category: 국내주식
+subcategory: 주문/계좌
+method: GET
+url: /uapi/domestic-stock/v1/trading/inquire-period-profit
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: TTTC8708R
+demo_tr_id: 모의투자 미지원
+summary: '기간별손익일별합산조회 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0856] 기간별 매매손익 화면 에서 "일별" 클릭 시의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-02-16T15:48:25+09:00'
+  last_modified_date: '2025-04-30T10:10:53+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: TTTC8708R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '공백 : 초기 조회
+
+      N : 다음 데이터 조회 (output header의 tr_cont가 M일 경우)'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: INQR_STRT_DT
+    name: 조회시작일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: PDNO
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '""공란입력 시, 전체'
+  - code: CTX_AREA_NK100
+    name: 연속조회키100
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: ''
+  - code: INQR_END_DT
+    name: 조회종료일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SORT_DVSN
+    name: 정렬구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '00: 최근 순, 01: 과거 순, 02: 최근 순'
+  - code: INQR_DVSN
+    name: 조회구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 00 입력
+  - code: CBLC_DVSN
+    name: 잔고구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '00: 전체'
+  - code: CTX_AREA_FK100
+    name: 연속조회검색조건100
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: ''
+  example:
+    CANO: '12345678'
+    ACNT_PRDT_CD: '01'
+    PDNO: ''
+    INQR_STRT_DT: '20230101'
+    INQR_END_DT: '20240220'
+    SORT_DVSN: '00'
+    INQR_DVSN: '00'
+    CBLC_DVSN: '00'
+    CTX_AREA_FK100: ''
+    CTX_AREA_NK100: ''
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'F or M : 다음 데이터 있음
+
+      D or E : 마지막 데이터'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: trad_dt
+    name: 매매일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: buy_amt
+    name: 매수금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: sll_amt
+    name: 매도금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: rlzt_pfls
+    name: 실현손익
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: fee
+    name: 수수료
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: loan_int
+    name: 대출이자
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tl_tax
+    name: 제세금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: pfls_rt
+    name: 손익률
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: sll_qty1
+    name: 매도수량1
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: buy_qty1
+    name: 매수수량1
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세2
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: sll_qty_smtl
+    name: 매도수량합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: sll_tr_amt_smtl
+    name: 매도거래금액합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: sll_fee_smtl
+    name: 매도수수료합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: sll_tltx_smtl
+    name: 매도제세금합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: sll_excc_amt_smtl
+    name: 매도정산금액합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: buy_qty_smtl
+    name: 매수수량합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: buy_tr_amt_smtl
+    name: 매수거래금액합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: buy_fee_smtl
+    name: 매수수수료합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: buy_tax_smtl
+    name: 매수제세금합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: buy_excc_amt_smtl
+    name: 매수정산금액합계
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tot_qty
+    name: 총수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: tot_tr_amt
+    name: 총거래금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tot_fee
+    name: 총수수료
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tot_tltx
+    name: 총제세금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tot_excc_amt
+    name: 총정산금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tot_rlzt_pfls
+    name: 총실현손익
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: "※ HTS[0856] 기간별 매매손익 '일별' 화면의 우측 하단 '총손익률' 항목은 \n기간별매매손익현황조회(TTTC8715R) > output2 > tot_pftrt(총수익률) 으로 확인\
+      \ 가능"
+  - code: loan_int
+    name: 대출이자
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  example:
+    ctx_area_fk100: '                                                                                                    '
+    ctx_area_nk100: '                                                                                                    '
+    output1:
+    - trad_dt: '20240220'
+      buy_amt: '116697331'
+      sll_amt: '96455'
+      rlzt_pfls: '22991'
+      fee: '0'
+      loan_int: '0'
+      tl_tax: '0'
+      pfls_rt: '31.29560057'
+      sll_qty1: '8'
+      buy_qty1: '2003'
+    output2:
+      sll_qty_smtl: '8'
+      sll_tr_amt_smtl: '96455'
+      sll_fee_smtl: '0'
+      sll_tltx_smtl: '0'
+      sll_excc_amt_smtl: '96455'
+      buy_qty_smtl: '2003'
+      buy_tr_amt_smtl: '116697331'
+      buy_fee_smtl: '0'
+      buy_tax_smtl: '0'
+      buy_excc_amt_smtl: '116697331'
+      tot_qty: '2011'
+      tot_tr_amt: '116793786'
+      tot_fee: '0'
+      tot_tltx: '0'
+      tot_excc_amt: '116793786'
+      tot_rlzt_pfls: '22991'
+      loan_int: '0'
+    rt_cd: '0'
+    msg_cd: KIOK0510
+    msg1: '조회가 완료되었습니다                                                           '
+errors: []

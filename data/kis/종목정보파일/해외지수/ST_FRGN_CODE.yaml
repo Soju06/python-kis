@@ -1,0 +1,80 @@
+name: ST_FRGN_CODE
+header_url: https://raw.githubusercontent.com/koreainvestment/open-trading-api/main/stocks_info/%ED%95%B4%EC%99%B8%EC%A3%BC%EC%8B%9D%EC%A7%80%EC%88%98%EC%A0%95%EB%B3%B4.h
+record_length: 104
+fields:
+- name: cls_code
+  type_code: char
+  length: 1
+  description: '구분코드
+
+    W : 세계주요지수
+
+    P : 미국지수
+
+    Q : 미국종목
+
+    H : 세계주요종목
+
+    D : 미국상장국내기업
+
+    G : 유럽상장국내기업
+
+    F : CME선물
+
+    M : 반도체
+
+    X : 환율
+
+    C : 상품선물
+
+    R : 국내금리
+
+    L : 리보금리
+
+    B : 주요국정부채'
+  length_source: null
+- name: symb
+  type_code: char
+  length: 10
+  description: 심볼
+  length_source: null
+- name: hts_eng_isnm
+  type_code: char
+  length: 39
+  description: 영문명
+  length_source: null
+- name: hts_kor_isnm
+  type_code: char
+  length: 40
+  description: 한글명
+  length_source: null
+- name: bstp_cls_code
+  type_code: char
+  length: 4
+  description: 종목업종코드
+  length_source: null
+- name: dow_30_yn
+  type_code: char
+  length: 1
+  description: 다우30 편입종목여부 0:미편입 1:편입
+  length_source: null
+- name: nasdaq_100_yn
+  type_code: char
+  length: 1
+  description: 나스닥100 편입종목여부 0:미편입 1:편입
+  length_source: null
+- name: snp_500_yn
+  type_code: char
+  length: 1
+  description: S&P 500 편입종목여부 0:미편입 1:편입
+  length_source: null
+- name: exch_cls_code
+  type_code: char
+  length: 4
+  description: 거래소코드
+  length_source: null
+- name: ntnl_cls_code
+  type_code: char
+  length: 3
+  description: 국가구분코드
+  length_source: null

@@ -1,0 +1,77 @@
+# {{ api.name }}
+
+> {{ section.name }}
+
+{% if summary %}
+{{ summary }}
+{% endif %}
+
+{% if description %}
+{{ description }}
+{% endif %}
+
+## 기본 정보
+
+| 항목 | 상세 내용 |
+| :--- | :--- |
+| **API ID** | `{{ api.id }}` |
+| **HTTP Method** | `{{ api.http_method }}` |
+| **URL** | `{{ api.access_url }}` |
+| **Content-Type** | `{{ api.content_type }}` |
+| **요청 포맷** | `{{ api.req_format }}` |
+| **실전 도메인** | `{{ api.real_domain }}` |
+| **모의 도메인** | `{{ api.demo_domain }}` |
+| **TR ID (실전)** | {% if real_tr_id %}`{{ real_tr_id }}`{% else %}미지원{% endif %} |
+| **TR ID (모의)** | {% if demo_tr_id %}`{{ demo_tr_id }}`{% else %}미지원{% endif %} |
+
+{% if metadata_items %}
+## 메타 정보
+
+{% for item in metadata_items %}
+- **{{ item.label }}**: {{ item.value }}
+{% endfor %}
+
+{% endif %}
+## 요청
+
+{% if request_tables %}
+{{ request_tables | join("\n\n") }}
+
+{% else %}
+(요청 명세 없음)
+
+{% endif %}
+{% if request_example %}
+### 요청 예시
+
+```json
+{{ request_example }}
+```
+
+{% endif %}
+## 응답
+
+{% if response_tables %}
+{{ response_tables | join("\n\n") }}
+
+{% else %}
+(응답 명세 없음)
+
+{% endif %}
+{% if response_example %}
+### 응답 예시
+
+```json
+{{ response_example }}
+```
+
+{% endif %}
+{% if errors %}
+## 오류 코드
+
+| 코드 | 메시지 | 설명 |
+|------|--------|------|
+{% for err in errors %}
+| `{{ err.code }}` | {{ err.message }} | {{ err.description }} |
+{% endfor %}
+{% endif %}

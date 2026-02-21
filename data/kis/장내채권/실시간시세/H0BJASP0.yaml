@@ -1,0 +1,377 @@
+id: 242ea47d-150e-4c8f-88a1-50fba4b822c5
+name: 일반채권 실시간호가 [실시간-053]
+section: '[장내채권] 실시간시세'
+category: 장내채권
+subcategory: 실시간시세
+method: POST
+url: /tryitout/H0BJASP0
+content_type: application/json
+req_format: JSON
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  demo: 모의투자 미지원
+real_tr_id: H0BJCNT0
+demo_tr_id: 모의투자 미지원
+summary: '일반채권 실시간호가 API입니다.
+
+
+  [참고자료]
+
+  실시간시세(웹소켓) 파이썬 샘플코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/ws_domestic_overseas_all.py
+
+
+  실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.
+
+  https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션 업데이트 예정)
+
+
+  채권 종목코드 마스터파일은 "포럼 >  FAQ > 종목정보 다운로드(국내) > 장내채권 - 채권코드" 참고 부탁드립니다.
+
+
+  [호출 데이터]
+
+  헤더와 바디 값을 합쳐 JSON 형태로 전송합니다.
+
+
+  [응답 데이터]
+
+  1. 정상 등록 여부 (JSON)
+
+  - JSON["body"]["msg1"] - 정상 응답 시, SUBSCRIBE SUCCESS
+
+  - JSON["body"]["output"]["iv"] - 실시간 결과 복호화에 필요한 AES256 IV (Initialize Vector)
+
+  - JSON["body"]["output"]["key"] - 실시간 결과 복호화에 필요한 AES256 Key
+
+
+  2. 실시간 결과 응답 ( | 로 구분되는 값)
+
+  ex) 0|H0STCNT0|004|005930^123929^73100^5^...
+
+  - 암호화 유무 : 0 암호화 되지 않은 데이터 / 1 암호화된 데이터
+
+  - TR_ID : 등록한 tr_id (ex. H0STCNT0)
+
+  - 데이터 건수 : (ex. 001 인 경우 데이터 건수 1건, 004인 경우 데이터 건수 4건)
+
+  - 응답 데이터 : 아래 response 데이터 참조 ( ^로 구분됨)'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-10T10:23:16+09:00'
+  last_modified_date: '2025-04-30T13:26:46+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'B : 법인 / P : 개인'
+  - code: custtype
+    name: 등록/해제
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '1: 등록, 2:해제'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: H0BJCNT0
+  - code: tr_key
+    name: 구분값
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 채권 종목코드 (ex. KR103502GA34)
+  example:
+    header:
+      approval_key: 35xxxxxa-bxxa-4xxb-87xxx-f56xxxxxxxxxx
+      custtype: P
+      tr_type: '1'
+      content-type: utf-8
+    body:
+      input:
+        tr_id: H0BJASP0
+        tr_key: KR103502GD31
+response:
+  headers: []
+  body:
+  - code: STND_ISCD
+    name: 표준종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: STCK_CNTG_HOUR
+    name: 주식체결시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: ASKP_ERT1
+    name: 매도호가수익률
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: BIDP_ERT1
+    name: 매수호가수익률1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ASKP1
+    name: 매도호가1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP1
+    name: 매수호가1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN1
+    name: 매도호가잔량1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN1
+    name: 매수호가잔량1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_ERT2
+    name: 매도호가수익률2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: BIDP_ERT2
+    name: 매수호가수익률2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ASKP2
+    name: 매도호가2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP2
+    name: 매수호가2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN2
+    name: 매도호가잔량2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN2
+    name: 매수호가잔량2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_ERT3
+    name: 매도호가수익률3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: BIDP_ERT3
+    name: 매수호가수익률3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ASKP3
+    name: 매도호가3
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP3
+    name: 매수호가3
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN3
+    name: 매도호가잔량3
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN3
+    name: 매수호가잔량3
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_ERT4
+    name: 매도호가수익률4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: BIDP_ERT4
+    name: 매수호가수익률4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ASKP4
+    name: 매도호가4
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP4
+    name: 매수호가4
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN4
+    name: 매도호가잔량4
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN4
+    name: 매수호가잔량4
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_ERT5
+    name: 매도호가수익률5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: BIDP_ERT5
+    name: 매수호가수익률5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ASKP5
+    name: 매도호가5
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP5
+    name: 매수호가5
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN52
+    name: 매도호가잔량5
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN53
+    name: 매수호가잔량5
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_ASKP_RSQN
+    name: 총매도호가잔량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_BIDP_RSQN
+    name: 총매수호가잔량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  example: "# 연결 확인\r\n{\r\n    \"header\": {\r\n        \"tr_id\": \"H0BJASP0\", \r\n        \"tr_key\": \"KR103502GD31\"\
+    , \r\n        \"encrypt\": \"N\"\r\n        }, \r\n    \"body\": {\r\n        \"rt_cd\": \"0\", \r\n        \"msg_cd\"\
+    : \"OPSP0000\",\r\n        \"msg1\": \"SUBSCRIBE SUCCESS\", \r\n        \"output\": {\r\n            \"iv\": \"0123456789abcdef\"\
+    , \r\n            \"key\": \"abcdefghijklmnopabcdefghijklmnop\"}\r\n        }\r\n}\r\n\r\n# output - 정제 전\r\n0|H0BJASP0|001|KR103502GD31^131743^3.012^3.020^10575.00^10560.00^416090^323813^3.011^3.022^10576.00^10556.00^405284^57^3.010^3.022^10578.0\r\
+    \n0^10555.00^177098^500000^3.009^3.024^10580.00^10551.00^97637^363079^3.001^3.025^10597.00^10550.00^80000^379920^1698609^4112382\r\
+    \n\r\n# output - 정제 후\r\n#### 장내채권 호가 ####\r\n채권종목코드  [KR103502GD31]\r\n영업시간  [131743]\r\n====================================\r\
+    \n채권매도호가1   [10575.00],    매도호가수익률1  [3.012],    매도호가잔량1      [416090]\r\n채권매도호가2   [10576.00],    매도호가수익률2  [3.011],\
+    \    매도호가잔량2      [405284]\r\n채권매도호가3   [10578.00],    매도호가수익률3  [3.010],    매도호가잔량3      [177098]\r\n채권매도호가4   [10580.00],\
+    \    매도호가수익률4  [3.009],    매도호가잔량4      [97637]\r\n채권매도호가5   [10597.00],    매도호가수익률5  [3.001],    매도호가잔량5      [80000]\r\
+    \n채권매수호가1   [10560.00],    매수호가수익률1  [3.020],    매수호가잔량1      [323813]\r\n채권매수호가2   [10556.00],    매수호가수익률2  [3.022],\
+    \    매수호가잔량2      [57]\r\n채권매수호가3   [10555.00],    매수호가수익률3  [3.022],    매수호가잔량3      [500000]\r\n채권매수호가4   [10551.00],\
+    \   매수호가수익률4   [3.024],    매수호가잔량4      [363079]\r\n채권매수호가5   [10550.00],    매수호가수익률5  [3.025],    매수호가잔량5      [379920]\r\
+    \n====================================\r\n총매도호가잔량  [1698609]\r\n총매수호가잔량  [4112382]"
+errors: []

@@ -1,0 +1,307 @@
+id: cb0618f5-967f-4d26-a6eb-527bfd693041
+name: 해외선물옵션 실시간체결내역통보[실시간-020]
+section: '[해외선물옵션]실시간시세'
+category: 해외선물옵션
+subcategory: 실시간시세
+method: POST
+url: /tryitout/HDFFF2C0
+content_type: application/json; charset=utf-8
+req_format: JSON
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  demo: 모의투자 미지원
+real_tr_id: HDFFF2C0
+demo_tr_id: 모의투자 미지원
+summary: ''
+description: 해외선물옵션체결내역통보[실시간-020]
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2023-01-06T09:10:32+09:00'
+  last_modified_date: '2025-04-30T13:22:11+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: tr_type
+    name: 등록/해제
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '"1: 등록, 2:해제"'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'B : 법인 / P : 개인'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '7'
+    required: true
+    description: HDFFF2C0
+  - code: tr_key
+    name: HTSID
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: HTSID
+  example: null
+response:
+  headers: []
+  body:
+  - code: USER_ID
+    name: 유저ID
+    type: A0003
+    type_name: String
+    length: '8'
+    required: true
+    description: '''각 항목사이에는 구분자로 ^ 사용,
+
+      모든 데이터타입은 String으로 변환되어 push 처리됨'''
+  - code: ACCT_NO
+    name: 계좌번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ORD_DT
+    name: 주문일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ODNO
+    name: 주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ORGN_ORD_DT
+    name: 원주문일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ORGN_ODNO
+    name: 원주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: SERIES
+    name: 종목명
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: ''
+  - code: RVSE_CNCL_DVSN_CD
+    name: 정정취소구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '해당없음 : 00 , 정정 : 01 , 취소 : 02'
+  - code: SLL_BUY_DVSN_CD
+    name: 매도매수구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '01 : 매도,  02 : 매수'
+  - code: CPLX_ORD_DVSN_CD
+    name: 복합주문구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 0 (hedge청산만 이용)
+  - code: PRCE_TP
+    name: 가격구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: FM_EXCG_RCIT_DVSN_CD
+    name: FM거래소접수구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: ORD_QTY
+    name: 주문수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: FM_LMT_PRIC
+    name: FMLIMIT가격
+    type: A0001
+    type_name: String
+    length: '21'
+    required: true
+    description: ''
+  - code: FM_STOP_ORD_PRIC
+    name: FMSTOP주문가격
+    type: A0001
+    type_name: String
+    length: '21'
+    required: true
+    description: ''
+  - code: TOT_CCLD_QTY
+    name: 총체결수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 동일한 주문건에 대한 누적된 체결수량 (하나의 주문건에 여러건의 체결내역 발생)
+  - code: TOT_CCLD_UV
+    name: 총체결단가
+    type: A0001
+    type_name: String
+    length: '21'
+    required: true
+    description: ''
+  - code: ORD_REMQ
+    name: 잔량
+    type: A0001
+    type_name: String
+    length: '21'
+    required: true
+    description: ''
+  - code: FM_ORD_GRP_DT
+    name: FM주문그룹일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ORD_GRP_STNO
+    name: 주문그룹번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ORD_DTL_DTIME
+    name: 주문상세일시
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: ''
+  - code: OPRT_DTL_DTIME
+    name: 조작상세일시
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: ''
+  - code: WORK_EMPL
+    name: 주문자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: CCLD_DT
+    name: 체결일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: CCNO
+    name: 체결번호
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: API_CCNO
+    name: API 체결번호
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: CCLD_QTY
+    name: 체결수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 매 체결 단위 체결수량임 (여러건 체결내역 누적 체결수량인 총체결수량과 다름)
+  - code: FM_CCLD_PRIC
+    name: FM체결가격
+    type: A0001
+    type_name: String
+    length: '21'
+    required: true
+    description: ''
+  - code: CRCY_CD
+    name: 통화코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: TRST_FEE
+    name: 위탁수수료
+    type: A0001
+    type_name: String
+    length: '21'
+    required: true
+    description: ''
+  - code: ORD_MDIA_ONLINE_YN
+    name: 주문매체온라인여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: FM_CCLD_AMT
+    name: FM체결금액
+    type: A0001
+    type_name: String
+    length: '21'
+    required: true
+    description: ''
+  - code: FUOP_ITEM_DVSN_CD
+    name: 선물옵션종목구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  example: null
+errors: []

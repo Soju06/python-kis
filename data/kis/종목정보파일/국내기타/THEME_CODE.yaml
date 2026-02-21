@@ -1,0 +1,24 @@
+name: THEME_CODE
+header_url: https://raw.githubusercontent.com/koreainvestment/open-trading-api/main/stocks_info/%ED%85%8C%EB%A7%88%EC%BD%94%EB%93%9C%EC%A0%95%EB%B3%B4.h
+record_length: 52
+fields:
+- name: theme_code
+  type_code: char
+  length: 3
+  description: 테마코드
+  length_source: null
+- name: theme_name
+  type_code: char
+  length: 40
+  description: 데마명
+  length_source: null
+- name: shrn_iscd
+  type_code: char
+  length: 6
+  description: 단축코드(종목코드)
+  length_source: null
+- name: filler
+  type_code: char
+  length: 3
+  description: filler
+  length_source: null

@@ -1,18 +1,11 @@
-[build-system]
-requires = [
-    "setuptools>=71.1",
-    "setuptools-scm>=8.1"
-]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "python-kis"
-description = "파이썬 한국투자증권 REST 기반 Trading API 라이브러리"
-readme = "README.md"
-license = { text = "MIT" }
-authors = [
-    { name = "Soju06", email = "qlskssk@gmail.com" }
-]
+version = "3.0.0a0"
+description = "KIS OpenAPI SDK v3 (spec-driven, generated + normalized layers)"
+readme = "docs/v3-audit-redesign.md"
+license = { file = "LICENCE" }
+authors = [{ name = "Soju06", email = "qlskssk@gmail.com" }]
+maintainers = [{ name = "Soju06", email = "qlskssk@gmail.com" }]
 keywords = [
     "python",
     "client",
@@ -20,48 +13,80 @@ keywords = [
     "trading",
     "websocket",
     "realtime",
-    "investing",
-    "korean",
     "investment",
-    "autotrading",
-    "koreainvestment"
+    "koreainvestment",
+    "openapi",
+    "sdk",
 ]
 classifiers = [
+    "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "Intended Audience :: Education",
-    "Intended Audience :: Information Technology",
     "Intended Audience :: Financial and Insurance Industry",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only",
     "Topic :: Software Development :: Libraries",
-    "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Office/Business :: Financial",
-    "Topic :: Office/Business :: Financial :: Investment",
-    "Typing :: Typed"
+    "Typing :: Typed",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.13"
 dependencies = [
-    "requests>=2.32.3",
-    "websocket-client>=1.8.0",
-    "cryptography>=43.0.0",
-    "colorlog>=6.8.2"
+    "aiosqlite>=0.20.0",
+    "aiopath>=0.6.11",
+    "cryptography==46.0.3",
+    "pydantic==2.12.5",
+    "httpx>=0.28.1",
+    "httpx-retries>=0.2.0",
+    "rich>=13.8.0",
 ]
-dynamic = [
-    "version",
+
+[dependency-groups]
+dev = [
+    "beautifulsoup4>=4.12.3",
+    "hatchling>=1.27.0",
+    "jinja2>=3.1.4",
+    "pandas>=2.2.2",
+    "pre-commit>=4.5.1",
+    "pytest>=9.0.2",
+    "pytest-asyncio>=1.3.0",
+    "pyyaml>=6.0.1",
+    "ruff>=0.14.10",
+    "ty",
+    "unasync>=0.6.0",
 ]
+
+[tool.uv]
+managed = true
+
 [project.urls]
 "Bug Tracker" = "https://github.com/Soju06/python-kis/issues"
 "Documentation" = "https://github.com/Soju06/python-kis/wiki/Tutorial"
 "Source Code" = "https://github.com/Soju06/python-kis"
 
-[tool.setuptools.dynamic]
-version = { attr = "pykis.__env__.__version__" }
+[tool.pytest.ini_options]
+addopts = "-ra"
+asyncio_mode = "auto"
+markers = [
+    "integration: tests that exercise multiple layers together",
+    "perf: performance benchmarks",
+    "unit: fast isolated tests",
+]
+testpaths = ["tests"]
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["pykis"]
-exclude = ["tests"]
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[build-system]
+requires = ["hatchling>=1.27.0", "unasync>=0.6.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pykis"]
+
+[tool.hatch.build.targets.wheel.hooks.custom]
+path = "scripts/build_unasync.py"

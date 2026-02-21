@@ -1,0 +1,109 @@
+name: FFCODE_TBL
+header_url: https://raw.githubusercontent.com/koreainvestment/open-trading-api/main/stocks_info/%ED%95%B4%EC%99%B8%EC%84%A0%EB%AC%BC%EC%A0%95%EB%B3%B4.h
+record_length: 223
+fields:
+- name: sSrsCd
+  type_code: char
+  length: 32
+  description: 종목코드
+  length_source: null
+- name: sAutoOrdGnrlYN
+  type_code: char
+  length: 1
+  description: 서버자동주문 가능 종목 여부
+  length_source: null
+- name: sAutoOrdTwapYN
+  type_code: char
+  length: 1
+  description: 서버자동주문 TWAP 가능 종목 여부
+  length_source: null
+- name: sAutoOrdEcnmYN
+  type_code: char
+  length: 1
+  description: 서버자동 경제지표 주문 가능 종목 여부
+  length_source: null
+- name: sFiller
+  type_code: char
+  length: 47
+  description: 필러
+  length_source: null
+- name: sSeriesKrNm
+  type_code: char
+  length: 50
+  description: 종목한글명
+  length_source: null
+- name: sExchCd
+  type_code: char
+  length: 10
+  description: 거래소코드 (ISAM KEY 1)
+  length_source: null
+- name: sMrktCd
+  type_code: char
+  length: 10
+  description: 품목코드 (ISAM KEY 2)
+  length_source: null
+- name: sClasCd
+  type_code: char
+  length: 3
+  description: 품목종류
+  length_source: null
+- name: sDispDesz
+  type_code: char
+  length: 5
+  description: 출력 소수점
+  length_source: null
+- name: sCalcDesz
+  type_code: char
+  length: 5
+  description: 계산 소수점
+  length_source: null
+- name: sTickSz
+  type_code: char
+  length: 14
+  description: 틱사이즈
+  length_source: null
+- name: sTickVal
+  type_code: char
+  length: 14
+  description: 틱가치
+  length_source: null
+- name: sCtrtSz
+  type_code: char
+  length: 10
+  description: 계약크기
+  length_source: null
+- name: sDispDigit
+  type_code: char
+  length: 4
+  description: 가격표시진법
+  length_source: null
+- name: sMultiplier
+  type_code: char
+  length: 10
+  description: 환산승수
+  length_source: null
+- name: sNearFlg
+  type_code: char
+  length: 1
+  description: 최다월물여부 0:원월물 1:최다월물
+  length_source: null
+- name: sNearFlgDt
+  type_code: char
+  length: 1
+  description: 최근월물여부 0:원월물 1:최근월물
+  length_source: null
+- name: sSprdYN
+  type_code: char
+  length: 1
+  description: 스프레드여부
+  length_source: null
+- name: sSprdLeg1YN
+  type_code: char
+  length: 1
+  description: 스프레드기준종목 LEG1 여부 Y/N
+  length_source: null
+- name: sExchSubCd
+  type_code: char
+  length: 2
+  description: 서브 거래소 코드
+  length_source: null

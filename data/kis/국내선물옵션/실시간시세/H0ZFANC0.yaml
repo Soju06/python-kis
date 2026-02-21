@@ -1,0 +1,140 @@
+id: 6774932d-1c2d-44cb-b8fb-44b39bd5eed5
+name: 주식선물 실시간예상체결 [실시간-031]
+section: '[국내선물옵션] 실시간시세'
+category: 국내선물옵션
+subcategory: 실시간시세
+method: POST
+url: /tryitout/H0ZFANC0
+content_type: application/json
+req_format: JSON
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  demo: 모의투자 미지원
+real_tr_id: H0ZFANC0
+demo_tr_id: 모의투자 미지원
+summary: '[참고자료]
+
+
+  실시간시세(웹소켓) 파이썬 샘플코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/ws_domestic_overseas_all.py
+
+
+  실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.
+
+  https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션 업데이트 예정)'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-10T10:12:22+09:00'
+  last_modified_date: '2025-04-30T13:30:32+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'B : 법인 / P : 개인'
+  - code: tr_type
+    name: 등록/해제
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '1: 등록, 2:해제'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: H0ZFANC0
+  - code: tr_key
+    name: 구분값
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 주식선물 종목코드
+  example: null
+response:
+  headers: []
+  body:
+  - code: FUTS_SHRN_ISCD
+    name: 선물단축종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: BSOP_HOUR
+    name: 영업시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: ANTC_CNPR
+    name: 예상체결가
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ANTC_CNTG_VRSS
+    name: 예상체결대비
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ANTC_CNTG_VRSS_SIGN
+    name: 예상체결대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ANTC_CNTG_PRDY_CTRT
+    name: 예상체결전일대비율
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ANTC_MKOP_CLS_CODE
+    name: 예상장운영구분코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: ANTC_CNQN
+    name: 예상체결수량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  example: null
+errors: []

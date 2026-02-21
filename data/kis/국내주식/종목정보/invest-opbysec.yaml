@@ -1,0 +1,383 @@
+id: 3a588de4-df48-49ac-88ca-9765998c00e1
+name: 국내주식 증권사별 투자의견 [국내주식-189]
+section: '[국내주식] 종목정보'
+category: 국내주식
+subcategory: 종목정보
+method: GET
+url: /uapi/domestic-stock/v1/quotations/invest-opbysec
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 미지원
+real_tr_id: FHKST663400C0
+demo_tr_id: 모의투자 미지원
+summary: '국내주식 증권사별 투자의견 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0608] 증권사별 투자의견 화면 의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
+
+
+  한 번의 호출에 20건까지 조회가 가능하기에, 일자 파라미터(FID_INPUT_DATE_1, FID_INPUT_DATE_2)를 조절하여 다음 데이터 조회하시기 바랍니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-17T10:26:52+09:00'
+  last_modified_date: '2025-05-14T13:23:13+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKST663400C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건시장분류코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: J(시장 구분 코드)
+  - code: FID_COND_SCR_DIV_CODE
+    name: 조건화면분류코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 16634(Primary key)
+  - code: FID_INPUT_ISCD
+    name: 입력종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)
+  - code: FID_DIV_CLS_CODE
+    name: 분류구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 전체(0) 매수(1) 중립(2) 매도(3)
+  - code: FID_INPUT_DATE_1
+    name: 입력날짜1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 이후 ~
+  - code: FID_INPUT_DATE_2
+    name: 입력날짜2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ~ 이전
+  example: "FID_COND_MRKT_DIV_CODE:J\r\nFID_COND_SCR_DIV_CODE:16633\r\nFID_INPUT_ISCD:999\r\nFID_DIV_CLS_CODE:0\r\nFID_INPUT_DATE_1:20240428\r\
+    \nFID_INPUT_DATE_2:20240528"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: stck_bsop_date
+    name: 주식영업일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: stck_shrn_iscd
+    name: 주식단축종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS한글종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: invt_opnn
+    name: 투자의견
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: invt_opnn_cls_code
+    name: 투자의견구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: rgbf_invt_opnn
+    name: 직전투자의견
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: rgbf_invt_opnn_cls_code
+    name: 직전투자의견구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: mbcr_name
+    name: 회원사명
+    type: A0001
+    type_name: String
+    length: '50'
+    required: true
+    description: ''
+  - code: stck_prpr
+    name: 주식현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: hts_goal_prc
+    name: HTS목표가격
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: stck_prdy_clpr
+    name: 주식전일종가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: stft_esdg
+    name: 주식선물괴리도
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: dprt
+    name: 괴리율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  example: "{\r\n    \"output\": [\r\n        {\r\n            \"stck_bsop_date\": \"20240527\",\r\n            \"stck_shrn_iscd\"\
+    : \"454910\",\r\n            \"hts_kor_isnm\": \"두산로보틱스\",\r\n            \"invt_opnn\": \"NotRated\",\r\n           \
+    \ \"invt_opnn_cls_code\": \"3\",\r\n            \"rgbf_invt_opnn\": \"NotRated\",\r\n            \"rgbf_invt_opnn_cls_code\"\
+    : \"3\",\r\n            \"mbcr_name\": \"상상인\",\r\n            \"stck_prpr\": \"74300\",\r\n            \"prdy_vrss\"\
+    : \"500\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"0.68\",\r\n            \"hts_goal_prc\"\
+    : \"0\",\r\n            \"stck_prdy_clpr\": \"71600\",\r\n            \"stft_esdg\": \"74300\",\r\n            \"dprt\"\
+    : \"0.00\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240527\",\r\n            \"stck_shrn_iscd\"\
+    : \"389140\",\r\n            \"hts_kor_isnm\": \"포바이포\",\r\n            \"invt_opnn\": \"NotRated\",\r\n            \"\
+    invt_opnn_cls_code\": \"3\",\r\n            \"rgbf_invt_opnn\": \"NotRated\",\r\n            \"rgbf_invt_opnn_cls_code\"\
+    : \"3\",\r\n            \"mbcr_name\": \"상상인\",\r\n            \"stck_prpr\": \"10330\",\r\n            \"prdy_vrss\"\
+    : \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n            \"hts_goal_prc\"\
+    : \"0\",\r\n            \"stck_prdy_clpr\": \"10120\",\r\n            \"stft_esdg\": \"10330\",\r\n            \"dprt\"\
+    : \"0.00\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240527\",\r\n            \"stck_shrn_iscd\"\
+    : \"336260\",\r\n            \"hts_kor_isnm\": \"두산퓨얼셀\",\r\n            \"invt_opnn\": \"BUY\",\r\n            \"invt_opnn_cls_code\"\
+    : \"2\",\r\n            \"rgbf_invt_opnn\": \"BUY\",\r\n            \"rgbf_invt_opnn_cls_code\": \"3\",\r\n          \
+    \  \"mbcr_name\": \"상상인\",\r\n            \"stck_prpr\": \"26150\",\r\n            \"prdy_vrss\": \"-50\",\r\n       \
+    \     \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-0.19\",\r\n            \"hts_goal_prc\": \"33000\",\r\
+    \n            \"stck_prdy_clpr\": \"25000\",\r\n            \"stft_esdg\": \"-6850\",\r\n            \"dprt\": \"-20.76\"\
+    \r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240527\",\r\n            \"stck_shrn_iscd\": \"298380\"\
+    ,\r\n            \"hts_kor_isnm\": \"에이비엘바이오\",\r\n            \"invt_opnn\": \"NotRated\",\r\n            \"invt_opnn_cls_code\"\
+    : \"3\",\r\n            \"rgbf_invt_opnn\": \"NotRated\",\r\n            \"rgbf_invt_opnn_cls_code\": \"3\",\r\n     \
+    \       \"mbcr_name\": \"상상인\",\r\n            \"stck_prpr\": \"23300\",\r\n            \"prdy_vrss\": \"-100\",\r\n \
+    \           \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-0.43\",\r\n            \"hts_goal_prc\": \"0\"\
+    ,\r\n            \"stck_prdy_clpr\": \"24300\",\r\n            \"stft_esdg\": \"23300\",\r\n            \"dprt\": \"0.00\"\
+    \r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240527\",\r\n            \"stck_shrn_iscd\": \"377740\"\
+    ,\r\n            \"hts_kor_isnm\": \"바이오노트\",\r\n            \"invt_opnn\": \"BUY\",\r\n            \"invt_opnn_cls_code\"\
+    : \"2\",\r\n            \"rgbf_invt_opnn\": \"BUY\",\r\n            \"rgbf_invt_opnn_cls_code\": \"3\",\r\n          \
+    \  \"mbcr_name\": \"다올투자\",\r\n            \"stck_prpr\": \"4135\",\r\n            \"prdy_vrss\": \"-10\",\r\n       \
+    \     \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-0.24\",\r\n            \"hts_goal_prc\": \"5700\",\r\
+    \n            \"stck_prdy_clpr\": \"4175\",\r\n            \"stft_esdg\": \"-1565\",\r\n            \"dprt\": \"-27.46\"\
+    \r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240527\",\r\n            \"stck_shrn_iscd\": \"137310\"\
+    ,\r\n            \"hts_kor_isnm\": \"에스디바이오센서\",\r\n            \"invt_opnn\": \"HOLD\",\r\n            \"invt_opnn_cls_code\"\
+    : \"3\",\r\n            \"rgbf_invt_opnn\": \"HOLD\",\r\n            \"rgbf_invt_opnn_cls_code\": \"3\",\r\n         \
+    \   \"mbcr_name\": \"다올투자\",\r\n            \"stck_prpr\": \"10110\",\r\n            \"prdy_vrss\": \"60\",\r\n      \
+    \      \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"0.60\",\r\n            \"hts_goal_prc\": \"11000\",\r\
+    \n            \"stck_prdy_clpr\": \"10060\",\r\n            \"stft_esdg\": \"-890\",\r\n            \"dprt\": \"-8.09\"\
+    \r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240527\",\r\n            \"stck_shrn_iscd\": \"298020\"\
+    ,\r\n            \"hts_kor_isnm\": \"효성티앤씨\",\r\n            \"invt_opnn\": \"매수\",\r\n            \"invt_opnn_cls_code\"\
+    : \"2\",\r\n            \"rgbf_invt_opnn\": \"매수\",\r\n            \"rgbf_invt_opnn_cls_code\": \"3\",\r\n           \
+    \ \"mbcr_name\": \"IBK투자\",\r\n            \"stck_prpr\": \"389000\",\r\n            \"prdy_vrss\": \"-19000\",\r\n  \
+    \          \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-4.66\",\r\n            \"hts_goal_prc\": \"550000\"\
+    ,\r\n            \"stck_prdy_clpr\": \"400500\",\r\n            \"stft_esdg\": \"-161000\",\r\n            \"dprt\": \"\
+    -29.27\"\r\n        },...\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"MCA00000\",\r\n    \"msg1\": \"정상처리\
+    \ 되었습니다.\"\r\n}"
+errors: []

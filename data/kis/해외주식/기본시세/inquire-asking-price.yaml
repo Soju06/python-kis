@@ -1,0 +1,918 @@
+id: ed60877a-6183-433a-9a8c-ef56ed9bc679
+name: 해외주식 현재가 호가 [해외주식-033]
+section: '[해외주식] 기본시세'
+category: 해외주식
+subcategory: 기본시세
+method: GET
+url: /uapi/overseas-price/v1/quotations/inquire-asking-price
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: HHDFS76200100
+demo_tr_id: 모의투자 미지원
+summary: "해외주식 현재가 호가 API입니다.\n미국 거래소는 10호가, 그 외 국가 거래소는 1호가만 제공됩니다.  \n한국투자 HTS(eFriend Plus) > [7620] 해외주식 현재가 화면에서 \"왼쪽\
+  \ 호가 창\" 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\n※ 지연시세 지연시간 : 미국 - 실시간무료(0분 지연, 나스닥 마켓센터에서 거래되는 호가 및 호가 잔량 정보)\n\
+  \                                홍콩, 베트남, 중국, 일본 - 15분지연\n   미국의 경우 0분 지연 시세로 제공되나, 장중 당일 시가는 상이할 수 있으며, 익일 정정 표시됩니다.\n\n\
+  ※ 2024년 12월 13일(금) 오후 5시부터 HTS(efriend Plus) [7781] 시세신청(실시간) 화면에서 유료 서비스 신청 후 접근토큰 발급하면 최대 2시간 이후 실시간 유료 시세 수신 가능\n\n※\
+  \ 미국주식 시세의 경우 주간거래시간을 제외한 정규장, 애프터마켓, 프리마켓 시간대에 동일한 API(TR)로 시세 조회가 되는 점 유의 부탁드립니다.\n\n[미국주식시세 이용시 유의사항]\n■ 무료 실시간 시세(나스닥\
+  \ 토탈뷰)를 별도 신청없이 제공하고 있으며, 유료 시세 서비스를 신청하시더라도 OpenAPI의 경우 무료 시세로만 제공하고있습니다.\n※ 무료(매수/매도 각 10호가) : 나스닥 마켓센터에서 거래되는 호가 및 호가\
+  \ 잔량 정보\n※ 유료(매수/매도 각 1호가) : OpenAPI 서비스 미제공\n■ 무료 실시간 시세 서비스는 유료 실시간 시세 서비스 대비 평균 50% 수준에 해당하는 정보이므로 현재가/호가/순간체결량/차트 등에서\
+  \ 일시적·부분적 차이가 있을 수 있습니다. \n■ 무료 실시간 시세 서비스의 시가, 저가, 고가, 종가는 타 매체의 유료 실시간 시세 서비스와 다를 수 있으며, 이로 인해 발생하는 손실에 대해서 당사가 책임지지 않습니다.\n\
+  \    이용에 유의 부탁드립니다.\n\n(출처: 한국투자증권 외화증권 거래설명서 - https://www.truefriend.com/main/customer/guide/Guide.jsp?&cmd=TF04ag010002¤tPage=1&num=64)"
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-19T09:28:06+09:00'
+  last_modified_date: '2025-12-05T17:18:40+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHDFS76200100
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: AUTH
+    name: 사용자권한정보
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 공백
+  - code: EXCD
+    name: 거래소코드
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: "NYS : 뉴욕\nNAS : 나스닥\nAMS : 아멕스 \nHKS : 홍콩\nSHS : 상해 \nSZS : 심천\nHSX : 호치민\nHNX : 하노이\nTSE : 도쿄 \nBAY : 뉴욕(주간)\n\
+      BAQ : 나스닥(주간)\nBAA : 아멕스(주간)"
+  - code: SYMB
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: 종목코드 예)TSLA
+  example: "AUTH:\r\nEXCD:NAS\r\nSYMB:TSLA"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: '100'
+    required: true
+    description: ''
+  - code: rsym
+    name: 실시간조회종목코드
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: zdiv
+    name: 소수점자리수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: curr
+    name: 통화
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: base
+    name: 전일종가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: open
+    name: 시가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: high
+    name: 고가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: low
+    name: 저가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: last
+    name: 현재가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: dymd
+    name: 호가일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: dhms
+    name: 호가시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: bvol
+    name: 매수호가총잔량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: avol
+    name: 매도호가총잔량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bdvl
+    name: 매수호가총잔량대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: advl
+    name: 매도호가총잔량대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: code
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: ropen
+    name: 시가율
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: rhigh
+    name: 고가율
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: rlow
+    name: 저가율
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: rclose
+    name: 현재가율
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0002
+    type_name: String
+    length: '100'
+    required: true
+    description: ''
+  - code: pbid1
+    name: 매수호가가격1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: pask1
+    name: 매도호가가격1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: vbid1
+    name: 매수호가잔량1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: vask1
+    name: 매도호가잔량1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: dbid1
+    name: 매수호가대비1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: dask1
+    name: 매도호가대비1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: pbid2
+    name: 매수호가가격2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pask2
+    name: 매도호가가격2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vbid2
+    name: 매수호가잔량2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vask2
+    name: 매도호가잔량2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dbid2
+    name: 매수호가대비2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dask2
+    name: 매도호가대비2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pbid3
+    name: 매수호가가격3
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pask3
+    name: 매도호가가격3
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vbid3
+    name: 매수호가잔량3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vask3
+    name: 매도호가잔량3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dbid3
+    name: 매수호가대비3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dask3
+    name: 매도호가대비3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pbid4
+    name: 매수호가가격4
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pask4
+    name: 매도호가가격4
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vbid4
+    name: 매수호가잔량4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vask4
+    name: 매도호가잔량4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dbid4
+    name: 매수호가대비4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dask4
+    name: 매도호가대비4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pbid5
+    name: 매수호가가격5
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pask5
+    name: 매도호가가격5
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vbid5
+    name: 매수호가잔량5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vask5
+    name: 매도호가잔량5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dbid5
+    name: 매수호가대비5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dask5
+    name: 매도호가대비5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pbid6
+    name: 매수호가가격6
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pask6
+    name: 매도호가가격6
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vbid6
+    name: 매수호가잔량6
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vask6
+    name: 매도호가잔량6
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dbid6
+    name: 매수호가대비6
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dask6
+    name: 매도호가대비6
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pbid7
+    name: 매수호가가격7
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pask7
+    name: 매도호가가격7
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vbid7
+    name: 매수호가잔량7
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vask7
+    name: 매도호가잔량7
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dbid7
+    name: 매수호가대비7
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dask7
+    name: 매도호가대비7
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pbid8
+    name: 매수호가가격8
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pask8
+    name: 매도호가가격8
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vbid8
+    name: 매수호가잔량8
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vask8
+    name: 매도호가잔량8
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dbid8
+    name: 매수호가대비8
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dask8
+    name: 매도호가대비8
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pbid9
+    name: 매수호가가격9
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pask9
+    name: 매도호가가격9
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vbid9
+    name: 매수호가잔량9
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vask9
+    name: 매도호가잔량9
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dbid9
+    name: 매수호가대비9
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dask9
+    name: 매도호가대비9
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pbid10
+    name: 매수호가가격10
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: pask10
+    name: 매도호가가격10
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vbid10
+    name: 매수호가잔량10
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: vask10
+    name: 매도호가잔량10
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dbid10
+    name: 매수호가대비10
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: dask10
+    name: 매도호가대비10
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 미국 거래소만 수신
+  - code: output3
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: '100'
+    required: true
+    description: ''
+  - code: vstm
+    name: VCMStart시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 데이터 없음
+  - code: vetm
+    name: VCMEnd시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 데이터 없음
+  - code: csbp
+    name: CAS/VCM기준가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 데이터 없음
+  - code: cshi
+    name: CAS/VCMHighprice
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 데이터 없음
+  - code: cslo
+    name: CAS/VCMLowprice
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 데이터 없음
+  - code: iep
+    name: IEP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 데이터 없음
+  - code: iev
+    name: IEV
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 데이터 없음
+  example:
+    output1:
+      rsym: DNASTSLA
+      zdiv: '4'
+      curr: USD
+      base: '149.9300'
+      open: '148.9700'
+      high: '150.9400'
+      low: '146.2200'
+      last: '147.0500'
+      dymd: '20240420'
+      dhms: 090000
+      bvol: '0'
+      avol: '10759'
+      bdvl: '-1053'
+      advl: '-985'
+      code: TSLA
+      ropen: '-0.64'
+      rhigh: '+0.67'
+      rlow: '-2.47'
+      rclose: '-1.92'
+    output2:
+      pbid1: '0.0000'
+      pask1: '147.0000'
+      vbid1: '0'
+      vask1: '9730'
+      dbid1: '-275'
+      dask1: '9720'
+      pbid2: '0.0000'
+      pask2: '147.0000'
+      vbid2: '0'
+      vask2: '11'
+      dbid2: '-300'
+      dask2: '-216'
+      pbid3: '0.0000'
+      pask3: '147.0000'
+      vbid3: '0'
+      vask3: '643'
+      dbid3: '-5'
+      dask3: '-28'
+      pbid4: '0.0000'
+      pask4: '147.0000'
+      vbid4: '0'
+      vask4: '299'
+      dbid4: '-135'
+      dask4: '289'
+      pbid5: '0.0000'
+      pask5: '147.0000'
+      vbid5: '0'
+      vask5: '43'
+      dbid5: '-300'
+      dask5: '-57'
+      pbid6: '0.0000'
+      pask6: '147.0000'
+      vbid6: '0'
+      vask6: '15'
+      dbid6: '-30'
+      dask6: '-9715'
+      pbid7: '0.0000'
+      pask7: '147.0000'
+      vbid7: '0'
+      vask7: '18'
+      dbid7: '-2'
+      dask7: '7'
+      pbid8: '0.0000'
+      pask8: '0.0000'
+      vbid8: '0'
+      vask8: '0'
+      dbid8: '-3'
+      dask8: '-643'
+      pbid9: '0.0000'
+      pask9: '0.0000'
+      vbid9: '0'
+      vask9: '0'
+      dbid9: '-1'
+      dask9: '-299'
+      pbid10: '0.0000'
+      pask10: '0.0000'
+      vbid10: '0'
+      vask10: '0'
+      dbid10: '-2'
+      dask10: '-43'
+    output3:
+      vstm: ''
+      vetm: ''
+      csbp: ''
+      cshi: ''
+      cslo: ''
+      iep: ''
+      iev: ''
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

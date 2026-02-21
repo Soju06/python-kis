@@ -1,0 +1,238 @@
+schema_version: '1'
+overrides:
+- enum: AvlsScalClsCodeEnum
+  value: '1'
+  canonical_desc: 대
+  variants:
+  - desc: KOSDAQ100
+    sources:
+    - group: 국내주식
+      struct: ST_KSQ_CODE
+      field: avls_scal_cls_code
+  - desc: 대
+    sources:
+    - group: 국내주식
+      struct: ST_KSP_CODE
+      field: avls_scal_cls_code
+  approved_by: taehoon
+  approved_at: '2026-01-16'
+  reason: Enum description variants aligned for merge
+  evidence: tmp/store_codegen/enum_conflicts.json
+- enum: AvlsScalClsCodeEnum
+  value: '2'
+  canonical_desc: 중
+  variants:
+  - desc: KOSDAQmid300
+    sources:
+    - group: 국내주식
+      struct: ST_KSQ_CODE
+      field: avls_scal_cls_code
+  - desc: 중
+    sources:
+    - group: 국내주식
+      struct: ST_KSP_CODE
+      field: avls_scal_cls_code
+  approved_by: taehoon
+  approved_at: '2026-01-16'
+  reason: Enum description variants aligned for merge
+  evidence: tmp/store_codegen/enum_conflicts.json
+- enum: AvlsScalClsCodeEnum
+  value: '3'
+  canonical_desc: 소
+  variants:
+  - desc: KOSDAQsmall
+    sources:
+    - group: 국내주식
+      struct: ST_KSQ_CODE
+      field: avls_scal_cls_code
+  - desc: 소
+    sources:
+    - group: 국내주식
+      struct: ST_KSP_CODE
+      field: avls_scal_cls_code
+  approved_by: taehoon
+  approved_at: '2026-01-16'
+  reason: Enum description variants aligned for merge
+  evidence: tmp/store_codegen/enum_conflicts.json
+- enum: InfoTypeEnum
+  value: '1'
+  canonical_desc: 선물
+  variants:
+  - desc: 선물
+    sources:
+    - group: 국내파생
+      struct: ST_FO_COM_CODE
+      field: info_type
+    - group: 야간파생
+      struct: ST_FO_COM_CODE
+      field: info_type
+    - group: 국내파생
+      struct: ST_FO_COM_CODE
+      field: info_type
+  - desc: 지수선물
+    sources:
+    - group: 국내파생
+      struct: ST_FO_IDX_CODE
+      field: info_type
+    - group: 야간파생
+      struct: ST_FO_IDX_CODE
+      field: info_type
+  - desc: 코스피 주식선물
+    sources:
+    - group: 국내파생
+      struct: ST_FO_STK_CODE
+      field: info_type
+  approved_by: taehoon
+  approved_at: '2026-01-16'
+  reason: Enum description variants aligned for merge
+  evidence: tmp/store_codegen/enum_conflicts.json
+- enum: InfoTypeEnum
+  value: '2'
+  canonical_desc: SP선물
+  variants:
+  - desc: SP선물
+    sources:
+    - group: 국내파생
+      struct: ST_FO_COM_CODE
+      field: info_type
+    - group: 야간파생
+      struct: ST_FO_COM_CODE
+      field: info_type
+    - group: 국내파생
+      struct: ST_FO_COM_CODE
+      field: info_type
+  - desc: 지수SP
+    sources:
+    - group: 국내파생
+      struct: ST_FO_IDX_CODE
+      field: info_type
+    - group: 야간파생
+      struct: ST_FO_IDX_CODE
+      field: info_type
+  - desc: 코스피 주식선물 SP
+    sources:
+    - group: 국내파생
+      struct: ST_FO_STK_CODE
+      field: info_type
+  approved_by: taehoon
+  approved_at: '2026-01-16'
+  reason: Enum description variants aligned for merge
+  evidence: tmp/store_codegen/enum_conflicts.json
+- enum: InfoTypeEnum
+  value: '3'
+  canonical_desc: 스타선물
+  variants:
+  - desc: 스타선물
+    sources:
+    - group: 국내파생
+      struct: ST_FO_IDX_CODE
+      field: info_type
+  - desc: 코스닥 주식선물
+    sources:
+    - group: 국내파생
+      struct: ST_FO_STK_CODE
+      field: info_type
+  approved_by: taehoon
+  approved_at: '2026-01-16'
+  reason: Enum description variants aligned for merge
+  evidence: tmp/store_codegen/enum_conflicts.json
+- enum: InfoTypeEnum
+  value: '4'
+  canonical_desc: 스타SP
+  variants:
+  - desc: 스타SP
+    sources:
+    - group: 국내파생
+      struct: ST_FO_IDX_CODE
+      field: info_type
+  - desc: 코스닥 주식선물 SP
+    sources:
+    - group: 국내파생
+      struct: ST_FO_STK_CODE
+      field: info_type
+  approved_by: taehoon
+  approved_at: '2026-01-16'
+  reason: Enum description variants aligned for merge
+  evidence: tmp/store_codegen/enum_conflicts.json
+- enum: InfoTypeEnum
+  value: '5'
+  canonical_desc: 콜옵션
+  variants:
+  - desc: 주식 콜옵션
+    sources:
+    - group: 국내파생
+      struct: ST_FO_STK_CODE
+      field: info_type
+  - desc: 지수콜옵션
+    sources:
+    - group: 국내파생
+      struct: ST_FO_IDX_CODE
+      field: info_type
+    - group: 야간파생
+      struct: ST_FO_IDX_CODE
+      field: info_type
+  - desc: 콜옵션
+    sources:
+    - group: 국내파생
+      struct: ST_FO_COM_CODE
+      field: info_type
+    - group: 야간파생
+      struct: ST_FO_COM_CODE
+      field: info_type
+    - group: 국내파생
+      struct: ST_FO_COM_CODE
+      field: info_type
+  approved_by: taehoon
+  approved_at: '2026-01-16'
+  reason: Enum description variants aligned for merge
+  evidence: tmp/store_codegen/enum_conflicts.json
+- enum: InfoTypeEnum
+  value: '6'
+  canonical_desc: 풋옵션
+  variants:
+  - desc: 주식 풋옵션
+    sources:
+    - group: 국내파생
+      struct: ST_FO_STK_CODE
+      field: info_type
+  - desc: 지수풋옵션
+    sources:
+    - group: 국내파생
+      struct: ST_FO_IDX_CODE
+      field: info_type
+    - group: 야간파생
+      struct: ST_FO_IDX_CODE
+      field: info_type
+  - desc: 풋옵션
+    sources:
+    - group: 국내파생
+      struct: ST_FO_COM_CODE
+      field: info_type
+    - group: 야간파생
+      struct: ST_FO_COM_CODE
+      field: info_type
+    - group: 국내파생
+      struct: ST_FO_COM_CODE
+      field: info_type
+  approved_by: taehoon
+  approved_at: '2026-01-16'
+  reason: Enum description variants aligned for merge
+  evidence: tmp/store_codegen/enum_conflicts.json
+- enum: SnearflgEnum
+  value: '1'
+  canonical_desc: 근월물
+  variants:
+  - desc: 근월물
+    sources:
+    - group: 해외파생
+      struct: FOCODE_TBL
+      field: sNearFlg
+  - desc: 최다월물
+    sources:
+    - group: 해외파생
+      struct: FFCODE_TBL
+      field: sNearFlg
+  approved_by: taehoon
+  approved_at: '2026-01-16'
+  reason: Enum description variants aligned for merge
+  evidence: tmp/store_codegen/enum_conflicts.json

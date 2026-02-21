@@ -1,0 +1,672 @@
+id: 19f840e8-d6be-4b68-94f5-9448a0c4f10b
+name: 해외주식 실시간호가[실시간-021]
+section: '[해외주식] 실시간시세'
+category: 해외주식
+subcategory: 실시간시세
+method: POST
+url: /tryitout/HDFSASP0
+content_type: application/json
+req_format: JSON
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  demo: 모의투자 미지원
+real_tr_id: HDFSASP0
+demo_tr_id: 모의투자 미지원
+summary: "해외주식 실시간호가 API를 이용하여 미국 실시간 10호가(매수/매도) 시세가 무료로 제공됩니다. (미국은 유료시세 제공 X)\n\n아시아 국가의 경우, HTS(efriend Plus) [7781] 시세신청(실시간)\
+  \ 화면에서 유료 서비스 신청 시, \n\"해외주식 실시간호가 HDFSASP0\" 을 이용하여 아시아국가 유료시세(실시간호가)를 받아보실 수 있습니다. (24.11.29 반영)\n(아시아 국가 무료시세는 \"해외주식\
+  \ 지연호가(아시아) HDFSASP1\" 를 이용하시기 바랍니다.)\n\n※ 미국 : 실시간 무료, 매수/매도 각 10호가 (0분지연, 나스닥 마켓센터에서 거래되는 호가 및 호가 잔량 정보)\n※ 아시아(홍콩, 베트남,\
+  \ 중국, 일본) : 실시간 유료 (단, 중국은 HTS[7781]에서 실시간시세 무료로 신청 후 이용 가능)\n\n해당 API로 미국주간거래(10:00~16:00) 시세 조회도 가능합니다.\n※ 미국주간거래 실시간\
+  \ 조회 시, 맨 앞자리(R), tr_key 중 시장구분 값을 다음과 같이 입력 → 나스닥: BAQ, 뉴욕: BAY, 아멕스: BAA\n\n[참고자료]\n\n실시간시세(웹소켓) 파이썬 샘플코드는 한국투자증권 Github\
+  \ 참고 부탁드립니다.\nhttps://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/ws_domestic_overseas_all.py\n\
+  \n실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.\nhttps://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션\
+  \ 업데이트 예정)\n\n​[미국주식시세 이용시 유의사항]\n\n■ 무료 실시간 시세(나스닥 토탈뷰)를 별도 신청없이 제공하고 있으며, 유료 시세 서비스를 신청하시더라도 OpenAPI의 경우 무료 시세로만 제공하고있습니다.\
+  \ \n \n※ 무료(매수/매도 각 10호가) : 나스닥 마켓센터에서 거래되는 호가 및 호가 잔량 정보\n※ 유료(매수/매도 각 1호가) : OpenAPI 서비스 미제공\n\n■ 무료 실시간 시세 서비스는 유료 실시간\
+  \ 시세 서비스 대비 평균 50% 수준에 해당하는 정보이므로 현재가/호가/순간체결량/차트 등에서 일시적·부분적 차이가 \n있을 수 있으며 이로 인해 발생하는 손실에 대해서 당사가 책임지지 않습니다.\n\n■ 무료 실시간\
+  \ 시세 서비스의 시가, 저가, 고가, 종가는 유료 실시간 시세 서비스와 다를 수 있으며, \n종목별 과거 데이터(거래량, 시가, 종가, 고가, 차트 데이터 등)는 장 종료 후(오후 12시경) 유료 실시간 시세 서비스\
+  \ 데이터와 동일하게 업데이트됩니다.\n(출처: 한국투자증권 외화증권 거래설명서 - https://securities.koreainvestment.com/main/customer/guide/Guide.jsp?&cmd=TF04ag010002¤tPage=1&num=64)"
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2023-01-31T16:12:06+09:00'
+  last_modified_date: '2025-12-05T17:21:33+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '286'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'B : 법인 / P : 개인'
+  - code: tr_type
+    name: 등록/해제
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '"1: 등록, 2:해제"'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '7'
+    required: true
+    description: HDFSASP0
+  - code: tr_key
+    name: R거래소명종목코드
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 'D+시장구분(3자리)+종목코드
+
+      예) DNASAAPL : D+NAS(나스닥)+AAPL(애플)
+
+      [시장구분]
+
+      NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스
+
+
+
+      R+시장구분(3자리)+종목코드
+
+      예) RBAQAAPL : R+BAQ(나스닥)+AAPL(애플)
+
+      [시장구분]
+
+      BAY : 뉴욕(주간), BAQ : 나스닥(주간). BAA : 아멕스(주간)
+
+
+
+      ※ 유료시세 신청시에만 유료시세 수신가능
+
+      "포럼 > FAQ > 해외주식 유료시세 신청방법" 참고
+
+      R+시장구분(3자리)+종목코드
+
+      예) RHKS00003 : R+HKS(홍콩)+00003(홍콩중화가스)
+
+      [시장구분]
+
+      TSE : 도쿄, HKS : 홍콩,
+
+      SHS : 상해, SZS : 심천
+
+      HSX : 호치민, HNX : 하노이'
+  example:
+    header:
+      approval_key: 35xxxxxa-bxxa-4xxb-87xxx-f56xxxxxxxxxx
+      custtype: P
+      tr_type: '1'
+      content-type: utf-8
+    body:
+      input:
+        tr_id: HDFSASP0
+        tr_key: RBAQAAPL
+response:
+  headers: []
+  body:
+  - code: RSYM
+    name: 실시간종목코드
+    type: A0003
+    type_name: String
+    length: '16'
+    required: true
+    description: '''각 항목사이에는 구분자로 ^ 사용,
+
+      모든 데이터타입은 String으로 변환되어 push 처리됨'''
+  - code: SYMB
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: ZDIV
+    name: 소숫점자리수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: XYMD
+    name: 현지일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: XHMS
+    name: 현지시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: KYMD
+    name: 한국일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: KHMS
+    name: 한국시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: BVOL
+    name: 매수총잔량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: AVOL
+    name: 매도총잔량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: BDVL
+    name: 매수총잔량대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ADVL
+    name: 매도총잔량대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: PBID1
+    name: 매수호가1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: PASK1
+    name: 매도호가1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: VBID1
+    name: 매수잔량1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: VASK1
+    name: 매도잔량1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DBID1
+    name: 매수잔량대비1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DASK1
+    name: 매도잔량대비1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: PBID2
+    name: 매수호가2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: PASK2
+    name: 매도호가2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: VBID2
+    name: 매수잔량2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: VASK2
+    name: 매도잔량2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DBID2
+    name: 매수잔량대비2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DASK2
+    name: 매도잔량대비2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: PBID3
+    name: 매수호가3
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: PASK3
+    name: 매도호가3
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: VBID3
+    name: 매수잔량3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: VASK3
+    name: 매도잔량3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DBID3
+    name: 매수잔량대비3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DASK3
+    name: 매도잔량대비3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: PBID3
+    name: 매수호가3
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: PASK3
+    name: 매도호가3
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: VBID3
+    name: 매수잔량3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: VASK3
+    name: 매도잔량3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DBID3
+    name: 매수잔량대비3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DASK3
+    name: 매도잔량대비3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: PBID4
+    name: 매수호가4
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: PASK4
+    name: 매도호가4
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: VBID4
+    name: 매수잔량4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: VASK4
+    name: 매도잔량4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DBID4
+    name: 매수잔량대비4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DASK4
+    name: 매도잔량대비4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: PBID5
+    name: 매수호가5
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: PASK5
+    name: 매도호가5
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: VBID5
+    name: 매수잔량5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: VASK5
+    name: 매도잔량5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DBID5
+    name: 매수잔량대비5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DASK5
+    name: 매도잔량대비5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: PBID6
+    name: 매수호가6
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: PASK6
+    name: 매도호가6
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: VBID6
+    name: 매수잔량6
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: VASK6
+    name: 매도잔량6
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DBID6
+    name: 매수잔량대비6
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DASK6
+    name: 매도잔량대비6
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: PBID7
+    name: 매수호가7
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: PASK7
+    name: 매도호가7
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: VBID7
+    name: 매수잔량7
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: VASK7
+    name: 매도잔량7
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DBID7
+    name: 매수잔량대비7
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DASK7
+    name: 매도잔량대비7
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: PBID8
+    name: 매수호가8
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: PASK8
+    name: 매도호가8
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: VBID8
+    name: 매수잔량8
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: VASK8
+    name: 매도잔량8
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DBID8
+    name: 매수잔량대비8
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DASK8
+    name: 매도잔량대비8
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: PBID9
+    name: 매수호가9
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: PASK9
+    name: 매도호가9
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: VBID9
+    name: 매수잔량9
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: VASK9
+    name: 매도잔량9
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DBID9
+    name: 매수잔량대비9
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DASK9
+    name: 매도잔량대비9
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: PBID10
+    name: 매수호가10
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: PASK10
+    name: 매도호가10
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: VBID10
+    name: 매수잔량10
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: VASK10
+    name: 매도잔량10
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DBID10
+    name: 매수잔량대비10
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: DASK10
+    name: 매도잔량대비10
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example: "# 연결 확인\r\n{\r\n    \"header\": {\r\n        \"tr_id\": \"HDFSASP0\", \r\n        \"tr_key\": \"RBAQAAPL\", \r\
+    \n        \"encrypt\": \"N\"\r\n        }, \r\n    \"body\": {\r\n        \"rt_cd\": \"0\", \r\n        \"msg_cd\": \"\
+    OPSP0000\",\r\n        \"msg1\": \"SUBSCRIBE SUCCESS\", \r\n        \"output\": {\r\n            \"iv\": \"0123456789abcdef\"\
+    , \r\n            \"key\": \"abcdefghijklmnopabcdefghijklmnop\"}\r\n        }\r\n}\r\n\r\n# output\r\n0|HDFSASP0|001|RBAQAAPL^AAPL^4^20240506^202223^20240507^092223^1482^381^0^-10^182.8500^182.8700^350^57^0^-10^182.8400^182.9000^1^10^0^0^182.8300^182.9100^6^54^0^0^182.7900^182.9500^54^5^0^0^182.7500^182.9600^309^3^0^0^182.7300^182.9700^20^81^0^0^182.7000^182.9800^124^3^0^0^182.6600^182.9900^397^1^0^0^182.6500^183.0000^20^69^0^0^182.6300^183.0100^201^98^0^0"
+errors: []

@@ -1,0 +1,790 @@
+id: 498e6384-f887-4fb2-9055-2cbc95790087
+name: 선물옵션 일중예상체결추이[국내선물-018]
+section: '[국내선물옵션] 기본시세'
+category: 국내선물옵션
+subcategory: 기본시세
+method: GET
+url: /uapi/domestic-futureoption/v1/quotations/exp-price-trend
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: FHPIF05110100
+demo_tr_id: 모의투자 미지원
+summary: "선물옵션 일중예상체결추이 API입니다. \n한국투자 HTS(eFriend Plus) > [0548] 선물옵션 예상체결추이 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기\
+  \ 쉽습니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-03-27T10:22:08+09:00'
+  last_modified_date: '2025-04-30T12:36:41+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPIF05110100
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_INPUT_ISCD
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목번호 (지수선물:6자리, 지수옵션 9자리)
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 'F : 지수선물, O : 지수옵션'
+  example: "FID_COND_MRKT_DIV_CODE:F\r\nFID_INPUT_ISCD:101V06"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: 영업 시간
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: futs_antc_cnpr
+    name: 업종 지수 현재가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: antc_cntg_vrss_sign
+    name: 업종 지수 전일 대비
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: futs_antc_cntg_vrss
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: antc_cntg_prdy_ctrt
+    name: 업종 지수 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: futs_sdpr
+    name: 누적 거래 대금
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: stck_cntg_hour
+    name: 주식체결시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: futs_antc_cnpr
+    name: 선물예상체결가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: antc_cntg_vrss_sign
+    name: 예상체결대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: futs_antc_cntg_vrss
+    name: 선물예상체결대비
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: antc_cntg_prdy_ctrt
+    name: 예상체결전일대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  example:
+    output1:
+      hts_kor_isnm: F 202406
+      futs_antc_cnpr: '0.000'
+      antc_cntg_vrss_sign: '0'
+      futs_antc_cntg_vrss: '0.000'
+      antc_cntg_prdy_ctrt: '0.00'
+      futs_sdpr: '376.95'
+    output2:
+    - stck_cntg_hour: 084500
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '380.00'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.05'
+      antc_cntg_prdy_ctrt: '0.81'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '380.00'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.05'
+      antc_cntg_prdy_ctrt: '0.81'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '380.00'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.05'
+      antc_cntg_prdy_ctrt: '0.81'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '380.00'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.05'
+      antc_cntg_prdy_ctrt: '0.81'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.95'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '3.00'
+      antc_cntg_prdy_ctrt: '0.80'
+    - stck_cntg_hour: 084459
+      futs_antc_cnpr: '379.90'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.95'
+      antc_cntg_prdy_ctrt: '0.78'
+    - stck_cntg_hour: 084458
+      futs_antc_cnpr: '379.90'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.95'
+      antc_cntg_prdy_ctrt: '0.78'
+    - stck_cntg_hour: 084458
+      futs_antc_cnpr: '379.90'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.95'
+      antc_cntg_prdy_ctrt: '0.78'
+    - stck_cntg_hour: 084458
+      futs_antc_cnpr: '379.90'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.95'
+      antc_cntg_prdy_ctrt: '0.78'
+    - stck_cntg_hour: 084458
+      futs_antc_cnpr: '379.90'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.95'
+      antc_cntg_prdy_ctrt: '0.78'
+    - stck_cntg_hour: 084458
+      futs_antc_cnpr: '379.90'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.95'
+      antc_cntg_prdy_ctrt: '0.78'
+    - stck_cntg_hour: 084458
+      futs_antc_cnpr: '379.90'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.95'
+      antc_cntg_prdy_ctrt: '0.78'
+    - stck_cntg_hour: 084458
+      futs_antc_cnpr: '379.90'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.95'
+      antc_cntg_prdy_ctrt: '0.78'
+    - stck_cntg_hour: 084458
+      futs_antc_cnpr: '379.80'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.85'
+      antc_cntg_prdy_ctrt: '0.76'
+    - stck_cntg_hour: 084458
+      futs_antc_cnpr: '379.80'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.85'
+      antc_cntg_prdy_ctrt: '0.76'
+    - stck_cntg_hour: 084458
+      futs_antc_cnpr: '379.75'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.80'
+      antc_cntg_prdy_ctrt: '0.74'
+    - stck_cntg_hour: 084458
+      futs_antc_cnpr: '379.75'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.80'
+      antc_cntg_prdy_ctrt: '0.74'
+    - stck_cntg_hour: 084458
+      futs_antc_cnpr: '379.75'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.80'
+      antc_cntg_prdy_ctrt: '0.74'
+    - stck_cntg_hour: 084458
+      futs_antc_cnpr: '379.75'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.80'
+      antc_cntg_prdy_ctrt: '0.74'
+    - stck_cntg_hour: 084457
+      futs_antc_cnpr: '379.75'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.80'
+      antc_cntg_prdy_ctrt: '0.74'
+    - stck_cntg_hour: 084457
+      futs_antc_cnpr: '379.70'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.75'
+      antc_cntg_prdy_ctrt: '0.73'
+    - stck_cntg_hour: 084457
+      futs_antc_cnpr: '379.70'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.75'
+      antc_cntg_prdy_ctrt: '0.73'
+    - stck_cntg_hour: 084457
+      futs_antc_cnpr: '379.70'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.75'
+      antc_cntg_prdy_ctrt: '0.73'
+    - stck_cntg_hour: 084457
+      futs_antc_cnpr: '379.70'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.75'
+      antc_cntg_prdy_ctrt: '0.73'
+    - stck_cntg_hour: 084457
+      futs_antc_cnpr: '379.70'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.75'
+      antc_cntg_prdy_ctrt: '0.73'
+    - stck_cntg_hour: 084457
+      futs_antc_cnpr: '379.70'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.75'
+      antc_cntg_prdy_ctrt: '0.73'
+    - stck_cntg_hour: 084457
+      futs_antc_cnpr: '379.75'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.80'
+      antc_cntg_prdy_ctrt: '0.74'
+    - stck_cntg_hour: 084457
+      futs_antc_cnpr: '379.75'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.80'
+      antc_cntg_prdy_ctrt: '0.74'
+    - stck_cntg_hour: 084457
+      futs_antc_cnpr: '379.55'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.60'
+      antc_cntg_prdy_ctrt: '0.69'
+    - stck_cntg_hour: 084457
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084456
+      futs_antc_cnpr: '379.55'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.60'
+      antc_cntg_prdy_ctrt: '0.69'
+    - stck_cntg_hour: 084456
+      futs_antc_cnpr: '379.55'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.60'
+      antc_cntg_prdy_ctrt: '0.69'
+    - stck_cntg_hour: 084456
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084456
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084456
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084456
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084456
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084456
+      futs_antc_cnpr: '379.70'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.75'
+      antc_cntg_prdy_ctrt: '0.73'
+    - stck_cntg_hour: 084456
+      futs_antc_cnpr: '379.70'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.75'
+      antc_cntg_prdy_ctrt: '0.73'
+    - stck_cntg_hour: 084455
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084455
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084455
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084455
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084455
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084455
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084455
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084455
+      futs_antc_cnpr: '379.70'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.75'
+      antc_cntg_prdy_ctrt: '0.73'
+    - stck_cntg_hour: 084455
+      futs_antc_cnpr: '379.70'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.75'
+      antc_cntg_prdy_ctrt: '0.73'
+    - stck_cntg_hour: 084455
+      futs_antc_cnpr: '379.70'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.75'
+      antc_cntg_prdy_ctrt: '0.73'
+    - stck_cntg_hour: 084455
+      futs_antc_cnpr: '379.70'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.75'
+      antc_cntg_prdy_ctrt: '0.73'
+    - stck_cntg_hour: 084454
+      futs_antc_cnpr: '379.70'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.75'
+      antc_cntg_prdy_ctrt: '0.73'
+    - stck_cntg_hour: 084454
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084454
+      futs_antc_cnpr: '379.55'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.60'
+      antc_cntg_prdy_ctrt: '0.69'
+    - stck_cntg_hour: 084454
+      futs_antc_cnpr: '379.55'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.60'
+      antc_cntg_prdy_ctrt: '0.69'
+    - stck_cntg_hour: 084454
+      futs_antc_cnpr: '379.55'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.60'
+      antc_cntg_prdy_ctrt: '0.69'
+    - stck_cntg_hour: 084454
+      futs_antc_cnpr: '379.60'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.65'
+      antc_cntg_prdy_ctrt: '0.70'
+    - stck_cntg_hour: 084454
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084454
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084454
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084454
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084454
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084453
+      futs_antc_cnpr: '379.65'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.70'
+      antc_cntg_prdy_ctrt: '0.72'
+    - stck_cntg_hour: 084453
+      futs_antc_cnpr: '379.60'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.65'
+      antc_cntg_prdy_ctrt: '0.70'
+    - stck_cntg_hour: 084453
+      futs_antc_cnpr: '379.55'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.60'
+      antc_cntg_prdy_ctrt: '0.69'
+    - stck_cntg_hour: 084453
+      futs_antc_cnpr: '379.55'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.60'
+      antc_cntg_prdy_ctrt: '0.69'
+    - stck_cntg_hour: 084453
+      futs_antc_cnpr: '379.55'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.60'
+      antc_cntg_prdy_ctrt: '0.69'
+    - stck_cntg_hour: 084453
+      futs_antc_cnpr: '379.55'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.60'
+      antc_cntg_prdy_ctrt: '0.69'
+    - stck_cntg_hour: 084453
+      futs_antc_cnpr: '379.55'
+      antc_cntg_vrss_sign: '2'
+      futs_antc_cntg_vrss: '2.60'
+      antc_cntg_prdy_ctrt: '0.69'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

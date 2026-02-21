@@ -1,0 +1,1185 @@
+id: 0aad2cef-b338-4f4f-a8a0-b19c67a390b3
+name: 국내주식 신용잔고 일별추이[국내주식-110]
+section: '[국내주식] 시세분석'
+category: 국내주식
+subcategory: 시세분석
+method: GET
+url: /uapi/domestic-stock/v1/quotations/daily-credit-balance
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: FHPST04760000
+demo_tr_id: 모의투자 미지원
+summary: '국내주식 신용잔고 일별추이 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0476] 국내주식 신용잔고 일별추이 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
+
+  한 번의 호출에 최대 30건 확인 가능하며, fid_input_date_1 을 입력하여 다음 조회가 가능합니다.
+
+
+  ※ 상환수량은 "매도상환수량+현금상환수량"의 합계 수치입니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-03-15T09:32:41+09:00'
+  last_modified_date: '2025-05-14T14:30:19+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPST04760000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: fid_cond_mrkt_div_code
+    name: 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 시장구분코드 (주식 J)
+  - code: fid_cond_scr_div_code
+    name: 화면 분류 코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: Unique key(20476)
+  - code: fid_input_iscd
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목코드 (ex 005930)
+  - code: fid_input_date_1
+    name: 결제일자
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 결제일자 (ex 20240313)
+  example:
+    fid_cond_mrkt_div_code: J
+    fid_cond_scr_div_code: '20476'
+    fid_input_iscd: 005930
+    fid_input_date_1: '20240315'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: deal_date
+    name: 매매 일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: stck_prpr
+    name: 주식 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일 대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: stlm_date
+    name: 결제 일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: whol_loan_new_stcn
+    name: 전체 융자 신규 주수
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 주'
+  - code: whol_loan_rdmp_stcn
+    name: 전체 융자 상환 주수
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 주'
+  - code: whol_loan_rmnd_stcn
+    name: 전체 융자 잔고 주수
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 주'
+  - code: whol_loan_new_amt
+    name: 전체 융자 신규 금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 만원'
+  - code: whol_loan_rdmp_amt
+    name: 전체 융자 상환 금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 만원'
+  - code: whol_loan_rmnd_amt
+    name: 전체 융자 잔고 금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 만원'
+  - code: whol_loan_rmnd_rate
+    name: 전체 융자 잔고 비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: whol_loan_gvrt
+    name: 전체 융자 공여율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: whol_stln_new_stcn
+    name: 전체 대주 신규 주수
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 주'
+  - code: whol_stln_rdmp_stcn
+    name: 전체 대주 상환 주수
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 주'
+  - code: whol_stln_rmnd_stcn
+    name: 전체 대주 잔고 주수
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 주'
+  - code: whol_stln_new_amt
+    name: 전체 대주 신규 금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 만원'
+  - code: whol_stln_rdmp_amt
+    name: 전체 대주 상환 금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 만원'
+  - code: whol_stln_rmnd_amt
+    name: 전체 대주 잔고 금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 만원'
+  - code: whol_stln_rmnd_rate
+    name: 전체 대주 잔고 비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: whol_stln_gvrt
+    name: 전체 대주 공여율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: stck_oprc
+    name: 주식 시가2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: stck_hgpr
+    name: 주식 최고가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: stck_lwpr
+    name: 주식 최저가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example:
+    output:
+    - deal_date: '20240313'
+      stck_prpr: '74100'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '800'
+      prdy_ctrt: '1.09'
+      acml_vol: '15243134'
+      stlm_date: '20240315'
+      whol_loan_new_stcn: '253817'
+      whol_loan_rdmp_stcn: '603451'
+      whol_loan_rmnd_stcn: '7155720'
+      whol_loan_new_amt: '1678904'
+      whol_loan_rdmp_amt: '3982732'
+      whol_loan_rmnd_amt: '47321639'
+      whol_loan_rmnd_rate: '0.11'
+      whol_loan_gvrt: '1.65'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6861'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '43104'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '73700'
+      stck_hgpr: '74100'
+      stck_lwpr: '73500'
+    - deal_date: '20240312'
+      stck_prpr: '73300'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '900'
+      prdy_ctrt: '1.24'
+      acml_vol: '13011654'
+      stlm_date: '20240314'
+      whol_loan_new_stcn: '357971'
+      whol_loan_rdmp_stcn: '429002'
+      whol_loan_rmnd_stcn: '7507526'
+      whol_loan_new_amt: '2370294'
+      whol_loan_rdmp_amt: '2871401'
+      whol_loan_rmnd_amt: '49639923'
+      whol_loan_rmnd_rate: '0.12'
+      whol_loan_gvrt: '2.74'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6861'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '43104'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '72600'
+      stck_hgpr: '73500'
+      stck_lwpr: '72100'
+    - deal_date: '20240311'
+      stck_prpr: '72400'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-900'
+      prdy_ctrt: '-1.23'
+      acml_vol: '9740504'
+      stlm_date: '20240313'
+      whol_loan_new_stcn: '395234'
+      whol_loan_rdmp_stcn: '242330'
+      whol_loan_rmnd_stcn: '7586197'
+      whol_loan_new_amt: '2579480'
+      whol_loan_rdmp_amt: '1479272'
+      whol_loan_rmnd_amt: '50194590'
+      whol_loan_rmnd_rate: '0.12'
+      whol_loan_gvrt: '4.05'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6861'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '43104'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '72900'
+      stck_hgpr: '73100'
+      stck_lwpr: '72300'
+    - deal_date: '20240308'
+      stck_prpr: '73300'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '1100'
+      prdy_ctrt: '1.52'
+      acml_vol: '19271349'
+      stlm_date: '20240312'
+      whol_loan_new_stcn: '350421'
+      whol_loan_rdmp_stcn: '580071'
+      whol_loan_rmnd_stcn: '7433714'
+      whol_loan_new_amt: '2212537'
+      whol_loan_rdmp_amt: '3786566'
+      whol_loan_rmnd_amt: '49096831'
+      whol_loan_rmnd_rate: '0.12'
+      whol_loan_gvrt: '1.81'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6861'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '43104'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '72800'
+      stck_hgpr: '73400'
+      stck_lwpr: '72600'
+    - deal_date: '20240307'
+      stck_prpr: '72200'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-700'
+      prdy_ctrt: '-0.96'
+      acml_vol: '14516963'
+      stlm_date: '20240311'
+      whol_loan_new_stcn: '497407'
+      whol_loan_rdmp_stcn: '252707'
+      whol_loan_rmnd_stcn: '7666721'
+      whol_loan_new_amt: '3207234'
+      whol_loan_rdmp_amt: '1692347'
+      whol_loan_rmnd_amt: '50691156'
+      whol_loan_rmnd_rate: '0.12'
+      whol_loan_gvrt: '3.42'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '1'
+      whol_stln_rmnd_stcn: '6861'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '7'
+      whol_stln_rmnd_amt: '43104'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '73100'
+      stck_hgpr: '73300'
+      stck_lwpr: '72200'
+    - deal_date: '20240306'
+      stck_prpr: '72900'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-800'
+      prdy_ctrt: '-1.09'
+      acml_vol: '21547905'
+      stlm_date: '20240308'
+      whol_loan_new_stcn: '619036'
+      whol_loan_rdmp_stcn: '176578'
+      whol_loan_rmnd_stcn: '7424246'
+      whol_loan_new_amt: '4069217'
+      whol_loan_rdmp_amt: '1148738'
+      whol_loan_rmnd_amt: '49189736'
+      whol_loan_rmnd_rate: '0.12'
+      whol_loan_gvrt: '2.87'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6862'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '43111'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '73200'
+      stck_hgpr: '73500'
+      stck_lwpr: '72700'
+    - deal_date: '20240305'
+      stck_prpr: '73700'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-1200'
+      prdy_ctrt: '-1.60'
+      acml_vol: '19505125'
+      stlm_date: '20240307'
+      whol_loan_new_stcn: '422627'
+      whol_loan_rdmp_stcn: '301232'
+      whol_loan_rmnd_stcn: '6981765'
+      whol_loan_new_amt: '2822363'
+      whol_loan_rdmp_amt: '1986157'
+      whol_loan_rmnd_amt: '46269511'
+      whol_loan_rmnd_rate: '0.10'
+      whol_loan_gvrt: '2.15'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '20'
+      whol_stln_rmnd_stcn: '6862'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '139'
+      whol_stln_rmnd_amt: '43111'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '74600'
+      stck_hgpr: '74800'
+      stck_lwpr: '73700'
+    - deal_date: '20240304'
+      stck_prpr: '74900'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '1500'
+      prdy_ctrt: '2.04'
+      acml_vol: '23210474'
+      stlm_date: '20240306'
+      whol_loan_new_stcn: '838785'
+      whol_loan_rdmp_stcn: '1450926'
+      whol_loan_rmnd_stcn: '6862995'
+      whol_loan_new_amt: '5536867'
+      whol_loan_rdmp_amt: '9135415'
+      whol_loan_rmnd_amt: '45449103'
+      whol_loan_rmnd_rate: '0.10'
+      whol_loan_gvrt: '3.61'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6882'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '43251'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '74300'
+      stck_hgpr: '75000'
+      stck_lwpr: '74000'
+    - deal_date: '20240229'
+      stck_prpr: '73400'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '200'
+      prdy_ctrt: '0.27'
+      acml_vol: '21176403'
+      stlm_date: '20240305'
+      whol_loan_new_stcn: '563158'
+      whol_loan_rdmp_stcn: '330265'
+      whol_loan_rmnd_stcn: '7477578'
+      whol_loan_new_amt: '3366177'
+      whol_loan_rdmp_amt: '2109787'
+      whol_loan_rmnd_amt: '49063520'
+      whol_loan_rmnd_rate: '0.12'
+      whol_loan_gvrt: '2.65'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6882'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '43251'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '72600'
+      stck_hgpr: '73400'
+      stck_lwpr: '72000'
+    - deal_date: '20240228'
+      stck_prpr: '73200'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.41'
+      acml_vol: '11795859'
+      stlm_date: '20240304'
+      whol_loan_new_stcn: '506896'
+      whol_loan_rdmp_stcn: '458211'
+      whol_loan_rmnd_stcn: '7245825'
+      whol_loan_new_amt: '3059090'
+      whol_loan_rdmp_amt: '2956451'
+      whol_loan_rmnd_amt: '47813948'
+      whol_loan_rmnd_rate: '0.11'
+      whol_loan_gvrt: '4.29'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6882'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '43251'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '72900'
+      stck_hgpr: '73900'
+      stck_lwpr: '72800'
+    - deal_date: '20240227'
+      stck_prpr: '72900'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '100'
+      prdy_ctrt: '0.14'
+      acml_vol: '13201981'
+      stlm_date: '20240229'
+      whol_loan_new_stcn: '319365'
+      whol_loan_rdmp_stcn: '291088'
+      whol_loan_rmnd_stcn: '7199469'
+      whol_loan_new_amt: '2086955'
+      whol_loan_rdmp_amt: '1907718'
+      whol_loan_rmnd_amt: '47725597'
+      whol_loan_rmnd_rate: '0.11'
+      whol_loan_gvrt: '2.41'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6882'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '43251'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '73100'
+      stck_hgpr: '73400'
+      stck_lwpr: '72700'
+    - deal_date: '20240226'
+      stck_prpr: '72800'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-100'
+      prdy_ctrt: '-0.14'
+      acml_vol: '14669352'
+      stlm_date: '20240228'
+      whol_loan_new_stcn: '282018'
+      whol_loan_rdmp_stcn: '261288'
+      whol_loan_rmnd_stcn: '7171604'
+      whol_loan_new_amt: '1838364'
+      whol_loan_rdmp_amt: '1639156'
+      whol_loan_rmnd_amt: '47549260'
+      whol_loan_rmnd_rate: '0.11'
+      whol_loan_gvrt: '1.91'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6882'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '43251'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '72300'
+      stck_hgpr: '73200'
+      stck_lwpr: '72200'
+    - deal_date: '20240223'
+      stck_prpr: '72900'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-200'
+      prdy_ctrt: '-0.27'
+      acml_vol: '16225166'
+      stlm_date: '20240227'
+      whol_loan_new_stcn: '526563'
+      whol_loan_rdmp_stcn: '473526'
+      whol_loan_rmnd_stcn: '7151330'
+      whol_loan_new_amt: '3397702'
+      whol_loan_rdmp_amt: '3122338'
+      whol_loan_rmnd_amt: '47353285'
+      whol_loan_rmnd_rate: '0.11'
+      whol_loan_gvrt: '3.23'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6882'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '43251'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '73600'
+      stck_hgpr: '74200'
+      stck_lwpr: '72900'
+    - deal_date: '20240222'
+      stck_prpr: '73100'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '100'
+      prdy_ctrt: '0.14'
+      acml_vol: '15208934'
+      stlm_date: '20240226'
+      whol_loan_new_stcn: '617034'
+      whol_loan_rdmp_stcn: '362458'
+      whol_loan_rmnd_stcn: '7098784'
+      whol_loan_new_amt: '4055099'
+      whol_loan_rdmp_amt: '2420852'
+      whol_loan_rmnd_amt: '47080801'
+      whol_loan_rmnd_rate: '0.11'
+      whol_loan_gvrt: '4.05'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6882'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '43251'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '73800'
+      stck_hgpr: '73900'
+      stck_lwpr: '72700'
+    - deal_date: '20240221'
+      stck_prpr: '73000'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-300'
+      prdy_ctrt: '-0.41'
+      acml_vol: '11503495'
+      stlm_date: '20240223'
+      whol_loan_new_stcn: '181753'
+      whol_loan_rdmp_stcn: '159505'
+      whol_loan_rmnd_stcn: '6849915'
+      whol_loan_new_amt: '1154019'
+      whol_loan_rdmp_amt: '997307'
+      whol_loan_rmnd_amt: '45485001'
+      whol_loan_rmnd_rate: '0.10'
+      whol_loan_gvrt: '1.57'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6882'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '43251'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '73400'
+      stck_hgpr: '73700'
+      stck_lwpr: '72900'
+    - deal_date: '20240220'
+      stck_prpr: '73300'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-500'
+      prdy_ctrt: '-0.68'
+      acml_vol: '14681477'
+      stlm_date: '20240222'
+      whol_loan_new_stcn: '245659'
+      whol_loan_rdmp_stcn: '162302'
+      whol_loan_rmnd_stcn: '6827253'
+      whol_loan_new_amt: '1650740'
+      whol_loan_rdmp_amt: '1053242'
+      whol_loan_rmnd_amt: '45325256'
+      whol_loan_rmnd_rate: '0.10'
+      whol_loan_gvrt: '1.66'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '100'
+      whol_stln_rmnd_stcn: '6882'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '699'
+      whol_stln_rmnd_amt: '43251'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '73700'
+      stck_hgpr: '73700'
+      stck_lwpr: '72800'
+    - deal_date: '20240219'
+      stck_prpr: '73800'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '1000'
+      prdy_ctrt: '1.37'
+      acml_vol: '12726404'
+      stlm_date: '20240221'
+      whol_loan_new_stcn: '196561'
+      whol_loan_rdmp_stcn: '395332'
+      whol_loan_rmnd_stcn: '6746234'
+      whol_loan_new_amt: '1233245'
+      whol_loan_rdmp_amt: '2617252'
+      whol_loan_rmnd_amt: '44744474'
+      whol_loan_rmnd_rate: '0.10'
+      whol_loan_gvrt: '1.53'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '15'
+      whol_stln_rmnd_stcn: '6982'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '105'
+      whol_stln_rmnd_amt: '43950'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '72800'
+      stck_hgpr: '73900'
+      stck_lwpr: '72800'
+    - deal_date: '20240216'
+      stck_prpr: '72800'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-200'
+      prdy_ctrt: '-0.27'
+      acml_vol: '13444781'
+      stlm_date: '20240220'
+      whol_loan_new_stcn: '353711'
+      whol_loan_rdmp_stcn: '258304'
+      whol_loan_rmnd_stcn: '6946822'
+      whol_loan_new_amt: '2336237'
+      whol_loan_rdmp_amt: '1746554'
+      whol_loan_rmnd_amt: '46141630'
+      whol_loan_rmnd_rate: '0.11'
+      whol_loan_gvrt: '2.63'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6997'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '44055'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '73300'
+      stck_hgpr: '73400'
+      stck_lwpr: '72500'
+    - deal_date: '20240215'
+      stck_prpr: '73000'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-1000'
+      prdy_ctrt: '-1.35'
+      acml_vol: '14120600'
+      stlm_date: '20240219'
+      whol_loan_new_stcn: '668521'
+      whol_loan_rdmp_stcn: '244617'
+      whol_loan_rmnd_stcn: '6851613'
+      whol_loan_new_amt: '4541397'
+      whol_loan_rdmp_amt: '1581331'
+      whol_loan_rmnd_amt: '45553486'
+      whol_loan_rmnd_rate: '0.10'
+      whol_loan_gvrt: '4.72'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6997'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '44055'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '74200'
+      stck_hgpr: '74400'
+      stck_lwpr: '73000'
+    - deal_date: '20240214'
+      stck_prpr: '74000'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-1200'
+      prdy_ctrt: '-1.60'
+      acml_vol: '12434945'
+      stlm_date: '20240216'
+      whol_loan_new_stcn: '607994'
+      whol_loan_rdmp_stcn: '168766'
+      whol_loan_rmnd_stcn: '6428256'
+      whol_loan_new_amt: '4042856'
+      whol_loan_rdmp_amt: '1140083'
+      whol_loan_rmnd_amt: '42597320'
+      whol_loan_rmnd_rate: '0.10'
+      whol_loan_gvrt: '4.88'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '6997'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '44055'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '73700'
+      stck_hgpr: '74300'
+      stck_lwpr: '73700'
+    - deal_date: '20240213'
+      stck_prpr: '75200'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '1100'
+      prdy_ctrt: '1.48'
+      acml_vol: '21966745'
+      stlm_date: '20240215'
+      whol_loan_new_stcn: '510482'
+      whol_loan_rdmp_stcn: '766361'
+      whol_loan_rmnd_stcn: '5989340'
+      whol_loan_new_amt: '2751983'
+      whol_loan_rdmp_amt: '4536820'
+      whol_loan_rmnd_amt: '39696538'
+      whol_loan_rmnd_rate: '0.09'
+      whol_loan_gvrt: '2.32'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '139'
+      whol_stln_rmnd_stcn: '6997'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '996'
+      whol_stln_rmnd_amt: '44055'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '74800'
+      stck_hgpr: '75200'
+      stck_lwpr: '74400'
+    - deal_date: '20240208'
+      stck_prpr: '74100'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-900'
+      prdy_ctrt: '-1.20'
+      acml_vol: '20810708'
+      stlm_date: '20240214'
+      whol_loan_new_stcn: '943012'
+      whol_loan_rdmp_stcn: '549849'
+      whol_loan_rmnd_stcn: '6247522'
+      whol_loan_new_amt: '5594562'
+      whol_loan_rdmp_amt: '2907687'
+      whol_loan_rmnd_amt: '41495520'
+      whol_loan_rmnd_rate: '0.10'
+      whol_loan_gvrt: '4.52'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '1'
+      whol_stln_rmnd_stcn: '7136'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '6'
+      whol_stln_rmnd_amt: '45052'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '75000'
+      stck_hgpr: '75200'
+      stck_lwpr: '73600'
+    - deal_date: '20240207'
+      stck_prpr: '75000'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '600'
+      prdy_ctrt: '0.81'
+      acml_vol: '16566445'
+      stlm_date: '20240213'
+      whol_loan_new_stcn: '252078'
+      whol_loan_rdmp_stcn: '439983'
+      whol_loan_rmnd_stcn: '5856240'
+      whol_loan_new_amt: '1614166'
+      whol_loan_rdmp_amt: '2860455'
+      whol_loan_rmnd_amt: '38821115'
+      whol_loan_rmnd_rate: '0.09'
+      whol_loan_gvrt: '1.51'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '7137'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '45059'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '74600'
+      stck_hgpr: '75500'
+      stck_lwpr: '74300'
+    - deal_date: '20240206'
+      stck_prpr: '74400'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '100'
+      prdy_ctrt: '0.13'
+      acml_vol: '14559254'
+      stlm_date: '20240208'
+      whol_loan_new_stcn: '295323'
+      whol_loan_rdmp_stcn: '281735'
+      whol_loan_rmnd_stcn: '6045644'
+      whol_loan_new_amt: '1941262'
+      whol_loan_rdmp_amt: '1889253'
+      whol_loan_rmnd_amt: '40074751'
+      whol_loan_rmnd_rate: '0.09'
+      whol_loan_gvrt: '2.02'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '0'
+      whol_stln_rmnd_stcn: '7137'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '0'
+      whol_stln_rmnd_amt: '45059'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '74300'
+      stck_hgpr: '74700'
+      stck_lwpr: '73300'
+    - deal_date: '20240205'
+      stck_prpr: '74300'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-900'
+      prdy_ctrt: '-1.20'
+      acml_vol: '19026021'
+      stlm_date: '20240207'
+      whol_loan_new_stcn: '580976'
+      whol_loan_rdmp_stcn: '315236'
+      whol_loan_rmnd_stcn: '6035531'
+      whol_loan_new_amt: '3882685'
+      whol_loan_rdmp_amt: '2127798'
+      whol_loan_rmnd_amt: '40047278'
+      whol_loan_rmnd_rate: '0.09'
+      whol_loan_gvrt: '3.04'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '728'
+      whol_stln_rmnd_stcn: '7137'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '5099'
+      whol_stln_rmnd_amt: '45059'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '74200'
+      stck_hgpr: '74800'
+      stck_lwpr: '73500'
+    - deal_date: '20240202'
+      stck_prpr: '75200'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '1600'
+      prdy_ctrt: '2.17'
+      acml_vol: '14955881'
+      stlm_date: '20240206'
+      whol_loan_new_stcn: '227532'
+      whol_loan_rdmp_stcn: '559999'
+      whol_loan_rmnd_stcn: '5770153'
+      whol_loan_new_amt: '1423587'
+      whol_loan_rdmp_amt: '3552220'
+      whol_loan_rmnd_amt: '38294939'
+      whol_loan_rmnd_rate: '0.08'
+      whol_loan_gvrt: '1.52'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '8'
+      whol_stln_rmnd_stcn: '7865'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '55'
+      whol_stln_rmnd_amt: '50158'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '74000'
+      stck_hgpr: '75200'
+      stck_lwpr: '73700'
+    - deal_date: '20240201'
+      stck_prpr: '73600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '900'
+      prdy_ctrt: '1.24'
+      acml_vol: '19881033'
+      stlm_date: '20240205'
+      whol_loan_new_stcn: '340408'
+      whol_loan_rdmp_stcn: '432474'
+      whol_loan_rmnd_stcn: '6103384'
+      whol_loan_new_amt: '2222626'
+      whol_loan_rdmp_amt: '2835418'
+      whol_loan_rmnd_amt: '40428694'
+      whol_loan_rmnd_rate: '0.09'
+      whol_loan_gvrt: '1.70'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '347'
+      whol_stln_rmnd_stcn: '7873'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '2376'
+      whol_stln_rmnd_amt: '50214'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '73000'
+      stck_hgpr: '74200'
+      stck_lwpr: '72900'
+    - deal_date: '20240131'
+      stck_prpr: '72700'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-1600'
+      prdy_ctrt: '-2.15'
+      acml_vol: '15703560'
+      stlm_date: '20240202'
+      whol_loan_new_stcn: '401245'
+      whol_loan_rdmp_stcn: '234735'
+      whol_loan_rmnd_stcn: '6207574'
+      whol_loan_new_amt: '2627294'
+      whol_loan_rdmp_amt: '1541985'
+      whol_loan_rmnd_amt: '41122407'
+      whol_loan_rmnd_rate: '0.10'
+      whol_loan_gvrt: '2.55'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '30'
+      whol_stln_rmnd_stcn: '8220'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '204'
+      whol_stln_rmnd_amt: '52590'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '73400'
+      stck_hgpr: '74000'
+      stck_lwpr: '72500'
+    - deal_date: '20240130'
+      stck_prpr: '74300'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-100'
+      prdy_ctrt: '-0.13'
+      acml_vol: '12244418'
+      stlm_date: '20240201'
+      whol_loan_new_stcn: '308957'
+      whol_loan_rdmp_stcn: '165640'
+      whol_loan_rmnd_stcn: '6042179'
+      whol_loan_new_amt: '1980096'
+      whol_loan_rdmp_amt: '1089607'
+      whol_loan_rmnd_amt: '40044649'
+      whol_loan_rmnd_rate: '0.09'
+      whol_loan_gvrt: '2.51'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '894'
+      whol_stln_rmnd_stcn: '8250'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '5983'
+      whol_stln_rmnd_amt: '52795'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '75000'
+      stck_hgpr: '75300'
+      stck_lwpr: '73700'
+    - deal_date: '20240129'
+      stck_prpr: '74400'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '1000'
+      prdy_ctrt: '1.36'
+      acml_vol: '13976521'
+      stlm_date: '20240131'
+      whol_loan_new_stcn: '207309'
+      whol_loan_rdmp_stcn: '415351'
+      whol_loan_rmnd_stcn: '5901536'
+      whol_loan_new_amt: '1397554'
+      whol_loan_rdmp_amt: '2745405'
+      whol_loan_rmnd_amt: '39169933'
+      whol_loan_rmnd_rate: '0.09'
+      whol_loan_gvrt: '1.47'
+      whol_stln_new_stcn: '0'
+      whol_stln_rdmp_stcn: '39'
+      whol_stln_rmnd_stcn: '9144'
+      whol_stln_new_amt: '0'
+      whol_stln_rdmp_amt: '261'
+      whol_stln_rmnd_amt: '58779'
+      whol_stln_rmnd_rate: '0.00'
+      whol_stln_gvrt: '0.00'
+      stck_oprc: '73800'
+      stck_hgpr: '75200'
+      stck_lwpr: '73500'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

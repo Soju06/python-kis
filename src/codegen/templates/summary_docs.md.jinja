@@ -1,0 +1,10 @@
+Codegen Report Summary
+timestamp: {{ summary.timestamp }}
+generated: {{ summary.generated }}
+
+scan: total_issues={{ scan_counts.total_issues }} errors={{ scan_counts.errors }} warnings={{ scan_counts.warnings }}
+normalize: total_issues={{ normalize_counts.total_issues }} errors={{ normalize_counts.errors }} warnings={{ normalize_counts.warnings }}
+augment: total={{ augment_counts.total }} processed={{ augment_counts.processed }} ok={{ augment_counts.ok }} cached={{ augment_counts.cached }} skipped={{ augment_counts.skipped }} errors={{ augment_counts.errors }}
+augment_quality: total_calls={{ augment_quality_counts.total_calls }} http_ok={{ augment_quality_counts.http_ok }}
+validation: total={{ validation_counts.total }} errors={{ validation_counts.errors }}
+smoke: total={{ smoke_counts.total }} errors={{ smoke_counts.errors }}

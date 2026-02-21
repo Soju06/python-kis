@@ -1,0 +1,393 @@
+id: a3c3305a-7624-4049-b0f3-6bcca689d1f5
+name: 선물옵션 정정취소주문[v1_국내선물-002]
+section: '[국내선물옵션] 주문/계좌'
+category: 국내선물옵션
+subcategory: 주문/계좌
+method: POST
+url: /uapi/domestic-futureoption/v1/trading/order-rvsecncl
+content_type: application/json; charset=UTF-8
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: https://openapivts.koreainvestment.com:29443
+real_tr_id: (주간 정정/취소) TTTO1103U (야간 정정/취소) (구) JTCE1002U (신) STTN1103U
+demo_tr_id: (주간 정정/취소) VTTO1103U (야간은 모의투자 미제공)
+summary: "선물옵션 주문 건에 대하여 정정 및 취소하는 API입니다. 단, 이미 체결된 건은 정정 및 취소가 불가합니다.\n\n※ POST API의 경우 BODY값의 key값들을 대문자로 작성하셔야 합니다.\n\
+  \   (EX. \"CANO\" : \"12345678\", \"ACNT_PRDT_CD\": \"01\",...)"
+description: '[국내선물-002 v1] 선물옵션정정취소주문'
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2021-12-15T13:04:04+09:00'
+  last_modified_date: '2025-06-23T14:03:52+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: false
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)\n\n※ 토큰 지정시 토큰\
+      \ 타입(\"Bearer\") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 \"Bearer\" 붙여서 호출\nEX) \"Bearer eyJ..........8GA\""
+  - code: appkey
+    name: '앱키 '
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: "[실전투자]\nTTTO1103U : 선물 옵션 정정 취소 주문 주간\n\n(신) STTN1103U : 선물 옵션 정정 취소 주문 야간 \n[모의투자]\nVTTO1103U : 선물 옵션 정정\
+      \ 취소 주문 주간"
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: ORD_PRCS_DVSN_CD
+    name: 주문처리구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '02 : 주문전송'
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 계좌번호 체계(8-2)의 앞 8자리
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 계좌번호 체계(8-2)의 뒤 2자리
+  - code: RVSE_CNCL_DVSN_CD
+    name: 정정취소구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '01 : 정정
+
+      02 : 취소'
+  - code: ORGN_ODNO
+    name: 원주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 정정 혹은 취소할 주문의 번호
+  - code: ORD_QTY
+    name: 주문수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: '[Header tr_id TTTO1103U(선물옵션 정정취소 주간)]
+
+      전량일경우 0으로 입력
+
+
+      [Header tr_id JTCE1002U(선물옵션 정정취소 야간)]
+
+      일부수량 정정 및 취소 불가, 주문수량 반드시 입력 (공백 불가)
+
+      일부 미체결 시 잔량 전체에 대해서 취소 가능
+
+      EX) 2개 매수주문 후 1개 체결, 1개 미체결인 상태에서 취소주문 시 ORD_QTY는 1로 입력
+
+
+      ※ 모의계좌의 경우, 주문수량 반드시 입력 (공백 불가)'
+  - code: UNIT_PRICE
+    name: 주문가격1
+    type: A0001
+    type_name: String
+    length: '23'
+    required: true
+    description: 시장가나 최유리의 경우 0으로 입력 (취소 시에도 0 입력)
+  - code: NMPR_TYPE_CD
+    name: 호가유형코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '01 : 지정가
+
+      02 : 시장가
+
+      03 : 조건부
+
+      04 : 최유리'
+  - code: KRX_NMPR_CNDT_CD
+    name: 한국거래소호가조건코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '취소시 0으로 입력
+
+      정정시
+
+      0 : 없음
+
+      3 : IOC
+
+      4 : FOK'
+  - code: RMN_QTY_YN
+    name: 잔여수량여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'Y : 전량
+
+      N : 일부'
+  - code: FUOP_ITEM_DVSN_CD
+    name: 선물옵션종목구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[Header tr_id TTTO1103U(선물옵션 정정취소 주간)]
+
+      공란(Default)
+
+
+      [Header tr_id JTCE1002U(선물옵션 정정취소 야간)]
+
+      01 : 선물
+
+      02 : 콜옵션
+
+      03 : 풋옵션
+
+      04 : 스프레드'
+  - code: ORD_DVSN_CD
+    name: 주문구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '[정정]
+
+      01 : 지정가
+
+      02 : 시장가
+
+      03 : 조건부
+
+      04 : 최유리,
+
+      10 : 지정가(IOC)
+
+      11 : 지정가(FOK)
+
+      12 : 시장가(IOC)
+
+      13 : 시장가(FOK)
+
+      14 : 최유리(IOC)
+
+      15 : 최유리(FOK)
+
+
+      [취소]
+
+      01 로 입력'
+  example:
+    ORD_PRCS_DVSN_CD: '02'
+    CANO: 810XXXXX
+    ACNT_PRDT_CD: '03'
+    RVSE_CNCL_DVSN_CD: '02'
+    ORGN_ODNO: '0000005605'
+    ORD_QTY: '1'
+    UNIT_PRICE: '460.00'
+    NMPR_TYPE_CD: ''
+    KRX_NMPR_CNDT_CD: ''
+    RMN_QTY_YN: N
+    CTAC_TLNO: 000 00000000
+    FUOP_ITEM_DVSN_CD: ''
+    ORD_DVSN_CD: '01'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '0 : 성공
+
+      0 이외의 값 : 실패'
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 응답코드
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: 응답메세지
+  - code: output
+    name: 응답상세
+    type: A0002
+    type_name: String
+    length: ''
+    required: true
+    description: ''
+  - code: ACNT_NAME
+    name: 계좌명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: 계좌의 고객명
+  - code: TRAD_DVSN_NAME
+    name: 매매구분명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: 매도/매수 등 구분값
+  - code: ITEM_NAME
+    name: 종목명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: 주문 종목 명칭
+  - code: ORD_TMD
+    name: 주문시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 주문 접수 시간
+  - code: ORD_GNO_BRNO
+    name: '주문채번지점번호 '
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 계좌 개설 시 관리점으로 선택한 영업점의 고유번호
+  - code: ORGN_ODNO
+    name: 원주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 정정 또는 취소 대상 주문의 일련번호
+  - code: ODNO
+    name: '주문번호 '
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 접수한 주문(정정 또는 취소)의 일련번호
+  example:
+    ORD_PRCS_DVSN_CD: 주문처리 구분코드를 입력하세요.
+    CANO: 종합계좌번호를 입력하세요.
+    ACNT_PRDT_CD: 계좌상품코드를 입력하세요.
+    RVSE_CNCL_DVSN_CD: 정정취소 구분코드를 입력하세요.
+    ORGN_ODNO: 원주문번호를 입력하세요.
+    ORD_QTY: 주문수량을 입력하세요.
+    UNIT_PRICE: 주문가격1을 입력하세요.
+    NMPR_TYPE_CD: 호가유형코드를 입력하세요.
+    KRX_NMPR_CNDT_CD: 한국거래소호가조건코드를 입력하세요.
+    RMN_QTY_YN: 잔여수량여부를 입력하세요.
+    CTAC_TLNO: 연락전화번호를 입력하세요.
+    FUOP_ITEM_DVSN_CD: 선물옵션종목쿠분코드를 입력하세요.
+    ORD_DVSN_CD: 주문구분코드를 입력하세요.
+errors: []

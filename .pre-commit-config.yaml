@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.10
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+      - id: ruff-format
+  - repo: local
+    hooks:
+      - id: ty
+        name: ty
+        entry: .venv/bin/python -m ty check
+        language: system
+        pass_filenames: false
+      - id: l0-drift-check
+        name: L0 drift detection
+        entry: .venv/bin/python scripts/check_l0_drift.py
+        language: system
+        pass_filenames: false
+        files: >-
+          (src/pykis/api/raw/.*\.py$|
+           src/pykis/service/.*\.py$|
+           data/service/_l0_manifest\.yaml$)

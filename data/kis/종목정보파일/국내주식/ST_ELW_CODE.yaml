@@ -1,0 +1,162 @@
+name: ST_ELW_CODE
+header_url: https://raw.githubusercontent.com/koreainvestment/open-trading-api/main/stocks_info/%EC%A2%85%EB%AA%A9%EB%A7%88%EC%8A%A4%ED%84%B0%EC%A0%95%EB%B3%B4%28ELW%29.h
+record_length: 270
+fields:
+- name: mksc_shrn_iscd
+  type_code: char
+  length: 9
+  description: 단축코드
+  length_source: SZ_SHRNCODE
+- name: stnd_iscd
+  type_code: char
+  length: 12
+  description: 표준코드
+  length_source: SZ_STNDCODE
+- name: hts_kor_isnm
+  type_code: char
+  length: 40
+  description: 한글종목명
+  length_source: SZ_KORNAME
+- name: elw_nvlt_optn_cls_code
+  type_code: char
+  length: 1
+  description: 'ELW권리형태
+
+    0 : 표준옵션
+
+    1 : 디지털옵현
+
+    2: 조기종료 옵션'
+  length_source: null
+- name: elw_ko_barrier
+  type_code: char
+  length: 13
+  description: ELW조기종료발생기준가격
+  length_source: null
+- name: bskt_yn
+  type_code: char
+  length: 1
+  description: 바스켓 여부 (Y/N)
+  length_source: null
+- name: unas_iscd1
+  type_code: char
+  length: 9
+  description: 기초자산코드
+  length_source: SZ_SHRNCODE
+- name: unas_iscd2
+  type_code: char
+  length: 9
+  description: 기초자산코드
+  length_source: SZ_SHRNCODE
+- name: unas_iscd3
+  type_code: char
+  length: 9
+  description: 기초자산코드
+  length_source: SZ_SHRNCODE
+- name: unas_iscd4
+  type_code: char
+  length: 9
+  description: 기초자산코드
+  length_source: SZ_SHRNCODE
+- name: unas_iscd5
+  type_code: char
+  length: 9
+  description: 기초자산코드
+  length_source: SZ_SHRNCODE
+- name: elw_pblc_istu_name
+  type_code: char
+  length: 40
+  description: 발행사 한글 종목명
+  length_source: SZ_KORNAME
+- name: elw_pblc_mrkt_prtt_no
+  type_code: char
+  length: 5
+  description: 발행사코드
+  length_source: null
+- name: acpr
+  type_code: char
+  length: 9
+  description: 행사가
+  length_source: null
+- name: stck_last_tr_month
+  type_code: char
+  length: 8
+  description: 최종거래일
+  length_source: null
+- name: rmnn_dynu
+  type_code: char
+  length: 4
+  description: 잔존 일수
+  length_source: null
+- name: rght_type_cls_code
+  type_code: char
+  length: 1
+  description: '권리 유형 구분 코드
+
+    ''C'':콜 ''E'':기타 ''P'':풋'
+  length_source: null
+- name: paym_date
+  type_code: char
+  length: 8
+  description: 지급일
+  length_source: null
+- name: prdy_avls
+  type_code: char
+  length: 9
+  description: 전일시가총액(억)
+  length_source: null
+- name: lstn_stcn
+  type_code: char
+  length: 15
+  description: 상장주수(천)
+  length_source: null
+- name: mrkt_prtt_no1
+  type_code: char
+  length: 5
+  description: 시장 참가자 번호1
+  length_source: null
+- name: mrkt_prtt_no2
+  type_code: char
+  length: 5
+  description: 시장 참가자 번호2
+  length_source: null
+- name: mrkt_prtt_no3
+  type_code: char
+  length: 5
+  description: 시장 참가자 번호3
+  length_source: null
+- name: mrkt_prtt_no4
+  type_code: char
+  length: 5
+  description: 시장 참가자 번호4
+  length_source: null
+- name: mrkt_prtt_no5
+  type_code: char
+  length: 5
+  description: 시장 참가자 번호5
+  length_source: null
+- name: mrkt_prtt_no6
+  type_code: char
+  length: 5
+  description: 시장 참가자 번호6
+  length_source: null
+- name: mrkt_prtt_no7
+  type_code: char
+  length: 5
+  description: 시장 참가자 번호7
+  length_source: null
+- name: mrkt_prtt_no8
+  type_code: char
+  length: 5
+  description: 시장 참가자 번호8
+  length_source: null
+- name: mrkt_prtt_no9
+  type_code: char
+  length: 5
+  description: 시장 참가자 번호9
+  length_source: null
+- name: mrkt_prtt_no10
+  type_code: char
+  length: 5
+  description: 시장 참가자 번호10
+  length_source: null

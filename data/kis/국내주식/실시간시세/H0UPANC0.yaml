@@ -1,0 +1,342 @@
+id: 10443c63-715e-46ef-ab46-5a91b5913e87
+name: 국내지수 실시간예상체결 [실시간-027]
+section: '[국내주식] 실시간시세'
+category: 국내주식
+subcategory: 실시간시세
+method: POST
+url: /tryitout/H0UPANC0
+content_type: application/json
+req_format: JSON
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  demo: 모의투자 미지원
+real_tr_id: H0UPANC0
+demo_tr_id: 모의투자 미지원
+summary: '[참고자료]
+
+  실시간시세(웹소켓) 파이썬 샘플코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/ws_domestic_overseas_all.py
+
+
+  실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.
+
+  https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션 업데이트 예정)
+
+
+  종목코드 마스터파일 파이썬 정제코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info
+
+
+  [호출 데이터]
+
+  헤더와 바디 값을 합쳐 JSON 형태로 전송합니다.
+
+
+  [응답 데이터]
+
+  1. 정상 등록 여부 (JSON)
+
+  - JSON["body"]["msg1"] - 정상 응답 시, SUBSCRIBE SUCCESS
+
+  - JSON["body"]["output"]["iv"] - 실시간 결과 복호화에 필요한 AES256 IV (Initialize Vector)
+
+  - JSON["body"]["output"]["key"] - 실시간 결과 복호화에 필요한 AES256 Key
+
+
+  2. 실시간 결과 응답 ( | 로 구분되는 값)
+
+  ex) 0|H0STCNT0|004|005930^123929^73100^5^...
+
+  - 암호화 유무 : 0 암호화 되지 않은 데이터 / 1 암호화된 데이터
+
+  - TR_ID : 등록한 tr_id (ex. H0STCNT0)
+
+  - 데이터 건수 : (ex. 001 인 경우 데이터 건수 1건, 004인 경우 데이터 건수 4건)
+
+  - 응답 데이터 : 아래 response 데이터 참조 ( ^로 구분됨)'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-19T09:35:00+09:00'
+  last_modified_date: '2025-04-30T13:11:45+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'B : 법인 / P : 개인'
+  - code: tr_type
+    name: 등록/해제
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '"1: 등록, 2:해제"'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '7'
+    required: true
+    description: H0UPANC0
+  - code: tr_key
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 업종구분코드
+  example:
+    header:
+      approval_key: 35xxxxxa-bxxa-4xxb-87xxx-f56xxxxxxxxxx
+      custtype: P
+      tr_type: '1'
+      content-type: utf-8
+    body:
+      input:
+        tr_id: H0UPANC0
+        tr_key: '0001'
+response:
+  headers: []
+  body:
+  - code: BSTP_CLS_CODE
+    name: 업종 구분 코드
+    type: A0003
+    type_name: String
+    length: '4'
+    required: true
+    description: '''각 항목사이에는 구분자로 ^ 사용,
+
+      모든 데이터타입은 String으로 변환되어 push 처리됨'''
+  - code: BSOP_HOUR
+    name: 영업 시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: PRPR_NMIX
+    name: 현재가 지수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: PRDY_VRSS_SIGN
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: BSTP_NMIX_PRDY_VRSS
+    name: 업종 지수 전일 대비
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ACML_VOL
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ACML_TR_PBMN
+    name: 누적 거래 대금
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: PCAS_VOL
+    name: 건별 거래량
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: PCAS_TR_PBMN
+    name: 건별 거래 대금
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: PRDY_CTRT
+    name: 전일 대비율
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OPRC_NMIX
+    name: 시가 지수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: NMIX_HGPR
+    name: 지수 최고가
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: NMIX_LWPR
+    name: 지수 최저가
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OPRC_VRSS_NMIX_PRPR
+    name: 시가 대비 지수 현재가
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OPRC_VRSS_NMIX_SIGN
+    name: 시가 대비 지수 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: HGPR_VRSS_NMIX_PRPR
+    name: 최고가 대비 지수 현재가
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: HGPR_VRSS_NMIX_SIGN
+    name: 최고가 대비 지수 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: LWPR_VRSS_NMIX_PRPR
+    name: 최저가 대비 지수 현재가
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: LWPR_VRSS_NMIX_SIGN
+    name: 최저가 대비 지수 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: PRDY_CLPR_VRSS_OPRC_RATE
+    name: 전일 종가 대비 시가2 비율
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: PRDY_CLPR_VRSS_HGPR_RATE
+    name: 전일 종가 대비 최고가 비율
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: PRDY_CLPR_VRSS_LWPR_RATE
+    name: 전일 종가 대비 최저가 비율
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: UPLM_ISSU_CNT
+    name: 상한 종목 수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ASCN_ISSU_CNT
+    name: 상승 종목 수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: STNR_ISSU_CNT
+    name: 보합 종목 수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: DOWN_ISSU_CNT
+    name: 하락 종목 수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: LSLM_ISSU_CNT
+    name: 하한 종목 수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: QTQT_ASCN_ISSU_CNT
+    name: 기세 상승 종목수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: QTQT_DOWN_ISSU_CNT
+    name: 기세 하락 종목수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: TICK_VRSS
+    name: TICK대비
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  example: "# 연결 확인\r\n{\r\n    \"header\": {\r\n        \"tr_id\": \"H0UPANC0\", \r\n        \"tr_key\": \"0001\", \r\n \
+    \       \"encrypt\": \"N\"\r\n        }, \r\n    \"body\": {\r\n        \"rt_cd\": \"0\", \r\n        \"msg_cd\": \"OPSP0000\"\
+    ,\r\n        \"msg1\": \"SUBSCRIBE SUCCESS\", \r\n        \"output\": {\r\n            \"iv\": \"0123456789abcdef\", \r\
+    \n            \"key\": \"abcdefghijklmnopabcdefghijklmnop\"}\r\n        }\r\n}\r\n\r\n# output\r\n0|H0UPANC0|001|0001^085910^2607.71^2^15.85^5424^192338^5424^192338^0.61^0^43\r\
+    \n9^201^251^201"
+errors: []

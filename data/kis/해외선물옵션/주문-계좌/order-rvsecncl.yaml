@@ -1,0 +1,268 @@
+id: a0822304-5dba-4912-b62d-d82bd88858fa
+name: 해외선물옵션 정정취소주문 [v1_해외선물-002, 003]
+section: '[해외선물옵션] 주문/계좌'
+category: 해외선물옵션
+subcategory: 주문/계좌
+method: POST
+url: /uapi/overseas-futureoption/v1/trading/order-rvsecncl
+content_type: application/json; charset=UTF-8
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: (정정) OTFM3002U (취소) OTFM3003U
+demo_tr_id: 모의투자 미지원
+summary: "해외선물옵션 정정취소주문 API 입니다.\n\n※ POST API의 경우 BODY값의 key값들을 대문자로 작성하셔야 합니다.\n   (EX. \"CANO\" : \"12345678\", \"ACNT_PRDT_CD\"\
+  : \"01\",...)"
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2022-08-05T14:39:53+09:00'
+  last_modified_date: '2025-04-30T12:53:28+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)\n\n※ 토큰 지정시 토큰\
+      \ 타입(\"Bearer\") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 \"Bearer\" 붙여서 호출\nEX) \"Bearer eyJ..........8GA\""
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: '[실전투자]
+
+      OTFM3002U : 해외선물옵션주문정정
+
+      OTFM3003U : 해외선물옵션주문취소'
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 계좌번호 체계(8-2)의 앞 8자리
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 계좌번호 체계(8-2)의 뒤 2자리
+  - code: ORGN_ORD_DT
+    name: 원주문일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 원 주문 시 출력되는 ORD_DT 값을 입력 (현지거래일)
+  - code: ORGN_ODNO
+    name: 원주문번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: '정정/취소시 주문번호(ODNO) 8자리를 문자열처럼 "0"을 포함해서 전송 (원 주문 시 출력된 ODNO 값 활용)
+
+      (ex. ORGN_ODNO : 00360686)'
+  - code: FM_LIMIT_ORD_PRIC
+    name: FMLIMIT주문가격
+    type: A0001
+    type_name: String
+    length: '20'
+    required: false
+    description: OTFM3002U(해외선물옵션주문정정)만 사용
+  - code: FM_STOP_ORD_PRIC
+    name: FMSTOP주문가격
+    type: A0001
+    type_name: String
+    length: '20'
+    required: false
+    description: OTFM3002U(해외선물옵션주문정정)만 사용
+  - code: FM_LQD_LMT_ORD_PRIC
+    name: FM청산LIMIT주문가격
+    type: A0001
+    type_name: String
+    length: '20'
+    required: false
+    description: OTFM3002U(해외선물옵션주문정정)만 사용
+  - code: FM_LQD_STOP_ORD_PRIC
+    name: FM청산STOP주문가격
+    type: A0001
+    type_name: String
+    length: '20'
+    required: false
+    description: OTFM3002U(해외선물옵션주문정정)만 사용
+  - code: FM_HDGE_ORD_SCRN_YN
+    name: FM_HEDGE주문화면여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: N
+  - code: FM_MKPR_CVSN_YN
+    name: FM시장가전환여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'OTFM3003U(해외선물옵션주문취소)만 사용
+
+
+      ※ FM_MKPR_CVSN_YN 항목에 ''Y''로 설정하여 취소주문을 접수할 경우, 주문 취소확인이 들어오면 원장에서 시장가주문을 하나 또 내줌'
+  example:
+    CANO: '81012345'
+    ACNT_PRDT_CD: 08
+    ORGN_ORD_DT: '20221214'
+    ORGN_ODNO: 00298044
+    FM_MKPR_CVSN_YN: N
+    FM_HDGE_ORD_SCRN_YN: N
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '0 : 성공
+
+      0 이외의 값 : 실패'
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: ' '
+    type: A0003
+    type_name: String
+    length: ' '
+    required: false
+    description: ''
+  - code: ORD_DT
+    name: 주문일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: false
+    description: YYYYMMDD(ex. 20230811)
+  - code: ODNO
+    name: 주문번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: false
+    description: "접수한 주문의 일련번호(ex. 00360686)\n* 정정/취소시 문자열처럼 \"0\"을 포함해서 전송 \n  (ex. ORGN_ODNO : 00360686)"
+  example:
+    rt_cd: '0'
+    msg_cd: APBK0013
+    msg1: 주문 전송 완료 되었습니다.
+    output:
+      ORD_DT: '20221214'
+      ODNO: 00298045
+errors: []

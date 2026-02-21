@@ -1,0 +1,911 @@
+id: af3d3794-92c0-4f3b-8041-4ca4ddcda5de
+name: 주식현재가 호가/예상체결[v1_국내주식-011]
+section: '[국내주식] 기본시세'
+category: 국내주식
+subcategory: 기본시세
+method: GET
+url: /uapi/domestic-stock/v1/quotations/inquire-asking-price-exp-ccn
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: https://openapivts.koreainvestment.com:29443
+real_tr_id: FHKST01010200
+demo_tr_id: FHKST01010200
+summary: 주식현재가 호가 예상체결 API입니다. 매수 매도 호가를 확인하실 수 있습니다. 실시간 데이터를 원하신다면 웹소켓 API를 활용하세요.
+description: '[국내주식-011 v1] 주식현재가 호가 예상체결'
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2021-12-15T13:00:31+09:00'
+  last_modified_date: '2025-04-30T10:13:30+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKST01010200
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: J:KRX, NX:NXT, UN:통합
+  - code: FID_INPUT_ISCD
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목코드 (ex 005930 삼성전자)
+  example:
+    fid_cond_mrkt_div_code: J
+    fid_input_iscd: '000660'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: aspr_acpt_hour
+    name: 호가 접수 시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: askp1
+    name: 매도호가1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp2
+    name: 매도호가2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp3
+    name: 매도호가3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp4
+    name: 매도호가4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp5
+    name: 매도호가5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp6
+    name: 매도호가6
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp7
+    name: 매도호가7
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp8
+    name: 매도호가8
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp9
+    name: 매도호가9
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp10
+    name: 매도호가10
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp1
+    name: 매수호가1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp2
+    name: 매수호가2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp3
+    name: 매수호가3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp4
+    name: 매수호가4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp5
+    name: 매수호가5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp6
+    name: 매수호가6
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp7
+    name: 매수호가7
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp8
+    name: 매수호가8
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp9
+    name: 매수호가9
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp10
+    name: 매수호가10
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp_rsqn1
+    name: 매도호가 잔량1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn2
+    name: 매도호가 잔량2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn3
+    name: 매도호가 잔량3
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn4
+    name: 매도호가 잔량4
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn5
+    name: 매도호가 잔량5
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn6
+    name: 매도호가 잔량6
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn7
+    name: 매도호가 잔량7
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn8
+    name: 매도호가 잔량8
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn9
+    name: 매도호가 잔량9
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn10
+    name: 매도호가 잔량10
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn1
+    name: 매수호가 잔량1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn2
+    name: 매수호가 잔량2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn3
+    name: 매수호가 잔량3
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn4
+    name: 매수호가 잔량4
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn5
+    name: 매수호가 잔량5
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn6
+    name: 매수호가 잔량6
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn7
+    name: 매수호가 잔량7
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn8
+    name: 매수호가 잔량8
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn9
+    name: 매수호가 잔량9
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn10
+    name: 매수호가 잔량10
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn_icdc1
+    name: 매도호가 잔량 증감1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp_rsqn_icdc2
+    name: 매도호가 잔량 증감2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp_rsqn_icdc3
+    name: 매도호가 잔량 증감3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp_rsqn_icdc4
+    name: 매도호가 잔량 증감4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp_rsqn_icdc5
+    name: 매도호가 잔량 증감5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp_rsqn_icdc6
+    name: 매도호가 잔량 증감6
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp_rsqn_icdc7
+    name: 매도호가 잔량 증감7
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp_rsqn_icdc8
+    name: 매도호가 잔량 증감8
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp_rsqn_icdc9
+    name: 매도호가 잔량 증감9
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp_rsqn_icdc10
+    name: 매도호가 잔량 증감10
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp_rsqn_icdc1
+    name: 매수호가 잔량 증감1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp_rsqn_icdc2
+    name: 매수호가 잔량 증감2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp_rsqn_icdc3
+    name: 매수호가 잔량 증감3
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp_rsqn_icdc4
+    name: 매수호가 잔량 증감4
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp_rsqn_icdc5
+    name: 매수호가 잔량 증감5
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp_rsqn_icdc6
+    name: 매수호가 잔량 증감6
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp_rsqn_icdc7
+    name: 매수호가 잔량 증감7
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp_rsqn_icdc8
+    name: 매수호가 잔량 증감8
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp_rsqn_icdc9
+    name: 매수호가 잔량 증감9
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bidp_rsqn_icdc10
+    name: 매수호가 잔량 증감10
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: total_askp_rsqn
+    name: 총 매도호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: total_bidp_rsqn
+    name: 총 매수호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: total_askp_rsqn_icdc
+    name: 총 매도호가 잔량 증감
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: total_bidp_rsqn_icdc
+    name: 총 매수호가 잔량 증감
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ovtm_total_askp_icdc
+    name: 시간외 총 매도호가 증감
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ovtm_total_bidp_icdc
+    name: 시간외 총 매수호가 증감
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ovtm_total_askp_rsqn
+    name: 시간외 총 매도호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ovtm_total_bidp_rsqn
+    name: 시간외 총 매수호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ntby_aspr_rsqn
+    name: 순매수 호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: new_mkop_cls_code
+    name: 신 장운영 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''' ''00'' : 장전 예상체결가와 장마감 동시호가
+
+      ''49'' : 장후 예상체결가
+
+
+      (1) 첫 번째 비트
+
+      1 : 장개시전
+
+      2 : 장중
+
+      3 : 장종료후
+
+      4 : 시간외단일가
+
+      7 : 일반Buy-in
+
+      8 : 당일Buy-in
+
+      (2) 두 번째 비트
+
+      0 : 보통
+
+      1 : 종가
+
+      2 : 대량
+
+      3 : 바스켓
+
+      7 : 정리매매
+
+      8 : Buy-in'''
+  - code: output2
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: antc_mkop_cls_code
+    name: 예상 장운영 구분 코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: stck_prpr
+    name: 주식 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: stck_oprc
+    name: 주식 시가2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: stck_hgpr
+    name: 주식 최고가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: stck_lwpr
+    name: 주식 최저가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: stck_sdpr
+    name: 주식 기준가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: antc_cnpr
+    name: 예상 체결가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: antc_cntg_vrss_sign
+    name: 예상 체결 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: antc_cntg_vrss
+    name: 예상 체결 대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: antc_cntg_prdy_ctrt
+    name: 예상 체결 전일 대비율
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: antc_vol
+    name: 예상 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: stck_shrn_iscd
+    name: 주식 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: vi_cls_code
+    name: VI적용구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  example:
+    output1:
+      aspr_acpt_hour: '160000'
+      askp1: '128000'
+      askp2: '128500'
+      askp3: '129000'
+      askp4: '129500'
+      askp5: '130000'
+      askp6: '130500'
+      askp7: '131000'
+      askp8: '131500'
+      askp9: '132000'
+      askp10: '132500'
+      bidp1: '127500'
+      bidp2: '127000'
+      bidp3: '126500'
+      bidp4: '126000'
+      bidp5: '125500'
+      bidp6: '125000'
+      bidp7: '124500'
+      bidp8: '124000'
+      bidp9: '123500'
+      bidp10: '123000'
+      askp_rsqn1: '69454'
+      askp_rsqn2: '189698'
+      askp_rsqn3: '154732'
+      askp_rsqn4: '85703'
+      askp_rsqn5: '158696'
+      askp_rsqn6: '31395'
+      askp_rsqn7: '50738'
+      askp_rsqn8: '21039'
+      askp_rsqn9: '39424'
+      askp_rsqn10: '29126'
+      bidp_rsqn1: '83147'
+      bidp_rsqn2: '27469'
+      bidp_rsqn3: '25200'
+      bidp_rsqn4: '18544'
+      bidp_rsqn5: '13251'
+      bidp_rsqn6: '15742'
+      bidp_rsqn7: '15070'
+      bidp_rsqn8: '24995'
+      bidp_rsqn9: '11658'
+      bidp_rsqn10: '15773'
+      askp_rsqn_icdc1: '0'
+      askp_rsqn_icdc2: '0'
+      askp_rsqn_icdc3: '0'
+      askp_rsqn_icdc4: '0'
+      askp_rsqn_icdc5: '0'
+      askp_rsqn_icdc6: '0'
+      askp_rsqn_icdc7: '0'
+      askp_rsqn_icdc8: '0'
+      askp_rsqn_icdc9: '0'
+      askp_rsqn_icdc10: '0'
+      bidp_rsqn_icdc1: '0'
+      bidp_rsqn_icdc2: '0'
+      bidp_rsqn_icdc3: '0'
+      bidp_rsqn_icdc4: '0'
+      bidp_rsqn_icdc5: '0'
+      bidp_rsqn_icdc6: '0'
+      bidp_rsqn_icdc7: '0'
+      bidp_rsqn_icdc8: '0'
+      bidp_rsqn_icdc9: '0'
+      bidp_rsqn_icdc10: '0'
+      total_askp_rsqn: '830005'
+      total_bidp_rsqn: '250849'
+      total_askp_rsqn_icdc: '0'
+      total_bidp_rsqn_icdc: '0'
+      ovtm_total_askp_icdc: '0'
+      ovtm_total_bidp_icdc: '0'
+      ovtm_total_askp_rsqn: '2943'
+      ovtm_total_bidp_rsqn: '0'
+      ntby_aspr_rsqn: '-579156'
+      new_mkop_cls_code: '31'
+    output2:
+      antc_mkop_cls_code: '112'
+      stck_prpr: '128000'
+      stck_oprc: '125500'
+      stck_hgpr: '128500'
+      stck_lwpr: '124500'
+      stck_sdpr: '124500'
+      antc_cnpr: '128000'
+      antc_cntg_vrss_sign: '2'
+      antc_cntg_vrss: '3500'
+      antc_cntg_prdy_ctrt: '2.81'
+      antc_vol: '220006'
+      stck_shrn_iscd: '000660'
+      vi_cls_code: N
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다!
+errors: []

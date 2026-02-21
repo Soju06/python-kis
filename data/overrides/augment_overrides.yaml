@@ -1,0 +1,786 @@
+defaults:
+  icod: '000'
+  prdt_type_cd: '512'
+  pdno: AAPL
+  symb: AAPL
+  keyb: ''
+endpoints:
+  3dfc942e-0ed3-4c81-9e8d-9a96f1c5c669:
+    headers: {}
+    query:
+      fid_hour_cls_code: '1'
+    body: {}
+  dd867a76-745d-4268-8ff8-b3e7f71e6e83:
+    headers: {}
+    query:
+      fid_input_iscd: 069500
+    body: {}
+  0a5782f0-0c05-4feb-90f4-b86f09b45327:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: B
+      FID_INPUT_ISCD: KR2088012A16
+    body: {}
+  498e6384-f887-4fb2-9055-2cbc95790087:
+    headers: {}
+    query:
+      FID_INPUT_ISCD: A01603
+    body: {}
+  77de2a74-b26c-40ca-a5b7-f87e2ef64f9f:
+    headers: {}
+    query:
+      FID_INPUT_ISCD: A01603
+      FID_INPUT_DATE_1: '20260120'
+      FID_INPUT_DATE_2: '20260120'
+    body: {}
+  7d30b578-018d-4250-852a-7599211ff988:
+    headers: {}
+    query:
+      VOL_RANG: '0'
+    body: {}
+  86194480-c8f0-4b0b-9d3d-001c2fc33422:
+    headers: {}
+    query:
+      FID_INPUT_ISCD: A01603
+      FID_INPUT_DATE_1: '20260120'
+      FID_INPUT_HOUR_1: 093000
+    body: {}
+  868b0fe2-fdb5-4a32-bdb2-00db12269230:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+      FID_INPUT_ISCD: '1001'
+    body: {}
+  8702dab4-008d-4849-8f24-a91b57872a80:
+    headers: {}
+    query:
+      SRS_CD: BRNQ24
+      EXCH_CD: ICE
+      START_DATE_TIME: ''
+      CLOSE_DATE_TIME: '20240423'
+      QRY_CNT: '30'
+    body: {}
+  8c473311-ecfd-428f-9ec2-0b574d8592b9:
+    headers: {}
+    query:
+      SRS_CD: BRNQ24
+      EXCH_CD: ICE
+      START_DATE_TIME: ''
+      CLOSE_DATE_TIME: '20240424'
+      QRY_CNT: '40'
+    body: {}
+  9064a50c-0545-4b6c-8eb2-034f5214974b:
+    headers: {}
+    query:
+      NATION_CD: ''
+    body: {}
+  3f2f6823-fcdf-4713-a594-a03c7154096e:
+    headers: {}
+    query:
+      seq: '0'
+    body: {}
+  4ea57616-0e63-4f8c-a607-f096f1304183:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: J
+      FID_INPUT_ISCD: '069500'
+    body: {}
+  6b0b388e-f815-4009-b46d-e08e47575ca7:
+    headers: {}
+    query:
+      FID_INPUT_ISCD: '069500'
+      FID_COND_MRKT_DIV_CODE: J
+    body: {}
+  a274b685-7ea8-441d-a2fe-3087becb6bf2:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: B
+      FID_INPUT_ISCD: KR2033022D33
+    body: {}
+  81269474-9c66-404f-bdfe-4bb472975330:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: N
+      FID_INPUT_ISCD: TSLA
+      FID_HOUR_CLS_CODE: '0'
+      FID_PW_DATA_INCU_YN: N
+    body: {}
+  e53eb2e6-b292-4e2b-b150-22d92b401453:
+    headers: {}
+    query:
+      fid_cond_mrkt_div_code: J
+      fid_input_iscd: '069500'
+    body: {}
+  bec98736-8f5a-49a0-b325-5f6c40ff13b3:
+    headers: {}
+    query:
+      FID_INPUT_ISCD: A01603
+    body: {}
+  c7be7c01-6f43-4576-b1fd-84d0102ce4c3:
+    headers: {}
+    query:
+      SRS_CD: BRNQ24
+      EXCH_CD: ICE
+      START_DATE_TIME: ''
+      CLOSE_DATE_TIME: '20240423'
+      QRY_CNT: '40'
+    body: {}
+  cd2e4d9a-7e3d-44ff-9b68-36d971655c24:
+    headers: {}
+    query:
+      SRS_CD: BRNQ24
+      EXCH_CD: ICE
+      START_DATE_TIME: ''
+      CLOSE_DATE_TIME: '20240424'
+      QRY_CNT: '40'
+    body: {}
+  d9b0e346-a67d-43c6-938a-508e2d8507c6:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: O
+      FID_MRKT_CLS_CODE: CO
+      FID_MTRT_CNT: '202405'
+      FID_MRKT_CLS_CODE1: PO
+    body: {}
+  01fd59f1-e7f6-4192-8b02-d52e5dd7c8f3:
+    headers: {}
+    query:
+      SHT_CD: ''
+      F_DT: '20250101'
+      T_DT: '20260214'
+      CTS: ''
+    body: {}
+  4112fd5d-43b7-4dc4-bf44-33df58981847:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: F
+      FID_INPUT_ISCD: 101V06
+    body: {}
+  264533d3-00eb-4794-984a-fecb84350f39:
+    headers: {}
+    query:
+      FID_COND_SCR_DIV_CODE: '11510'
+      FID_INPUT_ISCD: '00000'
+    body: {}
+  d99d058d-4319-41ce-bce0-53c44a894ddb:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_COND_SCR_DIV_CODE: '11547'
+    body: {}
+  937eb413-9db9-4479-887d-4cf172dcf344:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+    body: {}
+  1e0869f4-5639-4f22-be71-a28897242457:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+    body: {}
+  4af6e358-255c-4e4e-b691-388610068216:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 58L002
+      FID_PW_DATA_INCU_YN: Y
+    body: {}
+  e9be5d05-448e-4222-bb05-7f0e27a91d69:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+    body: {}
+  a64dc948-de6c-4e7a-988b-9769ac8fd5b2:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+    body: {}
+  40403e7f-bd31-4e12-ae87-553e7be28b12:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+    body: {}
+  5bd31e17-ea4d-4e76-8e03-f8dfb3be25e7:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+    body: {}
+  31081a30-ba59-4b42-a9f2-c1fe850fadb1:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 58L002
+      FID_PW_DATA_INCU_YN: N
+    body: {}
+  f1ce6099-5bf2-4b4e-915e-e0c7020af4bf:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 57K281
+    body: {}
+  e5f413ec-3e68-47d7-931f-d7eb263990d9:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 58L002
+    body: {}
+  8869c0c3-efd8-461b-ba87-5ab468afeea2:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+    body: {}
+  147e81db-e0d2-40cd-95f5-d8da90c2d998:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_COND_SCR_DIV_CODE: '11548'
+      FID_DIV_CLS_CODE: '02'
+      FID_UNAS_INPUT_ISCD: '000000'
+      FID_INPUT_ISCD_2: '00003'
+      FID_INPUT_DATE_1: '20260213'
+      FID_BLNG_CLS_CODE: '0'
+    body: {}
+  4769336b-3280-419e-b69d-7531195b2221:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_COND_SCR_DIV_CODE: '20287'
+      FID_MRKT_CLS_CODE: A
+      FID_UNAS_INPUT_ISCD: '000000'
+      FID_INPUT_ISCD: '00000'
+      FID_INPUT_PRICE_1: ''
+      FID_INPUT_PRICE_2: ''
+      FID_INPUT_VOL_1: '0'
+      FID_INPUT_VOL_2: '0'
+      FID_HOUR_CLS_CODE: '2'
+      FID_INPUT_HOUR_1: '1'
+      FID_INPUT_HOUR_2: ''
+      FID_RANK_SORT_CLS_CODE: '1'
+      FID_BLNG_CLS_CODE: '0'
+    body: {}
+  246842f0-450e-464b-8dbc-356133d12b42:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+    body: {}
+  263ef907-db8c-4bf6-8da9-388c8fb4cf10:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+    body: {}
+  9f6b3c41-d44a-4ae1-8324-aa222d19c6bf:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+    body: {}
+  6bd62480-d165-415e-9d82-bffe2f43aa7e:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_COND_SCR_DIV_CODE: '20278'
+      FID_UNAS_INPUT_ISCD: '000000'
+      FID_INPUT_ISCD: '00000'
+      FID_INPUT_RMNN_DYNU_1: '0'
+      FID_DIV_CLS_CODE: '0'
+      FID_INPUT_PRICE_1: ''
+      FID_INPUT_PRICE_2: ''
+      FID_INPUT_VOL_1: '0'
+      FID_INPUT_VOL_2: '0'
+      FID_INPUT_DATE_1: ''
+      FID_RANK_SORT_CLS_CODE: '0'
+      FID_BLNG_CLS_CODE: '0'
+      FID_INPUT_ISCD_2: '0000'
+      FID_INPUT_DATE_2: ''
+    body: {}
+  ae084fcd-7a30-4a14-8483-91a7fc918d23:
+    headers: {}
+    query:
+      AUTH: ''
+      KEYB: ''
+      EXCD: NAS
+      VOL_RANG: '0'
+      CURR_GB: '0'
+    body: {}
+  2549b1c6-2c8c-4826-b632-74c0b68c24e9:
+    headers: {}
+    query:
+      AUTH: ''
+      KEYB: ''
+      EXCD: NAS
+      GUBN: '1'
+      MINX: '0'
+      VOL_RANG: '0'
+    body: {}
+  40409c43-9bc7-447a-b09a-171d14b437f9:
+    headers: {}
+    query:
+      AUTH: ''
+      KEYB: ''
+      EXCD: NAS
+      MINX: '0'
+      VOL_RANG: '0'
+    body: {}
+  0cc848c0-4928-4b89-bca4-62df430e4a45:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+      FID_INPUT_ISCD: '0001'
+      FID_INPUT_ISCD_2: '0001'
+      FID_INPUT_DATE_1: '20240401'
+      FID_INPUT_DATE_2: '20240401'
+    body: {}
+  7d1b2345-32f8-463b-9f41-8b4602387d52:
+    headers: {}
+    query:
+      fid_cond_mrkt_div_code: U
+      fid_input_iscd: '0001'
+    body: {}
+  184519fc-37b5-4687-bebf-d3ddf5659729:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+      FID_INPUT_DATE_1: '20240401'
+      FID_INPUT_DATE_2: '20240430'
+    body: {}
+  27bef4b4-cf83-4698-8f1e-16138cb09817:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+      FID_INPUT_ISCD: '0001'
+    body: {}
+  b11002e2-63c7-401b-a6fd-3136cb28040a:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+      FID_INPUT_ISCD: '0001'
+      FID_INPUT_DATE_1: '20240401'
+    body: {}
+  a87c0275-f467-4199-866a-876a8fcdccb0:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+    body: {}
+  1d150774-eafa-49f8-9e77-67099bc28771:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+    body: {}
+  5613b629-b622-4a22-8175-31a4376c36b4:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: U
+    body: {}
+  34d1b922-ab20-4839-9f15-ab1fe242a81f:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: B
+      FID_INPUT_ISCD: KR2033022D33
+    body: {}
+  f5dcbbc3-bee6-4b83-a236-5f3a5bb59d72:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: B
+      FID_INPUT_ISCD: KR2033022D33
+    body: {}
+  7d6d8ba7-bcae-4d7c-8d5b-4b51cd42a94a:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: B
+      FID_INPUT_ISCD: KR2033022D33
+    body: {}
+  ecc36b93-6f99-4cd2-b16d-79b46734769a:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: I
+      FID_DIV_CLS_CODE: '1'
+    body: {}
+  f2921c05-8b93-4a13-a0d8-6132be010066:
+    headers: {}
+    query:
+      fid_input_price_1: ''
+      fid_input_price_2: ''
+      fid_vol_cnt: '0'
+      fid_input_iscd_2: '000000'
+    body: {}
+  6df56964-f22b-43d4-9457-f06264018e5b:
+    headers: {}
+    query:
+      FID_COND_SCR_DIV_CODE: '20171'
+      FID_INPUT_ISCD: '0000'
+      FID_TRGT_CLS_CODE: '111111111'
+      FID_TRGT_EXLS_CLS_CODE: '0000000000'
+    body: {}
+  6723d437-b275-4c10-b7fb-9ba788cad75e:
+    headers: {}
+    query:
+      TYPE: '1'
+      FID_ETC_CLS_CODE: '00'
+    body: {}
+  4d8c6e7a-a026-4f8d-8c64-9e7ecbc3d97e:
+    headers: {}
+    query:
+      TYPE: '1'
+      INTER_GRP_CODE: '002'
+      FID_ETC_CLS_CODE: '4'
+    body: {}
+  fee465d1-7fd5-4c66-b4a4-731b813d569d:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE_2: J
+      FID_COND_MRKT_DIV_CODE_3: J
+      FID_COND_MRKT_DIV_CODE_4: J
+      FID_COND_MRKT_DIV_CODE_5: J
+      FID_COND_MRKT_DIV_CODE_6: J
+      FID_COND_MRKT_DIV_CODE_7: J
+      FID_COND_MRKT_DIV_CODE_8: J
+      FID_COND_MRKT_DIV_CODE_9: J
+      FID_COND_MRKT_DIV_CODE_10: J
+      FID_COND_MRKT_DIV_CODE_11: J
+      FID_COND_MRKT_DIV_CODE_12: J
+      FID_COND_MRKT_DIV_CODE_13: J
+      FID_COND_MRKT_DIV_CODE_14: J
+      FID_COND_MRKT_DIV_CODE_15: J
+      FID_COND_MRKT_DIV_CODE_16: J
+      FID_COND_MRKT_DIV_CODE_17: J
+      FID_COND_MRKT_DIV_CODE_18: J
+      FID_COND_MRKT_DIV_CODE_19: J
+      FID_COND_MRKT_DIV_CODE_20: J
+      FID_COND_MRKT_DIV_CODE_21: J
+      FID_COND_MRKT_DIV_CODE_22: J
+      FID_COND_MRKT_DIV_CODE_23: J
+      FID_COND_MRKT_DIV_CODE_24: J
+      FID_COND_MRKT_DIV_CODE_25: J
+      FID_COND_MRKT_DIV_CODE_26: J
+      FID_COND_MRKT_DIV_CODE_27: J
+      FID_COND_MRKT_DIV_CODE_28: J
+      FID_COND_MRKT_DIV_CODE_29: J
+      FID_COND_MRKT_DIV_CODE_30: J
+      FID_INPUT_ISCD_2: 005930
+      FID_INPUT_ISCD_3: 005930
+      FID_INPUT_ISCD_4: 005930
+      FID_INPUT_ISCD_5: 005930
+      FID_INPUT_ISCD_6: 005930
+      FID_INPUT_ISCD_7: 005930
+      FID_INPUT_ISCD_8: 005930
+      FID_INPUT_ISCD_9: 005930
+      FID_INPUT_ISCD_10: 005930
+      FID_INPUT_ISCD_11: 005930
+      FID_INPUT_ISCD_12: 005930
+      FID_INPUT_ISCD_13: 005930
+      FID_INPUT_ISCD_14: 005930
+      FID_INPUT_ISCD_15: 005930
+      FID_INPUT_ISCD_16: 005930
+      FID_INPUT_ISCD_17: 005930
+      FID_INPUT_ISCD_18: 005930
+      FID_INPUT_ISCD_19: 005930
+      FID_INPUT_ISCD_20: 005930
+      FID_INPUT_ISCD_21: 005930
+      FID_INPUT_ISCD_22: 005930
+      FID_INPUT_ISCD_23: 005930
+      FID_INPUT_ISCD_24: 005930
+      FID_INPUT_ISCD_25: 005930
+      FID_INPUT_ISCD_26: 005930
+      FID_INPUT_ISCD_27: 005930
+      FID_INPUT_ISCD_28: 005930
+      FID_INPUT_ISCD_29: 005930
+      FID_INPUT_ISCD_30: 005930
+    body: {}
+  3ed0247e-d717-43ed-85e9-51f952844687:
+    headers: {}
+    query:
+      MKSC_SHRN_ISCD: 005930
+      START_DATE: '20240401'
+      END_DATE: '20240430'
+    body: {}
+  cf45db98-43d0-476a-8774-d9690365300a:
+    headers: {}
+    query:
+      PDNO: KR6449111CB8
+    body: {}
+  56cf546c-a74f-467c-98b1-005967535e9e:
+    headers: {}
+    query:
+      PDNO: KR6449111CB8
+    body: {}
+  aacab59c-7559-414b-bf73-b0d15f3d62f1:
+    headers: {}
+    query:
+      VRFC_KIND_CD: '00'
+    body: {}
+  da0485b5-31f1-4c62-a3d4-294a4311ad39:
+    headers: {}
+    query:
+      PDNO: 005930
+    body: {}
+  07313e08-45f2-4423-abb2-2a49752910ae:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: W
+      FID_INPUT_ISCD: 58L002
+    body: {}
+  99ac7df4-132a-4458-8b07-4dab240d9896:
+    headers: {}
+    query:
+      CTS: ''
+      GB1: '2'
+      F_DT: '20250101'
+      T_DT: '20260213'
+      SHT_CD: ''
+      HIGH_GB: ''
+    body: {}
+  fbb4bb45-57bb-4037-905d-dff0ff635cf6:
+    headers: {}
+    query:
+      SHT_CD: '005930'
+    body: {}
+  0c2760ca-7fc9-4f41-9abd-33b2f5ff3b3b:
+    headers: {}
+    query:
+      FID_OPTION: '2'
+    body: {}
+  3871dd9b-e9a5-471b-a0ce-d9ceb207ac5b:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: J
+      FID_INPUT_ISCD: 069500
+      FID_COND_SCR_DIV_CODE: '11216'
+      FID_COND_MRKT_DIV_CODE_1: J
+      FID_INPUT_ISCD_1: 069500
+      FID_COND_SCR_DIV_CODE_1: '11216'
+    body: {}
+  05a719af-aa3c-46c7-a670-55f2f11654c2:
+    headers: {}
+    query:
+      fid_aply_rang_prc_1: ''
+      fid_vol_cnt: '0'
+    body: {}
+  8362a35a-e7c2-4944-a4a2-5a716737388c:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: F
+    body: {}
+  3a588de4-df48-49ac-88ca-9765998c00e1:
+    headers: {}
+    query:
+      FID_COND_SCR_DIV_CODE: '16633'
+      FID_INPUT_ISCD: '999'
+      FID_INPUT_DATE_1: '20260101'
+    body: {}
+  4a077f43-7053-47be-b811-8e35be4ea745:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: V
+      FID_COND_SCR_DIV_CODE: '16449'
+    body: {}
+  ca2e71e1-5ef4-4489-b4c4-118e10588690:
+    headers: {}
+    query:
+      FID_COND_SCR_DIV_CODE: '11517'
+      FID_INPUT_ISCD: 005930
+    body: {}
+  f54caf9c-65db-42ee-aa7e-a337c5a41778:
+    headers: {}
+    query:
+      FID_COND_SCR_DIV_CODE: '20139'
+      FID_INPUT_ISCD: '0000'
+    body: {}
+  0bb05819-d759-4789-8eda-27a0b88f02aa:
+    headers: {}
+    query:
+      FID_INPUT_ISCD: A01603
+    body: {}
+  7bdbff93-1334-496f-a9b8-7da6032f7407:
+    headers: {}
+    query:
+      fid_input_price_1: ''
+      fid_aply_rang_prc_1: ''
+      fid_aply_rang_prc_2: ''
+      fid_vol_cnt: '0'
+    body: {}
+  72e63cb2-2ab1-41a0-8ab9-62cbeaa5eea0:
+    headers: {}
+    query:
+      fid_input_cnt_1: ''
+      fid_input_cnt_2: ''
+      fid_aply_rang_prc_1: ''
+      fid_aply_rang_prc_2: ''
+    body: {}
+  f5c2c9d8-8d11-4a70-8694-1b71e3fc3640:
+    headers: {}
+    query:
+      FID_DIV_CLS_CODE: '2'
+      FID_INPUT_PRICE_1: ''
+      FID_INPUT_PRICE_2: ''
+      FID_VOL_CNT: '0'
+    body: {}
+  16958dd0-0304-4554-b12d-ec56e7874e71:
+    headers: {}
+    query:
+      FID_INPUT_PRICE_1: ''
+      FID_INPUT_PRICE_2: ''
+      FID_VOL_CNT: '0'
+    body: {}
+  c02e3f30-5d71-4156-a039-3976f4d485f8:
+    headers: {}
+    query:
+      fid_input_date_1: '20240314'
+      fid_input_date_2: '20240315'
+      fid_aply_rang_prc_1: ''
+      fid_aply_rang_prc_2: ''
+    body: {}
+  0aad2cef-b338-4f4f-a8a0-b19c67a390b3:
+    headers: {}
+    query:
+      fid_input_date_1: '20240315'
+    body: {}
+  ce9f2a8f-e3cb-4bd3-83ba-7b6034eafae9:
+    headers: {}
+    query:
+      FID_COND_SCR_DIV_CODE: '20432'
+      FID_INPUT_ISCD_2: '99999'
+      FID_MRKT_CLS_CODE: A
+      FID_VOL_CNT: '0'
+    body: {}
+  fc52daa5-9919-4f80-b926-ee35ef298c54:
+    headers: {}
+    query:
+      FID_INPUT_PRICE_2: '0'
+      FID_INPUT_VOL_1: '0'
+    body: {}
+  43c17205-d112-4f9f-83f9-1704af8e4f79:
+    headers: {}
+    query:
+      fid_rank_sort_cls_code: '1'
+    body: {}
+  1ecba681-1f73-4fb7-98b0-b7feef13b354:
+    headers: {}
+    query:
+      QRY_TP: Q
+    body: {}
+  94959cbc-bbb7-4776-8cd0-7058138a08aa:
+    headers: {}
+    query:
+      QRY_TP: Q
+    body: {}
+  14431ddf-c0d5-4c33-a945-86e77bcf6486:
+    headers: {}
+    query:
+      QRY_TP: Q
+    body: {}
+  31d46ebe-2a19-4467-9dfb-a2d21adb1e61:
+    headers: {}
+    query:
+      SRS_CD: BRNQ24
+      EXCH_CD: ICE
+      CLOSE_DATE_TIME: '20240423'
+      QRY_CNT: '120'
+      QRY_GAP: '1'
+    body: {}
+  3acd4025-6e95-46dc-a90d-b38215912d11:
+    headers: {}
+    query:
+      FM_CLAS_CD: ''
+      OPT_YN: '%'
+    body: {}
+  ca0f8e3e-9f99-4ebd-a81c-c5f8017c4d65:
+    headers: {}
+    query:
+      THCO_STLN_PSBL_YN: Y
+    body: {}
+  e0f9b38e-774a-441e-8dbd-27ab5f5ebb8b:
+    headers: {}
+    query:
+      F_DT: '20230101'
+    body: {}
+  1a07c21c-5fca-4d8f-a780-d861a7f80eb8:
+    headers: {}
+    query:
+      SRS_CD: CNHH26
+    body: {}
+  3d3ad086-7c1b-41cb-9b76-ba05ccf6ba95:
+    headers: {}
+    query:
+      SRS_CD: CNHH26
+    body: {}
+  f9f83090-60d0-4dcf-99c9-a4b36852848e:
+    headers: {}
+    query:
+      SRS_CD: CNHH26
+    body: {}
+  621bdd34-a902-4117-98b8-57733197742a:
+    headers: {}
+    query:
+      SRS_CD: 'OESH26 C5500'
+    body: {}
+  89c2f9ea-62be-4c4a-bd07-66f3fe3234a6:
+    headers: {}
+    query:
+      SRS_CD: 'OESH26 C5500'
+    body: {}
+  3eeac674-072d-4674-a5a7-f0ed01194a81:
+    headers: {}
+    query:
+      EXCD: HKS
+      SYMB: '00700'
+    body: {}
+  abc66a03-8103-4f6d-8ba8-450c2b935e14:
+    headers: {}
+    query:
+      AUTH: ''
+      EXCD: HKS
+      SYMB: '00700'
+    body: {}
+  852d7e45-4f34-418b-b6a1-a4552bbcdf90:
+    headers: {}
+    query:
+      AUTH: ''
+      EXCD: HKS
+      SYMB: '00700'
+      NMIN: '1'
+      PINC: '0'
+      NEXT: ''
+      NREC: '120'
+      FILL: ''
+      KEYB: ''
+    body: {}
+  ed60877a-6183-433a-9a8c-ef56ed9bc679:
+    headers: {}
+    query:
+      AUTH: ''
+      EXCD: HKS
+      SYMB: '00700'
+    body: {}
+  da63a88a-e288-426f-9498-42db0b537bf3:
+    headers: {}
+    query:
+      FID_COND_MRKT_DIV_CODE: N
+      FID_INPUT_ISCD: SPX
+      FID_INPUT_DATE_1: '20250101'
+      FID_INPUT_DATE_2: '20260213'
+      FID_PERIOD_DIV_CODE: D
+    body: {}
+  e5c6c050-e63f-4ab7-b339-d1a645d3239b:
+    headers: {}
+    query:
+      fid_input_iscd: ETF
+      fid_input_iscd_2: T000
+    body: {}
+  ade0f812-3677-48c0-9cce-ddfb4a689add:
+    headers: {}
+    query:
+      fid_cond_mrkt_div_code: J
+      fid_input_iscd: '069500'
+      fid_input_date_1: '20250101'
+      fid_input_date_2: '20260213'
+    body: {}
+  fbfe7300-7096-4938-840b-9f7c328cc5fd:
+    headers: {}
+    query:
+      FID_NEWS_OFER_ENTP_CODE: '2'
+    body: {}

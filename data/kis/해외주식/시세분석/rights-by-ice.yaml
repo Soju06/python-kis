@@ -1,0 +1,387 @@
+id: cd4be4fc-4545-4147-ab9a-e5b0ccede0de
+name: 해외주식 권리종합 [해외주식-050]
+section: '[해외주식] 시세분석'
+category: 해외주식
+subcategory: 시세분석
+method: GET
+url: /uapi/overseas-price/v1/quotations/rights-by-ice
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 미지원
+real_tr_id: HHDFS78330900
+demo_tr_id: 모의투자 미지원
+summary: '해외주식 권리종합 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [7833] 해외주식 권리(ICE제공) 화면의 "전체" 탭 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
+
+
+  ※ 조회기간 기준일 입력시 참고 - 상환: 상환일자, 조기상환: 조기상환일자, 티커변경: 적용일, 그 외: 발표일'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-10T10:17:07+09:00'
+  last_modified_date: '2025-05-15T10:33:09+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHDFS78330900
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: NCOD
+    name: 국가코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: CN:중국 HK:홍콩 US:미국 JP:일본 VN:베트남
+  - code: SYMB
+    name: 심볼
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: 종목코드
+  - code: ST_YMD
+    name: 일자 시작일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: '미입력 시, 오늘-3개월
+
+      기간지정 시, 종료일 입력(ex. 20240514)
+
+
+      ※ 조회기간 기준일 입력시 참고
+
+      - 상환: 상환일자, 조기상환: 조기상환일자, 티커변경: 적용일, 그 외: 발표일'
+  - code: ED_YMD
+    name: 일자 종료일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: '미입력 시, 오늘+3개월
+
+      기간지정 시, 종료일 입력(ex. 20240514)
+
+
+      ※ 조회기간 기준일 입력시 참고
+
+      - 상환: 상환일자, 조기상환: 조기상환일자, 티커변경: 적용일, 그 외: 발표일'
+  example: "NCOD:US\r\nSYMB:MAIN\r\nST_YMD:20240214\r\nED_YMD:20240514"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: anno_dt
+    name: ICE공시일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ca_title
+    name: 권리유형
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: div_lock_dt
+    name: 배당락일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: pay_dt
+    name: 지급일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: record_dt
+    name: 기준일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: validity_dt
+    name: 효력일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: local_end_dt
+    name: 현지지시마감일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: lock_dt
+    name: 권리락일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: delist_dt
+    name: 상장폐지일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: redempt_dt
+    name: 상환일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: early_redempt_dt
+    name: 조기상환일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: effective_dt
+    name: 적용일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  example:
+    output1:
+    - anno_dt: '20240221'
+      ca_title: 현금배당
+      div_lock_dt: '20240607'
+      pay_dt: '20240614'
+      record_dt: '20240607'
+      validity_dt: ''
+      local_end_dt: ''
+      lock_dt: ''
+      delist_dt: ''
+      redempt_dt: ''
+      early_redempt_dt: ''
+      effective_dt: ''
+    - anno_dt: '20240221'
+      ca_title: 현금배당
+      div_lock_dt: '20240405'
+      pay_dt: '20240415'
+      record_dt: '20240408'
+      validity_dt: ''
+      local_end_dt: ''
+      lock_dt: ''
+      delist_dt: ''
+      redempt_dt: ''
+      early_redempt_dt: ''
+      effective_dt: ''
+    - anno_dt: '20240221'
+      ca_title: 현금배당
+      div_lock_dt: '20240507'
+      pay_dt: '20240515'
+      record_dt: '20240508'
+      validity_dt: ''
+      local_end_dt: ''
+      lock_dt: ''
+      delist_dt: ''
+      redempt_dt: ''
+      early_redempt_dt: ''
+      effective_dt: ''
+    - anno_dt: '20240507'
+      ca_title: 현금배당
+      div_lock_dt: '20240808'
+      pay_dt: '20240815'
+      record_dt: '20240808'
+      validity_dt: ''
+      local_end_dt: ''
+      lock_dt: ''
+      delist_dt: ''
+      redempt_dt: ''
+      early_redempt_dt: ''
+      effective_dt: ''
+    - anno_dt: '20240507'
+      ca_title: 현금배당
+      div_lock_dt: '20240708'
+      pay_dt: '20240715'
+      record_dt: '20240708'
+      validity_dt: ''
+      local_end_dt: ''
+      lock_dt: ''
+      delist_dt: ''
+      redempt_dt: ''
+      early_redempt_dt: ''
+      effective_dt: ''
+    - anno_dt: '20240507'
+      ca_title: 현금배당
+      div_lock_dt: '20240906'
+      pay_dt: '20240913'
+      record_dt: '20240906'
+      validity_dt: ''
+      local_end_dt: ''
+      lock_dt: ''
+      delist_dt: ''
+      redempt_dt: ''
+      early_redempt_dt: ''
+      effective_dt: ''
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

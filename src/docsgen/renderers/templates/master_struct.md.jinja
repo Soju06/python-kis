@@ -1,0 +1,10 @@
+# {{ struct.name }}
+
+- 헤더: [{{ struct.header_url }}]({{ struct.header_url }})
+- 레코드 길이: `{{ struct.record_length }}`
+
+| 필드명 | 타입 | 길이 | 설명 |
+|---|---|---|---|
+{% for field in fields %}
+| `{{ field.name }}` | `{{ field.type_code }}` | {{ field.length }} | {{ field.description }} |
+{% endfor %}

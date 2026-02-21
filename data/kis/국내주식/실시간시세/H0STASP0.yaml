@@ -1,0 +1,564 @@
+id: 9cda726b-6f0b-48b5-8369-6d66bea05a2a
+name: 국내주식 실시간호가 (KRX) [실시간-004]
+section: '[국내주식] 실시간시세'
+category: 국내주식
+subcategory: 실시간시세
+method: POST
+url: /tryitout/H0STASP0
+content_type: text/plain
+req_format: JSON
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  demo: ' ws://ops.koreainvestment.com:31000'
+real_tr_id: H0STASP0
+demo_tr_id: H0STASP0
+summary: '[참고자료]
+
+  실시간시세(웹소켓) 파이썬 샘플코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/ws_domestic_overseas_all.py
+
+
+  실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.
+
+  https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션 업데이트 예정)
+
+
+  [호출 데이터]
+
+  헤더와 바디 값을 합쳐 JSON 형태로 전송합니다.
+
+
+  [응답 데이터]
+
+  1. 정상 등록 여부 (JSON)
+
+  - JSON["body"]["msg1"] - 정상 응답 시, SUBSCRIBE SUCCESS
+
+  - JSON["body"]["output"]["iv"] - 실시간 결과 복호화에 필요한 AES256 IV (Initialize Vector)
+
+  - JSON["body"]["output"]["key"] - 실시간 결과 복호화에 필요한 AES256 Key
+
+
+  2. 실시간 결과 응답 ( | 로 구분되는 값)
+
+  - 암호화 유무 : 0 암호화 되지 않은 데이터 / 1 암호화된 데이터
+
+  - TR_ID : 등록한 tr_id
+
+  - 데이터 건수 : (ex. 001 데이터 건수를 참조하여 활용)
+
+  - 응답 데이터 : 아래 response 데이터 참조 ( ^로 구분됨)'
+description: '[실시간-004] 국내주식 실시간호가'
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2021-12-15T13:15:57+09:00'
+  last_modified_date: '2025-04-30T13:10:09+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '286'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: custtype
+    name: 고객타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'B : 법인
+
+      P : 개인'
+  - code: tr_type
+    name: 거래타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '1 : 등록
+
+      2 : 해제'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '[실전/모의투자]
+
+      H0STASP0 : 주식호가'
+  - code: tr_key
+    name: 구분값
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '종목번호 (6자리)
+
+      ETN의 경우, Q로 시작 (EX. Q500001)'
+  example:
+    header:
+      approval_key: 35xxxxxa-bxxa-4xxb-87xxx-f56xxxxxxxxxx
+      custtype: P
+      tr_type: '1'
+      content-type: utf-8
+    body:
+      input:
+        tr_id: H0STASP0
+        tr_key: 005930
+response:
+  headers: []
+  body:
+  - code: MKSC_SHRN_ISCD
+    name: 유가증권 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: BSOP_HOUR
+    name: 영업 시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: HOUR_CLS_CODE
+    name: 시간 구분 코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '0 : 장중
+
+      A : 장후예상
+
+      B : 장전예상
+
+      C : 9시이후의 예상가, VI발동
+
+      D : 시간외 단일가 예상'
+  - code: ASKP1
+    name: 매도호가1
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP2
+    name: 매도호가2
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP3
+    name: 매도호가3
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP4
+    name: 매도호가4
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP5
+    name: 매도호가5
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP6
+    name: 매도호가6
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP7
+    name: 매도호가7
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP8
+    name: 매도호가8
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP9
+    name: 매도호가9
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP10
+    name: 매도호가10
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP1
+    name: 매수호가1
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP2
+    name: 매수호가2
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP3
+    name: 매수호가3
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP4
+    name: 매수호가4
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP5
+    name: 매수호가5
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP6
+    name: 매수호가6
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP7
+    name: 매수호가7
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP8
+    name: 매수호가8
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP9
+    name: 매수호가9
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP10
+    name: 매수호가10
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP_RSQN1
+    name: 매도호가 잔량1
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN2
+    name: 매도호가 잔량2
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN3
+    name: 매도호가 잔량3
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN4
+    name: 매도호가 잔량4
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN5
+    name: 매도호가 잔량5
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN6
+    name: 매도호가 잔량6
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN7
+    name: 매도호가 잔량7
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN8
+    name: 매도호가 잔량8
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN9
+    name: 매도호가 잔량9
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: ASKP_RSQN10
+    name: 매도호가 잔량10
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN1
+    name: 매수호가 잔량1
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN2
+    name: 매수호가 잔량2
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN3
+    name: 매수호가 잔량3
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN4
+    name: 매수호가 잔량4
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN5
+    name: 매수호가 잔량5
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN6
+    name: 매수호가 잔량6
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN7
+    name: 매수호가 잔량7
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN8
+    name: 매수호가 잔량8
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN9
+    name: 매수호가 잔량9
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN10
+    name: 매수호가 잔량10
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_ASKP_RSQN
+    name: 총 매도호가 잔량
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_BIDP_RSQN
+    name: 총 매수호가 잔량
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: OVTM_TOTAL_ASKP_RSQN
+    name: 시간외 총 매도호가 잔량
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: OVTM_TOTAL_BIDP_RSQN
+    name: 시간외 총 매수호가 잔량
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: ANTC_CNPR
+    name: 예상 체결가
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: 동시호가 등 특정 조건하에서만 발생
+  - code: ANTC_CNQN
+    name: 예상 체결량
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: 동시호가 등 특정 조건하에서만 발생
+  - code: ANTC_VOL
+    name: 예상 거래량
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: 동시호가 등 특정 조건하에서만 발생
+  - code: ANTC_CNTG_VRSS
+    name: 예상 체결 대비
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: 동시호가 등 특정 조건하에서만 발생
+  - code: ANTC_CNTG_VRSS_SIGN
+    name: 예상 체결 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '동시호가 등 특정 조건하에서만 발생
+
+
+      1 : 상한
+
+      2 : 상승
+
+      3 : 보합
+
+      4 : 하한
+
+      5 : 하락'
+  - code: ANTC_CNTG_PRDY_CTRT
+    name: 예상 체결 전일 대비율
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: ACML_VOL
+    name: 누적 거래량
+    type: A0004
+    type_name: Number
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_ASKP_RSQN_ICDC
+    name: 총 매도호가 잔량 증감
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: TOTAL_BIDP_RSQN_ICDC
+    name: 총 매수호가 잔량 증감
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: OVTM_TOTAL_ASKP_ICDC
+    name: 시간외 총 매도호가 증감
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: OVTM_TOTAL_BIDP_ICDC
+    name: 시간외 총 매수호가 증감
+    type: A0004
+    type_name: Number
+    length: '4'
+    required: true
+    description: ''
+  - code: STCK_DEAL_CLS_CODE
+    name: 주식 매매 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 사용 X (삭제된 값)
+  example: "# 연결 확인\r\n{\r\n    \"header\": {\r\n        \"tr_id\": \"H0STASP0\", \r\n        \"tr_key\": \"005930\", \r\n\
+    \        \"encrypt\": \"N\"\r\n        }, \r\n    \"body\": {\r\n        \"rt_cd\": \"0\", \r\n        \"msg_cd\": \"\
+    OPSP0000\",\r\n        \"msg1\": \"SUBSCRIBE SUCCESS\", \r\n        \"output\": {\r\n            \"iv\": \"0123456789abcdef\"\
+    , \r\n            \"key\": \"abcdefghijklmnopabcdefghijklmnop\"}\r\n        }\r\n}\r\n\r\n# output\r\n005930^093730^0^71900^72000^72100^72200^72300^72400^72500^72600^72700^72800^71\r\
+    \n800^71700^71600^71500^71400^71300^71200^71100^71000^70900^91918^117942^92673^7\r\n9708^106729^141988^176192^113906^134077^104229^95221^159371^220746^284657^2127\r\
+    \n42^195370^182710^209747^376432^158171^1159362^2095167^0^0^0^0^525579^-72000^5^\r\n-100.00^3159115^0^8^0^0^0"
+errors: []

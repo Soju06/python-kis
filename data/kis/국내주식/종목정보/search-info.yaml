@@ -1,0 +1,365 @@
+id: 00589d46-b8fe-4329-a20e-50dfe05f0d82
+name: 상품기본조회[v1_국내주식-029]
+section: '[국내주식] 종목정보'
+category: 국내주식
+subcategory: 종목정보
+method: GET
+url: /uapi/domestic-stock/v1/quotations/search-info
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: CTPF1604R
+demo_tr_id: 모의투자 미지원
+summary: ''
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2022-10-28T15:16:00+09:00'
+  last_modified_date: '2025-05-14T13:18:21+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTPF1604R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: PDNO
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '''주식(하이닉스) :  000660 (코드 : 300)
+
+      선물(101S12) :  KR4101SC0009 (코드 : 301)
+
+      미국(AAPL) : AAPL (코드 : 512)'''
+  - code: PRDT_TYPE_CD
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: "'300 주식\n301 선물옵션\n302 채권\n512  미국 나스닥 / 513  미국 뉴욕 / 529  미국 아멕스 \n515  일본\n501  홍콩 / 543  홍콩CNY / 558\
+      \  홍콩USD\n507  베트남 하노이 / 508  베트남 호치민\n551  중국 상해A / 552  중국 심천A'"
+  example:
+    PDNO: AAPL
+    PRDT_TYPE_CD: '512'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세1
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: pdno
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_type_cd
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: prdt_name
+    name: 상품명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: prdt_name120
+    name: 상품명120
+    type: A0001
+    type_name: String
+    length: '120'
+    required: true
+    description: ''
+  - code: prdt_abrv_name
+    name: 상품약어명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: prdt_eng_name
+    name: 상품영문명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: prdt_eng_name120
+    name: 상품영문명120
+    type: A0001
+    type_name: String
+    length: '120'
+    required: true
+    description: ''
+  - code: prdt_eng_abrv_name
+    name: 상품영문약어명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: std_pdno
+    name: 표준상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: shtn_pdno
+    name: 단축상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_sale_stat_cd
+    name: 상품판매상태코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: prdt_risk_grad_cd
+    name: 상품위험등급코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: prdt_clsf_cd
+    name: 상품분류코드
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: prdt_clsf_name
+    name: 상품분류명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: sale_strt_dt
+    name: 판매시작일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: sale_end_dt
+    name: 판매종료일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: wrap_asst_type_cd
+    name: 랩어카운트자산유형코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: ivst_prdt_type_cd
+    name: 투자상품유형코드
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: ivst_prdt_type_cd_name
+    name: 투자상품유형코드명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: frst_erlm_dt
+    name: 최초등록일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  example:
+    output:
+      pdno: AAPL
+      prdt_type_cd: '512'
+      prdt_name: 애플
+      prdt_name120: 애플
+      prdt_abrv_name: 애플
+      prdt_eng_name: APPLE INC
+      prdt_eng_name120: APPLE INC
+      prdt_eng_abrv_name: APPLE INC
+      std_pdno: US0378331005
+      shtn_pdno: AAPL
+      prdt_sale_stat_cd: ''
+      prdt_risk_grad_cd: ''
+      prdt_clsf_cd: '101210'
+      prdt_clsf_name: 해외주식
+      sale_strt_dt: ''
+      sale_end_dt: ''
+      wrap_asst_type_cd: '06'
+      ivst_prdt_type_cd: '1012'
+      ivst_prdt_type_cd_name: 해외주식
+      frst_erlm_dt: ''
+    rt_cd: '0'
+    msg_cd: KIOK0530
+    msg1: '조회되었습니다                                                                  '
+errors: []

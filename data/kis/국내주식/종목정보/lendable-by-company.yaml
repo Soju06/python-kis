@@ -1,0 +1,379 @@
+id: ca0f8e3e-9f99-4ebd-a81c-c5f8017c4d65
+name: 당사 대주가능 종목 [국내주식-195]
+section: '[국내주식] 종목정보'
+category: 국내주식
+subcategory: 종목정보
+method: GET
+url: /uapi/domestic-stock/v1/quotations/lendable-by-company
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 미지원
+real_tr_id: CTSC2702R
+demo_tr_id: 모의투자 미지원
+summary: "당사 대주가능 종목 API입니다. \n한국투자 HTS(eFriend Plus) > [0490] 당사 대주가능 종목 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\
+  \n※ 본 API는 다음조회가 불가합니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-03T12:48:02+09:00'
+  last_modified_date: '2025-05-14T13:22:45+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTSC2702R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: EXCG_DVSN_CD
+    name: 거래소구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 00(전체), 02(거래소), 03(코스닥)
+  - code: PDNO
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '공백 : 전체조회, 종목코드 입력 시 해당종목만 조회'
+  - code: THCO_STLN_PSBL_YN
+    name: 당사대주가능여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: Y
+  - code: INQR_DVSN_1
+    name: 조회구분1
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '0 : 전체조회, 1: 종목코드순 정렬'
+  - code: CTX_AREA_FK200
+    name: 연속조회검색조건200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: 미입력 (다음조회 불가)
+  - code: CTX_AREA_NK100
+    name: 연속조회키100
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: 미입력 (다음조회 불가)
+  example: "EXCG_DVSN_CD:00\r\nPDNO:\r\nTHCO_STLN_PSBL_YN:Y\r\nINQR_DVSN_1:0\r\nCTX_AREA_FK200:\r\nCTX_AREA_NK100:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: pdno
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_name
+    name: 상품명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: papr
+    name: 액면가
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: bfdy_clpr
+    name: 전일종가
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 전일종가
+  - code: sbst_prvs
+    name: 대용가
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tr_stop_dvsn_name
+    name: 거래정지구분명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: psbl_yn_name
+    name: 가능여부명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: lmt_qty1
+    name: 한도수량1
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: use_qty1
+    name: 사용수량1
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: trad_psbl_qty2
+    name: 매매가능수량2
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: 가능수량
+  - code: rght_type_cd
+    name: 권리유형코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: bass_dt
+    name: 기준일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: psbl_yn
+    name: 가능여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: tot_stup_lmt_qty
+    name: 총설정한도수량
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: brch_lmt_qty
+    name: 지점한도수량
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: rqst_psbl_qty
+    name: 신청가능수량
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  example: "{\r\n    \"ctx_area_fk200\": \"00!^!^Y!^0                                                                    \
+    \                                                                                                                    \
+    \      \",\r\n    \"ctx_area_nk100\": \"                                                                             \
+    \                       \",\r\n    \"output1\": [\r\n        {\r\n            \"pdno\": \"130960\",\r\n            \"\
+    prdt_name\": \"CJ E&M\",\r\n            \"papr\": \"5000\",\r\n            \"bfdy_clpr\": \"0\",\r\n            \"sbst_prvs\"\
+    : \"0\",\r\n            \"tr_stop_dvsn_name\": \"거래정지\",\r\n            \"psbl_yn_name\": \"가능\",\r\n            \"lmt_qty1\"\
+    : \"10520\",\r\n            \"use_qty1\": \"0\",\r\n            \"trad_psbl_qty2\": \"10520\",\r\n            \"rght_type_cd\"\
+    : \"11\",\r\n            \"bass_dt\": \"20180629\",\r\n            \"psbl_yn\": \"Y\"\r\n        },\r\n        {\r\n \
+    \           \"pdno\": \"110550\",\r\n            \"prdt_name\": \"HIT 골드\",\r\n            \"papr\": \"0\",\r\n      \
+    \      \"bfdy_clpr\": \"0\",\r\n            \"sbst_prvs\": \"0\",\r\n            \"tr_stop_dvsn_name\": \"거래정지\",\r\n\
+    \            \"psbl_yn_name\": \"가능\",\r\n            \"lmt_qty1\": \"0\",\r\n            \"use_qty1\": \"0\",\r\n   \
+    \         \"trad_psbl_qty2\": \"0\",\r\n            \"rght_type_cd\": \"32\",\r\n            \"bass_dt\": \"20111222\"\
+    ,\r\n            \"psbl_yn\": \"Y\"\r\n        },\r\n        {\r\n            \"pdno\": \"124090\",\r\n            \"\
+    prdt_name\": \"HIT 보험\",\r\n            \"papr\": \"0\",\r\n            \"bfdy_clpr\": \"0\",\r\n            \"sbst_prvs\"\
+    : \"0\",\r\n            \"tr_stop_dvsn_name\": \"거래정지\",\r\n            \"psbl_yn_name\": \"가능\",\r\n            \"lmt_qty1\"\
+    : \"0\",\r\n            \"use_qty1\": \"0\",\r\n            \"trad_psbl_qty2\": \"0\",\r\n            \"rght_type_cd\"\
+    : \"32\",\r\n            \"bass_dt\": \"20111219\",\r\n            \"psbl_yn\": \"Y\"\r\n        },\r\n        {\r\n \
+    \           \"pdno\": \"002550\",\r\n            \"prdt_name\": \"KB손해보험\",\r\n            \"papr\": \"500\",\r\n    \
+    \        \"bfdy_clpr\": \"0\",\r\n            \"sbst_prvs\": \"0\",\r\n            \"tr_stop_dvsn_name\": \"거래정지\",\r\n\
+    \            \"psbl_yn_name\": \"가능\",\r\n            \"lmt_qty1\": \"0\",\r\n            \"use_qty1\": \"0\",\r\n   \
+    \         \"trad_psbl_qty2\": \"0\",\r\n            \"rght_type_cd\": \"13\",\r\n            \"bass_dt\": \"20170706\"\
+    ,\r\n            \"psbl_yn\": \"Y\"\r\n        },\r\n        {\r\n            \"pdno\": \"021960\",\r\n            \"\
+    prdt_name\": \"KB캐피탈\",\r\n            \"papr\": \"5000\",\r\n            \"bfdy_clpr\": \"0\",\r\n            \"sbst_prvs\"\
+    : \"0\",\r\n            \"tr_stop_dvsn_name\": \"거래정지\",\r\n            \"psbl_yn_name\": \"가능\",\r\n            \"lmt_qty1\"\
+    : \"0\",\r\n            \"use_qty1\": \"0\",\r\n            \"trad_psbl_qty2\": \"0\",\r\n            \"rght_type_cd\"\
+    : \"13\",\r\n            \"bass_dt\": \"20170706\",\r\n            \"psbl_yn\": \"Y\"\r\n        },\r\n        {\r\n \
+    \           \"pdno\": \"105270\",\r\n            \"prdt_name\": \"KINDEX 성장대형F15\",\r\n            \"papr\": \"0\",\r\n\
+    \            \"bfdy_clpr\": \"0\",\r\n            \"sbst_prvs\": \"0\",\r\n            \"tr_stop_dvsn_name\": \"거래정지\"\
+    ,\r\n            \"psbl_yn_name\": \"가능\",\r\n            \"lmt_qty1\": \"0\",\r\n            \"use_qty1\": \"0\",\r\n\
+    \            \"trad_psbl_qty2\": \"0\",\r\n            \"rght_type_cd\": \"32\",\r\n            \"bass_dt\": \"20140430\"\
+    ,\r\n            \"psbl_yn\": \"Y\"\r\n        },...\r\n        {\r\n            \"pdno\": \"003450\",\r\n           \
+    \ \"prdt_name\": \"현대증권\",\r\n            \"papr\": \"5000\",\r\n            \"bfdy_clpr\": \"0\",\r\n            \"sbst_prvs\"\
+    : \"0\",\r\n            \"tr_stop_dvsn_name\": \"거래정지\",\r\n            \"psbl_yn_name\": \"가능\",\r\n            \"lmt_qty1\"\
+    : \"0\",\r\n            \"use_qty1\": \"0\",\r\n            \"trad_psbl_qty2\": \"0\",\r\n            \"rght_type_cd\"\
+    : \"13\",\r\n            \"bass_dt\": \"20161018\",\r\n            \"psbl_yn\": \"Y\"\r\n        }\r\n    ],\r\n    \"\
+    output2\": {\r\n        \"tot_stup_lmt_qty\": \"6441070\",\r\n        \"brch_lmt_qty\": \"-1228\",\r\n        \"rqst_psbl_qty\"\
+    : \"6442095\"\r\n    },\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"KIOK0460\",\r\n    \"msg1\": \"조회 되었습니다. (마지막 자료)\
+    \                                                  \"\r\n}"
+errors: []

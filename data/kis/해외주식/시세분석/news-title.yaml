@@ -1,0 +1,454 @@
+id: 9064a50c-0545-4b6c-8eb2-034f5214974b
+name: 해외뉴스종합(제목) [해외주식-053]
+section: '[해외주식] 시세분석'
+category: 해외주식
+subcategory: 시세분석
+method: GET
+url: /uapi/overseas-price/v1/quotations/news-title
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 미지원
+real_tr_id: HHPSTH60100C1
+demo_tr_id: 모의투자 미지원
+summary: '해외뉴스종합(제목) API입니다.
+
+  한국투자 HTS(eFriend Plus) > [7702] 해외뉴스종합 화면의 "우측 상단 뉴스목록" 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-03T12:48:45+09:00'
+  last_modified_date: '2025-05-15T10:32:59+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHPSTH60100C1
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: INFO_GB
+    name: 뉴스구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '전체: 공백'
+  - code: CLASS_CD
+    name: 중분류
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '전체: 공백'
+  - code: NATION_CD
+    name: 국가코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '전체: 공백
+
+      CN(중국), HK(홍콩), US(미국)'
+  - code: EXCHANGE_CD
+    name: 거래소코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: '전체: 공백'
+  - code: SYMB
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: '전체: 공백'
+  - code: DATA_DT
+    name: 조회일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: '전체: 공백
+
+      특정일자(YYYYMMDD) ex. 20240502'
+  - code: DATA_TM
+    name: 조회시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: '전체: 공백
+
+      전체: 공백
+
+      특정시간(HHMMSS) ex. 093500'
+  - code: CTS
+    name: 다음키
+    type: A0001
+    type_name: String
+    length: '35'
+    required: true
+    description: 공백 입력
+  example: "INFO_GB:\r\nCLASS_CD:\r\nNATION_CD:\r\nEXCHANGE_CD:\r\nSYMB:\r\nDATA_DT:\r\nDATA_TM:\r\nCTS:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: outblock1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: info_gb
+    name: 뉴스구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: news_key
+    name: 뉴스키
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: data_dt
+    name: 조회일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: data_tm
+    name: 조회시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: class_cd
+    name: 중분류
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: class_name
+    name: 중분류명
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: source
+    name: 자료원
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: nation_cd
+    name: 국가코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: exchange_cd
+    name: 거래소코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: symb
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: symb_name
+    name: 종목명
+    type: A0001
+    type_name: String
+    length: '48'
+    required: true
+    description: ''
+  - code: title
+    name: 제목
+    type: A0001
+    type_name: String
+    length: '128'
+    required: true
+    description: ''
+  example:
+    outblock1:
+    - info_gb: t
+      news_key: ICH709214
+      data_dt: '20240503'
+      data_tm: '145447'
+      class_cd: '05'
+      class_name: 종목리포트
+      source: 연합미국
+      nation_cd: US
+      exchange_cd: ''
+      symb: ''
+      symb_name: ''
+      title: 톰 리 “단기 내 금리인하 가능”
+    - info_gb: t
+      news_key: ICH709213
+      data_dt: '20240503'
+      data_tm: '144451'
+      class_cd: '05'
+      class_name: 종목리포트
+      source: 연합미국
+      nation_cd: US
+      exchange_cd: ''
+      symb: ''
+      symb_name: ''
+      title: 美 연준, 7월 금리인하 예상 GS 외
+    - info_gb: t
+      news_key: ICH709212
+      data_dt: '20240503'
+      data_tm: '144313'
+      class_cd: '05'
+      class_name: 종목리포트
+      source: 연합미국
+      nation_cd: US
+      exchange_cd: NAS
+      symb: NFLX
+      symb_name: 넷플릭스
+      title: 넷플릭스, 광고 전망 낙관 제프리스
+    - info_gb: t
+      news_key: ICH709215
+      data_dt: '20240503'
+      data_tm: '143706'
+      class_cd: '05'
+      class_name: 종목리포트
+      source: 연합미국
+      nation_cd: US
+      exchange_cd: ''
+      symb: ''
+      symb_name: ''
+      title: 美 4월 비농업부문 고용자 수 +24.0만 명 추정 아데코
+    - info_gb: t
+      news_key: ICH709208
+      data_dt: '20240503'
+      data_tm: '142518'
+      class_cd: '03'
+      class_name: 전략/산업
+      source: 연합미국
+      nation_cd: US
+      exchange_cd: ''
+      symb: ''
+      symb_name: ''
+      title: 美 모기지 금리, 5주 연속 상승
+    - info_gb: t
+      news_key: ICH709207
+      data_dt: '20240503'
+      data_tm: '141851'
+      class_cd: '02'
+      class_name: 정책
+      source: 연합미국
+      nation_cd: US
+      exchange_cd: ''
+      symb: ''
+      symb_name: ''
+      title: 금리, 현재 정점에 있을 확률 높아 펀드스트랫
+    - info_gb: t
+      news_key: ICH709206
+      data_dt: '20240503'
+      data_tm: '140506'
+      class_cd: '05'
+      class_name: 종목리포트
+      source: 연합미국
+      nation_cd: US
+      exchange_cd: NYS
+      symb: FSLY
+      symb_name: 패스틀리
+      title: 패스틀리, 단기 악재 직면 - BofA
+    - info_gb: t
+      news_key: ICH709205
+      data_dt: '20240503'
+      data_tm: '135416'
+      class_cd: '05'
+      class_name: 종목리포트
+      source: 연합미국
+      nation_cd: US
+      exchange_cd: NYS
+      symb: TJX
+      symb_name: TJX
+      title: TJX, 기존 소매점 위협 중 - UBS
+    - info_gb: t
+      news_key: ICH709204
+      data_dt: '20240503'
+      data_tm: '134647'
+      class_cd: '05'
+      class_name: 종목리포트
+      source: 연합미국
+      nation_cd: US
+      exchange_cd: NAS
+      symb: TTD
+      symb_name: 트레이드 데스크
+      title: 트레이드 데스크, 광고시장 현대화로 수혜 가능 - 제프리스
+    - info_gb: t
+      news_key: ICH709203
+      data_dt: '20240503'
+      data_tm: '133734'
+      class_cd: '05'
+      class_name: 종목리포트
+      source: 연합미국
+      nation_cd: US
+      exchange_cd: NYS
+      symb: MGM
+      symb_name: MGM 리조츠 인터내셔널
+      title: MGM 리조트, 매출 증가세 가속 중 - 서스퀘하나
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

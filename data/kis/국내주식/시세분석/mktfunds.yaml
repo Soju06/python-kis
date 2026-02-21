@@ -1,0 +1,387 @@
+id: b8c4fb5f-c3ef-4f6c-bfab-5471f43fb0ae
+name: 국내 증시자금 종합 [국내주식-193]
+section: '[국내주식] 시세분석'
+category: 국내주식
+subcategory: 시세분석
+method: GET
+url: /uapi/domestic-stock/v1/quotations/mktfunds
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 미지원
+real_tr_id: FHKST649100C0
+demo_tr_id: 모의투자 미지원
+summary: "국내 증시자금 종합 API입니다. \n한국투자 HTS(eFriend Plus) > [0470] 증시자금 종합 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\
+  \ (단위: 억원)\n\n※ 해당자료는 금융투자협회의 자료를 제공하고 있으며, 오류와 지연이 발생할 수 있습니다.\n※ 위 정보에 의한 투자판단의 최종책임은 정보이용자에게 있으며, 당사와 한국금융투자협회는 어떠한 법적인\
+  \ 책임도 지지 않사오니 투자에 참고로만 이용하시기 바랍니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-03T12:47:27+09:00'
+  last_modified_date: '2025-05-14T14:32:42+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKST649100C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_INPUT_DATE_1
+    name: 입력날짜1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example: FID_INPUT_DATE_1:20240503
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: bsop_date
+    name: 영업일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: bstp_nmix_prpr
+    name: 업종지수현재가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bstp_nmix_prdy_vrss
+    name: 업종지수전일대비
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 1. 상한 2. 상승 3. 보합 4. 하한 5. 하락
+  - code: prdy_ctrt
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: hts_avls
+    name: HTS시가총액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 백만원'
+  - code: cust_dpmn_amt
+    name: 고객예탁금금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 억원'
+  - code: cust_dpmn_amt_prdy_vrss
+    name: 고객예탁금금액전일대비
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: amt_tnrt
+    name: 금액회전율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: uncl_amt
+    name: 미수금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 억원'
+  - code: crdt_loan_rmnd
+    name: 신용융자잔고
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 억원'
+  - code: futs_tfam_amt
+    name: 선물예수금금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 억원'
+  - code: sttp_amt
+    name: 주식형금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 억원'
+  - code: mxtp_amt
+    name: 혼합형금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 억원'
+  - code: bntp_amt
+    name: 채권형금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 억원'
+  - code: mmf_amt
+    name: MMF금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 억원'
+  - code: secu_lend_amt
+    name: 담보대출잔고금액
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: '단위: 억원'
+  example: "{\r\n    \"output\": [\r\n        {\r\n            \"bsop_date\": \"20240430\",\r\n            \"bstp_nmix_prpr\"\
+    : \"2692.06\",\r\n            \"bstp_nmix_prdy_vrss\": \"4.62\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n       \
+    \     \"prdy_ctrt\": \"100.17\",\r\n            \"hts_avls\": \"2193843858\",\r\n            \"cust_dpmn_amt\": \"572306\"\
+    ,\r\n            \"cust_dpmn_amt_prdy_vrss\": \"4435\",\r\n            \"amt_tnrt\": \"33.87\",\r\n            \"uncl_amt\"\
+    : \"9289\",\r\n            \"crdt_loan_rmnd\": \"191730\",\r\n            \"futs_tfam_amt\": \"112724\",\r\n         \
+    \   \"sttp_amt\": \"1112330\",\r\n            \"mxtp_amt\": \"264052\",\r\n            \"bntp_amt\": \"1497053\",\r\n\
+    \            \"mmf_amt\": \"1971372\",\r\n            \"secu_lend_amt\": \"199663\"\r\n        },\r\n        {\r\n   \
+    \         \"bsop_date\": \"20240429\",\r\n            \"bstp_nmix_prpr\": \"2687.44\",\r\n            \"bstp_nmix_prdy_vrss\"\
+    : \"31.11\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"101.17\",\r\n            \"hts_avls\"\
+    : \"2189691726\",\r\n            \"cust_dpmn_amt\": \"567872\",\r\n            \"cust_dpmn_amt_prdy_vrss\": \"2770\",\r\
+    \n            \"amt_tnrt\": \"31.81\",\r\n            \"uncl_amt\": \"9770\",\r\n            \"crdt_loan_rmnd\": \"191876\"\
+    ,\r\n            \"futs_tfam_amt\": \"114477\",\r\n            \"sttp_amt\": \"1108725\",\r\n            \"mxtp_amt\"\
+    : \"264014\",\r\n            \"bntp_amt\": \"1490082\",\r\n            \"mmf_amt\": \"1995789\",\r\n            \"secu_lend_amt\"\
+    : \"205197\"\r\n        },\r\n        {\r\n            \"bsop_date\": \"20240426\",\r\n            \"bstp_nmix_prpr\"\
+    : \"2656.33\",\r\n            \"bstp_nmix_prdy_vrss\": \"27.71\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n      \
+    \      \"prdy_ctrt\": \"101.05\",\r\n            \"hts_avls\": \"2164477451\",\r\n            \"cust_dpmn_amt\": \"565102\"\
+    ,\r\n            \"cust_dpmn_amt_prdy_vrss\": \"8389\",\r\n            \"amt_tnrt\": \"32.27\",\r\n            \"uncl_amt\"\
+    : \"9224\",\r\n            \"crdt_loan_rmnd\": \"190610\",\r\n            \"futs_tfam_amt\": \"114228\",\r\n         \
+    \   \"sttp_amt\": \"1099696\",\r\n            \"mxtp_amt\": \"263514\",\r\n            \"bntp_amt\": \"1486148\",\r\n\
+    \            \"mmf_amt\": \"2014269\",\r\n            \"secu_lend_amt\": \"200841\"\r\n        },\r\n        {\r\n   \
+    \         \"bsop_date\": \"20240425\",\r\n            \"bstp_nmix_prpr\": \"2628.62\",\r\n            \"bstp_nmix_prdy_vrss\"\
+    : \"-47.13\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"98.24\",\r\n            \"hts_avls\"\
+    : \"2142440795\",\r\n            \"cust_dpmn_amt\": \"556713\",\r\n            \"cust_dpmn_amt_prdy_vrss\": \"9753\",\r\
+    \n            \"amt_tnrt\": \"30.55\",\r\n            \"uncl_amt\": \"9460\",\r\n            \"crdt_loan_rmnd\": \"190653\"\
+    ,\r\n            \"futs_tfam_amt\": \"119102\",\r\n            \"sttp_amt\": \"1091640\",\r\n            \"mxtp_amt\"\
+    : \"263032\",\r\n            \"bntp_amt\": \"1486119\",\r\n            \"mmf_amt\": \"2034032\",\r\n            \"secu_lend_amt\"\
+    : \"197721\"\r\n        },\r\n        {\r\n            \"bsop_date\": \"20240424\",\r\n            \"bstp_nmix_prpr\"\
+    : \"2675.75\",\r\n            \"bstp_nmix_prdy_vrss\": \"52.73\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n      \
+    \      \"prdy_ctrt\": \"102.01\",\r\n            \"hts_avls\": \"2180629130\",\r\n            \"cust_dpmn_amt\": \"546960\"\
+    ,\r\n            \"cust_dpmn_amt_prdy_vrss\": \"-11693\",\r\n            \"amt_tnrt\": \"33.20\",\r\n            \"uncl_amt\"\
+    : \"9503\",\r\n            \"crdt_loan_rmnd\": \"189912\",\r\n            \"futs_tfam_amt\": \"118058\",\r\n         \
+    \   \"sttp_amt\": \"1095621\",\r\n            \"mxtp_amt\": \"262947\",\r\n            \"bntp_amt\": \"1484163\",\r\n\
+    \            \"mmf_amt\": \"2055945\",\r\n            \"secu_lend_amt\": \"199263\"\r\n        },\r\n        {\r\n   \
+    \         \"bsop_date\": \"20240423\",\r\n            \"bstp_nmix_prpr\": \"2623.02\",\r\n            \"bstp_nmix_prdy_vrss\"\
+    : \"-6.42\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"99.76\",\r\n            \"hts_avls\"\
+    : \"2137640963\",\r\n            \"cust_dpmn_amt\": \"558653\",\r\n            \"cust_dpmn_amt_prdy_vrss\": \"-7143\"\
+    ,\r\n            \"amt_tnrt\": \"31.04\",\r\n            \"uncl_amt\": \"9454\",\r\n            \"crdt_loan_rmnd\": \"\
+    190361\",\r\n            \"futs_tfam_amt\": \"117715\",\r\n            \"sttp_amt\": \"1083125\",\r\n            \"mxtp_amt\"\
+    : \"262801\",\r\n            \"bntp_amt\": \"1481191\",\r\n            \"mmf_amt\": \"2059132\",\r\n            \"secu_lend_amt\"\
+    : \"198055\"\r\n        },\r\n        {\r\n            \"bsop_date\": \"20240422\",\r\n            \"bstp_nmix_prpr\"\
+    : \"2629.44\",\r\n            \"bstp_nmix_prdy_vrss\": \"37.58\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n      \
+    \      \"prdy_ctrt\": \"101.45\",\r\n            \"hts_avls\": \"2143157216\",\r\n            \"cust_dpmn_amt\": \"565797\"\
+    ,\r\n            \"cust_dpmn_amt_prdy_vrss\": \"11043\",\r\n            \"amt_tnrt\": \"33.64\",\r\n            \"uncl_amt\"\
+    : \"9312\",\r\n            \"crdt_loan_rmnd\": \"190326\",\r\n            \"futs_tfam_amt\": \"118954\",\r\n         \
+    \   \"sttp_amt\": \"1085224\",\r\n            \"mxtp_amt\": \"262713\",\r\n            \"bntp_amt\": \"1477973\",\r\n\
+    \            \"mmf_amt\": \"2083552\",\r\n            \"secu_lend_amt\": \"197038\"\r\n        },\r\n        {\r\n   \
+    \         \"bsop_date\": \"20240419\",\r\n            \"bstp_nmix_prpr\": \"2591.86\",\r\n            \"bstp_nmix_prdy_vrss\"\
+    : \"-42.84\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"98.37\",\r\n            \"hts_avls\"\
+    : \"2113960518\",\r\n            \"cust_dpmn_amt\": \"554754\",\r\n            \"cust_dpmn_amt_prdy_vrss\": \"4154\",\r\
+    \n            \"amt_tnrt\": \"41.58\",\r\n            \"uncl_amt\": \"9806\",\r\n            \"crdt_loan_rmnd\": \"190624\"\
+    ,\r\n            \"futs_tfam_amt\": \"119487\",\r\n            \"sttp_amt\": \"1083386\",\r\n            \"mxtp_amt\"\
+    : \"262645\",\r\n            \"bntp_amt\": \"1475873\",\r\n            \"mmf_amt\": \"2087866\",\r\n            \"secu_lend_amt\"\
+    : \"198926\"\r\n        },\r\n        {\r\n            \"bsop_date\": \"20240418\",\r\n            \"bstp_nmix_prpr\"\
+    : \"2634.70\",\r\n            \"bstp_nmix_prdy_vrss\": \"50.52\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n      \
+    \      \"prdy_ctrt\": \"101.95\",\r\n            \"hts_avls\": \"2148591607\",\r\n            \"cust_dpmn_amt\": \"550600\"\
+    ,\r\n            \"cust_dpmn_amt_prdy_vrss\": \"-2090\",\r\n            \"amt_tnrt\": \"33.32\",\r\n            \"uncl_amt\"\
+    : \"9932\",\r\n            \"crdt_loan_rmnd\": \"191816\",\r\n            \"futs_tfam_amt\": \"115974\",\r\n         \
+    \   \"sttp_amt\": \"1088431\",\r\n            \"mxtp_amt\": \"261979\",\r\n            \"bntp_amt\": \"1472540\",\r\n\
+    \            \"mmf_amt\": \"2096220\",\r\n            \"secu_lend_amt\": \"199652\"\r\n        },\r\n        {\r\n   \
+    \         \"bsop_date\": \"20240417\",\r\n            \"bstp_nmix_prpr\": \"2584.18\",\r\n            \"bstp_nmix_prdy_vrss\"\
+    : \"-25.45\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"99.02\",\r\n            \"hts_avls\"\
+    : \"2108636206\",\r\n            \"cust_dpmn_amt\": \"552690\",\r\n            \"cust_dpmn_amt_prdy_vrss\": \"-23278\"\
+    ,\r\n            \"amt_tnrt\": \"32.09\",\r\n            \"uncl_amt\": \"9653\",\r\n            \"crdt_loan_rmnd\": \"\
+    194102\",\r\n            \"futs_tfam_amt\": \"114956\",\r\n            \"sttp_amt\": \"1086475\",\r\n            \"mxtp_amt\"\
+    : \"261671\",\r\n            \"bntp_amt\": \"1472499\",\r\n            \"mmf_amt\": \"2109537\",\r\n            \"secu_lend_amt\"\
+    : \"198961\"\r\n        },\r\n        {\r\n            \"bsop_date\": \"20240416\",\r\n            \"bstp_nmix_prpr\"\
+    : \"2609.63\",\r\n            \"bstp_nmix_prdy_vrss\": \"-60.80\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n     \
+    \       \"prdy_ctrt\": \"97.72\",\r\n            \"hts_avls\": \"2129095534\",\r\n            \"cust_dpmn_amt\": \"575969\"\
+    ,\r\n            \"cust_dpmn_amt_prdy_vrss\": \"9287\",\r\n            \"amt_tnrt\": \"35.91\",\r\n            \"uncl_amt\"\
+    : \"9583\",\r\n            \"crdt_loan_rmnd\": \"193485\",\r\n            \"futs_tfam_amt\": \"116520\",\r\n         \
+    \   \"sttp_amt\": \"1092931\",\r\n            \"mxtp_amt\": \"261632\",\r\n            \"bntp_amt\": \"1471604\",\r\n\
+    \            \"mmf_amt\": \"2083522\",\r\n            \"secu_lend_amt\": \"198067\"\r\n        },...\r\n        {\r\n\
+    \            \"bsop_date\": \"20231204\",\r\n            \"bstp_nmix_prpr\": \"2514.95\",\r\n            \"bstp_nmix_prdy_vrss\"\
+    : \"9.94\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"100.40\",\r\n            \"hts_avls\"\
+    : \"2012605764\",\r\n            \"cust_dpmn_amt\": \"483930\",\r\n            \"cust_dpmn_amt_prdy_vrss\": \"-2751\"\
+    ,\r\n            \"amt_tnrt\": \"39.82\",\r\n            \"uncl_amt\": \"9477\",\r\n            \"crdt_loan_rmnd\": \"\
+    172738\",\r\n            \"futs_tfam_amt\": \"111758\",\r\n            \"sttp_amt\": \"1020141\",\r\n            \"mxtp_amt\"\
+    : \"241287\",\r\n            \"bntp_amt\": \"1372663\",\r\n            \"mmf_amt\": \"1937326\",\r\n            \"secu_lend_amt\"\
+    : \"212773\"\r\n        }\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"MCA00000\",\r\n    \"msg1\": \"정상처리\
+    \ 되었습니다.\"\r\n}"
+errors: []

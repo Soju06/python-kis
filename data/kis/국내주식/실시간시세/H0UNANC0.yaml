@@ -1,0 +1,400 @@
+id: dd693714-a397-4306-b135-88c691b7b6af
+name: 국내주식 실시간예상체결 (통합)
+section: '[국내주식] 실시간시세'
+category: 국내주식
+subcategory: 실시간시세
+method: POST
+url: /tryitout/H0UNANC0
+content_type: application/json
+req_format: JSON
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  demo: 모의투자 미지원
+real_tr_id: H0UNANC0
+demo_tr_id: 모의투자 미지원
+summary: ''
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2025-03-06T17:53:13+09:00'
+  last_modified_date: '2025-04-30T13:17:44+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '286'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: tr_type
+    name: 거래타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '1 : 등록
+
+      2 : 해제'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '[실전투자]
+
+      H0UNANC0 : 국내주식 실시간예상체결 (통합)'
+  - code: tr_key
+    name: 구분값
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목코드 (ex 005930 삼성전자)
+  example: null
+response:
+  headers: []
+  body:
+  - code: MKSC_SHRN_ISCD
+    name: 유가증권단축종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: STCK_CNTG_HOUR
+    name: 주식체결시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: STCK_PRPR
+    name: 주식현재가
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: PRDY_VRSS_SIGN
+    name: 전일대비구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: PRDY_VRSS
+    name: 전일대비
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: PRDY_CTRT
+    name: 등락율
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: WGHN_AVRG_STCK_PRC
+    name: 가중평균주식가격
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: STCK_OPRC
+    name: 시가
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: STCK_HGPR
+    name: 고가
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: STCK_LWPR
+    name: 저가
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: ASKP1
+    name: 매도호가
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: BIDP1
+    name: 매수호가
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: CNTG_VOL
+    name: 거래량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ACML_VOL
+    name: 누적거래량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ACML_TR_PBMN
+    name: 누적거래대금
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SELN_CNTG_CSNU
+    name: 매도체결건수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: SHNU_CNTG_CSNU
+    name: 매수체결건수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: NTBY_CNTG_CSNU
+    name: 순매수체결건수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: CTTR
+    name: 체결강도
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SELN_CNTG_SMTN
+    name: 총매도수량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SHNU_CNTG_SMTN
+    name: 총매수수량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: CNTG_CLS_CODE
+    name: 체결구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SHNU_RATE
+    name: 매수비율
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: PRDY_VOL_VRSS_ACML_VOL_RATE
+    name: 전일거래량대비등락율
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: OPRC_HOUR
+    name: 시가시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: OPRC_VRSS_PRPR_SIGN
+    name: 시가대비구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OPRC_VRSS_PRPR
+    name: 시가대비
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: HGPR_HOUR
+    name: 최고가시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: HGPR_VRSS_PRPR_SIGN
+    name: 고가대비구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: HGPR_VRSS_PRPR
+    name: 고가대비
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: LWPR_HOUR
+    name: 최저가시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: LWPR_VRSS_PRPR_SIGN
+    name: 저가대비구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: LWPR_VRSS_PRPR
+    name: 저가대비
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: BSOP_DATE
+    name: 영업일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: NEW_MKOP_CLS_CODE
+    name: 신장운영구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: TRHT_YN
+    name: 거래정지여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ASKP_RSQN1
+    name: 매도호가잔량1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: BIDP_RSQN1
+    name: 매수호가잔량1
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_ASKP_RSQN
+    name: 총매도호가잔량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: TOTAL_BIDP_RSQN
+    name: 총매수호가잔량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: VOL_TNRT
+    name: 거래량회전율
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: PRDY_SMNS_HOUR_ACML_VOL
+    name: 전일동시간누적거래량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: PRDY_SMNS_HOUR_ACML_VOL_RATE
+    name: 전일동시간누적거래량비율
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: HOUR_CLS_CODE
+    name: 시간구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: MRKT_TRTM_CLS_CODE
+    name: 임의종료구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: VI_STND_PRC
+    name: VI 상태값
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  example: null
+errors: []

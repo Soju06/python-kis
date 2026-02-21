@@ -1,0 +1,997 @@
+id: 6df56964-f22b-43d4-9457-f06264018e5b
+name: 거래량순위[v1_국내주식-047]
+section: '[국내주식] 순위분석'
+category: 국내주식
+subcategory: 순위분석
+method: GET
+url: /uapi/domestic-stock/v1/quotations/volume-rank
+content_type: application/json; charset=utf-8
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: FHPST01710000
+demo_tr_id: 모의투자 미지원
+summary: "국내주식 거래량순위 API입니다. \n\n한국투자 HTS(eFriend Plus) > [0171] 거래량 순위 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\
+  \n최대 30건 확인 가능하며, 다음 조회가 불가합니다.\n+\n30건 이상의 목록 조회가 필요한 경우, 대안으로 종목조건검색 API를 이용해서 원하는 종목 100개까지 검색할 수 있는 기능을 제공하고 있습니다.\n\
+  종목조건검색 API는 HTS(efriend Plus) [0110] 조건검색에서 등록 및 서버저장한 나의 조건 목록을 확인할 수 있는 API로,\nHTS [0110]에서 여러가지 조건을 설정할 수 있는데, 그 중 거래량\
+  \ 순위(ex. 0봉전 거래량 상위순 100종목) 에 대해서도 설정해서 종목을 검색할 수 있습니다.\n자세한 사용 방법은 공지사항 - [조건검색 필독] 조건검색 API 이용안내 참고 부탁드립니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2023-04-14T07:26:15+09:00'
+  last_modified_date: '2025-05-14T14:39:51+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPST01710000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: J:KRX, NX:NXT
+  - code: FID_COND_SCR_DIV_CODE
+    name: 조건 화면 분류 코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: '20171'
+  - code: FID_INPUT_ISCD
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 0000(전체) 기타(업종코드)
+  - code: FID_DIV_CLS_CODE
+    name: 분류 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 0(전체) 1(보통주) 2(우선주)
+  - code: FID_BLNG_CLS_CODE
+    name: 소속 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '0 : 평균거래량 1:거래증가율 2:평균거래회전율 3:거래금액순 4:평균거래금액회전율'
+  - code: FID_TRGT_CLS_CODE
+    name: 대상 구분 코드
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: '1 or 0 9자리 (차례대로 증거금 30% 40% 50% 60% 100% 신용보증금 30% 40% 50% 60%)
+
+      ex) "111111111"'
+  - code: FID_TRGT_EXLS_CLS_CODE
+    name: 대상 제외 구분 코드
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: '1 or 0 10자리 (차례대로 투자위험/경고/주의 관리종목 정리매매 불성실공시 우선주 거래정지 ETF ETN 신용주문불가 SPAC)
+
+      ex) "0000000000"'
+  - code: FID_INPUT_PRICE_1
+    name: 입력 가격1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '가격 ~
+
+      ex) "0"
+
+
+      전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력'
+  - code: FID_INPUT_PRICE_2
+    name: 입력 가격2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '~ 가격
+
+      ex) "1000000"
+
+
+      전체 가격 대상 조회 시 FID_INPUT_PRICE_1, FID_INPUT_PRICE_2 모두 ""(공란) 입력'
+  - code: FID_VOL_CNT
+    name: 거래량 수
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '거래량 ~
+
+      ex) "100000"
+
+
+      전체 거래량 대상 조회 시 FID_VOL_CNT ""(공란) 입력'
+  - code: FID_INPUT_DATE_1
+    name: 입력 날짜1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: '""(공란) 입력'
+  example:
+    FID_COND_MRKT_DIV_CODE: J
+    FID_COND_SCR_DIV_CODE: '20171'
+    FID_INPUT_ISCD: '0000'
+    FID_DIV_CLS_CODE: '0'
+    FID_BLNG_CLS_CODE: '0'
+    FID_TRGT_CLS_CODE: '111111111'
+    FID_TRGT_EXLS_CLS_CODE: '000000'
+    FID_INPUT_PRICE_1: '0'
+    FID_INPUT_PRICE_2: '0'
+    FID_VOL_CNT: '0'
+    FID_INPUT_DATE_1: '0'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: Output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: Array
+  - code: hts_kor_isnm
+    name: HTS 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: mksc_shrn_iscd
+    name: 유가증권 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: data_rank
+    name: 데이터 순위
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: stck_prpr
+    name: 주식 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일 대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: prdy_vol
+    name: 전일 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: lstn_stcn
+    name: 상장 주수
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: avrg_vol
+    name: 평균 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: n_befr_clpr_vrss_prpr_rate
+    name: N일전종가대비현재가대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: vol_inrt
+    name: 거래량증가율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: vol_tnrt
+    name: 거래량 회전율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nday_vol_tnrt
+    name: N일 거래량 회전율
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: avrg_tr_pbmn
+    name: 평균 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: tr_pbmn_tnrt
+    name: 거래대금회전율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: nday_tr_pbmn_tnrt
+    name: N일 거래대금 회전율
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: acml_tr_pbmn
+    name: 누적 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  example:
+    output:
+    - hts_kor_isnm: 삼성전자
+      mksc_shrn_iscd: 005930
+      data_rank: '1'
+      stck_prpr: '65100'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-300'
+      prdy_ctrt: '-0.46'
+      acml_vol: '8958147'
+      prdy_vol: '12334657'
+      lstn_stcn: '5969782550'
+      avrg_vol: '8958147'
+      n_befr_clpr_vrss_prpr_rate: '-0.46'
+      vol_inrt: '72.63'
+      vol_tnrt: '0.15'
+      nday_vol_tnrt: '0.15'
+      avrg_tr_pbmn: '584861890300'
+      tr_pbmn_tnrt: '0.15'
+      nday_tr_pbmn_tnrt: '0.15'
+      acml_tr_pbmn: '584861890300'
+    - hts_kor_isnm: 두산에너빌리티
+      mksc_shrn_iscd: '034020'
+      data_rank: '2'
+      stck_prpr: '15730'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-90'
+      prdy_ctrt: '-0.57'
+      acml_vol: '3285533'
+      prdy_vol: '6090991'
+      lstn_stcn: '640561146'
+      avrg_vol: '3285533'
+      n_befr_clpr_vrss_prpr_rate: '-0.57'
+      vol_inrt: '53.94'
+      vol_tnrt: '0.51'
+      nday_vol_tnrt: '0.51'
+      avrg_tr_pbmn: '52081429080'
+      tr_pbmn_tnrt: '0.52'
+      nday_tr_pbmn_tnrt: '0.52'
+      acml_tr_pbmn: '52081429080'
+    - hts_kor_isnm: LG디스플레이
+      mksc_shrn_iscd: '034220'
+      data_rank: '3'
+      stck_prpr: '15670'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '470'
+      prdy_ctrt: '3.09'
+      acml_vol: '3171164'
+      prdy_vol: '1476096'
+      lstn_stcn: '357815700'
+      avrg_vol: '3171164'
+      n_befr_clpr_vrss_prpr_rate: '3.09'
+      vol_inrt: '214.83'
+      vol_tnrt: '0.89'
+      nday_vol_tnrt: '0.89'
+      avrg_tr_pbmn: '50045759170'
+      tr_pbmn_tnrt: '0.89'
+      nday_tr_pbmn_tnrt: '0.89'
+      acml_tr_pbmn: '50045759170'
+    - hts_kor_isnm: SK하이닉스
+      mksc_shrn_iscd: '000660'
+      data_rank: '4'
+      stck_prpr: '91700'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '1300'
+      prdy_ctrt: '1.44'
+      acml_vol: '2833739'
+      prdy_vol: '5121364'
+      lstn_stcn: '728002365'
+      avrg_vol: '2833739'
+      n_befr_clpr_vrss_prpr_rate: '1.44'
+      vol_inrt: '55.33'
+      vol_tnrt: '0.39'
+      nday_vol_tnrt: '0.39'
+      avrg_tr_pbmn: '258969317100'
+      tr_pbmn_tnrt: '0.39'
+      nday_tr_pbmn_tnrt: '0.39'
+      acml_tr_pbmn: '258969317100'
+    - hts_kor_isnm: 현대로템
+      mksc_shrn_iscd: '064350'
+      data_rank: '5'
+      stck_prpr: '31450'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-1500'
+      prdy_ctrt: '-4.55'
+      acml_vol: '2709946'
+      prdy_vol: '1161286'
+      lstn_stcn: '109142293'
+      avrg_vol: '2709946'
+      n_befr_clpr_vrss_prpr_rate: '-4.55'
+      vol_inrt: '233.36'
+      vol_tnrt: '2.48'
+      nday_vol_tnrt: '2.48'
+      avrg_tr_pbmn: '85496575550'
+      tr_pbmn_tnrt: '2.49'
+      nday_tr_pbmn_tnrt: '2.49'
+      acml_tr_pbmn: '85496575550'
+    - hts_kor_isnm: HMM
+      mksc_shrn_iscd: '011200'
+      data_rank: '6'
+      stck_prpr: '18250'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-550'
+      prdy_ctrt: '-2.93'
+      acml_vol: '2286426'
+      prdy_vol: '1530846'
+      lstn_stcn: '489039496'
+      avrg_vol: '2286426'
+      n_befr_clpr_vrss_prpr_rate: '-2.93'
+      vol_inrt: '149.36'
+      vol_tnrt: '0.47'
+      nday_vol_tnrt: '0.47'
+      avrg_tr_pbmn: '42083654470'
+      tr_pbmn_tnrt: '0.47'
+      nday_tr_pbmn_tnrt: '0.47'
+      acml_tr_pbmn: '42083654470'
+    - hts_kor_isnm: 카카오
+      mksc_shrn_iscd: '035720'
+      data_rank: '7'
+      stck_prpr: '57700'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '1600'
+      prdy_ctrt: '2.85'
+      acml_vol: '1873007'
+      prdy_vol: '922948'
+      lstn_stcn: '445841128'
+      avrg_vol: '1873007'
+      n_befr_clpr_vrss_prpr_rate: '2.85'
+      vol_inrt: '202.94'
+      vol_tnrt: '0.42'
+      nday_vol_tnrt: '0.42'
+      avrg_tr_pbmn: '107707977500'
+      tr_pbmn_tnrt: '0.42'
+      nday_tr_pbmn_tnrt: '0.42'
+      acml_tr_pbmn: '107707977500'
+    - hts_kor_isnm: 삼성중공업
+      mksc_shrn_iscd: '010140'
+      data_rank: '8'
+      stck_prpr: '5510'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '30'
+      prdy_ctrt: '0.55'
+      acml_vol: '1711650'
+      prdy_vol: '1979941'
+      lstn_stcn: '880000000'
+      avrg_vol: '1711650'
+      n_befr_clpr_vrss_prpr_rate: '0.55'
+      vol_inrt: '86.45'
+      vol_tnrt: '0.19'
+      nday_vol_tnrt: '0.19'
+      avrg_tr_pbmn: '9363354660'
+      tr_pbmn_tnrt: '0.19'
+      nday_tr_pbmn_tnrt: '0.19'
+      acml_tr_pbmn: '9363354660'
+    - hts_kor_isnm: 한화솔루션
+      mksc_shrn_iscd: 009830
+      data_rank: '9'
+      stck_prpr: '48000'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '1150'
+      prdy_ctrt: '2.45'
+      acml_vol: '1582296'
+      prdy_vol: '910120'
+      lstn_stcn: '171892536'
+      avrg_vol: '1582296'
+      n_befr_clpr_vrss_prpr_rate: '2.45'
+      vol_inrt: '173.86'
+      vol_tnrt: '0.92'
+      nday_vol_tnrt: '0.92'
+      avrg_tr_pbmn: '75841144250'
+      tr_pbmn_tnrt: '0.92'
+      nday_tr_pbmn_tnrt: '0.92'
+      acml_tr_pbmn: '75841144250'
+    - hts_kor_isnm: 포스코인터내셔널
+      mksc_shrn_iscd: '047050'
+      data_rank: '10'
+      stck_prpr: '28550'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '200'
+      prdy_ctrt: '0.71'
+      acml_vol: '1390133'
+      prdy_vol: '2369179'
+      lstn_stcn: '175922788'
+      avrg_vol: '1390133'
+      n_befr_clpr_vrss_prpr_rate: '0.71'
+      vol_inrt: '58.68'
+      vol_tnrt: '0.79'
+      nday_vol_tnrt: '0.79'
+      avrg_tr_pbmn: '39675793900'
+      tr_pbmn_tnrt: '0.79'
+      nday_tr_pbmn_tnrt: '0.79'
+      acml_tr_pbmn: '39675793900'
+    - hts_kor_isnm: 한국전력
+      mksc_shrn_iscd: '015760'
+      data_rank: '11'
+      stck_prpr: '18450'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-230'
+      prdy_ctrt: '-1.23'
+      acml_vol: '1312142'
+      prdy_vol: '1844472'
+      lstn_stcn: '641964077'
+      avrg_vol: '1312142'
+      n_befr_clpr_vrss_prpr_rate: '-1.23'
+      vol_inrt: '71.14'
+      vol_tnrt: '0.20'
+      nday_vol_tnrt: '0.20'
+      avrg_tr_pbmn: '24308085110'
+      tr_pbmn_tnrt: '0.21'
+      nday_tr_pbmn_tnrt: '0.21'
+      acml_tr_pbmn: '24308085110'
+    - hts_kor_isnm: 우리금융지주
+      mksc_shrn_iscd: '316140'
+      data_rank: '12'
+      stck_prpr: '11720'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-80'
+      prdy_ctrt: '-0.68'
+      acml_vol: '1270105'
+      prdy_vol: '1455657'
+      lstn_stcn: '728060549'
+      avrg_vol: '1270105'
+      n_befr_clpr_vrss_prpr_rate: '-0.68'
+      vol_inrt: '87.25'
+      vol_tnrt: '0.17'
+      nday_vol_tnrt: '0.17'
+      avrg_tr_pbmn: '14886199950'
+      tr_pbmn_tnrt: '0.17'
+      nday_tr_pbmn_tnrt: '0.17'
+      acml_tr_pbmn: '14886199950'
+    - hts_kor_isnm: 팬오션
+      mksc_shrn_iscd: 028670
+      data_rank: '13'
+      stck_prpr: '5100'
+      prdy_vrss_sign: '3'
+      prdy_vrss: '0'
+      prdy_ctrt: '0.00'
+      acml_vol: '1156091'
+      prdy_vol: '1296967'
+      lstn_stcn: '534569512'
+      avrg_vol: '1156091'
+      n_befr_clpr_vrss_prpr_rate: '0.00'
+      vol_inrt: '89.14'
+      vol_tnrt: '0.22'
+      nday_vol_tnrt: '0.22'
+      avrg_tr_pbmn: '5900434210'
+      tr_pbmn_tnrt: '0.22'
+      nday_tr_pbmn_tnrt: '0.22'
+      acml_tr_pbmn: '5900434210'
+    - hts_kor_isnm: 기아
+      mksc_shrn_iscd: '000270'
+      data_rank: '14'
+      stck_prpr: '88000'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '700'
+      prdy_ctrt: '0.80'
+      acml_vol: '935222'
+      prdy_vol: '1866373'
+      lstn_stcn: '405363347'
+      avrg_vol: '935222'
+      n_befr_clpr_vrss_prpr_rate: '0.80'
+      vol_inrt: '50.11'
+      vol_tnrt: '0.23'
+      nday_vol_tnrt: '0.23'
+      avrg_tr_pbmn: '82381989600'
+      tr_pbmn_tnrt: '0.23'
+      nday_tr_pbmn_tnrt: '0.23'
+      acml_tr_pbmn: '82381989600'
+    - hts_kor_isnm: 신한지주
+      mksc_shrn_iscd: '055550'
+      data_rank: '15'
+      stck_prpr: '34600'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '50'
+      prdy_ctrt: '0.14'
+      acml_vol: '930868'
+      prdy_vol: '1351786'
+      lstn_stcn: '505108399'
+      avrg_vol: '930868'
+      n_befr_clpr_vrss_prpr_rate: '0.14'
+      vol_inrt: '68.86'
+      vol_tnrt: '0.18'
+      nday_vol_tnrt: '0.18'
+      avrg_tr_pbmn: '32273778800'
+      tr_pbmn_tnrt: '0.18'
+      nday_tr_pbmn_tnrt: '0.18'
+      acml_tr_pbmn: '32273778800'
+    - hts_kor_isnm: 메리츠금융지주
+      mksc_shrn_iscd: '138040'
+      data_rank: '16'
+      stck_prpr: '45300'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-400'
+      prdy_ctrt: '-0.88'
+      acml_vol: '627094'
+      prdy_vol: '817468'
+      lstn_stcn: '208217858'
+      avrg_vol: '627094'
+      n_befr_clpr_vrss_prpr_rate: '-0.88'
+      vol_inrt: '76.71'
+      vol_tnrt: '0.30'
+      nday_vol_tnrt: '0.30'
+      avrg_tr_pbmn: '28375338250'
+      tr_pbmn_tnrt: '0.30'
+      nday_tr_pbmn_tnrt: '0.30'
+      acml_tr_pbmn: '28375338250'
+    - hts_kor_isnm: 카카오뱅크
+      mksc_shrn_iscd: '323410'
+      data_rank: '17'
+      stck_prpr: '24850'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-300'
+      prdy_ctrt: '-1.19'
+      acml_vol: '625836'
+      prdy_vol: '1527116'
+      lstn_stcn: '476767137'
+      avrg_vol: '625836'
+      n_befr_clpr_vrss_prpr_rate: '-1.19'
+      vol_inrt: '40.98'
+      vol_tnrt: '0.13'
+      nday_vol_tnrt: '0.13'
+      avrg_tr_pbmn: '15712615750'
+      tr_pbmn_tnrt: '0.13'
+      nday_tr_pbmn_tnrt: '0.13'
+      acml_tr_pbmn: '15712615750'
+    - hts_kor_isnm: KT
+      mksc_shrn_iscd: '030200'
+      data_rank: '18'
+      stck_prpr: '31300'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '100'
+      prdy_ctrt: '0.32'
+      acml_vol: '569371'
+      prdy_vol: '1294632'
+      lstn_stcn: '261111808'
+      avrg_vol: '569371'
+      n_befr_clpr_vrss_prpr_rate: '0.32'
+      vol_inrt: '43.98'
+      vol_tnrt: '0.22'
+      nday_vol_tnrt: '0.22'
+      avrg_tr_pbmn: '17771655950'
+      tr_pbmn_tnrt: '0.22'
+      nday_tr_pbmn_tnrt: '0.22'
+      acml_tr_pbmn: '17771655950'
+    - hts_kor_isnm: 에스디바이오센서
+      mksc_shrn_iscd: '137310'
+      data_rank: '19'
+      stck_prpr: '17860'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-540'
+      prdy_ctrt: '-2.93'
+      acml_vol: '520565'
+      prdy_vol: '487837'
+      lstn_stcn: '104452353'
+      avrg_vol: '520565'
+      n_befr_clpr_vrss_prpr_rate: '-2.93'
+      vol_inrt: '106.71'
+      vol_tnrt: '0.50'
+      nday_vol_tnrt: '0.50'
+      avrg_tr_pbmn: '9342427100'
+      tr_pbmn_tnrt: '0.50'
+      nday_tr_pbmn_tnrt: '0.50'
+      acml_tr_pbmn: '9342427100'
+    - hts_kor_isnm: NAVER
+      mksc_shrn_iscd: '035420'
+      data_rank: '20'
+      stck_prpr: '213000'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '5500'
+      prdy_ctrt: '2.65'
+      acml_vol: '484026'
+      prdy_vol: '528940'
+      lstn_stcn: '164049085'
+      avrg_vol: '484026'
+      n_befr_clpr_vrss_prpr_rate: '2.65'
+      vol_inrt: '91.51'
+      vol_tnrt: '0.30'
+      nday_vol_tnrt: '0.30'
+      avrg_tr_pbmn: '102530676000'
+      tr_pbmn_tnrt: '0.29'
+      nday_tr_pbmn_tnrt: '0.29'
+      acml_tr_pbmn: '102530676000'
+    - hts_kor_isnm: 기업은행
+      mksc_shrn_iscd: '024110'
+      data_rank: '21'
+      stck_prpr: '10070'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-30'
+      prdy_ctrt: '-0.30'
+      acml_vol: '469367'
+      prdy_vol: '707261'
+      lstn_stcn: '797425869'
+      avrg_vol: '469367'
+      n_befr_clpr_vrss_prpr_rate: '-0.30'
+      vol_inrt: '66.36'
+      vol_tnrt: '0.06'
+      nday_vol_tnrt: '0.06'
+      avrg_tr_pbmn: '4736559470'
+      tr_pbmn_tnrt: '0.06'
+      nday_tr_pbmn_tnrt: '0.06'
+      acml_tr_pbmn: '4736559470'
+    - hts_kor_isnm: 포스코퓨처엠
+      mksc_shrn_iscd: '003670'
+      data_rank: '22'
+      stck_prpr: '312500'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '2500'
+      prdy_ctrt: '0.81'
+      acml_vol: '468389'
+      prdy_vol: '856091'
+      lstn_stcn: '77463220'
+      avrg_vol: '468389'
+      n_befr_clpr_vrss_prpr_rate: '0.81'
+      vol_inrt: '54.71'
+      vol_tnrt: '0.60'
+      nday_vol_tnrt: '0.60'
+      avrg_tr_pbmn: '145466512000'
+      tr_pbmn_tnrt: '0.60'
+      nday_tr_pbmn_tnrt: '0.60'
+      acml_tr_pbmn: '145466512000'
+    - hts_kor_isnm: KB금융
+      mksc_shrn_iscd: '105560'
+      data_rank: '23'
+      stck_prpr: '49000'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-300'
+      prdy_ctrt: '-0.61'
+      acml_vol: '459214'
+      prdy_vol: '1293549'
+      lstn_stcn: '403511072'
+      avrg_vol: '459214'
+      n_befr_clpr_vrss_prpr_rate: '-0.61'
+      vol_inrt: '35.50'
+      vol_tnrt: '0.11'
+      nday_vol_tnrt: '0.11'
+      avrg_tr_pbmn: '22593198000'
+      tr_pbmn_tnrt: '0.11'
+      nday_tr_pbmn_tnrt: '0.11'
+      acml_tr_pbmn: '22593198000'
+    - hts_kor_isnm: 한화에어로스페이스
+      mksc_shrn_iscd: '012450'
+      data_rank: '24'
+      stck_prpr: '103900'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '400'
+      prdy_ctrt: '0.39'
+      acml_vol: '458706'
+      prdy_vol: '345873'
+      lstn_stcn: '50630000'
+      avrg_vol: '458706'
+      n_befr_clpr_vrss_prpr_rate: '0.39'
+      vol_inrt: '132.62'
+      vol_tnrt: '0.91'
+      nday_vol_tnrt: '0.91'
+      avrg_tr_pbmn: '47298434100'
+      tr_pbmn_tnrt: '0.90'
+      nday_tr_pbmn_tnrt: '0.90'
+      acml_tr_pbmn: '47298434100'
+    - hts_kor_isnm: LG유플러스
+      mksc_shrn_iscd: '032640'
+      data_rank: '25'
+      stck_prpr: '11090'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '60'
+      prdy_ctrt: '0.54'
+      acml_vol: '451459'
+      prdy_vol: '971303'
+      lstn_stcn: '436611361'
+      avrg_vol: '451459'
+      n_befr_clpr_vrss_prpr_rate: '0.54'
+      vol_inrt: '46.48'
+      vol_tnrt: '0.10'
+      nday_vol_tnrt: '0.10'
+      avrg_tr_pbmn: '5009396470'
+      tr_pbmn_tnrt: '0.10'
+      nday_tr_pbmn_tnrt: '0.10'
+      acml_tr_pbmn: '5009396470'
+    - hts_kor_isnm: 삼성엔지니어링
+      mksc_shrn_iscd: 028050
+      data_rank: '26'
+      stck_prpr: '28950'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-250'
+      prdy_ctrt: '-0.86'
+      acml_vol: '446635'
+      prdy_vol: '512916'
+      lstn_stcn: '196000000'
+      avrg_vol: '446635'
+      n_befr_clpr_vrss_prpr_rate: '-0.86'
+      vol_inrt: '87.08'
+      vol_tnrt: '0.23'
+      nday_vol_tnrt: '0.23'
+      avrg_tr_pbmn: '12942967050'
+      tr_pbmn_tnrt: '0.23'
+      nday_tr_pbmn_tnrt: '0.23'
+      acml_tr_pbmn: '12942967050'
+    - hts_kor_isnm: 현대차
+      mksc_shrn_iscd: 005380
+      data_rank: '27'
+      stck_prpr: '204500'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '2000'
+      prdy_ctrt: '0.99'
+      acml_vol: '432033'
+      prdy_vol: '874247'
+      lstn_stcn: '211531506'
+      avrg_vol: '432033'
+      n_befr_clpr_vrss_prpr_rate: '0.99'
+      vol_inrt: '49.42'
+      vol_tnrt: '0.20'
+      nday_vol_tnrt: '0.20'
+      avrg_tr_pbmn: '88091018500'
+      tr_pbmn_tnrt: '0.20'
+      nday_tr_pbmn_tnrt: '0.20'
+      acml_tr_pbmn: '88091018500'
+    - hts_kor_isnm: 한국항공우주
+      mksc_shrn_iscd: 047810
+      data_rank: '28'
+      stck_prpr: '51700'
+      prdy_vrss_sign: '2'
+      prdy_vrss: '300'
+      prdy_ctrt: '0.58'
+      acml_vol: '418249'
+      prdy_vol: '431203'
+      lstn_stcn: '97475107'
+      avrg_vol: '418249'
+      n_befr_clpr_vrss_prpr_rate: '0.58'
+      vol_inrt: '97.00'
+      vol_tnrt: '0.43'
+      nday_vol_tnrt: '0.43'
+      avrg_tr_pbmn: '21574340000'
+      tr_pbmn_tnrt: '0.43'
+      nday_tr_pbmn_tnrt: '0.43'
+      acml_tr_pbmn: '21574340000'
+    - hts_kor_isnm: 대한항공
+      mksc_shrn_iscd: 003490
+      data_rank: '29'
+      stck_prpr: '22500'
+      prdy_vrss_sign: '3'
+      prdy_vrss: '0'
+      prdy_ctrt: '0.00'
+      acml_vol: '400822'
+      prdy_vol: '578620'
+      lstn_stcn: '368220661'
+      avrg_vol: '400822'
+      n_befr_clpr_vrss_prpr_rate: '0.00'
+      vol_inrt: '69.27'
+      vol_tnrt: '0.11'
+      nday_vol_tnrt: '0.11'
+      avrg_tr_pbmn: '9020223200'
+      tr_pbmn_tnrt: '0.11'
+      nday_tr_pbmn_tnrt: '0.11'
+      acml_tr_pbmn: '9020223200'
+    - hts_kor_isnm: 한국가스공사
+      mksc_shrn_iscd: '036460'
+      data_rank: '30'
+      stck_prpr: '25350'
+      prdy_vrss_sign: '5'
+      prdy_vrss: '-500'
+      prdy_ctrt: '-1.93'
+      acml_vol: '369094'
+      prdy_vol: '340512'
+      lstn_stcn: '92313000'
+      avrg_vol: '369094'
+      n_befr_clpr_vrss_prpr_rate: '-1.93'
+      vol_inrt: '108.39'
+      vol_tnrt: '0.40'
+      nday_vol_tnrt: '0.40'
+      avrg_tr_pbmn: '9408072150'
+      tr_pbmn_tnrt: '0.40'
+      nday_tr_pbmn_tnrt: '0.40'
+      acml_tr_pbmn: '9408072150'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

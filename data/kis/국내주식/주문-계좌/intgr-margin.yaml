@@ -1,0 +1,996 @@
+id: 32b7ac44-2d64-466d-9343-7e9d4e7ab0e4
+name: 주식통합증거금 현황 [국내주식-191]
+section: '[국내주식] 주문/계좌'
+category: 국내주식
+subcategory: 주문/계좌
+method: GET
+url: /uapi/domestic-stock/v1/trading/intgr-margin
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: TTTC0869R
+demo_tr_id: 모의투자 미지원
+summary: '주식통합증거금 현황 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0867] 통합증거금조회 화면 의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
+
+
+  ※ 해당 화면은 일반계좌와 통합증거금 신청계좌에 대해서 국내 및 해외 주문가능금액을 간단하게 조회하는 화면입니다.
+
+  ※ 해외 국가별 상세한 증거금현황을 원하시면 [해외주식] 주문/계좌 > 해외증거금 통화별조회 API를 이용하여 주시기 바랍니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-24T10:10:59+09:00'
+  last_modified_date: '2025-04-30T10:11:47+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: TTTC0869R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 계좌번호 체계(8-2)의 앞 8자리
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 계좌번호 체계(8-2)의 뒤 2자리
+  - code: CMA_EVLU_AMT_ICLD_YN
+    name: CMA평가금액포함여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: N 입력
+  - code: WCRC_FRCR_DVSN_CD
+    name: 원화외화구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 01(외화기준),02(원화기준)
+  - code: FWEX_CTRT_FRCR_DVSN_CD
+    name: 선도환계약외화구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 01(외화기준),02(원화기준)
+  example: "CANO:12345678\r\nACNT_PRDT_CD:01\r\nCMA_EVLU_AMT_ICLD_YN:N\r\nWCRC_FRCR_DVSN_CD:01\r\nFWEX_CTRT_FRCR_DVSN_CD:01"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: acmga_rt
+    name: 계좌증거금율
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: acmga_pct100_aptm_rson
+    name: 계좌증거금100퍼센트지정사유
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: ''
+  - code: stck_cash_objt_amt
+    name: 주식현금대상금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_sbst_objt_amt
+    name: 주식대용대상금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_evlu_objt_amt
+    name: 주식평가대상금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_ruse_psbl_objt_amt
+    name: 주식재사용가능대상금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_fund_rpch_chgs_objt_amt
+    name: 주식펀드환매대금대상금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_fncg_rdpt_objt_atm
+    name: 주식융자상환금대상금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: bond_ruse_psbl_objt_amt
+    name: 채권재사용가능대상금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_cash_use_amt
+    name: 주식현금사용금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_sbst_use_amt
+    name: 주식대용사용금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_evlu_use_amt
+    name: 주식평가사용금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_ruse_psbl_amt_use_amt
+    name: 주식재사용가능금사용금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_fund_rpch_chgs_use_amt
+    name: 주식펀드환매대금사용금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_fncg_rdpt_amt_use_amt
+    name: 주식융자상환금사용금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: bond_ruse_psbl_amt_use_amt
+    name: 채권재사용가능금사용금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_cash_ord_psbl_amt
+    name: 주식현금주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_sbst_ord_psbl_amt
+    name: 주식대용주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_evlu_ord_psbl_amt
+    name: 주식평가주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_ruse_psbl_ord_psbl_amt
+    name: 주식재사용가능주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_fund_rpch_ord_psbl_amt
+    name: 주식펀드환매주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: bond_ruse_psbl_ord_psbl_amt
+    name: 채권재사용가능주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: rcvb_amt
+    name: 미수금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: stck_loan_grta_ruse_psbl_amt
+    name: 주식대출보증금재사용가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_cash20_max_ord_psbl_amt
+    name: 주식현금20최대주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_cash30_max_ord_psbl_amt
+    name: 주식현금30최대주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_cash40_max_ord_psbl_amt
+    name: 주식현금40최대주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_cash50_max_ord_psbl_amt
+    name: 주식현금50최대주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_cash60_max_ord_psbl_amt
+    name: 주식현금60최대주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_cash100_max_ord_psbl_amt
+    name: 주식현금100최대주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_rsip100_max_ord_psbl_amt
+    name: 주식재사용불가100최대주문가능
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: bond_max_ord_psbl_amt
+    name: 채권최대주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_fncg45_max_ord_psbl_amt
+    name: 주식융자45최대주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_fncg50_max_ord_psbl_amt
+    name: 주식융자50최대주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_fncg60_max_ord_psbl_amt
+    name: 주식융자60최대주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: stck_fncg70_max_ord_psbl_amt
+    name: 주식융자70최대주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_stln_max_ord_psbl_amt
+    name: 주식대주최대주문가능금액
+    type: A0001
+    type_name: String
+    length: '184'
+    required: true
+    description: ''
+  - code: lmt_amt
+    name: 한도금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: ovrs_stck_itgr_mgna_dvsn_name
+    name: 해외주식통합증거금구분명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: usd_objt_amt
+    name: 미화대상금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: usd_use_amt
+    name: 미화사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: usd_ord_psbl_amt
+    name: 미화주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: hkd_objt_amt
+    name: 홍콩달러대상금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: hkd_use_amt
+    name: 홍콩달러사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: hkd_ord_psbl_amt
+    name: 홍콩달러주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: jpy_objt_amt
+    name: 엔화대상금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: jpy_use_amt
+    name: 엔화사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: jpy_ord_psbl_amt
+    name: 엔화주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: cny_objt_amt
+    name: 위안화대상금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: cny_use_amt
+    name: 위안화사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: cny_ord_psbl_amt
+    name: 위안화주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: usd_ruse_objt_amt
+    name: 미화재사용대상금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: usd_ruse_amt
+    name: 미화재사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: usd_ruse_ord_psbl_amt
+    name: 미화재사용주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: hkd_ruse_objt_amt
+    name: 홍콩달러재사용대상금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: hkd_ruse_amt
+    name: 홍콩달러재사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: hkd_ruse_ord_psbl_amt
+    name: 홍콩달러재사용주문가능금액
+    type: A0001
+    type_name: String
+    length: '172'
+    required: true
+    description: ''
+  - code: jpy_ruse_objt_amt
+    name: 엔화재사용대상금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: jpy_ruse_amt
+    name: 엔화재사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: jpy_ruse_ord_psbl_amt
+    name: 엔화재사용주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: cny_ruse_objt_amt
+    name: 위안화재사용대상금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: cny_ruse_amt
+    name: 위안화재사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: cny_ruse_ord_psbl_amt
+    name: 위안화재사용주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: usd_gnrl_ord_psbl_amt
+    name: 미화일반주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: usd_itgr_ord_psbl_amt
+    name: 미화통합주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: hkd_gnrl_ord_psbl_amt
+    name: 홍콩달러일반주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: hkd_itgr_ord_psbl_amt
+    name: 홍콩달러통합주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: jpy_gnrl_ord_psbl_amt
+    name: 엔화일반주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: jpy_itgr_ord_psbl_amt
+    name: 엔화통합주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: cny_gnrl_ord_psbl_amt
+    name: 위안화일반주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: cny_itgr_ord_psbl_amt
+    name: 위안화통합주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_itgr_cash20_ord_psbl_amt
+    name: 주식통합현금20주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_itgr_cash30_ord_psbl_amt
+    name: 주식통합현금30주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_itgr_cash40_ord_psbl_amt
+    name: 주식통합현금40주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_itgr_cash50_ord_psbl_amt
+    name: 주식통합현금50주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_itgr_cash60_ord_psbl_amt
+    name: 주식통합현금60주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_itgr_cash100_ord_psbl_amt
+    name: 주식통합현금100주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_itgr_100_ord_psbl_amt
+    name: 주식통합100주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_itgr_fncg45_ord_psbl_amt
+    name: 주식통합융자45주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_itgr_fncg50_ord_psbl_amt
+    name: 주식통합융자50주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_itgr_fncg60_ord_psbl_amt
+    name: 주식통합융자60주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_itgr_fncg70_ord_psbl_amt
+    name: 주식통합융자70주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_itgr_stln_ord_psbl_amt
+    name: 주식통합대주주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: bond_itgr_ord_psbl_amt
+    name: 채권통합주문가능금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_cash_ovrs_use_amt
+    name: 주식현금해외사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_sbst_ovrs_use_amt
+    name: 주식대용해외사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_evlu_ovrs_use_amt
+    name: 주식평가해외사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_re_use_amt_ovrs_use_amt
+    name: 주식재사용금액해외사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_fund_rpch_ovrs_use_amt
+    name: 주식펀드환매해외사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: stck_fncg_rdpt_ovrs_use_amt
+    name: 주식융자상환해외사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: bond_re_use_ovrs_use_amt
+    name: 채권재사용해외사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: usd_oth_mket_use_amt
+    name: 미화타시장사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: jpy_oth_mket_use_amt
+    name: 엔화타시장사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: cny_oth_mket_use_amt
+    name: 위안화타시장사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: hkd_oth_mket_use_amt
+    name: 홍콩달러타시장사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: usd_re_use_oth_mket_use_amt
+    name: 미화재사용타시장사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: jpy_re_use_oth_mket_use_amt
+    name: 엔화재사용타시장사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: cny_re_use_oth_mket_use_amt
+    name: 위안화재사용타시장사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: hkd_re_use_oth_mket_use_amt
+    name: 홍콩달러재사용타시장사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: hgkg_cny_re_use_amt
+    name: 홍콩위안화재사용금액
+    type: A0001
+    type_name: String
+    length: '182'
+    required: true
+    description: ''
+  - code: usd_frst_bltn_exrt
+    name: 미국달러최초고시환율
+    type: A0001
+    type_name: String
+    length: '23'
+    required: true
+    description: ''
+  - code: hkd_frst_bltn_exrt
+    name: 홍콩달러최초고시환율
+    type: A0001
+    type_name: String
+    length: '23'
+    required: true
+    description: ''
+  - code: jpy_frst_bltn_exrt
+    name: 일본엔화최초고시환율
+    type: A0001
+    type_name: String
+    length: '23'
+    required: true
+    description: ''
+  - code: cny_frst_bltn_exrt
+    name: 중국위안화최초고시환율
+    type: A0001
+    type_name: String
+    length: '23'
+    required: true
+    description: ''
+  example: "{\r\n    \"output\": {\r\n        \"acmga_rt\": \"100.0000\",\r\n        \"acmga_pct100_aptm_rson\": \"고객100%신청\"\
+    ,\r\n        \"stck_cash_objt_amt\": \"249855306.0000\",\r\n        \"stck_sbst_objt_amt\": \"137816.0000\",\r\n     \
+    \   \"stck_evlu_objt_amt\": \"176966.0000\",\r\n        \"stck_ruse_psbl_objt_amt\": \"261213.0000\",\r\n        \"stck_fund_rpch_chgs_objt_amt\"\
+    : \"0.0000\",\r\n        \"stck_fncg_rdpt_objt_atm\": \"0.0000\",\r\n        \"bond_ruse_psbl_objt_amt\": \"1024.0000\"\
+    ,\r\n        \"stck_cash_use_amt\": \"240482730.0000\",\r\n        \"stck_sbst_use_amt\": \"20295.0000\",\r\n        \"\
+    stck_evlu_use_amt\": \"20295.0000\",\r\n        \"stck_ruse_psbl_amt_use_amt\": \"261213.0000\",\r\n        \"stck_fund_rpch_chgs_use_amt\"\
+    : \"0.0000\",\r\n        \"stck_fncg_rdpt_amt_use_amt\": \"0.0000\",\r\n        \"bond_ruse_psbl_amt_use_amt\": \"1024.0000\"\
+    ,\r\n        \"stck_cash_ord_psbl_amt\": \"9372576.0000\",\r\n        \"stck_sbst_ord_psbl_amt\": \"117521.0000\",\r\n\
+    \        \"stck_evlu_ord_psbl_amt\": \"156671.0000\",\r\n        \"stck_ruse_psbl_ord_psbl_amt\": \"0.0000\",\r\n    \
+    \    \"stck_fund_rpch_ord_psbl_amt\": \"0.0000\",\r\n        \"bond_ruse_psbl_ord_psbl_amt\": \"0.0000\",\r\n        \"\
+    rcvb_amt\": \"0\",\r\n        \"stck_loan_grta_ruse_psbl_amt\": \"0.0000\",\r\n        \"stck_cash20_max_ord_psbl_amt\"\
+    : \"8128560.1990\",\r\n        \"stck_cash30_max_ord_psbl_amt\": \"8128560.1990\",\r\n        \"stck_cash40_max_ord_psbl_amt\"\
+    : \"8128560.1990\",\r\n        \"stck_cash50_max_ord_psbl_amt\": \"8128560.1990\",\r\n        \"stck_cash60_max_ord_psbl_amt\"\
+    : \"8128560.1990\",\r\n        \"stck_cash100_max_ord_psbl_amt\": \"8128560.1990\",\r\n        \"stck_rsip100_max_ord_psbl_amt\"\
+    : \"8128560.1990\",\r\n        \"bond_max_ord_psbl_amt\": \"9316675.9443\",\r\n        \"stck_fncg45_max_ord_psbl_amt\"\
+    : \"20942905.49\",\r\n        \"stck_fncg50_max_ord_psbl_amt\": \"18869350.4950\",\r\n        \"stck_fncg60_max_ord_psbl_amt\"\
+    : \"15750449.5868\",\r\n        \"stck_fncg70_max_ord_psbl_amt\": \"13516343.26\",\r\n        \"stck_stln_max_ord_psbl_amt\"\
+    : \"9307424.0318\",\r\n        \"lmt_amt\": \"0\",\r\n        \"ovrs_stck_itgr_mgna_dvsn_name\": \"\",\r\n        \"usd_objt_amt\"\
+    : \"0.00\",\r\n        \"usd_use_amt\": \"0.00\",\r\n        \"usd_ord_psbl_amt\": \"0.00\",\r\n        \"hkd_objt_amt\"\
+    : \"0.00\",\r\n        \"hkd_use_amt\": \"0.00\",\r\n        \"hkd_ord_psbl_amt\": \"0.00\",\r\n        \"jpy_objt_amt\"\
+    : \"0.00\",\r\n        \"jpy_use_amt\": \"0.00\",\r\n        \"jpy_ord_psbl_amt\": \"0.00\",\r\n        \"cny_objt_amt\"\
+    : \"0.00\",\r\n        \"cny_use_amt\": \"0.00\",\r\n        \"cny_ord_psbl_amt\": \"0.00\",\r\n        \"usd_ruse_objt_amt\"\
+    : \"0.00\",\r\n        \"usd_ruse_amt\": \"0.00\",\r\n        \"usd_ruse_ord_psbl_amt\": \"0.00\",\r\n        \"hkd_ruse_objt_amt\"\
+    : \"0.00\",\r\n        \"hkd_ruse_amt\": \"0.00\",\r\n        \"hkd_ruse_ord_psbl_amt\": \"0.00\",\r\n        \"jpy_ruse_objt_amt\"\
+    : \"0.00\",\r\n        \"jpy_ruse_amt\": \"0.00\",\r\n        \"jpy_ruse_ord_psbl_amt\": \"0.00\",\r\n        \"cny_ruse_objt_amt\"\
+    : \"0.00\",\r\n        \"cny_ruse_amt\": \"0.00\",\r\n        \"cny_ruse_ord_psbl_amt\": \"0.00\",\r\n        \"usd_gnrl_ord_psbl_amt\"\
+    : \"0.00\",\r\n        \"usd_itgr_ord_psbl_amt\": \"0.00\",\r\n        \"hkd_gnrl_ord_psbl_amt\": \"0.00\",\r\n      \
+    \  \"hkd_itgr_ord_psbl_amt\": \"0.00\",\r\n        \"jpy_gnrl_ord_psbl_amt\": \"0.00\",\r\n        \"jpy_itgr_ord_psbl_amt\"\
+    : \"0.00\",\r\n        \"cny_gnrl_ord_psbl_amt\": \"0.00\",\r\n        \"cny_itgr_ord_psbl_amt\": \"0.00\",\r\n      \
+    \  \"stck_itgr_cash20_ord_psbl_amt\": \"0.00\",\r\n        \"stck_itgr_cash30_ord_psbl_amt\": \"0.00\",\r\n        \"\
+    stck_itgr_cash40_ord_psbl_amt\": \"0.00\",\r\n        \"stck_itgr_cash50_ord_psbl_amt\": \"0.00\",\r\n        \"stck_itgr_cash60_ord_psbl_amt\"\
+    : \"0.00\",\r\n        \"stck_itgr_cash100_ord_psbl_amt\": \"0.00\",\r\n        \"stck_itgr_100_ord_psbl_amt\": \"0.00\"\
+    ,\r\n        \"stck_itgr_fncg45_ord_psbl_amt\": \"0.00\",\r\n        \"stck_itgr_fncg50_ord_psbl_amt\": \"0.00\",\r\n\
+    \        \"stck_itgr_fncg60_ord_psbl_amt\": \"0.00\",\r\n        \"stck_itgr_fncg70_ord_psbl_amt\": \"0.00\",\r\n    \
+    \    \"stck_itgr_stln_ord_psbl_amt\": \"0.00\",\r\n        \"bond_itgr_ord_psbl_amt\": \"0.00\",\r\n        \"stck_cash_ovrs_use_amt\"\
+    : \"0.00\",\r\n        \"stck_sbst_ovrs_use_amt\": \"0.00\",\r\n        \"stck_evlu_ovrs_use_amt\": \"0.00\",\r\n    \
+    \    \"stck_re_use_amt_ovrs_use_amt\": \"0.00\",\r\n        \"stck_fund_rpch_ovrs_use_amt\": \"0.00\",\r\n        \"stck_fncg_rdpt_ovrs_use_amt\"\
+    : \"0.00\",\r\n        \"bond_re_use_ovrs_use_amt\": \"0.00\",\r\n        \"usd_oth_mket_use_amt\": \"0.00\",\r\n    \
+    \    \"jpy_oth_mket_use_amt\": \"0.00\",\r\n        \"cny_oth_mket_use_amt\": \"0.00\",\r\n        \"hkd_oth_mket_use_amt\"\
+    : \"0.00\",\r\n        \"usd_re_use_oth_mket_use_amt\": \"0.00\",\r\n        \"jpy_re_use_oth_mket_use_amt\": \"0.00\"\
+    ,\r\n        \"cny_re_use_oth_mket_use_amt\": \"0.00\",\r\n        \"hkd_re_use_oth_mket_use_amt\": \"0.00\",\r\n    \
+    \    \"hgkg_cny_re_use_amt\": \"0.00\",\r\n        \"hgkg_cny_re_use_objt_amt\": \"0.00\",\r\n        \"hgkg_cny_re_use_ord_psbl_amt\"\
+    : \"0.00\",\r\n        \"hgkg_cny_re_use_oth_use_amt\": \"0.00\"\r\n        \"hgkg_cny_re_use_oth_use_amt\": \"0.00\"\
+    ,\r\n        \"usd_frst_bltn_exrt\": \"1467.00000000\",\r\n        \"hkd_frst_bltn_exrt\": \"188.61000000\",\r\n     \
+    \   \"jpy_frst_bltn_exrt\": \"10.06000000\",\r\n        \"cny_frst_bltn_exrt\": \"200.70000000\"\r\n    },\r\n    \"rt_cd\"\
+    : \"0\",\r\n    \"msg_cd\": \"KIOK0510\",\r\n    \"msg1\": \"조회가 완료되었습니다                                             \
+    \              \"\r\n}"
+errors: []

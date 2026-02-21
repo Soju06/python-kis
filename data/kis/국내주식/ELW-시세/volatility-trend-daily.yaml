@@ -1,0 +1,434 @@
+id: 5bd31e17-ea4d-4e76-8e03-f8dfb3be25e7
+name: ELW 변동성 추이(일별) [국내주식-178]
+section: '[국내주식] ELW 시세'
+category: 국내주식
+subcategory: ELW 시세
+method: GET
+url: /uapi/elw/v1/quotations/volatility-trend-daily
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 미지원
+real_tr_id: FHPEW02840200
+demo_tr_id: 모의투자 미지원
+summary: 'ELW 변동성 추이(일별) API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0284] ELW 변동성 추이 화면의 "일별" 변동성 추이 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-26T09:27:54+09:00'
+  last_modified_date: '2025-05-07T09:32:39+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPEW02840200
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건시장분류코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 시장구분코드 (W)
+  - code: FID_INPUT_ISCD
+    name: 입력종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ex) 58J297(KBJ297삼성전자콜)
+  example: "FID_COND_MRKT_DIV_CODE:W\r\nFID_INPUT_ISCD:57JS61"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: stck_bsop_date
+    name: 주식 영업 일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: elw_prpr
+    name: ELW 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: elw_oprc
+    name: elw 시가2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: elw_hgpr
+    name: elw 최고가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: elw_lwpr
+    name: elw 최저가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: d10_hist_vltl
+    name: 10일 역사적 변동성
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: d20_hist_vltl
+    name: 20일 역사적 변동성
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: d30_hist_vltl
+    name: 30일 역사적 변동성
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: d60_hist_vltl
+    name: 60일 역사적 변동성
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: d90_hist_vltl
+    name: 90일 역사적 변동성
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: hts_ints_vltl
+    name: HTS 내재 변동성
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  example: "{\r\n    \"output\": [\r\n        {\r\n            \"stck_bsop_date\": \"20240503\",\r\n            \"elw_prpr\"\
+    : \"5\",\r\n            \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\":\
+    \ \"0.00\",\r\n            \"elw_oprc\": \"5\",\r\n            \"elw_hgpr\": \"5\",\r\n            \"elw_lwpr\": \"5\"\
+    ,\r\n            \"acml_vol\": \"76410\",\r\n            \"d10_hist_vltl\": \"21.05\",\r\n            \"d20_hist_vltl\"\
+    : \"20.32\",\r\n            \"d30_hist_vltl\": \"19.58\",\r\n            \"d60_hist_vltl\": \"17.91\",\r\n           \
+    \ \"d90_hist_vltl\": \"18.33\",\r\n            \"hts_ints_vltl\": \"23.37\"\r\n        },\r\n        {\r\n           \
+    \ \"stck_bsop_date\": \"20240502\",\r\n            \"elw_prpr\": \"5\",\r\n            \"prdy_vrss\": \"-15\",\r\n   \
+    \         \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-75.00\",\r\n            \"elw_oprc\": \"20\",\r\n\
+    \            \"elw_hgpr\": \"20\",\r\n            \"elw_lwpr\": \"5\",\r\n            \"acml_vol\": \"6509850\",\r\n \
+    \           \"d10_hist_vltl\": \"23.00\",\r\n            \"d20_hist_vltl\": \"21.31\",\r\n            \"d30_hist_vltl\"\
+    : \"20.17\",\r\n            \"d60_hist_vltl\": \"19.07\",\r\n            \"d90_hist_vltl\": \"18.33\",\r\n           \
+    \ \"hts_ints_vltl\": \"20.16\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240430\",\r\n       \
+    \     \"elw_prpr\": \"20\",\r\n            \"prdy_vrss\": \"-5\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n      \
+    \      \"prdy_ctrt\": \"-20.00\",\r\n            \"elw_oprc\": \"25\",\r\n            \"elw_hgpr\": \"25\",\r\n      \
+    \      \"elw_lwpr\": \"15\",\r\n            \"acml_vol\": \"1839420\",\r\n            \"d10_hist_vltl\": \"23.69\",\r\n\
+    \            \"d20_hist_vltl\": \"21.39\",\r\n            \"d30_hist_vltl\": \"20.42\",\r\n            \"d60_hist_vltl\"\
+    : \"19.43\",\r\n            \"d90_hist_vltl\": \"18.33\",\r\n            \"hts_ints_vltl\": \"23.45\"\r\n        },\r\n\
+    \        {\r\n            \"stck_bsop_date\": \"20240429\",\r\n            \"elw_prpr\": \"25\",\r\n            \"prdy_vrss\"\
+    : \"-40\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-61.54\",\r\n            \"elw_oprc\"\
+    : \"35\",\r\n            \"elw_hgpr\": \"40\",\r\n            \"elw_lwpr\": \"25\",\r\n            \"acml_vol\": \"3301030\"\
+    ,\r\n            \"d10_hist_vltl\": \"26.85\",\r\n            \"d20_hist_vltl\": \"21.38\",\r\n            \"d30_hist_vltl\"\
+    : \"20.48\",\r\n            \"d60_hist_vltl\": \"19.44\",\r\n            \"d90_hist_vltl\": \"18.37\",\r\n           \
+    \ \"hts_ints_vltl\": \"21.85\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240426\",\r\n       \
+    \     \"elw_prpr\": \"65\",\r\n            \"prdy_vrss\": \"-70\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n     \
+    \       \"prdy_ctrt\": \"-51.85\",\r\n            \"elw_oprc\": \"65\",\r\n            \"elw_hgpr\": \"95\",\r\n     \
+    \       \"elw_lwpr\": \"50\",\r\n            \"acml_vol\": \"11476800\",\r\n            \"d10_hist_vltl\": \"26.51\",\r\
+    \n            \"d20_hist_vltl\": \"21.14\",\r\n            \"d30_hist_vltl\": \"21.13\",\r\n            \"d60_hist_vltl\"\
+    : \"19.34\",\r\n            \"d90_hist_vltl\": \"18.45\",\r\n            \"hts_ints_vltl\": \"22.04\"\r\n        },\r\n\
+    \        {\r\n            \"stck_bsop_date\": \"20240425\",\r\n            \"elw_prpr\": \"135\",\r\n            \"prdy_vrss\"\
+    : \"80\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"145.45\",\r\n            \"elw_oprc\"\
+    : \"100\",\r\n            \"elw_hgpr\": \"135\",\r\n            \"elw_lwpr\": \"85\",\r\n            \"acml_vol\": \"\
+    16588080\",\r\n            \"d10_hist_vltl\": \"26.14\",\r\n            \"d20_hist_vltl\": \"20.66\",\r\n            \"\
+    d30_hist_vltl\": \"21.01\",\r\n            \"d60_hist_vltl\": \"19.30\",\r\n            \"d90_hist_vltl\": \"18.39\",\r\
+    \n            \"hts_ints_vltl\": \"21.20\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240424\"\
+    ,\r\n            \"elw_prpr\": \"55\",\r\n            \"prdy_vrss\": \"-115\",\r\n            \"prdy_vrss_sign\": \"5\"\
+    ,\r\n            \"prdy_ctrt\": \"-67.65\",\r\n            \"elw_oprc\": \"75\",\r\n            \"elw_hgpr\": \"75\",\r\
+    \n            \"elw_lwpr\": \"50\",\r\n            \"acml_vol\": \"8909400\",\r\n            \"d10_hist_vltl\": \"23.99\"\
+    ,\r\n            \"d20_hist_vltl\": \"19.38\",\r\n            \"d30_hist_vltl\": \"20.25\",\r\n            \"d60_hist_vltl\"\
+    : \"18.86\",\r\n            \"d90_hist_vltl\": \"18.11\",\r\n            \"hts_ints_vltl\": \"20.73\"\r\n        },\r\n\
+    \        {\r\n            \"stck_bsop_date\": \"20240423\",\r\n            \"elw_prpr\": \"170\",\r\n            \"prdy_vrss\"\
+    : \"-20\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-10.53\",\r\n            \"elw_oprc\"\
+    : \"180\",\r\n            \"elw_hgpr\": \"200\",\r\n            \"elw_lwpr\": \"145\",\r\n            \"acml_vol\": \"\
+    44577440\",\r\n            \"d10_hist_vltl\": \"21.44\",\r\n            \"d20_hist_vltl\": \"18.18\",\r\n            \"\
+    d30_hist_vltl\": \"19.40\",\r\n            \"d60_hist_vltl\": \"18.35\",\r\n            \"d90_hist_vltl\": \"17.77\",\r\
+    \n            \"hts_ints_vltl\": \"20.33\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240422\"\
+    ,\r\n            \"elw_prpr\": \"190\",\r\n            \"prdy_vrss\": \"-210\",\r\n            \"prdy_vrss_sign\": \"\
+    5\",\r\n            \"prdy_ctrt\": \"-52.50\",\r\n            \"elw_oprc\": \"265\",\r\n            \"elw_hgpr\": \"305\"\
+    ,\r\n            \"elw_lwpr\": \"190\",\r\n            \"acml_vol\": \"79163330\",\r\n            \"d10_hist_vltl\": \"\
+    21.44\",\r\n            \"d20_hist_vltl\": \"18.25\",\r\n            \"d30_hist_vltl\": \"19.58\",\r\n            \"d60_hist_vltl\"\
+    : \"18.37\",\r\n            \"d90_hist_vltl\": \"17.88\",\r\n            \"hts_ints_vltl\": \"21.25\"\r\n        },\r\n\
+    \        {\r\n            \"stck_bsop_date\": \"20240419\",\r\n            \"elw_prpr\": \"400\",\r\n            \"prdy_vrss\"\
+    : \"215\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"116.22\",\r\n            \"elw_oprc\"\
+    : \"290\",\r\n            \"elw_hgpr\": \"725\",\r\n            \"elw_lwpr\": \"285\",\r\n            \"acml_vol\": \"\
+    63410060\",\r\n            \"d10_hist_vltl\": \"21.22\",\r\n            \"d20_hist_vltl\": \"17.73\",\r\n            \"\
+    d30_hist_vltl\": \"19.66\",\r\n            \"d60_hist_vltl\": \"18.26\",\r\n            \"d90_hist_vltl\": \"17.76\",\r\
+    \n            \"hts_ints_vltl\": \"24.18\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240418\"\
+    ,\r\n            \"elw_prpr\": \"185\",\r\n            \"prdy_vrss\": \"-165\",\r\n            \"prdy_vrss_sign\": \"\
+    5\",\r\n            \"prdy_ctrt\": \"-47.14\",\r\n            \"elw_oprc\": \"295\",\r\n            \"elw_hgpr\": \"325\"\
+    ,\r\n            \"elw_lwpr\": \"180\",\r\n            \"acml_vol\": \"35347180\",\r\n            \"d10_hist_vltl\": \"\
+    20.69\",\r\n            \"d20_hist_vltl\": \"19.36\",\r\n            \"d30_hist_vltl\": \"18.92\",\r\n            \"d60_hist_vltl\"\
+    : \"17.87\",\r\n            \"d90_hist_vltl\": \"17.50\",\r\n            \"hts_ints_vltl\": \"21.30\"\r\n        },\r\n\
+    \        {\r\n            \"stck_bsop_date\": \"20240417\",\r\n            \"elw_prpr\": \"350\",\r\n            \"prdy_vrss\"\
+    : \"80\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"29.63\",\r\n            \"elw_oprc\"\
+    : \"235\",\r\n            \"elw_hgpr\": \"350\",\r\n            \"elw_lwpr\": \"215\",\r\n            \"acml_vol\": \"\
+    68687230\",\r\n            \"d10_hist_vltl\": \"20.70\",\r\n            \"d20_hist_vltl\": \"19.25\",\r\n            \"\
+    d30_hist_vltl\": \"18.23\",\r\n            \"d60_hist_vltl\": \"17.87\",\r\n            \"d90_hist_vltl\": \"17.33\",\r\
+    \n            \"hts_ints_vltl\": \"21.02\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240416\"\
+    ,\r\n            \"elw_prpr\": \"270\",\r\n            \"prdy_vrss\": \"170\",\r\n            \"prdy_vrss_sign\": \"2\"\
+    ,\r\n            \"prdy_ctrt\": \"170.00\",\r\n            \"elw_oprc\": \"180\",\r\n            \"elw_hgpr\": \"320\"\
+    ,\r\n            \"elw_lwpr\": \"165\",\r\n            \"acml_vol\": \"45554270\",\r\n            \"d10_hist_vltl\": \"\
+    20.10\",\r\n            \"d20_hist_vltl\": \"19.26\",\r\n            \"d30_hist_vltl\": \"18.17\",\r\n            \"d60_hist_vltl\"\
+    : \"17.74\",\r\n            \"d90_hist_vltl\": \"17.24\",\r\n            \"hts_ints_vltl\": \"21.23\"\r\n        },\r\n\
+    \        {\r\n            \"stck_bsop_date\": \"20240415\",\r\n            \"elw_prpr\": \"100\",\r\n            \"prdy_vrss\"\
+    : \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n            \"elw_oprc\"\
+    : \"140\",\r\n            \"elw_hgpr\": \"195\",\r\n            \"elw_lwpr\": \"100\",\r\n            \"acml_vol\": \"\
+    16103560\",\r\n            \"d10_hist_vltl\": \"15.63\",\r\n            \"d20_hist_vltl\": \"17.28\",\r\n            \"\
+    d30_hist_vltl\": \"17.35\",\r\n            \"d60_hist_vltl\": \"17.87\",\r\n            \"d90_hist_vltl\": \"16.86\",\r\
+    \n            \"hts_ints_vltl\": \"19.64\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240412\"\
+    ,\r\n            \"elw_prpr\": \"100\",\r\n            \"prdy_vrss\": \"-5\",\r\n            \"prdy_vrss_sign\": \"5\"\
+    ,\r\n            \"prdy_ctrt\": \"-4.76\",\r\n            \"elw_oprc\": \"85\",\r\n            \"elw_hgpr\": \"120\",\r\
+    \n            \"elw_lwpr\": \"80\",\r\n            \"acml_vol\": \"5222010\",\r\n            \"d10_hist_vltl\": \"15.51\"\
+    ,\r\n            \"d20_hist_vltl\": \"18.67\",\r\n            \"d30_hist_vltl\": \"17.31\",\r\n            \"d60_hist_vltl\"\
+    : \"18.05\",\r\n            \"d90_hist_vltl\": \"16.86\",\r\n            \"hts_ints_vltl\": \"20.27\"\r\n        },\r\n\
+    \        {\r\n            \"stck_bsop_date\": \"20240411\",\r\n            \"elw_prpr\": \"105\",\r\n            \"prdy_vrss\"\
+    : \"5\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"5.00\",\r\n            \"elw_oprc\"\
+    : \"125\",\r\n            \"elw_hgpr\": \"160\",\r\n            \"elw_lwpr\": \"90\",\r\n            \"acml_vol\": \"\
+    2031830\",\r\n            \"d10_hist_vltl\": \"14.74\",\r\n            \"d20_hist_vltl\": \"18.70\",\r\n            \"\
+    d30_hist_vltl\": \"17.41\",\r\n            \"d60_hist_vltl\": \"17.96\",\r\n            \"d90_hist_vltl\": \"16.79\",\r\
+    \n            \"hts_ints_vltl\": \"22.02\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240409\"\
+    ,\r\n            \"elw_prpr\": \"100\",\r\n            \"prdy_vrss\": \"10\",\r\n            \"prdy_vrss_sign\": \"2\"\
+    ,\r\n            \"prdy_ctrt\": \"11.11\",\r\n            \"elw_oprc\": \"65\",\r\n            \"elw_hgpr\": \"100\",\r\
+    \n            \"elw_lwpr\": \"60\",\r\n            \"acml_vol\": \"999560\",\r\n            \"d10_hist_vltl\": \"14.75\"\
+    ,\r\n            \"d20_hist_vltl\": \"18.80\",\r\n            \"d30_hist_vltl\": \"17.56\",\r\n            \"d60_hist_vltl\"\
+    : \"18.00\",\r\n            \"d90_hist_vltl\": \"16.90\",\r\n            \"hts_ints_vltl\": \"20.93\"\r\n        },\r\n\
+    \        {\r\n            \"stck_bsop_date\": \"20240408\",\r\n            \"elw_prpr\": \"90\",\r\n            \"prdy_vrss\"\
+    : \"-20\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-18.18\",\r\n            \"elw_oprc\"\
+    : \"95\",\r\n            \"elw_hgpr\": \"95\",\r\n            \"elw_lwpr\": \"75\",\r\n            \"acml_vol\": \"159080\"\
+    ,\r\n            \"d10_hist_vltl\": \"15.41\",\r\n            \"d20_hist_vltl\": \"18.88\",\r\n            \"d30_hist_vltl\"\
+    : \"17.65\",\r\n            \"d60_hist_vltl\": \"17.96\",\r\n            \"d90_hist_vltl\": \"16.87\",\r\n           \
+    \ \"hts_ints_vltl\": \"21.04\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240405\",\r\n       \
+    \     \"elw_prpr\": \"110\",\r\n            \"prdy_vrss\": \"40\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n     \
+    \       \"prdy_ctrt\": \"57.14\",\r\n            \"elw_oprc\": \"95\",\r\n            \"elw_hgpr\": \"115\",\r\n     \
+    \       \"elw_lwpr\": \"80\",\r\n            \"acml_vol\": \"562130\",\r\n            \"d10_hist_vltl\": \"15.60\",\r\n\
+    \            \"d20_hist_vltl\": \"19.16\",\r\n            \"d30_hist_vltl\": \"17.65\",\r\n            \"d60_hist_vltl\"\
+    : \"18.05\",\r\n            \"d90_hist_vltl\": \"16.93\",\r\n            \"hts_ints_vltl\": \"21.19\"\r\n        },\r\n\
+    \        {\r\n            \"stck_bsop_date\": \"20240404\",\r\n            \"elw_prpr\": \"70\",\r\n            \"prdy_vrss\"\
+    : \"-30\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"prdy_ctrt\": \"-30.00\",\r\n            \"elw_oprc\"\
+    : \"70\",\r\n            \"elw_hgpr\": \"70\",\r\n            \"elw_lwpr\": \"60\",\r\n            \"acml_vol\": \"1086750\"\
+    ,\r\n            \"d10_hist_vltl\": \"14.58\",\r\n            \"d20_hist_vltl\": \"19.40\",\r\n            \"d30_hist_vltl\"\
+    : \"17.41\",\r\n            \"d60_hist_vltl\": \"17.94\",\r\n            \"d90_hist_vltl\": \"16.83\",\r\n           \
+    \ \"hts_ints_vltl\": \"20.35\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240403\",\r\n       \
+    \     \"elw_prpr\": \"100\",\r\n            \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n      \
+    \      \"prdy_ctrt\": \"0.00\",\r\n            \"elw_oprc\": \"75\",\r\n            \"elw_hgpr\": \"100\",\r\n       \
+    \     \"elw_lwpr\": \"75\",\r\n            \"acml_vol\": \"305570\",\r\n            \"d10_hist_vltl\": \"19.05\",\r\n\
+    \            \"d20_hist_vltl\": \"18.53\",\r\n            \"d30_hist_vltl\": \"16.79\",\r\n            \"d60_hist_vltl\"\
+    : \"17.67\",\r\n            \"d90_hist_vltl\": \"16.62\",\r\n            \"hts_ints_vltl\": \"18.85\"\r\n        },\r\n\
+    \        {\r\n            \"stck_bsop_date\": \"20240402\",\r\n            \"elw_prpr\": \"100\",\r\n            \"prdy_vrss\"\
+    : \"30\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"42.86\",\r\n            \"elw_oprc\"\
+    : \"65\",\r\n            \"elw_hgpr\": \"100\",\r\n            \"elw_lwpr\": \"55\",\r\n            \"acml_vol\": \"1056250\"\
+    ,\r\n            \"d10_hist_vltl\": \"18.75\",\r\n            \"d20_hist_vltl\": \"17.42\",\r\n            \"d30_hist_vltl\"\
+    : \"16.29\",\r\n            \"d60_hist_vltl\": \"17.29\",\r\n            \"d90_hist_vltl\": \"16.39\",\r\n           \
+    \ \"hts_ints_vltl\": \"21.66\"\r\n        },\r\n        {\r\n            \"stck_bsop_date\": \"20240401\",\r\n       \
+    \     \"elw_prpr\": \"70\",\r\n            \"prdy_vrss\": \"-15\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n     \
+    \       \"prdy_ctrt\": \"-17.65\",\r\n            \"elw_oprc\": \"60\",\r\n            \"elw_hgpr\": \"120\",\r\n    \
+    \        \"elw_lwpr\": \"60\",\r\n            \"acml_vol\": \"839440\",\r\n            \"d10_hist_vltl\": \"19.44\",\r\
+    \n            \"d20_hist_vltl\": \"17.67\",\r\n            \"d30_hist_vltl\": \"16.80\",\r\n            \"d60_hist_vltl\"\
+    : \"17.35\",\r\n            \"d90_hist_vltl\": \"16.40\",\r\n            \"hts_ints_vltl\": \"18.57\"\r\n        },...\r\
+    \n        {\r\n            \"stck_bsop_date\": \"20231206\",\r\n            \"elw_prpr\": \"1775\",\r\n            \"\
+    prdy_vrss\": \"65\",\r\n            \"prdy_vrss_sign\": \"2\",\r\n            \"prdy_ctrt\": \"3.80\",\r\n           \
+    \ \"elw_oprc\": \"1775\",\r\n            \"elw_hgpr\": \"1775\",\r\n            \"elw_lwpr\": \"1775\",\r\n          \
+    \  \"acml_vol\": \"20\",\r\n            \"d10_hist_vltl\": \"11.54\",\r\n            \"d20_hist_vltl\": \"12.91\",\r\n\
+    \            \"d30_hist_vltl\": \"22.19\",\r\n            \"d60_hist_vltl\": \"19.42\",\r\n            \"d90_hist_vltl\"\
+    : \"0.00\",\r\n            \"hts_ints_vltl\": \"10.60\"\r\n        }\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\"\
+    : \"MCA00000\",\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

@@ -1,0 +1,136 @@
+name: mastcode
+header_url: https://raw.githubusercontent.com/koreainvestment/open-trading-api/main/stocks_info/%ED%95%B4%EC%99%B8%EC%A2%85%EB%AA%A9%EC%BD%94%EB%93%9C%EC%A0%95%EB%B3%B4%28%EB%AF%B8%EA%B5%AD%2C%EC%A4%91%EA%B5%AD%2C%EC%9D%BC%EB%B3%B8%2C%ED%99%8D%EC%BD%A9%2C%EB%B2%A0%ED%8A%B8%EB%82%A8%29.h
+record_length: 266
+fields:
+- name: ncod
+  type_code: char
+  length: 3
+  description: National code
+  length_source: 2+1
+- name: exid
+  type_code: char
+  length: 4
+  description: Exchange id
+  length_source: 3+1
+- name: excd
+  type_code: char
+  length: 4
+  description: Exchange code
+  length_source: 3+1
+- name: exnm
+  type_code: char
+  length: 17
+  description: Exchange name
+  length_source: 16+1
+- name: symb
+  type_code: char
+  length: 17
+  description: Symbol
+  length_source: 16+1
+- name: rsym
+  type_code: char
+  length: 17
+  description: realtime symbol
+  length_source: 16+1
+- name: knam
+  type_code: char
+  length: 65
+  description: Korea name
+  length_source: 64+1
+- name: enam
+  type_code: char
+  length: 65
+  description: English name
+  length_source: 64+1
+- name: stis
+  type_code: char
+  length: 2
+  description: 'Security type
+
+    1:Index
+
+    2:Stock
+
+    3:ETP(ETF)
+
+    4:Warrant'
+  length_source: 1+1
+- name: curr
+  type_code: char
+  length: 5
+  description: currency
+  length_source: 4+1
+- name: zdiv
+  type_code: char
+  length: 2
+  description: float position
+  length_source: 1+1
+- name: ztyp
+  type_code: char
+  length: 2
+  description: data type
+  length_source: 1+1
+- name: base
+  type_code: char
+  length: 13
+  description: base price
+  length_source: 12+1
+- name: bnit
+  type_code: char
+  length: 9
+  description: Bid order size
+  length_source: 8+1
+- name: anit
+  type_code: char
+  length: 9
+  description: Ask order size
+  length_source: 8+1
+- name: mstm
+  type_code: char
+  length: 5
+  description: market start time(HHMM)
+  length_source: 4+1
+- name: metm
+  type_code: char
+  length: 5
+  description: market end time(HHMM)
+  length_source: 4+1
+- name: isdr
+  type_code: char
+  length: 2
+  description: DR 여부 :Y, N
+  length_source: 1+1
+- name: drcd
+  type_code: char
+  length: 3
+  description: DR 국가코드
+  length_source: 2+1
+- name: icod
+  type_code: char
+  length: 5
+  description: 업종분류코드
+  length_source: 4+1
+- name: sjong
+  type_code: char
+  length: 2
+  description: '지수구성종목 존재 여부
+
+    0:구성종목없음
+
+    1:구성종목있음'
+  length_source: 1+1
+- name: ttyp
+  type_code: char
+  length: 2
+  description: Tick size Type
+  length_source: 1+1
+- name: etyp
+  type_code: char
+  length: 4
+  description: '001: ETF 002: ETN 003: ETC 004: Others 005: VIX Underlying ETF 006: VIX Underlying ETN'
+  length_source: 3+1
+- name: ttyp_sb
+  type_code: char
+  length: 4
+  description: 'Tick size type 상세 (ttyp 9일 경우 사용) : 런던 제트라 유로넥스트'
+  length_source: 3+1

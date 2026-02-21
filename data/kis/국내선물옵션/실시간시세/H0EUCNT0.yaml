@@ -1,0 +1,506 @@
+id: 4d079440-555b-4773-a484-67bf170e9b27
+name: KRX야간옵션 실시간체결가 [실시간-032]
+section: '[국내선물옵션] 실시간시세'
+category: 국내선물옵션
+subcategory: 실시간시세
+method: POST
+url: /tryitout/H0EUCNT0
+content_type: application/json
+req_format: JSON
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  demo: 모의투자 미지원
+real_tr_id: H0EUCNT0
+demo_tr_id: 모의투자 미지원
+summary: '[참고자료]
+
+
+  실시간시세(웹소켓) 파이썬 샘플코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/ws_domestic_overseas_all.py
+
+
+  실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.
+
+  https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션 업데이트 예정)
+
+
+  종목코드 마스터파일 파이썬 정제코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-17T10:30:45+09:00'
+  last_modified_date: '2025-06-13T09:59:14+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'B : 법인 / P : 개인'
+  - code: tr_type
+    name: 등록/해제
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '1: 등록, 2:해제'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: H0EUCNT0
+  - code: tr_key
+    name: 구분값
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 야간옵션 종목코드
+  example:
+    header:
+      approval_key: 35xxxxxa-bxxa-4xxb-87xxx-f56xxxxxxxxxx
+      custtype: P
+      tr_type: '1'
+      content-type: utf-8
+    body:
+      input:
+        tr_id: H0EUCNT0
+        tr_key: 301V06362
+response:
+  headers: []
+  body:
+  - code: OPTN_SHRN_ISCD
+    name: 옵션단축종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: BSOP_HOUR
+    name: 영업시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: OPTN_PRPR
+    name: 옵션현재가
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: PRDY_VRSS_SIGN
+    name: 전일대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OPTN_PRDY_VRSS
+    name: 옵션전일대비
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: PRDY_CTRT
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OPTN_OPRC
+    name: 옵션시가2
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OPTN_HGPR
+    name: 옵션최고가
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OPTN_LWPR
+    name: 옵션최저가
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: LAST_CNQN
+    name: 최종거래량
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ACML_VOL
+    name: 누적거래량
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ACML_TR_PBMN
+    name: 누적거래대금
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: HTS_THPR
+    name: HTS이론가
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: HTS_OTST_STPL_QTY
+    name: HTS미결제약정수량
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OTST_STPL_QTY_ICDC
+    name: 미결제약정수량증감
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OPRC_HOUR
+    name: 시가시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: OPRC_VRSS_PRPR_SIGN
+    name: 시가2대비현재가부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OPRC_VRSS_NMIX_PRPR
+    name: 시가대비지수현재가
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: HGPR_HOUR
+    name: 최고가시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: HGPR_VRSS_PRPR_SIGN
+    name: 최고가대비현재가부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: HGPR_VRSS_NMIX_PRPR
+    name: 최고가대비지수현재가
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: LWPR_HOUR
+    name: 최저가시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: LWPR_VRSS_PRPR_SIGN
+    name: 최저가대비현재가부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: LWPR_VRSS_NMIX_PRPR
+    name: 최저가대비지수현재가
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SHNU_RATE
+    name: 매수2비율
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: PRMM_VAL
+    name: 프리미엄값
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: INVL_VAL
+    name: 내재가치값
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: TMVL_VAL
+    name: 시간가치값
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: DELTA
+    name: 델타
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: GAMA
+    name: 감마
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: VEGA
+    name: 베가
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: THETA
+    name: 세타
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: RHO
+    name: 로우
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: HTS_INTS_VLTL
+    name: HTS내재변동성
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ESDG
+    name: 괴리도
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OTST_STPL_RGBF_QTY_ICDC
+    name: 미결제약정직전수량증감
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: THPR_BASIS
+    name: 이론베이시스
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: UNAS_HIST_VLTL
+    name: 역사적변동성
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: CTTR
+    name: 체결강도
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: DPRT
+    name: 괴리율
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: MRKT_BASIS
+    name: 시장베이시스
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OPTN_ASKP1
+    name: 옵션매도호가1
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OPTN_BIDP1
+    name: 옵션매수호가1
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ASKP_RSQN1
+    name: 매도호가잔량1
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: BIDP_RSQN1
+    name: 매수호가잔량1
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SELN_CNTG_CSNU
+    name: 매도체결건수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SHNU_CNTG_CSNU
+    name: 매수체결건수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: NTBY_CNTG_CSNU
+    name: 순매수체결건수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SELN_CNTG_SMTN
+    name: 총매도수량
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: SHNU_CNTG_SMTN
+    name: 총매수수량
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: TOTAL_ASKP_RSQN
+    name: 총매도호가잔량
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: TOTAL_BIDP_RSQN
+    name: 총매수호가잔량
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: PRDY_VOL_VRSS_ACML_VOL_RATE
+    name: 전일거래량대비등락율
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: DYNM_MXPR
+    name: 실시간상한가
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: DYNM_PRC_LIMT_YN
+    name: 실시간가격제한구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: DYNM_LLAM
+    name: 실시간하한가
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  example: "# 연결 확인\r\n{\r\n    \"header\": {\r\n        \"tr_id\": \"H0EUCNT0\", \r\n        \"tr_key\": \"301V06362\", \r\
+    \n        \"encrypt\": \"N\"\r\n        }, \r\n    \"body\": {\r\n        \"rt_cd\": \"0\", \r\n        \"msg_cd\": \"\
+    OPSP0000\",\r\n        \"msg1\": \"SUBSCRIBE SUCCESS\", \r\n        \"output\": {\r\n            \"iv\": \"0123456789abcdef\"\
+    , \r\n            \"key\": \"abcdefghijklmnopabcdefghijklmnop\"}\r\n        }\r\n}\r\n\r\n# output\r\n0|H0EUCNT0|001|301V06362^190612^2.98^5^-0.35^-10.51^3.06^3.09^2.98^1^106^0^-nan^0^0\r\
+    \n^000000^5^-0.08^000000^5^-0.11^000000^3^0.00^0.25^0.00^0.00^2.98^-nan^-nan^-nan^nan^-nan^84.55^-nan^0\r\n^-nan^nan^32.50^-nan^-363.10^3.00^2.98^15^1^33^18^-15^80^26^37^27^0.00\r\
+    \n\r\n# output - 복호화 후\r\n#### 야간옵션(EUREX) 체결 ####\r\n============================================\r\n### [1 / 1]\r\n\
+    옵션단축종목코드     [301V06362]\r\n영업시간         [190612]\r\n옵션현재가        [2.98]\r\n전일대비부호       [5]\r\n옵션전일대비       [-0.35]\r\
+    \n전일대비율        [-10.51]\r\n옵션시가2        [3.06]\r\n옵션최고가        [3.09]\r\n옵션최저가        [2.98]\r\n최종거래량        [1]\r\n누적거래량\
+    \        [106]\r\n누적거래대금       [0]\r\nHTS이론가       [-nan]\r\nHTS미결제약정수량   [0]\r\n미결제약정수량증감    [0]\r\n시가시간         [000000]\r\
+    \n시가2대비현재가부호   [5]\r\n시가대비지수현재가    [-0.08]\r\n최고가시간        [000000]\r\n최고가대비현재가부호   [5]\r\n최고가대비지수현재가   [-0.11]\r\n최저가시간\
+    \        [000000]\r\n최저가대비현재가부호   [3]\r\n최저가대비지수현재가   [0.00]\r\n매수2비율        [0.25]\r\n프리미엄값        [0.00]\r\n내재가치값  \
+    \      [0.00]\r\n시간가치값        [2.98]\r\n델타           [-nan]\r\n감마           [-nan]\r\n베가           [-nan]\r\n세타      \
+    \     [nan]\r\n로우           [-nan]\r\nHTS내재변동성     [84.55]\r\n괴리도          [-nan]\r\n미결제약정직전수량증감  [0]\r\n이론베이시스      \
+    \ [-nan]\r\n역사적변동성       [nan]\r\n체결강도         [32.50]\r\n괴리율          [-nan]\r\n시장베이시스       [-363.10]\r\n옵션매도호가1   \
+    \   [3.00]\r\n옵션매수호가1      [2.98]\r\n매도호가잔량1      [15]\r\n매수호가잔량1      [1]\r\n매도체결건수       [33]\r\n매수체결건수       [18]\r\
+    \n순매수체결건수      [-15]\r\n총매도수량        [80]\r\n총매수수량        [26]\r\n총매도호가잔량      [37]\r\n총매수호가잔량      [27]\r\n전일거래량대비등락율\
+    \   [0.00]"
+errors: []

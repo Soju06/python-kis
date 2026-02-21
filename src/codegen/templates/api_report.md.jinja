@@ -1,0 +1,255 @@
+# Codegen API Report — {{ title_date }}
+
+## 기본 정보
+| 항목 | 상세 내용 |
+| :--- | :--- |
+{% for row in metadata_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}
+
+## 요약
+| 항목 | 상세 내용 |
+| :--- | :--- |
+{% for row in summary_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}
+
+## 범위
+| 항목 | 상세 내용 |
+| :--- | :--- |
+{% for row in scope_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}
+
+## 문서 기준 제외 (OAuth/실시간 제외)
+> 정상 포함된 엔드포인트는 표기하지 않습니다.
+
+{% if exclusion_summary_rows %}
+### 제외 요약
+| 사유 | 건수 | 비고 |
+| :--- | ---: | :--- |
+{% for row in exclusion_summary_rows %}
+| {{ row.reason }} | {{ row.count }} | {{ row.note }} |
+{% endfor %}
+
+{% else %}
+(제외 없음)
+{% endif %}
+
+{% if exclusion_detail_rows %}
+### 제외 상세
+| Endpoint ID | Name | Reason | Source | Action |
+| :--- | :--- | :--- | :--- | :--- |
+{% for row in exclusion_detail_rows %}
+| `{{ row.id }}` | {{ row.name }} | {{ row.reason }} | {{ row.source }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+## 스모크 테스트 경고
+> 오류가 아닌 경고(빈 응답 등)만 상세 표기합니다.
+
+{% if smoke_warning_summary_rows %}
+### 경고 요약
+| 유형 | 건수 | 비고 |
+| :--- | ---: | :--- |
+{% for row in smoke_warning_summary_rows %}
+| {{ row.reason }} | {{ row.count }} | {{ row.note }} |
+{% endfor %}
+
+{% else %}
+(경고 없음)
+{% endif %}
+
+{% if smoke_warning_details %}
+### 경고 상세
+| Endpoint ID | Name | Domain | Reason | Attempt | Path |
+| :--- | :--- | :--- | :--- | ---: | :--- |
+{% for row in smoke_warning_details %}
+| `{{ row.id }}` | {{ row.name }} | {{ row.domain }} | {{ row.reason }} | {{ row.attempt }} | {{ row.path }} |
+{% endfor %}
+
+{% endif %}
+## 스모크 테스트 오류
+> 오류 응답/전송 오류 등을 상세 표기합니다.
+
+{% if smoke_error_summary_rows %}
+### 오류 요약
+| 유형 | 건수 | 비고 |
+| :--- | ---: | :--- |
+{% for row in smoke_error_summary_rows %}
+| {{ row.reason }} | {{ row.count }} | {{ row.note }} |
+{% endfor %}
+
+{% else %}
+(오류 없음)
+{% endif %}
+
+{% if smoke_error_details %}
+### 오류 상세
+| Endpoint ID | Name | Domain | Reason | Attempt | Path |
+| :--- | :--- | :--- | :--- | ---: | :--- |
+{% for row in smoke_error_details %}
+| `{{ row.id }}` | {{ row.name }} | {{ row.domain }} | {{ row.reason }} | {{ row.attempt }} | {{ row.path }} |
+{% endfor %}
+
+{% endif %}
+{% if smoke_error_messages %}
+### 오류 상세 메시지
+{% for row in smoke_error_messages %}
+#### `{{ row.id }}`
+- Name: {{ row.name }}
+- Domain: {{ row.domain }}
+- Path: {{ row.path }}
+
+```
+{{ row.reason }}
+```
+
+{% endfor %}
+{% endif %}
+## Override 수명주기
+> 정상 유지(active) 항목은 상세 생략합니다.
+
+| 항목 | 상세 내용 |
+| :--- | :--- |
+{% for row in override_summary_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}
+
+{% if override_redundant_rows %}
+### 제거 후보 (Redundant)
+| Override ID | Reason | Change | Approved At | Evidence | Action |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+{% for row in override_redundant_rows %}
+| `{{ row.id }}` | {{ row.reason }} | {{ row.change_summary }} | {{ row.approved_at }} | {{ row.evidence }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+{% if override_blocked_rows %}
+### 차단됨 (Blocked)
+| Override ID | Reason | Change | Approved At | Evidence | Action |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+{% for row in override_blocked_rows %}
+| `{{ row.id }}` | {{ row.reason }} | {{ row.change_summary }} | {{ row.approved_at }} | {{ row.evidence }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+{% if override_missing_rows %}
+### 누락됨 (Missing)
+| Override ID | Reason | Change | Approved At | Evidence | Action |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+{% for row in override_missing_rows %}
+| `{{ row.id }}` | {{ row.reason }} | {{ row.change_summary }} | {{ row.approved_at }} | {{ row.evidence }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+## 수동 Enum 보강 후보
+> 문서 enum에 없는 실응답 코드 후보입니다. 자동 반영하지 않고 수동 검토 대상으로만 기록합니다.
+
+| 항목 | 상세 내용 |
+| :--- | :--- |
+{% for row in enum_drift_summary_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}
+
+{% if enum_drift_detail_rows %}
+### 후보 상세
+| Endpoint ID | Name | Location | Field | Unknown Values | Documented Values | Status | Action |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+{% for row in enum_drift_detail_rows %}
+| `{{ row.id }}` | {{ row.name }} | {{ row.location }} | `{{ row.field }}` | {{ row.unknown_values }} | {{ row.documented_values }} | {{ row.status }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+## 수동 Type Override 초안
+> `type_override_candidates_enum.*` 산출물 기준. 승인 전이므로 자동 반영되지 않습니다.
+
+| 항목 | 상세 내용 |
+| :--- | :--- |
+{% for row in enum_override_summary_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}
+
+{% if enum_override_detail_rows %}
+### 초안 상세
+| Override ID | Name | Path | Review Items | Evidence | Action |
+| :--- | :--- | :--- | ---: | :--- | :--- |
+{% for row in enum_override_detail_rows %}
+| `{{ row.id }}` | {{ row.name }} | {{ row.path }} | {{ row.review_count }} | {{ row.evidence }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+### 우선순위 분류
+| 항목 | 상세 내용 |
+| :--- | :--- |
+{% for row in enum_override_priority_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}
+
+{% if enum_override_priority_ready_rows %}
+#### Ready
+| Override ID | Name | Path | Ready Fields | Hold Fields | Reasons | Action |
+| :--- | :--- | :--- | ---: | ---: | :--- | :--- |
+{% for row in enum_override_priority_ready_rows %}
+| `{{ row.id }}` | {{ row.name }} | {{ row.path }} | {{ row.ready_fields }} | {{ row.hold_fields }} | {{ row.reasons }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+{% if enum_override_priority_hold_rows %}
+#### Hold
+| Override ID | Name | Path | Ready Fields | Hold Fields | Reasons | Action |
+| :--- | :--- | :--- | ---: | ---: | :--- | :--- |
+{% for row in enum_override_priority_hold_rows %}
+| `{{ row.id }}` | {{ row.name }} | {{ row.path }} | {{ row.ready_fields }} | {{ row.hold_fields }} | {{ row.reasons }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+## 수동 Enum 파서 검토 후보
+> 설명 파싱으로 enum 토큰이 오염됐을 가능성이 있는 필드 목록입니다. override 자동 적용 대상이 아니며 파서 보정/수동 승인 검토용입니다.
+
+| 항목 | 상세 내용 |
+| :--- | :--- |
+{% for row in enum_parser_review_summary_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}
+
+{% if enum_parser_review_rows %}
+### 후보 상세
+| Endpoint ID | Name | Smoke | Location | Field | Suspicious Values | Reasons | Confidence | Path |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+{% for row in enum_parser_review_rows %}
+| `{{ row.id }}` | {{ row.name }} | {{ row.smoke_status }} | {{ row.location }} | `{{ row.field }}` | {{ row.suspicious_values }} | {{ row.reasons }} | {{ row.confidence }} | {{ row.path }} |
+{% endfor %}
+
+{% endif %}
+### 우선순위 분류
+| 항목 | 상세 내용 |
+| :--- | :--- |
+{% for row in enum_parser_priority_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}
+
+{% if enum_parser_priority_ready_rows %}
+#### Ready (파서 수정 우선)
+| Endpoint ID | Name | Smoke | Ready Fields | Hold Fields | Reasons | Action |
+| :--- | :--- | :--- | ---: | ---: | :--- | :--- |
+{% for row in enum_parser_priority_ready_rows %}
+| `{{ row.id }}` | {{ row.name }} | {{ row.smoke_status }} | {{ row.ready_fields }} | {{ row.hold_fields }} | {{ row.reasons }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+{% if enum_parser_priority_hold_rows %}
+#### Hold (override 검토)
+| Endpoint ID | Name | Smoke | Ready Fields | Hold Fields | Reasons | Action |
+| :--- | :--- | :--- | ---: | ---: | :--- | :--- |
+{% for row in enum_parser_priority_hold_rows %}
+| `{{ row.id }}` | {{ row.name }} | {{ row.smoke_status }} | {{ row.ready_fields }} | {{ row.hold_fields }} | {{ row.reasons }} | {{ row.action }} |
+{% endfor %}
+
+{% endif %}
+## 부록
+| 항목 | 경로 |
+| :--- | :--- |
+{% for row in sources_rows %}
+| **{{ row.label }}** | {{ row.value }} |
+{% endfor %}

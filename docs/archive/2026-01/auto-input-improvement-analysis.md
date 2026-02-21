@@ -1,0 +1,230 @@
+# Auto Input 개선 후 잔여 이슈 분석 (1번)
+
+## A. Augment 오류 (26)
+- 77de2a74-b26c-40ca-a5b7-f87e2ef64f9f | 선물옵션기간별시세(일/주/월/년)[v1_국내선물-008] | /uapi/domestic-futureoption/v1/quotations/inquire-daily-fuopchartprice
+  - spec: `tmp/docs/normalized/국내선물옵션/기본시세/inquire_daily_fuopchartprice__77de2a74-b26c-40ca-a5b7-f87e2ef64f9f.json`
+  - issue: doc_mismatch_optional
+  - reason: 3 validation errors for InquireDailyFuopchartpriceResponse
+  - output kinds: {'output1': 'single', 'output2': 'array'}
+  - success shapes: {'output1': 'dict', 'output2': 'list[1]'}
+  - request params: {'query': {'FID_COND_MRKT_DIV_CODE': 'F', 'FID_INPUT_ISCD': 'A01603', 'FID_INPUT_DATE_1': '20260120', 'FID_INPUT_DATE_2': '20260120', 'FID_PERIOD_DIV_CODE': 'D'}, 'body': {}}
+  - action: 실응답에서 누락되는 필드 → optional 처리 type override 필요.
+- 86194480-c8f0-4b0b-9d3d-001c2fc33422 | 선물옵션 분봉조회[v1_국내선물-012] | /uapi/domestic-futureoption/v1/quotations/inquire-time-fuopchartprice
+  - spec: `tmp/docs/normalized/국내선물옵션/기본시세/inquire_time_fuopchartprice__86194480-c8f0-4b0b-9d3d-001c2fc33422.json`
+  - issue: doc_mismatch_optional
+  - reason: 3 validation errors for InquireTimeFuopchartpriceResponse
+  - output kinds: {'output1': 'single', 'output2': 'array'}
+  - success shapes: {'output1': 'dict', 'output2': 'list[91]'}
+  - request params: {'query': {'FID_COND_MRKT_DIV_CODE': 'F', 'FID_INPUT_ISCD': 'A01603', 'FID_HOUR_CLS_CODE': '30', 'FID_PW_DATA_INCU_YN': 'N', 'FID_FAKE_TICK_INCU_YN': 'N', 'FID_INPUT_DATE_1': '20260120', 'FID_INPUT_HOUR_1': '093000'}, 'body': {}}
+  - action: 실응답에서 누락되는 필드 → optional 처리 type override 필요.
+- ca2e71e1-5ef4-4489-b4c4-118e10588690 | ELW 비교대상종목조회 [국내주식-183] | /uapi/elw/v1/quotations/compare-stocks
+  - spec: `tmp/docs/normalized/국내주식/ELW_시세/compare_stocks__ca2e71e1-5ef4-4489-b4c4-118e10588690.json`
+  - issue: doc_mismatch_output_kind
+  - reason: 1 validation error for CompareStocksResponse
+  - output kinds: {'output': 'single'}
+  - success shapes: {'output': 'list[178]'}
+  - request params: {'query': {'FID_COND_SCR_DIV_CODE': '11517', 'FID_INPUT_ISCD': '005930'}, 'body': {}}
+  - action: output kind=single -> list로 type override 필요.
+- e5f413ec-3e68-47d7-931f-d7eb263990d9 | ELW LP매매추이 [국내주식-182] | /uapi/elw/v1/quotations/lp-trade-trend
+  - spec: `tmp/docs/normalized/국내주식/ELW_시세/lp_trade_trend__e5f413ec-3e68-47d7-931f-d7eb263990d9.json`
+  - issue: doc_mismatch_optional
+  - reason: 1 validation error for LpTradeTrendResponse
+  - output kinds: {'output1': 'single', 'output2': 'array'}
+  - success shapes: {'output1': 'dict', 'output2': 'list[96]'}
+  - request params: {'query': {'FID_COND_MRKT_DIV_CODE': 'W', 'FID_INPUT_ISCD': '57K281'}, 'body': {}}
+  - action: 실응답에서 누락되는 필드 → optional 처리 type override 필요.
+- a08c3421-e50f-4f24-b1fe-64c12f723c77 | 국내주식기간별시세(일/주/월/년)[v1_국내주식-016] | /uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice
+  - spec: `tmp/docs/normalized/국내주식/기본시세/inquire_daily_itemchartprice__a08c3421-e50f-4f24-b1fe-64c12f723c77.json`
+  - issue: doc_mismatch_optional
+  - reason: 1 validation error for InquireDailyItemchartpriceResponse
+  - output kinds: {'output1': 'single', 'output2': 'array'}
+  - success shapes: {'output1': 'dict', 'output2': 'list[1]'}
+  - request params: {'query': {'FID_COND_MRKT_DIV_CODE': 'J', 'FID_INPUT_ISCD': '005930', 'FID_INPUT_DATE_1': '20260130', 'FID_INPUT_DATE_2': '20260130', 'FID_PERIOD_DIV_CODE': 'D', 'FID_ORG_ADJ_PRC': '0'}, 'body': {}}
+  - action: 실응답에서 누락되는 필드 → optional 처리 type override 필요.
+- 6b0b388e-f815-4009-b46d-e08e47575ca7 | 국내주식 시간외호가[국내주식-077] | /uapi/domestic-stock/v1/quotations/inquire-overtime-asking-price
+  - spec: `tmp/docs/normalized/국내주식/기본시세/inquire_overtime_asking_price__6b0b388e-f815-4009-b46d-e08e47575ca7.json`
+  - issue: doc_mismatch_optional
+  - reason: 14 validation errors for InquireOvertimeAskingPriceResponse
+  - output kinds: {'output1': 'single'}
+  - success shapes: {'output': 'dict'}
+  - request params: {'query': {'FID_INPUT_ISCD': '005930', 'FID_COND_MRKT_DIV_CODE': 'J'}, 'body': {}}
+  - action: 실응답에서 누락되는 필드 → optional 처리 type override 필요.
+- 1e375270-7d8d-4e4b-bcac-d11cb41542cb | 국내주식 시간외현재가[국내주식-076] | /uapi/domestic-stock/v1/quotations/inquire-overtime-price
+  - spec: `tmp/docs/normalized/국내주식/기본시세/inquire_overtime_price__1e375270-7d8d-4e4b-bcac-d11cb41542cb.json`
+  - issue: doc_mismatch_optional
+  - reason: 4 validation errors for InquireOvertimePriceResponse
+  - output kinds: {'output': 'single'}
+  - success shapes: {'output': 'dict'}
+  - request params: {'query': {'FID_COND_MRKT_DIV_CODE': 'J', 'FID_INPUT_ISCD': '005930'}, 'body': {}}
+  - action: 실응답에서 누락되는 필드 → optional 처리 type override 필요.
+- e53eb2e6-b292-4e2b-b150-22d92b401453 | ETF/ETN 현재가[v1_국내주식-068] | /uapi/etfetn/v1/quotations/inquire-price
+  - spec: `tmp/docs/normalized/국내주식/기본시세/inquire_price__e53eb2e6-b292-4e2b-b150-22d92b401453.json`
+  - issue: doc_mismatch_optional
+  - reason: 2 validation errors for InquirePriceResponse
+  - output kinds: {'output': 'single'}
+  - success shapes: {'output': 'dict'}
+  - request params: {'query': {'fid_input_iscd': '005930', 'fid_cond_mrkt_div_code': 'J'}, 'body': {}}
+  - action: 실응답에서 누락되는 필드 → optional 처리 type override 필요.
+- 636e216a-f3bb-4dc6-8bc3-e6d9babca5f1 | HTS조회상위20종목 [국내주식-214] | /uapi/domestic-stock/v1/ranking/hts-top-view
+  - spec: `tmp/docs/normalized/국내주식/순위분석/hts_top_view__636e216a-f3bb-4dc6-8bc3-e6d9babca5f1.json`
+  - issue: doc_mismatch_output_kind
+  - reason: 1 validation error for HtsTopViewResponse
+  - output kinds: {'output1': 'single'}
+  - success shapes: {'output1': 'list[20]'}
+  - request params: {'query': {}, 'body': {}}
+  - action: output kind=single -> list로 type override 필요.
+- 4a077f43-7053-47be-b811-8e35be4ea745 | 국내기관_외국인 매매종목가집계[국내주식-037] | /uapi/domestic-stock/v1/quotations/foreign-institution-total
+  - spec: `tmp/docs/normalized/국내주식/시세분석/foreign_institution_total__4a077f43-7053-47be-b811-8e35be4ea745.json`
+  - issue: doc_mismatch_output_kind
+  - reason: 1 validation error for ForeignInstitutionTotalResponse
+  - output kinds: {'output': 'single'}
+  - success shapes: {'output': 'list[30]'}
+  - request params: {'query': {'FID_COND_MRKT_DIV_CODE': 'V', 'FID_COND_SCR_DIV_CODE': '16449', 'FID_INPUT_ISCD': '0000', 'FID_DIV_CLS_CODE': '0', 'FID_RANK_SORT_CLS_CODE': '0', 'FID_ETC_CLS_CODE': '0'}, 'body': {}}
+  - action: output kind=single -> list로 type override 필요.
+- e5c6c050-e63f-4ab7-b339-d1a645d3239b | 시장별 투자자매매동향(시세)[v1_국내주식-074] | /uapi/domestic-stock/v1/quotations/inquire-investor-time-by-market
+  - spec: `tmp/docs/normalized/국내주식/시세분석/inquire_investor_time_by_market__e5c6c050-e63f-4ab7-b339-d1a645d3239b.json`
+  - issue: doc_mismatch_output_kind
+  - reason: 1 validation error for InquireInvestorTimeByMarketResponse
+  - output kinds: {'output': 'single'}
+  - success shapes: {'output': 'list[1]'}
+  - request params: {'query': {'fid_input_iscd': 'ETF', 'fid_input_iscd_2': 'iscd'}, 'body': {}}
+  - action: output kind=single -> list로 type override 필요.
+- fee465d1-7fd5-4c66-b4a4-731b813d569d | 관심종목(멀티종목) 시세조회 [국내주식-205] | /uapi/domestic-stock/v1/quotations/intstock-multprice
+  - spec: `tmp/docs/normalized/국내주식/시세분석/intstock_multprice__fee465d1-7fd5-4c66-b4a4-731b813d569d.json`
+  - issue: doc_mismatch_output_kind
+  - reason: 1 validation error for IntstockMultpriceResponse
+  - output kinds: {'output': 'single'}
+  - success shapes: {'output': 'list[30]'}
+  - request params: {'query': {'FID_COND_MRKT_DIV_CODE_1': 'J', 'FID_INPUT_ISCD_1': '005930', 'FID_COND_MRKT_DIV_CODE_2': 'J', 'FID_INPUT_ISCD_2': '005930', 'FID_COND_MRKT_DIV_CODE_3': 'J', 'FID_INPUT_ISCD_3': '005930', 'FID_COND_MRKT_DIV_CODE_4': 'J', 'FID_INPUT_ISCD_4': '005930', 'FID_COND_MRKT_DIV_CODE_5': 'J', 'FID_INPUT_ISCD_5': '005930', 'FID_COND_MRKT_DIV_CODE_6': 'J', 'FID_INPUT_ISCD_6': '005930', 'FID_COND_MRKT_DIV_CODE_7': 'J', 'FID_INPUT_ISCD_7': '005930', 'FID_COND_MRKT_DIV_CODE_8': 'J', 'FID_INPUT_ISCD_8': '005930', 'FID_COND_MRKT_DIV_CODE_9': 'J', 'FID_INPUT_ISCD_9': '005930', 'FID_COND_MRKT_DIV_CODE_10': 'J', 'FID_INPUT_ISCD_10': '005930', 'FID_COND_MRKT_DIV_CODE_11': 'J', 'FID_INPUT_ISCD_11': '005930', 'FID_COND_MRKT_DIV_CODE_12': 'J', 'FID_INPUT_ISCD_12': '005930', 'FID_COND_MRKT_DIV_CODE_13': 'J', 'FID_INPUT_ISCD_13': '005930', 'FID_COND_MRKT_DIV_CODE_14': 'J', 'FID_INPUT_ISCD_14': '005930', 'FID_COND_MRKT_DIV_CODE_15': 'J', 'FID_INPUT_ISCD_15': '005930', 'FID_COND_MRKT_DIV_CODE_16': 'J', 'FID_INPUT_ISCD_16': '005930', 'FID_COND_MRKT_DIV_CODE_17': 'J', 'FID_INPUT_ISCD_17': '005930', 'FID_COND_MRKT_DIV_CODE_18': 'J', 'FID_INPUT_ISCD_18': '005930', 'FID_COND_MRKT_DIV_CODE_19': 'J', 'FID_INPUT_ISCD_19': '005930', 'FID_COND_MRKT_DIV_CODE_20': 'J', 'FID_INPUT_ISCD_20': '005930', 'FID_COND_MRKT_DIV_CODE_21': 'J', 'FID_INPUT_ISCD_21': '005930', 'FID_COND_MRKT_DIV_CODE_22': 'J', 'FID_INPUT_ISCD_22': '005930', 'FID_COND_MRKT_DIV_CODE_23': 'J', 'FID_INPUT_ISCD_23': '005930', 'FID_COND_MRKT_DIV_CODE_24': 'J', 'FID_INPUT_ISCD_24': '005930', 'FID_COND_MRKT_DIV_CODE_25': 'J', 'FID_INPUT_ISCD_25': '005930', 'FID_COND_MRKT_DIV_CODE_26': 'J', 'FID_INPUT_ISCD_26': '005930', 'FID_COND_MRKT_DIV_CODE_27': 'J', 'FID_INPUT_ISCD_27': '005930', 'FID_COND_MRKT_DIV_CODE_28': 'J', 'FID_INPUT_ISCD_28': '005930', 'FID_COND_MRKT_DIV_CODE_29': 'J', 'FID_INPUT_ISCD_29': '005930', 'FID_COND_MRKT_DIV_CODE_30': 'J', 'FID_INPUT_ISCD_30': '005930'}, 'body': {}}
+  - action: output kind=single -> list로 type override 필요.
+- b290d16e-aa18-4e41-9c08-f4d941efe9a1 | 국내주식 체결금액별 매매비중 [국내주식-192] | /uapi/domestic-stock/v1/quotations/tradprt-byamt
+  - spec: `tmp/docs/normalized/국내주식/시세분석/tradprt_byamt__b290d16e-aa18-4e41-9c08-f4d941efe9a1.json`
+  - issue: params_or_server
+  - reason: [augment] HTTP 500 for b290d16e-aa18-4e41-9c08-f4d941efe9a1
+  - output kinds: {'output': 'array'}
+  - request params: {'query': {'FID_COND_MRKT_DIV_CODE': 'J', 'FID_COND_SCR_DIV_CODE': '11119', 'FID_INPUT_ISCD': '(005930 (삼성전자'}, 'body': {}}
+  - action: 요청 파라미터 문제 가능성 높음 (override/auto input 보강 필요) 또는 서버 오류. 요청값 확인 필요.
+- 5c488ab2-59fd-486e-bf74-b68e813e35c0 | 국내휴장일조회[국내주식-040] | /uapi/domestic-stock/v1/quotations/chk-holiday
+  - spec: `tmp/docs/normalized/국내주식/업종_기타/chk_holiday__5c488ab2-59fd-486e-bf74-b68e813e35c0.json`
+  - issue: doc_mismatch_output_kind
+  - reason: 1 validation error for ChkHolidayResponse
+  - output kinds: {'output': 'single'}
+  - success shapes: {'output': 'list[24]'}
+  - request params: {'query': {'BASS_DT': '20260130', 'CTX_AREA_NK': '', 'CTX_AREA_FK': ''}, 'body': {}}
+  - action: output kind=single -> list로 type override 필요.
+- fbfe7300-7096-4938-840b-9f7c328cc5fd | 종합 시황/공시(제목) [국내주식-141] | /uapi/domestic-stock/v1/quotations/news-title
+  - spec: `tmp/docs/normalized/국내주식/업종_기타/news_title__fbfe7300-7096-4938-840b-9f7c328cc5fd.json`
+  - issue: doc_mismatch_output_kind
+  - reason: 1 validation error for NewsTitleResponse
+  - output kinds: {'output': 'single'}
+  - request params: {'query': {'FID_NEWS_OFER_ENTP_CODE': '', 'FID_COND_MRKT_CLS_CODE': '', 'FID_INPUT_ISCD': '', 'FID_TITL_CNTT': '', 'FID_INPUT_DATE_1': '', 'FID_INPUT_HOUR_1': '', 'FID_RANK_SORT_CLS_CODE': '', 'FID_INPUT_SRNO': ''}, 'body': {}}
+  - action: output kind=single -> list로 type override 필요.
+- 9de56f62-938c-40df-970e-8fd13a59b445 | 국내주식 종목투자의견 [국내주식-188] | /uapi/domestic-stock/v1/quotations/invest-opinion
+  - spec: `tmp/docs/normalized/국내주식/종목정보/invest_opinion__9de56f62-938c-40df-970e-8fd13a59b445.json`
+  - issue: params_or_server
+  - reason: [augment] HTTP 500 for 9de56f62-938c-40df-970e-8fd13a59b445
+  - output kinds: {'output': 'array'}
+  - request params: {'query': {'FID_COND_MRKT_DIV_CODE': 'J', 'FID_COND_SCR_DIV_CODE': '0', 'FID_INPUT_ISCD': '005930(삼성전자', 'FID_INPUT_DATE_1': '0020231113', 'FID_INPUT_DATE_2': '0020240513'}, 'body': {}}
+  - action: 요청 파라미터 문제 가능성 높음 (override/auto input 보강 필요) 또는 서버 오류. 요청값 확인 필요.
+- 7d6d8ba7-bcae-4d7c-8d5b-4b51cd42a94a | 장내채권현재가(일별) [국내주식-202] | /uapi/domestic-bond/v1/quotations/inquire-daily-price
+  - spec: `tmp/docs/normalized/장내채권/기본시세/inquire_daily_price__7d6d8ba7-bcae-4d7c-8d5b-4b51cd42a94a.json`
+  - issue: doc_mismatch_output_kind
+  - reason: 1 validation error for InquireDailyPriceResponse
+  - output kinds: {'output': 'single'}
+  - success shapes: {'output': 'list[8]'}
+  - request params: {'query': {'FID_COND_MRKT_DIV_CODE': 'B', 'FID_INPUT_ISCD': 'KR2033022D33'}, 'body': {}}
+  - action: output kind=single -> list로 type override 필요.
+- a274b685-7ea8-441d-a2fe-3087becb6bf2 | 장내채권현재가(시세) [국내주식-200] | /uapi/domestic-bond/v1/quotations/inquire-price
+  - spec: `tmp/docs/normalized/장내채권/기본시세/inquire_price__a274b685-7ea8-441d-a2fe-3087becb6bf2.json`
+  - issue: doc_mismatch_optional
+  - reason: 3 validation errors for InquirePriceResponse
+  - output kinds: {'output': 'single'}
+  - success shapes: {'output': 'dict'}
+  - request params: {'query': {'FID_COND_MRKT_DIV_CODE': 'B', 'FID_INPUT_ISCD': 'KR6095572D81'}, 'body': {}}
+  - action: 실응답에서 누락되는 필드 → optional 처리 type override 필요.
+- 9fa44d82-f5f3-4edc-adec-8bad25800bd3 | 해외옵션 분봉조회 [해외선물-040] | /uapi/overseas-futureoption/v1/quotations/inquire-time-optchartprice
+  - spec: `tmp/docs/normalized/해외선물옵션/기본시세/inquire_time_optchartprice__9fa44d82-f5f3-4edc-adec-8bad25800bd3.json`
+  - issue: params_or_server
+  - reason: [augment] HTTP 500 for 9fa44d82-f5f3-4edc-adec-8bad25800bd3
+  - output kinds: {'output2': 'array', 'output1': 'array'}
+  - success shapes: {'output2': 'list[1]', 'output1': 'list[0]'}
+  - request params: {'query': {'SRS_CD': 'OESU24 C5500', 'EXCH_CD': 'CME', 'START_DATE_TIME': '', 'CLOSE_DATE_TIME': '', 'QRY_TP': 'Q', 'QRY_CNT': '120 (최대 120', 'QRY_GAP': '1', 'INDEX_KEY': ''}, 'body': {}}
+  - action: 요청 파라미터 문제 가능성 높음 (override/auto input 보강 필요) 또는 서버 오류. 요청값 확인 필요.
+- 3acd4025-6e95-46dc-a90d-b38215912d11 | 해외선물옵션 장운영시간 [해외선물-030] | /uapi/overseas-futureoption/v1/quotations/market-time
+  - spec: `tmp/docs/normalized/해외선물옵션/기본시세/market_time__3acd4025-6e95-46dc-a90d-b38215912d11.json`
+  - issue: doc_mismatch_output_kind
+  - reason: 1 validation error for MarketTimeResponse
+  - output kinds: {'output': 'single'}
+  - success shapes: {'output': 'list[50]'}
+  - request params: {'query': {'FM_PDGR_CD': '', 'FM_CLAS_CD': '', 'FM_EXCG_CD': 'CME', 'OPT_YN': '%', 'CTX_AREA_NK200': '', 'CTX_AREA_FK200': ''}, 'body': {}}
+  - action: output kind=single -> list로 type override 필요.
+- 1ecba681-1f73-4fb7-98b0-b7feef13b354 | 해외옵션 체결추이(일간) [해외선물-037] | /uapi/overseas-futureoption/v1/quotations/opt-daily-ccnl
+  - spec: `tmp/docs/normalized/해외선물옵션/기본시세/opt_daily_ccnl__1ecba681-1f73-4fb7-98b0-b7feef13b354.json`
+  - issue: params_or_server
+  - reason: [augment] HTTP 500 for 1ecba681-1f73-4fb7-98b0-b7feef13b354
+  - output kinds: {'output1': 'single', 'output2': 'array'}
+  - success shapes: {'output1': 'dict', 'output2': 'list[0]'}
+  - request params: {'query': {'SRS_CD': 'OESU24 C5500', 'EXCH_CD': 'CME', 'START_DATE_TIME': '', 'CLOSE_DATE_TIME': '', 'QRY_TP': 'Q', 'QRY_CNT': '100 (최대 119', 'QRY_GAP': '', 'INDEX_KEY': ''}, 'body': {}}
+  - action: 요청 파라미터 문제 가능성 높음 (override/auto input 보강 필요) 또는 서버 오류. 요청값 확인 필요.
+- 94959cbc-bbb7-4776-8cd0-7058138a08aa | 해외옵션 체결추이(월간) [해외선물-039] | /uapi/overseas-futureoption/v1/quotations/opt-monthly-ccnl
+  - spec: `tmp/docs/normalized/해외선물옵션/기본시세/opt_monthly_ccnl__94959cbc-bbb7-4776-8cd0-7058138a08aa.json`
+  - issue: params_or_server
+  - reason: [augment] HTTP 500 for 94959cbc-bbb7-4776-8cd0-7058138a08aa
+  - output kinds: {'output1': 'single', 'output2': 'array'}
+  - success shapes: {'output1': 'dict', 'output2': 'list[0]'}
+  - request params: {'query': {'SRS_CD': 'OESU24 C5500', 'EXCH_CD': 'CME', 'START_DATE_TIME': '', 'CLOSE_DATE_TIME': '', 'QRY_TP': 'Q', 'QRY_CNT': '20 (최대 120', 'QRY_GAP': '', 'INDEX_KEY': ''}, 'body': {}}
+  - action: 요청 파라미터 문제 가능성 높음 (override/auto input 보강 필요) 또는 서버 오류. 요청값 확인 필요.
+- 41290e2a-6e25-49c0-91a1-99b96ce53efe | 해외옵션 체결추이(틱) [해외선물-038] | /uapi/overseas-futureoption/v1/quotations/opt-tick-ccnl
+  - spec: `tmp/docs/normalized/해외선물옵션/기본시세/opt_tick_ccnl__41290e2a-6e25-49c0-91a1-99b96ce53efe.json`
+  - issue: params_or_server
+  - reason: [augment] HTTP 500 for 41290e2a-6e25-49c0-91a1-99b96ce53efe
+  - output kinds: {'output1': 'single', 'output2': 'array'}
+  - success shapes: {'output1': 'dict', 'output2': 'list[0]'}
+  - request params: {'query': {'SRS_CD': 'OESU24 C5500', 'EXCH_CD': 'CME', 'START_DATE_TIME': '', 'CLOSE_DATE_TIME': '', 'QRY_TP': 'Q', 'QRY_CNT': '30 (최대 40', 'QRY_GAP': '', 'INDEX_KEY': ''}, 'body': {}}
+  - action: 요청 파라미터 문제 가능성 높음 (override/auto input 보강 필요) 또는 서버 오류. 요청값 확인 필요.
+- 14431ddf-c0d5-4c33-a945-86e77bcf6486 | 해외옵션 체결추이(주간) [해외선물-036] | /uapi/overseas-futureoption/v1/quotations/opt-weekly-ccnl
+  - spec: `tmp/docs/normalized/해외선물옵션/기본시세/opt_weekly_ccnl__14431ddf-c0d5-4c33-a945-86e77bcf6486.json`
+  - issue: params_or_server
+  - reason: [augment] HTTP 500 for 14431ddf-c0d5-4c33-a945-86e77bcf6486
+  - output kinds: {'output1': 'single', 'output2': 'array'}
+  - success shapes: {'output1': 'dict', 'output2': 'list[0]'}
+  - request params: {'query': {'SRS_CD': 'OESU24 C5500', 'EXCH_CD': 'CME', 'START_DATE_TIME': '', 'CLOSE_DATE_TIME': '', 'QRY_TP': 'Q', 'QRY_CNT': '20 (최대 120', 'QRY_GAP': '', 'INDEX_KEY': ''}, 'body': {}}
+  - action: 요청 파라미터 문제 가능성 높음 (override/auto input 보강 필요) 또는 서버 오류. 요청값 확인 필요.
+- 81269474-9c66-404f-bdfe-4bb472975330 | 해외지수분봉조회[v1_해외주식-031] | /uapi/overseas-price/v1/quotations/inquire-time-indexchartprice
+  - spec: `tmp/docs/normalized/해외주식/기본시세/inquire_time_indexchartprice__81269474-9c66-404f-bdfe-4bb472975330.json`
+  - issue: doc_mismatch_optional
+  - reason: 2 validation errors for InquireTimeIndexchartpriceResponse
+  - output kinds: {'output1': 'single', 'output2': 'array'}
+  - success shapes: {'output1': 'dict', 'output2': 'list[0]'}
+  - request params: {'query': {'FID_COND_MRKT_DIV_CODE': 'N', 'FID_INPUT_ISCD': '005930', 'FID_HOUR_CLS_CODE': '0', 'FID_PW_DATA_INCU_YN': 'N'}, 'body': {}}
+  - action: 실응답에서 누락되는 필드 → optional 처리 type override 필요.
+- 7f77a12b-b23c-4605-93ea-4e1b3c0356fb | 해외주식 상품기본정보[v1_해외주식-034] | /uapi/overseas-price/v1/quotations/search-info
+  - spec: `tmp/docs/normalized/해외주식/기본시세/search_info__7f77a12b-b23c-4605-93ea-4e1b3c0356fb.json`
+  - issue: params_or_server
+  - reason: [augment] HTTP 500 for 7f77a12b-b23c-4605-93ea-4e1b3c0356fb
+  - output kinds: {'output': 'single'}
+  - success shapes: {'output': 'dict'}
+  - request params: {'query': {'PRDT_TYPE_CD': '512', 'PDNO': 'AAPL (애플'}, 'body': {}}
+  - action: 요청 파라미터 문제 가능성 높음 (override/auto input 보강 필요) 또는 서버 오류. 요청값 확인 필요.
+
+## B. Validation 오류 (4)
+- a87c0275-f467-4199-866a-876a8fcdccb0 | 국내업종 시간별지수(초)[국내주식-064] | /uapi/domestic-stock/v1/quotations/inquire-index-tickprice
+  - spec: `tmp/docs/normalized/국내주식/업종_기타/inquire_index_tickprice__a87c0275-f467-4199-866a-876a8fcdccb0.json`
+  - issue: doc_mismatch_format
+  - reason: 1 validation error for InquireIndexTickpriceResponse
+  - action: 문서 타입과 실제 응답 포맷 불일치 → type override로 str 처리(시간/날짜 범위) 권장.
+- 1d150774-eafa-49f8-9e77-67099bc28771 | 국내업종 시간별지수(분)[국내주식-119] | /uapi/domestic-stock/v1/quotations/inquire-index-timeprice
+  - spec: `tmp/docs/normalized/국내주식/업종_기타/inquire_index_timeprice__1d150774-eafa-49f8-9e77-67099bc28771.json`
+  - issue: doc_mismatch_format
+  - reason: 1 validation error for InquireIndexTimepriceResponse
+  - action: 문서 타입과 실제 응답 포맷 불일치 → type override로 str 처리(시간/날짜 범위) 권장.
+- 5613b629-b622-4a22-8175-31a4376c36b4 | 업종 분봉조회[v1_국내주식-045] | /uapi/domestic-stock/v1/quotations/inquire-time-indexchartprice
+  - spec: `tmp/docs/normalized/국내주식/업종_기타/inquire_time_indexchartprice__5613b629-b622-4a22-8175-31a4376c36b4.json`
+  - issue: doc_mismatch_format
+  - reason: 1 validation error for InquireTimeIndexchartpriceResponse
+  - action: 문서 타입과 실제 응답 포맷 불일치 → type override로 str 처리(시간/날짜 범위) 권장.
+- b742d5ef-6d97-4e75-ae25-52daf2f08021 | 예탁원정보(의무예치일정)[국내주식-153] | /uapi/domestic-stock/v1/ksdinfo/mand-deposit
+  - spec: `tmp/docs/normalized/국내주식/종목정보/mand_deposit__b742d5ef-6d97-4e75-ae25-52daf2f08021.json`
+  - issue: doc_mismatch_format
+  - reason: 6 validation errors for MandDepositResponse
+  - action: 문서 타입과 실제 응답 포맷 불일치 → type override로 str 처리(시간/날짜 범위) 권장.

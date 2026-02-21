@@ -1,0 +1,349 @@
+id: ce9f2a8f-e3cb-4bd3-83ba-7b6034eafae9
+name: 회원사 실시간 매매동향(틱) [국내주식-163]
+section: '[국내주식] 시세분석'
+category: 국내주식
+subcategory: 시세분석
+method: GET
+url: /uapi/domestic-stock/v1/quotations/frgnmem-trade-trend
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: FHPST04320000
+demo_tr_id: 모의투자 미지원
+summary: '회원사 실시간 매매동향(틱) API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0432] 회원사 실시간 매매동향 화면 의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
+
+
+  최근 100건까지 데이터 조회 가능합니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-17T10:19:01+09:00'
+  last_modified_date: '2025-05-15T17:16:55+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPST04320000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_SCR_DIV_CODE
+    name: 화면분류코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 20432(primary key)
+  - code: FID_COND_MRKT_DIV_CODE
+    name: FID 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: J 고정 입력
+  - code: FID_INPUT_ISCD
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: "ex. 005930(삼성전자) \n\n※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력"
+  - code: FID_INPUT_ISCD_2
+    name: 회원사코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 'ex. 99999(전체)
+
+
+      ※ 회원사코드 (kis developers 포탈 사이트 포럼-> FAQ -> 종목정보 다운로드(국내) 참조)'
+  - code: FID_MRKT_CLS_CODE
+    name: 시장구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 'A(전체),K(코스피), Q(코스닥), K2(코스피200), W(ELW)
+
+
+      ※ FID_INPUT_ISCD(종목코드) 혹은 FID_MRKT_CLS_CODE(시장구분코드) 둘 중 하나만 입력'
+  - code: FID_VOL_CNT
+    name: 거래량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 거래량 ~
+  example: "FID_COND_SCR_DIV_CODE:20432\r\nFID_INPUT_ISCD:005930\r\nFID_INPUT_ISCD2:99999\r\nFID_MRKT_CLS_CODE:\r\nFID_VOL_CNT:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: array
+  - code: total_seln_qty
+    name: 총매도수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: total_shnu_qty
+    name: 총매수2수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: bsop_hour
+    name: 영업시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: mbcr_name
+    name: 회원사명
+    type: A0001
+    type_name: String
+    length: '50'
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS한글종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: stck_prpr
+    name: 주식현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: cntg_vol
+    name: 체결거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: acml_ntby_qty
+    name: 누적순매수수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: glob_ntby_qty
+    name: 외국계순매수수량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: frgn_ntby_qty_icdc
+    name: 외국인순매수수량증감
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example: "{\r\n    \"output1\": [\r\n        {\r\n            \"total_seln_qty\": \"3403046\",\r\n            \"total_shnu_qty\"\
+    : \"1539165\"\r\n        }\r\n    ],\r\n    \"output2\": [\r\n        {\r\n            \"bsop_hour\": \"153025\",\r\n\
+    \            \"mbcr_name\": \"JP모간\",\r\n            \"hts_kor_isnm\": \"삼성전자\",\r\n            \"stck_prpr\": \"75200\"\
+    ,\r\n            \"prdy_vrss\": \"-500\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"cntg_vol\": \"168484\"\
+    ,\r\n            \"acml_ntby_qty\": \"1473742\",\r\n            \"glob_ntby_qty\": \"-1863881\",\r\n            \"frgn_ntby_qty_icdc\"\
+    : \"168484\"\r\n        },\r\n        {\r\n            \"bsop_hour\": \"153025\",\r\n            \"mbcr_name\": \"메릴린치\"\
+    ,\r\n            \"hts_kor_isnm\": \"삼성전자\",\r\n            \"stck_prpr\": \"75200\",\r\n            \"prdy_vrss\": \"\
+    -500\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"cntg_vol\": \"-188645\",\r\n            \"acml_ntby_qty\"\
+    : \"-938293\",\r\n            \"glob_ntby_qty\": \"-2032365\",\r\n            \"frgn_ntby_qty_icdc\": \"-188645\"\r\n\
+    \        },\r\n        {\r\n            \"bsop_hour\": \"153025\",\r\n            \"mbcr_name\": \"씨티그룹\",\r\n       \
+    \     \"hts_kor_isnm\": \"삼성전자\",\r\n            \"stck_prpr\": \"75200\",\r\n            \"prdy_vrss\": \"-500\",\r\n\
+    \            \"prdy_vrss_sign\": \"5\",\r\n            \"cntg_vol\": \"-135506\",\r\n            \"acml_ntby_qty\": \"\
+    -2308688\",\r\n            \"glob_ntby_qty\": \"-1843720\",\r\n            \"frgn_ntby_qty_icdc\": \"-135506\"\r\n   \
+    \     },\r\n        {\r\n            \"bsop_hour\": \"152020\",\r\n            \"mbcr_name\": \"JP모간\",\r\n          \
+    \  \"hts_kor_isnm\": \"삼성전자\",\r\n            \"stck_prpr\": \"75500\",\r\n            \"prdy_vrss\": \"-200\",\r\n  \
+    \          \"prdy_vrss_sign\": \"5\",\r\n            \"cntg_vol\": \"139\",\r\n            \"acml_ntby_qty\": \"1305258\"\
+    ,\r\n            \"glob_ntby_qty\": \"-1708214\",\r\n            \"frgn_ntby_qty_icdc\": \"139\"\r\n        },\r\n   \
+    \     {\r\n            \"bsop_hour\": \"151904\",\r\n            \"mbcr_name\": \"JP모간\",\r\n            \"hts_kor_isnm\"\
+    : \"삼성전자\",\r\n            \"stck_prpr\": \"75400\",\r\n            \"prdy_vrss\": \"-300\",\r\n            \"prdy_vrss_sign\"\
+    : \"5\",\r\n            \"cntg_vol\": \"2271\",\r\n            \"acml_ntby_qty\": \"1305119\",\r\n            \"glob_ntby_qty\"\
+    : \"-1708353\",\r\n            \"frgn_ntby_qty_icdc\": \"2271\"\r\n        },\r\n        {\r\n            \"bsop_hour\"\
+    : \"151749\",\r\n            \"mbcr_name\": \"JP모간\",\r\n            \"hts_kor_isnm\": \"삼성전자\",\r\n            \"stck_prpr\"\
+    : \"75300\",\r\n            \"prdy_vrss\": \"-400\",\r\n            \"prdy_vrss_sign\": \"5\",\r\n            \"cntg_vol\"\
+    : \"23867\",\r\n            \"acml_ntby_qty\": \"1302848\",\r\n            \"glob_ntby_qty\": \"-1710624\",\r\n      \
+    \      \"frgn_ntby_qty_icdc\": \"23867\"\r\n        },...\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"MCA00000\"\
+    ,\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

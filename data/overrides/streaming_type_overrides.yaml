@@ -1,0 +1,14 @@
+# Streaming field type overrides.
+# Pin specific fields when automatic inference misclassifies them.
+#
+# global:
+#   FIELD_NAME: "decimal"   # applied to all TRs
+#
+# per_tr:
+#   H0STCNT0:
+#     FIELD_NAME: "str"     # applied only to this TR
+
+global:
+  ENTM_NTBY_QTY_RAT: "decimal"
+  WHOL_ENTM_NTBY_QT: "decimal"
+per_tr: {}

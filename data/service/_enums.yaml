@@ -1,0 +1,93 @@
+# Unified service-layer enum definitions.
+# Source of truth for L1 Service enums and their L0 code mappings.
+
+Exchange:
+  description: "Stock exchange identifier (unified across domestic/overseas)"
+  members:
+    # Domestic
+    KRX:
+      description: "Korea Exchange (KOSPI + KOSDAQ)"
+      l0_domestic_code: "J"
+    NXT:
+      description: "Korea NXT exchange"
+      l0_domestic_code: "NX"
+    # US
+    NYSE:
+      description: "New York Stock Exchange"
+      l0_overseas_excd: "NYS"
+    NASDAQ:
+      description: "NASDAQ"
+      l0_overseas_excd: "NAS"
+    AMEX:
+      description: "NYSE American (AMEX)"
+      l0_overseas_excd: "AMS"
+    NYSE_EXTENDED:
+      description: "New York Stock Exchange (extended/daytime hours)"
+      l0_overseas_excd: "BAY"
+    NASDAQ_EXTENDED:
+      description: "NASDAQ (extended/daytime hours)"
+      l0_overseas_excd: "BAQ"
+    AMEX_EXTENDED:
+      description: "NYSE American (extended/daytime hours)"
+      l0_overseas_excd: "BAA"
+    # Asia
+    TSE:
+      description: "Tokyo Stock Exchange"
+      l0_overseas_excd: "TSE"
+    SEHK:
+      description: "Hong Kong Stock Exchange"
+      l0_overseas_excd: "HKS"
+    SSE:
+      description: "Shanghai Stock Exchange"
+      l0_overseas_excd: "SHS"
+    SZSE:
+      description: "Shenzhen Stock Exchange"
+      l0_overseas_excd: "SZS"
+    HSX:
+      description: "Ho Chi Minh Stock Exchange"
+      l0_overseas_excd: "HSX"
+    HNX:
+      description: "Hanoi Stock Exchange"
+      l0_overseas_excd: "HNX"
+    # Index
+    SSE_INDEX:
+      description: "Shanghai Stock Exchange Index"
+      l0_overseas_excd: "SHI"
+    SZSE_INDEX:
+      description: "Shenzhen Stock Exchange Index"
+      l0_overseas_excd: "SZI"
+
+ChangeSign:
+  description: "Price change direction indicator"
+  members:
+    upper_limit:
+      description: "Upper limit (상한)"
+      l0_code: "1"
+    rise:
+      description: "Rise (상승)"
+      l0_code: "2"
+    flat:
+      description: "Flat / no change (보합)"
+      l0_code: "3"
+    lower_limit:
+      description: "Lower limit (하한)"
+      l0_code: "4"
+    fall:
+      description: "Fall (하락)"
+      l0_code: "5"
+
+MarketWarning:
+  description: "Market warning classification for stocks"
+  members:
+    none:
+      description: "No warning (없음)"
+      l0_code: "00"
+    caution:
+      description: "Investment caution (투자주의)"
+      l0_code: "01"
+    warning:
+      description: "Investment warning (투자경고)"
+      l0_code: "02"
+    risk:
+      description: "Investment risk (투자위험)"
+      l0_code: "03"

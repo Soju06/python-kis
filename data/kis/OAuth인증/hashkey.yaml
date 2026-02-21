@@ -1,0 +1,107 @@
+id: 214b9e22-8f2e-4fba-9688-587279f1061a
+name: Hashkey
+section: OAuth인증
+category: ''
+subcategory: OAuth인증
+method: POST
+url: /uapi/hashkey
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: https://openapivts.koreainvestment.com:29443
+real_tr_id: ''
+demo_tr_id: ''
+summary: '해쉬키(Hashkey)는 보안을 위한 요소로 사용자가 보낸 요청 값을 중간에 탈취하여 변조하지 못하도록 하는데 사용됩니다.
+
+  해쉬키를 사용하면 POST로 보내는 요청(주로 주문/정정/취소 API 해당)의 body 값을 사전에 암호화시킬 수 있습니다.
+
+  해쉬키는 비필수값으로 사용하지 않아도 POST API 호출은 가능합니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2022-04-11T10:10:35+09:00'
+  last_modified_date: '2023-09-19T08:55:17+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: false
+    description: application/json; charset=utf-8
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appsecret (절대 노출되지 않도록 주의해주세요.)
+  params: []
+  body:
+  - code: JsonBody
+    name: 요청값
+    type: A0003
+    type_name: String
+    length: ''
+    required: true
+    description: "POST로 보낼 body값\n\nex)\ndatas = {\n    \"CANO\": '00000000',\n    \"ACNT_PRDT_CD\": \"01\",\n    \"OVRS_EXCG_CD\"\
+      : \"SHAA\"\n }"
+  example:
+    ORD_PRCS_DVSN_CD: '02'
+    CANO: 계좌번호
+    ACNT_PRDT_CD: '03'
+    SLL_BUY_DVSN_CD: '02'
+    SHTN_PDNO: 101S06
+    ORD_QTY: '1'
+    UNIT_PRICE: '370'
+    NMPR_TYPE_CD: ''
+    KRX_NMPR_CNDT_CD: ''
+    CTAC_TLNO: ''
+    FUOP_ITEM_DVSN_CD: ''
+    ORD_DVSN_CD: '02'
+response:
+  headers: []
+  body:
+  - code: JsonBody
+    name: 요청값
+    type: A0003
+    type_name: String
+    length: ''
+    required: true
+    description: 요청한 JsonBody
+  - code: HASH
+    name: 해쉬키
+    type: A0001
+    type_name: String
+    length: '256'
+    required: true
+    description: '[POST API 대상] Client가 요청하는 Request Body를 hashkey api로 생성한 Hash값
+
+      * API문서 > hashkey 참조'
+  example:
+    BODY:
+      ORD_PRCS_DVSN_CD: '02'
+      CANO: 계좌번호
+      ACNT_PRDT_CD: '03'
+      SLL_BUY_DVSN_CD: '02'
+      SHTN_PDNO: 101S06
+      ORD_QTY: '1'
+      UNIT_PRICE: '370'
+      NMPR_TYPE_CD: ''
+      KRX_NMPR_CNDT_CD: ''
+      CTAC_TLNO: ''
+      FUOP_ITEM_DVSN_CD: ''
+      ORD_DVSN_CD: '02'
+    HASH: 8b84068222a49302f7ef58226d90403f62e216828f8103465f900de0e7be2f0f
+errors: []

@@ -1,0 +1,238 @@
+id: 6a53d1c1-c9fe-48d8-9426-ef304b36b961
+name: KRX야간옵션실시간체결통보 [실시간-067]
+section: '[국내선물옵션] 실시간시세'
+category: 국내선물옵션
+subcategory: 실시간시세
+method: POST
+url: /tryitout/H0EUCNI0
+content_type: application/json
+req_format: JSON
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  demo: 모의투자 미지원
+real_tr_id: H0MFCNI0
+demo_tr_id: 모의투자 미지원
+summary: '[참고자료]
+
+  실시간시세(웹소켓) 파이썬 샘플코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/ws_domestic_overseas_all.py
+
+
+  실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.
+
+  https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션 업데이트 예정)
+
+
+  종목코드 마스터파일 파이썬 정제코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/tree/main/stocks_info'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-24T10:21:17+09:00'
+  last_modified_date: '2025-06-30T17:38:09+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'B : 법인 / P : 개인'
+  - code: tr_type
+    name: 등록/해제
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '1: 등록, 2:해제'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: H0MFCNI0
+  - code: tr_key
+    name: 구분값
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: HTS ID
+  example:
+    header:
+      approval_key: 35xxxxxa-bxxa-4xxb-87xxx-f56xxxxxxxxxx
+      custtype: P
+      tr_type: '1'
+      content-type: utf-8
+    body:
+      input:
+        tr_id: H0EUCNI0
+        tr_key: HTS_ID
+response:
+  headers: []
+  body:
+  - code: CUST_ID
+    name: 고객 ID
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ACNT_NO
+    name: 계좌번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ODER_NO
+    name: 주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: OODER_NO
+    name: 원주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: SELN_BYOV_CLS
+    name: 매도매수구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: RCTF_CLS
+    name: 정정구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ODER_KIND2
+    name: 주문종류2
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: STCK_SHRN_ISCD
+    name: 주식 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: CNTG_QTY
+    name: 체결 수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: CNTG_UNPR
+    name: 체결단가
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: STCK_CNTG_HOUR
+    name: 주식 체결 시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: RFUS_YN
+    name: 거부여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: CNTG_YN
+    name: 체결여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ACPT_YN
+    name: 접수여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: BRNC_NO
+    name: 지점번호
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: ODER_QTY
+    name: 주문수량
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: ACNT_NAME
+    name: 계좌명
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: CNTG_ISNM
+    name: 체결종목명
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: ODER_COND
+    name: 주문조건
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  example: "# 연결 확인\r\n{\r\n    \"header\": {\r\n        \"tr_id\": \"H0EUCNI0\", \r\n        \"tr_key\": \"HTS_ID\", \r\n\
+    \        \"encrypt\": \"N\"\r\n        }, \r\n    \"body\": {\r\n        \"rt_cd\": \"0\", \r\n        \"msg_cd\": \"\
+    OPSP0000\",\r\n        \"msg1\": \"SUBSCRIBE SUCCESS\", \r\n        \"output\": {\r\n            \"iv\": \"0123456789abcdef\"\
+    , \r\n            \"key\": \"abcdefghijklmnopabcdefghijklmnop\"}\r\n        }\r\n}\r\n\r\n# output\r\n1|H0EUCNI0|001|qWVvLmhf0Iax57SI6HYSTc30qiWTnUjWAT+BxQD4RaljIiBLp3XqzoA0eeEFa7yn8afB\r\
+    \nUfvo32b/Ivf9rxtl1VZU+oouQlH9rwuNjUnC40gkB+2lm2Q8sTkc4wMYKJuOn8SnLrfGjilAIzueLOLCndSy5xkv4qmPAXk+NKC6x\r\nnimfxBoVTVtcrpzOaHPvwvD\r\
+    \n\r\n# output - 복호화 후\r\n#### 국내선물옵션 주문 접수 통보 ####\r\n고객ID  [HTS_ID]\r\n계좌번호  [1234567803]\r\n주문번호  [0000000021]\r\n\
+    원주문번호  [0000000021]\r\n매도매수구분  [02]\r\n정정구분  [0]\r\n주문종류  [L]\r\n단축종목코드  [175V06]\r\n주문수량  [0000000001]\r\n체결단가  [000135900]\r\
+    \n체결시간  [100422]\r\n거부여부  [0]\r\n체결여부  [1]\r\n접수여부  [1]\r\n지점번호  [00000]\r\n체결수량  [000000001]\r\n계좌명  [******]\r\n체결종목명\
+    \  [미국달러F2406]\r\n주문조건  [0]"
+errors: []

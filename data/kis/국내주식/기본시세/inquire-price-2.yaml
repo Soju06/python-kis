@@ -1,0 +1,628 @@
+id: 995f745a-aa8a-491b-85ef-0d4697094b58
+name: 주식현재가 시세2[v1_국내주식-054]
+section: '[국내주식] 기본시세'
+category: 국내주식
+subcategory: 기본시세
+method: GET
+url: /uapi/domestic-stock/v1/quotations/inquire-price-2
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: FHPST01010000
+demo_tr_id: 모의투자 미지원
+summary: 주식현재가 시세2 API입니다.
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-01-26T09:49:23+09:00'
+  last_modified_date: '2025-04-30T10:16:02+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPST01010000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: FID 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: J:KRX, NX:NXT, UN:통합
+  - code: FID_INPUT_ISCD
+    name: FID 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '000660'
+  example:
+    fid_cond_mrkt_div_code: J
+    fid_input_iscd: 005930
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: rprs_mrkt_kor_name
+    name: 대표 시장 한글 명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: new_hgpr_lwpr_cls_code
+    name: 신 고가 저가 구분 코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 특정 경우에만 데이터 출력
+  - code: mxpr_llam_cls_code
+    name: 상하한가 구분 코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 특정 경우에만 데이터 출력
+  - code: crdt_able_yn
+    name: 신용 가능 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: stck_mxpr
+    name: 주식 상한가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: elw_pblc_yn
+    name: ELW 발행 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_clpr_vrss_oprc_rate
+    name: 전일 종가 대비 시가2 비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: crdt_rate
+    name: 신용 비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: marg_rate
+    name: 증거금 비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: lwpr_vrss_prpr
+    name: 최저가 대비 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: lwpr_vrss_prpr_sign
+    name: 최저가 대비 현재가 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_clpr_vrss_lwpr_rate
+    name: 전일 종가 대비 최저가 비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: stck_lwpr
+    name: 주식 최저가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: hgpr_vrss_prpr
+    name: 최고가 대비 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: hgpr_vrss_prpr_sign
+    name: 최고가 대비 현재가 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_clpr_vrss_hgpr_rate
+    name: 전일 종가 대비 최고가 비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: stck_hgpr
+    name: 주식 최고가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: oprc_vrss_prpr
+    name: 시가2 대비 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: oprc_vrss_prpr_sign
+    name: 시가2 대비 현재가 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: mang_issu_yn
+    name: 관리 종목 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: divi_app_cls_code
+    name: 동시호가배분처리코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '11:매수상한배분 12:매수하한배분 13: 매도상한배분 14:매도하한배분'
+  - code: short_over_yn
+    name: 단기과열여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: mrkt_warn_cls_code
+    name: 시장경고코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '00: 없음 01: 투자주의 02:투자경고 03:투자위험'
+  - code: invt_caful_yn
+    name: 투자유의여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: stange_runup_yn
+    name: 이상급등여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ssts_hot_yn
+    name: 공매도과열 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: low_current_yn
+    name: 저유동성 종목 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: vi_cls_code
+    name: VI적용구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: short_over_cls_code
+    name: 단기과열구분코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: stck_llam
+    name: 주식 하한가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: new_lstn_cls_name
+    name: 신규 상장 구분 명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: vlnt_deal_cls_name
+    name: 임의 매매 구분 명
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: flng_cls_name
+    name: 락 구분 이름
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: 특정 경우에만 데이터 출력
+  - code: revl_issu_reas_name
+    name: 재평가 종목 사유 명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: 특정 경우에만 데이터 출력
+  - code: mrkt_warn_cls_name
+    name: 시장 경고 구분 명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: '특정 경우에만 데이터 출력
+
+      "투자환기" / "투자경고"'
+  - code: stck_sdpr
+    name: 주식 기준가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bstp_cls_code
+    name: 업종 구분 코드
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: stck_prdy_clpr
+    name: 주식 전일 종가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: insn_pbnt_yn
+    name: 불성실 공시 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: fcam_mod_cls_name
+    name: 액면가 변경 구분 명
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 특정 경우에만 데이터 출력
+  - code: stck_prpr
+    name: 주식 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일 대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: acml_tr_pbmn
+    name: 누적 거래 대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: prdy_vrss_vol_rate
+    name: 전일 대비 거래량 비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: bstp_kor_isnm
+    name: 업종 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ※ 거래소 정보로 특정 종목은 업종구분이 없어 데이터 미회신
+  - code: sltr_yn
+    name: 정리매매 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: trht_yn
+    name: 거래정지 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: oprc_rang_cont_yn
+    name: 시가 범위 연장 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: vlnt_fin_cls_code
+    name: 임의 종료 구분 코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: stck_oprc
+    name: 주식 시가2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vol
+    name: 전일 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  example:
+    output:
+      rprs_mrkt_kor_name: KOSPI200
+      insn_pbnt_yn: N
+      stck_prpr: '74400'
+      prdy_vrss: '1000'
+      prdy_vrss_sign: '2'
+      prdy_ctrt: '1.36'
+      acml_tr_pbmn: '276161183000'
+      acml_vol: '3733708'
+      prdy_vol: '11160062'
+      prdy_vrss_vol_rate: '33.46'
+      bstp_kor_isnm: 전기.전자
+      sltr_yn: N
+      mang_issu_yn: N
+      trht_yn: N
+      oprc_rang_cont_yn: N
+      vlnt_fin_cls_code: N
+      stck_prdy_clpr: '73400'
+      stck_oprc: '73800'
+      prdy_clpr_vrss_oprc_rate: '0.54'
+      oprc_vrss_prpr_sign: '2'
+      oprc_vrss_prpr: '600'
+      stck_hgpr: '74500'
+      prdy_clpr_vrss_hgpr_rate: '1.50'
+      hgpr_vrss_prpr_sign: '5'
+      hgpr_vrss_prpr: '-100'
+      stck_lwpr: '73500'
+      prdy_clpr_vrss_lwpr_rate: '0.14'
+      lwpr_vrss_prpr_sign: '2'
+      lwpr_vrss_prpr: '900'
+      marg_rate: '20.00'
+      crdt_rate: '20.00'
+      crdt_able_yn: Y
+      elw_pblc_yn: Y
+      stck_mxpr: '95400'
+      stck_llam: '51400'
+      bstp_cls_code: 005930
+      stck_sdpr: '73400'
+      vlnt_deal_cls_name: ' '
+      new_lstn_cls_name: '        '
+      divi_app_cls_code: '  '
+      short_over_cls_code: '          '
+      vi_cls_code: N
+      low_current_yn: N
+      ssts_hot_yn: ' '
+      stange_runup_yn: N
+      invt_caful_yn: N
+      mrkt_warn_cls_code: '00'
+      short_over_yn: N
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

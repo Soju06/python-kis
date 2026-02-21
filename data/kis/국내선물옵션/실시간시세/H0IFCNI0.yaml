@@ -1,0 +1,263 @@
+id: 1d9a993b-18ff-40f6-891f-8a450e68f15a
+name: 선물옵션 실시간체결통보[실시간-012]
+section: '[국내선물옵션] 실시간시세'
+category: 국내선물옵션
+subcategory: 실시간시세
+method: POST
+url: /tryitout/H0IFCNI0
+content_type: application/json
+req_format: JSON
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  demo: ws://ops.koreainvestment.com:31000
+real_tr_id: H0IFCNI0
+demo_tr_id: H0IFCNI9
+summary: '[참고자료]
+
+
+  실시간시세(웹소켓) 파이썬 샘플코드는 한국투자증권 Github 참고 부탁드립니다.
+
+  https://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/ws_domestic_overseas_all.py
+
+
+  실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.
+
+  https://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션 업데이트 예정)'
+description: '[실시간-012] 지수선물옵션 실시간체결 통보'
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2022-11-25T16:35:54+09:00'
+  last_modified_date: '2025-04-30T13:27:56+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓접속키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: tr_type
+    name: 등록/해제
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '1: 등록, 2:해제'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'B : 법인 / P : 개인'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '7'
+    required: true
+    description: '[실전투자]
+
+      H0IFCNI0 : 실시간 선물옵션 체결통보
+
+
+      [모의투자]
+
+      H0IFCNI9 : 실시간 선물옵션 체결통보'
+  - code: tr_key
+    name: 코드
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 예:101S12
+  example:
+    header:
+      approval_key: 35xxxxxa-bxxa-4xxb-87xxx-f56xxxxxxxxxx
+      custtype: P
+      tr_type: '1'
+      content-type: utf-8
+    body:
+      input:
+        tr_id: H0IFCNI0
+        tr_key: HTS ID
+response:
+  headers: []
+  body:
+  - code: CUST_ID
+    name: 고객 ID
+    type: A0002
+    type_name: String
+    length: '16'
+    required: true
+    description: '''각 항목사이에는 구분자로 ^ 사용,
+
+      모든 데이터타입은 String으로 변환되어 push 처리됨'''
+  - code: ACNT_NO
+    name: 계좌번호
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: ODER_NO
+    name: 주문번호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: OODER_NO
+    name: 원주문번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SELN_BYOV_CLS
+    name: 매도매수구분
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 01:매도, 02매수
+  - code: RCTF_CLS
+    name: 정정구분
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ODER_KIND2
+    name: 주문종류2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 'L: 주문접수통보, 0: 체결통보'
+  - code: STCK_SHRN_ISCD
+    name: 주식 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: CNTG_QTY
+    name: 체결 수량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: CNTG_UNPR
+    name: 체결단가
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: STCK_CNTG_HOUR
+    name: 주식 체결 시간
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: RFUS_YN
+    name: 거부여부
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: CNTG_YN
+    name: 체결여부
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: '1: 주문,정정,취소,거부 통보, 2 체결'
+  - code: ACPT_YN
+    name: 접수여부
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 1:주문접수, 2:확인, 3, 취소
+  - code: BRNC_NO
+    name: 지점번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ODER_QTY
+    name: 주문수량
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ACNT_NAME
+    name: 계좌명
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: CNTG_ISNM
+    name: 체결종목명
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ODER_COND
+    name: 주문조건
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ORD_GRP
+    name: 주문그룹ID
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ORD_GRPSEQ
+    name: 주문그룹SEQ
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ORDER_PRC
+    name: 주문가격
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  example: "# output - 등록 성공 시\r\n{\r\n    \"header\": {\r\n        \"tr_id\": \"H0IFCNI0\", \r\n        \"tr_key\": \"HTS\
+    \ ID\", \r\n        \"encrypt\": \"N\"\r\n        }, \r\n    \"body\": {\r\n        \"rt_cd\": \"0\", \r\n        \"msg_cd\"\
+    : \"OPSP0000\",\r\n        \"msg1\": \"SUBSCRIBE SUCCESS\", \r\n        \"output\": {\r\n            \"iv\": \"0123456789abcdef\"\
+    , \r\n            \"key\": \"abcdefghijklmnopabcdefghijklmnop\"}\r\n        }\r\n}\r\n\r\n# output (복호화 전) \r\n1|H0IFCNI0|001|vebQjGIHMgFhxfNfvebQjGIHMgFhxfNfvebQjGIHMgFhxfNfvebQj...hxfNf\r\
+    \n\r\n# output (복호화 후)\r\n#### 지수선물옵션 체결 통보 ####\r\n고객ID  [abcd1234]\r\n계좌번호  [1234567803]\r\n주문번호  [0000001666]\r\n원주문번호\
+    \  []\r\n매도매수구분  [02]\r\n정정구분  [0]\r\n주문종류  [0]\r\n단축종목코드  [111V06]\r\n체결수량  [0000000002]\r\n체결단가  [007840000]\r\n체결시간\
+    \  [095835]\r\n거부여부  [0]\r\n체결여부  [2]\r\n접수여부  [2]\r\n지점번호  [00950]\r\n주문수량  [000000000]\r\n계좌명  [김한국]\r\n체결종목명  [삼성전자\
+    \   F 2]\r\n주문조건  []\r\n주문그룹ID  []\r\n주문그룹SEQ  []\r\n주문가격  [000000000]"
+errors: []

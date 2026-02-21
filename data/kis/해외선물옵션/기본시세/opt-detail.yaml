@@ -1,0 +1,373 @@
+id: 89c2f9ea-62be-4c4a-bd07-66f3fe3234a6
+name: 해외옵션종목상세 [해외선물-034]
+section: '[해외선물옵션] 기본시세'
+category: 해외선물옵션
+subcategory: 기본시세
+method: GET
+url: /uapi/overseas-futureoption/v1/quotations/opt-detail
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: HHDFO55010100
+demo_tr_id: 모의투자 미지원
+summary: "해외옵션종목상세 API입니다.\n\n(주의) sstl_price 자리에 정산가 X 전일종가 O 가 수신되는 점 유의 부탁드립니다.\n\n(중요) 해외옵션시세 출력값을 해석하실 때 focode.mst(해외지수옵션\
+  \ 종목마스터파일), fostkcode.mst(해외주식옵션 종목마스터파일)에 있는 sCalcDesz(계산 소수점) 값을 활용하셔야 정확한 값을 받아오실 수 있습니다.\n\n- focode.mst(해외지수옵션 종목마스터파일),\
+  \ fostkcode.mst(해외주식옵션 종목마스터파일) 다운로드 방법\n  1) focode.mst(해외지수옵션 종목마스터파일)\n     : 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션 클릭하여\
+  \ 다운로드 후\n       Github의 헤더정보(https://github.com/koreainvestment/open-trading-api/blob/main/stocks_info/해외옵션정보.h)를 참고하여\
+  \ 해석\n  2) fostkcode.mst(해외주식옵션 종목마스터파일)\n     : 포럼 > FAQ > 종목정보 다운로드(해외) - 해외주식옵션 클릭하여 다운로드 후\n       Github의 헤더정보(https://github.com/koreainvestment/open-trading-api/blob/main/stocks_info/해외주식옵션정보.h)를\
+  \ 참고하여 해석\n\n- 소수점 계산 시, focode.mst(해외지수옵션 종목마스터파일), fostkcode.mst(해외주식옵션 종목마스터파일)의 sCalcDesz(계산 소수점) 값 참고\n  EX) focode.mst\
+  \ 파일의 sCalcDesz(계산 소수점) 값\n       품목코드 OES 계산소수점 -2 → 시세 7525 수신 시 75.25 로 해석\n       품목코드 O6E 계산소수점 -4 → 시세 54.0 수신 시 0.0054\
+  \ 로 해석"
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-08-23T12:22:02+09:00'
+  last_modified_date: '2025-04-30T12:59:29+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHDFO55010100
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: SRS_CD
+    name: 종목명
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 'ex) OESU24 C5500
+
+      ※ 종목코드 "포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션" 참고'
+  example: SRS_CD:OESU24 P5650
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: exch_cd
+    name: 거래소코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: clas_cd
+    name: 품목종류
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: crc_cd
+    name: 거래통화
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: sttl_price
+    name: 전일종가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: '(★주의) 정산가 X 전일종가 O 가 수신됨
+
+
+      ※ focode.mst, fostkcode.mst* 의 sCalcDesz(계산 소수점) 값 참고
+
+      * 포럼 > FAQ > 종목정보 다운로드(해외) - 해외지수옵션/해외주식옵션'
+  - code: sttl_date
+    name: 정산일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: trst_mgn
+    name: 증거금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: disp_digit
+    name: 가격표시진법
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: tick_sz
+    name: 틱사이즈
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tick_val
+    name: 틱가치
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: mrkt_open_date
+    name: 장개시일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: mrkt_open_time
+    name: 장개시시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: mrkt_close_date
+    name: 장마감일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: mrkt_close_time
+    name: 장마감시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: trd_fr_date
+    name: 상장일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: expr_date
+    name: 만기일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: trd_to_date
+    name: 최종거래일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: remn_cnt
+    name: 잔존일수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: stat_tp
+    name: 매매여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ctrt_size
+    name: 계약크기
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: stl_tp
+    name: 최종결제구분
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: frst_noti_date
+    name: 최초식별일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  example:
+    output1:
+      exch_cd: CME
+      clas_cd: '4'
+      crc_cd: USD
+      sttl_price: '           7525'
+      sttl_date: '20240826'
+      trst_mgn: '               7788'
+      disp_digit: '        10'
+      tick_sz: '                  0'
+      tick_val: '                2.5'
+      mrkt_open_date: '20240826'
+      mrkt_open_time: '070000'
+      mrkt_close_date: '20240827'
+      mrkt_close_time: '060000'
+      trd_fr_date: '20240610'
+      expr_date: '20240920'
+      trd_to_date: '20240920'
+      remn_cnt: '  26'
+      stat_tp: '1'
+      ctrt_size: '                 50'
+      stl_tp: 현금결제
+      frst_noti_date: '20240920'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

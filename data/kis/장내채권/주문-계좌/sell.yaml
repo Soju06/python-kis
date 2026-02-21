@@ -1,0 +1,307 @@
+id: 2261a45e-8e04-4cdf-8f4d-d52a45a0380d
+name: 장내채권 매도주문 [국내주식-123]
+section: '[장내채권] 주문/계좌'
+category: 장내채권
+subcategory: 주문/계좌
+method: POST
+url: /uapi/domestic-bond/v1/trading/sell
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: TTTC0958U
+demo_tr_id: 모의투자 미지원
+summary: "장내채권 매도주문 API입니다. \n한국투자 HTS(eFriend Plus) > [0978] 장내채권주문 '채권매도' 탭의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-26T09:19:13+09:00'
+  last_modified_date: '2025-04-30T13:04:26+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: TTTC0958U
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: ' 종합계좌번호'
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: ORD_DVSN
+    name: 주문구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: "'01: 종목별 (매수일자, 매수순번 공백입력) \n02: 일자별 (매수순번: 0 입력) \n03: 체결가별 '"
+  - code: PDNO
+    name: ' 상품번호'
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ORD_QTY2
+    name: 주문수량2
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: 'SAMT_MKET_PTCI_YN(소액시장참여여부) : N(일반시장) 입력 시 10단위 입력'
+  - code: BOND_ORD_UNPR
+    name: 주문단가
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: SPRX_YN
+    name: 분리과세여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'N: 종합과세, Y:분리과세'
+  - code: BUY_DT
+    name: 매수일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: (잔고조회 참조)
+  - code: BUY_SEQ
+    name: 매수순번
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: (잔고조회 참조)
+  - code: SAMT_MKET_PTCI_YN
+    name: 소액시장참여여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'N: 일반시장, Y: 소액시장'
+  - code: SLL_AGCO_OPPS_SLL_YN
+    name: 매도대행사반대매도여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: N
+  - code: BOND_RTL_MKET_YN
+    name: 채권소매시장여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: N
+  - code: MGCO_APTM_ODNO
+    name: 운용사지정주문번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 공백
+  - code: ORD_SVR_DVSN_CD
+    name: 주문서버구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: Unique key(0)
+  - code: CTAC_TLNO
+    name: 연락전화번호
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  example:
+    CANO: '12345678'
+    ACNT_PRDT_CD: '01'
+    ORD_DVSN: '01'
+    PDNO: KR6095572D81
+    ORD_QTY2: '1'
+    BOND_ORD_UNPR: '10450'
+    SPRX_YN: N
+    BUY_DT: ''
+    BUY_SEQ: ''
+    SAMT_MKET_PTCI_YN: N
+    SLL_AGCO_OPPS_SLL_YN: N
+    BOND_RTL_MKET_YN: N
+    MGCO_APTM_ODNO: ''
+    ORD_SVR_DVSN_CD: '0'
+    CTAC_TLNO: ''
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: krx_fwdg_ord_orgno
+    name: 한국거래소전송주문조직번호
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: odno
+    name: 주문번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ord_tmd
+    name: ' 주문시각'
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  example:
+    rt_cd: '0'
+    msg_cd: APBK0013
+    msg1: 주문 전송 완료 되었습니다.
+    output:
+      KRX_FWDG_ORD_ORGNO: 01790
+      ODNO: '0000015402'
+      ORD_TMD: '104347'
+errors: []

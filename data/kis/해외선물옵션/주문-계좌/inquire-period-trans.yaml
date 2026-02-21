@@ -1,0 +1,396 @@
+id: 11cc8ad0-d3cc-4c55-8c2f-4923e8b87ee4
+name: 해외선물옵션 기간계좌거래내역[해외선물-014]
+section: '[해외선물옵션] 주문/계좌'
+category: 해외선물옵션
+subcategory: 주문/계좌
+method: GET
+url: /uapi/overseas-futureoption/v1/trading/inquire-period-trans
+content_type: application/json; charset=utf-8
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: OTFM3114R
+demo_tr_id: 모의투자 미지원
+summary: 해외선물옵션 기간계좌거래내역 API입니다.
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2022-10-07T12:59:45+09:00'
+  last_modified_date: '2025-04-30T12:55:57+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)\n\n※ 토큰 지정시 토큰\
+      \ 타입(\"Bearer\") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 \"Bearer\" 붙여서 호출\nEX) \"Bearer eyJ..........8GA\""
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: OTFM3114R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '공백 : 초기 조회
+
+      N : 다음 데이터 조회 (output header의 tr_cont가 M일 경우)'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: INQR_TERM_FROM_DT
+    name: 조회기간FROM일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: INQR_TERM_TO_DT
+    name: 조회기간TO일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 계좌번호 체계(8-2)의 앞 8자리
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 계좌번호 체계(8-2)의 뒤 2자리
+  - code: ACNT_TR_TYPE_CD
+    name: 계좌거래유형코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '1: 전체, 2:입출금 , 3: 결제'
+  - code: CRCY_CD
+    name: 통화코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: '''%%% : 전체
+
+      TUS: TOT_USD  / TKR: TOT_KRW
+
+      KRW: 한국  / USD: 미국
+
+      EUR: EUR   / HKD: 홍콩
+
+      CNY: 중국  / JPY: 일본
+
+      VND: 베트남  '''
+  - code: CTX_AREA_FK100
+    name: 연속조회검색조건100
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: '공란 : 최초 조회시
+
+      이전 조회 Output CTX_AREA_FK100값 : 다음페이지 조회시(2번째부터)'
+  - code: CTX_AREA_NK100
+    name: 연속조회키100
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: '공란 : 최초 조회시
+
+      이전 조회 Output CTX_AREA_NK100값 : 다음페이지 조회시(2번째부터)'
+  - code: PWD_CHK_YN
+    name: 비밀번호체크여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 공란(Default)
+  example:
+    INQR_TERM_FROM_DT: '20220101'
+    INQR_TERM_TO_DT: '20221214'
+    CANO: '80012345'
+    ACNT_PRDT_CD: 08
+    ACNT_TR_TYPE_CD: '%%'
+    CRCY_CD: '%%%'
+    CTX_AREA_FK100: ''
+    CTX_AREA_NK100: ''
+    PWD_CHK_YN: ''
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'F or M : 다음 데이터 있음
+
+      D or E : 마지막 데이터'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세1
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: Array
+  - code: bass_dt
+    name: 기준일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: cano
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: acnt_prdt_cd
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: fm_ldgr_inog_seq
+    name: FM원장출납순번
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: acnt_tr_type_name
+    name: 계좌거래유형명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: crcy_cd
+    name: 통화코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: tr_itm_name
+    name: 거래항목명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: fm_iofw_amt
+    name: FM입출금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_fee
+    name: FM수수료
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_tax_amt
+    name: FM세금금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_sttl_amt
+    name: FM결제금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_bf_dncl_amt
+    name: FM이전예수금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_dncl_amt
+    name: FM예수금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_rcvb_occr_amt
+    name: FM미수발생금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_rcvb_pybk_amt
+    name: FM미수변제금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: ovdu_int_pybk_amt
+    name: 연체이자변제금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: rmks_text
+    name: 비고내용
+    type: A0001
+    type_name: String
+    length: '500'
+    required: true
+    description: ''
+  example:
+    ctx_area_fk100: '20220101^20221214^81012345^08^%%^%%%^                                                               '
+    ctx_area_nk100: '                                                                                                    '
+    output: []
+    rt_cd: '0'
+    msg_cd: KIOK0560
+    msg1: '조회할 내용이 없습니다                                                          '
+errors: []

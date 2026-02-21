@@ -1,0 +1,579 @@
+id: aab037bf-5ea2-4e25-99f1-c45d09f02a31
+name: 해외선물옵션 기간계좌손익 일별[해외선물-010]
+section: '[해외선물옵션] 주문/계좌'
+category: 해외선물옵션
+subcategory: 주문/계좌
+method: GET
+url: /uapi/overseas-futureoption/v1/trading/inquire-period-ccld
+content_type: application/json; charset=utf-8
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: OTFM3118R
+demo_tr_id: 모의투자 미지원
+summary: 해외선물옵션 기간계좌손익 일별 API입니다.
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2022-10-07T12:52:15+09:00'
+  last_modified_date: '2025-04-30T12:54:40+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)\n\n※ 토큰 지정시 토큰\
+      \ 타입(\"Bearer\") 지정 필요. 즉, 발급받은 접근토큰 앞에 앞에 \"Bearer\" 붙여서 호출\nEX) \"Bearer eyJ..........8GA\""
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: OTFM3118R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '공백 : 초기 조회
+
+      N : 다음 데이터 조회 (output header의 tr_cont가 M일 경우)'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: INQR_TERM_FROM_DT
+    name: 조회기간FROM일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: INQR_TERM_TO_DT
+    name: 조회기간TO일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 계좌번호 체계(8-2)의 앞 8자리
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 계좌번호 체계(8-2)의 뒤 2자리
+  - code: CRCY_CD
+    name: 통화코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: '''%%% : 전체
+
+      TUS: TOT_USD  / TKR: TOT_KRW
+
+      KRW: 한국  / USD: 미국
+
+      EUR: EUR   / HKD: 홍콩
+
+      CNY: 중국  / JPY: 일본'''
+  - code: WHOL_TRSL_YN
+    name: 전체환산여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: N
+  - code: FUOP_DVSN
+    name: 선물옵션구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 00:전체 / 01:선물 / 02:옵션
+  - code: CTX_AREA_FK200
+    name: 연속조회검색조건200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: ''
+  - code: CTX_AREA_NK200
+    name: 연속조회키200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: ''
+  example: "{\r\n\t\"CANO\":\"80012345\",\r\n\t\"ACNT_PRDT_CD\":\"08\",\r\n\t\"INQR_TERM_FROM_DT\":\"20220901\",\r\n\t\"INQR_TERM_TO_DT\"\
+    :\"20221117\",\r\n\t\"CRCY_CD\":\"%%%\",\r\n\t\"WHOL_TRSL_YN\":\"N\",\r\n\t\"FUOP_DVSN\":\"00\",\r\n\t\"CTX_AREA_FK100\"\
+    :\"\",\r\n\t\"CTX_AREA_NK100\":\"\",\r\n}"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'F or M : 다음 데이터 있음
+
+      D or E : 마지막 데이터'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세1
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: Array
+  - code: cano
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: acnt_prdt_cd
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: ''
+  - code: crcy_cd
+    name: 통화코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: fm_buy_qty
+    name: FM매수수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: fm_sll_qty
+    name: FM매도수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: fm_lqd_pfls_amt
+    name: FM청산손익금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_fee
+    name: FM수수료
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_net_pfls_amt
+    name: FM순손익금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_ustl_buy_qty
+    name: FM미결제매수수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: fm_ustl_sll_qty
+    name: FM미결제매도수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: fm_ustl_evlu_pfls_amt
+    name: FM미결제평가손익금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_ustl_evlu_pfls_amt2
+    name: FM미결제평가손익금액2
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_ustl_evlu_pfls_icdc_amt
+    name: FM미결제평가손익증감금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_ustl_agrm_amt
+    name: FM미결제약정금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_opt_lqd_amt
+    name: FM옵션청산금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세2
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: Array
+  - code: cano
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: acnt_prdt_cd
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: ovrs_futr_fx_pdno
+    name: 해외선물FX상품번호
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: ''
+  - code: crcy_cd
+    name: 통화코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: fm_buy_qty
+    name: FM매수수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: fm_sll_qty
+    name: FM매도수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: fm_lqd_pfls_amt
+    name: FM청산손익금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_fee
+    name: FM수수료
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_net_pfls_amt
+    name: FM순손익금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_ustl_buy_qty
+    name: FM미결제매수수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: fm_ustl_sll_qty
+    name: FM미결제매도수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: fm_ustl_evlu_pfls_amt
+    name: FM미결제평가손익금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_ustl_evlu_pfls_amt2
+    name: FM미결제평가손익금액2
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_ustl_evlu_pfls_icdc_amt
+    name: FM미결제평가손익증감금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_ccld_avg_pric
+    name: FM체결평균가격
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_ustl_agrm_amt
+    name: FM미결제약정금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: fm_opt_lqd_amt
+    name: FM옵션청산금액
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  example:
+    ctx_area_fk200: '                                                                                                                                                                                                        '
+    ctx_area_nk200: '                                                                                                                                                                                                        '
+    output1:
+    - cano: '80012345'
+      acnt_prdt_cd: 08
+      crcy_cd: USD
+      fm_buy_qty: ''
+      fm_sll_qty: ''
+      fm_lqd_pfls_amt: '0.00'
+      fm_fee: '0.00'
+      fm_net_pfls_amt: '129650.00'
+      fm_ustl_buy_qty: '5'
+      fm_ustl_sll_qty: '100'
+      fm_ustl_evlu_pfls_amt: '129650.00'
+      fm_ustl_evlu_pfls_amt2: '0.00'
+      fm_ustl_evlu_pfls_icdc_amt: '129650.00'
+      fm_ustl_agrm_amt: '13590493.75'
+      fm_opt_lqd_amt: '0.00'
+    output2:
+    - cano: '80012345'
+      acnt_prdt_cd: 08
+      ovrs_futr_fx_pdno: 6AZ22
+      crcy_cd: USD
+      fm_buy_qty: ''
+      fm_sll_qty: ''
+      fm_lqd_pfls_amt: '0.00'
+      fm_fee: '0.00'
+      fm_net_pfls_amt: '10850.00'
+      fm_ustl_buy_qty: '2'
+      fm_ustl_sll_qty: ''
+      fm_ustl_evlu_pfls_amt: '10850.00'
+      fm_ustl_evlu_pfls_amt2: '0.00'
+      fm_ustl_evlu_pfls_icdc_amt: '10850.00'
+      fm_ccld_avg_pric: '0.62950'
+      fm_ustl_agrm_amt: '125900.00'
+      fm_opt_lqd_amt: '0.00'
+    - cano: '80012345'
+      acnt_prdt_cd: 08
+      ovrs_futr_fx_pdno: 6BZ22
+      crcy_cd: USD
+      fm_buy_qty: ''
+      fm_sll_qty: ''
+      fm_lqd_pfls_amt: '0.00'
+      fm_fee: '0.00'
+      fm_net_pfls_amt: '5656.25'
+      fm_ustl_buy_qty: '2'
+      fm_ustl_sll_qty: ''
+      fm_ustl_evlu_pfls_amt: '5656.25'
+      fm_ustl_evlu_pfls_amt2: '0.00'
+      fm_ustl_evlu_pfls_icdc_amt: '5656.25'
+      fm_ccld_avg_pric: '1.1898'
+      fm_ustl_agrm_amt: '148718.75'
+      fm_opt_lqd_amt: '0.00'
+    - cano: '80012345'
+      acnt_prdt_cd: 08
+      ovrs_futr_fx_pdno: 6JZ22
+      crcy_cd: USD
+      fm_buy_qty: ''
+      fm_sll_qty: ''
+      fm_lqd_pfls_amt: '0.00'
+      fm_fee: '0.00'
+      fm_net_pfls_amt: '5706.25'
+      fm_ustl_buy_qty: '1'
+      fm_ustl_sll_qty: ''
+      fm_ustl_evlu_pfls_amt: '5706.25'
+      fm_ustl_evlu_pfls_amt2: '0.00'
+      fm_ustl_evlu_pfls_icdc_amt: '5706.25'
+      fm_ccld_avg_pric: '6925.0'
+      fm_ustl_agrm_amt: '86562.50'
+      fm_opt_lqd_amt: '0.00'
+    - cano: '80012345'
+      acnt_prdt_cd: 08
+      ovrs_futr_fx_pdno: ZBZ22
+      crcy_cd: USD
+      fm_buy_qty: ''
+      fm_sll_qty: ''
+      fm_lqd_pfls_amt: '0.00'
+      fm_fee: '0.00'
+      fm_net_pfls_amt: '107437.50'
+      fm_ustl_buy_qty: ''
+      fm_ustl_sll_qty: '100'
+      fm_ustl_evlu_pfls_amt: '107437.50'
+      fm_ustl_evlu_pfls_amt2: '0.00'
+      fm_ustl_evlu_pfls_icdc_amt: '107437.50'
+      fm_ccld_avg_pric: '132.293125'
+      fm_ustl_agrm_amt: '13229312.50'
+      fm_opt_lqd_amt: '0.00'
+    rt_cd: '0'
+    msg_cd: KIOK0510
+    msg1: '조회가 완료되었습니다                                                           '
+errors: []

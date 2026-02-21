@@ -1,0 +1,15 @@
+# 오류코드
+
+- 출처: [{{ source_url }}]({{ source_url }})
+
+이 문서는 KIS Developers FAQ 오류코드 페이지에서 자동 수집/생성되었습니다.
+{% for category in categories %}
+
+## {{ category.name }}
+
+| 코드 | 메시지 |
+|---|---|
+{% for entry in category.entries %}
+| `{{ entry.code }}` | {{ entry.message }} |
+{% endfor %}
+{% endfor %}

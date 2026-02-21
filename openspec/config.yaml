@@ -1,0 +1,24 @@
+schema: spec-driven
+
+context: |
+  Project: python-kis (KIS Securities Python SDK)
+  Python 3.13+, async-first, Pydantic for public API
+  Layer architecture: L0 (Raw/generated) → L1 (Normalize) → L2 (System)
+  Codegen pipeline: build-time spec ingestion → model generation
+  Standards: ISO/IEC/IEEE 29148 (requirements), IEEE 42010 (architecture)
+  SSOT: specs/ directory is the single source of truth
+
+rules:
+  proposal:
+    - Reference affected SRS requirements (SyRS-xxx)
+    - Identify which architecture layer (L0/L1/L2) is affected
+    - Check specs/governance/ for applicable policies
+  specs:
+    - Use INCOSE-style "shall" statements for requirements
+    - Include traceability to SRS (SyRS-xxx → SR-xxx)
+  design:
+    - Reference ADRs from specs/architecture/adr/
+    - Follow AGENTS.md coding conventions
+  tasks:
+    - Include verification step (pytest + ruff + ty)
+    - Include pipeline re-run if codegen affected

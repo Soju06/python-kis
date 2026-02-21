@@ -1,0 +1,516 @@
+id: 04275bfe-007a-45f6-8d4d-0682320a0741
+name: 기간별계좌권리현황조회 [국내주식-211]
+section: '[국내주식] 주문/계좌'
+category: 국내주식
+subcategory: 주문/계좌
+method: GET
+url: /uapi/domestic-stock/v1/trading/period-rights
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: CTRGA011R
+demo_tr_id: 모의투자 미지원
+summary: '기간별계좌권리현황조회 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [7344] 권리유형별 현황조회 화면을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-06-14T14:48:08+09:00'
+  last_modified_date: '2025-04-30T10:12:05+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTRGA011R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '공백 : 초기 조회
+
+      N : 다음 데이터 조회 (output header의 tr_cont가 M일 경우)'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: INQR_DVSN
+    name: 조회구분
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 03 입력
+  - code: CUST_RNCNO25
+    name: 고객실명확인번호25
+    type: A0001
+    type_name: String
+    length: '25'
+    required: true
+    description: 공란
+  - code: HMID
+    name: 홈넷ID
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 공란
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 계좌번호 8자리 입력 (ex.12345678)
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 상품계좌번호 2자리 입력(ex. 01 or 22)
+  - code: INQR_STRT_DT
+    name: 조회시작일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 조회시작일자(YYYYMMDD)
+  - code: INQR_END_DT
+    name: 조회종료일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 조회종료일자(YYYYMMDD)
+  - code: RGHT_TYPE_CD
+    name: 권리유형코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 공란
+  - code: PDNO
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 공란
+  - code: PRDT_TYPE_CD
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: 공란
+  - code: CTX_AREA_NK100
+    name: 연속조회키100
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: 다음조회시 입력
+  - code: CTX_AREA_FK100
+    name: 연속조회검색조건100
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: 다음조회시 입력
+  example: "INQR_DVSN:03\r\nCUST_RNCNO25:\r\nHMID:\r\nCANO:12345678\r\nACNT_PRDT_CD:01\r\nINQR_STRT_DT:20240508\r\nINQR_END_DT:20241106\r\
+    \nRGHT_TYPE_CD:\r\nPDNO:\r\nPRDT_TYPE_CD:\r\nCTX_AREA_NK100:\r\nCTX_AREA_FK100:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'F or M : 다음 데이터 있음
+
+      D or E : 마지막 데이터'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: acno10
+    name: 계좌번호10
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: rght_type_cd
+    name: 권리유형코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: "1\t유상\n2\t무상\n3\t배당\n4\t매수청구\n5\t공개매수\n6\t주주총회\n7\t신주인수권증서\n8\t반대의사\n9\t신주인수권증권\n11\t합병\n12\t회사분할\n13\t\
+      주식교환\n14\t액면분할\n15\t액면병합\n16\t종목변경\n17\t감자\n18\t신구주합병\n21\t후합병\n22\t후회사분할\n23\t후주식교환\n24\t후액면분할\n25\t후액면병합\n26\t후종목변경\n\
+      27\t후감자\n28\t후신구주합병\n31\t뮤츄얼펀드\n32\tETF\n33\t선박투자회사\n34\t투융자회사\n35\t해외자원\n36\t부동산신탁(Ritz)\n37\t상장수익증권\n41\tELW만기\n42\t\
+      ELS분배\n43\tDLS분배\n44\t하일드펀드\n45\tETN\n51\t전환청구\n52\t교환청구\n53\tBW청구\n54\tWRT청구\n55\t채권풋옵션청구\n56\t전환우선주청구\n57\t전환조건부청구\n\
+      58\t전자증권일괄입고\n59\t클라우드펀딩일괄입고\n61\t원리금상환\n62\t스트립채권\n71\tWRT소멸\n72\tWRT증권\n73\tDR전환\n74\t배당옵션\n75\t특별배당\n76\tISINCODE변경\n\
+      77\t실권주청약\n81\t해외분배금(청산)\n82\t해외분배금(조기상환)\n83\t해외분배금(상장폐지)\n84\tDR FEE\n85\tSECTION 871M\n86\t종목전환\n87\t재매수\n88\t종목교환\n\
+      89\t기타이벤트\n91\t공모주\n92\t청약\n93\t환매\n99\t기타권리사유"
+  - code: bass_dt
+    name: 기준일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: rght_cblc_type_cd
+    name: 권리잔고유형코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: "1\t입고\n2\t출고\n3\t출고입고\n4\t출고입금\n5\t출고출금\n10\t현금입금\n11\t단수주대금입금\n12\t교부금입금\n13\t유상감자대금입금\n14\t지연이자입금\n15\t\
+      이자지급\n16\t대주권리금출금\n17\t분할상환\n18\t만기상환\n19\t조기상환\n20\t출금\n21\t입고&입금\n22\t입고&입금&단수주대금입금\n25\t유상환불금입금\n26\t중도상환\n27\t분할합병세금출금"
+  - code: rptt_pdno
+    name: 대표상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: pdno
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_type_cd
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: shtn_pdno
+    name: 단축상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_name
+    name: 상품명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: cblc_qty
+    name: 잔고수량
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: last_alct_qty
+    name: 최종배정수량
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: excs_alct_qty
+    name: 초과배정수량
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tot_alct_qty
+    name: 총배정수량
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: last_ftsk_qty
+    name: 최종단수주수량
+    type: A0001
+    type_name: String
+    length: '191'
+    required: true
+    description: ''
+  - code: last_alct_amt
+    name: 최종배정금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: last_ftsk_chgs
+    name: 최종단수주대금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: rdpt_prca
+    name: 상환원금
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: dlay_int_amt
+    name: 지연이자금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: lstg_dt
+    name: 상장일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: sbsc_end_dt
+    name: 청약종료일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: cash_dfrm_dt
+    name: 현금지급일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: rqst_qty
+    name: 신청수량
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: rqst_amt
+    name: 신청금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: rqst_dt
+    name: 신청일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: rfnd_dt
+    name: 환불일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: rfnd_amt
+    name: 환불금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: lstg_stqt
+    name: 상장주수
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: tax_amt
+    name: 세금금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: sbsc_unpr
+    name: 청약단가
+    type: A0001
+    type_name: String
+    length: '224'
+    required: true
+    description: ''
+  example:
+    ctx_area_nk100: '                                                                                                    '
+    ctx_area_fk100: '03!^!^!^12345678!^01!^20240508!^20241106!^!^!^                                                      '
+    output:
+    - acno10: '1234567801'
+      rght_type_cd: '01'
+      bass_dt: '20240919'
+      rght_cblc_type_cd: '01'
+      rptt_pdno: 00000A357880
+      pdno: 00000A357880
+      prdt_type_cd: '300'
+      shtn_pdno: '357880'
+      prdt_name: 비트나인
+      cblc_qty: '1000'
+      last_alct_qty: '1050'
+      excs_alct_qty: '0'
+      tot_alct_qty: '1050'
+      last_ftsk_qty: '0.0000000000'
+      last_alct_amt: '0'
+      last_ftsk_chgs: '0'
+      rdpt_prca: '0'
+      dlay_int_amt: '0'
+      lstg_dt: ''
+      sbsc_end_dt: '20241011'
+      cash_dfrm_dt: ''
+      rqst_qty: '1000'
+      rqst_amt: '1865000'
+      rqst_dt: '20241011'
+      rfnd_dt: ''
+      rfnd_amt: '0'
+      lstg_stqt: '0'
+      tax_amt: '0'
+      sbsc_unpr: '1865.0000'
+    rt_cd: '0'
+    msg_cd: KIOK0460
+    msg1: '조회 되었습니다. (마지막 자료)                                                  '
+errors: []

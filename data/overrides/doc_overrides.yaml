@@ -1,0 +1,174 @@
+version: 2
+notes: |
+  Doc-level overrides for placeholder/templated fields in source docs.
+  Structure is designed to be extensible per request/response section.
+overrides:
+  - id: 48c30d93-ffc0-47c7-a6ba-da728b0b3d5d
+    reason: "Templated SRS_CD_02… fields must be expanded to explicit range."
+    request:
+      body:
+        remove:
+          - SRS_CD_02…
+          - SRS_CD_02...
+          - SRS_CD_32
+        expand:
+          - code_prefix: SRS_CD_
+            range:
+              start: 2
+              end: 32
+              pad: 2
+            template:
+              name: 품목종류
+              description: 최대 32개 까지 가능
+            field:
+              type: A0001
+              type_name: String
+              length: "32"
+              required: true
+  - id: 42e2e7bd-c2ad-469b-91b2-3962c9931b79
+    reason: "Templated SRS_CD_02... fields must be expanded to explicit range."
+    request:
+      body:
+        remove:
+          - SRS_CD_02…
+          - SRS_CD_02...
+          - SRS_CD_30
+        expand:
+          - code_prefix: SRS_CD_
+            range:
+              start: 2
+              end: 30
+              pad: 2
+            template:
+              name: 종목코드{index}
+              description: "SRS_CD_01부터 차례로 입력\n최대 30개 까지 가능"
+            field:
+              type: A0001
+              type_name: String
+              length: "32"
+              required: true
+
+  - id: 31d46ebe-2a19-4467-9dfb-a2d21adb1e61
+    reason: Live response omits output1/output2 blocks; remove output markers/fields.
+    response:
+      body:
+        remove:
+          - output2
+          - ret_cnt
+          - last_n_cnt
+          - index_key
+          - output1
+          - data_date
+          - data_time
+          - open_price
+          - high_price
+          - low_price
+          - last_price
+          - last_qntt
+          - vol
+          - prev_diff_flag
+          - prev_diff_price
+          - prev_diff_rate
+  - id: 506cd6e9-97d9-4c4b-82bc-6a6c13586885
+    reason: Live response omits output1/output2 blocks; remove output markers/fields.
+    response:
+      body:
+        remove:
+          - output1
+          - open_price
+          - high_price
+          - lowp_rice
+          - last_price
+          - sttl_price
+          - vol
+          - prev_diff_price
+          - prev_diff_rate
+          - quot_date
+          - quot_time
+          - output2
+          - bid_qntt
+          - bid_num
+          - bid_price
+          - ask_qntt
+          - ask_num
+          - ask_price
+  - id: 147e81db-e0d2-40cd-95f5-d8da90c2d998
+    reason: Server expects FID_BLNG_CLS_CODE; doc/spec uses FID_BLNC_CLS_CODE.
+    request:
+      query:
+        remove:
+          - FID_BLNC_CLS_CODE
+        upsert:
+          - code: FID_BLNG_CLS_CODE
+            name: 결재방법
+            type: A0001
+            type_name: String
+            length: "2"
+            required: true
+            description: "0(전체), 1(일반), 2(조기종료)"
+  - id: 2549b1c6-2c8c-4826-b632-74c0b68c24e9
+    reason: Server requires MINX field instead of MIXN.
+    request:
+      query:
+        remove:
+          - MIXN
+        upsert:
+          - code: MINX
+            name: N분전콤보값
+            type: A0001
+            type_name: String
+            length: "1"
+            required: true
+            description: "N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전), 6(20분전), 7(30분전), 8(60분전), 9(120분전)"
+  - id: 40409c43-9bc7-447a-b09a-171d14b437f9
+    reason: Server requires MINX field instead of MIXN.
+    request:
+      query:
+        remove:
+          - MIXN
+        upsert:
+          - code: MINX
+            name: N분전콤보값
+            type: A0001
+            type_name: String
+            length: "1"
+            required: true
+            description: "N분전 : 0(1분전), 1(2분전), 2(3분전), 3(5분전), 4(10분전), 5(15분전), 6(20분전), 7(30분전), 8(60분전), 9(120분전)"
+  - id: ae084fcd-7a30-4a14-8483-91a7fc918d23
+    reason: Server requires CURR_GB request field.
+    request:
+      query:
+        upsert:
+          - code: CURR_GB
+            name: 통화구분
+            type: A0001
+            type_name: String
+            length: "1"
+            required: true
+            description: "0 또는 1"
+  - id: 3871dd9b-e9a5-471b-a0ce-d9ceb207ac5b
+    reason: Server requires *_1 duplicated query fields in addition to base fields.
+    request:
+      query:
+        upsert:
+          - code: FID_COND_MRKT_DIV_CODE_1
+            name: 조건시장분류코드1
+            type: A0001
+            type_name: String
+            length: "2"
+            required: true
+            description: 시장구분코드 (J)
+          - code: FID_INPUT_ISCD_1
+            name: 입력종목코드1
+            type: A0001
+            type_name: String
+            length: "12"
+            required: true
+            description: 종목코드
+          - code: FID_COND_SCR_DIV_CODE_1
+            name: 조건화면분류코드1
+            type: A0001
+            type_name: String
+            length: "5"
+            required: true
+            description: Unique key( 11216 )

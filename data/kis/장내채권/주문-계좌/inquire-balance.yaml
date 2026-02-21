@@ -1,0 +1,372 @@
+id: 13a96552-4b77-411c-9ef6-5eed7192a76a
+name: 장내채권 잔고조회  [국내주식-198]
+section: '[장내채권] 주문/계좌'
+category: 장내채권
+subcategory: 주문/계좌
+method: GET
+url: /uapi/domestic-bond/v1/trading/inquire-balance
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: CTSC8407R
+demo_tr_id: 모의투자 미지원
+summary: "장내채권 잔고조회 API입니다. \n한국투자 HTS(eFriend Plus) > [0979] 장내채권종합주문 화면의 \"왼쪽 하단 잔고\" 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을\
+  \ 이해하기 쉽습니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-26T09:29:05+09:00'
+  last_modified_date: '2025-04-30T13:05:36+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTSC8407R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: '공백 : 초기 조회
+
+      N : 다음 데이터 조회 (output header의 tr_cont가 M일 경우)'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: CANO
+    name: 종합계좌번호
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ACNT_PRDT_CD
+    name: 계좌상품코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: INQR_CNDT
+    name: 조회조건
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '00: 전체, 01: 상품번호단위'
+  - code: PDNO
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 공백
+  - code: BUY_DT
+    name: 매수일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 공백
+  - code: CTX_AREA_FK200
+    name: 연속조회검색조건200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: ''
+  - code: CTX_AREA_NK200
+    name: 연속조회키200
+    type: A0001
+    type_name: String
+    length: '200'
+    required: true
+    description: ''
+  example: "CANO:12345678\r\nACNT_PRDT_CD:01\r\nINQR_CNDT:00\r\nPDNO:\r\nBUY_DT:\r\nCTX_AREA_FK200:\r\nCTX_AREA_NK200:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: 'F or M : 다음 데이터 있음
+
+      D or E : 마지막 데이터'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: pdno
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_name
+    name: 상품명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: buy_dt
+    name: 매수일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: buy_sqno
+    name: 매수일련번호
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: cblc_qty
+    name: 잔고수량
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: agrx_qty
+    name: 종합과세수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: sprx_qty
+    name: 분리과세수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: exdt
+    name: 만기일
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: buy_erng_rt
+    name: 매수수익율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: buy_unpr
+    name: 매수단가
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: buy_amt
+    name: 매수금액
+    type: A0001
+    type_name: String
+    length: '19'
+    required: true
+    description: ''
+  - code: ord_psbl_qty
+    name: 주문가능수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example:
+    ctx_area_fk200: '!^!^null                                                                                                                                                                                                '
+    ctx_area_nk200: ' !^ !^                                                                                                                                                                                                  '
+    output:
+    - pdno: KR101501D942
+      prdt_name: 국민주택1종19-04
+      buy_dt: '20240426'
+      buy_sqno: '1'
+      cblc_qty: '4'
+      agrx_qty: '4'
+      sprx_qty: '0'
+      exdt: '20240430'
+      buy_erng_rt: '0.00000000'
+      buy_unpr: '0'
+      buy_amt: '0'
+      ord_psbl_qty: '4'
+    - pdno: KR2088012A16
+      prdt_name: 경남지역개발20-01
+      buy_dt: '20240426'
+      buy_sqno: '1'
+      cblc_qty: '6'
+      agrx_qty: '5'
+      sprx_qty: '0'
+      exdt: '20250131'
+      buy_erng_rt: '0.00000000'
+      buy_unpr: '0'
+      buy_amt: '0'
+      ord_psbl_qty: '5'
+    - pdno: KR6003492D41
+      prdt_name: 대한항공102-2
+      buy_dt: '20240426'
+      buy_sqno: '1'
+      cblc_qty: '9'
+      agrx_qty: '9'
+      sprx_qty: '0'
+      exdt: '20260424'
+      buy_erng_rt: '0.00000000'
+      buy_unpr: '0'
+      buy_amt: '0'
+      ord_psbl_qty: '9'
+    - pdno: KR6095572D81
+      prdt_name: AJ네트웍스63-2
+      buy_dt: '20240426'
+      buy_sqno: '1'
+      cblc_qty: '23'
+      agrx_qty: '22'
+      sprx_qty: '0'
+      exdt: '20250801'
+      buy_erng_rt: '0.00000000'
+      buy_unpr: '0'
+      buy_amt: '0'
+      ord_psbl_qty: '22'
+    rt_cd: '0'
+    msg_cd: KIOK0460
+    msg1: '조회 되었습니다. (마지막 자료)                                                  '
+errors: []

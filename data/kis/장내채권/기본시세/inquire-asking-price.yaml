@@ -1,0 +1,473 @@
+id: 0a5782f0-0c05-4feb-90f4-b86f09b45327
+name: 장내채권현재가(호가) [국내주식-132]
+section: '[장내채권] 기본시세'
+category: 장내채권
+subcategory: 기본시세
+method: GET
+url: /uapi/domestic-bond/v1/quotations/inquire-asking-price
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: FHKBJ773401C0
+demo_tr_id: 모의투자 미지원
+summary: "장내채권현재가(호가) API입니다. \n한국투자 HTS(eFriend Plus) > [0978] 장내채권주문 \"우측 호가창\" 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기\
+  \ 쉽습니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-26T09:24:02+09:00'
+  last_modified_date: '2025-04-30T13:08:58+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKBJ773401C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 'B: 장내'
+  - code: FID_INPUT_ISCD
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: '채권종목코드
+
+      ex. KR2088012A16'
+  example: "FID_COND_MRKT_DIV_CODE:B\r\nFID_INPUT_ISCD:KR2088012A16"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: aspr_acpt_hour
+    name: 호가 접수 시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: bond_askp1
+    name: 채권 매도호가1
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_askp2
+    name: 채권 매도호가2
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_askp3
+    name: 채권 매도호가3
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_askp4
+    name: 채권 매도호가4
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_askp5
+    name: 채권 매도호가5
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_bidp1
+    name: 채권 매수호가1
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_bidp2
+    name: 채권 매수호가2
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_bidp3
+    name: 채권 매수호가3
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_bidp4
+    name: 채권 매수호가4
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: bond_bidp5
+    name: 채권 매수호가5
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: askp_rsqn1
+    name: 매도호가 잔량1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn2
+    name: 매도호가 잔량2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn3
+    name: 매도호가 잔량3
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn4
+    name: 매도호가 잔량4
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: askp_rsqn5
+    name: 매도호가 잔량5
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn1
+    name: 매수호가 잔량1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn2
+    name: 매수호가 잔량2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn3
+    name: 매수호가 잔량3
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn4
+    name: 매수호가 잔량4
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: bidp_rsqn5
+    name: 매수호가 잔량5
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: total_askp_rsqn
+    name: 총 매도호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: total_bidp_rsqn
+    name: 총 매수호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ntby_aspr_rsqn
+    name: 순매수 호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: seln_ernn_rate1
+    name: 매도 수익 비율1
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: seln_ernn_rate2
+    name: 매도 수익 비율2
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: seln_ernn_rate3
+    name: 매도 수익 비율3
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: seln_ernn_rate4
+    name: 매도 수익 비율4
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: seln_ernn_rate5
+    name: 매도 수익 비율5
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: shnu_ernn_rate1
+    name: 매수2 수익 비율1
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: shnu_ernn_rate2
+    name: 매수2 수익 비율2
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: shnu_ernn_rate3
+    name: 매수2 수익 비율3
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: shnu_ernn_rate4
+    name: 매수2 수익 비율4
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: shnu_ernn_rate5
+    name: 매수2 수익 비율5
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  example:
+    output:
+      aspr_acpt_hour: 094618
+      bond_askp1: '0.00'
+      bond_askp2: '0.00'
+      bond_askp3: '0.00'
+      bond_askp4: '0.00'
+      bond_askp5: '0.00'
+      bond_bidp1: '10190.20'
+      bond_bidp2: '10189.70'
+      bond_bidp3: '10189.40'
+      bond_bidp4: '10188.90'
+      bond_bidp5: '10188.60'
+      askp_rsqn1: '0'
+      askp_rsqn2: '0'
+      askp_rsqn3: '0'
+      askp_rsqn4: '0'
+      askp_rsqn5: '0'
+      bidp_rsqn1: '320138'
+      bidp_rsqn2: '53685'
+      bidp_rsqn3: '9081'
+      bidp_rsqn4: '8232'
+      bidp_rsqn5: '4020'
+      total_askp_rsqn: '0'
+      total_bidp_rsqn: '425156'
+      ntby_aspr_rsqn: '425156'
+      seln_ernn_rate1: '0.000'
+      seln_ernn_rate2: '0.000'
+      seln_ernn_rate3: '0.000'
+      seln_ernn_rate4: '0.000'
+      seln_ernn_rate5: '0.000'
+      shnu_ernn_rate1: '4.549'
+      shnu_ernn_rate2: '4.556'
+      shnu_ernn_rate3: '4.560'
+      shnu_ernn_rate4: '4.567'
+      shnu_ernn_rate5: '4.571'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

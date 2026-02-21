@@ -1,0 +1,11 @@
+# 종목정보파일
+
+- 출처: [{{ source_url }}]({{ source_url }})
+
+## 종목정보파일 주소 목록
+
+| 구분 | 종목 | 다운로드 | 헤더정보 |
+|---|---|---|---|
+{% for source in sources %}
+| {{ source.group }} | {{ source.label }} | [{{ source.label }}]({{ source.download_url }}) | [헤더정보]({{ source.header_url }}) |
+{% endfor %}

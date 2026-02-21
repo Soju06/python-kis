@@ -1,0 +1,807 @@
+id: 16958dd0-0304-4554-b12d-ec56e7874e71
+name: 국내주식 시간외거래량순위 [국내주식-139]
+section: '[국내주식] 순위분석'
+category: 국내주식
+subcategory: 순위분석
+method: GET
+url: /uapi/domestic-stock/v1/ranking/overtime-volume
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: FHPST02350000
+demo_tr_id: 모의투자 미지원
+summary: "국내주식 시간외거래량순위 API입니다. \n한국투자 HTS(eFriend Plus) > [0235] 시간외 거래량순위 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.\n\
+  최대 30건 확인 가능하며, 다음 조회가 불가합니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-12T12:39:31+09:00'
+  last_modified_date: '2025-05-14T14:44:28+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPST02350000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '시장구분코드 (J: 주식)'
+  - code: FID_COND_SCR_DIV_CODE
+    name: 조건 화면 분류 코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: Unique key(20235)
+  - code: FID_INPUT_ISCD
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 0000(전체), 0001(코스피), 1001(코스닥)
+  - code: FID_RANK_SORT_CLS_CODE
+    name: 순위 정렬 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 0(매수잔량),  1(매도잔량), 2(거래량)
+  - code: FID_INPUT_PRICE_1
+    name: 입력 가격1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 가격 ~
+  - code: FID_INPUT_PRICE_2
+    name: 입력 가격2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ~ 가격
+  - code: FID_VOL_CNT
+    name: 거래량 수
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 거래량 ~
+  - code: FID_TRGT_CLS_CODE
+    name: 대상 구분 코드
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 공백
+  - code: FID_TRGT_EXLS_CLS_CODE
+    name: 대상 제외 구분 코드
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 공백
+  example: "FID_COND_MRKT_DIV_CODE:J\r\nFID_COND_SCR_DIV_CODE:20235\r\nFID_INPUT_ISCD:0000\r\nFID_RANK_SORT_CLS_CODE:0\r\n\
+    FID_INPUT_PRICE_1:\r\nFID_INPUT_PRICE_2:\r\nFID_VOL_CNT:\r\nFID_TRGT_CLS_CODE:\r\nFID_TRGT_EXLS_CLS_CODE:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: ovtm_untp_exch_vol
+    name: 시간외 단일가 거래소 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: ovtm_untp_exch_tr_pbmn
+    name: 시간외 단일가 거래소 거래대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: ovtm_untp_kosdaq_vol
+    name: 시간외 단일가 KOSDAQ 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: ovtm_untp_kosdaq_tr_pbmn
+    name: 시간외 단일가 KOSDAQ 거래대금
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: stck_shrn_iscd
+    name: 주식 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: ovtm_untp_prpr
+    name: 시간외 단일가 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ovtm_untp_prdy_vrss
+    name: 시간외 단일가 전일 대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ovtm_untp_prdy_vrss_sign
+    name: 시간외 단일가 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ovtm_untp_prdy_ctrt
+    name: 시간외 단일가 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: ovtm_untp_seln_rsqn
+    name: 시간외 단일가 매도 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ovtm_untp_shnu_rsqn
+    name: 시간외 단일가 매수 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: ovtm_untp_vol
+    name: 시간외 단일가 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: ovtm_vrss_acml_vol_rlim
+    name: 시간외 대비 누적 거래량 비중
+    type: A0001
+    type_name: String
+    length: '52'
+    required: true
+    description: ''
+  - code: stck_prpr
+    name: 주식 현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: bidp
+    name: 매수호가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: askp
+    name: 매도호가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example:
+    output1:
+      ovtm_untp_exch_vol: '5806628'
+      ovtm_untp_exch_tr_pbmn: '54755931392'
+      ovtm_untp_kosdaq_vol: '5204621'
+      ovtm_untp_kosdaq_tr_pbmn: '47577538957'
+    output2:
+    - stck_shrn_iscd: 024840
+      hts_kor_isnm: KBI메탈
+      ovtm_untp_prpr: '1805'
+      ovtm_untp_prdy_vrss: '164'
+      ovtm_untp_prdy_vrss_sign: '1'
+      ovtm_untp_prdy_ctrt: '9.99'
+      ovtm_untp_seln_rsqn: '0'
+      ovtm_untp_shnu_rsqn: '1518111'
+      ovtm_untp_vol: '830822'
+      ovtm_vrss_acml_vol_rlim: '5.78'
+      stck_prpr: '1641'
+      acml_vol: '14376124'
+      bidp: '1641'
+      askp: '1642'
+    - stck_shrn_iscd: '251340'
+      hts_kor_isnm: KODEX 코스닥150선물인버스
+      ovtm_untp_prpr: '3480'
+      ovtm_untp_prdy_vrss: '-5'
+      ovtm_untp_prdy_vrss_sign: '5'
+      ovtm_untp_prdy_ctrt: '-0.14'
+      ovtm_untp_seln_rsqn: '483261'
+      ovtm_untp_shnu_rsqn: '1280469'
+      ovtm_untp_vol: '271489'
+      ovtm_vrss_acml_vol_rlim: '0.76'
+      stck_prpr: '3485'
+      acml_vol: '35798171'
+      bidp: '3480'
+      askp: '3485'
+    - stck_shrn_iscd: Q530036
+      hts_kor_isnm: 삼성 인버스 2X WTI원유 선물 ETN
+      ovtm_untp_prpr: '83'
+      ovtm_untp_prdy_vrss: '-1'
+      ovtm_untp_prdy_vrss_sign: '5'
+      ovtm_untp_prdy_ctrt: '-1.19'
+      ovtm_untp_seln_rsqn: '733502'
+      ovtm_untp_shnu_rsqn: '1129085'
+      ovtm_untp_vol: '500'
+      ovtm_vrss_acml_vol_rlim: '0.00'
+      stck_prpr: '84'
+      acml_vol: '14500093'
+      bidp: '83'
+      askp: '84'
+    - stck_shrn_iscd: '900110'
+      hts_kor_isnm: 이스트아시아홀딩스
+      ovtm_untp_prpr: '92'
+      ovtm_untp_prdy_vrss: '0'
+      ovtm_untp_prdy_vrss_sign: '3'
+      ovtm_untp_prdy_ctrt: '0.00'
+      ovtm_untp_seln_rsqn: '116978'
+      ovtm_untp_shnu_rsqn: '929131'
+      ovtm_untp_vol: '3590'
+      ovtm_vrss_acml_vol_rlim: '0.33'
+      stck_prpr: '92'
+      acml_vol: '1072096'
+      bidp: '91'
+      askp: '92'
+    - stck_shrn_iscd: Q500027
+      hts_kor_isnm: 신한 인버스 2X WTI원유 선물 ETN(H)
+      ovtm_untp_prpr: '70'
+      ovtm_untp_prdy_vrss: '-1'
+      ovtm_untp_prdy_vrss_sign: '5'
+      ovtm_untp_prdy_ctrt: '-1.41'
+      ovtm_untp_seln_rsqn: '146853'
+      ovtm_untp_shnu_rsqn: '736280'
+      ovtm_untp_vol: '800'
+      ovtm_vrss_acml_vol_rlim: '0.01'
+      stck_prpr: '71'
+      acml_vol: '11331167'
+      bidp: '70'
+      askp: '71'
+    - stck_shrn_iscd: '900300'
+      hts_kor_isnm: 오가닉티코스메틱
+      ovtm_untp_prpr: '86'
+      ovtm_untp_prdy_vrss: '0'
+      ovtm_untp_prdy_vrss_sign: '3'
+      ovtm_untp_prdy_ctrt: '0.00'
+      ovtm_untp_seln_rsqn: '259326'
+      ovtm_untp_shnu_rsqn: '542857'
+      ovtm_untp_vol: '2054'
+      ovtm_vrss_acml_vol_rlim: '0.03'
+      stck_prpr: '86'
+      acml_vol: '6493528'
+      bidp: '85'
+      askp: '86'
+    - stck_shrn_iscd: '252670'
+      hts_kor_isnm: KODEX 200선물인버스2X
+      ovtm_untp_prpr: '2075'
+      ovtm_untp_prdy_vrss: '0'
+      ovtm_untp_prdy_vrss_sign: '3'
+      ovtm_untp_prdy_ctrt: '0.00'
+      ovtm_untp_seln_rsqn: '1095223'
+      ovtm_untp_shnu_rsqn: '487107'
+      ovtm_untp_vol: '385969'
+      ovtm_vrss_acml_vol_rlim: '0.29'
+      stck_prpr: '2075'
+      acml_vol: '131543542'
+      bidp: '2075'
+      askp: '2080'
+    - stck_shrn_iscd: '900280'
+      hts_kor_isnm: 골든센츄리
+      ovtm_untp_prpr: '105'
+      ovtm_untp_prdy_vrss: '1'
+      ovtm_untp_prdy_vrss_sign: '2'
+      ovtm_untp_prdy_ctrt: '0.96'
+      ovtm_untp_seln_rsqn: '305981'
+      ovtm_untp_shnu_rsqn: '297740'
+      ovtm_untp_vol: '112558'
+      ovtm_vrss_acml_vol_rlim: '0.90'
+      stck_prpr: '104'
+      acml_vol: '12494891'
+      bidp: '104'
+      askp: '105'
+    - stck_shrn_iscd: '241770'
+      hts_kor_isnm: 메카로
+      ovtm_untp_prpr: '11050'
+      ovtm_untp_prdy_vrss: '0'
+      ovtm_untp_prdy_vrss_sign: '3'
+      ovtm_untp_prdy_ctrt: '0.00'
+      ovtm_untp_seln_rsqn: '0'
+      ovtm_untp_shnu_rsqn: '218703'
+      ovtm_untp_vol: '14328'
+      ovtm_vrss_acml_vol_rlim: '0.54'
+      stck_prpr: '11050'
+      acml_vol: '2660105'
+      bidp: '11050'
+      askp: '0'
+    - stck_shrn_iscd: 039740
+      hts_kor_isnm: 한국정보공학
+      ovtm_untp_prpr: '3705'
+      ovtm_untp_prdy_vrss: '0'
+      ovtm_untp_prdy_vrss_sign: '3'
+      ovtm_untp_prdy_ctrt: '0.00'
+      ovtm_untp_seln_rsqn: '0'
+      ovtm_untp_shnu_rsqn: '212928'
+      ovtm_untp_vol: '8904'
+      ovtm_vrss_acml_vol_rlim: '0.32'
+      stck_prpr: '3705'
+      acml_vol: '2745049'
+      bidp: '3705'
+      askp: '0'
+    - stck_shrn_iscd: '443670'
+      hts_kor_isnm: 에스피소프트
+      ovtm_untp_prpr: '19110'
+      ovtm_untp_prdy_vrss: '0'
+      ovtm_untp_prdy_vrss_sign: '3'
+      ovtm_untp_prdy_ctrt: '0.00'
+      ovtm_untp_seln_rsqn: '0'
+      ovtm_untp_shnu_rsqn: '200228'
+      ovtm_untp_vol: '8728'
+      ovtm_vrss_acml_vol_rlim: '0.10'
+      stck_prpr: '19110'
+      acml_vol: '8933701'
+      bidp: '19110'
+      askp: '0'
+    - stck_shrn_iscd: '114800'
+      hts_kor_isnm: KODEX 인버스
+      ovtm_untp_prpr: '4180'
+      ovtm_untp_prdy_vrss: '-5'
+      ovtm_untp_prdy_vrss_sign: '5'
+      ovtm_untp_prdy_ctrt: '-0.12'
+      ovtm_untp_seln_rsqn: '113209'
+      ovtm_untp_shnu_rsqn: '132778'
+      ovtm_untp_vol: '19807'
+      ovtm_vrss_acml_vol_rlim: '0.08'
+      stck_prpr: '4185'
+      acml_vol: '23680596'
+      bidp: '4180'
+      askp: '4185'
+    - stck_shrn_iscd: Q550043
+      hts_kor_isnm: QV 인버스 레버리지 WTI원유 선물 ETN(H)
+      ovtm_untp_prpr: '65'
+      ovtm_untp_prdy_vrss: '0'
+      ovtm_untp_prdy_vrss_sign: '0'
+      ovtm_untp_prdy_ctrt: '0.00'
+      ovtm_untp_seln_rsqn: '9499'
+      ovtm_untp_shnu_rsqn: '121250'
+      ovtm_untp_vol: '0'
+      ovtm_vrss_acml_vol_rlim: '0.00'
+      stck_prpr: '65'
+      acml_vol: '857825'
+      bidp: '64'
+      askp: '65'
+    - stck_shrn_iscd: 032800
+      hts_kor_isnm: 판타지오
+      ovtm_untp_prpr: '293'
+      ovtm_untp_prdy_vrss: '-3'
+      ovtm_untp_prdy_vrss_sign: '5'
+      ovtm_untp_prdy_ctrt: '-1.01'
+      ovtm_untp_seln_rsqn: '23665'
+      ovtm_untp_shnu_rsqn: '114241'
+      ovtm_untp_vol: '243174'
+      ovtm_vrss_acml_vol_rlim: '0.60'
+      stck_prpr: '296'
+      acml_vol: '40758423'
+      bidp: '295'
+      askp: '296'
+    - stck_shrn_iscd: '900120'
+      hts_kor_isnm: 씨엑스아이
+      ovtm_untp_prpr: '114'
+      ovtm_untp_prdy_vrss: '0'
+      ovtm_untp_prdy_vrss_sign: '3'
+      ovtm_untp_prdy_ctrt: '0.00'
+      ovtm_untp_seln_rsqn: '51602'
+      ovtm_untp_shnu_rsqn: '97874'
+      ovtm_untp_vol: '6'
+      ovtm_vrss_acml_vol_rlim: '0.00'
+      stck_prpr: '114'
+      acml_vol: '585089'
+      bidp: '113'
+      askp: '114'
+    - stck_shrn_iscd: '006345'
+      hts_kor_isnm: 대원전선우
+      ovtm_untp_prpr: '4425'
+      ovtm_untp_prdy_vrss: '0'
+      ovtm_untp_prdy_vrss_sign: '3'
+      ovtm_untp_prdy_ctrt: '0.00'
+      ovtm_untp_seln_rsqn: '0'
+      ovtm_untp_shnu_rsqn: '73543'
+      ovtm_untp_vol: '53'
+      ovtm_vrss_acml_vol_rlim: '0.00'
+      stck_prpr: '4425'
+      acml_vol: '2444147'
+      bidp: '4425'
+      askp: '0'
+    - stck_shrn_iscd: '152550'
+      hts_kor_isnm: 한국ANKOR유전
+      ovtm_untp_prpr: '370'
+      ovtm_untp_prdy_vrss: '1'
+      ovtm_untp_prdy_vrss_sign: '2'
+      ovtm_untp_prdy_ctrt: '0.27'
+      ovtm_untp_seln_rsqn: '66842'
+      ovtm_untp_shnu_rsqn: '67407'
+      ovtm_untp_vol: '48762'
+      ovtm_vrss_acml_vol_rlim: '1.29'
+      stck_prpr: '369'
+      acml_vol: '3781036'
+      bidp: '368'
+      askp: '369'
+    - stck_shrn_iscd: '036630'
+      hts_kor_isnm: 세종텔레콤
+      ovtm_untp_prpr: '627'
+      ovtm_untp_prdy_vrss: '-2'
+      ovtm_untp_prdy_vrss_sign: '5'
+      ovtm_untp_prdy_ctrt: '-0.32'
+      ovtm_untp_seln_rsqn: '794'
+      ovtm_untp_shnu_rsqn: '53745'
+      ovtm_untp_vol: '1660'
+      ovtm_vrss_acml_vol_rlim: '0.97'
+      stck_prpr: '629'
+      acml_vol: '171476'
+      bidp: '629'
+      askp: '630'
+    - stck_shrn_iscd: 018470
+      hts_kor_isnm: 조일알미늄
+      ovtm_untp_prpr: '2375'
+      ovtm_untp_prdy_vrss: '150'
+      ovtm_untp_prdy_vrss_sign: '2'
+      ovtm_untp_prdy_ctrt: '6.74'
+      ovtm_untp_seln_rsqn: '84458'
+      ovtm_untp_shnu_rsqn: '49908'
+      ovtm_untp_vol: '1243060'
+      ovtm_vrss_acml_vol_rlim: '12.24'
+      stck_prpr: '2225'
+      acml_vol: '10159482'
+      bidp: '2225'
+      askp: '2230'
+    - stck_shrn_iscd: '004410'
+      hts_kor_isnm: 서울식품
+      ovtm_untp_prpr: '176'
+      ovtm_untp_prdy_vrss: '1'
+      ovtm_untp_prdy_vrss_sign: '2'
+      ovtm_untp_prdy_ctrt: '0.57'
+      ovtm_untp_seln_rsqn: '68739'
+      ovtm_untp_shnu_rsqn: '49034'
+      ovtm_untp_vol: '2'
+      ovtm_vrss_acml_vol_rlim: '0.00'
+      stck_prpr: '175'
+      acml_vol: '648132'
+      bidp: '175'
+      askp: '176'
+    - stck_shrn_iscd: 015590
+      hts_kor_isnm: KIB플러그에너지
+      ovtm_untp_prpr: '438'
+      ovtm_untp_prdy_vrss: '1'
+      ovtm_untp_prdy_vrss_sign: '2'
+      ovtm_untp_prdy_ctrt: '0.23'
+      ovtm_untp_seln_rsqn: '9286'
+      ovtm_untp_shnu_rsqn: '45672'
+      ovtm_untp_vol: '10598'
+      ovtm_vrss_acml_vol_rlim: '0.30'
+      stck_prpr: '437'
+      acml_vol: '3556231'
+      bidp: '437'
+      askp: '438'
+    - stck_shrn_iscd: 011930
+      hts_kor_isnm: 신성이엔지
+      ovtm_untp_prpr: '2275'
+      ovtm_untp_prdy_vrss: '-5'
+      ovtm_untp_prdy_vrss_sign: '5'
+      ovtm_untp_prdy_ctrt: '-0.22'
+      ovtm_untp_seln_rsqn: '14814'
+      ovtm_untp_shnu_rsqn: '45606'
+      ovtm_untp_vol: '24996'
+      ovtm_vrss_acml_vol_rlim: '0.88'
+      stck_prpr: '2280'
+      acml_vol: '2824930'
+      bidp: '2280'
+      askp: '2285'
+    - stck_shrn_iscd: '001620'
+      hts_kor_isnm: 케이비아이동국실업
+      ovtm_untp_prpr: '591'
+      ovtm_untp_prdy_vrss: '-1'
+      ovtm_untp_prdy_vrss_sign: '5'
+      ovtm_untp_prdy_ctrt: '-0.17'
+      ovtm_untp_seln_rsqn: '6526'
+      ovtm_untp_shnu_rsqn: '43357'
+      ovtm_untp_vol: '10'
+      ovtm_vrss_acml_vol_rlim: '0.01'
+      stck_prpr: '592'
+      acml_vol: '180490'
+      bidp: '591'
+      askp: '592'
+    - stck_shrn_iscd: '403490'
+      hts_kor_isnm: 우듬지팜
+      ovtm_untp_prpr: '2220'
+      ovtm_untp_prdy_vrss: '-5'
+      ovtm_untp_prdy_vrss_sign: '5'
+      ovtm_untp_prdy_ctrt: '-0.22'
+      ovtm_untp_seln_rsqn: '0'
+      ovtm_untp_shnu_rsqn: '39260'
+      ovtm_untp_vol: '785'
+      ovtm_vrss_acml_vol_rlim: '0.59'
+      stck_prpr: '2225'
+      acml_vol: '132387'
+      bidp: '2225'
+      askp: '2230'
+    - stck_shrn_iscd: '461030'
+      hts_kor_isnm: 아이엠비디엑스
+      ovtm_untp_prpr: '20500'
+      ovtm_untp_prdy_vrss: '-200'
+      ovtm_untp_prdy_vrss_sign: '5'
+      ovtm_untp_prdy_ctrt: '-0.97'
+      ovtm_untp_seln_rsqn: '2804'
+      ovtm_untp_shnu_rsqn: '34783'
+      ovtm_untp_vol: '14490'
+      ovtm_vrss_acml_vol_rlim: '0.54'
+      stck_prpr: '20700'
+      acml_vol: '2705963'
+      bidp: '20650'
+      askp: '20700'
+    - stck_shrn_iscd: '012170'
+      hts_kor_isnm: 아센디오
+      ovtm_untp_prpr: '1059'
+      ovtm_untp_prdy_vrss: '-5'
+      ovtm_untp_prdy_vrss_sign: '5'
+      ovtm_untp_prdy_ctrt: '-0.47'
+      ovtm_untp_seln_rsqn: '2520'
+      ovtm_untp_shnu_rsqn: '34715'
+      ovtm_untp_vol: '7166'
+      ovtm_vrss_acml_vol_rlim: '0.35'
+      stck_prpr: '1064'
+      acml_vol: '2070608'
+      bidp: '1063'
+      askp: '1064'
+    - stck_shrn_iscd: '177350'
+      hts_kor_isnm: 베셀
+      ovtm_untp_prpr: '425'
+      ovtm_untp_prdy_vrss: '0'
+      ovtm_untp_prdy_vrss_sign: '3'
+      ovtm_untp_prdy_ctrt: '0.00'
+      ovtm_untp_seln_rsqn: '11404'
+      ovtm_untp_shnu_rsqn: '33089'
+      ovtm_untp_vol: '5185'
+      ovtm_vrss_acml_vol_rlim: '0.15'
+      stck_prpr: '425'
+      acml_vol: '3365030'
+      bidp: '425'
+      askp: '426'
+    - stck_shrn_iscd: '017040'
+      hts_kor_isnm: 광명전기
+      ovtm_untp_prpr: '2735'
+      ovtm_untp_prdy_vrss: '0'
+      ovtm_untp_prdy_vrss_sign: '3'
+      ovtm_untp_prdy_ctrt: '0.00'
+      ovtm_untp_seln_rsqn: '17827'
+      ovtm_untp_shnu_rsqn: '33064'
+      ovtm_untp_vol: '45996'
+      ovtm_vrss_acml_vol_rlim: '0.31'
+      stck_prpr: '2735'
+      acml_vol: '14823773'
+      bidp: '2735'
+      askp: '2740'
+    - stck_shrn_iscd: '377220'
+      hts_kor_isnm: 프롬바이오
+      ovtm_untp_prpr: '2170'
+      ovtm_untp_prdy_vrss: '0'
+      ovtm_untp_prdy_vrss_sign: '3'
+      ovtm_untp_prdy_ctrt: '0.00'
+      ovtm_untp_seln_rsqn: '1471'
+      ovtm_untp_shnu_rsqn: '30408'
+      ovtm_untp_vol: '1'
+      ovtm_vrss_acml_vol_rlim: '0.00'
+      stck_prpr: '2170'
+      acml_vol: '220931'
+      bidp: '2170'
+      askp: '2190'
+    - stck_shrn_iscd: '005320'
+      hts_kor_isnm: 국동
+      ovtm_untp_prpr: '613'
+      ovtm_untp_prdy_vrss: '-4'
+      ovtm_untp_prdy_vrss_sign: '5'
+      ovtm_untp_prdy_ctrt: '-0.65'
+      ovtm_untp_seln_rsqn: '3'
+      ovtm_untp_shnu_rsqn: '29101'
+      ovtm_untp_vol: '23'
+      ovtm_vrss_acml_vol_rlim: '0.04'
+      stck_prpr: '617'
+      acml_vol: '56414'
+      bidp: '616'
+      askp: '617'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

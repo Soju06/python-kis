@@ -1,0 +1,343 @@
+id: 1394ba1d-e17d-42c8-8e53-6bed5dce7588
+name: 해외결제일자조회[해외주식-017]
+section: '[해외주식] 기본시세'
+category: 해외주식
+subcategory: 기본시세
+method: GET
+url: /uapi/overseas-stock/v1/quotations/countries-holiday
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: CTOS5011R
+demo_tr_id: 모의투자 미지원
+summary: 해외결제일자조회 API입니다.
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2022-12-23T12:22:44+09:00'
+  last_modified_date: '2025-04-30T12:13:35+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTOS5011R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: TRAD_DT
+    name: 기준일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 기준일자(YYYYMMDD)
+  - code: CTX_AREA_NK
+    name: 연속조회키
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: 공백으로 입력
+  - code: CTX_AREA_FK
+    name: 연속조회검색조건
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: 공백으로 입력
+  example:
+    TRAD_DT: '20221227'
+    CTX_AREA_NK: ''
+    CTX_AREA_FK: ''
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세1
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: prdt_type_cd
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: "512  미국 나스닥 / 513  미국 뉴욕거래소 / 529  미국 아멕스 \n515  일본\n501  홍콩 / 543  홍콩CNY / 558  홍콩USD\n507  베트남 하노이거래소\
+      \ / 508  베트남 호치민거래소\n551  중국 상해A / 552  중국 심천A"
+  - code: tr_natn_cd
+    name: 거래국가코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: '840 미국 / 392 일본 / 344 홍콩
+
+      704 베트남 / 156 중국'
+  - code: tr_natn_name
+    name: 거래국가명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: natn_eng_abrv_cd
+    name: 국가영문약어코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 'US 미국 / JP 일본 / HK 홍콩
+
+      VN 베트남 / CN 중국'
+  - code: tr_mket_cd
+    name: 거래시장코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: tr_mket_name
+    name: 거래시장명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: acpl_sttl_dt
+    name: 현지결제일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 현지결제일자(YYYYMMDD)
+  - code: dmst_sttl_dt
+    name: 국내결제일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: 국내결제일자(YYYYMMDD)
+  example:
+    ctx_area_fk: '20221227            '
+    ctx_area_nk: '                    '
+    output:
+    - prdt_type_cd: '507'
+      tr_natn_cd: '704'
+      tr_natn_name: 베트남
+      natn_eng_abrv_cd: VN
+      tr_mket_cd: '01'
+      tr_mket_name: 하노이거래소
+      acpl_sttl_dt: '20221229'
+      dmst_sttl_dt: '20221229'
+    - prdt_type_cd: '508'
+      tr_natn_cd: '704'
+      tr_natn_name: 베트남
+      natn_eng_abrv_cd: VN
+      tr_mket_cd: '02'
+      tr_mket_name: 호치민거래소
+      acpl_sttl_dt: '20221229'
+      dmst_sttl_dt: '20221229'
+    - prdt_type_cd: '512'
+      tr_natn_cd: '840'
+      tr_natn_name: 미국
+      natn_eng_abrv_cd: US
+      tr_mket_cd: '01'
+      tr_mket_name: 나스닥
+      acpl_sttl_dt: '20221229'
+      dmst_sttl_dt: '20221230'
+    - prdt_type_cd: '513'
+      tr_natn_cd: '840'
+      tr_natn_name: 미국
+      natn_eng_abrv_cd: US
+      tr_mket_cd: '02'
+      tr_mket_name: 뉴욕거래소
+      acpl_sttl_dt: '20221229'
+      dmst_sttl_dt: '20221230'
+    - prdt_type_cd: '515'
+      tr_natn_cd: '392'
+      tr_natn_name: 일본
+      natn_eng_abrv_cd: JP
+      tr_mket_cd: '01'
+      tr_mket_name: 일본
+      acpl_sttl_dt: '20221229'
+      dmst_sttl_dt: '20221229'
+    - prdt_type_cd: '527'
+      tr_natn_cd: '840'
+      tr_natn_name: 미국
+      natn_eng_abrv_cd: US
+      tr_mket_cd: '03'
+      tr_mket_name: 미국
+      acpl_sttl_dt: '20221229'
+      dmst_sttl_dt: '20221230'
+    - prdt_type_cd: '528'
+      tr_natn_cd: '840'
+      tr_natn_name: 미국
+      natn_eng_abrv_cd: US
+      tr_mket_cd: '04'
+      tr_mket_name: 미국
+      acpl_sttl_dt: '20221229'
+      dmst_sttl_dt: '20221230'
+    - prdt_type_cd: '529'
+      tr_natn_cd: '840'
+      tr_natn_name: 미국
+      natn_eng_abrv_cd: US
+      tr_mket_cd: '05'
+      tr_mket_name: 아멕스
+      acpl_sttl_dt: '20221229'
+      dmst_sttl_dt: '20221230'
+    - prdt_type_cd: '556'
+      tr_natn_cd: '704'
+      tr_natn_name: 베트남
+      natn_eng_abrv_cd: VN
+      tr_mket_cd: '03'
+      tr_mket_name: 업콤거래소
+      acpl_sttl_dt: '20221229'
+      dmst_sttl_dt: '20221229'
+    rt_cd: '0'
+    msg_cd: KIOK0460
+    msg1: '조회 되었습니다. (마지막 자료)                                                  '
+errors: []

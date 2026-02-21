@@ -1,0 +1,876 @@
+id: 56cf546c-a74f-467c-98b1-005967535e9e
+name: 장내채권 기본조회 [국내주식-129]
+section: '[장내채권] 기본시세'
+category: 장내채권
+subcategory: 기본시세
+method: GET
+url: /uapi/domestic-bond/v1/quotations/search-bond-info
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: CTPF1114R
+demo_tr_id: 모의투자 미지원
+summary: "장내채권 기본조회 API입니다. \n장내채권의 상품정보를 확인 가능합니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-26T09:23:05+09:00'
+  last_modified_date: '2025-10-28T08:26:03+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: CTPF1114R
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: PDNO
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 상품번호
+  - code: PRDT_TYPE_CD
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: Unique key(302)
+  example: "PDNO:KR2033022D33\r\nPRDT_TYPE_CD:302"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: pdno
+    name: 상품번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: prdt_type_cd
+    name: 상품유형코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: ksd_bond_item_name
+    name: 증권예탁결제원채권종목명
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: ''
+  - code: ksd_bond_item_eng_name
+    name: 증권예탁결제원채권종목영문명
+    type: A0001
+    type_name: String
+    length: '100'
+    required: true
+    description: ''
+  - code: ksd_bond_lstg_type_cd
+    name: 증권예탁결제원채권상장유형코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: ksd_ofrg_dvsn_cd
+    name: 증권예탁결제원모집구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: ksd_bond_int_dfrm_dvsn_cd
+    name: 증권예탁결제원채권이자지급구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: issu_dt
+    name: 발행일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: rdpt_dt
+    name: 상환일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: rvnu_dt
+    name: 매출일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: iso_crcy_cd
+    name: 통화코드
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: ''
+  - code: mdwy_rdpt_dt
+    name: 중도상환일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ksd_rcvg_bond_dsct_rt
+    name: 증권예탁결제원수신채권할인율
+    type: A0001
+    type_name: String
+    length: '2212'
+    required: true
+    description: ''
+  - code: ksd_rcvg_bond_srfc_inrt
+    name: 증권예탁결제원수신채권표면이율
+    type: A0001
+    type_name: String
+    length: '2012'
+    required: true
+    description: ''
+  - code: bond_expd_rdpt_rt
+    name: 채권만기상환율
+    type: A0001
+    type_name: String
+    length: '2212'
+    required: true
+    description: ''
+  - code: ksd_prca_rdpt_mthd_cd
+    name: 증권예탁결제원원금상환방법코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: int_caltm_mcnt
+    name: 이자계산기간개월수
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ksd_int_calc_unit_cd
+    name: 증권예탁결제원이자계산단위코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '1.발행금액
+
+      2.만원
+
+      3.십만원
+
+      4.백만원'
+  - code: uval_cut_dvsn_cd
+    name: 절상절사구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: uval_cut_dcpt_dgit
+    name: 절상절사소수점자릿수
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: ksd_dydv_caltm_aply_dvsn_cd
+    name: 증권예탁결제원일할계산기간적용
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: dydv_calc_dcnt
+    name: 일할계산일수
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: bond_expd_asrc_erng_rt
+    name: 채권만기보장수익율
+    type: A0001
+    type_name: String
+    length: '2212'
+    required: true
+    description: ''
+  - code: padf_plac_hdof_name
+    name: 원리금지급장소본점명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: lstg_dt
+    name: 상장일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: lstg_abol_dt
+    name: 상장폐지일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ksd_bond_issu_mthd_cd
+    name: 증권예탁결제원채권발행방법코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: laps_indf_yn
+    name: 경과이자지급여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ksd_lhdy_pnia_dfrm_mthd_cd
+    name: 증권예탁결제원공휴일원리금지급
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: frst_int_dfrm_dt
+    name: 최초이자지급일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ksd_prcm_lnkg_gvbd_yn
+    name: 증권예탁결제원물가연동국고채여
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: dpsi_end_dt
+    name: 예탁종료일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: dpsi_strt_dt
+    name: 예탁시작일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: dpsi_psbl_yn
+    name: 예탁가능여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: atyp_rdpt_bond_erlm_yn
+    name: 비정형상환채권등록여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: dshn_occr_yn
+    name: 부도발생여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: expd_exts_yn
+    name: 만기연장여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: pclr_ptcr_text
+    name: 특이사항내용
+    type: A0001
+    type_name: String
+    length: '500'
+    required: true
+    description: ''
+  - code: dpsi_psbl_excp_stat_cd
+    name: 예탁가능예외상태코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: expd_exts_srdp_rcnt
+    name: 만기연장분할상환횟수
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: expd_exts_srdp_rt
+    name: 만기연장분할상환율
+    type: A0001
+    type_name: String
+    length: '2212'
+    required: true
+    description: ''
+  - code: expd_rdpt_rt
+    name: 만기상환율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: expd_asrc_erng_rt
+    name: 만기보장수익율
+    type: A0001
+    type_name: String
+    length: '238'
+    required: true
+    description: ''
+  - code: bond_int_dfrm_mthd_cd
+    name: 채권이자지급방법코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '01.할인채
+
+      02.복리채
+
+      03.이표채.확정금리
+
+      04.이표채.금리연동
+
+      05.이표채.변동금리
+
+      06.단리채
+
+      07.분할채
+
+      09.복5단2
+
+      19.기타.고정금리
+
+      29.기타.변동금리'
+  - code: int_dfrm_day_type_cd
+    name: 이자지급일유형코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '01.발행일
+
+      02.만기일
+
+      03.특정일'
+  - code: prca_dfmt_term_mcnt
+    name: 원금거치기간개월수
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: splt_rdpt_rcnt
+    name: 분할상환횟수
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: rgbf_int_dfrm_dt
+    name: 직전이자지급일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: nxtm_int_dfrm_dt
+    name: 차기이자지급일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: sprx_psbl_yn
+    name: 분리과세가능여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ictx_rt_dvsn_cd
+    name: 소득세율구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: bond_clsf_cd
+    name: 채권분류코드
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: bond_clsf_kor_name
+    name: 채권분류한글명
+    type: A0001
+    type_name: String
+    length: '60'
+    required: true
+    description: ''
+  - code: int_mned_dvsn_cd
+    name: 이자월말구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '1.일자기준
+
+      2.말일기준'
+  - code: pnia_int_calc_unpr
+    name: 원리금이자계산단가
+    type: A0001
+    type_name: String
+    length: '234'
+    required: true
+    description: ''
+  - code: frn_intr
+    name: FRN금리
+    type: A0001
+    type_name: String
+    length: '1512'
+    required: true
+    description: ''
+  - code: aply_day_prcm_idx_lnkg_cefc
+    name: 적용일물가지수연동계수
+    type: A0001
+    type_name: String
+    length: '151'
+    required: true
+    description: ''
+  - code: ksd_expd_dydv_calc_bass_cd
+    name: 증권예탁결제원만기일할계산기준
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: expd_dydv_calc_dcnt
+    name: 만기일할계산일수
+    type: A0001
+    type_name: String
+    length: '7'
+    required: true
+    description: ''
+  - code: ksd_cbbw_dvsn_cd
+    name: 증권예탁결제원신종사채구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: crfd_item_yn
+    name: 크라우드펀딩종목여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: pnia_bank_ofdy_dfrm_mthd_cd
+    name: 원리금은행휴무일지급방법코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: qib_yn
+    name: QIB여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: qib_cclc_dt
+    name: QIB해지일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: csbd_yn
+    name: 영구채여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: csbd_cclc_dt
+    name: 영구채해지일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: ksd_opcb_yn
+    name: 증권예탁결제원옵션부사채여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ksd_sodn_yn
+    name: 증권예탁결제원후순위채권여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ksd_rqdi_scty_yn
+    name: 증권예탁결제원유동화증권여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: elec_scty_yn
+    name: 전자증권여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: rght_ecis_mbdy_dvsn_cd
+    name: 권리행사주체구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: int_rkng_mthd_dvsn_cd
+    name: 이자산정방법구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ofrg_dvsn_cd
+    name: 모집구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ''
+  - code: ksd_tot_issu_amt
+    name: 증권예탁결제원총발행금액
+    type: A0001
+    type_name: String
+    length: '202'
+    required: true
+    description: ''
+  - code: next_indf_chk_ecls_yn
+    name: 다음이자지급체크제외여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ksd_bond_intr_dvsn_cd
+    name: 증권예탁결제원채권금리구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ksd_inrt_aply_dvsn_cd
+    name: 증권예탁결제원이율적용구분코드
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: krx_issu_istt_cd
+    name: KRX발행기관코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: ksd_indf_frqc_uder_calc_cd
+    name: 증권예탁결제원이자지급주기미만
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: ksd_indf_frqc_uder_calc_dcnt
+    name: 증권예탁결제원이자지급주기미만
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: tlg_rcvg_dtl_dtime
+    name: 전문수신상세일시
+    type: A0001
+    type_name: String
+    length: '17'
+    required: true
+    description: ''
+  example:
+    output:
+      pdno: KR2033022D33
+      prdt_type_cd: '302'
+      ksd_bond_item_name: 충북지역개발채권 23-03
+      ksd_bond_item_eng_name: CHUNGBUK PROVINCIAL DEVELOPMENT 23-03
+      ksd_bond_lstg_type_cd: '11'
+      ksd_ofrg_dvsn_cd: '11'
+      ksd_bond_int_dfrm_dvsn_cd: '3'
+      issu_dt: '20230331'
+      rdpt_dt: '20280331'
+      rvnu_dt: '20230302'
+      iso_crcy_cd: KRW
+      mdwy_rdpt_dt: '00000000'
+      ksd_rcvg_bond_dsct_rt: '0.000000000000'
+      ksd_rcvg_bond_srfc_inrt: '2.500000000000'
+      bond_expd_rdpt_rt: '100.000000000000'
+      ksd_prca_rdpt_mthd_cd: '11'
+      int_caltm_mcnt: '12'
+      ksd_int_calc_unit_cd: '1'
+      uval_cut_dvsn_cd: '2'
+      uval_cut_dcpt_dgit: '0'
+      ksd_dydv_caltm_aply_dvsn_cd: '1'
+      dydv_calc_dcnt: '0'
+      bond_expd_asrc_erng_rt: '0.000000000000'
+      padf_plac_hdof_name: 농협은행
+      lstg_dt: '20230302'
+      lstg_abol_dt: '20280401'
+      ksd_bond_issu_mthd_cd: '2'
+      laps_indf_yn: Y
+      ksd_lhdy_pnia_dfrm_mthd_cd: '2'
+      frst_int_dfrm_dt: '00000000'
+      ksd_prcm_lnkg_gvbd_yn: N
+      dpsi_end_dt: '20280401'
+      dpsi_strt_dt: '20230302'
+      dpsi_psbl_yn: Y
+      atyp_rdpt_bond_erlm_yn: N
+      dshn_occr_yn: N
+      expd_exts_yn: N
+      pclr_ptcr_text: ''
+      dpsi_psbl_excp_stat_cd: ''
+      expd_exts_srdp_rcnt: '0'
+      expd_exts_srdp_rt: '0.000000000000'
+      expd_rdpt_rt: '0.00000000'
+      expd_asrc_erng_rt: '0.00000000'
+      bond_int_dfrm_mthd_cd: '02'
+      int_dfrm_day_type_cd: '02'
+      prca_dfmt_term_mcnt: '0'
+      splt_rdpt_rcnt: '0'
+      rgbf_int_dfrm_dt: ''
+      nxtm_int_dfrm_dt: '20280331'
+      sprx_psbl_yn: N
+      ictx_rt_dvsn_cd: ''
+      bond_clsf_cd: '112555'
+      bond_clsf_kor_name: 충북지역개발채권
+      int_mned_dvsn_cd: '2'
+      pnia_int_calc_unpr: '0.0000'
+      frn_intr: '0.000000000000'
+      aply_day_prcm_idx_lnkg_cefc: '0.0000000000'
+      ksd_expd_dydv_calc_bass_cd: ''
+      expd_dydv_calc_dcnt: '0'
+      ksd_cbbw_dvsn_cd: '9'
+      crfd_item_yn: N
+      pnia_bank_ofdy_dfrm_mthd_cd: '1'
+      qib_yn: N
+      qib_cclc_dt: '00000000'
+      csbd_yn: N
+      csbd_cclc_dt: '00000000'
+      ksd_opcb_yn: N
+      ksd_sodn_yn: N
+      ksd_rqdi_scty_yn: N
+      elec_scty_yn: Y
+      rght_ecis_mbdy_dvsn_cd: '1'
+      int_rkng_mthd_dvsn_cd: '1'
+      ofrg_dvsn_cd: ''
+      ksd_tot_issu_amt: '17303560000.00'
+      next_indf_chk_ecls_yn: N
+      ksd_bond_intr_dvsn_cd: '1'
+      ksd_inrt_aply_dvsn_cd: '1'
+      krx_issu_istt_cd: MB033
+      ksd_indf_frqc_uder_calc_cd: '1'
+      ksd_indf_frqc_uder_calc_dcnt: '0'
+      tlg_rcvg_dtl_dtime: '20240625060514023'
+    rt_cd: '0'
+    msg_cd: KIOK0530
+    msg1: '조회되었습니다                                                                  '
+errors: []

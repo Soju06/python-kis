@@ -1,0 +1,797 @@
+id: cd2e4d9a-7e3d-44ff-9b68-36d971655c24
+name: 해외선물 체결추이(주간)[해외선물-017]
+section: '[해외선물옵션] 기본시세'
+category: 해외선물옵션
+subcategory: 기본시세
+method: GET
+url: /uapi/overseas-futureoption/v1/quotations/weekly-ccnl
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: HHDFC55020000
+demo_tr_id: 모의투자 미지원
+summary: "해외선물옵션 체결추이(주간) API입니다. \n한국투자 HTS(eFriend Force) > [5502] 해외선물옵션 체결추이 화면에서 \"주간\" 선택 시 기능을 API로 개발한 사항으로, 해당 화면을\
+  \ 참고하시면 기능을 이해하기 쉽습니다.\n\n(중요) 해외선물시세 출력값을 해석하실 때 ffcode.mst(해외선물종목마스터 파일)에 있는 sCalcDesz(계산 소수점) 값을 활용하셔야 정확한 값을 받아오실 수\
+  \ 있습니다.\n\n- ffcode.mst(해외선물종목마스터 파일) 다운로드 방법 2가지\n  1) 한국투자증권 Github의 파이썬 샘플코드를 사용하여 mst 파일 다운로드 및 excel 파일로 정제   \n  \
+  \   https://github.com/koreainvestment/open-trading-api/blob/main/stocks_info/overseas_future_code.py\n   \n  2) 혹은 포럼 -\
+  \ FAQ - 종목정보 다운로드(해외) - 해외지수선물 클릭하셔서 ffcode.mst(해외선물종목마스터 파일)을 다운로드 후\n     Github의 헤더정보(https://github.com/koreainvestment/open-trading-api/blob/main/stocks_info/해외선물정보.h)를\
+  \ 참고하여 해석\n\n- 소수점 계산 시, ffcode.mst(해외선물종목마스터 파일)의 sCalcDesz(계산 소수점) 값 참고\n  EX) ffcode.mst 파일의 sCalcDesz(계산 소수점) 값\n  \
+  \     품목코드 6A 계산소수점 -4 → 시세 6882.5 수신 시 0.68825 로 해석\n       품목코드 GC 계산소수점 -1 → 시세 19225 수신 시 1922.5 로 해석\n\n※ CME, SGX\
+  \ 거래소 API시세는 유료시세로 HTS/MTS에서 유료가입 후 익일부터 시세 이용 가능합니다.\n포럼 > FAQ > 해외선물옵션 API 유료시세 신청방법(CME, SGX 거래소)"
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-05T13:28:11+09:00'
+  last_modified_date: '2025-04-30T12:57:14+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHDFC55020000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: SRS_CD
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: 예) 6AM24
+  - code: EXCH_CD
+    name: 거래소코드
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 예) CME
+  - code: START_DATE_TIME
+    name: 조회시작일시
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 공백
+  - code: CLOSE_DATE_TIME
+    name: 조회종료일시
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 예) 20240402
+  - code: QRY_TP
+    name: 조회구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'Q : 최초조회시 , P : 다음키(INDEX_KEY) 입력하여 조회시'
+  - code: QRY_CNT
+    name: 요청개수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: 예) 30 (최대 40)
+  - code: QRY_GAP
+    name: 묶음개수
+    type: A0001
+    type_name: String
+    length: '3'
+    required: true
+    description: 공백 (분만 사용)
+  - code: INDEX_KEY
+    name: 이전조회KEY
+    type: A0001
+    type_name: String
+    length: '30'
+    required: true
+    description: 공백
+  example: "SRS_CD:6AM24\r\nEXCH_CD:CME\r\nSTART_DATE_TIME:\r\nCLOSE_DATE_TIME:20240424\r\nQRY_TP:\r\nQRY_CNT:40\r\nQRY_GAP:\r\
+    \nINDEX_KEY:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: ret_cnt
+    name: 자료개수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: last_n_cnt
+    name: N틱최종개수
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: index_key
+    name: 이전조회KEY
+    type: A0001
+    type_name: String
+    length: '30'
+    required: true
+    description: ''
+  - code: output2
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: data_date
+    name: 일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: data_time
+    name: 시각
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: open_price
+    name: 시가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: high_price
+    name: 고가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: low_price
+    name: 저가
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: last_price
+    name: 체결가격
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: last_qntt
+    name: 체결수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: vol
+    name: 누적거래수량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prev_diff_flag
+    name: 전일대비구분
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prev_diff_price
+    name: 전일대비가격
+    type: A0001
+    type_name: String
+    length: '15'
+    required: true
+    description: ''
+  - code: prev_diff_rate
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example:
+    output1:
+      ret_cnt: '0040'
+      last_n_cnt: ''
+      index_key: '20230522'
+    output2:
+    - data_date: '20230522'
+      data_time: ''
+      open_price: '         6713.0'
+      high_price: '         6713.0'
+      low_price: '         6620.0'
+      last_price: '         6620.0'
+      last_qntt: ''
+      vol: '        10'
+      prev_diff_flag: '5'
+      prev_diff_price: '             93'
+      prev_diff_rate: '     -1.39'
+    - data_date: '20230612'
+      data_time: ''
+      open_price: '         6809.5'
+      high_price: '         6817.0'
+      low_price: '         6809.0'
+      last_price: '         6817.0'
+      last_qntt: ''
+      vol: '        20'
+      prev_diff_flag: '2'
+      prev_diff_price: '            197'
+      prev_diff_rate: '      2.98'
+    - data_date: '20230626'
+      data_time: ''
+      open_price: '         6692.0'
+      high_price: '         6692.0'
+      low_price: '         6692.0'
+      last_price: '         6692.0'
+      last_qntt: ''
+      vol: '5         '
+      prev_diff_flag: '5'
+      prev_diff_price: '            125'
+      prev_diff_rate: '     -1.83'
+    - data_date: '20230710'
+      data_time: ''
+      open_price: '         6840.5'
+      high_price: '         6840.5'
+      low_price: '         6840.0'
+      last_price: '         6840.0'
+      last_qntt: ''
+      vol: '5         '
+      prev_diff_flag: '2'
+      prev_diff_price: '            148'
+      prev_diff_rate: '      2.21'
+    - data_date: '20230731'
+      data_time: ''
+      open_price: '         6702.0'
+      high_price: '         6702.0'
+      low_price: '         6605.0'
+      last_price: '         6605.0'
+      last_qntt: ''
+      vol: '        11'
+      prev_diff_flag: '5'
+      prev_diff_price: '            235'
+      prev_diff_rate: '     -3.44'
+    - data_date: '20230807'
+      data_time: ''
+      open_price: '         6594.5'
+      high_price: '         6594.5'
+      low_price: '         6594.5'
+      last_price: '         6594.5'
+      last_qntt: ''
+      vol: '5         '
+      prev_diff_flag: '5'
+      prev_diff_price: '           10.5'
+      prev_diff_rate: '     -0.16'
+    - data_date: '20230904'
+      data_time: ''
+      open_price: '         6535.0'
+      high_price: '         6535.0'
+      low_price: '         6535.0'
+      last_price: '         6535.0'
+      last_qntt: ''
+      vol: '1         '
+      prev_diff_flag: '5'
+      prev_diff_price: '           59.5'
+      prev_diff_rate: '     -0.90'
+    - data_date: '20230911'
+      data_time: ''
+      open_price: '         6494.0'
+      high_price: '         6512.5'
+      low_price: '         6470.0'
+      last_price: '         6512.5'
+      last_qntt: ''
+      vol: '         8'
+      prev_diff_flag: '5'
+      prev_diff_price: '           22.5'
+      prev_diff_rate: '     -0.34'
+    - data_date: '20230918'
+      data_time: ''
+      open_price: '         6500.5'
+      high_price: '         6558.5'
+      low_price: '         6459.5'
+      last_price: '         6479.5'
+      last_qntt: ''
+      vol: '        43'
+      prev_diff_flag: '5'
+      prev_diff_price: '             33'
+      prev_diff_rate: '     -0.51'
+    - data_date: '20230925'
+      data_time: ''
+      open_price: '         6439.5'
+      high_price: '         6450.5'
+      low_price: '         6430.0'
+      last_price: '         6450.5'
+      last_qntt: ''
+      vol: '         3'
+      prev_diff_flag: '5'
+      prev_diff_price: '             29'
+      prev_diff_rate: '     -0.45'
+    - data_date: '20231002'
+      data_time: ''
+      open_price: '         6480.5'
+      high_price: '         6480.5'
+      low_price: '         6360.0'
+      last_price: '         6406.0'
+      last_qntt: ''
+      vol: '        40'
+      prev_diff_flag: '5'
+      prev_diff_price: '           44.5'
+      prev_diff_rate: '     -0.69'
+    - data_date: '20231009'
+      data_time: ''
+      open_price: '         6410.0'
+      high_price: '         6471.5'
+      low_price: '         6388.5'
+      last_price: '         6388.5'
+      last_qntt: ''
+      vol: '        21'
+      prev_diff_flag: '5'
+      prev_diff_price: '           17.5'
+      prev_diff_rate: '     -0.27'
+    - data_date: '20231016'
+      data_time: ''
+      open_price: '         6381.0'
+      high_price: '         6423.0'
+      low_price: '         6345.0'
+      last_price: '         6360.0'
+      last_qntt: ''
+      vol: '        16'
+      prev_diff_flag: '5'
+      prev_diff_price: '           28.5'
+      prev_diff_rate: '     -0.45'
+    - data_date: '20231023'
+      data_time: ''
+      open_price: '         6361.5'
+      high_price: '         6366.0'
+      low_price: '         6361.5'
+      last_price: '         6366.0'
+      last_qntt: ''
+      vol: '6         '
+      prev_diff_flag: '2'
+      prev_diff_price: '              6'
+      prev_diff_rate: '      0.09'
+    - data_date: '20231030'
+      data_time: ''
+      open_price: '         6460.5'
+      high_price: '         6547.0'
+      low_price: '         6460.5'
+      last_price: '         6530.0'
+      last_qntt: ''
+      vol: '       102'
+      prev_diff_flag: '2'
+      prev_diff_price: '            164'
+      prev_diff_rate: '      2.58'
+    - data_date: '20231106'
+      data_time: ''
+      open_price: '         6502.0'
+      high_price: '         6502.0'
+      low_price: '         6395.0'
+      last_price: '         6395.0'
+      last_qntt: ''
+      vol: '        34'
+      prev_diff_flag: '5'
+      prev_diff_price: '            135'
+      prev_diff_rate: '     -2.07'
+    - data_date: '20231113'
+      data_time: ''
+      open_price: '         6410.0'
+      high_price: '         6548.0'
+      low_price: '         6410.0'
+      last_price: '         6529.5'
+      last_qntt: ''
+      vol: '        18'
+      prev_diff_flag: '2'
+      prev_diff_price: '          134.5'
+      prev_diff_rate: '      2.10'
+    - data_date: '20231120'
+      data_time: ''
+      open_price: '         6564.0'
+      high_price: '         6622.0'
+      low_price: '         6561.0'
+      last_price: '         6620.5'
+      last_qntt: ''
+      vol: '       190'
+      prev_diff_flag: '2'
+      prev_diff_price: '             91'
+      prev_diff_rate: '      1.39'
+    - data_date: '20231127'
+      data_time: ''
+      open_price: '         6610.0'
+      high_price: '         6703.0'
+      low_price: '         6610.0'
+      last_price: '         6702.0'
+      last_qntt: ''
+      vol: '       326'
+      prev_diff_flag: '2'
+      prev_diff_price: '           81.5'
+      prev_diff_rate: '      1.23'
+    - data_date: '20231204'
+      data_time: ''
+      open_price: '         6697.5'
+      high_price: '         6697.5'
+      low_price: '         6565.0'
+      last_price: '         6614.0'
+      last_qntt: ''
+      vol: '       296'
+      prev_diff_flag: '5'
+      prev_diff_price: '             88'
+      prev_diff_rate: '     -1.31'
+    - data_date: '20231211'
+      data_time: ''
+      open_price: '         6605.0'
+      high_price: '         6760.5'
+      low_price: '         6578.0'
+      last_price: '         6730.0'
+      last_qntt: ''
+      vol: '       510'
+      prev_diff_flag: '2'
+      prev_diff_price: '            116'
+      prev_diff_rate: '      1.75'
+    - data_date: '20231218'
+      data_time: ''
+      open_price: '         6731.0'
+      high_price: '         6855.5'
+      low_price: '         6725.0'
+      last_price: '         6827.0'
+      last_qntt: ''
+      vol: '       617'
+      prev_diff_flag: '2'
+      prev_diff_price: '             97'
+      prev_diff_rate: '      1.44'
+    - data_date: '20231225'
+      data_time: ''
+      open_price: '         6834.0'
+      high_price: '         6900.0'
+      low_price: '         6811.5'
+      last_price: '         6858.5'
+      last_qntt: ''
+      vol: '       353'
+      prev_diff_flag: '2'
+      prev_diff_price: '           31.5'
+      prev_diff_rate: '      0.46'
+    - data_date: '20240101'
+      data_time: ''
+      open_price: '         6841.0'
+      high_price: '         6864.5'
+      low_price: '         6683.0'
+      last_price: '         6742.0'
+      last_qntt: ''
+      vol: '       325'
+      prev_diff_flag: '5'
+      prev_diff_price: '          116.5'
+      prev_diff_rate: '     -1.70'
+    - data_date: '20240108'
+      data_time: ''
+      open_price: '         6762.0'
+      high_price: '         6762.0'
+      low_price: '         6678.0'
+      last_price: '         6711.0'
+      last_qntt: ''
+      vol: '       310'
+      prev_diff_flag: '5'
+      prev_diff_price: '             31'
+      prev_diff_rate: '     -0.46'
+    - data_date: '20240115'
+      data_time: ''
+      open_price: '         6709.5'
+      high_price: '         6728.0'
+      low_price: '         6556.0'
+      last_price: '         6624.5'
+      last_qntt: ''
+      vol: '       900'
+      prev_diff_flag: '5'
+      prev_diff_price: '           86.5'
+      prev_diff_rate: '     -1.29'
+    - data_date: '20240122'
+      data_time: ''
+      open_price: '         6622.0'
+      high_price: '         6643.0'
+      low_price: '         6579.5'
+      last_price: '         6600.0'
+      last_qntt: ''
+      vol: '       389'
+      prev_diff_flag: '5'
+      prev_diff_price: '           24.5'
+      prev_diff_rate: '     -0.37'
+    - data_date: '20240129'
+      data_time: ''
+      open_price: '         6598.0'
+      high_price: '         6646.5'
+      low_price: '         6529.0'
+      last_price: '         6539.5'
+      last_qntt: ''
+      vol: '       962'
+      prev_diff_flag: '5'
+      prev_diff_price: '           60.5'
+      prev_diff_rate: '     -0.92'
+    - data_date: '20240205'
+      data_time: ''
+      open_price: '         6520.5'
+      high_price: '         6563.5'
+      low_price: '         6494.5'
+      last_price: '         6549.5'
+      last_qntt: ''
+      vol: '      1019'
+      prev_diff_flag: '2'
+      prev_diff_price: '             10'
+      prev_diff_rate: '      0.15'
+    - data_date: '20240212'
+      data_time: ''
+      open_price: '         6553.0'
+      high_price: '         6568.0'
+      low_price: '         6469.0'
+      last_price: '         6557.5'
+      last_qntt: ''
+      vol: '       891'
+      prev_diff_flag: '2'
+      prev_diff_price: '              8'
+      prev_diff_rate: '      0.12'
+    - data_date: '20240219'
+      data_time: ''
+      open_price: '         6564.0'
+      high_price: '         6616.5'
+      low_price: '         6544.5'
+      last_price: '         6584.0'
+      last_qntt: ''
+      vol: '      1773'
+      prev_diff_flag: '2'
+      prev_diff_price: '           26.5'
+      prev_diff_rate: '      0.40'
+    - data_date: '20240226'
+      data_time: ''
+      open_price: '         6588.5'
+      high_price: '         6588.5'
+      low_price: '         6509.5'
+      last_price: '         6546.0'
+      last_qntt: ''
+      vol: '      3428'
+      prev_diff_flag: '5'
+      prev_diff_price: '             38'
+      prev_diff_rate: '     -0.58'
+    - data_date: '20240304'
+      data_time: ''
+      open_price: '         6546.0'
+      high_price: '         6686.5'
+      low_price: '         6498.0'
+      last_price: '         6644.0'
+      last_qntt: ''
+      vol: '     35069'
+      prev_diff_flag: '2'
+      prev_diff_price: '             98'
+      prev_diff_rate: '      1.50'
+    - data_date: '20240311'
+      data_time: ''
+      open_price: '         6645.0'
+      high_price: '         6646.0'
+      low_price: '        0.66235'
+      last_price: '         6577.5'
+      last_qntt: ''
+      vol: '    115245'
+      prev_diff_flag: '5'
+      prev_diff_price: '           66.5'
+      prev_diff_rate: '     -1.00'
+    - data_date: '20240318'
+      data_time: ''
+      open_price: '         6576.5'
+      high_price: '         6650.5'
+      low_price: '         6525.5'
+      last_price: '         6530.5'
+      last_qntt: ''
+      vol: '    328691'
+      prev_diff_flag: '5'
+      prev_diff_price: '             47'
+      prev_diff_rate: '     -0.71'
+    - data_date: '20240325'
+      data_time: ''
+      open_price: '           6530'
+      high_price: '         6574.5'
+      low_price: '         6499.5'
+      last_price: '           6530'
+      last_qntt: ''
+      vol: '    301604'
+      prev_diff_flag: '5'
+      prev_diff_price: '            0.5'
+      prev_diff_rate: '     -0.01'
+    - data_date: '20240401'
+      data_time: ''
+      open_price: '         6531.5'
+      high_price: '           6633'
+      low_price: '         6495.0'
+      last_price: '           6593'
+      last_qntt: ''
+      vol: '    474911'
+      prev_diff_flag: '2'
+      prev_diff_price: '             63'
+      prev_diff_rate: '      0.96'
+    - data_date: '20240408'
+      data_time: ''
+      open_price: '           6590'
+      high_price: '         6657.5'
+      low_price: '         6468.0'
+      last_price: '         6474.0'
+      last_qntt: ''
+      vol: '    594239'
+      prev_diff_flag: '5'
+      prev_diff_price: '            119'
+      prev_diff_rate: '     -1.80'
+    - data_date: '20240415'
+      data_time: ''
+      open_price: '         6475.5'
+      high_price: '         6505.0'
+      low_price: '         6373.0'
+      last_price: '         6428.5'
+      last_qntt: ''
+      vol: '    540988'
+      prev_diff_flag: '5'
+      prev_diff_price: '           45.5'
+      prev_diff_rate: '     -0.70'
+    - data_date: '20240422'
+      data_time: ''
+      open_price: '         6430.0'
+      high_price: '         6466.5'
+      low_price: '         6425.0'
+      last_price: '         6460.0'
+      last_qntt: ''
+      vol: '82245     '
+      prev_diff_flag: '2'
+      prev_diff_price: '           31.5'
+      prev_diff_rate: '      0.49'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

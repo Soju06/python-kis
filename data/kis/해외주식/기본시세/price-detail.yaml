@@ -1,0 +1,572 @@
+id: abc66a03-8103-4f6d-8ba8-450c2b935e14
+name: 해외주식 현재가상세[v1_해외주식-029]
+section: '[해외주식] 기본시세'
+category: 해외주식
+subcategory: 기본시세
+method: GET
+url: /uapi/overseas-price/v1/quotations/price-detail
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: HHDFS76200200
+demo_tr_id: 모의투자 미지원
+summary: "해외주식 현재가상세 API입니다.\n\n해당 API를 활용하여 해외주식 종목의 매매단위(vnit), 호가단위(e_hogau), PER, PBR, EPS, BPS 등의 데이터를 확인하실 수 있습니다.\n\
+  \n해외주식 시세는 무료시세(지연시세)만이 제공되며, API로는 유료시세(실시간시세)를 받아보실 수 없습니다.\n\n※ 지연시세 지연시간 : 미국 - 실시간무료(0분지연) / 홍콩, 베트남, 중국, 일본 - 15분지연\n\
+  \   미국의 경우 0분지연시세로 제공되나, 장중 당일 시가는 상이할 수 있으며, 익일 정정 표시됩니다.\n\n※ 2024년 12월 13일(금) 오후 5시부터 HTS(efriend Plus) [7781] 시세신청(실시간)\
+  \ 화면에서 유료 서비스 신청 후 접근토큰 발급하면 최대 2시간 이후 실시간 유료 시세 수신 가능\n\n※ 미국주식 시세의 경우 주간거래시간을 제외한 정규장, 애프터마켓, 프리마켓 시간대에 동일한 API(TR)로 시세\
+  \ 조회가 되는 점 유의 부탁드립니다.\n\n[미국주식시세 이용시 유의사항]\n■ 무료 실시간 시세 서비스가 기본 제공되며, 유료 실시간 시세 서비스는 HTS ‘[7781] 시세신청 (실시간)’과 MTS(모바일) ‘고객서비스\
+  \ > 거래 서비스신청 > 해외주식 > 해외 실시간시세 신청’ 에서 신청 가능합니다. \n※ 무료(매수/매도 각 1호가) : 나스닥 마켓센터에서 거래되는 호가 및 호가 잔량 정보\n※ 유료(매수/매도 각 1호가) :\
+  \ 미국 전체 거래소들의 통합 주문체결 및 최우선 호가\n■ 무료 실시간 시세 서비스는 유료 실시간 시세 서비스 대비 평균 50% 수준에 해당하는 정보이므로 \n현재가/호가/순간체결량/차트 등에서 일시적·부분적 차이가\
+  \ 있을 수 있습니다. \n■ 무료∙유료 모두 미국에 상장된 종목(뉴욕, 나스닥, 아멕스 등)의 시세를 제공하며, 동일한 시스템을 사용하여 주문∙체결됩니다. \n단, 무료∙유료의 기반 데이터 차이로 호가 및 체결 데이터는\
+  \ 차이가 발생할 수 있고, 이로 인해 발생하는 손실에 대해서 당사가 책임지지 않습니다.\n■ 무료 실시간 시세 서비스의 시가, 저가, 고가, 종가는 유료 실시간 시세 서비스와 다를 수 있으며, \n종목별 과거 데이터(거래량,\
+  \ 시가, 종가, 고가, 차트 데이터 등)는 장 종료 후(오후 12시경) 유료 실시간 시세 서비스 데이터와 동일하게 업데이트됩니다.\n■ 유료 실시간 시세 서비스는 신청 시 1~12개월까지 기간 선택 후 해당 요금을\
+  \ 일괄 납부하며, \n해지 시 해지한 달의 말일까지 시세 제공 후 남은 기간 해당 금액이 환급되니 유의하시기 바랍니다.\n(출처: 한국투자증권 외화증권 거래설명서 - https://www.truefriend.com/main/customer/guide/Guide.jsp?&cmd=TF04ag010002&currentPage=1&num=64)"
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2023-04-14T07:27:25+09:00'
+  last_modified_date: '2025-04-30T12:13:48+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: HHDFS76200200
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: AUTH
+    name: 사용자권한정보
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: ''
+  - code: EXCD
+    name: 거래소명
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: 'HKS : 홍콩
+
+      NYS : 뉴욕
+
+      NAS : 나스닥
+
+      AMS : 아멕스
+
+      TSE : 도쿄
+
+      SHS : 상해
+
+      SZS : 심천
+
+      SHI : 상해지수
+
+      SZI : 심천지수
+
+      HSX : 호치민
+
+      HNX : 하노이
+
+      BAY : 뉴욕(주간)
+
+      BAQ : 나스닥(주간)
+
+      BAA : 아멕스(주간)'
+  - code: SYMB
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  example:
+    AUTH: ''
+    EXCD: NAS
+    SYMB: TSLA
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: rsym
+    name: 실시간조회종목코드
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: pvol
+    name: 전일거래량
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: open
+    name: 시가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: high
+    name: 고가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: low
+    name: 저가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: last
+    name: 현재가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: base
+    name: 전일종가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: tomv
+    name: 시가총액
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: pamt
+    name: 전일거래대금
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: uplp
+    name: 상한가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: dnlp
+    name: 하한가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: h52p
+    name: 52주최고가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: h52d
+    name: 52주최고일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: l52p
+    name: 52주최저가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: l52d
+    name: 52주최저일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: perx
+    name: PER
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: pbrx
+    name: PBR
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: epsx
+    name: EPS
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: bpsx
+    name: BPS
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: shar
+    name: 상장주수
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: mcap
+    name: 자본금
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: curr
+    name: 통화
+    type: A0001
+    type_name: String
+    length: '4'
+    required: true
+    description: ''
+  - code: zdiv
+    name: 소수점자리수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: vnit
+    name: 매매단위
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: t_xprc
+    name: 원환산당일가격
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: t_xdif
+    name: 원환산당일대비
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: t_xrat
+    name: 원환산당일등락
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: p_xprc
+    name: 원환산전일가격
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: p_xdif
+    name: 원환산전일대비
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: p_xrat
+    name: 원환산전일등락
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: t_rate
+    name: 당일환율
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: p_rate
+    name: 전일환율
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: t_xsgn
+    name: 원환산당일기호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: HTS 색상표시용
+  - code: p_xsng
+    name: 원환산전일기호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: HTS 색상표시용
+  - code: e_ordyn
+    name: 거래가능여부
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: e_hogau
+    name: 호가단위
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: e_icod
+    name: 업종(섹터)
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: e_parp
+    name: 액면가
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: tvol
+    name: 거래량
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: tamt
+    name: 거래대금
+    type: A0001
+    type_name: String
+    length: '14'
+    required: true
+    description: ''
+  - code: etyp_nm
+    name: ETP 분류명
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  example:
+    output:
+      rsym: DNASTSLA
+      zdiv: '4'
+      curr: USD
+      vnit: '1'
+      open: '257.2600'
+      high: '259.0794'
+      low: '242.0100'
+      last: '245.0100'
+      base: '258.0800'
+      pvol: '108861698'
+      pamt: '28090405673'
+      uplp: '0.0000'
+      dnlp: '0.0000'
+      h52p: '313.8000'
+      h52d: '20220921'
+      l52p: '101.8100'
+      l52d: '20230106'
+      perx: '69.51'
+      pbrx: '15.21'
+      epsx: '3.52'
+      bpsx: '16.11'
+      shar: '3173990000'
+      mcap: '3000000'
+      tomv: '777659289900'
+      t_xprc: '323658'
+      t_xdif: '17265'
+      t_xrat: '-5.06'
+      p_xprc: '0'
+      p_xdif: '0'
+      p_xrat: ' 0.00'
+      t_rate: '1321.00'
+      p_rate: ''
+      t_xsgn: '5'
+      p_xsng: '3'
+      e_ordyn: 매매 가능
+      e_hogau: '0.0100'
+      e_icod: 자동차
+      e_parp: '0.0000'
+      tvol: '132541640'
+      tamt: '32907071789'
+      etyp_nm: ''
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

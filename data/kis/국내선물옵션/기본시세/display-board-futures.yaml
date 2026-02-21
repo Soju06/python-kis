@@ -1,0 +1,474 @@
+id: 8362a35a-e7c2-4944-a4a2-5a716737388c
+name: 국내옵션전광판_선물[국내선물-023]
+section: '[국내선물옵션] 기본시세'
+category: 국내선물옵션
+subcategory: 기본시세
+method: GET
+url: /uapi/domestic-futureoption/v1/quotations/display-board-futures
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: FHPIF05030200
+demo_tr_id: 모의투자 미지원
+summary: "국내옵션전광판_선물 API입니다. \n한국투자 HTS(eFriend Plus) > [0503] 선물옵션 종합시세(Ⅰ) 화면의 \"하단\" 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을\
+  \ 이해하기 쉽습니다."
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-04-05T13:27:31+09:00'
+  last_modified_date: '2025-04-30T12:36:21+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHPIF05030200
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '시장구분코드 (F: 선물)'
+  - code: FID_COND_SCR_DIV_CODE
+    name: 조건 화면 분류 코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: Unique key(20503)
+  - code: FID_COND_MRKT_CLS_CODE
+    name: 조건 시장 구분 코드
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: '공백: KOSPI200
+
+      MKI: 미니KOSPI200
+
+      WKM: KOSPI200위클리(월)
+
+      WKI: KOSPI200위클리(목)
+
+      KQI: KOSDAQ150'
+  example: "FID_COND_MRKT_DIV_CODE:F\r\nFID_COND_SCR_DIV_CODE:20503\r\nFID_COND_MRKT_CLS_CODE:MKI"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: futs_shrn_iscd
+    name: 선물 단축 종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS 한글 종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: futs_prpr
+    name: 선물 현재가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: futs_prdy_vrss
+    name: 선물 전일 대비
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: futs_prdy_ctrt
+    name: 선물 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: hts_thpr
+    name: HTS 이론가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적 거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: futs_askp
+    name: 선물 매도호가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: futs_bidp
+    name: 선물 매수호가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: hts_otst_stpl_qty
+    name: HTS 미결제 약정 수량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: futs_hgpr
+    name: 선물 최고가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: futs_lwpr
+    name: 선물 최저가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: hts_rmnn_dynu
+    name: HTS 잔존 일수
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: total_askp_rsqn
+    name: 총 매도호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: total_bidp_rsqn
+    name: 총 매수호가 잔량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: futs_antc_cnpr
+    name: 선물예상체결가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: futs_antc_cntg_vrss
+    name: 선물예상체결대비
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: antc_cntg_vrss_sign
+    name: 예상 체결 대비 부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: antc_cntg_prdy_ctrt
+    name: 예상 체결 전일 대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  example:
+    output:
+    - futs_shrn_iscd: 105V05
+      hts_kor_isnm: 미니F 202405
+      futs_prpr: '368.28'
+      futs_prdy_vrss: '-3.32'
+      prdy_vrss_sign: '5'
+      futs_prdy_ctrt: '-0.89'
+      hts_thpr: '368.26'
+      acml_vol: '91624'
+      futs_askp: '368.28'
+      futs_bidp: '368.26'
+      hts_otst_stpl_qty: '38188'
+      futs_hgpr: '372.86'
+      futs_lwpr: '367.40'
+      hts_rmnn_dynu: '28'
+      total_askp_rsqn: '934'
+      total_bidp_rsqn: '282'
+      futs_antc_cnpr: '0.00'
+      futs_antc_cntg_vrss: '0.00'
+      antc_cntg_vrss_sign: '0'
+      antc_cntg_prdy_ctrt: '0.00'
+    - futs_shrn_iscd: 105V06
+      hts_kor_isnm: 미니F 202406
+      futs_prpr: '369.48'
+      futs_prdy_vrss: '-3.32'
+      prdy_vrss_sign: '5'
+      futs_prdy_ctrt: '-0.89'
+      hts_thpr: '369.51'
+      acml_vol: '621'
+      futs_askp: '369.54'
+      futs_bidp: '369.48'
+      hts_otst_stpl_qty: '3433'
+      futs_hgpr: '374.16'
+      futs_lwpr: '368.64'
+      hts_rmnn_dynu: '63'
+      total_askp_rsqn: '68'
+      total_bidp_rsqn: '53'
+      futs_antc_cnpr: '0.00'
+      futs_antc_cntg_vrss: '0.00'
+      antc_cntg_vrss_sign: '0'
+      antc_cntg_prdy_ctrt: '0.00'
+    - futs_shrn_iscd: 105V07
+      hts_kor_isnm: 미니F 202407
+      futs_prpr: '369.00'
+      futs_prdy_vrss: '-3.98'
+      prdy_vrss_sign: '5'
+      futs_prdy_ctrt: '-1.07'
+      hts_thpr: '369.43'
+      acml_vol: '19'
+      futs_askp: '370.24'
+      futs_bidp: '367.52'
+      hts_otst_stpl_qty: '31'
+      futs_hgpr: '372.00'
+      futs_lwpr: '369.00'
+      hts_rmnn_dynu: '91'
+      total_askp_rsqn: '257'
+      total_bidp_rsqn: '13'
+      futs_antc_cnpr: '0.00'
+      futs_antc_cntg_vrss: '0.00'
+      antc_cntg_vrss_sign: '0'
+      antc_cntg_prdy_ctrt: '0.00'
+    - futs_shrn_iscd: 105V08
+      hts_kor_isnm: 미니F 202408
+      futs_prpr: '373.78'
+      futs_prdy_vrss: '0.00'
+      prdy_vrss_sign: '3'
+      futs_prdy_ctrt: '0.00'
+      hts_thpr: '370.41'
+      acml_vol: '0'
+      futs_askp: '403.58'
+      futs_bidp: '344.00'
+      hts_otst_stpl_qty: '1'
+      futs_hgpr: '0.00'
+      futs_lwpr: '0.00'
+      hts_rmnn_dynu: '119'
+      total_askp_rsqn: '4'
+      total_bidp_rsqn: '5'
+      futs_antc_cnpr: '0.00'
+      futs_antc_cntg_vrss: '0.00'
+      antc_cntg_vrss_sign: '0'
+      antc_cntg_prdy_ctrt: '0.00'
+    - futs_shrn_iscd: 105V09
+      hts_kor_isnm: 미니F 202409
+      futs_prpr: '374.00'
+      futs_prdy_vrss: '-0.50'
+      prdy_vrss_sign: '5'
+      futs_prdy_ctrt: '-0.13'
+      hts_thpr: '371.67'
+      acml_vol: '3'
+      futs_askp: '404.36'
+      futs_bidp: '369.82'
+      hts_otst_stpl_qty: '10'
+      futs_hgpr: '374.00'
+      futs_lwpr: '371.00'
+      hts_rmnn_dynu: '154'
+      total_askp_rsqn: '4'
+      total_bidp_rsqn: '12'
+      futs_antc_cnpr: '0.00'
+      futs_antc_cntg_vrss: '0.00'
+      antc_cntg_vrss_sign: '0'
+      antc_cntg_prdy_ctrt: '0.00'
+    - futs_shrn_iscd: 105V10
+      hts_kor_isnm: 미니F 202410
+      futs_prpr: '375.26'
+      futs_prdy_vrss: '0.00'
+      prdy_vrss_sign: '3'
+      futs_prdy_ctrt: '0.00'
+      hts_thpr: '371.72'
+      acml_vol: '0'
+      futs_askp: '405.18'
+      futs_bidp: '345.34'
+      hts_otst_stpl_qty: '0'
+      futs_hgpr: '0.00'
+      futs_lwpr: '0.00'
+      hts_rmnn_dynu: '182'
+      total_askp_rsqn: '4'
+      total_bidp_rsqn: '4'
+      futs_antc_cnpr: '0.00'
+      futs_antc_cntg_vrss: '0.00'
+      antc_cntg_vrss_sign: '0'
+      antc_cntg_prdy_ctrt: '0.00'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []

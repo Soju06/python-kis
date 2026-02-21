@@ -1,0 +1,306 @@
+id: 52290e93-e94c-4d2a-9ce3-c304681d3807
+name: 해외주식 실시간지연체결가[실시간-007]
+section: '[해외주식] 실시간시세'
+category: 해외주식
+subcategory: 실시간시세
+method: POST
+url: /tryitout/HDFSCNT0
+content_type: application/json
+req_format: JSON
+domains:
+  real: ws://ops.koreainvestment.com:21000
+  demo: 모의투자 미지원
+real_tr_id: HDFSCNT0
+demo_tr_id: 모의투자 미지원
+summary: "해외주식 실시간지연체결가의 경우 기본적으로 무료시세(지연체결가)가 제공되며, \n아시아 국가의 경우 HTS(efriend Plus) [7781] 시세신청(실시간) 화면에서 유료 서비스 신청 시 API로도\
+  \ 유료시세(실시간체결가)를 받아보실 수 있습니다. (24.11.29 반영)\n\n※ 지연시세 지연시간 : 미국 - 실시간무료(0분지연) / 홍콩, 베트남, 중국, 일본 - 15분지연 (중국은 실시간시세 신청 시 무료실시간시세\
+  \ 제공)\n   미국의 경우 0분지연시세로 제공되나, 장중 당일 시가는 상이할 수 있으며, 익일 정정 표시됩니다.\n\n해당 API로 미국주간거래(10:00~16:00) 시세 조회도 가능합니다. \n※ 미국주간거래\
+  \ 실시간 조회 시, 맨 앞자리(R), tr_key 중 시장구분 값을 다음과 같이 입력 → 나스닥: BAQ, 뉴욕: BAY, 아멕스: BAA\n\n[참고자료]\n\n실시간시세(웹소켓) 파이썬 샘플코드는 한국투자증권\
+  \ Github 참고 부탁드립니다.\nhttps://github.com/koreainvestment/open-trading-api/blob/main/websocket/python/ws_domestic_overseas_all.py\n\
+  \n실시간시세(웹소켓) API 사용방법에 대한 자세한 설명은 한국투자증권 Wikidocs 참고 부탁드립니다.\nhttps://wikidocs.net/book/7847 (국내주식 업데이트 완료, 추후 해외주식·국내선물옵션\
+  \ 업데이트 예정)\n\n종목코드 마스터파일 파이썬 정제코드는 한국투자증권 Github 참고 부탁드립니다.\nhttps://github.com/koreainvestment/open-trading-api/tree/main/stocks_info"
+description: '[실시간-007] 해외주식 실시간지연체결통보'
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2022-09-05T10:06:23+09:00'
+  last_modified_date: '2025-07-29T18:26:08+09:00'
+request:
+  headers:
+  - code: approval_key
+    name: 웹소켓 접속키
+    type: A0001
+    type_name: String
+    length: '286'
+    required: true
+    description: 실시간 (웹소켓) 접속키 발급 API(/oauth2/Approval)를 사용하여 발급받은 웹소켓 접속키
+  - code: tr_type
+    name: 등록/해제
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: '1: 등록, 2:해제'
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: 'B : 법인 / P : 개인'
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: utf-8
+  params: []
+  body:
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '7'
+    required: true
+    description: HDFSCNT0
+  - code: tr_key
+    name: D거래소명종목코드
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: 'D+시장구분(3자리)+종목코드
+
+      예) DNASAAPL : D+NAS(나스닥)+AAPL(애플)
+
+      [시장구분]
+
+      NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 ,
+
+      TSE : 도쿄, HKS : 홍콩,
+
+      SHS : 상해, SZS : 심천
+
+      HSX : 호치민, HNX : 하노이
+
+
+
+      ※ 유료시세 신청시에만 유료시세 수신가능
+
+      "포럼 > FAQ > 해외주식 유료시세 신청방법" 참고
+
+      R+시장구분(3자리)+종목코드
+
+      예) RNASAAPL : R+NAS(나스닥)+AAPL(애플)
+
+      [시장구분]
+
+      NYS : 뉴욕, NAS : 나스닥, AMS : 아멕스 ,
+
+      TSE : 도쿄, HKS : 홍콩,
+
+      SHS : 상해, SZS : 심천
+
+      HSX : 호치민, HNX : 하노이
+
+
+
+      R+시장구분(3자리)+종목코드
+
+      예) RBAQAAPL : R+BAQ(나스닥)+AAPL(애플)
+
+      [시장구분]
+
+      BAY : 뉴욕(주간), BAQ : 나스닥(주간). BAA : 아멕스(주간)'
+  example: null
+response:
+  headers: []
+  body:
+  - code: RSYM
+    name: 실시간종목코드
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: '''각 항목사이에는 구분자로 ^ 사용,
+
+      모든 데이터타입은 String으로 변환되어 push 처리됨'''
+  - code: SYMB
+    name: 종목코드
+    type: A0001
+    type_name: String
+    length: '16'
+    required: true
+    description: ''
+  - code: ZDIV
+    name: 수수점자리수
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: TYMD
+    name: 현지영업일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: XYMD
+    name: 현지일자
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: XHMS
+    name: 현지시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: KYMD
+    name: 한국일자
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: KHMS
+    name: 한국시간
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: OPEN
+    name: 시가
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: HIGH
+    name: 고가
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: LOW
+    name: 저가
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: LAST
+    name: 현재가
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: SIGN
+    name: 대비구분
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: DIFF
+    name: 전일대비
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: RATE
+    name: 등락율
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: PBID
+    name: 매수호가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: PASK
+    name: 매도호가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: VBID
+    name: 매수잔량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: VASK
+    name: 매도잔량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: EVOL
+    name: 체결량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: TVOL
+    name: 거래량
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: TAMT
+    name: 거래대금
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: BIVL
+    name: 매도체결량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매수호가가 매도주문 수량을 따라가서 체결된것을 표현하여 BIVL 이라는 표현을 사용
+  - code: ASVL
+    name: 매수체결량
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 매도호가가 매수주문 수량을 따라가서 체결된것을 표현하여 ASVL 이라는 표현을 사용
+  - code: STRN
+    name: 체결강도
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: MTYP
+    name: 시장구분 1:장중,2:장전,3:장후
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  example: null
+errors: []

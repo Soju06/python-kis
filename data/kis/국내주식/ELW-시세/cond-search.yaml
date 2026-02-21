@@ -1,0 +1,976 @@
+id: 264533d3-00eb-4794-984a-fecb84350f39
+name: ELW 종목검색 [국내주식-166]
+section: '[국내주식] ELW 시세'
+category: 국내주식
+subcategory: ELW 시세
+method: GET
+url: /uapi/elw/v1/quotations/cond-search
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: FHKEW15100000
+demo_tr_id: 모의투자 미지원
+summary: 'ELW 종목검색 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0291] ELW 종목검색 화면의 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.
+
+  한 번의 호출에 최대 100건까지 확인 가능합니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-17T10:22:52+09:00'
+  last_modified_date: '2025-05-07T09:38:23+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKEW15100000
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_MRKT_DIV_CODE
+    name: 조건시장분류코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: ELW(W)
+  - code: FID_COND_SCR_DIV_CODE
+    name: 조건화면분류코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 화면번호(11510)
+  - code: FID_RANK_SORT_CLS_CODE
+    name: 순위정렬구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '''정렬1정렬안함(0)종목코드(1)현재가(2)대비율(3)거래량(4)행사가격(5)
+
+      전환비율(6)상장일(7)만기일(8)잔존일수(9)레버리지(10)'''
+  - code: FID_INPUT_CNT_1
+    name: 입력수1
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 정렬1기준 - 상위(1)하위(2)
+  - code: FID_RANK_SORT_CLS_CODE_2
+    name: 순위정렬구분코드2
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 정렬2
+  - code: FID_INPUT_CNT_2
+    name: 입력수2
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 정렬2기준 - 상위(1)하위(2)
+  - code: FID_RANK_SORT_CLS_CODE_3
+    name: 순위정렬구분코드3
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 정렬3
+  - code: FID_INPUT_CNT_3
+    name: 입력수3
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 정렬3기준 - 상위(1)하위(2)
+  - code: FID_TRGT_CLS_CODE
+    name: 대상구분코드
+    type: A0001
+    type_name: String
+    length: '32'
+    required: true
+    description: "0:발행회사종목코드,1:기초자산종목코드,2:FID시장구분코드,3:FID입력날짜1(상장일),\n4:FID입력날짜2(만기일),5:LP회원사종목코드,6:행사가기초자산비교>=(1) <=(2),\
+      \ \n7:잔존일 이상 이하, 8:현재가, 9:전일대비율, 10:거래량, 11:최종거래일, 12:레버리지"
+  - code: FID_INPUT_ISCD
+    name: 입력종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 발행사종목코드전체(00000)
+  - code: FID_UNAS_INPUT_ISCD
+    name: 기초자산입력종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: ''
+  - code: FID_MRKT_CLS_CODE
+    name: 시장구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 권리유형전체(A)콜(CO)풋(PO)
+  - code: FID_INPUT_DATE_1
+    name: 입력날짜1
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 상장일전체(0)금일(1)7일이하(2)8~30일(3)31~90일(4)
+  - code: FID_INPUT_DATE_2
+    name: 입력날짜2
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: 만기일전체(0)1개월(1)1~2(2)2~3(3)3~6(4)6~9(5)9~12(6)12이상(7)
+  - code: FID_INPUT_ISCD_2
+    name: 입력종목코드2
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: FID_ETC_CLS_CODE
+    name: 기타구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 행사가전체(0)>=(1)
+  - code: FID_INPUT_RMNN_DYNU_1
+    name: 입력잔존일수1
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 잔존일이상
+  - code: FID_INPUT_RMNN_DYNU_2
+    name: 입력잔존일수2
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 잔존일이하
+  - code: FID_PRPR_CNT1
+    name: 현재가수1
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: 현재가이상
+  - code: FID_PRPR_CNT2
+    name: 현재가수2
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: 현재가이하
+  - code: FID_RSFL_RATE1
+    name: 등락비율1
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: 전일대비율이상
+  - code: FID_RSFL_RATE2
+    name: 등락비율2
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: 전일대비율이하
+  - code: FID_VOL1
+    name: 거래량1
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 거래량이상
+  - code: FID_VOL2
+    name: 거래량2
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 거래량이하
+  - code: FID_APLY_RANG_PRC_1
+    name: 적용범위가격1
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 최종거래일from
+  - code: FID_APLY_RANG_PRC_2
+    name: 적용범위가격2
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: 최종거래일to
+  - code: FID_LVRG_VAL1
+    name: 레버리지값1
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: FID_LVRG_VAL2
+    name: 레버리지값2
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: FID_VOL3
+    name: 거래량3
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: LP종료일from
+  - code: FID_VOL4
+    name: 거래량4
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: LP종료일to
+  - code: FID_INTS_VLTL1
+    name: 내재변동성1
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: 내재변동성이상
+  - code: FID_INTS_VLTL2
+    name: 내재변동성2
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: 내재변동성이하
+  - code: FID_PRMM_VAL1
+    name: 프리미엄값1
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: 프리미엄이상
+  - code: FID_PRMM_VAL2
+    name: 프리미엄값2
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: 프리미엄이하
+  - code: FID_GEAR1
+    name: 기어링1
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: 기어링이상
+  - code: FID_GEAR2
+    name: 기어링2
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: 기어링이하
+  - code: FID_PRLS_QRYR_RATE1
+    name: 손익분기비율1
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: 손익분기이상
+  - code: FID_PRLS_QRYR_RATE2
+    name: 손익분기비율2
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: 손익분기이하
+  - code: FID_DELTA1
+    name: 델타1
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: 델타이상
+  - code: FID_DELTA2
+    name: 델타2
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: 델타이하
+  - code: FID_ACPR1
+    name: 행사가1
+    type: A0001
+    type_name: String
+    length: '133'
+    required: true
+    description: ''
+  - code: FID_ACPR2
+    name: 행사가2
+    type: A0001
+    type_name: String
+    length: '133'
+    required: true
+    description: ''
+  - code: FID_STCK_CNVR_RATE1
+    name: 주식전환비율1
+    type: A0001
+    type_name: String
+    length: '94'
+    required: true
+    description: 전환비율이상
+  - code: FID_STCK_CNVR_RATE2
+    name: 주식전환비율2
+    type: A0001
+    type_name: String
+    length: '94'
+    required: true
+    description: 전환비율이하
+  - code: FID_DIV_CLS_CODE
+    name: 분류구분코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 0:전체,1:일반,2:조기종료
+  - code: FID_PRIT1
+    name: 패리티1
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: 패리티이상
+  - code: FID_PRIT2
+    name: 패리티2
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: 패리티이하
+  - code: FID_CFP1
+    name: 자본지지점1
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: 배리어이상
+  - code: FID_CFP2
+    name: 자본지지점2
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: 배리어이하
+  - code: FID_INPUT_NMIX_PRICE_1
+    name: 지수가격1
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: LP보유비율이상
+  - code: FID_INPUT_NMIX_PRICE_2
+    name: 지수가격2
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: LP보유비율이하
+  - code: FID_EGEA_VAL1
+    name: E기어링값1
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: 접근도이상
+  - code: FID_EGEA_VAL2
+    name: E기어링값2
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: 접근도이하
+  - code: FID_INPUT_DVDN_ERT
+    name: 배당수익율
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: 손익분기점이상
+  - code: FID_INPUT_HIST_VLTL
+    name: 역사적변동성
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: 손익분기점이하
+  - code: FID_THETA1
+    name: 세타1
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: MONEYNESS이상
+  - code: FID_THETA2
+    name: 세타2
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: MONEYNESS이하
+  example: "FID_COND_MRKT_DIV_CODE:W\r\nFID_COND_SCR_DIV_CODE:11510\r\nFID_RANK_SORT_CLS_CODE:0\r\nFID_INPUT_CNT_1:1\r\nFID_RANK_SORT_CLS_CODE_2:\r\
+    \nFID_INPUT_CNT_2:\r\nFID_RANK_SORT_CLS_CODE_3:\r\nFID_INPUT_CNT_3:\r\nFID_TRGT_CLS_CODE:\r\nFID_INPUT_ISCD:\r\nFID_UNAS_INPUT_ISCD:\r\
+    \nFID_MRKT_CLS_CODE:\r\nFID_INPUT_DATE_1:\r\nFID_INPUT_DATE_2:\r\nFID_INPUT_ISCD_2:\r\nFID_ETC_CLS_CODE:\r\nFID_INPUT_RMNN_DYNU_1:\r\
+    \nFID_INPUT_RMNN_DYNU_2:\r\nFID_PRPR_CNT1:\r\nFID_PRPR_CNT2:\r\nFID_RSFL_RATE1:\r\nFID_RSFL_RATE2:\r\nFID_VOL1:\r\nFID_VOL2:\r\
+    \nFID_APLY_RANG_PRC_1:\r\nFID_APLY_RANG_PRC_2:\r\nFID_LVRG_VAL1:\r\nFID_LVRG_VAL2:\r\nFID_VOL3:\r\nFID_VOL4:\r\nFID_INTS_VLTL1:\r\
+    \nFID_INTS_VLTL2:\r\nFID_PRMM_VAL1:\r\nFID_PRMM_VAL2:\r\nFID_GEAR1:\r\nFID_GEAR2:\r\nFID_PRLS_QRYR_RATE1:\r\nFID_PRLS_QRYR_RATE2:\r\
+    \nFID_DELTA1:\r\nFID_DELTA2:\r\nFID_ACPR1:\r\nFID_ACPR2:\r\nFID_STCK_CNVR_RATE1:\r\nFID_STCK_CNVR_RATE2:\r\nFID_DIV_CLS_CODE:\r\
+    \nFID_PRIT1:\r\nFID_PRIT2:\r\nFID_CFP1:\r\nFID_CFP2:\r\nFID_INPUT_NMIX_PRICE_1:\r\nFID_INPUT_NMIX_PRICE_2:\r\nFID_EGEA_VAL1:\r\
+    \nFID_EGEA_VAL2:\r\nFID_INPUT_DVDN_ERT:\r\nFID_INPUT_HIST_VLTL:\r\nFID_THETA1:\r\nFID_THETA2:"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output1
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: bond_shrn_iscd
+    name: 채권단축종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: hts_kor_isnm
+    name: HTS한글종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: rght_type_name
+    name: 권리유형명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: elw_prpr
+    name: ELW현재가
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss
+    name: 전일대비
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prdy_vrss_sign
+    name: 전일대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: prdy_ctrt
+    name: 전일대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: acml_vol
+    name: 누적거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: acpr
+    name: 행사가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: stck_cnvr_rate
+    name: 주식전환비율
+    type: A0001
+    type_name: String
+    length: '136'
+    required: true
+    description: ''
+  - code: stck_lstn_date
+    name: 주식상장일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: stck_last_tr_date
+    name: 주식최종거래일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: hts_rmnn_dynu
+    name: HTS잔존일수
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: ''
+  - code: unas_isnm
+    name: 기초자산종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: unas_prpr
+    name: 기초자산현재가
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: unas_prdy_vrss
+    name: 기초자산전일대비
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: unas_prdy_vrss_sign
+    name: 기초자산전일대비부호
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: unas_prdy_ctrt
+    name: 기초자산전일대비율
+    type: A0001
+    type_name: String
+    length: '82'
+    required: true
+    description: ''
+  - code: unas_acml_vol
+    name: 기초자산누적거래량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: moneyness
+    name: MONEYNESS
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: ''
+  - code: atm_cls_name
+    name: ATM구분명
+    type: A0001
+    type_name: String
+    length: '10'
+    required: true
+    description: ''
+  - code: prit
+    name: 패리티
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: delta_val
+    name: 델타값
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: hts_ints_vltl
+    name: HTS내재변동성
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: tmvl_val
+    name: 시간가치값
+    type: A0001
+    type_name: String
+    length: '132'
+    required: true
+    description: ''
+  - code: gear
+    name: 기어링
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: lvrg_val
+    name: 레버리지값
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: prls_qryr_rate
+    name: 손익분기비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: cfp
+    name: 자본지지점
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: lstn_stcn
+    name: 상장주수
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  - code: pblc_co_name
+    name: 발행회사명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  - code: lp_mbcr_name
+    name: LP회원사명
+    type: A0001
+    type_name: String
+    length: '50'
+    required: true
+    description: ''
+  - code: lp_hldn_rate
+    name: LP보유비율
+    type: A0001
+    type_name: String
+    length: '84'
+    required: true
+    description: ''
+  - code: elw_rght_form
+    name: ELW권리형태
+    type: A0001
+    type_name: String
+    length: '20'
+    required: true
+    description: ''
+  - code: elw_ko_barrier
+    name: 조기종료발생기준가격
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: apprch_rate
+    name: 접근도
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: unas_shrn_iscd
+    name: 기초자산단축종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: mtrt_date
+    name: 만기일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: prmm_val
+    name: 프리미엄값
+    type: A0001
+    type_name: String
+    length: '114'
+    required: true
+    description: ''
+  - code: stck_lp_fin_date
+    name: 주식LP종료일자
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: tick_conv_prc
+    name: 틱환산가
+    type: A0001
+    type_name: String
+    length: '11'
+    required: true
+    description: ''
+  - code: prls_qryr_stpr_prc
+    name: 손익분기주가가격
+    type: A0001
+    type_name: String
+    length: '112'
+    required: true
+    description: ''
+  - code: lp_hvol
+    name: LP보유량
+    type: A0001
+    type_name: String
+    length: '18'
+    required: true
+    description: ''
+  example: "{\r\n    \"output\": [\r\n        {\r\n            \"bond_shrn_iscd\": \"57JAES\",\r\n            \"hts_kor_isnm\"\
+    : \"한국JAESKOSPI200콜\",\r\n            \"rght_type_name\": \"CALL\",\r\n            \"elw_prpr\": \"1560\",\r\n       \
+    \     \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\": \"0.00\",\r\n    \
+    \        \"acml_vol\": \"0\",\r\n            \"acpr\": \"325.00\",\r\n            \"stck_cnvr_rate\": \"100.000000\",\r\
+    \n            \"stck_lstn_date\": \"20231018\",\r\n            \"stck_last_tr_date\": \"20240613\",\r\n            \"\
+    hts_rmnn_dynu\": \"1\",\r\n            \"unas_isnm\": \"KOSPI200\",\r\n            \"unas_prpr\": \"377.90\",\r\n    \
+    \        \"unas_prdy_vrss\": \"6.78\",\r\n            \"unas_prdy_vrss_sign\": \"2\",\r\n            \"unas_prdy_ctrt\"\
+    : \"1.83\",\r\n            \"unas_acml_vol\": \"80478000\",\r\n            \"moneyness\": \"16.277\",\r\n            \"\
+    atm_cls_name\": \"ITM\",\r\n            \"prit\": \"116.27\",\r\n            \"delta_val\": \"1.000000\",\r\n        \
+    \    \"hts_ints_vltl\": \"0.00\",\r\n            \"tmvl_val\": \"-3751.00\",\r\n            \"gear\": \"24.2200\",\r\n\
+    \            \"lvrg_val\": \"24.219999\",\r\n            \"prls_qryr_rate\": \"-9.8600\",\r\n            \"cfp\": \"-10.2900\"\
+    ,\r\n            \"lstn_stcn\": \"10000000\",\r\n            \"pblc_co_name\": \"한국투자증권(주)\",\r\n            \"lp_mbcr_name\"\
+    : \"한국증권\",\r\n            \"lp_hldn_rate\": \"100.00\",\r\n            \"elw_rght_form\": \"표준형\",\r\n            \"\
+    elw_ko_barrier\": \"0.00\",\r\n            \"apprch_rate\": \"0.00\",\r\n            \"unas_shrn_iscd\": \"2001\",\r\n\
+    \            \"mtrt_date\": \"20240617\",\r\n            \"prmm_val\": \"4.13\",\r\n            \"stck_lp_fin_date\":\
+    \ \"20240613\",\r\n            \"tick_conv_prc\": \"5.00\",\r\n            \"prls_qryr_stpr_prc\": \"340.60\",\r\n   \
+    \         \"lp_hvol\": \"9999800\"\r\n        },\r\n        {\r\n            \"bond_shrn_iscd\": \"57JAET\",\r\n     \
+    \       \"hts_kor_isnm\": \"한국JAETKOSPI200콜\",\r\n            \"rght_type_name\": \"CALL\",\r\n            \"elw_prpr\"\
+    : \"4090\",\r\n            \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\"\
+    : \"0.00\",\r\n            \"acml_vol\": \"0\",\r\n            \"acpr\": \"322.50\",\r\n            \"stck_cnvr_rate\"\
+    : \"100.000000\",\r\n            \"stck_lstn_date\": \"20231018\",\r\n            \"stck_last_tr_date\": \"20240613\"\
+    ,\r\n            \"hts_rmnn_dynu\": \"1\",\r\n            \"unas_isnm\": \"KOSPI200\",\r\n            \"unas_prpr\": \"\
+    377.90\",\r\n            \"unas_prdy_vrss\": \"6.78\",\r\n            \"unas_prdy_vrss_sign\": \"2\",\r\n            \"\
+    unas_prdy_ctrt\": \"1.83\",\r\n            \"unas_acml_vol\": \"80478000\",\r\n            \"moneyness\": \"17.178\",\r\
+    \n            \"atm_cls_name\": \"ITM\",\r\n            \"prit\": \"117.17\",\r\n            \"delta_val\": \"1.000000\"\
+    ,\r\n            \"hts_ints_vltl\": \"0.00\",\r\n            \"tmvl_val\": \"-1471.00\",\r\n            \"gear\": \"9.2300\"\
+    ,\r\n            \"lvrg_val\": \"9.230000\",\r\n            \"prls_qryr_rate\": \"-3.8300\",\r\n            \"cfp\": \"\
+    -4.2900\",\r\n            \"lstn_stcn\": \"9000000\",\r\n            \"pblc_co_name\": \"한국투자증권(주)\",\r\n            \"\
+    lp_mbcr_name\": \"한국증권\",\r\n            \"lp_hldn_rate\": \"99.99\",\r\n            \"elw_rght_form\": \"표준형\",\r\n \
+    \           \"elw_ko_barrier\": \"0.00\",\r\n            \"apprch_rate\": \"0.00\",\r\n            \"unas_shrn_iscd\"\
+    : \"2001\",\r\n            \"mtrt_date\": \"20240617\",\r\n            \"prmm_val\": \"10.82\",\r\n            \"stck_lp_fin_date\"\
+    : \"20240613\",\r\n            \"tick_conv_prc\": \"5.00\",\r\n            \"prls_qryr_stpr_prc\": \"363.40\",\r\n   \
+    \         \"lp_hvol\": \"8999270\"\r\n        },\r\n        {\r\n            \"bond_shrn_iscd\": \"57JAEV\",\r\n     \
+    \       \"hts_kor_isnm\": \"한국JAEVKOSPI200콜\",\r\n            \"rght_type_name\": \"CALL\",\r\n            \"elw_prpr\"\
+    : \"4510\",\r\n            \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\"\
+    : \"0.00\",\r\n            \"acml_vol\": \"0\",\r\n            \"acpr\": \"320.00\",\r\n            \"stck_cnvr_rate\"\
+    : \"100.000000\",\r\n            \"stck_lstn_date\": \"20231018\",\r\n            \"stck_last_tr_date\": \"20240613\"\
+    ,\r\n            \"hts_rmnn_dynu\": \"1\",\r\n            \"unas_isnm\": \"KOSPI200\",\r\n            \"unas_prpr\": \"\
+    377.90\",\r\n            \"unas_prdy_vrss\": \"6.78\",\r\n            \"unas_prdy_vrss_sign\": \"2\",\r\n            \"\
+    unas_prdy_ctrt\": \"1.83\",\r\n            \"unas_acml_vol\": \"80478000\",\r\n            \"moneyness\": \"18.094\",\r\
+    \n            \"atm_cls_name\": \"ITM\",\r\n            \"prit\": \"118.09\",\r\n            \"delta_val\": \"0.963518\"\
+    ,\r\n            \"hts_ints_vltl\": \"177.59\",\r\n            \"tmvl_val\": \"-1301.00\",\r\n            \"gear\": \"\
+    8.3700\",\r\n            \"lvrg_val\": \"8.064646\",\r\n            \"prls_qryr_rate\": \"-3.3800\",\r\n            \"\
+    cfp\": \"-3.8400\",\r\n            \"lstn_stcn\": \"11000000\",\r\n            \"pblc_co_name\": \"한국투자증권(주)\",\r\n  \
+    \          \"lp_mbcr_name\": \"한국증권\",\r\n            \"lp_hldn_rate\": \"99.99\",\r\n            \"elw_rght_form\": \"\
+    표준형\",\r\n            \"elw_ko_barrier\": \"0.00\",\r\n            \"apprch_rate\": \"0.00\",\r\n            \"unas_shrn_iscd\"\
+    : \"2001\",\r\n            \"mtrt_date\": \"20240617\",\r\n            \"prmm_val\": \"11.93\",\r\n            \"stck_lp_fin_date\"\
+    : \"20240613\",\r\n            \"tick_conv_prc\": \"4.82\",\r\n            \"prls_qryr_stpr_prc\": \"365.10\",\r\n   \
+    \         \"lp_hvol\": \"10999000\"\r\n        },\r\n        {\r\n            \"bond_shrn_iscd\": \"57JAEW\",\r\n    \
+    \        \"hts_kor_isnm\": \"한국JAEWKOSPI200콜\",\r\n            \"rght_type_name\": \"CALL\",\r\n            \"elw_prpr\"\
+    : \"2555\",\r\n            \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\"\
+    : \"0.00\",\r\n            \"acml_vol\": \"0\",\r\n            \"acpr\": \"317.50\",\r\n            \"stck_cnvr_rate\"\
+    : \"100.000000\",\r\n            \"stck_lstn_date\": \"20231018\",\r\n            \"stck_last_tr_date\": \"20240613\"\
+    ,\r\n            \"hts_rmnn_dynu\": \"1\",\r\n            \"unas_isnm\": \"KOSPI200\",\r\n            \"unas_prpr\": \"\
+    377.90\",\r\n            \"unas_prdy_vrss\": \"6.78\",\r\n            \"unas_prdy_vrss_sign\": \"2\",\r\n            \"\
+    unas_prdy_ctrt\": \"1.83\",\r\n            \"unas_acml_vol\": \"80478000\",\r\n            \"moneyness\": \"19.024\",\r\
+    \n            \"atm_cls_name\": \"ITM\",\r\n            \"prit\": \"119.02\",\r\n            \"delta_val\": \"0.959424\"\
+    ,\r\n            \"hts_ints_vltl\": \"191.44\",\r\n            \"tmvl_val\": \"-3506.00\",\r\n            \"gear\": \"\
+    14.7900\",\r\n            \"lvrg_val\": \"14.189881\",\r\n            \"prls_qryr_rate\": \"-9.2100\",\r\n           \
+    \ \"cfp\": \"-9.8800\",\r\n            \"lstn_stcn\": \"9000000\",\r\n            \"pblc_co_name\": \"한국투자증권(주)\",\r\n\
+    \            \"lp_mbcr_name\": \"한국증권\",\r\n            \"lp_hldn_rate\": \"99.99\",\r\n            \"elw_rght_form\"\
+    : \"표준형\",\r\n            \"elw_ko_barrier\": \"0.00\",\r\n            \"apprch_rate\": \"0.00\",\r\n            \"unas_shrn_iscd\"\
+    : \"2001\",\r\n            \"mtrt_date\": \"20240617\",\r\n            \"prmm_val\": \"6.76\",\r\n            \"stck_lp_fin_date\"\
+    : \"20240613\",\r\n            \"tick_conv_prc\": \"4.80\",\r\n            \"prls_qryr_stpr_prc\": \"343.05\",\r\n   \
+    \         \"lp_hvol\": \"8998900\"\r\n        },\r\n        {\r\n            \"bond_shrn_iscd\": \"57JAEX\",\r\n     \
+    \       \"hts_kor_isnm\": \"한국JAEXKOSPI200콜\",\r\n            \"rght_type_name\": \"CALL\",\r\n            \"elw_prpr\"\
+    : \"4850\",\r\n            \"prdy_vrss\": \"0\",\r\n            \"prdy_vrss_sign\": \"3\",\r\n            \"prdy_ctrt\"\
+    : \"0.00\",\r\n            \"acml_vol\": \"0\",\r\n            \"acpr\": \"315.00\",\r\n            \"stck_cnvr_rate\"\
+    : \"100.000000\",\r\n            \"stck_lstn_date\": \"20231018\",\r\n            \"stck_last_tr_date\": \"20240613\"\
+    ,\r\n            \"hts_rmnn_dynu\": \"1\",\r\n            \"unas_isnm\": \"KOSPI200\",\r\n            \"unas_prpr\": \"\
+    377.90\",\r\n            \"unas_prdy_vrss\": \"6.78\",\r\n            \"unas_prdy_vrss_sign\": \"2\",\r\n            \"\
+    unas_prdy_ctrt\": \"1.83\",\r\n            \"unas_acml_vol\": \"80478000\",\r\n            \"moneyness\": \"19.968\",\r\
+    \n            \"atm_cls_name\": \"ITM\",\r\n            \"prit\": \"119.96\",\r\n            \"delta_val\": \"0.959709\"\
+    ,\r\n            \"hts_ints_vltl\": \"200.01\",\r\n            \"tmvl_val\": \"-1461.00\",\r\n            \"gear\": \"\
+    7.7900\",\r\n            \"lvrg_val\": \"7.476133\",\r\n            \"prls_qryr_rate\": \"-3.8000\",\r\n            \"\
+    cfp\": \"-4.3600\",\r\n            \"lstn_stcn\": \"10000000\",\r\n            \"pblc_co_name\": \"한국투자증권(주)\",\r\n  \
+    \          \"lp_mbcr_name\": \"한국증권\",\r\n            \"lp_hldn_rate\": \"99.99\",\r\n            \"elw_rght_form\": \"\
+    표준형\",\r\n            \"elw_ko_barrier\": \"0.00\",\r\n            \"apprch_rate\": \"0.00\",\r\n            \"unas_shrn_iscd\"\
+    : \"2001\",\r\n            \"mtrt_date\": \"20240617\",\r\n            \"prmm_val\": \"12.83\",\r\n            \"stck_lp_fin_date\"\
+    : \"20240613\",\r\n            \"tick_conv_prc\": \"4.80\",\r\n            \"prls_qryr_stpr_prc\": \"363.50\",\r\n   \
+    \         \"lp_hvol\": \"9999400\"\r\n        },...\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"MCA00000\"\
+    ,\r\n    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

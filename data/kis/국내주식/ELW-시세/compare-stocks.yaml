@@ -1,0 +1,246 @@
+id: ca2e71e1-5ef4-4489-b4c4-118e10588690
+name: ELW 비교대상종목조회 [국내주식-183]
+section: '[국내주식] ELW 시세'
+category: 국내주식
+subcategory: ELW 시세
+method: GET
+url: /uapi/elw/v1/quotations/compare-stocks
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 미지원
+real_tr_id: FHKEW151701C0
+demo_tr_id: 모의투자 미지원
+summary: 'ELW 비교대상종목조회 API입니다.
+
+  기초자산 종목코드를 입력하셔서 해당 종목을 기초자산으로 하는 ELW 목록을 조회하실 수 있습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-05-10T10:29:50+09:00'
+  last_modified_date: '2025-05-07T09:38:02+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKEW151701C0
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: FID_COND_SCR_DIV_CODE
+    name: 조건화면분류코드
+    type: A0001
+    type_name: String
+    length: '5'
+    required: true
+    description: 11517(Primary key)
+  - code: FID_INPUT_ISCD
+    name: 입력종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 종목코드(ex)005930(삼성전자))
+  example: "FID_COND_SCR_DIV_CODE:11517\r\nFID_INPUT_ISCD:005930"
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0003
+    type_name: String
+    length: ' '
+    required: true
+    description: ''
+  - code: elw_shrn_iscd
+    name: ELW단축종목코드
+    type: A0001
+    type_name: String
+    length: '9'
+    required: true
+    description: ''
+  - code: elw_kor_isnm
+    name: ELW한글종목명
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: ''
+  example: "{\r\n    \"output\": [\r\n        {\r\n            \"elw_shrn_iscd\": \"58J782\",\r\n            \"elw_kor_isnm\"\
+    : \"KBJ782삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58J993\",\r\n            \"elw_kor_isnm\"\
+    : \"KBJ993삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58JC71\",\r\n            \"elw_kor_isnm\"\
+    : \"KBJC71삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58JC72\",\r\n            \"elw_kor_isnm\"\
+    : \"KBJC72삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58JC73\",\r\n            \"elw_kor_isnm\"\
+    : \"KBJC73삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58JC74\",\r\n            \"elw_kor_isnm\"\
+    : \"KBJC74삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58JC75\",\r\n            \"elw_kor_isnm\"\
+    : \"KBJC75삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58JC76\",\r\n            \"elw_kor_isnm\"\
+    : \"KBJC76삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58JE26\",\r\n            \"elw_kor_isnm\"\
+    : \"KBJE26삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58JE27\",\r\n            \"elw_kor_isnm\"\
+    : \"KBJE27삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58JE28\",\r\n            \"elw_kor_isnm\"\
+    : \"KBJE28삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58JE30\",\r\n            \"elw_kor_isnm\"\
+    : \"KBJE30삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K001\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK001삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K002\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK002삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K003\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK003삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K004\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK004삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K005\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK005삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K006\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK006삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K167\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK167삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K168\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK168삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K169\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK169삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K314\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK314삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K416\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK416삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K417\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK417삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K418\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK418삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K419\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK419삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K420\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK420삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K421\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK421삼성전자풋\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K579\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK579삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K580\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK580삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K581\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK581삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K582\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK582삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K583\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK583삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K584\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK584삼성전자콜\"\r\n        },\r\n        {\r\n            \"elw_shrn_iscd\": \"58K585\",\r\n            \"elw_kor_isnm\"\
+    : \"KBK585삼성전자풋\"\r\n        },\r\n        ...\r\n    ],\r\n    \"rt_cd\": \"0\",\r\n    \"msg_cd\": \"MCA00000\",\r\n\
+    \    \"msg1\": \"정상처리 되었습니다.\"\r\n}"
+errors: []

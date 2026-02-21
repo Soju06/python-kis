@@ -1,0 +1,395 @@
+id: e7a0d02d-2aec-4358-8738-65c7c6da3b1b
+name: 국내주식 성장성비율[v1_국내주식-085]
+section: '[국내주식] 종목정보'
+category: 국내주식
+subcategory: 종목정보
+method: GET
+url: /uapi/domestic-stock/v1/finance/growth-ratio
+content_type: application/json
+req_format: JSON
+domains:
+  real: https://openapi.koreainvestment.com:9443
+  demo: 모의투자 미지원
+real_tr_id: FHKST66430800
+demo_tr_id: 모의투자 미지원
+summary: '국내주식 성장성비율 API입니다.
+
+  한국투자 HTS(eFriend Plus) > [0635] 재무분석종합 화면의 하단 ''7.성장성비율'' 기능을 API로 개발한 사항으로, 해당 화면을 참고하시면 기능을 이해하기 쉽습니다.'
+description: ''
+metadata:
+  organization: 한국투자증권
+  billing_policy: 무과금
+  status: RUNNING
+  created_date: '2024-03-15T09:15:48+09:00'
+  last_modified_date: '2025-05-14T13:19:55+09:00'
+request:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: authorization
+    name: 접근토큰
+    type: A0001
+    type_name: String
+    length: '350'
+    required: true
+    description: "OAuth 토큰이 필요한 API 경우 발급한 Access token \n일반고객(Access token 유효기간 1일, OAuth 2.0의 Client Credentials Grant 절차를\
+      \ 준용) \n법인(Access token 유효기간 3개월, Refresh token 유효기간 1년, OAuth 2.0의 Authorization Code Grant 절차를 준용)"
+  - code: appkey
+    name: 앱키
+    type: A0001
+    type_name: String
+    length: '36'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: appsecret
+    name: 앱시크릿키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: true
+    description: 한국투자증권 홈페이지에서 발급받은 appkey (절대 노출되지 않도록 주의해주세요.)
+  - code: personalseckey
+    name: 고객식별키
+    type: A0001
+    type_name: String
+    length: '180'
+    required: false
+    description: '[법인 필수] 제휴사 회원 관리를 위한 고객식별키'
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: FHKST66430800
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: custtype
+    name: 고객 타입
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: "B : 법인 \nP : 개인"
+  - code: seq_no
+    name: 일련번호
+    type: A0001
+    type_name: String
+    length: '2'
+    required: false
+    description: '[법인 필수] 001'
+  - code: mac_address
+    name: 맥주소
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: 법인고객 혹은 개인고객의 Mac address 값
+  - code: phone_number
+    name: 핸드폰번호
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: "[법인 필수] 제휴사APP을 사용하는 경우 사용자(회원) 핸드폰번호 \nex) 01011112222 (하이픈 등 구분값 제거)"
+  - code: ip_addr
+    name: 접속 단말 공인 IP
+    type: A0001
+    type_name: String
+    length: '12'
+    required: false
+    description: '[법인 필수] 사용자(회원)의 IP Address'
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  params: []
+  body:
+  - code: fid_input_iscd
+    name: 입력 종목코드
+    type: A0001
+    type_name: String
+    length: '12'
+    required: true
+    description: 'ex : 000660'
+  - code: fid_div_cls_code
+    name: 분류 구분 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: '0: 년, 1: 분기'
+  - code: fid_cond_mrkt_div_code
+    name: 조건 시장 분류 코드
+    type: A0001
+    type_name: String
+    length: '2'
+    required: true
+    description: 시장구분코드 (주식 J)
+  example:
+    fid_cond_mrkt_div_code: J
+    fid_input_iscd: 005930
+    fid_div_cls_code: '1'
+response:
+  headers:
+  - code: content-type
+    name: 컨텐츠타입
+    type: A0001
+    type_name: String
+    length: '40'
+    required: true
+    description: application/json; charset=utf-8
+  - code: tr_id
+    name: 거래ID
+    type: A0001
+    type_name: String
+    length: '13'
+    required: true
+    description: 요청한 tr_id
+  - code: tr_cont
+    name: 연속 거래 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: false
+    description: tr_cont를 이용한 다음조회 불가 API
+  - code: gt_uid
+    name: Global UID
+    type: A0001
+    type_name: String
+    length: '32'
+    required: false
+    description: '[법인 전용] 거래고유번호로 사용하므로 거래별로 UNIQUE해야 함'
+  body:
+  - code: rt_cd
+    name: 성공 실패 여부
+    type: A0001
+    type_name: String
+    length: '1'
+    required: true
+    description: ''
+  - code: msg_cd
+    name: 응답코드
+    type: A0001
+    type_name: String
+    length: '8'
+    required: true
+    description: ''
+  - code: msg1
+    name: 응답메세지
+    type: A0001
+    type_name: String
+    length: '80'
+    required: true
+    description: ''
+  - code: output
+    name: 응답상세
+    type: A0005
+    type_name: Object
+    length: ' '
+    required: true
+    description: array
+  - code: stac_yymm
+    name: 결산 년월
+    type: A0001
+    type_name: String
+    length: '6'
+    required: true
+    description: ''
+  - code: grs
+    name: 매출액 증가율
+    type: A0001
+    type_name: String
+    length: '124'
+    required: true
+    description: ''
+  - code: bsop_prfi_inrt
+    name: 영업 이익 증가율
+    type: A0001
+    type_name: String
+    length: '124'
+    required: true
+    description: ''
+  - code: equt_inrt
+    name: 자기자본 증가율
+    type: A0001
+    type_name: String
+    length: '92'
+    required: true
+    description: ''
+  - code: totl_aset_inrt
+    name: 총자산 증가율
+    type: A0001
+    type_name: String
+    length: '92'
+    required: true
+    description: ''
+  example:
+    output:
+    - stac_yymm: '202312'
+      grs: '-14.33'
+      bsop_prfi_inrt: '-84.86'
+      equt_inrt: '2.52'
+      totl_aset_inrt: '1.67'
+    - stac_yymm: '202309'
+      grs: '-17.52'
+      bsop_prfi_inrt: '-90.42'
+      equt_inrt: '5.50'
+      totl_aset_inrt: '-3.36'
+    - stac_yymm: '202306'
+      grs: '-20.15'
+      bsop_prfi_inrt: '-95.36'
+      equt_inrt: '9.47'
+      totl_aset_inrt: '-0.01'
+    - stac_yymm: '202303'
+      grs: '-18.05'
+      bsop_prfi_inrt: '-95.47'
+      equt_inrt: '14.12'
+      totl_aset_inrt: '3.36'
+    - stac_yymm: '202212'
+      grs: '8.09'
+      bsop_prfi_inrt: '-15.99'
+      equt_inrt: '16.35'
+      totl_aset_inrt: '5.11'
+    - stac_yymm: '202209'
+      grs: '14.15'
+      bsop_prfi_inrt: '3.45'
+      equt_inrt: '16.22'
+      totl_aset_inrt: '14.58'
+    - stac_yymm: '202206'
+      grs: '20.09'
+      bsop_prfi_inrt: '28.56'
+      equt_inrt: '16.15'
+      totl_aset_inrt: '16.44'
+    - stac_yymm: '202203'
+      grs: '18.95'
+      bsop_prfi_inrt: '50.50'
+      equt_inrt: '14.96'
+      totl_aset_inrt: '11.84'
+    - stac_yymm: '202112'
+      grs: '18.07'
+      bsop_prfi_inrt: '43.45'
+      equt_inrt: '10.49'
+      totl_aset_inrt: '12.79'
+    - stac_yymm: '202109'
+      grs: '15.85'
+      bsop_prfi_inrt: '40.15'
+      equt_inrt: '7.47'
+      totl_aset_inrt: '9.22'
+    - stac_yymm: '202106'
+      grs: '19.18'
+      bsop_prfi_inrt: '50.41'
+      equt_inrt: '4.64'
+      totl_aset_inrt: '7.49'
+    - stac_yymm: '202103'
+      grs: '18.19'
+      bsop_prfi_inrt: '45.53'
+      equt_inrt: '2.96'
+      totl_aset_inrt: '9.89'
+    - stac_yymm: '202012'
+      grs: '2.78'
+      bsop_prfi_inrt: '29.62'
+      equt_inrt: '4.97'
+      totl_aset_inrt: '7.28'
+    - stac_yymm: '202009'
+      grs: '2.78'
+      bsop_prfi_inrt: '30.76'
+      equt_inrt: '4.82'
+      totl_aset_inrt: '6.34'
+    - stac_yymm: '202006'
+      grs: '-0.20'
+      bsop_prfi_inrt: '13.74'
+      equt_inrt: '4.68'
+      totl_aset_inrt: '4.38'
+    - stac_yymm: '202003'
+      grs: '5.61'
+      bsop_prfi_inrt: '3.43'
+      equt_inrt: '5.20'
+      totl_aset_inrt: '3.59'
+    - stac_yymm: '201912'
+      grs: '-5.48'
+      bsop_prfi_inrt: '-52.84'
+      equt_inrt: '6.11'
+      totl_aset_inrt: '3.89'
+    - stac_yymm: '201909'
+      grs: '-7.58'
+      bsop_prfi_inrt: '-57.14'
+      equt_inrt: '8.81'
+      totl_aset_inrt: '4.80'
+    - stac_yymm: '201906'
+      grs: '-8.85'
+      bsop_prfi_inrt: '-57.95'
+      equt_inrt: '10.56'
+      totl_aset_inrt: '7.61'
+    - stac_yymm: '201903'
+      grs: '-13.50'
+      bsop_prfi_inrt: '-60.15'
+      equt_inrt: '13.42'
+      totl_aset_inrt: '10.43'
+    - stac_yymm: '201812'
+      grs: '1.75'
+      bsop_prfi_inrt: '9.77'
+      equt_inrt: '15.51'
+      totl_aset_inrt: '12.46'
+    - stac_yymm: '201809'
+      grs: '6.28'
+      bsop_prfi_inrt: '24.91'
+      equt_inrt: '14.91'
+      totl_aset_inrt: '13.70'
+    - stac_yymm: '201806'
+      grs: '6.72'
+      bsop_prfi_inrt: '27.32'
+      equt_inrt: '16.15'
+      totl_aset_inrt: '14.81'
+    - stac_yymm: '201803'
+      grs: '19.82'
+      bsop_prfi_inrt: '58.03'
+      equt_inrt: '17.62'
+      totl_aset_inrt: '18.26'
+    - stac_yymm: '201712'
+      grs: '18.68'
+      bsop_prfi_inrt: '83.46'
+      equt_inrt: '11.16'
+      totl_aset_inrt: '15.10'
+    - stac_yymm: '201709'
+      grs: '16.87'
+      bsop_prfi_inrt: '92.30'
+      equt_inrt: '17.35'
+      totl_aset_inrt: '21.31'
+    - stac_yymm: '201706'
+      grs: '10.75'
+      bsop_prfi_inrt: '61.71'
+      equt_inrt: '10.37'
+      totl_aset_inrt: '13.78'
+    - stac_yymm: '201703'
+      grs: '1.54'
+      bsop_prfi_inrt: '48.27'
+      equt_inrt: '6.44'
+      totl_aset_inrt: '9.52'
+    - stac_yymm: '201612'
+      grs: '0.60'
+      bsop_prfi_inrt: '10.70'
+      equt_inrt: '7.76'
+      totl_aset_inrt: '8.26'
+    - stac_yymm: '201609'
+      grs: '0.81'
+      bsop_prfi_inrt: '-1.24'
+      equt_inrt: '-0.66'
+      totl_aset_inrt: '-0.85'
+    rt_cd: '0'
+    msg_cd: MCA00000
+    msg1: 정상처리 되었습니다.
+errors: []
