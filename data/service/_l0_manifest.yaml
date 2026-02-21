@@ -1,0 +1,1345 @@
+version: 1
+generated_at: '2026-02-20T12:02:37.405225+00:00'
+endpoints:
+  00589d46-b8fe-4329-a20e-50dfe05f0d82:
+    name: 상품기본조회[v1_국내주식-029]
+    path: /uapi/domestic-stock/v1/quotations/search-info
+    signature: sha256:ceaa144bb86ee1acaf8241a47c40acb8f2c7d3a327490e1c6452519f1571a805
+    consumers: []
+  011d4de2-a4a0-47c0-aa47-20c65a26a763:
+    name: 주식현재가 일자별[v1_국내주식-010]
+    path: /uapi/domestic-stock/v1/quotations/inquire-daily-price
+    signature: sha256:dd4c784eb09a227d2f76626b32ce86cfffb2d5f5932482d46b3a759ec10bb90a
+    consumers: []
+  01fd59f1-e7f6-4192-8b02-d52e5dd7c8f3:
+    name: 예탁원정보(상장정보일정)[국내주식-150]
+    path: /uapi/domestic-stock/v1/ksdinfo/list-info
+    signature: sha256:f00656033f440d17d2abb8c31902e6001656f6702a46cf8dc086c8a9d7dc1e58
+    consumers: []
+  020c2367-4e2c-4e9a-85b4-c5daaa73f600:
+    name: 국내주식 예상체결지수 추이[국내주식-121]
+    path: /uapi/domestic-stock/v1/quotations/exp-index-trend
+    signature: sha256:88206b2e8279ea38b6c8d410934b355d4a83a787d6c1ff2d8f02fe7db0a5842a
+    consumers: []
+  03997d2f-6145-4a84-88fe-5a63fe4374fb:
+    name: 예탁원정보(공모주청약일정)[국내주식-151]
+    path: /uapi/domestic-stock/v1/ksdinfo/pub-offer
+    signature: sha256:2db46e61f976ebd1b5172311a676a86701f14d27aa9d78df8042f1af67e6e2d8
+    consumers: []
+  04275bfe-007a-45f6-8d4d-0682320a0741:
+    name: 기간별계좌권리현황조회 [국내주식-211]
+    path: /uapi/domestic-stock/v1/trading/period-rights
+    signature: sha256:ad410f9dcdc40f815ff99c5f665a754b23a8def6cc0d9988f5163da91d0b8e2d
+    consumers: []
+  0482dfb1-154c-476c-8a3b-6fc1da498dbf:
+    name: 해외주식 잔고[v1_해외주식-006]
+    path: /uapi/overseas-stock/v1/trading/inquire-balance
+    signature: sha256:fa97b0c8585dbd39e6f6144dc56dbbc9149e5d70a2dd7a7c9a260c00e94ccab3
+    consumers: []
+  052c663e-73db-43ee-b1a0-702a14de31fc:
+    name: 투자계좌자산현황조회[v1_국내주식-048]
+    path: /uapi/domestic-stock/v1/trading/inquire-account-balance
+    signature: sha256:55b4be009b5587da90eec9ee4ad775f454644c6c3f5096049acdba23acbfe69d
+    consumers: []
+  05980ed5-8ab1-471a-975c-3e129841cbb8:
+    name: 해외주식 거래증가율순위[해외주식-045]
+    path: /uapi/overseas-stock/v1/ranking/trade-growth
+    signature: sha256:fab66806aded6540aaee6cb497b0a859f7b0538b1c657dbdf960093e9480f2ec
+    consumers: []
+  05a719af-aa3c-46c7-a670-55f2f11654c2:
+    name: 국내주식 예상체결 상승/하락상위[v1_국내주식-103]
+    path: /uapi/domestic-stock/v1/ranking/exp-trans-updown
+    signature: sha256:ed641e5dfa04b1767038fdb1a16dbc3db0bb6a334d700bb20f7fb33fdbd104be
+    consumers: []
+  07126b90-256e-4b93-b0be-e1e59dfc89f0:
+    name: (야간)선물옵션 증거금 상세 [국내선물-024]
+    path: /uapi/domestic-futureoption/v1/trading/ngt-margin-detail
+    signature: sha256:18b19c1e2e211fd2c116c4b9b0e125f6c95cb016c979938753981381383038ef
+    consumers: []
+  07313e08-45f2-4423-abb2-2a49752910ae:
+    name: ELW 현재가 시세[v1_국내주식-014]
+    path: /uapi/domestic-stock/v1/quotations/inquire-elw-price
+    signature: sha256:66f692f718510e5ae2caea535a8dcab6f444fc8ddee0f750e0546061d01bd4c6
+    consumers: []
+  0843477a-156b-4ac5-bf65-199b124b072f:
+    name: 프로그램매매 종합현황(시간) [국내주식-114]
+    path: /uapi/domestic-stock/v1/quotations/comp-program-trade-today
+    signature: sha256:51b718f9ab9c248c083a6a22ea7563a37c02f23d9a6e60d50646b47d4f36b32d
+    consumers: []
+  095877d8-43c9-45cd-998b-114598e0c812:
+    name: 퇴직연금 예수금조회[v1_국내주식-035]
+    path: /uapi/domestic-stock/v1/trading/pension/inquire-deposit
+    signature: sha256:74a9ced4c5ba2daf46d1cfff1f4d4447aa9466008efe7f6b0f47cb9ac98442e4
+    consumers: []
+  09baff2a-6e9d-4502-ba66-d7bb94094b67:
+    name: 해외주식 체결기준현재잔고[v1_해외주식-008]
+    path: /uapi/overseas-stock/v1/trading/inquire-present-balance
+    signature: sha256:6af64ff468a8d436c3e244fa13e599946868778c1c7d29cbaa131f006dda8873
+    consumers: []
+  09cd3a87-6b6a-4741-bc7d-f6565c93d6d8:
+    name: 주식예약주문정정취소[v1_국내주식-018,019]
+    path: /uapi/domestic-stock/v1/trading/order-resv-rvsecncl
+    signature: sha256:e0bbd2893469d74460a83f9aa0f30edbc0f60fe35442a444b28eef49f75a9623
+    consumers: []
+  09dff633-6f3b-486a-b894-bbed4e77aaf6:
+    name: 국내주식 호가잔량 순위[국내주식-089]
+    path: /uapi/domestic-stock/v1/ranking/quote-balance
+    signature: sha256:38d99afd41e3f8c5082babc6fbc667e93b42fd02098542d0051d1ba0b1cefaed
+    consumers: []
+  0a0f2b43-8a3f-44a4-80b7-f8cf4d6e2f37:
+    name: 해외주식 체결추이[해외주식-037]
+    path: /uapi/overseas-price/v1/quotations/inquire-ccnl
+    signature: sha256:e72b262435fef803c09e2237055149d5afb6fc4031a372407b3bcb739d782142
+    consumers: []
+  0a5782f0-0c05-4feb-90f4-b86f09b45327:
+    name: 장내채권현재가(호가) [국내주식-132]
+    path: /uapi/domestic-bond/v1/quotations/inquire-asking-price
+    signature: sha256:34c5222a725d9af60278f18919b96c8677a2f8eeed96c470e69b919ee84b291a
+    consumers: []
+  0aad2cef-b338-4f4f-a8a0-b19c67a390b3:
+    name: 국내주식 신용잔고 일별추이[국내주식-110]
+    path: /uapi/domestic-stock/v1/quotations/daily-credit-balance
+    signature: sha256:6ab77cce9ae6e3fc2adfae78df8504fbfe546fe215b07318b11abb1a299a2f13
+    consumers: []
+  0bb05819-d759-4789-8eda-27a0b88f02aa:
+    name: 선물옵션 시세[v1_국내선물-006]
+    path: /uapi/domestic-futureoption/v1/quotations/inquire-price
+    signature: sha256:fb8bf3a1cd6246d1c1791ec99bb166e913c7664762d5cef3830787654cbc9a95
+    consumers: []
+  0c2760ca-7fc9-4f41-9abd-33b2f5ff3b3b:
+    name: 국내주식 신용잔고 상위[국내주식-109]
+    path: /uapi/domestic-stock/v1/ranking/credit-balance
+    signature: sha256:85c0845f238c96c44d79156c1ba4726031a88128a3dc53a296003a2b51e806b9
+    consumers: []
+  0cc848c0-4928-4b89-bca4-62df430e4a45:
+    name: 시장별 투자자매매동향(일별) [국내주식-075]
+    path: /uapi/domestic-stock/v1/quotations/inquire-investor-daily-by-market
+    signature: sha256:d8ba13eef6c3b5f23ca88250595be94863ca35226bd790c591cd95be894755bd
+    consumers: []
+  0e9fb2ba-bbac-4735-925a-a35e08c9a790:
+    name: 해외주식 기간별시세[v1_해외주식-010]
+    path: /uapi/overseas-price/v1/quotations/dailyprice
+    signature: sha256:653278135d3aaf4bee6ddb936e9aae133d2b5e9d87d4408c503259c459df1629
+    consumers: []
+  1069f2bf-962f-48db-8dc4-54d362065431:
+    name: 국내주식 공매도 일별추이[국내주식-134]
+    path: /uapi/domestic-stock/v1/quotations/daily-short-sale
+    signature: sha256:03c9a75bece788c4813937451a8bfc95f336966fce3ce90977bfe24233756856
+    consumers: []
+  1187c231-1de6-4947-b942-bfca6b3d27e7:
+    name: 해외주식 지정가체결내역조회 [해외주식-070]
+    path: /uapi/overseas-stock/v1/trading/inquire-algo-ccnl
+    signature: sha256:9a5d638c0d7e9d9d606fad5004e8f49fb1a85578e6051c395020058fd14152ad
+    consumers: []
+  11cc8ad0-d3cc-4c55-8c2f-4923e8b87ee4:
+    name: 해외선물옵션 기간계좌거래내역[해외선물-014]
+    path: /uapi/overseas-futureoption/v1/trading/inquire-period-trans
+    signature: sha256:87f53c3197ee86a7052714739e117f820dc30cca6f58b1791bb9489aac1bfea0
+    consumers: []
+  1394ba1d-e17d-42c8-8e53-6bed5dce7588:
+    name: 해외결제일자조회[해외주식-017]
+    path: /uapi/overseas-stock/v1/quotations/countries-holiday
+    signature: sha256:de42a1ecd22d3fd8c617673534f8a01acc8dfa494171855713f2b003eec03e37
+    consumers: []
+  13a96552-4b77-411c-9ef6-5eed7192a76a:
+    name: 장내채권 잔고조회  [국내주식-198]
+    path: /uapi/domestic-bond/v1/trading/inquire-balance
+    signature: sha256:dc175c507403b92bf565fef9a1274284137f77ba26fe2e8f95708706adf2bae3
+    consumers: []
+  141f0f11-ef30-4e52-9388-a6e78502d5c2:
+    name: 종목별 투자자매매동향(일별)
+    path: /uapi/domestic-stock/v1/quotations/investor-trade-by-stock-daily
+    signature: sha256:66974ccf8303534ef45e5843089c232b415b84794a4a0b3fe96fe254af4a5000
+    consumers: []
+  14431ddf-c0d5-4c33-a945-86e77bcf6486:
+    name: 해외옵션 체결추이(주간) [해외선물-036]
+    path: /uapi/overseas-futureoption/v1/quotations/opt-weekly-ccnl
+    signature: sha256:25da3ea1281dc3ef379039d758d4518a0d13e745c037a80b33d76503d6a25bb8
+    consumers: []
+  147d1d34-3001-4958-b970-106935a19fe7:
+    name: 해외주식 기간손익[v1_해외주식-032]
+    path: /uapi/overseas-stock/v1/trading/inquire-period-profit
+    signature: sha256:9d1f777699f404f6335b299d00fb2f985b6133d324c00641b9eb4fa05d9e23b4
+    consumers: []
+  147e81db-e0d2-40cd-95f5-d8da90c2d998:
+    name: ELW 신규상장종목 [국내주식-181]
+    path: /uapi/elw/v1/quotations/newly-listed
+    signature: sha256:80de549fa48c80c7bdd4edf2bdd60cb3ab71d94dc239525a42570669489d517b
+    consumers: []
+  16958dd0-0304-4554-b12d-ec56e7874e71:
+    name: 국내주식 시간외거래량순위 [국내주식-139]
+    path: /uapi/domestic-stock/v1/ranking/overtime-volume
+    signature: sha256:473cf336d1f8de1be873defe4e80e799465d0797b073b4ecaeb60ec60c7ef20a
+    consumers: []
+  17cfbb44-0389-4b56-9d0c-7410930747d4:
+    name: 해외선물옵션 일별 체결내역[해외선물-011]
+    path: /uapi/overseas-futureoption/v1/trading/inquire-daily-ccld
+    signature: sha256:1af6840377bce6c8034b709e6e1473aa21ce0346891e9d7b77a00c554e784d62
+    consumers: []
+  184519fc-37b5-4687-bebf-d3ddf5659729:
+    name: 국내주식업종기간별시세(일/주/월/년)[v1_국내주식-021]
+    path: /uapi/domestic-stock/v1/quotations/inquire-daily-indexchartprice
+    signature: sha256:5026733883d6b2531f0a4c258d1f02bf03bd7cf83e9e36c22c8a8ada0d34578a
+    consumers: []
+  1a07c21c-5fca-4d8f-a780-d861a7f80eb8:
+    name: 해외선물 호가 [해외선물-031]
+    path: /uapi/overseas-futureoption/v1/quotations/inquire-asking-price
+    signature: sha256:822f5911819c33cfc868c4118b2ae3079f36125f1784dbd41e22f1c4e681041e
+    consumers: []
+  1d150774-eafa-49f8-9e77-67099bc28771:
+    name: 국내업종 시간별지수(분)[국내주식-119]
+    path: /uapi/domestic-stock/v1/quotations/inquire-index-timeprice
+    signature: sha256:e030c4dfc59dd749b444126f93cd728301ec4b0380844cfcf44379bff880c615
+    consumers: []
+  1e0869f4-5639-4f22-be71-a28897242457:
+    name: ELW 투자지표추이(일별) [국내주식-173]
+    path: /uapi/elw/v1/quotations/indicator-trend-daily
+    signature: sha256:6d8ecae44b3cd7e3bcf468aa84a6ff25f8b0888869d84a3dd82b00b7cc884200
+    consumers: []
+  1e375270-7d8d-4e4b-bcac-d11cb41542cb:
+    name: 국내주식 시간외현재가[국내주식-076]
+    path: /uapi/domestic-stock/v1/quotations/inquire-overtime-price
+    signature: sha256:547bdd793b729953f4bd336c11da2a99644783170cfc503b55876a8845c08872
+    consumers: []
+  1ecba681-1f73-4fb7-98b0-b7feef13b354:
+    name: 해외옵션 체결추이(일간) [해외선물-037]
+    path: /uapi/overseas-futureoption/v1/quotations/opt-daily-ccnl
+    signature: sha256:4a3889ddbf090a73d5c3a9e1cb412ad7f8ec9f57b6fa1998e6702d616eddf23f
+    consumers: []
+  20027666-84aa-491a-9a95-644d8fbd7015:
+    name: 국내주식 배당률 상위[국내주식-106]
+    path: /uapi/domestic-stock/v1/ranking/dividend-rate
+    signature: sha256:004fd4de3eed59d1b2f7fb5224c80c9b0663c9ae8d0113af63d2c0ea491ba397
+    consumers: []
+  2151d14c-0fae-44a5-be38-c3f5ab8354bb:
+    name: 해외주식 기간별권리조회 [해외주식-052]
+    path: /uapi/overseas-price/v1/quotations/period-rights
+    signature: sha256:1fcc6123c64842710f56a7d8bdc3323d302448f6be5273f506e3e73ffead286c
+    consumers: []
+  2261a45e-8e04-4cdf-8f4d-d52a45a0380d:
+    name: 장내채권 매도주문 [국내주식-123]
+    path: /uapi/domestic-bond/v1/trading/sell
+    signature: sha256:dda9d3ede7696c5d33086a0b503ab73e37b7bda577e11374ec9147fb7bbef3ea
+    consumers: []
+  24413e7f-cca6-4ab4-8598-b9d4e2d4305d:
+    name: 종목조건검색 목록조회[국내주식-038]
+    path: /uapi/domestic-stock/v1/quotations/psearch-title
+    signature: sha256:d9b030ffd2ddbc51f01e73bd2b946cd3411742aac3d3695696f86d063e88d9f9
+    consumers: []
+  246842f0-450e-464b-8dbc-356133d12b42:
+    name: ELW 민감도 순위[국내주식-170]
+    path: /uapi/elw/v1/ranking/sensitivity
+    signature: sha256:050b45ce0e04d7e624977f288bd6e20898fd6c9ffcfc57d3e07cbecd82c868f6
+    consumers: []
+  24abcfa1-a95b-4344-bb7f-11f2523f8355:
+    name: 선물옵션 총자산현황[v1_국내선물-014]
+    path: /uapi/domestic-futureoption/v1/trading/inquire-deposit
+    signature: sha256:22b298895968e94068d08d1fb06659c792921bd7787216c2c6f9667103cd0e23
+    consumers: []
+  2549b1c6-2c8c-4826-b632-74c0b68c24e9:
+    name: 해외주식 가격급등락[해외주식-038]
+    path: /uapi/overseas-stock/v1/ranking/price-fluct
+    signature: sha256:e4e9b1f6ee12a1c98bd099122d5192c436fabb11ef3141d3b2c54b36778cb652
+    consumers: []
+  262e63bf-95bd-4540-b252-092d36df750a:
+    name: 신용매수가능조회[v1_국내주식-042]
+    path: /uapi/domestic-stock/v1/trading/inquire-credit-psamount
+    signature: sha256:5baee17a15af64dc70ba43529933c81841590d9dd26408e4d4c2a239ade2c087
+    consumers: []
+  263ef907-db8c-4bf6-8da9-388c8fb4cf10:
+    name: ELW 기초자산별 종목시세 [국내주식-186]
+    path: /uapi/elw/v1/quotations/udrl-asset-price
+    signature: sha256:a12460c59cdccef9666666b5352d8a5b071b82d6aed0c9e3cbecf786461c7d4d
+    consumers: []
+  264533d3-00eb-4794-984a-fecb84350f39:
+    name: ELW 종목검색 [국내주식-166]
+    path: /uapi/elw/v1/quotations/cond-search
+    signature: sha256:04763e29b8293ee4252b9afcbc209521474437f1b516cf7aaff235d0a520d7d9
+    consumers: []
+  26c5165d-1910-4467-aed9-7213524b7546:
+    name: 국내주식 재무비율[v1_국내주식-080]
+    path: /uapi/domestic-stock/v1/finance/financial-ratio
+    signature: sha256:2d0b10fe44c12a15bcf2e6d134e14d9c865fd23146968771ca473e6c81eb54f5
+    consumers: []
+  27bef4b4-cf83-4698-8f1e-16138cb09817:
+    name: 국내업종 구분별전체시세[v1_국내주식-066]
+    path: /uapi/domestic-stock/v1/quotations/inquire-index-category-price
+    signature: sha256:06a257fb7691202f9600aa1027b7aa92d80a85920840e22294450ae7a44cbf52
+    consumers: []
+  27e843a3-826a-4a92-95f1-12be4c111898:
+    name: 예탁원정보(자본감소일정)[국내주식-149]
+    path: /uapi/domestic-stock/v1/ksdinfo/cap-dcrs
+    signature: sha256:696853bde35b5dc0e25dfb3fadb9e128f0ba56bca3f09a96aba7bf5152565937
+    consumers: []
+  281cea6a-ae69-4837-99dd-e7e6ba1ff442:
+    name: 예탁원정보(무상증자일정) [국내주식-144]
+    path: /uapi/domestic-stock/v1/ksdinfo/bonus-issue
+    signature: sha256:2d01e90ee0a67b9efc23a7dec4088664a6d77b7bbeaa70330402a7827bd5a9ec
+    consumers: []
+  2a155fee-882f-4d80-8183-559f2f6983e9:
+    name: 해외주식 매수가능금액조회[v1_해외주식-014]
+    path: /uapi/overseas-stock/v1/trading/inquire-psamount
+    signature: sha256:0b9eea1b50704714a89655cb8bfae85aca0f09bf981ae747cf1b94b9a3fa3d6d
+    consumers: []
+  2bb020d7-ae3f-4f65-88ac-e9f598544825:
+    name: 선물옵션기간약정수수료일별[v1_국내선물-017]
+    path: /uapi/domestic-futureoption/v1/trading/inquire-daily-amount-fee
+    signature: sha256:cd0e59f21ff3856fb364fce19c32b94e5d30df61da074b36d6cdaeb93597d360
+    consumers: []
+  30654e7a-8eda-42ac-8b54-9f0287bde15d:
+    name: 국내주식 상하한가 포착 [국내주식-190]
+    path: /uapi/domestic-stock/v1/quotations/capture-uplowprice
+    signature: sha256:9465d9bf5b2eb56826f662bdcee089c63136a89282e0a2435e42b7af657b5eb2
+    consumers: []
+  31081a30-ba59-4b42-a9f2-c1fe850fadb1:
+    name: ELW 변동성 추이(분별) [국내주식-179]
+    path: /uapi/elw/v1/quotations/volatility-trend-minute
+    signature: sha256:cf95631c9649b11578ef2e06e2237bbd4f2672aff42a3db76b822b407223c88d
+    consumers: []
+  31d46ebe-2a19-4467-9dfb-a2d21adb1e61:
+    name: 해외선물 분봉조회[해외선물-016]
+    path: /uapi/overseas-futureoption/v1/quotations/inquire-time-futurechartprice
+    signature: sha256:939db15711c830a5669baf0df5df57d730088d07f19305bb4c76cac433e24734
+    consumers: []
+  32b7ac44-2d64-466d-9343-7e9d4e7ab0e4:
+    name: 주식통합증거금 현황 [국내주식-191]
+    path: /uapi/domestic-stock/v1/trading/intgr-margin
+    signature: sha256:676eda59267cbe820e682390e9797725ce14cf87689ed04d55aa2879423c1ddc
+    consumers: []
+  34d1b922-ab20-4839-9f15-ab1fe242a81f:
+    name: 장내채권현재가(체결) [국내주식-201]
+    path: /uapi/domestic-bond/v1/quotations/inquire-ccnl
+    signature: sha256:a933c9d253cbc9d6cc96e9822132a10ce8ef581320aa00fa11fa6de12bfdd6d1
+    consumers: []
+  380e7913-c8dc-4bea-9ceb-b200f16b3a09:
+    name: 퇴직연금 미체결내역[v1_국내주식-033]
+    path: /uapi/domestic-stock/v1/trading/pension/inquire-daily-ccld
+    signature: sha256:8bca1890e9414ad40698afde8919a8cc793db72a3f78ace822ae22b3e7466574
+    consumers: []
+  3871dd9b-e9a5-471b-a0ce-d9ceb207ac5b:
+    name: ETF 구성종목시세[국내주식-073]
+    path: /uapi/etfetn/v1/quotations/inquire-component-stock-price
+    signature: sha256:3d9c18e9ae46cb4414d13e437d7cdae0c6838a4709d264dbf33f6fb134419b81
+    consumers: []
+  3a588de4-df48-49ac-88ca-9765998c00e1:
+    name: 국내주식 증권사별 투자의견 [국내주식-189]
+    path: /uapi/domestic-stock/v1/quotations/invest-opbysec
+    signature: sha256:4b09b02bb312391f4f84d2c3f1ffa892d5d86daa6dd54e2037bdd0ed13f4572b
+    consumers: []
+  3acd4025-6e95-46dc-a90d-b38215912d11:
+    name: 해외선물옵션 장운영시간 [해외선물-030]
+    path: /uapi/overseas-futureoption/v1/quotations/market-time
+    signature: sha256:e57c85d37392c5e22823dfc4fb5934c48d340272f587f7b01e5dc4bbb278eca8
+    consumers: []
+  3af368ec-3627-4fdc-9bb9-4e4ff1a1968f:
+    name: (야간)선물옵션 잔고현황 [국내선물-010]
+    path: /uapi/domestic-futureoption/v1/trading/inquire-ngt-balance
+    signature: sha256:6201265f752ae649eb134a598e4a0fa02f1866e74d72d2d181ae3ab9b375c663
+    consumers: []
+  3b0af8ef-13b4-4514-a07a-1bc718d07005:
+    name: 프로그램매매 종합현황(일별)[국내주식-115]
+    path: /uapi/domestic-stock/v1/quotations/comp-program-trade-daily
+    signature: sha256:2d72845d9fd2dfff7f5bce36b95a87bcdfe8b281b84f2e84ff44a8fe7183ec32
+    consumers: []
+  3cb7e131-7e44-4f34-831f-e6720b4a299a:
+    name: 해외주식 거래대금순위[해외주식-044]
+    path: /uapi/overseas-stock/v1/ranking/trade-pbmn
+    signature: sha256:66659e66ed0dbf1604a2aac821167ca5f2a8c92799557fdaa4c8be7dcd078cb2
+    consumers: []
+  3d3ad086-7c1b-41cb-9b76-ba05ccf6ba95:
+    name: 해외선물종목현재가 [v1_해외선물-009]
+    path: /uapi/overseas-futureoption/v1/quotations/inquire-price
+    signature: sha256:ffaf6b09fd28e03a04e7eb397c0dfeed62ea535308cc1f70e4e841e0e7102ab8
+    consumers: []
+  3dfc942e-0ed3-4c81-9e8d-9a96f1c5c669:
+    name: 주식현재가 시간외시간별체결[v1_국내주식-025]
+    path: /uapi/domestic-stock/v1/quotations/inquire-time-overtimeconclusion
+    signature: sha256:8251715231cf93663eb2677c72200c5b8f71b25d90db6ea626829ab9b0e04d9e
+    consumers: []
+  3ed0247e-d717-43ed-85e9-51f952844687:
+    name: 종목별 일별 대차거래추이 [국내주식-135]
+    path: /uapi/domestic-stock/v1/quotations/daily-loan-trans
+    signature: sha256:6ac1dba3b97db08638e9a9302f5197d86b5d7eac58d54adacfe68bfcb37403ef
+    consumers: []
+  3eeac674-072d-4674-a5a7-f0ed01194a81:
+    name: 해외주식 현재체결가[v1_해외주식-009]
+    path: /uapi/overseas-price/v1/quotations/price
+    signature: sha256:7cd887fa99925b70f156b14030875688362969828066dfdfad42cf7b162d2e59
+    consumers:
+    - quote
+  3f2f6823-fcdf-4713-a594-a03c7154096e:
+    name: 종목조건검색조회 [국내주식-039]
+    path: /uapi/domestic-stock/v1/quotations/psearch-result
+    signature: sha256:3085c1ef2c5a969fbe3bd71e71792fbd0e349807833a7f45cbad74deaa6efee5
+    consumers: []
+  40403e7f-bd31-4e12-ae87-553e7be28b12:
+    name: ELW 변동성추이(체결) [국내주식-177]
+    path: /uapi/elw/v1/quotations/volatility-trend-ccnl
+    signature: sha256:47ccab15f5acd937404407810ad1674b5c951ed9d0b6d48ed33a342c2bd892dd
+    consumers: []
+  40409c43-9bc7-447a-b09a-171d14b437f9:
+    name: 해외주식 거래량급증[해외주식-039]
+    path: /uapi/overseas-stock/v1/ranking/volume-surge
+    signature: sha256:1ab3c92e14a5a71bc9fe223bd953426ed758251527a925b4f1f761991ef6c431
+    consumers: []
+  4112fd5d-43b7-4dc4-bf44-33df58981847:
+    name: 국내선물 기초자산 시세[국내선물-021]
+    path: /uapi/domestic-futureoption/v1/quotations/display-board-top
+    signature: sha256:9fff69e8aa128f0203efcc3c8af4b807bd2d7ed0bbe3136e09e1bd0eb2a37dae
+    consumers: []
+  41290e2a-6e25-49c0-91a1-99b96ce53efe:
+    name: 해외옵션 체결추이(틱) [해외선물-038]
+    path: /uapi/overseas-futureoption/v1/quotations/opt-tick-ccnl
+    signature: sha256:6533b19528d47ad54bd117fb214d49de13d88b958a0df2ba991c31e06a253357
+    consumers: []
+  42e2e7bd-c2ad-469b-91b2-3962c9931b79:
+    name: 해외옵션 상품기본정보 [해외선물-041]
+    path: /uapi/overseas-futureoption/v1/quotations/search-opt-detail
+    signature: sha256:d5b1b48892cd94eb43e66b825c3ba6df65ed33de8cf14fac74d917f742caa4c3
+    consumers: []
+  4360b745-0b9b-408e-8e0d-178138dbf864:
+    name: 해외주식 신고/신저가[해외주식-042]
+    path: /uapi/overseas-stock/v1/ranking/new-highlow
+    signature: sha256:6e8733493b7cef7413da2c6443008b396c13744161d40217ad25efab9bea3ef4
+    consumers: []
+  43c17205-d112-4f9f-83f9-1704af8e4f79:
+    name: 국내주식 당사 신용가능종목[국내주식-111]
+    path: /uapi/domestic-stock/v1/quotations/credit-by-company
+    signature: sha256:e48cfa3632fc3885b8d5e436934aeebed8546251b84b5e8c32f5061ac7ee4b94
+    consumers: []
+  4490b65c-3c6e-4e8b-b525-f5b48fe88710:
+    name: 국내주식 시간외잔량 순위[v1_국내주식-093]
+    path: /uapi/domestic-stock/v1/ranking/after-hour-balance
+    signature: sha256:c5e6ac31ecca4556b5fa712fd27b5edb2620f335df2a7140478e8af6ac064742
+    consumers: []
+  46eea904-3984-4354-b4e9-8918f503fd79:
+    name: NAV 비교추이(종목)[v1_국내주식-069]
+    path: /uapi/etfetn/v1/quotations/nav-comparison-trend
+    signature: sha256:a45fab195286019adf9a4615b3f61c062088d9aa974ce011e75f0b6a654abe14
+    consumers: []
+  4745d669-557b-413c-aa0b-522e620cd832:
+    name: 국내주식 공매도 상위종목[국내주식-133]
+    path: /uapi/domestic-stock/v1/ranking/short-sale
+    signature: sha256:f54dd6a34b0286e27ee8971db3456a7b8ae524ca5cae8e360b42d5077e16544d
+    consumers: []
+  4755efc7-31c4-411c-af45-3e6948611f0a:
+    name: 기간별매매손익현황조회[v1_국내주식-060]
+    path: /uapi/domestic-stock/v1/trading/inquire-period-trade-profit
+    signature: sha256:24969c69decf85a264aa26d62df64a56258b3e532ac5bf1aae109d9aa8a60a69
+    consumers: []
+  4769336b-3280-419e-b69d-7531195b2221:
+    name: ELW 당일급변종목[국내주식-171]
+    path: /uapi/elw/v1/ranking/quick-change
+    signature: sha256:c7f46959d369793c8c4927c07c5b7e30c09e8acff95653ef4bfae2f17ec5d9af
+    consumers: []
+  4803d486-0b85-4d6f-9bc1-164fef860905:
+    name: 장내채권 주문체결내역 [국내주식-127]
+    path: /uapi/domestic-bond/v1/trading/inquire-daily-ccld
+    signature: sha256:475d426ea97be58d563976cd82963c1091771b0259364a0fcc81d16ed85ba6f8
+    consumers: []
+  4812f155-bdb5-47ac-a35b-a70d3d8f14c9:
+    name: 해외주식 정정취소주문[v1_해외주식-003]
+    path: /uapi/overseas-stock/v1/trading/order-rvsecncl
+    signature: sha256:9f15d2b559b6711f636217981d9d736c6c8f45a0fe054106438f1358cc1fa711
+    consumers: []
+  48c30d93-ffc0-47c7-a6ba-da728b0b3d5d:
+    name: 해외선물 상품기본정보 [해외선물-023]
+    path: /uapi/overseas-futureoption/v1/quotations/search-contract-detail
+    signature: sha256:376ed5f15feb8a357da9b155c2fe7a642762eed63078799da7c0a1a746698994
+    consumers: []
+  498e6384-f887-4fb2-9055-2cbc95790087:
+    name: 선물옵션 일중예상체결추이[국내선물-018]
+    path: /uapi/domestic-futureoption/v1/quotations/exp-price-trend
+    signature: sha256:14bcfbea1ab17cb405bf13845a82fe18e34f654888c779363589d0e55e156926
+    consumers: []
+  49cc5311-ae48-44e5-bc5c-7618f1ee61cd:
+    name: 국내주식 매물대/거래비중 [국내주식-196]
+    path: /uapi/domestic-stock/v1/quotations/pbar-tratio
+    signature: sha256:6e431962d5af6507290cf10f321823456c92d2e285318e804e677edcd8ce5dfd
+    consumers: []
+  4a077f43-7053-47be-b811-8e35be4ea745:
+    name: 국내기관_외국인 매매종목가집계[국내주식-037]
+    path: /uapi/domestic-stock/v1/quotations/foreign-institution-total
+    signature: sha256:6769ffb025efcae1a46983c3828ea848222e2f189d546d4c8cb94651de50e01d
+    consumers: []
+  4af6e358-255c-4e4e-b691-388610068216:
+    name: ELW 투자지표추이(분별) [국내주식-174]
+    path: /uapi/elw/v1/quotations/indicator-trend-minute
+    signature: sha256:fe72e5aa3aae812a3d8e4222a78eaad32604c81cf86a92195d25d4a91231bf5d
+    consumers: []
+  4bfdfb2b-34a7-43f6-935a-e637724f960a:
+    name: 주식주문(정정취소)[v1_국내주식-003]
+    path: /uapi/domestic-stock/v1/trading/order-rvsecncl
+    signature: sha256:5593c0341d7334eb5f6755916e19f51191f19980e9d293b4acdd544205932527
+    consumers: []
+  4d8c6e7a-a026-4f8d-8c64-9e7ecbc3d97e:
+    name: 관심종목 그룹별 종목조회 [국내주식-203]
+    path: /uapi/domestic-stock/v1/quotations/intstock-stocklist-by-group
+    signature: sha256:036b02d6bd23091a89f862af411e8e8be00ebbf42e9963a38a6a3a9e2956c50e
+    consumers: []
+  4da32292-291d-4b58-9ab4-f9d40ca983a6:
+    name: 주식예약주문조회[v1_국내주식-020]
+    path: /uapi/domestic-stock/v1/trading/order-resv-ccnl
+    signature: sha256:dfb201987669275911b14355976d9fdcdbf4ef8955a3aee133af47d1a8afe08c
+    consumers: []
+  4e082d62-bbad-48bb-92dc-aceac46e9a8d:
+    name: ELW 기초자산 목록조회 [국내주식-185]
+    path: /uapi/elw/v1/quotations/udrl-asset-list
+    signature: sha256:ae6ba8dc9c0cbd97b11eefd1bc9b78618673ee4e3cf659f2e8686d1a8bd9fca3
+    consumers: []
+  4ea57616-0e63-4f8c-a607-f096f1304183:
+    name: 주식현재가 시간외일자별주가[v1_국내주식-026]
+    path: /uapi/domestic-stock/v1/quotations/inquire-daily-overtimeprice
+    signature: sha256:006a041351fdcbbf05e96bd48e6494533610e95a74d54a51e4c9d037fc0d1ba4
+    consumers: []
+  506cd6e9-97d9-4c4b-82bc-6a6c13586885:
+    name: 해외옵션 호가 [해외선물-033]
+    path: /uapi/overseas-futureoption/v1/quotations/opt-asking-price
+    signature: sha256:b047535a8f2376d57994d432f4c495b2b0fc425bf1866a4f55bce713c4721784
+    consumers: []
+  50775574-8832-4db8-aeb5-51a32c8250ed:
+    name: 주식현재가 회원사 종목매매동향 [국내주식-197]
+    path: /uapi/domestic-stock/v1/quotations/inquire-member-daily
+    signature: sha256:d4803d92d52f16286aece1585408872f6d733c4e4149d708db6da9502c598924
+    consumers: []
+  51c1a249-5fde-412d-9c8f-be5ef2f8dc3b:
+    name: 장내채권 매수주문 [국내주식-124]
+    path: /uapi/domestic-bond/v1/trading/buy
+    signature: sha256:f376a7c792c4ba59b4d515ced62a46fde7dc6a6142342ef7915b4d7f49c8680e
+    consumers: []
+  55095c42-8c7d-47fc-a34b-947e12481678:
+    name: 해외주식 예약주문접수[v1_해외주식-002]
+    path: /uapi/overseas-stock/v1/trading/order-resv
+    signature: sha256:7b58049daceb5c5155740d349b5b1766dc5c184efad0c370de435b278329ad91
+    consumers: []
+  5613b629-b622-4a22-8175-31a4376c36b4:
+    name: 업종 분봉조회[v1_국내주식-045]
+    path: /uapi/domestic-stock/v1/quotations/inquire-time-indexchartprice
+    signature: sha256:4514e2bb1a98d17cca63ccd209ce6e75a6a62ebb3129253f848b140ba80affe3
+    consumers: []
+  56cf546c-a74f-467c-98b1-005967535e9e:
+    name: 장내채권 기본조회 [국내주식-129]
+    path: /uapi/domestic-bond/v1/quotations/search-bond-info
+    signature: sha256:662f2a20807b12195614084ce7ecb7f531c0c61cb6579822b14edec88f0f6f4b
+    consumers: []
+  57ac7aae-ae01-4b22-b61b-f1330adb5e0a:
+    name: 해외주식 매수체결강도상위[해외주식-040]
+    path: /uapi/overseas-stock/v1/ranking/volume-power
+    signature: sha256:eedc15d67fdb846bdaddffc1f748a4a9ef902df663c7f01e569fbb2f8610837f
+    consumers: []
+  5b33c1b2-bd6b-449d-9923-3f0439912c87:
+    name: 국내주식 이격도 순위[v1_국내주식-095]
+    path: /uapi/domestic-stock/v1/ranking/disparity
+    signature: sha256:b6862ad713509526adf7f9c5f76b1f7aa1cdfba3467c18476a1c21f1c4596971
+    consumers: []
+  5bd31e17-ea4d-4e76-8e03-f8dfb3be25e7:
+    name: ELW 변동성 추이(일별) [국내주식-178]
+    path: /uapi/elw/v1/quotations/volatility-trend-daily
+    signature: sha256:6c6008cdf3868265fdc7d4195965a2740f2688f204776dde7513f1811563c292
+    consumers: []
+  5c488ab2-59fd-486e-bf74-b68e813e35c0:
+    name: 국내휴장일조회[국내주식-040]
+    path: /uapi/domestic-stock/v1/quotations/chk-holiday
+    signature: sha256:f4cae480333d86a7230652d57e48c1be23783720e551f6004193d693a12931d9
+    consumers: []
+  5ff633c1-c50d-4494-9456-0c558031c678:
+    name: 해외선물옵션 증거금상세 [해외선물-032]
+    path: /uapi/overseas-futureoption/v1/trading/margin-detail
+    signature: sha256:cb9c72adbc7e2068f2b0b0c108d2182270655a1110a6cae67715e5295b84cbaf
+    consumers: []
+  5ff6b5de-85e8-47e3-bb41-3e427c487bb3:
+    name: 종목별 프로그램매매추이(일별) [국내주식-113]
+    path: /uapi/domestic-stock/v1/quotations/program-trade-by-stock-daily
+    signature: sha256:8799a63e60dcdcf0e3b5a058f0e8da8db4ff30958063ac2faf72e9dffbb6429f
+    consumers: []
+  60cae69d-c121-4dd9-902c-1112567fd88e:
+    name: 해외주식 미체결내역[v1_해외주식-005]
+    path: /uapi/overseas-stock/v1/trading/inquire-nccs
+    signature: sha256:eda6356be17c09c84af6fb58ffe4d70040171e8f9117a2c91f614733172e4a3a
+    consumers: []
+  621bdd34-a902-4117-98b8-57733197742a:
+    name: 해외옵션종목현재가 [해외선물-035]
+    path: /uapi/overseas-futureoption/v1/quotations/opt-price
+    signature: sha256:6b27c4232876fa133227922228da3084dee105d90a044f7930499585621792c2
+    consumers: []
+  636e216a-f3bb-4dc6-8bc3-e6d9babca5f1:
+    name: HTS조회상위20종목 [국내주식-214]
+    path: /uapi/domestic-stock/v1/ranking/hts-top-view
+    signature: sha256:eb73e57bf1df56700c27c673ef12c9bfcf850045a434e6494953978a0ddf4e34
+    consumers: []
+  64e81099-cb25-4f86-86d9-b53e6ed7d1a8:
+    name: 퇴직연금 매수가능조회[v1_국내주식-034]
+    path: /uapi/domestic-stock/v1/trading/pension/inquire-psbl-order
+    signature: sha256:22ffb96b84185ab502c499d5b05a16d98c927538b88fcaff3b91d2f92af85a6a
+    consumers: []
+  65db61e3-49a5-4a95-9cf3-61298c7b8461:
+    name: 해외주식조건검색[v1_해외주식-015]
+    path: /uapi/overseas-price/v1/quotations/inquire-search
+    signature: sha256:55e48ba77b11b788df301bb959a1b9ab3c253cde4ac47392d2a368e2267ce16c
+    consumers: []
+  664138c4-6417-45a0-bbcc-da4eb4317edf:
+    name: 예탁원정보(주식매수청구일정)[국내주식-146]
+    path: /uapi/domestic-stock/v1/ksdinfo/purreq
+    signature: sha256:c1afc6bd40459651f1444b11d7c3cc554cc8214b0ef05cae83686681edd08600
+    consumers: []
+  6723d437-b275-4c10-b7fb-9ba788cad75e:
+    name: 관심종목 그룹조회 [국내주식-204]
+    path: /uapi/domestic-stock/v1/quotations/intstock-grouplist
+    signature: sha256:f4f19523361726e0fbe18969a7852eed25e6d0a16a11ae763ec755c3bf421403
+    consumers: []
+  67d53cfe-fba6-4d46-a72a-b4ced4d03dd0:
+    name: 해외주식 미국주간정정취소[v1_해외주식-027]
+    path: /uapi/overseas-stock/v1/trading/daytime-order-rvsecncl
+    signature: sha256:52f6472523ca2ca7f95c6752f3775491cee04c937c1bc20ad301794513bfbc26
+    consumers: []
+  6b0b388e-f815-4009-b46d-e08e47575ca7:
+    name: 국내주식 시간외호가[국내주식-077]
+    path: /uapi/domestic-stock/v1/quotations/inquire-overtime-asking-price
+    signature: sha256:ffdfc944890166a5cbeea537cb5378aa16ff15f7e075e48df8b1500e3795ea98
+    consumers: []
+  6bd62480-d165-415e-9d82-bffe2f43aa7e:
+    name: ELW 거래량순위[국내주식-168]
+    path: /uapi/elw/v1/ranking/volume-rank
+    signature: sha256:9e63f68f624d5c28d81a26affceba73806b9edaa47afcc4f8e635c7769676756
+    consumers: []
+  6d715b38-566f-4045-a08c-4a594d3a3314:
+    name: 해외주식 주문체결내역[v1_해외주식-007]
+    path: /uapi/overseas-stock/v1/trading/inquire-ccnl
+    signature: sha256:b1fb0d234473b8f67db1ad5397382c5b34283fe6016de899583077d04c4e94a8
+    consumers: []
+  6df56964-f22b-43d4-9457-f06264018e5b:
+    name: 거래량순위[v1_국내주식-047]
+    path: /uapi/domestic-stock/v1/quotations/volume-rank
+    signature: sha256:7725dd9a92331fbbecce8002a30e7f69f876def3744d2c9988184233f82779c2
+    consumers: []
+  6e8dc8ed-f026-497c-a40c-098448a94241:
+    name: 퇴직연금 체결기준잔고[v1_국내주식-032]
+    path: /uapi/domestic-stock/v1/trading/pension/inquire-present-balance
+    signature: sha256:29883265320abfff55deaa7c521cd7188e2024734d51609e8850ff6d6bea867d
+    consumers: []
+  71356fc2-c4ca-4d5f-b564-cd16b8155ecc:
+    name: 선물옵션 잔고현황[v1_국내선물-004]
+    path: /uapi/domestic-futureoption/v1/trading/inquire-balance
+    signature: sha256:43b3a7fd15049bce101fb3def01c80fa532c3bdcb79e841cdd3044d7d3c6a6b3
+    consumers: []
+  7185c44d-0bc5-4c0f-b64d-71ac9ea796f1:
+    name: 국내주식 수익자산지표 순위[v1_국내주식-090]
+    path: /uapi/domestic-stock/v1/ranking/profit-asset-index
+    signature: sha256:a599a007d9771918c70119f5e55024748a87a43a5cd334f995400a934f531f94
+    consumers: []
+  72e63cb2-2ab1-41a0-8ab9-62cbeaa5eea0:
+    name: 국내주식 신고/신저근접종목 상위[v1_국내주식-105]
+    path: /uapi/domestic-stock/v1/ranking/near-new-highlow
+    signature: sha256:cf4e1f2d9d0e4fd2f414f6f8ef20084d6de89721208f6340de551a8811373bf6
+    consumers: []
+  73a1bb73-fd91-4d70-bba1-f3241f12e7ff:
+    name: 선물옵션 주문[v1_국내선물-001]
+    path: /uapi/domestic-futureoption/v1/trading/order
+    signature: sha256:e9d5bd1361cbdb1e47ebf31ccdf74bd00e9a82bdca8f13dcdd75a8a0b64b9e21
+    consumers: []
+  749c8e3b-7e40-4f5b-82a3-11cad0a10e8d:
+    name: 해외선물옵션 주문 [v1_해외선물-001]
+    path: /uapi/overseas-futureoption/v1/trading/order
+    signature: sha256:b0f9c02fe1bb5a3532ad684d3906dafaecc101d1f54e56a5bd2df6b0686fd6f4
+    consumers: []
+  75fdcac1-6dfc-439c-a9f0-176dc27abb4f:
+    name: 장내채권 매수가능조회 [국내주식-199]
+    path: /uapi/domestic-bond/v1/trading/inquire-psbl-order
+    signature: sha256:b10f52624feeeb1dfa7c801309426fa9b61b994515fe7bd7ff6b878da79893a1
+    consumers: []
+  77de2a74-b26c-40ca-a5b7-f87e2ef64f9f:
+    name: 선물옵션기간별시세(일/주/월/년)[v1_국내선물-008]
+    path: /uapi/domestic-futureoption/v1/quotations/inquire-daily-fuopchartprice
+    signature: sha256:aee9c8890a457bddc7947687a6e083d1b69d3f8e9d1dda743784c0b5eb4edd7b
+    consumers: []
+  798040e2-7ae9-410c-80ce-4fa7de012046:
+    name: 국내주식 우선주/괴리율 상위[v1_국내주식-094]
+    path: /uapi/domestic-stock/v1/ranking/prefer-disparate-ratio
+    signature: sha256:5e9a9c3b978d2e420a874131888ca0489a82f33a214d66f6f73640bb4da6b10a
+    consumers: []
+  7bdbff93-1334-496f-a9b8-7da6032f7407:
+    name: 국내주식 대량체결건수 상위[국내주식-107]
+    path: /uapi/domestic-stock/v1/ranking/bulk-trans-num
+    signature: sha256:6ab29a08890e87a03f8e47f6df1de81f6678dda182eee47e8544c1a5256919bd
+    consumers: []
+  7d1b2345-32f8-463b-9f41-8b4602387d52:
+    name: 국내주식 예상체결 전체지수[국내주식-122]
+    path: /uapi/domestic-stock/v1/quotations/exp-total-index
+    signature: sha256:b7a826cf6172d18742d27f5d87661043ab42909739972cf7c01129315d1177f7
+    consumers: []
+  7d30b578-018d-4250-852a-7599211ff988:
+    name: 해외주식 거래회전율순위[해외주식-046]
+    path: /uapi/overseas-stock/v1/ranking/trade-turnover
+    signature: sha256:4b8c073157879c48972bc71c89ce6b8f1d90db78d46317554cb06788354599a5
+    consumers: []
+  7d6d8ba7-bcae-4d7c-8d5b-4b51cd42a94a:
+    name: 장내채권현재가(일별) [국내주식-202]
+    path: /uapi/domestic-bond/v1/quotations/inquire-daily-price
+    signature: sha256:6b430d8d0c04aff6c6da566f0d519a7f5cd810dadf99546cb3a6bddf034cbb61
+    consumers: []
+  7e749979-58f8-4b71-980d-2d91ba1266e8:
+    name: 선물옵션 잔고평가손익내역[v1_국내선물-015]
+    path: /uapi/domestic-futureoption/v1/trading/inquire-balance-valuation-pl
+    signature: sha256:817ae6416aa7aae4d786115cdad0e7befad42d66923a4b1402d01f04f6ae48b8
+    consumers: []
+  7f77a12b-b23c-4605-93ea-4e1b3c0356fb:
+    name: 해외주식 상품기본정보[v1_해외주식-034]
+    path: /uapi/overseas-price/v1/quotations/search-info
+    signature: sha256:bceaf2c413a5ef84c88c65053b1d4d798cfa2dffa8628289dd121d4d4f8d6dc2
+    consumers: []
+  7fcf90d5-5e84-484a-8000-9121fb0a81d7:
+    name: 종목별 외인기관 추정가집계[v1_국내주식-046]
+    path: /uapi/domestic-stock/v1/quotations/investor-trend-estimate
+    signature: sha256:c55bf77aca6812c1a9b50a367916bf94cb0045162b6b8938e6f7b113fcaf2928
+    consumers: []
+  81269474-9c66-404f-bdfe-4bb472975330:
+    name: 해외지수분봉조회[v1_해외주식-031]
+    path: /uapi/overseas-price/v1/quotations/inquire-time-indexchartprice
+    signature: sha256:e4cd1dba58102de235195b9a22098b4943d6cdc81219a3ef2d6dbd14064a2367
+    consumers: []
+  81b30d9e-1bce-439f-9cf0-56f0ea1a4f95:
+    name: 주식현재가 당일시간대별체결[v1_국내주식-023]
+    path: /uapi/domestic-stock/v1/quotations/inquire-time-itemconclusion
+    signature: sha256:c5028d952023563c18b4cab38b101f77a72c8fa350f0960bdebc31db1842e285
+    consumers: []
+  81fa9968-fe8e-45af-811e-270816f4d12c:
+    name: 해외선물옵션 미결제내역조회(잔고) [v1_해외선물-005]
+    path: /uapi/overseas-futureoption/v1/trading/inquire-unpd
+    signature: sha256:ef1e7845df6305b60840b8f1018eb1c0a59783ae0325da9d71edc6f5da886379
+    consumers: []
+  8362a35a-e7c2-4944-a4a2-5a716737388c:
+    name: 국내옵션전광판_선물[국내선물-023]
+    path: /uapi/domestic-futureoption/v1/quotations/display-board-futures
+    signature: sha256:4807098dd3878832fca15f6788df0ee4d9630920c39ae8e037e8013025dd680e
+    consumers: []
+  852d7e45-4f34-418b-b6a1-a4552bbcdf90:
+    name: 해외주식분봉조회[v1_해외주식-030]
+    path: /uapi/overseas-price/v1/quotations/inquire-time-itemchartprice
+    signature: sha256:6a111f1661add5af3973c0b50b265f5781c3f133f943a391a4965646ccff0577
+    consumers: []
+  86194480-c8f0-4b0b-9d3d-001c2fc33422:
+    name: 선물옵션 분봉조회[v1_국내선물-012]
+    path: /uapi/domestic-futureoption/v1/quotations/inquire-time-fuopchartprice
+    signature: sha256:bbc6d67e63d2793e196b01e7c26856fcf06cd0cc3119f2fb8cbe677a04dd7f68
+    consumers: []
+  86565be8-1f1f-4387-9bae-5bae3031dba1:
+    name: 예탁원정보(액면교체일정)[국내주식-148]
+    path: /uapi/domestic-stock/v1/ksdinfo/rev-split
+    signature: sha256:a73c6875d5535fe192e6de23fa88287b8954722bf1e652708e581a38a187722c
+    consumers: []
+  868b0fe2-fdb5-4a32-bdb2-00db12269230:
+    name: 국내업종 현재지수[v1_국내주식-063]
+    path: /uapi/domestic-stock/v1/quotations/inquire-index-price
+    signature: sha256:bd583291dde1174349f6b0e58863bb9dd57a83e57cc7379858c354ee8f2a40a4
+    consumers: []
+  8702dab4-008d-4849-8f24-a91b57872a80:
+    name: 해외선물 체결추이(월간)[해외선물-020]
+    path: /uapi/overseas-futureoption/v1/quotations/monthly-ccnl
+    signature: sha256:cd2549182d90364c846e9417c6aeebcebfe3237abe1d3801bdf6c5cb179687d3
+    consumers: []
+  8869c0c3-efd8-461b-ba87-5ab468afeea2:
+    name: ELW 지표순위[국내주식-169]
+    path: /uapi/elw/v1/ranking/indicator
+    signature: sha256:2a66c5ddf481270a39128f566d7e848b0e594b841195c9c10aff3e9033f7a3d7
+    consumers: []
+  89c2f9ea-62be-4c4a-bd07-66f3fe3234a6:
+    name: 해외옵션종목상세 [해외선물-034]
+    path: /uapi/overseas-futureoption/v1/quotations/opt-detail
+    signature: sha256:1b15aceac5904c0a290a4039113f802e7005c8582143bc3c33102f7a9addff38
+    consumers: []
+  89e1ffde-0cda-4426-8277-72710c193cf2:
+    name: 국내옵션전광판_옵션월물리스트[국내선물-020]
+    path: /uapi/domestic-futureoption/v1/quotations/display-board-option-list
+    signature: sha256:3311bac5516d6dba724c9eb095614263613204468bd3e6ef25605b685641f198
+    consumers: []
+  8c473311-ecfd-428f-9ec2-0b574d8592b9:
+    name: 해외선물 체결추이(일간)[해외선물-018]
+    path: /uapi/overseas-futureoption/v1/quotations/daily-ccnl
+    signature: sha256:e2f4af9683dfb81e7fb66aed96cdf11913f0ea57b8cb0ef17cd16fc4ea81bf7f
+    consumers: []
+  8e78ed2f-8c3d-424e-b400-82fc94ca4a6b:
+    name: 해외주식 결제기준잔고 [해외주식-064]
+    path: /uapi/overseas-stock/v1/trading/inquire-paymt-stdr-balance
+    signature: sha256:46442c9cea7d1ccd6c00c82e34182684ce249be7d35f715f6fc763061d1d487b
+    consumers: []
+  8e874fea-8e55-464d-b535-75df64fc3048:
+    name: 해외주식 일별거래내역 [해외주식-063]
+    path: /uapi/overseas-stock/v1/trading/inquire-period-trans
+    signature: sha256:d97b039d5c104effb20daf295155ea3a13c0d069288fc6be7e0e61f41f04fca1
+    consumers: []
+  8eab76ff-a534-4d31-afe1-0fef1ff46682:
+    name: 국내선물 영업일조회 [국내주식-160]
+    path: /uapi/domestic-stock/v1/quotations/market-time
+    signature: sha256:242191c6316426fb8a3e45b890481c4f94f2285fe1677551c76c45ead573161b
+    consumers: []
+  9064a50c-0545-4b6c-8eb2-034f5214974b:
+    name: 해외뉴스종합(제목) [해외주식-053]
+    path: /uapi/overseas-price/v1/quotations/news-title
+    signature: sha256:7774776d828e4ef2730aa8e0ad5fe84a536a2c0f0f765e8a40748304ea18e957
+    consumers: []
+  937eb413-9db9-4479-887d-4cf172dcf344:
+    name: ELW 투자지표추이(체결) [국내주식-172]
+    path: /uapi/elw/v1/quotations/indicator-trend-ccnl
+    signature: sha256:bed0d0ca54e32558dced4095a6adf46fc1313f9b5dafc78b648fcf086cf246d1
+    consumers: []
+  94959cbc-bbb7-4776-8cd0-7058138a08aa:
+    name: 해외옵션 체결추이(월간) [해외선물-039]
+    path: /uapi/overseas-futureoption/v1/quotations/opt-monthly-ccnl
+    signature: sha256:d5855f32446528ef1216503ef951e6b3b22c8742c49bd70b9a27e38e06808ec7
+    consumers: []
+  967e60c7-f1eb-4f23-b893-71747556ad49:
+    name: 당사 해외주식담보대출 가능 종목 [해외주식-051]
+    path: /uapi/overseas-price/v1/quotations/colable-by-company
+    signature: sha256:0928dc52d336199ad731a48897ae69b6d152fa54d7309c94aaf663f8cc3c9879
+    consumers: []
+  9748985e-43bc-4b8f-be73-cd9434666099:
+    name: 기간별손익일별합산조회[v1_국내주식-052]
+    path: /uapi/domestic-stock/v1/trading/inquire-period-profit
+    signature: sha256:e1207fe046078e289d7380f2e3121c6442f74b5e414bd95ab25377ad6514cf13
+    consumers: []
+  995f745a-aa8a-491b-85ef-0d4697094b58:
+    name: 주식현재가 시세2[v1_국내주식-054]
+    path: /uapi/domestic-stock/v1/quotations/inquire-price-2
+    signature: sha256:b4b417ec2fe0c39926d6c7314b79f101a6abc048cd0cf24f50163cb0cb5186ad
+    consumers:
+    - quote
+  99ac7df4-132a-4458-8b07-4dab240d9896:
+    name: 예탁원정보(배당일정)[국내주식-145]
+    path: /uapi/domestic-stock/v1/ksdinfo/dividend
+    signature: sha256:ffaade457d0867346771e9716dfa5946e447701abc54348cebd3d1f26d8290b3
+    consumers: []
+  9de56f62-938c-40df-970e-8fd13a59b445:
+    name: 국내주식 종목투자의견 [국내주식-188]
+    path: /uapi/domestic-stock/v1/quotations/invest-opinion
+    signature: sha256:5c729238df6bf88744c5c0e59dabf9705652cce10efac02d0505b05793d39482
+    consumers: []
+  9efc47d7-58ec-4f9e-8068-37795580fe67:
+    name: 해외주식 미국주간주문[v1_해외주식-026]
+    path: /uapi/overseas-stock/v1/trading/daytime-order
+    signature: sha256:2e02fc06f28ee519457cbbef9796d69a96a69e986d6f1b10a025fd700c4f1b67
+    consumers: []
+  9f6b3c41-d44a-4ae1-8324-aa222d19c6bf:
+    name: ELW 상승률순위[국내주식-167]
+    path: /uapi/elw/v1/ranking/updown-rate
+    signature: sha256:99a28ad4f36bee6ebd92137c0315d70abe432148e43a741690457cfd85a5e4f5
+    consumers: []
+  9fa44d82-f5f3-4edc-adec-8bad25800bd3:
+    name: 해외옵션 분봉조회 [해외선물-040]
+    path: /uapi/overseas-futureoption/v1/quotations/inquire-time-optchartprice
+    signature: sha256:56f92c4f1abd8bfbde2f5c4026fec886940ec4c48eae89fede6189cedd6cc34e
+    consumers: []
+  9fece97b-401f-4379-9e9d-4365b63c1126:
+    name: 주식일별분봉조회 [국내주식-213]
+    path: /uapi/domestic-stock/v1/quotations/inquire-time-dailychartprice
+    signature: sha256:38d8d27a33a45515ad162ae5e5675ecce1ce94de046de73bd5426952736e2813
+    consumers: []
+  a0822304-5dba-4912-b62d-d82bd88858fa:
+    name: 해외선물옵션 정정취소주문 [v1_해외선물-002, 003]
+    path: /uapi/overseas-futureoption/v1/trading/order-rvsecncl
+    signature: sha256:ffa0fb2d7acae24ad1a40e9df39ba1b3e23a387a716bd3cdc6ab4328ad4ad3f5
+    consumers: []
+  a08c3421-e50f-4f24-b1fe-64c12f723c77:
+    name: 국내주식기간별시세(일/주/월/년)[v1_국내주식-016]
+    path: /uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice
+    signature: sha256:2e5ea774e35e3a9f7243a4e45d2422c8dc42de11662275c5d4923a02676e0f90
+    consumers: []
+  a25aaec9-332a-4607-b64b-c2a35df177eb:
+    name: 국내주식 재무비율 순위[v1_국내주식-092]
+    path: /uapi/domestic-stock/v1/ranking/finance-ratio
+    signature: sha256:75ee98e1a5ed409e4755e6cd6501cb1a1d7e5d926551b4eca9ca8425096ce857
+    consumers: []
+  a274b685-7ea8-441d-a2fe-3087becb6bf2:
+    name: 장내채권현재가(시세) [국내주식-200]
+    path: /uapi/domestic-bond/v1/quotations/inquire-price
+    signature: sha256:112a9525d3b73a1677e3e1ecff370a0c75987431533e71148d006c6edb3ec354
+    consumers: []
+  a27c026a-744f-4ddd-9d35-c35b285af74c:
+    name: 국내주식 안정성비율[v1_국내주식-083]
+    path: /uapi/domestic-stock/v1/finance/stability-ratio
+    signature: sha256:79b214bf80b0b90304d088fdfa85916d88272d69e7d58442d839ebde75dc1096
+    consumers: []
+  a3c3305a-7624-4049-b0f3-6bcca689d1f5:
+    name: 선물옵션 정정취소주문[v1_국내선물-002]
+    path: /uapi/domestic-futureoption/v1/trading/order-rvsecncl
+    signature: sha256:d9d0824cdac281fdc09f13fd083a9787a15748225a4691fea38aa44239bff8e4
+    consumers: []
+  a4275fc3-384b-4b24-bf3a-38b72786b5ab:
+    name: 국내주식 수익성비율[v1_국내주식-081]
+    path: /uapi/domestic-stock/v1/finance/profit-ratio
+    signature: sha256:18b2a83ce3cb4fdbc67c5775983f67d280895ee0c33dfa368480a869bbbb017d
+    consumers: []
+  a4f2cae8-2180-428c-a456-6acf5cfbeafb:
+    name: 예탁원정보(실권주일정)[국내주식-152]
+    path: /uapi/domestic-stock/v1/ksdinfo/forfeit
+    signature: sha256:b51bc94467a7371b3da28a7e42139a4fbb5ca732b1ec26fab7b5bb7482b84c49
+    consumers: []
+  a64dc948-de6c-4e7a-988b-9769ac8fd5b2:
+    name: ELW 민감도 추이(일별) [국내주식-176]
+    path: /uapi/elw/v1/quotations/sensitivity-trend-daily
+    signature: sha256:7326f7b25976677ea1871b868521a991f7644930a5890ad68cf9cdf47c7826c9
+    consumers: []
+  a87c0275-f467-4199-866a-876a8fcdccb0:
+    name: 국내업종 시간별지수(초)[국내주식-064]
+    path: /uapi/domestic-stock/v1/quotations/inquire-index-tickprice
+    signature: sha256:2ec45516fa7e0d403309edc470738503aefc8ea153b88bd3191d1aa091e75b59
+    consumers: []
+  aab037bf-5ea2-4e25-99f1-c45d09f02a31:
+    name: 해외선물옵션 기간계좌손익 일별[해외선물-010]
+    path: /uapi/overseas-futureoption/v1/trading/inquire-period-ccld
+    signature: sha256:ba71cad23f09d82cae76dbc8f1e845b9b5c10fc609100c2f9a9f8049db94b216
+    consumers: []
+  aacab59c-7559-414b-bf73-b0d15f3d62f1:
+    name: 장내채권 평균단가조회 [국내주식-158]
+    path: /uapi/domestic-bond/v1/quotations/avg-unit
+    signature: sha256:93c4f49b510b762295addd78d7a8a80f5f5b6c9025db2e0052c63ddb9ca81de5
+    consumers: []
+  aade4c72-5fb7-418a-9ff2-254b4d5f0ceb:
+    name: 주식주문(현금)[v1_국내주식-001]
+    path: /uapi/domestic-stock/v1/trading/order-cash
+    signature: sha256:5ea018be1b593ebe55ca04e67a2b634926bf06c59c30da33fd89cbe2c454324d
+    consumers: []
+  abc1a594-7f67-4a6b-9f02-67310c435b61:
+    name: 종목별일별매수매도체결량 [v1_국내주식-056]
+    path: /uapi/domestic-stock/v1/quotations/inquire-daily-trade-volume
+    signature: sha256:a7befc2c9ac97c89560e0ef72b6f2442f7678ea9b4dea730839d0e29c12bd35c
+    consumers: []
+  abc66a03-8103-4f6d-8ba8-450c2b935e14:
+    name: 해외주식 현재가상세[v1_해외주식-029]
+    path: /uapi/overseas-price/v1/quotations/price-detail
+    signature: sha256:23b7432b8368ce2e60733a3fcedf9f7aa1844d1386e73a1ac626abdbc0008a73
+    consumers: []
+  ade0f812-3677-48c0-9cce-ddfb4a689add:
+    name: NAV 비교추이(일)[v1_국내주식-071]
+    path: /uapi/etfetn/v1/quotations/nav-comparison-daily-trend
+    signature: sha256:6dd28bffe609dde430c01a73c8755168b50f744583aa1330f33b041195a92061
+    consumers: []
+  ae084fcd-7a30-4a14-8483-91a7fc918d23:
+    name: 해외주식 시가총액순위[해외주식-047]
+    path: /uapi/overseas-stock/v1/ranking/market-cap
+    signature: sha256:2a189aeeb3a329d667112c8bdcd570f0c74c74c0dffa7d6c09ccd2dc2a56d7dc
+    consumers: []
+  af3d3794-92c0-4f3b-8041-4ca4ddcda5de:
+    name: 주식현재가 호가/예상체결[v1_국내주식-011]
+    path: /uapi/domestic-stock/v1/quotations/inquire-asking-price-exp-ccn
+    signature: sha256:a70ca87cf82918cb49b22fd59e7704cc76659a9c0e5dab776172d89990d5c28d
+    consumers: []
+  b03e2301-db2c-4144-ac63-9297b5d637bc:
+    name: 해외주식 업종별코드조회[해외주식-049]
+    path: /uapi/overseas-price/v1/quotations/industry-price
+    signature: sha256:8d3e0f23219a76c18e6c6d8ec82555811330446028ab0d2c95ff0ea0ad4c1d73
+    consumers: []
+  b11002e2-63c7-401b-a6fd-3136cb28040a:
+    name: 국내업종 일자별지수[v1_국내주식-065]
+    path: /uapi/domestic-stock/v1/quotations/inquire-index-daily-price
+    signature: sha256:22e71447046465a2d08e69deef4f15ce8b89f8855fdc65832adce5c3465f7873
+    consumers: []
+  b14b5187-8dbd-4fde-a4b6-73a8a3c19f1a:
+    name: 선물옵션 주문체결내역조회[v1_국내선물-003]
+    path: /uapi/domestic-futureoption/v1/trading/inquire-ccnl
+    signature: sha256:a2cf8b4a1f549fb9fbb49ec22bfcb2f44a88780334fb8ff76b42a2f6dd23d172
+    consumers: []
+  b290d16e-aa18-4e41-9c08-f4d941efe9a1:
+    name: 국내주식 체결금액별 매매비중 [국내주식-192]
+    path: /uapi/domestic-stock/v1/quotations/tradprt-byamt
+    signature: sha256:595085c5a46f13bdaa9584561c6c270071e6156257f8ce6cfd22293c0a150438
+    consumers: []
+  b5f12325-af4e-4fcd-a8b2-c8047dd317d2:
+    name: (야간)선물옵션 주문체결 내역조회 [국내선물-009]
+    path: /uapi/domestic-futureoption/v1/trading/inquire-ngt-ccnl
+    signature: sha256:8edba89ff3bc7db0e437833cab772641f6bdb63b09132c414f743b1e0a64f8ca
+    consumers: []
+  b664e9df-7ab6-4b89-89a0-5537ae380caf:
+    name: 프로그램매매 투자자매매동향(당일) [국내주식-116]
+    path: /uapi/domestic-stock/v1/quotations/investor-program-trade-today
+    signature: sha256:f32a9be8e419357aef078c4a136a6f6ef47a14f98180f0797f3a95cba3c30e45
+    consumers: []
+  b71fba6a-5759-4efa-a7e0-5e93e7e0e02d:
+    name: 매도가능수량조회 [국내주식-165]
+    path: /uapi/domestic-stock/v1/trading/inquire-psbl-sell
+    signature: sha256:57b72807d37e28cfaa7006499410c56073ac33f2761c845444b44f4a1ff27c4a
+    consumers: []
+  b72d1ba6-b37c-4b7c-91ae-9d02835444f6:
+    name: 주식현재가 체결[v1_국내주식-009]
+    path: /uapi/domestic-stock/v1/quotations/inquire-ccnl
+    signature: sha256:96397a4cdecb39843956c4cc623a08f48835f9921e344f4c2057200726f3b8f8
+    consumers: []
+  b73a4cdf-402b-4e11-a161-609ea9451835:
+    name: 해외속보(제목) [해외주식-055]
+    path: /uapi/overseas-price/v1/quotations/brknews-title
+    signature: sha256:a105489d058d636d0f8654abec704871e4f1be9bbf53c457f963c4d19d68233b
+    consumers: []
+  b742d5ef-6d97-4e75-ae25-52daf2f08021:
+    name: 예탁원정보(의무예치일정)[국내주식-153]
+    path: /uapi/domestic-stock/v1/ksdinfo/mand-deposit
+    signature: sha256:fce3337d976704885d023d979194968668fd64497fd6abfa39ef7c256caef43c
+    consumers: []
+  b8c4fb5f-c3ef-4f6c-bfab-5471f43fb0ae:
+    name: 국내 증시자금 종합 [국내주식-193]
+    path: /uapi/domestic-stock/v1/quotations/mktfunds
+    signature: sha256:fb14c75dd4944ce64931c96b08532ac2fa9c9aa462dfe219c3b33f651573d2a5
+    consumers: []
+  bac2f657-36b1-4538-aabc-0bee8ba77229:
+    name: 해외주식 상승율/하락율[해외주식-041]
+    path: /uapi/overseas-stock/v1/ranking/updown-rate
+    signature: sha256:a252bf59e9fcb1bea83f547cf3119a9cfa753bb67b41876a57892b0d2faad6d4
+    consumers: []
+  bca48008-6f73-4753-ab4b-aa8506145340:
+    name: (야간)선물옵션 주문가능 조회 [국내선물-011]
+    path: /uapi/domestic-futureoption/v1/trading/inquire-psbl-ngt-order
+    signature: sha256:80868f35430c81d4dab19cb0bac65977374e4d5c50a2df9152d24160ce05bf6a
+    consumers: []
+  bdb401cd-03ea-4329-928d-18b3e9af066e:
+    name: 국내주식 시가총액 상위[v1_국내주식-091]
+    path: /uapi/domestic-stock/v1/ranking/market-cap
+    signature: sha256:3ebab9bef1d3b9ce3377e6360b2f9936f376f746dd1bc3899b5a0e14e59d7386
+    consumers: []
+  bec98736-8f5a-49a0-b325-5f6c40ff13b3:
+    name: 선물옵션 시세호가[v1_국내선물-007]
+    path: /uapi/domestic-futureoption/v1/quotations/inquire-asking-price
+    signature: sha256:d91d93f1bc8ec230874aca1218c340d983ff90b2ad2b34e84b8a472f6836095b
+    consumers: []
+  c02e3f30-5d71-4156-a039-3976f4d485f8:
+    name: 국내주식 당사매매종목 상위[v1_국내주식-104]
+    path: /uapi/domestic-stock/v1/ranking/traded-by-company
+    signature: sha256:d5902397e12dfae81bda6310cdb84fe623977a4ae3b268a0666aa5df21501f42
+    consumers: []
+  c3b78a4a-de38-43fb-a78d-4018b1ea4d4f:
+    name: 국내주식 등락률 순위[v1_국내주식-088]
+    path: /uapi/domestic-stock/v1/ranking/fluctuation
+    signature: sha256:b3416088a048dff42998d2d17e1ccdb75cd0d8f483fa259aef5e11215d3a9dee
+    consumers: []
+  c4d31a39-d602-4848-9c00-1d9d3f494e63:
+    name: 국내주식 예상체결가 추이[국내주식-118]
+    path: /uapi/domestic-stock/v1/quotations/exp-price-trend
+    signature: sha256:41de31af7c5583825d8131e321597bb89c674ca62232eef1cef35cd1d487cf93
+    consumers: []
+  c5933de1-4016-485a-a9ff-729818881d28:
+    name: 국내주식 손익계산서[v1_국내주식-079]
+    path: /uapi/domestic-stock/v1/finance/income-statement
+    signature: sha256:fc645a53fcc20446f3b0ed346910723505765107c7406e9546d7912c6747b3cb
+    consumers: []
+  c7be7c01-6f43-4576-b1fd-84d0102ce4c3:
+    name: 해외선물 체결추이(틱)[해외선물-019]
+    path: /uapi/overseas-futureoption/v1/quotations/tick-ccnl
+    signature: sha256:0592352e4d371c51f625854f3734ec4fb0a341291bb3e4b3ef947d6b63f1895d
+    consumers: []
+  ca0f8e3e-9f99-4ebd-a81c-c5f8017c4d65:
+    name: 당사 대주가능 종목 [국내주식-195]
+    path: /uapi/domestic-stock/v1/quotations/lendable-by-company
+    signature: sha256:ddb1fdc4c1b1b9a595b7beb6e5c78cfb74f01ede7f422b9f4bf303b063cf1624
+    consumers: []
+  ca2e71e1-5ef4-4489-b4c4-118e10588690:
+    name: ELW 비교대상종목조회 [국내주식-183]
+    path: /uapi/elw/v1/quotations/compare-stocks
+    signature: sha256:0767a94264b55c9d2725bb093f916bebab513477515069bf8b9ee325df1b6924
+    consumers: []
+  ca3e5ee4-a1f3-48a6-ab11-cd298ebef686:
+    name: 해외선물옵션 일별 주문내역[해외선물-013]
+    path: /uapi/overseas-futureoption/v1/trading/inquire-daily-order
+    signature: sha256:2dafca3b4bc5613675a73d0d8b54d43c1d45a66337cb08e354529ff065732d85
+    consumers: []
+  cd2e4d9a-7e3d-44ff-9b68-36d971655c24:
+    name: 해외선물 체결추이(주간)[해외선물-017]
+    path: /uapi/overseas-futureoption/v1/quotations/weekly-ccnl
+    signature: sha256:e0a202ff5c87ab21b3bc5741f03cd87799b34b0728dcdc8272e958806d302054
+    consumers: []
+  cd4be4fc-4545-4147-ab9a-e5b0ccede0de:
+    name: 해외주식 권리종합 [해외주식-050]
+    path: /uapi/overseas-price/v1/quotations/rights-by-ice
+    signature: sha256:19de60fc1fabdb3b323d956fafffb55e8a38e7284583660fee0ae178056889f9
+    consumers: []
+  ce9f2a8f-e3cb-4bd3-83ba-7b6034eafae9:
+    name: 회원사 실시간 매매동향(틱) [국내주식-163]
+    path: /uapi/domestic-stock/v1/quotations/frgnmem-trade-trend
+    signature: sha256:976f3e870cceb2d18382172c9d2a31ec80b27a9c4c85e7d82431d52d8dcca9dc
+    consumers: []
+  cf3b44a4-1864-4cc3-8650-ba4e2dbcbf06:
+    name: 주식현재가 회원사[v1_국내주식-013]
+    path: /uapi/domestic-stock/v1/quotations/inquire-member
+    signature: sha256:ce580ec871a702ed07c547dbfe770c1508b70ee27eefb2bbd8bac604c12e3c7a
+    consumers: []
+  cf45db98-43d0-476a-8774-d9690365300a:
+    name: 장내채권 발행정보[국내주식-156]
+    path: /uapi/domestic-bond/v1/quotations/issue-info
+    signature: sha256:abebf33ae95649933069442d2baede20cc6fa42efcc28d4c1f804af9cfc8495b
+    consumers: []
+  d1d7b8f1-6dc8-4439-a27f-5aa2c73b12f3:
+    name: 해외선물옵션 당일주문내역조회 [v1_해외선물-004]
+    path: /uapi/overseas-futureoption/v1/trading/inquire-ccld
+    signature: sha256:00a8dd960d46d12b76d71347cb1e9c493a0467a6631cd85623582a802eb5dfac
+    consumers: []
+  d352ed8c-30eb-4de2-83b4-62f6830b6208:
+    name: 선물옵션 잔고정산손익내역[v1_국내선물-013]
+    path: /uapi/domestic-futureoption/v1/trading/inquire-balance-settlement-pl
+    signature: sha256:f8854c1cdda52c2298806915dde213f0704258c59d7825f7ebc84d780f2c861a
+    consumers: []
+  d4537e9c-73f7-414c-9fb0-4eae3bc397d0:
+    name: 주식정정취소가능주문조회[v1_국내주식-004]
+    path: /uapi/domestic-stock/v1/trading/inquire-psbl-rvsecncl
+    signature: sha256:4f1afa8c489007205c3a1cf29c7921843484c09dad8236b8a431c25e038a903d
+    consumers: []
+  d5dc7247-6f82-4cd7-8133-afabd8f003f7:
+    name: 해외선물 미결제추이 [해외선물-029]
+    path: /uapi/overseas-futureoption/v1/quotations/investor-unpd-trend
+    signature: sha256:a50809b294fac60053f43b3c229bb6d0cd32c1e2121b4d8f1b3abb44998bdc76
+    consumers: []
+  d66ffd69-8d60-4490-99d0-becf63aabf41:
+    name: 선물옵션 주문가능[v1_국내선물-005]
+    path: /uapi/domestic-futureoption/v1/trading/inquire-psbl-order
+    signature: sha256:622446f8b20e86516da19e551e139e7194295cb245a710f6c5f5a25957096a28
+    consumers: []
+  d99d058d-4319-41ce-bce0-53c44a894ddb:
+    name: ELW 만기예정/만기종목 [국내주식-184]
+    path: /uapi/elw/v1/quotations/expiration-stocks
+    signature: sha256:2943af0e2b88907044ea9ce293007f5f1de75f8af9d7cdd1eca63eb24742e054
+    consumers: []
+  d9b0e346-a67d-43c6-938a-508e2d8507c6:
+    name: 국내옵션전광판_콜풋[국내선물-022]
+    path: /uapi/domestic-futureoption/v1/quotations/display-board-callput
+    signature: sha256:757d0bb04d17ad6a4592a93dbfb441ff8361e85a318436c6c44a134075fe64fd
+    consumers: []
+  da0485b5-31f1-4c62-a3d4-294a4311ad39:
+    name: 주식기본조회[v1_국내주식-067]
+    path: /uapi/domestic-stock/v1/quotations/search-stock-info
+    signature: sha256:943e02d6b7979fdb4786a59e4f46b1ddbbabbc711f53362cc2f6f1dd41fe74fe
+    consumers: []
+  da63a88a-e288-426f-9498-42db0b537bf3:
+    name: 해외주식 종목/지수/환율기간별시세(일/주/월/년)[v1_해외주식-012]
+    path: /uapi/overseas-price/v1/quotations/inquire-daily-chartprice
+    signature: sha256:3451a05fb0769228e3b91089c9cfcc8e2e93ca935e3534415b07d131e08ce39a
+    consumers: []
+  daf83679-be80-4ce8-9f1d-88e123a9ee0c:
+    name: 채권정정취소가능주문조회  [국내주식-126]
+    path: /uapi/domestic-bond/v1/trading/inquire-psbl-rvsecncl
+    signature: sha256:91e3a4952f7f677fea6712c64a57d7354a2af8dc1c8f907e55ebc7f5f3747933
+    consumers: []
+  db7f9cb2-2ab8-43c6-a744-e996c309a801:
+    name: 해외주식 예약주문조회[v1_해외주식-013]
+    path: /uapi/overseas-stock/v1/trading/order-resv-list
+    signature: sha256:14d79f15316d5f3850fcc2761fdb159251f071d53c4316744871bc3deb93b400
+    consumers: []
+  dd867a76-745d-4268-8ff8-b3e7f71e6e83:
+    name: NAV 비교추이(분)[v1_국내주식-070]
+    path: /uapi/etfetn/v1/quotations/nav-comparison-time-trend
+    signature: sha256:8068ce60de56ce2ceb989d016a6364acfd33334950c7b250c68b117a95860468
+    consumers: []
+  df4f0faf-db31-4650-b320-64a44ebdecf6:
+    name: 해외선물옵션 예수금현황[해외선물-012]
+    path: /uapi/overseas-futureoption/v1/trading/inquire-deposit
+    signature: sha256:bcb0a2586e7bd57531aa64ebea9acde1b3e64ac3e8f54482447fc6dc164e3ca4
+    consumers: []
+  dfd2502e-0d5c-4999-8a24-84ff15a74696:
+    name: 국내주식 시장가치 순위[v1_국내주식-096]
+    path: /uapi/domestic-stock/v1/ranking/market-value
+    signature: sha256:f6772ec1c1afdc7f542bd5d10aef7db6cd8c8101c560dc87775cf4a1eaedb43b
+    consumers: []
+  e0f9b38e-774a-441e-8dbd-27ab5f5ebb8b:
+    name: 예탁원정보(유상증자일정) [국내주식-143]
+    path: /uapi/domestic-stock/v1/ksdinfo/paidin-capin
+    signature: sha256:4ae045c859cdccdcc7b67f2fb83e828e6208423c211ddd2b3a5167eb07c1f500
+    consumers: []
+  e2633b78-811f-40b8-a933-dcba64c3e0e8:
+    name: 예탁원정보(주주총회일정) [국내주식-154]
+    path: /uapi/domestic-stock/v1/ksdinfo/sharehld-meet
+    signature: sha256:e0e4fcfea0b377d09e5613601476648db9d36feb86cca1573d77c60002ee4156
+    consumers: []
+  e27baf2f-6ec0-4029-b4fd-4c873f340478:
+    name: 주식현재가 투자자[v1_국내주식-012]
+    path: /uapi/domestic-stock/v1/quotations/inquire-investor
+    signature: sha256:fe9060cefe0ebf8c95151de3501a8f7ea87a506fb050d15326ca57fd1c4d1432
+    consumers: []
+  e48e54a7-f72b-4282-a18b-8d5e52b725fb:
+    name: 장내채권 정정취소주문 [국내주식-125]
+    path: /uapi/domestic-bond/v1/trading/order-rvsecncl
+    signature: sha256:6337aad6aa221431ce7c8b27edc3f3a0c0fe966ad1c1ad82efd473fb78deab9b
+    consumers: []
+  e4a7e5fd-eed5-4a85-93f0-f46b804dae5f:
+    name: 해외주식 주문[v1_해외주식-001]
+    path: /uapi/overseas-stock/v1/trading/order
+    signature: sha256:0b4954ce0926226377dfffc0090fc189ef6cada500231f770c2479b0b3720d33
+    consumers: []
+  e53eb2e6-b292-4e2b-b150-22d92b401453:
+    name: ETF/ETN 현재가[v1_국내주식-068]
+    path: /uapi/etfetn/v1/quotations/inquire-price
+    signature: sha256:11551d98b7db0f59de2f73b39e7d82f486410e0b3679649434f89536c0a14a07
+    consumers: []
+  e5c6c050-e63f-4ab7-b339-d1a645d3239b:
+    name: 시장별 투자자매매동향(시세)[v1_국내주식-074]
+    path: /uapi/domestic-stock/v1/quotations/inquire-investor-time-by-market
+    signature: sha256:1fc7b3dd52f7de6364c8e515f388a8fedb00be244cce1c4eae833168be774ecc
+    consumers: []
+  e5f413ec-3e68-47d7-931f-d7eb263990d9:
+    name: ELW LP매매추이 [국내주식-182]
+    path: /uapi/elw/v1/quotations/lp-trade-trend
+    signature: sha256:ef1b67a035f45bc1111873d0c478079ffb121df781b8ba1e1fc875bb3941b30f
+    consumers: []
+  e7a0d02d-2aec-4358-8738-65c7c6da3b1b:
+    name: 국내주식 성장성비율[v1_국내주식-085]
+    path: /uapi/domestic-stock/v1/finance/growth-ratio
+    signature: sha256:af1d4a9576d82cc45e6ee32b1c6f0bf9216f6340880d2eb637fa8b035cd7759e
+    consumers: []
+  e8fcb701-6f36-4ba5-bbc7-84a577beec50:
+    name: 해외주식 업종별시세[해외주식-048]
+    path: /uapi/overseas-price/v1/quotations/industry-theme
+    signature: sha256:1a85d8385014a5b0da3a494121cb910bdae036ed3d42b2860d2290d1a8742d92
+    consumers: []
+  e9be5d05-448e-4222-bb05-7f0e27a91d69:
+    name: ELW 민감도 추이(체결) [국내주식-175]
+    path: /uapi/elw/v1/quotations/sensitivity-trend-ccnl
+    signature: sha256:add7869a3b0ffece687b29ad5292b2057dcd885ae7ea5019877b814d138523d1
+    consumers: []
+  ebf1dc17-7b48-4192-841d-0ccb6ce3f016:
+    name: 국내주식 장마감 예상체결가[국내주식-120]
+    path: /uapi/domestic-stock/v1/quotations/exp-closing-price
+    signature: sha256:b3b37e03ca468f7b03c1f863b9645c4a230f61b8b221c064a6b3c4de46473a00
+    consumers: []
+  ec92f2c8-c3bd-4f80-b1f3-ea0716577f02:
+    name: 해외주식 예약주문접수취소[v1_해외주식-004]
+    path: /uapi/overseas-stock/v1/trading/order-resv-ccnl
+    signature: sha256:e45c8df5a17652a5c9600fa1d328e10c1c7e521d2e49df383d0a0ad85db6fbb3
+    consumers: []
+  ec944971-3694-4692-8a17-761c2b549cd9:
+    name: 해외주식 거래량순위[해외주식-043]
+    path: /uapi/overseas-stock/v1/ranking/trade-vol
+    signature: sha256:cb76f8b5765c55b6dc7e527e63e517ef874da674bac942b58c290f905985611b
+    consumers: []
+  ecc36b93-6f99-4cd2-b16d-79b46734769a:
+    name: 금리 종합(국내채권/금리) [국내주식-155]
+    path: /uapi/domestic-stock/v1/quotations/comp-interest
+    signature: sha256:9121b6b4ef9142c943e5648db99b936d0d6a957ea0c037bdebab156b7944d48a
+    consumers: []
+  ed60877a-6183-433a-9a8c-ef56ed9bc679:
+    name: 해외주식 현재가 호가 [해외주식-033]
+    path: /uapi/overseas-price/v1/quotations/inquire-asking-price
+    signature: sha256:019d7a45782a7ebad5d395775b615bda5e38fe15d4273fb364d2d4afa19f1fbc
+    consumers: []
+  eddbb36a-1d55-461a-b242-3067ba1e5640:
+    name: 주식당일분봉조회[v1_국내주식-022]
+    path: /uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice
+    signature: sha256:4fa73da30c2d573ee1d78b7509e6411cbe63ce864edf07d382004ca23cc72510
+    consumers: []
+  eed4c960-21af-45b7-8fc7-cc95911ee239:
+    name: 종목별 프로그램매매추이(체결)[v1_국내주식-044]
+    path: /uapi/domestic-stock/v1/quotations/program-trade-by-stock
+    signature: sha256:549a51e65640ce7d7ee4ccf1555effe2732b5d0893ba58607e03f58ad80221bf
+    consumers: []
+  f13f5e30-1065-451b-bcd3-06543b840a2e:
+    name: 외국계 매매종목 가집계 [국내주식-161]
+    path: /uapi/domestic-stock/v1/quotations/frgnmem-trade-estimate
+    signature: sha256:608cd3843733f79a2ec08cb0fd9c1034ed1d10d7df66c554a2cf33edbf5ca6b2
+    consumers: []
+  f1ce6099-5bf2-4b4e-915e-e0c7020af4bf:
+    name: ELW 변동성 추이(틱) [국내주식-180]
+    path: /uapi/elw/v1/quotations/volatility-trend-tick
+    signature: sha256:d8fee9e8f34980994d9f095b66e80d646ff126714b811d5e7e2aaf225ebad27f
+    consumers: []
+  f2921c05-8b93-4a13-a0d8-6132be010066:
+    name: 국내주식 관심종목등록 상위[v1_국내주식-102]
+    path: /uapi/domestic-stock/v1/ranking/top-interest-stock
+    signature: sha256:acab65962bb1f89f850298f28b14bb358c702bd0c6982da7171253c719088456
+    consumers: []
+  f2d34ad7-9fc4-40b8-b857-3825fd772c44:
+    name: 국내주식 체결강도 상위[v1_국내주식-101]
+    path: /uapi/domestic-stock/v1/ranking/volume-power
+    signature: sha256:8557c74714ea703d2fa4a4dda3d8d4f218bf5f295353ea89b028209b641e770f
+    consumers: []
+  f350887c-35a2-4b65-98aa-9524eb47bb6d:
+    name: 주식예약주문[v1_국내주식-017]
+    path: /uapi/domestic-stock/v1/trading/order-resv
+    signature: sha256:f2fa5403027104e3ccebd461e21736c19d6a7db720d556d78cd507a2cad62163
+    consumers: []
+  f54caf9c-65db-42ee-aa7e-a337c5a41778:
+    name: 변동성완화장치(VI) 현황 [v1_국내주식-055]
+    path: /uapi/domestic-stock/v1/quotations/inquire-vi-status
+    signature: sha256:44069d84b8936b2914cafd408ffb4d32079679da202167d59b0ade5b49bd4d55
+    consumers: []
+  f5769e4a-24d5-44f9-a2d8-232d45abf988:
+    name: 주식주문(신용)[v1_국내주식-002]
+    path: /uapi/domestic-stock/v1/trading/order-credit
+    signature: sha256:495cbc9ba764dc2813f56cc550bf0075a0eb64018e9fe03157810e2c466ac4a4
+    consumers: []
+  f5c2c9d8-8d11-4a70-8694-1b71e3fc3640:
+    name: 국내주식 시간외등락율순위 [국내주식-138]
+    path: /uapi/domestic-stock/v1/ranking/overtime-fluctuation
+    signature: sha256:cb40883ede3acec987393641f6cf9fa7696b4b42ef636b187e7dc4310053da32
+    consumers: []
+  f5dcbbc3-bee6-4b83-a236-5f3a5bb59d72:
+    name: 장내채권 기간별시세(일) [국내주식-159]
+    path: /uapi/domestic-bond/v1/quotations/inquire-daily-itemchartprice
+    signature: sha256:17908f77db96e2f9933517506a64a86e41e6cde911839019f24e37097468507a
+    consumers: []
+  f64db1b8-012a-4e92-ab1c-e9b3b264b2b7:
+    name: 선물옵션 기준일체결내역[v1_국내선물-016]
+    path: /uapi/domestic-futureoption/v1/trading/inquire-ccnl-bstime
+    signature: sha256:7493645e624e0d7fd53b4e0fefa349a2e2c576dcabb4086039a62a0500fe860e
+    consumers: []
+  f737550b-909d-4b5d-ba03-568c8a06b5b1:
+    name: 해외주식 지정가주문번호조회  [해외주식-071]
+    path: /uapi/overseas-stock/v1/trading/algo-ordno
+    signature: sha256:96892b45dd728bce3abe0cf19f34a81477ca7a2b0eb3beed5b9ccb1c91753ed0
+    consumers: []
+  f77aedcb-b46f-4aa0-b062-f03b9a444405:
+    name: 국내주식 대차대조표[v1_국내주식-078]
+    path: /uapi/domestic-stock/v1/finance/balance-sheet
+    signature: sha256:b0616b29b1eea572b3d544ccc09c17f0f4c63035d0ad83dec4fd1ab92e964a83
+    consumers: []
+  f8d92c02-7537-4ae5-88ca-fe3d0a7155db:
+    name: 해외증거금 통화별조회 [해외주식-035]
+    path: /uapi/overseas-stock/v1/trading/foreign-margin
+    signature: sha256:e75498b44e711f87df6c3ee8843c886cc2873aa56ae4c4baf991dbe9fa78ce56
+    consumers: []
+  f9f83090-60d0-4dcf-99c9-a4b36852848e:
+    name: 해외선물종목상세 [v1_해외선물-008]
+    path: /uapi/overseas-futureoption/v1/quotations/stock-detail
+    signature: sha256:b947e90a0633a1f7601edb6f0c24ec0012b1b282a23b59d26182a6f4e7106869
+    consumers: []
+  fa9583fd-0340-4f24-a755-45fdfb5e5bab:
+    name: 예탁원정보(합병/분할일정)[국내주식-147]
+    path: /uapi/domestic-stock/v1/ksdinfo/merger-split
+    signature: sha256:31843e186fa52cf1b5f27c173312dd49015ccfa169e7b56913e7b4e04fdf1059
+    consumers: []
+  fbb4bb45-57bb-4037-905d-dff0ff635cf6:
+    name: 국내주식 종목추정실적 [국내주식-187]
+    path: /uapi/domestic-stock/v1/quotations/estimate-perform
+    signature: sha256:a10ab9fd01e0e88fffbae234b5d871b6fde099f5760cc5ac5e3be8fd8c81ab80
+    consumers: []
+  fbe60d47-02bd-4d48-8169-e0df9e74c57c:
+    name: 해외선물옵션 주문가능조회 [v1_해외선물-006]
+    path: /uapi/overseas-futureoption/v1/trading/inquire-psamount
+    signature: sha256:e5bdc763be5f254105f3bf2b4d8daf625d133684af0c831f100c61c13dc6c9c0
+    consumers: []
+  fbfe7300-7096-4938-840b-9f7c328cc5fd:
+    name: 종합 시황/공시(제목) [국내주식-141]
+    path: /uapi/domestic-stock/v1/quotations/news-title
+    signature: sha256:1fda8f159667d3e0adb1d1364db86a2a466cf59e9fc99468de05cc81a7dfa4e5
+    consumers: []
+  fc52daa5-9919-4f80-b926-ee35ef298c54:
+    name: 국내주식 시간외예상체결등락률 [국내주식-140]
+    path: /uapi/domestic-stock/v1/ranking/overtime-exp-trans-fluct
+    signature: sha256:770e04ee151c9d2b29a00035eb8dbd5248760794907ab605d1779ab3a7428dc8
+    consumers: []
+  fdb555c9-b958-48ad-a836-fd81f18ad73e:
+    name: 국내주식 기타주요비율[v1_국내주식-082]
+    path: /uapi/domestic-stock/v1/finance/other-major-ratios
+    signature: sha256:5d97e9bf200f956fc8da9cf0b7289547e6a4f3942015cda32f3f6255953705e1
+    consumers: []
+  fdecab0c-4c48-499b-9436-4ac3d32dbd09:
+    name: 종목별 외국계 순매수추이 [국내주식-164]
+    path: /uapi/domestic-stock/v1/quotations/frgnmem-pchs-trend
+    signature: sha256:235bcbb9d58561fd1e22cc0a73c00f8b484f3ccbedd086eaf6831577c0014fef
+    consumers: []
+  fe014543-4baa-4452-a388-2d6558d1e212:
+    name: 퇴직연금 잔고조회[v1_국내주식-036]
+    path: /uapi/domestic-stock/v1/trading/pension/inquire-balance
+    signature: sha256:ea1ca7741d024c052daecd45d8603262df031f207edf5002dafb1829d9c84e76
+    consumers: []
+  fee465d1-7fd5-4c66-b4a4-731b813d569d:
+    name: 관심종목(멀티종목) 시세조회 [국내주식-205]
+    path: /uapi/domestic-stock/v1/quotations/intstock-multprice
+    signature: sha256:f13a825720f7d4d4e0778087611470b2bad101bd8f603c590e0fdd29e07aa7ec
+    consumers: []
+  ff79302e-6014-495e-a188-6dca69fc952e:
+    name: 주식잔고조회_실현손익[v1_국내주식-041]
+    path: /uapi/domestic-stock/v1/trading/inquire-balance-rlz-pl
+    signature: sha256:bcd9b3ab48dc27e0fc3602b0fbc0c7daee97f3b0686e30e2b83d1e3124bb83c4
+    consumers: []

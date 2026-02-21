@@ -1,0 +1,134 @@
+# Quote service model schema.
+# Defines the unified Quote model that normalizes domestic/overseas stock price data.
+
+Quote:
+  description: "Unified stock quote snapshot combining domestic and overseas price data."
+  fields:
+    symbol:
+      type: str
+      required: true
+      description: "Stock ticker symbol (e.g., '005930' for domestic, 'AAPL' for overseas)."
+    exchange:
+      type: Exchange
+      required: true
+      description: "Exchange where the stock is listed."
+    price:
+      type: Decimal
+      required: true
+      description: "Current price."
+      source:
+        domestic: stck_prpr
+        overseas: last
+    previous_close:
+      type: Decimal
+      required: true
+      description: "Previous trading day closing price."
+      source:
+        domestic: stck_prdy_clpr
+        overseas: base
+    change:
+      type: Decimal
+      required: true
+      description: "Price change from previous close (current - previous)."
+      source:
+        domestic: prdy_vrss
+        overseas: diff
+    change_rate:
+      type: Decimal
+      required: true
+      description: "Price change rate as percentage."
+      source:
+        domestic: prdy_ctrt
+        overseas: rate
+    change_sign:
+      type: ChangeSign
+      required: true
+      description: "Direction of price change."
+      source:
+        domestic: prdy_vrss_sign
+        overseas: sign
+    open:
+      type: Decimal
+      required: true
+      description: "Opening price for the current trading day."
+      source:
+        domestic: stck_oprc
+        overseas: null  # Not available in overseas basic quote
+    high:
+      type: Decimal
+      required: true
+      description: "Highest price during the current trading day."
+      source:
+        domestic: stck_hgpr
+        overseas: null
+    low:
+      type: Decimal
+      required: true
+      description: "Lowest price during the current trading day."
+      source:
+        domestic: stck_lwpr
+        overseas: null
+    volume:
+      type: int
+      required: true
+      description: "Cumulative trading volume for the current day."
+      source:
+        domestic: acml_vol
+        overseas: tvol
+    turnover:
+      type: Decimal
+      required: true
+      description: "Cumulative trading amount (value) for the current day."
+      source:
+        domestic: acml_tr_pbmn
+        overseas: tamt
+    previous_volume:
+      type: int
+      required: true
+      description: "Previous trading day volume."
+      source:
+        domestic: prdy_vol
+        overseas: pvol
+    upper_limit:
+      type: Decimal | None
+      required: false
+      description: "Upper limit price (domestic only)."
+      source:
+        domestic: stck_mxpr
+        overseas: null
+    lower_limit:
+      type: Decimal | None
+      required: false
+      description: "Lower limit price (domestic only)."
+      source:
+        domestic: stck_llam
+        overseas: null
+    market_warning:
+      type: MarketWarning | None
+      required: false
+      description: "Market warning classification (domestic only)."
+      source:
+        domestic: mrkt_warn_cls_code
+        overseas: null
+    is_trading_halted:
+      type: bool | None
+      required: false
+      description: "Whether trading is halted (domestic only)."
+      source:
+        domestic: trht_yn
+        overseas: null
+    is_orderable:
+      type: bool | None
+      required: false
+      description: "Whether buy orders are possible."
+      source:
+        domestic: null
+        overseas: ordy
+
+  l0_endpoints:
+    domestic:
+      id: "995f745a-aa8a-491b-85ef-0d4697094b58"
+      name: "주식현재가 시세2 [v1_국내주식-054]"
+    overseas:
+      id: "3eeac674-072d-4674-a5a7-f0ed01194a81"
+      name: "해외주식 현재체결가 [v1_해외주식-009]"
