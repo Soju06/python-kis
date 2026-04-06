@@ -240,11 +240,14 @@ class KisDomesticRealtimeOrderExecution(KisRealtimeExecutionBase):
         None,  # 15 BRNC_NO 지점번호
         KisDecimal["quantity"],  # 16 ODER_QTY 주문수량
         None,  # 17 ACNT_NAME 계좌명
-        None,  # 18 CNTG_ISNM 체결종목명
-        None,  # 19 CRDT_CLS 신용구분
-        None,  # 20 CRDT_LOAN_DATE 신용대출일자
-        None,  # 21 CNTG_ISNM40 체결종목명40
-        KisDecimal["unit_price"],  # 22 ODER_PRC 주문가격
+        None,  # 18 호가조건가격
+        None,  # 19 주문거래소구분
+        None,  # 20 실시간체결창표시여부
+        None,  # 21 필러
+        None,  # 22 CRDT_CLS 신용구분
+        None,  # 23 CRDT_LOAN_DATE 신용대출일자
+        None,  # 24 CNTG_ISNM40 체결종목명40
+        KisDecimal["unit_price"],  # 25 ODER_PRC 주문가격
     ]
 
     symbol: str  # 8 STCK_SHRN_ISCD 주식 단축 종목코드
