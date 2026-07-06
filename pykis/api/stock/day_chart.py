@@ -304,7 +304,7 @@ def domestic_day_chart(
     한국투자증권 국내 당일 봉 차트 조회
 
     국내주식시세 -> 주식당일분봉조회[v1_국내주식-022]
-    (업데이트 날짜: 2023/09/05)
+    (업데이트 날짜: 2026/07/06)
 
     Args:
         symbol (str): 종목코드
@@ -343,7 +343,6 @@ def domestic_day_chart(
             response_type=KisDomesticDayChart(
                 symbol=symbol,
             ),
-            domain="real",
         )
 
         if not chart:
