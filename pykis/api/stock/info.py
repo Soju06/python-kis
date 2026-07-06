@@ -273,7 +273,7 @@ def quotable_market(
 
     국내주식시세 -> 주식현재가 시세[v1_국내주식-008]
     해외주식현재가 -> 해외주식 현재가상세[v1_해외주식-029]
-    (업데이트 날짜: 2024/11/05)
+    (업데이트 날짜: 2026/07/06)
 
     Args:
         symbol (str): 종목코드
@@ -302,7 +302,6 @@ def quotable_market(
                             "/uapi/domestic-stock/v1/quotations/inquire-price",
                             api="FHKST01010100",
                             params={"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": symbol},
-                            domain="real",
                         )
                     ).output.stck_prpr
                 ):

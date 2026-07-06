@@ -237,7 +237,7 @@ def domestic_daily_chart(
     한국투자증권 국내 기간 차트 조회
 
     국내주식시세 -> 국내주식기간별시세(일/주/월/년)[v1_국내주식-016]
-    (업데이트 날짜: 2023-10-02)
+    (업데이트 날짜: 2026-07-06)
 
     Args:
         symbol (str): 종목 코드
@@ -285,7 +285,6 @@ def domestic_daily_chart(
                 "FID_ORG_ADJ_PRC": "0" if adjust else "1",
             },
             response_type=KisDomesticDailyChart(symbol=symbol),
-            domain="real",
         )
 
         if not chart:
@@ -330,7 +329,7 @@ def foreign_daily_chart(
     한국투자증권 해외 기간 차트 조회
 
     해외주식현재가 -> 해외주식 기간별시세[v1_해외주식-010]
-    (업데이트 날짜: 2023-10-03)
+    (업데이트 날짜: 2026-07-06)
 
     Args:
         symbol (str): 종목 코드
@@ -377,7 +376,6 @@ def foreign_daily_chart(
                 symbol=symbol,
                 market=market,
             ),
-            domain="real",
         )
 
         if not chart:

@@ -625,7 +625,7 @@ def domestic_quote(
     주식, ETF, ETN 조회가 가능합니다.
 
     국내주식시세 -> 주식현재가 시세[v1_국내주식-008]
-    (업데이트 날짜: 2023/09/24)
+    (업데이트 날짜: 2026/07/06)
 
     Args:
         symbol (str): 종목코드
@@ -648,7 +648,6 @@ def domestic_quote(
             "FID_INPUT_ISCD": symbol,
         },
         response_type=result,
-        domain="real",
     )
 
 
