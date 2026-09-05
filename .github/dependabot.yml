@@ -1,0 +1,32 @@
+version: 2
+
+updates:
+  # GitHub Actions.
+  # 이 저장소의 워크플로는 actions/checkout@v3, setup-python@v3처럼 러너가
+  # 더 이상 지원하지 않는 버전에 오래 머물러 있었습니다. 자동 갱신으로 막습니다.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "ci"
+    labels:
+      - dependencies
+
+  # Python 의존성. uv.lock을 함께 갱신합니다.
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "build"
+    labels:
+      - dependencies
+    groups:
+      # 개발 도구는 한 PR로 묶습니다. 1인 프로젝트에서 PR 수를 줄이는 게 더 중요합니다.
+      dev-tooling:
+        patterns:
+          - pytest*
+          - ruff
+          - pre-commit
+          - plantuml

@@ -1,0 +1,26 @@
+---
+description: Prompt, log, and report file naming and where docs live
+globs: docs/prompts/**,docs/dev_logs/**,docs/reports/**,docs/guidelines/**,docs/INDEX.md
+alwaysApply: false
+---
+
+# Docs workflow
+
+New files (from 2026-08-28): `YYYY-MM-DD_nn_주제.md`. `nn` is that day's write order (`01`, `02`, …). Do not rename existing files.
+
+Classification:
+
+| Kind | Path |
+|---|---|
+| Prompt | `docs/prompts/` |
+| Dev log | `docs/dev_logs/` |
+| Analysis report | `docs/reports/` — not a status report |
+| Human guideline | `docs/guidelines/` |
+| Work list | GitHub issues only |
+
+Do not create markdown To-Do lists. Do not put counts that will stale (pass totals, coverage %, PyPI version).
+
+Prompt template: user request, scope, plan, result.
+Dev log: what you hit, files, test outcome, remaining work. Frozen logs are not edited later.
+
+If you add or move a living doc, update `docs/INDEX.md` and keep only paths that exist (`ls` first).

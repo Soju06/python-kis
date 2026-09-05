@@ -1,0 +1,67 @@
+{
+    // https://code.visualstudio.com/docs/editor/tasks#vscode
+    //
+    // 이 파일은 JSONC(주석 허용)입니다. pre-commit의 check-json은 .vscode/ 를
+    // 검사 대상에서 제외합니다.
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "uv: Sync Dependencies",
+            "type": "shell",
+            "command": "uv sync --group dev",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            // CI와 같은 조건. requires_api 테스트는 실 자격증명이 필요합니다.
+            "label": "uv: Run Pytest",
+            "type": "shell",
+            "command": "uv run pytest -m 'not requires_api'",
+            "dependsOn": "uv: Sync Dependencies",
+            "group": { "kind": "test", "isDefault": true },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            // 임계값은 pyproject.toml 의 [tool.coverage.report] fail_under 를 따릅니다.
+            "label": "uv: Run Pytest (coverage)",
+            "type": "shell",
+            "command": "uv run pytest -m 'not requires_api' --cov --cov-report=term-missing --cov-report=html:htmlcov",
+            "dependsOn": "uv: Sync Dependencies",
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            // 버전은 git 태그에서 나옵니다. 태그가 없거나 shallow clone이면 0.0.0 이 됩니다.
+            "label": "uv: Build",
+            "type": "shell",
+            "command": "uv build",
+            "group": { "kind": "build", "isDefault": true },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "pre-commit: Run on all files",
+            "type": "shell",
+            "command": "uv run pre-commit run --all-files",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

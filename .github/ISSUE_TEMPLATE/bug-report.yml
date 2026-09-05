@@ -1,23 +1,23 @@
 name: 🐛 Bug Report
 description: 라이브러리가 예상대로 작동하지 않나요?
 title: "[버그]: "
-labels: ["버그"]
+labels: ["bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        PyKis 커뮤니티 라이브러리의 버그 보고서를 작성해 주셔서 감사합니다!
+        VmKis 커뮤니티 라이브러리의 버그 보고서를 작성해 주셔서 감사합니다!
 
   - type: checkboxes
     attributes:
       label: 빠른 문제 해결을 위해 다음을 확인했나요?
       description: >
-        PyKis [Docs](https://github.com/Soju06/python-kis/wiki)나 [Issues](https://github.com/Soju06/python-kis/issues)에서 유사한 버그가 존재하는지 확인해주세요.
+        VmKis [Docs](https://github.com/visualmoney/vm-stock-kis/blob/main/docs/INDEX.md)나 [Issues](https://github.com/visualmoney/vm-stock-kis/issues)에서 유사한 버그가 존재하는지 확인해주세요.
       options:
         - label: >
-            PyKis [Issues](https://github.com/Soju06/python-kis/issues)에서 검색했지만 유사한 버그를 찾지 못했습니다.
+            VmKis [Issues](https://github.com/visualmoney/vm-stock-kis/issues)에서 검색했지만 유사한 버그를 찾지 못했습니다.
           required: true
-  
+
   - type: textarea
     attributes:
       label: 버그 설명
@@ -30,16 +30,16 @@ body:
   - type: textarea
     attributes:
       label: 종속성 버전 문제 진단
-      description: 종속성 라이브러리 버전 문제를 진단하기 위해 `from pykis.utils.diagnosis import check; check()`를 실행한 결과를 붙여넣어주세요.
+      description: 종속성 라이브러리 버전 문제를 진단하기 위해 `from vmkis.utils.diagnosis import check; check()`를 실행한 결과를 붙여넣어주세요.
       placeholder: |
-        `from pykis.utils.diagnosis import check; check()` 실행 결과를 붙여넣어주세요.
+        `from vmkis.utils.diagnosis import check; check()` 실행 결과를 붙여넣어주세요.
 
         ```
-        Version: PyKis/2.0.0
+        Version: VmKis/0.0.1
         Python: CPython 3.11.7
         System: Windows 10.0.26120 [AMD64]
 
-        Installed Packages: 
+        Installed Packages:
         =========== requests ===========
         Required: 2.32.3>=
         Installed: 2.32.3
@@ -64,9 +64,9 @@ body:
         질문을 할 때 사람들이 쉽게 이해하고 문제를 **재현**하는 데 사용할 수 있는 코드를 제공하면 더 나은 도움을 드릴 수 있습니다.
       placeholder: |
         ```python
-        from pykis import PyKis
+        from vmkis import VmKis
 
-        kis = PyKis("secret.json", keep_token=True)
+        kis = VmKis("secret.json", keep_token=True)
 
         ...
         ```
@@ -82,6 +82,6 @@ body:
     attributes:
       label: PR를 통해 라이브러리에 기여하고 싶으신가요?
       description: >
-        구현 방법을 잘 이해하고 있는 경우, [Pull Request](https://github.com/Soju06/python-kis/pulls) PyKis 커뮤니티 라이브러리를 개선해주세요!
+        구현 방법을 잘 이해하고 있는 경우, [Pull Request](https://github.com/visualmoney/vm-stock-kis/pulls) VmKis 커뮤니티 라이브러리를 개선해주세요!
       options:
         - label: 네, PR을 제출하여 도움을 주고 싶습니다!

@@ -3,7 +3,7 @@ test-*.py
 test.ipynb
 test-*.ipynb
 __pycache__
-.vscode
+# .vscode
 build/
 develop-eggs/
 dist/
@@ -30,3 +30,31 @@ dummy/
 
 real_secret.json
 virtual_secret.json
+
+.venv/
+.coverage
+/htmlcov/
+/reports/
+poetry.toml
+config.yaml
+
+# 예제가 만드는 로그. examples/03_advanced/03_error_handling.py 가 모듈 수준의
+# logging.basicConfig 에서 FileHandler("trading.log") 를 걸기 때문에, --help 로
+# 돌리기만 해도 저장소 루트에 생깁니다. #95 작업 중 실제로 스테이징될 뻔했습니다.
+*.log
+
+# 채운 설정과 토큰. 템플릿만 추적합니다.
+#
+# `configs/` 가 아니라 `configs/*` 인 이유: 디렉터리째 제외하면 git 이 그 안으로
+# 내려가지 않아 아래 예외 규칙이 통하지 않습니다. 실측으로 확인했습니다.
+configs/*
+!configs/template_account_profiles.yaml
+
+# 서버 토큰 동기화 — 채워진 스크립트에 원격 경로와 파일 대응이 들어 있습니다.
+# 예제(`scripts/sync_tokens_from_server.example.sh`)만 추적합니다. (#121)
+scripts/sync_tokens_from_server.sh
+scripts/sync_tokens.local.env
+
+# Claude Code — 공유 설정(.claude/settings.json)은 추적한다.
+# 로컬 설정은 절대경로와 PowerShell 이 박혀 있어 다른 머신에서 의미가 없다.
+.claude/settings.local.json

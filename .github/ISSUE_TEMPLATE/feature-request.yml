@@ -1,23 +1,23 @@
 name: 🚀 Feature Request
 description: 새로운 기능을 제안하고 싶으신가요?
 title: "[기능]: "
-labels: ["기능"]
+labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
       value: |
-        PyKis 커뮤니티 라이브러리의 기능 요청을 작성해 주셔서 감사합니다!
+        VmKis 커뮤니티 라이브러리의 기능 요청을 작성해 주셔서 감사합니다!
 
   - type: checkboxes
     attributes:
       label: 빠른 문제 해결을 위해 다음을 확인했나요?
       description: >
-        PyKis [Docs](https://github.com/Soju06/python-kis/wiki)나 [Issues](https://github.com/Soju06/python-kis/issues)에서 유사한 기능이 존재하는지 확인해주세요.
+        VmKis [Docs](https://github.com/visualmoney/vm-stock-kis/blob/main/docs/INDEX.md)나 [Issues](https://github.com/visualmoney/vm-stock-kis/issues)에서 유사한 기능이 존재하는지 확인해주세요.
       options:
         - label: >
-            PyKis [Issues](https://github.com/Soju06/python-kis/issues)에서 검색했지만 유사한 기능을 찾지 못했습니다.
+            VmKis [Issues](https://github.com/visualmoney/vm-stock-kis/issues)에서 검색했지만 유사한 기능을 찾지 못했습니다.
           required: true
-  
+
   - type: textarea
     attributes:
       label: 기능 설명
@@ -34,11 +34,11 @@ body:
         기능 요청의 사용 사례를 설명해주세요. 이 기능을 어떻게 사용할 수 있을지, Python 코드 예제를 포함해주세요.
       placeholder: |
         💡 기능을 사용하는 예제 코드와 설명을 제공해주세요.
-        
-        ```python
-        from pykis import PyKis
 
-        kis = PyKis("secret.json", keep_token=True)
+        ```python
+        from vmkis import VmKis
+
+        kis = VmKis("secret.json", keep_token=True)
 
         ...
         ```
@@ -52,6 +52,6 @@ body:
     attributes:
       label: PR를 통해 라이브러리에 기여하고 싶으신가요?
       description: >
-        구현 방법을 잘 이해하고 있는 경우, [Pull Request](https://github.com/Soju06/python-kis/pulls) PyKis 커뮤니티 라이브러리를 개선해주세요!
+        구현 방법을 잘 이해하고 있는 경우, [Pull Request](https://github.com/visualmoney/vm-stock-kis/pulls) VmKis 커뮤니티 라이브러리를 개선해주세요!
       options:
         - label: 네, PR을 제출하여 도움을 주고 싶습니다!

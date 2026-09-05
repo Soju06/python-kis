@@ -1,0 +1,18 @@
+{
+    // 이 프로젝트에서 필요한 확장 프로그램 목록을 권장합니다.
+    "recommendations": [
+        "ms-python.python", // Python 언어 지원
+        "ryanluker.vscode-coverage-gutters", // code coverage 시각화
+        "streetsidesoftware.code-spell-checker", // 맞춤법 검사기
+        "charliermarsh.ruff", // Python linter Ruff
+        "esbenp.prettier-vscode", // 코드 포매터 Prettier
+        "tamasfe.even-better-toml", // TOML 파일 지원
+        "njpwerner.autodocstring", // Python docstring 자동 생성
+        "davidanson.vscode-markdownlint", // 마크다운 린터 (.markdownlint.json 사용)
+    ],
+
+    // 이 프로젝트에서는 사용하지 않도록 권장하는 확장 프로그램 목록입니다.
+    "unwantedRecommendations": [
+        "ms-python.vscode-pylance" // 충돌 가능성이 있는 포매터
+    ]
+}

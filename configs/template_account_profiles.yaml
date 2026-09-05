@@ -1,0 +1,76 @@
+# VM-Stock-KIS 계좌 설정 템플릿
+#
+# 이 파일을 같은 폴더에 복사해 채우세요. **제자리에서 고치지 마세요** —
+# 이 파일은 추적 대상이라 채우면 시크릿이 커밋될 수 있습니다.
+#
+#     cp configs/template_account_profiles.yaml configs/account_profiles.yaml
+#
+# configs/ 안에서 이 템플릿만 추적하고 나머지는 전부 무시합니다(토큰 포함).
+# 사양: docs/guidelines/CONFIG_SCHEMA.md
+
+# 스키마 판. 이것만 따옴표가 없습니다 — 유일하게 진짜 정수입니다.
+version: 1
+
+# ── 앱 — 토큰 발급 단위 ───────────────────────────────────────────────────────
+#
+# KIS 토큰은 app_key 단위로 발급됩니다. 같은 앱키를 쓰는 계좌 N개는 토큰 1개를
+# 공유하므로, 계좌가 아니라 앱을 단위로 적습니다.
+#
+# 토큰 파일 경로는 앱 이름에서 파생됩니다 (token/<앱이름>.json).
+# 직접 적지 않습니다 — 두 앱이 같은 파일을 가리키면 "가끔 인증이 풀립니다".
+apps:
+  # 실전 앱은 **모의투자만 할 때도 필요합니다.**
+  #
+  # 시세 TR 이 모의도메인에 없어서, 모의 계좌로 시세를 조회해도 요청은 실전
+  # 도메인으로 나갑니다. 그때 실전 앱키와 실전 토큰을 씁니다.
+  # (`src/vmkis/client/endpoint.py` 의 `tr_paper` 설명 참고. 이슈 #87)
+  app_live1:
+    mode: "live" # live | paper — 생략할 수 없습니다
+    hts_id: "YOUR_HTS_ID" # HTS 로그인 ID
+    app_key: "YOUR_LIVE_APP_KEY" # 36자
+    app_secret: "YOUR_LIVE_APP_SECRET" # 180자
+
+  # 모의투자 앱. 앱키가 다르므로 토큰도 따로 발급됩니다.
+  app_paper1:
+    mode: "paper"
+    hts_id: "YOUR_HTS_ID"
+    app_key: "YOUR_PAPER_APP_KEY"
+    app_secret: "YOUR_PAPER_APP_SECRET"
+
+# ── 계좌 ──────────────────────────────────────────────────────────────────────
+#
+# 어느 앱으로 접속할지만 가리킵니다. 브로커·모드는 앱이 압니다.
+accounts:
+  acc_live1:
+    app: "app_live1"
+    account_no: "00000000" # 종합계좌번호 8자리
+    product_code: "01" # 01 종합 / 22 개인연금 / 29 IRP
+
+  acc_paper1:
+    app: "app_paper1"
+    account_no: "00000000" # 모의 계좌번호
+    product_code: "01"
+
+# 계좌가 둘 이상이면 반드시 적어야 합니다.
+# 실수로 실전에 붙지 않도록 모의를 기본으로 둡니다.
+default_account: "acc_paper1"
+
+# ── 선택 ──────────────────────────────────────────────────────────────────────
+
+# 토큰 폴더. 기본은 이 파일과 같은 폴더의 token/ 입니다.
+# 상대경로는 이 파일 기준입니다 (실행 디렉터리 기준이 아닙니다).
+# token_dir: "token"
+
+# HTTP 요청 헤더. 기본은 VmKis/<version> 입니다.
+# 따옴표는 한 겹만 — "'Mozilla/5.0 ...'" 처럼 쓰면 작은따옴표가 값에 포함됩니다.
+# user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+
+# 서버 주소 재정의. 벤더가 주소를 바꿨을 때 릴리스를 기다리지 않기 위한 탈출구입니다.
+# 적은 것만 덮어씁니다 — 웹소켓 포트만 바뀌면 그 한 줄만 적으면 됩니다.
+# endpoints:
+#   live:
+#     base_url: "https://openapi.koreainvestment.com:9443"
+#     ws_url: "ws://ops.koreainvestment.com:21000"
+#   paper:
+#     base_url: "https://openapivts.koreainvestment.com:29443"
+#     ws_url: "ws://ops.koreainvestment.com:31000"

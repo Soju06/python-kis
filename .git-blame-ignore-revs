@@ -1,0 +1,10 @@
+# git blame에서 무시할 대량 포맷 커밋 목록.
+#
+# 로컬 설정 (한 번만):
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+#
+# GitHub 웹 blame은 이 파일을 자동으로 인식합니다.
+
+# style: ruff 규칙셋 고정 및 일괄 정리 (이슈 #2 커밋 5)
+# Python 파일 재포맷 + 자동 수정. 동작 변경 없음.
+efde5725c97fb76fddaa1195c6fa566cb1759ef0

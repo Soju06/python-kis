@@ -1,0 +1,15 @@
+---
+description: Package import graph and public API constraints
+globs: src/vmkis/**/*.py
+alwaysApply: false
+---
+
+# Source invariants
+
+Read @docs/architecture/ARCHITECTURE.md section 1.1 before changing imports or public exports. Do not copy that section here.
+
+- Do not `import vmkis.kis` at module level (only inside `if TYPE_CHECKING:`).
+- Do not add new module-level reverse edges. Existing reverse edges are listed in ARCHITECTURE.md; import-linter plus `tests/unit/test_import_contracts.py` enforce part of this.
+- `import vmkis` from a leaf module is a reverse edge to the whole facade. Prefer `vmkis.__env__` (or the specific submodule) for version/distribution name.
+- Keep the public root small. Compatibility and deprecation live in `docs/guidelines/API_STABILITY_POLICY.md`.
+- Match existing style. No drive-by reformat. No secrets in the tree.

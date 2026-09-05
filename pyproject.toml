@@ -1,17 +1,34 @@
 [build-system]
-requires = [
-    "setuptools>=71.1",
-    "setuptools-scm>=8.1"
-]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling>=1.27", "hatch-vcs>=0.5"]
+build-backend = "hatchling.build"
 
+# =============================================================== project ====
 [project]
-name = "python-kis"
+name = "vm-stock-kis"
+dynamic = ["version"]
 description = "파이썬 한국투자증권 REST 기반 Trading API 라이브러리"
 readme = "README.md"
-license = { text = "MIT" }
+requires-python = ">=3.10"
+# PEP 639. LICENCE는 영국식 철자라 기본 glob(LICENSE*)에 잡히지 않으므로 명시합니다.
+license = "MIT"
+license-files = ["LICENCE"]
+# PEP 621 에는 "원저자(upstream author)"를 담는 표준 필드가 없습니다.
+# 포크 관계는 아래 세 가지를 조합해 표현합니다.
+#
+#   authors                        코드를 쓴 사람 전부 (원저자 포함)
+#   maintainers                    이 배포판을 내고 관리하는 주체
+#   [project.urls] Original Project  업스트림 저장소 링크
+#
+# src/vmkis/__env__.py 는 이 값들을 배포 메타데이터에서 읽습니다.
+# 여기가 유일한 출처이므로 저자 정보를 소스에 다시 적지 마세요.
+# __author__ 는 maintainers 의 첫 항목이 됩니다.
 authors = [
-    { name = "Soju06", email = "qlskssk@gmail.com" }
+    # 원저자. https://github.com/Soju06/python-kis
+    { name = "Soju06", email = "qlskssk@gmail.com" },
+    { name = "visualmoney", email = "visualmoney2@gmail.com" },
+]
+maintainers = [
+    { name = "visualmoney", email = "visualmoney2@gmail.com" },
 ]
 keywords = [
     "python",
@@ -24,44 +41,339 @@ keywords = [
     "korean",
     "investment",
     "autotrading",
-    "koreainvestment"
+    "koreainvestment",
 ]
+# NOTE: "License :: OSI Approved :: MIT License" classifier는 의도적으로 없습니다.
+# PEP 639의 license SPDX 표현식과 license classifier를 함께 쓰면 PyPI가 업로드를 거부합니다.
 classifiers = [
+    # 1.0.0 — 호환 폴백을 제거한 뒤 Stable 로 올립니다 (#35).
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Intended Audience :: Education",
     "Intended Audience :: Information Technology",
     "Intended Audience :: Financial and Insurance Industry",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
+    "Natural Language :: Korean",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Libraries",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Office/Business :: Financial",
     "Topic :: Office/Business :: Financial :: Investment",
-    "Typing :: Typed"
+    "Typing :: Typed",
 ]
-requires-python = ">=3.10"
 dependencies = [
-    "requests>=2.32.3",
-    "websocket-client>=1.8.0",
+    "colorlog>=6.8.2",
     "cryptography>=43.0.0",
-    "colorlog>=6.8.2"
+    # vmkis.config 와 vmkis.helpers 가 YAML 설정 파일을 읽습니다. 예제 9개와
+    # 문서의 첫 화면이 `from vmkis import create_client` 로 시작하므로, 선택
+    # 의존성으로 빼면 그 비용이 **가장 디버깅을 못 하는 사용자**에게 갑니다.
+    # pyyaml 은 전 플랫폼에 휠이 있어 필수로 두는 비용이 거의 없습니다.
+    #
+    # 예전 근거는 "없으면 __init__.py 가 ImportError 를 삼켜 create_client 가
+    # 조용히 None 이 된다"였습니다. 그 폴백은 #73 에서 없앴습니다 — 즉 이제
+    # 필수인 이유는 나쁜 실패 모드를 덮기 위해서가 아니라 위의 것뿐입니다.
+    "pyyaml>=6.0",
+    "requests>=2.32.3",
+    "typing-extensions>=4.12",
+    "tzdata>=2024.1",
+    "websocket-client>=1.8.0",
 ]
-dynamic = [
-    "version",
-]
+
 [project.urls]
-"Bug Tracker" = "https://github.com/Soju06/python-kis/issues"
-"Documentation" = "https://github.com/Soju06/python-kis/wiki/Tutorial"
-"Source Code" = "https://github.com/Soju06/python-kis"
+Homepage = "https://github.com/visualmoney/vm-stock-kis"
+Repository = "https://github.com/visualmoney/vm-stock-kis"
+Documentation = "https://github.com/visualmoney/vm-stock-kis/wiki/Tutorial"
+Issues = "https://github.com/visualmoney/vm-stock-kis/issues"
+"Original Project" = "https://github.com/Soju06/python-kis"
 
-[tool.setuptools.dynamic]
-version = { attr = "pykis.__env__.__version__" }
+# ====================================================== dependency groups ====
+# PEP 735. [tool.uv.dev-dependencies]는 uv 공식 문서에서 "not recommend anymore"로
+# 안내하므로 사용하지 않습니다. pip 25.1+의 `pip install --group`으로도 읽힙니다.
+[dependency-groups]
+test = [
+    # `tests/env.py` 가 저장소 루트의 `.env` 를 읽습니다. `src/` 는 한 줄도
+    # 쓰지 않습니다.
+    #
+    # 이력: `cd66359` 가 테스트를 목적으로 런타임과 poetry dev 그룹 **양쪽에**
+    # 넣었고, `eb7ab9a`(Poetry -> uv)가 dev 그룹만 걷어내면서 런타임 항목이
+    # 살아남았습니다. 8개월간 아무도 안 쓰는 런타임 의존성이었습니다. (#72)
+    #
+    # 런타임에 두면 안 되는 이유는 "안 쓴다"만이 아닙니다. `load_dotenv()` 는
+    # 프로세스 전역 `os.environ` 을 변형합니다. `import vmkis` 만으로 호스트
+    # 애플리케이션의 환경이 바뀔지는 **애플리케이션이 정할 일**입니다.
+    "python-dotenv>=1.2.1,<2",
+    "pytest>=9.0.1",
+    "pytest-cov>=7.0.0",
+    "pytest-asyncio>=1.3.0",
+    "pytest-benchmark>=4.0.0",
+    "pytest-html>=4.1.1",
+    "requests-mock>=1.12.1",
+]
+lint = [
+    # 상한을 둡니다. ruff는 마이너 버전에서 기본 규칙셋이 바뀌고, 이 프로젝트는
+    # [tool.ruff]에 select를 지정하지 않아 그대로 영향을 받습니다.
+    # 실측: 같은 코드에 v0.14.10은 228건, v0.16.4는 1003건을 보고합니다.
+    "ruff>=0.16.4,<0.17",
+    "pre-commit>=3.7.1",
+    # 아키텍처 계약 검사. 규칙은 [tool.importlinter] 에 있습니다.
+    # 상한을 두는 이유는 ruff 와 다릅니다. 계약은 여기에 명시되어 있으므로 규칙셋이
+    # 조용히 바뀌지는 않지만, 메이저 업그레이드에서 grimp 의 import 탐지 범위
+    # (지연 import·TYPE_CHECKING 처리)가 바뀌면 계약의 의미가 달라집니다.
+    "import-linter>=2.14,<3",
+]
+docs = [
+    "plantuml>=0.3.0",
+]
+dev = [
+    { include-group = "test" },
+    { include-group = "lint" },
+]
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["pykis"]
-exclude = ["tests"]
+# ==================================================================== uv ====
+[tool.uv]
+required-version = ">=0.9"
+
+# hatch-vcs 필수 설정. uv 기본 cache-keys는
+#   [{file="pyproject.toml"}, {file="setup.py"}, {file="setup.cfg"}, {dir="src"}]
+# 로 git 상태를 포함하지 않아, 태그를 만들어도 editable 설치의 버전이 갱신되지 않습니다.
+# cache-keys를 지정하면 기본값을 "대체"하므로 pyproject.toml을 다시 나열합니다.
+cache-keys = [
+    { file = "pyproject.toml" },
+    { dir = "src" },
+    { git = { commit = true, tags = true } },
+]
+
+# ================================================================= hatch ====
+[tool.hatch.version]
+source = "vcs"
+# git 메타데이터가 없을 때만 사용됩니다(shallow clone, tarball export 등).
+# "2.1.6+dev" 같은 그럴듯한 거짓값 대신 명백히 틀린 값을 씁니다.
+fallback-version = "0.0.0"
+
+[tool.hatch.version.raw-options]
+# 태그가 없는 커밋은 다음 버전을 추측하지 않고 "2.1.7.dev4+g<sha>" 형태로 표기합니다.
+version_scheme = "no-guess-dev"
+
+[tool.hatch.build.targets.wheel]
+# 필수: 프로젝트명 vm-stock-kis는 vm_stock_kis로 정규화되어 모듈명 vmkis와 다르므로
+# hatchling의 자동 탐지가 실패합니다.
+packages = ["src/vmkis"]
+# core metadata 버전을 고정합니다. 목적은 **빌드 백엔드의 기본값이 우리 모르게
+# 바뀌는 것을 막는 것**입니다. 지우지 마세요. (이슈 #27에서 검토했습니다.)
+#
+# 왜 올리지 않는가:
+#   * 2.5가 추가한 필드는 PEP 794의 Import-Name / Import-Namespace 둘뿐이고
+#     hatchling은 이 둘을 쓰지 않습니다. 우리에게 2.4와 2.5는 내용이 같고
+#     버전 숫자만 다릅니다. 올려서 얻는 것이 없습니다.
+#   * 2.4는 PEP 639 License-Expression을 지원하는 최소 버전이라 하한으로 정확합니다.
+#
+# 왜 고정이 필요한가:
+#   hatchling 1.32.0이 기본값을 2.4 → 2.5로 이미 한 번 올렸습니다. core metadata
+#   2.6은 2026-05에 승인됐지만 PyPI는 아직 받지 않습니다. warehouse의 업로드 검증:
+#
+#       SUPPORTED_METADATA_VERSIONS = {"1.0","1.1","1.2","2.1","2.2","2.3","2.4","2.5"}
+#
+#   백엔드가 기본값을 2.6으로 올리는 순간, 고정이 없으면 배포가 거부됩니다.
+#   publish.yml의 "Wheel contents" 스텝이 이 값을 게시 전에 검사합니다.
+core-metadata-version = "2.4"
+
+[tool.hatch.build.targets.sdist]
+# 위와 같은 이유. 두 타깃 모두에 필요합니다.
+core-metadata-version = "2.4"
+# hatchling 기본값은 gitignore되지 않은 모든 것을 담아 docs/ 전체가 포함됩니다.
+include = [
+    "/src",
+    "/tests",
+    "/examples",
+    "/README.md",
+    "/QUICKSTART.md",
+    "/CONTRIBUTING.md",
+    "/CHANGELOG.md",
+    "/SECURITY.md",
+    "/SECURITY.en.md",
+    "/LICENCE",
+    "/pyproject.toml",
+]
+
+# ================================================================== ruff ====
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+# src 레이아웃. isort의 first-party 판정에 쓰입니다.
+src = ["src", "tests"]
+# ruff는 Markdown 안의 Python 코드 블록도 포맷합니다. 문서의 예제 코드를
+# 말없이 다시 쓰게 되고, 기록물 문서까지 건드리므로 제외합니다.
+#
+# archive/는 동결 보관소입니다(archive/README.md 참고). 옛 이름과 옛 관례를 그대로
+# 두는 것이 목적이므로 여기 담긴 파이썬 코드를 린트하거나 포맷하지 않습니다.
+extend-exclude = ["docs/generated", "docs/diagrams", "*.md", "archive"]
+
+[tool.ruff.lint]
+# select를 명시하는 이유: 지정하지 않으면 ruff의 기본 규칙셋을 따르는데, 그 기본이
+# 마이너 버전마다 바뀝니다. 같은 코드에 v0.14.10은 228건, v0.16.4는 1003건을
+# 보고했습니다. 규칙셋을 여기에 고정해 ruff 업그레이드가 CI를 깨지 않게 합니다.
+select = [
+    "E4",  # pycodestyle: import 관련
+    "E7",  # pycodestyle: 문장 관련
+    "E9",  # pycodestyle: 런타임 오류
+    "F",   # pyflakes
+    "I",   # isort (제거한 isort 훅을 대체)
+    "UP",  # pyupgrade (제거한 pyupgrade 훅을 대체)
+    "W",   # pycodestyle 경고
+    "B",   # flake8-bugbear
+]
+ignore = [
+    # 120자 초과 라인의 대부분이 분할 불가능한 한국어 docstring과 URL입니다.
+    "E501",
+    # 한국어 문서에 전각 문장부호가 정상적으로 쓰입니다.
+    "RUF001",
+    "RUF002",
+    "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# 패키지 __init__.py는 공개 API를 재export합니다. F401(미사용 import)은 오탐이고,
+# 하위 호환용 deprecation 기계가 __all__ 뒤에 오므로 E402도 의도된 것입니다.
+"src/vmkis/__init__.py" = ["F401", "F403", "E402"]
+"src/vmkis/types.py" = ["F401"]
+"src/vmkis/public_types.py" = ["F401"]
+# 테스트의 콜백 스텁으로 람다를 쓰는 것은 관용적입니다. def로 바꾸면 오히려
+# 읽기 어려워집니다.
+"tests/**" = ["E731"]
+
+# ========================================================== import-linter ====
+# ARCHITECTURE.md 불변식 2번("새로운 모듈-레벨 역방향 간선을 만들지 않습니다")의
+# 기계화입니다. 이슈 #17 · #18 이 없앤 역방향 간선 2건이 되살아나는 것을 막습니다.
+#
+# 여기에 **모든** 역방향 간선을 넣지는 않습니다. `responses -> client` 와
+# `api <-> adapter` · `api <-> event` 는 의도적으로 동결된 간선입니다
+# (불변식 2번 표, `event -> api` 는 이슈 #63).
+# 계약은 "해소된 것이 되살아나지 않는다"만 지킵니다.
+[tool.importlinter]
+# 이슈 #64 이전에는 여기에 root_packages 목록이 손으로 나열돼 있었습니다.
+# src/vmkis 의 디렉터리 13개에 __init__.py 가 없어(암묵적 네임스페이스 패키지)
+# grimp 이 상위 패키지 스캔에서 이들을 건너뛰었고, "vmkis" 하나만 주면 모듈
+# 92개 중 20개만 잡혔기 때문입니다. **그 상태에서도 계약은 초록이었습니다.**
+#
+# #64 에서 __init__.py 13개를 추가해 원인을 없앴습니다. 이제 루트 하나로 92개가
+# 전부 잡힙니다. tests/unit/test_import_contracts.py 가 그것을 확인하므로,
+# 앞으로 __init__.py 없는 디렉터리가 다시 생기면 CI 가 알려 줍니다.
+root_package = "vmkis"
+#
+# 설정을 바꾼 뒤 "Analyzed N files, M dependencies" 수치가 CI 와 다르면
+# `lint-imports --no-cache` 로 확인하세요. grimp 의 .grimp_cache 는 **파일 단위로만**
+# 무효화되고 여기 세션 설정 변경은 무효화하지 않습니다. 판정은 오염되지 않지만
+# (소스 변경은 정상 무효화) 수치가 어긋나 헷갈립니다.
+exclude_type_checking_imports = true
+
+[[tool.importlinter.contracts]]
+name = "utils 는 vmkis 의 상위 계층을 import 하지 않는다"
+type = "forbidden"
+source_modules = ["vmkis.utils"]
+# utils 는 현재 vmkis 내부를 **하나도** import 하지 않습니다(실측).
+# 이슈 #18 이 `utils/retry.py -> client.exceptions` 를 없앤 결과입니다.
+# 재시도 대상 판단은 예외 자신의 `retryable` 표식이 들고 있습니다.
+forbidden_modules = [
+    "vmkis.client",
+    "vmkis.responses",
+    "vmkis.event",
+    "vmkis.api",
+    "vmkis.adapter",
+    "vmkis.scope",
+    "vmkis.kis",
+    # 최상위 파사드·조립 모듈. 전부 utils 보다 위입니다.
+    # `vmkis.exceptions` 는 client 와 responses 를 재export 하므로, 이것을
+    # 경유하면 #18 이 없앤 간선이 그대로 되살아납니다.
+    "vmkis.exceptions",
+    "vmkis.types",
+    "vmkis.public_types",
+    "vmkis.helpers",
+    "vmkis.simple",
+]
+
+[[tool.importlinter.contracts]]
+name = "client 는 api 를 import 하지 않는다"
+type = "forbidden"
+source_modules = ["vmkis.client"]
+forbidden_modules = [
+    "vmkis.api",
+    "vmkis.adapter",
+    "vmkis.scope",
+]
+# 순환 회피용 지연 import 1건. 함수 안에 있어 import 시점에는 실행되지 않지만
+# grimp 은 모듈 레벨과 구분하지 않으므로 여기서 면제합니다.
+# 사유는 client/messaging.py 의 해당 줄 주석에 있습니다. 이 목록이 늘어난다면
+# 그것은 예외가 아니라 계약이 깨지고 있다는 신호입니다.
+ignore_imports = [
+    "vmkis.client.messaging -> vmkis.api.auth.websocket",
+]
+
+# ================================================================ pytest ====
+[tool.pytest.ini_options]
+minversion = "9.0"
+testpaths = ["tests"]
+# 유지 필수: tests/에 __init__.py도 conftest.py도 없어서
+# `from tests.env import load_vmkis`가 이 설정에 의존합니다.
+pythonpath = ["."]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--import-mode=importlib",
+]
+# --cov / --html / --junitxml은 의도적으로 addopts에서 제외했습니다.
+#   * addopts의 --cov는 breakpoint()/pdb/debugpy를 망가뜨리고(coverage의 trace
+#     함수가 디버거와 충돌) 모든 `pytest -k` 실행을 느리게 만듭니다.
+#   * --html/--junitxml은 로컬 실행마다 reports/를 씁니다.
+# CI에서만 명시적으로 전달합니다.
+# `__del__` 안에서 삼켜진 예외를 **실패로** 만듭니다.
+#
+# 이 한 줄이 없으면 소멸자 회귀가 경고로만 남습니다. 실측: `VmKis.close()` 의
+# `getattr(self, "_sessions", {})` 가드(이슈 #38)를 걷어내고 돌리면
+# "42 passed, 3 warnings" 입니다 - 초록입니다. 경고는 CI 를 막지 않습니다.
+#
+# 전역 `filterwarnings = ["error"]` 는 쓰지 않습니다. 서드파티 DeprecationWarning
+# 까지 전부 실패로 만들어 우리 코드와 무관한 이유로 red 가 됩니다.
+# 이 경고 하나만 좁혀서 올립니다. (이슈 #42)
+filterwarnings = [
+    "error::pytest.PytestUnraisableExceptionWarning",
+]
+markers = [
+    "unit: Unit tests - fast, isolated tests without external dependencies",
+    "integration: Integration tests - tests with mocked API calls",
+    "performance: Performance tests - benchmark and stress tests",
+    "slow: Slow running tests",
+    "requires_api: Tests that require real API credentials",
+]
+asyncio_mode = "strict"
+asyncio_default_fixture_loop_scope = "function"
+
+# ============================================================== coverage ====
+# .coveragerc를 대체합니다. 그 파일이 남아 있으면 이 설정보다 우선하므로 삭제해야 합니다.
+[tool.coverage.run]
+branch = true
+# source가 아니라 source_pkgs: editable 설치에서도 import 가능한 패키지로 해석됩니다.
+source_pkgs = ["vmkis"]
+omit = ["*/__init__.py"]
+
+[tool.coverage.paths]
+source = ["src/vmkis", "*/site-packages/vmkis"]
+
+[tool.coverage.report]
+# 이슈 #3에서 70으로 한시 인하했다가 복원한 값입니다.
+# CI도 이 값을 그대로 씁니다(`uv run coverage report`). CI 쪽에 --fail-under를
+# 따로 주면 두 곳이 갈라지므로 주지 않습니다.
+fail_under = 90
+show_missing = true
+skip_covered = true
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "@(typing\\.)?overload",
+    "class .*\\(Protocol\\):",
+]

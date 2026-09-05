@@ -1,23 +1,23 @@
 name: ❓ Question
-description: PyKis 라이브러리에 대해 궁금한 점이 있나요?
+description: VmKis 라이브러리에 대해 궁금한 점이 있나요?
 title: "[질문]: "
-labels: ["질문"]
+labels: ["question"]
 body:
   - type: markdown
     attributes:
       value: |
-        PyKis 커뮤니티 라이브러리의 활용해 주셔서 감사합니다!
+        VmKis 커뮤니티 라이브러리의 활용해 주셔서 감사합니다!
 
   - type: checkboxes
     attributes:
       label: 빠른 문제 해결을 위해 다음을 확인했나요?
       description: >
-        PyKis [Docs](https://github.com/Soju06/python-kis/wiki)나 [Issues](https://github.com/Soju06/python-kis/issues)에서 유사한 질문이나 버그가 존재하는지 확인해주세요.
+        VmKis [Docs](https://github.com/visualmoney/vm-stock-kis/blob/main/docs/INDEX.md)나 [Issues](https://github.com/visualmoney/vm-stock-kis/issues)에서 유사한 질문이나 버그가 존재하는지 확인해주세요.
       options:
         - label: >
-            PyKis [Issues](https://github.com/Soju06/python-kis/issues)에서 검색했지만 유사한 질문을 찾지 못했습니다.
+            VmKis [Issues](https://github.com/visualmoney/vm-stock-kis/issues)에서 검색했지만 유사한 질문을 찾지 못했습니다.
           required: true
-  
+
   - type: textarea
     attributes:
       label: 질문 내용

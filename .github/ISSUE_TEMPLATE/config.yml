@@ -1,11 +1,11 @@
 blank_issues_enabled: true
 contact_links:
   - name: 📄 Docs
-    url: https://github.com/Soju06/python-kis/wiki
-    about: PyKis 라이브러리의 문서
+    url: https://github.com/visualmoney/vm-stock-kis/blob/main/docs/INDEX.md
+    about: 저장소 문서 목록
   - name: 📄 한국투자증권 API 문서
     url: https://apiportal.koreainvestment.com/apiservice/oauth2
     about: 라이브러리에서 지원하지 않는 기능을 찾고 계신가요?
   - name: 💬 한국투자증권 API 포럼
     url: https://apiportal.koreainvestment.com/community
-    about: PyKis 커뮤니티 라이브러리가 아닌, 한국투자증권의 API에 문의하고 싶으신가요?
+    about: VmKis 커뮤니티 라이브러리가 아닌, 한국투자증권의 API에 문의하고 싶으신가요?

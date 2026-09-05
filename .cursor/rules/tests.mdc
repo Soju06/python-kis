@@ -1,0 +1,15 @@
+---
+description: Test writing and regression checks for this repo
+globs: tests/**/*.py
+alwaysApply: false
+---
+
+# Tests
+
+Canonical writing rules: @docs/guidelines/GUIDELINES_001_TEST_WRITING.md
+
+- Name tests by behavior (`test_quotable_market_returns_krx_for_domestic_stock`), not `test_func`.
+- Order: unit → integration → performance.
+- A passing suite that never asserts the thing you care about is not a check. If you add a regression test, break the production code on purpose and confirm that test fails.
+- Do not stub the HTTP/client layer with a bare `Mock()` so `call()` returns another Mock. Quote and TR tests must see a real-shaped response or they will not notice a wrong TR ID. See issue #43 comments.
+- Coverage artifacts go under `reports/coverage.xml` / `reports/htmlcov/` when asked; do not paste those numbers into docs.

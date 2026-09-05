@@ -1,0 +1,177 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# 기본을 읽기 전용으로 둡니다. 쓰기가 필요한 잡에서만 개별적으로 올립니다.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# NOTE: astral-sh/setup-uv 는 v7 이후로 부동 메이저 태그(v8, v9, v10 ...)를
+# 발행하지 않습니다. @v10 은 존재하지 않아 "unable to find version" 으로 실패하므로
+# 정확한 버전을 고정합니다. 갱신은 dependabot 이 담당합니다.
+
+jobs:
+  test:
+    name: Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # requires-python = ">=3.10" 의 양 끝단만 검증합니다.
+        # 1인 프로젝트에서 중간 버전과 OS 매트릭스는 한계효용이 낮고 피드백만 느려집니다.
+        python-version: ['3.10', '3.14']
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # hatch-vcs는 git 태그에서 버전을 만듭니다. 기본 shallow clone에는 태그가
+          # 없어 fallback-version("0.0.0")으로 떨어집니다.
+          fetch-depth: 0
+
+      - uses: astral-sh/setup-uv@v10.0.1
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync --locked --group dev
+
+      # fetch-depth를 잃어버리는 회귀를 즉시 잡습니다. 이게 없으면 버전이 조용히
+      # 0.0.0이 되고, 그대로 publish.yml을 타면 0.0.0 휠이 PyPI에 올라갑니다.
+      - name: Version sanity
+        run: |
+          version=$(uv run python -c "import vmkis.__env__ as e; print(e.__version__)")
+          echo "resolved version: $version"
+          case "$version" in
+            0.0.0*)
+              echo "::error::hatch-vcs가 git 태그를 찾지 못했습니다 (checkout fetch-depth 확인)"
+              exit 1
+              ;;
+          esac
+
+      # 수집 단계 실패(구문 오류 등)를 테스트 실패와 구분해 표면화합니다.
+      # pytest는 수집 오류 시 exit 2로 죽지만, 스텝을 나눠 두면 어느 단계에서
+      # 터졌는지가 실행 목록에서 바로 보입니다.
+      - name: Collect tests
+        run: uv run pytest --collect-only -q
+
+      # --maxfail 은 두지 않습니다. 1인 프로젝트에서는 한 번의 red로
+      # 전체 피해 범위를 봐야 왕복이 줄어듭니다.
+      #
+      # performance 를 제외하는 이유: 성능 테스트는 기계 속도에 따라 결과가
+      # 달라지므로 머지를 막는 게이트에 두면 안 됩니다. 실제로 벤치마크가
+      # 시계 해상도에 걸려 무작위로 실패하고 있었고(이슈 #23), 러너가 느려서
+      # 우연히 초록이었을 뿐입니다. 아래 performance 잡에서 비차단으로 돌립니다.
+      #
+      # 커버리지 영향은 실측했습니다: 90.73% -> 90.72% (게이트 90).
+      # 성능 테스트는 커버리지에 사실상 기여하지 않습니다.
+      - name: Run tests
+        run: |
+          uv run pytest -m 'not requires_api and not performance' \
+            --cov --cov-report=xml:reports/coverage.xml \
+            --cov-report=term-missing
+
+      # 임계값은 pyproject.toml 의 [tool.coverage.report] fail_under 를 따릅니다.
+      # 여기서 --fail-under 를 다시 주면 두 곳이 갈라집니다.
+      - name: Coverage gate
+        run: uv run coverage report
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # 워크플로 파일 자신의 문법 검사.
+      #
+      # CI는 자기 파일이 깨졌는지 스스로 알 수 없습니다. ci.yml이 YAML 파싱에
+      # 실패하면 잡이 아예 생성되지 않고 0초짜리 failure만 남습니다. 실제로 이
+      # 저장소의 ci.yml은 2025-12-20부터 8개월간 그 상태였습니다.
+      # 그래서 이 검사는 pre-commit 훅에도 함께 둡니다.
+      - uses: raven-actions/actionlint@v2
+
+      - uses: astral-sh/setup-uv@v10.0.1
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      # pyproject.toml과 uv.lock이 어긋난 채 머지되는 것을 막습니다.
+      - name: Lockfile is up to date
+        run: uv lock --check
+
+      - name: Install lint tools
+        run: uv sync --locked --group lint
+
+      # 규칙셋은 pyproject.toml의 [tool.ruff.lint] select에 고정되어 있습니다.
+      - name: Ruff
+        run: |
+          uv run ruff check --output-format=github .
+          uv run ruff format --check .
+
+      # 아키텍처 계약. 계약은 pyproject.toml의 [tool.importlinter]에 있습니다.
+      # ARCHITECTURE.md 불변식 2번("새로운 모듈-레벨 역방향 간선을 만들지
+      # 않습니다")을 기계화한 것으로, 이슈 #17·#18이 없앤 역방향 간선 2건이
+      # 되살아나는 것을 막습니다.
+      #
+      # 이 스텝은 계약이 "지켜지는지"만 봅니다. 계약이 패키지 전체를 보고 있는지는
+      # tests/unit/test_import_contracts.py가 test 잡에서 확인합니다. 둘 다
+      # 필요합니다 - 그래프가 비어 있어도 lint-imports는 초록으로 통과합니다.
+      - name: Import contracts
+        run: uv run lint-imports
+
+  # 성능 테스트는 머지를 막지 않습니다.
+  #
+  # 결과가 러너 성능에 좌우되므로 게이트에 두면 코드와 무관한 이유로 red 가 됩니다.
+  # 그렇다고 아예 돌리지 않으면 성능 회귀를 영영 못 봅니다. 그래서 돌리되
+  # continue-on-error 로 두고, 실패는 실행 목록에서 눈으로 확인합니다.
+  #
+  # ci-ok 의 needs 에 넣지 않는 것이 이 잡의 요점입니다.
+  performance:
+    name: Performance (non-blocking)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: astral-sh/setup-uv@v10.0.1
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Install dependencies
+        run: uv sync --locked --group dev
+
+      # --cov 를 주지 않습니다. coverage 의 trace 함수가 측정 자체를 느리게 만들어
+      # 성능 수치를 왜곡합니다. 커버리지는 위 test 잡이 담당합니다.
+      - name: Run performance tests
+        run: uv run pytest -m 'performance and not requires_api' -q
+
+  # 브랜치 보호에 등록할 단일 집계 잡.
+  #
+  # 매트릭스 잡 이름은 버전을 바꿀 때마다 달라지므로 보호 규칙이 매번 깨집니다.
+  # 이 잡 하나만 필수 체크로 걸면 됩니다.
+  #
+  # performance 는 의도적으로 needs 에 없습니다. 위 잡 주석 참고.
+  ci-ok:
+    name: CI OK
+    if: always()
+    needs: [test, lint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify all jobs succeeded
+        run: |
+          echo "test: ${{ needs.test.result }}"
+          echo "lint: ${{ needs.lint.result }}"
+          if [ "${{ needs.test.result }}" != "success" ] || [ "${{ needs.lint.result }}" != "success" ]; then
+            exit 1
+          fi

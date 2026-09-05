@@ -1,0 +1,60 @@
+{
+    "python.analysis.extraPaths": [
+        ".",
+        "tests"
+    ],
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+    "python.envFile": "${workspaceFolder}/.env",
+    "python.testing.pytestArgs": [
+        "tests",
+        "--cov=vmkis",
+        "--cov-report=term-missing",
+        "--cov-report=html:reports/htmlcov",
+        "--cov-report=xml:reports/coverage.xml",
+        "--html=reports/test_report.html",
+        "--junitxml=reports/junit_report.xml",
+        "--self-contained-html",
+        "--import-mode=importlib"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "coverage-gutters.coverageReportFileName": "reports/coverage.xml",
+    "coverage-gutters.showGutterCoverage": true,
+    "coverage-gutters.showLineCoverage": true,
+    "coverage-gutters.showRulerCoverage": true,
+    "cSpell.words": [
+        "htmlcov",
+        "junitxml",
+        "vmkis"
+    ],
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/.pytest_cache": true,
+        "**/.mypy_cache": true,
+        "**/*.pyc": true,
+        "**/Thumbs.db": true
+    },
+    "files.eol": "\n",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "workbench.remoteIndicator.showExtensionRecommendations": true,
+    "plantuml.exportFormat": "png",
+    "plantuml.render": "Local",
+    "plantuml.jar": "C:/ProgramData/chocolatey/lib/plantuml/tools/plantuml.jar",
+    "plantuml.diagramsRoot": "docs/diagrams/src",
+    "plantuml.exportOutDir": "docs/diagrams/out",
+    "plantuml.jarArgs": [
+        "-charset",
+        "UTF-8"
+    ],
+    "[markdown]": {
+        "editor.rulers": [
+            120
+        ],
+        "editor.wordWrap": "bounded",
+        "editor.wordWrapColumn": 120,
+        "editor.codeActionsOnSave": {
+            "source.fixAll.markdownlint": "explicit"
+        }
+    }
+}

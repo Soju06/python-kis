@@ -1,0 +1,62 @@
+# 설치 필수:
+#
+#     uv run pre-commit install
+#
+# 이 파일이 저장소에 있어도 훅이 설치되어 있지 않으면 아무 일도 하지 않는다.
+# 실제로 2025-12-20에 이 설정과 함께 들어온 .github/workflows/ci.yml은 YAML 문법
+# 오류였는데, 아래 check-yaml이 설치만 되어 있었다면 그 커밋이 차단됐다.
+# 그 결과 CI는 8개월간 단 하나의 잡도 실행하지 못했다.
+# https://github.com/visualmoney/vm-stock-kis/issues/3
+#
+# 훅은 두 종류다.
+#   1) 깨진 것을 막는 훅 (check-ast, check-yaml, actionlint 등)
+#   2) 스타일 교정 훅 (ruff)
+#
+# 2)는 일괄 정리를 마친 뒤 추가했다. 그전에는 ruff 오류 1003건, 미포맷 파일
+# 120개가 남아 있어 넣으면 거의 모든 커밋이 막히는 상태였다.
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      # 파이썬 구문 오류 차단. tests/unit/test_logging.py가 SyntaxError인 채로
+      # 커밋되어 pytest 수집이 8개월간 실패한 사고의 직접적 방지책이다.
+      # (ruff도 구문 오류를 잡지만 위 방침대로 ruff는 아직 훅에 없다.)
+      - id: check-ast
+      # ci.yml 파싱 실패 사고의 직접적 방지책.
+      - id: check-yaml
+      - id: check-json
+        # .vscode/*.json은 JSONC(주석 허용)라 표준 JSON 파서가 거부합니다.
+        # VS Code가 공식적으로 허용하는 형식이므로 검사 대상에서 뺍니다.
+        exclude: ^\.vscode/
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+
+  # ruff가 린트와 포맷을 모두 담당한다.
+  #
+  # rev는 [dependency-groups] lint의 ruff 버전과 맞춰야 한다. 어긋나면 훅과
+  # 로컬/CI의 판정이 갈린다. 규칙셋은 pyproject.toml의 [tool.ruff.lint] select에
+  # 고정해 두었으므로 ruff를 올려도 판정이 요동치지 않는다.
+  #
+  # black/isort/pyupgrade 훅은 제거했다. black의 기본 88자가
+  # [tool.ruff] line-length = 120과 충돌해 두 포매터가 서로의 결과를 되돌렸고,
+  # isort는 ruff의 I 규칙, pyupgrade는 UP 규칙과 중복이었다.
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.4
+    hooks:
+      - id: ruff-check
+        args: ["--fix"]
+      - id: ruff-format
+
+  # 워크플로 스키마/표현식/셸 검사.
+  # check-yaml은 "유효한 YAML인가"만 보지만 actionlint는 파싱은 되면서 잘못된
+  # 워크플로도 잡는다. CI는 자기 파일이 깨졌는지 스스로 알 수 없으므로
+  # (파싱 실패 시 잡이 아예 생성되지 않는다) 이 검사는 반드시 로컬 훅에 있어야 한다.
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.7
+    hooks:
+      - id: actionlint
